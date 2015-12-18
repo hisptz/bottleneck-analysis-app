@@ -3,5 +3,5 @@
 'use strict';
 
 /* Controllers */
-var idashboardControllers = angular.module('idashboardControllers', ['mainController']);
+var idashboardControllers = angular.module('idashboardControllers', ['mainController','dashboardController']);
 

@@ -1,14 +1,6 @@
-var mainController  = angular.module('mainController',[]);
+var dashboardController  = angular.module('dashboardController',[]);
 
-mainController.controller('MenuController',['$scope','$window','dashboardsManager',function($scope,$window,dashboardsManager){
-
-    dashboardsManager.loadAllDashboards().then(function(dashboards){
-        console.log('we get here!!');
-        console.log(dashboards);
-        $scope.dashboards = dashboards;
-    })
-}])
-    .controller('MainController',['$scope','dashboardsManager',function($scope,
+dashboardController.controller('DashboardController',['$scope','dashboardsManager',function($scope,
                                                                         dashboardsManager,
                                                                       $modal,
                                                                       $timeout,

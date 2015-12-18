@@ -37,24 +37,9 @@ var idashboard = angular.module('idashboard',
 	$routeProvider.when('/', {
         templateUrl: 'views/home.html',
         controller: 'MainController'
-    }).when('/projects/:id/country', {
-        templateUrl: 'views/countryProjects.html',
-        controller: 'CountryProjectsController'
-    }).when('/projects/create', {
-        templateUrl: 'views/newProject.html',
-        controller: 'ProjectController'
-    }).when('/projects/:id/edit', {
-        templateUrl: 'views/newProject.html',
-        controller: 'ProjectController'
-    }).when('/projects/:id/edit/:page', {
-        templateUrl: 'views/newProject.html',
-        controller: 'ProjectController'
-    }).when('/projects/:id/report', {
-        templateUrl: 'views/report.html',
-        controller: 'ProjectController'
-    }).when('/help', {
-        templateUrl: 'views/help.html',
-        controller: 'HelpController'
+    }).when('/dashboards/:dashboardid/dashboard', {
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardController'
     }).otherwise({
         redirectTo : '/'
     });

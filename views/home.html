@@ -2,26 +2,6 @@
 <div ng-if="!loading">
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
-		<div class="panel-heading">Projects</div>
 
-		<!-- Table -->
-		<table class="table table-hover">
-			<thead>
-			<tr>
-				<td>Location</td>
-				<td>Active Projects</td>
-				<td>Closed Projects</td>
-				<td>Inactive Projects</td>
-				<td></td>
-			</tr>
-			<tr ng-repeat="location in countryList">
-				<td>{{location.name}}</td>
-				<td>{{location.activeGrants.length}}</td>
-				<td>{{location.inactiveGrants.length}}</td>
-				<td>{{location.closedGrants.length}}</td>
-				<td><a href="#/projects/{{location.id}}/country">{{'view'| translate}}</a></td>
-			</tr>
-			</thead>
-		</table>
 	</div>
 </div>

@@ -1,4 +1,7 @@
 <nav class="navbar navbar-default" bs-navbar ng-controller="MenuController">
+
+
+
   <div class="container-fluid bbnav">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -8,20 +11,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#/">{{'black_bird_header'| translate}}</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li  data-match-route="/$"><a href="#/">{{'dashboard'| translate}}</a></li>
-        <li  data-match-route="/projects/create"><a href="#/projects/create">{{'new_project'| translate}}</a></li>
-        <li  data-match-route="/projects/update"><a href="#/projects/update">{{'edit_project'| translate}} <span class="sr-only">(current)</span></a></li>
-        <li  data-match-route="/report"><a href="#/report">{{'generate_report'| translate}}</a></li>
+        <li  data-match-route="/$"><a href="#/">{{'home'| translate}}</a></li>
+        <li ng-repeat="dashboard in dashboards" data-match-route="/dashboards/{{dashboard.id}}"><a href="#/dashboards/{{dashboard.id}}/dashboard">{{ dashboard.name }}</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right list-inline">
-        <li><a id="bb-backbn" href="#/" ng-click='back()'>{{'back'| translate}}</a></li>
-        <li><a id="btn-help" href="#/help"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> {{'Help'| translate}}</a></li> </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
