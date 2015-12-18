@@ -6,8 +6,9 @@ mainController.controller('MenuController',['$scope','$window',function($scope,$
         $window.history.back();
     }
 }])
-    .controller('MainController',['$scope','projectsManager',function($scope,
+    .controller('MainController',['$scope','projectsManager','mapManager',function($scope,
                                                                       projectsManager,
+                                                                      mapManager,
                                                                       $modal,
                                                                       $timeout,
                                                                       $translate,
@@ -35,6 +36,8 @@ mainController.controller('MenuController',['$scope','$window',function($scope,$
         projectsManager.loadAllLocations().then(function(locations){
             $scope.locations = locations;
         })
+        $scope.mapObject = {};
+        mapManager.renderMap("m0frOspS7JY",$scope.mapObject,1);
 
         /*
          *getting project summary by country level

@@ -1,7 +1,366 @@
-var mainServices = angular.module('mainServices',['ngResource'])
+var mainServices = angular.module('mainServices',['ngResource', 'olData','olHelpers','shared'])
     .value('DHIS2URL', '../../..')
     .value('projectObjectName','organisationUnitGroups');
+mainServices.factory('mapManager',function($http,DHIS2URL,$q,olData,olHelpers,shared){
 
+    var mapManager = {
+        saveColorInLocalStorag:function(){
+            if(mapManager.getColorFromLocalStorage( id )){
+                localStorage.setItem( id , value);
+            }
+        },
+        getColorFromLocalStorage:function ( id ) {
+            var Item = localStorage.getItem( id );
+            if (!Item) {
+                return false;
+            } else {
+                return Item;
+            }
+        },
+        renderMap:function ( parentUid , cardObject ,level) {
+            var max_and_min     = mapManager.getMaxAndMin(cardObject);
+            var legend          = mapManager.getLegend(max_and_min);
+            cardObject.legend   = legend;
+            mapManager.shared   = shared;
+            shared.facility = 3029;
+            var url = DHIS2URL+'/api/organisationUnits.geojson?parent='+parentUid+'&level='+level;
+            $http.get(url).success(function(data){
+                cardObject.chartObject.loading = true;
+                var TotalGeo = {
+                    "type":"FeatureCollection",
+                    "features":[]
+                };
+
+                var districtProperties = [];
+
+                var dateObject = new Date();
+                mapManager.thisYear = dateObject.getFullYear();
+                cardObject.districts = {};
+                cardObject.DistrictFreeObject = [];
+
+                angular.forEach(data.features, function( value , index ){
+
+                    var appropiateColor = mapManager.decideOnColor(max_and_min,legend,value);
+                    // creating dynamic colors for district
+                    mapManager.saveColorInLocalStorag(cardObject.prepareId(cardObject,value.id),appropiateColor.color);
+
+                    // prepare objects of district for properties to display on tooltip
+                    districtProperties[mapManager.prepareId(cardObject,value.id)] = {
+                        district_id:mapManager.prepareId(cardObject,value.id),
+                        year:mapManager.thisYear,
+                        name:value.properties.name,
+                        "color":appropiateColor.color,
+                        "facility":Math.floor(Math.random() * 256)
+                    };
+
+                    cardObject.DistrictFreeObject.push(districtProperties[mapManager.prepareId(cardObject,value.id)]);
+                    cardObject.districts[mapManager.prepareId(cardObject,value.id)] = districtProperties;
+
+                    // creating geojson object
+                    var Object = {
+                        "type":"Feature",
+                        "id":mapManager.prepareId(cardObject,value.id),
+                        "properties":{
+                            "name":value.properties
+                        },
+                        "geometry":{
+                            "type":value.geometry.type,
+                            "coordinates":value.geometry.coordinates
+                        },
+                        "style":{
+                            fill:{
+                                color:mapManager.getColorFromLocalStorage(mapManager.prepareId(cardObject,value.id)),
+                                opacity:5
+                            },
+                            stroke:{
+                                color:'white',
+                                width:2
+                            }
+                        }
+                    };
+                    TotalGeo.features.push(Object);
+
+                });
+
+                angular.extend(cardObject, {
+                    Africa: {
+                        lat: -6.45,
+                        lon: 35,
+                        zoom: 5.6
+                    },
+                    layers:[
+                        {
+                            name:'mapbox',
+                            source: {
+                                type: 'TileJSON',
+                                url:'http://api.tiles.mapbox.com/v3/mapbox.geography-class.jsonp'
+                            }
+                        } ,
+                        {
+                            name:'geojson',
+                            source: {
+                                type: 'GeoJSON',
+                                geojson: {
+                                    object: TotalGeo
+                                }
+                            },
+                            style: mapManager.getStyle
+                        }
+                    ],
+                    defaults: {
+                        events: {
+                            layers: [ 'mousemove', 'click']
+                        }
+                    }
+                });
+
+                cardObject.districts = {};
+
+                angular.forEach(cardObject.DistrictFreeObject,function(data,index){
+                    var district = data;
+                    cardObject.districts[district['district_id']] = district;
+                });
+
+
+
+                olData.getMap().then(function(scope) {
+                    var previousFeature;
+                    var overlay = new ol.Overlay({
+                        element: document.getElementById('districtbox'),
+                        positioning: 'top-right',
+                        offset: [100, -100],
+                        position: [100, -100]
+                    });
+                    var overlayHidden = true;
+                    // Mouse over function, called from the Leaflet Map Events
+//                        $scope.$on('card.openlayers.layers.geojson.click', function(event, feature, olEvent) {
+//
+//                            $scope.$apply(function(scope) {
+//                                console.log(card);
+//                                if(feature) {
+//                                    $scope.id = feature.getId();
+//                                    scope.selectedDistrict = feature ? $scope.districts[feature.getId()]: '';
+//                                }
+//                            });
+//                        });
+//
+//                        card.$on('openlayers.layers.geojson.mousemove', function(event, feature, olEvent) {
+//                            console.log("abcd");
+//                        });
+//                        card.$on('openlayers.layers.geojson.featuresadded', function(event, feature, olEvent) {//
+//                            $scope.$apply(function(scope) {
+//                                if(feature) {
+//                                    card.id = feature.getId();
+//                        card.informationTooltip = feature ? card.districts[feature.getId()]: '';
+//                                }
+//                            });
+//
+//                        });
+                });
+
+                cardObject.closeTootip = function(){
+                    cardObject.selectedDistrict = null;
+
+                }
+                cardObject.closeTootipHover = function(){
+                    cardObject.selectedDistrictHover = null;
+
+                }
+
+
+
+
+            }).fail(function(response){
+
+            });
+        },
+        prepareMapDataObject:function ( analyticsObject ) {
+
+        },
+        getColor:function(district,districtProperties){
+            if(!district || !district['district_id']){
+                return "#FFF";
+            }
+
+            var color = districtProperties[district['district_id']].color;
+            return color;
+        },
+        getStyle:function(feature,districtProperties){
+            var style = olHelpers.createStyle({
+                fill:{
+                    color:mapManager.getColor(mapManager.districts[feature.getId()]),
+                    opacity:0.4
+                },stroke:{
+                    color:'white',
+                    width:2
+                }
+            });
+
+            return [ style ]
+        },
+        getMaxAndMin:function (card) {
+
+            var count = card.length;
+            var individuals = [];
+            if(count==27){
+                var array_of_data = "";
+                angular.forEach(card[0].data,function(value,index){
+
+                    if(index==card[0].data.length-1){
+                        array_of_data = array_of_data+value;
+                    }else{
+                        array_of_data=array_of_data+value+",";
+                    }
+
+                });
+
+                angular.forEach(card,function(value,index){
+
+                    if(value.name.split(" ").indexOf("Region")>=0){
+//                        if(index>1){
+                        individuals.push(value);
+//                        }
+                    }
+
+
+                });
+
+                var max = Math.max.apply(Math, array_of_data.split(","));
+                var min = Math.min.apply(Math, array_of_data.split(","));
+                return [max,min,individuals];
+            }else if(count==26){
+
+                var array_of_data = "";
+                angular.forEach(card[0].data,function(value,index){
+                    console.log("Organisation Unit Council");
+                    console.log(value);
+                    if(index==card[0].data.length-1){
+                        array_of_data = array_of_data+value;
+                    }else{
+                        array_of_data=array_of_data+value+",";
+                    }
+
+                });
+
+                angular.forEach(card,function(value,index){
+                    console.log("Organisation Unit regions");
+                    console.log(value);
+                    if(value.name.split(" ").indexOf("Region")>=0){
+//                        if(index>1){
+                        individuals.push(value);
+//                        }
+                    }
+
+
+                });
+
+                var max = Math.max.apply(Math, array_of_data.split(","));
+                var min = Math.min.apply(Math, array_of_data.split(","));
+                return [max,min,individuals];
+
+            }else{
+                var array_of_data = "";
+                var individuals = [];
+                angular.forEach(card[0].data,function(value,index){
+
+                    if(index==card[0].data.length-1){
+                        array_of_data = array_of_data+value;
+                    }else{
+                        array_of_data=array_of_data+value+",";
+                    }
+
+                });
+
+                angular.forEach(card,function(value,index){
+
+                    if(value.name.split(" ").indexOf("Council")>=0){
+                        if(index>1){
+                            individuals.push(value);
+                        }
+                    }
+
+                });
+
+                var max = Math.max.apply(Math, array_of_data.split(","));
+                var min = Math.min.apply(Math, array_of_data.split(","));
+                return [max,min,individuals];
+            }
+        },
+        getLegend:function (input) {
+            if(input){
+                var legends = "";
+                var max = parseInt(input[0]);
+                var min = parseInt(input[1]);
+                var data = input[2];
+                var count = data.length;
+                if(max==0){
+                    max=1;
+                }
+                var mins='';
+                if(min==0){
+                    mins=0;
+                }else{
+                    mins="0-"+min
+                }
+
+                if(((max-min)/count)<1){
+                    legends = [{set:mins+"",color:"#FF0000",classfy:"min",members:0},{set:min+" - "+((max+min)/2).toFixed(0),color:"#DEBE0C",classfy:"medium",members:0},{set:(max)+"+",color:"#2F8533",classfy:"max",members:0}];
+                }else{
+                    var intervals = ((max-min)/count).toFixed(0);
+                    legends = [{set:mins+"",color:"#FF0000",classfy:"min",members:0},{set:min+" - "+((max+min)/2).toFixed(0),color:"#DEBE0C",classfy:"medium",members:0},{set:(max)+"+",color:"#2F8533",classfy:"max",members:0}];
+
+                }
+                return legends;
+            }else{
+                return false;
+            }
+        },
+        decideOnColor:function(max_and_min,legend,value){
+            var classfy = "";
+            var i = 0;
+            angular.forEach(max_and_min[2],function(valueL,indexL){
+                if(value.id==valueL.id){ console.log(valueL.value);
+                    i++;
+                    if(valueL.value!=0&&valueL.value>=max_and_min[0]){
+                        console.log("This is maximum legend is");
+                        console.log(legend[2]);
+                        legend[2].members=legend[2].members+1;
+                        classfy = legend[2];
+                        return false;
+                    }
+
+                    if(valueL.value!=0&&valueL.value<=((max_and_min[1]+max_and_min[0])/2)&&valueL.value>max_and_min[1]){
+                        console.log("This is medium legend is");
+                        console.log(legend[1]);
+                        legend[1].members=legend[1].members+1;
+                        classfy = legend[1];
+                        return false;
+                    }
+
+                    if(valueL.value==0||valueL.value<=max_and_min[1]){
+                        legend[0].members=legend[0].members+1;
+                        classfy = legend[0];
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            });
+            return classfy;
+        },
+        prepareId: function(card,value,selectedPeriod,selectedUid){
+            return card.data+"_"+value+"_"+selectedPeriod+"_"+selectedUid;
+        }
+
+    }
+    return mapManager;
+});
+mainServices.factory('shared',function(){
+            var shared = {
+                "facility":0
+            };
+            return shared;
+});
 mainServices.factory('deleteManager',function($http,DHIS2URL,$q){
     var deleteManager = {
         deleteOptions:function(optionSet,objectives){
@@ -1189,7 +1548,6 @@ mainServices.factory('projectsManager',['$http','$q','Project','DHIS2URL','proje
     };
     return projectsManager;
 }]);
-
 mainServices.factory('searchService',function($q,projectsManager,$timeout){
     var searchService = {
         search: function(val,deffered) {
@@ -1212,7 +1570,6 @@ mainServices.factory('searchService',function($q,projectsManager,$timeout){
 
     return searchService;
 });
-
 mainServices.factory('reportService', function ($q) {
     var reportService = {
         getMonths: function (startDateObj, endDateObj) {
