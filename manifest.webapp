@@ -1,7 +1,7 @@
 {
     "version": "0.1",
-    "name": "Project Management",
-    "description": "Black Bird project management",
+    "name": "Interactive Dashboard",
+    "description": "Interactive Dashboard",
     "launch_path": "index.html",
     "icons": {
         "16": "/img/icon.png",
@@ -9,8 +9,8 @@
         "128": "/img/icon.png"
     },
     "developer": {
-        "name": "IMC Development Team",
-        "url": "http://internationalmedicalcorps.org"
+        "name": "HISP Tanzania",
+        "url": "http://mukulu.tk:9001/"
     },
     "default_locale": "en",
     "activities": {
