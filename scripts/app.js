@@ -22,7 +22,7 @@ var idashboard = angular.module('idashboard',
                      'toaster', 
                      'ngAnimate',
                      'angular-spinkit',
-                        'angularjs-dropdown-multiselect',
+                     'angularjs-dropdown-multiselect',
                      ,'ngTable','multi-select-tree'])
               
 .value('DHIS2URL', '../../..')

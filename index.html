@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html manifest="idashboard.appcache" ng-app="idashboard">
     <head>
-        <title>Project Management - Black Bird</title>
+        <title>Interactive Dashboard - idashboard</title>
 
         <meta name="description" content="DHIS 2">
         <meta name="keywords" content="DHIS 2">        
@@ -21,7 +21,7 @@
 
     <body>
     <d2-header-bar></d2-header-bar>
-    <div id="bb-body">
+    <div id="idashboard-body" style="margin-top:50px;">
     	<div ng-include="'views/menu.html'"></div>
 		<div ng-view></div>
 	</div>
@@ -79,6 +79,7 @@
     <script type="text/javascript" src="scripts/filters.js"></script>
     <!-- Controllers -->
     <script type="text/javascript" src="scripts/controllers/mainController.js"></script>
+    <script type="text/javascript" src="scripts/services/mainServices.js"></script>
 
     <!-- Menu scripts -->
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.translate.js"></script>
