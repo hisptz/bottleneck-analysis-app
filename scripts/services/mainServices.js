@@ -3,32 +3,31 @@ var mainServices = angular.module('mainServices',['ngResource'])
 mainServices.factory('dashboardsManager',['$http','$q','Dashboard','DashboardItem',function($http,$q,DHIS2URL,Dashboard,DashboardItem){
 
     var dashboardsManager = {
-        _pool: {},
+        _dashBoardsPool: {},
         _dashboardObjectName: "dashboards",
-        _retrieveInstance: function(dashboardId,dashboardData){
-            var instance = this._pool[dashboardId];
+        _retrieveDashboardInstance: function(dashboardId,dashboardData){
+            var instance = this._dashBoardsPool[dashboardId];
             if(instance){
                 instance.setData(dashboardData);
             }else {
                 instance = new Dashboard(dashboardData);
-                this._pool[dashboardId] = instance;
+                this._dashBoardsPool[dashboardId] = instance;
             }
 
             return instance;
         },
         _search: function(dashboardId) {
-            return this._pool[dashboardId];
+            return this._dashBoardsPool[dashboardId];
         },
         _load: function(dashboardId,deferred){
             var thisDashboard = this;
             var deferred = $q.defer();
-            $http.get(DHIS2URL+'/api/dashboards/'+dashboardId+'.json?paging=false&links=false')
+            $http.get('../../..'+'/api/dashboards/'+dashboardId+'.json?paging=false&fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all]]]')
                 .success(function(dashboardData){
-                    var dashboard = thisDashboard._retrieveInstance(dashboardData.id,dashboardData);
+                    var dashboard = thisDashboard._retrieveDashboardInstance(dashboardData.id,dashboardData);
                     deferred.resolve(dashboard);
                 })
                 .error(function(errorMessageData){
-                    console.log('error happened in loading dashboards');
                     deferred.reject();
                 });
             return deferred.promise;
@@ -49,12 +48,12 @@ mainServices.factory('dashboardsManager',['$http','$q','Dashboard','DashboardIte
         loadAllDashboards: function() {
             var deferred = $q.defer();
             var thisDashboard = this;
-            $http.get('../../..'+'/api/dashboards'+'.json?paging=false&links=false')
+            $http.get('../../..'+'/api/dashboards'+'.json?fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all]]]')
                 .success(function(dashboardsData){
                     var dashboards = [];
                     dashboardsData.dashboards.forEach(function(dashboardData){
                         // structure before persistance;
-                        var dashboard = thisDashboard._retrieveInstance(dashboardData.id,dashboardData);
+                        var dashboard = thisDashboard._retrieveDashboardInstance(dashboardData.id,dashboardData);
                         dashboards.push(dashboard);
                     });
                     deferred.resolve(dashboards);
@@ -71,7 +70,7 @@ mainServices.factory('dashboardsManager',['$http','$q','Dashboard','DashboardIte
             if(dashboard) {
                 dashboard.setData(dashboardData);
             }else {
-                dashboard = thisDashboardManager._retrieveInstance(dashboardData);
+                dashboard = thisDashboardManager._retrieveDashboardInstance(dashboardData);
             }
             return dashboard;
         }
@@ -93,7 +92,7 @@ mainServices.factory('Dashboard',['$http','$q','DashboardItem','DHIS2URL',functi
     return Dashboard;
 }]);
 
-mainServices.factory('dashboardItemsManager',['$http','$q','DashboardItem','DHIS2URL',function($http,$q,DHIS2URL){
+mainServices.factory('dashboardItemsManager',['$http','$q','Dashboard','DashboardItem','DHIS2URL',function($http,$q,Dashboard,DashboardItem,DHIS2URL){
 
     var dashboardItemsManager = {
         _pool: {},
@@ -115,7 +114,7 @@ mainServices.factory('dashboardItemsManager',['$http','$q','DashboardItem','DHIS
         _load: function(dashboardItemId,deferred){
             var thisDashboardItem = this;
             var deferred = $q.defer();
-            $http.get(DHIS2URL+'/api/dashboardItems/'+dashboardItemId+'.json?paging=false&links=false')
+            $http.get('../../..'+'/api/dashboardItems/'+dashboardItemId+'.json?fields=id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all]')
                 .success(function(dashboardItemData){
                     var dashboardItem = thisDashboardItem._retrieveInstance(dashboardItemData.id,dashboardItemData);
                     deferred.resolve(dashboardItem);

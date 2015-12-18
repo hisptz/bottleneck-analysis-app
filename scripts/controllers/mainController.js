@@ -3,8 +3,6 @@ var mainController  = angular.module('mainController',[]);
 mainController.controller('MenuController',['$scope','$window','dashboardsManager',function($scope,$window,dashboardsManager){
 
     dashboardsManager.loadAllDashboards().then(function(dashboards){
-        console.log('we get here!!');
-        console.log(dashboards);
         $scope.dashboards = dashboards;
     })
 }])
