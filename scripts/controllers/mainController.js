@@ -6,8 +6,9 @@ mainController.controller('MenuController',['$scope','$window','dashboardsManage
         $scope.dashboards = dashboards;
     })
 }])
-    .controller('MainController',['$scope','dashboardsManager',function($scope,
+    .controller('MainController',['$scope','dashboardsManager','chartsManager',function($scope,
                                                                         dashboardsManager,
+                                                                        chartsManager,
                                                                       $modal,
                                                                       $timeout,
                                                                       $translate,

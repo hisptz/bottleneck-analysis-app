@@ -1,5 +1,3 @@
-var dashboardController  = angular.module('dashboardController',[]);
-
 dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager','$routeParams',function($scope,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
