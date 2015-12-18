@@ -1,0 +1,21 @@
+{
+    "version": "0.1",
+    "name": "Project Management",
+    "description": "Black Bird project management",
+    "launch_path": "index.html",
+    "icons": {
+        "16": "/img/icon.png",
+        "48": "/img/icon.png",
+        "128": "/img/icon.png"
+    },
+    "developer": {
+        "name": "IMC Development Team",
+        "url": "http://internationalmedicalcorps.org"
+    },
+    "default_locale": "en",
+    "activities": {
+        "dhis": {
+            "href": "../../.."
+        }
+    }
+}

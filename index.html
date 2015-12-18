@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html manifest="blackBird.appcache" ng-app="blackBird">
+    <head>
+        <title>Project Management - Black Bird</title>
+
+        <meta name="description" content="DHIS 2">
+        <meta name="keywords" content="DHIS 2">        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <style>
+            .table-bordered{
+                width: 100%;
+            }
+            .table-bordered th, .table-bordered td {
+                border: 1px solid #ddd !important;
+
+            }
+        </style>
+
+    </head>
+
+    <body>
+    <d2-header-bar></d2-header-bar>
+    <div id="bb-body">
+    	<div ng-include="'views/menu.html'"></div>
+		<div ng-view></div>
+	</div>
+	<toaster-container></toaster-container>
+
+    <!-- DHIS2 Settings initialization for a baseUrl that is used for the menu -->
+    <script type="text/javascript">
+        window.dhis2 = window.dhis2 || {};
+        dhis2.settings = dhis2.settings || {};
+        dhis2.settings.baseUrl = '../../ims';
+    </script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/jquery.plugin.min.js"></script>
+    <link type="text/css" rel="stylesheet"  href="../../../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css">
+
+    <script type="text/javascript" src="../../../dhis-web-commons/bootstrap/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet"  href="../../../dhis-web-commons/bootstrap/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-resource.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-route.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-cookies.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-sanitize.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-animate.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/ui-bootstrap.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.util.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/commons.js"></script>
+
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/plugins/angularLocalStorage.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/plugins/angular-translate.min.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-animate.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.services.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.controllers.js"></script>
+    <script src="scripts/toaster/toaster.min.js"></script>
+
+    <link rel="stylesheet" href="scripts/smart-table/ng-table.min.css">
+    <script src="scripts/smart-table/ng-table.min.js"></script>
+
+    <link rel="stylesheet" href="scripts/tree/angular-multi-select-tree-0.1.0.min.css">
+    <script src="scripts/tree/angular-multi-select-tree-0.1.0.min.js"></script>
+    <script src="scripts/tree/angular-multi-select-tree-0.1.0.tpl.js"></script>
+    <script src="scripts/ui-bootstrap/date.js"></script>
+
+    <script src="scripts/spinkit/angular-spinkit.min.js"></script>
+    <script src="scripts/moment/moment.min.js"></script>
+
+    <script type="text/javascript" src="scripts/app.js"></script>
+    <script type="text/javascript" src="scripts/services.js"></script>
+    <script type="text/javascript" src="scripts/directives.js"></script>
+    <script type="text/javascript" src="scripts/controllers.js"></script>
+    <script type="text/javascript" src="scripts/filters.js"></script>
+    <!-- Controllers -->
+    <script type="text/javascript" src="scripts/controllers/mainController.js"></script>
+
+    <!-- Menu scripts -->
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.translate.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.menu.js"></script>
+    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.menu.ui.js"></script>
+
+    <link rel="stylesheet" href="scripts/ivh-treeview/ivh-treeview.min.css" />
+    <link rel="stylesheet" href="scripts/ivh-treeview/ivh-treeview-theme-basic.css" />
+    <script src="scripts/ivh-treeview/ivh-treeview.min.js"></script>
+
+    <script src="scripts/straps/angular-strap.min.js"></script>
+    <script src="scripts/straps/angular-strap.tpl.min.js"></script>
+
+
+    <script type="text/javascript" src="scripts/multiselect/lodash.js"></script>
+    <script type="text/javascript" src="scripts/multiselect/angularjs-dropdown-multiselect.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="../../../dhis-web-commons/font-awesome/css/font-awesome.min.css"/>
+    <link type="text/css" rel="stylesheet" media="screen" href="../../../dhis-web-commons/css/wid`ts.css"/>
+    <link type="text/css" rel="stylesheet" media="screen" href="../../../dhis-web-commons/css/menu.css">
+    <!-- IMC CSS Files -->
+    <link type="text/css" rel="stylesheet"  href="../../../dhis-web-commons/css/imc/imc.css?_rev=${revision}">
+
+    <link type="text/css" rel="stylesheet" href="styles/style.css">
+
+    <link type="text/css" rel="stylesheet" href="scripts/toaster/toaster.min.css">
+    <link type="text/css" rel="stylesheet" href="scripts/spinkit/angular-spinkit.min.css">
+
+    <!---IMC font source--->
+    <!--<script type="text/javascript" src="//use.typekit.net/xcl1ggx.js"></script>-->
+    <!--<script type="text/javascript">try {-->
+        <!--Typekit.load();-->
+    <!--} catch (e) {-->
+    <!--}</script>-->
+</body>
+</html>

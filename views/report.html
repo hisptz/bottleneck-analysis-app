@@ -1,0 +1,241 @@
+<div>
+	<div class="panel panel-default">
+		<!-- Default panel contents -->
+		<div class="panel-heading">{{'grant_information'| translate}}</div>
+		<div class="panel-body" style="min-height:350px;">
+			<div></div>
+			<form ng-submit="generateReport()" class="form-horizontal">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="projectSelection" class="col-sm-2 control-label">{{'project'|
+								translate}}</label>
+
+							<div class="col-sm-10">
+								<div id="projectSelection"
+									 ng-dropdown-multiselect=""
+									 options="data.projects"
+									 selected-model="data.selectedProject"
+									 extra-settings="data.projectSelectionSettings"
+									 translation-texts="data.translationTexts"
+									 events="data.multiSelectEvents"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="locations" class="col-sm-2 control-label">{{'choose_location'|
+								translate}}</label>
+
+							<div class="col-sm-10">
+								<div>
+								<div class="org-unit-control" ya-treeview ya-id="myTree" id="locations">
+									<multi-select-tree
+											data-input-model="data.tree"
+											multi-select="true"
+											data-output-model="data.project.organisationUnits"
+											data-default-label="Click here to Select..."
+											data-callback="selectOnly1Or2(item, selectedItems)">
+									</multi-select-tree>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" ng-if="showProjectInputs">
+
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label for="start_date" class="col-sm-2 control-label">{{'from'|
+								translate}}</label>
+
+							<div class="col-sm-10">
+								<input ng-required="true" ui-date="dateOptions" ng-model="data.project.startDate"
+									   class="form-control" id="start_date"
+									   placeholder="">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label for="end_date" class="col-sm-2 control-label">{{'to'|
+								translate}}</label>
+
+							<div class="col-sm-10">
+								<input ng-required="true" ui-date="dateOptions" ng-model="data.project.endDate"
+									   class="form-control" id="end_date"
+									   placeholder="">
+							</div>
+						</div>
+					</div>
+						<div class="col-sm-2">
+							<div class="col-sm-offset-2 col-sm-10">
+								<a class="btn btn-primary fr" ng-click="reloadRoute()" style="margin: 5px">{{'reset'| translate}}</a>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button ng-click="" class="btn btn-primary">{{'update'|
+									translate}}
+								</button>
+							</div>
+						</div>
+					</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div ng-if="showReport">
+		
+		<style type="text/css">
+			#printable table, #printable th, #printable td {
+				border: 1px solid black;
+			}
+		</style>
+		<div class="panel panel-default">
+			<!-- Default panel contents -->
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-sm-5">{{'project_report'| translate}}</div>
+					<div class="col-sm-1" style="display: block;">
+						<button ng-click="printDiv('printable')" class="btn btn-primary">{{'print'|
+							translate}}
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div>
+					<div class="col-sm-9" id="printable">
+						<table class="table table-bordered table-hover report-table">
+							<thead>
+								<tr>
+									<td>{{'project_title'| translate}}</td>
+									<td colspan="7">{{data.project.projectName}}</td>
+								</tr>
+								<tr>
+									<td>{{'grant_id'| translate}}</td>
+									<td colspan="3">{{data.project.name}}</td>
+									<td>{{'area_of_operation'| translate}}</td>
+									<td colspan="3">{{data.project.areaOfOperation}}</td>
+								</tr>
+								<tr>
+									<td>{{'donor'| translate}}</td>
+									<td colspan="3">{{data.project.donor}}</td>
+									<td>{{'project_startdate'| translate}}</td>
+									<td>{{data.project.startDate | date:'MM/dd/yyyy'}}</td>
+									<td>{{'project_enddate'| translate}}</td>
+									<td>{{data.project.endDate | date:'MM/dd/yyyy'}}</td>
+								</tr>
+								<tr>
+									<td>{{'report_location'| translate}}</td>
+									<td colspan="7">{{ data.selectedOrganisationUnitNames.join(', ') }}</td>
+								</tr>
+								<tr>
+									<td>{{'goal'| translate}}</td>
+									<td colspan="7">{{data.project.goal}}</td>
+								</tr>
+								<tr>
+									<td>{{'period'| translate}}</td>
+									<!--<td colspan="7">{{data.projectPeriod | replaceSemiColonWithComma }}</td>-->
+									<td colspan="7">From: {{data.project.startDate | date:'MMMM y'}} To: {{data.project.endDate | date:'MMMM y'}} - <em>{{ data.projectPeriodList.length }} Month(s)</em></td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="8"></td>
+								</tr>
+								<tr>
+									<td colspan="8">
+										<table ng-repeat="objective in data.project.objectives" style="width:100%;margin:-6px;">
+											<thead>
+												<tr>
+													<td>{{'objective'| translate}} {{$index + 1}} :</td>
+													<td colspan="3">{{objective.name}}</td>
+													<td>{{'sector'| translate}}</td>
+													<td colspan="3">{{objective.sector}}</td>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td colspan="8">
+														<table style="width:100%;margin:-6px;">
+															<thead>
+																<tr>
+																	<td></td>
+																	<td colspan="3">Objective Indicators</td>
+																	<td>{{'target'| translate}}</td>
+																	<td>{{'baseline'| translate}}</td>
+																	<td>{{'value'| translate}}</td>
+																	<td style="white-space: nowrap;">{{'achievement'| translate}} (%)</td>
+																</tr>
+															</thead>
+															<tbody>
+																<tr ng-repeat="objectiveIndicator in objective.indicators">
+																	<td></td>
+																	<td colspan="3">{{objectiveIndicator.name}}</td>
+																	<td>{{objectiveIndicator.targetValue}}</td>
+																	<td>{{objectiveIndicator.baseline}}</td>
+																	<td>{{objectiveIndicator.indicatorValue}}</td>
+																	<td>{{ (objectiveIndicator.indicatorValue/objectiveIndicator.targetValue)*100 }}</td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="8">
+															<table ng-repeat = "result in objective.results" style="width:100%;margin:-6px;">
+																<tbody>
+																	<tr>
+																		<td></td>
+																		<td>{{'result'| translate}} {{$index + 1}}</td>
+																		<td colspan="2">{{result.name}}</td>
+																		<td>{{'sector'| translate}}</td>
+																		<td colspan="3">{{result.sector}}</td>
+																	</tr>
+																	<tr>
+																		<td></td>
+																		<td colspan="3">Result Indicator</td>
+																		<td>{{'target'| translate}}</td>
+																		<td>{{'baseline'| translate}}</td>
+																		<td>{{'value'| translate}}</td>
+																		<td style="white-space: nowrap;">{{'achievement'| translate}} (%)</td>
+																	</tr>
+																	<tr ng-repeat="resultIndicator in result.indicators">
+																		<td></td>
+																		<td></td>
+																		<td colspan="2">{{resultIndicator.name}}</td>
+																		<td>{{resultIndicator.targetValue}}</td>
+																		<td>{{resultIndicator.baseline}}</td>
+																		<td>{{resultIndicator.indicatorValue}}</td>
+																		<td>{{ (resultIndicator.indicatorValue/resultIndicator.targetValue)*100 }}</td>
+																	</tr>
+																</tbody>
+															</table>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="8"></td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<div class="col-sm-2" style="display: none;">
+						<div class="col-sm-12">
+							<select class="form-control" data-max-options="2">
+								<option>{{'download_in_pdf'| translate}}</option>
+								<option>{{'download_in_excel'| translate}}</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>

@@ -1,0 +1,273 @@
+.top-bar {
+	font-size: 16pt;
+	font-weight: normal;
+	color: #585D61;
+}
+
+.vertical-spacing {
+	margin-top: 20px;
+}
+
+table {
+	font-size: 13px;
+	line-height: 24px;
+	table-layout: fixed;
+	margin-bottom: 10px;
+}
+
+/*
+span#headerText {
+	font-size: 18px;
+}
+*/
+
+.row {
+	margin: 0;
+}
+
+.selected {
+	background-color: #aaddff;
+	font-weight: bold;
+}
+
+.org-unit-control {
+	display: block;
+	width: 100%;
+	height: 140px !important;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.428571429;
+	color: #555;
+	vertical-align: middle;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border-color ease-in-out .15s, box-shadow
+		ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	overflow-y: auto;
+	height: 100px
+}
+
+.org-unit-control:focus {
+	border-color: #66afe9;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px
+		rgba(102, 175, 233, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px
+		rgba(102, 175, 233, 0.6);
+}
+
+/* New */
+#bb-body {
+	padding: 60px 15px 0;
+}
+
+#bb-body .navbar.navbar-default.ng-scope {
+	height: auto;
+	min-height: 0;
+	padding-bottom: 0;
+	margin-bottom: 0;
+	border-bottom: 0;
+	position: static;
+}
+
+.bbnav, .bbnav div, .bbnav ul, .bbnav li, .bbnav a {
+	height: 25px;
+	line-height: 25px;
+	padding: 0 !important;
+}
+
+.bbnav > div > ul.nav.navbar-nav > li > a {
+	color: #fff;
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: 600;
+	text-decoration: none;
+	float: left;
+	margin: 0 0 0 15px;
+	line-height: 25px;
+}
+
+.bbnav > div > ul.nav.navbar-nav > li.active > a, .bbnav > div > ul.nav.navbar-nav > li > a:hover {
+	color: #f7bd1b;
+	background: transparent;
+}
+
+.bbnav {
+	background: #0064a3;
+}
+
+#bb-backbn {
+	position: relative;
+	top: 32px;
+	width: 140px;
+	height: 31px;
+	line-height: 30px;
+	border: 1px solid #0064a3;
+	float: right;
+	font-weight: 500 !important;
+	text-align: center;
+	font-size: 14px;
+	text-decoration: none;
+	background: transparent;
+	color: #0064a3;
+}
+#btn-help {
+	position: relative;
+	top: 32px;
+	width: 140px;
+	height: 31px;
+	line-height: 30px;
+	border: 1px solid #0064a3;
+	float: right;
+	font-weight: 500 !important;
+	text-align: center;
+	font-size: 14px;
+	text-decoration: none;
+	background: transparent;
+	color: #0064a3;
+}
+
+#bb-backbn:hover {
+	background: #0064a3;
+	color: #fff;
+}
+
+.bbnav .navbar-collapse .navbar-nav.navbar-right:last-child {
+	margin-right: 7px;
+}
+
+#bb-body .navbar-brand {
+	position: fixed;
+	left: 280px;
+	top: 11px;
+	z-index: 15;
+	font-size: 16px;
+	font-weight: 500;
+	color: #f7bd1b;
+	text-transform: uppercase;
+}
+
+#bb-body .panel {
+	border: 0;
+	overflow: hidden;
+}
+
+#bb-body .panel-heading {
+	padding: 10px;
+	margin: 0;
+	line-height: 25px;
+	font-size: 22px;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: #0064a3;
+	background: #fff;
+	border-bottom: 0;
+	margin-top: -5px;
+}
+
+#bb-body > .ng-scope > div:first-child .panel-heading {
+	border-bottom: 15px solid #eee;
+	margin-top: 0;
+}
+
+.rowpad {
+	padding: 10px;
+}
+
+#bb-body .panel.panel-default table.table.table-hover {
+	border: 15px solid #ffffff;
+}
+
+#bb-body .form-horizontal .control-label {
+	padding: 5px;
+	text-align: left;
+}
+
+#bb-body table, #bb-body table tr, #bb-body table th, #bb-body table td {
+	border: 0;
+}
+
+#bb-body table tr, #bb-body table th, #bb-body table td {
+	height: 30px;
+	line-height: 30px;
+}
+
+/*
+#bb-body table tr:first-child td, #bb-body table tr:first-child th {
+	color: #777;
+	text-transform: uppercase;
+	font-size: 15px;
+	font-weight: 600;
+	background: transparent;
+}
+*/
+
+#bb-body table tr td,
+#bb-body table tr th,
+#bb-body .form-horizontal .control-label {
+	padding: 5px;
+	color: #888;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+#bb-body table tr:nth-of-type(n+2) th:nth-child(2n+1),
+#bb-body .form-horizontal .control-label {
+	font-weight: 600;
+	text-transform: uppercase;
+	font-size: 15px;
+	color: #0064a3;
+}
+#bb-body .panel button, #bb-body td a, .btn-primary, .btn {
+	width: 140px;
+	border: 1px solid #0064a3;
+	font-weight: 500 !important;
+	text-align: center;
+	font-size: 14px;
+	text-transform: uppercase;
+	text-decoration: none;
+	background: transparent;
+	color: #0064a3;
+	display: block;
+}
+#bb-body .panel button.dropdown-toggle, button.dropdown-toggle .btn {
+	width: 250px;
+}
+
+#bb-body .panel button:hover, #bb-body td a:hover {
+	background: #0064a3;
+	color: #fff;
+}
+#bb-body .col-sm-offset-2.col-sm-10 button {
+	margin-left: -9px;
+}
+.pr0 {
+	padding-right: 0 !important;
+}
+
+.fr {
+	float: right;
+}
+
+.w200 {
+	width: 200px;
+}
+
+.ng-table-pager {
+	display: none;
+}
+
+.report-table {
+	border: 1px #0064a3;
+}
+.ac-select-main-closed{
+	height:30px;
+}
+span#headerText {
+	font-size:20px;
+}
