@@ -6,22 +6,23 @@ mainController.controller('MenuController',['$scope','$window','dashboardsManage
         $scope.dashboards = dashboards;
     })
 }])
-    .controller('MainController',['$scope','dashboardsManager','chartsManager',function($scope,
+    .controller('MainController',['$scope','dashboardsManager','chartsManager','TableRenderer',function($scope,
                                                                         dashboardsManager,
                                                                         chartsManager,
-                                                                      $modal,
-                                                                      $timeout,
-                                                                      $translate,
-                                                                      $anchorScroll,
-                                                                      Paginator,
-                                                                      ContextMenuSelectedItem,
-                                                                      $filter,
-                                                                      $http,
-                                                                      GridColumnService,
-                                                                      CustomFormService,
-                                                                      ModalService,
-                                                                      DialogService,
-                                                                      DHIS2URL
+                                                                        TableRenderer,
+                                                                        $modal,
+                                                                        $timeout,
+                                                                        $translate,
+                                                                        $anchorScroll,
+                                                                        Paginator,
+                                                                        ContextMenuSelectedItem,
+                                                                        $filter,
+                                                                        $http,
+                                                                        GridColumnService,
+                                                                        CustomFormService,
+                                                                        ModalService,
+                                                                        DialogService,
+                                                                        DHIS2URL
     ){
 
         $scope.loading = false;
