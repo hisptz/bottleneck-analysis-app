@@ -222,8 +222,15 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
         return structure;
 
     }
-    //console.log(prepareCategories(metaData,'dx'));
+    var getmetaDataCategories=function(analyticsObject,categories){
+        var categories=[];
+        angular.forEach(analyticsObject,function(cat){
+            categories.push({"name":analyticsObject.metaData.names[cat],"catUid":cat })
+        });
+        return categories;
+    }
 
+    //console.log(prepareCategories(metaData,'dx'));
     var getDataValue =function(analyticsObject,xAxisType,xAxisUid,yAxisType,yAxisUid,filterType,filterUid){
         var num = 0;
         $.each(analyticsObject.rows,function(key,value){
@@ -240,6 +247,7 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
         });
         return num;
     }
+
     var getMetadataItemsTableDraw=function(analyticsObject,rowType,columnType){
         var table='<table class="table table-bordered">';
         table+="<thead><tr>";
@@ -260,5 +268,77 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
     $("#tableDrawer").html(getMetadataItemsTableDraw(metaData,"ou","dx"));
 
 
+   var drawTableWithTwoDimension=function(analyticsObject,rowType,columnType,subcolumnType){
+       var subcolumnsLength=prepareCategories(analyticsObject,subcolumnType).length;
+       var table='<table class="table table-bordered">';
+       table+="<thead><tr>";
+       angular.forEach(prepareCategories(analyticsObject,columnType),function(columnName){
+           table+="<th colspan='"+subcolumnsLength+"'>"+columnName.name+"</th>";
+           angular.forEach(prepareCategories(analyticsObject,subcolumnType),function(subColName){
+               table+="<th>"+subColName.name+"</th>";
+           });
+
+       });
+       table+="</tr></thead>";
+       return table;
+   }
+    $("#tableDrawer").html(drawTableWithTwoDimension(metaData,"ou","dx","pe"));
+
+    var drawTableWithTwoRowDimension=function(analyticsObject,rowType,columnType,subcolumnType){
+        var subcolumnsLength=prepareCategories(analyticsObject,subcolumnType).length;
+        var table='<table style="border: 1px !important;">';
+        table+="<thead><tr>";
+        angular.forEach(prepareCategories(analyticsObject,columnType),function(columnName){
+            table+="<th  class='center' colspan='"+subcolumnsLength+"'>"+columnName.name+"</th>";
+        });
+        table+="</tr><tr>";
+        angular.forEach(prepareCategories(analyticsObject,columnType),function(columnName){
+            angular.forEach(prepareCategories(analyticsObject,subcolumnType),function(subColName){
+                table+="<th  style='border: 1px !important;'>"+subColName.name+"</th>";
+            });
+
+        });
+        angular.forEach(prepareCategories(analyticsObject,rowType),function(rowName){
+            table+="<tr><td>"+rowName.name+"</td>"
+            angular.forEach(prepareCategories(analyticsObject,columnType),function(columnName){
+
+                angular.forEach(prepareCategories(analyticsObject,subcolumnType),function(subColName){
+                    table+="<td>"+getDataValue(analyticsObject,columnType,columnName.uid,rowType,rowName.uid,subcolumnType,subColName.uid)+"</td>"
+
+                });
+
+            });
+            table+="</tr>"
+        });
+
+        table+="</tr></thead>";
+        return table;
+    }
+    //$("#tableDrawer").html(drawTableWithTwoRowDimension(metaData,"dx","ou","pe"));
+
+    var drawTableWithTwoColumnDimension=function(analyticsObject,rowType,columnType,subrowType){
+        var subrowsLength=prepareCategories(analyticsObject,subrowType).length;
+        var table='<table style="border: 1px !important;">';
+        table+="<thead><tr>";
+        angular.forEach(prepareCategories(analyticsObject,columnType),function(columnName){
+            table+="<th>"+columnName.name+"</th>";
+        });
+        table+="</tr></thead><tbody>";
+        angular.forEach(prepareCategories(analyticsObject,rowType),function(rowName){
+            table+="<tr><td rowspan='"+subrowsLength+"'>"+rowName.name+"</td></tr>"
+            angular.forEach(prepareCategories(analyticsObject,subrowType),function(subRowName){
+                table+="<tr><td style='border: 1px !important;'>"+subRowName.name+"</td>";
+
+                angular.forEach(prepareCategories(analyticsObject,columnType),function(columnName){
+                    table+="<td>"+getDataValue(analyticsObject,columnType,columnName.uid,rowType,rowName.uid,subrowType,subRowName.uid)+"</td>";
+                });
+                table+="</tr>"
+            });
+
+        });
+        table+="</tr></tbody>";
+        return table;
+    }
+    $("#tableDrawer").html(drawTableWithTwoColumnDimension(metaData,"dx","ou","pe"));
 });
 
