@@ -1,0 +1,102 @@
+<div>
+	<div class="panel panel-default">
+		<!-- Default panel contents -->
+		<div class="panel-heading">1. {{'grant_information'| translate}}</div>
+		<div class="panel-body">
+			<form class="form-horizontal" ng-submit="saveProject()">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="title" class="col-sm-2 control-label">{{'project_title'|
+								translate}}</label>
+							<div class="col-sm-10">
+							<input ng-required="true" type="text" class="form-control" ng-model="data.project.name" id="title"
+									placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="donor" class="col-sm-2 control-label">{{'donor'|
+								translate}}</label>
+							<div class="col-sm-10">
+								<select ng-required="true" class="form-control" ng-model="data.project.donor" id="donor" class="selectpicker"
+									data-max-options="2">
+									<option ng-repeat="option in data.donors">{{option.name}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="grant_id" class="col-sm-2 control-label">{{'grant_id'|
+								translate}}</label>
+							<div class="col-sm-10">
+								<input ng-required="true" type="text" class="form-control" ng-model="data.project.grantId" id="grant_id"
+									placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="grant_id" class="col-sm-2 control-label">{{'grant_status'|
+								translate}}</label>
+								<div class="col-sm-10">
+								<select ng-required="true" class="form-control" ng-model="data.project.grantStatus" class="selectpicker"
+									data-max-options="2">
+									<option ng-repeat="grantStatus in data.grantStatusOptions">{{grantStatus.name}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="country" class="col-sm-2 control-label">{{'choose_location'|
+								translate}}</label>
+							<!--<div class="col-sm-10">
+								<div class="org-unit-control" ya-treeview ya-id="myTree"
+									ya-model="tree.modal" ya-options="options"
+									ya-context="tree.context">
+									<span
+										ng-class="{selected: context.selectedNodes.indexOf(node) > -1}">{{
+										node.$model.name }}</span>
+								</div>
+							</div>-->
+							<div class="col-sm-10">
+								<div class="org-unit-control" ya-treeview ya-id="myTree">
+									<ul>
+										<li ng-repeat="node in data.selectedNode">{{node.name}}</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="start_date" class="col-sm-2 control-label">{{'start_date'|
+								translate}}</label>
+							<div class="col-sm-10">
+								<input ng-required="true" ng-model="data.project.startDate" type="date" class="form-control" id="start_date"
+									placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="end_date" class="col-sm-2 control-label">{{'end_date'|
+								translate}}</label>
+							<div class="col-sm-10">
+								<input ng-required="true" ng-model="data.project.endDate" type="date" class="form-control" id="end_date"
+									placeholder="">
+							</div>
+						</div>
+						<div>
+							<div class="form-group col-sm-6">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-primary">{{'save'|
+										translate}}</button>
+								</div>
+							</div>
+							<div class="form-group col-sm-6">
+								<div class="col-sm-offset-2 col-sm-10">
+									<a ng-click="next()" class="btn btn-primary">{{'save_and_next'|
+										translate}}</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

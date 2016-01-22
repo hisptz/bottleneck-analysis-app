@@ -1,0 +1,34 @@
+<three-bounce-spinner ng-if="loading"></three-bounce-spinner>
+<div ng-if="!loading">
+	<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">{{location.name}}</div>
+
+  <!-- Table -->
+  <table class="table table-hover">
+    <thead>
+    <tr>
+    	<td>{{'grant_id'| translate}}</td>
+    	<td>{{'project_title'| translate}}</td>
+    	<td>{{'donor'| translate}}</td>
+    	<td>{{'grant_status'| translate}}</td>
+    	<td>{{'start_date'| translate}}</td>
+    	<td>{{'end_date'| translate}}</td>
+		<td>Actions</td>
+    </tr>
+    <tr ng-repeat="project in countryProjects">
+    	<td>{{project.name}}</td>
+    	<td>{{project.projectName}}</td>
+    	<td>{{project.donor}}</td>
+    	<td>{{project.grantStatus}}</td>
+    	<td>{{project.startDate | date: 'MM-dd-yyyy'}}</td>
+    	<td>{{project.endDate | date: 'MM-dd-yyyy'}}</td>
+		<td>
+			<a class="btn btn-info fr" href="#/projects/{{project.id}}/view" style="margin: 5px">{{'view'| translate}}</a>
+			<a class="btn btn-success  fr" href="#/projects/{{project.id}}/edit" style="margin: 5px">{{'edit'| translate}}</a>
+		</td>
+    </tr>
+    </thead>
+  </table>
+</div>
+</div>

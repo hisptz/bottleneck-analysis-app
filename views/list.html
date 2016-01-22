@@ -1,0 +1,23 @@
+<three-bounce-spinner ng-if="loading"></three-bounce-spinner>
+<div ng-if="!loading">
+	<div class="panel panel-default">
+		<!-- Default panel contents -->
+		<div class="panel-heading">{{'projects'| translate}}</div>
+		<three-bounce-spinner ng-if="loading"></three-bounce-spinner>
+		<div ng-if="!loading">
+		<table ng-table="tableParams" class="table" show-filter="true">
+			<tr ng-repeat="project in $data">
+				<td title="'Project Name'" filter="{ name: 'text'}"
+					sortable="'name'">{{project.name}}</td>
+				<td title="'Donor'" filter="{ donor: 'text'}" sortable="'donor'">
+					{{project.donor}}</td>
+				<td>
+					<a class="btn btn-info fr" href="#/projects/{{project.id}}/view" style="margin: 5px">{{'view'| translate}}</a>
+					<a class="btn btn-success  fr" href="#/projects/{{project.id}}/edit" style="margin: 5px">{{'edit'| translate}}</a>
+					<!--<a class="btn btn-success active" href="#/projects/{{project.id}}/report">{{'generate_report'| translate}}</a></td>-->
+				</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+</div>

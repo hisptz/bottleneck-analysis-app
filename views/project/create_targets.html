@@ -1,0 +1,59 @@
+<div class="panel panel-default">
+	<!-- Default panel contents -->
+	<div class="panel-heading">4. {{'targets'|
+		translate}}</div>
+	<div class="panel-body" style="overflow: auto;min-height:250px;">
+		<form ng-submit="saveProjectTargetsSubmit()">
+			<div class="row">
+				<div ng-repeat="objective in data.project.objectives" style="margin-bottom: 1%;">
+					<div class="row">
+						<label for="objective" class="col-sm-2 control-label">{{ objective.name}}</label>
+						<div class="col-sm-8">
+							<div class="row" ng-repeat="indicator in objective.indicators" style="margin-bottom: 1%;">
+								<label  class="col-sm-4 control-label">{{(indicator.name  === undefined || indicator.name === null) ? getIndicator(indicator) : indicator.name }}</label>
+								<div class="col-sm-4">
+									<target-select ng-target-model="indicator.targetDataElement" options="data.targets"></target-select>
+								</div>
+								<div class="col-sm-4">
+									<input ng-model="indicator.baseline" placeholder="Base Line" class="form-control"/>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-1"></div>
+						<div class="col-sm-10">
+							<div class="row" ng-repeat="result in objective.results" style="margin-bottom: 1%;">
+								<label for="objective" class="col-sm-2 control-label">
+									{{ result.name }}
+								</label>
+								<div class="col-sm-10 col-md-10 col-lg-10">
+									<div class="row" ng-repeat="indicator in result.indicators" style="margin-bottom: 1%;">
+										<label  class="col-sm-4 control-label">{{(indicator.name  === undefined || indicator.name === null) ? getIndicator(indicator) : indicator.name }}</label>
+										<div class="col-sm-4">
+											<target-select ng-target-model="indicator.targetDataElement" options="data.targets"></target-select>
+										</div>
+										<div class="col-sm-4">
+											<input ng-model="indicator.baseline" placeholder="Base Line" class="form-control"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div>
+						<div class="form-group col-sm-6">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-primary">{{'save'|
+									translate}}</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

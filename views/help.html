@@ -1,0 +1,78 @@
+<three-bounce-spinner ng-if="loading"></three-bounce-spinner>
+<div ng-if="!loading">
+	<div class="panel panel-default">
+		<!-- Default panel contents -->
+		<div class="panel-heading">Help Centre</div>
+
+
+		<div class="col-sm-12 col-md-12 col-lg-12">
+			<div>
+				<h2>Setting Up of Project Management</h2>
+				<h3>Attributes Configurations</h3>
+				<div class="col-sm-12">
+					<strong>Black bird project has been distributed accross five DHIS2 Metadata areas for storage.</strong>
+					<ul style="margin-left:30px;">
+						<li>Organisation unit group - For storage of projects</li>
+						<li>Organisation unit group members - For storage of project locations</li>
+						<li>Optionsets - For storage of Drop down menus of Attributes and also improvised to be used for storage of Outcomes or Results of the project</li>
+						<li>Indicator groups - For storage of set of indicators associated with Single outcome/result</li>
+						<li>Data element Groups - For storage of targets of indicators</li>
+						<li>Attributes - For storage of additional information for Organisation unit groups and Indicators </li>
+					</ul>
+				</div>
+				<div class="col-sm-12">
+					<strong>
+						Setting up of Project management Requires the following Attributes properly configured on the database.
+						Note: Attributes created should be of exact spelling, value type and assignment to Organisation unit group or indicator
+					</strong>
+					<ul style="margin-left:30px;">
+						<li>"Area of Operation" - Text value Associated with Organisation unit group, used to hold area of operation of a given project</li>
+						<li>"Baseline" - Number value Associated with Indicator used to hold a baseline value for given indicator</li>
+						<li>"Donor" - Long text value Associated with Organisation unit group, used to hold donor for a given project</li>
+						<li>"Goal" - Long text value Associated with Organisation unit group, used to hold Goal of a project</li>
+						<li>"Grant ID" - Text Value used Associated with Organisation unit group, used to hold Grant ID of a project</li>
+						<li>"Grant Status" - Optionset Value with "Grant Status" list of drop down menu, Associated with Organisation unit group, used to hold Grant status of project </li>
+						<li>"Indicator Outcome" - Text value associated with Indicator used to hold Unique DHIS2 ID for relating Indicator to Outcomes(in option sets)</li>
+						<li>"Indicator Result" - Text value associated with Indicator used to hold Unique DHIS2 ID for relating Indicator to Results(in option sets)</li>
+						<li>"Project" - Text value associated with Organisation unit group, used to hold value determining if Organisation unit group is a black-bird project</li>
+						<li>"Project Donor" - Optionset Value with "Donor List" list of drop down menu, Associated with Organisation unit group, used to hold list of donors for projects </li>
+						<li>"Project Start Date" - Date Value associated with Organisation unit group, used to hold Start date of project</li>
+						<li>"Project End Date" - Date value associated with Organisation unit group, used to hold End date of project</li>
+						<li>"Project Name" - Text Value associated with Organisation unit group, used to hold a non-unique name of project</li>
+						<li>"Target Dataelement" - Text value associated with Indicator, used to hold DHIS2 ID of Data element used as target for the indicator</li>
+					</ul>
+				</div>
+				<h3>Storage of Black bird project</h3>
+				<div class="col-sm-12">
+					<strong>This sections clarifies how Black bird project management uses DHIS2 platform to achieve integration of project management scope into DHIS2.</strong><br/>
+					<ul style="margin-left:30px;">
+						<li>
+							All projects are stored in Organisation unit Groups, with locations stored as organisation unit members of the group
+						</li>
+						<li>
+							All Project Grant information and Project Goal with exception of Project locations are stored as attributes on organisation unit groups
+						</li>
+						<li>
+							All Objectives and Results in Log frame are stored in improvised fashion as Option sets, with options hold values of the Objective or Result and
+							name of the option set holding DHIS2 ID.<br/>
+							For Objectives which are related to projects, DHIS2 ID on the Optionset name is ID of project(organisation unit) used for relating objectives to projects<br/>
+							For Results which are related to Objectives, DHIS2 ID on the Optionset name is ID of Objective(option set) used for relating results to objectives<br/>
+						</li>
+						<li>
+							All Indicators in Log frame are stored in Indicator groups which are associated with Single Objective or Result. To support Levels overlapping all indicators
+							contains Indicator outcome and Indicator Results for direct association of indicators to Outcomes/Results
+						</li>
+						<li>
+							All Targets for Indicators are stored in Data elements as routine monthly reported data, which is associated with Indicators.
+						</li>
+						<li>
+							All Baselines for indicators are stored as Attributes for the Indicators used for measurement of achievements in relation to initial figures
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>

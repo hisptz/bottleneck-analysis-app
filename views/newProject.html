@@ -1,0 +1,5 @@
+<three-bounce-spinner ng-if="loading"></three-bounce-spinner>
+<div ng-if="page == 1 && !loading" ng-include="'views/project/create_grant_info.html'"></div>
+<div ng-if="page == 2 && !loading" ng-include="'views/project/create_log_frame.html'"></div>
+<div ng-if="page == 3 && !loading" ng-include="'views/project/create_indicators.html'"></div>
+<div ng-if="page == 4 && !loading" ng-include="'views/project/create_targets.html'"></div>
