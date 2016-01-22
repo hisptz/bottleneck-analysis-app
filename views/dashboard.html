@@ -2,12 +2,20 @@
 <div ng-if="!loading">
      <three-bounce-spinner ng-if="loading"></three-bounce-spinner>
          <div ng-if="!loading" class="row">
+<<<<<<< HEAD
 
             <div ng-repeat="dashboardItem in dashboardItems">
                 <div class="{{ dashboardItem.column_size }}">
                     <div class="card card z-depth-1 lighten-4 large">
                         <div style="border-bottom:1px solid rgba(160,160,160,0.2)!important;padding:5px !important;">
                          <p><a style="cursor: pointer" ng-click="cardClassResizable(dashboardItem.column_size,dashboardItem)">Resize</a></p>
+=======
+            <div ng-repeat="dashboardItem in dashboardItems">
+                <div ng-class="getColumnSize(dashboardItem.shape)">
+                    <div class="card card z-depth-1 lighten-4 large">
+                        <div style="border-bottom:1px solid rgba(160,160,160,0.2)!important;padding:5px !important;">
+                         <p><a style="cursor: pointer" ng-click="cardClassResizable(getColumnSize(dashboardItem.shape));">Resize</a></p>
+>>>>>>> 731b8ba85e13508c889d8db0488412541afbc31e
                         </div>
                         <div class="card-content">
                                 <h3>{{getDashboardItem(dashboardItem).name }}</h3>

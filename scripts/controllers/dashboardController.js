@@ -22,22 +22,21 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
         $scope.loading = true;
         dashboardsManager.getDashboard($routeParams.dashboardid).then(function(dashboard){
-            console.log(dashboard);
             $scope.dashboardItems = dashboard.dashboardItems;
-            angular.forEach($scope.dashboardItems,function(value){
+           angular.forEach($scope.dashboardItems,function(value){
                 value.column_size = $scope.getColumnSize(value.shape);
             })
             $scope.loading=false;
         });
         //$scope.column_size
-        $scope.getColumnSize = function(shapeSize){
 
+        $scope.getColumnSize = function(sizeName){
             var size=12;//Default size
-            if(angular.lowercase(shapeSize)=="double_width") {
+            if(angular.lowercase(sizeName)=="double_width") {
                 size=8;
-            }else if(angular.lowercase(shapeSize)=="full_width"){
+            }else if(angular.lowercase(sizeName)=="full_width"){
                 size=12;
-            }else if(angular.lowercase(shapeSize)=="normal") {
+            }else if(angular.lowercase(sizeName)=="normal") {
                 size=4;
             }
             return 'col-md-'+size;
@@ -58,7 +57,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             }
               console.log(sizeName)
             dashboardItem.column_size =$scope.getColumnSize(sizeName);
-
         }
         $scope.getDashboardItem = function(dashboardItem) {
             return dashboardItem[dashboardItem.type];
