@@ -2,11 +2,77 @@
 <div ng-if="!loading">
      <three-bounce-spinner ng-if="loading"></three-bounce-spinner>
          <div ng-if="!loading" class="row">
+             <div class="row">
+                 <div class="col s4">
+                 <div class="input-field col s12">
+                     <input id="search" type="text" class="validate">
+                     <label for="search">Search Item</label>
+                 </div>
+                   </div>
+                    <div class="col s4">
+                    Period
+                    </div>
+                   <div class="col s4">
+                       <div class="input-field col s12 Orgdrop grey lighten-5"  id="Orgdrop" >
+                           <label>OrganisationUnits</label>
+                       </div>
+                   </div>
+             </div>
+             <script>
+                 $(document).ready(function() {
+                     var orgUnits = [{"id": "YtVMnut7Foe", "name": "Arusha Region"}, {
+                         "id": "acZHYslyJLt",
+                         "name": "Dar Es Salaam Region"
+                     }, {"id": "Cpd5l15XxwA", "name": "Dodoma Region"}, {
+                         "id": "MAL4cfZoFhJ",
+                         "name": "Geita Region"
+                     }, {"id": "sWOWPBvwNY2", "name": "Iringa Region"}, {
+                         "id": "Crkg9BoUo5w",
+                         "name": "Kagera Region"
+                     }, {"id": "DWSo42hunXH", "name": "Katavi Region"}, {
+                         "id": "RD96nI1JXVV",
+                         "name": "Kigoma Region"
+                     }, {"id": "lnOyHhoLzre", "name": "Kilimanjaro Region"}, {
+                         "id": "VMgrQWSVIYn",
+                         "name": "Lindi Region"
+                     }, {"id": "qg5ySBw9X5l", "name": "Manyara Region"}, {
+                         "id": "vYT08q7Wo33",
+                         "name": "Mara Region"
+                     }, {"id": "A3b5mw8DJYC", "name": "Mbeya Region"}, {
+                         "id": "Sj50oz9EHvD",
+                         "name": "Morogoro Region"
+                     }, {"id": "bN5q5k5DgLA", "name": "Mtwara Region"}, {
+                         "id": "hAFRrgDK0fy",
+                         "name": "Mwanza Region"
+                     }, {"id": "qarQhOt2OEh", "name": "Njombe Region"}, {
+                         "id": "yyW17iCz9As",
+                         "name": "Pwani Region"
+                     }, {"id": "vAtZ8a924Lx", "name": "Rukwa Region"}, {
+                         "id": "ZYYX8Q9SGoV",
+                         "name": "Ruvuma Region"
+                     }, {"id": "EO3Ps3ny0Nr", "name": "Shinyanga Region"}, {
+                         "id": "IgTAEKMqKRe",
+                         "name": "Simiyu Region"
+                     }, {"id": "LGTVRhKSn1V", "name": "Singida Region"}, {
+                         "id": "kZ6RlMnt2bp",
+                         "name": "Tabora Region"
+                     }, {"id": "vU0Qt1A5IDz", "name": "Tanga Region"}];
+                     var drop = '<select material-select watch>';
+                     drop += "<option value='m0frOspS7JY'>MOH Tanzania</option>"
+                     $.each(orgUnits, function (key, orgUnit) {
+                         drop += "<option value='" + orgUnit.id + "'> " + orgUnit.name + "</option>";
+                     });
+                     drop += '<select>';
+                     $("#Orgdrop").html(drop);
+                     $('select').material_select()
+                 });
+              </script>
            <div ng-repeat="dashboardItem in dashboardItems">
                 <div class="{{ dashboardItem.column_size }}">
                     <div class="card card z-depth-1 lighten-4 large">
                         <div style="border-bottom:1px solid rgba(160,160,160,0.2)!important;padding:5px !important;">
-                         <p><a style="cursor: pointer" ng-click="cardClassResizable(dashboardItem.column_size,dashboardItem)">Resize</a></p>
+                         <p><a style="cursor: pointer" ng-click="cardClassResizable(dashboardItem.column_size,dashboardItem)">{{dashboardItem.labelCard}}
+                             </a></p>
                         </div>
                         <div class="card-content">
                                 <h3>{{getDashboardItem(dashboardItem).name }}</h3>
@@ -24,3 +90,4 @@
             </div>
          </div>
 </div>
+
