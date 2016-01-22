@@ -1,4 +1,7 @@
-dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager','$routeParams',function($scope,
+var dashboardController  = angular.module('dashboardController',[]);
+dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager',
+    '$routeParams','$modal','$timeout','$translate','$anchorScroll','Paginator','ContextMenuSelectedItem',
+    '$filter','$http','GridColumnService','CustomFormService','ModalService','DialogService','DHIS2URL',function($scope,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
                                                         $routeParams,
@@ -34,6 +37,22 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             }
             return 'col-md-'+size;
         };
+        $scope.cardClassResizable=function(cardSize){
+            var size=cardSize.split("-").pop();
+            var sizeCol='';
+            if(size==12){
+                sizeCol='col-md-4';
+            }else if(size==8){
+                sizeCol='col-md-12';
+            }else if(size==4){
+                sizeCol='col-md-8';
+            }
+            console.log(sizeCol);
+            console.info(cardSize);
+
+            $scope.sizeColumn=sizeCol;
+
+        }
         $scope.getDashboardItem = function(dashboardItem) {
             return dashboardItem[dashboardItem.type];
         }

@@ -5,7 +5,7 @@
 
 var idashboard = angular.module('idashboard',
                     ['ui.bootstrap', 
-                     'ngRoute', 'ui.date',
+                     'ngRoute','ui.date',
                      'ngCookies', 
                      'ngSanitize',
                      'idashboardDirectives',
@@ -19,11 +19,11 @@ var idashboard = angular.module('idashboard',
                      'mgcrea.ngStrap',
                      'ui.bootstrap',
                      'ivh.treeview',
-                     'toaster', 
+                     'toaster',
                      'ngAnimate',
                      'angular-spinkit',
                      'angularjs-dropdown-multiselect',
-                     ,'ngTable','multi-select-tree'])
+                     'ngTable','multi-select-tree'])
               
 .value('DHIS2URL', '../../..')
 .config(function($translateProvider,$routeProvider,ivhTreeviewOptionsProvider) {

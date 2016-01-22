@@ -1,27 +1,26 @@
 <three-bounce-spinner ng-if="loading"></three-bounce-spinner>
 <div ng-if="!loading">
-    <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading">{{'projects'| translate}}</div>
-        <three-bounce-spinner ng-if="loading"></three-bounce-spinner>
-        <div ng-if="!loading" class="row">
+     <three-bounce-spinner ng-if="loading"></three-bounce-spinner>
+         <div ng-if="!loading" class="row">
             <div ng-repeat="dashboardItem in dashboardItems">
-                <div class="card" ng-class="getColumnSize(dashboardItem.shape)">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <h3>{{getDashboardItem(dashboardItem).name }}</h3>
-                        <h2>type:{{dashboardItem.type}}</h2>
-                        <!--<img class="activator" src="img/office.jpg" style="width:200px;height:200px;">-->
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
-                        <p><a href="#">This is a link</a></p>
-                    </div>
-                    <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                <div ng-class="getColumnSize(dashboardItem.shape)">
+                    <div class="card card z-depth-1 lighten-4 large">
+                        <div style="border-bottom:1px solid rgba(160,160,160,0.2)!important;padding:5px !important;">
+                         <p><a style="cursor: pointer" ng-click="cardClassResizable(getColumnSize(dashboardItem.shape));">Resize</a></p>
+                        </div>
+                        <div class="card-content">
+                                <h3>{{getDashboardItem(dashboardItem).name }}</h3>
+                                <h2>type:{{dashboardItem.type}}</h2>
+                        </div>
+                        <div class="card-action" style="border-top:0px solid !important;">
+                            <span class="activator grey-text text-darken-2">card title<i style="cursor: pointer" class="material-icons right">more_vert</i></span>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-1"> card title<i class="material-icons right">close</i></span>
+                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                          </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+         </div>
 </div>

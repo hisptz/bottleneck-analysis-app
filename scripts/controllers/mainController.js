@@ -6,7 +6,9 @@ mainController.controller('MenuController',['$scope','$window','dashboardsManage
         $scope.dashboards = dashboards;
     })
 }])
-    .controller('MainController',['$scope','dashboardsManager','chartsManager','TableRenderer',function($scope,
+    .controller('MainController',['$scope','dashboardsManager','chartsManager','TableRenderer',
+        '$modal','$timeout','$translate','$anchorScroll','Paginator','ContextMenuSelectedItem','$filter',
+        '$http','GridColumnService','CustomFormService','ModalService','DialogService','DHIS2URL',function($scope,
                                                                         dashboardsManager,
                                                                         chartsManager,
                                                                         TableRenderer,
