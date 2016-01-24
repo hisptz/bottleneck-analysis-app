@@ -28,6 +28,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 value.labelCard=$scope.getCardSize(value.shape);
             })
             console.log($scope.dashboardItems);
+
             $scope.loading=false;
         });
         //$scope.column_size

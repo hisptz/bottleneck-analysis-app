@@ -1,4 +1,5 @@
-<nav class="navbar navbar-default" bs-navbar ng-controller="MenuController">
+<div ng-controller="MenuController">
+<nav class="navbar navbar-default" bs-navbar >
 
 
 
@@ -22,3 +23,40 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+<div class="row">
+  <div class="col s2 m2">
+    <div class="input-field col s12">
+      <input id="search" type="text" class="validate">
+      <label for="search">Search Item</label>
+    </div>
+  </div>
+  <div class="col s6 m6">
+    <div class="col s6 m6">
+      <a class="btn waves-effect waves-light" id="Year" onclick="periodYearly()">Yearly</a>
+      <a class="btn waves-effect waves-light" id="Quartely" onclick="periodQuarterly()">Quarterly</a>
+      <a class="btn waves-effect waves-light" id="monthly" onclick="periodMonthly()">Mon</a>
+    </div>
+    <div class="col s5 m5">
+      <div class="input-field col s12 m12 periods" id="period">
+       <label>Period</label>
+     </div>
+    </div>
+    </div>
+  <div class="col s2 m2">
+    <div class="col s12 m12">
+    <a class="btn waves-effect waves-light" id="target" >Prev</a>
+    <a class="btn waves-effect waves-light" id="targetz" >Next</a>
+      </div>
+  </div>
+  <div class="col s2 m2">
+    <div class="input-field col s12 Orgdrop grey lighten-5"  id="Orgdrop" >
+      <select>
+        <option ng-repeat="org in orgUnits" value="{{org.id}}">{{org.name}}</option>
+        <option ng-repeat="child in childOrg" value="{{child.id}}">{{child.name}}</option>
+      </select>
+      <label>OrganisationUnits</label>
+    </div>
+  </div>
+</div>
+</div>
+
