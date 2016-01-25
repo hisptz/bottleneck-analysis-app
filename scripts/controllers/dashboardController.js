@@ -1,4 +1,3 @@
-
 var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager',
     '$routeParams','$modal','$timeout','$translate','$anchorScroll','Paginator','ContextMenuSelectedItem',
@@ -23,14 +22,15 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
         $scope.loading = true;
         dashboardsManager.getDashboard($routeParams.dashboardid).then(function(dashboard){
-
             $scope.dashboardItems = dashboard.dashboardItems;
-            console.log($scope.dashboardItems);
            angular.forEach($scope.dashboardItems,function(value){
                 value.column_size = $scope.getColumnSize(value.shape);
                $scope.getAnalytics(value, 408, false )
 
-            });
+                value.labelCard=$scope.getCardSize(value.shape);
+            })
+            console.log($scope.dashboardItems);
+
             $scope.loading=false;
         });
         //$scope.column_size
@@ -48,21 +48,37 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         };
         $scope.cardClassResizable=function(shapeSize,dashboardItem){
             var size=shapeSize.split("-").pop();
+            var labelCard='';
             var sizeCol='';
             var sizeName='';
             if(size==12){
                 sizeCol='col-md-4';
                 sizeName="NORMAL";
+                labelCard='Small';
             }else if(size==8){
                 sizeCol='col-md-12';
                 sizeName="FULL_WIDTH";
+                labelCard='Large';
             }else if(size==4){
                 sizeCol='col-md-8';
                 sizeName="DOUBLE_WIDTH";
+                labelCard='Medium';
             }
               console.log(sizeName)
             dashboardItem.column_size =$scope.getColumnSize(sizeName);
+            dashboardItem.labelCard =labelCard;
         }
+        $scope.getCardSize=function(shapeSize){
+            var labelCard='';
+            if(angular.lowercase(shapeSize)=="double_width") {
+                labelCard='Medium';
+            }else if(angular.lowercase(shapeSize)=="full_width"){
+                labelCard='Large';
+            }else if(angular.lowercase(shapeSize)=="normal") {
+                labelCard='Small';
+            }
+            return labelCard;
+         }
         $scope.getDashboardItem = function(dashboardItem) {
             return dashboardItem[dashboardItem.type];
         }

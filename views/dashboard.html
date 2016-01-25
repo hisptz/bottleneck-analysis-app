@@ -2,11 +2,145 @@
 <div ng-if="!loading">
      <three-bounce-spinner ng-if="loading"></three-bounce-spinner>
          <div ng-if="!loading" class="row">
-            <div ng-repeat="dashboardItem in dashboardItems">
-                <div ng-class="getColumnSize(dashboardItem.shape)">
+          <script>
+                 periodYearly();
+                  function periodYearly(){
+                      $("#targetz,#target").hide();
+                      var YearList = "<select material-select watch>";
+                      var currentYear = new Date().getFullYear();
+
+                      for(i=0;i<10;i++){
+                          var year=currentYear -i;
+                          YearList += '<option value="'+year+'">'+year+'</option>';
+                      }
+                      YearList+= "<select>";
+                      $('#monthly').removeClass('green');
+                      $('#Quartely').removeClass('green');
+                      $('#Year').addClass('green');
+                      $('.periods').html(YearList);
+                      $('select').material_select();
+                   }
+                  window.year = new Date().getFullYear();
+                  function periodQuarterly(){
+                      $("#targetz,#target").show();
+                      window.year = new Date().getFullYear();
+                      handleNextandprevious("Quarterly");
+                      var QuarterlyList = "<select material-select watch>";
+                      var myQuarterList=[
+                          ["January-March","Q1"],["April-June","Q2"],["July-September","Q3"],["October-December","Q4"]
+                      ];
+                      $(myQuarterList).each(function(myArrayIndex,myArrayValue){
+                          QuarterlyList += '<option value="'+window.year+''+myArrayValue[1]+'">'+myArrayValue[0]+' '+' '+' '+window.year+'</option>';
+                      });
+                      QuarterlyList+= "<select>";
+                      $('#monthly').removeClass('green');
+                      $('#Quartely').addClass('green');
+                      $('#Year').removeClass('green');
+                      $('.periods').html(QuarterlyList);
+                      $('select').material_select();
+                  }
+                  function periodMonthly(){
+                      $("#targetz,#target").show();
+                      window.year = new Date().getFullYear();
+                      handleNextandprevious("Monthly");
+                      var mounthList="<select>";
+                      var monthArray=[
+                          ["January","01"],["February","02"],["March","03"],["April","04"],["May","05"],["June","06"],["July","07"],["Augost","08"],
+                          ["September","09"],["October","10"],["November","11"],["December","12"]
+                      ];
+                      $(monthArray).each(function(arrayIndex,arrayValue){
+                          mounthList += '<option value="'+window.year+''+arrayValue[1]+'">'+arrayValue[0]+' '+' '+' '+window.year+'</option>';
+                      });
+                       mounthList+= "<select>";
+                      $('#monthly').addClass('green');
+                      $('#Quartely').removeClass('green');
+                      $('#Year').removeClass('green');
+                      $('.periods').html(mounthList);
+                      $('select').material_select();
+                  }
+                  function handleNextandprevious(periodType){
+                      $('#target').unbind("click").click(function(){
+                          window.year--;
+                          if(periodType == "Monthly"){
+                              var mounthList="<select material-select watch>";
+                              var monthArray=[
+                                  ["January","01"],["February","02"],["March","03"],["April","04"],["May","05"],["June","06"],["July","07"],["Augost","08"],
+                                  ["September","09"],["October","10"],["November","11"],["December","12"]
+                              ];
+                              $(monthArray).each(function(arrayIndex,arrayValue){
+                                  mounthList += '<option value="'+window.year+''+arrayValue[1]+'">'+arrayValue[0]+' '+' '+' '+window.year+'</option>';
+                              });
+                              mounthList+="</select>";
+                              $('#monthly').addClass('green');
+                              $('#Quartely').removeClass('green');
+                              $('#Year').removeClass('green');
+                              $('.periods').html(mounthList);
+                              $('select').material_select();
+                           }else if(periodType == "Quarterly"){
+                              var QuarterlyList = "<select material-select watch>";
+                              var myQuarterList=[
+                                  ["January-March","Q1"],["April-June","Q2"],["July-September","Q3"],["October-December","Q4"]
+                              ];
+                              $(myQuarterList).each(function(myArrayIndex,myArrayValue){
+                                  QuarterlyList += '<option value="'+window.year+''+myArrayValue[1]+'">'+myArrayValue[0]+' '+' '+' '+window.year+'</option>';
+                              });
+                              QuarterlyList+= "<select>";
+                              $('#monthly').removeClass('green');
+                              $('#Quartely').addClass('green');
+                              $('#Year').removeClass('green');
+                              $('.periods').html(QuarterlyList);
+                              $('select').material_select();
+                           }else{
+
+                          }
+
+                      });
+                      $('#targetz').unbind("click").click(function(){
+                          window.year++;
+
+                          if(periodType == "Monthly"){
+                              var mounthList="<select material-select watch>";
+                              var monthArray=[
+                                  ["January","01"],["February","02"],["March","03"],["April","04"],["May","05"],["June","06"],["July","07"],["Augost","08"],
+                                  ["September","09"],["October","10"],["November","11"],["December","12"]
+                              ];
+                              $(monthArray).each(function(arrayIndex,arrayValue){
+                                  mounthList += '<option value="'+window.year+''+arrayValue[1]+'">'+arrayValue[0]+' '+' '+' '+window.year+'</option>';
+                              });
+                              mounthList+="<select>";
+                              $('#monthly').addClass('green');
+                              $('#Quartely').removeClass('green');
+                              $('#Year').removeClass('green');
+                              $('.periods').html(mounthList);
+                              $('select').material_select();
+                          }else if(periodType == "Quarterly"){
+                              var QuarterlyList =  "<select material-select watch>";
+
+                              var myQuarterList=[
+                                  ["January-March","Q1"],["April-June","Q2"],["July-September","Q3"],["October-December","Q4"]
+                              ];
+                              $(myQuarterList).each(function(myArrayIndex,myArrayValue){
+                                  QuarterlyList += '<option value="'+window.year+''+myArrayValue[1]+'">'+myArrayValue[0]+' '+' '+' '+window.year+'</option>';
+                              });
+                              QuarterlyList+= "<select>";
+                              $('#monthly').removeClass('green');
+                              $('#Quartely').addClass('green');
+                              $('#Year').removeClass('green');
+                              $('.periods').html(QuarterlyList);
+                              $('select').material_select();
+                          }else{
+
+                          }
+                      });
+
+                  }
+               </script>
+           <div ng-repeat="dashboardItem in dashboardItems">
+                <div class="{{ dashboardItem.column_size }}">
                     <div class="card card z-depth-1 lighten-4 large">
                         <div style="border-bottom:1px solid rgba(160,160,160,0.2)!important;padding:5px !important;">
-                         <p><a style="cursor: pointer" ng-click="cardClassResizable(getColumnSize(dashboardItem.shape));">Resize</a></p>
+                         <p><a style="cursor: pointer" ng-click="cardClassResizable(dashboardItem.column_size,dashboardItem)">{{dashboardItem.labelCard}}
+                             </a></p>
                         </div>
                         <div class="card-content">
                                 <h3>{{getDashboardItem(dashboardItem).name }}</h3>
@@ -23,4 +157,12 @@
                 </div>
             </div>
          </div>
-</div>
+ </div>
+<script>
+    $(document).ready(function() {
+        $('select').material_select();
+
+    });
+</script>
+
+
