@@ -2117,7 +2117,7 @@ Ext.onReady( function() {
 					dx = dimConf.indicator.dimensionName,
 					co = dimConf.category.dimensionName,
                     aggTypes = ['COUNT', 'SUM', 'STDDEV', 'VARIANCE', 'MIN', 'MAX'],
-                    displayProperty = xLayout.displayProperty || init.userAccount.settings.keyAnalysisDisplayProperty || 'name';
+                    displayProperty = xLayout.displayProperty ||'name';
 
 				for (var i = 0, dimName, items; i < axisDimensionNames.length; i++) {
 					dimName = axisDimensionNames[i];
@@ -3085,33 +3085,7 @@ Ext.onReady( function() {
 		}());
 
 		// extend init
-		(function() {
 
-			// sort and extend dynamic dimensions
-			if (Ext.isArray(init.dimensions)) {
-				support.prototype.array.sort(init.dimensions);
-
-				for (var i = 0, dim; i < init.dimensions.length; i++) {
-					dim = init.dimensions[i];
-					dim.dimensionName = dim.id;
-					dim.objectName = conf.finals.dimension.dimension.objectName;
-					conf.finals.dimension.objectNameMap[dim.id] = dim;
-				}
-			}
-
-			// sort ouc
-			if (init.user && init.user.ouc) {
-				support.prototype.array.sort(init.user.ouc);
-			}
-
-			// legend set map
-			init.idLegendSetMap = {};
-
-			for (var i = 0, set; i < init.legendSets.length; i++) {
-				set = init.legendSets[i];
-				init.idLegendSetMap[set.id] = set;
-			}
-		}());
 
 		// alert
 		webAlert = web.message.alert;
@@ -3181,22 +3155,23 @@ Ext.onReady( function() {
                 init.userAccount = r.responseText ? Ext.decode(r.responseText) : r;
 
                 // init
-                var defaultKeyUiLocale = 'en',
-                    defaultKeyAnalysisDisplayProperty = 'name',
-                    namePropertyUrl,
-                    contextPath,
-                    keyUiLocale;
+				init.userAccount.settings = {};
+				var defaultKeyUiLocale = 'en',
+					defaultKeyAnalysisDisplayProperty = 'name',
+					namePropertyUrl,
+					contextPath,
+					keyUiLocale;
 
-                init.userAccount.settings.keyUiLocale = init.userAccount.settings.keyUiLocale || defaultKeyUiLocale;
-                init.userAccount.settings.keyAnalysisDisplayProperty = init.userAccount.settings.keyAnalysisDisplayProperty || defaultKeyAnalysisDisplayProperty;
+				init.userAccount.settings.keyUiLocale = defaultKeyUiLocale;
+				init.userAccount.settings.keyAnalysisDisplayProperty = init.userAccount.settings.keyAnalysisDisplayProperty || defaultKeyAnalysisDisplayProperty;
 
-                // local vars
-                contextPath = init.contextPath;
-                keyUiLocale = init.userAccount.settings.keyUiLocale;
-                keyAnalysisDisplayProperty = init.userAccount.settings.keyAnalysisDisplayProperty;
-                namePropertyUrl = keyAnalysisDisplayProperty === defaultKeyAnalysisDisplayProperty ? keyAnalysisDisplayProperty : keyAnalysisDisplayProperty + '|rename(' + defaultKeyAnalysisDisplayProperty + ')';
+				// local vars
+				contextPath = init.contextPath;
+				keyUiLocale = init.userAccount.settings.keyUiLocale;
+				keyAnalysisDisplayProperty = init.userAccount.settings.keyAnalysisDisplayProperty;
+				namePropertyUrl = keyAnalysisDisplayProperty === defaultKeyAnalysisDisplayProperty ? keyAnalysisDisplayProperty : keyAnalysisDisplayProperty + '|rename(' + defaultKeyAnalysisDisplayProperty + ')';
 
-                init.namePropertyUrl = namePropertyUrl;
+				init.namePropertyUrl = namePropertyUrl;
 
                 fn();
             }
@@ -3204,7 +3179,7 @@ Ext.onReady( function() {
 
         // user orgunit
 		requests.push({
-			url: init.contextPath + '/api/organisationUnits.' + type + '?userOnly=true&fields=id,name,children[id,name]&paging=false',
+			url: init.contextPath + '/api/organisationUnits.json?userOnly=true&fields=id,name,children[id,name]&paging=false',
             disableCaching: false,
 			success: function(r) {
 				var organisationUnits = (r.responseText ? Ext.decode(r.responseText).organisationUnits : r) || [],
@@ -3504,7 +3479,7 @@ Ext.onReady( function() {
                 }
 
                 ns.ajax({
-					url: init.contextPath + '/api/analytics.json' + paramString,
+					url: '/api/analytics.json' + paramString,
 					timeout: 60000,
 					headers: {
 						'Content-Type': 'application/json',
@@ -3518,7 +3493,7 @@ Ext.onReady( function() {
                         var metaData = Ext.decode(r.responseText).metaData;
 
                         Ext.Ajax.request({
-                            url: init.contextPath + '/api/analytics.json' + sortedParamString,
+                            url:'/api/analytics.json' + sortedParamString,
                             timeout: 60000,
                             headers: {
                                 'Content-Type': 'application/json',
@@ -3729,21 +3704,47 @@ Ext.onReady( function() {
 	};
 
 	PT.plugin.getTable = function(config) {
-		if (Ext.isString(config.url) && config.url.split('').pop() === '/') {
-			config.url = config.url.substr(0, config.url.length - 1);
-		}
+		console.log("Table is here");
+		var appConfig = {
+			plugin: true,
+			dashboard: Ext.isBoolean(config.dashboard) ? config.dashboard : false,
+			crossDomain: Ext.isBoolean(config.crossDomain) ? config.crossDomain : true,
+			skipMask: Ext.isBoolean(config.skipMask) ? config.skipMask : false,
+			skipFade: Ext.isBoolean(config.skipFade) ? config.skipFade : false,
+			el: Ext.isString(config.el) ? config.el : null,
+			username: Ext.isString(config.username) ? config.username : null,
+			password: Ext.isString(config.password) ? config.password : null
+		};
+		var core = PT.getCore(init,appConfig);
+		var otherFields='*,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name]],rows[dimension,filter,items[id,name]],filters[dimension,filter,items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits'
+		config.url = '/api/reportTables/' + config.id + '.json' + '?fields=' + otherFields;
+        //config.disableCaching = false;
+		//config.headers = headers;
 
-		if (isInitComplete) {
-			execute(config);
-		}
-		else {
-			configs.push(config);
-
-			if (!isInitStarted) {
-				isInitStarted = true;
-				getInit(config);
+		getInit(config)
+		var promise = $.ajax({
+			url: config.url,
+			timeout: 60000,
+			headers: {
+				'Content-Type': 'application/json',
+				'Accepts': 'application/json'
+			},
+			disableCaching: false,
+			failure: function(r) {
+				onFailure(r);
+			},
+			success: function(r) {
+				console.log('success is exectured');
+				var layout = core.api.layout.Layout((r.responseText ? Ext.decode(r.responseText) : r), config);
+				var xLayout = core.service.layout.getExtendedLayout(layout);
+				var paramString = core.web.analytics.getParamString(xLayout) ;
+				var sortedParamString = core.web.analytics.getParamString(xLayout, true) + '&skipMeta=true';
+				init.contextPath + '/api/analytics.json' + paramString;
+				window.alayticsUrl='/api/analytics.json' + paramString;
+				console.log( '/api/analytics.json' + paramString)
 			}
-		}
+		});
+		return promise;
 	};
 
 	DHIS = Ext.isObject(window['DHIS']) ? DHIS : {};

@@ -143,8 +143,9 @@
                              </a></p>
                         </div>
                         <div class="card-content">
-                                <h3>{{getDashboardItem(dashboardItem).name }}</h3>
-                                <h2>type:{{dashboardItem.type}}</h2>
+                            <highchart config="dashboardChart[dashboardItem.id]"></highchart>
+                                <!--<h3>{{getDashboardItem(dashboardItem).name }}</h3>-->
+                                <!--<h2>type:{{dashboardItem.type}}  {{dashboardItem.analyticsUrl}}</h2>-->
                         </div>
                         <div class="card-action" style="border-top:0px solid !important;">
                             <span class="activator grey-text text-darken-2">card title<i style="cursor: pointer" class="material-icons right">more_vert</i></span>

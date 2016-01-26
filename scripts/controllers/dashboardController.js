@@ -1,7 +1,7 @@
 var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager',
     '$routeParams','$modal','$timeout','$translate','$anchorScroll','Paginator','ContextMenuSelectedItem',
-    '$filter','$http','GridColumnService','CustomFormService','ModalService','DialogService','DHIS2URL',function($scope,
+    '$filter','$http','GridColumnService','CustomFormService','ModalService','DialogService','DHIS2URL','chartsManager',function($scope,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
                                                         $routeParams,
@@ -17,15 +17,17 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                                         CustomFormService,
                                                         ModalService,
                                                         DialogService,
-                                                        DHIS2URL
+                                                        DHIS2URL,
+                                                        chartsManager
     ){
 
         $scope.loading = true;
+        $scope.dashboardChart=[];
         dashboardsManager.getDashboard($routeParams.dashboardid).then(function(dashboard){
             $scope.dashboardItems = dashboard.dashboardItems;
            angular.forEach($scope.dashboardItems,function(value){
                 value.column_size = $scope.getColumnSize(value.shape);
-               $scope.getAnalytics(value, 408, false )
+                $scope.getAnalytics(value, 408, false )
 
                 value.labelCard=$scope.getCardSize(value.shape);
             })
@@ -93,10 +95,10 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             var tableStyle = "width:" + width + "px;";
             var userOrgUnit =  [];
 
-            if ( "CHART" == dashboardItem.type && dashboardItem.chart.id !== 'BFi8AtKeIkU' )
+            if ( "CHART" == dashboardItem.type )
             {
 
-                console.log(DHIS.getChart({
+                DHIS.getChart({
                     url: '../../../',
                     el: 'plugin-' + dashboardItem.id,
                     id: dashboardItem.chart.id,
@@ -125,7 +127,15 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                         labelColor: '#333',
                         labelFont: '9px sans-serif'
                     }
-                }));
+                }).then(function(result){
+                    console.log('DHIS:');
+                    dashboardItem.analyticsUrl = window.alayticsUrl;
+                    $http.get('../../../'+dashboardItem.analyticsUrl)
+                        .success(function(analyticsData){
+                            console.info(analyticsData);
+                            $scope.dashboardChart[dashboardItem.id] = chartsManager.drawOtherCharts(analyticsData,'ou','dx','none','','YES','column');
+                         });
+                });
             }
             else if ( "MAP" == dashboardItem.type )
             {

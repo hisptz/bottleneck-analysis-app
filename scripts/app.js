@@ -23,7 +23,7 @@ var idashboard = angular.module('idashboard',
                      'ngAnimate',
                      'angular-spinkit',
                      'angularjs-dropdown-multiselect',
-                     'ngTable','multi-select-tree'])
+                     'ngTable','multi-select-tree','highcharts-ng'])
               
 .value('DHIS2URL', '../../..')
 .config(function($translateProvider,$routeProvider,ivhTreeviewOptionsProvider) {
