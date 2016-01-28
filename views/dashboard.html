@@ -137,26 +137,63 @@
                </script>
            <div ng-repeat="dashboardItem in dashboardItems">
                 <div class="{{ dashboardItem.column_size }}">
-                    <div class="card card z-depth-1 lighten-4 large">
+                    <div class="card z-depth-1 lighten-5 large">
                         <div style="border-bottom:1px solid rgba(160,160,160,0.2)!important;padding:5px !important;">
-                         <p><a style="cursor: pointer" ng-click="cardClassResizable(dashboardItem.column_size,dashboardItem)">{{dashboardItem.labelCard}}
-                             </a></p>
-                        </div>
-                        <div class="card-content">
-                            <highchart config="dashboardChart[dashboardItem.id]"></highchart>
-                                <!--<h3>{{getDashboardItem(dashboardItem).name }}</h3>-->
-                                <!--<h2>type:{{dashboardItem.type}}  {{dashboardItem.analyticsUrl}}</h2>-->
-                        </div>
-                        <div class="card-action" style="border-top:0px solid !important;">
-                            <span class="activator grey-text text-darken-2">card title<i style="cursor: pointer" class="material-icons right">more_vert</i></span>
-                        </div>
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-1"> card title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                          </div>
-                    </div>
-                </div>
-            </div>
+                            <p><a style="cursor: pointer" ng-click="cardClassResizable(dashboardItem.column_size,dashboardItem)">{{dashboardItem.labelCard}}
+                               </a>
+                            </p>
+                           </div>
+
+                           <div class="card-image" style=" overflow-y: scroll;overflow-x: scroll;min-height: 82% !important;">
+                                    <highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
+                                 <div ng-if="dashboardItem.type=='REPORT_TABLE'" style="width:100%" class="dashboardTable" ng-bind-html="dashboardTab | renderItLikeHTML"></div>
+
+                           </div>
+                           <div class="card-action" style="border-top:0px solid !important">
+                               <span class="card-title activator grey-text text-darken-4"><i class="material-icons right mdi-navigation-more-vert"></i></span>
+                           </div>
+                           <div class="card-reveal">
+                               <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
+                               <p class="flow-text"></p>
+
+                           </div>
+
+                       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       <!--<div class="card card z-depth-1 lighten-4 large">-->
+                        <!--<div style="border-bottom:1px solid rgba(160,160,160,0.2)!important;padding:5px !important;">-->
+                         <!--<p><a style="cursor: pointer" ng-click="cardClassResizable(dashboardItem.column_size,dashboardItem)">{{dashboardItem.labelCard}}-->
+                             <!--</a></p>-->
+                        <!--</div>-->
+                        <!--<div class="card-content" id="dashboardTable" style="width: 100%">-->
+                            <!--<highchart config="dashboardChart[dashboardItem.id]"></highchart>-->
+
+                        <!--</div>-->
+                        <!--<div class="card-action" style="border-top:0px solid !important;">-->
+                            <!--<span class="activator grey-text text-darken-2">card title<i style="cursor: pointer" class="material-icons right">more_vert</i></span>-->
+                        <!--</div>-->
+                        <!--<div class="card-reveal">-->
+                            <!--<span class="card-title grey-text text-darken-1"> card title<i class="material-icons right">close</i></span>-->
+                            <!--<p>Here is some more information about this product that is only revealed once clicked on.</p>-->
+                          <!--</div>-->
+                    <!--</div>-->
+                  </div>
+             </div>
          </div>
  </div>
 <script>

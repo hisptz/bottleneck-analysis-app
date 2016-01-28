@@ -1,7 +1,8 @@
 var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager',
     '$routeParams','$modal','$timeout','$translate','$anchorScroll','Paginator','ContextMenuSelectedItem',
-    '$filter','$http','GridColumnService','CustomFormService','ModalService','DialogService','DHIS2URL','chartsManager',function($scope,
+    '$filter','$http','GridColumnService','CustomFormService','ModalService','DialogService','DHIS2URL','chartsManager',
+    'TableRenderer',function($scope,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
                                                         $routeParams,
@@ -18,7 +19,8 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                                         ModalService,
                                                         DialogService,
                                                         DHIS2URL,
-                                                        chartsManager
+                                                        chartsManager,
+                                                        TableRenderer
     ){
 
         $scope.loading = true;
@@ -27,7 +29,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             $scope.dashboardItems = dashboard.dashboardItems;
            angular.forEach($scope.dashboardItems,function(value){
                 value.column_size = $scope.getColumnSize(value.shape);
-                $scope.getAnalytics(value, 408, false )
+            $scope.getAnalytics(value, 608, false )
 
                 value.labelCard=$scope.getCardSize(value.shape);
             })
@@ -166,6 +168,15 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     displayDensity: 'compact',
                     fontSize: 'small',
                     userOrgUnit: userOrgUnit
+                }).then(function(result){
+                    dashboardItem.analyticsUrl = window.alayticsUrl;
+                    dashboardItem.tableName=window.tableName;
+                    $scope.name=dashboardItem.tableName;
+                    $http.get('../../../'+dashboardItem.analyticsUrl)
+                        .success(function(analyticsData){
+                            $scope.dashboardTab= TableRenderer.drawTableWithTwoColumnDimension(analyticsData,'ou','dx','pe');
+                            //$('.dashboardTable').html($scope.dashboardTab);
+                    });
                 });
             }
         }

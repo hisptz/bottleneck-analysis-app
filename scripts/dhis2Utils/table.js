@@ -3202,7 +3202,7 @@ Ext.onReady( function() {
                     init.user.ouc = ouc;
                 }
                 else {
-                    alert('User is not assigned to any organisation units');
+                    //alert('User is not assigned to any organisation units');
                 }
 
                 fn();
@@ -3741,7 +3741,8 @@ Ext.onReady( function() {
 				var sortedParamString = core.web.analytics.getParamString(xLayout, true) + '&skipMeta=true';
 				init.contextPath + '/api/analytics.json' + paramString;
 				window.alayticsUrl='/api/analytics.json' + paramString;
-				console.log( '/api/analytics.json' + paramString)
+				window.tableName= r.name;
+				console.log( window.tableName);
 			}
 		});
 		return promise;
