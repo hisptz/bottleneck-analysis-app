@@ -3799,7 +3799,8 @@ Ext.onReady(function() {
                 var sortedParamString = core.web.analytics.getParamString(xLayout, true) + '&skipMeta=true';
                 init.contextPath + '/api/analytics.json' + paramString;
                 window.alayticsUrl='/api/analytics.json' + paramString;
-                console.log(init.contextPath + '/api/analytics.json' + paramString)
+                window.object=r;
+                console.log(r);
             }
         });
         return promise;

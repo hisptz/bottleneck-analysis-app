@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed1b13f6-8fe1-48fa-954c-1ac586fc72bd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/idashboard.zip" afterPath="$PROJECT_DIR$/idashboard.zip" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/chart.js" afterPath="$PROJECT_DIR$/scripts/dhis2Utils/chart.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/dashboard.html" afterPath="$PROJECT_DIR$/views/dashboard.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/filters.js" afterPath="$PROJECT_DIR$/scripts/filters.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/table.js" afterPath="$PROJECT_DIR$/scripts/dhis2Utils/table.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/services/tableService.js" afterPath="$PROJECT_DIR$/scripts/services/tableService.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="idashboard.iws" />
@@ -27,27 +33,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2177" max-vertical-offset="2850">
-              <caret line="174" column="69" selection-start-line="174" selection-start-column="69" selection-end-line="174" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.6329527" vertical-offset="2447" max-vertical-offset="3090">
+              <caret line="189" column="45" selection-start-line="189" selection-start-column="45" selection-end-line="189" selection-end-column="45" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tableService.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="tableService.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/services/tableService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.65822786" vertical-offset="2425" max-vertical-offset="2820">
-              <caret line="347" column="3" selection-start-line="347" selection-start-column="3" selection-end-line="347" selection-end-column="87" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1532" max-vertical-offset="2820">
+              <caret line="196" column="60" selection-start-line="196" selection-start-column="60" selection-end-line="196" selection-end-column="60" />
               <folding>
                 <element signature="e#15555#81018#0" expanded="false" />
-                <marker date="1453991146138" expanded="true" signature="86500:86523" placeholder="..." />
-                <marker date="1453991146138" expanded="true" signature="87090:87113" placeholder="..." />
-                <marker date="1453991146138" expanded="true" signature="88303:88326" placeholder="..." />
-                <marker date="1453991146138" expanded="true" signature="89008:89031" placeholder="..." />
+                <marker date="1454216619680" expanded="true" signature="86500:86523" placeholder="..." />
+                <marker date="1454216619680" expanded="true" signature="87090:87113" placeholder="..." />
+                <marker date="1454216619680" expanded="true" signature="88299:88310" placeholder="..." />
+                <marker date="1454216619680" expanded="true" signature="89018:89041" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -56,8 +62,8 @@
       <file leaf-file-name="chartServices.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/services/chartServices.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2460" max-vertical-offset="4200">
-              <caret line="167" column="59" selection-start-line="167" selection-start-column="59" selection-end-line="167" selection-end-column="59" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="3362" max-vertical-offset="4200">
+              <caret line="252" column="61" selection-start-line="252" selection-start-column="52" selection-end-line="252" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -78,8 +84,8 @@
       <file leaf-file-name="dashboard.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/dashboard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.125" vertical-offset="1854" max-vertical-offset="3180">
-              <caret line="127" column="62" selection-start-line="127" selection-start-column="62" selection-end-line="127" selection-end-column="62" />
+            <state vertical-scroll-proportion="-27.125" vertical-offset="1419" max-vertical-offset="3555">
+              <caret line="138" column="60" selection-start-line="138" selection-start-column="60" selection-end-line="138" selection-end-column="60" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -94,8 +100,8 @@
       <file leaf-file-name="filters.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/filters.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-              <caret line="16" column="32" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
+              <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -104,7 +110,7 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.875" vertical-offset="0" max-vertical-offset="1995">
+            <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1995">
               <caret line="19" column="82" selection-start-line="19" selection-start-column="82" selection-end-line="19" selection-end-column="82" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -116,14 +122,14 @@
       <file leaf-file-name="chart.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/chart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="56610" max-vertical-offset="57240">
-              <caret line="3790" column="34" selection-start-line="3790" selection-start-column="34" selection-end-line="3790" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="56610" max-vertical-offset="57255">
+              <caret line="3801" column="32" selection-start-line="3801" selection-start-column="32" selection-end-line="3801" selection-end-column="32" />
               <folding>
-                <marker date="1453961741218" expanded="true" signature="92059:92091" placeholder="..." />
-                <marker date="1453961741218" expanded="true" signature="92162:92176" placeholder="..." />
-                <marker date="1453961741218" expanded="true" signature="115448:115465" placeholder="..." />
-                <marker date="1453961741218" expanded="true" signature="115479:115511" placeholder="..." />
-                <marker date="1453961741218" expanded="true" signature="115544:115558" placeholder="..." />
+                <marker date="1454189823867" expanded="true" signature="92059:92091" placeholder="..." />
+                <marker date="1454189823867" expanded="true" signature="92162:92176" placeholder="..." />
+                <marker date="1454189823867" expanded="true" signature="115448:115465" placeholder="..." />
+                <marker date="1454189823867" expanded="true" signature="115479:115511" placeholder="..." />
+                <marker date="1454189823867" expanded="true" signature="115544:115558" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -132,10 +138,10 @@
       <file leaf-file-name="table.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/table.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="55712" max-vertical-offset="56385">
-              <caret line="3722" column="0" selection-start-line="3722" selection-start-column="0" selection-end-line="3722" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="55772" max-vertical-offset="56400">
+              <caret line="3745" column="18" selection-start-line="3745" selection-start-column="18" selection-end-line="3745" selection-end-column="18" />
               <folding>
-                <marker date="1453985309476" expanded="true" signature="111488:111621" placeholder="..." />
+                <marker date="1454214156616" expanded="true" signature="111488:111621" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -161,15 +167,15 @@
       <list>
         <option value="$PROJECT_DIR$/idashboard.appcache" />
         <option value="$PROJECT_DIR$/dhis2Utils/chart.js" />
-        <option value="$PROJECT_DIR$/scripts/dhis2Utils/chart.js" />
         <option value="$PROJECT_DIR$/scripts/app.js" />
         <option value="$PROJECT_DIR$/scripts/services/chartServices.js" />
-        <option value="$PROJECT_DIR$/scripts/filters.js" />
-        <option value="$PROJECT_DIR$/scripts/dhis2Utils/table.js" />
-        <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
-        <option value="$PROJECT_DIR$/views/dashboard.html" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/scripts/filters.js" />
+        <option value="$PROJECT_DIR$/scripts/dhis2Utils/chart.js" />
+        <option value="$PROJECT_DIR$/scripts/dhis2Utils/table.js" />
         <option value="$PROJECT_DIR$/scripts/services/tableService.js" />
+        <option value="$PROJECT_DIR$/views/dashboard.html" />
+        <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
       </list>
     </option>
   </component>
@@ -205,6 +211,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -289,7 +296,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -297,6 +303,7 @@
     <property name="last_opened_file_path" value="/var/www/html/cleanPortalV5" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="editorconfig.notification" value="Applied .editorconfig settings" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -344,6 +351,9 @@
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="ed1b13f6-8fe1-48fa-954c-1ac586fc72bd" name="Default" comment="" />
@@ -365,7 +375,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3338438" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3338438" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -427,6 +437,152 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1995">
+          <caret line="19" column="82" selection-start-line="19" selection-start-column="82" selection-end-line="19" selection-end-column="82" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/chart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="56610" max-vertical-offset="57240">
+          <caret line="3790" column="34" selection-start-line="3790" selection-start-column="34" selection-end-line="3790" selection-end-column="34" />
+          <folding>
+            <marker date="1454189823867" expanded="true" signature="92059:92091" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="92162:92176" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115448:115465" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115479:115511" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115544:115558" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/table.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="55712" max-vertical-offset="56385">
+          <caret line="3725" column="28" selection-start-line="3725" selection-start-column="28" selection-end-line="3725" selection-end-column="28" />
+          <folding>
+            <marker date="1454214156616" expanded="true" signature="111488:111621" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="840">
+          <caret line="26" column="14" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2850">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/tableService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2162" max-vertical-offset="2820">
+          <caret line="338" column="36" selection-start-line="338" selection-start-column="36" selection-end-line="338" selection-end-column="36" />
+          <folding>
+            <element signature="e#15555#81018#0" expanded="false" />
+            <marker date="1454216619680" expanded="true" signature="86500:86523" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="87090:87113" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="88299:88310" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="89018:89041" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/chartServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2460" max-vertical-offset="4200">
+          <caret line="167" column="59" selection-start-line="167" selection-start-column="59" selection-end-line="167" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1809" max-vertical-offset="3195">
+          <caret line="143" column="50" selection-start-line="143" selection-start-column="50" selection-end-line="143" selection-end-column="50" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/filters.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="345">
+          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1995">
+          <caret line="19" column="82" selection-start-line="19" selection-start-column="82" selection-end-line="19" selection-end-column="82" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/chart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="56610" max-vertical-offset="57240">
+          <caret line="3790" column="34" selection-start-line="3790" selection-start-column="34" selection-end-line="3790" selection-end-column="34" />
+          <folding>
+            <marker date="1454189823867" expanded="true" signature="92059:92091" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="92162:92176" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115448:115465" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115479:115511" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115544:115558" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/table.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="55712" max-vertical-offset="56385">
+          <caret line="3725" column="28" selection-start-line="3725" selection-start-column="28" selection-end-line="3725" selection-end-column="28" />
+          <folding>
+            <marker date="1454214156616" expanded="true" signature="111488:111621" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="840">
+          <caret line="26" column="14" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2177" max-vertical-offset="2835">
@@ -441,10 +597,10 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#15555#81018#0" expanded="false" />
-            <marker date="1453991146138" expanded="true" signature="86500:86523" placeholder="..." />
-            <marker date="1453991146138" expanded="true" signature="87090:87113" placeholder="..." />
-            <marker date="1453991146138" expanded="true" signature="88303:88326" placeholder="..." />
-            <marker date="1453991146138" expanded="true" signature="89008:89031" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="86500:86523" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="87090:87113" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="88299:88310" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="89018:89041" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -496,11 +652,11 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="56610" max-vertical-offset="57240">
           <caret line="3790" column="34" selection-start-line="3790" selection-start-column="34" selection-end-line="3790" selection-end-column="34" />
           <folding>
-            <marker date="1453961741218" expanded="true" signature="92059:92091" placeholder="..." />
-            <marker date="1453961741218" expanded="true" signature="92162:92176" placeholder="..." />
-            <marker date="1453961741218" expanded="true" signature="115448:115465" placeholder="..." />
-            <marker date="1453961741218" expanded="true" signature="115479:115511" placeholder="..." />
-            <marker date="1453961741218" expanded="true" signature="115544:115558" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="92059:92091" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="92162:92176" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115448:115465" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115479:115511" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115544:115558" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -510,7 +666,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="55757" max-vertical-offset="56370">
           <caret line="3723" column="23" selection-start-line="3723" selection-start-column="23" selection-end-line="3723" selection-end-column="23" />
           <folding>
-            <marker date="1453985309476" expanded="true" signature="111488:111621" placeholder="..." />
+            <marker date="1454214156616" expanded="true" signature="111488:111621" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -537,10 +693,10 @@
           <caret line="339" column="37" selection-start-line="339" selection-start-column="37" selection-end-line="339" selection-end-column="37" />
           <folding>
             <element signature="e#15555#81018#0" expanded="false" />
-            <marker date="1453991146138" expanded="true" signature="86500:86523" placeholder="..." />
-            <marker date="1453991146138" expanded="true" signature="87090:87113" placeholder="..." />
-            <marker date="1453991146138" expanded="true" signature="88303:88326" placeholder="..." />
-            <marker date="1453991146138" expanded="true" signature="89008:89031" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="86500:86523" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="87090:87113" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="88299:88310" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="89018:89041" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -710,20 +866,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/chart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="56610" max-vertical-offset="57240">
-          <caret line="3790" column="34" selection-start-line="3790" selection-start-column="34" selection-end-line="3790" selection-end-column="34" />
-          <folding>
-            <marker date="1453961741218" expanded="true" signature="92059:92091" placeholder="..." />
-            <marker date="1453961741218" expanded="true" signature="92162:92176" placeholder="..." />
-            <marker date="1453961741218" expanded="true" signature="115448:115465" placeholder="..." />
-            <marker date="1453961741218" expanded="true" signature="115479:115511" placeholder="..." />
-            <marker date="1453961741218" expanded="true" signature="115544:115558" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
@@ -734,44 +876,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/filters.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-          <caret line="16" column="32" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/table.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="55712" max-vertical-offset="56385">
-          <caret line="3722" column="0" selection-start-line="3722" selection-start-column="0" selection-end-line="3722" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1995">
+          <caret line="19" column="82" selection-start-line="19" selection-start-column="82" selection-end-line="19" selection-end-column="82" />
           <folding>
-            <marker date="1453985309476" expanded="true" signature="111488:111621" placeholder="..." />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/services/chartServices.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2460" max-vertical-offset="4200">
-          <caret line="167" column="59" selection-start-line="167" selection-start-column="59" selection-end-line="167" selection-end-column="59" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="3585" max-vertical-offset="4200">
+          <caret line="252" column="61" selection-start-line="252" selection-start-column="52" selection-end-line="252" selection-end-column="61" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/chart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2177" max-vertical-offset="2850">
-          <caret line="174" column="69" selection-start-line="174" selection-start-column="69" selection-end-line="174" selection-end-column="69" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="56610" max-vertical-offset="57255">
+          <caret line="3801" column="32" selection-start-line="3801" selection-start-column="32" selection-end-line="3801" selection-end-column="32" />
+          <folding>
+            <marker date="1454189823867" expanded="true" signature="92059:92091" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="92162:92176" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115448:115465" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115479:115511" placeholder="..." />
+            <marker date="1454189823867" expanded="true" signature="115544:115558" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/table.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="55772" max-vertical-offset="56400">
+          <caret line="3745" column="18" selection-start-line="3745" selection-start-column="18" selection-end-line="3745" selection-end-column="18" />
+          <folding>
+            <marker date="1454214156616" expanded="true" signature="111488:111621" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/filters.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
+          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.125" vertical-offset="1854" max-vertical-offset="3180">
-          <caret line="127" column="62" selection-start-line="127" selection-start-column="62" selection-end-line="127" selection-end-column="62" />
+        <state vertical-scroll-proportion="-27.125" vertical-offset="1419" max-vertical-offset="3555">
+          <caret line="138" column="60" selection-start-line="138" selection-start-column="60" selection-end-line="138" selection-end-column="60" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -782,27 +940,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/scripts/services/tableService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.875" vertical-offset="0" max-vertical-offset="1995">
-          <caret line="19" column="82" selection-start-line="19" selection-start-column="82" selection-end-line="19" selection-end-column="82" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="137" max-vertical-offset="2820">
+          <caret line="196" column="60" selection-start-line="196" selection-start-column="60" selection-end-line="196" selection-end-column="60" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#15555#81018#0" expanded="false" />
+            <marker date="1454216619680" expanded="true" signature="86500:86523" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="87090:87113" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="88299:88310" placeholder="..." />
+            <marker date="1454216619680" expanded="true" signature="89018:89041" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/services/tableService.js">
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.65822786" vertical-offset="2425" max-vertical-offset="2820">
-          <caret line="347" column="3" selection-start-line="347" selection-start-column="3" selection-end-line="347" selection-end-column="87" />
-          <folding>
-            <element signature="e#15555#81018#0" expanded="false" />
-            <marker date="1453991146138" expanded="true" signature="86500:86523" placeholder="..." />
-            <marker date="1453991146138" expanded="true" signature="87090:87113" placeholder="..." />
-            <marker date="1453991146138" expanded="true" signature="88303:88326" placeholder="..." />
-            <marker date="1453991146138" expanded="true" signature="89008:89031" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="0.6329527" vertical-offset="2447" max-vertical-offset="3090">
+          <caret line="189" column="45" selection-start-line="189" selection-start-column="45" selection-end-line="189" selection-end-column="45" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -317,11 +317,11 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
         },
         //$("#tableDrawer").html(drawTableWithTwoRowDimension(metaData,"dx","ou","pe"));
 
-        drawTableWithTwoColumnDimension:function (analyticsObject, rowType, columnType, subrowType) {
+    drawTableWithTwoColumnDimension:function (analyticsObject, rowType, columnType, subrowType) {
             var subrowsLength = this.prepareCategories(analyticsObject, subrowType).length+1;
               console.warn(subrowsLength);
             var self=this;
-            var table = '<table style="border: 2px !important;" class="bordered">';
+            var table = '<table style="width:100%;" cellspacing="0" cellpadding="0" border="1">';
             table += "<thead><tr>";
             table += "<th colspan='2'></th>";
             angular.forEach(self.prepareCategories(analyticsObject, columnType), function (columnName) {
