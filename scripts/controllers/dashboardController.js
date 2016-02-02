@@ -25,6 +25,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
         $scope.loading = true;
         $scope.dashboardChart=[];
+        $scope.dashboardTab=[];
+        $scope.headers=[];
+        $scope.firstColumn=[];
+        $scope.secondColumn=[];
+        $scope.number=[];
         dashboardsManager.getDashboard($routeParams.dashboardid).then(function(dashboard){
             $scope.dashboardItems = dashboard.dashboardItems;
            angular.forEach($scope.dashboardItems,function(value){
@@ -178,22 +183,55 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     var column = {};
                     var rows = {};
                     var filters = {};
-                    angular.forEach(dashboardItem.object.columns,function(col){
-                    column['column']=col.dimension;
-                     });
-                    angular.forEach(dashboardItem.object.rows,function(row){
-                        rows['rows']=row.dimension;
-                     });
-                    angular.forEach(dashboardItem.object.filters,function(filter){
-                        filters['filters']=filter.dimension;
-                     });
-                    console.log(column.column);
-                    console.log(rows.rows);
-                    console.log(filters.filters);
-                     $http.get('../../..'+dashboardItem.analyticsUrl)
+                    var headerArray=[];
+                    $http.get('../../..'+dashboardItem.analyticsUrl)
                             .success(function(analyticsData){
-                             $scope.dashboardTab=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,column.column,rows.rows,filters.filters);
-                      });
+                            angular.forEach(dashboardItem.object.rows,function(row){
+                                rows['rows']=row.dimension;
+                            });
+                            angular.forEach(dashboardItem.object.columns, function (col) {
+                                column['column'] = col.dimension;
+                            });
+                            angular.forEach(dashboardItem.object.filters,function(filter){
+                                filters['filters']=filter.dimension;
+                            });
+                            console.log(column.column);
+                            console.log(rows.rows);
+                            console.log(filters.filters);
+                            if (dashboardItem.object.columns.length == 2){
+                                $scope.number[dashboardItem.id]='2';
+                                var firstDimension=dashboardItem.object.columns[0].dimension;
+                                var secondDimension=dashboardItem.object.columns[1].dimension;
+                                var subcolumnsLength = TableRenderer.prepareCategories(analyticsData, secondDimension).length;
+                                var firstColumn=[];
+                                var secondColumn=[];
+                                //angular.forEach(TableRenderer.prepareCategories(analyticsData, firstDimension), function (columnName) {
+                                //    firstColumn.push({"name":columnName.name,"uid":columnName.uid,"length":subcolumnsLength})
+                                //    });
+                                angular.forEach(TableRenderer.prepareCategories(analyticsData, firstDimension), function (columnName) {
+                                        var subColumn=[];
+                                        angular.forEach(TableRenderer.prepareCategories(analyticsData, secondDimension), function (subColName) {
+                                            subColumn.push({"name":subColName.name,"uid":subColName.uid});
+                                        });
+                                        firstColumn.push({"name":columnName.name,"uid":columnName.uid,"length":subcolumnsLength,"subcolumn":subColumn});
+                                    });
+                                console.log(firstColumn);
+                                $scope.firstColumn[dashboardItem.id]=firstColumn;
+                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
+                            }else if(dashboardItem.object.rows.length == 2){
+                                var firstRow=dashboardItem.object.rows[0].dimension;
+                                var secondRow=dashboardItem.object.rows[1].dimension;
+                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,column.column,secondRow);
+                            }else{
+                                $scope.number[dashboardItem.id]='1';
+                                var metadata=TableRenderer.getMetadataArray(analyticsData,column.column);
+                                angular.forEach(metadata,function(headers){
+                                    headerArray.push({"name":analyticsData.metaData.names[headers],"id":headers});
+                                });
+                                $scope.headers[dashboardItem.id]=headerArray;
+                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.rows,column.column);
+                            }
+                    });
                 });
             }
         }
