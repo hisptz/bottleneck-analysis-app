@@ -38,7 +38,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
                 value.labelCard=$scope.getCardSize(value.shape);
             })
-            console.log($scope.dashboardItems);
 
             $scope.loading=false;
         });
@@ -73,7 +72,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 sizeName="DOUBLE_WIDTH";
                 labelCard='Medium';
             }
-              console.log(sizeName)
+
             dashboardItem.column_size =$scope.getColumnSize(sizeName);
             dashboardItem.labelCard =labelCard;
         }
@@ -141,9 +140,10 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     $http.get('../../../'+dashboardItem.analyticsUrl)
                         .success(function(analyticsData){
                             var chartType=(dashboardItem.object.type).toLowerCase();
-                            console.info(dashboardItem.object.category);
-                            $scope.dashboardChart[dashboardItem.id] = chartsManager.drawOtherCharts(analyticsData,dashboardItem.object.category,dashboardItem.object.series,'none','',dashboardItem.object.name,chartType);
-                         });
+                            $scope.dashboardChart[dashboardItem.id] = chartsManager.drawOtherCharts(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
+                            console.warn(chartType)
+                            console.warn($scope.dashboardChart[dashboardItem.id])
+                        });
                 });
             }
             else if ( "MAP" == dashboardItem.type )
@@ -195,9 +195,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             angular.forEach(dashboardItem.object.filters,function(filter){
                                 filters['filters']=filter.dimension;
                             });
-                            console.log(column.column);
-                            console.log(rows.rows);
-                            console.log(filters.filters);
                             if (dashboardItem.object.columns.length == 2){
                                 $scope.number[dashboardItem.id]='2';
                                 var firstDimension=dashboardItem.object.columns[0].dimension;
@@ -215,7 +212,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                         });
                                         firstColumn.push({"name":columnName.name,"uid":columnName.uid,"length":subcolumnsLength,"subcolumn":subColumn});
                                     });
-                                console.log(firstColumn);
                                 $scope.firstColumn[dashboardItem.id]=firstColumn;
                                 $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
                             }else if(dashboardItem.object.rows.length == 2){

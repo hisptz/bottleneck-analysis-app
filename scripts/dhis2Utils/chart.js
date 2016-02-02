@@ -3792,7 +3792,6 @@ Ext.onReady(function() {
                 onFailure(r);
             },
             success: function(r) {
-                console.log('success is exectured');
                 var layout = core.api.layout.Layout((r.responseText ? Ext.decode(r.responseText) : r), config);
                 var xLayout = core.service.layout.getExtendedLayout(layout);
                 var paramString = core.web.analytics.getParamString(xLayout) ;
@@ -3800,7 +3799,6 @@ Ext.onReady(function() {
                 init.contextPath + '/api/analytics.json' + paramString;
                 window.alayticsUrl='/api/analytics.json' + paramString;
                 window.object=r;
-                console.log(r);
             }
         });
         return promise;

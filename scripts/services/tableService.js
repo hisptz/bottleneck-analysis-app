@@ -232,11 +232,11 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
             var num = 0;
             $.each(analyticsObject.rows, function (key, value) {
                 if (filterType == 'none') {
-                    if (value[self.checkForParameters(analyticsObject.headers, yAxisType)] == yAxisUid && value[checkForParameters(analyticsObject.headers, xAxisType)] == xAxisUid) {
+                    if (value[self.checkForParameters(analyticsObject.headers, yAxisType)] == yAxisUid && value[self.checkForParameters(analyticsObject.headers, xAxisType)] == xAxisUid) {
                         num = parseFloat(value[self.checkForParameters(analyticsObject.headers, 'value')]);
                     }
                 } else {
-                    if (value[self.checkForParameters(analyticsObject.headers, yAxisType)] == yAxisUid && value[checkForParameters(analyticsObject.headers, xAxisType)] == xAxisUid && value[checkForParameters(analyticsObject.headers, filterType)] == filterUid) {
+                    if (value[self.checkForParameters(analyticsObject.headers, yAxisType)] == yAxisUid && value[self.checkForParameters(analyticsObject.headers, xAxisType)] == xAxisUid && value[self.checkForParameters(analyticsObject.headers, filterType)] == filterUid) {
                         num = parseFloat(value[self.checkForParameters(analyticsObject.headers, 'value')]);
                     }
                 }
