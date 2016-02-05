@@ -1,7 +1,7 @@
 var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager',
     '$routeParams','$modal','$timeout','$translate','$anchorScroll','Paginator','ContextMenuSelectedItem',
-    '$filter','$http','GridColumnService','CustomFormService','ModalService','DialogService','DHIS2URL','chartsManager',
+    '$filter','$http','GridColumnService','CustomFormService','ModalService','DialogService','DHIS2URL','mapManager','chartsManager',
     'TableRenderer',function($scope,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
@@ -19,6 +19,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                                         ModalService,
                                                         DialogService,
                                                         DHIS2URL,
+                                                        mapManager,
                                                         chartsManager,
                                                         TableRenderer
     ){
@@ -101,7 +102,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             var tableStyle = "width:" + width + "px;";
             var userOrgUnit =  [];
 
-            if ( "CHART" == dashboardItem.type )
+            if ( "chart" == dashboardItem.type )
             {
 
                 DHIS.getChart({
@@ -146,7 +147,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                         });
                 });
             }
-            else if ( "MAP" == dashboardItem.type )
+            else if ( "map" == dashboardItem.type )
             {
 
                 DHIS.getMap({
@@ -160,6 +161,8 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     mapViews: [{
                         userOrgUnit: userOrgUnit
                     }]
+                }).then(function(output){
+                    console.log(output);
                 });
             }
             else if ( "REPORT_TABLE" == dashboardItem.type )

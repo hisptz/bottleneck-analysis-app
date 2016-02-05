@@ -4,4 +4,4 @@
 
 /* Services */
 
-var idashboardServices = angular.module('idashboardServices', [ 'mainServices','chartServices','tableServices' ]);
+var idashboardServices = angular.module('idashboardServices', [ 'mainServices','mapServices','chartServices','tableServices' ]);

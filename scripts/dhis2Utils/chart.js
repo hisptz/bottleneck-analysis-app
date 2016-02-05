@@ -3764,7 +3764,7 @@ Ext.onReady(function() {
 	};
 
 	DV.plugin.getChart = function(config) {
-        console.log(config)
+
         var appConfig = {
             plugin: true,
             dashboard: Ext.isBoolean(config.dashboard) ? config.dashboard : false,
@@ -3775,7 +3775,7 @@ Ext.onReady(function() {
             username: Ext.isString(config.username) ? config.username : null,
             password: Ext.isString(config.password) ? config.password : null
         };
-        var core = DV.getCore(init,appConfig);
+        var core = DV.getCore(init,appConfig);console.log(core);
         config.url =   '/api/charts/' + config.id + '.json?fields=' + core.conf.url.analysisFields.join(',');
         //config.disableCaching = false;
         //config.headers = headers;

@@ -2693,7 +2693,7 @@ Ext.onReady(function() {
                     updateFeatures;
 
                 updateFeatures = function() {
-                    for (var i = 0, header; i < r.headers.length; i++) {
+                    for (var i = 0, header; i < r.headers.length; i++){
                         header = r.headers[i];
                         names[header.name] = header.column;
                     }
@@ -2746,7 +2746,7 @@ Ext.onReady(function() {
                 r.metaData.optionNames = {};
 
                 // name-column map, lonIndex, latIndex, optionSet
-                for (var i = 0, header; i < r.headers.length; i++) {
+                for (var i = 0, header; i < r.headers.length; i++){
                     header = r.headers[i];
 
                     names[header.name] = header.column;
@@ -4139,7 +4139,7 @@ Ext.onReady(function() {
 					category: {
 						name: GIS.i18n.categories,
 						dimensionName: 'co',
-						objectName: 'co',
+						objectName: 'co'
 					},
 					indicator: {
 						id: 'indicator',
@@ -4645,7 +4645,7 @@ Ext.onReady(function() {
 						}
 					}
 				}
-
+console.log("not reconized");
 				return;
 			};
 
@@ -7219,7 +7219,7 @@ Ext.onReady(function() {
 
             // store
             store.groupsByGroupSet = Ext.create('Ext.data.Store', {
-				fields: ['id', 'name', 'symbol'],
+				fields: ['id', 'name', 'symbol']
 			});
         };
 
@@ -7537,56 +7537,95 @@ Ext.onReady(function() {
     };
 
     GIS.plugin.getMap = function(config) {
-        if (Ext.isString(config.url) && config.url.split('').pop() === '/') {
-            config.url = config.url.substr(0, config.url.length - 1);
-        }
 
-        if (isInitComplete) {
-            execute(config);
-        }
-        else {
-            configs.push(config);
 
-            if (!isInitStarted) {
-                isInitStarted = true;
+        var appConfig = {
+            plugin: true,
+            dashboard: Ext.isBoolean(config.dashboard) ? config.dashboard : false,
+            crossDomain: Ext.isBoolean(config.crossDomain) ? config.crossDomain : true,
+            skipMask: Ext.isBoolean(config.skipMask) ? config.skipMask : false,
+            skipFade: Ext.isBoolean(config.skipFade) ? config.skipFade : false,
+            el: Ext.isString(config.el) ? config.el : null,
+            username: Ext.isString(config.username) ? config.username : null,
+            password: Ext.isString(config.password) ? config.password : null
+        };
+        var core = GIS.core.getInstance(init,appConfig);
+        config.url =   '/api/maps/' + config.id + '.json?fields=' + core.conf.url.analysisFields.join(',');
+        getInit(config);
+        var promise = $.ajax({
+            url: config.url,
+            timeout: 60000,
+            headers: {
+                'Content-Type': 'application/json',
+                'Accepts': 'application/json'
+            },
+            disableCaching: false,
+            failure: function(r) {
+                onFailure(r);
+            },
+            success: function(r) {
 
-                // google maps
-                GIS_GM = {
-                    ready: false,
-                    offline: false,
-                    array: []
-                };
+                console.log(core.util.layout.getAnalytical(r));
 
-                GIS_GM_fn = function() {
-                    console.log("GM called back, queue length: " + GIS_GM.array.length);
-                    GIS_GM.ready = true;
-
-                    for (var i = 0, obj; i < GIS_GM.array.length; i++) {
-                        obj = GIS_GM.array[i];
-
-                        if (obj) {
-                            console.log("Running queue obj " + (i + 1));
-                            obj.fn.call(obj.scope);
-                        }
-                    }
-                };
-
-                if (!Ext.Array.contains(['osm', 'none'], config.baseLayer)) {
-                    Ext.Loader.injectScriptElement('//maps.googleapis.com/maps/api/js?callback=GIS_GM_fn',
-                        function() {
-                            console.log("GM available (online)");
-                        },
-                        function() {
-                            console.log("GM not available (offline)");
-                            GIS_GM.offline = true;
-                        }
-                    );
-                }
-
-                // plugin
-                getInit(config);
             }
-        }
+        });
+        return promise;
+
+
+
+
+        //
+        //if (Ext.isString(config.url) && config.url.split('').pop() === '/') {
+        //    config.url = config.url.substr(0, config.url.length - 1);
+        //}
+        //
+        //if (isInitComplete) {
+        //    execute(config);
+        //}
+        //else {
+        //    configs.push(config);
+        //
+        //    if (!isInitStarted) {
+        //        isInitStarted = true;
+        //
+        //        // google maps
+        //        GIS_GM = {
+        //            ready: false,
+        //            offline: false,
+        //            array: []
+        //        };
+        //
+        //        GIS_GM_fn = function() {
+        //            console.log("GM called back, queue length: " + GIS_GM.array.length);
+        //            GIS_GM.ready = true;
+        //
+        //            for (var i = 0, obj; i < GIS_GM.array.length; i++) {
+        //                obj = GIS_GM.array[i];
+        //
+        //                if (obj) {
+        //                    console.log("Running queue obj " + (i + 1));
+        //                    obj.fn.call(obj.scope);
+        //                }
+        //            }
+        //        };
+        //
+        //        if (!Ext.Array.contains(['osm', 'none'], config.baseLayer)) {
+        //            Ext.Loader.injectScriptElement('//maps.googleapis.com/maps/api/js?callback=GIS_GM_fn',
+        //                function() {
+        //                    console.log("GM available (online)");
+        //                },
+        //                function() {
+        //                    console.log("GM not available (offline)");
+        //                    GIS_GM.offline = true;
+        //                }
+        //            );
+        //        }
+        //
+        //        // plugin
+        //        getInit(config);
+        //    }
+        //}
+
     };
 
     DHIS = Ext.isObject(window['DHIS']) ? DHIS : {};
