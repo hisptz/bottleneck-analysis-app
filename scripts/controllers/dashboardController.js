@@ -102,7 +102,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             var tableStyle = "width:" + width + "px;";
             var userOrgUnit =  [];
 
-            if ( "chart" == dashboardItem.type )
+            if ( "CHART" == dashboardItem.type )
             {
 
                 DHIS.getChart({
@@ -147,23 +147,86 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                         });
                 });
             }
-            else if ( "map" == dashboardItem.type )
+            else if ( "MAP" == dashboardItem.type )
             {
 
                 DHIS.getMap({
-                    url: '../../../',
+                    url: '..',
                     el: 'plugin-' + dashboardItem.id,
                     id: dashboardItem.map.id,
                     hideLegend: true,
                     dashboard: true,
                     crossDomain: false,
                     skipMask: true,
-                    mapViews: [{
-                        userOrgUnit: userOrgUnit
-                    }]
-                }).then(function(output){
-                    console.log(output);
-                });
+                    userOrgUnit: userOrgUnit
+                    }).then(function(output){
+                    var shared = mapManager.getShared();
+                    shared.facility = 3029;console.log(output);
+                    mapManager.pushMapViews(output).then(function(response){
+                        var analyticsObject = response.data;
+                        var mapViews = analyticsObject.mapViews;
+                        mapManager.prepareMapLayers(mapViews).then(function(thematicLayer,boundaryLayer){
+                            var boundary = [];
+
+
+                            thematicLayer.success(function(thematicData){
+                                console.log(thematicData);
+                            });
+
+                            boundaryLayer.success(function(boundaryData){
+
+                                boundary = mapManager.getGeoJson(boundaryData);
+                                console.log(boundary);
+                                dashboardItem.map = {};
+                                angular.extend(dashboardItem.map, {
+                                    Africa: {
+                                        zoom: output.zoom,
+                                        lat: output.latitude,
+                                        lon: output.longitude
+                                    },
+                                    layers:[
+                                        {
+                                            name:'gsm',
+                                            source: {
+                                                type: 'TileJSON',
+                                                url:'https://maps.googleapis.com/maps/api/js?v=3.22&callback=GIS_GM_fn'
+                                            }
+                                        } ,
+                                        {
+                                            name:'geojson',
+                                            source: {
+                                                type: 'GeoJSON',
+                                                geojson: {
+                                                    object: boundary
+                                                }
+                                            },
+                                            style: ""
+                                        }
+                                    ],
+                                    defaults: {
+                                        events: {
+                                            layers: [ 'mousemove', 'click']
+                                        }
+                                    }
+                                });
+                            })
+
+                            thematicLayer.error(function(response){
+                                console.log(response);
+                            });
+
+                            boundaryLayer.error(function(response){
+                                console.log(response);
+                            });
+
+
+
+                        });
+
+                    },function(){
+
+                    });
+                    });
             }
             else if ( "REPORT_TABLE" == dashboardItem.type )
             {

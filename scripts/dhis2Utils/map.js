@@ -7564,69 +7564,123 @@ console.log("not reconized");
                 onFailure(r);
             },
             success: function(r) {
-
-                console.log(core.util.layout.getAnalytical(r));
-
+                //console.log(r);
             }
         });
         return promise;
 
 
-
-
-        //
-        //if (Ext.isString(config.url) && config.url.split('').pop() === '/') {
-        //    config.url = config.url.substr(0, config.url.length - 1);
-        //}
-        //
-        //if (isInitComplete) {
-        //    execute(config);
-        //}
-        //else {
-        //    configs.push(config);
-        //
-        //    if (!isInitStarted) {
-        //        isInitStarted = true;
-        //
-        //        // google maps
-        //        GIS_GM = {
-        //            ready: false,
-        //            offline: false,
-        //            array: []
-        //        };
-        //
-        //        GIS_GM_fn = function() {
-        //            console.log("GM called back, queue length: " + GIS_GM.array.length);
-        //            GIS_GM.ready = true;
-        //
-        //            for (var i = 0, obj; i < GIS_GM.array.length; i++) {
-        //                obj = GIS_GM.array[i];
-        //
-        //                if (obj) {
-        //                    console.log("Running queue obj " + (i + 1));
-        //                    obj.fn.call(obj.scope);
-        //                }
-        //            }
-        //        };
-        //
-        //        if (!Ext.Array.contains(['osm', 'none'], config.baseLayer)) {
-        //            Ext.Loader.injectScriptElement('//maps.googleapis.com/maps/api/js?callback=GIS_GM_fn',
-        //                function() {
-        //                    console.log("GM available (online)");
-        //                },
-        //                function() {
-        //                    console.log("GM not available (offline)");
-        //                    GIS_GM.offline = true;
-        //                }
-        //            );
-        //        }
-        //
-        //        // plugin
-        //        getInit(config);
-        //    }
-        //}
-
+    //
+    //
+    //    //
+    //    //if (Ext.isString(config.url) && config.url.split('').pop() === '/') {
+    //    //    config.url = config.url.substr(0, config.url.length - 1);
+    //    //}
+    //    //
+    //    //if (isInitComplete) {
+    //    //    execute(config);
+    //    //}
+    //    //else {
+    //    //    configs.push(config);
+    //    //
+    //    //    if (!isInitStarted) {
+    //    //        isInitStarted = true;
+    //    //
+    //    //        // google maps
+    //    //        GIS_GM = {
+    //    //            ready: false,
+    //    //            offline: false,
+    //    //            array: []
+    //    //        };
+    //    //
+    //    //        GIS_GM_fn = function() {
+    //    //            console.log("GM called back, queue length: " + GIS_GM.array.length);
+    //    //            GIS_GM.ready = true;
+    //    //
+    //    //            for (var i = 0, obj; i < GIS_GM.array.length; i++) {
+    //    //                obj = GIS_GM.array[i];
+    //    //
+    //    //                if (obj) {
+    //    //                    console.log("Running queue obj " + (i + 1));
+    //    //                    obj.fn.call(obj.scope);
+    //    //                }
+    //    //            }
+    //    //        };
+    //    //
+    //    //        if (!Ext.Array.contains(['osm', 'none'], config.baseLayer)) {
+    //    //            Ext.Loader.injectScriptElement('//maps.googleapis.com/maps/api/js?callback=GIS_GM_fn',
+    //    //                function() {
+    //    //                    console.log("GM available (online)");
+    //    //                },
+    //    //                function() {
+    //    //                    console.log("GM not available (offline)");
+    //    //                    GIS_GM.offline = true;
+    //    //                }
+    //    //            );
+    //    //        }
+    //    //
+    //    //        // plugin
+    //    //        getInit(config);
+    //    //    }
+    //    //}
+    //
     };
+
+    //
+    //GIS.plugin.getMap = function(config) {
+    //    if (Ext.isString(config.url) && config.url.split('').pop() === '/') {
+    //        config.url = config.url.substr(0, config.url.length - 1);
+    //    }
+    //
+    //    if (isInitComplete) {
+    //        execute(config);
+    //    }
+    //    else {
+    //        configs.push(config);
+    //
+    //        if (!isInitStarted) {
+    //            isInitStarted = true;
+    //
+    //            // google maps
+    //            GIS_GM = {
+    //                ready: false,
+    //                offline: false,
+    //                array: []
+    //            };
+    //
+    //            GIS_GM_fn = function() {
+    //                console.log("GM called back, queue length: " + GIS_GM.array.length);
+    //                GIS_GM.ready = true;
+    //
+    //                for (var i = 0, obj; i < GIS_GM.array.length; i++) {
+    //                    obj = GIS_GM.array[i];
+    //
+    //                    if (obj) {
+    //                        console.log("Running queue obj " + (i + 1));
+    //                        obj.fn.call(obj.scope);
+    //                    }
+    //                }
+    //            };
+    //
+    //            if (!Ext.Array.contains(['osm', 'none'], config.baseLayer)) {
+    //                Ext.Loader.injectScriptElement('//maps.googleapis.com/maps/api/js?v=3.22&callback=GIS_GM_fn',
+    //                    function() {
+    //                        console.log("GM available (online)");
+    //                    },
+    //                    function() {
+    //                        console.log("GM not available (offline)");
+    //                        GIS_GM.offline = true;
+    //                    }
+    //                );
+    //            }
+    //
+    //            // plugin
+    //            getInit(config);
+    //        }
+    //    }
+    //};
+    //
+
 
     DHIS = Ext.isObject(window['DHIS']) ? DHIS : {};
     DHIS.getMap = GIS.plugin.getMap;
