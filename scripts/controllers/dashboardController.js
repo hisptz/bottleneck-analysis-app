@@ -291,22 +291,14 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 var headers=[];
                                 var firstRows=[];
                                 var subRow=[];
-
                                 angular.forEach(TableRenderer.prepareCategories(analyticsData, column.column), function (columnName) {
                                     headers.push({"name":columnName.name,"uid":columnName.uid});
                                  });
                                 angular.forEach(TableRenderer.prepareCategories(analyticsData, firstRow), function (rowName) {
                                     firstRows.push({"name":rowName.name,"uid":rowName.uid,"length":subrowsLength});
                                  });
-                                angular.forEach(TableRenderer.prepareCategories(analyticsData, firstRow), function (rowName) {
-                                     angular.forEach(TableRenderer.prepareCategories(analyticsData, secondRow), function (subRowName) {
-                                         subRow.push({"name":subRowName.name,"uid":subRowName.uid,"length":subrowsLength,"parentRow":rowName.name});
-
-                                    });
-                                });
                                 $scope.column[dashboardItem.id]=headers;
                                 $scope.firstRow[dashboardItem.id]=firstRows;
-                                //$scope.subRow[dashboardItem.id]=subRow;
                                 $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,column.column,secondRow);
                             }else{
                                 $scope.number[dashboardItem.id]='1';
