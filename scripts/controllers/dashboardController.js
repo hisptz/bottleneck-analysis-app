@@ -30,6 +30,16 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         $scope.firstColumn=[];
         $scope.secondColumn=[];
         $scope.number=[];
+        $scope.icons = [
+            {name: 'table', image: 'table.jpg', action: ''},
+            {name: 'bar', image: 'bar.png', action: ''},
+            {name: 'line', image: 'line.png', action: ''},
+            {name: 'combined', image: 'combined.jpg', action: ''},
+            {name: 'column', image: 'column.png', action: ''},
+            {name: 'area', image: 'area.jpg', action: ''},
+            {name: 'pie', image: 'pie.png', action: ''},
+            {name: 'map', image: 'map.jpg', action: ''}
+        ];
         dashboardsManager.getDashboard($routeParams.dashboardid).then(function(dashboard){
             $scope.dashboardItems = dashboard.dashboardItems;
            angular.forEach($scope.dashboardItems,function(value){

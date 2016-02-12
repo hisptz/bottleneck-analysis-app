@@ -187,6 +187,11 @@
                            </div>
                            <div class="card-action" style="border-top:0px solid !important">
                                <span class="card-title activator grey-text text-darken-4"><i class="material-icons right mdi-navigation-more-vert"></i></span>
+                               <p>
+                                   <a ng-click="changeChart(icon.name,card)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn-floating btn-small waves-effect waves-light teal darken-2" style="padding-bottom: 4px; padding-top: 3px;padding-left: 8px;margin-right: 0px;"><img src="img/{{icon.image}}" style="height: 20px;width: 20px"/></i></a>
+                                   <a ng-click="downloadExcel(card.data)" target="_blank"  title="Download Excel" class="btn-floating btn-small waves-effect waves-light teal darken-2" style="padding-bottom: 4px; padding-top: 5px;padding-left: 8px;margin-right: 0px;"><img src="img/cvs.jpg" style="height: 20px;width: 20px"/></i></a>
+                                   <!--<a class="btn modal-trigger waves-effect waves-block waves-light" href='#demoModal' modal>Show Modal</a>-->
+                               </p>
                            </div>
                            <div class="card-reveal">
                                <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
