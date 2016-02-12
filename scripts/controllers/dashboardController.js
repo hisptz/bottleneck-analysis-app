@@ -94,7 +94,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
         $scope.getAnalytics = function( dashboardItem, width, prepend )
         {
-            console.log(dashboardItem.type);
+            //console.log(dashboardItem.type);
             width = width || 408;
             prepend = prepend || false;
 
@@ -135,7 +135,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                         labelFont: '9px sans-serif'
                     }
                 }).then(function(result){
-                    console.log('DHIS:');
+                    //console.log('DHIS:');
                     dashboardItem.object=window.object;
                     dashboardItem.analyticsUrl = window.alayticsUrl;
                     $http.get('../../../'+dashboardItem.analyticsUrl)
@@ -161,16 +161,19 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     userOrgUnit: userOrgUnit
                     }).then(function(output){
                     var shared = mapManager.getShared();
-                    shared.facility = 3029;console.log(output);
+                    shared.facility = 3029;
                     mapManager.pushMapViews(output).then(function(response){
                         var analyticsObject = response.data;
                         var mapViews = analyticsObject.mapViews;
+
+                        var layerProperties = mapManager.getLayerProperties(mapViews);
+                        console.log(layerProperties);
                         mapManager.prepareMapLayers(mapViews).then(function(thematicLayer,boundaryLayer){
                             var boundary = [];
 
 
                             thematicLayer.success(function(thematicData){
-                                console.log(thematicData);
+                                //console.log(thematicData);
                             });
 
                             boundaryLayer.success(function(boundaryData){
@@ -178,18 +181,21 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 boundary = mapManager.getGeoJson(boundaryData);
                                 console.log(boundary);
                                 dashboardItem.map = {};
+                                var latitude = output.latitude/100000;
+                                var longitude = output.longitude/100000;
+                                var zoom = output.zoom-1;
                                 angular.extend(dashboardItem.map, {
                                     Africa: {
-                                        zoom: output.zoom,
-                                        lat: output.latitude,
-                                        lon: output.longitude
+                                        zoom: zoom,
+                                        lat: latitude,
+                                        lon: longitude
                                     },
                                     layers:[
                                         {
-                                            name:'gsm',
+                                            name:'OpenStreetMap',
                                             source: {
-                                                type: 'TileJSON',
-                                                url:'https://maps.googleapis.com/maps/api/js?v=3.22&callback=GIS_GM_fn'
+                                                type: 'OSM',
+                                                url:"http://tile.openstreetmap.org/#map=" + zoom + "/" + longitude + "/" + latitude
                                             }
                                         } ,
                                         {
@@ -212,11 +218,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             })
 
                             thematicLayer.error(function(response){
-                                console.log(response);
+                                //console.log(response);
                             });
 
                             boundaryLayer.error(function(response){
-                                console.log(response);
+                                //console.log(response);
                             });
 
 

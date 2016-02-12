@@ -51,8 +51,7 @@ var mapManager = {
                         orgunitString+=item.id+";";
                     });
                     orgunitString = orgunitString.substring(0, orgunitString.length - 1);
-                    //geoUrl = "/api/geoFeatures.json?ou=ou:LEVEL-"+level+";"+orgunitString;
-                    geoUrl = "scripts/services/geoFeatures.json";
+                    geoUrl = "/api/geoFeatures.json?ou=ou:LEVEL-"+level+";"+orgunitString;
 
 
                 }
@@ -115,6 +114,44 @@ var mapManager = {
         return response;
     },
     getAnalytics:function(){},
+    getLayerProperties:function(mapViews){
+        var properties = [];
+
+
+        angular.forEach(mapViews,function(value){
+            console.log(value);
+            var layers = {};
+            if(value.layer.indexOf('thematic')>=0){
+                layers.type = value.layer;
+                layers.name = value.name;
+                layers.ishidden = value.hidden;
+                layers.showLlabel = value.labels;
+                layers.label = {};
+                layers.label.labelFontSize = value.labelFontSize;
+                layers.label.labelFontStyle = value.labelFontStyle;
+                layers.label.labelFontWeight = value.labelFontWeight;
+                layers.opacity = value.opacity;
+                layers.classes = value.classes;
+                layers.colorHigh = value.colorHigh;
+                layers.colorLow = value.colorLow;
+                properties.push(layers);
+            }
+
+            if(value.layer.indexOf('boundary')>=0){
+                layers.type = value.layer;
+                layers.name = value.name;
+                layers.ishidden = value.hidden;
+                layers.showLlabel = value.labels;
+                layers.label = {};
+                layers.label.labelFontSize = value.labelFontSize;
+                layers.label.labelFontStyle = value.labelFontStyle;
+                properties.push(layers);
+            }
+
+        });
+
+        return properties;
+    },
     getGeoJson:function(data){
 
 
@@ -135,12 +172,12 @@ var mapManager = {
                             parentGraph:""
                         },style:{
                             fill:{
-                                color:'rgba(0, 255, 0, 0.6)',
+                                color:'#CED11B',
                                 opacity:5
                             },
                             stroke:{
-                                color:'white',
-                                width:2
+                                color:'#CED11B',
+                                width:5
                             }
                         }
                     }
@@ -149,7 +186,7 @@ var mapManager = {
                             feature.type = "Feature";
                             feature.geometry.type = "MultiPolygon";
 
-                            feature.geometry.coordinates    = value.co;
+                            feature.geometry.coordinates    = JSON.parse(value.co);
                             feature.properties.code         = null;
                             feature.properties.name         = value.na;
                             feature.properties.level        = value.le;
