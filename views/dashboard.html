@@ -177,7 +177,7 @@
                                                 <th ng-repeat="first in firstColumn[dashboardItem.id]" colspan="{{first.length}}">{{first.name}}</th>
                                              </tr>
                                             <tr>
-                                                <th ng-repeat="sec in first.subcolumn">{{sec.name}}</th>
+                                                <th ng-repeat="sec in secondColumn[dashboardItem.id]">{{sec.name}}</th>
                                             </tr>
 
                                              </thead>
@@ -185,6 +185,23 @@
                                             <tr ng-repeat="rows in dashboardTab[dashboardItem.id]">
                                                 <td>{{rows.name}}</td>
                                                 <td ng-repeat="row in rows.dataElement">{{row.value}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-bordered" ng-if="number[dashboardItem.id]=='3'">
+                                            <thead>
+                                            <tr>
+                                                <th colspan="2"></th>
+                                                <th ng-repeat="first in column[dashboardItem.id]" colspan="{{first.length}}">{{first.name}}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="rows in firstRow[dashboardItem.id]">
+                                                <td rowspan="{{rows.length+1}}" class="center">{{rows.name}}</td>
+                                            </tr>
+                                            <tr ng-repeat="subRow in dashboardTab[dashboardItem.id]">
+                                                <td>{{subRow.name}}</td>
+                                                <td ng-repeat="subrow in subRow.dataElement">{{subrow.value}}</td>
                                             </tr>
                                             </tbody>
                                         </table>
