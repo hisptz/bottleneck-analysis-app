@@ -268,17 +268,17 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 var subcolumnsLength = TableRenderer.prepareCategories(analyticsData, secondDimension).length;
                                 var firstColumn=[];
                                 var secondColumn=[];
-                                //angular.forEach(TableRenderer.prepareCategories(analyticsData, firstDimension), function (columnName) {
-                                //    firstColumn.push({"name":columnName.name,"uid":columnName.uid,"length":subcolumnsLength})
-                                //    });
                                 angular.forEach(TableRenderer.prepareCategories(analyticsData, firstDimension), function (columnName) {
-                                        var subColumn=[];
-                                        angular.forEach(TableRenderer.prepareCategories(analyticsData, secondDimension), function (subColName) {
-                                            subColumn.push({"name":subColName.name,"uid":subColName.uid});
+                                    firstColumn.push({"name":columnName.name,"uid":columnName.uid,"length":subcolumnsLength})
+                                 });
+                                var subColumn=[];
+                                angular.forEach(TableRenderer.prepareCategories(analyticsData, firstDimension), function (columnName) {
+                                         angular.forEach(TableRenderer.prepareCategories(analyticsData, secondDimension), function (subColName) {
+                                            subColumn.push({"name":subColName.name,"uid":subColName.uid,"length":subcolumnsLength,"subcolumn":subColumn});
                                         });
-                                        firstColumn.push({"name":columnName.name,"uid":columnName.uid,"length":subcolumnsLength,"subcolumn":subColumn});
-                                    });
+                                     });
                                 $scope.firstColumn[dashboardItem.id]=firstColumn;
+                                $scope.secondColumn[dashboardItem.id]=subColumn;
                                 $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
                             }else if(dashboardItem.object.rows.length == 2){
                                 var firstRow=dashboardItem.object.rows[0].dimension;
