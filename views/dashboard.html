@@ -147,6 +147,13 @@
                            </div>
 
                            <div class="card-image" style="overflow-y:scroll;overflow-x:scroll;min-height: 82% !important;">
+
+                                    <div ng-if="dashboardItem.type=='MAP'">
+                                        <openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
+                                            <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
+                                        </openlayers>
+                                    </div>
+
                                     <highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
                                     <div ng-if="dashboardItem.type=='REPORT_TABLE'" class="dashboardTable">
                                         <table class="table table-bordered" ng-if="number[dashboardItem.id]=='1'">
@@ -182,7 +189,7 @@
                                             </tbody>
                                         </table>
 
-                                    </div>
+                                    <!--</div>-->
 
                            </div>
                            <div class="card-action" style="border-top:0px solid !important">
