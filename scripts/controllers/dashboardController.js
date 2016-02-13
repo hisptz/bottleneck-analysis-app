@@ -41,6 +41,9 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             {name: 'pie', image: 'pie.png', action: ''},
             {name: 'map', image: 'map.jpg', action: ''}
         ];
+        $scope.column=[];
+        $scope.firstRow=[];
+        $scope.subRow=[];
         dashboardsManager.getDashboard($routeParams.dashboardid).then(function(dashboard){
             $scope.dashboardItems = dashboard.dashboardItems;
            angular.forEach($scope.dashboardItems,function(value){
@@ -104,7 +107,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
         $scope.getAnalytics = function( dashboardItem, width, prepend )
         {
-            console.log(dashboardItem.type);
+            //console.log(dashboardItem.type);
             width = width || 408;
             prepend = prepend || false;
 
@@ -145,7 +148,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                         labelFont: '9px sans-serif'
                     }
                 }).then(function(result){
-                    console.log('DHIS:');
+                    //console.log('DHIS:');
                     dashboardItem.object=window.object;
                     dashboardItem.analyticsUrl = window.alayticsUrl;
                     $http.get('../../../'+dashboardItem.analyticsUrl)
@@ -171,16 +174,19 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     userOrgUnit: userOrgUnit
                     }).then(function(output){
                     var shared = mapManager.getShared();
-                    shared.facility = 3029;console.log(output);
+                    shared.facility = 3029;
                     mapManager.pushMapViews(output).then(function(response){
                         var analyticsObject = response.data;
                         var mapViews = analyticsObject.mapViews;
+
+                        var layerProperties = mapManager.getLayerProperties(mapViews);
+                        console.log(layerProperties);
                         mapManager.prepareMapLayers(mapViews).then(function(thematicLayer,boundaryLayer){
                             var boundary = [];
 
 
                             thematicLayer.success(function(thematicData){
-                                console.log(thematicData);
+                                //console.log(thematicData);
                             });
 
                             boundaryLayer.success(function(boundaryData){
@@ -188,18 +194,21 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 boundary = mapManager.getGeoJson(boundaryData);
                                 console.log(boundary);
                                 dashboardItem.map = {};
+                                var latitude = output.latitude/100000;
+                                var longitude = output.longitude/100000;
+                                var zoom = output.zoom-1;
                                 angular.extend(dashboardItem.map, {
                                     Africa: {
-                                        zoom: output.zoom,
-                                        lat: output.latitude,
-                                        lon: output.longitude
+                                        zoom: zoom,
+                                        lat: latitude,
+                                        lon: longitude
                                     },
                                     layers:[
                                         {
-                                            name:'gsm',
+                                            name:'OpenStreetMap',
                                             source: {
-                                                type: 'TileJSON',
-                                                url:'https://maps.googleapis.com/maps/api/js?v=3.22&callback=GIS_GM_fn'
+                                                type: 'OSM',
+                                                url:"http://tile.openstreetmap.org/#map=" + zoom + "/" + longitude + "/" + latitude
                                             }
                                         } ,
                                         {
@@ -222,11 +231,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             })
 
                             thematicLayer.error(function(response){
-                                console.log(response);
+                                //console.log(response);
                             });
 
                             boundaryLayer.error(function(response){
-                                console.log(response);
+                                //console.log(response);
                             });
 
 
@@ -278,21 +287,34 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 var subcolumnsLength = TableRenderer.prepareCategories(analyticsData, secondDimension).length;
                                 var firstColumn=[];
                                 var secondColumn=[];
-                                //angular.forEach(TableRenderer.prepareCategories(analyticsData, firstDimension), function (columnName) {
-                                //    firstColumn.push({"name":columnName.name,"uid":columnName.uid,"length":subcolumnsLength})
-                                //    });
                                 angular.forEach(TableRenderer.prepareCategories(analyticsData, firstDimension), function (columnName) {
-                                        var subColumn=[];
-                                        angular.forEach(TableRenderer.prepareCategories(analyticsData, secondDimension), function (subColName) {
-                                            subColumn.push({"name":subColName.name,"uid":subColName.uid});
+                                    firstColumn.push({"name":columnName.name,"uid":columnName.uid,"length":subcolumnsLength})
+                                 });
+                                var subColumn=[];
+                                angular.forEach(TableRenderer.prepareCategories(analyticsData, firstDimension), function (columnName) {
+                                         angular.forEach(TableRenderer.prepareCategories(analyticsData, secondDimension), function (subColName) {
+                                            subColumn.push({"name":subColName.name,"uid":subColName.uid,"length":subcolumnsLength,"parentCol":columnName.name});
                                         });
-                                        firstColumn.push({"name":columnName.name,"uid":columnName.uid,"length":subcolumnsLength,"subcolumn":subColumn});
-                                    });
+                                     });
                                 $scope.firstColumn[dashboardItem.id]=firstColumn;
+                                $scope.secondColumn[dashboardItem.id]=subColumn;
                                 $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
                             }else if(dashboardItem.object.rows.length == 2){
+                                $scope.number[dashboardItem.id]='3';
                                 var firstRow=dashboardItem.object.rows[0].dimension;
                                 var secondRow=dashboardItem.object.rows[1].dimension;
+                                var subrowsLength = TableRenderer.prepareCategories(analyticsData, secondRow).length;
+                                var headers=[];
+                                var firstRows=[];
+                                var subRow=[];
+                                angular.forEach(TableRenderer.prepareCategories(analyticsData, column.column), function (columnName) {
+                                    headers.push({"name":columnName.name,"uid":columnName.uid});
+                                 });
+                                angular.forEach(TableRenderer.prepareCategories(analyticsData, firstRow), function (rowName) {
+                                    firstRows.push({"name":rowName.name,"uid":rowName.uid,"length":subrowsLength});
+                                 });
+                                $scope.column[dashboardItem.id]=headers;
+                                $scope.firstRow[dashboardItem.id]=firstRows;
                                 $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,column.column,secondRow);
                             }else{
                                 $scope.number[dashboardItem.id]='1';
