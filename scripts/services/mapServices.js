@@ -5,6 +5,7 @@ mapServices.factory('mapManager',['$http','shared',function($http,shared){
 var mapManager = {
 
     pushMapViews:function(analyticsObject){
+        console.log(analyticsObject);
         var mapId = analyticsObject.id;
         var url = "/api/maps/"+mapId+".json?fields=*,columns[dimension,filter,items[id,displayName|rename(name)]],rows[dimension,filter,items[id,displayName|rename(name)]],filters[dimension,filter,items[id,displayName|rename(name)]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit,mapViews[*,columns[dimension,filter,items[id,displayName|rename(name)]],rows[dimension,filter,items[id,displayName|rename(name)]],filters[dimension,filter,items[id,displayName|rename(name)]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit]&_dc=1455009241325";
 
@@ -21,7 +22,7 @@ var mapManager = {
 
         return promise;
     },
-    prepareMapLayers:function(mapViews,organisationUnits,dimensionItems){
+    prepareMapLayers:function(mapViews,orgunitChildren,dimensionItems){
         var Layers = [];
         var layerType = "";
         var level = null;
@@ -33,7 +34,7 @@ var mapManager = {
 
             angular.forEach(mapViews,function(view){
             layerType = view.layer;
-            level = view.parentLevel+1;
+            level = view.parentLevel+2;
 
             if(layerType=="boundary"){
                 var layer = {
@@ -47,8 +48,16 @@ var mapManager = {
                 };
                 if(view.rows){
                     var orgunitString = "";
+                    var count_user_orgunit = 0;
                     angular.forEach(view.rows[0].items,function(item){
-                        orgunitString+=item.id+";";
+                        if((item.id=="USER_ORGUNIT"||item.id=="USER_ORGUNIT_CHILDREN")&&count_user_orgunit==0) {
+
+                            angular.forEach(orgunitChildren, function (children) {
+                                orgunitString += children.id + ";";
+                            });
+
+                        }
+
                     });
                     orgunitString = orgunitString.substring(0, orgunitString.length - 1);
                     geoUrl = "/api/geoFeatures.json?ou=ou:LEVEL-"+level+";"+orgunitString;
@@ -58,7 +67,7 @@ var mapManager = {
             }
 
             if(layerType.indexOf('thematic')>=0){
-
+                var organisationUnits = "";
                 angular.forEach(view.dataDimensionItems,function(value){
                     if(value.dataDimensionItemType=="INDICATOR"){
                         dimensionItems+=value.indicator.id+";";
@@ -70,9 +79,33 @@ var mapManager = {
                 angular.forEach(view.rows,function(value){
                     if(value.dimension=="ou"){
                         angular.forEach(value.items,function(valueOu){
-                            organisationUnits+=valueOu.id+";";
+                            if((valueOu.id=="USER_ORGUNIT"||valueOu.id=="USER_ORGUNIT_CHILDREN")&&count_user_orgunit==0){
+                                count_user_orgunit++;
+                                $http({
+                                    method:'GET',
+                                    url:'/api/me/organisationUnits.json',
+                                    dataType:'json',
+                                    cache:true,
+                                    isModified:true
+                                }).then(function(response){
+                                    angular.forEach(response.data[0].children,function(children){
+                                        organisationUnits+=children.id+";";
+                                    });
+                                },function(error){
+
+                                });
+
+
+                            }
+
+                            if(valueOu.id!="USER_ORGUNIT_CHILDREN"&&valueOu.id!="USER_ORGUNIT"){
+                                organisationUnits+=valueOu.id+";";
+                            }
+
+
                         });
                     }
+
 
                 });
                 organisationUnits = organisationUnits.substring(0, organisationUnits.length - 1);
@@ -205,6 +238,17 @@ var mapManager = {
     },
     getShared:function(){
         return shared;
+    },
+    getUserOrgunit:function(){
+            var response = $http({
+                method:'GET',
+                url:'/api/me/organisationUnits.json',
+                dataType:'json',
+                cache:true,
+                isModified:true
+            });
+
+        return response;
     }
 };
 
