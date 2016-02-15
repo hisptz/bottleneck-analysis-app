@@ -14,7 +14,6 @@ CACHE:
 
 ../../../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css
 ../../../dhis-web-commons/javascripts/jQuery/calendars/css/ui.calendars.picker.css
-../../../dhis-web-commons/css/imc/imc.css?_rev=${revision}
 
 ../../../dhis-web-commons/fonts/LiberationSans-Regular-webfont.eot
 ../../../dhis-web-commons/fonts/LiberationSans-Regular-webfont.woff
@@ -54,10 +53,6 @@ styles/style.css
 ../../../dhis-web-commons/javascripts/angular/plugins/angular-translate.min.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.services.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.controllers.js
-../../../dhis-web-commons/javascripts/angular/plugins/angular-translate-loader-url.min.js
-../../../dhis-web-commons/javascripts/angular/plugins/dhis2/directives.js
-../../../dhis-web-commons/javascripts/angular/plugins/dhis2/filters.js
-../../../dhis-web-commons/javascripts/angular/plugins/dhis2/services.js
 
 ../../../dhis-web-commons/javascripts/moment/moment-with-langs.min.js
 
@@ -102,6 +97,5 @@ styles/style.css
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.translate.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.menu.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.menu.ui.js
-../../../dhis-web-commons/paging/serverside-pagination.html
 
 

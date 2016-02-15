@@ -1,5 +1,18 @@
+<style>
+  .pagination {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important
+  }
+  .pagination > li > a, .pagination > li > span {
+    background-color: #ECECEC !important;
+
+  }
+  .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #428bca !important;
+  }
+</style>
 <div ng-controller="MenuController">
-<nav class="navbar navbar-default" bs-navbar >
+<nav class="navbar navbar-default" bs-navbar ng-if="!loading">
 
 
 
@@ -17,46 +30,23 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li  data-match-route="/$"><a href="#/">{{'home'| translate}}</a></li>
-        <li ng-repeat="dashboard in dashboards" data-match-route="/dashboards/{{dashboard.id}}"><a href="#/dashboards/{{dashboard.id}}/dashboard">{{ dashboard.name }}</a></li>
+        <li  data-match-route="/$"><a href="#/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{'home'| translate}}</a></li>
+        <!--<li ng-repeat="dashboard in dashboards" data-match-route="/dashboards/{{dashboard.id}}"><a href="#/dashboards/{{dashboard.id}}/dashboard">{{ dashboard.name }}</a></li>-->
+        <li style="border-right: #ECECEC 1px solid" dir-paginate="dashboard in dashboards | itemsPerPage:9" data-match-route="/dashboards/{{dashboard.id}}"><a href="#/dashboards/{{dashboard.id}}/dashboard">{{ dashboard.name }} </a></li>
       </ul>
+      <dir-pagination-controls
+              max-size="2"
+              direction-links="true"
+              boundary-links="true"
+              class="pull-right"
+              auto-hide="true">
+      </dir-pagination-controls>
     </div><!-- /.navbar-collapse -->
+    <!--<div class="col-sm-3">-->
+      <!---->
+    <!--</div>-->
+
   </div><!-- /.container-fluid -->
 </nav>
-<div class="row">
-  <div class="col s2 m2">
-    <div class="input-field col s12">
-      <input id="search" type="text" class="validate">
-      <label for="search">Search Item</label>
-    </div>
-  </div>
-  <div class="col s6 m6">
-    <div class="col s6 m6">
-      <a class="btn waves-effect waves-light" id="Year" onclick="periodYearly()">Yearly</a>
-      <a class="btn waves-effect waves-light" id="Quartely" onclick="periodQuarterly()">Quarterly</a>
-      <a class="btn waves-effect waves-light" id="monthly" onclick="periodMonthly()">Mon</a>
-    </div>
-    <div class="col s5 m5">
-      <div class="input-field col s12 m12 periods" id="period">
-       <label>Period</label>
-     </div>
-    </div>
-    </div>
-  <div class="col s2 m2">
-    <div class="col s12 m12">
-    <a class="btn waves-effect waves-light" id="target" >Prev</a>
-    <a class="btn waves-effect waves-light" id="targetz" >Next</a>
-      </div>
-  </div>
-  <div class="col s2 m2">
-    <div class="input-field col s12 Orgdrop grey lighten-5"  id="Orgdrop" >
-      <select>
-        <option ng-repeat="org in orgUnits" value="{{org.id}}">{{org.name}}</option>
-        <option ng-repeat="child in childOrg" value="{{child.id}}">{{child.name}}</option>
-      </select>
-      <label>OrganisationUnits</label>
-    </div>
-  </div>
-</div>
 </div>
 
