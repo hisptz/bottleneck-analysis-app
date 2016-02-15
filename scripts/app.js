@@ -6,7 +6,8 @@
 var idashboard = angular.module('idashboard',
                     [
                         'ui.bootstrap',
-                        'ngRoute','ui.date',
+                        'ngRoute',
+                        'ui.date',
                         'ngCookies',
                         'ngSanitize',
                         'idashboardDirectives',
@@ -15,30 +16,22 @@ var idashboard = angular.module('idashboard',
                         'idashboardFilters',
                         'd2Services',
                         'd2Controllers',
-                        'pascalprecht.translate',
                         'd2HeaderBar',
                         'mgcrea.ngStrap',
+                        'pascalprecht.translate',
                         'ui.bootstrap',
-                        'ivh.treeview',
                         'toaster',
                         'ngAnimate',
                         'angular-spinkit',
-                        'angularjs-dropdown-multiselect',
                         'openlayers-directive',
-                        'ngTable','multi-select-tree',
+                        'multi-select-tree',
                         'highcharts-ng',
                         'angularUtils.directives.dirPagination'
                     ])
               
 .value('DHIS2URL', '../../..')
-.config(function($translateProvider,$routeProvider,ivhTreeviewOptionsProvider) {
-	ivhTreeviewOptionsProvider.set({
-		   defaultSelectedState: false,
-		   validate: false,
-		   twistieCollapsedTpl: '<span class="glyphicon glyphicon-plus"></span>',
-		   twistieExpandedTpl: '<span class="glyphicon glyphicon-minus"></span>',
-		   twistieLeafTpl: '&#9679;'
-		 });
+.config(function($translateProvider,$routeProvider) {
+
 	$routeProvider.when('/', {
         templateUrl: 'views/home.html',
         controller: 'MainController'

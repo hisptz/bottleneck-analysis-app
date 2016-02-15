@@ -1,7 +1,7 @@
 var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager',
-    '$routeParams','$modal','$timeout','$translate','$anchorScroll','Paginator','ContextMenuSelectedItem',
-    '$filter','$http','GridColumnService','CustomFormService','ModalService','DialogService','DHIS2URL','mapManager','chartsManager',
+    '$routeParams','$modal','$timeout','$translate','Paginator','ContextMenuSelectedItem',
+    '$filter','$http','CustomFormService','ModalService','DialogService','DHIS2URL','mapManager','chartsManager',
     'TableRenderer',function($scope,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
@@ -9,12 +9,10 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                                         $modal,
                                                         $timeout,
                                                         $translate,
-                                                        $anchorScroll,
                                                         Paginator,
                                                         ContextMenuSelectedItem,
                                                         $filter,
                                                         $http,
-                                                        GridColumnService,
                                                         CustomFormService,
                                                         ModalService,
                                                         DialogService,
@@ -520,18 +518,3 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             replace: true
         };
     })
-dashboardController.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items) {
-
-                $scope.items = items;
-                $scope.selected = {
-                    item: $scope.items[0]
-                };
-
-                $scope.ok = function () {
-                    $uibModalInstance.close($scope.selected.item);
-                };
-
-                $scope.cancel = function () {
-                    $uibModalInstance.dismiss('cancel');
-                };
-            });
