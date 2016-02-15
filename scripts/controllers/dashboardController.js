@@ -170,7 +170,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                         var mapViews = analyticsObject.mapViews;
 
                         var layerProperties = mapManager.getLayerProperties(mapViews);
-
+                        console.log(layerProperties);
                         // get user orgunits and childrens
                         mapManager.getUserOrgunit().then(function (response) {
                             var userOrgUnit = response.data[0].children;
@@ -179,18 +179,23 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 var boundary = [];
 
 
-                                thematicLayer.success(function(thematicData){
-                                    //console.log(thematicData);
-                                });
 
                                 boundaryLayer.success(function(boundaryData){
 
                                     boundary = mapManager.getGeoJson(boundaryData);
-                                    console.log(boundary);
                                     dashboardItem.map = {};
                                     var latitude = output.latitude/100000;
                                     var longitude = output.longitude/100000;
                                     var zoom = output.zoom-1;
+
+                                    // process thematic layers
+                                    thematicLayer.success(function(thematicData){
+                                        console.log(" THEMATIC LAYER ");
+        //                                angular.
+                                        console.log(thematicData);
+                                    });
+
+
                                     angular.extend(dashboardItem.map, {
                                         Africa: {
                                             zoom: zoom,
@@ -202,7 +207,8 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                                 name:'OpenStreetMap',
                                                 source: {
                                                     type: 'OSM',
-                                                    url:"http://tile.openstreetmap.org/#map=" + zoom + "/" + longitude + "/" + latitude
+                                                    //url:"http://tile.openstreetmap.org/#map=" + zoom + "/" + longitude + "/" + latitude
+                                                    url:"http://developer.mapquest.com/content/osm/mq_logo.png/#map=" + zoom + "/" + longitude + "/" + latitude
                                                 }
                                             } ,
                                             {

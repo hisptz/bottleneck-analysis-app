@@ -31,7 +31,7 @@ var mapManager = {
         var thematicUrl = "";
         var dimensionItems = "";
         var period = null;
-
+        var thematicOrganisationUnits = "";
             angular.forEach(mapViews,function(view){
             layerType = view.layer;
             level = view.parentLevel+2;
@@ -67,7 +67,7 @@ var mapManager = {
             }
 
             if(layerType.indexOf('thematic')>=0){
-                var organisationUnits = "";
+
                 angular.forEach(view.dataDimensionItems,function(value){
                     if(value.dataDimensionItemType=="INDICATOR"){
                         dimensionItems+=value.indicator.id+";";
@@ -81,25 +81,16 @@ var mapManager = {
                         angular.forEach(value.items,function(valueOu){
                             if((valueOu.id=="USER_ORGUNIT"||valueOu.id=="USER_ORGUNIT_CHILDREN")&&count_user_orgunit==0){
                                 count_user_orgunit++;
-                                $http({
-                                    method:'GET',
-                                    url:'/api/me/organisationUnits.json',
-                                    dataType:'json',
-                                    cache:true,
-                                    isModified:true
-                                }).then(function(response){
-                                    angular.forEach(response.data[0].children,function(children){
-                                        organisationUnits+=children.id+";";
-                                    });
-                                },function(error){
 
-                                });
+                                    angular.forEach(orgunitChildren,function(children){
+                                        thematicOrganisationUnits+=children.id+";";
+                                    });
 
 
                             }
 
                             if(valueOu.id!="USER_ORGUNIT_CHILDREN"&&valueOu.id!="USER_ORGUNIT"){
-                                organisationUnits+=valueOu.id+";";
+                                thematicOrganisationUnits+=valueOu.id+";";
                             }
 
 
@@ -108,7 +99,7 @@ var mapManager = {
 
 
                 });
-                organisationUnits = organisationUnits.substring(0, organisationUnits.length - 1);
+                thematicOrganisationUnits = thematicOrganisationUnits.substring(0, thematicOrganisationUnits.length - 1);
 
 
                 angular.forEach(view.filters,function(value){
@@ -128,7 +119,7 @@ var mapManager = {
 
             });
 
-        thematicUrl="../../analytics.jsonp?dimension=ou:"+dimensionItems+"&dimension=dx:"+dimensionItems+"&filter=pe:"+period+"&displayProperty=NAME&callback=Ext.data.JsonP.callback"
+        thematicUrl="../../analytics.json?dimension=ou:"+thematicOrganisationUnits+"&dimension=dx:"+dimensionItems+"&filter=pe:"+period+"&displayProperty=NAME"
         var response = $.when(
         $http({
             method:'GET',
