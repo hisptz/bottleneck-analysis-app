@@ -281,8 +281,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                         .success(function(analyticsData){
                             var chartType=(dashboardItem.object.type).toLowerCase();
                             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawOtherCharts(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
-                            console.warn(chartType)
-                            console.warn($scope.dashboardChart[dashboardItem.id])
+                            $scope.dashboardChart[dashboardItem.id].loading = false;
                         });
                 });
             }
