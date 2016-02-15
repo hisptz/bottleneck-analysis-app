@@ -35,3 +35,11 @@ idashboardDirectives.directive('targetSelect', function() {
 
     };
 });
+idashboardDirectives.directive('targetTable',function(){
+   return {
+       restrict:"EA",
+       templateUrl:"views/dashboardTable.html",
+       replace:true,
+       transclude:true
+   }
+});
