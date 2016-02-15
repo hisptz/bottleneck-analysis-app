@@ -290,7 +290,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 var subrowsLength = TableRenderer.prepareCategories(analyticsData, secondRow).length;
                                 var headers=[];
                                 var firstRows=[];
-                                var subRow=[];
                                 angular.forEach(TableRenderer.prepareCategories(analyticsData, column.column), function (columnName) {
                                     headers.push({"name":columnName.name,"uid":columnName.uid});
                                  });
