@@ -1,239 +1,226 @@
+<style type="text/css">
+    form.tab-form-demo .tab-pane {
+        margin: 20px 20px;
+    }
+</style>
 <three-bounce-spinner ng-if="loading"></three-bounce-spinner>
 <div ng-if="!loading">
-     <three-bounce-spinner ng-if="loading"></three-bounce-spinner>
-         <div ng-if="!loading" class="row">
-          <script>
-                 periodYearly();
-                  function periodYearly(){
-                      $("#targetz,#target").hide();
-                      var YearList = "<select material-select watch>";
-                      var currentYear = new Date().getFullYear();
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-sm-2">
+            <h4 class="text-muted">Customize Dashboards</h4>
+        </div>
+        <div class="col-sm-2">
+            <h4 class="text-muted">{{ dashBoardName }}</h4>
+        </div>
+        <div class="col-sm-8">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Type to Search...">
+                <span class="input-group-btn">
+                    <button class="btn btn-info" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                </span>
+            </div>
+        </div>
+    </div>
+     <div ng-if="!loading" class="row">
 
-                      for(i=0;i<10;i++){
-                          var year=currentYear -i;
-                          YearList += '<option value="'+year+'">'+year+'</option>';
-                      }
-                      YearList+= "<select>";
-                      $('#monthly').removeClass('green');
-                      $('#Quartely').removeClass('green');
-                      $('#Year').addClass('green');
-                      $('.periods').html(YearList);
-                      $('select').material_select();
-                   }
-                  window.year = new Date().getFullYear();
-                  function periodQuarterly(){
-                      $("#targetz,#target").show();
-                      window.year = new Date().getFullYear();
-                      handleNextandprevious("Quarterly");
-                      var QuarterlyList = "<select material-select watch>";
-                      var myQuarterList=[
-                          ["January-March","Q1"],["April-June","Q2"],["July-September","Q3"],["October-December","Q4"]
-                      ];
-                      $(myQuarterList).each(function(myArrayIndex,myArrayValue){
-                          QuarterlyList += '<option value="'+window.year+''+myArrayValue[1]+'">'+myArrayValue[0]+' '+' '+' '+window.year+'</option>';
-                      });
-                      QuarterlyList+= "<select>";
-                      $('#monthly').removeClass('green');
-                      $('#Quartely').addClass('green');
-                      $('#Year').removeClass('green');
-                      $('.periods').html(QuarterlyList);
-                      $('select').material_select();
-                  }
-                  function periodMonthly(){
-                      $("#targetz,#target").show();
-                      window.year = new Date().getFullYear();
-                      handleNextandprevious("Monthly");
-                      var mounthList="<select>";
-                      var monthArray=[
-                          ["January","01"],["February","02"],["March","03"],["April","04"],["May","05"],["June","06"],["July","07"],["Augost","08"],
-                          ["September","09"],["October","10"],["November","11"],["December","12"]
-                      ];
-                      $(monthArray).each(function(arrayIndex,arrayValue){
-                          mounthList += '<option value="'+window.year+''+arrayValue[1]+'">'+arrayValue[0]+' '+' '+' '+window.year+'</option>';
-                      });
-                       mounthList+= "<select>";
-                      $('#monthly').addClass('green');
-                      $('#Quartely').removeClass('green');
-                      $('#Year').removeClass('green');
-                      $('.periods').html(mounthList);
-                      $('select').material_select();
-                  }
-                  function handleNextandprevious(periodType){
-                      $('#target').unbind("click").click(function(){
-                          window.year--;
-                          if(periodType == "Monthly"){
-                              var mounthList="<select material-select watch>";
-                              var monthArray=[
-                                  ["January","01"],["February","02"],["March","03"],["April","04"],["May","05"],["June","06"],["July","07"],["Augost","08"],
-                                  ["September","09"],["October","10"],["November","11"],["December","12"]
-                              ];
-                              $(monthArray).each(function(arrayIndex,arrayValue){
-                                  mounthList += '<option value="'+window.year+''+arrayValue[1]+'">'+arrayValue[0]+' '+' '+' '+window.year+'</option>';
-                              });
-                              mounthList+="</select>";
-                              $('#monthly').addClass('green');
-                              $('#Quartely').removeClass('green');
-                              $('#Year').removeClass('green');
-                              $('.periods').html(mounthList);
-                              $('select').material_select();
-                           }else if(periodType == "Quarterly"){
-                              var QuarterlyList = "<select material-select watch>";
-                              var myQuarterList=[
-                                  ["January-March","Q1"],["April-June","Q2"],["July-September","Q3"],["October-December","Q4"]
-                              ];
-                              $(myQuarterList).each(function(myArrayIndex,myArrayValue){
-                                  QuarterlyList += '<option value="'+window.year+''+myArrayValue[1]+'">'+myArrayValue[0]+' '+' '+' '+window.year+'</option>';
-                              });
-                              QuarterlyList+= "<select>";
-                              $('#monthly').removeClass('green');
-                              $('#Quartely').addClass('green');
-                              $('#Year').removeClass('green');
-                              $('.periods').html(QuarterlyList);
-                              $('select').material_select();
-                           }else{
+         <div class="col-sm-2" style="padding-right: 0px">
+             <ul class="list-group">
 
-                          }
 
-                      });
-                      $('#targetz').unbind("click").click(function(){
-                          window.year++;
+                 <li class="list-group-item">
+                     <label class="text-muted">Apply Filters to</label><br>
+                     <label class="radio-inline">
+                         <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="all" ng-model="radioValue"> All
+                     </label>
+                     <label class="radio-inline">
+                         <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="one" ng-model="radioValue"> One Item
+                     </label>
+                     <label ng-if="radioValue == 'one'" class="text-muted">Select Dashboard</label>
+                     <select  ng-if="radioValue == 'one'" class="form-control" >
+                         <option ng-repeat="dashboard in dashboardItems" value="{{ dashboard.id }}">
+                             {{ dashboard.name }}
+                         </option>
+                     </select>
+                 </li>
 
-                          if(periodType == "Monthly"){
-                              var mounthList="<select material-select watch>";
-                              var monthArray=[
-                                  ["January","01"],["February","02"],["March","03"],["April","04"],["May","05"],["June","06"],["July","07"],["Augost","08"],
-                                  ["September","09"],["October","10"],["November","11"],["December","12"]
-                              ];
-                              $(monthArray).each(function(arrayIndex,arrayValue){
-                                  mounthList += '<option value="'+window.year+''+arrayValue[1]+'">'+arrayValue[0]+' '+' '+' '+window.year+'</option>';
-                              });
-                              mounthList+="<select>";
-                              $('#monthly').addClass('green');
-                              $('#Quartely').removeClass('green');
-                              $('#Year').removeClass('green');
-                              $('.periods').html(mounthList);
-                              $('select').material_select();
-                          }else if(periodType == "Quarterly"){
-                              var QuarterlyList =  "<select material-select watch>";
+                 <!--period type-->
+                 <li class="list-group-item">
+                     <label class="text-muted">Period Type</label>
+                     <select id="periodType" class="form-control" ng-model="periodType" ng-change="changePeriodType(periodType)">
+                         <option value="">[ Select period type ]</option>
+                         <!--<option value="Weekly">Weekly</option>-->
+                         <option value="Monthly">Monthly</option>
+                         <option value="BiMonthly">Bimonthly</option>
+                         <option value="Quarterly">Quarterly</option>
+                         <option value="SixMonthly">Six-monthly</option>
+                         <option value="SixMonthlyApril">Six-monthly April</option>
+                         <option value="Yearly">Yearly</option>
+                         <option value="FinancialApril">Financial-April</option>
+                         <option value="FinancialJuly">Financial-July</option>
+                         <option value="FinancialOct">Financial-Oct</option>
+                     </select>
+                 </li>
 
-                              var myQuarterList=[
-                                  ["January-March","Q1"],["April-June","Q2"],["July-September","Q3"],["October-December","Q4"]
-                              ];
-                              $(myQuarterList).each(function(myArrayIndex,myArrayValue){
-                                  QuarterlyList += '<option value="'+window.year+''+myArrayValue[1]+'">'+myArrayValue[0]+' '+' '+' '+window.year+'</option>';
-                              });
-                              QuarterlyList+= "<select>";
-                              $('#monthly').removeClass('green');
-                              $('#Quartely').addClass('green');
-                              $('#Year').removeClass('green');
-                              $('.periods').html(QuarterlyList);
-                              $('select').material_select();
-                          }else{
+                 <!--period value-->
+                 <li class="list-group-item">
+                     <label class="text-muted">Period</label>
+                     <multi-select-tree
+                             data-input-model="periods"
+                             multi-select="true"
+                             data-output-model="data.outOrPeriods"
+                             data-default-label="Select Period"
+                             data-callback="selectOnly1Or3(item, selectedItems)"
+                             >
+                     </multi-select-tree>
+                     <!--<select class="form-control" style="margin-bottom: 5px">-->
+                        <!--<option ng-repeat="period in periods" value="{{ period.id }}">{{ period.name }}</option>-->
+                     <!--</select>-->
+                     <button type="button" class="btn btn-default btn-sm" style="width: 50%" ng-click="previousYear()"><< Prev Year</button>
+                     <button type="button " class="pull-right btn btn-default btn-sm" style="width: 50%" ng-click="nextYear()">Next Year >></button>
 
-                          }
-                      });
+                 </li>
 
-                  }
-               </script>
 
-           <div ng-repeat="dashboardItem in dashboardItems">
-                <div class="{{ dashboardItem.column_size }}">
-                    <div class="card z-depth-1 lighten-5 large">
-                        <div style="border-bottom:1px solid rgba(160,160,160,0.2)!important;padding:5px !important;">
-                            <p><a style="cursor: pointer" ng-click="cardClassResizable(dashboardItem.column_size,dashboardItem)">{{dashboardItem.labelCard}}
-                               </a>
-                                <span class="right">{{name}}</span>
-                            </p>
-                           </div>
+                 <!--orgunits-->
+                 <li class="list-group-item">
+                     <label class="text-muted">Organisation Unit</label>
+                     <multi-select-tree
+                             data-input-model="data.orgUnitTree"
+                             multi-select="true"
+                             data-output-model="data.outOrganisationUnits"
+                             data-default-label="Select Organization Zone"
+                             data-callback="selectOnly1Or2(item, selectedItems)"
+                             >
+                     </multi-select-tree>
+                 </li>
 
-                           <div class="card-image" style="overflow-y:scroll;overflow-x:scroll;min-height: 82% !important;">
+                 <li class="list-group-item">
+                     <button class="btn btn-info btn-block btn-sm">Update</button>
+                 </li>
+             </ul>
 
-                                    <div ng-if="dashboardItem.type=='MAP'">
-                                        <openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
-                                            <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
-                                        </openlayers>
-                                    </div>
+             <h4 class="text-muted">Controls</h4>
+             <tabs>
+                 <pane title="Table">
+                     <label class="text-muted">Column</label>
+                     <select class="input-sm form-control" ng-model="tableColumn">
+                         <option value="dx">Data</option>
+                         <option value="ou">Organisation Unit</option>
+                         <option value="pe">Period</option>
+                     </select>
+                     <label class="text-muted">Row</label>
+                     <select class="input-sm form-control" ng-model="tableRow">
+                         <option value="dx">Data</option>
+                         <option value="ou">Organisation Unit</option>
+                         <option value="pe">Period</option>
+                     </select>
+                 </pane>
+                 <pane title="Charts">
+                     <label class="text-muted">Y - Axis ( Vertical )</label>
+                     <select class="input-sm form-control" ng-model="chartXAxis">
+                         <option value="dx" selected>Data</option>
+                         <option value="ou">Organisation Unit</option>
+                         <option value="pe">Period</option>
+                     </select>
+                     <label class="text-muted">X - Axis ( Horizontal )</label>
+                     <select class="input-sm form-control" ng-model="chartYAxis">
+                         <option value="dx" selected>Data</option>
+                         <option value="ou">Organisation Unit</option>
+                         <option value="pe">Period</option>
+                     </select>
+                 </pane>
+             </tabs>
 
-                                    <highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
-                                    <div ng-if="dashboardItem.type=='REPORT_TABLE'" class="dashboardTable">
-                                        <table class="table table-bordered" ng-if="number[dashboardItem.id]=='1'">
-                                            <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th ng-repeat="header in headers[dashboardItem.id]">{{header.name}}</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                               <tr ng-repeat="rows in dashboardTab[dashboardItem.id]">
-                                                   <td>{{rows.name}}</td>
-                                                   <td ng-repeat="row in rows.dataElement">{{row.value}}</td>
-                                               </tr>
-                                            </tbody>
-                                        </table>
-                                        <table class="table table-bordered" ng-if="number[dashboardItem.id]=='2'">
-                                            <thead>
-                                            <tr>
-                                              <th rowspan="2"></th>
-                                                <th ng-repeat="first in firstColumn[dashboardItem.id]" colspan="{{first.length}}">{{first.name}}</th>
-                                             </tr>
-                                            <tr>
-                                                <th ng-repeat="sec in secondColumn[dashboardItem.id]">{{sec.name}}</th>
-                                            </tr>
-
-                                             </thead>
-                                            <tbody>
-                                            <tr ng-repeat="rows in dashboardTab[dashboardItem.id]">
-                                                <td>{{rows.name}}</td>
-                                                <td ng-repeat="row in rows.dataElement">{{row.value}}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <table class="table table-bordered" ng-if="number[dashboardItem.id]=='3'">
-                                            <thead>
-                                            <tr>
-                                                <th colspan="2"></th>
-                                                <th ng-repeat="first in column[dashboardItem.id]" colspan="{{first.length}}">{{first.name}}</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr ng-repeat="rows in firstRow[dashboardItem.id]">
-                                                <td rowspan="{{rows.length+1}}" class="center">{{rows.name}}</td>
-                                            </tr>
-                                            <tr ng-repeat="subRow in dashboardTab[dashboardItem.id]">
-                                                <td>{{subRow.name}}</td>
-                                                <td ng-repeat="subrow in subRow.dataElement">{{subrow.value}}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-
-                                    <!--</div>-->
-
-                           </div>
-                           <div class="card-action" style="border-top:0px solid !important">
-                               <span class="card-title activator grey-text text-darken-4"><i class="material-icons right mdi-navigation-more-vert"></i></span>
-                               <p>
-                                   <a ng-click="changeChart(icon.name,card)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn-floating btn-small waves-effect waves-light teal darken-2" style="padding-bottom: 4px; padding-top: 3px;padding-left: 8px;margin-right: 0px;"><img src="img/{{icon.image}}" style="height: 20px;width: 20px"/></i></a>
-                                   <a ng-click="downloadExcel(card.data)" target="_blank"  title="Download Excel" class="btn-floating btn-small waves-effect waves-light teal darken-2" style="padding-bottom: 4px; padding-top: 5px;padding-left: 8px;margin-right: 0px;"><img src="img/cvs.jpg" style="height: 20px;width: 20px"/></i></a>
-                                   <!--<a class="btn modal-trigger waves-effect waves-block waves-light" href='#demoModal' modal>Show Modal</a>-->
-                               </p>
-                           </div>
-                           <div class="card-reveal">
-                               <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
-                               <p class="flow-text"></p>
-
-                           </div>
-
-               </div>
-
-                  </div>
-             </div>
          </div>
- </div>
-<script>
-    $(document).ready(function() {
-        $('select').material_select();
+         <div class="col-sm-10">
+             <div ng-repeat="dashboardItem in dashboardItems" class="{{ dashboardItem.column_size }}" style="padding-right: 8px;padding-left: 0px">
+                 <div class="panel panel-default ">
+                     <div class="panel-heading">
+                         <a href='javascript:dhis2.db.viewShareForm( "vFxVriYuBi4", "reportTable", "ACT_Number of Children tested <15 for HIV" )'>Share interpretation </a>|
+                         <a ng-if="dashboardItem.type=='REPORT_TABLE'" href='/dhis-web-pivot/index.html'>Explore </a>
+                         <a ng-if="dashboardItem.type=='CHART'" href='/dhis-web-visualizer/'>Explore </a>
+                         <a ng-if="dashboardItem.type=='MAP'" href='/dhis-web-mapping/'>Explore </a>|
+                         <a ng-click="cardClassResizable(dashboardItem)">Resize</a>
 
-    });
-</script>
+                         <a ng-click="openModel(dashboardItem)" class="pull-right"><span class="glyphicon glyphicon-resize-full"></span> </a>
+                     </div>
+                     <div class="panel-body" style="height: 400px; overflow: scroll">
+                         <div ng-if="dashboardItem.type=='MAP'">
+                             <openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
+                                 <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
+                             </openlayers>
+                         </div>
+
+                         <highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
+                         <div ng-if="dashboardItem.type=='REPORT_TABLE'" class="dashboardTable">
+                             <table class="table table-bordered" ng-if="number[dashboardItem.id]=='1'">
+                                 <thead>
+                                 <tr>
+                                     <th></th>
+                                     <th ng-repeat="header in headers[dashboardItem.id]">{{header.name}}</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+                                 <tr ng-repeat="rows in dashboardTab[dashboardItem.id]">
+                                     <td>{{rows.name}}</td>
+                                     <td ng-repeat="row in rows.dataElement">{{row.value}}</td>
+                                 </tr>
+                                 </tbody>
+                             </table>
+                             <table class="table table-bordered" ng-if="number[dashboardItem.id]=='2'">
+                                 <thead>
+                                 <tr>
+                                     <th rowspan="2"></th>
+                                     <th ng-repeat="first in firstColumn[dashboardItem.id]" colspan="{{first.length}}">{{first.name}}</th>
+                                 </tr>
+                                 <tr>
+                                     <th ng-repeat="sec in secondColumn[dashboardItem.id]">{{sec.name}}</th>
+                                 </tr>
+
+                                 </thead>
+                                 <tbody>
+                                 <tr ng-repeat="rows in dashboardTab[dashboardItem.id]">
+                                     <td>{{rows.name}}</td>
+                                     <td ng-repeat="row in rows.dataElement">{{row.value}}</td>
+                                 </tr>
+                                 </tbody>
+                             </table>
+                             <table class="table table-bordered" ng-if="number[dashboardItem.id]=='3'">
+                                 <thead>
+                                 <tr>
+                                     <th colspan="2"></th>
+                                     <th ng-repeat="first in column[dashboardItem.id]" colspan="{{first.length}}">{{first.name}}</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+                                 <tr ng-repeat="rows in firstRow[dashboardItem.id]">
+                                     <td rowspan="{{rows.length+1}}" class="center">{{rows.name}}</td>
+                                 </tr>
+                                 <tr ng-repeat="subRow in dashboardTab[dashboardItem.id]">
+                                     <td>{{subRow.name}}</td>
+                                     <td ng-repeat="subrow in subRow.dataElement">{{subrow.value}}</td>
+                                 </tr>
+                                 </tbody>
+                             </table>
+
+                             <!--</div>-->
+
+                         </div>
+
+                     </div>
+                     <div class="panel-footer" style="padding: 1px 15px">
+                         <p style="margin: 3px">
+                             <a ng-click="changeChart(icon.name,card)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 25px;width: 25px"/></i></a>
+                             <a ng-click="downloadExcel(card.data)" target="_blank"  title="Download Excel" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/cvs.jpg" style="height: 25px;width: 25px"/></i></a>
+                         </p>
+                     </div>
+                 </div>
+
+
+                 </div>
+         </div>
+
+</div>
+</div>
 
 

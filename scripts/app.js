@@ -4,27 +4,31 @@
 /* App Module */
 
 var idashboard = angular.module('idashboard',
-                    ['ui.bootstrap', 
-                     'ngRoute','ui.date',
-                     'ngCookies', 
-                     'ngSanitize',
-                     'idashboardDirectives',
-                     'idashboardControllers',
-                     'idashboardServices',
-                     'idashboardFilters',
-                     'd2Services',
-                     'd2Controllers',
-                     'pascalprecht.translate',
-                     'd2HeaderBar',
-                     'mgcrea.ngStrap',
-                     'ui.bootstrap',
-                     'ivh.treeview',
-                     'toaster',
-                     'ngAnimate',
-                     'angular-spinkit',
-                     'angularjs-dropdown-multiselect',
-                     'openlayers-directive',
-                     'ngTable','multi-select-tree','highcharts-ng'])
+                    [
+                        'ui.bootstrap',
+                        'ngRoute','ui.date',
+                        'ngCookies',
+                        'ngSanitize',
+                        'idashboardDirectives',
+                        'idashboardControllers',
+                        'idashboardServices',
+                        'idashboardFilters',
+                        'd2Services',
+                        'd2Controllers',
+                        'pascalprecht.translate',
+                        'd2HeaderBar',
+                        'mgcrea.ngStrap',
+                        'ui.bootstrap',
+                        'ivh.treeview',
+                        'toaster',
+                        'ngAnimate',
+                        'angular-spinkit',
+                        'angularjs-dropdown-multiselect',
+                        'openlayers-directive',
+                        'ngTable','multi-select-tree',
+                        'highcharts-ng',
+                        'angularUtils.directives.dirPagination'
+                    ])
               
 .value('DHIS2URL', '../../..')
 .config(function($translateProvider,$routeProvider,ivhTreeviewOptionsProvider) {
