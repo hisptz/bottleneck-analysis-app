@@ -1,20 +1,18 @@
 var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager',
     '$routeParams','$modal','$timeout','$translate','Paginator','ContextMenuSelectedItem',
-    '$filter','$http','CustomFormService','ModalService','DialogService','DHIS2URL','mapManager','chartsManager',
-    'TableRenderer','filtersManager','$popover',function($scope,
+    '$filter','$http','CustomFormService','ModalService','DialogService','DHIS2URL', 'olHelpers',
+    'olData','mapManager','chartsManager','TableRenderer','filtersManager',function($scope,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
                                                         $routeParams,
                                                         $modal,
                                                         $timeout,
                                                         $translate,
-                                                        $anchorScroll,
                                                         Paginator,
                                                         ContextMenuSelectedItem,
                                                         $filter,
                                                         $http,
-                                                        GridColumnService,
                                                         CustomFormService,
                                                         ModalService,
                                                         DialogService,
@@ -24,8 +22,8 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                                         mapManager,
                                                         chartsManager,
                                                         TableRenderer,
-                                                        filtersManager,
-                                                        $popover
+                                                        filtersManager
+
     ){
 
         $scope.loading = true;
@@ -256,6 +254,8 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
                             var chartType=(dashboardItem.object.type).toLowerCase();
                             $scope.dashboardChartType[dashboardItem.id] = chartType;
+                            dashboardItem.chartXAxis = dashboardItem.object.category;
+                            dashboardItem.chartYAxis = dashboardItem.object.series;
                             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
                             $scope.dashboardLoader[dashboardItem.id] = false;
                         });
@@ -549,7 +549,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
             }else{
                 $scope.dashboardLoader[dashboardItem.id] = true;
-                $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType)
+                $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartXAxis,[],dashboardItem.chartYAxis,[],'none','',dashboardItem.object.name,chartType)
                 $scope.dashboardLoader[dashboardItem.id] = false;
             }
 

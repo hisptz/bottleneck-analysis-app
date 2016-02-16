@@ -6,18 +6,18 @@
 
     <div class="popover-content">
         <label class="text-muted">Y - Axis ( Vertical )</label>
-        <select class="input-sm form-control" ng-model="chartYAxis">
-            <option value="dx" ng-hide="chartXAxis == 'dx'">Data</option>
-            <option value="ou" ng-hide="chartXAxis == 'ou'">Organisation Unit</option>
-            <option value="pe" ng-hide="chartXAxis == 'pe'">Period</option>
+        <select class="input-sm form-control" ng-model="dashboardItem.chartYAxis">
+            <option value="dx" ng-hide="dashboardItem.chartXAxis == 'dx'">Data</option>
+            <option value="ou" ng-hide="dashboardItem.chartXAxis == 'ou'">Organisation Unit</option>
+            <option value="pe" ng-hide="dashboardItem.chartXAxis == 'pe'">Period</option>
         </select>
         <label class="text-muted">X - Axis ( Horizontal )</label>
-        <select class="input-sm form-control" ng-model="chartXAxis">
-            <option value="dx" ng-hide="chartYAxis == 'dx'">Data</option>
-            <option value="ou" ng-hide="chartYAxis == 'ou'">Organisation Unit</option>
-            <option value="pe" ng-hide="chartYAxis == 'pe'">Period</option>
+        <select class="input-sm form-control" ng-model="dashboardItem.chartXAxis">
+            <option value="dx" ng-hide="dashboardItem.chartYAxis == 'dx'">Data</option>
+            <option value="ou" ng-hide="dashboardItem.chartYAxis == 'ou'">Organisation Unit</option>
+            <option value="pe" ng-hide="dashboardItem.chartYAxis == 'pe'">Period</option>
         </select>
 
-        <button class="btn btn-sm btn-info" ng-click="updateChartLayout(dashboardItem,dashboardChartType[dashboardItem.id],chartXAxis,chartYAxis)">Update</button>
+        <button style="margin-top: 5px" class="btn btn-sm btn-info" ng-click="updateChartLayout(dashboardItem,dashboardChartType[dashboardItem.id],dashboardItem.chartXAxis,dashboardItem.chartYAxis)">Update</button>
     </div>
 </div>

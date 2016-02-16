@@ -105,37 +105,6 @@
                  </li>
              </ul>
 
-             <h4 class="text-muted">Controls</h4>
-             <tabs>
-                 <pane title="Table">
-                     <label class="text-muted">Column</label>
-                     <select class="input-sm form-control" ng-model="tableColumn">
-                         <option value="dx">Data</option>
-                         <option value="ou">Organisation Unit</option>
-                         <option value="pe">Period</option>
-                     </select>
-                     <label class="text-muted">Row</label>
-                     <select class="input-sm form-control" ng-model="tableRow">
-                         <option value="dx">Data</option>
-                         <option value="ou">Organisation Unit</option>
-                         <option value="pe">Period</option>
-                     </select>
-                 </pane>
-                 <pane title="Charts">
-                     <label class="text-muted">Y - Axis ( Vertical )</label>
-                     <select class="input-sm form-control" ng-model="chartXAxis">
-                         <option value="dx" selected>Data</option>
-                         <option value="ou">Organisation Unit</option>
-                         <option value="pe">Period</option>
-                     </select>
-                     <label class="text-muted">X - Axis ( Horizontal )</label>
-                     <select class="input-sm form-control" ng-model="chartYAxis">
-                         <option value="dx" selected>Data</option>
-                         <option value="ou">Organisation Unit</option>
-                         <option value="pe">Period</option>
-                     </select>
-                 </pane>
-             </tabs>
 
          </div>
          <div  ng-class="filtersHidden ? 'col-sm-12' : 'col-sm-10'">
