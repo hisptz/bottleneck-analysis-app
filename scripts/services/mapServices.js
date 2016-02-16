@@ -5,7 +5,6 @@ mapServices.factory('mapManager',['$http','shared',function($http,shared){
 var mapManager = {
 
     pushMapViews:function(analyticsObject){
-        console.log(analyticsObject);
         var mapId = analyticsObject.id;
         var url = "/api/maps/"+mapId+".json?fields=*,columns[dimension,filter,items[id,displayName|rename(name)]],rows[dimension,filter,items[id,displayName|rename(name)]],filters[dimension,filter,items[id,displayName|rename(name)]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit,mapViews[*,columns[dimension,filter,items[id,displayName|rename(name)]],rows[dimension,filter,items[id,displayName|rename(name)]],filters[dimension,filter,items[id,displayName|rename(name)]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit]&_dc=1455009241325";
 
@@ -152,7 +151,6 @@ var mapManager = {
 
 
         angular.forEach(mapViews,function(value){
-            console.log(value);
             var layers = {};
             if(value.layer.indexOf('thematic')>=0){
                 layers.type = value.layer;

@@ -30,7 +30,11 @@ var idashboard = angular.module('idashboard',
                     ])
               
 .value('DHIS2URL', '../../..')
-.config(function($translateProvider,$routeProvider) {
+.config(function($translateProvider,$routeProvider,$popoverProvider) {
+        angular.extend($popoverProvider.defaults, {
+            animation: 'am-flip-x',
+            trigger: 'hover'
+        });
 
 	$routeProvider.when('/', {
         templateUrl: 'views/home.html',

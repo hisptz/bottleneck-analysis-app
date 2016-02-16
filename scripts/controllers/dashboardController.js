@@ -2,7 +2,7 @@ var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager',
     '$routeParams','$modal','$timeout','$translate','Paginator','ContextMenuSelectedItem',
     '$filter','$http','CustomFormService','ModalService','DialogService','DHIS2URL','mapManager','chartsManager',
-    'TableRenderer',function($scope,
+    'TableRenderer','filtersManager','$popover',function($scope,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
                                                         $routeParams,
@@ -19,26 +19,23 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                                         DHIS2URL,
                                                         mapManager,
                                                         chartsManager,
-                                                        TableRenderer
+                                                        TableRenderer,
+                                                        filtersManager,
+                                                        $popover
     ){
 
         $scope.loading = true;
-        $scope.dashboardChart=[];
-        $scope.dashboardTab=[];
-        $scope.headers=[];
-        $scope.firstColumn=[];
-        $scope.secondColumn=[];
-        $scope.number=[];
-        $scope.icons = [
-            {name: 'table', image: 'table.jpg', action: ''},
-            {name: 'bar', image: 'bar.png', action: ''},
-            {name: 'line', image: 'line.png', action: ''},
-            {name: 'combined', image: 'combined.jpg', action: ''},
-            {name: 'column', image: 'column.png', action: ''},
-            {name: 'area', image: 'area.jpg', action: ''},
-            {name: 'pie', image: 'pie.png', action: ''},
-            {name: 'map', image: 'map.jpg', action: ''}
-        ];
+        $scope.dashboardChart = [];
+        $scope.dashboardDataElements = [];
+        $scope.dashboardAnalytics = [];
+        $scope.dashboardLoader = [];
+        $scope.dashboardChartType = [];
+        $scope.dashboardTab = [];
+        $scope.headers = [];
+        $scope.firstColumn = [];
+        $scope.secondColumn = [];
+        $scope.number = [];
+        $scope.icons = filtersManager.icons;
 
         var d = new Date();
         //default filter values
@@ -54,26 +51,16 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
          *
          * Filters Specification
          */
+        $scope.popover = {title: 'Title', content: 'Hello Popover<br />This is a multiline message!'};
+
+
+
         $scope.data = [];
-        $scope.updateTree = function(orgUnitArray){
-            $scope.data.orgUnitTree = [];
-            angular.forEach(orgUnitArray.organisationUnits,function(value){
-                var zoneRegions = [];
-                angular.forEach(value.children,function(regions){
-                    var regionDistricts = [];
-                    angular.forEach(regions.children,function(district){
-                        var districtsFacility = [];
-                        angular.forEach(district.children,function(facility){
-                            districtsFacility.push({name:facility.name,id:facility.id });
-                        });
-                        regionDistricts.push({name:district.name,id:district.id, children:districtsFacility });
-                    });
-                    zoneRegions.push({ name:regions.name,id:regions.id, children:regionDistricts });
-                });
-                $scope.data.orgUnitTree.push({ name:value.name,id:value.id, children:zoneRegions,selected:true });
-            });
-            return $scope.data.orgUnitTree
-        };
+        $scope.loadOrgunits = false;
+        filtersManager.getOrgUnits().then(function(data){
+            $scope.data.orgUnitTree = filtersManager.getOtgunitTree(data);
+            $scope.loadOrgunits = true;
+        });
 
         $scope.selectOnly1Or3 = function(item, selectedItems) {
             if (selectedItems  !== undefined && selectedItems.length >= 20) {
@@ -82,6 +69,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 return true;
             }
         };
+
         $scope.selectOnly1Or3 = function(item, selectedItems) {
             if (selectedItems  !== undefined && selectedItems.length >=12) {
                 return false;
@@ -90,7 +78,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             }
         };
 
-        $scope.filtersHidden = false
+        $scope.filtersHidden = false;
         $scope.hideFilters = function(){
             if($scope.filtersHidden == true){
                 $scope.filtersHidden = false
@@ -98,14 +86,8 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 $scope.filtersHidden = true
             }
         }
-        //Orgunits
-        $http.get("../../../api/organisationUnits.json?filter=level:eq:1&paging=false&fields=id,name,children[id,name,children[id,name,children[id,name]]]")
-            .success(function(orgUnits){
-                console.info($scope.updateTree(orgUnits))
-            });
 
         $scope.changePeriodType = function(type){
-            console.log(type)
             $scope.periodType = type;
             $scope.getPeriodArray(type);
         };
@@ -123,52 +105,19 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
         //popup model
         $scope.openModel = function (size) {
-
-            $('#'+size).modal('show')
+            $('#'+size).modal('show');
+            $scope.$broadcast('highchartsng.reflow');
         };
+
 
 
         $scope.getPeriodArray = function(type){
             var year = $scope.yearValue;
-            var periods = [];
-            if(type == "Weekly"){
-                periods.push({id:'',name:''})
-            }if(type == "Monthly"){
-                periods.push({id:year+'01',name:'January '+year},{id:year+'02',name:'February '+year},{id:year+'03',name:'March '+year},{id:year+'04',name:'April '+year},{id:year+'05',name:'May '+year},{id:year+'06',name:'June '+year},{id:year+'07',name:'July '+year},{id:year+'08',name:'August '+year},{id:year+'09',name:'September '+year},{id:year+'10',name:'October '+year},{id:year+'11',name:'November '+year},{id:year+'12',name:'December '+year})
-            }if(type == "BiMonthly"){
-                periods.push({id:year+'01B',name:'January - February '+year},{id:year+'02B',name:'March - April '+year},{id:year+'03B',name:'May - June '+year},{id:year+'04B',name:'July - August '+year},{id:year+'05B',name:'September - October '+year},{id:year+'06B',name:'November - December '+year})
-            }if(type == "Quarterly"){
-                periods.push({id:year+'Q1',name:'January - March '+year},{id:year+'Q2',name:'April - June '+year},{id:year+'Q3',name:'July - September '+year},{id:year+'Q4',name:'October - December '+year})
-            }if(type == "SixMonthly"){
-                periods.push({id:year+'S1',name:'January - June '+year},{id:year+'S2',name:'July - December '+year})
-            }if(type == "SixMonthlyApril"){
-                periods.push({id:year+'AprilS2',name:'October 2011 - March 2012'},{id:year+'AprilS1',name:'April - September '+year})
-            }if(type == "FinancialOct"){
-                for (var i = 0; i <= 10; i++) {
-                    var useYear = parseInt($scope.yearValue) - i;
-                    periods.push({id:useYear+'Oct',name:'October '+useYear+' - September '+useYear})
-                }
-            }if(type == "Yearly"){
-                for (var i = 0; i <= 10; i++) {
-                    var useYear = parseInt($scope.yearValue) - i;
-                    periods.push({id:useYear,name:useYear})
-                }
-            }if(type == "FinancialJuly"){
-                for (var i = 0; i <= 10; i++) {
-                    var useYear = parseInt($scope.yearValue) - i;
-                    periods.push({id:useYear+'July',name:'July '+useYear+' - June '+useYear})
-                }
-            }if(type == "FinancialApril"){
-                for (var i = 0; i <= 10; i++) {
-                    var useYear = parseInt($scope.yearValue) - i;
-                    periods.push({id:useYear+'April',name:'April '+useYear+' - March '+useYear})
-                }
-            }
-            $scope.periods = periods;
+            $scope.periods = filtersManager.getPeriodArray(type,year);
         };
-
         $scope.getPeriodArray($scope.periodType);
 
+        //abstract dashboard name
         $scope.getDashboardName = function(dashboard){
             var name = "";
             if(dashboard.type == "REPORT_TABLE"){
@@ -194,7 +143,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 $scope.getAnalytics(value, 608, false )
 
                 value.labelCard=$scope.getCardSize(value.shape);
-            })
+            });
 
             $scope.loading=false;
         });
@@ -219,6 +168,13 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 dashboardItem.column_size = 'col-md-6';
             }
 
+            if(dashboardItem.type=='CHART'){
+                //var dItem = $scope.dashboardChart[dashboardItem.id];
+                //$scope.dashboardChart[dashboardItem.id] = null;
+                //$scope.dashboardChart[dashboardItem.id] = dItem
+                //$scope.$broadcast('highchartsng.reflow');
+            }
+
         }
 
         $scope.getCardSize=function(shapeSize){
@@ -231,11 +187,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 labelCard='Small';
             }
             return labelCard;
-         }
+         };
 
         $scope.getDashboardItem = function(dashboardItem) {
             return dashboardItem[dashboardItem.type];
-        }
+        };
 
         $scope.getAnalytics = function( dashboardItem, width, prepend )
         {
@@ -245,6 +201,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             var graphStyle = "width:" + width + "px; overflow:hidden;";
             var tableStyle = "width:" + width + "px;";
             var userOrgUnit =  [];
+            $scope.dashboardLoader[dashboardItem.id] = true;
 
             if ( "CHART" == dashboardItem.type )
             {
@@ -281,11 +238,17 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 }).then(function(result){
                     dashboardItem.object=window.object;
                     dashboardItem.analyticsUrl = window.alayticsUrl;
+                    var analytics = dashboardItem.analyticsUrl;
+                    var dataElements = analytics.substring(analytics.indexOf('dx:')+3,analytics.indexOf("&"));
+                    $scope.dashboardDataElements[dashboardItem.id] = dataElements.split(";");
+
                     $http.get('../../../'+dashboardItem.analyticsUrl)
                         .success(function(analyticsData){
+                            $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
                             var chartType=(dashboardItem.object.type).toLowerCase();
-                            $scope.dashboardChart[dashboardItem.id] = chartsManager.drawOtherCharts(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
-                            $scope.dashboardChart[dashboardItem.id].loading = false;
+                            $scope.dashboardChartType[dashboardItem.id] = chartType;
+                            $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
+                            $scope.dashboardLoader[dashboardItem.id] = false;
                         });
                 });
             }
@@ -319,13 +282,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
 
                                 thematicLayer.success(function(thematicData){
-                                    //console.log(thematicData);
                                 });
 
                                 boundaryLayer.success(function(boundaryData){
-
+                                    $scope.dashboardLoader[dashboardItem.id] = false;
                                     boundary = mapManager.getGeoJson(boundaryData);
-                                    console.log(boundary);
                                     dashboardItem.map = {};
                                     var latitude = output.latitude/100000;
                                     var longitude = output.longitude/100000;
@@ -410,8 +371,12 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     var rows = {};
                     var filters = {};
                     var headerArray=[];
+                    var analytics = dashboardItem.analyticsUrl;
+                    var dataElements = analytics.substring(analytics.indexOf('dx:')+3,analytics.indexOf("&"));
+                    $scope.dashboardDataElements[dashboardItem.id] = dataElements.split(";");
                     $http.get('../../..'+dashboardItem.analyticsUrl)
                             .success(function(analyticsData){
+                            $scope.dashboardLoader[dashboardItem.id] = false;
                             angular.forEach(dashboardItem.object.rows,function(row){
                                 rows['rows']=row.dimension;
                             });
@@ -469,7 +434,51 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 });
             }
         }
-    }])
+
+        //update the dashboard acording to the filters
+        $scope.updateDashboard = function(){
+            angular.forEach($scope.dashboardItems,function(value){
+                if(value.type == 'CHART'){
+                    $scope.dashboardLoader[value.id] = true;
+                    var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[value.id]);
+                    $http.get(analyticsUrl)
+                        .success(function(analyticsData){
+                            $scope.dashboardAnalytics[value.id] = analyticsData;
+                            var chartType=(value.object.type).toLowerCase();
+                            $scope.dashboardChartType[value.id] = chartType;
+                            $scope.dashboardChart[value.id] = chartsManager.drawChart(analyticsData,value.object.category,[],value.object.series,[],'none','',value.object.name,chartType)
+                            $scope.dashboardLoader[value.id] = false;
+                        });
+                }
+            });
+
+        }
+
+        //update the dashboard according to the filters
+        $scope.updateSingleDashboard = function(dashboardItem,chartType){
+            $scope.dashboardChartType[dashboardItem.id] = chartType;
+            var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[dashboardItem.id]);
+            if( chartType == 'table') {
+
+            }else if(chartType == 'map') {
+
+            }else{
+                $scope.dashboardLoader[dashboardItem.id] = true;
+                $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType)
+                $scope.dashboardLoader[dashboardItem.id] = false;
+            }
+
+        }
+
+        //update the dashboard according to the filters
+        $scope.updateChartLayout = function(dashboardItem,chartType,xAxis,yAxis) {
+            $scope.dashboardLoader[dashboardItem.id] = true;
+            $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id], xAxis, [], yAxis, [], 'none', '', dashboardItem.object.name, chartType)
+            $scope.dashboardLoader[dashboardItem.id] = false;
+        }
+    }]);
+
+    //directive to display the tabs
     dashboardController.directive('tabs', function() {
         return {
             restrict: 'E',

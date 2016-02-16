@@ -16,7 +16,6 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
                 }
                 count++
             });
-            //console.log(index);
             return index;
         },
         getMetadataArray:function (analyticsObject, metadataType) {
@@ -57,7 +56,6 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
             return categories;
         },
 
-        //console.log(this.prepareCategories(metaData,'dx'));
         getDataValue:function (analyticsObject, xAxisType, xAxisUid, yAxisType, yAxisUid, filterType, filterUid) {
             var self=this;
             var num = 0;
@@ -93,7 +91,6 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
                 });
                  normalTable.push({"name": row.name, 'uid': row.uid, 'dataElement': dataElement});
             })
-            console.log(normalTable);
             return normalTable;
 
 
@@ -145,7 +142,6 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
             var self=this;
             var normalTable=[];
             angular.forEach(self.prepareCategories(analyticsObject, rowType), function (rowName) {
-                 console.log(rowName);
                angular.forEach(self.prepareCategories(analyticsObject, subrowType), function (subRowName) {
                     var dataElement = [];
                    angular.forEach(self.prepareCategories(analyticsObject, columnType), function (columnName) {
@@ -157,7 +153,6 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
                 });
 
             });
-        console.log(normalTable);
         return normalTable;
         }
     }

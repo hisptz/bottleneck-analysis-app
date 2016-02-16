@@ -3704,7 +3704,6 @@ Ext.onReady( function() {
 	};
 
 	PT.plugin.getTable = function(config) {
-		console.log("Table is here");
 		var appConfig = {
 			plugin: true,
 			dashboard: Ext.isBoolean(config.dashboard) ? config.dashboard : false,
@@ -3734,7 +3733,6 @@ Ext.onReady( function() {
 				onFailure(r);
 			},
 			success: function(r) {
-				console.log('success is exectured');
 				var layout = core.api.layout.Layout((r.responseText ? Ext.decode(r.responseText) : r), config);
 				var xLayout = core.service.layout.getExtendedLayout(layout);
 				var paramString = core.web.analytics.getParamString(xLayout) ;

@@ -3752,7 +3752,6 @@ Ext.onReady(function() {
                         var paramString = web.analytics.getParamString(xLayout) ;
                         var sortedParamString = web.analytics.getParamString(xLayout, true) + '&skipMeta=true';
                         return init.contextPath + '/api/analytics.json' + paramString;
-                        console.log(init.contextPath + '/api/analytics.json' + paramString)
                     }
                 });
 
@@ -3775,7 +3774,7 @@ Ext.onReady(function() {
             username: Ext.isString(config.username) ? config.username : null,
             password: Ext.isString(config.password) ? config.password : null
         };
-        var core = DV.getCore(init,appConfig);console.log(core);
+        var core = DV.getCore(init,appConfig);
         config.url =   '/api/charts/' + config.id + '.json?fields=' + core.conf.url.analysisFields.join(',');
         //config.disableCaching = false;
         //config.headers = headers;

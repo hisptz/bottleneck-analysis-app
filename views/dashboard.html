@@ -89,7 +89,8 @@
                  <!--orgunits-->
                  <li class="list-group-item">
                      <label class="text-muted">Organisation Unit</label>
-                     <multi-select-tree
+                     <wave-spinner ng-show="!loadOrgunits"></wave-spinner>
+                     <multi-select-tree ng-show="loadOrgunits"
                              data-input-model="data.orgUnitTree"
                              multi-select="true"
                              data-output-model="data.outOrganisationUnits"
@@ -100,7 +101,7 @@
                  </li>
 
                  <li class="list-group-item">
-                     <button class="btn btn-info btn-block btn-sm">Update</button>
+                     <button class="btn btn-info btn-block btn-sm" ng-click="updateDashboard()" ng-show="loadOrgunits">Update</button>
                  </li>
              </ul>
 
@@ -145,26 +146,36 @@
                          <a ng-if="dashboardItem.type=='REPORT_TABLE'" href='/dhis-web-pivot/index.html'>Explore </a>
                          <a ng-if="dashboardItem.type=='CHART'" href='/dhis-web-visualizer/'>Explore </a>
                          <a ng-if="dashboardItem.type=='MAP'" href='/dhis-web-mapping/'>Explore </a>|
-                         <a ng-click="cardClassResizable(dashboardItem)">Resize</a>
+                         <a ng-click="cardClassResizable(dashboardItem)">Resize</a> |
+
+                         <a ng-if="dashboardItem.type=='CHART'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5"
+                                 data-content="{{popover.content}}"
+                                 data-template-url="views/chartLayout.html"
+                                 data-animation="am-flip-x"
+                                 data-trigger = 'click'
+                                 data-auto-close="1" bs-popover> Layout
+                         </a>
 
                          <a ng-click="openModel(dashboardItem.id)" class="pull-right"><span class="glyphicon glyphicon-resize-full"></span> </a>
                      </div>
                      <div class="panel-body" style="height: 400px; overflow: scroll">
-                         <div ng-if="dashboardItem.type=='MAP'">
+                         <div ng-if="dashboardItem.type=='MAP'" ng-show="!dashboardLoader[dashboardItem.id]">
                              <openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
                                  <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
                              </openlayers>
                          </div>
 
-                         <highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]" style="width: 100%"></highchart>
-                         <div ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
+                         <highchart  ng-show="!dashboardLoader[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
+                         <div  ng-show="!dashboardLoader[dashboardItem.id]" ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
                              <target-table></target-table>
                          </div>
+
+                         <chasing-dots-spinner ng-if="dashboardLoader[dashboardItem.id]"></chasing-dots-spinner>
 
                      </div>
                      <div class="panel-footer" style="padding: 1px 15px">
                          <p style="margin: 3px">
-                             <a ng-click="changeChart(icon.name,card)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 25px;width: 25px"/></i></a>
+                             <a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 25px;width: 25px"/></i></a>
                              <a ng-click="downloadExcel(card.data)" target="_blank"  title="Download Excel" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/cvs.jpg" style="height: 25px;width: 25px"/></i></a>
                          </p>
                      </div>
@@ -182,6 +193,10 @@
                                      <openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
                                          <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
                                      </openlayers>
+                                 </div>
+
+                                 <div ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
+                                     <target-table></target-table>
                                  </div>
 
                                  <highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]" style="width: 100%"></highchart>

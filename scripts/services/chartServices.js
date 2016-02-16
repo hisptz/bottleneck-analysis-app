@@ -171,7 +171,7 @@ chartServices.factory('chartsManager',function(){
                     return currentService.drawTable(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title);
                     break;
                 default :
-                    return currentService.drawTable(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title);
+                    return currentService.drawOtherCharts(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, type);
                     break;
             }
         },
@@ -240,11 +240,7 @@ chartServices.factory('chartsManager',function(){
                 chartObject.series.push({type: 'column', name: yAxis.name, data: barSeries});
                 chartObject.series.push({type: 'spline', name: yAxis.name, data: barSeries});
             });
-            chartObject.series.push({type: 'pie', name: title, data: pieSeries,center: [100, 80],size: 150,showInLegend: false,
-                dataLabels: {
-                    enabled: false
-                }
-            });
+
 
             return chartObject;
         },
@@ -262,7 +258,6 @@ chartServices.factory('chartsManager',function(){
                 var chartSeries = [];
                 angular.forEach(metaDataObject.xAxisItems,function(xAxis){
                     var number = currentService.getDataValue(analyticsObject,xAxisType,xAxis.uid,yAxisType,yAxis.uid,filterType,filterUid);
-                    //console.log(xAxis.name+"("+xAxis.uid+")"+"---"+yAxis.name+"("+yAxis.uid+")"+" value is " + number);
                     chartSeries.push(parseFloat(number));
                 });
                 chartObject.series.push({type: chartType, name: yAxis.name, data: chartSeries});

@@ -1,0 +1,23 @@
+<div class="popover ng-scope am-flip-x right" tabindex="-1" ng-show="content"
+     style="top: 0px; left: 178.547px; display: block; visibility: visible; width: 300px">
+
+    <div class="arrow" style="top: 14.8305%;"></div>
+    <h3 class="popover-title ng-binding" ng-bind-html="title" ng-show="title">Title</h3>
+
+    <div class="popover-content">
+        <label class="text-muted">Y - Axis ( Vertical )</label>
+        <select class="input-sm form-control" ng-model="chartYAxis">
+            <option value="dx" ng-hide="chartXAxis == 'dx'">Data</option>
+            <option value="ou" ng-hide="chartXAxis == 'ou'">Organisation Unit</option>
+            <option value="pe" ng-hide="chartXAxis == 'pe'">Period</option>
+        </select>
+        <label class="text-muted">X - Axis ( Horizontal )</label>
+        <select class="input-sm form-control" ng-model="chartXAxis">
+            <option value="dx" ng-hide="chartYAxis == 'dx'">Data</option>
+            <option value="ou" ng-hide="chartYAxis == 'ou'">Organisation Unit</option>
+            <option value="pe" ng-hide="chartYAxis == 'pe'">Period</option>
+        </select>
+
+        <button class="btn btn-sm btn-info" ng-click="updateChartLayout(dashboardItem,dashboardChartType[dashboardItem.id],chartXAxis,chartYAxis)">Update</button>
+    </div>
+</div>
