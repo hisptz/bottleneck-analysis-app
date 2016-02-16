@@ -523,18 +523,24 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         //update the dashboard acording to the filters
         $scope.updateDashboard = function(){
             angular.forEach($scope.dashboardItems,function(value){
-                if(value.type == 'CHART'){
-                    $scope.dashboardLoader[value.id] = true;
-                    var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[value.id]);
-                    $http.get(analyticsUrl)
-                        .success(function(analyticsData){
+                var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[value.id]);
+                $http.get(analyticsUrl)
+                    .success(function(analyticsData){
+                        if(value.type == 'CHART'){
+                            $scope.dashboardLoader[value.id] = true;
                             $scope.dashboardAnalytics[value.id] = analyticsData;
                             var chartType=(value.object.type).toLowerCase();
                             $scope.dashboardChartType[value.id] = chartType;
                             $scope.dashboardChart[value.id] = chartsManager.drawChart(analyticsData,value.object.category,[],value.object.series,[],'none','',value.object.name,chartType)
                             $scope.dashboardLoader[value.id] = false;
-                        });
-                }
+                        }else if(value.type == 'MAP'){
+                            //mpande
+                        }else if(value.type == 'REPORT_TABLE'){
+                            //tuzo
+                        }
+
+                    });
+
             });
 
         }
