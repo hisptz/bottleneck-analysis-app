@@ -93,6 +93,15 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 return true;
             }
         };
+
+        $scope.filtersHidden = false
+        $scope.hideFilters = function(){
+            if($scope.filtersHidden == true){
+                $scope.filtersHidden = false
+            }else if($scope.filtersHidden == false){
+                $scope.filtersHidden = true
+            }
+        }
         //Orgunits
         $http.get("../../../api/organisationUnits.json?filter=level:eq:1&paging=false&fields=id,name,children[id,name,children[id,name,children[id,name]]]")
             .success(function(orgUnits){
@@ -119,13 +128,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         //popup model
         $scope.openModel = function (size) {
 
-            $modal.open({
-                animation: true,
-                templateUrl: 'views/dashboardModel.html',
-                scope: $scope,
-                controller: 'ModalInstanceCtrl',
-                size: "lg"
-            });
+            $('#'+size).modal('show')
         };
 
 
@@ -212,6 +215,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             }
             return 'col-md-'+size;
         };
+
         $scope.cardClassResizable=function(dashboardItem){
             if(dashboardItem.column_size == 'col-md-6'){
                 dashboardItem.column_size = 'col-md-12';
@@ -220,6 +224,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             }
 
         }
+
         $scope.getCardSize=function(shapeSize){
             var labelCard='';
             if(angular.lowercase(shapeSize)=="double_width") {
@@ -231,6 +236,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             }
             return labelCard;
          }
+
         $scope.getDashboardItem = function(dashboardItem) {
             return dashboardItem[dashboardItem.type];
         }
@@ -522,7 +528,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 var subrowsLength = TableRenderer.prepareCategories(analyticsData, secondRow).length;
                                 var headers=[];
                                 var firstRows=[];
-                                var subRow=[];
                                 angular.forEach(TableRenderer.prepareCategories(analyticsData, column.column), function (columnName) {
                                     headers.push({"name":columnName.name,"uid":columnName.uid});
                                  });
