@@ -1,11 +1,10 @@
 var mapServices = angular.module('mapServices',['ngResource']);
 
-mapServices.factory('mapManager',['$http','shared',function($http,shared){
+mapServices.factory('mapManager',['$http','olHelpers','shared',function($http,olHelpers,shared){
     'use strict';
 var mapManager = {
-
+    features:[],
     pushMapViews:function(analyticsObject){
-        console.log(analyticsObject);
         var mapId = analyticsObject.id;
         var url = "/api/maps/"+mapId+".json?fields=*,columns[dimension,filter,items[id,displayName|rename(name)]],rows[dimension,filter,items[id,displayName|rename(name)]],filters[dimension,filter,items[id,displayName|rename(name)]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit,mapViews[*,columns[dimension,filter,items[id,displayName|rename(name)]],rows[dimension,filter,items[id,displayName|rename(name)]],filters[dimension,filter,items[id,displayName|rename(name)]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit]&_dc=1455009241325";
 
@@ -72,7 +71,7 @@ var mapManager = {
                     if(value.dataDimensionItemType=="INDICATOR"){
                         dimensionItems+=value.indicator.id+";";
                     }
-
+                    console.log(value);
                 });
                 dimensionItems = dimensionItems.substring(0, dimensionItems.length - 1);
 
@@ -143,9 +142,9 @@ var mapManager = {
 
 
         angular.forEach(mapViews,function(value){
-            console.log(value);
             var layers = {};
             if(value.layer.indexOf('thematic')>=0){
+
                 layers.type = value.layer;
                 layers.name = value.name;
                 layers.ishidden = value.hidden;
@@ -176,10 +175,31 @@ var mapManager = {
 
         return properties;
     },
-    getGeoJson:function(data){
-
-
+    getGeoJson:function(data,thematicData,layerProperties,props){
+                var legend = null;
                 var geoLayer = {"type":"FeatureCollection","features":[]};
+        var colorHigh = "";
+                var layerOpacity = 0;
+                angular.forEach(layerProperties,function(layer){
+                    if(layer.type.indexOf("thematic")>=0){
+
+                        var colorArray = mapManager.getColorArray(layer.colorLow,layer.colorHigh,layer.classes);
+                        var valueIntervals = mapManager.getValueInterval(thematicData.rows,layer.classes);
+                        legend = mapManager.getLegend(colorArray,valueIntervals);
+
+                        angular.forEach(thematicData.rows,function(value,index){
+                            layerOpacity = layer.opacity;
+                            mapManager.features[value[1]] = {
+                                facility_id:value[1],
+                                opacity:layerOpacity,
+                                "color":mapManager.decideColor(value,legend),
+                                "facility":Math.floor(Math.random() * 256)
+                            };
+
+                        });
+
+                    }
+                });
                 angular.forEach(data,function(value){
                     var feature = {
                         type:"GeoJSON",
@@ -194,16 +214,7 @@ var mapManager = {
                             level:"",
                             parent:"",
                             parentGraph:""
-                        },style:{
-                            fill:{
-                                color:'#CED11B',
-                                opacity:5
-                            },
-                            stroke:{
-                                color:'#CED11B',
-                                width:5
-                            }
-                        }
+                        },style:""
                     }
 
                         if(value.ty==2){
@@ -217,6 +228,7 @@ var mapManager = {
                             feature.properties.parent       = value.pi;
                             feature.properties.parentGraph  = value.pg;
                             feature.id  = value.id;
+                            feature.style  = mapManager.getStyle(feature);
                             geoLayer.features.push(feature);
                         }
 
@@ -225,7 +237,40 @@ var mapManager = {
 
         });
 
-        return geoLayer;
+       var boundaries =  {
+            Africa: {
+                zoom: props.zoom,
+                    lat: props.latitude,
+                    lon: props.longitude
+            },
+            layers:[
+                {
+                    name:'OpenStreetMap',
+                    source: {
+                        type: 'OSM',
+                        url:"http://tile.openstreetmap.org/#map=" + props.zoom + "/" + props.longitude + "/" + props.latitude
+                    }
+                } ,
+                {
+                    name:'geojson',
+                    visible: true,
+                    opacity:layerOpacity,
+                    source: {
+                        type: 'GeoJSON',
+                        geojson: {
+                            object: geoLayer
+                        }
+                    },
+                    style: mapManager.getStyle
+                }
+            ],
+                defaults: {
+            events: {
+                layers: [ 'mousemove', 'click']
+            }
+        }
+        }
+        return boundaries;
     },
     getShared:function(){
         return shared;
@@ -240,6 +285,97 @@ var mapManager = {
             });
 
         return response;
+    },
+    getColorArray:function(low,high,interval){
+        var startColor = new mapfish.ColorRgb(),
+            endColor = new mapfish.ColorRgb()
+        startColor.setFromHex(low);
+        endColor.setFromHex(high);
+        var colors = mapfish.ColorRgb.getColorsArrayByRgbInterpolation(startColor, endColor, interval);
+        var resultArray = [];
+        angular.forEach(colors,function(value,index){
+            resultArray.push({class:index,color:value.toHexString()});
+        })
+
+        return resultArray;
+    },
+    getStyle:function(feature){
+        var color = "";
+        var featureId = "";
+
+        if(feature.id){
+            featureId =feature.id;
+
+        }else{
+            featureId = feature.getId();
+        }
+        console.log(mapManager.features[featureId].opacity);
+            color = mapManager.features[featureId].color;
+
+        var style = olHelpers.createStyle({
+            fill:{
+                color:color,
+                opacity:mapManager.features[featureId].opacity
+            },
+            stroke:{
+                color:'#cccccc',
+                width:1
+            },
+            text:  new ol.style.Text({
+                textAlign: 'center',
+                textBaseline: 'middle',
+                font: 'Arial',
+                //text: formatText(districtProperties[feature.getId()].name),
+                fill: new ol.style.Fill({color: "#000000"}),
+                stroke: new ol.style.Stroke({color: "#cccccc", width: 1}),
+                offsetX: 0,
+                offsetY: 0,
+                rotation: 0
+            })
+        });
+        return [ style ];
+
+    },
+    getValueInterval:function(rows,classes){
+        var valueArray = []
+        angular.forEach(rows,function(value,index){
+            valueArray.push(Number(value[2]));
+        });
+        console.log(valueArray);
+        valueArray.sort(function(a, b){return a-b});
+        var interval = ((valueArray[valueArray.length-1]-valueArray[0])/classes).toFixed(1);
+
+        var start = valueArray[0];
+        var end = valueArray[valueArray.length-1];
+            var p=0;
+        var legendsClass = [];
+        while(p<classes){
+            legendsClass.push({id:p,color:"#",interval:start+" - "+(Number(start)+Number(interval)).toFixed(1)});
+            start= (Number(start)+Number(interval)).toFixed(1);
+            p++;
+        }
+
+        return legendsClass;
+    },
+    getLegend:function(colorArray,valueIntervals){
+        angular.forEach(colorArray,function(value,index){
+            valueIntervals[index].color = value.color;
+        });
+
+        return valueIntervals;
+    },
+    decideColor:function(objects,legend){
+        var color = "";
+        var indicatorValue = objects[2];console.log(legend);
+        angular.forEach(legend,function(value,index){
+
+            var interval = (value.interval).split(" - ");
+                if(Number(interval[0])<=indicatorValue&&indicatorValue<interval[1]){
+                    color    = value.color;
+                }
+        });
+
+        return color;
     }
 };
 
