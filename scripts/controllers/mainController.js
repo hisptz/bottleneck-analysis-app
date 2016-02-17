@@ -16,13 +16,11 @@ mainController.controller('MenuController',['$scope','$window','dashboardsManage
         $scope.period=$scope.year;
     })
 }])
-    .controller('MainController',['$scope','dashboardsManager','chartsManager','TableRenderer',
-        '$modal','$timeout','$translate','$anchorScroll','Paginator','ContextMenuSelectedItem','$filter',
-        '$http','CustomFormService','ModalService','DialogService','DHIS2URL',function($scope,
+    .controller('MainController',['$scope','dashboardsManager','chartsManager','TableRenderer','$timeout','$translate','$anchorScroll','Paginator','ContextMenuSelectedItem','$filter',
+        '$http','CustomFormService','DHIS2URL',function($scope,
                                                                         dashboardsManager,
                                                                         chartsManager,
                                                                         TableRenderer,
-                                                                        $modal,
                                                                         $timeout,
                                                                         $translate,
                                                                         $anchorScroll,
@@ -31,8 +29,6 @@ mainController.controller('MenuController',['$scope','$window','dashboardsManage
                                                                         $filter,
                                                                         $http,
                                                                         CustomFormService,
-                                                                        ModalService,
-                                                                        DialogService,
                                                                         DHIS2URL
     ){
 

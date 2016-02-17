@@ -3775,7 +3775,7 @@ Ext.onReady(function() {
             password: Ext.isString(config.password) ? config.password : null
         };
         var core = DV.getCore(init,appConfig);
-        config.url =   '/api/charts/' + config.id + '.json?fields=' + core.conf.url.analysisFields.join(',');
+        config.url =   '../../../api/charts/' + config.id + '.json?fields=' + core.conf.url.analysisFields.join(',');
         //config.disableCaching = false;
         //config.headers = headers;
         getInit(config)

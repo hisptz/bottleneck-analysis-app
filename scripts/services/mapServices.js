@@ -71,7 +71,6 @@ var mapManager = {
                     if(value.dataDimensionItemType=="INDICATOR"){
                         dimensionItems+=value.indicator.id+";";
                     }
-                    console.log(value);
                 });
                 dimensionItems = dimensionItems.substring(0, dimensionItems.length - 1);
 
@@ -309,7 +308,6 @@ var mapManager = {
         }else{
             featureId = feature.getId();
         }
-        console.log(mapManager.features[featureId].opacity);
             color = mapManager.features[featureId].color;
 
         var style = olHelpers.createStyle({
@@ -341,7 +339,6 @@ var mapManager = {
         angular.forEach(rows,function(value,index){
             valueArray.push(Number(value[2]));
         });
-        console.log(valueArray);
         valueArray.sort(function(a, b){return a-b});
         var interval = ((valueArray[valueArray.length-1]-valueArray[0])/classes).toFixed(1);
 
@@ -366,7 +363,7 @@ var mapManager = {
     },
     decideColor:function(objects,legend){
         var color = "";
-        var indicatorValue = objects[2];console.log(legend);
+        var indicatorValue = objects[2];
         angular.forEach(legend,function(value,index){
 
             var interval = (value.interval).split(" - ");

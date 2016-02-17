@@ -5,7 +5,6 @@
 
 var idashboard = angular.module('idashboard',
                     [
-                        'ui.bootstrap',
                         'ngRoute',
                         'ui.date',
                         'ngCookies',
@@ -19,7 +18,6 @@ var idashboard = angular.module('idashboard',
                         'd2HeaderBar',
                         'mgcrea.ngStrap',
                         'pascalprecht.translate',
-                        'ui.bootstrap',
                         'toaster',
                         'ngAnimate',
                         'angular-spinkit',

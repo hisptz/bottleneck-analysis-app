@@ -1,12 +1,11 @@
 var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager',
-    '$routeParams','$modal','$timeout','$translate','Paginator','ContextMenuSelectedItem',
-    '$filter','$http','CustomFormService','ModalService','DialogService','DHIS2URL', 'olHelpers',
+    '$routeParams','$timeout','$translate','Paginator','ContextMenuSelectedItem',
+    '$filter','$http','CustomFormService','DHIS2URL', 'olHelpers',
     'olData','mapManager','chartsManager','TableRenderer','filtersManager',function($scope,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
                                                         $routeParams,
-                                                        $modal,
                                                         $timeout,
                                                         $translate,
                                                         Paginator,
@@ -14,8 +13,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                                         $filter,
                                                         $http,
                                                         CustomFormService,
-                                                        ModalService,
-                                                        DialogService,
                                                         DHIS2URL,
                                                         olHelpers,
                                                         olData,
@@ -88,11 +85,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 $scope.filtersHidden = true
             }
         }
-        //Orgunits
-        $http.get("../../../api/organisationUnits.json?filter=level:eq:1&paging=false&fields=id,name,children[id,name,children[id,name,children[id,name]]]")
-            .success(function(orgUnits){
-                console.info($scope.updateTree(orgUnits))
-            });
 
         $scope.changePeriodType = function(type){
             $scope.periodType = type;
@@ -246,13 +238,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     dashboardItem.object=window.object;
                     dashboardItem.analyticsUrl = window.alayticsUrl;
                     var analytics = dashboardItem.analyticsUrl;
-                    var dataElements = analytics.substring(analytics.indexOf('dx:')+3,analytics.indexOf("&"));
-                    $scope.dashboardDataElements[dashboardItem.id] = dataElements.split(";");
-
                     $http.get('../../../'+dashboardItem.analyticsUrl)
                         .success(function(analyticsData){
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
-                            var chartType=(dashboardItem.object.type).toLowerCase();
+                            $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
+                            var chartType=dashboardItem.object.type.toLowerCase();
                             $scope.dashboardChartType[dashboardItem.id] = chartType;
                             dashboardItem.chartXAxis = dashboardItem.object.category;
                             dashboardItem.chartYAxis = dashboardItem.object.series;
@@ -301,10 +291,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
                                     // process thematic layers
                                     thematicLayer.success(function(thematicData){
-                                        //console.log(" THEMATIC LAYER ");
-
-
-        //                                console.log(thematicData);
 
                                         boundary = mapManager.getGeoJson(boundaryData,thematicData,layerProperties,{latitude:latitude,longitude:longitude,zoom:zoom});
                                         angular.extend(dashboardItem.map,boundary);
@@ -457,10 +443,9 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     var filters = {};
                     var headerArray=[];
                     var analytics = dashboardItem.analyticsUrl;
-                    var dataElements = analytics.substring(analytics.indexOf('dx:')+3,analytics.indexOf("&"));
-                    $scope.dashboardDataElements[dashboardItem.id] = dataElements.split(";");
                     $http.get('../../..'+dashboardItem.analyticsUrl)
                             .success(function(analyticsData){
+                            $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
                             $scope.dashboardLoader[dashboardItem.id] = false;
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
                             angular.forEach(dashboardItem.object.rows,function(row){
@@ -474,6 +459,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             });
                             dashboardItem.chartXAxis = rows.rows;
                             dashboardItem.chartYAxis = column.column;
+                            $scope.dashboardChartType[dashboardItem.id] = 'bar';
                             if (dashboardItem.object.columns.length == 2){
                                 $scope.number[dashboardItem.id]='2';
                                 var firstDimension=dashboardItem.object.columns[0].dimension;
@@ -491,7 +477,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             }else{
                                 $scope.number[dashboardItem.id]='1';
                                 $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
-                                console.log($scope.headers[dashboardItem.id]);
                                 $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.rows,column.column);
                             }
                     });
@@ -502,20 +487,18 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         //update the dashboard acording to the filters
         $scope.updateDashboard = function(){
             angular.forEach($scope.dashboardItems,function(value){
+                console.log($scope.dashboardDataElements[value.id]);
+                $scope.dashboardLoader[value.id] = true;
                 var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[value.id]);
                 $http.get(analyticsUrl)
                     .success(function(analyticsData){
+                        $scope.dashboardAnalytics[value.id] = analyticsData;
                         if(value.type == 'CHART'){
-                            $scope.dashboardLoader[value.id] = true;
-                            $scope.dashboardAnalytics[value.id] = analyticsData;
-                            var chartType=(value.object.type).toLowerCase();
-                            $scope.dashboardChartType[value.id] = chartType;
-                            $scope.dashboardChart[value.id] = chartsManager.drawChart(analyticsData,value.object.category,[],value.object.series,[],'none','',value.object.name,chartType)
+                            $scope.dashboardChart[value.id] = chartsManager.drawChart(analyticsData,value.chartXAxis,[],value.chartYAxis,[],'none','',value.object.name,$scope.dashboardChartType[value.id])
                             $scope.dashboardLoader[value.id] = false;
                         }else if(value.type == 'MAP'){
                             //mpande
                         }else if(value.type == 'REPORT_TABLE'){
-                            console.log(value)
                             var column = {};
                             var rows = {};
                             var filters = {};
@@ -546,9 +529,9 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             }else{
                                 $scope.number[value.id]='1';
                                 $scope.headers[value.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
-                                console.log($scope.headers[value.id]);
                                 $scope.dashboardTab[value.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.rows,column.column);
                             }
+                            $scope.dashboardLoader[value.id] = false;
                         }
 
                     });
@@ -594,14 +577,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     $scope.number[dashboardItem.id]='1';
                     $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal($scope.dashboardAnalytics[dashboardItem.id],column.column," ");
                     $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw($scope.dashboardAnalytics[dashboardItem.id],rows.rows,column.column);
-                    console.log($scope.dashboardTab[dashboardItem.id]);
-                    console.info(dashboardItem);
                 }
             }else if(chartType == 'map') {
 
             }else{
                 dashboardItem.type='CHART';
-                console.info(dashboardItem);
                 $scope.dashboardLoader[dashboardItem.id] = true;
                 $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartXAxis,[],dashboardItem.chartYAxis,[],'none','',dashboardItem.object.name,chartType)
                 $scope.dashboardLoader[dashboardItem.id] = false;
