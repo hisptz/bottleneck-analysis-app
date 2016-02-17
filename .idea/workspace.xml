@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/dashboardTable.html" afterPath="$PROJECT_DIR$/views/dashboardTable.html" />
-    </list>
+    <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="" />
     <ignored path="idashboard.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -72,7 +69,7 @@
       <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.816825" vertical-offset="4186" max-vertical-offset="8172">
+            <state vertical-scroll-proportion="2.3554952" vertical-offset="3052" max-vertical-offset="8172">
               <caret line="464" column="82" selection-start-line="464" selection-start-column="82" selection-end-line="464" selection-end-column="82" />
               <folding>
                 <element signature="e#3713#3803#0" expanded="false" />
@@ -726,7 +723,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.816825" vertical-offset="4186" max-vertical-offset="8172">
+        <state vertical-scroll-proportion="2.3554952" vertical-offset="3052" max-vertical-offset="8172">
           <caret line="464" column="82" selection-start-line="464" selection-start-column="82" selection-end-line="464" selection-end-column="82" />
           <folding>
             <element signature="e#3713#3803#0" expanded="false" />
