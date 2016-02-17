@@ -95,23 +95,6 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
 
 
         },
-
-        drawTableWithTwoDimension:function (analyticsObject, rowType, columnType, subcolumnType) {
-            var subcolumnsLength = this.prepareCategories(analyticsObject, subcolumnType).length;
-            var self=this;
-            var table = '<table class="table table-bordered" cellpadding="5">';
-            table += "<thead><tr>";
-            angular.forEach(self.prepareCategories(analyticsObject, columnType), function (columnName) {
-                table += "<th colspan='" + subcolumnsLength + "'>" + columnName.name + "</th>";
-                angular.forEach(self.prepareCategories(analyticsObject, subcolumnType), function (subColName) {
-                    table += "<th>" + subColName.name + "</th>";
-                });
-
-            });
-            table += "</tr></thead>";
-            return table;
-        },
-
         drawTableWithTwoRowDimension:function (analyticsObject, rowType, columnType, subcolumnType) {
             var subcolumnsLength = this.prepareCategories(analyticsObject, subcolumnType).length;
             var self=this;
@@ -137,7 +120,7 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
            return normalTable;
         },
 
-    drawTableWithTwoColumnDimension:function (analyticsObject, rowType, columnType, subrowType) {
+     drawTableWithTwoColumnDimension:function (analyticsObject, rowType, columnType, subrowType) {
             var subrowsLength = this.prepareCategories(analyticsObject, subrowType).length+1;
             var self=this;
             var normalTable=[];
@@ -154,6 +137,38 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
 
             });
         return normalTable;
+        },
+        drawTableHeaderWithNormal:function(analyticsObject,columnType,subcolumnType){
+            var self=this;
+            var subcolumnsLength = self.prepareCategories(analyticsObject, subcolumnType).length;
+            var headerArray=[]
+            angular.forEach(self.getMetadataArray(analyticsObject,columnType),function(header){
+                headerArray.push({"name":analyticsObject.metaData.names[header],"id":header,"length":subcolumnsLength});
+            });
+            return headerArray;
+            console.info(headerArray);
+         },
+        drawTableWithTwoHeader:function(analyticsObject,columnType,subcolumnType){
+            var self=this;
+            var subcolumnsLength = self.prepareCategories(analyticsObject, subcolumnType).length;
+            var subColumn=[];
+            angular.forEach(self.prepareCategories(analyticsObject, columnType), function (columnName) {
+                angular.forEach(self.prepareCategories(analyticsObject, subcolumnType), function (subColName) {
+                    subColumn.push({"name":subColName.name,"uid":subColName.uid,"length":subcolumnsLength,"parentCol":columnName.name});
+                });
+            });
+            return subColumn;
+            console.warn(subColumn);
+         },
+        drawTableWithSingleRowDimension:function(analyticsObject,rowType,subRowType){
+            var self=this;
+            var subrowsLength = self.prepareCategories(analyticsObject, subRowType).length;
+            var firstRows=[];
+            angular.forEach(self.prepareCategories(analyticsObject, rowType), function (rowName) {
+                firstRows.push({"name":rowName.name,"uid":rowName.uid,"length":subrowsLength});
+            });
+            console.log(firstRows);
+            return firstRows;
         }
     }
     return TableRenderer;
