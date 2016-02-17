@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/app.js" afterPath="$PROJECT_DIR$/scripts/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/chart.js" afterPath="$PROJECT_DIR$/scripts/dhis2Utils/chart.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/mainController.js" afterPath="$PROJECT_DIR$/scripts/controllers/mainController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/services/mapServices.js" afterPath="$PROJECT_DIR$/scripts/services/mapServices.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/table.js" afterPath="$PROJECT_DIR$/scripts/dhis2Utils/table.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/services/tableService.js" afterPath="$PROJECT_DIR$/scripts/services/tableService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/ui-bootstrap/ui-bootstrap.min.js" afterPath="$PROJECT_DIR$/scripts/ui-bootstrap/ui-bootstrap.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="" />
     <ignored path="idashboard.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -121,20 +110,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="map.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.4736843" vertical-offset="68583" max-vertical-offset="138474">
-              <caret line="3818" column="57" selection-start-line="3818" selection-start-column="49" selection-end-line="3818" selection-end-column="57" />
+            <state vertical-scroll-proportion="0.33333334" vertical-offset="50295" max-vertical-offset="138474">
+              <caret line="2802" column="57" selection-start-line="2802" selection-start-column="49" selection-end-line="2802" selection-end-column="57" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="table.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="table.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/table.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42083332" vertical-offset="66722" max-vertical-offset="67644">
+            <state vertical-scroll-proportion="0.0" vertical-offset="66722" max-vertical-offset="67644">
               <caret line="3718" column="30" selection-start-line="3718" selection-start-column="30" selection-end-line="3718" selection-end-column="30" />
               <folding>
                 <marker date="1455725731469" expanded="true" signature="111488:111621" placeholder="..." />
@@ -721,21 +710,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/map.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.4736843" vertical-offset="68583" max-vertical-offset="138474">
-          <caret line="3818" column="57" selection-start-line="3818" selection-start-column="49" selection-end-line="3818" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/table.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42083332" vertical-offset="66722" max-vertical-offset="67644">
+        <state vertical-scroll-proportion="0.0" vertical-offset="66722" max-vertical-offset="67644">
           <caret line="3718" column="30" selection-start-line="3718" selection-start-column="30" selection-end-line="3718" selection-end-column="30" />
           <folding>
             <marker date="1455725731469" expanded="true" signature="111488:111621" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="50295" max-vertical-offset="138474">
+          <caret line="2802" column="57" selection-start-line="2802" selection-start-column="49" selection-end-line="2802" selection-end-column="57" />
+          <folding />
         </state>
       </provider>
     </entry>
