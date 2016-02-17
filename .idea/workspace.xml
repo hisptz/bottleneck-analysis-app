@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="" />
+    <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/dashboardTable.html" afterPath="$PROJECT_DIR$/views/dashboardTable.html" />
+    </list>
     <ignored path="idashboard.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,16 +27,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="filterServices.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/services/filterServices.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2232">
-              <caret line="54" column="55" selection-start-line="54" selection-start-column="55" selection-end-line="54" selection-end-column="55" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="mainServices.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/services/mainServices.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -69,27 +62,37 @@
       <file leaf-file-name="tableService.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/services/tableService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="3258">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2413" max-vertical-offset="3258">
+              <caret line="96" column="101" selection-start-line="96" selection-start-column="101" selection-end-line="96" selection-end-column="101" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="5292" max-vertical-offset="8190">
-              <caret line="496" column="125" selection-start-line="496" selection-start-column="125" selection-end-line="496" selection-end-column="125" />
+            <state vertical-scroll-proportion="0.816825" vertical-offset="4186" max-vertical-offset="8172">
+              <caret line="464" column="82" selection-start-line="464" selection-start-column="82" selection-end-line="464" selection-end-column="82" />
               <folding>
-                <element signature="e#3617#3707#0" expanded="false" />
-                <element signature="e#3774#3902#0" expanded="false" />
-                <element signature="e#3974#4102#0" expanded="false" />
-                <element signature="e#4587#4960#0" expanded="false" />
-                <element signature="e#5133#5628#0" expanded="false" />
-                <element signature="e#10235#20413#0" expanded="false" />
-                <element signature="e#10266#10616#0" expanded="false" />
+                <element signature="e#3713#3803#0" expanded="false" />
+                <element signature="e#3870#3998#0" expanded="false" />
+                <element signature="e#4070#4198#0" expanded="false" />
+                <element signature="e#4683#5056#0" expanded="false" />
+                <element signature="e#5229#5724#0" expanded="false" />
+                <element signature="e#10331#20509#0" expanded="false" />
+                <element signature="e#10362#10712#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dashboardTable.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/dashboardTable.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0" vertical-offset="270" max-vertical-offset="1008">
+              <caret line="15" column="63" selection-start-line="15" selection-start-column="63" selection-end-line="15" selection-end-column="63" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -110,10 +113,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="map.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33333334" vertical-offset="50295" max-vertical-offset="138474">
+            <state vertical-scroll-proportion="-2.4736843" vertical-offset="50295" max-vertical-offset="138474">
               <caret line="2802" column="57" selection-start-line="2802" selection-start-column="49" selection-end-line="2802" selection-end-column="57" />
               <folding />
             </state>
@@ -163,9 +166,10 @@
         <option value="$PROJECT_DIR$/scripts/app.js" />
         <option value="$PROJECT_DIR$/scripts/services/tableService.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
         <option value="$PROJECT_DIR$/scripts/dhis2Utils/chart.js" />
         <option value="$PROJECT_DIR$/scripts/dhis2Utils/table.js" />
+        <option value="$PROJECT_DIR$/views/dashboardTable.html" />
+        <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
       </list>
     </option>
   </component>
@@ -398,7 +402,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32948717" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32948717" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -519,13 +523,13 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8532">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#3617#3707#0" expanded="false" />
-            <element signature="e#3774#3902#0" expanded="false" />
-            <element signature="e#3974#4102#0" expanded="false" />
-            <element signature="e#4587#4960#0" expanded="false" />
-            <element signature="e#5133#5628#0" expanded="false" />
-            <element signature="e#10235#20413#0" expanded="false" />
-            <element signature="e#10266#10616#0" expanded="false" />
+            <element signature="e#3713#3803#0" expanded="false" />
+            <element signature="e#3870#3998#0" expanded="false" />
+            <element signature="e#4070#4198#0" expanded="false" />
+            <element signature="e#4683#5056#0" expanded="false" />
+            <element signature="e#5229#5724#0" expanded="false" />
+            <element signature="e#10331#20509#0" expanded="false" />
+            <element signature="e#10362#10712#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -654,14 +658,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/services/tableService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="3258">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.1851852" vertical-offset="346" max-vertical-offset="2268">
@@ -677,22 +673,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="4950">
           <caret line="61" column="24" selection-start-line="61" selection-start-column="8" selection-end-line="61" selection-end-column="24" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5292" max-vertical-offset="8190">
-          <caret line="496" column="125" selection-start-line="496" selection-start-column="125" selection-end-line="496" selection-end-column="125" />
-          <folding>
-            <element signature="e#3617#3707#0" expanded="false" />
-            <element signature="e#3774#3902#0" expanded="false" />
-            <element signature="e#3974#4102#0" expanded="false" />
-            <element signature="e#4587#4960#0" expanded="false" />
-            <element signature="e#5133#5628#0" expanded="false" />
-            <element signature="e#10235#20413#0" expanded="false" />
-            <element signature="e#10266#10616#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -722,9 +702,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/map.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="50295" max-vertical-offset="138474">
+        <state vertical-scroll-proportion="-2.4736843" vertical-offset="50295" max-vertical-offset="138474">
           <caret line="2802" column="57" selection-start-line="2802" selection-start-column="49" selection-end-line="2802" selection-end-column="57" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/dashboardTable.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0" vertical-offset="270" max-vertical-offset="1008">
+          <caret line="15" column="63" selection-start-line="15" selection-start-column="63" selection-end-line="15" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/tableService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2413" max-vertical-offset="3258">
+          <caret line="96" column="101" selection-start-line="96" selection-start-column="101" selection-end-line="96" selection-end-column="101" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.816825" vertical-offset="4186" max-vertical-offset="8172">
+          <caret line="464" column="82" selection-start-line="464" selection-start-column="82" selection-end-line="464" selection-end-column="82" />
+          <folding>
+            <element signature="e#3713#3803#0" expanded="false" />
+            <element signature="e#3870#3998#0" expanded="false" />
+            <element signature="e#4070#4198#0" expanded="false" />
+            <element signature="e#4683#5056#0" expanded="false" />
+            <element signature="e#5229#5724#0" expanded="false" />
+            <element signature="e#10331#20509#0" expanded="false" />
+            <element signature="e#10362#10712#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

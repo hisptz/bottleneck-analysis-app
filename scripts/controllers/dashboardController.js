@@ -33,7 +33,9 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         $scope.headers = [];
         $scope.firstColumn = [];
         $scope.secondColumn = [];
-        $scope.number = [];
+        $scope.tableColumnDimension = [];
+        $scope.tableRowDimension = [];
+        $scope.tableOneDimensionBoth = [];
         $scope.icons = filtersManager.icons;
 
         var d = new Date();
@@ -441,7 +443,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     var column = {};
                     var rows = {};
                     var filters = {};
-                    var headerArray=[];
                     var analytics = dashboardItem.analyticsUrl;
                     $http.get('../../..'+dashboardItem.analyticsUrl)
                             .success(function(analyticsData){
@@ -461,21 +462,21 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             dashboardItem.chartYAxis = column.column;
                             $scope.dashboardChartType[dashboardItem.id] = 'bar';
                             if (dashboardItem.object.columns.length == 2){
-                                $scope.number[dashboardItem.id]='2';
+                                $scope.tableColumnDimension[dashboardItem.id]='2';
                                 var firstDimension=dashboardItem.object.columns[0].dimension;
                                 var secondDimension=dashboardItem.object.columns[1].dimension;
                                 $scope.firstColumn[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,firstDimension,secondDimension);
                                 $scope.secondColumn[dashboardItem.id]=TableRenderer.drawTableWithTwoHeader(analyticsData,firstDimension,secondDimension);
                                 $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
                             }else if(dashboardItem.object.rows.length == 2){
-                                $scope.number[dashboardItem.id]='3';
+                                $scope.tableRowDimension[dashboardItem.id]='3';
                                 var firstRow=dashboardItem.object.rows[0].dimension;
                                 var secondRow=dashboardItem.object.rows[1].dimension;
                                 $scope.column[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
                                 $scope.firstRow[dashboardItem.id]=TableRenderer.drawTableWithSingleRowDimension(analyticsData,firstRow,secondRow);
                                 $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,column.column,secondRow);
                             }else{
-                                $scope.number[dashboardItem.id]='1';
+                                $scope.tableOneDimensionBoth[dashboardItem.id]='1';
                                 $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
                                 $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.rows,column.column);
                             }
@@ -499,37 +500,36 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                         }else if(value.type == 'MAP'){
                             //mpande
                         }else if(value.type == 'REPORT_TABLE'){
-                            var column = {};
+                            var columns = {};
                             var rows = {};
                             var filters = {};
-                            var headerArray=[];
                             angular.forEach(value.object.rows,function(row){
-                                rows['rows']=row.dimension;
+                                rows['row']=row.dimension;
                             });
                             angular.forEach(value.object.columns, function (col) {
-                                column['column'] = col.dimension;
+                                columns['column'] = col.dimension;
                             });
                             angular.forEach(value.object.filters,function(filter){
-                                filters['filters']=filter.dimension;
+                                filters['filter']=filter.dimension;
                             });
                             if (value.object.columns.length == 2){
-                                $scope.number[value.id]='2';
+                                $scope.tableColumnDimension[value.id]='2';
                                 var firstDimension=value.object.columns[0].dimension;
                                 var secondDimension=value.object.columns[1].dimension;
                                 $scope.firstColumn[value.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,firstDimension,secondDimension);
                                 $scope.secondColumn[value.id]=TableRenderer.drawTableWithTwoHeader(analyticsData,firstDimension,secondDimension);
-                                $scope.dashboardTab[value.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
+                                $scope.dashboardTab[value.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.row,firstDimension,secondDimension);
                             }else if(value.object.rows.length == 2){
-                                $scope.number[value.id]='3';
+                                $scope.tableRowDimension[value.id]='3';
                                 var firstRow=value.object.rows[0].dimension;
                                 var secondRow=value.object.rows[1].dimension;
-                                $scope.column[value.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
+                                $scope.column[value.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,columns.column," ");
                                 $scope.firstRow[value.id]=TableRenderer.drawTableWithSingleRowDimension(analyticsData,firstRow,secondRow);
-                                $scope.dashboardTab[value.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,column.column,secondRow);
+                                $scope.dashboardTab[value.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,columns.column,secondRow);
                             }else{
-                                $scope.number[value.id]='1';
-                                $scope.headers[value.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
-                                $scope.dashboardTab[value.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.rows,column.column);
+                                $scope.tableOneDimensionBoth[value.id]='1';
+                                $scope.headers[value.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,columns.column," ");
+                                $scope.dashboardTab[value.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.row,columns.column);
                             }
                             $scope.dashboardLoader[value.id] = false;
                         }
@@ -549,7 +549,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 var column = {};
                 var rows = {};
                 var filters = {};
-                var headerArray=[];
                 angular.forEach(dashboardItem.object.rows,function(row){
                     rows['rows']=row.dimension;
                 });
@@ -560,21 +559,21 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     filters['filters']=filter.dimension;
                 });
                 if (dashboardItem.object.columns.length == 2){
-                    $scope.number[dashboardItem.id]='2';
+                    $scope.tableColumnDimension[dashboardItem.id]='2';
                     var firstDimension=dashboardItem.object.columns[0].dimension;
                     var secondDimension=dashboardItem.object.columns[1].dimension;
                     $scope.firstColumn[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal($scope.dashboardAnalytics[dashboardItem.id],firstDimension,secondDimension);
                     $scope.secondColumn[dashboardItem.id]=TableRenderer.drawTableWithTwoHeader($scope.dashboardAnalytics[dashboardItem.id],firstDimension,secondDimension);
                     $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension($scope.dashboardAnalytics[dashboardItem.id],rows.rows,firstDimension,secondDimension);
                 }else if(dashboardItem.object.rows.length == 2){
-                    $scope.number[dashboardItem.id]='3';
+                    $scope.tableRowDimension[dashboardItem.id]='3';
                     var firstRow=dashboardItem.object.rows[0].dimension;
                     var secondRow=dashboardItem.object.rows[1].dimension;
                     $scope.column[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal($scope.dashboardAnalytics[dashboardItem.id],column.column," ");
                     $scope.firstRow[dashboardItem.id]=TableRenderer.drawTableWithSingleRowDimension($scope.dashboardAnalytics[dashboardItem.id],firstRow,secondRow);
                     $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension($scope.dashboardAnalytics[dashboardItem.id],firstRow,column.column,secondRow);
                 }else{
-                    $scope.number[dashboardItem.id]='1';
+                    $scope.tableOneDimensionBoth[dashboardItem.id]='1';
                     $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal($scope.dashboardAnalytics[dashboardItem.id],column.column," ");
                     $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw($scope.dashboardAnalytics[dashboardItem.id],rows.rows,column.column);
                 }
