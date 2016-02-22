@@ -98,7 +98,12 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
         }if(type == "Yearly"){
             for (var i = 0; i <= 10; i++) {
                 var useYear = parseInt(year) - i;
-                periods.push({id:useYear,name:useYear})
+                if(i == 1){
+                    periods.push({id:useYear,name:useYear,selected:true})
+                }else{
+                    periods.push({id:useYear,name:useYear})
+                }
+
             }
         }if(type == "FinancialJuly"){
             for (var i = 0; i <= 10; i++) {
