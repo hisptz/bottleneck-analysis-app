@@ -41,7 +41,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         var d = new Date();
         //default filter values
         $scope.yearValue = d.getFullYear();
-        $scope.periodType = "Monthly";
+        $scope.periodType = "Yearly";
         $scope.radioValue = 'all';
         $scope.tableColumn = 'ou';
         $scope.tableRow = 'dx';
