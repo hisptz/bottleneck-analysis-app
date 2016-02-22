@@ -123,18 +123,18 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
             var subrowsLength = this.prepareCategories(analyticsObject, subrowType).length+1;
             var self=this;
             var normalTable=[];
-            angular.forEach(self.prepareCategories(analyticsObject, rowType), function (rowName) {
+            //angular.forEach(self.prepareCategories(analyticsObject, rowType), function (rowName) {
                angular.forEach(self.prepareCategories(analyticsObject, subrowType), function (subRowName) {
                     var dataElement = [];
                    angular.forEach(self.prepareCategories(analyticsObject, columnType), function (columnName) {
                         var value='';
-                        value=self.getDataValue(analyticsObject, columnType, columnName.uid, rowType, rowName.uid, subrowType, subRowName.uid);
+                        value=self.getDataValue(analyticsObject, columnType, columnName.uid, rowType, subRowName.uid, subrowType, subRowName.uid);
                         dataElement.push({"name": columnName.name, "uid": columnName.uid, "value": value});
                     });
                     normalTable.push({"name": subRowName.name, 'uid': subRowName.uid, 'dataElement': dataElement});
                 });
 
-            });
+            //});
         return normalTable;
         },
         drawTableHeaderWithNormal:function(analyticsObject,columnType,subcolumnType){

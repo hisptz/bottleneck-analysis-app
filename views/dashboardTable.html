@@ -1,5 +1,5 @@
 <div class="col-md-12">
-<table class="table table-bordered" ng-if="tableOneDimensionBoth[dashboardItem.id]=='1'">
+<table class="table table-bordered" ng-if="tableDimension[dashboardItem.id]=='1'">
     <thead>
     <tr>
         <th></th>
@@ -13,7 +13,7 @@
     </tr>
     </tbody>
 </table>
-<table class="table table-bordered" ng-if="tableColumnDimension[dashboardItem.id]=='2'">
+<table class="table table-bordered" ng-if="tableDimension[dashboardItem.id]=='2'">
     <thead>
     <tr>
         <th rowspan="2"></th>
@@ -31,21 +31,25 @@
     </tr>
     </tbody>
 </table>
-<table class="table table-bordered" ng-if="tableRowimension[dashboardItem.id]=='3'">
+<table class="table table-bordered" ng-if="tableDimension[dashboardItem.id]=='3'">
     <thead>
     <tr>
         <th colspan="2"></th>
         <th ng-repeat="first in column[dashboardItem.id]" colspan="{{first.length}}">{{first.name}}</th>
     </tr>
     </thead>
-    <tbody>
-    <tr ng-repeat="rows in firstRow[dashboardItem.id]">
-        <td rowspan="{{rows.length+1}}" class="center">{{rows.name}}</td>
+    <tbody ng-repeat="rows in firstRow[dashboardItem.id]">
+    <tr >
+        <td rowspan="{{rows.length+1}}" class="center">{{rows.name}}
+        </td>
     </tr>
     <tr ng-repeat="subRow in dashboardTab[dashboardItem.id]">
         <td>{{subRow.name}}</td>
         <td ng-repeat="subrow in subRow.dataElement">{{subrow.value}}</td>
     </tr>
+
+
+
     </tbody>
 </table>
 </div>

@@ -124,6 +124,13 @@
                                  data-trigger = 'click'
                                  data-auto-close="1" bs-popover> Layout
                          </a>
+                         <a ng-if="dashboardItem.type=='REPORT_TABLE'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5"
+                                 data-content="{{popover.content}}"
+                                 data-template-url="views/tableLayout.html"
+                                 data-animation="am-flip-x"
+                                 data-trigger = 'click'
+                                 data-auto-close="1" bs-popover> Layout
+                         </a>
 
                          <a ng-click="openModel(dashboardItem.id)" class="pull-right"><span class="glyphicon glyphicon-resize-full"></span> </a>
                      </div>

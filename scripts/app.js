@@ -24,7 +24,8 @@ var idashboard = angular.module('idashboard',
                         'openlayers-directive',
                         'multi-select-tree',
                         'highcharts-ng',
-                        'angularUtils.directives.dirPagination'
+                        'angularUtils.directives.dirPagination',
+                        'dndLists'
                     ])
               
 .value('DHIS2URL', '../../..')
