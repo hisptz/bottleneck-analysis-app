@@ -3183,11 +3183,11 @@ Ext.onReady( function() {
 			url: init.contextPath + '/api/organisationUnits.' + type + '?userOnly=true&fields=id,name,children[id,name]&paging=false',
 			disableCaching: false,
 			success: function(r) {
+				console.log(r.responseText ? Ext.decode(r.responseText).organisationUnits : r);
 				var organisationUnits = (r.responseText ? Ext.decode(r.responseText).organisationUnits : r) || [],
 					ou = [],
 					ouc = [];
-
-				if (organisationUnits.length) {
+				 if (organisationUnits.length) {
 					for (var i = 0, org; i < organisationUnits.length; i++) {
 						org = organisationUnits[i];
 
@@ -3203,8 +3203,8 @@ Ext.onReady( function() {
 					init.user.ouc = ouc;
 				}
 				else {
-					alert('User is not assigned to any organisation units');
-				}
+
+					 }
 
 				fn();
 			}
