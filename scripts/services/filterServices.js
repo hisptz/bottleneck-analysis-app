@@ -81,19 +81,23 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
         if(type == "Weekly"){
             periods.push({id:'',name:''})
         }if(type == "Monthly"){
-            periods.push({id:year+'01',name:'January '+year},{id:year+'02',name:'February '+year},{id:year+'03',name:'March '+year},{id:year+'04',name:'April '+year},{id:year+'05',name:'May '+year},{id:year+'06',name:'June '+year},{id:year+'07',name:'July '+year},{id:year+'08',name:'August '+year},{id:year+'09',name:'September '+year},{id:year+'10',name:'October '+year},{id:year+'11',name:'November '+year},{id:year+'12',name:'December '+year})
+            periods.push({id:year+'01',name:'January '+year,selected:true},{id:year+'02',name:'February '+year},{id:year+'03',name:'March '+year},{id:year+'04',name:'April '+year},{id:year+'05',name:'May '+year},{id:year+'06',name:'June '+year},{id:year+'07',name:'July '+year},{id:year+'08',name:'August '+year},{id:year+'09',name:'September '+year},{id:year+'10',name:'October '+year},{id:year+'11',name:'November '+year},{id:year+'12',name:'December '+year})
         }if(type == "BiMonthly"){
-            periods.push({id:year+'01B',name:'January - February '+year},{id:year+'02B',name:'March - April '+year},{id:year+'03B',name:'May - June '+year},{id:year+'04B',name:'July - August '+year},{id:year+'05B',name:'September - October '+year},{id:year+'06B',name:'November - December '+year})
+            periods.push({id:year+'01B',name:'January - February '+year,selected:true},{id:year+'02B',name:'March - April '+year},{id:year+'03B',name:'May - June '+year},{id:year+'04B',name:'July - August '+year},{id:year+'05B',name:'September - October '+year},{id:year+'06B',name:'November - December '+year})
         }if(type == "Quarterly"){
-            periods.push({id:year+'Q1',name:'January - March '+year},{id:year+'Q2',name:'April - June '+year},{id:year+'Q3',name:'July - September '+year},{id:year+'Q4',name:'October - December '+year})
+            periods.push({id:year+'Q1',name:'January - March '+year,selected:true},{id:year+'Q2',name:'April - June '+year},{id:year+'Q3',name:'July - September '+year},{id:year+'Q4',name:'October - December '+year})
         }if(type == "SixMonthly"){
-            periods.push({id:year+'S1',name:'January - June '+year},{id:year+'S2',name:'July - December '+year})
+            periods.push({id:year+'S1',name:'January - June '+year,selected:true},{id:year+'S2',name:'July - December '+year})
         }if(type == "SixMonthlyApril"){
-            periods.push({id:year+'AprilS2',name:'October 2011 - March 2012'},{id:year+'AprilS1',name:'April - September '+year})
+            periods.push({id:year+'AprilS2',name:'October 2011 - March 2012',selected:true},{id:year+'AprilS1',name:'April - September '+year})
         }if(type == "FinancialOct"){
             for (var i = 0; i <= 10; i++) {
                 var useYear = parseInt(year) - i;
-                periods.push({id:useYear+'Oct',name:'October '+useYear+' - September '+useYear})
+                if(i == 1){
+                    periods.push({id:useYear+'Oct',name:'October '+useYear+' - September '+useYear,selected:true})
+                }else{
+                    periods.push({id:useYear+'Oct',name:'October '+useYear+' - September '+useYear})
+                }
             }
         }if(type == "Yearly"){
             for (var i = 0; i <= 10; i++) {
@@ -108,12 +112,20 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
         }if(type == "FinancialJuly"){
             for (var i = 0; i <= 10; i++) {
                 var useYear = parseInt(year) - i;
-                periods.push({id:useYear+'July',name:'July '+useYear+' - June '+useYear})
+                if(i == 1){
+                    periods.push({id:useYear+'July',name:'July '+useYear+' - June '+useYear,selected:true})
+                }else{
+                    periods.push({id:useYear+'July',name:'July '+useYear+' - June '+useYear})
+                }
             }
         }if(type == "FinancialApril"){
             for (var i = 0; i <= 10; i++) {
                 var useYear = parseInt(year) - i;
-                periods.push({id:useYear+'April',name:'April '+useYear+' - March '+useYear})
+                if(i == 1){
+                    periods.push({id:useYear+'April',name:'April '+useYear+' - March '+useYear,selected:true})
+                }else{
+                    periods.push({id:useYear+'April',name:'April '+useYear+' - March '+useYear})
+                }
             }
         }
         return periods;
