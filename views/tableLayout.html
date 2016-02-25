@@ -5,19 +5,20 @@
     <h3 class="popover-title ng-binding" ng-bind-html="title" ng-show="title">Table Layout</h3>
 
     <div class="popover-content">
-        <div class="panel panel-default">
+         <div id="a" class="split split-horizontal">
+            <div id="c" class="split content"></div>
+            <div id="d" class="split content"></div>
+         </div>
+
+<div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Column Dimensions </h3>
             </div>
             <div class="panel-body">
                 <div class="row simpleDemo">
-                    <ul dnd-list="dimensions.axises.yAxis"
-                        dnd-disable-if="dimensions.axises.yAxis.length >= dimensions.axises.xAxis.length"
-                         >
-                        <!-- The dnd-draggable directive makes an element draggable and will
-                             transfer the object that was assigned to it. If an element was
-                             dragged away, you have to remove it from the original list
-                             yourself using the dnd-moved attribute -->
+                    <ul dnd-list="dimensions.axises.yAxis">
+                        <!--dnd-disable-if="dimensions.axises.yAxis.length >= dimensions.axises.xAxis.length"-->
+
                         <li ng-repeat="item in dimensions.axises.yAxis"
                             dnd-draggable="item"
                             dnd-moved="dimensions.axises.yAxis.splice($index, 1)"
@@ -25,7 +26,7 @@
                             dnd-selected="dimensions.selected = item"
                             ng-class="{'selected': dimensions.selected === item}"
                                 >
-                            {{item.label}}
+                            {{item.name}}
                         </li>
                     </ul>
                 </div>
@@ -37,13 +38,9 @@
             </div>
             <div class="panel-body">
                 <div class="row simpleDemo">
-                    <ul dnd-list="dimensions.axises.xAxis"
-                        dnd-disable-if="dimensions.axises.xAxis.length >= dimensions.axises.yAxis.length"
-                            >
-                        <!-- The dnd-draggable directive makes an element draggable and will
-                             transfer the object that was assigned to it. If an element was
-                             dragged away, you have to remove it from the original list
-                             yourself using the dnd-moved attribute -->
+                    <ul dnd-list="dimensions.axises.xAxis">
+                        <!--dnd-disable-if="dimensions.axises.xAxis.length >= dimensions.axises.yAxis.length"-->
+
                         <li ng-repeat="item in dimensions.axises.xAxis"
                             dnd-draggable="item"
                             dnd-moved="dimensions.axises.xAxis.splice($index, 1)"
@@ -51,7 +48,7 @@
                             dnd-selected="dimensions.selected = item"
                             ng-class="{'selected': dimensions.selected === item}"
                                 >
-                            {{item.label}}
+                            {{item.name}}
                         </li>
                     </ul>
                 </div>

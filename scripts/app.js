@@ -48,4 +48,6 @@ var idashboard = angular.module('idashboard',
     $translateProvider.preferredLanguage('en');
     $translateProvider.useSanitizeValueStrategy('escaped');
     $translateProvider.useLoader('i18nLoader');
+
+
 });
