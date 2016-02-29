@@ -614,7 +614,8 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal($scope.dashboardAnalytics[dashboardItem.id],columns.column," ");
                     $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw($scope.dashboardAnalytics[dashboardItem.id],rows.rows,columns.column);
                 }
-            }else if(chartType == 'map') {
+            }
+            else if(chartType == 'map') {
 
             }else{
                 dashboardItem.type='CHART';
@@ -625,7 +626,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
         }
 
-        //update the dashboard according to the filters
+        //update the dashboard charts according to layout selection
         $scope.updateChartLayout = function(dashboardItem,chartType,xAxis,yAxis) {
             $scope.dashboardLoader[dashboardItem.id] = true;
             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id], xAxis, [], yAxis, [], 'none', '', dashboardItem.object.name, chartType)
@@ -660,6 +661,22 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 alert("Either of the dimensions must have valid dimension");
             }
         }
+
+        //prepare data for use in csv
+        $scope.prepareDataForCSV = function(dashboardItem){
+            var chartObject = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartXAxis,[],dashboardItem.chartYAxis,[],'none','',dashboardItem.object.name,'bar')
+            var items = [];
+            angular.forEach(chartObject.series,function(value){
+                var obj = {name:value.name};
+                var i = 0;
+                angular.forEach(chartObject.xAxis.categories,function(val){
+                    obj[val] = value.data[i];
+                    i++;
+                })
+                items.push(obj);
+            })
+            return items;
+        };
     }]);
 
     //directive to display the tabs
