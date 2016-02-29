@@ -452,7 +452,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
                             $scope.dimensions = {
                                 selected: null,
-                                axises: {"xAxis": [], "yAxis": []}
+                                axises: {"xAxis": [], "yAxis": [],"filter":[]}
                             };
                             angular.forEach(dashboardItem.object.rows,function(row){
                                 rows['rows']=row.dimension;
@@ -464,6 +464,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             });
                             angular.forEach(dashboardItem.object.filters,function(filter){
                                 filters['filters']=filter.dimension;
+                                $scope.dimensions.axises.filter.push({label:filter.dimension,name:analyticsData.metaData.names[filter.dimension]});
                             });
                             $scope.$watch('dimensions', function(dimension) {
                                 $scope.dimensionAsJson = angular.toJson(dimension, true);
@@ -518,7 +519,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             var filters = {};
                             $scope.dimensions = {
                                 selected: null,
-                                axises: {"xAxis": [], "yAxis": []}
+                                axises: {"xAxis": [], "yAxis": [],"filter":[]}
                             };
                             angular.forEach(value.object.rows,function(row){
                                 rows['rows']=row.dimension;
@@ -530,7 +531,9 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             });
                             angular.forEach(value.object.filters,function(filter){
                                 filters['filters']=filter.dimension;
+                                $scope.dimensions.axises.filter.push({label:filter.dimension,name:analyticsData.metaData.names[filter.dimension]});
                             });
+
                             $scope.$watch('dimensions', function(dimension) {
                                 $scope.dimensionAsJson = angular.toJson(dimension, true);
                             }, true);
@@ -576,7 +579,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 var filters = {};
                 $scope.dimensions = {
                     selected: null,
-                    axises: {"xAxis": [], "yAxis": []}
+                    axises: {"xAxis": [], "yAxis": [],"filter":[]}
                 };
                 angular.forEach(dashboardItem.object.rows,function(row){
                     rows['rows']=row.dimension;
@@ -588,6 +591,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 });
                 angular.forEach(dashboardItem.object.filters,function(filter){
                     filters['filters']=filter.dimension;
+                    $scope.dimensions.axises.filter.push({label:filter.dimension,name:$scope.dashboardAnalytics[dashboardItem.id].metaData.names[filter.dimension]});
                 });
                  $scope.$watch('dimensions', function(dimension) {
                     $scope.dimensionAsJson = angular.toJson(dimension, true);
