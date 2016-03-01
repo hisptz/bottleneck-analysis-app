@@ -3778,7 +3778,7 @@ Ext.onReady(function() {
         config.url =   '../../../api/charts/' + config.id + '.json?fields=' + core.conf.url.analysisFields.join(',');
         //config.disableCaching = false;
         //config.headers = headers;
-        getInit(config)
+        getInit(config);
         var promise = $.ajax({
             url: config.url,
             timeout: 60000,

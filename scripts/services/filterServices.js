@@ -10,12 +10,15 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
         data: '',
         icons: [
             {name: 'table', image: 'table.jpg', action: ''},
-            {name: 'bar', image: 'bar.png', action: ''},
+            {name: 'column', image: 'bar.png', action: ''},
             {name: 'line', image: 'line.png', action: ''},
             {name: 'combined', image: 'combined.jpg', action: ''},
-            //{name: 'column', image: 'column.png', action: ''},
+            {name: 'bar', image: 'column.png', action: ''},
             {name: 'area', image: 'area.jpg', action: ''},
             {name: 'pie', image: 'pie.png', action: ''},
+            {name: 'radar', image: 'radar.png', action: ''},
+            {name: 'stacked_column', image: 'column-stacked.png', action: ''},
+            {name: 'stacked_bar', image: 'bar-stacked.png', action: ''},
             {name: 'map', image: 'map.jpg', action: ''}
         ],
         getOrgUnits : function(){

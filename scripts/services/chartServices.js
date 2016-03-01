@@ -36,6 +36,70 @@ chartServices.factory('chartsManager',function(){
             },
             series: []
         },
+
+        stackedChartObject : {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: []
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            tooltip: {
+                headerFormat: '<b>{point.x}</b><br/>',
+                pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            series: []
+        },
+
+        barStackedObject : {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: []
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: []
+        },
         //determine the position of metadata using prefix [dx,de,co,pe,ou]
         getTitleIndex: function(analyticsObjectHeaders,name){
             var index = 0;
@@ -47,15 +111,6 @@ chartServices.factory('chartsManager',function(){
                 counter++;
             });
             return index;
-        },
-
-        //determine the position of data value,(Expected to be the last one)
-        getValueIndex: function(analyticsObjectHeaders){
-            var counter = -1;
-            angular.forEach(analyticsObjectHeaders,function(header){
-                counter++;
-            });
-            return counter;
         },
 
         //get an array of items from analyticsObject[metadataType == dx,co,ou,pe,value]
@@ -157,6 +212,15 @@ chartServices.factory('chartsManager',function(){
                     break;
                 case 'column':
                     return currentService.drawOtherCharts(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, type);
+                    break;
+                case 'radar':
+                    return currentService.drawSpiderChart(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, type);
+                    break;
+                case 'stacked_column':
+                    return currentService.drawStackedChart(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'column');
+                    break;
+                case 'stacked_bar':
+                    return currentService.drawStackedChart(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'bar');
                     break;
                 case 'combined':
                     return currentService.drawCombinedChart(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title);
@@ -262,6 +326,90 @@ chartServices.factory('chartsManager',function(){
                 });
                 chartObject.series.push({type: chartType, name: yAxis.name, data: chartSeries});
             });
+            return chartObject;
+        },
+
+        //draw all other types of chart[bar,line,area]
+        drawStackedChart : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,stackingType){
+
+            var chartObject = (stackingType == 'bar')?angular.copy(this.barStackedObject):angular.copy(this.stackedChartObject);
+            chartObject.title.text = title;
+            var metaDataObject = this.prepareCategories(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems);
+            var currentService = this;
+            angular.forEach(metaDataObject.xAxisItems, function (val) {
+                chartObject.xAxis.categories.push(val.name);
+            });
+            angular.forEach(metaDataObject.yAxisItems,function(yAxis){
+                var chartSeries = [];
+                angular.forEach(metaDataObject.xAxisItems,function(xAxis){
+                    var number = currentService.getDataValue(analyticsObject,xAxisType,xAxis.uid,yAxisType,yAxis.uid,filterType,filterUid);
+                    chartSeries.push(parseFloat(number));
+                });
+                chartObject.series.push({ name: yAxis.name, data: chartSeries});
+            });
+            return chartObject;
+        },
+
+        //get a spider chart
+        drawSpiderChart : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,chartType){
+            var metaDataObject = this.prepareCategories(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems);
+            var currentService = this;
+            var categories = [];
+            angular.forEach(metaDataObject.xAxisItems, function (val) {
+                categories.push(val.name);
+            });
+
+            var series = [];
+            angular.forEach(metaDataObject.yAxisItems,function(yAxis){
+                var chartSeries = [];
+                angular.forEach(metaDataObject.xAxisItems,function(xAxis){
+                    var number = currentService.getDataValue(analyticsObject,xAxisType,xAxis.uid,yAxisType,yAxis.uid,filterType,filterUid);
+                    chartSeries.push(parseFloat(number));
+                });
+                series.push({name: yAxis.name, data: chartSeries, pointPlacement: 'on'});
+            });
+            var chartObject = {
+
+                chart: {
+                    polar: true,
+                    type: 'line'
+                },
+
+                title: {
+                    text: title,
+                    x: -80
+                },
+
+                pane: {
+                    size: '90%'
+                },
+
+                xAxis: {
+                    categories: categories,
+                    tickmarkPlacement: 'on',
+                    lineWidth: 0
+                },
+
+                yAxis: {
+                    gridLineInterpolation: 'polygon',
+                    lineWidth: 0,
+                    min: 0
+                },
+
+                tooltip: {
+                    shared: true
+                },
+
+                legend: {
+                    align: 'center',
+                    verticalAlign: 'bottom',
+                    y: 70,
+                    layout: 'horizontal'
+                },
+
+                series: series
+
+            };
             return chartObject;
         }
     };

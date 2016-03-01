@@ -24,11 +24,18 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
     ){
 
         $scope.loading = true;
+        //placeholder for card chart
         $scope.dashboardChart = [];
+        //placaholder for dashboard dataElement
         $scope.dashboardDataElements = [];
+        //placeholder for the analytics object to prevent multiple loading
         $scope.dashboardAnalytics = [];
+        //placeholder for loading status of dashoard[TRUE,FALSE]
         $scope.dashboardLoader = [];
+        //placeholder to cary the type of chart for specific dashboard[bar,column,pie,line,area,stacked,spider,map]
         $scope.dashboardChartType = [];
+        //placeholder to specify if type of chart is not supported by angular chart plugin
+        $scope.showOtherCharts = [];
         $scope.dashboardTab = [];
         $scope.headers = [];
         $scope.firstColumn = [];
@@ -249,6 +256,13 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             dashboardItem.chartXAxis = dashboardItem.object.category;
                             dashboardItem.chartYAxis = dashboardItem.object.series;
                             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
+                            if($scope.dashboardChartType[dashboardItem.id] == 'bar' || $scope.dashboardChartType[dashboardItem.id] == 'radar' || $scope.dashboardChartType[dashboardItem.id] == 'stacked_bar' || $scope.dashboardChartType[dashboardItem.id] == 'stacked_column' )
+                            {
+                                $scope.showOtherCharts[dashboardItem.id] = true;
+                                $("#"+dashboardItem.id).highcharts($scope.dashboardChart[dashboardItem.id]);
+                            }else{
+                                $scope.showOtherCharts[dashboardItem.id] = false;
+                            }
                             $scope.dashboardLoader[dashboardItem.id] = false;
                         });
                 });
@@ -398,15 +412,12 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 })
 
                                 thematicLayer.error(function(response){
-                                    //console.log(response);
                                 });
 
                             thematicLayer.error(function(response){
-                                //console.log(response);
                             });
 
                             boundaryLayer.error(function(response){
-                                //console.log(response);
                             });
 
 
@@ -469,7 +480,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             $scope.$watch('dimensions', function(dimension) {
                                 $scope.dimensionAsJson = angular.toJson(dimension, true);
                             }, true);
-                            console.log($scope.dimensions.axises)
                             dashboardItem.columnLength=$scope.dimensions.axises.yAxis.length
                             dashboardItem.rowLenth=$scope.dimensions.axises.xAxis.length
                             dashboardItem.chartXAxis = rows.rows;
@@ -502,7 +512,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         //update the dashboard acording to the filters
         $scope.updateDashboard = function(){
             angular.forEach($scope.dashboardItems,function(value){
-                console.log($scope.dashboardDataElements[value.id]);
                 $scope.dashboardLoader[value.id] = true;
                 var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[value.id]);
                 $http.get(analyticsUrl)
@@ -510,6 +519,13 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                         $scope.dashboardAnalytics[value.id] = analyticsData;
                         if(value.type == 'CHART'){
                             $scope.dashboardChart[value.id] = chartsManager.drawChart(analyticsData,value.chartXAxis,[],value.chartYAxis,[],'none','',value.object.name,$scope.dashboardChartType[value.id])
+                            if($scope.dashboardChartType[value.id] == 'bar' || $scope.dashboardChartType[value.id] == 'radar' || $scope.dashboardChartType[value.id] == 'stacked_bar' || $scope.dashboardChartType[value.id] == 'stacked_column' )
+                            {
+                                $scope.showOtherCharts[value.id] = true;
+                                $("#"+value.id).highcharts($scope.dashboardChart[value.id]);
+                            }else{
+                                $scope.showOtherCharts[value.id] = false;
+                            }
                             $scope.dashboardLoader[value.id] = false;
                         }else if(value.type == 'MAP'){
                             //mpande
@@ -539,7 +555,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             }, true);
                             value.columnLength=$scope.dimensions.axises.yAxis.length
                             value.rowLenth=$scope.dimensions.axises.xAxis.length
-                            console.log($scope.dimensions.axises)
                             if (value.object.columns.length == 2){
                                 $scope.tableDimension[value.id]='2';
                                 var firstDimension=value.object.columns[0].dimension;
@@ -566,12 +581,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
             });
 
-        }
+        };
 
         //update the dashboard according to the filters
         $scope.updateSingleDashboard = function(dashboardItem,chartType){
            $scope.dashboardChartType[dashboardItem.id] = chartType;
-            var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[dashboardItem.id]);
             if( chartType == 'table') {
                 dashboardItem.type='REPORT_TABLE';
                 var columns = {};
@@ -598,7 +612,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 }, true);
                 dashboardItem.columnLength=$scope.dimensions.axises.yAxis.length
                 dashboardItem.rowLenth=$scope.dimensions.axises.xAxis.length
-                console.log($scope.dimensions.axises)
                 if (dashboardItem.object.columns.length == 2){
                     $scope.tableDimension[dashboardItem.id]='2';
                     var firstDimension=dashboardItem.object.columns[0].dimension;
@@ -625,6 +638,13 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 dashboardItem.type='CHART';
                 $scope.dashboardLoader[dashboardItem.id] = true;
                 $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartXAxis,[],dashboardItem.chartYAxis,[],'none','',dashboardItem.object.name,chartType)
+                if($scope.dashboardChartType[dashboardItem.id] == 'bar' || $scope.dashboardChartType[dashboardItem.id] == 'radar' || $scope.dashboardChartType[dashboardItem.id] == 'stacked_bar' || $scope.dashboardChartType[dashboardItem.id] == 'stacked_column' )
+                {
+                    $scope.showOtherCharts[dashboardItem.id] = true;
+                    $("#"+dashboardItem.id).highcharts($scope.dashboardChart[dashboardItem.id]);
+                }else{
+                    $scope.showOtherCharts[dashboardItem.id] = false;
+                }
                 $scope.dashboardLoader[dashboardItem.id] = false;
             }
 
@@ -637,8 +657,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             $scope.dashboardLoader[dashboardItem.id] = false;
         }
         $scope.updateTableLayout=function(dashboardItem,columns,rows){
-            console.log(columns);
-            console.info(rows);
               dashboardItem.columnLength=columns.length
               dashboardItem.rowLenth=rows.length
             if (columns.length == 2 && rows.length==1){
@@ -683,51 +701,3 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         };
     }]);
 
-    //directive to display the tabs
-    dashboardController.directive('tabs', function() {
-        return {
-            restrict: 'E',
-            transclude: true,
-            scope: {},
-            controller: [ "$scope", function($scope) {
-                var panes = $scope.panes = [];
-
-                $scope.select = function(pane) {
-                    angular.forEach(panes, function(pane) {
-                        pane.selected = false;
-                    });
-                    pane.selected = true;
-                }
-
-                this.addPane = function(pane) {
-                    if (panes.length == 0) $scope.select(pane);
-                    panes.push(pane);
-                }
-            }],
-            template:
-            '<div class="tabbable">' +
-            '<ul class="nav nav-tabs">' +
-            '<li ng-repeat="pane in panes" ng-class="{active:pane.selected}">'+
-            '<a href="" ng-click="select(pane)">{{pane.title}}</a>' +
-            '</li>' +
-            '</ul>' +
-            '<div class="tab-content" ng-transclude></div>' +
-            '</div>',
-            replace: true
-        };
-    })
-        dashboardController.directive('pane', function() {
-        return {
-            require: '^tabs',
-            restrict: 'E',
-            transclude: true,
-            scope: { title: '@' },
-            link: function(scope, element, attrs, tabsCtrl) {
-                tabsCtrl.addPane(scope);
-            },
-            template:
-            '<div class="tab-pane" ng-class="{active: selected}" ng-transclude>' +
-            '</div>',
-            replace: true
-        };
-    })

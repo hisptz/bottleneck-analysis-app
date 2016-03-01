@@ -141,8 +141,12 @@
                                      <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
                                  </openlayers>
                              </div>
+                             <div style="width: 100%">
+                                 <highchart  ng-show="!dashboardLoader[dashboardItem.id]  && !showOtherCharts[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
+                                 <div id="{{ dashboardItem.id }}" ng-show="!dashboardLoader[dashboardItem.id] && showOtherCharts[dashboardItem.id]" style="margin: 0 auto"></div>
+                             </div>
 
-                             <highchart  ng-show="!dashboardLoader[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
+
                              <div  ng-show="!dashboardLoader[dashboardItem.id]" ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
                                  <target-table></target-table>
                              </div>
