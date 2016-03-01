@@ -10,10 +10,7 @@ CACHE:
 ../../../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js
 ../../../dhis-web-commons/javascripts/jQuery/jquery.plugin.min.js
 
-../../../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.min.js
-
-../../../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css
-../../../dhis-web-commons/javascripts/jQuery/calendars/css/ui.calendars.picker.css
+scripts/openlayers/openlayers3/build/ol.js
 
 ../../../dhis-web-commons/fonts/LiberationSans-Regular-webfont.eot
 ../../../dhis-web-commons/fonts/LiberationSans-Regular-webfont.woff
@@ -36,6 +33,11 @@ CACHE:
 ../../../dhis-web-commons/css/widgets.css
 ../../../dhis-web-commons/css/menu.css
 styles/style.css
+scripts/toaster/toaster.min.css
+scripts/spinkit/angular-spinkit.min.css
+scripts/openlayers/openlayers3/build/ol.css
+scripts/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.css
+styles/libs.min.css
 
 ../../../dhis-web-commons/bootstrap/js/bootstrap.min.js
 
@@ -45,16 +47,27 @@ styles/style.css
 ../../../dhis-web-commons/javascripts/angular/angular-cookies.js
 ../../../dhis-web-commons/javascripts/angular/angular-sanitize.js
 ../../../dhis-web-commons/javascripts/angular/angular-animate.js
-../../../dhis-web-commons/javascripts/angular/ui-bootstrap.js
+../../../dhis-web-commons/javascripts/dhis2/dhis2.util.js
+../../../dhis-web-commons/javascripts/commons.js
 
 
-#scripts/angular-translate.min.js
 ../../../dhis-web-commons/javascripts/angular/plugins/angularLocalStorage.js
 ../../../dhis-web-commons/javascripts/angular/plugins/angular-translate.min.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.services.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.controllers.js
 
-../../../dhis-web-commons/javascripts/moment/moment-with-langs.min.js
+scripts/pagination/dirPagination.js
+scripts/angular-strap.js
+scripts/angular-strap.tpl.js
+scripts/angular-strap.docs.tpl.js
+scripts/Highcharts/js/highcharts.js
+scripts/ng-scrolbar/ng-scrollbar.min.css
+scripts/Highcharts/js/modules/exporting.js
+scripts/Highcharts/js/modules/data.js
+scripts/highcharts-ng/dist/highcharts-ng.min.js
+scripts/dragDrop/angular-drag-and-drop-lists.min.js
+
+../../../dhis-web-commons/font-awesome/css/font-awesome.min.css
 
 ../../../dhis-web-commons/css/light_blue/logo_banner.png
 ../../../images/ajax-loader-bar.gif
