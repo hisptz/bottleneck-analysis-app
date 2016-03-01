@@ -256,13 +256,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             dashboardItem.chartXAxis = dashboardItem.object.category;
                             dashboardItem.chartYAxis = dashboardItem.object.series;
                             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
-                            if($scope.dashboardChartType[dashboardItem.id] == 'bar' || $scope.dashboardChartType[dashboardItem.id] == 'radar' || $scope.dashboardChartType[dashboardItem.id] == 'stacked_bar' || $scope.dashboardChartType[dashboardItem.id] == 'stacked_column' )
-                            {
-                                $scope.showOtherCharts[dashboardItem.id] = true;
-                                $("#"+dashboardItem.id).highcharts($scope.dashboardChart[dashboardItem.id]);
-                            }else{
-                                $scope.showOtherCharts[dashboardItem.id] = false;
-                            }
                             $scope.dashboardLoader[dashboardItem.id] = false;
                         });
                 });
@@ -519,13 +512,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                         $scope.dashboardAnalytics[value.id] = analyticsData;
                         if(value.type == 'CHART'){
                             $scope.dashboardChart[value.id] = chartsManager.drawChart(analyticsData,value.chartXAxis,[],value.chartYAxis,[],'none','',value.object.name,$scope.dashboardChartType[value.id])
-                            if($scope.dashboardChartType[value.id] == 'bar' || $scope.dashboardChartType[value.id] == 'radar' || $scope.dashboardChartType[value.id] == 'stacked_bar' || $scope.dashboardChartType[value.id] == 'stacked_column' )
-                            {
-                                $scope.showOtherCharts[value.id] = true;
-                                $("#"+value.id).highcharts($scope.dashboardChart[value.id]);
-                            }else{
-                                $scope.showOtherCharts[value.id] = false;
-                            }
                             $scope.dashboardLoader[value.id] = false;
                         }else if(value.type == 'MAP'){
                             //mpande
@@ -638,13 +624,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 dashboardItem.type='CHART';
                 $scope.dashboardLoader[dashboardItem.id] = true;
                 $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartXAxis,[],dashboardItem.chartYAxis,[],'none','',dashboardItem.object.name,chartType)
-                if($scope.dashboardChartType[dashboardItem.id] == 'bar' || $scope.dashboardChartType[dashboardItem.id] == 'radar' || $scope.dashboardChartType[dashboardItem.id] == 'stacked_bar' || $scope.dashboardChartType[dashboardItem.id] == 'stacked_column' )
-                {
-                    $scope.showOtherCharts[dashboardItem.id] = true;
-                    $("#"+dashboardItem.id).highcharts($scope.dashboardChart[dashboardItem.id]);
-                }else{
-                    $scope.showOtherCharts[dashboardItem.id] = false;
-                }
                 $scope.dashboardLoader[dashboardItem.id] = false;
             }
 

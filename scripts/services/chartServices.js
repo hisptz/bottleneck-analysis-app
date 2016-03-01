@@ -6,68 +6,72 @@ chartServices.factory('chartsManager',function(){
     var chartsManager = {
         data: '',
         defaultChartObject: {
-            title: {
-                text: ''
-            },
-            xAxis: {
-                categories: [],
-                labels:{
-                    rotation: -90,
-                    style:{ 'color': '#000000', 'fontWeight': 'normal' }
-                }
-            },
-            yAxis: {
-                min: 0,
+            options : {
                 title: {
                     text: ''
-                },labels:{
-                    style:{ 'color': '#000000', 'fontWeight': 'bold' }
-                }
-            },
-            labels: {
-                items: [{
-                    html: '',
-                    style: {
-                        left: '50px',
-                        top: '18px'
-                        //color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                },
+                xAxis: {
+                    categories: [],
+                    labels: {
+                        rotation: -90,
+                        style: {'color': '#000000', 'fontWeight': 'normal'}
                     }
-                }]
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }, labels: {
+                        style: {'color': '#000000', 'fontWeight': 'bold'}
+                    }
+                },
+                labels: {
+                    items: [{
+                        html: '',
+                        style: {
+                            left: '50px',
+                            top: '18px'
+                            //color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                        }
+                    }]
+                }
             },
             series: []
         },
 
         stackedChartObject : {
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: ''
-            },
-            xAxis: {
-                categories: []
-            },
-            yAxis: {
-                min: 0,
+            options :{
+                chart: {
+                    type: 'column'
+                },
                 title: {
                     text: ''
                 },
-                stackLabels: {
-                    enabled: true,
-                    style: {
-                        fontWeight: 'bold'
+                xAxis: {
+                    categories: []
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    },
+                    stackLabels: {
+                        enabled: true,
+                        style: {
+                            fontWeight: 'bold'
+                        }
                     }
-                }
-            },
-            tooltip: {
-                headerFormat: '<b>{point.x}</b><br/>',
-                pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-            },
-            plotOptions: {
-                column: {
-                    stacking: 'normal',
-                    dataLabels: {
-                        enabled: true
+                },
+                tooltip: {
+                    headerFormat: '<b>{point.x}</b><br/>',
+                    pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true
+                        }
                     }
                 }
             },
@@ -75,27 +79,29 @@ chartServices.factory('chartsManager',function(){
         },
 
         barStackedObject : {
-            chart: {
-                type: 'bar'
-            },
-            title: {
-                text: ''
-            },
-            xAxis: {
-                categories: []
-            },
-            yAxis: {
-                min: 0,
+            options: {
+                chart: {
+                    type: 'bar'
+                },
                 title: {
                     text: ''
-                }
-            },
-            legend: {
-                reversed: true
-            },
-            plotOptions: {
-                series: {
-                    stacking: 'normal'
+                },
+                xAxis: {
+                    categories: []
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                legend: {
+                    reversed: true
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'normal'
+                    }
                 }
             },
             series: []
@@ -262,7 +268,7 @@ chartServices.factory('chartsManager',function(){
         drawPieChart : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title){
 
             var chartObject = angular.copy(this.defaultChartObject);
-            chartObject.title.text = title;
+            chartObject.options.title.text = title;
 
             //chartObject.yAxis.title.text = title.toLowerCase();
             var pieSeries = [];
@@ -285,14 +291,14 @@ chartServices.factory('chartsManager',function(){
         //hack for combined charts
         drawCombinedChart : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title){
             var chartObject = angular.copy(this.defaultChartObject);
-            chartObject.title.text = title;
+            chartObject.options.title.text = title;
             //chartObject.yAxis.title.text = title.toLowerCase();
             var pieSeries = [];
             var metaDataObject = this.prepareCategories(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems);
             var currentService = this;
             //set x-axis categories
             angular.forEach(metaDataObject.xAxisItems, function (val) {
-                chartObject.xAxis.categories.push(val.name);
+                chartObject.options.xAxis.categories.push(val.name);
             });
             angular.forEach(metaDataObject.yAxisItems,function(yAxis){
                 var barSeries = [];
@@ -312,11 +318,11 @@ chartServices.factory('chartsManager',function(){
         //draw all other types of chart[bar,line,area]
         drawOtherCharts : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,chartType){
             var chartObject = angular.copy(this.defaultChartObject);
-            chartObject.title.text = title;
+            chartObject.options.title.text = title;
             var metaDataObject = this.prepareCategories(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems);
             var currentService = this;
             angular.forEach(metaDataObject.xAxisItems, function (val) {
-                chartObject.xAxis.categories.push(val.name);
+                chartObject.options.xAxis.categories.push(val.name);
             });
             angular.forEach(metaDataObject.yAxisItems,function(yAxis){
                 var chartSeries = [];
@@ -333,11 +339,11 @@ chartServices.factory('chartsManager',function(){
         drawStackedChart : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,stackingType){
 
             var chartObject = (stackingType == 'bar')?angular.copy(this.barStackedObject):angular.copy(this.stackedChartObject);
-            chartObject.title.text = title;
+            chartObject.options.title.text = title;
             var metaDataObject = this.prepareCategories(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems);
             var currentService = this;
             angular.forEach(metaDataObject.xAxisItems, function (val) {
-                chartObject.xAxis.categories.push(val.name);
+                chartObject.options.xAxis.categories.push(val.name);
             });
             angular.forEach(metaDataObject.yAxisItems,function(yAxis){
                 var chartSeries = [];
@@ -369,44 +375,44 @@ chartServices.factory('chartsManager',function(){
                 series.push({name: yAxis.name, data: chartSeries, pointPlacement: 'on'});
             });
             var chartObject = {
+                options: {
+                    chart: {
+                        polar: true,
+                        type: 'area'
+                    },
 
-                chart: {
-                    polar: true,
-                    type: 'line'
+                    title: {
+                        text: title,
+                        x: -80
+                    },
+
+                    pane: {
+                        size: '90%'
+                    },
+
+                    xAxis: {
+                        categories: categories,
+                        tickmarkPlacement: 'on',
+                        lineWidth: 0
+                    },
+
+                    yAxis: {
+                        gridLineInterpolation: 'polygon',
+                        lineWidth: 0,
+                        min: 0
+                    },
+
+                    tooltip: {
+                        shared: true
+                    },
+
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        y: 70,
+                        layout: 'horizontal'
+                    }
                 },
-
-                title: {
-                    text: title,
-                    x: -80
-                },
-
-                pane: {
-                    size: '90%'
-                },
-
-                xAxis: {
-                    categories: categories,
-                    tickmarkPlacement: 'on',
-                    lineWidth: 0
-                },
-
-                yAxis: {
-                    gridLineInterpolation: 'polygon',
-                    lineWidth: 0,
-                    min: 0
-                },
-
-                tooltip: {
-                    shared: true
-                },
-
-                legend: {
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    y: 70,
-                    layout: 'horizontal'
-                },
-
                 series: series
 
             };

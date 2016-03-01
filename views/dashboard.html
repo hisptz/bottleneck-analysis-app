@@ -142,8 +142,7 @@
                                  </openlayers>
                              </div>
                              <div style="width: 100%">
-                                 <highchart  ng-show="!dashboardLoader[dashboardItem.id]  && !showOtherCharts[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
-                                 <div id="{{ dashboardItem.id }}" ng-show="!dashboardLoader[dashboardItem.id] && showOtherCharts[dashboardItem.id]" style="margin: 0 auto"></div>
+                                 <highchart  ng-show="!dashboardLoader[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
                              </div>
 
 
