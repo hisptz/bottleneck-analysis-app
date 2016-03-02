@@ -18,7 +18,12 @@
 
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
+				<p style="margin: 3px">
+					<a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 25px;width: 25px"/></i></a>
+					<a ng-csv="prepareDataForCSV(dashboardItem)" csv-label="true" filename="data.csv" field-separator="," decimal-separator="."  title="Download Excel" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/cvs.jpg" style="height: 25px;width: 25px"/></i></a>
+					<button type="button" class="btn btn-default pull-right" ng-click="$hide()">Close</button>
+				</p>
+
 			</div>
 		</div>
 	</div>

@@ -140,6 +140,30 @@ chartServices.factory('chartsManager',function(){
             return metadataArray;
         },
 
+        //get an array of items from analyticsObject[metadataType == dx,co,ou,pe,value]
+        getDetailedMetadataArray : function (analyticsObject,metadataType) {
+            //determine the position of metadata in rows of values
+            var index = this.getTitleIndex(analyticsObject.headers,metadataType);
+            var metadataArray = [];
+            var checkArr = [];
+            if(metadataType === 'dx'){
+                angular.forEach(analyticsObject.metaData.dx,function(value){
+                    metadataArray.push
+                });
+                metadataArray = analyticsObject.metaData.dx;
+            }else if(metadataType === 'ou'){
+                metadataArray = analyticsObject.metaData.ou;
+            }else if(metadataType === 'co'){
+                metadataArray = analyticsObject.metaData.co;
+            }else if(metadataType === 'pe'){
+                metadataArray = analyticsObject.metaData.pe;
+            }else{
+                metadataArray = analyticsObject.metaData[metadataType];
+            }
+
+            return metadataArray;
+        },
+
         //preparing categories depending on selections
         //return the meaningfull array of xAxis and yAxis Items
         //x axisItems and yAxisItems are specified if you want few data type array['uid1','uid2']

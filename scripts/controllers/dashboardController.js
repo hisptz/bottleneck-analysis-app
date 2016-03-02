@@ -32,6 +32,8 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         $scope.dashboardAnalytics = [];
         //placeholder for loading status of dashoard[TRUE,FALSE]
         $scope.dashboardLoader = [];
+        //placeholder for failed loading of dashboard loading status of dashoard[TRUE,FALSE]
+        $scope.dashboardFailLoad = [];
         //placeholder to cary the type of chart for specific dashboard[bar,column,pie,line,area,stacked,spider,map]
         $scope.dashboardChartType = [];
         //placeholder to specify if type of chart is not supported by angular chart plugin
@@ -246,7 +248,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 }).then(function(result){
                     dashboardItem.object=window.object;
                     dashboardItem.analyticsUrl = window.alayticsUrl;
-                    var analytics = dashboardItem.analyticsUrl;
                     $http.get('../../../'+dashboardItem.analyticsUrl)
                         .success(function(analyticsData){
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
@@ -257,7 +258,14 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             dashboardItem.chartYAxis = dashboardItem.object.series;
                             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
                             $scope.dashboardLoader[dashboardItem.id] = false;
+                            $scope.dashboardFailLoad[dashboardItem.id] = false;
+                        }).error(function(error){
+                            $scope.dashboardLoader[dashboardItem.id] = false;
+                            $scope.dashboardFailLoad[dashboardItem.id] = true;
                         });
+                },function(){
+                    $scope.dashboardLoader[dashboardItem.id] = false;
+                    $scope.dashboardFailLoad[dashboardItem.id] = true;
                 });
             }
             else if ( "MAP" == dashboardItem.type )
@@ -273,9 +281,9 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     skipMask: true,
                     userOrgUnit: userOrgUnit
                     }).then(function(output){
-                    var shared = mapManager.getShared();
-                    shared.facility = 3029;
-                    mapManager.pushMapViews(output).then(function(response){
+                        var shared = mapManager.getShared();
+                        shared.facility = 3029;
+                        mapManager.pushMapViews(output).then(function(response){
                         var analyticsObject = response.data;
                         var mapViews = analyticsObject.mapViews;
 
@@ -405,24 +413,32 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 })
 
                                 thematicLayer.error(function(response){
+                                    $scope.dashboardLoader[dashboardItem.id] = false;
+                                    $scope.dashboardFailLoad[dashboardItem.id] = true;
                                 });
 
                             thematicLayer.error(function(response){
+                                $scope.dashboardLoader[dashboardItem.id] = false;
+                                $scope.dashboardFailLoad[dashboardItem.id] = true;
                             });
 
                             boundaryLayer.error(function(response){
+                                $scope.dashboardLoader[dashboardItem.id] = false;
+                                $scope.dashboardFailLoad[dashboardItem.id] = true;
                             });
 
 
                             });
                         }, function (error) {
-
+                            $scope.dashboardLoader[dashboardItem.id] = false;
+                            $scope.dashboardFailLoad[dashboardItem.id] = true;
                         });
 
 
 
                     },function(){
-
+                            $scope.dashboardLoader[dashboardItem.id] = false;
+                            $scope.dashboardFailLoad[dashboardItem.id] = true;
                     });
                     });
             }
@@ -451,53 +467,59 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                     var analytics = dashboardItem.analyticsUrl;
                     $http.get('../../..'+dashboardItem.analyticsUrl)
                             .success(function(analyticsData){
-                            $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
-                            $scope.dashboardLoader[dashboardItem.id] = false;
-                            $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
-                            $scope.dimensions = {
-                                selected: null,
-                                axises: {"xAxis": [], "yAxis": [],"filter":[]}
-                            };
-                            angular.forEach(dashboardItem.object.rows,function(row){
-                                rows['rows']=row.dimension;
-                                $scope.dimensions.axises.xAxis.push({label:row.dimension,name:analyticsData.metaData.names[row.dimension]});
+                                $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
+                                $scope.dashboardLoader[dashboardItem.id] = false;
+                                $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
+                                $scope.dimensions = {
+                                    selected: null,
+                                    axises: {"xAxis": [], "yAxis": [],"filter":[]}
+                                };
+                                angular.forEach(dashboardItem.object.rows,function(row){
+                                    rows['rows']=row.dimension;
+                                    $scope.dimensions.axises.xAxis.push({label:row.dimension,name:analyticsData.metaData.names[row.dimension]});
+                                });
+                                angular.forEach(dashboardItem.object.columns, function (col) {
+                                    column['column'] = col.dimension;
+                                    $scope.dimensions.axises.yAxis.push({label:col.dimension,name:analyticsData.metaData.names[col.dimension]});
+                                });
+                                angular.forEach(dashboardItem.object.filters,function(filter){
+                                    filters['filters']=filter.dimension;
+                                    $scope.dimensions.axises.filter.push({label:filter.dimension,name:analyticsData.metaData.names[filter.dimension]});
+                                });
+                                $scope.$watch('dimensions', function(dimension) {
+                                    $scope.dimensionAsJson = angular.toJson(dimension, true);
+                                }, true);
+                                dashboardItem.columnLength=$scope.dimensions.axises.yAxis.length
+                                dashboardItem.rowLenth=$scope.dimensions.axises.xAxis.length
+                                dashboardItem.chartXAxis = rows.rows;
+                                dashboardItem.chartYAxis = column.column;
+                                $scope.dashboardChartType[dashboardItem.id] = 'bar';
+                                if (dashboardItem.object.columns.length == 2){
+                                    $scope.tableDimension[dashboardItem.id]='2';
+                                    var firstDimension=dashboardItem.object.columns[0].dimension;
+                                    var secondDimension=dashboardItem.object.columns[1].dimension;
+                                    $scope.firstColumn[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,firstDimension,secondDimension);
+                                    $scope.secondColumn[dashboardItem.id]=TableRenderer.drawTableWithTwoHeader(analyticsData,firstDimension,secondDimension);
+                                    $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
+                                }else if(dashboardItem.object.rows.length == 2){
+                                    $scope.tableDimension[dashboardItem.id]='3';
+                                    var firstRow=dashboardItem.object.rows[0].dimension;
+                                    var secondRow=dashboardItem.object.rows[1].dimension;
+                                    $scope.column[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
+                                    $scope.firstRow[dashboardItem.id]=TableRenderer.drawTableWithSingleRowDimension(analyticsData,firstRow,secondRow);
+                                    $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,column.column,secondRow);
+                                }else{
+                                    $scope.tableDimension[dashboardItem.id]='1';
+                                    $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
+                                    $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.rows,column.column);
+                                }
+                            }).error(function(error){
+                                $scope.dashboardLoader[dashboardItem.id] = false;
+                                $scope.dashboardFailLoad[dashboardItem.id] = true;
                             });
-                            angular.forEach(dashboardItem.object.columns, function (col) {
-                                column['column'] = col.dimension;
-                                $scope.dimensions.axises.yAxis.push({label:col.dimension,name:analyticsData.metaData.names[col.dimension]});
-                            });
-                            angular.forEach(dashboardItem.object.filters,function(filter){
-                                filters['filters']=filter.dimension;
-                                $scope.dimensions.axises.filter.push({label:filter.dimension,name:analyticsData.metaData.names[filter.dimension]});
-                            });
-                            $scope.$watch('dimensions', function(dimension) {
-                                $scope.dimensionAsJson = angular.toJson(dimension, true);
-                            }, true);
-                            dashboardItem.columnLength=$scope.dimensions.axises.yAxis.length
-                            dashboardItem.rowLenth=$scope.dimensions.axises.xAxis.length
-                            dashboardItem.chartXAxis = rows.rows;
-                            dashboardItem.chartYAxis = column.column;
-                            $scope.dashboardChartType[dashboardItem.id] = 'bar';
-                            if (dashboardItem.object.columns.length == 2){
-                                $scope.tableDimension[dashboardItem.id]='2';
-                                var firstDimension=dashboardItem.object.columns[0].dimension;
-                                var secondDimension=dashboardItem.object.columns[1].dimension;
-                                $scope.firstColumn[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,firstDimension,secondDimension);
-                                $scope.secondColumn[dashboardItem.id]=TableRenderer.drawTableWithTwoHeader(analyticsData,firstDimension,secondDimension);
-                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
-                            }else if(dashboardItem.object.rows.length == 2){
-                                $scope.tableDimension[dashboardItem.id]='3';
-                                var firstRow=dashboardItem.object.rows[0].dimension;
-                                var secondRow=dashboardItem.object.rows[1].dimension;
-                                $scope.column[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
-                                $scope.firstRow[dashboardItem.id]=TableRenderer.drawTableWithSingleRowDimension(analyticsData,firstRow,secondRow);
-                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,column.column,secondRow);
-                            }else{
-                                $scope.tableDimension[dashboardItem.id]='1';
-                                $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
-                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.rows,column.column);
-                            }
-                    });
+                },function(){
+                    $scope.dashboardLoader[dashboardItem.id] = false;
+                    $scope.dashboardFailLoad[dashboardItem.id] = true;
                 });
             }
         }
@@ -509,10 +531,12 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[value.id]);
                 $http.get(analyticsUrl)
                     .success(function(analyticsData){
+                        $scope.dashboardLoader[value.id] = false;
+                        $scope.dashboardFailLoad[value.id] = false;
                         $scope.dashboardAnalytics[value.id] = analyticsData;
                         if(value.type == 'CHART'){
                             $scope.dashboardChart[value.id] = chartsManager.drawChart(analyticsData,value.chartXAxis,[],value.chartYAxis,[],'none','',value.object.name,$scope.dashboardChartType[value.id])
-                            $scope.dashboardLoader[value.id] = false;
+
                         }else if(value.type == 'MAP'){
                             //mpande
                         }else if(value.type == 'REPORT_TABLE'){
@@ -560,9 +584,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 $scope.headers[value.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,columns.column," ");
                                 $scope.dashboardTab[value.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.row,columns.column);
                             }
-                            $scope.dashboardLoader[value.id] = false;
                         }
 
+                    }).error(function(error){
+                        $scope.dashboardLoader[value.id] = false;
+                        $scope.dashboardFailLoad[value.id] = true;
                     });
 
             });

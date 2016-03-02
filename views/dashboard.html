@@ -153,21 +153,22 @@
                              <a data-animation="am-fade-and-slide-top" data-template-url="views/dashboardModel.html" bs-modal="modal" class="pull-right"><span class="glyphicon glyphicon-resize-full"></span> </a>
                          </div>
                          <div class="panel-body" style="height: 400px;overflow: scroll">
-                             <div ng-if="dashboardItem.type=='MAP'" ng-show="!dashboardLoader[dashboardItem.id]">
+                             <div ng-if="dashboardItem.type=='MAP'" ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]">
                                  <openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
                                      <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
                                  </openlayers>
                              </div>
                              <div style="width: 100%">
-                                 <highchart  ng-show="!dashboardLoader[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
+                                 <highchart  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
                              </div>
 
 
-                             <div  ng-show="!dashboardLoader[dashboardItem.id]" ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
+                             <div  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]" ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
                                  <target-table></target-table>
                              </div>
 
-                             <chasing-dots-spinner ng-if="dashboardLoader[dashboardItem.id]"></chasing-dots-spinner>
+                             <!--<wave-spinner ng-if="dashboardLoader[dashboardItem.id]"></wave-spinner>-->
+                             <div class="well well-lg text-danger" style="margin-top: 100px" ng-if="dashboardFailLoad[dashboardItem.id]"><span class="glyphicon glyphicon-warning-sign"></span> Error Loading data! </div>
 
                          </div>
                          <div class="panel-footer" style="padding: 1px 15px">
@@ -178,35 +179,7 @@
                          </div>
                      </div>
 
-                     <div class="modal fade" id="{{dashboardItem.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                         <div class="modal-dialog" role="document" style="width:90%">
-                             <div class="modal-content">
-                                 <div class="modal-header">
-                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                     <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                                 </div>
-                                 <div class="modal-body">
-                                     <div ng-if="dashboardItem.type=='MAP'">
-                                         <openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
-                                             <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
-                                         </openlayers>
-                                     </div>
-
-                                     <div ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
-                                         <target-table></target-table>
-                                     </div>
-
-                                     <highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]" style="width: 100%"></highchart>
-
-                                 </div>
-                                 <div class="modal-footer">
-                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
                  </div>
-
              </div>
          </div>
 
