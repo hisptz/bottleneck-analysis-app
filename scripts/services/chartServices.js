@@ -292,7 +292,7 @@ chartServices.factory('chartsManager',function(){
 
         },
         //hacks for pie chart
-        drawPieChart : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title){
+        drawPieChart1 : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title){
 
             var chartObject = angular.copy(this.defaultChartObject);
             chartObject.options.title.text = title;
@@ -443,6 +443,132 @@ chartServices.factory('chartsManager',function(){
                 series: series
 
             };
+            return chartObject;
+        },
+
+        CSS_COLOR_NAMES : ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
+            '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1','#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce',
+            '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a','#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE',
+            '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92','#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
+            '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1','#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce',
+            '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a','#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE',
+            '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
+
+        //draw all other types of chart[bar,line,area]
+        drawPieChart : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,chartType){
+
+
+            var chartObject = {};
+            var metaDataObject = this.prepareCategories(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems);
+            var currentService = this;
+            var categories = [];
+            var data = [];
+            var color = 0;
+            angular.forEach(metaDataObject.xAxisItems, function (val) {
+                color++;
+                categories.push(val.name);
+                var chartSeries = [];
+                var subcategories = [];
+                var sumCategory = 0;
+                angular.forEach(metaDataObject.yAxisItems,function(yAxis){
+                    var number = currentService.getDataValue(analyticsObject,xAxisType,val.uid,yAxisType,yAxis.uid,filterType,filterUid);
+                    chartSeries.push(parseFloat(number));
+                    sumCategory += parseFloat(number);
+                    subcategories.push(yAxis.name);
+                });
+                data.push({
+                    y: sumCategory,
+                    color: currentService.CSS_COLOR_NAMES[color],
+                    drilldown: {
+                        name: val.name,
+                        categories: subcategories,
+                        data: chartSeries,
+                        color: currentService.CSS_COLOR_NAMES[color]
+                    }
+                })
+
+            });
+
+            var baseData = [],
+                versionsData = [],
+                i,
+                j,
+                dataLen = data.length,
+                drillDataLen,
+                brightness;
+
+
+            // Build the data arrays
+            for (i = 0; i < dataLen; i += 1) {
+
+                // add browser data
+                baseData.push({
+                    name: categories[i],
+                    y: data[i].y,
+                    color: data[i].color
+                });
+
+                // add version data
+                drillDataLen = data[i].drilldown.data.length;
+                for (j = 0; j < drillDataLen; j += 1) {
+                    brightness = 0.2 - (j / drillDataLen) / 5;
+                    versionsData.push({
+                        name: data[i].drilldown.categories[j],
+                        y: data[i].drilldown.data[j],
+                        color: data[i].color
+                    });
+                }
+            }
+
+            chartObject = {
+                options:{
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: title
+                    },
+                    yAxis: {
+                        title: {
+                            text: ''
+                        }
+                    },
+                    plotOptions: {
+                        pie: {
+                            shadow: false,
+                            center: ['50%', '50%']
+                        }
+                    },
+                    tooltip: {
+                        valueSuffix: '%'
+                    }
+                },
+                series: [{
+                    name: '',
+                    data: baseData,
+                    size: '60%',
+                    dataLabels: {
+                        formatter: function () {
+                            return this.y > 5 ? this.point.name : null;
+                        },
+                        color: '#ffffff',
+                        distance: -30
+                    }
+                }, {
+                    name: '',
+                    data: versionsData,
+                    size: '80%',
+                    innerSize: '60%',
+                    dataLabels: {
+                        formatter: function () {
+                            // display only if larger than 1
+                            return this.y > 1 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
+                        }
+                    }
+                }]
+            };
+
+
             return chartObject;
         }
     };
