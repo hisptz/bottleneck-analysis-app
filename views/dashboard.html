@@ -2,6 +2,23 @@
     form.tab-form-demo .tab-pane {
         margin: 20px 20px;
     }
+
+    .modal-backdrop.am-fade {
+        opacity: .5;
+        transition: opacity .15s linear;
+    }
+    .modal-backdrop.am-fade.ng-enter {
+        opacity: 0;
+    }
+    .modal-backdrop.am-fade.ng-enter.ng-enter-active {
+        opacity: .5;
+    }
+    .modal-backdrop.am-fade.ng-leave {
+        opacity: .5;
+    }
+    .modal-backdrop.am-fade.ng-leave.ng-leave-active {
+        opacity: 0;
+    }
 </style>
 <three-bounce-spinner ng-if="loading"></three-bounce-spinner>
 <div ng-if="!loading">
@@ -112,10 +129,10 @@
                  <div ng-repeat="dashboardItem in dashboardItems | filter:searchKey" class="{{ dashboardItem.column_size }}" style="padding-right: 8px;padding-left: 0px">
                      <div class="panel panel-default ">
                          <div class="panel-heading">
-                             <a href='javascript:dhis2.db.viewShareForm( "vFxVriYuBi4", "reportTable", "ACT_Number of Children tested <15 for HIV" )'>Share interpretation </a>|
+                             <a href='javascript:dhis2.db.viewShareForm( "{{ dashboardItem.id }}", "{{ dashboardItem.type | lowercase }}", "{{ dashboardItem.name }}" )'>Share interpretation </a>|
                              <a ng-if="dashboardItem.type=='REPORT_TABLE'" href='/dhis-web-pivot/index.html'>Explore </a>
-                             <a ng-if="dashboardItem.type=='CHART'" href='/dhis-web-visualizer/'>Explore </a>
-                             <a ng-if="dashboardItem.type=='MAP'" href='/dhis-web-mapping/'>Explore </a>|
+                             <a ng-if="dashboardItem.type=='CHART'" href='javascript:dhis2.db.exploreChart( "{{ dashboardItem.id }}" )'>Explore </a>
+                             <a ng-if="dashboardItem.type=='MAP'" href='javascript:dhis2.db.exploreMap( "{{ dashboardItem.id }}" )'>Explore </a>|
                              <a ng-click="cardClassResizable(dashboardItem)">Resize</a> |
 
                              <a ng-if="dashboardItem.type=='CHART'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5"
@@ -133,7 +150,7 @@
                                 data-auto-close="1" bs-popover> Layout
                              </a>
 
-                             <a ng-click="openModel(dashboardItem.id)" class="pull-right"><span class="glyphicon glyphicon-resize-full"></span> </a>
+                             <a data-animation="am-fade-and-slide-top" data-template-url="views/dashboardModel.html" bs-modal="modal" class="pull-right"><span class="glyphicon glyphicon-resize-full"></span> </a>
                          </div>
                          <div class="panel-body" style="height: 400px;overflow: scroll">
                              <div ng-if="dashboardItem.type=='MAP'" ng-show="!dashboardLoader[dashboardItem.id]">

@@ -1,15 +1,25 @@
-<div class="modal-header">
-	<h3 class="modal-title">I'm a modal!</h3>
-</div>
-<div class="modal-body">
-	<ul>
-		<li ng-repeat="item in items">
-			<a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-		</li>
-	</ul>
-	Selected: <b>{{ selected.item }}</b>
-</div>
-<div class="modal-footer">
-	<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-	<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="width: 80%">
+		<div class="modal-content">
+			<div class="modal-header" ng-show="title"></div>
+			<div class="modal-body">
+				<button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button>
+				<div ng-if="dashboardItem.type=='MAP'">
+					<openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
+						<ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
+					</openlayers>
+				</div>
+
+				<div ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
+					<target-table></target-table>
+				</div>
+
+				<highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]" style="width: 100%"></highchart>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
+			</div>
+		</div>
+	</div>
 </div>
