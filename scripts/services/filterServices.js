@@ -48,7 +48,7 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
                         });
                         regionDistricts.push({name:district.name,id:district.id, children:districtsFacility });
                     });
-                    zoneRegions.push({ name:regions.name,id:regions.id, children:regionDistricts });
+                    zoneRegions.push({ name:regions.name,id:regions.id, children:regionDistricts});
                 });
                 orgUnitTree.push({ name:value.name,id:value.id, children:zoneRegions,selected:true });
             });
