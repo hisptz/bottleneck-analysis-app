@@ -143,22 +143,25 @@ chartServices.factory('chartsManager',function(){
         //get an array of items from analyticsObject[metadataType == dx,co,ou,pe,value]
         getDetailedMetadataArray : function (analyticsObject,metadataType) {
             //determine the position of metadata in rows of values
-            var index = this.getTitleIndex(analyticsObject.headers,metadataType);
             var metadataArray = [];
-            var checkArr = [];
             if(metadataType === 'dx'){
                 angular.forEach(analyticsObject.metaData.dx,function(value){
-                    metadataArray.push
+                    metadataArray.push({id:value,name:analyticsObject.metaData.names[value]})
                 });
-                metadataArray = analyticsObject.metaData.dx;
             }else if(metadataType === 'ou'){
-                metadataArray = analyticsObject.metaData.ou;
+                angular.forEach(analyticsObject.metaData.ou,function(value){
+                    metadataArray.push({id:value,name:analyticsObject.metaData.names[value]})
+                });
             }else if(metadataType === 'co'){
-                metadataArray = analyticsObject.metaData.co;
+                angular.forEach(analyticsObject.metaData.co,function(value){
+                    metadataArray.push({id:value,name:analyticsObject.metaData.names[value]})
+                });
             }else if(metadataType === 'pe'){
-                metadataArray = analyticsObject.metaData.pe;
+                angular.forEach(analyticsObject.metaData.pe,function(value){
+                    metadataArray.push({id:value,name:analyticsObject.metaData.names[value]})
+                });
             }else{
-                metadataArray = analyticsObject.metaData[metadataType];
+                metadataArray = []
             }
 
             return metadataArray;
@@ -238,10 +241,10 @@ chartServices.factory('chartsManager',function(){
             var currentService = this;
             switch (type){
                 case 'bar':
-                    return currentService.drawOtherCharts(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, type);
+                    return currentService.drawOtherCharts(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'bar');
                     break;
                 case 'column':
-                    return currentService.drawOtherCharts(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, type);
+                    return currentService.drawOtherCharts(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'column');
                     break;
                 case 'radar':
                     return currentService.drawSpiderChart(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, type);

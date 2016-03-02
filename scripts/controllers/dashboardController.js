@@ -253,9 +253,14 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
                             $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
                             var chartType=dashboardItem.object.type.toLowerCase();
+                            //setting chart service
                             $scope.dashboardChartType[dashboardItem.id] = chartType;
                             dashboardItem.chartXAxis = dashboardItem.object.category;
                             dashboardItem.chartYAxis = dashboardItem.object.series;
+                            dashboardItem.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.category);
+                            dashboardItem.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.series);
+                            dashboardItem.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.series);
+                            dashboardItem.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.category);
                             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
                             $scope.dashboardLoader[dashboardItem.id] = false;
                             $scope.dashboardFailLoad[dashboardItem.id] = false;
@@ -493,7 +498,13 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 dashboardItem.rowLenth=$scope.dimensions.axises.xAxis.length
                                 dashboardItem.chartXAxis = rows.rows;
                                 dashboardItem.chartYAxis = column.column;
-                                $scope.dashboardChartType[dashboardItem.id] = 'bar';
+                                dashboardItem.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],rows.rows);
+                                dashboardItem.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],column.column);
+                                dashboardItem.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],column.column);
+                                dashboardItem.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],rows.rows);
+
+
+                            $scope.dashboardChartType[dashboardItem.id] = 'bar';
                                 if (dashboardItem.object.columns.length == 2){
                                     $scope.tableDimension[dashboardItem.id]='2';
                                     var firstDimension=dashboardItem.object.columns[0].dimension;
@@ -528,6 +539,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         $scope.updateDashboard = function(){
             angular.forEach($scope.dashboardItems,function(value){
                 $scope.dashboardLoader[value.id] = true;
+                value.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartXAxis);
+                value.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartYAxis);
+                value.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartYAxis);
+                value.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartXAxis);
+
                 var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[value.id]);
                 $http.get(analyticsUrl)
                     .success(function(analyticsData){
@@ -595,6 +611,8 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
         };
 
+
+
         //update the dashboard according to the filters
         $scope.updateSingleDashboard = function(dashboardItem,chartType){
            $scope.dashboardChartType[dashboardItem.id] = chartType;
@@ -647,6 +665,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             else if(chartType == 'map') {
 
             }else{
+
                 dashboardItem.type='CHART';
                 $scope.dashboardLoader[dashboardItem.id] = true;
                 $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartXAxis,[],dashboardItem.chartYAxis,[],'none','',dashboardItem.object.name,chartType)
@@ -657,8 +676,21 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
         //update the dashboard charts according to layout selection
         $scope.updateChartLayout = function(dashboardItem,chartType,xAxis,yAxis) {
+            dashboardItem.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],xAxis);
+            dashboardItem.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],yAxis);
+            dashboardItem.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],yAxis);
+            dashboardItem.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],xAxis);
             $scope.dashboardLoader[dashboardItem.id] = true;
             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id], xAxis, [], yAxis, [], 'none', '', dashboardItem.object.name, chartType)
+            $scope.dashboardLoader[dashboardItem.id] = false;
+        }
+
+        //update the dashboard charts according to layout selection
+        $scope.updateChartDataSelection = function(dashboardItem,chartType,xAxis,yAxis,xAxisItems,yAxisItems) {
+            var xItems = xAxisItems.map(function(a) {return a.id;});
+            var yItems = yAxisItems.map(function(a) {return a.id;});
+            $scope.dashboardLoader[dashboardItem.id] = true;
+            $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id], xAxis, xItems, yAxis, yItems, 'none', '', dashboardItem.object.name, chartType)
             $scope.dashboardLoader[dashboardItem.id] = false;
         }
         $scope.updateTableLayout=function(dashboardItem,columns,rows){
@@ -696,7 +728,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             angular.forEach(chartObject.series,function(value){
                 var obj = {name:value.name};
                 var i = 0;
-                angular.forEach(chartObject.xAxis.categories,function(val){
+                angular.forEach(chartObject.options.xAxis.categories,function(val){
                     obj[val] = value.data[i];
                     i++;
                 })
