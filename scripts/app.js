@@ -27,7 +27,8 @@ var idashboard = angular.module('idashboard',
                         'angularUtils.directives.dirPagination',
                         'dndLists',
                         'ngCsv',
-                        'ngScrollbar'
+                        'ngScrollbar',
+                        'ui.multiselect'
                     ])
               
 .value('DHIS2URL', '../../..')
