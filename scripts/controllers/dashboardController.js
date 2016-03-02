@@ -32,6 +32,8 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         $scope.dashboardAnalytics = [];
         //placeholder for loading status of dashoard[TRUE,FALSE]
         $scope.dashboardLoader = [];
+        //placeholder for failed loading of dashboard loading status of dashoard[TRUE,FALSE]
+        $scope.dashboardFailLoad = [];
         //placeholder to cary the type of chart for specific dashboard[bar,column,pie,line,area,stacked,spider,map]
         $scope.dashboardChartType = [];
         //placeholder to specify if type of chart is not supported by angular chart plugin
@@ -246,7 +248,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 }).then(function(result){
                     dashboardItem.object=window.object;
                     dashboardItem.analyticsUrl = window.alayticsUrl;
-                    var analytics = dashboardItem.analyticsUrl;
                     $http.get('../../../'+dashboardItem.analyticsUrl)
                         .success(function(analyticsData){
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
@@ -257,7 +258,14 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             dashboardItem.chartYAxis = dashboardItem.object.series;
                             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
                             $scope.dashboardLoader[dashboardItem.id] = false;
+                            $scope.dashboardFailLoad[dashboardItem.id] = false;
+                        }).error(function(error){
+                            $scope.dashboardLoader[dashboardItem.id] = false;
+                            $scope.dashboardFailLoad[dashboardItem.id] = true;
                         });
+                },function(){
+                    $scope.dashboardLoader[dashboardItem.id] = false;
+                    $scope.dashboardFailLoad[dashboardItem.id] = true;
                 });
             }
             else if ( "MAP" == dashboardItem.type )
@@ -509,10 +517,12 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                 var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[value.id]);
                 $http.get(analyticsUrl)
                     .success(function(analyticsData){
+                        $scope.dashboardLoader[value.id] = false;
+                        $scope.dashboardFailLoad[value.id] = false;
                         $scope.dashboardAnalytics[value.id] = analyticsData;
                         if(value.type == 'CHART'){
                             $scope.dashboardChart[value.id] = chartsManager.drawChart(analyticsData,value.chartXAxis,[],value.chartYAxis,[],'none','',value.object.name,$scope.dashboardChartType[value.id])
-                            $scope.dashboardLoader[value.id] = false;
+
                         }else if(value.type == 'MAP'){
                             //mpande
                         }else if(value.type == 'REPORT_TABLE'){
@@ -560,9 +570,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 $scope.headers[value.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,columns.column," ");
                                 $scope.dashboardTab[value.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.row,columns.column);
                             }
-                            $scope.dashboardLoader[value.id] = false;
                         }
 
+                    }).error(function(error){
+                        $scope.dashboardLoader[value.id] = false;
+                        $scope.dashboardFailLoad[value.id] = true;
                     });
 
             });
