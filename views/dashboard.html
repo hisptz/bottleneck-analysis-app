@@ -130,9 +130,9 @@
                      <div class="panel panel-default ">
                          <div class="panel-heading">
                              <a href='javascript:dhis2.db.viewShareForm( "{{ dashboardItem.id }}", "{{ dashboardItem.type | lowercase }}", "{{ dashboardItem.name }}" )'>Share interpretation </a>|
-                             <a ng-if="dashboardItem.type=='REPORT_TABLE'" href='/dhis-web-pivot/index.html?id={{ dashboardItem.reportTable.id }}'>Explore </a>
-                             <a ng-if="dashboardItem.type=='CHART'" href='/dhis-web-visualizer/index.html?id={{ dashboardItem.chart.id }}'>Explore </a>
-                             <a ng-if="dashboardItem.type=='MAP'" href='/dhis-web-mapping/index.html?id={{ dashboardItem.map.id }}'>Explore </a>|
+                             <a ng-if="dashboardItem.type=='REPORT_TABLE'" href='../../../dhis-web-pivot/index.html?id={{ dashboardItem.reportTable.id }}'>Explore </a>
+                             <a ng-if="dashboardItem.type=='CHART'" href='../../../dhis-web-visualizer/index.html?id={{ dashboardItem.chart.id }}'>Explore </a>
+                             <a ng-if="dashboardItem.type=='MAP'" href='../../../dhis-web-mapping/index.html?id={{ dashboardItem.map.id }}'>Explore </a>|
                              <a ng-click="cardClassResizable(dashboardItem)">Resize</a> |
 
                              <a ng-if="dashboardItem.type=='CHART'" type="button" title="Layout" style="background-color: #F5F5F5"
