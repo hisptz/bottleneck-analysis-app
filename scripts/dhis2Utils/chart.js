@@ -3627,8 +3627,7 @@ Ext.onReady(function() {
                     }
                 }
                 else {
-                    alert('User is not assigned to any organisation units');
-                }
+                   }
 
                 fn();
 			}

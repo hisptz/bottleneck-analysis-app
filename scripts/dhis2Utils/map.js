@@ -6948,7 +6948,7 @@ console.log("not reconized");
                     init.user.ou = ou;
                     init.user.ouc = ouc;
                 } else {
-                    gis.alert('User is not assigned to any organisation units');
+                    //gis.alert('User is not assigned to any organisation units');
                 }
 
                 fn();
