@@ -46,6 +46,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         $scope.tableRowDimension = [];
         $scope.tableOneDimensionBoth = [];
         $scope.icons = filtersManager.icons;
+        $scope.multiPeriod = true;
 
         var d = new Date();
         //default filter values
@@ -63,6 +64,16 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
          */
         $scope.popover = {title: 'Title', content: 'Hello Popover<br />This is a multiline message!'};
 
+        //$scope.$watch('data.outOrganisationUnits', function() {
+        //    if($scope.data.outOrganisationUnits){
+        //        if($scope.data.outOrganisationUnits.length > 1){
+        //            $scope.updateMethod();
+        //        }else{
+        //
+        //        }
+        //    }
+        //
+        //}, true);
 
 
         $scope.data = [];
@@ -99,6 +110,11 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
         $scope.changePeriodType = function(type){
             $scope.periodType = type;
+            if(type.indexOf("Relative") > -1){
+                $scope.multiPeriod = false;
+            }else{
+                $scope.multiPeriod = true;
+            }
             $scope.getPeriodArray(type);
         };
 
@@ -179,10 +195,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             }
 
             if(dashboardItem.type=='CHART'){
-                //var dItem = $scope.dashboardChart[dashboardItem.id];
-                //$scope.dashboardChart[dashboardItem.id] = null;
-                //$scope.dashboardChart[dashboardItem.id] = dItem
-                //$scope.$broadcast('highchartsng.reflow');
+                $scope.dashboardChart[dashboardItem.id].chart.events.load();
             }
 
         }
