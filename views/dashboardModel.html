@@ -11,31 +11,10 @@
 	<div class="modal-dialog" style="margin-top: 100px; margin-right: auto; margin-left: auto; width: 95%; height: 800px">
 		<div class="modal-content" style="background: transparent;border: 0; -webkit-box-shadow: none; box-shadow: none;">
 			<div class="modal-header"  style="background: white;opacity: 0.85">
-				<a ng-if="dashboardItem.type=='REPORT_TABLE'" href='../../../dhis-web-pivot/index.html?id={{ dashboardItem.reportTable.id }}'>Explore </a>
-				<a ng-if="dashboardItem.type=='CHART'" href='../../../dhis-web-visualizer/index.html?id={{ dashboardItem.chart.id }}'>Explore </a>
-				<a ng-if="dashboardItem.type=='MAP'" href='../../../dhis-web-mapping/index.html?id={{ dashboardItem.map.id }}'>Explore </a>|
+				<a target="_blank" ng-if="dashboardItem.type=='REPORT_TABLE'" href='../../../dhis-web-pivot/index.html?id={{ dashboardItem.reportTable.id }}'>Explore </a>
+				<a target="_blank" ng-if="dashboardItem.type=='CHART'" href='../../../dhis-web-visualizer/index.html?id={{ dashboardItem.chart.id }}'>Explore </a>
+				<a target="_blank" ng-if="dashboardItem.type=='MAP'" href='../../../dhis-web-mapping/index.html?id={{ dashboardItem.map.id }}'>Explore </a>|
 
-				<a ng-if="dashboardItem.type=='CHART'" type="button" title="Layout" style="background-color: #F5F5F5"
-				   data-content="{{popover.content}}"
-				   data-template-url="views/chartLayout.html"
-				   data-animation="am-flip-x"
-				   data-trigger = 'click'
-				   data-auto-close="1" bs-popover> Layout
-				</a> <span ng-if="dashboardItem.type=='CHART'">|</span>
-				<a ng-if="dashboardItem.type=='CHART'" type="button" title="Data Filters" style="background-color: #F5F5F5"
-				   data-content="{{popover.content}}"
-				   data-template-url="views/chartDataFilter.html"
-				   data-animation="am-flip-x"
-				   data-trigger = 'click'
-				   data-auto-close="1" bs-popover> Data
-				</a>
-				<a ng-if="dashboardItem.type=='REPORT_TABLE'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5"
-				   data-content="{{popover.content}}"
-				   data-template-url="views/tableLayout.html"
-				   data-animation="am-flip-x"
-				   data-trigger = 'click'
-				   data-auto-close="1" bs-popover> Layout
-				</a>
 				<button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body" style="padding:0px;z-index: 100">
