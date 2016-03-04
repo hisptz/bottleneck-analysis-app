@@ -52,7 +52,15 @@ chartServices.factory('chartsManager',function($timeout){
         stackedChartObject : {
             options :{
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    events: {
+                        load: function(chart) {
+                            $timeout(function() {
+                                chart.target.reflow();
+
+                            },0 );
+                        }
+                    }
                 },
                 title: {
                     text: ''
@@ -91,7 +99,15 @@ chartServices.factory('chartsManager',function($timeout){
         barStackedObject : {
             options: {
                 chart: {
-                    type: 'bar'
+                    type: 'bar',
+                    events: {
+                        load: function(chart) {
+                            $timeout(function() {
+                                chart.target.reflow();
+
+                            },0 );
+                        }
+                    }
                 },
                 title: {
                     text: ''

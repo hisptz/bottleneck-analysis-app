@@ -3,7 +3,7 @@
  */
 var filterService = angular.module('filterService',['ngResource']).constant('DHIS2URL', '../../..');
 
-filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
+filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http,$filter) {
     'use strict';
 
     var filtersManager = {
@@ -46,11 +46,11 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
                         angular.forEach(district.children,function(facility){
                             districtsFacility.push({name:facility.name,id:facility.id });
                         });
-                        regionDistricts.push({name:district.name,id:district.id, children:districtsFacility });
+                        regionDistricts.push({name:district.name,id:district.id, children:$filter('orderBy')(districtsFacility, 'name') });
                     });
-                    zoneRegions.push({ name:regions.name,id:regions.id, children:regionDistricts});
+                    zoneRegions.push({ name:regions.name,id:regions.id, children:$filter('orderBy')(regionDistricts, 'name') });
                 });
-                orgUnitTree.push({ name:value.name,id:value.id, children:zoneRegions,selected:true });
+                orgUnitTree.push({ name:value.name,id:value.id, children:$filter('orderBy')(zoneRegions, 'name'),selected:true });
             });
             return orgUnitTree;
         },
