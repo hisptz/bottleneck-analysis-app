@@ -1,10 +1,64 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div class="popover am-flip-x right" tabindex="-1" ng-show="content" style="top: 0px; left: 178.547px; display: block; visibility: visible; width: 350px">
+<ul class="list-group">
 
-</body>
-</html>
+    <!--period type-->
+    <li class="list-group-item">
+        <label class="text-muted">Period Type</label>
+        <select id="periodType" class="form-control" ng-model="dashboardItem.periodType" ng-change="changePeriodType(dashboardItem.periodType,dashboardItem)">
+            <option value="">[ Select period type ]</option>
+            <!--<option value="Weekly">Weekly</option>-->
+            <option value="Monthly">Monthly</option>
+            <option value="BiMonthly">Bimonthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="SixMonthly">Six-monthly</option>
+            <option value="SixMonthlyApril">Six-monthly April</option>
+            <option value="Yearly">Yearly</option>
+            <option value="FinancialApril">Financial-April</option>
+            <option value="FinancialJuly">Financial-July</option>
+            <option value="FinancialOct">Financial-Oct</option>
+            <option value="Relative Weeks">Relative Weeks </option>
+            <option value="Relative Month">Relative Month </option>
+            <option value="Relative Bi-Month">Relative Bi-Month </option>
+            <option value="Relative Quarter">Relative Quarter </option>
+            <option value="Relative Six Monthly">Relative Six Monthly </option>
+            <option value="Relative Year">Relative Year </option>
+            <option value="Relative Financial Year">Relative Financial Year </option>
+        </select>
+    </li>
+
+    <!--period value-->
+    <li class="list-group-item">
+        <label class="text-muted">Period</label>
+        <multi-select-tree
+                data-input-model="dashboardItem.dataperiods"
+                multi-select=dashboardItem.multiPeriod
+                data-output-model="dashboardItem.outOrPeriods"
+                data-default-label="Select Period"
+                data-callback="selectOnly1Or3(item, selectedItems)"
+                >
+        </multi-select-tree>
+        <button ng-show="dashboardItem.multiPeriod" type="button" class="btn btn-default btn-sm" style="width: 50%" ng-click="previousYear(dashboardItem)"><< Prev Year</button>
+        <button ng-show="dashboardItem.multiPeriod" type="button " class="pull-right btn btn-default btn-sm" style="width: 50%" ng-click="nextYear(dashboardItem)">Next Year >></button>
+
+    </li>
+
+
+    <!--orgunits-->
+    <li class="list-group-item">
+        <label class="text-muted">Organisation Unit</label>
+        <wave-spinner ng-show="!loadOrgunits"></wave-spinner>
+        <multi-select-tree ng-show="loadOrgunits"
+                           data-input-model="data.orgUnitTree"
+                           multi-select="true"
+                           data-output-model="dashboardItem.outOrganisationUnits"
+                           data-default-label="Select Organization Zone"
+                           data-callback="selectOnly1Or2(item, selectedItems)"
+                >
+        </multi-select-tree>
+    </li>
+
+    <li class="list-group-item">
+        <button class="btn btn-info btn-block btn-sm" ng-click="updateFromDashboard(dashboardItem)" ng-show="loadOrgunits">Update</button>
+    </li>
+</ul>
+    </div>

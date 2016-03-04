@@ -355,6 +355,10 @@ chartServices.factory('chartsManager',function($timeout){
         //draw all other types of chart[bar,line,area]
         drawOtherCharts : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,chartType){
             var chartObject = angular.copy(this.defaultChartObject);
+            if(chartType == 'bar'){
+                chartObject.options.chart.type = chartType;
+                chartObject.options.xAxis.labels.rotation = 0;
+            }
             chartObject.options.title.text = title;
             var metaDataObject = this.prepareCategories(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems);
             var currentService = this;

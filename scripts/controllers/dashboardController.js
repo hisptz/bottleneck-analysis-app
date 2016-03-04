@@ -64,17 +64,6 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
          */
         $scope.popover = {title: 'Title', content: 'Hello Popover<br />This is a multiline message!'};
 
-        //$scope.$watch('data.outOrganisationUnits', function() {
-        //    if($scope.data.outOrganisationUnits){
-        //        if($scope.data.outOrganisationUnits.length > 1){
-        //            $scope.updateMethod();
-        //        }else{
-        //
-        //        }
-        //    }
-        //
-        //}, true);
-
 
         $scope.data = [];
         $scope.loadOrgunits = false;
@@ -99,7 +88,7 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             }
         };
 
-        $scope.filtersHidden = false;
+        $scope.filtersHidden = true;
         $scope.hideFilters = function(){
             if($scope.filtersHidden == true){
                 $scope.filtersHidden = false
@@ -108,25 +97,48 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             }
         }
 
-        $scope.changePeriodType = function(type){
-            $scope.periodType = type;
-            if(type.indexOf("Relative") > -1){
-                $scope.multiPeriod = false;
+        $scope.changePeriodType = function(type,dashboardItem){
+            if(dashboardItem){
+
+                dashboardItem.periodType = type;
+                if(type.indexOf("Relative") > -1){
+                    dashboardItem.multiPeriod = false;
+                }else{
+                    dashboardItem.multiPeriod = true;
+                }
+                $scope.getPeriodArray(type,dashboardItem);
             }else{
-                $scope.multiPeriod = true;
+                $scope.periodType = type;
+                if(type.indexOf("Relative") > -1){
+                    $scope.multiPeriod = false;
+                }else{
+                    $scope.multiPeriod = true;
+                }
+                $scope.getPeriodArray(type);
             }
-            $scope.getPeriodArray(type);
+
         };
 
         //add year by one
-        $scope.nextYear = function () {
-            $scope.yearValue = parseInt($scope.yearValue) + 1;
-            $scope.getPeriodArray($scope.periodType);
+        $scope.nextYear = function (dashboardItem) {
+            if(dashboardItem){
+                dashboardItem.yearValue = parseInt(dashboardItem.yearValue) + 1;
+                $scope.getPeriodArray(dashboardItem.periodType);
+            }else{
+                $scope.yearValue = parseInt($scope.yearValue) + 1;
+                $scope.getPeriodArray($scope.periodType);
+            }
+
         }
         //reduce year by one
-        $scope.previousYear = function () {
-            $scope.yearValue = parseInt($scope.yearValue) - 1;
-            $scope.getPeriodArray($scope.periodType);
+        $scope.previousYear = function (dashboardItem) {
+            if(dashboardItem){
+                dashboardItem.yearValue = parseInt(dashboardItem.yearValue) - 1;
+                $scope.getPeriodArray(dashboardItem.periodType,dashboardItem);
+            }else{
+                $scope.yearValue = parseInt($scope.yearValue) - 1;
+                $scope.getPeriodArray($scope.periodType);
+            }
         }
 
         //popup model
@@ -137,9 +149,15 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
 
 
 
-        $scope.getPeriodArray = function(type){
-            var year = $scope.yearValue;
-            $scope.periods = filtersManager.getPeriodArray(type,year);
+        $scope.getPeriodArray = function(type,dashboardItem){
+            if(dashboardItem){
+                var year = dashboardItem.yearValue;
+                dashboardItem.dataperiods = filtersManager.getPeriodArray(type,year);
+            }else{
+                var year = $scope.yearValue;
+                $scope.periods = filtersManager.getPeriodArray(type,year);
+            }
+
         };
         $scope.getPeriodArray($scope.periodType);
 
@@ -164,6 +182,9 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             $scope.dashBoardName = dashboard.name;
             $scope.dashboardItems = dashboard.dashboardItems;
            angular.forEach($scope.dashboardItems,function(value){
+                value.yearValue = $scope.yearValue;
+                value.periodType = 'Yearly';
+                $scope.getPeriodArray(value.periodType,value);
                 value.name = $scope.getDashboardName(value);
                 value.column_size = $scope.getColumnSize(value.shape);
                 $scope.getAnalytics(value, 608, false )
@@ -178,24 +199,32 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         $scope.getColumnSize = function(sizeName){
             var size=12;//Default size
             if(angular.lowercase(sizeName)=="double_width") {
-                size=6;
+                size=8;
             }else if(angular.lowercase(sizeName)=="full_width"){
                 size=12;
             }else if(angular.lowercase(sizeName)=="normal") {
-                size=6;
+                size=4;
             }
             return 'col-md-'+size;
         };
 
         $scope.cardClassResizable=function(dashboardItem){
-            if(dashboardItem.column_size == 'col-md-6'){
+            if(dashboardItem.column_size == 'col-md-8'){
                 dashboardItem.column_size = 'col-md-12';
             }else if(dashboardItem.column_size == 'col-md-12'){
-                dashboardItem.column_size = 'col-md-6';
+                dashboardItem.column_size = 'col-md-4';
+            }else if(dashboardItem.column_size == 'col-md-4'){
+                dashboardItem.column_size = 'col-md-8';
             }
 
             if(dashboardItem.type=='CHART'){
-                $scope.dashboardChart[dashboardItem.id].chart.events.load();
+                var chartType = $scope.dashboardChartType[dashboardItem.id];
+                (chartType == 'pie')?$scope.updateSingleDashboard(dashboardItem,'radar'):$scope.updateSingleDashboard(dashboardItem,'pie');
+                $timeout(function() {
+                    $scope.updateSingleDashboard(dashboardItem,chartType);
+
+                },2 );
+
             }
 
         }
@@ -552,23 +581,27 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         $scope.updateDashboard = function(){
             angular.forEach($scope.dashboardItems,function(value){
                 $scope.dashboardLoader[value.id] = true;
-                value.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartXAxis);
-                value.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartYAxis);
-                value.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartYAxis);
-                value.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartXAxis);
 
                 var analyticsUrl = filtersManager.getAnalyticsLink($scope.data.outOrganisationUnits,$scope.data.outOrPeriods,$scope.dashboardDataElements[value.id]);
                 $http.get(analyticsUrl)
                     .success(function(analyticsData){
+                        $scope.hideFilters();
                         $scope.dashboardLoader[value.id] = false;
                         $scope.dashboardFailLoad[value.id] = false;
                         $scope.dashboardAnalytics[value.id] = analyticsData;
+
+                        //update dashboard filters
+                        value.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartXAxis);
+                        value.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartYAxis);
+                        value.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartYAxis);
+                        value.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[value.id],value.chartXAxis);
                         if(value.type == 'CHART'){
                             $scope.dashboardChart[value.id] = chartsManager.drawChart(analyticsData,value.chartXAxis,[],value.chartYAxis,[],'none','',value.object.name,$scope.dashboardChartType[value.id])
 
                         }else if(value.type == 'MAP'){
                             //mpande
-                        }else if(value.type == 'REPORT_TABLE'){
+                        }
+                        else if(value.type == 'REPORT_TABLE'){
                             var columns = {};
                             var rows = {};
                             var filters = {};
@@ -615,12 +648,90 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                             }
                         }
 
+
                     }).error(function(error){
                         $scope.dashboardLoader[value.id] = false;
                         $scope.dashboardFailLoad[value.id] = true;
                     });
 
             });
+
+        };
+
+        //update the dashboard according to the filters on a single dashboard Items
+        $scope.updateFromDashboard = function(dashboardItem){
+                $scope.dashboardLoader[dashboardItem.id] = true;
+
+                var analyticsUrl = filtersManager.getAnalyticsLink(dashboardItem.outOrganisationUnits,dashboardItem.outOrPeriods,$scope.dashboardDataElements[dashboardItem.id]);
+                $http.get(analyticsUrl)
+                    .success(function(analyticsData){
+
+                        $scope.dashboardLoader[dashboardItem.id] = false;
+                        $scope.dashboardFailLoad[dashboardItem.id] = false;
+                        $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
+
+                        //update dashboard filters
+                        dashboardItem.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartXAxis);
+                        dashboardItem.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartYAxis);
+                        dashboardItem.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartYAxis);
+                        dashboardItem.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartXAxis);
+                        if(dashboardItem.type == 'CHART'){
+                            $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.chartXAxis,[],dashboardItem.chartYAxis,[],'none','',dashboardItem.object.name,$scope.dashboardChartType[dashboardItem.id])
+
+                        }else if(dashboardItem.type == 'MAP'){
+                            //mpande
+                        }else if(dashboardItem.type == 'REPORT_TABLE'){
+                            var columns = {};
+                            var rows = {};
+                            var filters = {};
+                            $scope.dimensions = {
+                                selected: null,
+                                axises: {"xAxis": [], "yAxis": [],"filter":[]}
+                            };
+                            angular.forEach(dashboardItem.object.rows,function(row){
+                                rows['rows']=row.dimension;
+                                $scope.dimensions.axises.xAxis.push({label:row.dimension,name:analyticsData.metaData.names[row.dimension]});
+                            });
+                            angular.forEach(dashboardItem.object.columns, function (col) {
+                                columns['column'] = col.dimension;
+                                $scope.dimensions.axises.yAxis.push({label:col.dimension,name:analyticsData.metaData.names[col.dimension]});
+                            });
+                            angular.forEach(dashboardItem.object.filters,function(filter){
+                                filters['filters']=filter.dimension;
+                                $scope.dimensions.axises.filter.push({label:filter.dimension,name:analyticsData.metaData.names[filter.dimension]});
+                            });
+
+                            $scope.$watch('dimensions', function(dimension) {
+                                $scope.dimensionAsJson = angular.toJson(dimension, true);
+                            }, true);
+                            dashboardItem.columnLength=$scope.dimensions.axises.yAxis.length
+                            dashboardItem.rowLenth=$scope.dimensions.axises.xAxis.length
+                            if (dashboardItem.object.columns.length == 2){
+                                $scope.tableDimension[dashboardItem.id]='2';
+                                var firstDimension=dashboardItem.object.columns[0].dimension;
+                                var secondDimension=dashboardItem.object.columns[1].dimension;
+                                $scope.firstColumn[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,firstDimension,secondDimension);
+                                $scope.secondColumn[dashboardItem.id]=TableRenderer.drawTableWithTwoHeader(analyticsData,firstDimension,secondDimension);
+                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.row,firstDimension,secondDimension);
+                            }else if(dashboardItem.object.rows.length == 2){
+                                $scope.tableDimension[dashboardItem.id]='3';
+                                var firstRow=dashboardItem.object.rows[0].dimension;
+                                var secondRow=dashboardItem.object.rows[1].dimension;
+                                $scope.column[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,columns.column," ");
+                                $scope.firstRow[dashboardItem.id]=TableRenderer.drawTableWithSingleRowDimension(analyticsData,firstRow,secondRow);
+                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,columns.column,secondRow);
+                            }else{
+                                $scope.tableDimension[dashboardItem.id]='1';
+                                $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,columns.column," ");
+                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.row,columns.column);
+                            }
+                        }
+
+                    }).error(function(error){
+                        $scope.dashboardLoader[dashboardItem.id] = false;
+                        $scope.dashboardFailLoad[dashboardItem.id] = true;
+                    });
+
 
         };
 
@@ -680,8 +791,10 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             }else{
 
                 dashboardItem.type='CHART';
+                var xItems = dashboardItem.xAxisData.map(function(a) {return a.id;});
+                var yItems = dashboardItem.yAxisData.map(function(a) {return a.id;});
                 $scope.dashboardLoader[dashboardItem.id] = true;
-                $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartXAxis,[],dashboardItem.chartYAxis,[],'none','',dashboardItem.object.name,chartType)
+                $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.chartXAxis,xItems,dashboardItem.chartYAxis,yItems,'none','',dashboardItem.object.name,chartType)
                 $scope.dashboardLoader[dashboardItem.id] = false;
             }
 
