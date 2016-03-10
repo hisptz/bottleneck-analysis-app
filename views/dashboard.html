@@ -114,8 +114,34 @@
 
                  <!--orgunits-->
                  <li class="list-group-item">
+                     <div class="row">
                      <label class="text-muted">Organisation Unit</label>
+                     </div>
+
+                     <div class="row">
+                     <div class="col-md-4">
+                         <div class="dropdown">
+                            <button class="btn btn-small dropdown-toggle" type="button" data-toggle="dropdown">
+                            <i class="fa fa-cog"></i>
+                            <span class="caret"></span>
+                             </button>
+                             <ul class="dropdown-menu">
+                                 <li><a href="#"><i class="fa fa-check"></i>&nbsp;&nbsp;Select organisation Units</a></li>
+                                 <li><a href="#"><i class="fa fa-check"></i>&nbsp;&nbsp;Select levels</a></li>
+                                 <li><a href="#"><i class="fa fa-check"></i>&nbsp;&nbsp;Select Groups</a></li>
+                              </ul>
+                         </div>
+                     </div>
+                         <div class="col-md-8">
+                             <p>
+                             <label class="checkbox-inline" style="padding-left: 0 !important;"><input type="checkbox" value="USER_ORGUNIT">User org unit</label>
+                             <label class="checkbox-inline" style="padding-left: 0 !important;"><input type="checkbox" value="USER_ORGUNIT_CHILDREN">User sub Units</label>
+                             <label class="checkbox-inline" style="padding-left: 0 !important;"><input type="checkbox" value="USER_ORGUNIT_GRANDCHILDREN">User sub-x2-units</label>
+                            </p>
+                         </div>
+                     </div>
                      <wave-spinner ng-show="!loadOrgunits"></wave-spinner>
+                     <div ng-dropdown-multiselect="" options="example2data" selected-model="example2model" extra-settings="example2settings"></div>
                      <multi-select-tree ng-show="loadOrgunits"
                              data-input-model="data.orgUnitTree"
                              multi-select="true"

@@ -306,25 +306,21 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                 var dataelements=dataElementApi.get(function(dataElementObject){
                                     dataElementArray.push(dataElementObject);
                                     $scope.dataElements[dashboardItem.id]=dataElementArray;
-                                    console.log($scope.dataElements[dashboardItem.id]);
-                                },function(response){
+                                 },function(response){
                                     if(response.status==404){
                                         var indicatorApi=
                                             $resource('../../../api/indicators/'+dxUid+'.json?fields=id,name,numeratorDescription,denominatorDescription,denominator,numerator,indicatorType[id,name],dataSets[id,name,periodType]',{get:{method:"JSONP"}});
                                         var indicators=indicatorApi.get(function(indicatorObject){
                                             indicatorArray.push(indicatorObject);
                                             $scope.indicators[dashboardItem.id]=indicatorArray;
-                                            console.info($scope.indicators[dashboardItem.id]);
-
-                                        },function(rensponse){
+                                         },function(rensponse){
                                             if(response.status===404){
                                                 var datasetApi=
                                                     $resource('../../../api/dataSets/'+dxUid +'.json?fields=id,name,periodType,shortName,categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]]',{get:{method:"JSONP"}});
                                                 var dataSets=datasetApi.get(function(datasetObject) {
                                                     datasetArray.push(datasetObject);
                                                     $scope.datasets[dashboardItem.id] =datasetArray;
-                                                    console.log($scope.datasets[dashboardItem.id]);
-                                                });
+                                                 });
                                             }
 
                                         })
@@ -564,25 +560,21 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                 var dataelements=dataElementApi.get(function(dataElementObject){
                                     dataElementArray.push(dataElementObject);
                                     $scope.dataElements[dashboardItem.id]=dataElementArray;
-                                    console.log($scope.dataElements[dashboardItem.id]);
-                                  },function(response){
+                                   },function(response){
                                     if(response.status==404){
                                         var indicatorApi=
                                             $resource('../../../api/indicators/'+dxUid+'.json?fields=id,name,numeratorDescription,denominatorDescription,denominator,numerator,indicatorType[id,name],dataSets[id,name,periodType]',{get:{method:"JSONP"}});
                                             var indicators=indicatorApi.get(function(indicatorObject){
                                             indicatorArray.push(indicatorObject);
                                                 $scope.indicators[dashboardItem.id]=indicatorArray;
-                                                console.info($scope.indicators[dashboardItem.id]);
-
-                                        },function(rensponse){
+                                         },function(rensponse){
                                                 if(response.status===404){
                                                     var datasetApi=
                                                     $resource('../../../api/dataSets/'+dxUid +'.json?fields=id,name,periodType,shortName,categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]]',{get:{method:"JSONP"}});
                                                     var dataSets=datasetApi.get(function(datasetObject) {
                                                     datasetArray.push(datasetObject);
                                                         $scope.datasets[dashboardItem.id] =datasetArray;
-                                                        console.log($scope.datasets[dashboardItem.id]);
-                                                    });
+                                                     });
                                                 }
 
                                         })
