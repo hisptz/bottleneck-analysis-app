@@ -1,8 +1,9 @@
 var dashboardController  = angular.module('dashboardController',[]);
-dashboardController.controller('DashboardController',['$scope','dashboardsManager','dashboardItemsManager',
+dashboardController.controller('DashboardController',['$scope','$resource','dashboardsManager','dashboardItemsManager',
     '$routeParams','$timeout','$translate','Paginator','ContextMenuSelectedItem',
     '$filter','$http','CustomFormService','DHIS2URL', 'olHelpers',
     'olData','mapManager','chartsManager','TableRenderer','filtersManager',function($scope,
+                                                        $resource,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
                                                         $routeParams,
@@ -41,6 +42,9 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
         $scope.dashboardTab = [];
         $scope.headers = [];
         $scope.firstColumn = [];
+        $scope.dataElements=[];
+        $scope.indicators=[];
+        $scope.datasets=[];
         $scope.secondColumn = [];
         $scope.tableDimension = [];
         $scope.tableRowDimension = [];
@@ -517,7 +521,42 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
                                 $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
                                 $scope.dashboardLoader[dashboardItem.id] = false;
                                 $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
-                                $scope.dimensions = {
+                                var dataElementArray=[];
+                                var indicatorArray=[];
+                                var datasetArray=[];
+                            angular.forEach(analyticsData.metaData.dx,function(dxUid){
+                                var dataElementApi=
+                                $resource('../../../api/dataElements/'+dxUid+'.json?fields=id,name,aggregationType,displayName,categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]],dataSets[id,name,periodType]',{get:{method:"JSONP"}});
+                                var dataelements=dataElementApi.get(function(dataElementObject){
+                                    dataElementArray.push(dataElementObject);
+                                    $scope.dataElements[dashboardItem.id]=dataElementArray;
+                                    console.log($scope.dataElements[dashboardItem.id]);
+                                  },function(response){
+                                    if(response.status==404){
+                                        var indicatorApi=
+                                            $resource('../../../api/indicators/'+dxUid+'.json?fields=id,name,numeratorDescription,denominatorDescription,denominator,numerator,indicatorType[id,name],dataSets[id,name,periodType]',{get:{method:"JSONP"}});
+                                            var indicators=indicatorApi.get(function(indicatorObject){
+                                            indicatorArray.push(indicatorObject);
+                                                $scope.indicators[dashboardItem.id]=indicatorArray;
+                                                console.info($scope.indicators[dashboardItem.id]);
+
+                                        },function(rensponse){
+                                                if(response.status===404){
+                                                    var datasetApi=
+                                                    $resource('../../../api/dataSets/'+dxUid +'.json?fields=id,name,periodType,shortName,categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]]',{get:{method:"JSONP"}});
+                                                    var dataSets=datasetApi.get(function(datasetObject) {
+                                                    datasetArray.push(datasetObject);
+                                                        $scope.datasets[dashboardItem.id] =datasetArray;
+                                                        console.log($scope.datasets[dashboardItem.id]);
+                                                    });
+                                                }
+
+                                        })
+                                    }
+                                });
+                            });
+
+                               $scope.dimensions = {
                                     selected: null,
                                     axises: {"xAxis": [], "yAxis": [],"filter":[]}
                                 };
@@ -862,5 +901,20 @@ dashboardController.controller('DashboardController',['$scope','dashboardsManage
             })
             return items;
         };
+        $scope.modelShow=function(dashboardItemID,size){
+            console.log(dashboardItemID);
+            console.log(size);
+            $( "#dialog" ).dialog({
+                appendTo: "#"+dashboardItemID,
+                width: 'auto', // overcomes width:'auto' and maxWidth bug
+                //maxWidth: 600,
+                height: 'auto',
+                dialogClass:size,
+                modal: true,
+                //position: { my:"center", at: "center top" },
+                fluid: true, //new option
+                resizable: false
+            });
+        }
     }]);
 

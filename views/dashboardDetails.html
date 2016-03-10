@@ -1,0 +1,61 @@
+
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true" style="background: transparent;">
+    <div class="modal-dialog" style="margin-top: 100px; margin-right: auto; margin-left: auto; width: 55%; height: 600px">
+        <div class="modal-content" style="background: transparent;border: 0; -webkit-box-shadow: none; box-shadow: none;">
+            <div class="modal-header"  style="background: white;opacity: 0.85">
+                <strong>{{dashboardItem.name}}</strong>
+                <button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" style="background: white;opacity: 0.85;z-index: 100">
+                <table class="table table-bordered">
+                <tr ng-if="dataElements[dashboardItem.id]">
+                    <th>Data Element Name</th>
+                    <th>Aggregation Type</th>
+                    <th>Data Set</th>
+                </tr>
+                <tr ng-repeat="data in dataElements[dashboardItem.id]">
+                    <td>{{data.name}}</td>
+                    <td>{{data.aggregationType}}</td>
+                    <td colspan="{{data.dataSets.length}}+1">
+                        <tr ng-repeat="datasetItem in data.dataSets">
+                         <td>{{datasetItem.name}}</td>
+                         <td>{{datasetItem.periodType}}</td>
+                        </tr>
+                    </td>
+                 </tr>
+                </table>
+                <table class="table table-bordered">
+                    <tr ng-if="indicators[dashboardItem.id]">
+                        <th>Indicators Name</th>
+                        <th>Indicator Type</th>
+                        <th>Numerator Description</th>
+                        <th>Denominator Description</th>
+                        <th>Data Sets</th>
+                    </tr>
+                    <tr ng-repeat="data in indicators[dashboardItem.id]">
+                        <td>{{data.name}}</td>
+                        <td>{{data.indicatorType.name}}</td>
+                        <td>{{data.numeratorDescription}}</td>
+                        <td>{{data.denominatorDescription}}</td>
+                        <td colspan="{{data.dataSets.length}}">
+                            <tr ng-repeat="dataset in data.dataSets">
+                             <td>{{dataset.name}}</td>
+                             <td>{{dataset.periodType}}</td>
+                             </tr>
+                        </td>
+                    </tr>
+                </table>
+                <table class="table table-bordered">
+                    <tr ng-if="datasets[dashboardItem.id]">
+                        <th>Data Set Name</th>
+                        <th>Period Ty[e</th>
+                    </tr>
+                    <tr ng-repeat="data in datasets[dashboardItem.id]">
+                        <td>{{data.name}}</td>
+                        <td>{{data.periodType}}</td>
+                    </tr>
+                </table>
+              </div>
+        </div>
+    </div>
+</div>
