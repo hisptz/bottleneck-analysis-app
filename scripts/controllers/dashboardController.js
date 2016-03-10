@@ -297,6 +297,37 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     $http.get('../../../'+dashboardItem.analyticsUrl)
                         .success(function(analyticsData){
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
+                            angular.forEach(analyticsData.metaData.dx,function(dxUid){
+                                var dataElementApi=
+                                    $resource('../../../api/dataElements/'+dxUid+'.json?fields=id,name,aggregationType,displayName,categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]],dataSets[id,name,periodType]',{get:{method:"JSONP"}});
+                                var dataelements=dataElementApi.get(function(dataElementObject){
+                                    dataElementArray.push(dataElementObject);
+                                    $scope.dataElements[dashboardItem.id]=dataElementArray;
+                                    console.log($scope.dataElements[dashboardItem.id]);
+                                },function(response){
+                                    if(response.status==404){
+                                        var indicatorApi=
+                                            $resource('../../../api/indicators/'+dxUid+'.json?fields=id,name,numeratorDescription,denominatorDescription,denominator,numerator,indicatorType[id,name],dataSets[id,name,periodType]',{get:{method:"JSONP"}});
+                                        var indicators=indicatorApi.get(function(indicatorObject){
+                                            indicatorArray.push(indicatorObject);
+                                            $scope.indicators[dashboardItem.id]=indicatorArray;
+                                            console.info($scope.indicators[dashboardItem.id]);
+
+                                        },function(rensponse){
+                                            if(response.status===404){
+                                                var datasetApi=
+                                                    $resource('../../../api/dataSets/'+dxUid +'.json?fields=id,name,periodType,shortName,categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]]',{get:{method:"JSONP"}});
+                                                var dataSets=datasetApi.get(function(datasetObject) {
+                                                    datasetArray.push(datasetObject);
+                                                    $scope.datasets[dashboardItem.id] =datasetArray;
+                                                    console.log($scope.datasets[dashboardItem.id]);
+                                                });
+                                            }
+
+                                        })
+                                    }
+                                });
+                            });
                             $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
                             var chartType=dashboardItem.object.type.toLowerCase();
                             //setting chart service
