@@ -11,16 +11,13 @@
                 <tr ng-if="dataElements[dashboardItem.id]">
                     <th>Data Element Name</th>
                     <th>Aggregation Type</th>
-                    <th>Data Set</th>
+                    <th>Data Set(Period Type)</th>
                 </tr>
                 <tr ng-repeat="data in dataElements[dashboardItem.id]">
-                    <td>{{data.name}}</td>
+                    <td >{{data.name}}</td>
                     <td>{{data.aggregationType}}</td>
-                    <td colspan="{{data.dataSets.length}}+1">
-                        <tr ng-repeat="datasetItem in data.dataSets">
-                         <td>{{datasetItem.name}}</td>
-                         <td>{{datasetItem.periodType}}</td>
-                        </tr>
+                    <td >
+                    <p ng-repeat="dataSets in data.dataSets">{{dataSets.name}} ( {{dataSets.periodType}} )</p>
                     </td>
                  </tr>
                 </table>
@@ -37,11 +34,8 @@
                         <td>{{data.indicatorType.name}}</td>
                         <td>{{data.numeratorDescription}}</td>
                         <td>{{data.denominatorDescription}}</td>
-                        <td colspan="{{data.dataSets.length}}">
-                            <tr ng-repeat="dataset in data.dataSets">
-                             <td>{{dataset.name}}</td>
-                             <td>{{dataset.periodType}}</td>
-                             </tr>
+                        <td>
+                            <p ng-repeat="dataSets in data.dataSets">{{dataSets.name}} ( {{dataSets.periodType}} )</p>
                         </td>
                     </tr>
                 </table>
