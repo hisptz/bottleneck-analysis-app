@@ -297,6 +297,9 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     $http.get('../../../'+dashboardItem.analyticsUrl)
                         .success(function(analyticsData){
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
+                            var dataElementArray=[];
+                            var indicatorArray=[];
+                            var datasetArray=[];
                             angular.forEach(analyticsData.metaData.dx,function(dxUid){
                                 var dataElementApi=
                                     $resource('../../../api/dataElements/'+dxUid+'.json?fields=id,name,aggregationType,displayName,categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]],dataSets[id,name,periodType]',{get:{method:"JSONP"}});
