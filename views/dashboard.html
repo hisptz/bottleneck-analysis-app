@@ -116,6 +116,7 @@
                  <li class="list-group-item">
                      <div class="row">
                      <label class="text-muted">Organisation Unit</label>
+                         <hr/>
                      </div>
 
                      <div class="row">
@@ -126,22 +127,44 @@
                             <span class="caret"></span>
                              </button>
                              <ul class="dropdown-menu">
-                                 <li><a href="#"><i class="fa fa-check"></i>&nbsp;&nbsp;Select organisation Units</a></li>
-                                 <li><a href="#"><i class="fa fa-check"></i>&nbsp;&nbsp;Select levels</a></li>
-                                 <li><a href="#"><i class="fa fa-check"></i>&nbsp;&nbsp;Select Groups</a></li>
+                                 <li ng-click="activateDropDown('organisation')" ng-class="{'active' : linkValue == 'organisation'}">
+                                     <a ><i class="fa fa-check"></i>&nbsp;&nbsp;Select organisation Units</a></li>
+                                 <li ng-click="activateDropDown('levels')" ng-class="{'active' : linkValue == 'levels'}">
+                                     <a ><i class="fa fa-check"></i>&nbsp;&nbsp;Select levels</a></li>
+                                 <li ng-click="activateDropDown('groups')" ng-class="{'active' : linkValue == 'groups'}">
+                                     <a ><i class="fa fa-check"></i>&nbsp;&nbsp;Select Groups</a></li>
                               </ul>
                          </div>
                      </div>
                          <div class="col-md-8">
-                             <p>
-                             <label class="checkbox-inline" style="padding-left: 0 !important;"><input type="checkbox" value="USER_ORGUNIT">User org unit</label>
-                             <label class="checkbox-inline" style="padding-left: 0 !important;"><input type="checkbox" value="USER_ORGUNIT_CHILDREN">User sub Units</label>
-                             <label class="checkbox-inline" style="padding-left: 0 !important;"><input type="checkbox" value="USER_ORGUNIT_GRANDCHILDREN">User sub-x2-units</label>
+                             <p ng-if="linkValue =='organisation'" ng-init="linkValue =='organisation'" ng-show="linkValue =='organisation'">
+                             <label class="checkbox-inline" style="padding-left:{{userOrg.padding}} !important;" ng-repeat="userOrg in userOrgUnits">
+                                 <input type="checkbox" ng-model="userOrg.selected" value="{{userOrg.value}}" name="selectedUserOrgUnits">{{userOrg.name}}
+                              </label>
+                             </p>
+                            <p ng-if="linkValue =='levels'" ng-show="linkValue =='levels'">
+                                 <multi-select-tree
+                                        data-input-model="data.orgUnitLevels"
+                                        multi-select="true"
+                                        data-output-model="data.orOutgUnitLevels"
+                                        data-default-label="Select levels"
+                                        data-callback="selectOnly1Or1(item, selectedItems)"
+                                        >
+                                </multi-select-tree>
                             </p>
+                             <p ng-if="linkValue =='groups'" ng-show="linkValue =='groups'">
+                                 <multi-select-tree
+                                         data-input-model="data.orgUnitGroups"
+                                         multi-select="true"
+                                         data-output-model="data.orOutgUnitGroups"
+                                         data-default-label="Select groups"
+                                         data-callback="selectOnly1Or3(item, selectedItems)"
+                                         >
+                                 </multi-select-tree>
+                             </p>
                          </div>
                      </div>
                      <wave-spinner ng-show="!loadOrgunits"></wave-spinner>
-                     <div ng-dropdown-multiselect="" options="example2data" selected-model="example2model" extra-settings="example2settings"></div>
                      <multi-select-tree ng-show="loadOrgunits"
                              data-input-model="data.orgUnitTree"
                              multi-select="true"
@@ -153,6 +176,7 @@
                  </li>
 
                  <li class="list-group-item">
+
                      <button class="btn btn-info btn-block btn-sm" ng-click="updateDashboard()" ng-show="loadOrgunits">Update</button>
                  </li>
              </ul>

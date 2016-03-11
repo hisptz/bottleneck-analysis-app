@@ -34,6 +34,32 @@ filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http
                 });
             return deferred.promise;
         },
+        getOrgUnitsLevels:function(){
+            var self = this;
+            var deferred = $q.defer();
+            $http.get('../../..'+'/api/organisationUnitLevels.json?fields=id,name,level&paging=false')
+                .success(function(orgunitsLevels){
+                    deferred.resolve(orgunitsLevels);
+                })
+                .error(function(errorMessageData){
+                    console.error(errorMessageData);
+                    deferred.reject();
+                });
+            return deferred.promise;
+        },
+        getOrgUnitsGroups:function(){
+            var self = this;
+            var deferred = $q.defer();
+            $http.get('../../..'+'/api/organisationUnitGroups.json?fields=id,name&paging=false')
+                .success(function(orgunitsGroups){
+                    deferred.resolve(orgunitsGroups);
+                })
+                .error(function(errorMessageData){
+                    console.error(errorMessageData);
+                    deferred.reject();
+                });
+            return deferred.promise;
+        },
 
         getOtgunitTree : function(orgUnitArray){
             var orgUnitTree = [];
@@ -54,11 +80,18 @@ filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http
             });
             return orgUnitTree;
         },
+        orderOrgUnitLevels:function(orgUnitArray){
+           return $filter('orderBy')(orgUnitArray,'level');
+        },
+        orderOrgUnitGroups:function(orgUnitGroupsArray){
+           return $filter('orderBy')(orgUnitGroupsArray,'name');
+        },
 
-        getAnalyticsLink : function(orgunits,periods,data){
+        getAnalyticsLink : function(orgunits,periods,data,orgunitSeletion){
             var orgunitsArr = []; var ou;
             var periodsArr = [];  var pe;
             var dataArr = [];     var dx;
+            var orgSelect=[];     var select;
             //prepare orarganisation units
            angular.forEach(orgunits,function(value){
                orgunitsArr.push(value.id);
@@ -74,8 +107,21 @@ filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http
                dataArr.push(value);
             });
             dx = dataArr.join(';');
+            //prepare orgUnits selection
+            angular.forEach(orgunitSeletion,function(value){
+                if(value.selection=='organisation'){
+                    orgSelect.push(value.value);
+                }else if(value.selection=='levels'){
+                    orgSelect.push(value.value);
+                }else if(value.selection =='groups'){
+                    orgSelect.push(value.value);
+                } else{
 
-            var analytics = '../../..'+'/api/analytics.json?dimension=dx:'+dx+'&dimension=ou:'+ou+'&dimension=pe:'+pe+'&displayProperty=NAME';
+                }
+              });
+             select=orgSelect.join(';');
+
+            var analytics = '../../..'+'/api/analytics.json?dimension=dx:'+dx+'&dimension=ou:'+select+';'+ou+'&dimension=pe:'+pe+'&displayProperty=NAME';
             return analytics;
         },
 
