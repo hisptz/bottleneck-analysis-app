@@ -116,13 +116,16 @@ filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http
                 }else if(value.selection =='groups'){
                     orgSelect.push(value.value);
                 } else{
-
-                }
+                  }
               });
-             select=orgSelect.join(';');
-
-            var analytics = '../../..'+'/api/analytics.json?dimension=dx:'+dx+'&dimension=ou:'+select+';'+ou+'&dimension=pe:'+pe+'&displayProperty=NAME';
-            return analytics;
+              var analytics='';
+             if(orgSelect.length==0){
+              analytics = '../../..'+'/api/analytics.json?dimension=dx:'+dx+'&dimension=ou:'+ou+'&dimension=pe:'+pe+'&displayProperty=NAME';
+              }else{
+              select=orgSelect.join(';');
+              analytics = '../../..'+'/api/analytics.json?dimension=dx:'+dx+'&dimension=ou:'+select+';'+ou+'&dimension=pe:'+pe+'&displayProperty=NAME';
+              }
+             return analytics;
         },
 
         getPeriodArray: function(type,year){
