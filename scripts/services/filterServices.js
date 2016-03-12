@@ -119,6 +119,7 @@ filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http
                   }
               });
               var analytics='';
+
              if(orgSelect.length==0){
               analytics = '../../..'+'/api/analytics.json?dimension=dx:'+dx+'&dimension=ou:'+ou+'&dimension=pe:'+pe+'&displayProperty=NAME';
               }else{

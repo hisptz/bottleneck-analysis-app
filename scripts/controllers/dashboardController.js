@@ -86,7 +86,12 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
         $scope.activateDropDown=function(linkValue){
             $scope.linkValue=linkValue;
 
-        }
+        };
+        $scope.changeOrgUnit=function(type,dashboardItem){
+            $scope.linkValue=type;
+            dashboardItem.orgUnitType=type;
+            console.log(type);
+        };
         $scope.userOrgUnits=[
             {name:'User org unit',value:'USER_ORGUNIT',padding:"10px"},
             {name:'User sub Units',value:'USER_ORGUNIT_CHILDREN',padding:0},
@@ -118,6 +123,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
         }
 
         $scope.changePeriodType = function(type,dashboardItem){
+
             if(dashboardItem){
 
                 dashboardItem.periodType = type;
@@ -769,7 +775,28 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
         //update the dashboard according to the filters on a single dashboard Items
         $scope.updateFromDashboard = function(dashboardItem){
                 $scope.dashboardLoader[dashboardItem.id] = true;
-                var analyticsUrl = filtersManager.getAnalyticsLink(dashboardItem.outOrganisationUnits,dashboardItem.outOrPeriods,$scope.dashboardDataElements[dashboardItem.id]);
+            $scope.selectedUnits=[];$scope.selectedLevel=[];$scope.selectedGroups=[];
+            if($scope.linkValue=='organisation'){
+                angular.forEach($scope.userOrgUnits,function(value){
+                    if(value.selected==true){
+                        $scope.selectedUnits.push({name:value.name,value:value.value,selection:'organisation'});
+                    }
+                });
+                $scope.orgUnitsSelected=$scope.selectedUnits;
+            }else if($scope.linkValue=='levels'){
+                angular.forEach($scope.data.orOutgUnitLevels,function(value){
+                    $scope.selectedLevel.push({name:value.name,value:'LEVEL-'+value.level,selection:'levels'});
+                });
+                $scope.orgUnitsSelected=$scope.selectedLevel;
+            }else if($scope.linkValue=='groups'){
+                angular.forEach($scope.data.orOutgUnitGroups,function(value){
+                    $scope.selectedGroups.push({name:value.name,value:'OU_GROUP-'+value.id,selection:'groups'});
+                });
+                $scope.orgUnitsSelected=$scope.selectedGroups;
+            }else{
+                $scope.orgUnitsSelected=null;
+            }
+              var analyticsUrl = filtersManager.getAnalyticsLink(dashboardItem.outOrganisationUnits,dashboardItem.outOrPeriods,$scope.dashboardDataElements[dashboardItem.id],$scope.orgUnitsSelected);
                 $http.get(analyticsUrl)
                     .success(function(analyticsData){
 
@@ -829,8 +856,14 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                 $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,columns.column,secondRow);
                             }else{
                                 $scope.tableDimension[dashboardItem.id]='1';
+                                var row='';
+                                if(typeof rows.row =='undefined'){
+                                    row='ou';
+                                }else{
+                                    row=rows.row;
+                                }
                                 $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,columns.column," ");
-                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.row,columns.column);
+                                $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,row,columns.column);
                             }
                         }
 

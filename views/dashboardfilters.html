@@ -45,15 +45,55 @@
 
     <!--orgunits-->
     <li class="list-group-item">
-        <label class="text-muted">Organisation Unit</label>
+      <div class="row">
+            <label class="text-muted">Organisation Unit</label>
+            <hr/>
+      </div>
+        <div class="row">
+            <div class="col-md-12">
+                  <select id="orgUnits" class="form-control" ng-model="dashboardItem.linkValue" ng-change="changeOrgUnit(dashboardItem.linkValue,dashboardItem)">
+                        <option value="organisation" ng-selected="true" ng-class="{'active' : linkValue == 'organisation'}" selected="selected">Select organisation Units</option>
+                        <option value="levels" ng-class="{'active' : linkValue == 'levels'}">Select levels</option>
+                        <option value="groups" ng-class="{'active' : linkValue == 'groups'}">Select Groups</option>
+                    </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p ng-if="linkValue =='organisation'" ng-init="linkValue =='organisation'" ng-show="linkValue =='organisation'">
+                    <label class="checkbox-inline" style="padding-left:{{userOrg.padding}} !important;" ng-repeat="userOrg in userOrgUnits">
+                        <input type="checkbox" ng-model="userOrg.selected" value="{{userOrg.value}}" name="selectedUserOrgUnits">{{userOrg.name}}
+                    </label>
+                </p>
+                <p ng-if="linkValue =='levels'" ng-show="linkValue =='levels'">
+                    <multi-select-tree
+                            data-input-model="data.orgUnitLevels"
+                            multi-select="true"
+                            data-output-model="data.orOutgUnitLevels"
+                            data-default-label="Select levels"
+                            data-callback="selectOnly1Or1(item, selectedItems)"
+                            >
+                    </multi-select-tree>
+                </p>
+                <p ng-if="linkValue =='groups'" ng-show="linkValue =='groups'">
+                    <multi-select-tree
+                            data-input-model="data.orgUnitGroups"
+                            multi-select="true"
+                            data-output-model="data.orOutgUnitGroups"
+                            data-default-label="Select groups"
+                            data-callback="selectOnly1Or3(item, selectedItems)"
+                            >
+                    </multi-select-tree>
+                </p>
+            </div>
+        </div>
         <wave-spinner ng-show="!loadOrgunits"></wave-spinner>
         <multi-select-tree ng-show="loadOrgunits"
                            data-input-model="data.orgUnitTree"
                            multi-select="true"
                            data-output-model="dashboardItem.outOrganisationUnits"
-                           data-default-label="Select Organization Zone"
-                           data-callback="selectOnly1Or2(item, selectedItems)"
-                >
+                           data-default-label="Select Organization Units"
+                           data-callback="selectOnly1Or2(item, selectedItems)">
         </multi-select-tree>
     </li>
 
