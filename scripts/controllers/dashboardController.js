@@ -955,6 +955,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     var dataelements=dataElementApi.get(function(dataElementObject){
                         dataElementArray.push(dataElementObject);
                         $scope.dataElements[dashboardItem.id]=dataElementArray;
+                        $scope.dashboardLoader[dashboardItem.id] = false;
                     },function(response){
                         if(response.status==404){
                             var indicatorApi=
@@ -968,6 +969,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                     var denominator=denominatorText.description;
                                     indicatorArray.push({name:indicatorObject.name,uid:indicatorObject.id,denominatorDescription:indicatorObject.denominatorDescription,numeratorDescription:indicatorObject.numeratorDescription,numerator:numerator,denominator:denominator,indicatorType:indicatorObject.indicatorType,dataSets:indicatorObject.dataSets});
                                  $scope.indicators[dashboardItem.id]=indicatorArray;
+                                        $scope.dashboardLoader[dashboardItem.id] = false;
                                 });
                                 });
 
@@ -978,12 +980,13 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                     var dataSets=datasetApi.get(function(datasetObject) {
                                         datasetArray.push(datasetObject);
                                         $scope.datasets[dashboardItem.id] =datasetArray;
+                                        $scope.dashboardLoader[dashboardItem.id] = false;
                                     });
                                 }
 
                             })
                         }
-                    $scope.dashboardLoader[dashboardItem.id] = false;
+
                     });
                 });
             }
