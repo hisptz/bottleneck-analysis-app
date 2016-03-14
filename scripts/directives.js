@@ -43,3 +43,11 @@ idashboardDirectives.directive('targetTable',function(){
        transclude:true
    }
 });
+idashboardDirectives.directive('targetDetails',function(){
+    return {
+        restrict:"EA",
+        templateUrl:"views/dashboardDetails.html",
+        replace:true,
+        transclude:true
+    }
+});

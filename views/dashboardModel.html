@@ -28,6 +28,9 @@
 				<div ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%;height:700px;overflow: scroll;opacity: 0.85;background: white">
 					<target-table></target-table>
 				</div>
+				<div ng-if="dashboardItem.type=='DASHBOARD_DETAILS'" style="width: 100%;height:700px;overflow: scroll;opacity: 0.85;background: white">
+					<target-details></target-details>
+				</div>
 
 				<highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]" style="width: 100%;height: 700px;opacity: 0.85;"></highchart>
 
