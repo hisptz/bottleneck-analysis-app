@@ -97,6 +97,11 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             {name:'User sub Units',value:'USER_ORGUNIT_CHILDREN',padding:0},
             {name:'User sub-x2-units',value:'USER_ORGUNIT_GRANDCHILDREN',padding:0}
         ];
+        $scope.userOrgUnitsToCards=[
+            {name:'User org unit',value:'USER_ORGUNIT',padding:"10px"},
+            {name:'User sub Units',value:'USER_ORGUNIT_CHILDREN',padding:0},
+            {name:'User sub-x2-units',value:'USER_ORGUNIT_GRANDCHILDREN',padding:0}
+        ];
         $scope.selectOnly1Or3 = function(item, selectedItems) {
             if (selectedItems  !== undefined && selectedItems.length >= 20) {
                 return false;
@@ -716,7 +721,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 $scope.dashboardLoader[dashboardItem.id] = true;
             $scope.selectedUnits=[];$scope.selectedLevel=[];$scope.selectedGroups=[];
             if($scope.linkValue=='organisation'){
-                angular.forEach($scope.userOrgUnits,function(value){
+                angular.forEach($scope.userOrgUnitsToCards,function(value){
                     if(value.selected==true){
                         $scope.selectedUnits.push({name:value.name,value:value.value,selection:'organisation'});
                     }

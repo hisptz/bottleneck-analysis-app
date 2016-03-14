@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p ng-if="linkValue =='organisation'" ng-init="linkValue =='organisation'" ng-show="linkValue =='organisation'">
-                    <label class="checkbox-inline" style="padding-left:{{userOrg.padding}} !important;" ng-repeat="userOrg in userOrgUnits">
+                    <label class="checkbox-inline" style="padding-left:{{userOrg.padding}} !important;" ng-repeat="userOrg in userOrgUnitsToCards">
                         <input type="checkbox" ng-model="userOrg.selected" value="{{userOrg.value}}" name="selectedUserOrgUnits">{{userOrg.name}}
                     </label>
                 </p>
