@@ -240,7 +240,7 @@
                                          <div  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]" ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
                                              <target-table></target-table>
                                          </div>
-                                         <div ng-show="!dashboardLoader[dashboardItem.id] ng-if="dashboardItem.type=='DASHBOARD_DETAILS'" style="width: 100%">
+                                         <div ng-show="!dashboardLoader[dashboardItem.id]" ng-if="dashboardItem.type=='DASHBOARD_DETAILS'" style="width: 100%">
                                              <target-details></target-details>
                                          </div>
 

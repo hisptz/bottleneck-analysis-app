@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/dashboard.html" afterPath="$PROJECT_DIR$/views/dashboard.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -129,8 +128,8 @@
       <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33333334" vertical-offset="4268" max-vertical-offset="11985">
-              <caret line="333" column="52" selection-start-line="333" selection-start-column="35" selection-end-line="333" selection-end-column="52" />
+            <state vertical-scroll-proportion="0.8262911" vertical-offset="11198" max-vertical-offset="12000">
+              <caret line="984" column="77" selection-start-line="984" selection-start-column="77" selection-end-line="984" selection-end-column="77" />
               <folding>
                 <element signature="e#4732#4915#0" expanded="false" />
                 <element signature="e#4980#5162#0" expanded="false" />
@@ -211,8 +210,8 @@
         <option value="$PROJECT_DIR$/scripts/directives.js" />
         <option value="$PROJECT_DIR$/views/dashboardModel.html" />
         <option value="$PROJECT_DIR$/views/dashboardDetails.html" />
-        <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
         <option value="$PROJECT_DIR$/views/dashboard.html" />
+        <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
       </list>
     </option>
   </component>
@@ -928,8 +927,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="4268" max-vertical-offset="11985">
-          <caret line="333" column="52" selection-start-line="333" selection-start-column="35" selection-end-line="333" selection-end-column="52" />
+        <state vertical-scroll-proportion="0.8262911" vertical-offset="11198" max-vertical-offset="12000">
+          <caret line="984" column="77" selection-start-line="984" selection-start-column="77" selection-end-line="984" selection-end-column="77" />
           <folding>
             <element signature="e#4732#4915#0" expanded="false" />
             <element signature="e#4980#5162#0" expanded="false" />
