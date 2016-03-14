@@ -30,7 +30,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li  data-match-route="/$"><a href="#/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{'home'| translate}}</a></li>
+        <!--<li  data-match-route="/$"><a href="#/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{'home'| translate}}</a></li>-->
         <!--<li ng-repeat="dashboard in dashboards" data-match-route="/dashboards/{{dashboard.id}}"><a href="#/dashboards/{{dashboard.id}}/dashboard">{{ dashboard.name }}</a></li>-->
         <li style="border-right: #ECECEC 1px solid" dir-paginate="dashboard in dashboards | itemsPerPage:9" data-match-route="/dashboards/{{dashboard.id}}"><a href="#/dashboards/{{dashboard.id}}/dashboard">{{ dashboard.name }} </a></li>
       </ul>

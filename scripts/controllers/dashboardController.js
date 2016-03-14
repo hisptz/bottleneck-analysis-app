@@ -991,20 +991,5 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 });
             }
         }
-        $scope.modelShow=function(dashboardItemID,size){
-            console.log(dashboardItemID);
-            console.log(size);
-            $( "#dialog" ).dialog({
-                appendTo: "#"+dashboardItemID,
-                width: 'auto', // overcomes width:'auto' and maxWidth bug
-                //maxWidth: 600,
-                height: 'auto',
-                dialogClass:size,
-                modal: true,
-                //position: { my:"center", at: "center top" },
-                fluid: true, //new option
-                resizable: false
-            });
-        }
     }]);
 

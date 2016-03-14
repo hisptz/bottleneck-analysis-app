@@ -1,7 +1,7 @@
 var mainController  = angular.module('mainController',[]);
 
-mainController.controller('MenuController',['$scope','$window','dashboardsManager','$resource',function($scope,$window,
-                                                                                                       dashboardsManager,$resource){
+mainController.controller('MenuController',['$scope','$window','dashboardsManager','$resource','$location',function($scope,$window,
+                                                                                                       dashboardsManager,$resource,$location){
 
     dashboardsManager.loadAllDashboards().then(function(dashboards){
         $scope.dashboards = dashboards;
@@ -11,6 +11,7 @@ mainController.controller('MenuController',['$scope','$window','dashboardsManage
                 angular.forEach($scope.orgUnits,function(childOrg){
                     $scope.childOrg=childOrg.children;
                 });
+                $location.path("/dashboards/" + $scope.dashboards[0].id + "/dashboard");
             });
         $scope.year=new Date().getFullYear();
         $scope.period=$scope.year;
