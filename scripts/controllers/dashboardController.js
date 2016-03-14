@@ -966,8 +966,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                     var denominatorExp=expApi.get({expression:indicatorObject.denominator},function(denominatorText){
                                     var denominator=denominatorText.description;
                                     indicatorArray.push({name:indicatorObject.name,uid:indicatorObject.id,denominatorDescription:indicatorObject.denominatorDescription,numeratorDescription:indicatorObject.numeratorDescription,numerator:numerator,denominator:denominator,indicatorType:indicatorObject.indicatorType,dataSets:indicatorObject.dataSets});
-                                console.log(indicatorArray);
-                                $scope.indicators[dashboardItem.id]=indicatorArray;
+                                 $scope.indicators[dashboardItem.id]=indicatorArray;
                                 });
                                 });
 
