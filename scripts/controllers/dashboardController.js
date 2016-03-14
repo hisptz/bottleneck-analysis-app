@@ -949,6 +949,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 var indicatorArray=[];
                 var datasetArray=[];
                 angular.forEach(analyticsObject.metaData.dx,function(dxUid){
+                    $scope.dashboardLoader[dashboardItem.id] = true;
                     var dataElementApi=
                         $resource('../../../api/dataElements/'+dxUid+'.json?fields=id,name,aggregationType,displayName,categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]],dataSets[id,name,periodType]',{get:{method:"JSONP"}});
                     var dataelements=dataElementApi.get(function(dataElementObject){
@@ -982,6 +983,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
                             })
                         }
+                    $scope.dashboardLoader[dashboardItem.id] = false;
                     });
                 });
             }
