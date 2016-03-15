@@ -2,7 +2,7 @@
              <ul class="list-group" ng-if="dataElements[dashboardItem.id]" ng-repeat="data in dataElements[dashboardItem.id]">
                  <li class="list-group-item"><b>Data Element Name:</b>&nbsp;&nbsp; {{data.name}}</li>
                  <li class="list-group-item"><b>Aggregation Type:</b>&nbsp;&nbsp;{{data.aggregationType}}</li>
-                 <li class="list-group-item" ng-if="!data.dataSets"><b>Data Set(Period Type):</b>&nbsp;&nbsp;N/A
+                 <li class="list-group-item"><b>Data Set(Period Type):</b>&nbsp;&nbsp;N/A
                  <ul class="list-group" ng-repeat="dataSets in data.dataSets">
                      <li class="list-group-item"><b>Data Source:</b>&nbsp;&nbsp;{{dataSets.name}}</li>
                      <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{dataSets.periodType}}</li>
@@ -16,8 +16,8 @@
                  <li class="list-group-item"><b>Denominator Description:</b>&nbsp;&nbsp;{{data.denominatorDescription}}</li>
                  <li class="list-group-item"><b>Numerator Formula:</b>&nbsp;&nbsp;{{data.numerator}}</li>
                  <li class="list-group-item"><b>Denominator Formula:</b>&nbsp;&nbsp;{{data.denominator}}</li>
-                 <li class="list-group-item" ng-if="!data.dataSets"><b>Data Source:</b>&nbsp;&nbsp;N/A
-                   <ul class="list-group" ng-if="data.dataSets" ng-repeat="dataSets in data.dataSets">
+                 <li class="list-group-item"><b>Data Source:</b>&nbsp;&nbsp;N/A
+                   <ul class="list-group" ng-repeat="dataSets in data.dataSets">
                        <li class="list-group-item"><b>Data Set:</b>&nbsp;&nbsp;{{dataSets.name}}</li>
                        <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{dataSets.periodType}}</li>
                    </ul>
