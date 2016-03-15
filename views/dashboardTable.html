@@ -40,10 +40,10 @@
     </thead>
     <tbody ng-repeat="rows in firstRow[dashboardItem.id]">
     <tr>
-        <td rowspan="{{rows.length+1}}" class="center">{{rows.length+1}}{{rows.name}}</td>
+        <td rowspan="{{dashboardTab[dashboardItem.id].length+1}}" class="center">{{rows.name}}</td>
     </tr>
     <tr ng-repeat="subRow in dashboardTab[dashboardItem.id]">
-        <td rowspan="{{subRow.length}}">{{subRow.name}}</td>
+        <td>{{subRow.name}}</td>
         <td ng-repeat="subrow in subRow.dataElement">{{subrow.value}}</td>
     </tr>
 

@@ -127,8 +127,8 @@
       <file leaf-file-name="dashboardTable.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/dashboardTable.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7692308" vertical-offset="300" max-vertical-offset="885">
-              <caret line="44" column="61" selection-start-line="44" selection-start-column="61" selection-end-line="44" selection-end-column="61" />
+            <state vertical-scroll-proportion="0.80128205" vertical-offset="300" max-vertical-offset="885">
+              <caret line="45" column="36" selection-start-line="45" selection-start-column="36" selection-end-line="45" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -947,8 +947,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/dashboardTable.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7692308" vertical-offset="300" max-vertical-offset="885">
-          <caret line="44" column="61" selection-start-line="44" selection-start-column="61" selection-end-line="44" selection-end-column="61" />
+        <state vertical-scroll-proportion="0.80128205" vertical-offset="300" max-vertical-offset="885">
+          <caret line="45" column="36" selection-start-line="45" selection-start-column="36" selection-end-line="45" selection-end-column="36" />
           <folding />
         </state>
       </provider>
