@@ -249,9 +249,10 @@
                            </div>
                           <div class="panel-footer" style="padding: 1px 15px">
                              <p style="margin: 3px">
-                                 <a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 8px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 20px;width: 20px"/></i></a>
-                                 <a ng-csv="prepareDataForCSV(dashboardItem)" csv-label="true" filename="data.csv" field-separator="," decimal-separator="."  title="Download Excel" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 8px;margin-right: 2px;"><img src="img/cvs.jpg" style="height: 20px;width: 20px"/></i></a>
-                                 <a ng-click="singleDashboardDetails(dashboardItem,'details')" class="pull-right" style="cursor: pointer;padding:0" title="card details"><i class="fa fa-ellipsis-v fa-2x"></i></a>
+                                 <a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 20px;width: 20px"/></i></a>
+                                 <a ng-csv="prepareDataForCSV(dashboardItem)" csv-label="true" filename="data.csv" field-separator="," decimal-separator="."  title="Download Excel" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/cvs.jpg" style="height: 20px;width: 20px"/></i></a>
+                                 <a ng-click="singleDashboardDetails(dashboardItem,'details')"  title="card details" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/info.png" style="height: 20px;width: 20px"/></i></a>
+                                 <!--<a ng-click="singleDashboardDetails(dashboardItem,'details')" class="pull-right" style="cursor: pointer;padding:0" title="card details"><i class="fa fa-ellipsis-v fa-2x"></i></a>-->
                              </p>
                           </div>
                      </div>
