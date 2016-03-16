@@ -321,7 +321,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 }).then(function(result){
                     dashboardItem.object=window.object;
                     dashboardItem.analyticsUrl = window.alayticsUrl;
-                    $http.get('../../../'+dashboardItem.analyticsUrl)
+                    console.info(dashboardItem.analyticsUrl);
+                    $http.get('../..'+dashboardItem.analyticsUrl)
                         .success(function(analyticsData){
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
                             $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
@@ -543,7 +544,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     var rows = {};
                     var filters = {};
                     var analytics = dashboardItem.analyticsUrl;
-                    $http.get('../../..'+dashboardItem.analyticsUrl)
+                    console.log(analytics);
+                    $http.get('../..'+dashboardItem.analyticsUrl)
                             .success(function(analyticsData){
                                 $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
                                 $scope.dashboardLoader[dashboardItem.id] = false;
