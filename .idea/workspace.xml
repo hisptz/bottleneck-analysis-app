@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="idashboard.iws" />
@@ -101,17 +100,17 @@
       <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4488978" vertical-offset="3946" max-vertical-offset="11910">
-              <caret line="317" column="42" selection-start-line="317" selection-start-column="42" selection-end-line="317" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.749499" vertical-offset="4666" max-vertical-offset="11910">
+              <caret line="547" column="36" selection-start-line="547" selection-start-column="36" selection-end-line="547" selection-end-column="36" />
               <folding>
                 <element signature="e#5013#5196#0" expanded="false" />
                 <element signature="e#5261#5443#0" expanded="false" />
                 <element signature="e#6540#6887#0" expanded="false" />
                 <element signature="e#6972#7332#0" expanded="false" />
                 <element signature="e#8042#8415#0" expanded="false" />
-                <element signature="e#15277#26107#0" expanded="false" />
-                <element signature="e#15308#15658#0" expanded="false" />
-                <element signature="e#43257#43415#0" expanded="false" />
+                <element signature="e#15261#26091#0" expanded="false" />
+                <element signature="e#15292#15642#0" expanded="false" />
+                <element signature="e#43238#43396#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -407,7 +406,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="69" y="24" width="1297" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22021943" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -417,7 +416,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924962" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17457886" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17457886" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -611,9 +610,9 @@
             <element signature="e#6540#6887#0" expanded="false" />
             <element signature="e#6972#7332#0" expanded="false" />
             <element signature="e#8042#8415#0" expanded="false" />
-            <element signature="e#15277#26107#0" expanded="false" />
-            <element signature="e#15308#15658#0" expanded="false" />
-            <element signature="e#43257#43415#0" expanded="false" />
+            <element signature="e#15261#26091#0" expanded="false" />
+            <element signature="e#15292#15642#0" expanded="false" />
+            <element signature="e#43238#43396#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -936,17 +935,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4488978" vertical-offset="3946" max-vertical-offset="11910">
-          <caret line="317" column="42" selection-start-line="317" selection-start-column="42" selection-end-line="317" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.749499" vertical-offset="4666" max-vertical-offset="11910">
+          <caret line="547" column="36" selection-start-line="547" selection-start-column="36" selection-end-line="547" selection-end-column="36" />
           <folding>
             <element signature="e#5013#5196#0" expanded="false" />
             <element signature="e#5261#5443#0" expanded="false" />
             <element signature="e#6540#6887#0" expanded="false" />
             <element signature="e#6972#7332#0" expanded="false" />
             <element signature="e#8042#8415#0" expanded="false" />
-            <element signature="e#15277#26107#0" expanded="false" />
-            <element signature="e#15308#15658#0" expanded="false" />
-            <element signature="e#43257#43415#0" expanded="false" />
+            <element signature="e#15261#26091#0" expanded="false" />
+            <element signature="e#15292#15642#0" expanded="false" />
+            <element signature="e#43238#43396#0" expanded="false" />
           </folding>
         </state>
       </provider>
