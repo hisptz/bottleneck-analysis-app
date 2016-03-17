@@ -6,6 +6,8 @@
     .modal-backdrop.am-fade {
         opacity: .5;
         transition: opacity .15s linear;
+        opacity: .97;
+        filter: alpha(opacity=97);
     }
     .modal-backdrop.am-fade.ng-enter {
         opacity: 0;
@@ -14,7 +16,7 @@
         opacity: .5;
     }
     .modal-backdrop.am-fade.ng-leave {
-        opacity: .5;
+        opacity: .1;
     }
     .modal-backdrop.am-fade.ng-leave.ng-leave-active {
         opacity: 0;
@@ -29,8 +31,8 @@
 
         </div>
         <div ng-class="filtersHidden ? 'col-sm-3' : 'col-sm-2'">
-            <h4 class="text-muted">
-                <a ng-click="hideFilters()" title="Show Filters" ng-if="filtersHidden"><span class="glyphicon glyphicon-chevron-right pull-left"></span></a>
+            <h4 class="text-muted" style="margin-bottom: 0px">
+                <a ng-click="hideFilters()" title="Show Filters" ng-if="filtersHidden" style="cursor:pointer"><img src="img/filter.jpg" style="height: 40px;width: 40px"> </a> |
                 {{ dashBoardName }}</h4>
         </div>
         <div ng-class="filtersHidden ? 'col-sm-9' : 'col-sm-8'">
@@ -80,6 +82,13 @@
                          <option value="FinancialApril">Financial-April</option>
                          <option value="FinancialJuly">Financial-July</option>
                          <option value="FinancialOct">Financial-Oct</option>
+                         <option value="Relative Weeks">Relative Weeks </option>
+                         <option value="Relative Month">Relative Month </option>
+                         <option value="Relative Bi-Month">Relative Bi-Month </option>
+                         <option value="Relative Quarter">Relative Quarter </option>
+                         <option value="Relative Six Monthly">Relative Six Monthly </option>
+                         <option value="Relative Year">Relative Year </option>
+                         <option value="Relative Financial Year">Relative Financial Year </option>
                      </select>
                  </li>
 
@@ -88,7 +97,7 @@
                      <label class="text-muted">Period</label>
                      <multi-select-tree
                              data-input-model="periods"
-                             multi-select="true"
+                             multi-select=multiPeriod
                              data-output-model="data.outOrPeriods"
                              data-default-label="Select Period"
                              data-callback="selectOnly1Or3(item, selectedItems)"
@@ -97,15 +106,65 @@
                      <!--<select class="form-control" style="margin-bottom: 5px">-->
                         <!--<option ng-repeat="period in periods" value="{{ period.id }}">{{ period.name }}</option>-->
                      <!--</select>-->
-                     <button type="button" class="btn btn-default btn-sm" style="width: 50%" ng-click="previousYear()"><< Prev Year</button>
-                     <button type="button " class="pull-right btn btn-default btn-sm" style="width: 50%" ng-click="nextYear()">Next Year >></button>
+                     <button ng-show="multiPeriod" type="button" class="btn btn-default btn-sm" style="width: 50%" ng-click="previousYear()"><< Prev Year</button>
+                     <button ng-show="multiPeriod" type="button " class="pull-right btn btn-default btn-sm" style="width: 50%" ng-click="nextYear()">Next Year >></button>
 
                  </li>
 
 
                  <!--orgunits-->
                  <li class="list-group-item">
+                     <div class="row">
                      <label class="text-muted">Organisation Unit</label>
+                         <hr/>
+                     </div>
+
+                     <div class="row">
+                     <div class="col-md-4">
+                         <div class="dropdown">
+                            <button class="btn btn-small dropdown-toggle" type="button" data-toggle="dropdown">
+                            <i class="fa fa-cog"></i>
+                            <span class="caret"></span>
+                            </button>
+                             <ul class="dropdown-menu">
+                                 <li class="dropdown-header"><b>Selection mode</b></li>
+                                 <li ng-click="activateDropDown('organisation')" ng-class="{'active' : linkValue == 'organisation'}">
+                                     <a style="cursor: pointer;"><i class="fa fa-check"></i>&nbsp;&nbsp;Select organisation Units</a></li>
+                                 <li ng-click="activateDropDown('levels')" ng-class="{'active' : linkValue == 'levels'}">
+                                     <a style="cursor: pointer;"><i class="fa fa-check"></i>&nbsp;&nbsp;Select levels</a></li>
+                                 <li ng-click="activateDropDown('groups')" ng-class="{'active' : linkValue == 'groups'}">
+                                     <a style="cursor: pointer;"><i class="fa fa-check"></i>&nbsp;&nbsp;Select Groups</a></li>
+                              </ul>
+                         </div>
+                     </div>
+                         <div class="col-md-8">
+                             <p ng-if="linkValue =='organisation'" ng-init="linkValue =='organisation'" ng-show="linkValue =='organisation'">
+                             <label class="checkbox-inline" style="padding-left:{{userOrg.padding}} !important;" ng-repeat="userOrg in userOrgUnits">
+                                 <input type="checkbox" ng-model="userOrg.selected" value="{{userOrg.value}}" name="selectedUserOrgUnits">{{userOrg.name}}
+                              </label>
+                             </p>
+                            <p ng-if="linkValue =='levels'" ng-show="linkValue =='levels'">
+                                 <multi-select-tree
+                                        data-input-model="data.orgUnitLevels"
+                                        multi-select="true"
+                                        data-output-model="data.orOutgUnitLevels"
+                                        data-default-label="Select levels"
+                                        data-callback="selectOnly1Or1(item, selectedItems)"
+                                        >
+                                </multi-select-tree>
+                            </p>
+                             <p ng-if="linkValue =='groups'" ng-show="linkValue =='groups'">
+                                 <multi-select-tree
+                                         data-input-model="data.orgUnitGroups"
+                                         multi-select="true"
+                                         data-output-model="data.orOutgUnitGroups"
+                                         data-default-label="Select groups"
+                                         data-callback="selectOnly1Or3(item, selectedItems)"
+                                         >
+                                 </multi-select-tree>
+                             </p>
+                         </div>
+                     </div>
                      <wave-spinner ng-show="!loadOrgunits"></wave-spinner>
                      <multi-select-tree ng-show="loadOrgunits"
                              data-input-model="data.orgUnitTree"
@@ -118,6 +177,7 @@
                  </li>
 
                  <li class="list-group-item">
+
                      <button class="btn btn-info btn-block btn-sm" ng-click="updateDashboard()" ng-show="loadOrgunits">Update</button>
                  </li>
              </ul>
@@ -129,61 +189,72 @@
                  <div ng-repeat="dashboardItem in dashboardItems | filter:searchKey" class="{{ dashboardItem.column_size }}" style="padding-right: 8px;padding-left: 0px">
                      <div class="panel panel-default ">
                          <div class="panel-heading">
-                             <a href='javascript:dhis2.db.viewShareForm( "{{ dashboardItem.id }}", "{{ dashboardItem.type | lowercase }}", "{{ dashboardItem.name }}" )'>Share interpretation </a>|
-                             <a ng-if="dashboardItem.type=='REPORT_TABLE'" href='../../../dhis-web-pivot/index.html?id={{ dashboardItem.reportTable.id }}'>Explore </a>
-                             <a ng-if="dashboardItem.type=='CHART'" href='../../../dhis-web-visualizer/index.html?id={{ dashboardItem.chart.id }}'>Explore </a>
-                             <a ng-if="dashboardItem.type=='MAP'" href='../../../dhis-web-mapping/index.html?id={{ dashboardItem.map.id }}'>Explore </a>|
-                             <a ng-click="cardClassResizable(dashboardItem)">Resize</a> |
+                             <a href='javascript:dhis2.db.viewShareForm( "{{ dashboardItem.id }}", "{{ dashboardItem.type | lowercase }}", "{{ dashboardItem.name }}" )' style="cursor: pointer">Share interpretation </a>|
+                             <a ng-if="dashboardItem.type=='REPORT_TABLE'" href='../../../dhis-web-pivot/index.html?id={{ dashboardItem.reportTable.id }}' style="cursor: pointer">Explore </a>
+                             <a ng-if="dashboardItem.type=='CHART'" href='../../../dhis-web-visualizer/index.html?id={{ dashboardItem.chart.id }}' style="cursor: pointer">Explore </a>
+                             <a ng-if="dashboardItem.type=='MAP'" href='../../../dhis-web-mapping/index.html?id={{ dashboardItem.map.id }}' style="cursor: pointer">Explore </a>|
+                             <a ng-click="cardClassResizable(dashboardItem)" style="cursor: pointer">Resize</a> |
 
-                             <a ng-if="dashboardItem.type=='CHART'" type="button" title="Layout" style="background-color: #F5F5F5"
+                             <a ng-if="dashboardItem.type=='CHART'" type="button" title="Layout" style="background-color: #F5F5F5;cursor: pointer"
                                 data-content="{{popover.content}}"
                                 data-template-url="views/chartLayout.html"
                                 data-animation="am-flip-x"
                                 data-trigger = 'click'
                                 data-auto-close="1" bs-popover> Layout
                              </a> <span ng-if="dashboardItem.type=='CHART'">|</span>
-                             <a ng-if="dashboardItem.type=='CHART'" type="button" title="Data Filters" style="background-color: #F5F5F5"
+                             <a ng-if="dashboardItem.type=='CHART'" type="button" title="Data Filters" style="background-color: #F5F5F5;cursor: pointer"
                                 data-content="{{popover.content}}"
                                 data-template-url="views/chartDataFilter.html"
                                 data-animation="am-flip-x"
                                 data-trigger = 'click'
                                 data-auto-close="1" bs-popover> Data
                              </a>
-                             <a ng-if="dashboardItem.type=='REPORT_TABLE'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5"
+                             <a ng-if="dashboardItem.type=='REPORT_TABLE'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5;cursor: pointer"
                                 data-content="{{popover.content}}"
                                 data-template-url="views/tableLayout.html"
                                 data-animation="am-flip-x"
                                 data-trigger = 'click'
                                 data-auto-close="1" bs-popover> Layout
+                             </a> |
+                             <a ng-if="dashboardItem.type!=='DASHBOARD_DETAILS'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5;cursor: pointer"
+                                data-content="{{popover.content}}"
+                                data-template-url="views/dashboardfilters.html"
+                                data-animation="am-flip-x"
+                                data-trigger = 'click'
+                                data-auto-close="1" bs-popover> Filters
                              </a>
 
-                             <a data-animation="am-fade-and-slide-top" data-template-url="views/dashboardModel.html" bs-modal="modal" class="pull-right"><span class="glyphicon glyphicon-resize-full"></span> </a>
+                             <a data-animation="am-fade-and-slide-top" data-template-url="views/dashboardModel.html" bs-modal="modal" class="pull-right" style="cursor: pointer" title="Zoom card"><span class="glyphicon glyphicon-resize-full"></span> </a>
                          </div>
                          <div class="panel-body" style="height: 400px;overflow: scroll">
-                             <div ng-if="dashboardItem.type=='MAP'" ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]">
-                                 <openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
-                                     <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
-                                 </openlayers>
-                             </div>
-                             <div style="width: 100%">
-                                 <highchart  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
-                             </div>
+                                 <div ng-if="dashboardItem.type=='MAP'" ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]">
+                                             <openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
+                                                 <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
+                                             </openlayers>
+                                         </div>
+                                         <div style="width: 100%">
+                                             <highchart  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
+                                         </div>
 
 
-                             <div  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]" ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
-                                 <target-table></target-table>
-                             </div>
+                                         <div  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]" ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
+                                             <target-table></target-table>
+                                         </div>
+                                         <div ng-show="!dashboardLoader[dashboardItem.id]" ng-if="dashboardItem.type=='DASHBOARD_DETAILS'" style="width: 100%">
+                                             <target-details></target-details>
+                                         </div>
 
-                             <wave-spinner ng-if="dashboardLoader[dashboardItem.id]"></wave-spinner>
-                             <div class="well well-lg text-danger" style="margin-top: 100px" ng-if="dashboardFailLoad[dashboardItem.id]"><span class="glyphicon glyphicon-warning-sign"></span> Error Loading data! </div>
-
-                         </div>
-                         <div class="panel-footer" style="padding: 1px 15px">
+                                         <wave-spinner ng-if="dashboardLoader[dashboardItem.id]"></wave-spinner>
+                                         <div class="well well-lg text-danger" style="margin-top: 100px" ng-if="dashboardFailLoad[dashboardItem.id]"><span class="glyphicon glyphicon-warning-sign"></span> Error Loading data! </div>
+                           </div>
+                          <div class="panel-footer" style="padding: 1px 15px">
                              <p style="margin: 3px">
-                                 <a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 25px;width: 25px"/></i></a>
-                                 <a ng-csv="prepareDataForCSV(dashboardItem)" csv-label="true" filename="data.csv" field-separator="," decimal-separator="."  title="Download Excel" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/cvs.jpg" style="height: 25px;width: 25px"/></i></a>
+                                 <a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 20px;width: 20px"/></i></a>
+                                 <a ng-csv="prepareDataForCSV(dashboardItem)" csv-label="true" filename="data.csv" field-separator="," decimal-separator="."  title="Download Excel" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/cvs.jpg" style="height: 20px;width: 20px"/></i></a>
+                                 <a ng-click="singleDashboardDetails(dashboardItem,'details')"  title="card details" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/info.png" style="height: 20px;width: 20px"/></i></a>
+                                 <!--<a ng-click="singleDashboardDetails(dashboardItem,'details')" class="pull-right" style="cursor: pointer;padding:0" title="card details"><i class="fa fa-ellipsis-v fa-2x"></i></a>-->
                              </p>
-                         </div>
+                          </div>
                      </div>
 
                  </div>

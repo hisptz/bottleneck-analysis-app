@@ -1,6 +1,6 @@
 var chartServices = angular.module('chartServices',['ngResource']);
 
-chartServices.factory('chartsManager',function(){
+chartServices.factory('chartsManager',function($timeout){
     'use strict';
 
     var chartsManager = {
@@ -9,6 +9,16 @@ chartServices.factory('chartsManager',function(){
             options : {
                 title: {
                     text: ''
+                },
+                chart: {
+                    events: {
+                        load: function(chart) {
+                            $timeout(function() {
+                                chart.target.reflow();
+
+                            },0 );
+                        }
+                    }
                 },
                 xAxis: {
                     categories: [],
@@ -42,7 +52,15 @@ chartServices.factory('chartsManager',function(){
         stackedChartObject : {
             options :{
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    events: {
+                        load: function(chart) {
+                            $timeout(function() {
+                                chart.target.reflow();
+
+                            },0 );
+                        }
+                    }
                 },
                 title: {
                     text: ''
@@ -81,7 +99,15 @@ chartServices.factory('chartsManager',function(){
         barStackedObject : {
             options: {
                 chart: {
-                    type: 'bar'
+                    type: 'bar',
+                    events: {
+                        load: function(chart) {
+                            $timeout(function() {
+                                chart.target.reflow();
+
+                            },0 );
+                        }
+                    }
                 },
                 title: {
                     text: ''
@@ -345,6 +371,10 @@ chartServices.factory('chartsManager',function(){
         //draw all other types of chart[bar,line,area]
         drawOtherCharts : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,chartType){
             var chartObject = angular.copy(this.defaultChartObject);
+            if(chartType == 'bar'){
+                chartObject.options.chart.type = chartType;
+                chartObject.options.xAxis.labels.rotation = 0;
+            }
             chartObject.options.title.text = title;
             var metaDataObject = this.prepareCategories(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems);
             var currentService = this;
@@ -405,7 +435,15 @@ chartServices.factory('chartsManager',function(){
                 options: {
                     chart: {
                         polar: true,
-                        type: 'area'
+                        type: 'area',
+                        events: {
+                            load: function(chart) {
+                                $timeout(function() {
+                                    chart.target.reflow();
+
+                                },0 );
+                            }
+                        }
                     },
 
                     title: {
@@ -570,7 +608,71 @@ chartServices.factory('chartsManager',function(){
 
 
             return chartObject;
+        },
+
+        //get a spider chart
+        drawRoseChart : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,chartType){
+            var metaDataObject = this.prepareCategories(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems);
+            var currentService = this;
+            var categories = [];
+            angular.forEach(metaDataObject.xAxisItems, function (val) {
+                categories.push(val.name);
+            });
+
+            var series = [];
+            angular.forEach(metaDataObject.yAxisItems,function(yAxis){
+                var chartSeries = [];
+                angular.forEach(metaDataObject.xAxisItems,function(xAxis){
+                    var number = currentService.getDataValue(analyticsObject,xAxisType,xAxis.uid,yAxisType,yAxis.uid,filterType,filterUid);
+                    chartSeries.push(parseFloat(number));
+                });
+                series.push({name: yAxis.name, data: chartSeries, pointPlacement: 'on'});
+            });
+            var chartObject = {
+                options: {
+                    chart: {
+                        polar: true,
+                        type: 'area'
+                    },
+
+                    title: {
+                        text: title,
+                        x: -80
+                    },
+
+                    pane: {
+                        size: '90%'
+                    },
+
+                    xAxis: {
+                        categories: categories,
+                        tickmarkPlacement: 'on',
+                        lineWidth: 0
+                    },
+
+                    yAxis: {
+                        gridLineInterpolation: 'polygon',
+                        lineWidth: 0,
+                        min: 0
+                    },
+
+                    tooltip: {
+                        shared: true
+                    },
+
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        y: 70,
+                        layout: 'horizontal'
+                    }
+                },
+                series: series
+
+            };
+            return chartObject;
         }
+
     };
     return chartsManager;
 });

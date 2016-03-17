@@ -123,18 +123,18 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
             var subrowsLength = this.prepareCategories(analyticsObject, subrowType).length+1;
             var self=this;
             var normalTable=[];
-            //angular.forEach(self.prepareCategories(analyticsObject, rowType), function (rowName) {
+            angular.forEach(self.prepareCategories(analyticsObject, rowType), function (rowName) {
                angular.forEach(self.prepareCategories(analyticsObject, subrowType), function (subRowName) {
                     var dataElement = [];
                    angular.forEach(self.prepareCategories(analyticsObject, columnType), function (columnName) {
                         var value='';
-                        value=self.getDataValue(analyticsObject, columnType, columnName.uid, rowType, subRowName.uid, subrowType, subRowName.uid);
+                        value=self.getDataValue(analyticsObject, columnType, columnName.uid, rowType, rowName.uid, subrowType, subRowName.uid);
                         dataElement.push({"name": columnName.name, "uid": columnName.uid, "value": value});
                     });
                     normalTable.push({"name": subRowName.name, 'uid': subRowName.uid, 'dataElement': dataElement});
                 });
 
-            //});
+            });
         return normalTable;
         },
         drawTableHeaderWithNormal:function(analyticsObject,columnType,subcolumnType){
@@ -145,8 +145,7 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
                 headerArray.push({"name":analyticsObject.metaData.names[header],"id":header,"length":subcolumnsLength});
             });
             return headerArray;
-            console.info(headerArray);
-         },
+          },
         drawTableWithTwoHeader:function(analyticsObject,columnType,subcolumnType){
             var self=this;
             var subcolumnsLength = self.prepareCategories(analyticsObject, subcolumnType).length;
@@ -157,8 +156,7 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
                 });
             });
             return subColumn;
-            console.warn(subColumn);
-         },
+          },
         drawTableWithSingleRowDimension:function(analyticsObject,rowType,subRowType){
             var self=this;
             var subrowsLength = self.prepareCategories(analyticsObject, subRowType).length;
@@ -166,8 +164,7 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
             angular.forEach(self.prepareCategories(analyticsObject, rowType), function (rowName) {
                 firstRows.push({"name":rowName.name,"uid":rowName.uid,"length":subrowsLength});
             });
-            console.log(firstRows);
-            return firstRows;
+             return firstRows;
         }
     }
     return TableRenderer;

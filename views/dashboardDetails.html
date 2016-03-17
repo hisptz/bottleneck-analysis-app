@@ -1,0 +1,31 @@
+<div class="col-md-12">
+             <ul class="list-group" ng-if="dataElements[dashboardItem.id]" ng-repeat="data in dataElements[dashboardItem.id]">
+                 <li class="list-group-item"><b>Data Element Name:</b>&nbsp;&nbsp; {{data.name}}</li>
+                 <li class="list-group-item"><b>Aggregation Type:</b>&nbsp;&nbsp;{{data.aggregationType}}</li>
+                 <li class="list-group-item"><b>Data Set(Period Type):</b>&nbsp;&nbsp;
+                 <ul class="list-group" ng-repeat="dataSets in data.dataSets">
+                     <li class="list-group-item"><b>Data Source:</b>&nbsp;&nbsp;{{dataSets.name}}</li>
+                     <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{dataSets.periodType}}</li>
+                 </ul>
+                 </li>
+             </ul>
+             <ul class="list-group" ng-if="indicators[dashboardItem.id]" ng-repeat="data in indicators[dashboardItem.id]">
+                 <li class="list-group-item"><b>Indicators Name:</b>&nbsp;&nbsp;{{data.name}}</li>
+                 <li class="list-group-item"><b>Indicator Type:</b>&nbsp;&nbsp;{{data.indicatorType.name}}</li>
+                 <li class="list-group-item"><b>Numerator Description:</b>&nbsp;&nbsp;{{data.numeratorDescription}}</li>
+                 <li class="list-group-item"><b>Denominator Description:</b>&nbsp;&nbsp;{{data.denominatorDescription}}</li>
+                 <li class="list-group-item"><b>Numerator Formula:</b>&nbsp;&nbsp;{{data.numerator}}</li>
+                 <li class="list-group-item"><b>Denominator Formula:</b>&nbsp;&nbsp;{{data.denominator}}</li>
+                 <li class="list-group-item"><b>Data Source:</b>&nbsp;&nbsp;
+                   <ul class="list-group" ng-repeat="dataSets in data.dataSets">
+                       <li class="list-group-item"><b>Data Set:</b>&nbsp;&nbsp;{{dataSets.name}}</li>
+                       <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{dataSets.periodType}}</li>
+                   </ul>
+                 </li>
+             </ul>
+             <ul class="list-group" ng-if="datasets[dashboardItem.id]" ng-repeat="data in datasets[dashboardItem.id]">
+                 <li class="list-group-item"><b>Data Set Name:</b>&nbsp;&nbsp;{{data.name}}</li>
+                 <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{data.periodType}}</li>
+             </ul>
+
+</div>

@@ -3,7 +3,7 @@
  */
 var filterService = angular.module('filterService',['ngResource']).constant('DHIS2URL', '../../..');
 
-filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
+filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http,$filter) {
     'use strict';
 
     var filtersManager = {
@@ -34,6 +34,32 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
                 });
             return deferred.promise;
         },
+        getOrgUnitsLevels:function(){
+            var self = this;
+            var deferred = $q.defer();
+            $http.get('../../..'+'/api/organisationUnitLevels.json?fields=id,name,level&paging=false')
+                .success(function(orgunitsLevels){
+                    deferred.resolve(orgunitsLevels);
+                })
+                .error(function(errorMessageData){
+                    console.error(errorMessageData);
+                    deferred.reject();
+                });
+            return deferred.promise;
+        },
+        getOrgUnitsGroups:function(){
+            var self = this;
+            var deferred = $q.defer();
+            $http.get('../../..'+'/api/organisationUnitGroups.json?fields=id,name&paging=false')
+                .success(function(orgunitsGroups){
+                    deferred.resolve(orgunitsGroups);
+                })
+                .error(function(errorMessageData){
+                    console.error(errorMessageData);
+                    deferred.reject();
+                });
+            return deferred.promise;
+        },
 
         getOtgunitTree : function(orgUnitArray){
             var orgUnitTree = [];
@@ -46,19 +72,26 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
                         angular.forEach(district.children,function(facility){
                             districtsFacility.push({name:facility.name,id:facility.id });
                         });
-                        regionDistricts.push({name:district.name,id:district.id, children:districtsFacility });
+                        regionDistricts.push({name:district.name,id:district.id, children:$filter('orderBy')(districtsFacility, 'name') });
                     });
-                    zoneRegions.push({ name:regions.name,id:regions.id, children:regionDistricts});
+                    zoneRegions.push({ name:regions.name,id:regions.id, children:$filter('orderBy')(regionDistricts, 'name') });
                 });
-                orgUnitTree.push({ name:value.name,id:value.id, children:zoneRegions,selected:true });
+                orgUnitTree.push({ name:value.name,id:value.id, children:$filter('orderBy')(zoneRegions, 'name'),selected:true });
             });
             return orgUnitTree;
         },
+        orderOrgUnitLevels:function(orgUnitArray){
+           return $filter('orderBy')(orgUnitArray,'level');
+        },
+        orderOrgUnitGroups:function(orgUnitGroupsArray){
+           return $filter('orderBy')(orgUnitGroupsArray,'name');
+        },
 
-        getAnalyticsLink : function(orgunits,periods,data){
+        getAnalyticsLink : function(orgunits,periods,data,orgunitSeletion){
             var orgunitsArr = []; var ou;
             var periodsArr = [];  var pe;
             var dataArr = [];     var dx;
+            var orgSelect=[];     var select;
             //prepare orarganisation units
            angular.forEach(orgunits,function(value){
                orgunitsArr.push(value.id);
@@ -74,26 +107,43 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
                dataArr.push(value);
             });
             dx = dataArr.join(';');
+            //prepare orgUnits selection
+            angular.forEach(orgunitSeletion,function(value){
+                if(value.selection=='organisation'){
+                    orgSelect.push(value.value);
+                }else if(value.selection=='levels'){
+                    orgSelect.push(value.value);
+                }else if(value.selection =='groups'){
+                    orgSelect.push(value.value);
+                } else{
+                  }
+              });
+              var analytics='';
 
-            var analytics = '../../..'+'/api/analytics.json?dimension=dx:'+dx+'&dimension=ou:'+ou+'&dimension=pe:'+pe+'&displayProperty=NAME';
-            return analytics;
+             if(orgSelect.length==0){
+              analytics = '../../..'+'/api/analytics.json?dimension=dx:'+dx+'&dimension=ou:'+ou+'&dimension=pe:'+pe+'&displayProperty=NAME';
+              }else{
+              select=orgSelect.join(';');
+              analytics = '../../..'+'/api/analytics.json?dimension=dx:'+dx+'&dimension=ou:'+select+';'+ou+'&dimension=pe:'+pe+'&displayProperty=NAME';
+              }
+             return analytics;
         },
 
         getPeriodArray: function(type,year){
         var periods = [];
         if(type == "Weekly"){
             periods.push({id:'',name:''})
-        }if(type == "Monthly"){
+        }else if(type == "Monthly"){
             periods.push({id:year+'01',name:'January '+year,selected:true},{id:year+'02',name:'February '+year},{id:year+'03',name:'March '+year},{id:year+'04',name:'April '+year},{id:year+'05',name:'May '+year},{id:year+'06',name:'June '+year},{id:year+'07',name:'July '+year},{id:year+'08',name:'August '+year},{id:year+'09',name:'September '+year},{id:year+'10',name:'October '+year},{id:year+'11',name:'November '+year},{id:year+'12',name:'December '+year})
-        }if(type == "BiMonthly"){
+        }else if(type == "BiMonthly"){
             periods.push({id:year+'01B',name:'January - February '+year,selected:true},{id:year+'02B',name:'March - April '+year},{id:year+'03B',name:'May - June '+year},{id:year+'04B',name:'July - August '+year},{id:year+'05B',name:'September - October '+year},{id:year+'06B',name:'November - December '+year})
-        }if(type == "Quarterly"){
+        }else if(type == "Quarterly"){
             periods.push({id:year+'Q1',name:'January - March '+year,selected:true},{id:year+'Q2',name:'April - June '+year},{id:year+'Q3',name:'July - September '+year},{id:year+'Q4',name:'October - December '+year})
-        }if(type == "SixMonthly"){
+        }else if(type == "SixMonthly"){
             periods.push({id:year+'S1',name:'January - June '+year,selected:true},{id:year+'S2',name:'July - December '+year})
-        }if(type == "SixMonthlyApril"){
+        }else if(type == "SixMonthlyApril"){
             periods.push({id:year+'AprilS2',name:'October 2011 - March 2012',selected:true},{id:year+'AprilS1',name:'April - September '+year})
-        }if(type == "FinancialOct"){
+        }else if(type == "FinancialOct"){
             for (var i = 0; i <= 10; i++) {
                 var useYear = parseInt(year) - i;
                 if(i == 1){
@@ -102,7 +152,7 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
                     periods.push({id:useYear+'Oct',name:'October '+useYear+' - September '+useYear})
                 }
             }
-        }if(type == "Yearly"){
+        }else if(type == "Yearly"){
             for (var i = 0; i <= 10; i++) {
                 var useYear = parseInt(year) - i;
                 if(i == 1){
@@ -112,7 +162,7 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
                 }
 
             }
-        }if(type == "FinancialJuly"){
+        }else if(type == "FinancialJuly"){
             for (var i = 0; i <= 10; i++) {
                 var useYear = parseInt(year) - i;
                 if(i == 1){
@@ -121,7 +171,7 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
                     periods.push({id:useYear+'July',name:'July '+useYear+' - June '+useYear})
                 }
             }
-        }if(type == "FinancialApril"){
+        }else if(type == "FinancialApril"){
             for (var i = 0; i <= 10; i++) {
                 var useYear = parseInt(year) - i;
                 if(i == 1){
@@ -130,6 +180,20 @@ filterService.factory('filtersManager',['$q','$http',function($q,$http,DHIS) {
                     periods.push({id:useYear+'April',name:'April '+useYear+' - March '+useYear})
                 }
             }
+        }else if(type == "Relative Weeks"){
+                periods.push({id:'THIS_WEEK',name:'This Week'},{id:'LAST_WEEK',name:'Last Week'},{id:'LAST_4_WEEK',name:'Last 4 Weeks',selected:true},{id:'LAST_12_WEEK',name:'last 12 Weeks'},{id:'LAST_52_WEEK',name:'Last 52 weeks'});
+        }else if(type == "Relative Month"){
+                periods.push({id:'THIS_MONTH',name:'This Month'},{id:'LAST_MONTH',name:'Last Month'},{id:'LAST_3_MONTHS',name:'Last 3 Month'},{id:'LAST_6_MONTHS',name:'Last 6 Month'},{id:'LAST_12_MONTHS',name:'Last 12 Month',selected:true});
+        }else if(type == "Relative Bi-Month"){
+                periods.push({id:'THIS_BIMONTH',name:'This Bi-month'},{id:'LAST_BIMONTH',name:'Last Bi-month'},{id:'LAST_6_BIMONTHS',name:'Last 6 bi-month',selected:true});
+        }else if(type == "Relative Quarter"){
+                periods.push({id:'THIS_QUARTER',name:'This Quarter'},{id:'LAST_QUARTER',name:'Last Quarter'},{id:'LAST_4_QUARTERS',name:'Last 4 Quarters',selected:true});
+        }else if(type == "Relative Six Monthly"){
+                periods.push({id:'THIS_SIX_MONTH',name:'This Six-month'},{id:'LAST_SIX_MONTH',name:'Last Six-month'},{id:'LAST_2_SIXMONTHS',name:'Last 2 Six-month',selected:true});
+        }else if(type == "Relative Year"){
+                periods.push({id:'THIS_FINANCIAL_YEAR',name:'This Year'},{id:'LAST_FINANCIAL_YEAR',name:'Last Year',selected:true},{id:'LAST_5_FINANCIAL_YEARS',name:'Last 5 Years'});
+        }else if(type == "Relative Financial Year"){
+                periods.push({id:'THIS_YEAR',name:'This Financial Year'},{id:'LAST_YEAR',name:'Last Financial Year',selected:true},{id:'LAST_5_YEARS',name:'Last 5 Five financial years'});
         }
         return periods;
     }
