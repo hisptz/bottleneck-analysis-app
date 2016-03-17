@@ -3716,7 +3716,7 @@ Ext.onReady( function() {
 			password: Ext.isString(config.password) ? config.password : null
 		};
 		var core = PT.getCore(init,appConfig);
-		config.url = '/api/reportTables/' + config.id + '.json' + '?fields=' + core.conf.url.analysisFields.join(',');
+		config.url = '../../../api/reportTables/' + config.id + '.json' + '?fields=' + core.conf.url.analysisFields.join(',');
 		//config.disableCaching = false;
 		//config.headers = headers;
 
