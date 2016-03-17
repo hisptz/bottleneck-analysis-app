@@ -525,7 +525,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             {
 
                 DHIS.getTable({
-                    url: '../../..',
+                    url: '../../../',
                     el: 'plugin-' + dashboardItem.id,
                     id: dashboardItem.reportTable.id,
                     dashboard: true,
