@@ -290,7 +290,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             {
 
                 DHIS.getChart({
-                    url: '../../../',
+                    url: '../../..',
                     el: 'plugin-' + dashboardItem.id,
                     id: dashboardItem.chart.id,
                     width: width,
@@ -322,7 +322,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     dashboardItem.object=window.object;
                     dashboardItem.analyticsUrl = window.alayticsUrl;
                     console.info(dashboardItem.analyticsUrl);
-                    $http.get('../../../'+dashboardItem.analyticsUrl)
+                    $http.get('../../..'+dashboardItem.analyticsUrl)
                         .success(function(analyticsData){
                             $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
                             $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
@@ -525,7 +525,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             {
 
                 DHIS.getTable({
-                    url: '../../../',
+                    url: '../../..',
                     el: 'plugin-' + dashboardItem.id,
                     id: dashboardItem.reportTable.id,
                     dashboard: true,
@@ -545,7 +545,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     var filters = {};
                     var analytics = dashboardItem.analyticsUrl;
                     console.log(analytics);
-                    $http.get('../../../'+dashboardItem.analyticsUrl)
+                    $http.get('../../..'+dashboardItem.analyticsUrl)
                             .success(function(analyticsData){
                                 $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
                                 $scope.dashboardLoader[dashboardItem.id] = false;
