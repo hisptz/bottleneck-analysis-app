@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/table.js" afterPath="$PROJECT_DIR$/scripts/dhis2Utils/table.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="idashboard.iws" />
@@ -29,7 +31,7 @@
       <file leaf-file-name="dashboard.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/dashboard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.708334" vertical-offset="2452" max-vertical-offset="4095">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2452" max-vertical-offset="4095">
               <caret line="195" column="46" selection-start-line="195" selection-start-column="46" selection-end-line="195" selection-end-column="46" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -100,8 +102,8 @@
       <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="6300" max-vertical-offset="11910">
-              <caret line="637" column="62" selection-start-line="637" selection-start-column="62" selection-end-line="637" selection-end-column="62" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="4095" max-vertical-offset="11910">
+              <caret line="527" column="35" selection-start-line="527" selection-start-column="35" selection-end-line="527" selection-end-column="35" />
               <folding>
                 <element signature="e#5013#5196#0" expanded="false" />
                 <element signature="e#5261#5443#0" expanded="false" />
@@ -110,16 +112,28 @@
                 <element signature="e#8042#8415#0" expanded="false" />
                 <element signature="e#15263#26093#0" expanded="false" />
                 <element signature="e#15294#15644#0" expanded="false" />
-                <element signature="e#43242#43400#0" expanded="false" />
+                <element signature="e#43243#43401#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="filterServices.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="table.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/table.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.13772455" vertical-offset="55869" max-vertical-offset="56370">
+              <caret line="3720" column="35" selection-start-line="3720" selection-start-column="35" selection-end-line="3720" selection-end-column="35" />
+              <folding>
+                <marker date="1458188669068" expanded="true" signature="100854:100987" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="filterServices.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/services/filterServices.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.5691383" vertical-offset="1619" max-vertical-offset="3120">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1619" max-vertical-offset="3120">
               <caret line="89" column="8" selection-start-line="89" selection-start-column="8" selection-end-line="89" selection-end-column="8" />
               <folding />
             </state>
@@ -146,20 +160,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mainController.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/controllers/mainController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="660">
-              <caret line="13" column="43" selection-start-line="13" selection-start-column="43" selection-end-line="13" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.125" vertical-offset="45" max-vertical-offset="1995">
+            <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="1995">
               <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
@@ -191,7 +195,6 @@
         <option value="$PROJECT_DIR$/views/help.html" />
         <option value="$PROJECT_DIR$/scripts/services/mapServices.js" />
         <option value="$PROJECT_DIR$/scripts/ui-bootstrap/ui-bootstrap.min.js" />
-        <option value="$PROJECT_DIR$/scripts/dhis2Utils/table.js" />
         <option value="$PROJECT_DIR$/views/tableLayout.html" />
         <option value="$PROJECT_DIR$/idashboard.appcache" />
         <option value="$PROJECT_DIR$/scripts/dhis2Utils/chart.js" />
@@ -213,6 +216,7 @@
         <option value="$PROJECT_DIR$/views/dashboard.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
+        <option value="$PROJECT_DIR$/scripts/dhis2Utils/table.js" />
       </list>
     </option>
   </component>
@@ -222,9 +226,9 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="69" />
-    <option name="y" value="24" />
+    <option name="y" value="-4" />
     <option name="width" value="1297" />
-    <option name="height" value="744" />
+    <option name="height" value="772" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -293,6 +297,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dhis2Utils" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -405,7 +427,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="69" y="24" width="1297" height="744" extended-state="6" />
+    <frame x="69" y="-4" width="1297" height="772" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -414,18 +436,18 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924962" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17457886" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1740458" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32948717" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -612,7 +634,7 @@
             <element signature="e#8042#8415#0" expanded="false" />
             <element signature="e#15263#26093#0" expanded="false" />
             <element signature="e#15294#15644#0" expanded="false" />
-            <element signature="e#43242#43400#0" expanded="false" />
+            <element signature="e#43243#43401#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -684,13 +706,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/table.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.082914" vertical-offset="55567" max-vertical-offset="56370">
-          <caret line="3490" column="37" selection-start-line="3490" selection-start-column="37" selection-end-line="3490" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -876,7 +891,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.708334" vertical-offset="2452" max-vertical-offset="4095">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2452" max-vertical-offset="4095">
           <caret line="195" column="46" selection-start-line="195" selection-start-column="46" selection-end-line="195" selection-end-column="46" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -920,16 +935,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.125" vertical-offset="45" max-vertical-offset="1995">
+        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="1995">
           <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/filterServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1619" max-vertical-offset="3120">
+          <caret line="89" column="8" selection-start-line="89" selection-start-column="8" selection-end-line="89" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6300" max-vertical-offset="11910">
-          <caret line="637" column="62" selection-start-line="637" selection-start-column="62" selection-end-line="637" selection-end-column="62" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="4095" max-vertical-offset="11910">
+          <caret line="527" column="35" selection-start-line="527" selection-start-column="35" selection-end-line="527" selection-end-column="35" />
           <folding>
             <element signature="e#5013#5196#0" expanded="false" />
             <element signature="e#5261#5443#0" expanded="false" />
@@ -938,16 +961,18 @@
             <element signature="e#8042#8415#0" expanded="false" />
             <element signature="e#15263#26093#0" expanded="false" />
             <element signature="e#15294#15644#0" expanded="false" />
-            <element signature="e#43242#43400#0" expanded="false" />
+            <element signature="e#43243#43401#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/services/filterServices.js">
+    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/table.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.5691383" vertical-offset="1619" max-vertical-offset="3120">
-          <caret line="89" column="8" selection-start-line="89" selection-start-column="8" selection-end-line="89" selection-end-column="8" />
-          <folding />
+        <state vertical-scroll-proportion="-0.13772455" vertical-offset="55869" max-vertical-offset="56370">
+          <caret line="3720" column="35" selection-start-line="3720" selection-start-column="35" selection-end-line="3720" selection-end-column="35" />
+          <folding>
+            <marker date="1458188669068" expanded="true" signature="100854:100987" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
