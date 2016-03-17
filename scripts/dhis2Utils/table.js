@@ -82,7 +82,7 @@ Ext.onReady( function() {
 					category: {
 						name: PT.i18n.assigned_categories || 'Assigned categories',
 						dimensionName: 'co',
-						objectName: 'co',
+						objectName: 'co'
 					},
 					indicator: {
 						value: 'indicators',
