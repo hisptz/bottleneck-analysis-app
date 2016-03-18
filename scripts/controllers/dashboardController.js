@@ -754,6 +754,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 }
             }
             else if(chartType == 'map') {
+                $scope.dashboardLoader[dashboardItem.id] = true;
+                $scope.dashboardFailLoad[dashboardItem.id] = false;
                 dashboardItem.type='MAP';
                 dashboardItem.map = {};
                 mapManager.prepareMapProperties(dashboardItem);
@@ -783,7 +785,13 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
                     $scope.dashboardLoader[dashboardItem.id] = false;
                     $scope.dashboardFailLoad[dashboardItem.id] = false;
-                },function(){});
+                },function(){
+                    $scope.dashboardLoader[dashboardItem.id] = false;
+                    $scope.dashboardFailLoad[dashboardItem.id] = true;
+                });
+                },function(){
+                    $scope.dashboardLoader[dashboardItem.id] = false;
+                    $scope.dashboardFailLoad[dashboardItem.id] = true;
                 });
             }else{
 
