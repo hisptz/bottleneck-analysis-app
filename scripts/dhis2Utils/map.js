@@ -2466,7 +2466,7 @@ Ext.onReady(function() {
 
 		getMap = function() {
             var type = 'json',
-                url = gis.init.contextPath + '/api/maps/' + gis.map.id + '.' + type + '?fields=' + gis.conf.url.mapFields.join(','),
+                url = gis.init.contextPath + '../../../api/maps/' + gis.map.id + '.' + type + '?fields=' + gis.conf.url.mapFields.join(','),
                 success,
                 failure;
 
@@ -2788,7 +2788,7 @@ Ext.onReady(function() {
 
 			if (Ext.isObject(GIS.app)) {
 				Ext.Ajax.request({
-					url: gis.init.contextPath + '/api/analytics/events/query/' + view.program.id + '.json' + paramString,
+					url: gis.init.contextPath + '../../../api/analytics/events/query/' + view.program.id + '.json' + paramString,
 					disableCaching: false,
 					failure: function(r) {
                         gis.alert(r);
@@ -2800,7 +2800,7 @@ Ext.onReady(function() {
 			}
 			else if (Ext.isObject(GIS.plugin)) {
 				Ext.data.JsonP.request({
-					url: gis.init.contextPath + '/api/analytics/events/query/' + view.program.id + '.jsonp' + paramString,
+					url: gis.init.contextPath + '../../../api/analytics/events/query/' + view.program.id + '.jsonp' + paramString,
 					disableCaching: false,
 					scope: this,
 					success: function(r) {
@@ -2991,7 +2991,7 @@ Ext.onReady(function() {
                         }
                     }
 
-                    return gis.init.contextPath + '/api/geoFeatures.' + (isPlugin ? 'jsonp' : 'json') + params + '&includeGroupSets=true';
+                    return gis.init.contextPath + '../../../api/geoFeatures.' + (isPlugin ? 'jsonp' : 'json') + params + '&includeGroupSets=true';
                 }(),
                 success,
                 failure;
@@ -3060,7 +3060,7 @@ Ext.onReady(function() {
 		loadLegend = function(view) {
             var isPlugin = GIS.plugin && !GIS.app,
                 type = isPlugin ? 'jsonp' : 'json',
-                url = gis.init.contextPath + '/api/organisationUnitGroupSets/' + view.organisationUnitGroupSet.id + '.' + type + '?fields=organisationUnitGroups[id,name,symbol]',
+                url = gis.init.contextPath + '../../../api/organisationUnitGroupSets/' + view.organisationUnitGroupSet.id + '.' + type + '?fields=organisationUnitGroups[id,name,symbol]',
                 success;
 
 			view = view || layer.core.view;

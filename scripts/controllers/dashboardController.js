@@ -289,7 +289,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             {
 
                 DHIS.getChart({
-                    url: '../../../',
+                    url: '../../..',
                     el: 'plugin-' + dashboardItem.id,
                     id: dashboardItem.chart.id,
                     width: width,
@@ -548,7 +548,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             {
 
                 DHIS.getTable({
-                    url: '../../../',
+                    url: '../../..',
                     el: 'plugin-' + dashboardItem.id,
                     id: dashboardItem.reportTable.id,
                     dashboard: true,
