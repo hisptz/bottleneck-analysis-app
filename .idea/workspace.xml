@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/services/mapServices.js" afterPath="$PROJECT_DIR$/scripts/services/mapServices.js" />
     </list>
     <ignored path="idashboard.iws" />
@@ -61,13 +60,13 @@
       <file leaf-file-name="mapServices.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.29674795">
-              <caret line="75" column="26" selection-start-line="75" selection-start-column="26" selection-end-line="75" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.4796748">
+              <caret line="136" column="41" selection-start-line="136" selection-start-column="41" selection-end-line="136" selection-end-column="41" />
               <folding>
                 <element signature="e#999#1415#0" expanded="false" />
                 <element signature="e#1452#1901#0" expanded="false" />
                 <element signature="e#2834#3380#0" expanded="false" />
-                <element signature="e#22838#23197#0" expanded="false" />
+                <element signature="e#22845#23204#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -844,13 +843,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29674795">
-          <caret line="75" column="26" selection-start-line="75" selection-start-column="26" selection-end-line="75" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.4796748">
+          <caret line="136" column="41" selection-start-line="136" selection-start-column="41" selection-end-line="136" selection-end-column="41" />
           <folding>
             <element signature="e#999#1415#0" expanded="false" />
             <element signature="e#1452#1901#0" expanded="false" />
             <element signature="e#2834#3380#0" expanded="false" />
-            <element signature="e#22838#23197#0" expanded="false" />
+            <element signature="e#22845#23204#0" expanded="false" />
           </folding>
         </state>
       </provider>
