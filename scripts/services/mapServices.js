@@ -67,7 +67,7 @@ var mapManager = {
     ,
     getMapLayerBoundaries:function(organisationUnits){
         var geoLayer = {"type":"FeatureCollection","features":[]};
-            var url = "/api/geoFeatures.json?ou=ou:"+organisationUnits;
+            var url = "../../../api/geoFeatures.json?ou=ou:"+organisationUnits;
 
            var promise = $http({
                method:'GET',
