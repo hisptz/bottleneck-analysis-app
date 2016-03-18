@@ -134,7 +134,7 @@ var mapManager = {
             console.log(thematicLayer);
             mapManager.getOrganisationUnits(thematicLayer);
 
-        var analyticsUrl = "../../analytics.json?dimension=ou:"+mapManager.organisationUnits+"&dimension=dx:"+mapManager.thematicDx.id+"&filter=pe:"+mapManager.period+"&displayProperty=NAME";
+        var analyticsUrl = "../../../api/analytics.json?dimension=ou:"+mapManager.organisationUnits+"&dimension=dx:"+mapManager.thematicDx.id+"&filter=pe:"+mapManager.period+"&displayProperty=NAME";
 
 
                var promise = $http({
