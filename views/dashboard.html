@@ -231,6 +231,7 @@
                                              <openlayers ol-center="dashboardItem.map.MapCenter"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
                                                  <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
                                              </openlayers>
+                                     <div class="legendSet">{{dashboardItem.map.legend}}</div>
                                          </div>
                                          <div style="width: 100%">
                                              <highchart  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>

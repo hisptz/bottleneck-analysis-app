@@ -358,7 +358,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     skipMask: true,
                     userOrgUnit: userOrgUnit
                     }).then(function(output){
-                        var mapCenter = {zoom:5,lat:output.latitude,lon:output.longitude};
+                        var mapCenter = {zoom:5,lat:output.latitude/10000,lon:output.longitude/10000};
                     console.log(output);
                     console.log(mapCenter);
                         var shared = mapManager.getShared();
