@@ -64,8 +64,7 @@ var mapManager = {
         }else if(dimensionType=="AGGREGATE_DATA_ELEMENT"){
             return dataDimensionItems.dataElement.id;
         }
-    }
-    ,
+    },
     getMapLayerBoundaries:function(organisationUnits){
         var geoLayer = {"type":"FeatureCollection","features":[]};
             var url = "../../../api/geoFeatures.json?ou=ou:"+organisationUnits;
@@ -125,10 +124,11 @@ var mapManager = {
             return promise;
     },
     getMapThematicData:function(){
-
+console.log("THEMATIC LAYERS");
+console.log(JSON.stringify(mapManager.thematicLayers));
         // use one thematic layer to render colors on map regions
         if(mapManager.thematicLayers.length>0){
-            console.log(mapManager.thematicLayers);
+            //console.log(mapManager.thematicLayers);
             var thematicLayer = mapManager.thematicLayers[0];
             mapManager.thematicDx.name = thematicLayer.displayName;
             mapManager.thematicDx.id = mapManager.getDimensions(thematicLayer.dataDimensionItems[0]);
@@ -334,7 +334,100 @@ var mapManager = {
         });
 
         return color;
+    },
+    prepareMapProperties:function(chartObject){
+
+        if(chartObject['chart']!=null){
+            console.log("chart");
+            mapManager.collectDataFromChartObject(chartObject);
+        }
+        if(chartObject['reportTable']!=null){
+            mapManager.collectDataFromTableObject(chartObject);
+            console.log("table");
+        }
+    },
+    collectDataFromTableObject:function(chartObject){
+        var periods = chartObject.dataperiods;
+        mapManager.period = periods[0].id; //TODO this has to be chacked against emptyness of array periods
+
+        mapManager.thematicLayers.push(mapManager.prepareFalseThematicLayer());
+        console.log(chartObject);
+    },
+    collectDataFromChartObject:function(chartObject){
+        console.log(chartObject);
+
+        // TODO Prepare service variables from chart
+    },
+    prepareFalseThematicLayer:function(){
+        var falseThematic = {
+            "id": "",
+            "name": "",
+            "parentLevel": 0,
+            "method": 3,
+            "labelFontSize": "11px",
+            "colorHigh": "00FF00",
+            "completedOnly": false,
+            "labels": false,
+            "hidden": false,
+            "displayName": "",
+            "classes": 5,
+            "labelFontColor": "#000000",
+            "layer": "thematic1",
+            "labelFontStyle": "normal",
+            "labelFontWeight": "normal",
+            "radiusLow": 5,
+            "radiusHigh": 15,
+            "colorLow": "FF0000",
+            "opacity": 0.8,
+            "attributeDimensions": [],
+            "programIndicatorDimensions": [],
+            "attributeValues": [],
+            "dataDimensionItems": [
+                {
+                    "dataDimensionItemType": "INDICATOR",
+                    "indicator": {
+                        "id": "TRoamv0YPt3"
+                    }
+                }
+            ],
+            "columns": [
+                {
+                    "dimension": "dx",
+                    "items": [
+                        {
+                            "id": "TRoamv0YPt3"
+                        }
+                    ]
+                }
+            ],
+            "dataElementDimensions": [],
+            "categoryDimensions": [],
+            "filters": [
+                {
+                    "dimension": "pe",
+                    "items": [
+                        {
+                            "id": "2014"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                {
+                    "dimension": "ou",
+                    "items": [
+                        {
+                            "id": "YtVMnut7Foe"
+                        }
+                    ]
+                }
+            ],
+            "categoryOptionGroups": []
+        }
+
+        return falseThematic;
     }
+
 };
 
     return mapManager;

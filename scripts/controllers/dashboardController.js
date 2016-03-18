@@ -401,165 +401,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                         // when map layer boundaries fail to load
 
                     });
-
-
-                    //    mapManager.pushMapViews(output).then(function(response){
-                    //    var analyticsObject = response.data;
-                    //    var mapViews = analyticsObject.mapViews;
-                    //
-                    //    var layerProperties = mapManager.getLayerProperties(mapViews);
-                    //
-                    //    // get user orgunits and childrens
-                    //    mapManager.getUserOrgunit().then(function (response) {
-                    //        var userOrgUnit = response.data[0].children;
-                    //
-                    //        mapManager.prepareMapLayers(mapViews,userOrgUnit).then(function(thematicLayer,boundaryLayer){
-                    //            var boundary = [];
-                    //
-                    //
-                    //
-                    //            boundaryLayer.success(function(boundaryData){
-                    //
-                    //
-                    //                dashboardItem.map = {};
-                    //                var latitude = output.latitude/100000;
-                    //                var longitude = output.longitude/100000;
-                    //                var zoom = output.zoom-1;
-                    //
-                    //                // process thematic layers
-                    //                thematicLayer.success(function(thematicData){
-                    //
-                    //                    boundary = mapManager.getGeoJson(boundaryData,thematicData,layerProperties,{latitude:latitude,longitude:longitude,zoom:zoom});
-                    //                    angular.extend(dashboardItem.map,boundary);
-                    //
-                    //                    olData.getMap().then(function(map) {
-                    //                        var previousFeature;
-                    //                        var overlay = new ol.Overlay({
-                    //                            element: document.getElementById('districtbox'),
-                    //                            positioning: 'top-right',
-                    //                            offset: [100, -100],
-                    //                            position: [100, -100]
-                    //                        });
-                    //                        var overlayHidden = true;
-                    //                        // Mouse click function, called from the Leaflet Map Events
-                    //                        $scope.$on('openlayers.layers.geojson.mousemove', function(event, feature, olEvent) {
-                    //                            //$scope.$apply(function(scope) {
-                    //                            //
-                    //                            //    scope.selectedDistrictHover = feature ? $scope.districts[feature.getId()] : '';
-                    //                            //    if(feature) {
-                    //                            //        scope.selectedDistrictHover = feature ? $scope.districts[feature.getId()] : '';
-                    //                            //    }
-                    //                            //
-                    //                            //});
-                    //                            //
-                    //                            //if (!feature) {
-                    //                            //    map.removeOverlay(overlay);
-                    //                            //    overlayHidden = true;
-                    //                            //    return;
-                    //                            //} else if (overlayHidden) {
-                    //                            //    map.addOverlay(overlay);
-                    //                            //    overlayHidden = false;
-                    //                            //}
-                    //                            //overlay.setPosition(map.getEventCoordinate(olEvent));
-                    //                            //if (feature) {
-                    //                            //    feature.setStyle(olHelpers.createStyle({
-                    //                            //        fill: {
-                    //                            //            color: mapManager.getColor(mapManager.features[feature.getId()])
-                    //                            //        },
-                    //                            //        stroke: {
-                    //                            //            color: '#A3CEC5',
-                    //                            //            width:2
-                    //                            //
-                    //                            //        }
-                    //                            //    }));
-                    //                            //    if (previousFeature && feature !== previousFeature) {
-                    //                            //        previousFeature.setStyle(mapManager.getStyle(previousFeature));
-                    //                            //    }
-                    //                            //    previousFeature = feature;
-                    //                            //}
-                    //                        });
-                    //
-                    //                        $scope.$on('openlayers.layers.geojson.click', function(event, feature, olEvent) {
-                    //                            //$scope.$parent.main.chart_shown = false;
-                    //                            //$scope.$parent.main.backToGrid()
-                    //                            ////$scope.closeTootipHover();
-                    //                            //$scope.$apply(function(scope) {
-                    //                            //    scope.selectedDistrict = feature ? $scope.districts[feature.getId()] : '';
-                    //                            //    $scope.$parent.main.org_unit_selected = scope.selectedDistrict.district_id;
-                    //                            //    if(feature) {
-                    //                            //        // looping throught indicator types
-                    //                            //        scope.selectedDistrict = feature ? $scope.districts[feature.getId()] : '';
-                    //                            //        $scope.selectedDistrictName = scope.selectedDistrict.name;
-                    //                            //        var orgUnit = {children:null};
-                    //                            //        $scope.$parent.main.processView(orgUnit,scope.selectedDistrict.name,scope.selectedDistrict.district_id)
-                    //                            //
-                    //                            //
-                    //                            //    }
-                    //                            //});
-                    //                            //
-                    //                            //if (!feature) {
-                    //                            //    map.removeOverlay(overlay);
-                    //                            //    overlayHidden = true;
-                    //                            //    return;
-                    //                            //} else if (overlayHidden) {
-                    //                            //    map.addOverlay(overlay);
-                    //                            //    overlayHidden = false;
-                    //                            //}
-                    //                            //overlay.setPosition(map.getEventCoordinate(olEvent));
-                    //                            //if (feature) {
-                    //                            //    feature.setStyle(olHelpers.createStyle({
-                    //                            //        fill: {
-                    //                            //            color: '#FFF'
-                    //                            //        }
-                    //                            //    }));
-                    //                            //    if (previousFeature && feature !== previousFeature) {
-                    //                            //        previousFeature.setStyle(getStyle(previousFeature));
-                    //                            //    }
-                    //                            //    previousFeature = feature;
-                    //                            //}
-                    //                        });
-                    //                        //$scope.$on('openlayers.layers.geojson.featuresadded', function(event, feature, olEvent) {
-                    //                        //    $scope.$apply(function(scope) {
-                    //                        //        if(feature) {
-                    //                        //            $scope.id = feature.getId();
-                    //                        //            scope.selectedDistrict = feature ? mapManager.features[feature.getId()]: '';
-                    //                        //        }
-                    //                        //    });
-                    //                        //
-                    //                        //});
-                    //                    });
-                    //
-                    //                });
-                    //            })
-                    //
-                    //            thematicLayer.error(function(response){
-                    //                $scope.dashboardLoader[dashboardItem.id] = false;
-                    //                $scope.dashboardFailLoad[dashboardItem.id] = true;
-                    //            });
-                    //
-                    //        thematicLayer.error(function(response){
-                    //            $scope.dashboardLoader[dashboardItem.id] = false;
-                    //            $scope.dashboardFailLoad[dashboardItem.id] = true;
-                    //        });
-                    //
-                    //        boundaryLayer.error(function(response){
-                    //            $scope.dashboardLoader[dashboardItem.id] = false;
-                    //            $scope.dashboardFailLoad[dashboardItem.id] = true;
-                    //        });
-                    //
-                    //
-                    //        });
-                    //    }, function (error) {
-                    //        $scope.dashboardLoader[dashboardItem.id] = false;
-                    //        $scope.dashboardFailLoad[dashboardItem.id] = true;
-                    //    });
-                    //
-                    //
-                    //
-                    //},function(){
-                    //        $scope.dashboardLoader[dashboardItem.id] = false;
-                    //        $scope.dashboardFailLoad[dashboardItem.id] = true;
-                    //});
                     });
             }
             else if ( "REPORT_TABLE" == dashboardItem.type )
@@ -913,6 +754,37 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 }
             }
             else if(chartType == 'map') {
+                dashboardItem.type='MAP';
+                dashboardItem.map = {};
+                mapManager.prepareMapProperties(dashboardItem);
+                mapManager.getMapThematicData().then(function(){
+
+                    var mapCenter = {zoom: 5, lat: -7.139309343279099, lon: 38.864305898301};
+                    var mapRenderer = mapManager.renderMapLayers(mapCenter);
+                    console.log(dashboardItem);
+                    angular.extend(dashboardItem.map,mapRenderer);
+                    angular.extend(dashboardItem.map,mapManager.legendSet);
+
+
+                    dashboardItem.map.columSize = {};
+                    dashboardItem.map.columSize['col-md-4'] = "60%";
+                    dashboardItem.map.columSize['col-md-8'] = "80%";
+                    dashboardItem.map.columSize['col-md-12'] = "85%";
+
+                    dashboardItem.map.title = output.name;
+                    dashboardItem.map.title = output.name;
+                    dashboardItem.map.styles = {
+                        fontSize:mapManager.thematicLayers[0].labelFontSize,
+                        fontStyle:mapManager.thematicLayers[0].labelFontStyle,
+                        fontColor:mapManager.thematicLayers[0].labelFontColor,
+                        fontWeight:mapManager.thematicLayers[0].labelFontWeight
+                    }
+
+                    $scope.dashboardLoader[dashboardItem.id] = false;
+                    $scope.dashboardFailLoad[dashboardItem.id] = false;
+                },function(){});
+                //console.log(dashboardItem);
+                //console.log(chartType);
 
             }else{
 
