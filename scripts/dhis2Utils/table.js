@@ -1095,7 +1095,6 @@ Ext.onReady( function() {
 				Ext.applyIf(xLayout, layout);
 
 				// columns, rows, filters
-				console.log(layout);
 				if (layout.columns) {
 					for (var i = 0, dim, items, xDim; i < layout.columns.length; i++) {
 						dim = layout.columns[i];

@@ -228,7 +228,7 @@
                          </div>
                          <div class="panel-body" style="height: 400px;overflow: scroll">
                                  <div ng-if="dashboardItem.type=='MAP'" ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]">
-                                             <openlayers ol-center="dashboardItem.map.Africa"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
+                                             <openlayers ol-center="dashboardItem.map.MapCenter"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
                                                  <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
                                              </openlayers>
                                          </div>

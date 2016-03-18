@@ -7550,7 +7550,7 @@ console.log("not reconized");
             password: Ext.isString(config.password) ? config.password : null
         };
         var core = GIS.core.getInstance(init,appConfig);
-        config.url =   '/api/maps/' + config.id + '.json?fields=' + core.conf.url.analysisFields.join(',');
+        config.url =   '/api/maps/' + config.id + '.json?fields=' + core.conf.url.mapFields.join(',');
         getInit(config);
         var promise = $.ajax({
             url: config.url,
@@ -7564,7 +7564,6 @@ console.log("not reconized");
                 onFailure(r);
             },
             success: function(r) {
-                //console.log(r);
             }
         });
         return promise;
