@@ -383,11 +383,6 @@ var mapManager = {
             if(rowsValue.dimension=="pe"){
                 refinedObject.filters.push(rowsValue)
             }
-            //if(refinedObject.rows.length==1){
-            //    if(refinedObject.rows[0].items[0].id=="m0frOspS7JY"){ // TODO remove the hard coding of org unit id
-            //        refinedObject.rows[0].items[0].push({id:"LEVEL-2"});
-            //    }
-            //}
         });
 
         /// prepare periods
@@ -396,14 +391,55 @@ var mapManager = {
             pe+=periodValue.id+";"
         });
         mapManager.organisationUnits = pe.substring(0,pe.length-1);
-        //refinedObject.name = chartObject.name;
         mapManager.thematicLayers.push(mapManager.prepareFalseThematicLayer(refinedObject));
-        console.log(chartObject);
     },
     collectDataFromChartObject:function(chartObject){
-        console.log(chartObject);
+        var dataObject = chartObject.object;
+        var periods = chartObject.dataperiods;
+        console.log(dataObject);
 
-        // TODO Prepare service variables from chart
+
+        mapManager.period = periods[0].id; //TODO this has to be chacked against emptyness of array periods
+        var refinedObject = {};
+        refinedObject.id = dataObject.id;
+        refinedObject.name = dataObject.displayName;
+        refinedObject.dataDimensionItems = dataObject.dataDimensionItems; // TODO create a mechanism to change data dimension items
+        refinedObject.rows = [];
+        refinedObject.filters = [];
+        angular.forEach(dataObject.filters,function(filterValue,filterIndex){
+            if(filterValue.dimension=="ou"){
+                refinedObject.rows.push(filterValue)
+            }
+
+            if(filterValue.dimension=="pe"){
+                refinedObject.filters.push(filterValue)
+            }
+
+            if(refinedObject.rows.length==1){
+                if(refinedObject.rows[0].items[0].id=="m0frOspS7JY"){ // TODO remove the hard coding of org unit id
+                    refinedObject.rows[0].items.push({id:"LEVEL-2"});
+                }
+            }
+
+        });
+
+        angular.forEach(dataObject.rows,function(rowsValue,rowsIndex){
+            if(rowsValue.dimension=="ou"){
+                refinedObject.rows.push(rowsValue)
+            }
+
+            if(rowsValue.dimension=="pe"){
+                refinedObject.filters.push(rowsValue)
+            }
+        });
+
+        /// prepare periods
+        var pe = "";
+        angular.forEach(refinedObject.rows[0].items,function(periodValue,periodIndex){
+            pe+=periodValue.id+";"
+        });
+        mapManager.organisationUnits = pe.substring(0,pe.length-1);
+        mapManager.thematicLayers.push(mapManager.prepareFalseThematicLayer(refinedObject));
     },
     prepareFalseThematicLayer:function(refinedObject){
         var falseThematic = {

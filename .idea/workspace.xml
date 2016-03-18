@@ -67,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mapServices.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mapServices.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.694382">
-              <caret line="396" column="11" selection-start-line="396" selection-start-column="11" selection-end-line="396" selection-end-column="11" />
+            <state vertical-scroll-proportion="-44.548386">
+              <caret line="441" column="92" selection-start-line="441" selection-start-column="92" selection-end-line="441" selection-end-column="92" />
               <folding>
                 <element signature="e#426#994#0" expanded="false" />
                 <element signature="e#1026#1442#0" expanded="false" />
@@ -87,21 +87,20 @@
                 <element signature="e#10257#11025#0" expanded="false" />
                 <element signature="e#11076#11285#0" expanded="false" />
                 <element signature="e#11327#12043#0" expanded="false" />
-                <element signature="e#16265#16624#0" expanded="false" />
+                <element signature="e#17613#17972#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.225806">
-              <caret line="758" column="35" selection-start-line="758" selection-start-column="35" selection-end-line="758" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.41573033">
+              <caret line="776" column="48" selection-start-line="776" selection-start-column="48" selection-end-line="776" selection-end-column="48" />
               <folding>
                 <element signature="e#39479#39601#0" expanded="false" />
                 <element signature="e#39674#39900#0" expanded="false" />
-                <element signature="e#43271#44609#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -491,7 +490,6 @@
           <folding>
             <element signature="e#39479#39601#0" expanded="false" />
             <element signature="e#39674#39900#0" expanded="false" />
-            <element signature="e#43271#44609#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -626,7 +624,6 @@
           <folding>
             <element signature="e#39479#39601#0" expanded="false" />
             <element signature="e#39674#39900#0" expanded="false" />
-            <element signature="e#43271#44609#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -891,22 +888,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.225806">
-          <caret line="758" column="35" selection-start-line="758" selection-start-column="35" selection-end-line="758" selection-end-column="35" />
-          <folding>
-            <element signature="e#39479#39601#0" expanded="false" />
-            <element signature="e#39674#39900#0" expanded="false" />
-            <element signature="e#43271#44609#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.694382">
-          <caret line="396" column="11" selection-start-line="396" selection-start-column="11" selection-end-line="396" selection-end-column="11" />
+        <state vertical-scroll-proportion="-44.548386">
+          <caret line="441" column="92" selection-start-line="441" selection-start-column="92" selection-end-line="441" selection-end-column="92" />
           <folding>
             <element signature="e#426#994#0" expanded="false" />
             <element signature="e#1026#1442#0" expanded="false" />
@@ -922,7 +907,18 @@
             <element signature="e#10257#11025#0" expanded="false" />
             <element signature="e#11076#11285#0" expanded="false" />
             <element signature="e#11327#12043#0" expanded="false" />
-            <element signature="e#16265#16624#0" expanded="false" />
+            <element signature="e#17613#17972#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41573033">
+          <caret line="776" column="48" selection-start-line="776" selection-start-column="48" selection-end-line="776" selection-end-column="48" />
+          <folding>
+            <element signature="e#39479#39601#0" expanded="false" />
+            <element signature="e#39674#39900#0" expanded="false" />
           </folding>
         </state>
       </provider>

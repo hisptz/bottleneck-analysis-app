@@ -784,8 +784,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     $scope.dashboardLoader[dashboardItem.id] = false;
                     $scope.dashboardFailLoad[dashboardItem.id] = false;
                 },function(){});
-                //console.log(dashboardItem);
-                //console.log(chartType);
                 });
             }else{
 
