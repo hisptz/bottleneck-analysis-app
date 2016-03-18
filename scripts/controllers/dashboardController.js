@@ -771,8 +771,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     dashboardItem.map.columSize['col-md-8'] = "80%";
                     dashboardItem.map.columSize['col-md-12'] = "85%";
 
-                    dashboardItem.map.title = output.name;
-                    dashboardItem.map.title = output.name;
+                    dashboardItem.map.title = mapManager.thematicLayers[0].name;
+                    dashboardItem.map.title = mapManager.thematicLayers[0].name;
                     dashboardItem.map.styles = {
                         fontSize:mapManager.thematicLayers[0].labelFontSize,
                         fontStyle:mapManager.thematicLayers[0].labelFontStyle,

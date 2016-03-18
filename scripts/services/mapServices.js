@@ -349,8 +349,10 @@ console.log(JSON.stringify(mapManager.thematicLayers));
     collectDataFromTableObject:function(chartObject){
         var periods = chartObject.dataperiods;
         mapManager.period = periods[0].id; //TODO this has to be chacked against emptyness of array periods
-
-        mapManager.thematicLayers.push(mapManager.prepareFalseThematicLayer());
+        var refinedObject = {};
+        refinedObject.id = chartObject.id;
+        refinedObject.name = chartObject.name;
+        mapManager.thematicLayers.push(mapManager.prepareFalseThematicLayer(refinedObject));
         console.log(chartObject);
     },
     collectDataFromChartObject:function(chartObject){
@@ -358,10 +360,10 @@ console.log(JSON.stringify(mapManager.thematicLayers));
 
         // TODO Prepare service variables from chart
     },
-    prepareFalseThematicLayer:function(){
+    prepareFalseThematicLayer:function(refinedObject){
         var falseThematic = {
-            "id": "",
-            "name": "",
+            "id": refinedObject.id,
+            "name": refinedObject.name,
             "parentLevel": 0,
             "method": 3,
             "labelFontSize": "11px",

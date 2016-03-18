@@ -70,8 +70,8 @@
       <file leaf-file-name="mapServices.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.774194">
-              <caret line="353" column="33" selection-start-line="353" selection-start-column="33" selection-end-line="353" selection-end-column="33" />
+            <state vertical-scroll-proportion="-2.451613">
+              <caret line="352" column="41" selection-start-line="352" selection-start-column="41" selection-end-line="352" selection-end-column="41" />
               <folding>
                 <element signature="e#426#994#0" expanded="false" />
                 <element signature="e#1026#1442#0" expanded="false" />
@@ -89,10 +89,9 @@
                 <element signature="e#11255#11464#0" expanded="false" />
                 <element signature="e#11506#12222#0" expanded="false" />
                 <element signature="e#12270#12580#0" expanded="false" />
-                <element signature="e#13132#15021#0" expanded="false" />
-                <element signature="e#13906#14084#0" expanded="false" />
-                <element signature="e#14123#14366#0" expanded="false" />
-                <element signature="e#15116#15475#0" expanded="false" />
+                <element signature="e#14083#14261#0" expanded="false" />
+                <element signature="e#14300#14543#0" expanded="false" />
+                <element signature="e#15293#15652#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -101,8 +100,8 @@
       <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45393258">
-              <caret line="764" column="45" selection-start-line="764" selection-start-column="45" selection-end-line="764" selection-end-column="45" />
+            <state vertical-scroll-proportion="1.0606742">
+              <caret line="774" column="74" selection-start-line="774" selection-start-column="74" selection-end-line="774" selection-end-column="74" />
               <folding>
                 <element signature="e#39479#39601#0" expanded="false" />
                 <element signature="e#39674#39900#0" expanded="false" />
@@ -895,8 +894,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.774194">
-          <caret line="353" column="33" selection-start-line="353" selection-start-column="33" selection-end-line="353" selection-end-column="33" />
+        <state vertical-scroll-proportion="-2.451613">
+          <caret line="352" column="41" selection-start-line="352" selection-start-column="41" selection-end-line="352" selection-end-column="41" />
           <folding>
             <element signature="e#426#994#0" expanded="false" />
             <element signature="e#1026#1442#0" expanded="false" />
@@ -914,18 +913,17 @@
             <element signature="e#11255#11464#0" expanded="false" />
             <element signature="e#11506#12222#0" expanded="false" />
             <element signature="e#12270#12580#0" expanded="false" />
-            <element signature="e#13132#15021#0" expanded="false" />
-            <element signature="e#13906#14084#0" expanded="false" />
-            <element signature="e#14123#14366#0" expanded="false" />
-            <element signature="e#15116#15475#0" expanded="false" />
+            <element signature="e#14083#14261#0" expanded="false" />
+            <element signature="e#14300#14543#0" expanded="false" />
+            <element signature="e#15293#15652#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45393258">
-          <caret line="764" column="45" selection-start-line="764" selection-start-column="45" selection-end-line="764" selection-end-column="45" />
+        <state vertical-scroll-proportion="1.0606742">
+          <caret line="774" column="74" selection-start-line="774" selection-start-column="74" selection-end-line="774" selection-end-column="74" />
           <folding>
             <element signature="e#39479#39601#0" expanded="false" />
             <element signature="e#39674#39900#0" expanded="false" />
