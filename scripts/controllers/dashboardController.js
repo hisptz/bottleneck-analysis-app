@@ -757,6 +757,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 dashboardItem.type='MAP';
                 dashboardItem.map = {};
                 mapManager.prepareMapProperties(dashboardItem);
+                mapManager.getMapLayerBoundaries(mapManager.organisationUnits).then(function(){
                 mapManager.getMapThematicData().then(function(){
 
                     var mapCenter = {zoom: 5, lat: -7.139309343279099, lon: 38.864305898301};
@@ -785,7 +786,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 },function(){});
                 //console.log(dashboardItem);
                 //console.log(chartType);
-
+                });
             }else{
 
                 dashboardItem.type='CHART';

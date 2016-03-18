@@ -67,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mapServices.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mapServices.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.451613">
-              <caret line="352" column="41" selection-start-line="352" selection-start-column="41" selection-end-line="352" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.694382">
+              <caret line="396" column="11" selection-start-line="396" selection-start-column="11" selection-end-line="396" selection-end-column="11" />
               <folding>
                 <element signature="e#426#994#0" expanded="false" />
                 <element signature="e#1026#1442#0" expanded="false" />
@@ -79,32 +79,29 @@
                 <element signature="e#1976#2269#0" expanded="false" />
                 <element signature="e#2324#4385#0" expanded="false" />
                 <element signature="e#2856#3402#0" expanded="false" />
-                <element signature="e#4420#5635#0" expanded="false" />
-                <element signature="e#5676#8053#0" expanded="false" />
-                <element signature="e#8093#8777#0" expanded="false" />
-                <element signature="e#8803#8833#0" expanded="false" />
-                <element signature="e#8880#9352#0" expanded="false" />
-                <element signature="e#9384#10391#0" expanded="false" />
-                <element signature="e#10436#11204#0" expanded="false" />
-                <element signature="e#11255#11464#0" expanded="false" />
-                <element signature="e#11506#12222#0" expanded="false" />
-                <element signature="e#12270#12580#0" expanded="false" />
-                <element signature="e#14083#14261#0" expanded="false" />
-                <element signature="e#14300#14543#0" expanded="false" />
-                <element signature="e#15293#15652#0" expanded="false" />
+                <element signature="e#5497#7874#0" expanded="false" />
+                <element signature="e#7914#8598#0" expanded="false" />
+                <element signature="e#8624#8654#0" expanded="false" />
+                <element signature="e#8701#9173#0" expanded="false" />
+                <element signature="e#9205#10212#0" expanded="false" />
+                <element signature="e#10257#11025#0" expanded="false" />
+                <element signature="e#11076#11285#0" expanded="false" />
+                <element signature="e#11327#12043#0" expanded="false" />
+                <element signature="e#16265#16624#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0606742">
-              <caret line="774" column="74" selection-start-line="774" selection-start-column="74" selection-end-line="774" selection-end-column="74" />
+            <state vertical-scroll-proportion="-4.225806">
+              <caret line="758" column="35" selection-start-line="758" selection-start-column="35" selection-end-line="758" selection-end-column="35" />
               <folding>
                 <element signature="e#39479#39601#0" expanded="false" />
                 <element signature="e#39674#39900#0" expanded="false" />
+                <element signature="e#43271#44609#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -177,8 +174,8 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/scripts/dhis2Utils/map.js" />
         <option value="$PROJECT_DIR$/views/dashboard.html" />
-        <option value="$PROJECT_DIR$/scripts/services/mapServices.js" />
         <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
+        <option value="$PROJECT_DIR$/scripts/services/mapServices.js" />
       </list>
     </option>
   </component>
@@ -494,6 +491,7 @@
           <folding>
             <element signature="e#39479#39601#0" expanded="false" />
             <element signature="e#39674#39900#0" expanded="false" />
+            <element signature="e#43271#44609#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -628,6 +626,7 @@
           <folding>
             <element signature="e#39479#39601#0" expanded="false" />
             <element signature="e#39674#39900#0" expanded="false" />
+            <element signature="e#43271#44609#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -892,10 +891,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.225806">
+          <caret line="758" column="35" selection-start-line="758" selection-start-column="35" selection-end-line="758" selection-end-column="35" />
+          <folding>
+            <element signature="e#39479#39601#0" expanded="false" />
+            <element signature="e#39674#39900#0" expanded="false" />
+            <element signature="e#43271#44609#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.451613">
-          <caret line="352" column="41" selection-start-line="352" selection-start-column="41" selection-end-line="352" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.694382">
+          <caret line="396" column="11" selection-start-line="396" selection-start-column="11" selection-end-line="396" selection-end-column="11" />
           <folding>
             <element signature="e#426#994#0" expanded="false" />
             <element signature="e#1026#1442#0" expanded="false" />
@@ -903,30 +914,15 @@
             <element signature="e#1976#2269#0" expanded="false" />
             <element signature="e#2324#4385#0" expanded="false" />
             <element signature="e#2856#3402#0" expanded="false" />
-            <element signature="e#4420#5635#0" expanded="false" />
-            <element signature="e#5676#8053#0" expanded="false" />
-            <element signature="e#8093#8777#0" expanded="false" />
-            <element signature="e#8803#8833#0" expanded="false" />
-            <element signature="e#8880#9352#0" expanded="false" />
-            <element signature="e#9384#10391#0" expanded="false" />
-            <element signature="e#10436#11204#0" expanded="false" />
-            <element signature="e#11255#11464#0" expanded="false" />
-            <element signature="e#11506#12222#0" expanded="false" />
-            <element signature="e#12270#12580#0" expanded="false" />
-            <element signature="e#14083#14261#0" expanded="false" />
-            <element signature="e#14300#14543#0" expanded="false" />
-            <element signature="e#15293#15652#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0606742">
-          <caret line="774" column="74" selection-start-line="774" selection-start-column="74" selection-end-line="774" selection-end-column="74" />
-          <folding>
-            <element signature="e#39479#39601#0" expanded="false" />
-            <element signature="e#39674#39900#0" expanded="false" />
+            <element signature="e#5497#7874#0" expanded="false" />
+            <element signature="e#7914#8598#0" expanded="false" />
+            <element signature="e#8624#8654#0" expanded="false" />
+            <element signature="e#8701#9173#0" expanded="false" />
+            <element signature="e#9205#10212#0" expanded="false" />
+            <element signature="e#10257#11025#0" expanded="false" />
+            <element signature="e#11076#11285#0" expanded="false" />
+            <element signature="e#11327#12043#0" expanded="false" />
+            <element signature="e#16265#16624#0" expanded="false" />
           </folding>
         </state>
       </provider>
