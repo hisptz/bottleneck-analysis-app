@@ -11,6 +11,7 @@ var mapManager = {
     thematicDx:{},
     analyticsObject:{},
     period:null,
+    legendSet:{legend:{}},
     getOrganisationUnits:function(){
         var thematicLayerOne = mapManager.thematicLayers[0]
         mapManager.getPeriod(thematicLayerOne);
@@ -159,7 +160,7 @@ var mapManager = {
                       var colorArray = mapManager.getColorArray(layer.colorLow,layer.colorHigh,layer.classes);
                       var valueIntervals = mapManager.getValueInterval(mapManager.analyticsObject,layer.classes);
                       var legend = mapManager.getLegend(colorArray,valueIntervals);
-
+                      mapManager.legendSet.legend = legend;
                       angular.forEach(mapManager.analyticsObject,function(value,index){
                           console.log(value);
                           console.log(mapManager.features);
