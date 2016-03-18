@@ -235,7 +235,13 @@
                          </div>
                          <div class="panel-body" style="height: 400px;overflow: scroll">
                                  <div ng-if="dashboardItem.type=='MAP'" ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]">
-                                             <div class="row legendSet" style="font-size: {{dashboardItem.map.styles.fontSize}}!important;font-weight: {{dashboardItem.map.styles.fontWeight}}!important;font-color:{{dashboardItem.map.styles.fontColor}}!important;margin-left: {{dashboardItem.map.columSize[dashboardItem.column_size]}}!important;">
+                                         <div>
+                                             <p style="border: 0px none; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 12px; font-family: LiberationSans, arial, sans-serif; color: rgb(51, 51, 51); text-align: center; line-height: 14px; letter-spacing: -0.1px; width: 408px; height: 19px; left: 0px; top: 0px; background-color: rgb(255, 255, 255);">
+                                                 {{dashboardItem.map.title}}
+                                             </p>
+                                         </div>
+                                         <div>
+                                            <div class="row legendSet" style="font-size: {{dashboardItem.map.styles.fontSize}}!important;font-weight: {{dashboardItem.map.styles.fontWeight}}!important;font-color:{{dashboardItem.map.styles.fontColor}}!important;margin-left: {{dashboardItem.map.columSize[dashboardItem.column_size]}}!important;">
                                                  <div class="panel panel-default" style="width:160px!important;">
                                                      <div class="panel-body" style="background-color:#cfcfcf!important;padding:5px!important;">
                                                          <div  style="background-color: #ffffff!important;">
@@ -253,9 +259,11 @@
 
                                              </div>
 
-                                             <openlayers ol-center="dashboardItem.map.MapCenter"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" heigh="400px">
+                                             <openlayers ol-center="dashboardItem.map.MapCenter"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" height="340px" style="border:1px solid #cccccc; ">
                                                  <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
                                              </openlayers>
+
+                                         </div>
 
                                          </div>
                                          <div style="width: 100%">
