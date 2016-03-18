@@ -358,8 +358,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     skipMask: true,
                     userOrgUnit: userOrgUnit
                     }).then(function(output){
-                        //var mapCenter = {zoom:5,lat:output.latitude/100000,lon:output.longitude/100000};
-                        var mapCenter = {zoom:5,lat:output.latitude,lon:output.longitude};
+                        var mapCenter = {zoom:5,lat:output.latitude/100000,lon:output.longitude/100000};
+                        //var mapCenter = {zoom:5,lat:output.latitude,lon:output.longitude};
 
                     console.log(output);
                     console.log(mapCenter);
@@ -379,8 +379,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
                         dashboardItem.map.columSize = {};
                         dashboardItem.map.columSize['col-md-4'] = "60%";
-                        dashboardItem.map.columSize['col-md-8'] = "70%";
-                        dashboardItem.map.columSize['col-md-12'] = "80%";
+                        dashboardItem.map.columSize['col-md-8'] = "80%";
+                        dashboardItem.map.columSize['col-md-12'] = "85%";
 
                         dashboardItem.map.title = output.name;
                         dashboardItem.map.title = output.name;
