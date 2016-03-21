@@ -10,6 +10,7 @@ var mapManager = {
     thematicLayers:[],
     thematicDx:{},
     analyticsObject:{},
+    analytics:{},
     period:null,
     legendSet:{legend:{}},
     getOrganisationUnits:function(){
@@ -123,7 +124,7 @@ var mapManager = {
             return promise;
     },
     getMapThematicData:function(){
-    console.log(mapManager.thematicLayers);
+
         // use one thematic layer to render colors on map regions
         if(mapManager.thematicLayers.length>0){
 
@@ -144,6 +145,7 @@ var mapManager = {
                    isModified:true
                }).success(
                    function(data){
+                       mapManager.analytics = data;
                        mapManager.analyticsObject = data.rows;
                    }
                );
@@ -473,18 +475,21 @@ var mapManager = {
 
         return falseThematic;
     },
-    registerMapEvents:function(scope){
+    registerMapEvents:function(scope,dashboardId,callBack){
         olData.getMap().then(function(map) {
             var previousFeature;
             var overlay = new ol.Overlay({
-                element: document.getElementById('districtbox'),
-                positioning: 'top-right',
+                element: document.getElementById('tootip_'+dashboardId),
+                positioning: 'top-center',
                 offset: [100, -100],
                 position: [100, -100]
             });
             var overlayHidden = true;
             // Mouse click function, called from the Leaflet Map Events
             scope.$on('openlayers.layers.geojson.mousemove', function(event, feature, olEvent) {
+
+                scope.previousFeature = feature.getId();
+
                 scope.$apply(function(scope) {
 
                     //$scope.selectedDistrictHover = feature ? mapService.features[feature.getId()] : '';
@@ -495,15 +500,14 @@ var mapManager = {
 
                 });
 
-                //if (!feature) {
-                //    $scope.selectedDistrictHover = null;
-                //    map.removeOverlay(overlay);
-                //    overlayHidden = true;
-                //    return;
-                //} else if (overlayHidden) {
-                //    map.addOverlay(overlay);
-                //    overlayHidden = false;
-                //}
+                if (!feature) {
+                    map.removeOverlay(overlay);
+                    overlayHidden = true;
+                    return;
+                } else if (overlayHidden) {
+                    map.addOverlay(overlay);
+                    overlayHidden = false;
+                }
                 //overlay.setPosition(map.getEventCoordinate(olEvent));
                 //if (feature) {
                 //    feature.setStyle(olHelpers.createStyle({
@@ -522,12 +526,18 @@ var mapManager = {
                 //    }
                 //    previousFeature = feature;
                 //}
+
+                callBack(scope);
             });
 
             scope.$on('openlayers.layers.geojson.click', function(event, feature, olEvent) {
 
                 scope.$apply(function(scope) {
-                    console.log(feature);
+                    scope.touchedFeature = feature.getId();
+                    //scope.$apply(function() {
+                    //    console.log("update time clicked");
+                    //})
+                    //console.log(scope);
                     //$scope.selectedDistrict = feature ? mapService.features[feature.getId()] : '';
                     //if(feature) {
                     //    // looping throught indicator types
@@ -574,6 +584,8 @@ var mapManager = {
                 //    }
                 //    previousFeature = feature;
                 //}
+
+                callBack(scope);
             });
 
             scope.$on('openlayers.layers.geojson.featuresadded', function(event, feature, olEvent) {
@@ -590,6 +602,7 @@ var mapManager = {
 
 
         });
+
     }
 
 };

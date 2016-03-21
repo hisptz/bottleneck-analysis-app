@@ -3,6 +3,53 @@
         margin: 20px 20px;
     }
 
+    .info {
+        background-color: #fff;
+        border: 2px #444 solid;
+        border-radius: 7px;
+        -webkit-box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+        -moz-box-shadow:    4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+        box-shadow:         4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+        color: #111;
+        font-size: 13px;
+        position: absolute;
+        bottom:30em;
+        left: 15em;
+        z-index: 100;
+        font-weight: bold;
+        padding: .2em .5em;
+        white-space: nowrap;
+        line-height: 1.1em;
+        text-align: center;
+        z-index: 100;
+    }
+    .info:before {
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        content: "";
+        border-right: 6px solid black;
+        border-right-color: inherit;
+        position: absolute;
+        left: -8px;
+        top: 20px;
+    }
+
+    .infoh {
+        background-color: #61616F;
+        color: #ffffff;
+        font-size: 9px;
+        position: absolute;
+        left: 20em;
+        z-index: 100;
+        font-weight: bold;
+        padding:.5em;
+        white-space: nowrap;
+        /*line-height: 1.1em;*/
+        text-align: center;
+        z-index: 90;
+    }
+
+
     .modal-backdrop.am-fade {
         opacity: .5;
         transition: opacity .15s linear;
@@ -241,6 +288,18 @@
                                              </p>
                                          </div>
                                          <div>
+
+                                             <div id="tooltip_{{dashboardItem.id}}"   class="infoh district " >
+                                                 <p>{{touchedFeature.name}} ({{touchedFeature.value}})</p>
+                                                 <!--<table >-->
+                                                     <!--<tr><td style="background-color: #2D9630">&nbsp;</td><td style="text-align: left;">Uploaded</td><td  style="text-align: left;">{{submitted}}</td></tr>-->
+                                                     <!--<tr><td style="background-color: #F93030;">&nbsp;</td><td style="text-align: left;">Not Uploaded</td><td style="text-align: left;">{{notsubmitted}}</td></tr>-->
+                                                     <!--<tr ng-if="selectedDistrictHover"><td colspan="3"><br/>{{selectedDistrictHover.name}}</td></tr>-->
+                                                 <!--</table>-->
+
+                                             </div>
+
+
                                             <div class="row legendSet" style="font-size: {{dashboardItem.map.styles.fontSize}}!important;font-weight: {{dashboardItem.map.styles.fontWeight}}!important;font-color:{{dashboardItem.map.styles.fontColor}}!important;margin-left: {{dashboardItem.map.columSize[dashboardItem.column_size]}}!important;">
                                                  <div class="panel panel-default" style="width:160px!important;">
                                                      <div class="panel-body" style="background-color:#cfcfcf!important;padding:0px!important;">

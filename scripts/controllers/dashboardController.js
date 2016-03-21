@@ -358,8 +358,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     skipMask: true,
                     userOrgUnit: userOrgUnit
                     }).then(function(output){
-                        //var mapCenter = {zoom:5,lat:output.latitude/100000,lon:output.longitude/100000};
-                        var mapCenter = {zoom:5,lat:output.latitude,lon:output.longitude};
+                        var mapCenter = {zoom:5,lat:output.latitude/100000,lon:output.longitude/100000};
+                        //var mapCenter = {zoom:5,lat:output.latitude,lon:output.longitude};
 
                         var shared = mapManager.getShared();
                         shared.facility = 3029;
@@ -368,11 +368,19 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     mapManager.getOrganisationUnits();
                     mapManager.getMapLayerBoundaries(mapManager.organisationUnits).then(function(){
                     mapManager.getMapThematicData().then(function(){
+                        $scope.dashboardAnalytics[dashboardItem.id] = mapManager.analytics;
                         var mapRenderer = mapManager.renderMapLayers(mapCenter);
                         angular.extend(dashboardItem.map,mapRenderer);
                         angular.extend(dashboardItem.map,mapManager.legendSet);
+                        $scope.touchedFeature = {};
+                        mapManager.registerMapEvents($scope,dashboardItem.id,function(scope){
+                            $scope.touchedFeature.name = scope.previousFeature;
 
-                        mapManager.registerMapEvents($scope);
+                            $scope.$watch($scope.touchedFeature,function(newFeature,oldFeature){
+
+                            });
+
+                        });
 
                         dashboardItem.map.columSize = {};
                         dashboardItem.map.columSize['col-md-4'] = "60%";
@@ -706,6 +714,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
            $scope.dashboardChartType[dashboardItem.id] = chartType;
             if( chartType == 'table') {
                 dashboardItem.type='REPORT_TABLE';
+                console.log(mapManager.analytics);
                 var columns = {};
                 var rows = {};
                 var filters = {};
@@ -745,6 +754,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     $scope.firstRow[dashboardItem.id]=TableRenderer.drawTableWithSingleRowDimension($scope.dashboardAnalytics[dashboardItem.id],firstRow,secondRow);
                     $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension($scope.dashboardAnalytics[dashboardItem.id],firstRow,columns.column,secondRow);
                 }else{
+
                     $scope.tableDimension[dashboardItem.id]='1';
                     $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal($scope.dashboardAnalytics[dashboardItem.id],columns.column," ");
                     $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw($scope.dashboardAnalytics[dashboardItem.id],rows.rows,columns.column);
@@ -758,12 +768,20 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 mapManager.prepareMapProperties(dashboardItem);
                 mapManager.getMapLayerBoundaries(mapManager.organisationUnits).then(function(){
                 mapManager.getMapThematicData().then(function(){
-
-                    var mapCenter = {zoom: 5, lat: -7.139309343279099, lon: 38.864305898301};
+                    $scope.dashboardAnalytics[dashboardItem.id] = mapManager.analytics;
+                    var mapCenter = {zoom: 5, lat: -7.139309343279099, lon: 38.864305898301}; /// TODO writing a function to center map drawn from chart and table anlytic object
                     var mapRenderer = mapManager.renderMapLayers(mapCenter);
                     angular.extend(dashboardItem.map,mapRenderer);
                     angular.extend(dashboardItem.map,mapManager.legendSet);
-                    mapManager.registerMapEvents($scope);
+                    $scope.touchedFeature = {};
+                    mapManager.registerMapEvents($scope,dashboardItem.id,function(scope){
+                        $scope.touchedFeature.name = scope.previousFeature;
+
+                        $scope.$watch($scope.touchedFeature,function(newFeature,oldFeature){
+
+                        });
+
+                    });
 
                     dashboardItem.map.columSize = {};
                     dashboardItem.map.columSize['col-md-4'] = "60%";
