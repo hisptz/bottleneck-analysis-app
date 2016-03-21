@@ -32,7 +32,6 @@ var mapManager = {
     getPeriod:function(output){
             var period = "";
         angular.forEach(output.filters,function(periodValue){
-            console.log(periodValue);
                 angular.forEach(periodValue.items,function(value,index){
                             period += value.id+";";
                 });
@@ -124,7 +123,7 @@ var mapManager = {
             return promise;
     },
     getMapThematicData:function(){
-
+    console.log(mapManager.thematicLayers);
         // use one thematic layer to render colors on map regions
         if(mapManager.thematicLayers.length>0){
 
@@ -135,7 +134,7 @@ var mapManager = {
             mapManager.getOrganisationUnits(thematicLayer);
 
         var analyticsUrl = "../../../api/analytics.json?dimension=ou:"+mapManager.organisationUnits+"&dimension=dx:"+mapManager.thematicDx.id+"&filter=pe:"+mapManager.period+"&displayProperty=NAME";
-
+            mapManager.analyticsObject = {};
 
                var promise = $http({
                    method:'GET',
@@ -161,8 +160,6 @@ var mapManager = {
                       var legend = mapManager.getLegend(colorArray,valueIntervals);
                       mapManager.legendSet.legend = legend;
                       angular.forEach(mapManager.analyticsObject,function(value,index){
-                          console.log(value);
-                          console.log(mapManager.features);
                           var    layerOpacity = layer.opacity;
                           mapManager.features[value[1]] = {
                                   facility_id:value[1],
@@ -290,8 +287,6 @@ var mapManager = {
             valueArray.push(Number(value[2]));
         });
         valueArray.sort(function(a, b){return a-b});
-        console.log("SORTED VALUE ARRAY");
-        console.log(valueArray);
         var interval = ((valueArray[valueArray.length-1]-valueArray[0])/classes).toFixed(0);
 
         var start = valueArray[0];
@@ -315,17 +310,11 @@ var mapManager = {
         return valueIntervals;
     },
     decideColor:function(objects,legend){
-        console.log("LEGEND");
-        console.log(legend);
         var color = "";
         var indicatorValue = toDecimal(objects[2]);
         angular.forEach(legend,function(value,index){
-            console.log("LEGEND INTERVAL");
 
             var interval = (value.interval).split(" - ");
-            console.log(interval);
-            console.log(indicatorValue);
-            console.log(Number(indicatorValue)-Number(interval[1]));
                 if(Number(interval[0])<=Number(indicatorValue)&&Number(indicatorValue)<Number(interval[1])){
                     color    = value.color;
                     mapManager.legendSet.legend[index].count+=1;
@@ -337,18 +326,16 @@ var mapManager = {
     prepareMapProperties:function(chartObject){
 
         if(chartObject['chart']!=null){
-            console.log("chart");
             mapManager.collectDataFromChartObject(chartObject);
         }
         if(chartObject['reportTable']!=null){
             mapManager.collectDataFromTableObject(chartObject);
-            console.log("table");
         }
     },
     collectDataFromTableObject:function(chartObject){
+        mapManager.thematicLayers = [];
         var dataObject = chartObject.object;
         var periods = chartObject.dataperiods;
-        console.log(dataObject);
 
 
         mapManager.period = periods[0].id; //TODO this has to be chacked against emptyness of array periods
@@ -394,9 +381,9 @@ var mapManager = {
         mapManager.thematicLayers.push(mapManager.prepareFalseThematicLayer(refinedObject));
     },
     collectDataFromChartObject:function(chartObject){
+        mapManager.thematicLayers = [];
         var dataObject = chartObject.object;
         var periods = chartObject.dataperiods;
-        console.log(dataObject);
 
 
         mapManager.period = periods[0].id; //TODO this has to be chacked against emptyness of array periods

@@ -361,16 +361,12 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                         //var mapCenter = {zoom:5,lat:output.latitude/100000,lon:output.longitude/100000};
                         var mapCenter = {zoom:5,lat:output.latitude,lon:output.longitude};
 
-                    console.log(output);
-                    console.log(mapCenter);
                         var shared = mapManager.getShared();
                         shared.facility = 3029;
 
                     mapManager.separateLayers(output);
                     mapManager.getOrganisationUnits();
-                    console.log(mapManager.organisationUnits);
                     mapManager.getMapLayerBoundaries(mapManager.organisationUnits).then(function(){
-                    console.log(mapManager.geoLayer);
                     mapManager.getMapThematicData().then(function(){
                         var mapRenderer = mapManager.renderMapLayers(mapCenter);
                         angular.extend(dashboardItem.map,mapRenderer);
@@ -764,7 +760,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
                     var mapCenter = {zoom: 5, lat: -7.139309343279099, lon: 38.864305898301};
                     var mapRenderer = mapManager.renderMapLayers(mapCenter);
-                    console.log(dashboardItem);
                     angular.extend(dashboardItem.map,mapRenderer);
                     angular.extend(dashboardItem.map,mapManager.legendSet);
 
