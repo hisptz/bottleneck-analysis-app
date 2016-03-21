@@ -1,6 +1,6 @@
 var mapServices = angular.module('mapServices',['ngResource']);
 
-mapServices.factory('mapManager',['$http','olHelpers','shared',function($http,olHelpers,shared){
+mapServices.factory('mapManager',['$http','olData','olHelpers','shared',function($http,olData,olHelpers,shared){
     'use strict';
 var mapManager = {
     geoLayer:{},
@@ -154,6 +154,7 @@ var mapManager = {
 
     },
     renderMapLayers:function(mapCenter){
+        mapManager.legendSet.legend = {};
     var layer = mapManager.thematicLayers[0];
                       var colorArray = mapManager.getColorArray(layer.colorLow,layer.colorHigh,layer.classes);
                       var valueIntervals = mapManager.getValueInterval(mapManager.analyticsObject,layer.classes);
@@ -471,6 +472,124 @@ var mapManager = {
         }
 
         return falseThematic;
+    },
+    registerMapEvents:function(scope){
+        olData.getMap().then(function(map) {
+            var previousFeature;
+            var overlay = new ol.Overlay({
+                element: document.getElementById('districtbox'),
+                positioning: 'top-right',
+                offset: [100, -100],
+                position: [100, -100]
+            });
+            var overlayHidden = true;
+            // Mouse click function, called from the Leaflet Map Events
+            scope.$on('openlayers.layers.geojson.mousemove', function(event, feature, olEvent) {
+                scope.$apply(function(scope) {
+
+                    //$scope.selectedDistrictHover = feature ? mapService.features[feature.getId()] : '';
+                    //if(feature) {
+                    //    $scope.selectedDistrictHover = feature ? mapService.features[feature.getId()] : '';
+                    //}
+                    //console.log(feature);
+
+                });
+
+                //if (!feature) {
+                //    $scope.selectedDistrictHover = null;
+                //    map.removeOverlay(overlay);
+                //    overlayHidden = true;
+                //    return;
+                //} else if (overlayHidden) {
+                //    map.addOverlay(overlay);
+                //    overlayHidden = false;
+                //}
+                //overlay.setPosition(map.getEventCoordinate(olEvent));
+                //if (feature) {
+                //    feature.setStyle(olHelpers.createStyle({
+                //        fill: {
+                //            color: mapService.features[feature.getId()].color,
+                //            opacity:0.4
+                //        },
+                //        stroke: {
+                //            color: '#A3CEC5',
+                //            width:2
+                //
+                //        }
+                //    }));
+                //    if (previousFeature && feature !== previousFeature) {
+                //        previousFeature.setStyle(mapService.getStyle(previousFeature));
+                //    }
+                //    previousFeature = feature;
+                //}
+            });
+
+            scope.$on('openlayers.layers.geojson.click', function(event, feature, olEvent) {
+
+                scope.$apply(function(scope) {
+                    console.log(feature);
+                    //$scope.selectedDistrict = feature ? mapService.features[feature.getId()] : '';
+                    //if(feature) {
+                    //    // looping throught indicator types
+                    //    $scope.selectedDistrict = feature ? mapService.features[feature.getId()] : '';
+                    //
+                    //    $scope.treeWithSelectedDistrict(feature.getId());
+                    //    var indicators = [
+                    //        {id:"zIAxcoxZ3Pl",name:"EAC: BCG dose given under one year"},
+                    //        {id:"Y1pkrlq2hWi",name:"Infant Mortality Rate"},
+                    //        {id:"BlZrj2FC6bG",name:"Neonatal Mortality Rate"},
+                    //        {id:"WhsP7nsuwnz",name:"PENTA 3 vaccination coverage children under 1 year"},
+                    //        {id:"TvgyTWvJamX",name:"Proportion of pregnant mothers who received 2 doses IPT"},
+                    //        {id:"TdxVgoa08tn",name:"ANC HIV prevalence (15-24 years)"},
+                    //        {id:"sxBx8Bone59",name:"OPD Attendance per capita"},
+                    //        {id:"uOOJi6b0pzm",name:"Low birth weight among new-borns"},
+                    //        {id:"heyJnpx5b37",name:"OPV 3 Vaccination Coverage"},
+                    //        {id:"qHpMHX3KWZn",name:"Proportion of laboratory confirmed malaria cases among all OPD visits"},
+                    //        {id:"z9ispsHeYNw",name:"Malaria Death Rate <5"},
+                    //        {id:"ohw1MBklYkc",name:"PlanRep Implemented Skilled Human Resources Recruited"}
+                    //    ]
+                    //    $scope.selectedDistrictName = $scope.selectedDistrict.name;
+                    //}
+                });
+
+                if (!feature) {
+                    map.removeOverlay(overlay);
+                    overlayHidden = true;
+                    return;
+                } else if (overlayHidden) {
+                    map.addOverlay(overlay);
+                    overlayHidden = false;
+                }
+                overlay.setPosition(map.getEventCoordinate(olEvent));
+
+                //if (feature) {
+                //    feature.setStyle(olHelpers.createStyle({
+                //        fill: {
+                //            color:mapService.features[feature.getId()].color,
+                //            opacity:0.5
+                //        }
+                //    }));
+                //    if (previousFeature && feature !== previousFeature) {
+                //        previousFeature.setStyle(getStyle(previousFeature));
+                //    }
+                //    previousFeature = feature;
+                //}
+            });
+
+            scope.$on('openlayers.layers.geojson.featuresadded', function(event, feature, olEvent) {
+                scope.$apply(function($scope) {
+                    //if(feature) {
+                    //    $scope.id = feature.getId();
+                    //    $scope.selectedDistrict = feature ? mapService.features[feature.getId()]: '';
+                    //}
+
+                    //console.log(feature);
+                });
+
+            });
+
+
+        });
     }
 
 };

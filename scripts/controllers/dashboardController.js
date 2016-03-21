@@ -372,6 +372,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                         angular.extend(dashboardItem.map,mapRenderer);
                         angular.extend(dashboardItem.map,mapManager.legendSet);
 
+                        mapManager.registerMapEvents($scope);
 
                         dashboardItem.map.columSize = {};
                         dashboardItem.map.columSize['col-md-4'] = "60%";
@@ -762,7 +763,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     var mapRenderer = mapManager.renderMapLayers(mapCenter);
                     angular.extend(dashboardItem.map,mapRenderer);
                     angular.extend(dashboardItem.map,mapManager.legendSet);
-
+                    mapManager.registerMapEvents($scope);
 
                     dashboardItem.map.columSize = {};
                     dashboardItem.map.columSize['col-md-4'] = "60%";
