@@ -1,10 +1,12 @@
 var mapServices = angular.module('mapServices',['ngResource']);
 
-mapServices.factory('mapManager',['$http','olData','olHelpers','shared',function($http,olData,olHelpers,shared){
+mapServices.factory('mapManager',['$http','$rootScope','olData','olHelpers','shared',function($http,$rootScope,olData,olHelpers,shared){
     'use strict';
 var mapManager = {
     geoLayer:{},
     features:{},
+    featuredData:{},
+    touchFeature:{},
     organisationUnits:"",
     boundaryLayer:{},
     thematicLayers:[],
@@ -13,6 +15,7 @@ var mapManager = {
     analytics:{},
     period:null,
     legendSet:{legend:{}},
+    dasboardId:null,
     getOrganisationUnits:function(){
         var thematicLayerOne = mapManager.thematicLayers[0]
         mapManager.getPeriod(thematicLayerOne);
@@ -65,7 +68,7 @@ var mapManager = {
             return dataDimensionItems.dataElement.id;
         }
     },
-    getMapLayerBoundaries:function(organisationUnits){
+    getMapLayerBoundaries:function(organisationUnits,dashboardId){
         var geoLayer = {"type":"FeatureCollection","features":[]};
             var url = "../../../api/geoFeatures.json?ou=ou:"+organisationUnits;
 
@@ -106,7 +109,7 @@ var mapManager = {
                            feature.properties.level        = value.le;
                            feature.properties.parent       = value.pi;
                            feature.properties.parentGraph  = value.pg;
-                           feature.id  = value.id;
+                           feature.id  = value.id+"_"+dashboardId;
                            feature.style  = null;//mapManager.getStyle(feature);
                            geoLayer.features.push(feature);
                        }
@@ -155,16 +158,19 @@ var mapManager = {
         }
 
     },
-    renderMapLayers:function(mapCenter){
+    renderMapLayers:function(mapCenter,dashboardItem_id){
         mapManager.legendSet.legend = {};
+        mapManager.dasboardId = dashboardItem_id;
     var layer = mapManager.thematicLayers[0];
                       var colorArray = mapManager.getColorArray(layer.colorLow,layer.colorHigh,layer.classes);
                       var valueIntervals = mapManager.getValueInterval(mapManager.analyticsObject,layer.classes);
                       var legend = mapManager.getLegend(colorArray,valueIntervals);
                       mapManager.legendSet.legend = legend;
                       angular.forEach(mapManager.analyticsObject,function(value,index){
+                          mapManager.featuredData[value[1]+"_"+dashboardItem_id]= {name:mapManager.analytics.metaData.names[value[1]],value:value[2]};
                           var    layerOpacity = layer.opacity;
-                          mapManager.features[value[1]] = {
+                          mapManager.features[value[1]+"_"+dashboardItem_id] = {
+                                  dashboard:dashboardItem_id,
                                   facility_id:value[1],
                                   opacity:layerOpacity,
                                   "color":mapManager.decideColor(value,legend),
@@ -172,7 +178,9 @@ var mapManager = {
                                         };
 
                       });
-
+                        // locally store data item
+                        localStorage.removeItem(dashboardItem_id);
+                        localStorage.setItem(dashboardItem_id,JSON.stringify(mapManager.featuredData));
 
 
            var boundaries =  {
@@ -205,7 +213,7 @@ var mapManager = {
                 ],
                     defaults: {
                 events: {
-                    layers: [ 'mousemove', 'click']
+                    layers: [ 'mousemove', 'click', 'featuresadded']
                 }
             }
             }
@@ -250,6 +258,7 @@ var mapManager = {
     },
     getStyle:function(feature){
         var color = "";
+        var opacity = 0.8;
         var featureId = "";
         if(feature.id){
             featureId =feature.id;
@@ -258,12 +267,19 @@ var mapManager = {
             featureId = feature.getId();
         }
 
+        if(mapManager.features[featureId]){
             color = mapManager.features[featureId].color;
+        }
+
+        if(mapManager.features[featureId]){
+            mapManager.features[featureId].opacity;
+        }
+
 
         var style = olHelpers.createStyle({
             fill:{
                 color:color,
-                opacity:mapManager.features[featureId].opacity
+                opacity:opacity
             },
             stroke:{
                 color:'#cccccc',
@@ -487,16 +503,10 @@ var mapManager = {
             var overlayHidden = true;
             // Mouse click function, called from the Leaflet Map Events
             scope.$on('openlayers.layers.geojson.mousemove', function(event, feature, olEvent) {
-
-                scope.previousFeature = feature.getId();
-
                 scope.$apply(function(scope) {
-
-                    //$scope.selectedDistrictHover = feature ? mapService.features[feature.getId()] : '';
-                    //if(feature) {
-                    //    $scope.selectedDistrictHover = feature ? mapService.features[feature.getId()] : '';
-                    //}
-                    //console.log(feature);
+                    scope.previousFeature = feature.getId();
+                    var dashboardId = scope.previousFeature.split("_")[1];
+                    $rootScope.$broadcast('trackDashboard', dashboardId);
 
                 });
 
@@ -508,6 +518,7 @@ var mapManager = {
                     map.addOverlay(overlay);
                     overlayHidden = false;
                 }
+
                 //overlay.setPosition(map.getEventCoordinate(olEvent));
                 //if (feature) {
                 //    feature.setStyle(olHelpers.createStyle({
@@ -532,70 +543,11 @@ var mapManager = {
 
             scope.$on('openlayers.layers.geojson.click', function(event, feature, olEvent) {
 
-                scope.$apply(function(scope) {
-                    scope.touchedFeature = feature.getId();
-                    //scope.$apply(function() {
-                    //    console.log("update time clicked");
-                    //})
-                    //console.log(scope);
-                    //$scope.selectedDistrict = feature ? mapService.features[feature.getId()] : '';
-                    //if(feature) {
-                    //    // looping throught indicator types
-                    //    $scope.selectedDistrict = feature ? mapService.features[feature.getId()] : '';
-                    //
-                    //    $scope.treeWithSelectedDistrict(feature.getId());
-                    //    var indicators = [
-                    //        {id:"zIAxcoxZ3Pl",name:"EAC: BCG dose given under one year"},
-                    //        {id:"Y1pkrlq2hWi",name:"Infant Mortality Rate"},
-                    //        {id:"BlZrj2FC6bG",name:"Neonatal Mortality Rate"},
-                    //        {id:"WhsP7nsuwnz",name:"PENTA 3 vaccination coverage children under 1 year"},
-                    //        {id:"TvgyTWvJamX",name:"Proportion of pregnant mothers who received 2 doses IPT"},
-                    //        {id:"TdxVgoa08tn",name:"ANC HIV prevalence (15-24 years)"},
-                    //        {id:"sxBx8Bone59",name:"OPD Attendance per capita"},
-                    //        {id:"uOOJi6b0pzm",name:"Low birth weight among new-borns"},
-                    //        {id:"heyJnpx5b37",name:"OPV 3 Vaccination Coverage"},
-                    //        {id:"qHpMHX3KWZn",name:"Proportion of laboratory confirmed malaria cases among all OPD visits"},
-                    //        {id:"z9ispsHeYNw",name:"Malaria Death Rate <5"},
-                    //        {id:"ohw1MBklYkc",name:"PlanRep Implemented Skilled Human Resources Recruited"}
-                    //    ]
-                    //    $scope.selectedDistrictName = $scope.selectedDistrict.name;
-                    //}
-                });
-
-                if (!feature) {
-                    map.removeOverlay(overlay);
-                    overlayHidden = true;
-                    return;
-                } else if (overlayHidden) {
-                    map.addOverlay(overlay);
-                    overlayHidden = false;
-                }
-                overlay.setPosition(map.getEventCoordinate(olEvent));
-
-                //if (feature) {
-                //    feature.setStyle(olHelpers.createStyle({
-                //        fill: {
-                //            color:mapService.features[feature.getId()].color,
-                //            opacity:0.5
-                //        }
-                //    }));
-                //    if (previousFeature && feature !== previousFeature) {
-                //        previousFeature.setStyle(getStyle(previousFeature));
-                //    }
-                //    previousFeature = feature;
-                //}
-
-                callBack(scope);
+                // TODO Handle events after click of the map layer
             });
 
             scope.$on('openlayers.layers.geojson.featuresadded', function(event, feature, olEvent) {
                 scope.$apply(function($scope) {
-                    //if(feature) {
-                    //    $scope.id = feature.getId();
-                    //    $scope.selectedDistrict = feature ? mapService.features[feature.getId()]: '';
-                    //}
-
-                    //console.log(feature);
                 });
 
             });
@@ -603,6 +555,9 @@ var mapManager = {
 
         });
 
+    },
+    setTouchFeature:function(dashboardId){
+        localStorage.setItem(dashboardId,JSON.stringify(mapManager.thematicLayers[0]));
     }
 
 };

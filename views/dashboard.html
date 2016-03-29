@@ -289,8 +289,8 @@
                                          </div>
                                          <div>
 
-                                             <div id="tooltip_{{dashboardItem.id}}"   class="infoh district " >
-                                                 <p>{{touchedFeature.name}} ({{touchedFeature.value}})</p>
+                                             <div id="tooltip_{{dashboardItem.id}}"   class="infoh district "  ng-if="currentDashboard==dashboardItem.id">
+                                                 <p>{{touchedFeature[dashboardItem.id].name}} ({{touchedFeature[dashboardItem.id].value}})</p>
                                                  <!--<table >-->
                                                      <!--<tr><td style="background-color: #2D9630">&nbsp;</td><td style="text-align: left;">Uploaded</td><td  style="text-align: left;">{{submitted}}</td></tr>-->
                                                      <!--<tr><td style="background-color: #F93030;">&nbsp;</td><td style="text-align: left;">Not Uploaded</td><td style="text-align: left;">{{notsubmitted}}</td></tr>-->

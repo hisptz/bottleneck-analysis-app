@@ -284,7 +284,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             var tableStyle = "width:" + width + "px;";
             var userOrgUnit =  [];
             $scope.dashboardLoader[dashboardItem.id] = true;
-
             if ( "CHART" == dashboardItem.type )
             {
 
@@ -347,7 +346,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             }
             else if ( "MAP" == dashboardItem.type )
             {
-
                 DHIS.getMap({
                     url: '..',
                     el: 'plugin-' + dashboardItem.id,
@@ -360,25 +358,27 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     }).then(function(output){
                         var mapCenter = {zoom:5,lat:output.latitude/100000,lon:output.longitude/100000};
                         //var mapCenter = {zoom:5,lat:output.latitude,lon:output.longitude};
-
+                        $scope.touchedFeature = {};
                         var shared = mapManager.getShared();
                         shared.facility = 3029;
 
                     mapManager.separateLayers(output);
                     mapManager.getOrganisationUnits();
-                    mapManager.getMapLayerBoundaries(mapManager.organisationUnits).then(function(){
+                    mapManager.getMapLayerBoundaries(mapManager.organisationUnits,dashboardItem.id).then(function(){
                     mapManager.getMapThematicData().then(function(){
                         $scope.dashboardAnalytics[dashboardItem.id] = mapManager.analytics;
-                        var mapRenderer = mapManager.renderMapLayers(mapCenter);
+                        var mapRenderer = mapManager.renderMapLayers(mapCenter,dashboardItem.id);
+
                         angular.extend(dashboardItem.map,mapRenderer);
                         angular.extend(dashboardItem.map,mapManager.legendSet);
-                        $scope.touchedFeature = {};
+
                         mapManager.registerMapEvents($scope,dashboardItem.id,function(scope){
-                            $scope.touchedFeature.name = scope.previousFeature;
+                            var featuredData = JSON.parse(localStorage.getItem(dashboardItem.id));
+                            $scope.touchedFeature[dashboardItem.id] = featuredData[scope.previousFeature];
 
-                            $scope.$watch($scope.touchedFeature,function(newFeature,oldFeature){
-
-                            });
+                            //$scope.$watch($scope.touchedFeature,function(newFeature,oldFeature){
+                            //
+                            //});
 
                         });
 
@@ -711,10 +711,11 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
         //update the dashboard according to the filters
         $scope.updateSingleDashboard = function(dashboardItem,chartType){
+            //$scope.touchedFeature[dashboardItem.id] = {name:"",value:""};
            $scope.dashboardChartType[dashboardItem.id] = chartType;
+            $scope.touchedFeature = {};
             if( chartType == 'table') {
                 dashboardItem.type='REPORT_TABLE';
-                console.log(mapManager.analytics);
                 var columns = {};
                 var rows = {};
                 var filters = {};
@@ -761,24 +762,30 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 }
             }
             else if(chartType == 'map') {
+                $scope.touchedFeature[dashboardItem.id] = {};
                 $scope.dashboardLoader[dashboardItem.id] = true;
                 $scope.dashboardFailLoad[dashboardItem.id] = false;
                 dashboardItem.type='MAP';
                 dashboardItem.map = {};
                 mapManager.prepareMapProperties(dashboardItem);
-                mapManager.getMapLayerBoundaries(mapManager.organisationUnits).then(function(){
+                mapManager.getMapLayerBoundaries(mapManager.organisationUnits,dashboardItem.id).then(function(){
                 mapManager.getMapThematicData().then(function(){
+                    localStorage.setItem(dashboardItem.id,JSON.stringify(mapManager.featuredData));
                     $scope.dashboardAnalytics[dashboardItem.id] = mapManager.analytics;
                     var mapCenter = {zoom: 5, lat: -7.139309343279099, lon: 38.864305898301}; /// TODO writing a function to center map drawn from chart and table anlytic object
-                    var mapRenderer = mapManager.renderMapLayers(mapCenter);
+                    var mapRenderer = mapManager.renderMapLayers(mapCenter,dashboardItem.id);
                     angular.extend(dashboardItem.map,mapRenderer);
                     angular.extend(dashboardItem.map,mapManager.legendSet);
-                    $scope.touchedFeature = {};
+
                     mapManager.registerMapEvents($scope,dashboardItem.id,function(scope){
-                        $scope.touchedFeature.name = scope.previousFeature;
+                        var featuredData = JSON.parse(localStorage.getItem(dashboardItem.id));
+                        $scope.touchedFeature[dashboardItem.id] = featuredData[scope.previousFeature];
+                        $scope.$watch($scope.touchedFeature[dashboardItem.id],function(newFeature,oldFeature){
+                        });
 
-                        $scope.$watch($scope.touchedFeature,function(newFeature,oldFeature){
-
+                        $scope.currentDashboard = null;
+                        $scope.$on("trackDashboard",function(event,daschboard_id){
+                            $scope.currentDashboard = daschboard_id;
                         });
 
                     });
