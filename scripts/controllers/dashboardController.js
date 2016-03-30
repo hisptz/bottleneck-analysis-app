@@ -722,6 +722,10 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
            $scope.dashboardChartType[dashboardItem.id] = chartType;
             $scope.touchedFeature = {};
             if( chartType == 'table') {
+                if(mapManager.originalAnalytics.headers){
+                    $scope.dashboardAnalytics[dashboardItem.id] = mapManager.getOriginalAnalytics(dashboardItem.id);
+                }
+
                 dashboardItem.type='REPORT_TABLE';
                 var columns = {};
                 var rows = {};
@@ -769,6 +773,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 }
             }
             else if(chartType == 'map') {
+                mapManager.setOriginalAnalytics($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.id);
+
                 $scope.touchedFeature[dashboardItem.id] = {};
                 $scope.dashboardLoader[dashboardItem.id] = true;
                 $scope.dashboardFailLoad[dashboardItem.id] = false;
@@ -827,6 +833,10 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     $scope.dashboardFailLoad[dashboardItem.id] = true;
                 });
             }else{
+
+                if(mapManager.originalAnalytics.headers){
+                    $scope.dashboardAnalytics[dashboardItem.id] = mapManager.getOriginalAnalytics(dashboardItem.id);
+                }
 
                 dashboardItem.type='CHART';
                 var xItems = dashboardItem.xAxisData.map(function(a) {return a.id;});

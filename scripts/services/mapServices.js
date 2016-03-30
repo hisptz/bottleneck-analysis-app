@@ -13,6 +13,7 @@ var mapManager = {
     thematicDx:{},
     analyticsObject:{},
     analytics:{},
+    originalAnalytics:{},
     period:null,
     legendSet:{legend:{}},
     dasboardId:null,
@@ -558,6 +559,17 @@ var mapManager = {
     },
     setTouchFeature:function(dashboardId){
         localStorage.setItem(dashboardId,JSON.stringify(mapManager.thematicLayers[0]));
+    },
+    getOriginalAnalytics:function(dashboard){
+        console.log(dashboard);
+        dashboard = dashboard+"_analytics";
+        console.log(JSON.parse(localStorage.getItem(dashboard)));
+        return JSON.parse(localStorage.getItem(dashboard));
+    },
+    setOriginalAnalytics:function(analytics,dashboard){
+        dashboard = dashboard+"_analytics";
+        mapManager.originalAnalytics = analytics;
+        localStorage.setItem(dashboard,JSON.stringify(analytics));
     }
 
 };

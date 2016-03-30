@@ -4,7 +4,7 @@
     <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/dashboard.html" afterPath="$PROJECT_DIR$/views/dashboard.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/services/mapServices.js" afterPath="$PROJECT_DIR$/scripts/services/mapServices.js" />
     </list>
     <ignored path="idashboard.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,27 +72,48 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mapServices.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mapServices.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="130" column="48" selection-start-line="130" selection-start-column="46" selection-end-line="130" selection-end-column="48" />
-              <folding />
+            <state vertical-scroll-proportion="0.36549166">
+              <caret line="566" column="56" selection-start-line="566" selection-start-column="56" selection-end-line="566" selection-end-column="56" />
+              <folding>
+                <element signature="e#573#1141#0" expanded="false" />
+                <element signature="e#1173#1551#0" expanded="false" />
+                <element signature="e#1588#2037#0" expanded="false" />
+                <element signature="e#2085#2378#0" expanded="false" />
+                <element signature="e#2445#4522#0" expanded="false" />
+                <element signature="e#4557#5689#0" expanded="false" />
+                <element signature="e#5747#8582#0" expanded="false" />
+                <element signature="e#8622#9306#0" expanded="false" />
+                <element signature="e#9332#9362#0" expanded="false" />
+                <element signature="e#9409#9881#0" expanded="false" />
+                <element signature="e#9913#11078#0" expanded="false" />
+                <element signature="e#11123#11815#0" expanded="false" />
+                <element signature="e#11866#12075#0" expanded="false" />
+                <element signature="e#12117#12584#0" expanded="false" />
+                <element signature="e#12632#12874#0" expanded="false" />
+                <element signature="e#12928#14738#0" expanded="false" />
+                <element signature="e#14792#16602#0" expanded="false" />
+                <element signature="e#16657#18042#0" expanded="false" />
+                <element signature="e#18102#20463#0" expanded="false" />
+                <element signature="e#20506#20601#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.54296875">
-              <caret line="807" column="83" selection-start-line="807" selection-start-column="83" selection-end-line="807" selection-end-column="83" />
+            <state vertical-scroll-proportion="-5.4814816">
+              <caret line="724" column="19" selection-start-line="724" selection-start-column="19" selection-end-line="724" selection-end-column="47" />
               <folding>
-                <element signature="e#48178#49047#0" expanded="false" />
-                <element signature="e#49227#49702#0" expanded="false" />
-                <element signature="e#49772#51988#0" expanded="false" />
-                <element signature="e#52086#52706#0" expanded="false" />
-                <element signature="e#52774#56351#0" expanded="false" />
+                <element signature="e#48678#49547#0" expanded="false" />
+                <element signature="e#49727#50202#0" expanded="false" />
+                <element signature="e#50272#52488#0" expanded="false" />
+                <element signature="e#52586#53206#0" expanded="false" />
+                <element signature="e#53274#56851#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -163,10 +184,10 @@
         <option value="$PROJECT_DIR$/scripts/dhis2Utils/table.js" />
         <option value="$PROJECT_DIR$/scripts/dhis2Utils/map.js" />
         <option value="$PROJECT_DIR$/views/dashboardModel.html" />
-        <option value="$PROJECT_DIR$/scripts/services/mapServices.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/views/dashboard.html" />
         <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
+        <option value="$PROJECT_DIR$/scripts/services/mapServices.js" />
       </list>
     </option>
   </component>
@@ -405,7 +426,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="48" y="-3" width="1553" height="904" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2509804" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -413,7 +434,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32862645" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28481013" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28481013" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -452,12 +473,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts/services/mapServices.js</url>
-          <line>347</line>
+          <line>348</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts/services/mapServices.js</url>
-          <line>555</line>
+          <line>556</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -467,11 +488,16 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts/services/mapServices.js</url>
-          <line>442</line>
+          <line>443</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/scripts/services/mapServices.js</url>
+          <line>559</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="7" />
+      <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -488,11 +514,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="464" column="82" selection-start-line="464" selection-start-column="82" selection-end-line="464" selection-end-column="82" />
           <folding>
-            <element signature="e#48178#49047#0" expanded="false" />
-            <element signature="e#49227#49702#0" expanded="false" />
-            <element signature="e#49772#51988#0" expanded="false" />
-            <element signature="e#52086#52706#0" expanded="false" />
-            <element signature="e#52774#56351#0" expanded="false" />
+            <element signature="e#48678#49547#0" expanded="false" />
+            <element signature="e#49727#50202#0" expanded="false" />
+            <element signature="e#50272#52488#0" expanded="false" />
+            <element signature="e#52586#53206#0" expanded="false" />
+            <element signature="e#53274#56851#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -626,11 +652,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#48178#49047#0" expanded="false" />
-            <element signature="e#49227#49702#0" expanded="false" />
-            <element signature="e#49772#51988#0" expanded="false" />
-            <element signature="e#52086#52706#0" expanded="false" />
-            <element signature="e#52774#56351#0" expanded="false" />
+            <element signature="e#48678#49547#0" expanded="false" />
+            <element signature="e#49727#50202#0" expanded="false" />
+            <element signature="e#50272#52488#0" expanded="false" />
+            <element signature="e#52586#53206#0" expanded="false" />
+            <element signature="e#53274#56851#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -857,14 +883,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="130" column="48" selection-start-line="130" selection-start-column="46" selection-end-line="130" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="55.77778">
@@ -927,14 +945,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54296875">
-          <caret line="807" column="83" selection-start-line="807" selection-start-column="83" selection-end-line="807" selection-end-column="83" />
+        <state vertical-scroll-proportion="-5.4814816">
+          <caret line="724" column="19" selection-start-line="724" selection-start-column="19" selection-end-line="724" selection-end-column="47" />
           <folding>
-            <element signature="e#48178#49047#0" expanded="false" />
-            <element signature="e#49227#49702#0" expanded="false" />
-            <element signature="e#49772#51988#0" expanded="false" />
-            <element signature="e#52086#52706#0" expanded="false" />
-            <element signature="e#52774#56351#0" expanded="false" />
+            <element signature="e#48678#49547#0" expanded="false" />
+            <element signature="e#49727#50202#0" expanded="false" />
+            <element signature="e#50272#52488#0" expanded="false" />
+            <element signature="e#52586#53206#0" expanded="false" />
+            <element signature="e#53274#56851#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36549166">
+          <caret line="566" column="56" selection-start-line="566" selection-start-column="56" selection-end-line="566" selection-end-column="56" />
+          <folding>
+            <element signature="e#573#1141#0" expanded="false" />
+            <element signature="e#1173#1551#0" expanded="false" />
+            <element signature="e#1588#2037#0" expanded="false" />
+            <element signature="e#2085#2378#0" expanded="false" />
+            <element signature="e#2445#4522#0" expanded="false" />
+            <element signature="e#4557#5689#0" expanded="false" />
+            <element signature="e#5747#8582#0" expanded="false" />
+            <element signature="e#8622#9306#0" expanded="false" />
+            <element signature="e#9332#9362#0" expanded="false" />
+            <element signature="e#9409#9881#0" expanded="false" />
+            <element signature="e#9913#11078#0" expanded="false" />
+            <element signature="e#11123#11815#0" expanded="false" />
+            <element signature="e#11866#12075#0" expanded="false" />
+            <element signature="e#12117#12584#0" expanded="false" />
+            <element signature="e#12632#12874#0" expanded="false" />
+            <element signature="e#12928#14738#0" expanded="false" />
+            <element signature="e#14792#16602#0" expanded="false" />
+            <element signature="e#16657#18042#0" expanded="false" />
+            <element signature="e#18102#20463#0" expanded="false" />
+            <element signature="e#20506#20601#0" expanded="false" />
           </folding>
         </state>
       </provider>
