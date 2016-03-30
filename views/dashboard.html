@@ -38,7 +38,7 @@
         color: #ffffff;
         font-size: 9px;
         position: absolute;
-        left: 20em;
+        /*left: 20em;*/
         font-weight: bold;
         padding:.5em;
         white-space: nowrap;
@@ -287,7 +287,7 @@
                                          </div>
                                          <div>
 
-                                             <div id="tooltip_{{dashboardItem.id}}"   class="infoh district "  ng-if="currentDashboard==dashboardItem.id">
+                                             <div id="tooltip_{{dashboardItem.id}}"   class="infoh district "  ng-if="currentDashboard==dashboardItem.id" style="left:{{dashboardItem.map.columnLabelMarginLeft[dashboardItem.column_size]}}!important;">
                                                  <p>{{touchedFeature[dashboardItem.id].name}} ({{touchedFeature[dashboardItem.id].value}})</p>
                                                  <!--<table >-->
                                                      <!--<tr><td style="background-color: #2D9630">&nbsp;</td><td style="text-align: left;">Uploaded</td><td  style="text-align: left;">{{submitted}}</td></tr>-->

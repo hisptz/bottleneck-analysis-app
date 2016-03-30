@@ -387,6 +387,13 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                         dashboardItem.map.columSize['col-md-8'] = "80%";
                         dashboardItem.map.columSize['col-md-12'] = "85%";
 
+                        dashboardItem.map.columnLabelMarginLeft = {};
+                        dashboardItem.map.columnLabelMarginLeft['col-md-4'] = "30%";
+                        dashboardItem.map.columnLabelMarginLeft['col-md-8'] = "40%";
+                        dashboardItem.map.columnLabelMarginLeft['col-md-12'] = "42.5%";
+
+                        console.log(dashboardItem.map);
+
                         dashboardItem.map.title = output.name;
                         dashboardItem.map.title = output.name;
                         dashboardItem.map.styles = {
@@ -794,6 +801,11 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     dashboardItem.map.columSize['col-md-4'] = "60%";
                     dashboardItem.map.columSize['col-md-8'] = "80%";
                     dashboardItem.map.columSize['col-md-12'] = "85%";
+
+                    dashboardItem.map.columnLabelMarginLeft = {};
+                    dashboardItem.map.columnLabelMarginLeft['col-md-4'] = "30%";
+                    dashboardItem.map.columnLabelMarginLeft['col-md-8'] = "40%";
+                    dashboardItem.map.columnLabelMarginLeft['col-md-12'] = "42.5%";
 
                     dashboardItem.map.title = mapManager.thematicLayers[0].name;
                     dashboardItem.map.title = mapManager.thematicLayers[0].name;
