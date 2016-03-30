@@ -749,8 +749,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                  $scope.$watch('dimensions', function(dimension) {
                     $scope.dimensionAsJson = angular.toJson(dimension, true);
                 }, true);
-                dashboardItem.columnLength=$scope.dimensions.axises.yAxis.length
-                dashboardItem.rowLenth=$scope.dimensions.axises.xAxis.length
+                dashboardItem.columnLength=$scope.dimensions.axises.yAxis.length;
+                dashboardItem.rowLenth=$scope.dimensions.axises.xAxis.length;
                 if (dashboardItem.object.columns.length == 2){
                     $scope.tableDimension[dashboardItem.id]='2';
                     var firstDimension=dashboardItem.object.columns[0].dimension;
