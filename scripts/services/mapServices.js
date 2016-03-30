@@ -561,9 +561,7 @@ var mapManager = {
         localStorage.setItem(dashboardId,JSON.stringify(mapManager.thematicLayers[0]));
     },
     getOriginalAnalytics:function(dashboard){
-        console.log(dashboard);
         dashboard = dashboard+"_analytics";
-        console.log(JSON.parse(localStorage.getItem(dashboard)));
         return JSON.parse(localStorage.getItem(dashboard));
     },
     setOriginalAnalytics:function(analytics,dashboard){
