@@ -788,7 +788,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 mapManager.getMapLayerBoundaries(mapManager.organisationUnits,dashboardItem.id).then(function(){
                 mapManager.getMapThematicData().then(function(){
                     localStorage.setItem(dashboardItem.id,JSON.stringify(mapManager.featuredData));
-                    $scope.dashboardAnalytics[dashboardItem.id] = mapManager.analytics;
+                    //$scope.dashboardAnalytics[dashboardItem.id] = mapManager.analytics;
                     var mapCenter = {zoom: 5, lat: -7.139309343279099, lon: 38.864305898301}; /// TODO writing a function to center map drawn from chart and table anlytic object
                     var mapRenderer = mapManager.renderMapLayers(mapCenter,dashboardItem.id);
                     angular.extend(dashboardItem.map,mapRenderer);

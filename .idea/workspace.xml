@@ -2,6 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="414a688c-890c-4990-a41a-9b113e7a59e9" name="Default" comment="">
+<<<<<<< HEAD
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
+>>>>>>> d20fa0f5aec710ca8499f4a7aa70e3735d943cca
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/dashboard.html" afterPath="$PROJECT_DIR$/views/dashboard.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/services/mainServices.js" afterPath="$PROJECT_DIR$/scripts/services/mainServices.js" />
@@ -28,6 +33,7 @@
     <favorites_list name="idashboard" />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
     <leaf>
       <file leaf-file-name="dashboard.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/dashboard.html">
@@ -68,6 +74,39 @@
                 <element signature="n#style#0;n#img#0;n#a#0;n#p#0;n#div#2;n#div#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+=======
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="dashboard.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/dashboard.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.6666665">
+              <caret line="295" column="64" selection-start-line="295" selection-start-column="64" selection-end-line="295" selection-end-column="64" />
+              <folding>
+                <element signature="n#style#0;n#img#0;n#a#0;n#h4#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#0;n#p#0;n#div#1;n#div#1;n#li#3;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#openlayers#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#4;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#0;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+>>>>>>> d20fa0f5aec710ca8499f4a7aa70e3735d943cca
               </folding>
             </state>
           </provider>
@@ -96,8 +135,13 @@
       <file leaf-file-name="mapServices.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state vertical-scroll-proportion="0.0" vertical-offset="585" max-vertical-offset="1185">
               <caret line="562" column="45" selection-start-line="562" selection-start-column="45" selection-end-line="562" selection-end-column="45" />
+=======
+            <state vertical-scroll-proportion="0.0">
+              <caret line="566" column="55" selection-start-line="566" selection-start-column="55" selection-end-line="566" selection-end-column="55" />
+>>>>>>> d20fa0f5aec710ca8499f4a7aa70e3735d943cca
               <folding>
                 <element signature="e#573#1141#0" expanded="false" />
                 <element signature="e#1173#1551#0" expanded="false" />
@@ -124,9 +168,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state vertical-scroll-proportion="0.0" vertical-offset="3078" max-vertical-offset="13080">
               <caret line="226" column="28" selection-start-line="226" selection-start-column="28" selection-end-line="226" selection-end-column="28" />
               <folding>
@@ -135,6 +180,16 @@
                 <element signature="e#50622#52838#0" expanded="false" />
                 <element signature="e#52936#53556#0" expanded="false" />
                 <element signature="e#53624#57201#0" expanded="false" />
+=======
+            <state vertical-scroll-proportion="0.4377432">
+              <caret line="787" column="89" selection-start-line="787" selection-start-column="89" selection-end-line="787" selection-end-column="89" />
+              <folding>
+                <element signature="e#48682#49551#0" expanded="false" />
+                <element signature="e#49731#50206#0" expanded="false" />
+                <element signature="e#50276#52492#0" expanded="false" />
+                <element signature="e#52590#53210#0" expanded="false" />
+                <element signature="e#53278#56855#0" expanded="false" />
+>>>>>>> d20fa0f5aec710ca8499f4a7aa70e3735d943cca
               </folding>
             </state>
           </provider>
@@ -219,9 +274,13 @@
         <option value="$PROJECT_DIR$/views/dashboardModel.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/scripts/services/mapServices.js" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/scripts/services/mainServices.js" />
         <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
+=======
+>>>>>>> d20fa0f5aec710ca8499f4a7aa70e3735d943cca
         <option value="$PROJECT_DIR$/views/dashboard.html" />
+        <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
       </list>
     </option>
   </component>
@@ -539,11 +598,19 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="464" column="82" selection-start-line="464" selection-start-column="82" selection-end-line="464" selection-end-column="82" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#49028#49897#0" expanded="false" />
             <element signature="e#50077#50552#0" expanded="false" />
             <element signature="e#50622#52838#0" expanded="false" />
             <element signature="e#52936#53556#0" expanded="false" />
             <element signature="e#53624#57201#0" expanded="false" />
+=======
+            <element signature="e#48682#49551#0" expanded="false" />
+            <element signature="e#49731#50206#0" expanded="false" />
+            <element signature="e#50276#52492#0" expanded="false" />
+            <element signature="e#52590#53210#0" expanded="false" />
+            <element signature="e#53278#56855#0" expanded="false" />
+>>>>>>> d20fa0f5aec710ca8499f4a7aa70e3735d943cca
           </folding>
         </state>
       </provider>
@@ -590,6 +657,7 @@
           <folding>
             <element signature="n#style#0;n#img#0;n#a#0;n#h4#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#label#0;n#p#0;n#div#1;n#div#1;n#li#3;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+<<<<<<< HEAD
             <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -621,6 +689,30 @@
             <element signature="n#style#0;n#img#0;n#a#0;n#p#0;n#div#2;n#div#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+=======
+            <element signature="n#style#0;n#a#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#openlayers#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#4;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+>>>>>>> d20fa0f5aec710ca8499f4a7aa70e3735d943cca
           </folding>
         </state>
       </provider>
@@ -687,11 +779,19 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#49028#49897#0" expanded="false" />
             <element signature="e#50077#50552#0" expanded="false" />
             <element signature="e#50622#52838#0" expanded="false" />
             <element signature="e#52936#53556#0" expanded="false" />
             <element signature="e#53624#57201#0" expanded="false" />
+=======
+            <element signature="e#48682#49551#0" expanded="false" />
+            <element signature="e#49731#50206#0" expanded="false" />
+            <element signature="e#50276#52492#0" expanded="false" />
+            <element signature="e#52590#53210#0" expanded="false" />
+            <element signature="e#53278#56855#0" expanded="false" />
+>>>>>>> d20fa0f5aec710ca8499f4a7aa70e3735d943cca
           </folding>
         </state>
       </provider>
@@ -886,10 +986,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.6666665">
+          <caret line="295" column="64" selection-start-line="295" selection-start-column="64" selection-end-line="295" selection-end-column="64" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#a#0;n#h4#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#p#0;n#div#1;n#div#1;n#li#3;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#openlayers#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#4;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/services/mapServices.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="562" column="45" selection-start-line="562" selection-start-column="45" selection-end-line="562" selection-end-column="45" />
+=======
+        <state vertical-scroll-proportion="0.0">
+          <caret line="566" column="55" selection-start-line="566" selection-start-column="55" selection-end-line="566" selection-end-column="55" />
+>>>>>>> d20fa0f5aec710ca8499f4a7aa70e3735d943cca
           <folding>
             <element signature="e#573#1141#0" expanded="false" />
             <element signature="e#1173#1551#0" expanded="false" />
@@ -965,6 +1103,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0" vertical-offset="3078" max-vertical-offset="13080">
           <caret line="226" column="28" selection-start-line="226" selection-start-column="28" selection-end-line="226" selection-end-column="28" />
           <folding>
@@ -1015,6 +1154,16 @@
             <element signature="n#style#0;n#img#0;n#a#0;n#p#0;n#div#2;n#div#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#1;n#p#0;n#div#2;n#div#0;n#div#2;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+=======
+        <state vertical-scroll-proportion="0.4377432">
+          <caret line="787" column="89" selection-start-line="787" selection-start-column="89" selection-end-line="787" selection-end-column="89" />
+          <folding>
+            <element signature="e#48682#49551#0" expanded="false" />
+            <element signature="e#49731#50206#0" expanded="false" />
+            <element signature="e#50276#52492#0" expanded="false" />
+            <element signature="e#52590#53210#0" expanded="false" />
+            <element signature="e#53278#56855#0" expanded="false" />
+>>>>>>> d20fa0f5aec710ca8499f4a7aa70e3735d943cca
           </folding>
         </state>
       </provider>
