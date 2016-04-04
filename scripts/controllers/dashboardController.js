@@ -221,7 +221,11 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
                 value.labelCard=$scope.getCardSize(value.shape);
             });
+            if(dashboard.dashboardItems.length==0){
 
+                $scope.dashboardEmpty="DashboardItem with id "+$routeParams.dashboardid +" could not be found."
+                $scope.dashboardInstr="Enjoy interactive dashboard by switching,filtering and changing layout to different visualization charts and table as well as GIS"
+            }
             $scope.loading=false;
         });
         //$scope.column_size
