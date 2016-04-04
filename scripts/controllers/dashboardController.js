@@ -223,7 +223,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             });
             if(dashboard.dashboardItems.length==0){
 
-                $scope.dashboardEmpty="DashboardItem with id "+$routeParams.dashboardid +" could not be found."
+                $scope.dashboardEmpty="DashboardItem is Empty,To populate dashboard items use the main dashboard."
                 $scope.dashboardInstr="Enjoy interactive dashboard by switching,filtering and changing layout to different visualization charts and table as well as GIS"
             }
             $scope.loading=false;
