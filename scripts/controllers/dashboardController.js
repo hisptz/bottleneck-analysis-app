@@ -116,7 +116,19 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 return true;
             }
         };
+        $scope.hoverIn = function(){
+            this.hoverEdit = true;
+        };
 
+        $scope.hoverOut = function(){
+            this.hoverEdit = false;
+        };
+        $scope.activateLink = function(linkValue){
+           $scope.linkValue = linkValue;
+         }
+        $scope.activateLinkInd = function(linkValued){
+           $scope.linkValued = linkValued;
+         }
         $scope.filtersHidden = true;
         $scope.hideFilters = function(){
             if($scope.filtersHidden == true){
@@ -928,6 +940,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     var dataelements=dataElementApi.get(function(dataElementObject){
                         dataElementArray.push(dataElementObject);
                         $scope.dataElements[dashboardItem.id]=dataElementArray;
+                        console.log(dataElementArray);
                         $scope.dashboardLoader[dashboardItem.id] = false;
                     },function(response){
                         if(response.status==404){
@@ -942,6 +955,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                     var denominator=denominatorText.description;
                                     indicatorArray.push({name:indicatorObject.name,uid:indicatorObject.id,denominatorDescription:indicatorObject.denominatorDescription,numeratorDescription:indicatorObject.numeratorDescription,numerator:numerator,denominator:denominator,indicatorType:indicatorObject.indicatorType,dataSets:indicatorObject.dataSets});
                                  $scope.indicators[dashboardItem.id]=indicatorArray;
+                                        console.log(indicatorArray);
                                         $scope.dashboardLoader[dashboardItem.id] = false;
                                 });
                                 });

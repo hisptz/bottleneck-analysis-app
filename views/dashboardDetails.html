@@ -1,27 +1,64 @@
+
 <div class="col-md-12">
-             <ul class="list-group" ng-if="dataElements[dashboardItem.id]" ng-repeat="data in dataElements[dashboardItem.id]">
-                 <li class="list-group-item"><b>Data Element Name:</b>&nbsp;&nbsp; {{data.name}}</li>
-                 <li class="list-group-item"><b>Aggregation Type:</b>&nbsp;&nbsp;{{data.aggregationType}}</li>
-                 <li class="list-group-item"><b>Data Set(Period Type):</b>&nbsp;&nbsp;
-                 <ul class="list-group" ng-repeat="dataSets in data.dataSets">
-                     <li class="list-group-item"><b>Data Source:</b>&nbsp;&nbsp;{{dataSets.name}}</li>
-                     <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{dataSets.periodType}}</li>
-                 </ul>
+
+           <ul class="list-group" ng-if="dataElements[dashboardItem.id]">
+                 <li class="list-group-item"><b>Data Element Names:</b>&nbsp;&nbsp;
+                 <ul>
+                 <li ng-repeat="data in dataElements[dashboardItem.id]" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
+                     {{data.name}}
+                   <span ng-show="hoverEdit" class="animate-show">
+                    <a  style="cursor: pointer;" ng-click="activateLink(data.id)" ng-class="{'active' : linkValue == data.id}">
+                    <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/help.png" alt="">
+                    Detail
+                    </a>
+                   </span>
+                     <div ng-if="linkValue ==data.id">
+                         <ul class="list-group">
+                             <li class="list-group-item"><b>Aggregation Type:</b>&nbsp;&nbsp;{{data.aggregationType}}</li>
+                             <li class="list-group-item"><b>Data Set(Period Type):</b>&nbsp;&nbsp;
+                                <ul class="list-group" ng-repeat="dataSets in data.dataSets">
+                                     <li class="list-group-item"><b>Data Source:</b>&nbsp;&nbsp;{{dataSets.name}}</li>
+                                     <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{dataSets.periodType}}</li>
+                                </ul>
+                            </li>
+                         </ul>
+                      </div>
                  </li>
+                  </ul>
+                </li>
+
+
              </ul>
-             <ul class="list-group" ng-if="indicators[dashboardItem.id]" ng-repeat="data in indicators[dashboardItem.id]">
-                 <li class="list-group-item"><b>Indicators Name:</b>&nbsp;&nbsp;{{data.name}}</li>
-                 <li class="list-group-item"><b>Indicator Type:</b>&nbsp;&nbsp;{{data.indicatorType.name}}</li>
-                 <li class="list-group-item"><b>Numerator Description:</b>&nbsp;&nbsp;{{data.numeratorDescription}}</li>
-                 <li class="list-group-item"><b>Denominator Description:</b>&nbsp;&nbsp;{{data.denominatorDescription}}</li>
-                 <li class="list-group-item"><b>Numerator Formula:</b>&nbsp;&nbsp;{{data.numerator}}</li>
-                 <li class="list-group-item"><b>Denominator Formula:</b>&nbsp;&nbsp;{{data.denominator}}</li>
-                 <li class="list-group-item"><b>Data Source:</b>&nbsp;&nbsp;
-                   <ul class="list-group" ng-repeat="dataSets in data.dataSets">
-                       <li class="list-group-item"><b>Data Set:</b>&nbsp;&nbsp;{{dataSets.name}}</li>
-                       <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{dataSets.periodType}}</li>
-                   </ul>
-                 </li>
+             <ul class="list-group" ng-if="indicators[dashboardItem.id]">
+                 <li class="list-group-item"><b>Indicators Name:</b>&nbsp;&nbsp;
+                     <ul>
+                      <li ng-repeat="data in indicators[dashboardItem.id]" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
+                             {{data.name}}
+                      <span ng-show="hoverEdit" class="animate-show">
+                     <a style="cursor: pointer;" ng-click="activateLinkInd(data.uid)" ng-class="{'active' : linkValued == data.uid}">
+                        <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/help.png" alt="">
+                        Detail
+                     </a>
+                   </span>
+                        <div ng-if="linkValued ==data.uid">
+                                 <ul class="list-group">
+                                     <li class="list-group-item"><b>Indicator Type:</b>&nbsp;&nbsp;{{data.indicatorType.name}}</li>
+                                     <li class="list-group-item"><b>Numerator Description:</b>&nbsp;&nbsp;{{data.numeratorDescription}}</li>
+                                     <li class="list-group-item"><b>Denominator Description:</b>&nbsp;&nbsp;{{data.denominatorDescription}}</li>
+                                     <li class="list-group-item"><b>Numerator Formula:</b>&nbsp;&nbsp;{{data.numerator}}</li>
+                                     <li class="list-group-item"><b>Denominator Formula:</b>&nbsp;&nbsp;{{data.denominator}}</li>
+                                     <li class="list-group-item"><b>Data Source:</b>&nbsp;&nbsp;
+                                         <ul class="list-group" ng-repeat="dataSets in data.dataSets">
+                                             <li class="list-group-item"><b>Data Set:</b>&nbsp;&nbsp;{{dataSets.name}}</li>
+                                             <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{dataSets.periodType}}</li>
+                                         </ul>
+                                     </li>
+                                 </ul>
+                         </div>
+                       </li>
+                     </ul>
+                  </li>
+
              </ul>
              <ul class="list-group" ng-if="datasets[dashboardItem.id]" ng-repeat="data in datasets[dashboardItem.id]">
                  <li class="list-group-item"><b>Data Set Name:</b>&nbsp;&nbsp;{{data.name}}</li>

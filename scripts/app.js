@@ -28,7 +28,8 @@ var idashboard = angular.module('idashboard',
                         'dndLists',
                         'ngCsv',
                         'ngScrollbar',
-                        'ui.multiselect'
+                        'ui.multiselect',
+                        'ngAnimate'
                     ])
               
 .value('DHIS2URL', '../../..')
