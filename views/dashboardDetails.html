@@ -7,12 +7,16 @@
                  <li ng-repeat="data in dataElements[dashboardItem.id]" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
                      {{data.name}}
                    <span ng-show="hoverEdit" class="animate-show">
-                    <a  style="cursor: pointer;" ng-click="activateLink(data.id)" ng-class="{'active' : linkValue == data.id}">
+                    <a  style="cursor: pointer;" ng-show="!mute[data.id]" ng-click="activateLink(data.id)" ng-class="{'active' : linkValue == data.id}">
                     <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/help.png" alt="">
                     Detail
                     </a>
+                    <a  style="cursor: pointer;" ng-show="mute[data.id]" ng-click="activateLink(data.id)" ng-class="{'active' : linkValue == data.id}">
+                    <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/cross.png" alt="">
+                    Hide
+                    </a>
                    </span>
-                     <div ng-if="linkValue ==data.id">
+                     <div ng-if="linkValue ==data.id" ng-show="mute[data.id]==true">
                          <ul class="list-group">
                              <li class="list-group-item"><b>Aggregation Type:</b>&nbsp;&nbsp;{{data.aggregationType}}</li>
                              <li class="list-group-item"><b>Data Set(Period Type):</b>&nbsp;&nbsp;
@@ -35,12 +39,16 @@
                       <li ng-repeat="data in indicators[dashboardItem.id]" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
                              {{data.name}}
                       <span ng-show="hoverEdit" class="animate-show">
-                     <a style="cursor: pointer;" ng-click="activateLinkInd(data.uid)" ng-class="{'active' : linkValued == data.uid}">
-                        <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/help.png" alt="">
-                        Detail
+                     <a  style="cursor: pointer;" ng-show="!mutes[data.uid]" ng-click="activateLinkInd(data.uid)" ng-class="{'active' : linkValued == data.uid}">
+                         <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/help.png" alt="">
+                         Detail
                      </a>
+                    <a  style="cursor: pointer;" ng-show="mutes[data.uid]" ng-click="activateLinkInd(data.uid)" ng-class="{'active' : linkValued == data.uid}">
+                        <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/cross.png" alt="">
+                        Hide
+                    </a>
                    </span>
-                        <div ng-if="linkValued ==data.uid">
+                        <div ng-if="linkValued ==data.uid" ng-show="mutes[data.uid]==true">
                                  <ul class="list-group">
                                      <li class="list-group-item"><b>Indicator Type:</b>&nbsp;&nbsp;{{data.indicatorType.name}}</li>
                                      <li class="list-group-item"><b>Numerator Description:</b>&nbsp;&nbsp;{{data.numeratorDescription}}</li>

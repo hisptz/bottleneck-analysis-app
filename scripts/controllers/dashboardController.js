@@ -123,11 +123,17 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
         $scope.hoverOut = function(){
             this.hoverEdit = false;
         };
+        $scope.mute = [];
         $scope.activateLink = function(linkValue){
-           $scope.linkValue = linkValue;
+            $scope.linkValue = linkValue;
+            $scope.mute[linkValue] = !$scope.mute[linkValue];
+
          }
+        $scope.mutes = [];
         $scope.activateLinkInd = function(linkValued){
-           $scope.linkValued = linkValued;
+            $scope.linkValued = linkValued;
+            $scope.mutes[linkValued] = !$scope.mutes[linkValued];
+
          }
         $scope.filtersHidden = true;
         $scope.hideFilters = function(){
