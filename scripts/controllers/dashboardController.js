@@ -652,7 +652,69 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.chartXAxis,[],dashboardItem.chartYAxis,[],'none','',dashboardItem.object.name,$scope.dashboardChartType[dashboardItem.id])
 
                         }else if(dashboardItem.type == 'MAP'){
-                            //mpande
+                            mapManager.getOrganisationUnitsFromTree(dashboardItem.outOrganisationUnits);
+                            mapManager.period = dashboardItem.outOrPeriods;
+                            //mapManager.setOriginalAnalytics($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.id);
+
+                            $scope.touchedFeature[dashboardItem.id] = {};
+                            $scope.dashboardLoader[dashboardItem.id] = true;
+                            $scope.dashboardFailLoad[dashboardItem.id] = false;
+                            dashboardItem.type='MAP';
+                            dashboardItem.map = {};
+                            //mapManager.prepareMapProperties(dashboardItem);
+                            mapManager.getMapLayerBoundaries(mapManager.organisationUnits,dashboardItem.id).then(function(){
+                                mapManager.getMapThematicData().then(function(){
+                                    localStorage.setItem(dashboardItem.id,JSON.stringify(mapManager.featuredData));
+                                    //$scope.dashboardAnalytics[dashboardItem.id] = mapManager.analytics;
+                                    var mapCenter = {zoom: 5, lat: -7.139309343279099, lon: 38.864305898301}; /// TODO writing a function to center map drawn from chart and table anlytic object
+                                    var mapRenderer = mapManager.renderMapLayers(mapCenter,dashboardItem.id);
+                                    angular.extend(dashboardItem.map,mapRenderer);
+                                    angular.extend(dashboardItem.map,mapManager.legendSet);
+
+                                    mapManager.registerMapEvents($scope,dashboardItem.id,function(scope){
+                                        var featuredData = JSON.parse(localStorage.getItem(dashboardItem.id));
+                                        $scope.touchedFeature[dashboardItem.id] = featuredData[scope.previousFeature];
+                                        $scope.$watch($scope.touchedFeature[dashboardItem.id],function(newFeature,oldFeature){
+                                        });
+
+                                        $scope.currentDashboard = null;
+                                        $scope.$on("trackDashboard",function(event,daschboard_id){
+                                            $scope.currentDashboard = daschboard_id;
+                                        });
+
+                                    });
+
+                                    dashboardItem.map.columSize = {};
+                                    dashboardItem.map.columSize['col-md-4'] = "60%";
+                                    dashboardItem.map.columSize['col-md-8'] = "80%";
+                                    dashboardItem.map.columSize['col-md-12'] = "85%";
+
+                                    dashboardItem.map.columnLabelMarginLeft = {};
+                                    dashboardItem.map.columnLabelMarginLeft['col-md-4'] = "30%";
+                                    dashboardItem.map.columnLabelMarginLeft['col-md-8'] = "40%";
+                                    dashboardItem.map.columnLabelMarginLeft['col-md-12'] = "42.5%";
+
+                                    dashboardItem.map.title = mapManager.thematicLayers[0].name;
+                                    dashboardItem.map.title = mapManager.thematicLayers[0].name;
+                                    dashboardItem.map.styles = {
+                                        fontSize:mapManager.thematicLayers[0].labelFontSize,
+                                        fontStyle:mapManager.thematicLayers[0].labelFontStyle,
+                                        fontColor:mapManager.thematicLayers[0].labelFontColor,
+                                        fontWeight:mapManager.thematicLayers[0].labelFontWeight
+                                    }
+
+                                    $scope.dashboardLoader[dashboardItem.id] = false;
+                                    $scope.dashboardFailLoad[dashboardItem.id] = false;
+                                },function(){
+                                    $scope.dashboardLoader[dashboardItem.id] = false;
+                                    $scope.dashboardFailLoad[dashboardItem.id] = true;
+                                });
+                            },function(){
+                                $scope.dashboardLoader[dashboardItem.id] = false;
+                                $scope.dashboardFailLoad[dashboardItem.id] = true;
+                            });
+
+
                         }else if(dashboardItem.type == 'REPORT_TABLE'){
                             var columns = {};
                             var rows = {};

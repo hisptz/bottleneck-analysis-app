@@ -34,6 +34,20 @@ var mapManager = {
 
         }
     },
+    getOrganisationUnitsFromTree:function(treeOrgUnits){
+            var orgs = "";
+        angular.forEach(treeOrgUnits,function(orgUnitItem,orgUntIndex){
+            if(orgUnitItem.name.indexOf("Tanzania")>=0){
+                orgs+=orgUnitItem.id+";LEVEL-2;";
+            }else{
+                orgs+=orgUnitItem.id+";";
+            }
+
+        });
+                mapManager.organisationUnits = orgs.substring(0, orgs.length - 1);
+
+
+    },
     getPeriod:function(output){
             var period = "";
         angular.forEach(output.filters,function(periodValue){
