@@ -238,22 +238,24 @@
          </div>
          <div  ng-class="filtersHidden ? 'col-sm-12' : 'col-sm-10'">
              <div class="row-fluid">
+                 <div style="padding: 30px 140px;font-size: 28px;color: #bbb;" ng-if=" dashboardEmpty">{{ dashboardEmpty }}</div>
+                 <div style="padding: 20px 140px;font-size: 22px;color: #bbb;" ng-if=" dashboardInstr">{{ dashboardInstr }}</div>
                  <div ng-repeat="dashboardItem in dashboardItems | filter:searchKey" class="{{ dashboardItem.column_size }}" style="padding-right: 8px;padding-left: 0px">
                      <div class="panel panel-default ">
                          <div class="panel-heading">
-                             <a href='javascript:dhis2.db.viewShareForm( "{{ dashboardItem.id }}", "{{ dashboardItem.type | lowercase }}", "{{ dashboardItem.name }}" )' style="cursor: pointer">Share interpretation </a>|
-                             <a ng-if="dashboardItem.type=='REPORT_TABLE'" href='../../../dhis-web-pivot/index.html?id={{ dashboardItem.reportTable.id }}' style="cursor: pointer">Explore </a>
-                             <a ng-if="dashboardItem.type=='CHART'" href='../../../dhis-web-visualizer/index.html?id={{ dashboardItem.chart.id }}' style="cursor: pointer">Explore </a>
-                             <a ng-if="dashboardItem.type=='MAP'" href='../../../dhis-web-mapping/index.html?id={{ dashboardItem.map.id }}' style="cursor: pointer">Explore </a>|
-                             <a ng-click="cardClassResizable(dashboardItem)" style="cursor: pointer">Resize</a> |
+                             <a href='javascript:dhis2.db.viewShareForm( "{{ dashboardItem.id }}", "{{ dashboardItem.type | lowercase }}", "{{ dashboardItem.name }}" )' style="cursor: pointer">Share interpretation |</a>
+                             <a ng-if="dashboardItem.type=='REPORT_TABLE'" href='../../../dhis-web-pivot/index.html?id={{ dashboardItem.reportTable.id }}' style="cursor: pointer">Explore |</a>
+                             <a ng-if="dashboardItem.type=='CHART'" href='../../../dhis-web-visualizer/index.html?id={{ dashboardItem.chart.id }}' style="cursor: pointer">Explore |</a>
+                             <a ng-if="dashboardItem.type=='MAP'" href='../../../dhis-web-mapping/index.html?id={{ dashboardItem.map.id }}' style="cursor: pointer">Explore |</a>
+                             <a ng-click="cardClassResizable(dashboardItem)" style="cursor: pointer">Resize |</a>
 
                              <a ng-if="dashboardItem.type=='CHART'" type="button" title="Layout" style="background-color: #F5F5F5;cursor: pointer"
                                 data-content="{{popover.content}}"
                                 data-template-url="views/chartLayout.html"
                                 data-animation="am-flip-x"
                                 data-trigger = 'click'
-                                data-auto-close="1" bs-popover> Layout
-                             </a> <span ng-if="dashboardItem.type=='CHART'">|</span>
+                                data-auto-close="1" bs-popover> Layout|
+                             </a>
                              <a ng-if="dashboardItem.type=='CHART'" type="button" title="Data Filters" style="background-color: #F5F5F5;cursor: pointer"
                                 data-content="{{popover.content}}"
                                 data-template-url="views/chartDataFilter.html"
@@ -266,8 +268,8 @@
                                 data-template-url="views/tableLayout.html"
                                 data-animation="am-flip-x"
                                 data-trigger = 'click'
-                                data-auto-close="1" bs-popover> Layout
-                             </a> |
+                                data-auto-close="1" bs-popover> Layout|
+                             </a>
                              <a ng-if="dashboardItem.type!=='DASHBOARD_DETAILS'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5;cursor: pointer"
                                 data-content="{{popover.content}}"
                                 data-template-url="views/dashboardfilters.html"
@@ -285,17 +287,18 @@
                                                  {{dashboardItem.map.title}}
                                              </p>
                                          </div>
-                                         <div>
+                                 <div>
 
-                                             <div id="tooltip_{{dashboardItem.id}}"   class="infoh district "  ng-if="currentDashboard==dashboardItem.id" style="left:{{dashboardItem.map.columnLabelMarginLeft[dashboardItem.column_size]}}!important;">
+                                 <div id="tooltip_{{dashboardItem.id}}"   class="infoh district "  ng-if="currentDashboard==dashboardItem.id" style="left:{{dashboardItem.map.columnLabelMarginLeft[dashboardItem.column_size]}}!important;">
                                                  <p>{{touchedFeature[dashboardItem.id].name}} ({{touchedFeature[dashboardItem.id].value}})</p>
+
+
                                                  <!--<table >-->
                                                      <!--<tr><td style="background-color: #2D9630">&nbsp;</td><td style="text-align: left;">Uploaded</td><td  style="text-align: left;">{{submitted}}</td></tr>-->
                                                      <!--<tr><td style="background-color: #F93030;">&nbsp;</td><td style="text-align: left;">Not Uploaded</td><td style="text-align: left;">{{notsubmitted}}</td></tr>-->
                                                      <!--<tr ng-if="selectedDistrictHover"><td colspan="3"><br/>{{selectedDistrictHover.name}}</td></tr>-->
                                                  <!--</table>-->
-                                             </div>
-
+                                 </div>
 
                                             <div class="row legendSet" style="font-size: {{dashboardItem.map.styles.fontSize}}!important;font-weight: {{dashboardItem.map.styles.fontWeight}}!important;font-color:{{dashboardItem.map.styles.fontColor}}!important;margin-left: {{dashboardItem.map.columSize[dashboardItem.column_size]}}!important;">
                                                  <div class="panel panel-default" style="width:160px!important;">
@@ -342,8 +345,7 @@
                                  <a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 20px;width: 20px"/></i></a>
                                  <a ng-csv="prepareDataForCSV(dashboardItem)" csv-label="true" filename="data.csv" field-separator="," decimal-separator="."  title="Download Excel" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/cvs.jpg" style="height: 20px;width: 20px"/></i></a>
                                  <a ng-click="singleDashboardDetails(dashboardItem,'details')"  title="card details" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/inficon.png" style="height: 20px;width: 20px"/></i></a>
-                                 <!--<a ng-click="singleDashboardDetails(dashboardItem,'details')" class="pull-right" style="cursor: pointer;padding:0" title="card details"><i class="fa fa-ellipsis-v fa-2x"></i></a>-->
-                             </p>
+                              </p>
                           </div>
                      </div>
 

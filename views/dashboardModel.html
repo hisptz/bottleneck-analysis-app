@@ -9,12 +9,39 @@
 </style>
 <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" style="background: transparent;">
 	<div class="modal-dialog" style="margin-top: 100px; margin-right: auto; margin-left: auto; width: 95%; height: 800px">
-		<div class="modal-content" style="background: transparent;border: 0; -webkit-box-shadow: none; box-shadow: none;">
-			<div class="modal-header"  style="background: white;opacity: 0.85">
+		<div class="modal-content">
+			<div class="modal-header">
 				<a target="_blank" ng-if="dashboardItem.type=='REPORT_TABLE'" href='../../../dhis-web-pivot/index.html?id={{ dashboardItem.reportTable.id }}'>Explore </a>
 				<a target="_blank" ng-if="dashboardItem.type=='CHART'" href='../../../dhis-web-visualizer/index.html?id={{ dashboardItem.chart.id }}'>Explore </a>
 				<a target="_blank" ng-if="dashboardItem.type=='MAP'" href='../../../dhis-web-mapping/index.html?id={{ dashboardItem.map.id }}'>Explore </a>|
-
+				<a ng-if="dashboardItem.type=='CHART'" type="button" title="Layout" style="background-color: #F5F5F5;cursor: pointer"
+				   data-content="{{popover.content}}"
+				   data-template-url="views/chartLayout.html"
+				   data-animation="am-flip-x"
+				   data-trigger = 'click'
+				   data-auto-close="1" bs-popover> Layout|
+				</a>
+				<a ng-if="dashboardItem.type=='CHART'" type="button" title="Data Filters" style="background-color: #F5F5F5;cursor: pointer"
+				   data-content="{{popover.content}}"
+				   data-template-url="views/chartDataFilter.html"
+				   data-animation="am-flip-x"
+				   data-trigger = 'click'
+				   data-auto-close="1" bs-popover> Data
+				</a>
+				<a ng-if="dashboardItem.type=='REPORT_TABLE'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5;cursor: pointer"
+				   data-content="{{popover.content}}"
+				   data-template-url="views/tableLayout.html"
+				   data-animation="am-flip-x"
+				   data-trigger = 'click'
+				   data-auto-close="1" bs-popover> Layout|
+				</a>
+				<a ng-if="dashboardItem.type!=='DASHBOARD_DETAILS'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5;cursor: pointer"
+				   data-content="{{popover.content}}"
+				   data-template-url="views/dashboardfilters.html"
+				   data-animation="am-flip-x"
+				   data-trigger = 'click'
+				   data-auto-close="1" bs-popover> Filters
+				</a>
 				<button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body" style="padding:0px;z-index: 100">
@@ -65,20 +92,21 @@
 				</div>
 
 
-				<div ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%;height:700px;overflow: scroll;opacity: 0.85;background: white">
+				<div ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%;height:80vh;overflow: scroll;opacity: 0.85;background: white">
 					<target-table></target-table>
 				</div>
-				<div ng-if="dashboardItem.type=='DASHBOARD_DETAILS'" style="width: 100%;height:700px;overflow: scroll;opacity: 0.85;background: white">
+				<div ng-if="dashboardItem.type=='DASHBOARD_DETAILS'" style="width: 100%;height:80vh;overflow: scroll;opacity: 0.85;background: white">
 					<target-details></target-details>
 				</div>
 
-				<highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]" style="width: 100%;height: 700px;opacity: 0.85;"></highchart>
+				<highchart ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]" style="width: 100%;height: 80vh;opacity: 0.85;"></highchart>
 
 			</div>
 			<div class="modal-footer" style="background: transparent">
 				<p style="margin: 3px">
 					<a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 25px;width: 25px"/></i></a>
 					<a ng-csv="prepareDataForCSV(dashboardItem)" csv-label="true" filename="data.csv" field-separator="," decimal-separator="."  title="Download Excel" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/cvs.jpg" style="height: 25px;width: 25px"/></i></a>
+					<a ng-click="singleDashboardDetails(dashboardItem,'details')"  title="card details" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding-bottom: 8px; padding-top: 10px;padding-left: 10px;margin-right: 2px;"><img src="img/inficon.png" style="height: 25px;width: 25px"/></i></a>
 					<button type="button" class="btn btn-default pull-right" ng-click="$hide()">Close</button>
 				</p>
 

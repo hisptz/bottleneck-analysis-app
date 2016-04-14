@@ -116,7 +116,25 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                 return true;
             }
         };
+        $scope.hoverIn = function(){
+            this.hoverEdit = true;
+        };
 
+        $scope.hoverOut = function(){
+            this.hoverEdit = false;
+        };
+        $scope.mute = [];
+        $scope.activateLink = function(linkValue){
+            $scope.linkValue = linkValue;
+            $scope.mute[linkValue] = !$scope.mute[linkValue];
+
+         }
+        $scope.mutes = [];
+        $scope.activateLinkInd = function(linkValued){
+            $scope.linkValued = linkValued;
+            $scope.mutes[linkValued] = !$scope.mutes[linkValued];
+
+         }
         $scope.filtersHidden = true;
         $scope.hideFilters = function(){
             if($scope.filtersHidden == true){
@@ -221,7 +239,11 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
                 value.labelCard=$scope.getCardSize(value.shape);
             });
+            if(dashboard.dashboardItems.length==0){
 
+                $scope.dashboardEmpty="DashboardItem is Empty,To populate dashboard items use the main dashboard."
+                $scope.dashboardInstr="Enjoy interactive dashboard by switching,filtering and changing layout to different visualization charts and table as well as GIS"
+            }
             $scope.loading=false;
         });
         //$scope.column_size
@@ -986,6 +1008,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     var dataelements=dataElementApi.get(function(dataElementObject){
                         dataElementArray.push(dataElementObject);
                         $scope.dataElements[dashboardItem.id]=dataElementArray;
+                        console.log(dataElementArray);
                         $scope.dashboardLoader[dashboardItem.id] = false;
                     },function(response){
                         if(response.status==404){
@@ -1000,6 +1023,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                     var denominator=denominatorText.description;
                                     indicatorArray.push({name:indicatorObject.name,uid:indicatorObject.id,denominatorDescription:indicatorObject.denominatorDescription,numeratorDescription:indicatorObject.numeratorDescription,numerator:numerator,denominator:denominator,indicatorType:indicatorObject.indicatorType,dataSets:indicatorObject.dataSets});
                                  $scope.indicators[dashboardItem.id]=indicatorArray;
+                                        console.log(indicatorArray);
                                         $scope.dashboardLoader[dashboardItem.id] = false;
                                 });
                                 });

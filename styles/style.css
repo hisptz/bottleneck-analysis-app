@@ -125,3 +125,17 @@
 span#headerText {
 	font-size:20px;
 }
+ul.example {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+ul.example li {
+	display: inline;
+}
+ul.example li:after {
+	content: ", ";
+}
+ul.example li:last-child:after {
+	content: "";
+}
