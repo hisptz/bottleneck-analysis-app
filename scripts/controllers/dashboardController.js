@@ -297,6 +297,49 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             return dashboardItem[dashboardItem.type];
         };
 
+        //this is a very important function to fet rid of chart.js
+        $scope.prepareAnalytics  = function(data){
+            var url = ""; var column = ""; var row = ""; var filter = "";
+            var i = 0;
+            angular.forEach(data.columns,function(col){
+                if(i == 0 ) { column += "dimension="+col.dimension+':'}else{ column += "&dimension="+col.dimension+':' };
+                var items = "";
+                angular.forEach(col.items,function(item){
+                    items += item.id+';';
+                });
+                column += items.slice(0, -1);
+                i++;
+            });
+
+            //prepare rows
+            angular.forEach(data.rows,function(col){
+                row += "&dimension="+col.dimension+':';
+                var items = "";
+                angular.forEach(col.items,function(item){
+                    items += item.id+';';
+                });
+                row += items.slice(0, -1);
+            });
+
+            //prepare filters
+            angular.forEach(data.filters,function(col){
+                filter += "&dimension="+col.dimension+':';
+                var items = "";
+                angular.forEach(col.items,function(item){
+                    items += item.id+';';
+                });
+                filter += items.slice(0, -1);
+            });
+
+            url += "../../../api/analytics.json?"
+            url += column+row;
+            ( filter == "" )? url+"" : url += filter;
+            url += "&displayProperty=NAME";
+
+            return url;
+
+        };
+
         $scope.getAnalytics = function( dashboardItem, width, prepend )
         {
             width = width || 408;
@@ -308,159 +351,118 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             $scope.dashboardLoader[dashboardItem.id] = true;
             if ( "CHART" == dashboardItem.type )
             {
+                $http.get('../../../api/charts/'+dashboardItem.chart.id+'.json?fields=*,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name]],rows[dimension,filter,items[id,name]],filters[dimension,filter,items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits')
+                    .success(function(data){
+                        var url = $scope.prepareAnalytics(data);
+                        dashboardItem.object=data;
+                        $http.get(url)
+                            .success(function(analyticsData){
+                                $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
+                                $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
+                                var chartType=dashboardItem.object.type.toLowerCase();
+                                //setting chart service
+                                $scope.dashboardChartType[dashboardItem.id] = chartType;
+                                dashboardItem.chartXAxis = dashboardItem.object.category;
+                                dashboardItem.chartYAxis = dashboardItem.object.series;
+                                dashboardItem.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.category);
+                                dashboardItem.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.series);
+                                dashboardItem.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.series);
+                                dashboardItem.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.category);
+                                $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
+                                $scope.dashboardLoader[dashboardItem.id] = false;
+                                $scope.dashboardFailLoad[dashboardItem.id] = false;
+                            }).error(function(error){
+                                $scope.dashboardLoader[dashboardItem.id] = false;
+                                $scope.dashboardFailLoad[dashboardItem.id] = true;
+                            });
+                    }).error(function(error){
+                        console.log(error)
+                        $scope.dashboardLoader[dashboardItem.id] = false;
+                        $scope.dashboardFailLoad[dashboardItem.id] = true;
+                    });
 
-                DHIS.getChart({
-                    url: '../../..',
-                    el: 'plugin-' + dashboardItem.id,
-                    id: dashboardItem.chart.id,
-                    width: width,
-                    height: 308,
-                    dashboard: true,
-                    crossDomain: false,
-                    skipMask: true,
-                    userOrgUnit: userOrgUnit,
-                    domainAxisStyle: {
-                        labelRotation: 45,
-                        labelFont: '10px sans-serif',
-                        labelColor: '#111'
-                    },
-                    rangeAxisStyle: {
-                        labelFont: '9px sans-serif'
-                    },
-                    legendStyle: {
-                        labelFont: 'normal 10px sans-serif',
-                        labelColor: '#222',
-                        labelMarkerSize: 10,
-                        titleFont: 'bold 12px sans-serif',
-                        titleColor: '#333'
-                    },
-                    seriesStyle: {
-                        labelColor: '#333',
-                        labelFont: '9px sans-serif'
-                    }
-                }).then(function(result){
-                    dashboardItem.object=window.object;
-                    dashboardItem.analyticsUrl = window.alayticsUrl;
-                    $http.get('../../../'+dashboardItem.analyticsUrl)
-                        .success(function(analyticsData){
-                            $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
-                            $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
-                            var chartType=dashboardItem.object.type.toLowerCase();
-                            //setting chart service
-                            $scope.dashboardChartType[dashboardItem.id] = chartType;
-                            dashboardItem.chartXAxis = dashboardItem.object.category;
-                            dashboardItem.chartYAxis = dashboardItem.object.series;
-                            dashboardItem.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.category);
-                            dashboardItem.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.series);
-                            dashboardItem.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.series);
-                            dashboardItem.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.object.category);
-                            $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
-                            $scope.dashboardLoader[dashboardItem.id] = false;
-                            $scope.dashboardFailLoad[dashboardItem.id] = false;
-                        }).error(function(error){
-                            $scope.dashboardLoader[dashboardItem.id] = false;
-                            $scope.dashboardFailLoad[dashboardItem.id] = true;
-                        });
-                },function(){
-                    $scope.dashboardLoader[dashboardItem.id] = false;
-                    $scope.dashboardFailLoad[dashboardItem.id] = true;
-                });
             }
             else if ( "MAP" == dashboardItem.type )
             {
-                DHIS.getMap({
-                    url: '..',
-                    el: 'plugin-' + dashboardItem.id,
-                    id: dashboardItem.map.id,
-                    hideLegend: true,
-                    dashboard: true,
-                    crossDomain: false,
-                    skipMask: true,
-                    userOrgUnit: userOrgUnit
-                    }).then(function(output){
-                        //var mapCenter = {zoom:5,lat:output.latitude/100000,lon:output.longitude/100000};
-                        var mapCenter = {zoom:5,lat:output.latitude,lon:output.longitude};
+
+
+                $http.get('../../../api/maps/'+dashboardItem.map.id+'.json?fields=*,columns[dimension,filter,items[id,undefined]],rows[dimension,filter,items[id,undefined]],filters[dimension,filter,items[id,undefined]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit,mapViews[*,columns[dimension,filter,items[id,undefined]],rows[dimension,filter,items[id,undefined]],filters[dimension,filter,items[id,undefined]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit]')
+                    .success(function(output){
+                        console.log(output);
+                        var mapCenter = {zoom:5,lat:output.latitude/100000,lon:output.longitude/100000};
+                        //var mapCenter = {zoom:5,lat:output.latitude,lon:output.longitude};
                         $scope.touchedFeature = {};
                         var shared = mapManager.getShared();
                         shared.facility = 3029;
 
-                    mapManager.separateLayers(output);
-                    mapManager.getOrganisationUnits();
-                    mapManager.getMapLayerBoundaries(mapManager.organisationUnits,dashboardItem.id).then(function(){
-                    mapManager.getMapThematicData().then(function(){
-                        $scope.dashboardAnalytics[dashboardItem.id] = mapManager.analytics;
-                        var mapRenderer = mapManager.renderMapLayers(mapCenter,dashboardItem.id);
+                        mapManager.separateLayers(output);
+                        mapManager.getOrganisationUnits();
+                        mapManager.getMapLayerBoundaries(mapManager.organisationUnits,dashboardItem.id).then(function(){
+                            mapManager.getMapThematicData().then(function(){
+                                $scope.dashboardAnalytics[dashboardItem.id] = mapManager.analytics;
+                                var mapRenderer = mapManager.renderMapLayers(mapCenter,dashboardItem.id);
 
-                        angular.extend(dashboardItem.map,mapRenderer);
-                        angular.extend(dashboardItem.map,mapManager.legendSet);
+                                angular.extend(dashboardItem.map,mapRenderer);
+                                angular.extend(dashboardItem.map,mapManager.legendSet);
 
-                        mapManager.registerMapEvents($scope,dashboardItem.id,function(scope){
-                            var featuredData = JSON.parse(localStorage.getItem(dashboardItem.id));
-                            $scope.touchedFeature[dashboardItem.id] = featuredData[scope.previousFeature];
+                                mapManager.registerMapEvents($scope,dashboardItem.id,function(scope){
+                                    var featuredData = JSON.parse(localStorage.getItem(dashboardItem.id));
+                                    $scope.touchedFeature[dashboardItem.id] = featuredData[scope.previousFeature];
 
-                            //$scope.$watch($scope.touchedFeature,function(newFeature,oldFeature){
-                            //
-                            //});
+                                    //$scope.$watch($scope.touchedFeature,function(newFeature,oldFeature){
+                                    //
+                                    //});
+
+                                });
+
+                                dashboardItem.map.columSize = {};
+                                dashboardItem.map.columSize['col-md-4'] = "60%";
+                                dashboardItem.map.columSize['col-md-8'] = "80%";
+                                dashboardItem.map.columSize['col-md-12'] = "85%";
+
+                                dashboardItem.map.columnLabelMarginLeft = {};
+                                dashboardItem.map.columnLabelMarginLeft['col-md-4'] = "30%";
+                                dashboardItem.map.columnLabelMarginLeft['col-md-8'] = "40%";
+                                dashboardItem.map.columnLabelMarginLeft['col-md-12'] = "42.5%";
+
+                                dashboardItem.map.title = output.name;
+                                dashboardItem.map.title = output.name;
+                                dashboardItem.map.styles = {
+                                    fontSize:mapManager.thematicLayers[0].labelFontSize,
+                                    fontStyle:mapManager.thematicLayers[0].labelFontStyle,
+                                    fontColor:mapManager.thematicLayers[0].labelFontColor,
+                                    fontWeight:mapManager.thematicLayers[0].labelFontWeight
+                                }
+
+                                $scope.dashboardLoader[dashboardItem.id] = false;
+                                $scope.dashboardFailLoad[dashboardItem.id] = false;
+                            },function(){});
+                            // when map layer boundaries are successful obtained
+
+
+                        },function(){
+                            // when map layer boundaries fail to load
 
                         });
-
-                        dashboardItem.map.columSize = {};
-                        dashboardItem.map.columSize['col-md-4'] = "60%";
-                        dashboardItem.map.columSize['col-md-8'] = "80%";
-                        dashboardItem.map.columSize['col-md-12'] = "85%";
-
-                        dashboardItem.map.columnLabelMarginLeft = {};
-                        dashboardItem.map.columnLabelMarginLeft['col-md-4'] = "30%";
-                        dashboardItem.map.columnLabelMarginLeft['col-md-8'] = "40%";
-                        dashboardItem.map.columnLabelMarginLeft['col-md-12'] = "42.5%";
-
-                        console.log(dashboardItem.map);
-
-                        dashboardItem.map.title = output.name;
-                        dashboardItem.map.title = output.name;
-                        dashboardItem.map.styles = {
-                            fontSize:mapManager.thematicLayers[0].labelFontSize,
-                            fontStyle:mapManager.thematicLayers[0].labelFontStyle,
-                            fontColor:mapManager.thematicLayers[0].labelFontColor,
-                            fontWeight:mapManager.thematicLayers[0].labelFontWeight
-                        }
-
-                        $scope.dashboardLoader[dashboardItem.id] = false;
-                        $scope.dashboardFailLoad[dashboardItem.id] = false;
-                    },function(){});
-                        // when map layer boundaries are successful obtained
-
-
-                    },function(){
-                        // when map layer boundaries fail to load
-
                     });
-                    });
+
             }
             else if ( "REPORT_TABLE" == dashboardItem.type )
             {
 
-                DHIS.getTable({
-                    url: '../../..',
-                    el: 'plugin-' + dashboardItem.id,
-                    id: dashboardItem.reportTable.id,
-                    dashboard: true,
-                    crossDomain: false,
-                    skipMask: true,
-                    displayDensity: 'compact',
-                    fontSize: 'small',
-                    userOrgUnit: userOrgUnit
-                }).then(function(result) {
-                    dashboardItem.analyticsUrl = window.alayticsUrl;
-                    dashboardItem.object = window.object;
-                    dashboardItem.tableName = window.tableName;
-                    $scope.name = dashboardItem.tableName;
-                    $scope.dashboardItem = dashboardItem.tableName;
-                    var column = {};
-                    var rows = {};
-                    var filters = {};
-                    var analytics = dashboardItem.analyticsUrl;
-                    $http.get('../../../'+dashboardItem.analyticsUrl)
+
+                $http.get('../../../api/reportTables/'+dashboardItem.reportTable.id+'.json?fields=*,program[id,name],programStage[id,name],columns[dimension,filter,items[id,undefined]],rows[dimension,filter,items[id,undefined]],filters[dimension,filter,items[id,undefined]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels')
+                    .success(function(data) {
+                        var url = $scope.prepareAnalytics(data);
+                        dashboardItem.object = data;
+                        dashboardItem.analyticsUrl = url;
+                        dashboardItem.tableName = data.displayName;
+                        $scope.name = dashboardItem.tableName;
+                        $scope.dashboardItem = dashboardItem.tableName;
+                        var column = {};
+                        var rows = {};
+                        var filters = {};
+                        $http.get(dashboardItem.analyticsUrl)
                             .success(function(analyticsData){
                                 $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
                                 $scope.dashboardLoader[dashboardItem.id] = false;
@@ -494,7 +496,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                 dashboardItem.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],rows.rows);
 
 
-                            $scope.dashboardChartType[dashboardItem.id] = 'bar';
+                                $scope.dashboardChartType[dashboardItem.id] = 'bar';
                                 if (dashboardItem.object.columns.length == 2){
                                     $scope.tableDimension[dashboardItem.id]='2';
                                     var firstDimension=dashboardItem.object.columns[0].dimension;
@@ -518,10 +520,11 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                 $scope.dashboardLoader[dashboardItem.id] = false;
                                 $scope.dashboardFailLoad[dashboardItem.id] = true;
                             });
-                },function(){
-                    $scope.dashboardLoader[dashboardItem.id] = false;
-                    $scope.dashboardFailLoad[dashboardItem.id] = true;
-                });
+                    }).error(function(error){
+                        $scope.dashboardLoader[dashboardItem.id] = false;
+                        $scope.dashboardFailLoad[dashboardItem.id] = true;
+                    });
+
             }
         }
 
@@ -1008,7 +1011,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     var dataelements=dataElementApi.get(function(dataElementObject){
                         dataElementArray.push(dataElementObject);
                         $scope.dataElements[dashboardItem.id]=dataElementArray;
-                        console.log(dataElementArray);
                         $scope.dashboardLoader[dashboardItem.id] = false;
                     },function(response){
                         if(response.status==404){
@@ -1023,7 +1025,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                     var denominator=denominatorText.description;
                                     indicatorArray.push({name:indicatorObject.name,uid:indicatorObject.id,denominatorDescription:indicatorObject.denominatorDescription,numeratorDescription:indicatorObject.numeratorDescription,numerator:numerator,denominator:denominator,indicatorType:indicatorObject.indicatorType,dataSets:indicatorObject.dataSets});
                                  $scope.indicators[dashboardItem.id]=indicatorArray;
-                                        console.log(indicatorArray);
                                         $scope.dashboardLoader[dashboardItem.id] = false;
                                 });
                                 });

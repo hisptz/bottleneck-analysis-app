@@ -30,7 +30,7 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
             } else if (metadataType == 'pe') {
                 metadataArray = analyticsObject.metaData.pe;
             } else {
-                metadataArray = analyticsObject.metaData.co;
+                metadataArray = analyticsObject.metaData[metadataType];
             }
 
             return metadataArray;
