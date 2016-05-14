@@ -51,3 +51,30 @@ idashboardDirectives.directive('targetDetails',function(){
         transclude:true
     }
 });
+idashboardDirectives.directive('listingItem', function () {
+    return {
+        restrict: 'EA', //E = element, A = attribute, C = class, M = comment
+        scope: {
+            //@ reads the attribute value, = provides two-way binding, & works with functions
+            dashboardItem:'=',
+            loading:'=',
+            errorMessage:'='
+        },
+        replace: true,
+        //transclude:true,
+        templateUrl: 'views/partials/listingItem.html',
+        controller: function($scope,$http) {
+            //Load messages
+            $http.get('../../../api/messageConversations.json?fields=:all&pageSize=5')
+                .success(function(data){
+                    $scope.dashboardItem.messageConversations=data.messageConversations;
+                    $scope.loading=false;
+                }).error(function(error){
+                    $scope.loading=false;
+                    $scope.errorMessage = true;
+                });
+
+        } //Embed a custom controller in the directive
+        //link: function ($scope, element, attrs) { } //DOM manipulation
+    }
+});

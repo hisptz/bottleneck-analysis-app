@@ -1,0 +1,23 @@
+<table class="table table-striped">
+        <thead>
+            <tr>
+                <th><em style="text-transform: capitalize;font-style: normal;">{{ dashboardItem.type }}</em></th>
+            </tr>
+        </thead>
+    <tbody>
+        <tr  ng-repeat="listItem in (dashboardItem.type=='MESSAGES'
+                ? dashboardItem.messageConversations
+                : dashboardItem[dashboardItem.type.toLowerCase()])">
+            <td>
+                <a target="_blank"
+                   href="{{ dashboardItem.type=='MESSAGES'
+                   ? '../../../dhis-web-dashboard-integration/readMessage.action?id='+listItem.id
+                   : (dashboardItem.type!='USERS'
+                    ? listItem.href+'/data'
+                    : '../../../dhis-web-dashboard-integration/profile.action?id='+listItem.id) }}">
+                    {{ dashboardItem.type=='MESSAGES' ? listItem.name+' -  by: '+listItem.userFirstname+' '+listItem.userSurname+' on '+listItem.lastMessage
+                    :listItem.name}}</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

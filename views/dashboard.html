@@ -203,28 +203,38 @@
                                 <div ng-include="'views/partials/dashboardMap.html'"></div>
 
                             </div>
-                            <div style="width: 100%">
+                            <div ng-if="dashboardItem.type=='CHART'" style="width: 100%">
                                 <highchart
                                         ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]"
                                         ng-if="dashboardItem.type=='CHART'"
                                         config="dashboardChart[dashboardItem.id]"></highchart>
                             </div>
-
-
                             <div ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]"
                                  ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
                                 <target-table></target-table>
                             </div>
+
+                            <!-- Data Resources/Reports/Users Items-->
+                            <div ng-show="!dashboardLoader[dashboardItem.id]"
+                                 ng-if="dashboardItem.type=='RESOURCES'
+                                 || dashboardItem.type=='REPORTS'
+                                 || dashboardItem.type=='USERS'
+                                 || dashboardItem.type=='MESSAGES' "
+                                 style="width: 100%">
+                                <listing-item dashboard-item="dashboardItem" loading="dashboardLoader[dashboardItem.id]" error-message="dashboardFailLoad[dashboardItem.id]"></listing-item>
+                            </div>
+                            <!-- Data dictionary-->
                             <div ng-show="!dashboardLoader[dashboardItem.id]"
                                  ng-if="dashboardItem.type=='DASHBOARD_DETAILS'" style="width: 100%">
                                 <target-details></target-details>
                             </div>
-
-                            <wave-spinner ng-if="dashboardLoader[dashboardItem.id]"></wave-spinner>
+                            <!-- Loading failed -->
                             <div class="well well-lg text-danger" style="margin-top: 100px"
                                  ng-if="dashboardFailLoad[dashboardItem.id]"><span
                                     class="glyphicon glyphicon-warning-sign"></span> Error Loading data!
                             </div>
+                            <!--Loading -->
+                            <wave-spinner ng-if="dashboardLoader[dashboardItem.id]"></wave-spinner>
                         </div>
                         <div class="panel-footer" style="padding: 1px 15px">
                             <p style="margin: 3px">

@@ -62,6 +62,9 @@ function ($localStorageProvider) {
     }).when('/dashboards/:dashboardid/dashboard', {
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardController'
+    }).when('/dashboards/:dashboardid/dashboard/resource/:name/:resourceid', {
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardController'
     }).otherwise({
         redirectTo : '/'
     });
@@ -71,4 +74,13 @@ function ($localStorageProvider) {
     $translateProvider.useLoader('i18nLoader');
 
 
+})
+.filter('capitalize', function() {
+    return function filter(input) {
+        if (input !== null) {
+            return input.replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        }
+    }
 });

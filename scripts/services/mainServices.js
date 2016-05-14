@@ -22,7 +22,7 @@ mainServices.factory('dashboardsManager',['$http','$q','Dashboard','DashboardIte
         _load: function(dashboardId,deferred){
             var thisDashboard = this;
             var deferred = $q.defer();
-            $http.get('../../..'+'/api/dashboards/'+dashboardId+'.json?paging=false&fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all]]]')
+            $http.get('../../..'+'/api/dashboards/'+dashboardId+'.json?paging=false&fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all]],:all]')
                 .success(function(dashboardData){
                      var dashboard = thisDashboard._retrieveDashboardInstance(dashboardData.id,dashboardData);
                     deferred.resolve(dashboard);
