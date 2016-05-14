@@ -29,8 +29,25 @@ var idashboard = angular.module('idashboard',
                         'ngCsv',
                         'ngScrollbar',
                         'ui.multiselect',
-                        'ngAnimate'
+                        'ngAnimate',
+                        'ngStorage'
                     ])
+.config(['$localStorageProvider',
+function ($localStorageProvider) {
+    $localStorageProvider.setKeyPrefix('dhis2.');
+    var dashboardSerializer = function (value) {
+        // Do what you want with the value.
+        return value;
+    };
+
+    var dashboardDeserializer = function (value) {
+        return value;
+    };
+
+    $localStorageProvider.setSerializer(dashboardSerializer);
+    $localStorageProvider.setDeserializer(dashboardDeserializer);
+
+}])
               
 .value('DHIS2URL', '../../..')
 .config(function($translateProvider,$routeProvider,$popoverProvider) {

@@ -31,14 +31,14 @@ idashboardDirectives.directive('targetSelect', function() {
             options: '='
         },
         controller: controller,
-        templateUrl: 'views/target-select.html'
+        templateUrl: 'views/partials/target-select.html'
 
     };
 });
 idashboardDirectives.directive('targetTable',function(){
    return {
        restrict:"EA",
-       templateUrl:"views/dashboardTable.html",
+       templateUrl:"views/partials/dashboardTable.html",
        replace:true,
        transclude:true
    }
@@ -46,7 +46,7 @@ idashboardDirectives.directive('targetTable',function(){
 idashboardDirectives.directive('targetDetails',function(){
     return {
         restrict:"EA",
-        templateUrl:"views/dashboardDetails.html",
+        templateUrl:"views/partials/dashboardDetails.html",
         replace:true,
         transclude:true
     }

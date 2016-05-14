@@ -1,202 +1,147 @@
-<style type="text/css">
-    form.tab-form-demo .tab-pane {
-        margin: 20px 20px;
-    }
-
-    .info {
-        background-color: #fff;
-        border: 2px #444 solid;
-        border-radius: 7px;
-        -webkit-box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
-        -moz-box-shadow:    4px 4px 5px 0px rgba(50, 50, 50, 0.75);
-        box-shadow:         4px 4px 5px 0px rgba(50, 50, 50, 0.75);
-        color: #111;
-        font-size: 13px;
-        position: absolute;
-        bottom:30em;
-        left: 15em;
-        font-weight: bold;
-        padding: .2em .5em;
-        white-space: nowrap;
-        line-height: 1.1em;
-        text-align: center;
-        z-index: 1;
-    }
-    .info:before {
-        border-top: 6px solid transparent;
-        border-bottom: 6px solid transparent;
-        content: "";
-        border-right: 6px solid black;
-        border-right-color: inherit;
-        position: absolute;
-        left: -8px;
-        top: 20px;
-    }
-
-    .infoh {
-        background-color: #61616F;
-        color: #ffffff;
-        font-size: 9px;
-        position: absolute;
-        /*left: 20em;*/
-        font-weight: bold;
-        padding:.5em;
-        white-space: nowrap;
-        /*line-height: 1.1em;*/
-        text-align: center;
-        z-index: 1;
-    }
-
-
-    .modal-backdrop.am-fade {
-        opacity: .5;
-        transition: opacity .15s linear;
-        opacity: .97;
-        filter: alpha(opacity=97);
-    }
-    .modal-backdrop.am-fade.ng-enter {
-        opacity: 0;
-    }
-    .modal-backdrop.am-fade.ng-enter.ng-enter-active {
-        opacity: .5;
-    }
-    .modal-backdrop.am-fade.ng-leave {
-        opacity: .1;
-    }
-    .modal-backdrop.am-fade.ng-leave.ng-leave-active {
-        opacity: 0;
-    }
-
-    .legendSet{
-        position: absolute;
-        /*margin-top:-400px; ;*/
-        /*margin-left:70%!important;*/
-        z-index: 1;
-    }
-</style>
 <three-bounce-spinner ng-if="loading"></three-bounce-spinner>
 <div ng-if="!loading">
     <div class="row" style="margin-bottom: 10px">
-        <div class="col-sm-2"  ng-if="!filtersHidden">
+        <div class="col-sm-2" ng-if="!filtersHidden">
             <h4 class="text-muted">
                 Customize Dashboard</h4>
 
         </div>
         <div ng-class="filtersHidden ? 'col-sm-3' : 'col-sm-2'">
             <h4 class="text-muted" style="margin-bottom: 0px">
-                <a ng-click="hideFilters()" title="Show Filters" ng-if="filtersHidden" style="cursor:pointer"><img src="img/filter.jpg" style="height: 40px;width: 40px"><span class="glyphicon glyphicon-chevron-right pull-right"></span>Filters </a> |
+                <a ng-click="hideFilters()" title="Show Filters" ng-if="filtersHidden" style="cursor:pointer"><img
+                        src="img/filter.jpg" style="height: 40px;width: 40px"><span
+                        class="glyphicon glyphicon-chevron-right pull-right"></span>Filters </a> |
                 {{ dashBoardName }}</h4>
         </div>
         <div ng-class="filtersHidden ? 'col-sm-9' : 'col-sm-8'">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Type to Search..." ng-model="searchKey">
                 <span class="input-group-btn">
-                    <button class="btn btn-info" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    <button class="btn btn-info" type="button"><span class="glyphicon glyphicon-search"
+                                                                     aria-hidden="true"></span></button>
                 </span>
             </div>
         </div>
     </div>
-     <div ng-if="!loading" class="row">
+    <div ng-if="!loading" class="row">
 
-         <div class="col-sm-2" style="padding-right: 0px"  ng-if="!filtersHidden">
-             <ul class="list-group">
-
-
-                 <li class="list-group-item">
-                     <label class="text-muted">Apply Filters to</label>
-                     <a ng-click="hideFilters()" title="Hide Filters" ng-if="!filtersHidden"><span class="glyphicon glyphicon-chevron-left pull-right"></span></a><br>
-                     <label class="radio-inline">
-                         <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="all" ng-model="radioValue"> All
-                     </label>
-                     <label class="radio-inline">
-                         <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="one" ng-model="radioValue"> One Item
-                     </label>
-                     <label ng-if="radioValue == 'one'" class="text-muted">Select Dashboard</label>
-                     <select  ng-if="radioValue == 'one'" class="form-control" >
-                         <option ng-repeat="dashboard in dashboardItems" value="{{ dashboard.id }}">
-                             {{ dashboard.name }}
-                         </option>
-                     </select>
-                 </li>
-
-                 <!--period type-->
-                 <li class="list-group-item">
-                     <label class="text-muted">Period Type</label>
-                     <select id="periodType" class="form-control" ng-model="periodType" ng-change="changePeriodType(periodType)">
-                         <option value="">[ Select period type ]</option>
-                         <!--<option value="Weekly">Weekly</option>-->
-                         <option value="Monthly">Monthly</option>
-                         <option value="BiMonthly">Bimonthly</option>
-                         <option value="Quarterly">Quarterly</option>
-                         <option value="SixMonthly">Six-monthly</option>
-                         <option value="SixMonthlyApril">Six-monthly April</option>
-                         <option value="Yearly">Yearly</option>
-                         <option value="FinancialApril">Financial-April</option>
-                         <option value="FinancialJuly">Financial-July</option>
-                         <option value="FinancialOct">Financial-Oct</option>
-                         <option value="Relative Weeks">Relative Weeks </option>
-                         <option value="Relative Month">Relative Month </option>
-                         <option value="Relative Bi-Month">Relative Bi-Month </option>
-                         <option value="Relative Quarter">Relative Quarter </option>
-                         <option value="Relative Six Monthly">Relative Six Monthly </option>
-                         <option value="Relative Year">Relative Year </option>
-                         <option value="Relative Financial Year">Relative Financial Year </option>
-                     </select>
-                 </li>
-
-                 <!--period value-->
-                 <li class="list-group-item">
-                     <label class="text-muted">Period</label>
-                     <multi-select-tree
-                             data-input-model="periods"
-                             multi-select=multiPeriod
-                             data-output-model="data.outOrPeriods"
-                             data-default-label="Select Period"
-                             data-callback="selectOnly1Or3(item, selectedItems)"
-                             >
-                     </multi-select-tree>
-                     <!--<select class="form-control" style="margin-bottom: 5px">-->
-                        <!--<option ng-repeat="period in periods" value="{{ period.id }}">{{ period.name }}</option>-->
-                     <!--</select>-->
-                     <button ng-show="multiPeriod" type="button" class="btn btn-default btn-sm" style="width: 50%" ng-click="previousYear()"><< Prev Year</button>
-                     <button ng-show="multiPeriod" type="button " class="pull-right btn btn-default btn-sm" style="width: 50%" ng-click="nextYear()">Next Year >></button>
-
-                 </li>
+        <div class="col-sm-2" style="padding-right: 0px" ng-if="!filtersHidden">
+            <ul class="list-group">
 
 
-                 <!--orgunits-->
-                 <li class="list-group-item">
-                     <div class="row">
-                     <label class="text-muted">Organisation Unit</label>
-                         <hr/>
-                     </div>
+                <li class="list-group-item">
+                    <label class="text-muted">Apply Filters to</label>
+                    <a ng-click="hideFilters()" title="Hide Filters" ng-if="!filtersHidden"><span
+                            class="glyphicon glyphicon-chevron-left pull-right"></span></a><br>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="all"
+                               ng-model="radioValue"> All
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="one"
+                               ng-model="radioValue"> One Item
+                    </label>
+                    <label ng-if="radioValue == 'one'" class="text-muted">Select Dashboard</label>
+                    <select ng-if="radioValue == 'one'" class="form-control">
+                        <option ng-repeat="dashboard in dashboardItems" value="{{ dashboard.id }}">
+                            {{ dashboard.name }}
+                        </option>
+                    </select>
+                </li>
 
-                     <div class="row">
-                     <div class="col-md-4">
-                         <div class="dropdown">
-                            <button class="btn btn-small dropdown-toggle" type="button" data-toggle="dropdown">
-                            <i class="fa fa-cog"></i>
-                            <span class="caret"></span>
-                            </button>
-                             <ul class="dropdown-menu">
-                                 <li class="dropdown-header"><b>Selection mode</b></li>
-                                 <li ng-click="activateDropDown('organisation')" ng-class="{'active' : linkValue == 'organisation'}">
-                                     <a style="cursor: pointer;"><i class="fa fa-check"></i>&nbsp;&nbsp;Select organisation Units</a></li>
-                                 <li ng-click="activateDropDown('levels')" ng-class="{'active' : linkValue == 'levels'}">
-                                     <a style="cursor: pointer;"><i class="fa fa-check"></i>&nbsp;&nbsp;Select levels</a></li>
-                                 <li ng-click="activateDropDown('groups')" ng-class="{'active' : linkValue == 'groups'}">
-                                     <a style="cursor: pointer;"><i class="fa fa-check"></i>&nbsp;&nbsp;Select Groups</a></li>
-                              </ul>
-                         </div>
-                     </div>
-                         <div class="col-md-8">
-                             <p ng-if="linkValue =='organisation'" ng-init="linkValue =='organisation'" ng-show="linkValue =='organisation'">
-                             <label class="checkbox-inline" style="padding-left:{{userOrg.padding}} !important;" ng-repeat="userOrg in userOrgUnits">
-                                 <input type="checkbox" ng-model="userOrg.selected" value="{{userOrg.value}}" name="selectedUserOrgUnits">{{userOrg.name}}
-                              </label>
-                             </p>
+                <!--period type-->
+                <li class="list-group-item">
+                    <label class="text-muted">Period Type</label>
+                    <select id="periodType" class="form-control" ng-model="periodType"
+                            ng-change="changePeriodType(periodType)">
+                        <option value="">[ Select period type ]</option>
+                        <!--<option value="Weekly">Weekly</option>-->
+                        <option value="Monthly">Monthly</option>
+                        <option value="BiMonthly">Bimonthly</option>
+                        <option value="Quarterly">Quarterly</option>
+                        <option value="SixMonthly">Six-monthly</option>
+                        <option value="SixMonthlyApril">Six-monthly April</option>
+                        <option value="Yearly">Yearly</option>
+                        <option value="FinancialApril">Financial-April</option>
+                        <option value="FinancialJuly">Financial-July</option>
+                        <option value="FinancialOct">Financial-Oct</option>
+                        <option value="Relative Weeks">Relative Weeks</option>
+                        <option value="Relative Month">Relative Month</option>
+                        <option value="Relative Bi-Month">Relative Bi-Month</option>
+                        <option value="Relative Quarter">Relative Quarter</option>
+                        <option value="Relative Six Monthly">Relative Six Monthly</option>
+                        <option value="Relative Year">Relative Year</option>
+                        <option value="Relative Financial Year">Relative Financial Year</option>
+                    </select>
+                </li>
+
+                <!--period value-->
+                <li class="list-group-item">
+                    <label class="text-muted">Period</label>
+                    <multi-select-tree
+                            data-input-model="periods"
+                            multi-select=multiPeriod
+                            data-output-model="data.outOrPeriods"
+                            data-default-label="Select Period"
+                            data-callback="selectOnly1Or3(item, selectedItems)"
+                            >
+                    </multi-select-tree>
+                    <!--<select class="form-control" style="margin-bottom: 5px">-->
+                    <!--<option ng-repeat="period in periods" value="{{ period.id }}">{{ period.name }}</option>-->
+                    <!--</select>-->
+                    <button ng-show="multiPeriod" type="button" class="btn btn-default btn-sm" style="width: 50%"
+                            ng-click="previousYear()"><< Prev Year
+                    </button>
+                    <button ng-show="multiPeriod" type="button " class="pull-right btn btn-default btn-sm"
+                            style="width: 50%" ng-click="nextYear()">Next Year >>
+                    </button>
+
+                </li>
+
+
+                <!--orgunits-->
+                <li class="list-group-item">
+                    <div class="row">
+                        <label class="text-muted">Organisation Unit</label>
+                        <hr/>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="dropdown">
+                                <button class="btn btn-small dropdown-toggle" type="button" data-toggle="dropdown">
+                                    <i class="fa fa-cog"></i>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header"><b>Selection mode</b></li>
+                                    <li ng-click="activateDropDown('organisation')"
+                                        ng-class="{'active' : linkValue == 'organisation'}">
+                                        <a style="cursor: pointer;"><i class="fa fa-check"></i>&nbsp;&nbsp;Select
+                                            organisation Units</a></li>
+                                    <li ng-click="activateDropDown('levels')"
+                                        ng-class="{'active' : linkValue == 'levels'}">
+                                        <a style="cursor: pointer;"><i class="fa fa-check"></i>&nbsp;&nbsp;Select levels</a>
+                                    </li>
+                                    <li ng-click="activateDropDown('groups')"
+                                        ng-class="{'active' : linkValue == 'groups'}">
+                                        <a style="cursor: pointer;"><i class="fa fa-check"></i>&nbsp;&nbsp;Select Groups</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <p ng-if="linkValue =='organisation'" ng-init="linkValue =='organisation'"
+                               ng-show="linkValue =='organisation'">
+                                <label class="checkbox-inline" style="padding-left:{{userOrg.padding}} !important;"
+                                       ng-repeat="userOrg in userOrgUnits">
+                                    <input type="checkbox" ng-model="userOrg.selected" value="{{userOrg.value}}"
+                                           name="selectedUserOrgUnits">{{userOrg.name}}
+                                </label>
+                            </p>
+
                             <p ng-if="linkValue =='levels'" ng-show="linkValue =='levels'">
-                                 <multi-select-tree
+                                <multi-select-tree
                                         data-input-model="data.orgUnitLevels"
                                         multi-select="true"
                                         data-output-model="data.orOutgUnitLevels"
@@ -205,155 +150,106 @@
                                         >
                                 </multi-select-tree>
                             </p>
-                             <p ng-if="linkValue =='groups'" ng-show="linkValue =='groups'">
-                                 <multi-select-tree
-                                         data-input-model="data.orgUnitGroups"
-                                         multi-select="true"
-                                         data-output-model="data.orOutgUnitGroups"
-                                         data-default-label="Select groups"
-                                         data-callback="selectOnly1Or3(item, selectedItems)"
-                                         >
-                                 </multi-select-tree>
-                             </p>
-                         </div>
-                     </div>
-                     <wave-spinner ng-show="!loadOrgunits"></wave-spinner>
-                     <multi-select-tree ng-show="loadOrgunits"
-                             data-input-model="data.orgUnitTree"
-                             multi-select="true"
-                             data-output-model="data.outOrganisationUnits"
-                             data-default-label="Select Organization Zone"
-                             data-callback="selectOnly1Or2(item, selectedItems)"
-                             >
-                     </multi-select-tree>
-                 </li>
+                            <p ng-if="linkValue =='groups'" ng-show="linkValue =='groups'">
+                                <multi-select-tree
+                                        data-input-model="data.orgUnitGroups"
+                                        multi-select="true"
+                                        data-output-model="data.orOutgUnitGroups"
+                                        data-default-label="Select groups"
+                                        data-callback="selectOnly1Or3(item, selectedItems)"
+                                        >
+                                </multi-select-tree>
+                            </p>
+                        </div>
+                    </div>
+                    <wave-spinner ng-show="!loadOrgunits"></wave-spinner>
+                    <multi-select-tree ng-show="loadOrgunits"
+                                       data-input-model="data.orgUnitTree"
+                                       multi-select="true"
+                                       data-output-model="data.outOrganisationUnits"
+                                       data-default-label="Select Organization Zone"
+                                       data-callback="selectOnly1Or2(item, selectedItems)"
+                            >
+                    </multi-select-tree>
+                </li>
 
-                 <li class="list-group-item">
+                <li class="list-group-item">
 
-                     <button class="btn btn-info btn-block btn-sm" ng-click="updateDashboard()" ng-show="loadOrgunits">Update</button>
-                 </li>
-             </ul>
-
-
-         </div>
-         <div  ng-class="filtersHidden ? 'col-sm-12' : 'col-sm-10'">
-             <div class="row-fluid">
-                 <div style="padding: 30px 140px;font-size: 28px;color: #bbb;" ng-if=" dashboardEmpty">{{ dashboardEmpty }}</div>
-                 <div style="padding: 20px 140px;font-size: 22px;color: #bbb;" ng-if=" dashboardInstr">{{ dashboardInstr }}</div>
-                 <div ng-repeat="dashboardItem in dashboardItems | filter:searchKey" class="{{ dashboardItem.column_size }}" style="padding-right: 8px;padding-left: 0px">
-                     <div class="panel panel-default ">
-                         <div class="panel-heading">
-                             <a href='javascript:dhis2.db.viewShareForm( "{{ dashboardItem.id }}", "{{ dashboardItem.type | lowercase }}", "{{ dashboardItem.name }}" )' style="cursor: pointer">Share interpretation |</a>
-                             <a ng-if="dashboardItem.type=='REPORT_TABLE'" href='../../../dhis-web-pivot/index.html?id={{ dashboardItem.reportTable.id }}' style="cursor: pointer">Explore |</a>
-                             <a ng-if="dashboardItem.type=='CHART'" href='../../../dhis-web-visualizer/index.html?id={{ dashboardItem.chart.id }}' style="cursor: pointer">Explore |</a>
-                             <a ng-if="dashboardItem.type=='MAP'" href='../../../dhis-web-mapping/index.html?id={{ dashboardItem.map.id }}' style="cursor: pointer">Explore |</a>
-                             <a ng-click="cardClassResizable(dashboardItem)" style="cursor: pointer">Resize |</a>
-
-                             <a ng-if="dashboardItem.type=='CHART'" type="button" title="Layout" style="background-color: #F5F5F5;cursor: pointer"
-                                data-content="{{popover.content}}"
-                                data-template-url="views/chartLayout.html"
-                                data-animation="am-flip-x"
-                                data-trigger = 'click'
-                                data-auto-close="1" bs-popover> Layout|
-                             </a>
-                             <a ng-if="dashboardItem.type=='CHART'" type="button" title="Data Filters" style="background-color: #F5F5F5;cursor: pointer"
-                                data-content="{{popover.content}}"
-                                data-template-url="views/chartDataFilter.html"
-                                data-animation="am-flip-x"
-                                data-trigger = 'click'
-                                data-auto-close="1" bs-popover> Data
-                             </a>
-                             <a ng-if="dashboardItem.type=='REPORT_TABLE'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5;cursor: pointer"
-                                data-content="{{popover.content}}"
-                                data-template-url="views/tableLayout.html"
-                                data-animation="am-flip-x"
-                                data-trigger = 'click'
-                                data-auto-close="1" bs-popover> Layout|
-                             </a>
-                             <a ng-if="dashboardItem.type!=='DASHBOARD_DETAILS'" type="button" title="{{popover.title}}" style="background-color: #F5F5F5;cursor: pointer"
-                                data-content="{{popover.content}}"
-                                data-template-url="views/dashboardfilters.html"
-                                data-animation="am-flip-x"
-                                data-trigger = 'click'
-                                data-auto-close="1" bs-popover> Filters
-                             </a>
-
-                             <a data-animation="am-fade-and-slide-top" data-template-url="views/dashboardModel.html" bs-modal="modal" class="pull-right" style="cursor: pointer" title="Zoom card"><span class="glyphicon glyphicon-resize-full"></span> </a>
-                         </div>
-                         <div class="panel-body" style="height: 400px;overflow: scroll;padding:2px!important;">
-                                 <div ng-if="dashboardItem.type=='MAP'" ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]">
-                                         <div>
-                                             <p style="border: 0px none; font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 12px; font-family: LiberationSans, arial, sans-serif; color: rgb(51, 51, 51); text-align: center; line-height: 14px; letter-spacing: -0.1px; height: 19px; left: 0px; top: 0px; background-color: rgb(255, 255, 255);">
-                                                 {{dashboardItem.map.title}}
-                                             </p>
-                                         </div>
-                                 <div>
-
-                                 <div id="tooltip_{{dashboardItem.id}}"   class="infoh district "  ng-if="currentDashboard==dashboardItem.id" style="left:{{dashboardItem.map.columnLabelMarginLeft[dashboardItem.column_size]}}!important;">
-                                                 <p>{{touchedFeature[dashboardItem.id].name}} ({{touchedFeature[dashboardItem.id].value}})</p>
+                    <button class="btn btn-info btn-block btn-sm" ng-click="updateDashboard()" ng-show="loadOrgunits">
+                        Update
+                    </button>
+                </li>
+            </ul>
 
 
-                                                 <!--<table >-->
-                                                     <!--<tr><td style="background-color: #2D9630">&nbsp;</td><td style="text-align: left;">Uploaded</td><td  style="text-align: left;">{{submitted}}</td></tr>-->
-                                                     <!--<tr><td style="background-color: #F93030;">&nbsp;</td><td style="text-align: left;">Not Uploaded</td><td style="text-align: left;">{{notsubmitted}}</td></tr>-->
-                                                     <!--<tr ng-if="selectedDistrictHover"><td colspan="3"><br/>{{selectedDistrictHover.name}}</td></tr>-->
-                                                 <!--</table>-->
-                                 </div>
+        </div>
+        <div ng-class="filtersHidden ? 'col-sm-12' : 'col-sm-10'">
+            <div class="row-fluid">
+                <div style="padding: 30px 140px;font-size: 28px;color: #bbb;" ng-if=" dashboardEmpty">{{ dashboardEmpty
+                    }}
+                </div>
+                <div style="padding: 20px 140px;font-size: 22px;color: #bbb;" ng-if=" dashboardInstr">{{ dashboardInstr
+                    }}
+                </div>
+                <div ng-repeat="dashboardItem in dashboardItems | filter:searchKey"
+                     class="{{ dashboardItem.column_size }}" style="padding-right: 8px;padding-left: 0px">
+                    <div class="panel panel-default ">
+                        <div class="panel-heading">
+                            <div ng-include="'views/partials/dashboardItemHeader.html'"></div>
+                        </div>
+                        <div class="panel-body" style="height: 400px;overflow: scroll;padding:2px!important;">
+                            <div ng-if="dashboardItem.type=='MAP'"
+                                 ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]">
+                                <div ng-include="'views/partials/dashboardMap.html'"></div>
 
-                                            <div class="row legendSet" style="font-size: {{dashboardItem.map.styles.fontSize}}!important;font-weight: {{dashboardItem.map.styles.fontWeight}}!important;font-color:{{dashboardItem.map.styles.fontColor}}!important;margin-left: {{dashboardItem.map.columSize[dashboardItem.column_size]}}!important;">
-                                                 <div class="panel panel-default" style="width:160px!important;">
-                                                     <div class="panel-body" style="background-color:#cfcfcf!important;padding:0px!important;">
-                                                         <div  style="background-color: #ffffff!important;">
-                                                             <table  cellspacing="5" cellpadding="20" style="background-color: #ffffff!important;margin: 5px;margin-bottom: 5px;padding:0px!Important;">
-                                                                 <tr><td colspan="2" style="font-weight: bold;">{{dashboardItem.map.title}}</td></tr>
-                                                                 <tr ng-repeat="legend in dashboardItem.map.legend">
-                                                                     <td style="background-color: {{legend.color}}">&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                     <td>&nbsp;&nbsp;&nbsp;{{legend.interval}}&nbsp;({{legend.count}})</td>
-                                                                 </tr>
-                                                                 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                                             </table>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-
-                                             </div>
-
-                                             <openlayers ol-center="dashboardItem.map.MapCenter"  ol-defaults="dashboardItem.map.defaults" custome-layers="false" height="345px" style="border:1px solid #cccccc; ">
-                                                 <ol-layer ol-layer-properties="layer" name="dashboardItem.id" ng-repeat="layer in dashboardItem.map.layers"></ol-layer>
-                                             </openlayers>
-
-                                         </div>
-
-                                         </div>
-                                         <div style="width: 100%">
-                                             <highchart  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]" ng-if="dashboardItem.type=='CHART'" config="dashboardChart[dashboardItem.id]"></highchart>
-                                         </div>
+                            </div>
+                            <div style="width: 100%">
+                                <highchart
+                                        ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]"
+                                        ng-if="dashboardItem.type=='CHART'"
+                                        config="dashboardChart[dashboardItem.id]"></highchart>
+                            </div>
 
 
-                                         <div  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]" ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
-                                             <target-table></target-table>
-                                         </div>
-                                         <div ng-show="!dashboardLoader[dashboardItem.id]" ng-if="dashboardItem.type=='DASHBOARD_DETAILS'" style="width: 100%">
-                                             <target-details></target-details>
-                                         </div>
+                            <div ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]"
+                                 ng-if="dashboardItem.type=='REPORT_TABLE'" style="width: 100%">
+                                <target-table></target-table>
+                            </div>
+                            <div ng-show="!dashboardLoader[dashboardItem.id]"
+                                 ng-if="dashboardItem.type=='DASHBOARD_DETAILS'" style="width: 100%">
+                                <target-details></target-details>
+                            </div>
 
-                                         <wave-spinner ng-if="dashboardLoader[dashboardItem.id]"></wave-spinner>
-                                         <div class="well well-lg text-danger" style="margin-top: 100px" ng-if="dashboardFailLoad[dashboardItem.id]"><span class="glyphicon glyphicon-warning-sign"></span> Error Loading data! </div>
-                           </div>
-                          <div class="panel-footer" style="padding: 1px 15px">
-                             <p style="margin: 3px">
-                                 <a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons" title="{{ icon.name }}" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/{{icon.image}}" style="height: 20px;width: 20px"/></i></a>
-                                 <a ng-csv="prepareDataForCSV(dashboardItem)" csv-label="true" filename="data.csv" field-separator="," decimal-separator="."  title="Download Excel" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/cvs.jpg" style="height: 20px;width: 20px"/></i></a>
-                                 <a ng-click="singleDashboardDetails(dashboardItem,'details')"  title="card details" class="btn btn-small btn-info" style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img src="img/inficon.png" style="height: 20px;width: 20px"/></i></a>
-                              </p>
-                          </div>
-                     </div>
+                            <wave-spinner ng-if="dashboardLoader[dashboardItem.id]"></wave-spinner>
+                            <div class="well well-lg text-danger" style="margin-top: 100px"
+                                 ng-if="dashboardFailLoad[dashboardItem.id]"><span
+                                    class="glyphicon glyphicon-warning-sign"></span> Error Loading data!
+                            </div>
+                        </div>
+                        <div class="panel-footer" style="padding: 1px 15px">
+                            <p style="margin: 3px">
+                                <a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons"
+                                   title="{{ icon.name }}" class="btn btn-small btn-info"
+                                   style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 4px;margin-right: 2px;"><img
+                                        src="img/{{icon.image}}" style="height: 20px;width: 20px"/></i></a>
+                                <a ng-csv="prepareDataForCSV(dashboardItem)" csv-label="true" filename="data.csv"
+                                   field-separator="," decimal-separator="." title="Download Excel"
+                                   class="btn btn-small btn-info"
+                                   style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img
+                                        src="img/cvs.jpg" style="height: 20px;width: 20px"/></i></a>
+                                <a ng-click="singleDashboardDetails(dashboardItem,'details')" title="card details"
+                                   class="btn btn-small btn-info"
+                                   style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img
+                                        src="img/inficon.png" style="height: 20px;width: 20px"/></i></a>
+                            </p>
+                        </div>
+                    </div>
 
-                 </div>
-             </div>
-         </div>
+                </div>
+            </div>
+        </div>
 
-</div>
+    </div>
 </div>
 
 

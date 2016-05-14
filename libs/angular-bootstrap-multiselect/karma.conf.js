@@ -3,7 +3,7 @@
 
 module.exports = function(config) {
 	config.set({
-		basePath     : "",
+		basePath     : "),
 		frameworks   : ["ng-scenario"],
 		files        : [
 			"angular-bootstrap-multiselect.js",

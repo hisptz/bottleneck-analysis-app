@@ -1,7 +1,8 @@
 var mainController  = angular.module('mainController',[]);
 
-mainController.controller('MenuController',['$scope','$window','dashboardsManager','$resource','$location',function($scope,$window,
-                                                                                                       dashboardsManager,$resource,$location){
+mainController.controller('MenuController',['$scope','$window','dashboardsManager','$resource','$location','$routeParams','$localStorage','$sessionStorage',function($scope,$window,
+                                                                                                       dashboardsManager,$resource,$location,$routeParams,$localStorage,
+                                                                                                       $sessionStorage){
 
     dashboardsManager.loadAllDashboards().then(function(dashboards){
         $scope.dashboards = dashboards;
@@ -11,7 +12,16 @@ mainController.controller('MenuController',['$scope','$window','dashboardsManage
                 angular.forEach($scope.orgUnits,function(childOrg){
                     $scope.childOrg=childOrg.children;
                 });
-                $location.path("/dashboards/" + $scope.dashboards[0].id + "/dashboard");
+                if(!angular.isDefined($routeParams.dashboardid)) {
+                    //On first landing choose landing from local storage or default to first dashboard
+                    $scope.$storage = $localStorage;
+                    console.log('landing page is :'+$localStorage['dashboard.current.mukulu']);
+                    if(angular.isDefined($localStorage['dashboard.current.mukulu'])) {
+                        $location.path("/dashboards/" + $localStorage['dashboard.current.mukulu'] + "/dashboard");
+                    }else {
+                        $location.path("/dashboards/" + $scope.dashboards[0].id + "/dashboard");
+                    }
+                }
             });
         $scope.year=new Date().getFullYear();
         $scope.period=$scope.year;
@@ -34,5 +44,4 @@ mainController.controller('MenuController',['$scope','$window','dashboardsManage
     ){
 
         $scope.loading = false;
-
     }])
