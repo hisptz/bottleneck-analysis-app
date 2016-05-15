@@ -1,5 +1,5 @@
 <div>
-<table ng-if="!matches(dashboardItem.type,'APP')" class="table table-striped">
+<table ng-if="dashboardItem.type!=='APP'" class="table table-striped">
         <thead>
             <tr>
                 <th><em style="text-transform: capitalize;font-style: normal;">{{ dashboardItem.type }}</em></th>
@@ -11,17 +11,16 @@
                 : dashboardItem[dashboardItem.type.toLowerCase()])">
             <td>
                 <a target="_blank"
-                   href="{{ matches(dashboardItem.type,'MESSAGES')
+                   href="{{ dashboardItem.type=='MESSAGES'
                    ? '../../../dhis-web-dashboard-integration/readMessage.action?id='+listItem.id
-                   : (!matches(dashboardItem.type,'USERS')
+                   : (dashboardItem.type!='USERS'
                     ? listItem.href+'/data'
                     : '../../../dhis-web-dashboard-integration/profile.action?id='+listItem.id) }}">
-                    {{ matches(dashboardItem.type,'MESSAGES') ? listItem.name+' on '+listItem.lastMessage+'  '+listItem.userFirstname+' '+listItem.userSurname
-                    :listItem.name}}</a>
+                    {{ dashboardItem.type=='MESSAGES' ? listItem.name+' on '+listItem.lastMessage+'  '+listItem.userFirstname+' '+listItem.userSurname
+                    : listItem.name}}</a>
             </td>
         </tr>
     </tbody>
 </table>
-
-<iframe ng-if="matches(dashboardItem.type,'APP')" id="plugin-{{dashboardItem.id}}" style="width:100%;height:304px;border:0" allowfullscreen="" src="{{dashboardItemMediaUrl}}"></iframe>
+<iframe ng-if="dashboardItem.type=='APP'" id="plugin-{{dashboardItem.id}}" style="width:100%;height:304px;border:0" allowfullscreen="" src="{{dashboardItemMediaUrl}}"></iframe>
 </div>

@@ -241,6 +241,14 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             $scope.dashBoardName = dashboard.name;
             $scope.dashboardItems = dashboard.dashboardItems;
            angular.forEach($scope.dashboardItems,function(value){
+               //Force normal size for Messages/Reports/Resources/Users
+               if( value.type=="MESSAGES"
+                   || value.type=="REPORTS"
+                   || value.type=="RESOURCES"
+                   || value.type=="USERS"
+               ) {
+                   value.shape="NORMAL";
+               }
                 value.yearValue = $scope.yearValue;
                 value.periodType = 'Yearly';
                 $scope.getPeriodArray(value.periodType,value);
