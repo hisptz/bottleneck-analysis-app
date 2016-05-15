@@ -62,9 +62,6 @@ function ($localStorageProvider) {
     }).when('/dashboards/:dashboardid/dashboard', {
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardController'
-    }).when('/dashboards/:dashboardid/dashboard/resource/:name/:resourceid', {
-        templateUrl: 'views/dashboard.html',
-        controller: 'DashboardController'
     }).otherwise({
         redirectTo : '/'
     });

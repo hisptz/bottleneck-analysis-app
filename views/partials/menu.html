@@ -1,20 +1,5 @@
-<style>
-  .pagination {
-    margin-top: 5px !important;
-    margin-bottom: 5px !important
-  }
-  .pagination > li > a, .pagination > li > span {
-    background-color: #ECECEC !important;
-
-  }
-  .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
-    background-color: #428bca !important;
-  }
-</style>
 <div ng-controller="MenuController">
 <nav class="navbar navbar-default" bs-navbar ng-if="!loading">
-
-
 
   <div class="container-fluid bbnav">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -29,18 +14,21 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <!--<li  data-match-route="/$"><a href="#/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{'home'| translate}}</a></li>-->
-        <!--<li ng-repeat="dashboard in dashboards" data-match-route="/dashboards/{{dashboard.id}}"><a href="#/dashboards/{{dashboard.id}}/dashboard">{{ dashboard.name }}</a></li>-->
-        <li style="border-right: #ECECEC 1px solid" dir-paginate="dashboard in dashboards | itemsPerPage:9" data-match-route="/dashboards/{{dashboard.id}}"><a href="#/dashboards/{{dashboard.id}}/dashboard">{{ dashboard.name }} </a></li>
-      </ul>
       <dir-pagination-controls
-              max-size="2"
+              max-size="3"
               direction-links="true"
               boundary-links="true"
-              class="pull-right"
+              class="pull-left"
               auto-hide="true">
       </dir-pagination-controls>
+      <ul class="nav navbar-nav">
+        <li
+                style="border-right: #ECECEC 1px solid"
+                dir-paginate="dashboard in dashboards | itemsPerPage:4"
+                data-match-route="/dashboards/{{dashboard.id}}">
+          <a href="#/dashboards/{{dashboard.id}}/dashboard">{{ dashboard.name }} </a>
+        </li>
+      </ul>
     </div><!-- /.navbar-collapse -->
     <!--<div class="col-sm-3">-->
       <!---->

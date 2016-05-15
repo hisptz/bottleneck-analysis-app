@@ -217,3 +217,14 @@ form.tab-form-demo .tab-pane {
 	/*margin-left:70%!important;*/
 	z-index: 1;
 }
+.pagination {
+	margin-top: 5px !important;
+	margin-bottom: 5px !important
+}
+.pagination > li > a, .pagination > li > span {
+	background-color: #ECECEC !important;
+
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+	background-color: #428bca !important;
+}

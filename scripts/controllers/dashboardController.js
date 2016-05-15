@@ -2,7 +2,7 @@ var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','$resource','dashboardsManager','dashboardItemsManager',
     '$routeParams','$timeout','$translate','Paginator','ContextMenuSelectedItem',
     '$filter','$http','CustomFormService','DHIS2URL', 'olHelpers',
-    'olData','mapManager','chartsManager','TableRenderer','filtersManager',function($scope,
+    'olData','mapManager','chartsManager','TableRenderer','filtersManager','$localStorage','$sessionStorage',function($scope,
                                                         $resource,
                                                         dashboardsManager,
                                                         dashboardItemsManager,
@@ -20,7 +20,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                                         mapManager,
                                                         chartsManager,
                                                         TableRenderer,
-                                                        filtersManager
+                                                        filtersManager,$localStorage,
+                                                        $sessionStorage
 
     ){
 
@@ -61,6 +62,19 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
         $scope.tableRow = 'dx';
         $scope.chartXAxis = 'ou';
         $scope.chartYAxis = 'dx';
+
+        //Update currently selected dashboard
+        $scope.$storage = $localStorage;
+        $http.get('../../../api/me/user-account.json').success(function(userAccount){
+            console.log('WE LOADED USER ACCOUNT');
+            $scope.currentUser=userAccount;
+            $localStorage['dashboard.current.'+$scope.currentUser.username]=$routeParams.dashboardid;
+        }).error(function(errorMessage){
+            //Do nothing when ajax fails
+            console.log('LOADING OF USER FAILED!!!');
+            console.log(errorMessage);
+        });
+        console.log('WE PASS HERE!!!');
 
         /**
          *

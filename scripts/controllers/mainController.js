@@ -15,12 +15,19 @@ mainController.controller('MenuController',['$scope','$window','dashboardsManage
                 if(!angular.isDefined($routeParams.dashboardid)) {
                     //On first landing choose landing from local storage or default to first dashboard
                     $scope.$storage = $localStorage;
-                    console.log('landing page is :'+$localStorage['dashboard.current.mukulu']);
-                    if(angular.isDefined($localStorage['dashboard.current.mukulu'])) {
-                        $location.path("/dashboards/" + $localStorage['dashboard.current.mukulu'] + "/dashboard");
-                    }else {
+                    $http.get('../../../api/me/user-acount.json').success(function(userAccount){
+                        $scope.currentUser=userAccount;
+                        if(angular.isDefined($localStorage['dashboard.current.'+$scope.currentUser.username])) {
+                            $location.path("/dashboards/" + $localStorage['dashboard.current.'+$scope.currentUser.username] + "/dashboard");
+                        }else {
+                            //@todo handle situation when there isn't a single dashboard
+                            $location.path("/dashboards/" + $scope.dashboards[0].id + "/dashboard");
+                        }
+                    }).error(function(errorMessage){
+                        //When ajax fails resort to first dashboardItem
+                        //@todo handle situation when there isn't a single dashboard
                         $location.path("/dashboards/" + $scope.dashboards[0].id + "/dashboard");
-                    }
+                    });
                 }
             });
         $scope.year=new Date().getFullYear();

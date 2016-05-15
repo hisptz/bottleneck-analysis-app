@@ -67,7 +67,6 @@ idashboardDirectives.directive('listingItem', function () {
             var deferred = $q.defer();
             var ajaxCalls = [];
 
-            console.log('WE ARE INSIDE LISTING ITEM CONTROLLER');
             //Load messages
             ajaxCalls.push($http.get('../../../api/messageConversations.json?fields=:all&pageSize=5')
                 .success(function(data){
