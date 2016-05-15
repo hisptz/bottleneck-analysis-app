@@ -194,7 +194,11 @@
                 <div ng-repeat="dashboardItem in dashboardItems | filter:searchKey"
                      class="{{ dashboardItem.column_size }}" style="padding-right: 8px;padding-left: 0px">
                     <div class="panel panel-default ">
-                        <div class="panel-heading">
+                        <div class="panel-heading"
+                                ng-hide="dashboardItem.type=='RESOURCES'
+                                 || dashboardItem.type=='REPORTS'
+                                 || dashboardItem.type=='USERS'
+                                 || dashboardItem.type=='MESSAGES' ">
                             <div ng-include="'views/partials/dashboardItemHeader.html'"></div>
                         </div>
                         <div class="panel-body" style="height: 400px;overflow: scroll;padding:2px!important;">
@@ -237,7 +241,11 @@
                             <wave-spinner ng-if="dashboardLoader[dashboardItem.id]"></wave-spinner>
                         </div>
                         <div class="panel-footer" style="padding: 1px 15px">
-                            <p style="margin: 3px">
+                            <p style="margin: 3px"
+                               ng-hide="dashboardItem.type=='RESOURCES'
+                                 || dashboardItem.type=='REPORTS'
+                                 || dashboardItem.type=='USERS'
+                                 || dashboardItem.type=='MESSAGES' ">
                                 <a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons"
                                    title="{{ icon.name }}" class="btn btn-small btn-info"
                                    style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 4px;margin-right: 2px;"><img

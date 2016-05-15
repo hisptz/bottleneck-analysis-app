@@ -15,7 +15,7 @@
                    : (dashboardItem.type!='USERS'
                     ? listItem.href+'/data'
                     : '../../../dhis-web-dashboard-integration/profile.action?id='+listItem.id) }}">
-                    {{ dashboardItem.type=='MESSAGES' ? listItem.name+' -  by: '+listItem.userFirstname+' '+listItem.userSurname+' on '+listItem.lastMessage
+                    {{ dashboardItem.type=='MESSAGES' ? listItem.name+' on '+listItem.lastMessage+'  '+listItem.userFirstname+' '+listItem.userSurname
                     :listItem.name}}</a>
             </td>
         </tr>

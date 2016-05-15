@@ -63,16 +63,32 @@ idashboardDirectives.directive('listingItem', function () {
         replace: true,
         //transclude:true,
         templateUrl: 'views/partials/listingItem.html',
-        controller: function($scope,$http) {
+        controller: function($scope,$http,$q) {
+            var deferred = $q.defer();
+            var ajaxCalls = [];
+
+            console.log('WE ARE INSIDE LISTING ITEM CONTROLLER');
             //Load messages
-            $http.get('../../../api/messageConversations.json?fields=:all&pageSize=5')
+            ajaxCalls.push($http.get('../../../api/messageConversations.json?fields=:all&pageSize=5')
                 .success(function(data){
                     $scope.dashboardItem.messageConversations=data.messageConversations;
-                    $scope.loading=false;
+                }).error(function(error){
+                    $scope.errorMessage = true;
+                }));
+            ajaxCalls.push($http.get('../../../api/dashboardItems/'+$scope.dashboardItem.id+'.json?fields=:all,dashboardItems[:all]')
+                .success(function(data){
+                    $scope.dashboardItem=data;
                 }).error(function(error){
                     $scope.loading=false;
                     $scope.errorMessage = true;
-                });
+                }));
+
+            $q.all(ajaxCalls).then( function(results) {
+                    $scope.loading=false;
+            },function(errors) {
+                deferred.reject(errors);
+            });
+
 
         } //Embed a custom controller in the directive
         //link: function ($scope, element, attrs) { } //DOM manipulation
