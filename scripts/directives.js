@@ -58,14 +58,23 @@ idashboardDirectives.directive('listingItem', function () {
             //@ reads the attribute value, = provides two-way binding, & works with functions
             dashboardItem:'=',
             loading:'=',
-            errorMessage:'='
+            errorMessage:'=',
+            matches:'&'
         },
         replace: true,
         //transclude:true,
         templateUrl: 'views/partials/listingItem.html',
-        controller: function($scope,$http,$q) {
+        controller: function($scope,$http,$q,$sce) {
             var deferred = $q.defer();
             var ajaxCalls = [];
+            $scope.dashboardItemMediaUrl = $sce.trustAsResourceUrl('../../../api/apps/social-media-video/index.html?dashboardItemId='+$scope.dashboardItem.id);
+            $scope.matches = function(type1,type2) {
+                if(type1==type2) {
+                    return true;
+                }else {
+                    return false;
+                }
+            };
 
             //Load messages
             ajaxCalls.push($http.get('../../../api/messageConversations.json?fields=:all&pageSize=5')

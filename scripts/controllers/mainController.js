@@ -1,6 +1,6 @@
 var mainController  = angular.module('mainController',[]);
 
-mainController.controller('MenuController',['$scope','$window','dashboardsManager','$resource','$location','$routeParams','$localStorage','$sessionStorage',function($scope,$window,
+mainController.controller('MenuController',['$scope','$window','$http','dashboardsManager','$resource','$location','$routeParams','$localStorage','$sessionStorage',function($scope,$window,$http,
                                                                                                        dashboardsManager,$resource,$location,$routeParams,$localStorage,
                                                                                                        $sessionStorage){
 

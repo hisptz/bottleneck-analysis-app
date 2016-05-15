@@ -66,15 +66,12 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
         //Update currently selected dashboard
         $scope.$storage = $localStorage;
         $http.get('../../../api/me/user-account.json').success(function(userAccount){
-            console.log('WE LOADED USER ACCOUNT');
             $scope.currentUser=userAccount;
             $localStorage['dashboard.current.'+$scope.currentUser.username]=$routeParams.dashboardid;
         }).error(function(errorMessage){
             //Do nothing when ajax fails
-            console.log('LOADING OF USER FAILED!!!');
             console.log(errorMessage);
         });
-        console.log('WE PASS HERE!!!');
 
         /**
          *
