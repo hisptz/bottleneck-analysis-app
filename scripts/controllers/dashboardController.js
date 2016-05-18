@@ -373,7 +373,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                             //@todo place the ajax called dimensions to use in events
                             //@todo for dataElement pull optionset options, for category pull category option and for attributeDimension
                             //pull attribute options
-                            $scope.promises.push($http.get('../../../api/dataElements/'+possibleDimension['dataElement'].id+'.json?fields=:id,name,optionSet[id,name,options[id,name]]')
+                            $scope.promises.push($http.get('../../../api/dataElements/'+possibleDimension['dataElement'].id+'.json?fields=:id,name,optionSet[id,name,options[id,name,code]]')
                                 .success(function(dataElementObject){
                                     $scope.dimensionDetails.metaDataNames[possibleDimension['dataElement'].id]=dataElementObject.name;
                                     $scope.dimensionDetails.metaData[possibleDimension['dataElement'].id]=[];
@@ -529,9 +529,9 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                 }
                                 //Account for additional meta-data needed by drawing chart object for events
                                 $q.all($scope.promises).then(function(promiseResults){
-
                                     angular.extend(analyticsData.metaData.names,$scope.dimensionDetails.metaDataNames);
                                     angular.extend(analyticsData.metaData,$scope.dimensionDetails.metaData);
+
                                     $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
                                     $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
                                     var chartType=dashboardItem.object.type.toLowerCase();
@@ -654,58 +654,66 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                         var filters = {};
                         $http.get(dashboardItem.analyticsUrl)
                             .success(function(analyticsData){
-                                $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
-                                $scope.dashboardLoader[dashboardItem.id] = false;
-                                $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
-                                $scope.dimensions = {
-                                    selected: null,
-                                    axises: {"xAxis": [], "yAxis": [],"filter":[]}
-                                };
-                                angular.forEach(dashboardItem.object.rows,function(row){
-                                    rows['rows']=row.dimension;
-                                    $scope.dimensions.axises.xAxis.push({label:row.dimension,name:analyticsData.metaData.names[row.dimension]});
-                                });
-                                angular.forEach(dashboardItem.object.columns, function (col) {
-                                    column['column'] = col.dimension;
-                                    $scope.dimensions.axises.yAxis.push({label:col.dimension,name:analyticsData.metaData.names[col.dimension]});
-                                });
-                                angular.forEach(dashboardItem.object.filters,function(filter){
-                                    filters['filters']=filter.dimension;
-                                    $scope.dimensions.axises.filter.push({label:filter.dimension,name:analyticsData.metaData.names[filter.dimension]});
-                                });
-                                $scope.$watch('dimensions', function(dimension) {
-                                    $scope.dimensionAsJson = angular.toJson(dimension, true);
-                                }, true);
-                                dashboardItem.columnLength=$scope.dimensions.axises.yAxis.length
-                                dashboardItem.rowLenth=$scope.dimensions.axises.xAxis.length
-                                dashboardItem.chartXAxis = rows.rows;
-                                dashboardItem.chartYAxis = column.column;
-                                dashboardItem.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],rows.rows);
-                                dashboardItem.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],column.column);
-                                dashboardItem.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],column.column);
-                                dashboardItem.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],rows.rows);
+
+                                //Account for additional meta-data needed by drawing chart object for events
+                                $q.all($scope.promises).then(function(promiseResults){
+                                    angular.extend(analyticsData.metaData.names,$scope.dimensionDetails.metaDataNames);
+                                    angular.extend(analyticsData.metaData,$scope.dimensionDetails.metaData);
+
+                                    $scope.dashboardDataElements[dashboardItem.id] = chartsManager.getMetadataArray(analyticsData,'dx');
+                                    $scope.dashboardLoader[dashboardItem.id] = false;
+                                    $scope.dashboardAnalytics[dashboardItem.id] = analyticsData;
+                                    $scope.dimensions = {
+                                        selected: null,
+                                        axises: {"xAxis": [], "yAxis": [],"filter":[]}
+                                    };
+                                    angular.forEach(dashboardItem.object.rows,function(row){
+                                        rows['rows']=row.dimension;
+                                        $scope.dimensions.axises.xAxis.push({label:row.dimension,name:analyticsData.metaData.names[row.dimension]});
+                                    });
+                                    angular.forEach(dashboardItem.object.columns, function (col) {
+                                        column['column'] = col.dimension;
+                                        $scope.dimensions.axises.yAxis.push({label:col.dimension,name:analyticsData.metaData.names[col.dimension]});
+                                    });
+                                    angular.forEach(dashboardItem.object.filters,function(filter){
+                                        filters['filters']=filter.dimension;
+                                        $scope.dimensions.axises.filter.push({label:filter.dimension,name:analyticsData.metaData.names[filter.dimension]});
+                                    });
+                                    $scope.$watch('dimensions', function(dimension) {
+                                        $scope.dimensionAsJson = angular.toJson(dimension, true);
+                                    }, true);
+                                    dashboardItem.columnLength=$scope.dimensions.axises.yAxis.length
+                                    dashboardItem.rowLenth=$scope.dimensions.axises.xAxis.length
+                                    dashboardItem.chartXAxis = rows.rows;
+                                    dashboardItem.chartYAxis = column.column;
+                                    dashboardItem.chartXAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],rows.rows);
+                                    dashboardItem.chartYAxisItems = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],column.column);
+                                    dashboardItem.yAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],column.column);
+                                    dashboardItem.xAxisData       = chartsManager.getDetailedMetadataArray($scope.dashboardAnalytics[dashboardItem.id],rows.rows);
 
 
-                                $scope.dashboardChartType[dashboardItem.id] = 'bar';
-                                if (dashboardItem.object.columns.length == 2){
-                                    $scope.tableDimension[dashboardItem.id]='2';
-                                    var firstDimension=dashboardItem.object.columns[0].dimension;
-                                    var secondDimension=dashboardItem.object.columns[1].dimension;
-                                    $scope.firstColumn[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,firstDimension,secondDimension);
-                                    $scope.secondColumn[dashboardItem.id]=TableRenderer.drawTableWithTwoHeader(analyticsData,firstDimension,secondDimension);
-                                    $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
-                                }else if(dashboardItem.object.rows.length == 2){
-                                    $scope.tableDimension[dashboardItem.id]='3';
-                                    var firstRow=dashboardItem.object.rows[0].dimension;
-                                    var secondRow=dashboardItem.object.rows[1].dimension;
-                                    $scope.column[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
-                                    $scope.firstRow[dashboardItem.id]=TableRenderer.drawTableWithSingleRowDimension(analyticsData,firstRow,secondRow);
-                                    $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,column.column,secondRow);
-                                }else{
-                                    $scope.tableDimension[dashboardItem.id]='1';
-                                    $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
-                                    $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.rows,column.column);
-                                }
+                                    $scope.dashboardChartType[dashboardItem.id] = 'bar';
+                                    if (dashboardItem.object.columns.length == 2){
+                                        $scope.tableDimension[dashboardItem.id]='2';
+                                        var firstDimension=dashboardItem.object.columns[0].dimension;
+                                        var secondDimension=dashboardItem.object.columns[1].dimension;
+                                        $scope.firstColumn[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,firstDimension,secondDimension);
+                                        $scope.secondColumn[dashboardItem.id]=TableRenderer.drawTableWithTwoHeader(analyticsData,firstDimension,secondDimension);
+                                        $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
+                                    }else if(dashboardItem.object.rows.length == 2){
+                                        $scope.tableDimension[dashboardItem.id]='3';
+                                        var firstRow=dashboardItem.object.rows[0].dimension;
+                                        var secondRow=dashboardItem.object.rows[1].dimension;
+                                        $scope.column[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
+                                        $scope.firstRow[dashboardItem.id]=TableRenderer.drawTableWithSingleRowDimension(analyticsData,firstRow,secondRow);
+                                        $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,column.column,secondRow);
+                                    }else{
+                                        $scope.tableDimension[dashboardItem.id]='1';
+                                        $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
+                                        $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.rows,column.column);
+                                    }
+                                });
+
                             }).error(function(error){
                                 $scope.dashboardLoader[dashboardItem.id] = false;
                                 $scope.dashboardFailLoad[dashboardItem.id] = true;
@@ -998,12 +1006,13 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             //$scope.touchedFeature[dashboardItem.id] = {name:"",value:""};
            $scope.dashboardChartType[dashboardItem.id] = chartType;
             $scope.touchedFeature = {};
-            if( chartType == 'table') {
+            if( chartType === 'table') {
                 if(mapManager.originalAnalytics.headers){
                     $scope.dashboardAnalytics[dashboardItem.id] = mapManager.getOriginalAnalytics(dashboardItem.id);
                 }
-
-                dashboardItem.type='REPORT_TABLE';
+                if(angular.isUndefined(dashboardItem.type)) {
+                    dashboardItem.type='REPORT_TABLE';
+                }
                 var columns = {};
                 var rows = {};
                 var filters = {};
@@ -1115,7 +1124,9 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     $scope.dashboardAnalytics[dashboardItem.id] = mapManager.getOriginalAnalytics(dashboardItem.id);
                 }
 
-                dashboardItem.type='CHART';
+                if(angular.isUndefined(dashboardItem.type)) {
+                    dashboardItem.type='CHART';
+                }
                 var xItems = dashboardItem.xAxisData.map(function(a) {return a.id;});
                 var yItems = dashboardItem.yAxisData.map(function(a) {return a.id;});
                 $scope.dashboardLoader[dashboardItem.id] = true;
