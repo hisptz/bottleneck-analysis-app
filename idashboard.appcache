@@ -56,16 +56,16 @@ styles/libs.min.css
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.services.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.controllers.js
 
-scripts/pagination/dirPagination.js
-scripts/angular-strap.js
-scripts/angular-strap.tpl.js
-scripts/angular-strap.docs.tpl.js
-scripts/Highcharts/js/highcharts.js
-scripts/ng-scrolbar/ng-scrollbar.min.css
-scripts/Highcharts/js/modules/exporting.js
-scripts/Highcharts/js/modules/data.js
-scripts/highcharts-ng/dist/highcharts-ng.min.js
-scripts/dragDrop/angular-drag-and-drop-lists.min.js
+libs/pagination/dirPagination.js
+libs/angular-strap/angular-strap.js
+libs/angular-strap/angular-strap.tpl.js
+libs/angular-strap/angular-strap.docs.tpl.js
+libs/Highcharts/js/highcharts.js
+libs/ng-scrolbar/ng-scrollbar.min.css
+libs/Highcharts/js/modules/exporting.js
+libs/Highcharts/js/modules/data.js
+libs/highcharts-ng/dist/highcharts-ng.min.js
+libs/dragDrop/angular-drag-and-drop-lists.min.js
 
 ../../../dhis-web-commons/font-awesome/css/font-awesome.min.css
 

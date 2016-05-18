@@ -1,10 +1,5 @@
 <div>
 <table ng-if="dashboardItem.type!=='APP'" class="table table-striped">
-        <thead>
-            <tr>
-                <th><em style="text-transform: capitalize;font-style: normal;">{{ dashboardItem.type }}</em></th>
-            </tr>
-        </thead>
     <tbody>
         <tr  ng-repeat="listItem in (dashboardItem.type=='MESSAGES'
                 ? dashboardItem.messageConversations
