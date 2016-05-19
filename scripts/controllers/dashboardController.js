@@ -69,9 +69,11 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
         $http.get('../../../api/me/user-account.json').success(function(userAccount){
             $scope.currentUser=userAccount;
             $localStorage['dashboard.current.'+$scope.currentUser.username]=$routeParams.dashboardid;
+            console.log('SAVING A LANDING PAGE:'+'dashboard.current.'+$scope.currentUser.username);
         }).error(function(errorMessage){
             //Do nothing when ajax fails
             console.log(errorMessage);
+            console.log('SHIT HAPPENED COULDNT SAVE LANDING PAGE');
         });
 
         /**
@@ -366,22 +368,56 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                         if(angular.isDefined(possibleDimension['legendSet'])) {
                             $scope.dimensionDetails.legendSet[ possibleDimension[possibleDimensionName].id ]= possibleDimension['legendSet'].id
                         }
-                        //@todo fetch meta-data array to be appended in analyticsObject metaData along with its values.
                         //Prepare metadata for the dimension
                         if(possibleDimensionName=='dataElement' && angular.isDefined(possibleDimension['dataElement'])) {
                             //Construct meta-dataDimension
-                            //@todo place the ajax called dimensions to use in events
-                            //@todo for dataElement pull optionset options, for category pull category option and for attributeDimension
+                            //@todo for dataElement pull attributeDimension values
                             //pull attribute options
-                            $scope.promises.push($http.get('../../../api/dataElements/'+possibleDimension['dataElement'].id+'.json?fields=:id,name,optionSet[id,name,options[id,name,code]]')
+                            $scope.promises.push($http.get('../../../api/dataElements/'+possibleDimension['dataElement'].id+'.json?fields=id,name,optionSetValue,optionSet[id,name,options[id,name,code]]')
                                 .success(function(dataElementObject){
                                     $scope.dimensionDetails.metaDataNames[possibleDimension['dataElement'].id]=dataElementObject.name;
                                     $scope.dimensionDetails.metaData[possibleDimension['dataElement'].id]=[];
-                                    angular.forEach(dataElementObject.optionSet.options,function(option){
-                                        $scope.dimensionDetails.metaData[possibleDimension['dataElement'].id].push(option.code);
-                                        $scope.dimensionDetails.metaDataNames[option.code]=option.name;
-                                        //$scope.dimensionDetails.metaDataNames[option.id]=option.name;
-                                    });
+                                    //For dataElement of Optionset type deduce options
+                                    if( dataElementObject.optionSetValue===true) {
+                                        angular.forEach(dataElementObject.optionSet.options,function(option){
+                                            //If filter exist only put items in the filter, else if filter doesn't exist, put it all.
+                                            if(angular.isDefined(possibleDimension['filter']) && $.inArray(option.name,possibleDimension['filter'].replace(/IN:/,'').split(';'))!=0 ) {
+                                                //Only place filters in the list, because filter exist
+                                                $scope.dimensionDetails.metaData[possibleDimension['dataElement'].id].push(option.code);
+                                                $scope.dimensionDetails.metaDataNames[option.code]=option.name;
+                                                //$scope.dimensionDetails.metaDataNames[option.id]=option.name;
+                                            }else if ( angular.isUndefined(possibleDimension['filter']) ) {
+                                                //Place everything because filter doesn't exist
+                                                $scope.dimensionDetails.metaData[possibleDimension['dataElement'].id].push(option.code);
+                                                $scope.dimensionDetails.metaDataNames[option.code]=option.name;
+                                                //$scope.dimensionDetails.metaDataNames[option.id]=option.name;
+                                            }
+
+                                        });
+                                    }else {
+                                        //For integer, pick the max-limit and deduce single digit counts as legend
+                                        if(angular.isDefined(possibleDimension['filter']) && possibleDimension['filter'].search('LE')!="-1" && Number(possibleDimension['filter'].replace(/LE:/,''))!=0 ) {
+                                            //Only place filters in the list, because filter exist
+                                            for(i=0;i<=Number(possibleDimension['filter'].replace(/LE:/,''));i++) {
+
+                                                $scope.dimensionDetails.metaData[possibleDimension['dataElement'].id].push(''+i+'.0');
+                                                $scope.dimensionDetails.metaDataNames[''+i+'.0']=''+i+'.0';
+                                                //$scope.dimensionDetails.metaDataNames[option.id]=option.name;
+                                            }
+                                        }else if(angular.isDefined(possibleDimension['filter']) && possibleDimension['filter'].search('GT')!="-1" && Number(possibleDimension['filter'].replace(/GT:/,''))!=0 ) {
+                                            //Only place filters in the list, because filter exist
+                                            //@todo learn it works and fetch max limit incase of GT filter, currently limited to only next 10
+                                            var maxLimit=Number(possibleDimension['filter'].replace(/GT:/,''))+10;
+                                            for(i=Number(possibleDimension['filter'].replace(/GT:/,''));i<=maxLimit;i++) {
+
+                                                $scope.dimensionDetails.metaData[possibleDimension['dataElement'].id].push(''+i+'.0');
+                                                $scope.dimensionDetails.metaDataNames[''+i+'.0']=''+i+'.0';
+                                                //$scope.dimensionDetails.metaDataNames[option.id]=option.name;
+                                            }
+                                        }
+
+                                    }
+                                    //For dataaelement of type
 
                                 }).error(function(errorMessage){
                                     console.log('Loading dataElement failed!');
@@ -421,7 +457,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     items += item.id+';';
                 });
                 if(angular.isDefined(dashboardItemObjectColum.filter)) {
-                    items += dashboardItemObjectColum.filter;
+                    items += dashboardItemObjectColum.filter+';';
                 }
                 column += items.slice(0, -1);
                 i++;
@@ -441,7 +477,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     items += item.id+';';
                 });
                 if(angular.isDefined(dashboardItemObjectRow.filter)) {
-                    items += dashboardItemObjectRow.filter;
+                    items += dashboardItemObjectRow.filter+';';
                 }
                 row += items.slice(0, -1);
             });
@@ -462,7 +498,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     items += item.id+';';
                 });
                 if(angular.isDefined(dashboardItemObjectFilter.filter)) {
-                    items += dashboardItemObjectFilter.filter;
+                    items += dashboardItemObjectFilter.filter+';';
                 }
                 filter += items.slice(0, -1);
             });
@@ -508,7 +544,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             //Handles Events and Aggregate Charts
             if ( dashboardItem.type=="CHART" || dashboardItem.type=="EVENT_CHART" )
             {
-                $http.get('../../../api/'+$scope.formatEnumString(dashboardItem.type)+'s/'+dashboardItem[$scope.formatEnumString(dashboardItem.type)].id+'.json?fields=:all,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name]],rows[dimension,filter,items[id,name]],filters[dimension,filter,items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits')
+                $http.get('../../../api/'+$scope.formatEnumString(dashboardItem.type)+'s/'+dashboardItem[$scope.formatEnumString(dashboardItem.type)].id+'.json?fields=:all,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name],legendSet[id,name]],rows[dimension,filter,items[id,name],legendSet[id,name]],filters[dimension,filter,items[id,name],legendSet[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits')
                     .success(function(dashboardItemObject){
                         dashboardItem.object=dashboardItemObject;
                         var url = $scope.prepareAnalytics(dashboardItem);
@@ -519,6 +555,9 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                     //No category dimension default to first row dimension
                                     if(angular.isDefined(dashboardItem.object.rows) && dashboardItem.object.rows.length>0) {
                                         dashboardItem.object.category=dashboardItem.object.rows[0].dimension;
+                                    }else {
+                                        //Event report that don't have single row, uses event date as rows
+                                        dashboardItem.object.category="eventdate";
                                     }
                                 }
                                 if(angular.isUndefined(dashboardItem.object.series)) {
@@ -641,7 +680,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             {
 
 
-                $http.get('../../../api/'+$scope.formatEnumString(dashboardItem.type)+'s/'+dashboardItem[$scope.formatEnumString(dashboardItem.type)].id+'.json?fields=*,program[id,name],programStage[id,name],columns[dimension,filter,items[id,undefined]],rows[dimension,filter,items[id,undefined]],filters[dimension,filter,items[id,undefined]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels')
+                $http.get('../../../api/'+$scope.formatEnumString(dashboardItem.type)+'s/'+dashboardItem[$scope.formatEnumString(dashboardItem.type)].id+'.json?fields=*,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name],legendSet[id,name]],rows[dimension,filter,items[id,name],legendSet[id,name]],filters[dimension,filter,items[id,name],legendSet[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels')
                     .success(function(dashboardItemObject) {
                         dashboardItem.object = dashboardItemObject;
                         var url = $scope.prepareAnalytics(dashboardItem);

@@ -14,21 +14,21 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <dir-pagination-controls
-              max-size="1"
-              direction-links="true"
-              boundary-links="false"
-              class="pull-left"
-              auto-hide="true">
-      </dir-pagination-controls>
       <ul class="nav navbar-nav">
         <li
                 style="border-right: #ECECEC 1px solid"
-                dir-paginate="dashboard in dashboards | itemsPerPage:5"
+                dir-paginate="dashboard in dashboards | itemsPerPage:8"
                 data-match-route="/dashboards/{{dashboard.id}}">
           <a href="#/dashboards/{{dashboard.id}}/dashboard">{{ dashboard.name }} </a>
         </li>
       </ul>
+        <dir-pagination-controls
+                max-size="1"
+                direction-links="true"
+                boundary-links="false"
+                class="pull-left"
+                auto-hide="true">
+        </dir-pagination-controls>
     </div><!-- /.navbar-collapse -->
     <!--<div class="col-sm-3">-->
       <!---->

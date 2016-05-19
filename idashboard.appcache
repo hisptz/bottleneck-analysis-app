@@ -10,7 +10,7 @@ CACHE:
 ../../../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js
 ../../../dhis-web-commons/javascripts/jQuery/jquery.plugin.min.js
 
-scripts/openlayers/openlayers3/build/ol.js
+libs/openlayers/openlayers3/build/ol.js
 
 ../../../dhis-web-commons/fonts/LiberationSans-Regular-webfont.eot
 ../../../dhis-web-commons/fonts/LiberationSans-Regular-webfont.woff
@@ -33,10 +33,10 @@ scripts/openlayers/openlayers3/build/ol.js
 ../../../dhis-web-commons/css/widgets.css
 ../../../dhis-web-commons/css/menu.css
 styles/style.css
-scripts/toaster/toaster.min.css
-scripts/spinkit/angular-spinkit.min.css
-scripts/openlayers/openlayers3/build/ol.css
-scripts/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.css
+libs/toaster/toaster.min.css
+libs/spinkit/angular-spinkit.min.css
+libs/openlayers/openlayers3/build/ol.css
+libs/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.css
 styles/libs.min.css
 
 ../../../dhis-web-commons/bootstrap/js/bootstrap.min.js
