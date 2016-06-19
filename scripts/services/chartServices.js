@@ -132,6 +132,81 @@ chartServices.factory('chartsManager',function($timeout){
             },
             series: []
         },
+
+
+        gaugeObject : {
+            options: {
+                chart: {
+                    type: 'solidgauge',
+                    events: {
+                        load: function(chart) {
+                            $timeout(function() {
+                                chart.target.reflow();
+
+                            },0 );
+                        }
+                    }
+                },
+
+                title: {
+                    text : ''
+                },
+
+                pane: {
+                    center: ['50%', '85%'],
+                    size: '140%',
+                    startAngle: -90,
+                    endAngle: 90,
+                    background: {
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                        innerRadius: '60%',
+                        outerRadius: '100%',
+                        shape: 'arc'
+                    }
+                },
+
+                tooltip: {
+                    enabled: false
+                },
+
+                // the value axis
+                yAxis: {
+                    stops: [
+                        [0.1, '#DF5353'], // green
+                        [0.5, '#DDDF0D'], // yellow
+                        [0.9, '#55BF3B'] // red
+                    ],
+                    lineWidth: 0,
+                    minorTickInterval: null,
+                    tickPixelInterval: 400,
+                    tickWidth: 0,
+                    labels: {
+                        y: 16
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        text: ''
+                    }
+                },
+
+                plotOptions: {
+                    solidgauge: {
+                        dataLabels: {
+                            y: 5,
+                            borderWidth: 0,
+                            useHTML: true
+                        }
+                    }
+                },
+                credits: {
+                    enabled: false
+                }
+
+
+            },
+            series: []
+        },
         //determine the position of metadata using prefix [dx,de,co,pe,ou]
         getTitleIndex: function(analyticsObjectHeaders,name){
             var index = 0;
@@ -280,6 +355,9 @@ chartServices.factory('chartsManager',function($timeout){
                     break;
                 case 'stacked_bar':
                     return currentService.drawStackedChart(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'bar');
+                    break;
+                case 'gauge':
+                    return currentService.drawGaugeChart(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'bar');
                     break;
                 case 'combined':
                     return currentService.drawCombinedChart(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title);
@@ -670,6 +748,33 @@ chartServices.factory('chartsManager',function($timeout){
                 series: series
 
             };
+            return chartObject;
+        },
+
+        drawGaugeChart : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,chartType){
+            var chartObject = angular.copy(this.gaugeObject);
+            chartObject.options.title.text = title;
+            var metaDataObject = this.prepareCategories(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems);
+            var currentService = this;
+            var gaugeValue  = 0;
+            angular.forEach(metaDataObject.yAxisItems,function(yAxis){
+                var chartSeries = [];
+                angular.forEach(metaDataObject.xAxisItems,function(xAxis){
+                    var number = currentService.getDataValue(analyticsObject,xAxisType,xAxis.uid,yAxisType,yAxis.uid,filterType,filterUid);
+                    chartSeries.push(parseFloat(number));
+                    gaugeValue = parseFloat(number);
+                    console.log(gaugeValue);
+                });
+                //chartObject.series.push({type: chartType, name: yAxis.name, data: chartSeries});
+            });
+            chartObject.series = [];
+            chartObject.series.push({
+                name: title,
+                data: [gaugeValue],
+                tooltip: {
+                    valueSuffix: ' '
+                }
+            });
             return chartObject;
         }
 

@@ -19,6 +19,7 @@ filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http
             {name: 'radar', image: 'radar.png', action: ''},
             {name: 'stacked_column', image: 'column-stacked.png', action: ''},
             {name: 'stacked_bar', image: 'bar-stacked.png', action: ''},
+            {name: 'gauge', image: 'gauge.jpg', action: ''},
             {name: 'map', image: 'map.jpg', action: ''}
         ],
         getOrgUnits : function(){
