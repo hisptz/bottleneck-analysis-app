@@ -31,10 +31,8 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
                 metadataArray = analyticsObject.metaData.pe;
             } else {
                 metadataArray = analyticsObject.metaData[metadataType];
-                console.log('it fetches here!!:',metadataType);
             }
 
-            console.log('returned:',JSON.stringify(metadataArray));
             return metadataArray;
         },
 
@@ -163,7 +161,6 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
             var subcolumnsLength = self.prepareCategories(analyticsObject, subcolumnType).length;
             var headerArray=[];
             angular.forEach(self.getMetadataArray(analyticsObject,columnType),function(header){
-                console.log('stupid header fetched:',JSON.stringify(header));
                 headerArray.push({"name":analyticsObject.metaData.names[header],"id":header,"length":subcolumnsLength});
             });
             //@todo remove work around

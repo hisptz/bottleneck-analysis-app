@@ -225,8 +225,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
         //abstract dashboard name
         $scope.getDashboardName = function(dashboard){
-            //console.log('RECEIVED DASHBOARD:');
-            //console.log(dashboard);
             var name = "";
             if(dashboard.type == "REPORT_TABLE"){
                 name = angular.isDefined(dashboard.reportTable.displayName) ? dashboard.reportTable.displayName : dashboard.reportTable.name;
@@ -630,19 +628,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                     $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart(analyticsData,dashboardItem.object.category,[],dashboardItem.object.series,[],'none','',dashboardItem.object.name,chartType);
                                     $scope.dashboardLoader[dashboardItem.id] = false;
                                     $scope.dashboardFailLoad[dashboardItem.id] = false;
-                                    //console.log('Chart rendering variables:');
-                                    //console.log('dashboard item:');
-                                    //console.log(dashboardItem.object);
-                                    //console.log('analytics object:');
-                                    //console.log(analyticsData);
-                                    //console.log('category:');
-                                    //console.log(dashboardItem.object.category);
-                                    //console.log('series:');
-                                    //console.log(dashboardItem.object.series);
-                                    //console.log('object name:');
-                                    //console.log(dashboardItem.object.name);
-                                    //console.log('chart type:');
-                                    //console.log(chartType);
                                 });
 
                             }).error(function(error){
@@ -755,7 +740,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
                                     //Note: Events listing don't have rows(only columns exists), chop first column and add in row
                                     if(dashboardItem.type=='EVENT_REPORT' && angular.isDefined(dashboardItem.object.dataType) && dashboardItem.object.dataType=='EVENTS') {
-                                        console.log('WE HANDLE ABSENSE OF ROW DIMENSION');
                                         //Look for period dimension and rename it to event date
                                         angular.forEach(dashboardItem.object.columns,function(column,columnIndex){
                                             if(column.dimension=='pe') {
@@ -810,15 +794,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                         $scope.firstColumn[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,firstDimension,secondDimension);
                                         $scope.secondColumn[dashboardItem.id]=TableRenderer.drawTableWithTwoHeader(analyticsData,firstDimension,secondDimension);
                                         $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension(analyticsData,rows.rows,firstDimension,secondDimension);
-                                        console.log('two columns chosen:',dashboardItem.object.name,'type:',dashboardItem.object.dataType,' columns:',JSON.stringify(dashboardItem.object.columns),' rows:',JSON.stringify(dashboardItem.object.rows));
-                                        console.log('first column:');
-                                        console.log(JSON.stringify(firstDimension));
-                                        console.log('second column:');
-                                        console.log(JSON.stringify(secondDimension));
-                                        console.log('rows:');
-                                        console.log(JSON.stringify(rows.rows));
-                                        console.log('');
-                                        console.log('');
                                     }else if(dashboardItem.object.rows.length == 2){
                                         $scope.tableDimension[dashboardItem.id]='3';
                                         var firstRow=dashboardItem.object.rows[0].dimension;
@@ -826,29 +801,10 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                                         $scope.column[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
                                         $scope.firstRow[dashboardItem.id]=TableRenderer.drawTableWithSingleRowDimension(analyticsData,firstRow,secondRow);
                                         $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension(analyticsData,firstRow,column.column,secondRow);
-                                        console.log('two rows chosen:',dashboardItem.object.name,'type:',dashboardItem.object.dataType,' columns:',JSON.stringify(dashboardItem.object.columns),' rows:',JSON.stringify(dashboardItem.object.rows));
-                                        console.log('first row:');
-                                        console.log(JSON.stringify(firstRow));
-                                        console.log('second row:');
-                                        console.log(JSON.stringify(secondRow));
-                                        console.log('column:');
-                                        console.log(JSON.stringify(column.column));
                                     }else{
                                         $scope.tableDimension[dashboardItem.id]='1';
                                         $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal(analyticsData,column.column," ");
                                         $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw(analyticsData,rows.rows,column.column);
-                                        console.log('normal chosen:',dashboardItem.object.name,'type:',dashboardItem.object.dataType,' columns:',JSON.stringify(dashboardItem.object.columns),' rows:',JSON.stringify(dashboardItem.object.rows));
-                                        console.log('column:');
-                                        console.log(JSON.stringify(column.column));
-                                        console.log('row:');
-                                        console.log(JSON.stringify(rows.rows));
-                                        console.log('');
-                                        console.log('header drawn:');
-                                        console.log(JSON.stringify($scope.headers[dashboardItem.id]));
-                                        console.log('rows drawn:');
-                                        console.log(JSON.stringify($scope.dashboardTab[dashboardItem.id]));
-                                        //console.log('ENTIRE JSON:');
-                                        //console.log(JSON.stringify(dashboardItem));
                                     }
                                 });
 
@@ -1149,8 +1105,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
             //Set current visualization
             dashboardItem.currentVisualization=chartType;
-            console.log('current visualization is:',chartType);
-            console.log('dashboard item type is:',dashboardItem.type);
             //$scope.touchedFeature[dashboardItem.id] = {name:"",value:""};
            $scope.dashboardChartType[dashboardItem.id] = chartType;
             $scope.touchedFeature = {};
@@ -1189,7 +1143,6 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     $scope.firstColumn[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal($scope.dashboardAnalytics[dashboardItem.id],firstDimension,secondDimension);
                     $scope.secondColumn[dashboardItem.id]=TableRenderer.drawTableWithTwoHeader($scope.dashboardAnalytics[dashboardItem.id],firstDimension,secondDimension);
                     $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoRowDimension($scope.dashboardAnalytics[dashboardItem.id],rows.rows,firstDimension,secondDimension);
-                    console.log('we attempt to draw two columns dimension')
                 }else if(dashboardItem.object.rows.length == 2){
                     $scope.tableDimension[dashboardItem.id]='3';
                     var firstRow=dashboardItem.object.rows[0].dimension;
@@ -1197,16 +1150,11 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     $scope.column[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal($scope.dashboardAnalytics[dashboardItem.id],columns.column," ");
                     $scope.firstRow[dashboardItem.id]=TableRenderer.drawTableWithSingleRowDimension($scope.dashboardAnalytics[dashboardItem.id],firstRow,secondRow);
                     $scope.dashboardTab[dashboardItem.id]=TableRenderer.drawTableWithTwoColumnDimension($scope.dashboardAnalytics[dashboardItem.id],firstRow,columns.column,secondRow);
-                    console.log('we attempt to draw two rows dimensions');
                 }else{
-
-                    console.log('we attempt to draw one dimension');
                     $scope.tableDimension[dashboardItem.id]='1';
                     $scope.headers[dashboardItem.id]=TableRenderer.drawTableHeaderWithNormal($scope.dashboardAnalytics[dashboardItem.id],columns.column," ");
                     $scope.dashboardTab[dashboardItem.id]=TableRenderer.getMetadataItemsTableDraw($scope.dashboardAnalytics[dashboardItem.id],rows.rows,columns.column);
-                    console.log()
                 }
-                console.log('we process table generation');
             }
             else if(dashboardItem.currentVisualization == 'map') {
                 mapManager.setOriginalAnalytics($scope.dashboardAnalytics[dashboardItem.id],dashboardItem.id);
