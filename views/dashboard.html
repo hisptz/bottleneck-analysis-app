@@ -3,17 +3,17 @@
     <div class="row" style="margin-bottom: 10px">
         <div class="col-sm-2" ng-if="!filtersHidden">
             <h4 class="text-muted">
-                <img ng-if="!filtersHidden" src="img/filter.png" style="height: 25px;width: 25px"/>
-                Change selections<a ng-click="hideFilters()" title="Hide Filters" ng-if="!filtersHidden"><span
-                    class="glyphicon glyphicon-chevron-left pull-right"></span></a></h4>
+                <img  ng-click="hideFilters()" ng-if="!filtersHidden" src="img/filter.png" style="height: 25px;width: 25px"/>
+                <a ng-click="hideFilters()" title="Hide Filters" ng-if="!filtersHidden">{{ dashBoardName }}
+                    <span class="glyphicon glyphicon-chevron-left pull-right"></span></a></h4>
 
         </div>
 
         <div ng-class="filtersHidden ? 'col-sm-4' : 'col-sm-2'">
 
-            <h4 class="text-muted" style="margin-bottom: 0px"><a ng-click="hideFilters()" title="Show Filters" ng-if="filtersHidden" style="cursor:pointer"><img
-                    src="img/filter.png" style="height: 25px;width: 25px"><span
-                    class="glyphicon glyphicon-chevron-right"></span> </a> | {{ dashBoardName }}</h4>
+            <h4 ng-if="filtersHidden" class="text-muted" style="margin-bottom: 0px"><a ng-click="hideFilters()" title="Show Filters" style="cursor:pointer">
+                <img src="img/filter.png" style="height: 25px;width: 25px"/> {{ dashBoardName }}
+                <span class="glyphicon glyphicon-chevron-right"></span> </a> </h4>
         </div>
     </div>
     <div ng-if="!loading" class="row">
