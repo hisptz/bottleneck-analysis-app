@@ -633,11 +633,13 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                             }).error(function(error){
                                 $scope.dashboardLoader[dashboardItem.id] = false;
                                 $scope.dashboardFailLoad[dashboardItem.id] = true;
+                                dashboardItem.errorMessage=JSON.stringify(error);
                             });
                     }).error(function(error){
                         console.log(error)
                         $scope.dashboardLoader[dashboardItem.id] = false;
                         $scope.dashboardFailLoad[dashboardItem.id] = true;
+                        dashboardItem.errorMessage=JSON.stringify(error);
                     });
 
             }
@@ -694,13 +696,21 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
                                 $scope.dashboardLoader[dashboardItem.id] = false;
                                 $scope.dashboardFailLoad[dashboardItem.id] = false;
-                            },function(){});
+                            },function(error){
+                                console.log(error);
+                                $scope.dashboardLoader[dashboardItem.id] = false;
+                                $scope.dashboardFailLoad[dashboardItem.id] = true;
+                                dashboardItem.errorMessage=JSON.stringify(error);
+                            });
                             // when map layer boundaries are successful obtained
 
 
-                        },function(){
+                        },function(error){
                             // when map layer boundaries fail to load
-
+                            console.log(error);
+                            $scope.dashboardLoader[dashboardItem.id] = false;
+                            $scope.dashboardFailLoad[dashboardItem.id] = true;
+                            dashboardItem.errorMessage=JSON.stringify(error);
                         });
                     });
 
@@ -811,10 +821,14 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                             }).error(function(error){
                                 $scope.dashboardLoader[dashboardItem.id] = false;
                                 $scope.dashboardFailLoad[dashboardItem.id] = true;
+                                console.log(error);
+                                dashboardItem.errorMessage=JSON.stringify(error);
                             });
                     }).error(function(error){
                         $scope.dashboardLoader[dashboardItem.id] = false;
                         $scope.dashboardFailLoad[dashboardItem.id] = true;
+                        console.log(error);
+                        dashboardItem.errorMessage=JSON.stringify(error);
                     });
 
             }
@@ -927,6 +941,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     }).error(function(error){
                         $scope.dashboardLoader[dashboardItem.id] = false;
                         $scope.dashboardFailLoad[dashboardItem.id] = true;
+                        console.log(error);
+                        dashboardItem.errorMessage=JSON.stringify(error);
                     });
 
             });
@@ -1027,13 +1043,17 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
                                     $scope.dashboardLoader[dashboardItem.id] = false;
                                     $scope.dashboardFailLoad[dashboardItem.id] = false;
-                                },function(){
+                                },function(error){
                                     $scope.dashboardLoader[dashboardItem.id] = false;
                                     $scope.dashboardFailLoad[dashboardItem.id] = true;
+                                    console.log(error);
+                                    dashboardItem.errorMessage=JSON.stringify(error);
                                 });
-                            },function(){
+                            },function(error){
                                 $scope.dashboardLoader[dashboardItem.id] = false;
                                 $scope.dashboardFailLoad[dashboardItem.id] = true;
+                                console.log(error);
+                                dashboardItem.errorMessage=JSON.stringify(error);
                             });
 
 
@@ -1093,6 +1113,8 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     }).error(function(error){
                         $scope.dashboardLoader[dashboardItem.id] = false;
                         $scope.dashboardFailLoad[dashboardItem.id] = true;
+                        console.log(error);
+                        dashboardItem.errorMessage=JSON.stringify(error);
                     });
 
 
@@ -1207,13 +1229,17 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
 
                     $scope.dashboardLoader[dashboardItem.id] = false;
                     $scope.dashboardFailLoad[dashboardItem.id] = false;
-                },function(){
+                },function(error){
                     $scope.dashboardLoader[dashboardItem.id] = false;
                     $scope.dashboardFailLoad[dashboardItem.id] = true;
+                    console.log(error);
+                    dashboardItem.errorMessage=JSON.stringify(error);
                 });
-                },function(){
+                },function(error){
                     $scope.dashboardLoader[dashboardItem.id] = false;
                     $scope.dashboardFailLoad[dashboardItem.id] = true;
+                    console.log(error);
+                    dashboardItem.errorMessage=JSON.stringify(error);
                 });
             }else{
 
@@ -1338,7 +1364,25 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
                     i++;
                 })
                 items.push(obj);
-            })
+            });
+            if(dashboardItem.object.dataType=='EVENTS') {
+                //@todo remove work around
+                //For events no rows will be found return rows of the analytics
+                if(angular.isDefined($scope.dashboardAnalytics[dashboardItem.id].headers[0].name) && $scope.dashboardAnalytics[dashboardItem.id].headers[0].name=="psi" ) {
+                    var items=[];
+                    angular.forEach($scope.dashboardAnalytics[dashboardItem.id].rows,function(row){
+                        var columns={"name": row[5]};
+                        angular.forEach(row,function(rowCell,rowCellIndex){
+                            if(rowCellIndex>1 && $scope.dashboardAnalytics[dashboardItem.id].headers[rowCellIndex].name!="ouname" && $scope.dashboardAnalytics[dashboardItem.id].headers[rowCellIndex].name!="longitude" &&  $scope.dashboardAnalytics[dashboardItem.id].headers[rowCellIndex].name!="latitude" &&  $scope.dashboardAnalytics[dashboardItem.id].headers[rowCellIndex].name!="oucode" &&  $scope.dashboardAnalytics[dashboardItem.id].headers[rowCellIndex].name!="ou" ) {
+                                columns[$scope.dashboardAnalytics[dashboardItem.id].headers[rowCellIndex].column]=rowCell;
+                            }
+                        });
+                        items.push(columns);
+                        columns=null;
+                    })
+
+                }
+            }
             return items;
         };
         $scope.singleDashboardDetails=function(dashboardItem,type){

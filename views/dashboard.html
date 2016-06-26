@@ -198,23 +198,36 @@
                             <div ng-include="'views/partials/dashboardItemHeader.html'"></div>
                         </div>
                         <div class="panel-body" style="height: 400px;overflow: scroll;padding:2px!important;">
+                            <!-- Display map -->
                             <div ng-if="dashboardItem.currentVisualization=='map'"
                                  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]">
                                 <div ng-include="'views/partials/dashboardMap.html'"></div>
 
                             </div>
-                            <div ng-if="dashboardItem.currentVisualization.indexOf('chart')!='-1' " style="width: 100%">
+                            <!-- Display chart -->
+                            <div ng-if="dashboardItem.currentVisualization.indexOf('chart')!='-1' &&
+                                dashboardItem.type!='RESOURCES'
+                                 && dashboardItem.type!='REPORTS'
+                                 && dashboardItem.type!='USERS'
+                                 && dashboardItem.type!='MESSAGES'
+                                 && dashboardItem.type!='APP' " style="width: 100%">
                                 <highchart
                                         ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]"
-                                        ng-if="dashboardItem.currentVisualization.indexOf('chart')!='-1'"
+                                        ng-if="dashboardItem.currentVisualization.indexOf('chart')!='-1' &&
+                                dashboardItem.type!='RESOURCES'
+                                 && dashboardItem.type!='REPORTS'
+                                 && dashboardItem.type!='USERS'
+                                 && dashboardItem.type!='MESSAGES'
+                                 && dashboardItem.type!='APP' "
                                         config="dashboardChart[dashboardItem.id]"></highchart>
                             </div>
+                            <!-- Display table -->
                             <div ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]"
                                  ng-if="dashboardItem.currentVisualization=='table'" style="width: 100%">
                                 <target-table></target-table>
                             </div>
 
-                            <!-- Data Resources/Reports/Users Items-->
+                            <!-- Display Resources/Reports/Users Items-->
                             <div ng-show="!dashboardLoader[dashboardItem.id]"
                                  ng-if="dashboardItem.type=='RESOURCES'
                                  || dashboardItem.type=='REPORTS'
@@ -232,10 +245,13 @@
                             <!-- Loading failed -->
                             <div class="well well-lg text-danger" style="margin-top: 100px"
                                  ng-if="dashboardFailLoad[dashboardItem.id]"><span
-                                    class="glyphicon glyphicon-warning-sign"></span> Error Loading data!
+                                    class="glyphicon glyphicon-warning-sign"></span> Error Loading {{ dashboardItem.type | underscoreless | capitalize }}!
+                                <em style="text-align: center;">{{dashboardItem.errorMessage}}</em>
                             </div>
                             <!--Loading -->
+
                             <wave-spinner ng-if="dashboardLoader[dashboardItem.id]"></wave-spinner>
+                            <div style="text-align: center" ng-if="dashboardLoader[dashboardItem.id]"> Loading {{ dashboardItem.type | underscoreless | capitalize }}</div>
                         </div>
                         <!-- Footer -->
                         <div class="panel-footer" style="padding: 1px 15px">
@@ -245,11 +261,18 @@
                                  || dashboardItem.type=='REPORTS'
                                  || dashboardItem.type=='USERS'
                                  || dashboardItem.type=='MESSAGES'
-                                 || dashboardItem.type=='APP' "
+                                 || dashboardItem.type=='APP'
+                                 || dashboardItem.object.dataType=='EVENTS'"
                                 ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons"
                                    title="{{ icon.name }}" class="btn btn-small btn-info"
                                    style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 4px;margin-right: 2px;"><img
                                         src="img/{{icon.image}}" style="height: 20px;width: 20px"/></i></a>
+                                <a
+                                        ng-show="dashboardItem.object.dataType=='EVENTS'"
+                                        ng-click="updateSingleDashboard(dashboardItem,icons[0].name)"
+                                        title="{{ icons[0].name }}" class="btn btn-small btn-info"
+                                        style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 4px;margin-right: 2px;"><img
+                                        src="img/{{icons[0].image}}" style="height: 20px;width: 20px"/></i></a>
                                 <a ng-hide="dashboardItem.type=='RESOURCES'
                                  || dashboardItem.type=='REPORTS'
                                  || dashboardItem.type=='USERS'
@@ -264,7 +287,9 @@
                                  || dashboardItem.type=='REPORTS'
                                  || dashboardItem.type=='USERS'
                                  || dashboardItem.type=='MESSAGES'
-                                 || dashboardItem.type=='APP' "
+                                 || dashboardItem.type=='APP'
+                                 || dashboardItem.type=='EVENT_CHART'
+                                 || dashboardItem.type=='EVENT_REPORT'"
                                    ng-click="updateSingleDashboard(dashboardItem,'details')" title="card details"
                                    class="btn btn-small btn-info"
                                    style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img
