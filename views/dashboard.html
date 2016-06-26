@@ -245,7 +245,7 @@
                             <!-- Loading failed -->
                             <div class="well well-lg text-danger" style="margin-top: 100px"
                                  ng-if="dashboardFailLoad[dashboardItem.id]"><span
-                                    class="glyphicon glyphicon-warning-sign"></span> Error Loading {{ dashboardItem.type | underscoreless | capitalize }}!
+                                    class="glyphicon glyphicon-warning-sign"></span> <em style="font-weight: bold;font-style:none;">Error Loading {{ dashboardItem.type | underscoreless | capitalize }}!</em><br/>
                                 <em style="text-align: center;">{{dashboardItem.errorMessage}}</em>
                             </div>
                             <!--Loading -->
