@@ -198,19 +198,19 @@
                             <div ng-include="'views/partials/dashboardItemHeader.html'"></div>
                         </div>
                         <div class="panel-body" style="height: 400px;overflow: scroll;padding:2px!important;">
-                            <div ng-if="dashboardItem.type=='MAP'"
+                            <div ng-if="dashboardItem.currentVisualization=='map'"
                                  ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]">
                                 <div ng-include="'views/partials/dashboardMap.html'"></div>
 
                             </div>
-                            <div ng-if="dashboardItem.type=='CHART' || dashboardItem.type=='EVENT_CHART' " style="width: 100%">
+                            <div ng-if="dashboardItem.currentVisualization.indexOf('chart')!='-1' " style="width: 100%">
                                 <highchart
                                         ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]"
-                                        ng-if="dashboardItem.type=='CHART' || dashboardItem.type=='EVENT_CHART'"
+                                        ng-if="dashboardItem.currentVisualization.indexOf('chart')!='-1'"
                                         config="dashboardChart[dashboardItem.id]"></highchart>
                             </div>
                             <div ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]"
-                                 ng-if="dashboardItem.type=='REPORT_TABLE' || dashboardItem.type=='EVENT_REPORT'" style="width: 100%">
+                                 ng-if="dashboardItem.currentVisualization=='table'" style="width: 100%">
                                 <target-table></target-table>
                             </div>
 
@@ -226,7 +226,7 @@
                             </div>
                             <!-- Data dictionary-->
                             <div ng-show="!dashboardLoader[dashboardItem.id]"
-                                 ng-if="dashboardItem.type=='DASHBOARD_DETAILS'" style="width: 100%">
+                                 ng-if="dashboardItem.currentVisualization=='details'" style="width: 100%">
                                 <target-details></target-details>
                             </div>
                             <!-- Loading failed -->
@@ -265,7 +265,7 @@
                                  || dashboardItem.type=='USERS'
                                  || dashboardItem.type=='MESSAGES'
                                  || dashboardItem.type=='APP' "
-                                   ng-click="singleDashboardDetails(dashboardItem,'details')" title="card details"
+                                   ng-click="updateSingleDashboard(dashboardItem,'details')" title="card details"
                                    class="btn btn-small btn-info"
                                    style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img
                                         src="img/inficon.png" style="height: 20px;width: 20px"/></i></a>

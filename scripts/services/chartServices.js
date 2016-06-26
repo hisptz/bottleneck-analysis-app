@@ -341,31 +341,31 @@ chartServices.factory('chartsManager',function($timeout){
         drawChart : function(analyticsObject,xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,type) {
             var currentService = this;
             switch (type){
-                case 'bar':
+                case 'chart.bar':
                     return currentService.drawOtherCharts(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'bar');
                     break;
-                case 'column':
+                case 'chart.column':
                     return currentService.drawOtherCharts(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'column');
                     break;
-                case 'radar':
+                case 'chart.radar':
                     return currentService.drawSpiderChart(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, type);
                     break;
-                case 'stacked_column':
+                case 'chart.stacked_column':
                     return currentService.drawStackedChart(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'column');
                     break;
-                case 'stacked_bar':
+                case 'chart.stacked_bar':
                     return currentService.drawStackedChart(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'bar');
                     break;
-                case 'gauge':
+                case 'chart.gauge':
                     return currentService.drawGaugeChart(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, 'bar');
                     break;
-                case 'combined':
+                case 'chart.combined':
                     return currentService.drawCombinedChart(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title);
                     break;
-                case 'line':
+                case 'chart.line':
                     return currentService.drawOtherCharts(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title, type);
                     break;
-                case 'pie':
+                case 'chart.pie':
                     return currentService.drawPieChart(analyticsObject,  xAxisType,xAxisItems,yAxisType,yAxisItems, filterType, filterUid, title);
                     break;
                 case 'table':
@@ -378,6 +378,7 @@ chartServices.factory('chartsManager',function($timeout){
         },
 
         drawTable : function(analyticsObject, yAxisType,yAxisItems,xAxisType,xAxisItems,filterType,filterUid,title){
+            console.log('table drawing attempts is done!');
             var chartService = this;
             var table="<thead><tr><th></th>";
             angular.forEach(chartService.prepareSingleCategories(analyticsObject,xAxisType,xAxisItems),function(column){
@@ -449,8 +450,8 @@ chartServices.factory('chartsManager',function($timeout){
         //draw all other types of chart[bar,line,area]
         drawOtherCharts : function(analyticsObject, xAxisType,xAxisItems,yAxisType,yAxisItems,filterType,filterUid,title,chartType){
             var chartObject = angular.copy(this.defaultChartObject);
-            if(chartType == 'bar'){
-                chartObject.options.chart.type = chartType;
+            if(chartType == 'chart.bar'){
+                chartObject.options.chart.type = chartType.replace('chart.','');
                 chartObject.options.xAxis.labels.rotation = 0;
             }
             chartObject.options.title.text = title;
@@ -465,7 +466,7 @@ chartServices.factory('chartsManager',function($timeout){
                     var number = currentService.getDataValue(analyticsObject,xAxisType,xAxis.uid,yAxisType,yAxis.uid,filterType,filterUid);
                     chartSeries.push(parseFloat(number));
                 });
-                chartObject.series.push({type: chartType, name: yAxis.name, data: chartSeries});
+                chartObject.series.push({type: chartType.replace('chart.',''), name: yAxis.name, data: chartSeries});
             });
             return chartObject;
         },

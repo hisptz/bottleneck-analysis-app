@@ -180,7 +180,23 @@ mainServices.factory('DashboardItem',function($http,DHIS2URL,$q){
     };
     DashboardItem.prototype = {
         setData: function(dashboardItemData) {
+            //Set set currentVisualization
+            if(dashboardItemData.type=="CHART" || dashboardItemData.type=="EVENT_CHART") {
+                dashboardItemData.currentVisualization='chart.'+angular.lowercase(dashboardItemData[this.formatEnumString(dashboardItemData.type)].type);
+            }else if(dashboardItemData.type=="REPORT_TABLE" || dashboardItemData.type=='EVENT_REPORT') {
+                dashboardItemData.currentVisualization='table';
+            }else if (dashboardItemData.type=="MAP") {
+                dashboardItemData.currentVisualization='map';
+            }
             angular.extend(this, dashboardItemData);
+        },
+        formatEnumString: function(enumString){
+            enumString = enumString.replace(/_/g,' ');
+            enumString=enumString.toLowerCase();
+            return enumString.substr(0,1)+enumString.replace(/(\b)([a-zA-Z])/g,
+                    function(firstLetter){
+                        return   firstLetter.toUpperCase();
+                    }).replace(/ /g,'').substr(1);
         }
     };
     return DashboardItem;

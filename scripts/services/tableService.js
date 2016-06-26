@@ -31,8 +31,10 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
                 metadataArray = analyticsObject.metaData.pe;
             } else {
                 metadataArray = analyticsObject.metaData[metadataType];
+                console.log('it fetches here!!:',metadataType);
             }
 
+            console.log('returned:',JSON.stringify(metadataArray));
             return metadataArray;
         },
 
@@ -89,7 +91,26 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
                     dataElement.push({"name": column.name, "uid": column.uid, "value": value});
                 });
                  normalTable.push({"name": row.name, 'uid': row.uid, 'dataElement': dataElement});
-            })
+            });
+
+            //@todo remove work around
+            //For events no rows will be found return rows of the analytics
+            if(normalTable.length==0 && angular.isDefined(analyticsObject.headers[0].name) && analyticsObject.headers[0].name=="psi" ) {
+                angular.forEach(analyticsObject.rows,function(row){
+                    var columns=[];
+                    angular.forEach(row,function(rowCell,rowCellIndex){
+                        if(rowCellIndex>1 && analyticsObject.headers[rowCellIndex].name!="ouname" && analyticsObject.headers[rowCellIndex].name!="longitude" &&  analyticsObject.headers[rowCellIndex].name!="latitude" &&  analyticsObject.headers[rowCellIndex].name!="oucode" &&  analyticsObject.headers[rowCellIndex].name!="ou" ) {
+                            columns.push({
+                                "name": analyticsObject.headers[rowCellIndex].column,
+                                "uid": analyticsObject.headers[rowCellIndex].name,
+                                "value": rowCell
+                            });
+                        }
+                    });
+                    normalTable.push({"name": row[5], 'uid': analyticsObject.headers[5].column, 'dataElement': columns});
+                })
+
+            }
             return normalTable;
 
 
@@ -140,10 +161,21 @@ mainServices.factory("TableRenderer",function($http,DHIS2URL){
         drawTableHeaderWithNormal:function(analyticsObject,columnType,subcolumnType){
             var self=this;
             var subcolumnsLength = self.prepareCategories(analyticsObject, subcolumnType).length;
-            var headerArray=[]
+            var headerArray=[];
             angular.forEach(self.getMetadataArray(analyticsObject,columnType),function(header){
+                console.log('stupid header fetched:',JSON.stringify(header));
                 headerArray.push({"name":analyticsObject.metaData.names[header],"id":header,"length":subcolumnsLength});
             });
+            //@todo remove work around
+            //For events no header will be found return headers of the analytics
+            if(headerArray.length==0 && angular.isDefined(analyticsObject.headers[0].name) && analyticsObject.headers[0].name=="psi" ) {
+                angular.forEach(analyticsObject.headers,function(header,headerIndex){
+                    if(headerIndex>1 && header.name!="ouname" && header.name!="longitude" &&  header.name!="latitude" &&  header.name!="oucode" &&  header.name!="ou" ) {
+                        headerArray.push({"name":header.column,"id":header.name,"length":1});
+                    }
+                })
+
+            }
             return headerArray;
           },
         drawTableWithTwoHeader:function(analyticsObject,columnType,subcolumnType){
