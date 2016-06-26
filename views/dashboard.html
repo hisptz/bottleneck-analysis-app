@@ -6,21 +6,13 @@
                 Customize Dashboard</h4>
 
         </div>
-        <div ng-class="filtersHidden ? 'col-sm-3' : 'col-sm-2'">
+
+        <div ng-class="filtersHidden ? 'col-sm-1' : 'col-sm-1'">
             <h4 class="text-muted" style="margin-bottom: 0px">
                 <a ng-click="hideFilters()" title="Show Filters" ng-if="filtersHidden" style="cursor:pointer"><img
-                        src="img/filter.jpg" style="height: 40px;width: 40px"><span
-                        class="glyphicon glyphicon-chevron-right pull-right"></span>Filters </a> |
+                        src="img/filter.png" style="height: 25px;width: 25px"><span
+                        class="glyphicon glyphicon-chevron-right pull-right"></span> </a> |
                 {{ dashBoardName }}</h4>
-        </div>
-        <div ng-class="filtersHidden ? 'col-sm-9' : 'col-sm-8'">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Type to Search..." ng-model="searchKey">
-                <span class="input-group-btn">
-                    <button class="btn btn-info" type="button"><span class="glyphicon glyphicon-search"
-                                                                     aria-hidden="true"></span></button>
-                </span>
-            </div>
         </div>
     </div>
     <div ng-if="!loading" class="row">
@@ -185,12 +177,8 @@
         </div>
         <div ng-class="filtersHidden ? 'col-sm-12' : 'col-sm-10'">
             <div class="row-fluid">
-                <div style="padding: 30px 140px;font-size: 28px;color: #bbb;" ng-if=" dashboardEmpty">{{ dashboardEmpty
-                    }}
-                </div>
-                <div style="padding: 20px 140px;font-size: 22px;color: #bbb;" ng-if=" dashboardInstr">{{ dashboardInstr
-                    }}
-                </div>
+                <div style="padding: 30px 140px;font-size: 28px;color: #bbb;" ng-if=" dashboardEmpty">{{ dashboardEmpty }} </div>
+                <div style="padding: 20px 140px;font-size: 22px;color: #bbb;" ng-if=" dashboardInstr">{{ dashboardInstr }} </div>
                 <div ng-repeat="dashboardItem in dashboardItems | filter:searchKey"
                      class="{{ dashboardItem.column_size }}" style="padding-right: 8px;padding-left: 0px">
                     <div class="panel panel-default ">
