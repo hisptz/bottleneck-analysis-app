@@ -1,8 +1,18 @@
 var mainController  = angular.module('mainController',[]);
 
-mainController.controller('MenuController',['$scope','$window','$http','dashboardsManager','$resource','$location','$routeParams','$localStorage','$sessionStorage',function($scope,$window,$http,
-                                                                                                       dashboardsManager,$resource,$location,$routeParams,$localStorage,
-                                                                                                       $sessionStorage){
+mainController.controller('MenuController',['$scope','$rootScope','$window','$http','dashboardsManager','$resource','$location','$routeParams','$localStorage','$sessionStorage',function(
+    $scope, $rootScope, $window, $http, dashboardsManager, $resource, $location, $routeParams, $localStorage, $sessionStorage){
+
+    $scope.itemsize = 8;
+
+    $rootScope.filtersHidden = true;
+    $rootScope.hideFilters = function(){
+        if($rootScope.filtersHidden == true){
+            $rootScope.filtersHidden = false
+        }else if($rootScope.filtersHidden == false){
+            $rootScope.filtersHidden = true
+        }
+    }
 
     dashboardsManager.loadAllDashboards().then(function(dashboards){
         $scope.dashboards = dashboards;

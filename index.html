@@ -12,6 +12,7 @@
     <body>
     <d2-header-bar></d2-header-bar>
     <div id="idashboard-body" style="margin-top:45px;">
+    	<div style="padding-top:20px;margin-bottom:-25px;" ng-include="'views/partials/search.html'"></div>
     	<div style="padding-top:50px;margin-bottom:-25px;" ng-include="'views/partials/menu.html'"></div>
 		<div ng-view></div>
 	</div>
@@ -21,7 +22,7 @@
     <script type="text/javascript">
         window.dhis2 = window.dhis2 || {};
         dhis2.settings = dhis2.settings || {};
-        dhis2.settings.baseUrl = '../../../demo';
+        dhis2.settings.baseUrl = '../../..';
 
      </script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/jquery.min.js"></script>

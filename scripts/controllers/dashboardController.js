@@ -1,28 +1,30 @@
 var dashboardController  = angular.module('dashboardController',[]);
-dashboardController.controller('DashboardController',['$scope','$resource','dashboardsManager','dashboardItemsManager',
+dashboardController.controller('DashboardController',['$scope','$rootScope','$resource','dashboardsManager','dashboardItemsManager',
     '$routeParams','$timeout','$translate','Paginator','ContextMenuSelectedItem',
     '$filter','$http','CustomFormService','DHIS2URL', 'olHelpers',
-    'olData','mapManager','chartsManager','TableRenderer','filtersManager','$localStorage','$sessionStorage','$q',function($scope,
-                                                        $resource,
-                                                        dashboardsManager,
-                                                        dashboardItemsManager,
-                                                        $routeParams,
-                                                        $timeout,
-                                                        $translate,
-                                                        Paginator,
-                                                        ContextMenuSelectedItem,
-                                                        $filter,
-                                                        $http,
-                                                        CustomFormService,
-                                                        DHIS2URL,
-                                                        olHelpers,
-                                                        olData,
-                                                        mapManager,
-                                                        chartsManager,
-                                                        TableRenderer,
-                                                        filtersManager,$localStorage,
-                                                        $sessionStorage,
-                                                        $q
+    'olData','mapManager','chartsManager','TableRenderer','filtersManager','$localStorage','$sessionStorage','$q',function(
+                        $scope,
+                        $rootScope,
+                        $resource,
+                        dashboardsManager,
+                        dashboardItemsManager,
+                        $routeParams,
+                        $timeout,
+                        $translate,
+                        Paginator,
+                        ContextMenuSelectedItem,
+                        $filter,
+                        $http,
+                        CustomFormService,
+                        DHIS2URL,
+                        olHelpers,
+                        olData,
+                        mapManager,
+                        chartsManager,
+                        TableRenderer,
+                        filtersManager,$localStorage,
+                        $sessionStorage,
+                        $q
 
     ){
 
@@ -149,14 +151,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
             $scope.mutes[linkValued] = !$scope.mutes[linkValued];
 
          }
-        $scope.filtersHidden = true;
-        $scope.hideFilters = function(){
-            if($scope.filtersHidden == true){
-                $scope.filtersHidden = false
-            }else if($scope.filtersHidden == false){
-                $scope.filtersHidden = true
-            }
-        }
+
 
         $scope.changePeriodType = function(type,dashboardItem){
 
@@ -254,6 +249,7 @@ dashboardController.controller('DashboardController',['$scope','$resource','dash
         }
         dashboardsManager.getDashboard($routeParams.dashboardid).then(function(dashboard){
             $scope.dashBoardName = dashboard.name;
+            $rootScope.dashName = dashboard.name;
             $scope.dashboardItems = dashboard.dashboardItems;
            angular.forEach($scope.dashboardItems,function(dashboardItem){
                //Set set currentVisualization
