@@ -282,6 +282,7 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                 $scope.dashboardEmpty="DashboardItem is Empty,To populate dashboard items use the main dashboard."
                 $scope.dashboardInstr="Enjoy interactive dashboard by switching,filtering and changing layout to different visualization charts and table as well as GIS"
             }
+
             $scope.loading=false;
         });
         //$scope.column_size
@@ -1237,7 +1238,8 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                     console.log(error);
                     dashboardItem.errorMessage=JSON.stringify(error);
                 });
-            }else{
+            }
+            else{
 
                 if(mapManager.originalAnalytics.headers){
                     $scope.dashboardAnalytics[dashboardItem.id] = mapManager.getOriginalAnalytics(dashboardItem.id);
