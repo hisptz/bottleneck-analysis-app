@@ -1,76 +1,106 @@
 
 <div class="col-md-12">
-
-           <ul class="list-group" ng-if="dataElements[dashboardItem.id]">
-                 <li class="list-group-item"><b>Data Element Names:</b>&nbsp;&nbsp;
-                 <ul>
-                 <li ng-repeat="data in dataElements[dashboardItem.id]" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
-                     {{data.name}}
-                   <span ng-show="hoverEdit" class="animate-show">
-                    <a  style="cursor: pointer;" ng-show="!mute[data.id]" ng-click="activateLink(data.id)" ng-class="{'active' : linkValue == data.id}">
-                    <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/help.png" alt="">
-                    Detail
+    <h3>Dictionary details</h3>
+    <div ng-if="dataElements[dashboardItem.id]" class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
+        <div class="panel panel-default" ng-repeat="data in dataElements[dashboardItem.id]">
+            <div class="panel-heading" role="tab">
+                <h4 class="panel-title">
+                    <a bs-collapse-toggle>
+                        {{ data.name }}
                     </a>
-                    <a  style="cursor: pointer;" ng-show="mute[data.id]" ng-click="activateLink(data.id)" ng-class="{'active' : linkValue == data.id}">
-                    <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/cross.png" alt="">
-                    Hide
+                </h4>
+            </div>
+            <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                <div class="panel-body">
+                    <div>
+                        <table class="table table-hover table-striped">
+                            <tr>
+                                <td> <strong>Name</strong> </td>
+                                <td> {data.name}} </td>
+                            </tr>
+                            <tr>
+                                <td> Aggregation Type: </td>
+                                <td> {{data.aggregationType}} </td>
+                            </tr>
+                            <tr ng-repeat="dataSets in data.dataSets">
+                                <td>Data Source:</td>
+                                <td><a href="" data-animation="am-flip-x" bs-tooltip="dataSets.periodType">{{dataSets.name}}</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="indicators[dashboardItem.id]" class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
+        <div class="panel panel-default" ng-repeat="data in indicators[dashboardItem.id]">
+            <div class="panel-heading" role="tab">
+                <h4 class="panel-title">
+                    <a bs-collapse-toggle>
+                        {{ data.name }}
                     </a>
-                   </span>
-                     <div ng-if="linkValue ==data.id" ng-show="mute[data.id]==true">
-                         <ul class="list-group">
-                             <li class="list-group-item"><b>Aggregation Type:</b>&nbsp;&nbsp;{{data.aggregationType}}</li>
-                             <li class="list-group-item"><b>Data Set(Period Type):</b>&nbsp;&nbsp;
-                                <ul class="list-group" ng-repeat="dataSets in data.dataSets">
-                                     <li class="list-group-item"><b>Data Source:</b>&nbsp;&nbsp;{{dataSets.name}}</li>
-                                     <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{dataSets.periodType}}</li>
-                                </ul>
-                            </li>
-                         </ul>
-                      </div>
-                 </li>
-                  </ul>
-                </li>
-
-
-             </ul>
-             <ul class="list-group" ng-if="indicators[dashboardItem.id]">
-                 <li class="list-group-item"><b>Indicators Name:</b>&nbsp;&nbsp;
-                     <ul>
-                      <li ng-repeat="data in indicators[dashboardItem.id]" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
-                             {{data.name}}
-                      <span ng-show="hoverEdit" class="animate-show">
-                     <a  style="cursor: pointer;" ng-show="!mutes[data.uid]" ng-click="activateLinkInd(data.uid)" ng-class="{'active' : linkValued == data.uid}">
-                         <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/help.png" alt="">
-                         Detail
-                     </a>
-                    <a  style="cursor: pointer;" ng-show="mutes[data.uid]" ng-click="activateLinkInd(data.uid)" ng-class="{'active' : linkValued == data.uid}">
-                        <img src="https://cdn3.iconfinder.com/data/icons/fatcow/16/cross.png" alt="">
-                        Hide
+                </h4>
+            </div>
+            <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                <div class="panel-body">
+                    <div>
+                        <table class="table table-hover table-striped">
+                            <tr>
+                                <td> <strong>Name</strong> </td>
+                                <td> {{data.name}} </td>
+                            </tr>
+                            <tr>
+                                <td> Description </td>
+                                <td> {{data.numeratorDescription}}</td>
+                            </tr>
+                            <tr>
+                                <td> Numerator </td>
+                                <td><a href="" data-animation="am-flip-x" bs-tooltip="data.numerator"> {{data.numeratorDescription}} </a></td>
+                            </tr>
+                            <tr>
+                                <td> Denominator </td>
+                                <td> {{data.denominator}}</td>
+                            </tr>
+                            <tr>
+                                <td> Indicator Type:</td>
+                                <td> {{data.indicatorType.name}} </td>
+                            </tr>
+                            <tr ng-repeat="dataSets in data.dataSets">
+                                <td> Data set </td>
+                                <td><a href="" data-animation="am-flip-x" bs-tooltip="dataSets.periodType"> {{dataSets.name}}</a> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="datasets[dashboardItem.id]" class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
+        <div class="panel panel-default" ng-repeat="data in datasets[dashboardItem.id]">
+            <div class="panel-heading" role="tab">
+                <h4 class="panel-title">
+                    <a bs-collapse-toggle>
+                        {{ data.name }}
                     </a>
-                   </span>
-                        <div ng-if="linkValued ==data.uid" ng-show="mutes[data.uid]==true">
-                                 <ul class="list-group">
-                                     <li class="list-group-item"><b>Indicator Type:</b>&nbsp;&nbsp;{{data.indicatorType.name}}</li>
-                                     <li class="list-group-item"><b>Numerator Description:</b>&nbsp;&nbsp;{{data.numeratorDescription}}</li>
-                                     <li class="list-group-item"><b>Denominator Description:</b>&nbsp;&nbsp;{{data.denominatorDescription}}</li>
-                                     <li class="list-group-item"><b>Numerator Formula:</b>&nbsp;&nbsp;{{data.numerator}}</li>
-                                     <li class="list-group-item"><b>Denominator Formula:</b>&nbsp;&nbsp;{{data.denominator}}</li>
-                                     <li class="list-group-item"><b>Data Source:</b>&nbsp;&nbsp;
-                                         <ul class="list-group" ng-repeat="dataSets in data.dataSets">
-                                             <li class="list-group-item"><b>Data Set:</b>&nbsp;&nbsp;{{dataSets.name}}</li>
-                                             <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{dataSets.periodType}}</li>
-                                         </ul>
-                                     </li>
-                                 </ul>
-                         </div>
-                       </li>
-                     </ul>
-                  </li>
+                </h4>
+            </div>
+            <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                <div class="panel-body">
+                    <div>
+                        <table class="table table-hover table-striped">
+                            <tr>
+                                <td> <strong>Name</strong> </td>
+                                <td> {data.name}} </td>
+                            </tr>
+                            <tr>
+                                <td> Reporting Period: </td>
+                                <td> {{data.periodType}} </td>
+                            </tr>
 
-             </ul>
-             <ul class="list-group" ng-if="datasets[dashboardItem.id]" ng-repeat="data in datasets[dashboardItem.id]">
-                 <li class="list-group-item"><b>Data Set Name:</b>&nbsp;&nbsp;{{data.name}}</li>
-                 <li class="list-group-item"><b>Reporting Period:</b>&nbsp;&nbsp;{{data.periodType}}</li>
-             </ul>
-
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -30,7 +30,8 @@ var idashboard = angular.module('idashboard',
                         'ngScrollbar',
                         'ui.multiselect',
                         'ngAnimate',
-                        'ngStorage'
+                        'ngStorage',
+                        'mgcrea.ngStrap'
                     ])
 .config(['$localStorageProvider',
 function ($localStorageProvider) {

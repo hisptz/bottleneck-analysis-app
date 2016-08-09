@@ -1262,11 +1262,12 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                     var dataelements=dataElementApi.get(function(dataElementObject){
                         dataElementArray.push(dataElementObject);
                         $scope.dataElements[dashboardItem.id]=dataElementArray;
+                        console.log($scope.dataElements[dashboardItem.id]);
                         $scope.dashboardLoader[dashboardItem.id] = false;
                     },function(response){
                         if(response.status==404){
                             var indicatorApi=
-                                $resource('../../../api/indicators/'+dxUid+'.json?fields=id,name,numeratorDescription,denominatorDescription,denominator,numerator,indicatorType[id,name],dataSets[id,name,periodType]',{get:{method:"JSONP"}});
+                                $resource('../../../api/indicators/'+dxUid+'.json?fields=displayName,id,name,numeratorDescription,denominatorDescription,denominator,numerator,indicatorType[id,name],dataSets[id,name,periodType]',{get:{method:"JSONP"}});
                             var indicators=indicatorApi.get(function(indicatorObject){
                                 var expApi=
                                     $resource('../../../api/expressions/description',{get:{method:"JSONP"}});
@@ -1276,6 +1277,7 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                                         var denominator=denominatorText.description;
                                         indicatorArray.push({name:indicatorObject.name,uid:indicatorObject.id,denominatorDescription:indicatorObject.denominatorDescription,numeratorDescription:indicatorObject.numeratorDescription,numerator:numerator,denominator:denominator,indicatorType:indicatorObject.indicatorType,dataSets:indicatorObject.dataSets});
                                         $scope.indicators[dashboardItem.id]=indicatorArray;
+                                        console.log($scope.indicators[dashboardItem.id]);
                                         $scope.dashboardLoader[dashboardItem.id] = false;
                                     });
                                 });
