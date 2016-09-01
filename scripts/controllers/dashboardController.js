@@ -54,6 +54,7 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
         $scope.tableRowDimension = [];
         $scope.tableOneDimensionBoth = [];
         $scope.icons = filtersManager.icons;
+        $scope.chartIcons = filtersManager.chartIcons;
         $scope.multiPeriod = true;
 
         var d = new Date();
@@ -231,6 +232,84 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                 name = angular.isDefined(dashboard.eventReport.displayName) ? dashboard.eventReport.displayName : dashboard.eventReport.name;
             }if(dashboard.type == "EVENT_CHART"){
                 name = angular.isDefined(dashboard.eventChart.displayName) ? dashboard.eventChart.displayName : dashboard.eventChart.name;
+            }
+            return name;
+        };
+
+        //get dashboard interpretations
+        $scope.getInterpretations = function(dashboard){
+            var name = "";
+            var deferred = $q.defer();
+            if(dashboard.type == "REPORT_TABLE"){
+                $http.get('../../../api/interpretations.json?fields=name,id,user[name],comments[*],*&filter=reportTable.id:eq:' + dashboard.reportTable.id + '&paging=false')
+                    .success(function(data){
+                        $http.get('../../../api/reportTables/' + dashboard.reportTable.id +'/data.html').success(function(table){
+                            data.image = table;
+                            data.type = 'table';
+                            data.id = dashboard.reportTable.id;
+                            deferred.resolve(data);
+                        });
+
+                    })
+                    .error(function(errorMessageData){
+                        console.error(errorMessageData);
+                        deferred.reject();
+                    });
+                return deferred.promise;
+            }if(dashboard.type == "CHART"){
+                $http.get('../../../api/interpretations.json?fields=name,id,user[name],comments[*],*&filter=chart.id:eq:' + dashboard.chart.id + '&paging=false')
+                    .success(function(data){
+                        data.image = '../../../api/charts/' + dashboard.chart.id +'/data';
+                        data.type = 'chart';
+                        data.id = dashboard.chart.id;
+                        deferred.resolve(data);
+                    })
+                    .error(function(errorMessageData){
+                        console.error(errorMessageData);
+                        deferred.reject();
+                    });
+                return deferred.promise;
+            }if(dashboard.type == "MAP"){
+                $http.get('../../../api/interpretations.json?fields=name,id,user[name],comments[*],*&filter=map.id:eq:' + dashboard.map.id + '&paging=false')
+                    .success(function(data){
+                        data.image = '../../../api/maps/' + dashboard.map.id +'/data';
+                        data.type = 'map';
+                        data.id = dashboard.map.id;
+                        deferred.resolve(data);
+                    })
+                    .error(function(errorMessageData){
+                        console.error(errorMessageData);
+                        deferred.reject();
+                    });
+                return deferred.promise;
+            }if(dashboard.type == "EVENT_REPORT"){
+                $http.get('../../../api/interpretations.json?fields=name,id,user[name],comments[*],*&filter=reportTable.id:eq:' + dashboard.eventReport.id + '&paging=false')
+                    .success(function(data){
+                        $http.get('../../../api/reportTables/' + dashboard.eventReport.id +'/data.html').success(function(table){
+                            data.image = table;
+                            data.type = 'table';
+                            data.id = dashboard.eventReport.id;
+                            deferred.resolve(data);
+                        });
+                    })
+                    .error(function(errorMessageData){
+                        console.error(errorMessageData);
+                        deferred.reject();
+                    });
+                return deferred.promise;
+            }if(dashboard.type == "EVENT_CHART"){
+                $http.get('../../../api/interpretations.json?fields=name,id,user[name],comments[*],*&filter=chart.id:eq:' + dashboard.eventChart.id + '&paging=false')
+                    .success(function(data){
+                        data.image = '../../../api/charts/' + dashboard.eventChart.id +'/data';
+                        data.type = 'chart';
+                        data.id = dashboard.eventChart.id;
+                        deferred.resolve(data);
+                    })
+                    .error(function(errorMessageData){
+                        console.error(errorMessageData);
+                        deferred.reject();
+                    });
+                return deferred.promise;
             }
             return name;
         };
@@ -1117,8 +1196,6 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
 
         };
 
-
-
         //update the dashboard according to the filters
         $scope.updateSingleDashboard = function(dashboardItem,chartType){
 
@@ -1239,6 +1316,14 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                     dashboardItem.errorMessage=JSON.stringify(error);
                 });
             }
+            else if(dashboardItem.currentVisualization=='interpretation'){
+                dashboardItem.column_size = 'col-md-12';
+                dashboardItem.laodingInterpetation =  true;
+                $scope.getInterpretations(dashboardItem).then(function(data){
+                    dashboardItem.interpretations = data;
+                    dashboardItem.laodingInterpetation =  false;
+                })
+            }
             else{
 
                 if(mapManager.originalAnalytics.headers){
@@ -1302,7 +1387,47 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                 });
             }
 
-        }
+        };
+
+        //saving interpration comment
+        $scope.saveInterpreationComment = function(dashboardItem,interpration,comment){
+            interpration.savingComment = true;
+            $http({
+                method: 'POST',
+                url: '../../../api/interpretations/'+interpration.id+'/comment',
+                data: comment,
+                headers: {
+                    'Content-Type': 'text/html'
+                }}).then(function(result) {
+                $scope.getInterpretations(dashboardItem).then(function(items){
+                    interpration.savingComment = false;
+                    interpration.newComment = '';
+                    dashboardItem.interpretations = items;
+                });
+            }, function(error) {
+                console.log(error);
+            });
+        };
+
+        //save new interpretaion
+        $scope.saveInterpreation = function(dashboardItem,type,id,comment){
+            dashboardItem.savingInterpretation = true;
+            $http({
+                method: 'POST',
+                url: '../../../api/interpretations/'+type+'/'+id,
+                data: comment,
+                headers: {
+                    'Content-Type': 'text/html'
+                }}).then(function(result) {
+                $scope.getInterpretations(dashboardItem).then(function(items){
+                    dashboardItem.savingInterpretation = false;
+                    dashboardItem.new_interpretation = '';
+                    dashboardItem.interpretations = items;
+                });
+            }, function(error) {
+                console.log(error);
+            });
+        };
 
         //update the dashboard charts according to layout selection
         $scope.updateChartLayout = function(dashboardItem,chartType,xAxis,yAxis) {
@@ -1313,7 +1438,7 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
             $scope.dashboardLoader[dashboardItem.id] = true;
             $scope.dashboardChart[dashboardItem.id] = chartsManager.drawChart($scope.dashboardAnalytics[dashboardItem.id], xAxis, [], yAxis, [], 'none', '', dashboardItem.object.name, chartType)
             $scope.dashboardLoader[dashboardItem.id] = false;
-        }
+        };
 
         //update the dashboard charts according to layout selection
         $scope.updateChartDataSelection = function(dashboardItem,chartType,xAxis,yAxis,xAxisItems,yAxisItems) {

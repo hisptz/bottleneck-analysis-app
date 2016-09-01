@@ -169,6 +169,12 @@
                                 <div ng-include="'views/partials/dashboardMap.html'"></div>
 
                             </div>
+                            <!--display interpretations-->
+                            <div ng-if="dashboardItem.currentVisualization=='interpretation'"
+                                 ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]">
+                                <div ng-include="'views/partials/interpretation.html'"></div>
+
+                            </div>
                             <!-- Display chart -->
                             <div ng-if="dashboardItem.currentVisualization.indexOf('chart')!='-1' &&
                                 dashboardItem.type!='RESOURCES'
@@ -185,6 +191,26 @@
                                  && dashboardItem.type!='MESSAGES'
                                  && dashboardItem.type!='APP' "
                                         config="dashboardChart[dashboardItem.id]"></highchart>
+
+                                <!--right charts menus-->
+                                <div style="position: absolute;top:15%; right: 3%; width: 30px;">
+                                    <ul class="media-list" ng-hide="dashboardItem.type=='RESOURCES'
+                                 || dashboardItem.type=='REPORTS'
+                                 || dashboardItem.type=='USERS'
+                                 || dashboardItem.type=='MESSAGES'
+                                 || dashboardItem.type=='APP'
+                                 || dashboardItem.object.dataType=='EVENTS'">
+                                        <li class="media">
+                                            <div class="media-left">
+                                                <a ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in chartIcons"
+                                                   title="{{ icon.name }}" class="btn btn-small btn-info"
+                                                   style="background-color: #DDD; border-color: rgba(91,192,222,0.3);border-radius:50%;padding: 4px;margin-right: 2px;">
+                                                    <img src="img/{{icon.image}}" style="height: 20px;width: 20px; opacity: 0.8"/>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <!-- Display table -->
                             <div ng-show="!dashboardLoader[dashboardItem.id] && !dashboardFailLoad[dashboardItem.id]"
@@ -217,6 +243,8 @@
 
                             <wave-spinner ng-if="dashboardLoader[dashboardItem.id]"></wave-spinner>
                             <div style="text-align: center" ng-if="dashboardLoader[dashboardItem.id]"> Loading {{ dashboardItem.type | underscoreless | capitalize }}</div>
+
+
                         </div>
                         <!-- Footer -->
                         <div class="panel-footer" style="padding: 1px 15px">
@@ -231,13 +259,13 @@
                                 ng-click="updateSingleDashboard(dashboardItem,icon.name)" ng-repeat="icon in icons"
                                    title="{{ icon.name }}" class="btn btn-small btn-info"
                                    style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 4px;margin-right: 2px;"><img
-                                        src="img/{{icon.image}}" style="height: 20px;width: 20px"/></i></a>
+                                        src="img/{{icon.image}}" style="height: 25px;width: 25px"/></a>
                                 <a
                                         ng-show="dashboardItem.object.dataType=='EVENTS'"
                                         ng-click="updateSingleDashboard(dashboardItem,icons[0].name)"
                                         title="{{ icons[0].name }}" class="btn btn-small btn-info"
                                         style="background-color: #DDD; border-color: #5BC0DE;border-radius:50%;padding: 4px;margin-right: 2px;"><img
-                                        src="img/{{icons[0].image}}" style="height: 20px;width: 20px"/></i></a>
+                                        src="img/{{icons[0].image}}" style="height: 25px;width: 25px"/></i></a>
                                 <a ng-hide="dashboardItem.type=='RESOURCES'
                                  || dashboardItem.type=='REPORTS'
                                  || dashboardItem.type=='USERS'
@@ -247,7 +275,7 @@
                                    field-separator="," decimal-separator="." title="Download Excel"
                                    class="btn btn-small btn-info"
                                    style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img
-                                        src="img/cvs.jpg" style="height: 20px;width: 20px"/></i></a>
+                                        src="img/cvs.jpg" style="height: 25px;width: 25px"/></i></a>
                                 <a ng-hide="dashboardItem.type=='RESOURCES'
                                  || dashboardItem.type=='REPORTS'
                                  || dashboardItem.type=='USERS'
@@ -258,7 +286,7 @@
                                    ng-click="updateSingleDashboard(dashboardItem,'details')" title="card details"
                                    class="btn btn-small btn-info"
                                    style="background-color: #DDD; border-color: #5BC0DE; border-radius:50%;padding: 4px;margin-right: 2px;"><img
-                                        src="img/inficon.png" style="height: 20px;width: 20px"/></i></a>
+                                        src="img/inficon.png" style="height: 25px;width: 25px"/></i></a>
                             </p>
                         </div>
                     </div>

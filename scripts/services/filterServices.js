@@ -11,6 +11,10 @@ filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http
         icons: [
             {name: 'table', image: 'table.jpg', action: ''},
             {name: 'chart.column', image: 'bar.png', action: ''},
+            {name: 'map', image: 'map.jpg', action: ''}
+        ],
+        chartIcons:[
+            {name: 'chart.column', image: 'bar.png', action: ''},
             {name: 'chart.line', image: 'line.png', action: ''},
             {name: 'chart.combined', image: 'combined.jpg', action: ''},
             {name: 'chart.bar', image: 'column.png', action: ''},
@@ -20,7 +24,6 @@ filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http
             {name: 'chart.stacked_column', image: 'column-stacked.png', action: ''},
             {name: 'chart.stacked_bar', image: 'bar-stacked.png', action: ''},
             {name: 'chart.gauge', image: 'gauge.jpg', action: ''},
-            {name: 'map', image: 'map.jpg', action: ''}
         ],
         getOrgUnits : function(){
             var self = this;
