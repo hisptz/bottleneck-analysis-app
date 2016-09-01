@@ -25,6 +25,20 @@ filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http
             {name: 'chart.stacked_bar', image: 'bar-stacked.png', action: ''},
             {name: 'chart.gauge', image: 'gauge.jpg', action: ''},
         ],
+        zoomIcons: [
+            {name: 'table', image: 'table.jpg', action: ''},
+            {name: 'chart.column', image: 'bar.png', action: ''},
+            {name: 'chart.line', image: 'line.png', action: ''},
+            {name: 'chart.combined', image: 'combined.jpg', action: ''},
+            {name: 'chart.bar', image: 'column.png', action: ''},
+            {name: 'chart.area', image: 'area.jpg', action: ''},
+            {name: 'chart.pie', image: 'pie.png', action: ''},
+            {name: 'chart.radar', image: 'radar.png', action: ''},
+            {name: 'chart.stacked_column', image: 'column-stacked.png', action: ''},
+            {name: 'chart.stacked_bar', image: 'bar-stacked.png', action: ''},
+            {name: 'chart.gauge', image: 'gauge.jpg', action: ''},
+            {name: 'map', image: 'map.jpg', action: ''}
+        ],
         getOrgUnits : function(){
             var self = this;
             var deferred = $q.defer();

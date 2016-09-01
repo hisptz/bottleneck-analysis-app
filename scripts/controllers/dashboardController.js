@@ -55,6 +55,7 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
         $scope.tableOneDimensionBoth = [];
         $scope.icons = filtersManager.icons;
         $scope.chartIcons = filtersManager.chartIcons;
+        $scope.zoomIcons = filtersManager.zoomIcons;
         $scope.multiPeriod = true;
 
         var d = new Date();
