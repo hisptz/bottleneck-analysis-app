@@ -13,7 +13,7 @@
     <body>
     <d2-header-bar></d2-header-bar>
     <div id="idashboard-body" style="margin-top:45px;">
-    	<div style="padding-top:20px;margin-bottom:-25px;" ng-include="'views/partials/search.html'"></div>
+    	<div style="padding-top:20px;margin-bottom:-25px;" ng-include="'views/partials/search.html'" ng-controller="SearchController"></div>
     	<div style="padding-top:50px;margin-bottom:-25px;" ng-include="'views/partials/menu.html'"></div>
 		<div ng-view></div>
 	</div>
@@ -81,6 +81,7 @@
     <!-- Controllers -->
     <script type="text/javascript" src="scripts/controllers/mainController.js"></script>
     <script type="text/javascript" src="scripts/controllers/dashboardController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/searchController.js"></script>
     <script type="text/javascript" src="scripts/services/mainServices.js"></script>
     <script type="text/javascript" src="scripts/services/mapServices.js"></script>
     <script type="text/javascript" src="scripts/services/chartServices.js"></script>
@@ -119,6 +120,8 @@
     <script type="text/javascript" src="libs/Highcharts/js/modules/data.js"></script>
     <script type="text/javascript" src="libs/highcharts-ng/dist/highcharts-ng.min.js"></script>
     <script type="text/javascript" src="libs/dragDrop/angular-drag-and-drop-lists.min.js"></script>
+    <!--very bad approach-->
+    <script src="scripts/dashboardNotification.js"></script>
     <!-- Reading from local storage -->
     <script type="text/javascript" src="libs/ngStorage/ngStorage.js"></script>
      <!-- open layer maps-->

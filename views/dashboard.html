@@ -4,24 +4,54 @@
     </div>
     <div ng-if="!loading" class="row">
 
-        <div class="col-sm-2" style="padding-right: 0px" ng-if="!$root.filtersHidden">
+        <div class="col-sm-2 center" style="padding-right: 0px" ng-if="!$root.filtersHidden">
+
+
             <ul class="list-group">
-
-
                 <li class="list-group-item">
-
                     <div class="btn-group" role="group" aria-label="...">
-                        <button type="button" class="btn btn-default">Add</button>
-                        <button type="button" class="btn btn-default">Manage</button>
-                        <button type="button" class="btn btn-default">Share</button>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="toggleDashboardOptions('create')">Add</button>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="toggleDashboardOptions('edit')">Rename</button>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="toggleDashboardOptions()">Share</button>
                     </div>
-
+                </li>
+                <li class="list-group-item" ng-if="!createHidden">
+                    <form action="" ng-submit="createDashboard()">
+                        <div class="form-group">
+                            <p for="" class="text-center"><strong>Add new dashboard</strong></p>
+                            <div class="input-group">
+                                <input type="text" class="form-control input-sm" placeholder="Enter name" ng-model="createData.name">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary btn-sm btn-block">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+                <li class="list-group-item" ng-if="!editHidden">
+                    <form action="" ng-submit="renameDashboard($root.dashName)">
+                        <div class="form-group">
+                            <p for="" class="text-center"><strong>Rename dashboard</strong></p>
+                            <div class="input-group">
+                                <input type="text" class="form-control input-sm" ng-model="$root.dashName">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-warning btn-sm btn-block">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
+                    <button class="btn btn-danger btn-block"  ng-click="deleteDashboard()">delete</button>
                 </li>
 
                 <!--period type-->
-                <li class="list-group-item">
+                <li class="list-group-item" ng-if="!initHidden">
                     <label class="text-muted">Period Type</label>
-                    <select id="periodType" class="form-control" ng-model="periodType"
+                    <select id="periodType" class="form-control input-sm" ng-model="periodType"
                             ng-change="changePeriodType(periodType)">
                         <option value="">[ Select period type ]</option>
                         <!--<option value="Weekly">Weekly</option>-->
@@ -45,7 +75,7 @@
                 </li>
 
                 <!--period value-->
-                <li class="list-group-item">
+                <li class="list-group-item" ng-if="!initHidden">
                     <label class="text-muted">Period</label>
                     <multi-select-tree
                             data-input-model="periods"
@@ -69,7 +99,7 @@
 
 
                 <!--orgunits-->
-                <li class="list-group-item">
+                <li class="list-group-item" ng-if="!initHidden">
                     <div class="row">
                         <label class="text-muted">Organisation Unit</label>
                         <hr/>
@@ -78,7 +108,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-small dropdown-toggle" type="button" data-toggle="dropdown">
+                                <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                                     <i class="fa fa-cog"></i>
                                     <span class="caret"></span>
                                 </button>
@@ -142,7 +172,7 @@
                     </multi-select-tree>
                 </li>
 
-                <li class="list-group-item">
+                <li class="list-group-item" ng-if="!initHidden">
 
                     <button class="btn btn-info btn-block btn-sm" ng-click="updateDashboard()" ng-show="loadOrgunits">
                         Update

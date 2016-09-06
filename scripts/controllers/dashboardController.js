@@ -1,6 +1,6 @@
 var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','$rootScope','$resource','dashboardsManager','dashboardItemsManager',
-    '$routeParams','$timeout','$translate','Paginator','ContextMenuSelectedItem',
+    '$routeParams','$timeout','$translate','$location','Paginator','ContextMenuSelectedItem',
     '$filter','$http','CustomFormService','DHIS2URL', 'olHelpers',
     'olData','mapManager','chartsManager','TableRenderer','filtersManager','$localStorage','$sessionStorage','$q',function(
                         $scope,
@@ -11,6 +11,7 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                         $routeParams,
                         $timeout,
                         $translate,
+                        $location,
                         Paginator,
                         ContextMenuSelectedItem,
                         $filter,
@@ -1513,6 +1514,73 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
         };
         $scope.singleDashboardDetails=function(dashboardItem,type){
 
+        };
+
+        $scope.createHidden = true;
+        $scope.editHidden = true;
+        $scope.initHidden = false;
+
+
+        $scope.toggleDashboardOptions = function(option) {
+            if(option == 'create') {
+                $scope.createHidden = false;
+                $scope.editHidden = true;
+                $scope.initHidden = true;
+            } else if(option = 'edit') {
+                $scope.createHidden = true;
+                $scope.editHidden = false;
+                $scope.initHidden = true;
+            } else {
+                $scope.createHidden = true;
+                $scope.editHidden = true;
+                $scope.initHidden = false;
+            }
+
+
+        }
+
+        $scope.createData = {};
+        $scope.createDashboard = function() {
+            $http({
+                method: 'POST',
+                url: '/api/dashboards',
+                data: $scope.createData
+            }).then(function(response) {
+                console.log(response);
+                //@todo temporarly solution
+                $scope.createData = {};
+                var location = response.headers('Location');
+                $location.path(location+ '/dashboard');
+            })
+        }
+
+
+        $scope.renameDashboard = function(dashName) {
+            var renameData = {name: dashName};
+            console.log(renameData);
+            var currentDashboardId = $routeParams.dashboardid;
+            var url = '/api/dashboards/'+ currentDashboardId;
+            var redirectUrl = '/dashboards/'+ currentDashboardId + '/dashboard';
+            $http({
+                method: 'PUT',
+                url: url,
+                data: renameData
+            }).then(function(response) {
+                console.log(response.headers());
+                $location.path(redirectUrl);
+            })
+
+        }
+
+        $scope.deleteDashboard = function() {
+            var currentDashboardId = $routeParams.dashboardid;
+            var url = '/api/dashboards/'+ currentDashboardId;
+            $http({
+                method: 'DELETE',
+                url: url
+            }).then(function(response) {
+                $location.path('/');
+            })
         }
     }]);
 
