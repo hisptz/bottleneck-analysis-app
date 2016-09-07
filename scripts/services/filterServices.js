@@ -52,6 +52,26 @@ filterService.factory('filtersManager',['$q','$http','$filter',function($q,$http
                 });
             return deferred.promise;
         },
+        orgUnitCoordinates : {},
+        getOrgUnitsCoordinates : function(){
+            var self = this;
+            var deferred = $q.defer();
+            if(self.orgUnitCoordinates.hasOwnProperty('organisationUnits')){
+                deferred.resolve(self.orgUnitCoordinates)
+            }else{
+                $http.get('../../..'+'/api/organisationUnits.json?paging=false&fields=id,coordinates')
+                    .success(function(orgunits){
+                        self.orgUnitCoordinates = orgunits
+                        deferred.resolve(orgunits);
+                    })
+                    .error(function(errorMessageData){
+                        console.error(errorMessageData);
+                        deferred.reject();
+                    });
+            }
+
+            return deferred.promise;
+        },
         getOrgUnitsLevels:function(){
             var self = this;
             var deferred = $q.defer();
