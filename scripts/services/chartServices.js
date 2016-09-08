@@ -1,6 +1,6 @@
 var chartServices = angular.module('chartServices',['ngResource']);
 
-chartServices.factory('chartsManager',function($timeout){
+chartServices.factory('chartsManager',function($timeout,$http,$q,filtersManager){
     'use strict';
 
     var chartsManager = {
@@ -335,6 +335,55 @@ chartServices.factory('chartsManager',function($timeout){
 
             });
             return num;
+        },
+
+
+        //preparing map geojson
+        getGeojson  : function(analyticsObject){
+            var deferred = $q.defer();
+            var self = this;
+            var geojsons = [];
+            filtersManager.getOrgUnitsCoordinates().then(function(coordinates){
+                var organisationUnits = self.getDetailedMetadataArray(analyticsObject,'ou');
+                var data = self.getDetailedMetadataArray(analyticsObject,'dx');
+                angular.forEach(data,function(dataElement){
+                    var geojsonsdata = {
+                        "type": "FeatureCollection",
+                        "features": [ ]
+                    };
+                    angular.forEach(organisationUnits, function(orgUnit){
+                        var feature = { "type": "Feature",
+                            "geometry": {
+                                "type": "MultiPolygon",
+                                "coordinates": self.getCordinate(coordinates.organisationUnits, orgUnit.id)
+                            },
+                            "properties": {
+                                "value": self.getDataValue(analyticsObject,'ou',orgUnit.id,'dx',dataElement.id,'none',''),
+                                "name": orgUnit.name,
+                                "data_element": dataElement.name
+                            }
+                        };
+                        geojsonsdata.features.push(feature)
+
+                    });
+                    geojsons.push(geojsonsdata);
+                });
+                deferred.resolve(geojsons);
+            });
+            return deferred.promise;
+
+        },
+
+        getCordinate: function(coordinateArray, orgunitId){
+            var orgunitCoordinate = [];
+            angular.forEach(coordinateArray, function(coordinate){
+                if(orgunitId == coordinate.id){
+                    if(coordinate.hasOwnProperty('coordinates')){
+                        orgunitCoordinate = coordinate.coordinates
+                    }
+                }
+            });
+            return JSON.parse(orgunitCoordinate);
         },
 
         //drawing some charts

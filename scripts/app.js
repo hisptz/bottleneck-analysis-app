@@ -31,7 +31,8 @@ var idashboard = angular.module('idashboard',
                         'ui.multiselect',
                         'ngAnimate',
                         'ngStorage',
-                        'mgcrea.ngStrap'
+                        'mgcrea.ngStrap',
+                        'leaflet-directive'
                     ])
 .config(['$localStorageProvider',
 function ($localStorageProvider) {
@@ -51,6 +52,7 @@ function ($localStorageProvider) {
 }])
               
 .value('DHIS2URL', '../../..')
+.value('MAP_TOKEN','pk.eyJ1Ijoia2VsdmlubWJ3aWxvIiwiYSI6ImNpc2xrcmZsbzAwN2oyeXJueHVlOGZ0MzAifQ.GkRBoG6qFXrMdQgSkw6wJg')
 .config(function($translateProvider,$routeProvider,$popoverProvider) {
         angular.extend($popoverProvider.defaults, {
             animation: 'am-flip-x',
