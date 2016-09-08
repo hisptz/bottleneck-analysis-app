@@ -20,7 +20,7 @@ $(document).ready(function() {
             //get head content
             var header = page.find('#dashboardHeader a');
 
-            //compile notiofications
+            //compile notifications
             $(header).each(function(index, value) {
                 if($(value).attr('href') == 'interpretation.action') {
                     var text = $(value).text();

@@ -161,4 +161,27 @@ idashboardDirectives.directive("btstAccordion", function() {
                 });
             }
         };
-    })
+    });
+idashboardDirectives.directive('searchBodyOptions', function() {
+   return {
+       restrict: 'E',
+       scope: {
+           title: '=',
+           data: '=',
+           type: '=',
+           url: '='
+       },
+       controller: 'SearchController',
+       template: '<ul ng-if="data" class="list-unstyled">' +
+                    '<li style="border-bottom: solid 1px #eee; padding-left: 10px;  margin-bottom: 5px;"><h6><strong>{{title}}</strong></h6></li> ' +
+                    '<li ng-repeat="value in data">' +
+                        '<div class="row" >' +
+                            '<div class="col-sm-10 col-xs-10"><a href="{{url + value.id}}">{{value.name}}</a></div>' +
+                            '<div class="col-sm-2 col-xs-2">' +
+                                '<a class="btn pull-right" ng-click="addItemContent(type, value.id)">Add</a>' +
+                            '</div>' +
+                        '</div>' +
+                    '</li>' +
+                '</ul>'
+   }
+});

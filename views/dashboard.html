@@ -4,21 +4,19 @@
     </div>
     <div ng-if="!loading" class="row">
 
-        <div class="col-sm-2 center" style="padding-right: 0px" ng-if="!$root.filtersHidden">
-
-
+        <div ng-class="!shareHidden ? 'col-sm-3 center' : 'col-sm-2 center'" style="padding-right: 0px" ng-if="!$root.filtersHidden">
             <ul class="list-group">
                 <li class="list-group-item">
                     <div class="btn-group" role="group" aria-label="...">
                         <button type="button" class="btn btn-default btn-sm" ng-click="toggleDashboardOptions('create')">Add</button>
-                        <button type="button" class="btn btn-default btn-sm" ng-click="toggleDashboardOptions('edit')">Rename</button>
-                        <button type="button" class="btn btn-default btn-sm" ng-click="toggleDashboardOptions()">Share</button>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="toggleDashboardOptions('edit')">Manage</button>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="toggleDashboardOptions('share')">Share</button>
                     </div>
                 </li>
                 <li class="list-group-item" ng-if="!createHidden">
                     <form action="" ng-submit="createDashboard()">
                         <div class="form-group">
-                            <p for="" class="text-center"><strong>Add new dashboard</strong></p>
+                            <p class="text-center"><strong>Add new dashboard</strong></p>
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" placeholder="Enter name" ng-model="createData.name">
                                 <div class="input-group-btn">
@@ -45,7 +43,10 @@
                         </div>
                     </form>
                     <hr>
-                    <button class="btn btn-danger btn-block"  ng-click="deleteDashboard()">delete</button>
+                    <button class="btn btn-danger btn-block"  ng-click="deleteAlert()">delete</button>
+                </li>
+                <li class="list-group-item" ng-if="!shareHidden">
+                    <div ng-include="'views/partials/share.html'"></div>
                 </li>
 
                 <!--period type-->
@@ -182,7 +183,7 @@
 
 
         </div>
-        <div ng-class="$root.filtersHidden ? 'col-sm-12' : 'col-sm-10'">
+        <div ng-class="$root.filtersHidden ? 'col-sm-12' : filterShownClass">
             <div class="row-fluid">
                 <div style="padding: 30px 140px;font-size: 28px;color: #bbb;" ng-if=" dashboardEmpty">{{ dashboardEmpty }} </div>
                 <div style="padding: 20px 140px;font-size: 22px;color: #bbb;" ng-if=" dashboardInstr">{{ dashboardInstr }} </div>

@@ -229,3 +229,13 @@ form.tab-form-demo .tab-pane {
 	background-color: #428bca !important;
 }
 
+.search-bar {
+	position: absolute;
+	width: 95%;
+	max-height: 400px;
+	overflow-y: scroll;
+	background: #fff;
+	z-index: 300;
+	border:solid 1px #eee;
+}
+

@@ -1,6 +1,6 @@
 var dashboardController  = angular.module('dashboardController',[]);
 dashboardController.controller('DashboardController',['$scope','$rootScope','$resource','dashboardsManager','dashboardItemsManager',
-    '$routeParams','$timeout','$translate','$location','Paginator','ContextMenuSelectedItem',
+    '$routeParams','$timeout','$translate','$window','$location','$alert','$modal','$route','Paginator','ContextMenuSelectedItem',
     '$filter','$http','CustomFormService','DHIS2URL', 'olHelpers',
     'olData','mapManager','chartsManager','TableRenderer','filtersManager','$localStorage','$sessionStorage','$q',function(
                         $scope,
@@ -11,7 +11,11 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                         $routeParams,
                         $timeout,
                         $translate,
+                        $window,
                         $location,
+                        $alert,
+                        $modal,
+                        $route,
                         Paginator,
                         ContextMenuSelectedItem,
                         $filter,
@@ -1516,28 +1520,171 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
 
         };
 
+        //create, manage and share dashboard modules
+        //@todo cleaning up the code
         $scope.createHidden = true;
         $scope.editHidden = true;
         $scope.initHidden = false;
+        $scope.shareHidden = true;
 
+
+        var notificationAlert = function(title, content, type) {
+            $alert({title: title,
+                content: content,
+                placement: 'top-right',
+                type: type,
+                show: true});
+        }
+
+        var modal = $modal({
+            controller: 'DashboardController',
+            placement: 'center',
+            contentTemplate: 'views/templates/delete.html',
+            show: false
+        });
+        $scope.deleteAlert = function() {
+            modal.$promise.then(modal.show)
+        }
 
         $scope.toggleDashboardOptions = function(option) {
             if(option == 'create') {
                 $scope.createHidden = false;
                 $scope.editHidden = true;
                 $scope.initHidden = true;
-            } else if(option = 'edit') {
+                $scope.shareHidden = true;
+                $scope.filterShownClass = 'col-sm-10';
+            } else if(option == 'edit') {
                 $scope.createHidden = true;
                 $scope.editHidden = false;
                 $scope.initHidden = true;
+                $scope.shareHidden = true;
+                $scope.filterShownClass = 'col-sm-10';
+
+            } else if(option == 'share') {
+                $scope.createHidden = true;
+                $scope.editHidden = true;
+                $scope.initHidden = true;
+                $scope.shareHidden = false;
+                $scope.filterShownClass = 'col-sm-9';
+                getShareData();
+
             } else {
                 $scope.createHidden = true;
                 $scope.editHidden = true;
                 $scope.initHidden = false;
+                $scope.shareHidden = true;
+                $scope.filterShownClass = 'col-sm-10';
             }
 
 
         }
+
+        //Initialize sharing variables
+        $scope.shareData = [];
+        $scope.userGroups = [];
+        var shareMetaData = {};
+        $scope.isShareShown = false;
+        $scope.isShareSearchShown = false;
+
+        //Get data after share button has been hit
+        var getShareData = function() {
+            var url = '/api/sharing';
+            var currentDashboardId = $routeParams.dashboardid;
+
+            $http({
+                method: 'GET',
+                url: url,
+                params: { type: 'dashboard', id: currentDashboardId }
+            }).success(function(response) {
+                //get the data
+                var data = response;
+                $scope.shareData = data.object;
+
+                //Get metadata
+                shareMetaData = data.meta;
+
+                //Get user group fro the obtained data, this is to populate  userGroupAccesses section
+                var userGroup = $scope.shareData.userGroupAccesses;
+
+                if(userGroup != undefined) {
+                    $scope.userGroups = userGroup;
+                }
+               // console.log($scope.userGroups);
+            }).error(function() {
+                //@ todo handle situation when there is failure
+            });
+        }
+
+        //Search for user groups to be added
+        $scope.searchUserGroup = function(query) {
+            var url = '/api/sharing/search?';
+            $http({
+                method: 'GET',
+                url: url,
+                params: { key: query, pageSize: 20}
+            }).then(function(response) {
+
+                //Check if search comes with data
+                if(!(angular.equals({}, response.data))) {
+                    $scope.isShareSearchShown = true;
+                    $scope.userGroup = response.data;
+                } else {
+                    $scope.isShareSearchShown = false;
+
+                }
+            });
+        }
+
+        //functions to show and hide search bar
+        //@todo has to be one function for both
+        $scope.hideSearch = function() {
+            $scope.isShareSearchShown = false;
+        }
+        $scope.showSearch = function(query) {
+           var isShown = $scope.isShareSearchShown;
+           if(isShown == false && query == '') {
+               $scope.isShareSearchShown = false;
+           } else {
+               $scope.isShareSearchShown = true;
+           }
+        }
+
+        //Add user group to a userGroups scope for saving and displaying
+        //@todo two functions to be included as one .i.e. to compileUserGroups
+        $scope.addUserGroup = function(user) {
+            $scope.isShareSearchShown = false;
+            user.access = 'r-------';
+            $scope.userGroups.push(user);
+        };
+
+        //Remove user group from a userGroups scope for saving
+        $scope.removeUserGroup = function(user) {
+            $scope.userGroups.pop(user);
+        }
+
+
+        $scope.saveShareData = function() {
+            //variable to hold all changed data objects and meta
+            var finalShareData = {};
+
+            //Get current dashboard id
+            var currentDashboardId = $routeParams.dashboardid;
+            finalShareData.meta = shareMetaData;
+            $scope.shareData.userGroupAccesses = $scope.userGroups;
+            finalShareData.object = $scope.shareData;
+            $http({
+                method: 'POST',
+                url: '/api/sharing?type=dashboard&id=' + currentDashboardId,
+                data: finalShareData
+            }).success(function(response) {
+                $rootScope.filtersHidden = true;
+                notificationAlert('Success', 'Dashboard has been shared successfully', 'success')
+            }).error(function(error){
+                notificationAlert('Error:', 'Seems there is a problem sharing', 'warning');
+                //@ todo handle situation when there is failure
+            })
+        }
+
 
         $scope.createData = {};
         $scope.createDashboard = function() {
@@ -1545,13 +1692,17 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                 method: 'POST',
                 url: '/api/dashboards',
                 data: $scope.createData
-            }).then(function(response) {
+            }).success(function(response) {
                 console.log(response);
                 //@todo temporarly solution
                 $scope.createData = {};
                 var location = response.headers('Location');
-                $location.path(location+ '/dashboard');
-            })
+                $rootScope.filtersHidden = true;
+                notificationAlert('Success', 'New dashboard created successfully','success');
+                $location.path(location + '/dashboard');
+            }).error(function() {
+                //@ todo handle situation when there is failure
+            });
         }
 
 
@@ -1565,9 +1716,13 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                 method: 'PUT',
                 url: url,
                 data: renameData
-            }).then(function(response) {
-                console.log(response.headers());
+            }).success(function(response) {
+                $rootScope.filtersHidden = true;
+                notificationAlert('Success', 'Dashboard name renamed successfully','success');
+                //$window.location.reload();
                 $location.path(redirectUrl);
+            }).error(function() {
+                //@ todo handle situation when there is failure
             })
 
         }
@@ -1578,9 +1733,15 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
             $http({
                 method: 'DELETE',
                 url: url
-            }).then(function(response) {
-                $location.path('/');
+            }).success(function(response) {
+                $rootScope.filtersHidden = true;
+                $window.location.href = '../idashboard/index.html';
+            }).error(function() {
+                //@ todo handle situation when there is failure
             })
+
         }
+
+
     }]);
 
