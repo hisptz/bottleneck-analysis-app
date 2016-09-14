@@ -1731,7 +1731,6 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
             }).success(function(response) {
                 $rootScope.filtersHidden = true;
                 notificationAlert('Success', 'Dashboard name renamed successfully','success');
-                //$window.location.reload();
                 $location.path(redirectUrl);
             }).error(function() {
                 //@ todo handle situation when there is failure
