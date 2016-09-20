@@ -1698,17 +1698,14 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
         }
 
 
-        $scope.createData = {};
-        $scope.createDashboard = function() {
+        $scope.createDashboard = function(dashboardName) {
             $http({
                 method: 'POST',
                 url: '/api/dashboards',
-                data: $scope.createData
-            }).success(function(response) {
-                console.log(response);
+                data: {name: dashboardName}
+            }).success(function(data, status, headers) {
                 //@todo temporarly solution
-                $scope.createData = {};
-                var location = response.headers('Location');
+                var location = headers('Location');
                 $rootScope.filtersHidden = true;
                 notificationAlert('Success', 'New dashboard created successfully','success');
                 $location.path(location + '/dashboard');

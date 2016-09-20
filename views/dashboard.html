@@ -14,11 +14,11 @@
                     </div>
                 </li>
                 <li class="list-group-item" ng-if="!createHidden">
-                    <form action="" ng-submit="createDashboard()">
+                    <form action="" ng-submit="createDashboard(dashboardName)">
                         <div class="form-group">
                             <p class="text-center"><strong>Add new dashboard</strong></p>
                             <div class="input-group">
-                                <input type="text" class="form-control input-sm" placeholder="Enter name" ng-model="createData.name">
+                                <input type="text" class="form-control input-sm" placeholder="Enter name" ng-model="dashboardName">
                                 <div class="input-group-btn">
                                     <button type="submit" class="btn btn-primary btn-sm btn-block">
                                         <span class="glyphicon glyphicon-plus"></span>
