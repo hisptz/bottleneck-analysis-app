@@ -1,7 +1,354 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ed1b13f6-8fe1-48fa-954c-1ac586fc72bd" name="Default" comment="" />
+    <list default="true" id="ed1b13f6-8fe1-48fa-954c-1ac586fc72bd" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.woff2" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/area.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/bar-stacked.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/bar.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/column-stacked.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/column.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/combined.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/cvs.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/filter.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/gauge.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/inficon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/info.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/line.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/loading.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/map.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/pie.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/radar.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/table.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/table.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/img/tanzania1.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/multiselect.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/dragDrop/images/ui-icons_444444_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/dragDrop/images/ui-icons_555555_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/dragDrop/images/ui-icons_777620_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/dragDrop/images/ui-icons_777777_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/dragDrop/images/ui-icons_cc0000_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/dragDrop/images/ui-icons_ffffff_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/images/layers-2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/images/layers.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/images/marker-icon-2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/images/marker-icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/images/marker-shadow.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/tree/grips/horizontal.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/tree/grips/vertical.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/fonts/glyphicons-halflings-regular.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/index.htm" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/adapters/standalone-framework.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/adapters/standalone-framework.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/highcharts-3d.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/highcharts-more.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/highcharts.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/boost.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/boost.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/broken-axis.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/broken-axis.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/canvas-tools.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/canvas-tools.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/data.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/data.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/drilldown.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/drilldown.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/exporting.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/exporting.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/funnel.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/funnel.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/heatmap.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/heatmap.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/no-data-to-display.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/no-data-to-display.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/offline-exporting.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/offline-exporting.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/solid-gauge.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/solid-gauge.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/treemap.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/modules/treemap.src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/themes/dark-blue.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/themes/dark-green.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/themes/dark-unica.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/themes/gray.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/themes/grid-light.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/themes/grid.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/themes/sand-signika.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/Highcharts/js/themes/skies.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/.jshintrc" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/LICENSE" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/angular-bootstrap-multiselect.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/app.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/bower.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/karma.conf.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-bootstrap-multiselect/test.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-strap/angular-strap.docs.tpl.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-strap/angular-strap.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/angular-strap/angular-strap.tpl.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/dragDrop/angular-drag-and-drop-lists.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/dragDrop/jquery-ui.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/.bower.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/.editorconfig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/.jshintrc" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/.npmignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/.travis.yml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/CONTRIBUTING.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/Gruntfile.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/LICENSE" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/bower.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/dist/highcharts-ng.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/karma.conf.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/highcharts-ng/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/angular-leaflet-directive.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/angular-leaflet-directive.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/leaflet-src.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/leaflet-src.map" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/leaflet.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/leaflet/leaflet.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/ng-csv/ng-csv.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/ng-scrolbar/ng-scrollbar.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/ng-scrolbar/ng-scrollbar.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/ng-scrolbar/ng-scrollbar.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/ng-switch/angular-toggle-switch.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/ngStorage/ngStorage.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/ngStorage/ngStorage.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/pagination/dirPagination.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/ui-bootstrap/ui-bootstrap-0.3.0.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/angular.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/searchController.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/dashboardNotification.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/services/filterServices.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/services/mapServices.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/styles/bootstrap.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/styles/bootstrap.min.css.map" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/styles/libs.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/styles/share.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/chartDataFilter.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/chartLayout.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/dashboardDetails.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/dashboardFilters.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/dashboardItemHeader.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/dashboardMap.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/dashboardModel.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/dashboardTable.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/dirPagination.tpl.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/interpretation.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/leaflet_map.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/listingItem.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/menu.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/search.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/share.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/tableLayout.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/templates/delete.html" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/chart.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/dashboard.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/eventchart.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/eventreport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/ext-all.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/arrowupdown.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/drill_16.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/error_m.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/float_16.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/google-logo-small.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/google-logo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/left-btn.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/legend_24.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/loading.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/measure_24.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/menu-item-active-bg.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/right-btn.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/spinner_24.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/tool-sprites.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/zoomin_24.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/zoomout_24.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/images/zoomvisible_24.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/map.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dhis2Utils/table.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/idashboard.zip" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/chart.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/eventchart.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/eventreport.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/ext-all.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/map.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/table.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/ivh-treeview/ivh-treeview-theme-basic.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/ivh-treeview/ivh-treeview.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/ivh-treeview/ivh-treeview.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/materialize/materialize.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/materialize/materialize.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/materialize/materialize.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/multi-select/isteven-multi-select.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/multi-select/isteven-multi-select.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/multiselect/angularjs-dropdown-multiselect.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/multiselect/lodash.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/openlayers/openlayers3/build/info.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/openlayers/openlayers3/build/ol-debug.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/openlayers/openlayers3/build/ol.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/smart-table/ng-table.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/smart-table/ng-table.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/countryProjects.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/help.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/list.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/menu.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/newProject.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/project/create_grant_info.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/project/create_indicators.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/project/create_log_frame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/project/create_targets.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/project/update_grant_info.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/project/view_grant_info.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/project/view_log_frame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/project/view_targets.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/report.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/updateProject.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/viewProject.html" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/dashboard.js" afterPath="$PROJECT_DIR$/libs/dhis2Utils/dashboard.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/arrowupdown.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/arrowupdown.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/drill_16.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/drill_16.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/error_m.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/error_m.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/float_16.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/float_16.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/google-logo-small.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/google-logo-small.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/google-logo.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/google-logo.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/left-btn.gif" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/left-btn.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/legend_24.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/legend_24.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/loading.gif" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/loading.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/measure_24.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/measure_24.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/menu-item-active-bg.gif" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/menu-item-active-bg.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/right-btn.gif" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/right-btn.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/spinner_24.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/spinner_24.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/tool-sprites.gif" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/tool-sprites.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/zoomin_24.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/zoomin_24.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/zoomout_24.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/zoomout_24.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/images/zoomvisible_24.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/images/zoomvisible_24.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/OpenLayers.js" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/OpenLayers.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/blank.gif" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/blank.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/cloud-popup-relative.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/cloud-popup-relative.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/drag-rectangle-off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/drag-rectangle-off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/drag-rectangle-on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/drag-rectangle-on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/east-mini.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/east-mini.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/layer-switcher-maximize.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/layer-switcher-maximize.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/layer-switcher-minimize.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/layer-switcher-minimize.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/marker-blue.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/marker-blue.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/marker-gold.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/marker-gold.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/marker-green.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/marker-green.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/marker.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/marker.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/measuring-stick-off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/measuring-stick-off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/measuring-stick-on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/measuring-stick-on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/north-mini.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/north-mini.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/panning-hand-off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/panning-hand-off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/panning-hand-on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/panning-hand-on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/slider.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/slider.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/south-mini.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/south-mini.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/west-mini.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/west-mini.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/zoom-minus-mini.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/zoom-minus-mini.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/zoom-plus-mini.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/zoom-plus-mini.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/zoom-world-mini.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/zoom-world-mini.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/img/zoombar.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/zoombar.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/script/OpenStreetMap.js" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/script/OpenStreetMap.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/google.css" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/google.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/google.tidy.css" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/google.tidy.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/ie6-style.css" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/ie6-style.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/ie6-style.tidy.css" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/ie6-style.tidy.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/add_point_off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/add_point_off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/add_point_on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/add_point_on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/blank.gif" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/blank.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/close.gif" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/close.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/drag-rectangle-off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/drag-rectangle-off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/drag-rectangle-on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/drag-rectangle-on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/draw_line_off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/draw_line_off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/draw_line_on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/draw_line_on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/draw_point_off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/draw_point_off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/draw_point_on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/draw_point_on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/draw_polygon_off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/draw_polygon_off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/draw_polygon_on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/draw_polygon_on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/editing_tool_bar.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/editing_tool_bar.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/move_feature_off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/move_feature_off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/move_feature_on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/move_feature_on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/navigation_history.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/navigation_history.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/overview_replacement.gif" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/overview_replacement.gif" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/pan-panel-NOALPHA.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/pan-panel-NOALPHA.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/pan-panel.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/pan-panel.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/pan_off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/pan_off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/pan_on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/pan_on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/panning-hand-off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/panning-hand-off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/panning-hand-on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/img/panning-hand-on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/remove_point_off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/remove_point_off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/remove_point_on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/remove_point_on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/ruler.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/ruler.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/save_features_off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/save_features_off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/save_features_on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/save_features_on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/view_next_off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/view_next_off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/view_next_on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/view_next_on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/view_previous_off.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/view_previous_off.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/view_previous_on.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/view_previous_on.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/zoom-panel-NOALPHA.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/zoom-panel-NOALPHA.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/img/zoom-panel.png" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/img/zoom-panel.png" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/style.css" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/style.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/style.mobile.css" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/style.mobile.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/style.mobile.tidy.css" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/style.mobile.tidy.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/dhis2Utils/openlayers/theme/default/style.tidy.css" afterPath="$PROJECT_DIR$/libs/dhis2Utils/openlayers/theme/default/style.tidy.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/moment/moment.min.js" afterPath="$PROJECT_DIR$/libs/moment/moment.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/angular-openlayers-directive/.bower.json" afterPath="$PROJECT_DIR$/libs/openlayers/angular-openlayers-directive/.bower.json" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/angular-openlayers-directive/LICENSE" afterPath="$PROJECT_DIR$/libs/openlayers/angular-openlayers-directive/LICENSE" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/angular-openlayers-directive/bower.json" afterPath="$PROJECT_DIR$/libs/openlayers/angular-openlayers-directive/bower.json" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/angular-openlayers-directive/css/markers.css" afterPath="$PROJECT_DIR$/libs/openlayers/angular-openlayers-directive/css/markers.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/angular-openlayers-directive/css/openlayers.css" afterPath="$PROJECT_DIR$/libs/openlayers/angular-openlayers-directive/css/openlayers.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.css" afterPath="$PROJECT_DIR$/libs/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.js" afterPath="$PROJECT_DIR$/libs/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.min.js" afterPath="$PROJECT_DIR$/libs/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.min.no-header.js" afterPath="$PROJECT_DIR$/libs/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.min.no-header.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.pre.js" afterPath="$PROJECT_DIR$/libs/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.pre.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/openlayers3/.bower.json" afterPath="$PROJECT_DIR$/libs/openlayers/openlayers3/.bower.json" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/openlayers3/build/npm-install-timestamp" afterPath="$PROJECT_DIR$/libs/openlayers/openlayers3/build/npm-install-timestamp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/openlayers3/build/ol.css" afterPath="$PROJECT_DIR$/libs/openlayers/openlayers3/build/ol.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/openlayers3/build/ol.ext/pixelworks.js" afterPath="$PROJECT_DIR$/libs/openlayers/openlayers3/build/ol.ext/pixelworks.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/openlayers3/build/ol.ext/rbush.js" afterPath="$PROJECT_DIR$/libs/openlayers/openlayers3/build/ol.ext/rbush.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/openlayers3/build/ol.js" afterPath="$PROJECT_DIR$/libs/openlayers/openlayers3/build/ol.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/openlayers/openlayers3/build/timestamps/node-modules-timestamp" afterPath="$PROJECT_DIR$/libs/openlayers/openlayers3/build/timestamps/node-modules-timestamp" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/spinkit/angular-spinkit.min.css" afterPath="$PROJECT_DIR$/libs/spinkit/angular-spinkit.min.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/spinkit/angular-spinkit.min.js" afterPath="$PROJECT_DIR$/libs/spinkit/angular-spinkit.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/straps/angular-strap.min.js" afterPath="$PROJECT_DIR$/libs/straps/angular-strap.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/straps/angular-strap.tpl.min.js" afterPath="$PROJECT_DIR$/libs/straps/angular-strap.tpl.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/toaster/toaster.min.css" afterPath="$PROJECT_DIR$/libs/toaster/toaster.min.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/toaster/toaster.min.js" afterPath="$PROJECT_DIR$/libs/toaster/toaster.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/tree/angular-multi-select-tree-0.1.0.min.css" afterPath="$PROJECT_DIR$/libs/tree/angular-multi-select-tree-0.1.0.min.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/tree/angular-multi-select-tree-0.1.0.min.js" afterPath="$PROJECT_DIR$/libs/tree/angular-multi-select-tree-0.1.0.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/tree/angular-multi-select-tree-0.1.0.tpl.js" afterPath="$PROJECT_DIR$/libs/tree/angular-multi-select-tree-0.1.0.tpl.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/ui-bootstrap/date.js" afterPath="$PROJECT_DIR$/libs/ui-bootstrap/date.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/ui-bootstrap/ui-bootstrap.min.js" afterPath="$PROJECT_DIR$/libs/ui-bootstrap/ui-bootstrap.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/views/target-select.html" afterPath="$PROJECT_DIR$/views/partials/target-select.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/img/icon.png" afterPath="$PROJECT_DIR$/img/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/idashboard.iml" afterPath="$PROJECT_DIR$/.idea/idashboard.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/idashboard.appcache" afterPath="$PROJECT_DIR$/idashboard.appcache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manifest.webapp" afterPath="$PROJECT_DIR$/manifest.webapp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/app.js" afterPath="$PROJECT_DIR$/scripts/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers.js" afterPath="$PROJECT_DIR$/scripts/controllers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" afterPath="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/controllers/mainController.js" afterPath="$PROJECT_DIR$/scripts/controllers/mainController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/directives.js" afterPath="$PROJECT_DIR$/scripts/directives.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/filters.js" afterPath="$PROJECT_DIR$/scripts/filters.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/services.js" afterPath="$PROJECT_DIR$/scripts/services.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/services/chartServices.js" afterPath="$PROJECT_DIR$/scripts/services/chartServices.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/services/mainServices.js" afterPath="$PROJECT_DIR$/scripts/services/mainServices.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/services/tableService.js" afterPath="$PROJECT_DIR$/scripts/services/tableService.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/style.css" afterPath="$PROJECT_DIR$/styles/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/dashboard.html" afterPath="$PROJECT_DIR$/views/dashboard.html" />
+    </list>
     <ignored path="idashboard.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,72 +371,29 @@
       <file leaf-file-name="dashboardController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="79" column="90" selection-start-line="79" selection-start-column="90" selection-end-line="79" selection-end-column="90" />
+            <state vertical-scroll-proportion="-6.290323">
+              <caret line="88" column="39" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="39" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="chart.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/dhis2Utils/chart.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.51124746">
-              <caret line="381" column="16" selection-start-line="381" selection-start-column="16" selection-end-line="381" selection-end-column="16" />
-              <folding>
-                <marker date="1474376521657" expanded="true" signature="117691:117723" placeholder="..." />
-                <marker date="1474376521657" expanded="true" signature="117794:117808" placeholder="..." />
-                <marker date="1474376521657" expanded="true" signature="141080:141097" placeholder="..." />
-                <marker date="1474376521657" expanded="true" signature="141111:141143" placeholder="..." />
-                <marker date="1474376521657" expanded="true" signature="141176:141190" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ext-all.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/ext-all.js">
+      <file leaf-file-name="searchController.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/controllers/searchController.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="626814" selection-start-line="14" selection-start-column="626801" selection-end-line="14" selection-end-column="626814" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="chart.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/chart.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4410" column="50" selection-start-line="4410" selection-start-column="42" selection-end-line="4410" selection-end-column="50" />
+              <caret line="5" column="119" selection-start-line="5" selection-start-column="119" selection-end-line="5" selection-end-column="119" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="idashboard.appcache" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/idashboard.appcache">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dashboard.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/dashboard.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="36" column="32" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="32" />
-              <folding>
-                <element signature="e#20688#22127#0" expanded="false" />
-                <element signature="e#22170#22949#0" expanded="false" />
-                <element signature="e#23001#23729#0" expanded="false" />
-                <element signature="e#23781#24515#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -98,26 +402,46 @@
         <entry file="file://$PROJECT_DIR$/views/dashboard.html">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="128" selection-start-line="8" selection-start-column="122" selection-end-line="8" selection-end-column="128" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
+              <caret line="189" column="63" selection-start-line="189" selection-start-column="49" selection-end-line="189" selection-end-column="63" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.45259392">
+              <caret line="128" column="27" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mainServices.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/services/mainServices.js">
+          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="66" column="60" selection-start-line="66" selection-start-column="60" selection-end-line="66" selection-end-column="60" />
+              <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mainController.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/controllers/mainController.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -126,7 +450,10 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/idashboard.appcache" />
         <option value="$PROJECT_DIR$/dhis2Utils/chart.js" />
+        <option value="$PROJECT_DIR$/scripts/services/chartServices.js" />
+        <option value="$PROJECT_DIR$/scripts/services/mainServices.js" />
         <option value="$PROJECT_DIR$/scripts/controllers/dashboardController.js" />
+        <option value="$PROJECT_DIR$/scripts/controllers/searchController.js" />
       </list>
     </option>
   </component>
@@ -137,8 +464,8 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="24" />
-    <option name="width" value="1440" />
-    <option name="height" value="876" />
+    <option name="width" value="1366" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -197,19 +524,73 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/yo-angular" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="js-jscs-nodeInterpreter" value="$USER_HOME$/.nvm/versions/node/v6.5.0/bin/node" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <method />
+    </configuration>
+    <configuration default="true" type="DartTestRunConfigurationType" factoryName="Dart Test">
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
@@ -236,8 +617,29 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-options />
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui>bdd</ui>
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
+      <method />
+    </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="ed1b13f6-8fe1-48fa-954c-1ac586fc72bd" name="Default" comment="" />
@@ -248,15 +650,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="24" width="1440" height="876" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="24" width="1366" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24982357" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19508563" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33376125" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33119383" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -266,7 +668,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32921174" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -298,39 +700,119 @@
     <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="79" column="90" selection-start-line="79" selection-start-column="90" selection-end-line="79" selection-end-column="90" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dhis2Utils/chart.js">
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/searchController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="119" selection-start-line="5" selection-start-column="119" selection-end-line="5" selection-end-column="119" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1474376521657" expanded="true" signature="117691:117723" placeholder="..." />
-            <marker date="1474376521657" expanded="true" signature="117794:117808" placeholder="..." />
-            <marker date="1474376521657" expanded="true" signature="141080:141097" placeholder="..." />
-            <marker date="1474376521657" expanded="true" signature="141111:141143" placeholder="..." />
-            <marker date="1474376521657" expanded="true" signature="141176:141190" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/ext-all.js">
+    <entry file="file://$PROJECT_DIR$/views/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="626814" selection-start-line="14" selection-start-column="626801" selection-end-line="14" selection-end-column="626814" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+          <caret line="189" column="63" selection-start-line="189" selection-start-column="49" selection-end-line="189" selection-end-column="63" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/chart.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="4410" column="50" selection-start-line="4410" selection-start-column="42" selection-end-line="4410" selection-end-column="50" />
+          <caret line="66" column="55" selection-start-line="66" selection-start-column="55" selection-end-line="66" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/mainServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/mainController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1727" column="90" selection-start-line="1727" selection-start-column="90" selection-end-line="1727" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="44" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="66" column="55" selection-start-line="66" selection-start-column="55" selection-end-line="66" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/mainServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/mainController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="44" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="79" column="43" selection-start-line="79" selection-start-column="43" selection-end-line="79" selection-end-column="43" />
           <folding />
         </state>
       </provider>
@@ -339,20 +821,153 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="44" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/dashboard.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="32" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="32" />
-          <folding>
-            <element signature="e#20688#22127#0" expanded="false" />
-            <element signature="e#22170#22949#0" expanded="false" />
-            <element signature="e#23001#23729#0" expanded="false" />
-            <element signature="e#23781#24515#0" expanded="false" />
-          </folding>
+          <caret line="66" column="55" selection-start-line="66" selection-start-column="55" selection-end-line="66" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/mainServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="79" column="43" selection-start-line="79" selection-start-column="43" selection-end-line="79" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idashboard.appcache">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="44" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="66" column="55" selection-start-line="66" selection-start-column="55" selection-end-line="66" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/mainServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="79" column="43" selection-start-line="79" selection-start-column="43" selection-end-line="79" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/chartServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idashboard.appcache">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="44" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="66" column="55" selection-start-line="66" selection-start-column="55" selection-end-line="66" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idashboard.appcache">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="44" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="66" column="55" selection-start-line="66" selection-start-column="55" selection-end-line="66" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="79" column="90" selection-start-line="79" selection-start-column="90" selection-end-line="79" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idashboard.appcache">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -360,10 +975,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="8" column="128" selection-start-line="8" selection-start-column="122" selection-end-line="8" selection-end-column="128" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -387,17 +999,52 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="48" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/chart.js">
+    <entry file="file://$PROJECT_DIR$/scripts/services/chartServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5276074">
+          <caret line="528" column="0" selection-start-line="528" selection-start-column="0" selection-end-line="528" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idashboard.appcache">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.63951933">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="4410" column="50" selection-start-line="4410" selection-start-column="42" selection-end-line="4410" selection-end-column="50" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/mainController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/controllers/searchController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="119" selection-start-line="5" selection-start-column="119" selection-end-line="5" selection-end-column="119" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/services/mainServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="4" />
           <folding />
         </state>
       </provider>
@@ -405,72 +1052,24 @@
     <entry file="file://$PROJECT_DIR$/views/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="128" selection-start-line="8" selection-start-column="122" selection-end-line="8" selection-end-column="128" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/idashboard.appcache">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/dashboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="32" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="32" />
-          <folding>
-            <element signature="e#20688#22127#0" expanded="false" />
-            <element signature="e#22170#22949#0" expanded="false" />
-            <element signature="e#23001#23729#0" expanded="false" />
-            <element signature="e#23781#24515#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="66" column="60" selection-start-line="66" selection-start-column="60" selection-end-line="66" selection-end-column="60" />
+          <caret line="189" column="63" selection-start-line="189" selection-start-column="49" selection-end-line="189" selection-end-column="63" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/controllers/dashboardController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="79" column="90" selection-start-line="79" selection-start-column="90" selection-end-line="79" selection-end-column="90" />
+        <state vertical-scroll-proportion="-6.290323">
+          <caret line="88" column="39" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dhis2Utils/ext-all.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="626814" selection-start-line="14" selection-start-column="626801" selection-end-line="14" selection-end-column="626814" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dhis2Utils/chart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51124746">
-          <caret line="381" column="16" selection-start-line="381" selection-start-column="16" selection-end-line="381" selection-end-column="16" />
-          <folding>
-            <marker date="1474376521657" expanded="true" signature="117691:117723" placeholder="..." />
-            <marker date="1474376521657" expanded="true" signature="117794:117808" placeholder="..." />
-            <marker date="1474376521657" expanded="true" signature="141080:141097" placeholder="..." />
-            <marker date="1474376521657" expanded="true" signature="141111:141143" placeholder="..." />
-            <marker date="1474376521657" expanded="true" signature="141176:141190" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="0.45259392">
+          <caret line="128" column="27" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>

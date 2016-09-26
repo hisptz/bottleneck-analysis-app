@@ -1,0 +1,28 @@
+.share {
+    position: fixed;
+    //max-height: 300px;
+    width: 40%;
+    left: 30%;
+    top: 70px;
+    border: solid 1px #eee;
+    z-index: 500;
+    background: #fff;
+    padding: 5px;
+    border-radius: 3px;
+
+}
+
+.share-head {
+    border-radius: 3px;
+    margin: 5px;
+    padding: 10px;
+    margin: auto;
+}
+
+.share-table td {
+    padding: 5px 0px 5px 0px;
+}
+
+#noCloseButton > .close {
+    display: none;
+}

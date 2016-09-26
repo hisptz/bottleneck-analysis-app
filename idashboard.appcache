@@ -10,11 +10,7 @@ CACHE:
 ../../../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js
 ../../../dhis-web-commons/javascripts/jQuery/jquery.plugin.min.js
 
-../../../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.min.js
-
-../../../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css
-../../../dhis-web-commons/javascripts/jQuery/calendars/css/ui.calendars.picker.css
-../../../dhis-web-commons/css/imc/imc.css?_rev=${revision}
+libs/openlayers/openlayers3/build/ol.js
 
 ../../../dhis-web-commons/fonts/LiberationSans-Regular-webfont.eot
 ../../../dhis-web-commons/fonts/LiberationSans-Regular-webfont.woff
@@ -37,6 +33,11 @@ CACHE:
 ../../../dhis-web-commons/css/widgets.css
 ../../../dhis-web-commons/css/menu.css
 styles/style.css
+libs/toaster/toaster.min.css
+libs/spinkit/angular-spinkit.min.css
+libs/openlayers/openlayers3/build/ol.css
+libs/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.css
+styles/libs.min.css
 
 ../../../dhis-web-commons/bootstrap/js/bootstrap.min.js
 
@@ -46,20 +47,27 @@ styles/style.css
 ../../../dhis-web-commons/javascripts/angular/angular-cookies.js
 ../../../dhis-web-commons/javascripts/angular/angular-sanitize.js
 ../../../dhis-web-commons/javascripts/angular/angular-animate.js
-../../../dhis-web-commons/javascripts/angular/ui-bootstrap.js
+../../../dhis-web-commons/javascripts/dhis2/dhis2.util.js
+../../../dhis-web-commons/javascripts/commons.js
 
 
-#scripts/angular-translate.min.js
 ../../../dhis-web-commons/javascripts/angular/plugins/angularLocalStorage.js
 ../../../dhis-web-commons/javascripts/angular/plugins/angular-translate.min.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.services.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.controllers.js
-../../../dhis-web-commons/javascripts/angular/plugins/angular-translate-loader-url.min.js
-../../../dhis-web-commons/javascripts/angular/plugins/dhis2/directives.js
-../../../dhis-web-commons/javascripts/angular/plugins/dhis2/filters.js
-../../../dhis-web-commons/javascripts/angular/plugins/dhis2/services.js
 
-../../../dhis-web-commons/javascripts/moment/moment-with-langs.min.js
+libs/pagination/dirPagination.js
+libs/angular-strap/angular-strap.js
+libs/angular-strap/angular-strap.tpl.js
+libs/angular-strap/angular-strap.docs.tpl.js
+libs/Highcharts/js/highcharts.js
+libs/ng-scrolbar/ng-scrollbar.min.css
+libs/Highcharts/js/modules/exporting.js
+libs/Highcharts/js/modules/data.js
+libs/highcharts-ng/dist/highcharts-ng.min.js
+libs/dragDrop/angular-drag-and-drop-lists.min.js
+
+../../../dhis-web-commons/font-awesome/css/font-awesome.min.css
 
 ../../../dhis-web-commons/css/light_blue/logo_banner.png
 ../../../images/ajax-loader-bar.gif
@@ -102,6 +110,5 @@ styles/style.css
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.translate.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.menu.js
 ../../../dhis-web-commons/javascripts/dhis2/dhis2.menu.ui.js
-../../../dhis-web-commons/paging/serverside-pagination.html
 
 

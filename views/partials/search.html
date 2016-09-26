@@ -1,0 +1,60 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+         <h4 class="text-muted" style="text-transform: capitalize;">{{ $root.dashName }}</h4>
+        </div>
+
+        <div class="col-sm-5" style="margin-top: 5px">
+            <input type="text"  ng-click="showSearchBody(search)"  class="form-control input-sm" placeholder="Search...." ng-model="search" ng-change="searchData(search)">
+            <div ng-mouseleave="hideSearchBody()" style="position: absolute; top: 98%; width: 95%; max-height: 400px; overflow-y: scroll; background: #fff; z-index: 400; border:solid 1px #eee;" ng-if="isShown">
+                <ul ng-if="noResult" class="list-unstyled">
+                    <li style="border-bottom: solid 1px #eee; padding-left: 10px;"><h6>No result found for: {{search}}</h6></li>
+                </ul>
+                <ul ng-if="showMessage" class="list-unstyled">
+                    <li style="border-bottom: solid 1px #eee; padding-left: 5px;">
+
+                        <div class="row" >
+                            <div class="col-sm-10 col-xs-10">
+                                <h6 class="text-primary"><strong>You have {{messageCount}} Messages</strong></h6>
+                            </div>
+                            <div class="col-sm-2 col-xs-2">
+                                <a href="" class="btn pull-right" ng-click="addItemContent('MESSAGES', '')">Add</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <search-body-options data="data.users" type="'USERS'" title="'Users'" url="'/dhis-web-dashboard-integration/profile.action?id='"></search-body-options>
+                <search-body-options data="data.charts" type="'CHART'" title="'Charts'" url="'/dhis-web-visualizer/index.html?id='"></search-body-options>
+                <search-body-options data="data.maps" type="'MAP'" title="'Maps'" url="'/dhis-web-mapping/index.html?id='"></search-body-options>
+                <search-body-options data="data.reportTables" type="'REPORT_TABLE'" title="'Pivot tables'"  url="'/dhis-web-pivot/index.html?id='"></search-body-options>
+                <search-body-options data="data.reports" type="'REPORTS'" title="'Standard reports'" url="'/dhis-web-reporting/getReportParams.action?uid='"></search-body-options>
+                <search-body-options data="data.resources" type="'RESOURCES'" title="'Resources'" url="'/api/documents/'"></search-body-options>
+            </div>
+        </div>
+
+        <div class="col-sm-4" style="margin-top: 10px">
+            <ul class="list-inline pull-right">
+                <li>
+                    <a href="/dhis-web-dashboard-integration/showSendFeedback.action">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        <small>Write Feeback</small>
+                    </a>
+                </li>
+                <li>
+                    <a class="text-primary" href="/dhis-web-dashboard-integration/interpretation.action" id="interpretationBlock" data-toggle="tooltip" data-placement="top" title="Interpretation">
+                        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> <span style="background-color: #337AB7" class="badge bg-primary" id="interpretationId"></span>
+                        <small>interpretation</small>
+                    </a>
+                </li>
+                <li>
+                    <a class="text-primary" href="/dhis-web-dashboard-integration/message.action" style="margin-right: 12px" id="messageBlock" data-toggle="tooltip" data-placement="top" title="Message">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>  <span style="background-color: #337AB7" class="badge bg-primary" id="messageId"></span>
+                        <small>message</small>
+                    </a>
+                </li>
+            </ul>
+
+
+        </div>
+    </div>
+</div>

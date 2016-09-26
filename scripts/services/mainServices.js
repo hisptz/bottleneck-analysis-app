@@ -22,9 +22,9 @@ mainServices.factory('dashboardsManager',['$http','$q','Dashboard','DashboardIte
         _load: function(dashboardId,deferred){
             var thisDashboard = this;
             var deferred = $q.defer();
-            $http.get('../../..'+'/api/dashboards/'+dashboardId+'.json?paging=false&fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all]]]')
+            $http.get('../../..'+'/api/dashboards/'+dashboardId+'.json?paging=false&fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all],:all],:all,program[id,name],programStage[id,name],columns[dimension,filter,legendSet[id,name],items[id,name]],rows[dimension,filter,legendSet[id,name],items[id,name]],filters[dimension,filter,legendSet[id,name],items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits]')
                 .success(function(dashboardData){
-                    var dashboard = thisDashboard._retrieveDashboardInstance(dashboardData.id,dashboardData);
+                     var dashboard = thisDashboard._retrieveDashboardInstance(dashboardData.id,dashboardData);
                     deferred.resolve(dashboard);
                 })
                 .error(function(errorMessageData){
@@ -48,7 +48,7 @@ mainServices.factory('dashboardsManager',['$http','$q','Dashboard','DashboardIte
         loadAllDashboards: function() {
             var deferred = $q.defer();
             var thisDashboard = this;
-            $http.get('../../..'+'/api/dashboards'+'.json?fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all]]]')
+            $http.get('../../..'+'/api/dashboards'+'.json?fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all],:all],:all,program[id,name],programStage[id,name],columns[dimension,filter,legendSet[id,name],items[id,name]],rows[dimension,filter,legendSet[id,name],items[id,name]],filters[dimension,filter,legendSet[id,name],items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits]')
                 .success(function(dashboardsData){
                     var dashboards = [];
                     dashboardsData.dashboards.forEach(function(dashboardData){
@@ -114,7 +114,7 @@ mainServices.factory('dashboardItemsManager',['$http','$q','Dashboard','Dashboar
         _load: function(dashboardItemId,deferred){
             var thisDashboardItem = this;
             var deferred = $q.defer();
-            $http.get('../../..'+'/api/dashboardItems/'+dashboardItemId+'.json?fields=id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all]')
+            $http.get('../../..'+'/api/dashboardItems/'+dashboardItemId+'.json?fields=id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],users[:identifiable],resources[:identifiable],reports[:identifiable],:all,program[id,name],programStage[id,name],columns[dimension,filter,legendSet[id,name],items[id,name]],rows[dimension,filter,legendSet[id,name],items[id,name]],filters[dimension,filter,legendSet[id,name],items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits')
                 .success(function(dashboardItemData){
                     var dashboardItem = thisDashboardItem._retrieveInstance(dashboardItemData.id,dashboardItemData);
                     deferred.resolve(dashboardItem);
@@ -142,7 +142,7 @@ mainServices.factory('dashboardItemsManager',['$http','$q','Dashboard','Dashboar
         loadAllDashboardItems: function() {
             var deferred = $q.defer();
             var thisDashboardItem = this;
-            $http.get(DHIS2URL+'/api/dashboardItems'+'.json?paging=false&links=false')
+            $http.get(DHIS2URL+'/api/dashboardItems'+'.json?paging=false&fields=id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],users[:identifiable],resources[:identifiable],reports[:identifiable],:all,program[id,name],programStage[id,name],columns[dimension,filter,legendSet[id,name],items[id,name]],rows[dimension,filter,legendSet[id,name],items[id,name]],filters[dimension,filter,legendSet[id,name],items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits')
                 .success(function(dashboardItemsData){
                     var dashboardItems = [];
                     dashboardItemsData.dashboardItems.forEach(function(dashboardItemData){
@@ -180,7 +180,23 @@ mainServices.factory('DashboardItem',function($http,DHIS2URL,$q){
     };
     DashboardItem.prototype = {
         setData: function(dashboardItemData) {
+            //Set set currentVisualization
+            if(dashboardItemData.type=="CHART" || dashboardItemData.type=="EVENT_CHART") {
+                dashboardItemData.currentVisualization='chart.'+angular.lowercase(dashboardItemData[this.formatEnumString(dashboardItemData.type)].type);
+            }else if(dashboardItemData.type=="REPORT_TABLE" || dashboardItemData.type=='EVENT_REPORT') {
+                dashboardItemData.currentVisualization='table';
+            }else if (dashboardItemData.type=="MAP") {
+                dashboardItemData.currentVisualization='map';
+            }
             angular.extend(this, dashboardItemData);
+        },
+        formatEnumString: function(enumString){
+            enumString = enumString.replace(/_/g,' ');
+            enumString=enumString.toLowerCase();
+            return enumString.substr(0,1)+enumString.replace(/(\b)([a-zA-Z])/g,
+                    function(firstLetter){
+                        return   firstLetter.toUpperCase();
+                    }).replace(/ /g,'').substr(1);
         }
     };
     return DashboardItem;

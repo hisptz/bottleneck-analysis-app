@@ -14,4 +14,4 @@ var idashboardFilters = angular.module('idashboardFilters', [])
             var approximatedFilter = textToApproximate.toFixed(precision);
             return approximatedFilter;
         }
-    });
+   });

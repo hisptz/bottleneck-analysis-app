@@ -1,0 +1,70 @@
+<div class="popover ng-scope am-flip-x right" tabindex="-1" ng-show="content"
+     style="top: 0px; left: 178.547px; display: block; visibility: visible; width: 300px">
+
+    <div class="arrow" style="top: 14.8305%;"></div>
+    <h3 class="popover-title ng-binding" ng-bind-html="title" ng-show="title">Title</h3>
+
+    <div class="popover-content">
+        <label class="text-muted">Y - Axis ( Vertical )</label>
+        <br>
+        <multiselect
+                ng-model="dashboardItem.yAxisData"
+                options="c.name for c in dashboardItem.chartYAxisItems"
+                data-multiple="true"
+                data-compare-by="id"
+                scroll-after-rows="5"
+                filter-after-rows="5
+                max-width="100"
+                ng-change="updateChartDataSelection(dashboardItem,dashboardChartType[dashboardItem.id],dashboardItem.chartXAxis,dashboardItem.chartYAxis,dashboardItem.xAxisData,dashboardItem.yAxisData)"
+                tabindex="-1">
+        </multiselect>
+        <hr>
+        <label class="text-muted">X - Axis ( Horizontal )</label>
+        <br>
+        <multiselect
+                ng-model="dashboardItem.xAxisData"
+                options="c.name for c in dashboardItem.chartXAxisItems"
+                data-multiple="true"
+                data-compare-by="id"
+                scroll-after-rows="5"
+                filter-after-rows="5
+                max-width="100"
+                ng-change="updateChartDataSelection(dashboardItem,dashboardChartType[dashboardItem.id],dashboardItem.chartXAxis,dashboardItem.chartYAxis,dashboardItem.xAxisData,dashboardItem.yAxisData)"
+
+        tabindex="-1">
+        </multiselect>
+
+    </div>
+
+    <!--<div class="popover-content" ng-if="dashboardChartType[dashboardItem.id] == 'gauge'">-->
+        <!--<label class="text-muted">Y - Axis ( Vertical )</label>-->
+        <!--<br>-->
+        <!--<multiselect-->
+                <!--ng-model="dashboardItem.yAxisData"-->
+                <!--options="c.name for c in dashboardItem.chartYAxisItems"-->
+                <!--data-multiple="false"-->
+                <!--data-compare-by="id"-->
+                <!--scroll-after-rows="5"-->
+                <!--filter-after-rows="5-->
+                <!--max-width="100"-->
+        <!--ng-change="updateChartDataSelection(dashboardItem,dashboardChartType[dashboardItem.id],dashboardItem.chartXAxis,dashboardItem.chartYAxis,dashboardItem.xAxisData,dashboardItem.yAxisData)"-->
+        <!--tabindex="-1">-->
+        <!--</multiselect>-->
+        <!--<hr>-->
+        <!--<label class="text-muted">X - Axis ( Horizontal )</label>-->
+        <!--<br>-->
+        <!--<multiselect-->
+                <!--ng-model="dashboardItem.xAxisData"-->
+                <!--options="c.name for c in dashboardItem.chartXAxisItems"-->
+                <!--data-multiple="false"-->
+                <!--data-compare-by="id"-->
+                <!--scroll-after-rows="5"-->
+                <!--filter-after-rows="5-->
+                <!--max-width="100"-->
+        <!--ng-change="updateChartDataSelection(dashboardItem,dashboardChartType[dashboardItem.id],dashboardItem.chartXAxis,dashboardItem.chartYAxis,dashboardItem.xAxisData,dashboardItem.yAxisData)"-->
+
+        <!--tabindex="-1">-->
+        <!--</multiselect>-->
+
+    <!--</div>-->
+</div>

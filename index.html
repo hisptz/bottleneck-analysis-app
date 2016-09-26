@@ -6,23 +6,15 @@
         <meta name="description" content="DHIS 2">
         <meta name="keywords" content="DHIS 2">        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <style>
-            .table-bordered{
-                width: 100%;
-            }
-            .table-bordered th, .table-bordered td {
-                border: 1px solid #ddd !important;
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            }
-        </style>
-
-    </head>
+      </head>
 
     <body>
     <d2-header-bar></d2-header-bar>
-    <div id="idashboard-body" style="margin-top:50px;">
-    	<div ng-include="'views/menu.html'"></div>
+    <div id="idashboard-body" style="margin-top:45px;">
+    	<div style="padding-top:20px;margin-bottom:-25px;" ng-include="'views/partials/search.html'" ng-controller="SearchController"></div>
+    	<div style="padding-top:50px;margin-bottom:-25px;" ng-include="'views/partials/menu.html'"></div>
 		<div ng-view></div>
 	</div>
 	<toaster-container></toaster-container>
@@ -31,59 +23,59 @@
     <script type="text/javascript">
         window.dhis2 = window.dhis2 || {};
         dhis2.settings = dhis2.settings || {};
-        dhis2.settings.baseUrl = '../../../';
-    </script>
+        /*dhis2.settings.baseUrl = '../../..';*/
+        dhis2.settings.baseUrl = '../../..';
+
+     </script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/jquery.min.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/jQuery/jquery.plugin.min.js"></script>
-    <link type="text/css" rel="stylesheet"  href="../../../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css">
 
     <script type="text/javascript" src="../../../dhis-web-commons/bootstrap/js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet"  href="../../../dhis-web-commons/bootstrap/css/bootstrap.min.css">
+    <!--<link type="text/css" rel="stylesheet"  href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">-->
+    <link type="text/css" rel="stylesheet"  href="styles/bootstrap.min.css">
 
+    <!-- Openlayer maps-->
+    <script src="libs/openlayers/openlayers3/build/ol.js"></script>
 
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular.js"></script>
+    <!--<script type="text/javascript" src="scripts/angular.js"></script>-->
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-resource.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-route.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-cookies.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-sanitize.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-animate.js"></script>
-    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/ui-bootstrap.js"></script>
+    <!--<script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/ui-bootstrap.js"></script>-->
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.util.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/commons.js"></script>
 
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/plugins/angularLocalStorage.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/plugins/angular-translate.min.js"></script>
-    <script type="text/javascript" src="../../../dhis-web-commons/javascripts/angular/angular-animate.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.services.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.controllers.js"></script>
 
-    <!-- Openlayer maps-->
-    <script src="scripts/openlayers/openlayers3/build/ol.js"></script>
-    <script src="scripts/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.js"></script>
+
 
     <!--dhis utils-->
-    <script src="scripts/dhis2Utils/ext-all.js"></script>
-    <script src="scripts/dhis2Utils/openlayers/OpenLayers.js"></script>
-    <script src="scripts/dhis2Utils/chart.js"></script>
-    <script src="scripts/dhis2Utils/eventreport.js"></script>
-    <script src="scripts/dhis2Utils/eventchart.js"></script>
-    <script src="scripts/dhis2Utils/map.js"></script>
-    <script src="scripts/dhis2Utils/table.js"></script>
+    <script src="libs/dhis2Utils/openlayers/OpenLayers.js"></script>
 
-    <script src="scripts/toaster/toaster.min.js"></script>
+    <!-- Openlayer  maps angular module-->
+    <script src="libs/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.js"></script>
+    <script src="libs/leaflet/leaflet-src.js"></script>
+    <script src="libs/leaflet/angular-leaflet-directive.js"></script>
 
-    <link rel="stylesheet" href="scripts/smart-table/ng-table.min.css">
-    <script src="scripts/smart-table/ng-table.min.js"></script>
+    <script src="libs/toaster/toaster.min.js"></script>
 
-    <link rel="stylesheet" href="scripts/tree/angular-multi-select-tree-0.1.0.min.css">
-    <script src="scripts/tree/angular-multi-select-tree-0.1.0.min.js"></script>
-    <script src="scripts/tree/angular-multi-select-tree-0.1.0.tpl.js"></script>
-    <script src="scripts/ui-bootstrap/date.js"></script>
-
-    <script src="scripts/spinkit/angular-spinkit.min.js"></script>
-    <script src="scripts/moment/moment.min.js"></script>
-    <script src="scripts/materialize/materialize.min.js"></script>
+    <link rel="stylesheet" href="libs/tree/angular-multi-select-tree-0.1.0.min.css">
+    <link rel="stylesheet" href="libs/leaflet/leaflet.css">
+    <script src="libs/tree/angular-multi-select-tree-0.1.0.min.js"></script>
+    <script src="libs/tree/angular-multi-select-tree-0.1.0.tpl.js"></script>
+    <script src="libs/ui-bootstrap/date.js"></script>
+    <script src="libs/angular-bootstrap-multiselect/angular-bootstrap-multiselect.js"></script>
+    <script src="libs/spinkit/angular-spinkit.min.js"></script>
+    <script src="libs/ng-csv/ng-csv.js"></script>
+    <script src="libs/ng-scrolbar/ng-scrollbar.min.js"></script>
+    <script src="libs/moment/moment.min.js"></script>
 
     <script type="text/javascript" src="scripts/app.js"></script>
     <script type="text/javascript" src="scripts/services.js"></script>
@@ -93,40 +85,55 @@
     <!-- Controllers -->
     <script type="text/javascript" src="scripts/controllers/mainController.js"></script>
     <script type="text/javascript" src="scripts/controllers/dashboardController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/searchController.js"></script>
     <script type="text/javascript" src="scripts/services/mainServices.js"></script>
+    <script type="text/javascript" src="scripts/services/mapServices.js"></script>
     <script type="text/javascript" src="scripts/services/chartServices.js"></script>
     <script type="text/javascript" src="scripts/services/tableService.js"></script>
+    <script type="text/javascript" src="scripts/services/filterServices.js"></script>
+    <script type="text/javascript" src="libs/straps/angular-strap.min.js"></script>
 
     <!-- Menu scripts -->
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.translate.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.menu.js"></script>
     <script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.menu.ui.js"></script>
+    <!--<script type="text/javascript" src=""></script>-->
+    <!--<script type="text/javascript" src="../../../dhis-web-commons/javascripts/dhis2/dhis2.angular.services.js"></script>-->
 
-    <link rel="stylesheet" href="scripts/ivh-treeview/ivh-treeview.min.css" />
-    <link rel="stylesheet" href="scripts/ivh-treeview/ivh-treeview-theme-basic.css" />
-    <script src="scripts/ivh-treeview/ivh-treeview.min.js"></script>
+    <!--pagination script-->
+    <script src="libs/pagination/dirPagination.js"></script>
 
-    <script src="scripts/straps/angular-strap.min.js"></script>
-    <script src="scripts/straps/angular-strap.tpl.min.js"></script>
+    <script src="libs/angular-strap/angular-strap.js" data-semver="v2.3.7"></script>
+    <script src="libs/angular-strap/angular-strap.tpl.js" data-semver="v2.3.7"></script>
+    <script src="libs/angular-strap/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
 
-
-    <script type="text/javascript" src="scripts/multiselect/lodash.js"></script>
-    <script type="text/javascript" src="scripts/multiselect/angularjs-dropdown-multiselect.min.js"></script>
-
+    <link type="text/css" rel="stylesheet" src="scripts/ng-scrolbar/ng-scrollbar.min.css">
     <link type="text/css" rel="stylesheet" href="../../../dhis-web-commons/font-awesome/css/font-awesome.min.css"/>
-    <link type="text/css" rel="stylesheet" media="screen" href="../../../dhis-web-commons/css/wid`ts.css"/>
     <link type="text/css" rel="stylesheet" media="screen" href="../../../dhis-web-commons/css/menu.css">
+    <link type="text/css" rel="stylesheet" media="screen" href="libs/dragDrop/jquery-ui.css">
 
     <link type="text/css" rel="stylesheet" href="styles/style.css">
 
-    <link type="text/css" rel="stylesheet" href="scripts/toaster/toaster.min.css">
-    <link type="text/css" rel="stylesheet" href="scripts/spinkit/angular-spinkit.min.css">
-    <link type="text/css" rel="stylesheet" href="scripts/materialize/materialize.min.css">
-    <!-- open layer maps-->
+    <link type="text/css" rel="stylesheet" href="libs/toaster/toaster.min.css">
+    <link type="text/css" rel="stylesheet" href="libs/spinkit/angular-spinkit.min.css">
 
-    <link rel="stylesheet" type="text/css" href="scripts/openlayers/openlayers3/build/ol.css">
-    <link rel="stylesheet" type="text/css" href="scripts/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.css">
+    <script type="text/javascript" src="libs/Highcharts/js/highcharts.js"></script>
+    <script type="text/javascript" src="libs/Highcharts/js/modules/exporting.js"></script>
+    <script type="text/javascript" src="libs/Highcharts/js/highcharts-more.js"></script>
+    <script type="text/javascript" src="libs/Highcharts/js/modules/solid-gauge.js"></script>
+    <script type="text/javascript" src="libs/Highcharts/js/modules/data.js"></script>
+    <script type="text/javascript" src="libs/highcharts-ng/dist/highcharts-ng.min.js"></script>
+    <script type="text/javascript" src="libs/dragDrop/angular-drag-and-drop-lists.min.js"></script>
+    <!--very bad approach-->
+    <script src="scripts/dashboardNotification.js"></script>
+    <!-- Reading from local storage -->
+    <script type="text/javascript" src="libs/ngStorage/ngStorage.js"></script>
+     <!-- open layer maps-->
 
+    <link rel="stylesheet" type="text/css" href="libs/openlayers/openlayers3/build/ol.css">
+    <link rel="stylesheet" type="text/css" href="libs/openlayers/angular-openlayers-directive/dist/angular-openlayers-directive.css">
+    <link rel="stylesheet" href="styles/libs.min.css">
+    <link rel="stylesheet" href="styles/share.css">
 
-</body>
+   </body>
 </html>
