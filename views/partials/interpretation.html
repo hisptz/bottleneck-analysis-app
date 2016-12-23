@@ -26,68 +26,87 @@
     </div>
     <div class="col-sm-7">
 
-       <div class="col-sm-12" style="height: 340px;overflow-y: scroll">
-           <ul class="media-list">
-               <!--Interpretation itself-->
-               <h3 class="text-mute" style="margin-top: 150px;color: rgba(0,0,0,0.5)" ng-if="dashboardItem.interpretations.interpretations.length == 0">
-                   To share new Interpretation type in your thought bellow  and and hit share
-               </h3>
-               <li class="media" ng-repeat="intepration in dashboardItem.interpretations.interpretations">
-                   <div class="media-left">
-                       <a href="#">
-                           <img class="media-object" src="..." alt="...">
-                       </a>
-                   </div>
-                   <div class="media-body">
-                       <h4 class="media-heading">{{ intepration.user.name }}</h4>
-                       <h5>{{ intepration.text }}</h5>
-
-                       <!--comments-->
-                       <div class="row" style="margin-bottom: 10px">
-                           <small ng-if="intepration.savingComment">Saving Comment..</small>
-                           <div class="col-sm-10">
-                               <textarea class="form-control" placeholder="Write a reply" rows="1" ng-model="intepration.newComment"></textarea>
-                           </div>
-                           <div class="col-sm-2">
-
-                               <button ng-click="saveInterpreationComment(dashboardItem,intepration,intepration.newComment)" class="btn btn-sm btn-info pull-left">Reply</button>
-                           </div>
-                       </div>
-
-
-                       <ul class="media-list">
-                       <li class="media" ng-repeat="comment in intepration.comments">
-                           <div class="media-left">
-                               <a href="#">
-                                   <span class="glyphicon glyphicon-comment"></span>
-                               </a>
-                           </div>
+       <div class="col-sm-12">
+           <div class="panel panel-default">
+               <div class="panel-body" style="height: 300px;overflow-y: auto">
+                   <h3 class="text-mute" style="margin-top: 150px;color: rgba(0,0,0,0.5)" ng-if="dashboardItem.interpretations.interpretations.length == 0">
+                       To share new Interpretation type in your thought bellow  and and hit share
+                   </h3>
+                   <ul class="media-list">
+                       <li class="media" ng-repeat="intepration in dashboardItem.interpretations.interpretations">
+                           <!--<div class="media-left">-->
+                               <!--<a href="#">-->
+                                   <!--<img class="media-object" src="..." alt="...">-->
+                               <!--</a>-->
+                           <!--</div>-->
                            <div class="media-body">
-                               <h4 class="media-heading">{{ comment.user.name }}</h4>
-                               <h5>{{ comment.text }}</h5>
+                               <h5 class="media-heading">{{ intepration.user.name }}</h5>
+                               <p style="background-color: #eee; padding: 5px; border-radius: 3px;">{{ intepration.text }}</p>
+                               <ul class="list-inline" style="font-size: 11px;">
+                                   <li><a href="">&nbsp;{{intepration.likes}} Like{{intepration.likes < 2 ? '': 's'}}</a></li>
+                                   <li><a href="">{{intepration.comments.length}} Comment{{intepration.comments.length < 2 ? '': 's'}}</a></li>
+                                   <li><a href=""><i class="fa fa-thumbs-up"></i></a></li>
+                                   <li><a href=""><i class="fa fa-comments-o"></i></a></li>
+                               </ul>
+
+                               <!--comments-->
+                               <div class="row">
+                                   <small ng-if="intepration.savingComment">Saving Comment..</small>
+                                   <div class="col-sm-10">
+                                       <textarea class="form-control" placeholder="Write a reply" rows="1" ng-model="intepration.newComment"></textarea>
+                                   </div>
+                                   <div class="col-sm-2">
+                                       <button ng-click="saveInterpreationComment(dashboardItem,intepration,intepration.newComment)" class="btn btn-sm btn-info pull-left">Reply</button>
+                                   </div>
+                               </div>
 
 
+                               <ul class="media-list">
+                                   <li class="media" ng-repeat="comment in intepration.comments">
+                                       <div class="media-left">
+                                           <a href="#">
+                                               <span class="glyphicon glyphicon-comment"></span>
+                                           </a>
+                                       </div>
+                                       <div class="media-body">
+                                           <h4 class="media-heading">{{ comment.user.name }}</h4>
+                                           <h5>{{ comment.text }}</h5>
+
+
+                                       </div>
+                                   </li>
+                               </ul>
                            </div>
                        </li>
-                           </ul>
+
+                   </ul>
+               </div>
+               <div class="panel-footer" style="background-color: transparent;">
+                   <div class="row">
+                       <div class="col-md-10 col-sm-10">
+                           <textarea class="form-control" placeholder="Write new interpretation" rows="2" ng-model="dashboardItem.new_interpretation"></textarea>
+                       </div>
+                       <div class="col-md-2 col-sm-2">
+                           <button ng-click="saveInterpreation(dashboardItem,dashboardItem.interpretations.type,dashboardItem.interpretations.id,dashboardItem.new_interpretation)" class="btn btn-sm btn-info pull-left">Share</button>
+                       </div>
                    </div>
-               </li>
 
-           </ul>
-
-
-       </div>
-       <div class="col-sm-12">
-           <span ng-if="dashboardItem.savingInterpretation">Saving Comments</span>
-           <div class="col-sm-10">
-               <textarea class="form-control" placeholder="Write new interpretation" rows="1" ng-model="dashboardItem.new_interpretation"></textarea>
-           </div>
-           <div class="col-sm-2">
-               <button ng-click="saveInterpreation(dashboardItem,dashboardItem.interpretations.type,dashboardItem.interpretations.id,dashboardItem.new_interpretation)" class="btn btn-sm btn-info pull-left"> Share </button>
+               </div>
            </div>
 
 
        </div>
+       <!--<div class="col-sm-12">-->
+           <!--<span ng-if="dashboardItem.savingInterpretation">Saving Comments</span>-->
+           <!--<div class="col-sm-10">-->
+               <!--<textarea class="form-control" placeholder="Write new interpretation" rows="1" ng-model="dashboardItem.new_interpretation"></textarea>-->
+           <!--</div>-->
+           <!--<div class="col-sm-2">-->
+               <!--<button ng-click="saveInterpreation(dashboardItem,dashboardItem.interpretations.type,dashboardItem.interpretations.id,dashboardItem.new_interpretation)" class="btn btn-sm btn-info pull-left"> Share </button>-->
+           <!--</div>-->
+
+
+       <!--</div>-->
 
     </div>
 

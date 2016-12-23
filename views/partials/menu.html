@@ -4,30 +4,24 @@
   <div class="container-fluid bbnav">
 
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
+    <div class="navbar-header" style="border-right: solid 1px #ECECEC; padding-right: 7px;">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button>{{ $root.hideFilters }}
-        <div ng-if="!$root.filtersHidden" >
-            <h4 class="text-muted">
-                <a ng-click="$root.hideFilters()" title="Hide Filters" ng-if="!$root.filtersHidden">
-                    <img ng-if="!$root.filtersHidden" src="img/filter.png" style="height: 25px;width: 25px"/>&nbsp;
-                    <small class="text-primary">Please Change Settings</small>
-                    <span style="margin-top: 5px" class="glyphicon glyphicon-chevron-left pull-right"></span>
-                </a>
+      </button>
+        <div style="padding-top: 3px;">
+            <h4 class="text-muted"><a ng-click="$root.hideFilters()" title="Show Filters" style="cursor:pointer">
+                <!--<img src="img/filter.png" style="height: 25px;width: 25px"/>-->
+                <i class="fa fa-cogs"></i>
+                <small class="text-primary" ng-if="!$root.filtersHidden">
+                    Dashboard Settings&nbsp;
+                    <i class="fa fa-chevron-left"></i>
+                </small>
+                <small ng-if="$root.filtersHidden">&nbsp;<i class="fa fa-chevron-right"></i></small>
+            </a>
             </h4>
-
-        </div>
-
-        <div>
-
-            <h4 ng-if="$root.filtersHidden" class="text-muted" style="margin-bottom: 0px"><a ng-click="$root.hideFilters()" title="Show Filters" style="cursor:pointer">
-                <img src="img/filter.png" style="height: 25px;width: 25px"/>
-                <span class="glyphicon glyphicon-chevron-right"></span>
-            </a> </h4>
         </div>
     </div>
 

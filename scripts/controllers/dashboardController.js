@@ -1,5 +1,5 @@
 var dashboardController  = angular.module('dashboardController',[]);
-dashboardController.controller('DashboardController',['$scope','$rootScope','$resource','dashboardsManager','dashboardItemsManager',
+dashboardController.controller('DashboardController',['$scope','$rootScope','$resource','dashboardsManager','dashboardItemsManager','userAccount',
     '$routeParams','$timeout','$translate','$window','$location','$alert','$modal','$route','Paginator','ContextMenuSelectedItem',
     '$filter','$http','CustomFormService','DHIS2URL', 'olHelpers',
     'olData','mapManager','chartsManager','TableRenderer','filtersManager','$localStorage','$sessionStorage','$q','MAP_TOKEN','leafletData',function(
@@ -8,6 +8,7 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                         $resource,
                         dashboardsManager,
                         dashboardItemsManager,
+                        userAccount,
                         $routeParams,
                         $timeout,
                         $translate,
@@ -1698,60 +1699,47 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
         }
 
 
-        $scope.createData = {};
-        $scope.createDashboard = function() {
-            $http({
-                method: 'POST',
-                url: '/api/dashboards',
-                data: $scope.createData
-            }).success(function(response) {
-                console.log(response);
-                //@todo temporarly solution
-                $scope.createData = {};
-                var location = response.headers('Location');
-                $rootScope.filtersHidden = true;
-                notificationAlert('Success', 'New dashboard created successfully','success');
-                $location.path(location + '/dashboard');
-            }).error(function() {
-                //@ todo handle situation when there is failure
-            });
+        $scope.createDashboard = function(name) {
+            dashboardsManager.addDashboard({name: name})
+                .then(function(dashboardId) {
+                    userAccount.getUsername()
+                        .then(function(username) {
+                            //update local storage
+                            $localStorage['dashboard.current.' + username] = dashboardId;
+                            $location.path('/dashboards/' + dashboardId +'/dashboard');
+                            $rootScope.filtersHidden = true;
+                        });
+                })
         }
 
 
-        $scope.renameDashboard = function(dashName) {
-            var renameData = {name: dashName};
-            console.log(renameData);
-            var currentDashboardId = $routeParams.dashboardid;
-            var url = '/api/dashboards/'+ currentDashboardId;
-            var redirectUrl = '/dashboards/'+ currentDashboardId + '/dashboard';
-            $http({
-                method: 'PUT',
-                url: url,
-                data: renameData
-            }).success(function(response) {
-                $rootScope.filtersHidden = true;
-                notificationAlert('Success', 'Dashboard name renamed successfully','success');
-                //$window.location.reload();
-                $location.path(redirectUrl);
-            }).error(function() {
-                //@ todo handle situation when there is failure
-            })
+        $scope.renameDashboard = function(dashboardName) {
+            dashboardsManager.updateDashboardName({id: $routeParams.dashboardid, name: dashboardName})
+                .then(function(response) {
+                        notificationAlert('Success', 'Dashboard updated', 'success')
+                },
+                function(error) {
+                    notificationAlert('Whoops!', 'Update has failed', 'danger')
+                })
+
 
         }
 
         $scope.deleteDashboard = function() {
             var currentDashboardId = $routeParams.dashboardid;
-            var url = '/api/dashboards/'+ currentDashboardId;
-            $http({
-                method: 'DELETE',
-                url: url
-            }).success(function(response) {
-                $rootScope.filtersHidden = true;
-                $window.location.href = '../idashboard/index.html';
-            }).error(function() {
-                //@ todo handle situation when there is failure
-            })
-
+            dashboardsManager.deleteDashboard($routeParams.dashboardid)
+                .then(function(success) {
+                    userAccount.getUsername()
+                        .then(function(username) {
+                            //update local storage
+                            delete $localStorage['dashboard.current.' + username];
+                            $location.path('/');
+                            $rootScope.filtersHidden = true;
+                        });
+                    notificationAlert('Success', 'Dashboard deleted!', 'success')
+                }, function() {
+                    notificationAlert('Whoops!', 'Delete has failed', 'danger')
+                })
         }
 
 

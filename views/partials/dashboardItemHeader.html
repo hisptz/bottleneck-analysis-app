@@ -90,6 +90,8 @@
    data-auto-close="1" bs-popover> | Filters
 </a>
 
+<a ng-show="dashboardItem.interpretationCount > 0" href="../../../dhis-web-dashboard-integration/interpretation.action">&nbsp;&nbsp;<small><i class="fa fa-comments-o"></i> {{dashboardItem.interpretationCount}}</small></a>
+
 <a data-animation="am-fade-and-slide-top" data-template-url="views/partials/dashboardModel.html"
    bs-modal="modal" class="pull-right" style="cursor: pointer" title="Zoom card"><span
         class="glyphicon glyphicon-resize-full"></span> </a>

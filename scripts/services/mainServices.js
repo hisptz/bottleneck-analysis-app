@@ -2,6 +2,7 @@ var mainServices = angular.module('mainServices',['ngResource'])
     .constant('DHIS2URL', '../../..');
 mainServices.factory('dashboardsManager',['$http','$q','Dashboard','DashboardItem',function($http,$q,DHIS2URL,Dashboard,DashboardItem){
 
+    var dashboardUrl = '../../../api/dashboards';
     var dashboardsManager = {
         _dashBoardsPool: {},
         _dashboardObjectName: "dashboards",
@@ -19,10 +20,10 @@ mainServices.factory('dashboardsManager',['$http','$q','Dashboard','DashboardIte
         _search: function(dashboardId) {
             return this._dashBoardsPool[dashboardId];
         },
-        _load: function(dashboardId,deferred){
+        _load: function(dashboardId){
             var thisDashboard = this;
             var deferred = $q.defer();
-            $http.get('../../..'+'/api/dashboards/'+dashboardId+'.json?paging=false&fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all],:all],:all,program[id,name],programStage[id,name],columns[dimension,filter,legendSet[id,name],items[id,name]],rows[dimension,filter,legendSet[id,name],items[id,name]],filters[dimension,filter,legendSet[id,name],items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits]')
+            $http.get(dashboardUrl+'/'+dashboardId+'.json?paging=false&fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all],:all],:all,program[id,name],programStage[id,name],columns[dimension,filter,legendSet[id,name],items[id,name]],rows[dimension,filter,legendSet[id,name],items[id,name]],filters[dimension,filter,legendSet[id,name],items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits]')
                 .success(function(dashboardData){
                      var dashboard = thisDashboard._retrieveDashboardInstance(dashboardData.id,dashboardData);
                     deferred.resolve(dashboard);
@@ -48,7 +49,7 @@ mainServices.factory('dashboardsManager',['$http','$q','Dashboard','DashboardIte
         loadAllDashboards: function() {
             var deferred = $q.defer();
             var thisDashboard = this;
-            $http.get('../../..'+'/api/dashboards'+'.json?fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all],:all],:all,program[id,name],programStage[id,name],columns[dimension,filter,legendSet[id,name],items[id,name]],rows[dimension,filter,legendSet[id,name],items[id,name]],filters[dimension,filter,legendSet[id,name],items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits]')
+            $http.get(dashboardUrl +'.json?fields=:all,dashboardItems[id,lastsUpdated,created,type,shape,chart[:all],reportTable[:all],map[id,lastUpdated,created,name,zoom,longitude,latitude,displayName,mapViews[:all],:all],:all,program[id,name],programStage[id,name],columns[dimension,filter,legendSet[id,name],items[id,name]],rows[dimension,filter,legendSet[id,name],items[id,name]],filters[dimension,filter,legendSet[id,name],items[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits]')
                 .success(function(dashboardsData){
                     var dashboards = [];
                     dashboardsData.dashboards.forEach(function(dashboardData){
@@ -61,6 +62,61 @@ mainServices.factory('dashboardsManager',['$http','$q','Dashboard','DashboardIte
                 .error(function(errorMessageData){
                     deferred.reject();
                 });
+            return deferred.promise;
+        },
+
+        addDashboard: function(dashboardData) {
+            var thisDashboard = this;
+            var deferred = $q.defer();
+            $http.post(dashboardUrl, dashboardData)
+                .success(function(data, status, headers) {
+                    //get dashboard id for the new dashboard
+                    var dashboardId = headers('Location').split("/")[2];
+                    //also add to the pool
+                    thisDashboard._load(dashboardId)
+                        .then(function(dashboard){
+                            deferred.resolve(dashboardId)
+                        },function(error){
+                            deferred.reject(error)
+                        });
+                })
+                .error(function(error) {
+                    deferred.reject()
+                });
+            return deferred.promise;
+        },
+        deleteDashboard: function(dashboardId) {
+            var thisDashboard = this;
+            var deferred = $q.defer();
+            $http.delete(dashboardUrl + '/' + dashboardId)
+                .success(function(response){
+                    //Delete also from the pool
+                    delete thisDashboard._dashBoardsPool[dashboardId];
+                    deferred.resolve(response);
+                    console.log('dashboard deleted')
+                })
+                .error(function(error){
+                    deferred.reject(error)
+                    console.log('delete error' + error)
+                })
+            return deferred.promise;
+        },
+        updateDashboardName: function(dashboardData) {
+            var thisDashboard = this;
+            var deferred = $q.defer();
+            $http.put(dashboardUrl + '/' + dashboardData.id, {name: dashboardData.name})
+                .success(function(response) {
+                    //also update dashboard pool
+                    thisDashboard._load(dashboardData.id)
+                        .then(function(dashboardData) {
+                            deferred.resolve(response);
+                        }, function(loadError) {
+                                deferred.reject()
+                            })
+                })
+                .error(function(updateError) {
+                    deferred.reject()
+                })
             return deferred.promise;
         },
         /* Update dashboard instance */
@@ -201,6 +257,29 @@ mainServices.factory('DashboardItem',function($http,DHIS2URL,$q){
     };
     return DashboardItem;
 });
+
+mainServices.factory('userAccount', ['$http','$q',function($http, $q){
+    var userAccount = {
+        _username: '',
+        getUsername: function() {
+            var deferred = $q.defer();
+            if(this._username != '') {
+                deferred.resolve(this._username)
+            } else {
+                $http.get('../../../api/me/profile.json')
+                    .success(function(account) {
+                        deferred.resolve(account.username)
+                    })
+                    .error(function(error) {
+                        deferred.reject(error)
+                    });
+            }
+            return deferred.promise;
+        }
+    };
+
+    return userAccount;
+}])
 
 
 
