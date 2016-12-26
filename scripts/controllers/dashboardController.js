@@ -71,7 +71,7 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
         //Drawing a sample map
         var data ={"headers":[{"name":"dx","column":"Data","type":"java.lang.String","hidden":false,"meta":true},{"name":"ou","column":"Organisation unit","type":"java.lang.String","hidden":false,"meta":true},{"name":"value","column":"Value","type":"java.lang.Double","hidden":false,"meta":false}],"metaData":{"names":{"2016":"2016","RD96nI1JXVV":"Kigoma Region","LGTVRhKSn1V":"Singida Region","EO3Ps3ny0Nr":"Shinyanga Region","MAL4cfZoFhJ":"Geita Region","A3b5mw8DJYC":"Mbeya Region","DWSo42hunXH":"Katavi Region","hAFRrgDK0fy":"Mwanza Region","dx":"Data","vAtZ8a924Lx":"Rukwa Region","Cpd5l15XxwA":"Dodoma Region","sWOWPBvwNY2":"Iringa Region","vYT08q7Wo33":"Mara Region","Crkg9BoUo5w":"Kagera Region","yyW17iCz9As":"Pwani Region","acZHYslyJLt":"Dar Es Salaam Region","qg5ySBw9X5l":"Manyara Region","UbnP1Kth7oJ":"ACT_<15 positivity rate","ou":"Organisation unit","bN5q5k5DgLA":"Mtwara Region","lnOyHhoLzre":"Kilimanjaro Region","kZ6RlMnt2bp":"Tabora Region","qarQhOt2OEh":"Njombe Region","Gk33rUTrPL5":"ACT_Testing by age categories","vU0Qt1A5IDz":"Tanga Region","m5WIYYiOtSp":"ACT_Number of children tested +VE (<15)","YtVMnut7Foe":"Arusha Region","VMgrQWSVIYn":"Lindi Region","Sj50oz9EHvD":"Morogoro Region","pe":"Period","IgTAEKMqKRe":"Simiyu Region","ZYYX8Q9SGoV":"Ruvuma Region"},"dx":["UbnP1Kth7oJ","m5WIYYiOtSp","Gk33rUTrPL5"],"pe":["2016"],"ou":["YtVMnut7Foe","acZHYslyJLt","Cpd5l15XxwA","MAL4cfZoFhJ","sWOWPBvwNY2","Crkg9BoUo5w","DWSo42hunXH","RD96nI1JXVV","lnOyHhoLzre","VMgrQWSVIYn","qg5ySBw9X5l","vYT08q7Wo33","A3b5mw8DJYC","Sj50oz9EHvD","bN5q5k5DgLA","hAFRrgDK0fy","qarQhOt2OEh","yyW17iCz9As","vAtZ8a924Lx","ZYYX8Q9SGoV","EO3Ps3ny0Nr","IgTAEKMqKRe","LGTVRhKSn1V","kZ6RlMnt2bp","vU0Qt1A5IDz"],"co":[]},"rows":[["UbnP1Kth7oJ","YtVMnut7Foe","1.4"],["UbnP1Kth7oJ","acZHYslyJLt","1.3"],["UbnP1Kth7oJ","Cpd5l15XxwA","5.5"],["UbnP1Kth7oJ","MAL4cfZoFhJ","2.1"],["UbnP1Kth7oJ","sWOWPBvwNY2","4.8"],["UbnP1Kth7oJ","Crkg9BoUo5w","1.2"],["UbnP1Kth7oJ","DWSo42hunXH","1.7"],["UbnP1Kth7oJ","RD96nI1JXVV","0.9"],["UbnP1Kth7oJ","lnOyHhoLzre","0.93"],["UbnP1Kth7oJ","VMgrQWSVIYn","0.38"],["UbnP1Kth7oJ","qg5ySBw9X5l","1.4"],["UbnP1Kth7oJ","vYT08q7Wo33","2.6"],["UbnP1Kth7oJ","A3b5mw8DJYC","5.9"],["UbnP1Kth7oJ","Sj50oz9EHvD","2.7"],["UbnP1Kth7oJ","bN5q5k5DgLA","1.6"],["UbnP1Kth7oJ","hAFRrgDK0fy","6.5"],["UbnP1Kth7oJ","qarQhOt2OEh","4.7"],["UbnP1Kth7oJ","yyW17iCz9As","1.2"],["UbnP1Kth7oJ","vAtZ8a924Lx","2.3"],["UbnP1Kth7oJ","ZYYX8Q9SGoV","4.3"],["UbnP1Kth7oJ","EO3Ps3ny0Nr","1.9"],["UbnP1Kth7oJ","IgTAEKMqKRe","2.5"],["UbnP1Kth7oJ","LGTVRhKSn1V","4.5"],["UbnP1Kth7oJ","kZ6RlMnt2bp","2.7"],["UbnP1Kth7oJ","vU0Qt1A5IDz","1.7"],["m5WIYYiOtSp","YtVMnut7Foe","24.0"],["m5WIYYiOtSp","acZHYslyJLt","120.0"],["m5WIYYiOtSp","Cpd5l15XxwA","10.0"],["m5WIYYiOtSp","MAL4cfZoFhJ","21.0"],["m5WIYYiOtSp","sWOWPBvwNY2","70.0"],["m5WIYYiOtSp","Crkg9BoUo5w","124.0"],["m5WIYYiOtSp","DWSo42hunXH","14.0"],["m5WIYYiOtSp","RD96nI1JXVV","11.0"],["m5WIYYiOtSp","lnOyHhoLzre","19.0"],["m5WIYYiOtSp","VMgrQWSVIYn","6.0"],["m5WIYYiOtSp","qg5ySBw9X5l","11.0"],["m5WIYYiOtSp","vYT08q7Wo33","21.0"],["m5WIYYiOtSp","A3b5mw8DJYC","80.0"],["m5WIYYiOtSp","Sj50oz9EHvD","31.0"],["m5WIYYiOtSp","bN5q5k5DgLA","39.0"],["m5WIYYiOtSp","hAFRrgDK0fy","59.0"],["m5WIYYiOtSp","qarQhOt2OEh","37.0"],["m5WIYYiOtSp","yyW17iCz9As","27.0"],["m5WIYYiOtSp","vAtZ8a924Lx","22.0"],["m5WIYYiOtSp","ZYYX8Q9SGoV","44.0"],["m5WIYYiOtSp","EO3Ps3ny0Nr","88.0"],["m5WIYYiOtSp","IgTAEKMqKRe","48.0"],["m5WIYYiOtSp","LGTVRhKSn1V","10.0"],["m5WIYYiOtSp","kZ6RlMnt2bp","92.0"],["m5WIYYiOtSp","vU0Qt1A5IDz","36.0"],["Gk33rUTrPL5","YtVMnut7Foe","12881.0"],["Gk33rUTrPL5","acZHYslyJLt","44632.0"],["Gk33rUTrPL5","Cpd5l15XxwA","3126.0"],["Gk33rUTrPL5","MAL4cfZoFhJ","3657.0"],["Gk33rUTrPL5","sWOWPBvwNY2","8828.0"],["Gk33rUTrPL5","Crkg9BoUo5w","33408.0"],["Gk33rUTrPL5","DWSo42hunXH","6775.0"],["Gk33rUTrPL5","RD96nI1JXVV","6201.0"],["Gk33rUTrPL5","lnOyHhoLzre","11767.0"],["Gk33rUTrPL5","VMgrQWSVIYn","7812.0"],["Gk33rUTrPL5","qg5ySBw9X5l","6149.0"],["Gk33rUTrPL5","vYT08q7Wo33","9385.0"],["Gk33rUTrPL5","A3b5mw8DJYC","14269.0"],["Gk33rUTrPL5","Sj50oz9EHvD","9923.0"],["Gk33rUTrPL5","bN5q5k5DgLA","10244.0"],["Gk33rUTrPL5","hAFRrgDK0fy","9755.0"],["Gk33rUTrPL5","qarQhOt2OEh","6381.0"],["Gk33rUTrPL5","yyW17iCz9As","10917.0"],["Gk33rUTrPL5","vAtZ8a924Lx","7785.0"],["Gk33rUTrPL5","ZYYX8Q9SGoV","5929.0"],["Gk33rUTrPL5","EO3Ps3ny0Nr","15289.0"],["Gk33rUTrPL5","IgTAEKMqKRe","9350.0"],["Gk33rUTrPL5","LGTVRhKSn1V","3953.0"],["Gk33rUTrPL5","kZ6RlMnt2bp","19904.0"],["Gk33rUTrPL5","vU0Qt1A5IDz","13142.0"]],"width":3,"height":75};
         chartsManager.getGeojson(data).then(function(result){
-            console.log(JSON.stringify(result));
+           // console.log(JSON.stringify(result));
         });
         ////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////
@@ -1361,6 +1361,7 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                 var dataElementArray=[];
                 var indicatorArray=[];
                 var datasetArray=[];
+                $scope.dataElementDetails=[];
                 angular.forEach(analyticsObject.metaData.dx,function(dxUid){
                     $scope.dashboardLoader[dashboardItem.id] = true;
                     var dataElementApi=
@@ -1377,13 +1378,14 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                             var indicators=indicatorApi.get(function(indicatorObject){
                                 var expApi=
                                     $resource('../../../api/expressions/description',{get:{method:"JSONP"}});
+
                                 var numeratorExp=expApi.get({expression:indicatorObject.numerator},function(numeratorText){
                                     var numerator=numeratorText.description;
                                     var denominatorExp=expApi.get({expression:indicatorObject.denominator},function(denominatorText){
                                         var denominator=denominatorText.description;
-                                        indicatorArray.push({name:indicatorObject.name,uid:indicatorObject.id,denominatorDescription:indicatorObject.denominatorDescription,numeratorDescription:indicatorObject.numeratorDescription,numerator:numerator,denominator:denominator,indicatorType:indicatorObject.indicatorType,dataSets:indicatorObject.dataSets});
+                                        indicatorArray.push({name:indicatorObject.name,uid:indicatorObject.id,denominatorDescription:indicatorObject.denominatorDescription,numeratorDescription:indicatorObject.numeratorDescription,numerator:numerator,denominator:denominator,indicatorType:indicatorObject.indicatorType,dataSets:indicatorObject.dataSets,numeratorForm:indicatorObject.numerator,demonitorForm:indicatorObject.denominator});
                                         $scope.indicators[dashboardItem.id]=indicatorArray;
-                                        console.log($scope.indicators[dashboardItem.id]);
+                                        //console.log($scope.indicators[dashboardItem.id]);
                                         $scope.dashboardLoader[dashboardItem.id] = false;
                                     });
                                 });
@@ -1407,6 +1409,32 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
             }
 
         };
+        $scope.showAllDetails=function (numeratorFormula,denominatorFormula) {
+            var separators = [' ', '\\\+', '-', '\\\(', '\\\)', '\\*', '/', ':', '\\\?'];
+            $scope.numeratorUid=numeratorFormula.split(new RegExp(separators.join('|'), 'g'));
+            $scope.denominatorUid=denominatorFormula.split(new RegExp(separators.join('|'), 'g'));
+            var expApi=
+                $resource('../../../api/expressions/description',{get:{method:"JSONP"}});
+            $scope.values=[];
+            $scope.values2=[];
+            angular.forEach($scope.numeratorUid,function (formulauid) {
+                var returnedvalue= expApi.get({expression:formulauid},function (dataelementDetails) {
+                   $scope.values.push({"description":dataelementDetails.description,"dxUid":formulauid})
+                    //console.log($scope.values);
+                })
+            })
+            angular.forEach($scope.denominatorUid,function (formulauid) {
+                var returnedvalue= expApi.get({expression:formulauid},function (dataelementDetails) {
+                    $scope.values2.push({"description":dataelementDetails.description,"dxUid":formulauid})
+                    //console.log($scope.values2);
+                })
+            })
+        }
+
+        var myOtherModal = $modal({scope: $scope, template: 'views/partials/dictionary.html', show: false});
+        $scope.showModal=function () {
+            myOtherModal.$promise.then(myOtherModal.show);
+        }
 
         //saving interpration comment
         $scope.saveInterpreationComment = function(dashboardItem,interpration,comment){
