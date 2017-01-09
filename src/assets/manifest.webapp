@@ -1,0 +1,21 @@
+{
+    "version": "0.1",
+    "name": "Water Point",
+    "description": "Water Point",
+    "launch_path": "index.html",
+    "icons": {
+        "16": "assets/logo.png",
+        "48": "assets/logo.png",
+        "128": "assets/logo.png"
+    },
+    "developer": {
+        "name": "HISPTZ",
+        "url": ""
+    },
+    "default_locale": "en",
+    "activities": {
+        "dhis": {
+            "href": "/"
+        }
+    }
+}
