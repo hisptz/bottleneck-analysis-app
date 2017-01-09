@@ -1,0 +1,22 @@
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>{{data.numeratorDescription}}</h4>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item" ng-if="values" ng-repeat="elements in values">
+                    <span class="badge">{{elements.dxUid}}</span>
+                    {{elements.description}}
+                </li>
+                <!--<li class="list-group-item" ng-if="values2" ng-repeat="elements in values2">-->
+                    <!--<span class="badge">{{elements.dxUid}}</span>-->
+                    <!--{{elements.description}}-->
+                <!--</li>-->
+            </ul>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

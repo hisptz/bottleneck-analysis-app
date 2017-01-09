@@ -24,7 +24,7 @@
                             </tr>
                             <tr ng-repeat="dataSets in data.dataSets">
                                 <td>Data Source:</td>
-                                <td><a href="" data-animation="am-flip-x" bs-tooltip="dataSets.periodType">{{dataSets.name}}</a></td>
+                                <td><a href="" data-animation="am-flip-x" bs-tooltip="Period Type dataSets.periodType">{{dataSets.name}}</a></td>
                             </tr>
                         </table>
                     </div>
@@ -36,7 +36,7 @@
         <div class="panel panel-default" ng-repeat="data in indicators[dashboardItem.id]">
             <div class="panel-heading" role="tab">
                 <h4 class="panel-title">
-                    <a bs-collapse-toggle>
+                    <a bs-collapse-toggle ng-click="showAllDetails(data.numeratorForm,data.demonitorForm)">
                         {{ data.name }}
                     </a>
                 </h4>
@@ -55,11 +55,11 @@
                             </tr>
                             <tr>
                                 <td> Numerator </td>
-                                <td><a href="" data-animation="am-flip-x" bs-tooltip="data.numerator"> {{data.numeratorDescription}} </a></td>
+                                <td><a href="" title="{{data.numeratorDescription}}" data-template-url="views/partials/dictionary.html" data-animation="am-flip-x" data-auto-close="1" data-placement="center" bs-popover data-trigger='click'> {{data.numerator}} </a></td>
                             </tr>
                             <tr>
                                 <td> Denominator </td>
-                                <td> <a href="" data-animation="am-flip-x" bs-tooltip="data.denominator">{{data.denominatorDescription}}</a></td>
+                                <td> <a href="" title="{{data.denominatorDescription}}" data-template-url="views/partials/dictionary2.html" data-animation="am-flip-x" data-auto-close="1" data-placement="center" bs-popover data-trigger='click'>{{data.denominator}}</a></td>
                             </tr>
                             <tr>
                                 <td> Indicator Type:</td>
