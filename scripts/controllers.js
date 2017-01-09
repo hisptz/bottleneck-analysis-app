@@ -4,4 +4,3 @@
 
 /* Controllers */
 var idashboardControllers = angular.module('idashboardControllers', ['mainController','dashboardController', 'searchController']);
-

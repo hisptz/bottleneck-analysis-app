@@ -383,7 +383,7 @@ chartServices.factory('chartsManager',function($timeout,$http,$q,filtersManager)
                     }
                 }
             });
-            return JSON.parse(orgunitCoordinate);
+            //return JSON.parse(orgunitCoordinate);
         },
 
         //drawing some charts

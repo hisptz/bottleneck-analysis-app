@@ -1710,7 +1710,7 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                             $rootScope.filtersHidden = true;
                         });
                 })
-        }
+        };
 
 
         $scope.renameDashboard = function(dashboardName) {
@@ -1720,10 +1720,9 @@ dashboardController.controller('DashboardController',['$scope','$rootScope','$re
                 },
                 function(error) {
                     notificationAlert('Whoops!', 'Update has failed', 'danger')
-                })
+                });
 
-
-        }
+        };
 
         $scope.deleteDashboard = function() {
             var currentDashboardId = $routeParams.dashboardid;

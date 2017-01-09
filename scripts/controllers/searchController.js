@@ -3,7 +3,7 @@
  */
 var searchController  = angular.module('searchController',[]);
 
-searchController.controller('SearchController', function($scope, $http, $routeParams, $route, $location, $window) {
+searchController.controller('SearchController', function($scope, $http, $routeParams, $route, $location, $templateCache) {
 
     //@todo Code should be well organized
     $scope.search = '';
@@ -58,16 +58,15 @@ searchController.controller('SearchController', function($scope, $http, $routePa
         }
     };
 
-    $scope.addItemContent = function(type, id) {
+    $scope.addItemContent = function(contentType, contentId) {
         $scope.isShown = false;
         var data = {
-            type: type,
-            id: id
+            type: contentType,
+            id: contentId
         };
         var id = $routeParams.dashboardid;
-        console.log(id);
+        console.log(contentId);
         var url = '/api/dashboards/'+ id + '/items/content';
-        var redirectUrl = '/dashboards/'+ id + '/dashboard';
 
         $http({
             method: 'POST',
@@ -81,7 +80,11 @@ searchController.controller('SearchController', function($scope, $http, $routePa
             },
             data: data
         }).then(function(response) {
-            $location.path(redirectUrl);
+            var currentPageTemplate = $route.current.templateUrl;
+            $templateCache.remove(currentPageTemplate);
+            $route.reload();
+        }, function() {
+
         })
     }
 
