@@ -20,10 +20,6 @@
     padding-bottom: 6px;
 }
 
-.dashboard-add-button {
-    border-left: solid 1px #ECECEC;
-}
-
 .dashboard-search-button {
     border-left: solid 1px #ECECEC;
 }
@@ -50,10 +46,7 @@
 
 .dashboard-list {
     position: relative;
-    /*border: solid 1px #000;*/
-    /*display: inline-block;*/
     height: 50px;
-    /*width: auto;*/
 }
 
 .dashboard-btn {
@@ -62,16 +55,17 @@
     background-color: #ECECEC;
     width: 20px;
     height: 100%;
-    padding-top: 15px;
-    padding-left: 4px;
+    padding-top: 6px;
+    padding-left: 6px;
     right: 0;
     top: 0;
 }
 
-.dashboard-list:hover .dashboard-btn{
-    display: block;
+.dashboard-btn li > a {
+    color: #5e5e5e;
+    font-size: 10px;
 }
 
-.dashboard-list:hover {
-    /*margin-right: 10px;*/
+.dashboard-list:hover .dashboard-btn{
+    display: block;
 }

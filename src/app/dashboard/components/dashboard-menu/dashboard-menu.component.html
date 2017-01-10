@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" style="border-radius: 0px;">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -6,39 +6,54 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <div dropdown>
-        <a id="split-button" type="button" class="navbar-brand" dropdownToggle><i class="fa fa-cogs"></i></a>
-        <ul class="dropdown-menu" dropdownMenu role="menu" aria-labelledby="split-button" style="top: 50px; z-index: 4000;">
-          <li role="menuitem"><a style="cursor: pointer" ><i class="fa fa-edit"></i> Rename</a></li>
-          <li role="menuitem"><a style="cursor: pointer" ><i class="fa fa-share-alt"></i> Share</a></li>
-          <li role="menuitem"><a style="cursor: pointer" ><i class="fa fa-cog"></i> Data Settings</a></li>
-        </ul>
-      </div>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav dashboard-nav">
-        <li class="dashboard-add-button"><a><i class="fa fa-plus"></i></a></li>
-        <li><input type="text" class="dashboard-add-input"></li>
+        <li>
+          <a type="button" class="navbar-brand" (click)="isSettingsOpen = !isSettingsOpen">
+            <i class="fa fa-cogs"></i>&nbsp;
+            <small><i class="fa {{isSettingsOpen ? 'fa-chevron-left':'fa-chevron-right'}}"></i></small>
+          </a>
+        </li>
+        <li *ngIf="isSettingsOpen"><a href=""><i class="fa fa-share-alt"></i></a></li>
+        <li *ngIf="isSettingsOpen"><a (click)="isItemSearchOpen = !isItemSearchOpen"><i class="fa fa-search"></i></a></li>
+        <li *ngIf="isSettingsOpen">
+          <a (click)="isAddFormOpen = !isAddFormOpen">
+            <i class="fa {{isAddFormOpen? 'fa-times':'fa-plus'}}"></i>
+          </a>
+        </li>
+        <li *ngIf="isAddFormOpen">
+          <form action="" style="display: flex;">
+            <input type="text" class="dashboard-add-input" style="flex: 1;" autofocus>
+            <button type="submit" class="btn btn-primary btn-sm" style="border-radius: 0px;">Save</button>
+          </form>
+        </li>
         <li class="dashboard-list">
-          <a href="">Dashboard one</a>
-          <span class="dashboard-btn" dropdown>
-            <a id="simple-dropdown" class="dashboard-btn" dropdownToggle>
-              <i class="fa fa-cog"></i>
-            </a>
-            <ul class="dropdown-menu" style="left: -530%; width: 90%" dropdownMenu aria-labelledby="simple-dropdown">
-              <li><a href="" class="dropdown-item"><i class="fa fa-edit"></i> Rename</a></li>
-              <li><a href="" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a></li>
-            </ul>
-          </span>
-          <!--<input type="text" class="dashboard-edit-input" value="Dashboard one" size="12">-->
+          <a href="" *ngIf="!isEditFormOpen">Dashboard one</a>
+          <ul class="list-unstyled dashboard-btn">
+            <li>
+              <a (click)="isEditFormOpen = !isEditFormOpen">
+                <i class="fa {{isEditFormOpen ? 'fa-times':'fa-edit'}}"></i>
+              </a>
+            </li>
+            <li *ngIf="!isEditFormOpen"><a href="" style="color: red;"><i class="fa fa-trash"></i></a></li>
+            <li *ngIf="isEditFormOpen"><a href="" ><i class="fa fa-edit"></i></a></li>
+          </ul>
+          <input *ngIf="isEditFormOpen" type="text" class="dashboard-edit-input" value="Dashboard one">
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
         <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-        <li><input type="text" class="dashboard-search-input"></li>
-        <li class="dashboard-search-button"><a><i class="fa fa-search"></i></a></li>
+        <li *ngIf="isSearchOpen"><input type="text" class="dashboard-search-input" autofocus></li>
+        <li class="dashboard-search-button" (click)="isSearchOpen = !isSearchOpen"><a><i class="fa fa-search"></i></a></li>
       </ul>
     </div>
   </div>
 </nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <app-dashboard-item-search *ngIf="isItemSearchOpen"></app-dashboard-item-search>
+  </div>
+</div>

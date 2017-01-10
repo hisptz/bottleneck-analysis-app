@@ -1,0 +1,40 @@
+.intepretation-count {
+    position: absolute;
+    top: 2px;
+    left: 17px;
+    border-radius: 2px;
+    font-size: 9px;
+}
+
+.dashboard-item-header li > a {
+    font-size: 12px;
+    border-radius: 0px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #5e5e5e;
+}
+
+.dashboard-item-body {
+    height: 350px;
+    position: relative;
+}
+
+.chart-options {
+    position: absolute;
+    display: none;
+    height: 100%;
+    background-color: #f5f5f5;
+    right: 0;
+    top:0;
+    border-left: solid 1px #ddd;
+}
+
+.chart-options ul > li > a {
+    color: #5e5e5e;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.dashboard-item-body:hover .chart-options {
+    display: block;
+}

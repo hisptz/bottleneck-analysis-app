@@ -7,7 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardMenuComponent implements OnInit {
 
-  constructor() { }
+  public isAddFormOpen : boolean;
+  public isEditFormOpen: boolean;
+  public isSearchOpen: boolean;
+  public isSettingsOpen: boolean;
+  public isItemSearchOpen: boolean;
+  constructor() {
+    this.isAddFormOpen = false;
+    this.isSearchOpen = false;
+    this.isEditFormOpen = false;
+    this.isSettingsOpen = false;
+    this.isItemSearchOpen = false;
+  }
 
   ngOnInit() {
   }
