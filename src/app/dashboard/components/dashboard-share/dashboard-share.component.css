@@ -1,0 +1,14 @@
+.share-badge {
+    background-color: #f5f5f5;
+    /*padding-left: 10px;*/
+    padding-top: 9px;
+    padding-bottom: 9px;
+    border-radius: 22px;
+    color: #286090;
+}
+
+.share-input {
+    border-style: none;
+    border-color: transparent;
+    outline: none;
+}

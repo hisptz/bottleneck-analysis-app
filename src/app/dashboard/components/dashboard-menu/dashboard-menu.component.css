@@ -2,6 +2,11 @@
     border-right: solid 1px #ECECEC;
 }
 
+.dashboard-nav > li > a,
+.dashboard-right > li > a{
+    color: #286090;
+}
+
 .dashboard-settings {
     border: solid 1px #eee;
     position: absolute;
@@ -15,7 +20,6 @@
 
 .settings-nav > li > a {
     cursor: pointer;
-    color: #5e5e5e;
     padding-top: 6px;
     padding-bottom: 6px;
 }
@@ -62,7 +66,7 @@
 }
 
 .dashboard-btn li > a {
-    color: #5e5e5e;
+    color: #286090;
     font-size: 10px;
 }
 

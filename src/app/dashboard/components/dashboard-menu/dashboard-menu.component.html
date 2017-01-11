@@ -15,19 +15,9 @@
             <small><i class="fa {{isSettingsOpen ? 'fa-chevron-left':'fa-chevron-right'}}"></i></small>
           </a>
         </li>
-        <li *ngIf="isSettingsOpen"><a href=""><i class="fa fa-share-alt"></i></a></li>
-        <li *ngIf="isSettingsOpen"><a (click)="isItemSearchOpen = !isItemSearchOpen"><i class="fa fa-search"></i></a></li>
-        <li *ngIf="isSettingsOpen">
-          <a (click)="isAddFormOpen = !isAddFormOpen">
-            <i class="fa {{isAddFormOpen? 'fa-times':'fa-plus'}}"></i>
-          </a>
-        </li>
-        <li *ngIf="isAddFormOpen">
-          <form action="" style="display: flex;">
-            <input type="text" class="dashboard-add-input" style="flex: 1;" autofocus>
-            <button type="submit" class="btn btn-primary btn-sm" style="border-radius: 0px;">Save</button>
-          </form>
-        </li>
+        <li *ngIf="isSettingsOpen"><a (click)="settingService.toggleItem('dimension')"><i class="fa {{settingService.isOpen('dimension')? 'fa-times':'fa-filter'}}"></i></a></li>
+        <li *ngIf="isSettingsOpen"><a (click)="settingService.toggleItem('share')"><i class="fa {{settingService.isOpen('share')? 'fa-times':'fa-share'}}"></i></a></li>
+        <!--<li *ngIf="isSettingsOpen"><a (click)="settingService.toggleItem('search')"><i class="fa fa-search"></i></a></li>-->
         <li class="dashboard-list">
           <a href="" *ngIf="!isEditFormOpen">Dashboard one</a>
           <ul class="list-unstyled dashboard-btn">
@@ -41,12 +31,23 @@
           </ul>
           <input *ngIf="isEditFormOpen" type="text" class="dashboard-edit-input" value="Dashboard one">
         </li>
+        <li>
+          <a (click)="isAddFormOpen = !isAddFormOpen">
+            <i class="fa {{isAddFormOpen? 'fa-times':'fa-plus'}}"></i>
+          </a>
+        </li>
+        <li *ngIf="isAddFormOpen">
+          <form action="" style="display: flex;">
+            <input type="text" class="dashboard-add-input" style="flex: 1;" autofocus>
+            <button type="submit" class="btn btn-primary btn-sm" style="border-radius: 0px;">Save</button>
+          </form>
+        </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right dashboard-right">
         <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
         <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
         <li *ngIf="isSearchOpen"><input type="text" class="dashboard-search-input" autofocus></li>
-        <li class="dashboard-search-button" (click)="isSearchOpen = !isSearchOpen"><a><i class="fa fa-search"></i></a></li>
+        <li class="dashboard-search-button" (click)="isSearchOpen = !isSearchOpen"><a><i class="fa {{isSearchOpen ? 'fa-times':'fa-search'}}"></i></a></li>
       </ul>
     </div>
   </div>
@@ -54,6 +55,8 @@
 
 <div class="container-fluid">
   <div class="row">
-    <app-dashboard-item-search *ngIf="isItemSearchOpen"></app-dashboard-item-search>
+    <app-dashboard-item-search *ngIf="settingService.isOpen('search')"></app-dashboard-item-search>
+    <app-dashboard-share *ngIf="settingService.isOpen('share')"></app-dashboard-share>
+    <app-dashboard-dimensions *ngIf="settingService.isOpen('dimension')"></app-dashboard-dimensions>
   </div>
 </div>

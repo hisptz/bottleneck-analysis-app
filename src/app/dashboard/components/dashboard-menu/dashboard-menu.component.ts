@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DashboardSettingsService} from "../../providers/dashboard-settings.service";
 
 @Component({
   selector: 'app-dashboard-menu',
@@ -12,7 +13,7 @@ export class DashboardMenuComponent implements OnInit {
   public isSearchOpen: boolean;
   public isSettingsOpen: boolean;
   public isItemSearchOpen: boolean;
-  constructor() {
+  constructor(private settingService: DashboardSettingsService) {
     this.isAddFormOpen = false;
     this.isSearchOpen = false;
     this.isEditFormOpen = false;
