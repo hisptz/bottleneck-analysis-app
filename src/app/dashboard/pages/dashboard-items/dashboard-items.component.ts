@@ -8,11 +8,11 @@ import {DashboardService} from "../../providers/dashboard.service";
 })
 export class DashboardItemsComponent implements OnInit {
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService) {
+  }
 
   ngOnInit() {
     this.dashboardService.find('tFPbgxRf1bc').subscribe(dashboard => {
-      console.log(dashboard)
     })
   }
 
