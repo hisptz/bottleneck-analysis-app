@@ -17,38 +17,8 @@
         </li>
         <li *ngIf="isSettingsOpen"><a (click)="settingService.toggleItem('dimension')"><i class="fa {{settingService.isOpen('dimension')? 'fa-times':'fa-filter'}}"></i></a></li>
         <li *ngIf="isSettingsOpen"><a (click)="settingService.toggleItem('share')"><i class="fa {{settingService.isOpen('share')? 'fa-times':'fa-share'}}"></i></a></li>
-        <!--<li *ngIf="isSettingsOpen"><a (click)="settingService.toggleItem('search')"><i class="fa fa-search"></i></a></li>-->
-        <li class="dashboard-list">
-          <a href="" *ngIf="!isEditFormOpen">Dashboard one</a>
-          <ul class="list-unstyled dashboard-btn">
-            <li>
-              <a (click)="isEditFormOpen = !isEditFormOpen">
-                <i class="fa {{isEditFormOpen ? 'fa-times':'fa-edit'}}"></i>
-              </a>
-            </li>
-            <li *ngIf="!isEditFormOpen"><a href="" style="color: red;"><i class="fa fa-trash"></i></a></li>
-            <li *ngIf="isEditFormOpen"><a href="" ><i class="fa fa-edit"></i></a></li>
-          </ul>
-          <input *ngIf="isEditFormOpen" type="text" class="dashboard-edit-input" value="Dashboard one">
-        </li>
-        <li>
-          <a (click)="isAddFormOpen = !isAddFormOpen">
-            <i class="fa {{isAddFormOpen? 'fa-times':'fa-plus'}}"></i>
-          </a>
-        </li>
-        <li *ngIf="isAddFormOpen">
-          <form action="" style="display: flex;">
-            <input type="text" class="dashboard-add-input" style="flex: 1;" autofocus>
-            <button type="submit" class="btn btn-primary btn-sm" style="border-radius: 0px;">Save</button>
-          </form>
-        </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right dashboard-right">
-        <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-        <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-        <li *ngIf="isSearchOpen"><input type="text" class="dashboard-search-input" autofocus></li>
-        <li class="dashboard-search-button" (click)="isSearchOpen = !isSearchOpen"><a><i class="fa {{isSearchOpen ? 'fa-times':'fa-search'}}"></i></a></li>
-      </ul>
+      <app-dashboard-menu-items></app-dashboard-menu-items>
     </div>
   </div>
 </nav>

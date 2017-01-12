@@ -1,0 +1,25 @@
+<ul class="nav navbar-nav dashboard-nav" *ngIf="!dashboardsLoading">
+  <li class="dashboard-list" routerLinkActive="active" *ngFor="let dashboard of dashboards | paginate: { itemsPerPage: 4, currentPage: p } | filterBy: dashboardName">
+    <a routerLink="/dashboards/{{dashboard.id}}/dashboard" *ngIf="!isEditFormOpen">{{dashboard.name}}</a>
+    <!--<ul class="list-unstyled dashboard-btn">-->
+      <!--<li>-->
+        <!--<a (click)="isEditFormOpen = !isEditFormOpen">-->
+          <!--<i class="fa {{isEditFormOpen ? 'fa-times':'fa-edit'}}"></i>-->
+        <!--</a>-->
+      <!--</li>-->
+      <!--<li *ngIf="!isEditFormOpen"><a href="" style="color: red;"><i class="fa fa-trash"></i></a></li>-->
+      <!--<li *ngIf="isEditFormOpen"><a href="" ><i class="fa fa-edit"></i></a></li>-->
+    <!--</ul>-->
+    <input *ngIf="isEditFormOpen" type="text" class="dashboard-edit-input" value="Dashboard one">
+  </li>
+</ul>
+<ul class="nav navbar-nav dashboard-nav">
+  <li *ngIf="dashboardsLoading" style="padding-top:15px; border-right-color: transparent; padding-left: 3px;"><small>Loading dashboard items...</small></li>
+</ul>
+<app-create-dashboard></app-create-dashboard>
+<ul class="nav navbar-nav navbar-right dashboard-right">
+  <!--<li><a href=""><i class="fa fa-chevron-left"></i></a></li>-->
+  <!--<li><a href=""><i class="fa fa-chevron-right"></i></a></li>-->
+  <li *ngIf="isSearchOpen"><input type="text" size="12" [(ngModel)]="dashboardName" class="dashboard-search-input" autofocus></li>
+  <li class="dashboard-search-button" (click)="isSearchOpen = !isSearchOpen"><a><i class="fa {{isSearchOpen ? 'fa-times':'fa-search'}}"></i></a></li>
+</ul>

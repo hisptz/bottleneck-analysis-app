@@ -1,0 +1,13 @@
+<ul class="nav navbar-nav dashboard-nav">
+  <li>
+    <a (click)="isAddFormOpen = !isAddFormOpen">
+      <i class="fa {{isAddFormOpen? 'fa-times':'fa-plus'}}"></i>
+    </a>
+  </li>
+  <li *ngIf="isAddFormOpen">
+    <form style="display: flex;" [formGroup]="createDashboardForm" (ngSubmit)="save(createDashboardForm.value,createDashboardForm.valid)">
+      <input type="text" size="12" class="dashboard-add-input" style="flex: 1;" autofocus formControlName="name">
+      <button type="submit" class="btn btn-primary btn-sm" style="border-radius: 0px;" [disabled]="createDashboardForm.invalid">Save</button>
+    </form>
+  </li>
+</ul>

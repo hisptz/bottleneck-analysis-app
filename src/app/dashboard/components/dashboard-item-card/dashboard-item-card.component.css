@@ -42,3 +42,7 @@
 .dashboard-item-body:hover .chart-options {
     display: block;
 }
+
+.dashboard-modal {
+    width: 95%;
+}

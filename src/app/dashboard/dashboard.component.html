@@ -1,20 +1,30 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-8"><h3>Dashboard name</h3></div>
-        <div class="col-md-4"></div>
+        <div class="col-md-3"><h4>Dashboard name</h4></div>
+        <div class="col-md-5"><app-dashboard-item-search></app-dashboard-item-search></div>
+        <div class="col-md-4">
+            <ul class="list-inline pull-right" style="margin-top: 10px">
+                <li>
+                    <a href="/dhis-web-dashboard-integration/showSendFeedback.action">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        <small>Write Feeback</small>
+                    </a>
+                </li>
+                <li>
+                    <a class="text-primary" href="../../../dhis-web-dashboard-integration/interpretation.action" id="interpretationBlock" data-toggle="tooltip" data-placement="top" title="Interpretation">
+                        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> <span style="background-color: #337AB7" class="badge bg-primary" id="interpretationId"></span>
+                        <small>interpretation</small>
+                    </a>
+                </li>
+                <li>
+                    <a class="text-primary" href="../../../dhis-web-dashboard-integration/message.action" style="margin-right: 12px" id="messageBlock" data-toggle="tooltip" data-placement="top" title="Message">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>  <span style="background-color: #337AB7" class="badge bg-primary" id="messageId"></span>
+                        <small>message</small>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 <app-dashboard-menu></app-dashboard-menu>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-8 col-sm-6 col-xs-12">
-            <app-dashboard-item-card></app-dashboard-item-card>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <app-dashboard-item-card></app-dashboard-item-card>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <app-dashboard-item-card></app-dashboard-item-card>
-        </div>
-    </div>
-</div>
+<router-outlet></router-outlet>

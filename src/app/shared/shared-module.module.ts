@@ -2,13 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Dhis2MenuComponent } from './components/dhis2-menu/dhis2-menu.component';
 import { FilterPipe } from './pipes/filter.pipe';
-import {DropdownModule} from "ng2-bootstrap";
+import {DropdownModule, ModalModule} from "ng2-bootstrap";
+import {Ng2PaginationModule} from "ng2-pagination";
 
 
 @NgModule({
   imports: [
       CommonModule,
-      DropdownModule
+      DropdownModule,
+      ModalModule,
+      Ng2PaginationModule
   ],
   declarations: [
     Dhis2MenuComponent,
@@ -16,8 +19,10 @@ import {DropdownModule} from "ng2-bootstrap";
   ],
   exports: [
       DropdownModule,
+      ModalModule,
     Dhis2MenuComponent,
-    FilterPipe
+    FilterPipe,
+      Ng2PaginationModule
   ],
   providers: []
 })

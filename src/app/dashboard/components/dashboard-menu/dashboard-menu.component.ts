@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {DashboardSettingsService} from "../../providers/dashboard-settings.service";
-
+import {DashboardService} from "../../providers/dashboard.service";
 @Component({
   selector: 'app-dashboard-menu',
   templateUrl: './dashboard-menu.component.html',
@@ -8,20 +8,15 @@ import {DashboardSettingsService} from "../../providers/dashboard-settings.servi
 })
 export class DashboardMenuComponent implements OnInit {
 
-  public isAddFormOpen : boolean;
-  public isEditFormOpen: boolean;
-  public isSearchOpen: boolean;
   public isSettingsOpen: boolean;
-  public isItemSearchOpen: boolean;
-  constructor(private settingService: DashboardSettingsService) {
-    this.isAddFormOpen = false;
-    this.isSearchOpen = false;
-    this.isEditFormOpen = false;
+  constructor(
+      private settingService: DashboardSettingsService,
+  ) {
     this.isSettingsOpen = false;
-    this.isItemSearchOpen = false;
   }
 
   ngOnInit() {
+
   }
 
 }

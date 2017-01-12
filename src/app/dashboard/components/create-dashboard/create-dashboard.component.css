@@ -1,0 +1,13 @@
+
+.dashboard-add-input
+{
+    height: 50px;
+    padding-left: 10px;
+    border-color: transparent;
+    font-size: 16px;
+}
+
+.dashboard-add-input:focus
+{
+    outline: none;
+}

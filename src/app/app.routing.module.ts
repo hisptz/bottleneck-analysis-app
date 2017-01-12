@@ -3,7 +3,6 @@ import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 import {HomeComponent} from "./home/home.component";
 
 export const routes: Routes = [
-  // { path: '', component: HomeComponent, pathMatch: 'full'},
   { path: '', loadChildren: 'app/dashboard/dashboard.module#DashboardModule' }
 ];
 
