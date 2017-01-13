@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {DashboardService} from "../../providers/dashboard.service";
+import {DashboardItemService} from "../../providers/dashboard-item.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard-items',
@@ -8,11 +9,21 @@ import {DashboardService} from "../../providers/dashboard.service";
 })
 export class DashboardItemsComponent implements OnInit {
 
-  constructor(private dashboardService: DashboardService) {
+  public loading: boolean;
+  public hasError: boolean;
+  public dashboardItems: any;
+  constructor(
+      private dashboardItemService: DashboardItemService,
+      private route: ActivatedRoute
+  ) {
+    this.loading = true;
+    this.hasError = false;
   }
 
   ngOnInit() {
-    this.dashboardService.find('tFPbgxRf1bc').subscribe(dashboard => {
+    this.dashboardItemService.findByDashboard(this.route.snapshot.params['id']).subscribe(dashboardItems => {
+      this.dashboardItems = dashboardItems;
+      this.loading = false;
     })
   }
 

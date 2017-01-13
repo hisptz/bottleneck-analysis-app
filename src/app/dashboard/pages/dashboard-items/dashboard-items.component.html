@@ -1,13 +1,6 @@
-<div class="container-fluid">
-  <div class="row">
-    <div [ngClass]="getDashboardSize(currentDashboardShape)">
-      <app-dashboard-item-card></app-dashboard-item-card>
-    </div>
-    <div class="col-md-4 col-sm-6 col-xs-12">
-      <app-dashboard-item-card></app-dashboard-item-card>
-    </div>
-    <div class="col-md-4 col-sm-6 col-xs-12">
-      <app-dashboard-item-card></app-dashboard-item-card>
-    </div>
+<div class="container-fluid" >
+  <div class="row" *ngIf="loading"><div class="col-md-12"><small>Loading dashboard items</small></div></div>
+  <div class="row" *ngIf="!loading">
+    <app-dashboard-item-card *ngFor="let dashboardItem of dashboardItems" [itemData]="dashboardItem"></app-dashboard-item-card>
   </div>
 </div>

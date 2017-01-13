@@ -18,7 +18,7 @@ import { DashboardMenuItemsComponent } from './components/dashboard-menu-items/d
 import { DashboardMenuPaginationComponent } from './components/dashboard-menu-pagination/dashboard-menu-pagination.component';
 import { CreateDashboardComponent } from './components/create-dashboard/create-dashboard.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {DashboardItemSizeService} from "./providers/dashboard-item-size.service";
+import {DashboardItemService} from "./providers/dashboard-item.service";
 
 @NgModule({
   imports: [
@@ -32,7 +32,7 @@ import {DashboardItemSizeService} from "./providers/dashboard-item-size.service"
   providers: [
       DashboardSettingsService,
       DashboardService,
-      DashboardItemSizeService
+      DashboardItemService
   ]
 })
 export class DashboardModule { }

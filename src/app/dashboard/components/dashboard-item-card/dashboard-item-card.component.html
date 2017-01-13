@@ -1,63 +1,65 @@
-<div class="panel panel-default">
-  <div class="panel-heading" style=" padding-top: 0px; padding-bottom: 0px;">
-    <div class="row">
-      <div class="col-md-7 col-sm-8 col-xs-7">
-        <ul class="nav nav-pills navbar-left dashboard-item-header">
-          <li><a href=""><i class="fa fa-table"></i></a></li>
-          <li><a href=""><i class="fa fa-filter"></i></a></li>
-          <li><a href=""><i class="fa fa-retweet"></i></a></li>
-          <li><a href=""><i class="fa fa-share-alt"></i></a></li>
-          <li><a href=""><span class="badge intepretation-count">20</span> <i class="fa fa-comments-o"></i></a></li>
-        </ul>
-      </div>
-      <div class="col-md-5 col-sm-4 col-xs-5">
-        <ul class="nav nav-pills navbar-right dashboard-item-header">
-          <li><a href=""><i class="fa fa-times"></i></a></li>
-          <li class="hidden-xs"><a href=""><i class="fa fa-arrows-h"></i></a></li>
-          <li class="hidden-xs"><a (click)="lgModal.show()"><i class="fa fa-expand"></i></a></li>
-        </ul>
-      </div>
+<div [ngClass]="dashboardShapeClass(itemData.shape)">
+    <div class="panel panel-default">
+        <div class="panel-heading" style=" padding-top: 0px; padding-bottom: 0px;">
+            <div class="row">
+                <div class="col-md-7 col-sm-8 col-xs-7">
+                    <ul class="nav nav-pills navbar-left dashboard-item-header">
+                        <li><a href=""><i class="fa fa-table"></i></a></li>
+                        <li><a href=""><i class="fa fa-filter"></i></a></li>
+                        <li><a href=""><i class="fa fa-retweet"></i></a></li>
+                        <li><a href=""><i class="fa fa-share-alt"></i></a></li>
+                        <li><a href=""><span class="badge intepretation-count">20</span> <i class="fa fa-comments-o"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-5 col-sm-4 col-xs-5">
+                    <ul class="nav nav-pills navbar-right dashboard-item-header">
+                        <!--<li><a href=""><i class="fa fa-times"></i></a></li>-->
+                        <li class="hidden-xs"><a (click)="resizeDashboard(itemData.shape)"><i class="fa fa-arrows-h"></i></a></li>
+                        <li class="hidden-xs"><a (click)="lgModal.show()"><i class="fa fa-expand"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body dashboard-item-body">
+            <div class="chart-options">
+                <ul class="nav nav-stacked">
+                    <li><a href="" class="active"><i class="fa fa-bar-chart"></i></a></li>
+                    <li><a href=""><i class="fa fa-area-chart"></i></a></li>
+                    <li><a href=""><i class="fa fa-pie-chart"></i></a></li>
+                    <li><a href=""><i class="fa fa-line-chart"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-footer" style=" padding-top: 0px; padding-bottom: 0px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-pills navbar-left">
+                        <li><a href=""><i class="fa fa-table"></i></a></li>
+                        <li><a href=""><i class="fa fa-line-chart"></i></a></li>
+                        <li><a href=""><i class="fa fa-map"></i></a></li>
+                        <li><a href=""><i class="fa fa-info-circle"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
-  </div>
-  <div class="panel-body dashboard-item-body">
-    <div class="chart-options">
-      <ul class="nav nav-stacked">
-        <li><a href="" class="active"><i class="fa fa-bar-chart"></i></a></li>
-        <li><a href=""><i class="fa fa-area-chart"></i></a></li>
-        <li><a href=""><i class="fa fa-pie-chart"></i></a></li>
-        <li><a href=""><i class="fa fa-line-chart"></i></a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="panel-footer" style=" padding-top: 0px; padding-bottom: 0px;">
-      <div class="row">
-          <div class="col-md-12">
-              <ul class="nav nav-pills navbar-left">
-                  <li><a href=""><i class="fa fa-table"></i></a></li>
-                  <li><a href=""><i class="fa fa-line-chart"></i></a></li>
-                  <li><a href=""><i class="fa fa-map"></i></a></li>
-                  <li><a href=""><i class="fa fa-info-circle"></i></a></li>
-              </ul>
-          </div>
-      </div>
-  </div>
-</div>
-
-<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="margin-top: 50px;">
-    <div class="modal-dialog modal-lg dashboard-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title pull-left">Large modal</h4>
-                <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Body
-            </div>
-            <div class="modal-footer">
-                Footer
+    <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="margin-top: 50px;">
+        <div class="modal-dialog modal-lg dashboard-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title pull-left">Large modal</h4>
+                    <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Body
+                </div>
+                <div class="modal-footer">
+                    Footer
+                </div>
             </div>
         </div>
     </div>

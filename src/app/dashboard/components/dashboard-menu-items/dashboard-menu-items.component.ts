@@ -26,7 +26,6 @@ export class DashboardMenuItemsComponent implements OnInit {
   ngOnInit() {
     this.dashboardService.all().subscribe(dashboards => {
       this.dashboards = dashboards;
-      console.log(dashboards)
       this.dashboardsLoading = false;
     }, error => {
       this.dashboardsLoading = false;

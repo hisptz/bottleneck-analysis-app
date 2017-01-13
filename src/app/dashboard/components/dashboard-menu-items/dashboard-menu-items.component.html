@@ -1,5 +1,5 @@
 <ul class="nav navbar-nav dashboard-nav" *ngIf="!dashboardsLoading">
-  <li class="dashboard-list" routerLinkActive="active" *ngFor="let dashboard of dashboards | paginate: { itemsPerPage: 4, currentPage: p } | filterBy: dashboardName">
+  <li class="dashboard-list" routerLinkActive="active" *ngFor="let dashboard of dashboards | filterBy: dashboardName | paginate: { itemsPerPage: 4, currentPage: p }">
     <a routerLink="/dashboards/{{dashboard.id}}/dashboard" *ngIf="!isEditFormOpen">{{dashboard.name}}</a>
     <!--<ul class="list-unstyled dashboard-btn">-->
       <!--<li>-->

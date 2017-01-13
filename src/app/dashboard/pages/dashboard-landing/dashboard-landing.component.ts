@@ -9,7 +9,6 @@ import {Router} from "@angular/router";
 })
 export class DashboardLandingComponent implements OnInit {
 
-  @Output() isDataReady = new EventEmitter<boolean>();
   hasError: boolean;
   constructor(
       private dashboardService: DashboardService,
@@ -20,8 +19,7 @@ export class DashboardLandingComponent implements OnInit {
 
   ngOnInit() {
     this.dashboardService.all().subscribe(dashboards => {
-      this.isDataReady.emit(true);
-      this.router.navigate(['dashboards/1/dashboard']);
+      this.router.navigate(['dashboards/tFPbgxRf1bc/dashboard']);
     }, error => {
       this.hasError = true;
     })
