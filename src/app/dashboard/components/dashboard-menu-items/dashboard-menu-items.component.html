@@ -12,6 +12,7 @@
     <!--</ul>-->
     <input *ngIf="isEditFormOpen" type="text" class="dashboard-edit-input" value="Dashboard one">
   </li>
+  <li><a style="font-size: 12px;"><small>and {{dashboards.length - 4}} more</small></a></li>
 </ul>
 <ul class="nav navbar-nav dashboard-nav">
   <li *ngIf="dashboardsLoading" style="padding-top:15px; border-right-color: transparent; padding-left: 3px;"><small>Loading dashboard items...</small></li>

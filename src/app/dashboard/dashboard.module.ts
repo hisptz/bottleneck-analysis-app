@@ -19,6 +19,16 @@ import { DashboardMenuPaginationComponent } from './components/dashboard-menu-pa
 import { CreateDashboardComponent } from './components/create-dashboard/create-dashboard.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DashboardItemService} from "./providers/dashboard-item.service";
+import {VisualizerService} from "./providers/dhis-visualizer.service";
+import {ChartModule} from "angular2-highcharts";
+import { DashboardItemChartComponent } from './components/dashboard-item-chart/dashboard-item-chart.component';
+import { DashboardItemMapComponent } from './components/dashboard-item-map/dashboard-item-map.component';
+import { DashboardItemReportTableComponent } from './components/dashboard-item-report-table/dashboard-item-report-table.component';
+import { DashboardItemUsersComponent } from './components/dashboard-item-users/dashboard-item-users.component';
+import { DashboardItemEventReportComponent } from './components/dashboard-item-event-report/dashboard-item-event-report.component';
+import { DashboardItemReportComponent } from './components/dashboard-item-report/dashboard-item-report.component';
+import { DashboardItemResourcesComponent } from './components/dashboard-item-resources/dashboard-item-resources.component';
+import { DashboardItemEventChartComponent } from './components/dashboard-item-event-chart/dashboard-item-event-chart.component';
 
 @NgModule({
   imports: [
@@ -26,13 +36,15 @@ import {DashboardItemService} from "./providers/dashboard-item.service";
       ReactiveFormsModule,
       CommonModule,
       SharedModule,
-      DashboardRouteModule
+      DashboardRouteModule,
+      ChartModule
   ],
-  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent],
+  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemReportTableComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemEventChartComponent],
   providers: [
       DashboardSettingsService,
       DashboardService,
-      DashboardItemService
+      DashboardItemService,
+      VisualizerService
   ]
 })
 export class DashboardModule { }

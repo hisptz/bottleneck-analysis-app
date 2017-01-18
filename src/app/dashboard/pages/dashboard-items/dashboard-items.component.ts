@@ -21,9 +21,12 @@ export class DashboardItemsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dashboardItemService.findByDashboard(this.route.snapshot.params['id']).subscribe(dashboardItems => {
-      this.dashboardItems = dashboardItems;
-      this.loading = false;
+    this.route.params.subscribe(params => {
+      let dashboardId = params['id'];
+      this.dashboardItemService.findByDashboard(dashboardId).subscribe(dashboardItems => {
+        this.dashboardItems = dashboardItems;
+        this.loading = false;
+      })
     })
   }
 

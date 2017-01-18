@@ -4,25 +4,25 @@
             <div class="row">
                 <div class="col-md-7 col-sm-8 col-xs-7">
                     <ul class="nav nav-pills navbar-left dashboard-item-header">
-                        <li><a href=""><i class="fa fa-table"></i></a></li>
+                        <!--<li><a href=""><i class="fa fa-table"></i></a></li>-->
                         <li><a href=""><i class="fa fa-filter"></i></a></li>
                         <li><a href=""><i class="fa fa-retweet"></i></a></li>
                         <li><a href=""><i class="fa fa-share-alt"></i></a></li>
-                        <li><a href=""><span class="badge intepretation-count">20</span> <i class="fa fa-comments-o"></i></a></li>
+                        <li *ngIf="itemData.interpretationCount > 0"><a href=""><span class="badge intepretation-count">{{itemData.interpretationCount}}</span> <i class="fa fa-comments-o"></i></a></li>
                     </ul>
                 </div>
                 <div class="col-md-5 col-sm-4 col-xs-5">
                     <ul class="nav nav-pills navbar-right dashboard-item-header">
-                        <!--<li><a href=""><i class="fa fa-times"></i></a></li>-->
-                        <li class="hidden-xs"><a (click)="resizeDashboard(itemData.shape)"><i class="fa fa-arrows-h"></i></a></li>
-                        <li class="hidden-xs"><a (click)="lgModal.show()"><i class="fa fa-expand"></i></a></li>
+                        <li><a href=""><i class="fa fa-times"></i></a></li>
+                        <li><a (click)="resizeDashboard(itemData.shape)"><i class="fa fa-arrows-h"></i></a></li>
+                        <li><a (click)="lgModal.show()"><i class="fa fa-expand"></i></a></li>
                     </ul>
                 </div>
             </div>
 
         </div>
         <div class="panel-body dashboard-item-body">
-            <div class="chart-options">
+            <div class="chart-options" *ngIf="itemData.type == 'CHART'">
                 <ul class="nav nav-stacked">
                     <li><a href="" class="active"><i class="fa fa-bar-chart"></i></a></li>
                     <li><a href=""><i class="fa fa-area-chart"></i></a></li>
@@ -30,14 +30,22 @@
                     <li><a href=""><i class="fa fa-line-chart"></i></a></li>
                 </ul>
             </div>
+            <!--{{itemData| json}}-->
+            <app-dashboard-item-users *ngIf="itemData.type == 'USERS'" [userData]="itemData.users"></app-dashboard-item-users>
+            <app-dashboard-item-report-table *ngIf="itemData.type == 'REPORT_TABLE'"></app-dashboard-item-report-table>
+            <app-dashboard-item-chart *ngIf="itemData.type == 'CHART'"></app-dashboard-item-chart>
+            <app-dashboard-item-map *ngIf="itemData.type == 'MAP'"></app-dashboard-item-map>
+            <app-dashboard-item-event-report *ngIf="itemData.type == 'EVENT_REPORT'" [eventReportData]="itemData.eventReport"></app-dashboard-item-event-report>
+            <app-dashboard-item-report *ngIf="itemData.type == 'REPORTS'" [reportData]="itemData.reports"></app-dashboard-item-report>
+            <app-dashboard-item-resources *ngIf="itemData.type == 'RESOURCES'" [resourceData]="itemData.resources"></app-dashboard-item-resources>
         </div>
         <div class="panel-footer" style=" padding-top: 0px; padding-bottom: 0px;">
             <div class="row">
                 <div class="col-md-12">
                     <ul class="nav nav-pills navbar-left">
-                        <li><a href=""><i class="fa fa-table"></i></a></li>
-                        <li><a href=""><i class="fa fa-line-chart"></i></a></li>
-                        <li><a href=""><i class="fa fa-map"></i></a></li>
+                        <li><a><i class="fa fa-table"></i></a></li>
+                        <li><a><i class="fa fa-line-chart"></i></a></li>
+                        <li><a><i class="fa fa-map"></i></a></li>
                         <li><a href=""><i class="fa fa-info-circle"></i></a></li>
                     </ul>
                 </div>

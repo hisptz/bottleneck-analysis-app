@@ -125,7 +125,6 @@ export class DashboardItemService {
         }
       });
     });
-
     //update permanently to the source
     //@todo find best way to show success for no body request
     this.http.put('/api/dashboardItems/' + dashboardItemId + '/shape/' + shape, '').map(res => res.json())

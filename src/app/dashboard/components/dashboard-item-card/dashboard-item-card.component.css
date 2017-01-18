@@ -17,6 +17,7 @@
 .dashboard-item-body {
     height: 300px;
     position: relative;
+    overflow: auto;
 }
 
 .chart-options {
@@ -25,8 +26,10 @@
     height: 100%;
     right: 0;
     top:0;
+    z-index: 1000;
     padding-top: 5px;
     padding-right: 5px;
+    background-color: #fff;
 }
 
 .chart-options ul > li > a {

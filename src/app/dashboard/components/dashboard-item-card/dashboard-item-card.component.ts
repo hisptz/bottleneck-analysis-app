@@ -15,15 +15,14 @@ export const DASHBOARD_SHAPES = {
 export class DashboardItemCardComponent implements OnInit {
 
   @Input() itemData: any;
-
   constructor(
-      private dashboardItemService: DashboardItemService,
+      private dashboardItemBodyService: DashboardItemService,
       private route: ActivatedRoute
   ) {
-
   }
 
   ngOnInit() {
+
   }
 
   dashboardShapeClass(shape): Array<any> {
@@ -38,7 +37,8 @@ export class DashboardItemCardComponent implements OnInit {
     } else {
       newShape = shapes[0];
     }
-    this.dashboardItemService.updateShape(this.itemData.id, this.route.snapshot.params['id'], newShape)
+    this.dashboardItemBodyService.updateShape(this.itemData.id, this.route.snapshot.params['id'], newShape)
   }
+
 
 }
