@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class Ng2SeedPage {
+export class Seed2Page {
   navigateTo() {
     return browser.get('/');
   }

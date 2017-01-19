@@ -24,16 +24,18 @@
         <div class="panel-body dashboard-item-body">
             <div class="chart-options" *ngIf="itemData.type == 'CHART'">
                 <ul class="nav nav-stacked">
-                    <li><a href="" class="active"><i class="fa fa-bar-chart"></i></a></li>
-                    <li><a href=""><i class="fa fa-area-chart"></i></a></li>
-                    <li><a href=""><i class="fa fa-pie-chart"></i></a></li>
-                    <li><a href=""><i class="fa fa-line-chart"></i></a></li>
+                    <li><a (click)="setChartType('bar')"><i class="fa fa-bar-chart"></i></a></li>
+                    <li><a (click)="setChartType('area')"><i class="fa fa-area-chart"></i></a></li>
+                    <li><a (click)="setChartType('pie')"><i class="fa fa-pie-chart"></i></a></li>
+                    <li><a (click)="setChartType('line')"><i class="fa fa-line-chart"></i></a></li>
                 </ul>
             </div>
             <!--{{itemData| json}}-->
             <app-dashboard-item-users *ngIf="itemData.type == 'USERS'" [userData]="itemData.users"></app-dashboard-item-users>
             <app-dashboard-item-report-table *ngIf="itemData.type == 'REPORT_TABLE'"></app-dashboard-item-report-table>
-            <app-dashboard-item-chart *ngIf="itemData.type == 'CHART'"></app-dashboard-item-chart>
+            <app-dashboard-item-chart
+              *ngIf="itemData.type == 'CHART'"
+              [chartData]="itemData"></app-dashboard-item-chart>
             <app-dashboard-item-map *ngIf="itemData.type == 'MAP'"></app-dashboard-item-map>
             <app-dashboard-item-event-report *ngIf="itemData.type == 'EVENT_REPORT'" [eventReportData]="itemData.eventReport"></app-dashboard-item-event-report>
             <app-dashboard-item-report *ngIf="itemData.type == 'REPORTS'" [reportData]="itemData.reports"></app-dashboard-item-report>
@@ -44,7 +46,7 @@
                 <div class="col-md-12">
                     <ul class="nav nav-pills navbar-left">
                         <li><a><i class="fa fa-table"></i></a></li>
-                        <li><a><i class="fa fa-line-chart"></i></a></li>
+                        <li><a (click)="toggleChartType(currentChartType)"><i class="fa fa-line-chart"></i></a></li>
                         <li><a><i class="fa fa-map"></i></a></li>
                         <li><a href=""><i class="fa fa-info-circle"></i></a></li>
                     </ul>

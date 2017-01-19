@@ -20,7 +20,6 @@ import { CreateDashboardComponent } from './components/create-dashboard/create-d
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DashboardItemService} from "./providers/dashboard-item.service";
 import {VisualizerService} from "./providers/dhis-visualizer.service";
-import {ChartModule} from "angular2-highcharts";
 import { DashboardItemChartComponent } from './components/dashboard-item-chart/dashboard-item-chart.component';
 import { DashboardItemMapComponent } from './components/dashboard-item-map/dashboard-item-map.component';
 import { DashboardItemReportTableComponent } from './components/dashboard-item-report-table/dashboard-item-report-table.component';
@@ -29,6 +28,9 @@ import { DashboardItemEventReportComponent } from './components/dashboard-item-e
 import { DashboardItemReportComponent } from './components/dashboard-item-report/dashboard-item-report.component';
 import { DashboardItemResourcesComponent } from './components/dashboard-item-resources/dashboard-item-resources.component';
 import { DashboardItemEventChartComponent } from './components/dashboard-item-event-chart/dashboard-item-event-chart.component';
+import {UtilitiesService} from "./providers/utilities.service";
+import {ModalModule} from "ng2-bootstrap";
+import {ChartModule} from "angular2-highcharts";
 
 @NgModule({
   imports: [
@@ -37,6 +39,7 @@ import { DashboardItemEventChartComponent } from './components/dashboard-item-ev
       CommonModule,
       SharedModule,
       DashboardRouteModule,
+      ModalModule.forRoot(),
       ChartModule
   ],
   declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemReportTableComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemEventChartComponent],
@@ -44,7 +47,8 @@ import { DashboardItemEventChartComponent } from './components/dashboard-item-ev
       DashboardSettingsService,
       DashboardService,
       DashboardItemService,
-      VisualizerService
+      VisualizerService,
+      UtilitiesService
   ]
 })
 export class DashboardModule { }

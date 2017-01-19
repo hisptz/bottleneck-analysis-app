@@ -215,7 +215,6 @@ export class VisualizerService {
     for ( let yAxis of metaDataObject.yAxisItems ){
       for ( let xAxis of metaDataObject.xAxisItems ){
         let dataItems = this.getDataObject( chartConfiguration, xAxis, yAxis );
-        console.log(dataItems);
         let number = this.getDataValue( analyticsObject, dataItems );
         serie.push( {
           'name': yAxis.name+' - '+ xAxis.name ,

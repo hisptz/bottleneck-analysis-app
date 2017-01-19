@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable, BehaviorSubject} from "rxjs"
 import {DashboardItem} from "../interfaces/dashboard-item";
+import {UtilitiesService} from "./utilities.service";
 
 
 @Injectable()
@@ -14,7 +15,10 @@ export class DashboardItemService {
     dashboardItems: DashboardItem[]
   };
 
-  constructor(private http: Http) {
+  constructor(
+      private http: Http,
+      private utilService: UtilitiesService
+  ) {
     this.baseUrl = '/api/dashboards';
     this.dataStore = {dashboardItems: []};
     this._dashboardItemsPool = <BehaviorSubject<DashboardItem[]>> new BehaviorSubject([]);
@@ -135,25 +139,129 @@ export class DashboardItemService {
         })
   }
 
-  delete(dashboardItemId: string) {
-    this.http.delete(this.baseUrl + '/' + dashboardItemId)
-        .subscribe(response => {
-          //refresh dashboardItem pool
-          this._loadAll().subscribe(dashboardItemData => {
-            console.log('refreshed');
-          })
-        }, error => console.log('error deleting dashboardItem'))
+  // delete(dashboardItemId: string) {
+  //   this.http.delete(this.baseUrl + '/' + dashboardItemId)
+  //       .subscribe(response => {
+  //         //refresh dashboardItem pool
+  //         this._loadAll().subscribe(dashboardItemData => {
+  //           console.log('refreshed');
+  //         })
+  //       }, error => console.log('error deleting dashboardItem'))
+  // }
+
+    /**
+     *
+      * @param dashboardItem
+     * @returns {any}
+     */
+  getDashboardItemObject(dashboardItem: any): Observable<any> {
+      return Observable.create(observer => {
+          this.http.get("/api/"+this.utilService.formatEnumString(dashboardItem.type)+"s/"+dashboardItem[this.utilService.formatEnumString(dashboardItem.type)].id+".json?fields=:all,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name],legendSet[id,name]],rows[dimension,filter,items[id,name],legendSet[id,name]],filters[dimension,filter,items[id,name],legendSet[id,name]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,attributeDimensions[id,name,attribute[id,name,optionSet[id,name,options[id,name]]]],dataElementDimensions[id,name,dataElement[id,name,optionSet[id,name,options[id,name]]]],categoryDimensions[id,name,category[id,name,categoryOptions[id,name,options[id,name]]]]").map(res => res.json()).subscribe(object => {
+              observer.next(object);
+              observer.complete()
+          }, error => {
+              observer.next(error);
+              observer.complete();
+          });
+      });
   }
 
-  //@todo
-  dashboardItemLoaded(): Observable<boolean> {
-    return Observable.create(observer => {
-      this.dashboardItems.subscribe(dashboardItem => {
-        observer.next(true);
-        observer.complete();
-      }, error => {
-        observer.error(error);
-      })
-    })
-  }
+    /**
+     *
+     * @param dashBoardObject
+     * @returns {string}
+     */
+  getDashBoardItemAnalyticsUrl(dashBoardObject): string {
+        let url = "/api/analytics";
+        let column = "";
+        let row = "";
+        let filter = "";
+        //checking for columns
+        dashBoardObject.columns.forEach((dashBoardObjectColumn : any,index : any)=>{
+            let items = "";
+            if(dashBoardObjectColumn.dimension!="dy"){
+                (index == 0)? items = "dimension="+dashBoardObjectColumn.dimension+":": items += "&dimension="+dashBoardObjectColumn.dimension+":";
+                dashBoardObjectColumn.items.forEach((dashBoardObjectColumnItem : any)=>{
+                    items += dashBoardObjectColumnItem.id + ";"
+                });
+                if(dashBoardObjectColumn.filter) {
+                    items += dashBoardObjectColumn.filter+';';
+                }
+                column += items.slice(0, -1);
+            }
+        });
+        //checking for rows
+        dashBoardObject.rows.forEach((dashBoardObjectRow : any)=>{
+            let items = "";
+            if(dashBoardObjectRow.dimension!="dy"){
+                items += "&dimension="+dashBoardObjectRow.dimension+":";
+                dashBoardObjectRow.items.forEach((dashBoardObjectRowItem : any)=>{
+                    items += dashBoardObjectRowItem.id + ";"
+                });
+                if(dashBoardObjectRow.filter) {
+                    items += dashBoardObjectRow.filter+';';
+                }
+                row += items.slice(0, -1);
+            }
+        });
+        //checking for filters
+        dashBoardObject.filters.forEach((dashBoardObjectFilter : any)=>{
+            let items = "";
+            if(dashBoardObjectFilter.dimension!="dy"){
+                items += "&dimension="+dashBoardObjectFilter.dimension+":";
+                dashBoardObjectFilter.items.forEach((dashBoardObjectFilterItem : any)=>{
+                    items += dashBoardObjectFilterItem.id + ";"
+                });
+                if(dashBoardObjectFilter.filter) {
+                    items += dashBoardObjectFilter.filter+';';
+                }
+                filter += items.slice(0, -1);
+            }
+        });
+
+        //set url base on type
+        if( dashBoardObject.type=="EVENT_CHART" ) {
+            url += "/events/aggregate/"+dashBoardObject.program.id+".json?stage=" +dashBoardObject.programStage.id+"&";
+        }else if ( dashBoardObject.type=="EVENT_REPORT" ) {
+            if( dashBoardObject.dataType=="AGGREGATED_VALUES") {
+                url += "/events/aggregate/"+dashBoardObject.program.id+".json?stage=" +dashBoardObject.programStage.id+"&";
+            }else {
+                url += "/events/query/"+dashBoardObject.program.id+".json?stage=" +dashBoardObject.programStage.id+"&";
+            }
+
+        }else if ( dashBoardObject.type=="EVENT_MAP" ) {
+            url +="/events/aggregate/"+dashBoardObject.program.id+".json?stage="  +dashBoardObject.programStage.id+"&";
+        }else {
+            url += ".json?";
+        }
+
+        url += column+row;
+        ( filter == "" )? url+"" : url += filter;
+        url += "&displayProperty=NAME"+  dashBoardObject.type=="EVENT_CHART" ?
+            "&outputType=EVENT&"
+            : dashBoardObject.type=="EVENT_REPORT" ?
+            "&outputType=EVENT&displayProperty=NAME"
+            : dashBoardObject.type=="EVENT_MAP" ?
+            "&outputType=EVENT&displayProperty=NAME"
+            :"&displayProperty=NAME" ;
+        return url;
+    }
+
+    /**
+     *
+     * @param analyticUrl
+     * @returns {any}
+     */
+    getDashboardItemAnalyticsObject(analyticUrl: string): Observable<any> {
+        return Observable.create(observer => {
+            this.http.get(analyticUrl).map(res =>res.json())
+                .subscribe(analyticsData => {
+                    observer.next(analyticsData);
+                    observer.complete();
+                }, error => {
+                    observer.error(error);
+                    observer.complete();
+                })
+        })
+    }
 }

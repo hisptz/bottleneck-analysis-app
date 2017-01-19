@@ -15,7 +15,7 @@
 }
 
 .dashboard-item-body {
-    height: 300px;
+    height: 400px;
     position: relative;
     overflow: auto;
 }

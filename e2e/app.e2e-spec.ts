@@ -1,10 +1,10 @@
-import { Ng2SeedPage } from './app.po';
+import { Seed2Page } from './app.po';
 
-describe('ng2-seed App', function() {
-  let page: Ng2SeedPage;
+describe('seed2 App', function() {
+  let page: Seed2Page;
 
   beforeEach(() => {
-    page = new Ng2SeedPage();
+    page = new Seed2Page();
   });
 
   it('should display message saying app works', () => {
