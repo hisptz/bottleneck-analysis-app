@@ -1,0 +1,96 @@
+<div class="row" *ngIf="loadingDictionary">
+  <div class="col-md-12">
+    <small>Loading metadata dictionary please wait...</small>
+  </div>
+</div>
+<div class="row" *ngIf="!loadingDictionary && !dictionaryError">
+  <div class="col-md-12">
+    <!--If indicators-->
+    <div class="panel-group" id="accordion" *ngIf="isIndicator">
+      <div class="panel panel-default" *ngFor="let indicator of indicators let in = first;">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#{{indicator.uid}}">
+              {{indicator.name}}</a>
+          </h4>
+        </div>
+        <div id="{{indicator.uid}}" class="panel-collapse collapse" [ngClass]="{ in: in }">
+          <div class="panel-body">
+            <p><b>Description:</b> {{indicator.name}}</p>
+            <p><b>Indicator Type:</b> {{indicator.indicatorType.name}}</p>
+            <p><b>Numerator:</b> <u>{{indicator.numeratorDescription}}</u></p>
+            <p>{{indicator.numerator}}</p>
+            <p><b>Denominator:</b> <u>{{indicator.denominatorDescription}}</u></p>
+            <p>{{indicator.denominator}}</p>
+            <div *ngIf="indicator.dataSets && indicator.dataSets.length > 0">
+              <p><b>Data Set</b></p>
+              <p *ngFor="let dataset of indicator.dataSets">
+                {{dataset.name}} <span class="tooltip">({{dataset.periodType}})</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--If data elements-->
+    <div class="panel-group" id="accordion2" *ngIf="isDataelements">
+      <div class="panel panel-default" *ngFor="let dataelement of dataelements">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion2" href="#{{dataelement.id}}">
+              {{dataelement.name}}</a>
+          </h4>
+        </div>
+        <div id="{{dataelement.id}}" class="panel-collapse collapse">
+          <div class="panel-body">
+            <p><b>Description:</b> {{dataelement.name}}</p>
+            <p><b>Aggregation Type:</b> {{dataelement.aggregationType}}</p>
+            <p><b>Category Combination:</b> <u>{{dataelement.categoryCombo.name}}</u></p>
+            <u>Categories:</u>
+            <ul class="list-unstyled">
+              <li *ngFor="let cat of dataelement.categoryCombo.categories let i = index">Category#{{i+1}}:{{cat.name}}
+                <dl class="dl-horizontal" *ngFor="let catoptions of cat.categoryOptions let j = index">
+                  <dt><u>Option#{{j+1}}</u></dt>
+                  <dd>{{catoptions.name}}</dd>
+                </dl>
+              </li>
+            </ul>
+            <div *ngIf="dataelement.dataSets && dataelement.dataSets.length > 0">
+              <p><b>Data Sets</b></p>
+              <p *ngFor="let dataset of dataelement.dataSets">
+                {{dataset.name}} <span class="tooltip">({{dataset.periodType}})</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--If dataset-->
+    <div class="panel-group" id="accordion3" *ngIf="isDataset">
+      <div class="panel panel-default" *ngFor="let dataset of datasets">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion3" href="#{{dataset.id}}">
+              {{dataset.name}}</a>
+          </h4>
+        </div>
+        <div id="{{dataset.id}}" class="panel-collapse collapse">
+          <div class="panel-body">
+            <p><b>Description:</b> {{dataset.name}}</p>
+            <p><b>Period Type:</b> {{dataset.periodType}}</p>
+            <p><b>Category Combination:</b> <u>{{dataset.categoryCombo.name}}</u></p>
+            <u>Categories:</u>
+            <ul class="list-unstyled">
+              <li *ngFor="let cat of dataset.categoryCombo.categories let i = index">Category#{{i+1}}:{{cat.name}}
+                <dl class="dl-horizontal" *ngFor="let catoptions of cat.categoryOptions let j = index">
+                  <dt><u>Option#{{j+1}}</u></dt>
+                  <dd>{{catoptions.name}}</dd>
+                </dl>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

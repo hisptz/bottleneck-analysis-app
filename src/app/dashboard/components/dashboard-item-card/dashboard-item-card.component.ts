@@ -20,16 +20,23 @@ export const CHART_TYPES = [
 export class DashboardItemCardComponent implements OnInit{
 
   @Input() itemData: any;
-  @ViewChild(DashboardItemChartComponent)  chartComponent: DashboardItemChartComponent;
+  @ViewChild(DashboardItemChartComponent) chartComponent: DashboardItemChartComponent;
   public currentChartType: string;
+  public isFullScreen: boolean;
+  public isInterpretationShown: boolean;
+  public currentVisualization: string;
+  public metadataIdentifiers: string;
   constructor(
-      private dashboardItemBodyService: DashboardItemService,
+      private dashboardItemService: DashboardItemService,
       private route: ActivatedRoute
   ) {
     this.currentChartType = CHART_TYPES[0];
+    this.isFullScreen = false;
+    this.isInterpretationShown = false;
   }
 
   ngOnInit() {
+    this.currentVisualization = this.itemData.type;
   }
 
   dashboardShapeClass(shape): Array<any> {
@@ -44,22 +51,37 @@ export class DashboardItemCardComponent implements OnInit{
     } else {
       newShape = shapes[0];
     }
-    this.dashboardItemBodyService.updateShape(this.itemData.id, this.route.snapshot.params['id'], newShape)
+    this.dashboardItemService.updateShape(this.itemData.id, this.route.snapshot.params['id'], newShape)
   }
 
   toggleChartType(currentChartType: string) {
-
     if (CHART_TYPES.indexOf(currentChartType) + 1 < CHART_TYPES.length) {
       this.currentChartType = CHART_TYPES[CHART_TYPES.indexOf(currentChartType) + 1]
     } else {
       this.currentChartType = CHART_TYPES[0];
     }
-    this.chartComponent.updateChartType(this.currentChartType)
+    // this.chartComponent.updateChartType(this.currentChartType)
   }
 
   setChartType(type) {
     this.currentChartType = type;
     this.chartComponent.updateChartType(this.currentChartType)
+  }
+
+  toggleFullScreen() {
+    this.isFullScreen = !this.isFullScreen;
+    console.log(this.isFullScreen)
+  }
+
+  isCurrentVisualization(visualizationType): boolean {
+    return this.currentVisualization == visualizationType ? true : false;
+  }
+  changeCurrentVisualization(newVisualizationType: string): void {
+    this.currentVisualization = newVisualizationType;
+  }
+
+  toggleInterpretation() {
+
   }
 
 }

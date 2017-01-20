@@ -264,4 +264,25 @@ export class DashboardItemService {
                 })
         })
     }
+
+    getDashboardItemMetadataIdentifiers(dashboardObject: any): string {
+      let items = "";
+      dashboardObject.rows.forEach((dashBoardObjectRow : any)=>{
+        if(dashBoardObjectRow.dimension === "dx"){
+          dashBoardObjectRow.items.forEach((dashBoardObjectRowItem : any)=>{
+            items += dashBoardObjectRowItem.id + ";"
+          });
+        } else {
+          //find identifiers in the column if not in row
+          dashboardObject.columns.forEach((dashBoardObjectColumn : any) => {
+            if(dashBoardObjectColumn.dimension === "dx") {
+              dashBoardObjectColumn.items.forEach((dashBoardObjectColumnItem: any)=> {
+                items += dashBoardObjectColumnItem.id + ";"
+              });
+            }
+          });
+        }
+      });
+      return items.slice(0, -1);
+    }
 }

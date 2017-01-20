@@ -1,7 +1,9 @@
 <div class="row">
   <div class="col-md-12" style="position: relative;">
     <p *ngIf="loadingChart && !chartHasError">Loading chart....</p>
-    <chart class="chart" *ngIf="!loadingChart && !chartHasError" [options]="chartObject"></chart>
+    <div class="chart-block">
+      <chart class="chart" *ngIf="!loadingChart && !chartHasError" [options]="chartObject"></chart>
+    </div>
   </div>
 </div>
 

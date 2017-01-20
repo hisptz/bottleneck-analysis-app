@@ -1,4 +1,4 @@
-<div [ngClass]="dashboardShapeClass(itemData.shape)">
+<div [ngClass]="dashboardShapeClass(itemData.shape)" class="{{isFullScreen ? 'full-screen' : ''}} dashboard-card">
     <div class="panel panel-default">
         <div class="panel-heading" style=" padding-top: 0px; padding-bottom: 0px;">
             <div class="row">
@@ -15,14 +15,14 @@
                     <ul class="nav nav-pills navbar-right dashboard-item-header">
                         <li><a href=""><i class="fa fa-times"></i></a></li>
                         <li><a (click)="resizeDashboard(itemData.shape)"><i class="fa fa-arrows-h"></i></a></li>
-                        <li><a (click)="lgModal.show()"><i class="fa fa-expand"></i></a></li>
+                        <li><a (click)="toggleFullScreen()"><i class="fa fa-expand"></i></a></li>
                     </ul>
                 </div>
             </div>
 
         </div>
         <div class="panel-body dashboard-item-body">
-            <div class="chart-options" *ngIf="itemData.type == 'CHART'">
+            <div class="chart-options" *ngIf="isCurrentVisualization('CHART')">
                 <ul class="nav nav-stacked">
                     <li><a (click)="setChartType('bar')"><i class="fa fa-bar-chart"></i></a></li>
                     <li><a (click)="setChartType('area')"><i class="fa fa-area-chart"></i></a></li>
@@ -30,25 +30,32 @@
                     <li><a (click)="setChartType('line')"><i class="fa fa-line-chart"></i></a></li>
                 </ul>
             </div>
-            <!--{{itemData| json}}-->
-            <app-dashboard-item-users *ngIf="itemData.type == 'USERS'" [userData]="itemData.users"></app-dashboard-item-users>
-            <app-dashboard-item-report-table *ngIf="itemData.type == 'REPORT_TABLE'"></app-dashboard-item-report-table>
-            <app-dashboard-item-chart
-              *ngIf="itemData.type == 'CHART'"
-              [chartData]="itemData"></app-dashboard-item-chart>
-            <app-dashboard-item-map *ngIf="itemData.type == 'MAP'"></app-dashboard-item-map>
-            <app-dashboard-item-event-report *ngIf="itemData.type == 'EVENT_REPORT'" [eventReportData]="itemData.eventReport"></app-dashboard-item-event-report>
-            <app-dashboard-item-report *ngIf="itemData.type == 'REPORTS'" [reportData]="itemData.reports"></app-dashboard-item-report>
-            <app-dashboard-item-resources *ngIf="itemData.type == 'RESOURCES'" [resourceData]="itemData.resources"></app-dashboard-item-resources>
+
+          <div class="row">
+            <div class="col-md-12">
+              <app-dashboard-item-users *ngIf="isCurrentVisualization('USERS')" [userData]="itemData"></app-dashboard-item-users>
+              <app-dashboard-item-report-table *ngIf="isCurrentVisualization('REPORT_TABLE')"></app-dashboard-item-report-table>
+              <app-dashboard-item-chart *ngIf="isCurrentVisualization('CHART')" [chartData]="itemData"></app-dashboard-item-chart>
+              <app-dashboard-item-map *ngIf="isCurrentVisualization('MAP')"></app-dashboard-item-map>
+              <app-dashboard-item-event-report *ngIf="isCurrentVisualization('EVENT_REPORT')" [eventReportData]="itemData"></app-dashboard-item-event-report>
+              <app-dashboard-item-report *ngIf="isCurrentVisualization('REPORT')" [reportData]="itemData"></app-dashboard-item-report>
+              <app-dashboard-item-resources *ngIf="isCurrentVisualization('RESOURCES')" [resourceData]="itemData"></app-dashboard-item-resources>
+              <app-dashboard-item-table *ngIf="isCurrentVisualization('TABLE')"></app-dashboard-item-table>
+              <app-dashboard-item-dictionary *ngIf="isCurrentVisualization('DICTIONARY')" [itemData]="itemData"></app-dashboard-item-dictionary>
+            </div>
+            <div class="col-md-6" *ngIf="isInterpretationShown">
+              <app-dashboard-item-interpretation></app-dashboard-item-interpretation>
+            </div>
+          </div>
         </div>
         <div class="panel-footer" style=" padding-top: 0px; padding-bottom: 0px;">
             <div class="row">
                 <div class="col-md-12">
-                    <ul class="nav nav-pills navbar-left">
-                        <li><a><i class="fa fa-table"></i></a></li>
-                        <li><a (click)="toggleChartType(currentChartType)"><i class="fa fa-line-chart"></i></a></li>
-                        <li><a><i class="fa fa-map"></i></a></li>
-                        <li><a href=""><i class="fa fa-info-circle"></i></a></li>
+                    <ul class="nav nav-pills dashboard-footer-nav">
+                        <li><a (click)="changeCurrentVisualization('TABLE')"><i class="fa fa-table"></i></a></li>
+                        <li><a (click)="changeCurrentVisualization('CHART')"><i class="fa fa-line-chart"></i></a></li>
+                        <li><a (click)="changeCurrentVisualization('MAP')"><i class="fa fa-map"></i></a></li>
+                        <li><a (click)="changeCurrentVisualization('DICTIONARY')"><i class="fa fa-info-circle"></i></a></li>
                     </ul>
                 </div>
             </div>

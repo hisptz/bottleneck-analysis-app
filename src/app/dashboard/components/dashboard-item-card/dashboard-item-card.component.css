@@ -1,3 +1,10 @@
+.dashboard-card {
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
 .intepretation-count {
     border-radius: 2px;
     padding:2px;
@@ -33,13 +40,28 @@
 }
 
 .chart-options ul > li > a {
+  cursor: pointer;
     padding-left: 9px;
     padding-top: 7px;
     font-size: 10px;
     height: 30px;
     width: 30px;
-    border: solid 1px #eee;
+    border: solid 1px #cecece;
     border-radius: 15px;
+    background-color: #cecece;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    -ms-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.chart-options ul > li > a:hover {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 .dashboard-item-body:hover .chart-options {
@@ -48,4 +70,34 @@
 
 .dashboard-modal {
     width: 95%;
+}
+
+.full-screen {
+  animation-name: stretch;
+  animation-duration: 1.5s;
+}
+
+.dashboard-footer-nav > li> a {
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  border-radius: 30px;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  background-color: #eee;
+  padding-left: 9px;
+  padding-top: 5px;
+}
+
+.dashboard-footer-nav > li> a:hover {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
 }

@@ -2,5 +2,13 @@
   <div class="row" *ngIf="loading"><div class="col-md-12"><small>Loading dashboard items</small></div></div>
   <div class="row" *ngIf="!loading">
     <app-dashboard-item-card *ngFor="let dashboardItem of dashboardItems" [itemData]="dashboardItem"></app-dashboard-item-card>
+    <div class="col-md-12" *ngIf="dashboardItems.length == 0">
+      <h2 class="text-muted">
+        DashboardItem is Empty,To populate dashboard items use the main dashboard.
+      </h2>
+      <h3 class="text-muted">
+        Enjoy interactive dashboard by switching,filtering and changing layout to different visualization charts and table as well as GIS
+      </h3>
+    </div>
   </div>
 </div>
