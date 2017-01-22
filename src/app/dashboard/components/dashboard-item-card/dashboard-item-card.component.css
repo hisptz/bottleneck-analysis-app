@@ -18,7 +18,6 @@
     border-radius: 0px;
     padding-right: 10px;
     padding-left: 10px;
-    /*color: #5e5e5e;*/
 }
 
 .dashboard-item-body {
@@ -40,7 +39,7 @@
 }
 
 .chart-options ul > li > a {
-  cursor: pointer;
+    cursor: pointer;
     padding-left: 9px;
     padding-top: 7px;
     font-size: 10px;
@@ -90,8 +89,8 @@
   height: 30px;
   width: 30px;
   background-color: #eee;
-  padding-left: 9px;
-  padding-top: 5px;
+  padding-left: 8px;
+  padding-top: 6px;
 }
 
 .dashboard-footer-nav > li> a:hover {
@@ -100,4 +99,10 @@
   -o-transform: scale(1.2);
   -ms-transform: scale(1.2);
   transform: scale(1.2);
+}
+
+.dictionary-btn > i {
+  font-size: 20px;
+  margin-left: -1px;
+  margin-top: -1px;
 }

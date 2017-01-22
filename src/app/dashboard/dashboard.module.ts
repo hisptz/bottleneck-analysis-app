@@ -34,6 +34,7 @@ import {ChartModule} from "angular2-highcharts";
 import { DashboardItemTableComponent } from './components/dashboard-item-table/dashboard-item-table.component';
 import { DashboardItemInterpretationComponent } from './components/dashboard-item-interpretation/dashboard-item-interpretation.component';
 import { DashboardItemDictionaryComponent } from './components/dashboard-item-dictionary/dashboard-item-dictionary.component';
+import {Ng2HighchartsModule} from "ng2-highcharts";
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { DashboardItemDictionaryComponent } from './components/dashboard-item-di
       SharedModule,
       DashboardRouteModule,
       ModalModule.forRoot(),
-      ChartModule
+      ChartModule,
+      Ng2HighchartsModule
   ],
   declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemReportTableComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemEventChartComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent],
   providers: [

@@ -6,8 +6,8 @@
           Reports
         </th>
       </tr>
-      <tr *ngFor="let user of reportData">
-        <td width="95%">{{user.displayName}}</td>
+      <tr *ngFor="let report of reportData.reports">
+        <td width="95%">{{report.displayName}}</td>
         <td width="5%"><a href="">&times;</a></td>
       </tr>
     </table>

@@ -1,10 +1,18 @@
+.dashboard-menu {
+  border-radius: 0px;
+  height: 40px;
+  min-height: 40px;
+}
 .dashboard-nav > li {
-    border-right: solid 1px #ECECEC;
+
 }
 
 .dashboard-nav > li > a,
 .dashboard-right > li > a{
-    color: #286090;
+  border-right: solid 1px #ECECEC;
+  color: #286090;
+  height: 40px;
+  padding-top: 10px;
 }
 
 .dashboard-settings {
@@ -32,7 +40,7 @@
 .dashboard-edit-input,
 .dashboard-search-input
 {
-    height: 40px;
+    height: 30px !important;
     padding-left: 10px;
     border-color: transparent;
     font-size: 16px;

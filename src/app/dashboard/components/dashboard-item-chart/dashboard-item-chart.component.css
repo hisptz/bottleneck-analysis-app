@@ -1,10 +1,10 @@
-.chart div {
-  display: block;
-  width: 100% !important;
+/*.chart-block {*/
+  /*overflow: auto;*/
+/*}*/
 
-}
-.chart-block {
-  overflow: auto;
-}
+/*.chart-body {*/
+  /*display: block;*/
+  /*width: 100%;*/
+/*}*/
 
 

@@ -25,7 +25,7 @@ export class DashboardItemCardComponent implements OnInit{
   public isFullScreen: boolean;
   public isInterpretationShown: boolean;
   public currentVisualization: string;
-  public metadataIdentifiers: string;
+  public dashboardShapeBuffer: string;
   constructor(
       private dashboardItemService: DashboardItemService,
       private route: ActivatedRoute
@@ -37,6 +37,7 @@ export class DashboardItemCardComponent implements OnInit{
 
   ngOnInit() {
     this.currentVisualization = this.itemData.type;
+    this.dashboardShapeBuffer = this.itemData.shape;
   }
 
   dashboardShapeClass(shape): Array<any> {
@@ -70,7 +71,6 @@ export class DashboardItemCardComponent implements OnInit{
 
   toggleFullScreen() {
     this.isFullScreen = !this.isFullScreen;
-    console.log(this.isFullScreen)
   }
 
   isCurrentVisualization(visualizationType): boolean {
@@ -81,7 +81,16 @@ export class DashboardItemCardComponent implements OnInit{
   }
 
   toggleInterpretation() {
-
+    if(this.isInterpretationShown) {
+      this.isInterpretationShown = false;
+      this.itemData.shape = this.dashboardShapeBuffer;
+    } else {
+      this.isInterpretationShown = true;
+      if(this.itemData.shape == 'NORMAL') {
+        this.dashboardShapeBuffer = this.itemData.shape;
+        this.itemData.shape = 'DOUBLE_WIDTH';
+      }
+    }
   }
 
 }

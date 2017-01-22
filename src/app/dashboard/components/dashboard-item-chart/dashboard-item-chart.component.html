@@ -1,27 +1,12 @@
 <div class="row">
-  <div class="col-md-12" style="position: relative;">
+  <div class="col-md-12">
     <p *ngIf="loadingChart && !chartHasError">Loading chart....</p>
     <div class="chart-block">
-      <chart class="chart" *ngIf="!loadingChart && !chartHasError" [options]="chartObject"></chart>
+      <div class="chart-body" *ngIf="!loadingChart && !chartHasError" [ng2-highcharts]="chartObject"></div>
+      <!--<chart class="chart" *ngIf="!loadingChart && !chartHasError" [options]="chartObject"></chart>-->
     </div>
   </div>
 </div>
 
 
-<!--<table class="table table-bordered" *ngIf="visualizer_config.type == 'table' && !loadingChart && !chartHasError">-->
-  <!--<thead>-->
-  <!--<tr *ngFor="let header of tableData.headers">-->
-    <!--<th *ngFor="let table_column of tableData.columns"></th>-->
-    <!--<th *ngFor="let header_column of header.items" [colSpan]="header_column.span" style="text-align: center">-->
-      <!--{{ header_column.name }}-->
-    <!--</th>-->
-  <!--</tr>-->
-  <!--</thead>-->
-  <!--<tbody>-->
-  <!--<tr *ngFor="let row of tableData.rows">-->
-    <!--<td *ngFor="let header_column of row.items" style="text-align: center;vertical-align: middle" [attr.rowspan]="header_column.row_span">-->
-      <!--{{ header_column.val }}-->
-    <!--</td>-->
-  <!--</tr>-->
-  <!--</tbody>-->
-<!--</table>-->
+

@@ -11,7 +11,6 @@ import {type} from "os";
 export class DashboardItemChartComponent implements OnInit {
 
   @Input() chartData: any;
-  public chartType: string;
   public chartObject: any;
   public loadingChart: boolean;
   public chartHasError: boolean;
@@ -24,7 +23,7 @@ export class DashboardItemChartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.drawChart('bar')
+    this.drawChart('gauge')
   }
 
   drawChart(chartType) {
