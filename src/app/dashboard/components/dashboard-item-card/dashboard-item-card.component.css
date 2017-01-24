@@ -35,7 +35,7 @@
     z-index: 1000;
     padding-top: 5px;
     padding-right: 5px;
-    background-color: #fff;
+    background-color: transparent;
 }
 
 .chart-options ul > li > a {
@@ -72,8 +72,23 @@
 }
 
 .full-screen {
-  animation-name: stretch;
-  animation-duration: 1.5s;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: 80px;
+  z-index: 1050;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  background-color: rgba(0,0,0,.4);
 }
 
 .dashboard-footer-nav > li> a {

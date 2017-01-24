@@ -23,22 +23,22 @@ export class DashboardItemChartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.drawChart('gauge')
+    this.drawChart()
   }
 
-  drawChart(chartType) {
-    let visualizer_config = {
-      'type': 'chart',
-      'chartConfiguration': {
-        'type': chartType,
-        'title': this.chartData.chart.displayName,
-        'xAxisType': 'pe',
-        'yAxisType': 'ou'
-      }
-    }
+  drawChart(chartType?:string) {
+
     this.dashboardItemService.getDashboardItemObject(this.chartData).subscribe(chartObject => {
+      console.log(chartObject.type)
+      let chartConfiguration = {
+        'type': chartType ? chartType : 'combined',
+          'title': this.chartData.chart.displayName,
+          'xAxisType': 'pe',
+          'yAxisType': 'ou'
+      }
+      console.log(chartConfiguration)
       this.dashboardItemService.getDashboardItemAnalyticsObject(this.dashboardItemService.getDashBoardItemAnalyticsUrl(chartObject)).subscribe(analyticObject => {
-        this.chartObject = this.visualizationService.drawChart(analyticObject, visualizer_config.chartConfiguration);
+        this.chartObject = this.visualizationService.drawChart(analyticObject, chartConfiguration);
         this.loadingChart = false;
       }, error => {
         this.chartHasError = true;
@@ -48,6 +48,7 @@ export class DashboardItemChartComponent implements OnInit {
   }
 
   updateChartType(type) {
+    console.log(type)
     this.drawChart(type)
   }
 

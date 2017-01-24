@@ -1,5 +1,5 @@
 <div [ngClass]="dashboardShapeClass(itemData.shape)" class="{{isFullScreen ? 'full-screen' : ''}} dashboard-card">
-    <div class="panel panel-default">
+    <div class="panel panel-default dasbboard-block">
         <div class="panel-heading" style=" padding-top: 0px; padding-bottom: 0px;">
             <div class="row">
                 <div class="col-md-7 col-sm-8 col-xs-7">
@@ -23,7 +23,7 @@
                     <ul class="nav nav-pills navbar-right dashboard-item-header">
                         <!--<li><a href=""><i class="fa fa-times"></i></a></li>-->
                         <li><a (click)="resizeDashboard(itemData.shape)"><i class="fa fa-arrows-h"></i></a></li>
-                        <li><a (click)="toggleFullScreen()"><i class="fa fa-expand"></i></a></li>
+                        <li><a (click)="toggleFullScreen()"><i class="fa {{isFullScreen ? 'fa-times' : 'fa-expand'}}"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -65,25 +65,6 @@
                         <li><a (click)="changeCurrentVisualization('MAP')"><i class="fa fa-map"></i></a></li>
                         <li><a (click)="changeCurrentVisualization('DICTIONARY')" class="dictionary-btn"><i class="fa fa-info-circle"></i></a></li>
                     </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="margin-top: 50px;">
-        <div class="modal-dialog modal-lg dashboard-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title pull-left">Large modal</h4>
-                    <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Body
-                </div>
-                <div class="modal-footer">
-                    Footer
                 </div>
             </div>
         </div>

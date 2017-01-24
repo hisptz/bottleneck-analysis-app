@@ -29,12 +29,11 @@ import { DashboardItemReportComponent } from './components/dashboard-item-report
 import { DashboardItemResourcesComponent } from './components/dashboard-item-resources/dashboard-item-resources.component';
 import { DashboardItemEventChartComponent } from './components/dashboard-item-event-chart/dashboard-item-event-chart.component';
 import {UtilitiesService} from "./providers/utilities.service";
-import {ModalModule} from "ng2-bootstrap";
-import {ChartModule} from "angular2-highcharts";
+import {ModalModule, TabsModule} from "ng2-bootstrap";
 import { DashboardItemTableComponent } from './components/dashboard-item-table/dashboard-item-table.component';
 import { DashboardItemInterpretationComponent } from './components/dashboard-item-interpretation/dashboard-item-interpretation.component';
 import { DashboardItemDictionaryComponent } from './components/dashboard-item-dictionary/dashboard-item-dictionary.component';
-import {Ng2HighchartsModule} from "ng2-highcharts";
+import {ChartModule} from "angular2-highcharts";
 
 @NgModule({
   imports: [
@@ -44,8 +43,8 @@ import {Ng2HighchartsModule} from "ng2-highcharts";
       SharedModule,
       DashboardRouteModule,
       ModalModule.forRoot(),
-      ChartModule,
-      Ng2HighchartsModule
+      TabsModule.forRoot(),
+      ChartModule
   ],
   declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemReportTableComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemEventChartComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent],
   providers: [

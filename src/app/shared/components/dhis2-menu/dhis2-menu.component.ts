@@ -20,7 +20,7 @@ export class Dhis2MenuComponent implements OnInit {
   constructor( private elementRef: ElementRef,  private http: Http ) {
     window['dhis2'] = window['dhis2']|| {};
     window['dhis2'].settings = window['dhis2'].settings || {};
-    window['dhis2'].settings.baseUrl = '/';
+    window['dhis2'].settings.baseUrl = this.dhis2_url;
   }
 
   ngOnInit() {

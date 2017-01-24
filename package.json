@@ -26,10 +26,12 @@
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "highcharts": "^5.0.7",
+    "highcharts-solid-gauge": "^0.1.2",
+    "i": "^0.3.5",
     "jquery": "^3.1.1",
     "ng2-bootstrap": "^1.2.5",
-    "ng2-highcharts": "^0.6.5",
     "ng2-pagination": "^2.0.0",
+    "npm": "^4.1.1",
     "rxjs": "^5.0.1",
     "ts-helpers": "^1.1.1",
     "zone.js": "^0.7.2"

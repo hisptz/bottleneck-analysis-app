@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Constants} from "./shared/constants";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  rootUrl: string
+  constructor(private constants: Constants) {
+    this.rootUrl = this.constants.root_url;
+  }
 }

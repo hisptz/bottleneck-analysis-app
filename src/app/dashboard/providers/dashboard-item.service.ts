@@ -3,6 +3,7 @@ import {Http} from '@angular/http';
 import {Observable, BehaviorSubject} from "rxjs"
 import {DashboardItem} from "../interfaces/dashboard-item";
 import {UtilitiesService} from "./utilities.service";
+import {Constants} from "../../shared/constants";
 
 
 @Injectable()
@@ -17,9 +18,10 @@ export class DashboardItemService {
 
   constructor(
       private http: Http,
-      private utilService: UtilitiesService
+      private utilService: UtilitiesService,
+      private constant: Constants
   ) {
-    this.baseUrl = '/api/dashboards';
+    this.baseUrl = this.constant.root_url + 'api/dashboards';
     this.dataStore = {dashboardItems: []};
     this._dashboardItemsPool = <BehaviorSubject<DashboardItem[]>> new BehaviorSubject([]);
     this.dashboardItems = this._dashboardItemsPool;
@@ -131,7 +133,7 @@ export class DashboardItemService {
     });
     //update permanently to the source
     //@todo find best way to show success for no body request
-    this.http.put('/api/dashboardItems/' + dashboardItemId + '/shape/' + shape, '').map(res => res.json())
+    this.http.put(this.constant.root_url + 'api/dashboardItems/' + dashboardItemId + '/shape/' + shape, '').map(res => res.json())
         .subscribe(response => {
 
         }, error => {
@@ -155,15 +157,7 @@ export class DashboardItemService {
      * @returns {any}
      */
   getDashboardItemObject(dashboardItem: any): Observable<any> {
-      return Observable.create(observer => {
-          this.http.get("/api/"+this.utilService.formatEnumString(dashboardItem.type)+"s/"+dashboardItem[this.utilService.formatEnumString(dashboardItem.type)].id+".json?fields=:all,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name],legendSet[id,name]],rows[dimension,filter,items[id,name],legendSet[id,name]],filters[dimension,filter,items[id,name],legendSet[id,name]],interpretations[id,%20text,lastUpdated,user[displayName],comments,likes],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,attributeDimensions[id,name,attribute[id,name,optionSet[id,name,options[id,name]]]],dataElementDimensions[id,name,dataElement[id,name,optionSet[id,name,options[id,name]]]],categoryDimensions[id,name,category[id,name,categoryOptions[id,name,options[id,name]]]]").map(res => res.json()).subscribe(object => {
-              observer.next(object);
-              observer.complete()
-          }, error => {
-              observer.next(error);
-              observer.complete();
-          });
-      });
+      return this.http.get(this.constant.root_url + "api/"+this.utilService.formatEnumString(dashboardItem.type)+"s/"+dashboardItem[this.utilService.formatEnumString(dashboardItem.type)].id+".json?fields=:all,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name],legendSet[id,name]],rows[dimension,filter,items[id,name],legendSet[id,name]],filters[dimension,filter,items[id,name],legendSet[id,name]],interpretations[id,%20text,lastUpdated,user[displayName],comments,likes],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,attributeDimensions[id,name,attribute[id,name,optionSet[id,name,options[id,name]]]],dataElementDimensions[id,name,dataElement[id,name,optionSet[id,name,options[id,name]]]],categoryDimensions[id,name,category[id,name,categoryOptions[id,name,options[id,name]]]]").map(res => res.json())
   }
 
     /**
@@ -172,7 +166,7 @@ export class DashboardItemService {
      * @returns {string}
      */
   getDashBoardItemAnalyticsUrl(dashBoardObject): string {
-        let url = "/api/analytics";
+        let url = this.constant.root_url + "api/analytics";
         let column = "";
         let row = "";
         let filter = "";
@@ -253,16 +247,7 @@ export class DashboardItemService {
      * @returns {any}
      */
     getDashboardItemAnalyticsObject(analyticUrl: string): Observable<any> {
-        return Observable.create(observer => {
-            this.http.get(analyticUrl).map(res =>res.json())
-                .subscribe(analyticsData => {
-                    observer.next(analyticsData);
-                    observer.complete();
-                }, error => {
-                    observer.error(error);
-                    observer.complete();
-                })
-        })
+      return this.http.get(analyticUrl).map(res =>res.json());
     }
 
     getDashboardItemMetadataIdentifiers(dashboardObject: any): string {

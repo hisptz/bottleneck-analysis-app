@@ -4,6 +4,7 @@ import { Dhis2MenuComponent } from './components/dhis2-menu/dhis2-menu.component
 import { FilterPipe } from './pipes/filter.pipe';
 import {Ng2PaginationModule} from "ng2-pagination";
 import { ProgressComponent } from './components/progress/progress.component';
+import {Constants} from "./constants";
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import { ProgressComponent } from './components/progress/progress.component';
       Ng2PaginationModule,
       ProgressComponent
   ],
-  providers: []
+  providers: [Constants]
 })
 
 export class SharedModule {}

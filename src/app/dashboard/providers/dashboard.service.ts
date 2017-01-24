@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable, BehaviorSubject} from "rxjs"
 import {Dashboard} from "../interfaces/dashboard";
+import {Constants} from "../../shared/constants";
 
 
 @Injectable()
@@ -14,8 +15,11 @@ export class DashboardService {
     dashboards: Dashboard[]
   };
 
-  constructor(private http: Http) {
-    this.baseUrl = '/api/dashboards';
+  constructor(
+    private http: Http,
+    private constant: Constants
+  ) {
+    this.baseUrl = this.constant.root_url + 'api/dashboards';
     this.dataStore = {dashboards: []};
     this._dashboardsPool = <BehaviorSubject<Dashboard[]>> new BehaviorSubject([]);
     this.dashboards = this._dashboardsPool;
