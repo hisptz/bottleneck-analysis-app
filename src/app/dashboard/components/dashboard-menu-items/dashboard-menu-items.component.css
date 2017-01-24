@@ -72,3 +72,14 @@
 .dashboard-list:hover .dashboard-btn{
     display: block;
 }
+
+.dashboard-pagination {
+  margin-top: 2px;
+  margin-right: 2px;
+}
+
+.dashboard-pagination > li > a {
+  cursor: pointer;
+  background-color: #f5f5f5 !important;
+  border-color: #f5f5f5;
+}

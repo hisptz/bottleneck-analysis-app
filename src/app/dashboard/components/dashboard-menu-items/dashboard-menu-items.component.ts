@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Dashboard} from "../../interfaces/dashboard";
 import {DashboardService} from "../../providers/dashboard.service";
+import {PaginationInstance} from 'ng2-pagination';
 
 @Component({
   selector: 'app-dashboard-menu-items',
@@ -14,6 +15,12 @@ export class DashboardMenuItemsComponent implements OnInit {
   public dashboardsLoading: boolean;
   public dashboardsError: boolean;
   public dashboards: Dashboard[];
+
+  public config: PaginationInstance = {
+    id: 'custom',
+    itemsPerPage: 5,
+    currentPage: 1
+  };
   constructor(
      private dashboardService: DashboardService
   ) {

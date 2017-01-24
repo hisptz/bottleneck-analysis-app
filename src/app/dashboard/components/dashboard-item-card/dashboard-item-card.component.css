@@ -40,8 +40,8 @@
 
 .chart-options ul > li > a {
     cursor: pointer;
-    padding-left: 9px;
-    padding-top: 7px;
+    padding-left: 5px;
+    padding-top: 5px;
     font-size: 10px;
     height: 30px;
     width: 30px;
@@ -61,6 +61,12 @@
   -o-transform: scale(1.2);
   -ms-transform: scale(1.2);
   transform: scale(1.2);
+}
+
+.chart-option-icon {
+  margin: auto;
+  height: 18px;
+  width: 18px;
 }
 
 .dashboard-item-body:hover .chart-options {
