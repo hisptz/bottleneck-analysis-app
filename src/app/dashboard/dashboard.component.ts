@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {DashboardService} from "./providers/dashboard.service";
 
 @Component({
@@ -8,7 +8,9 @@ import {DashboardService} from "./providers/dashboard.service";
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private dashboardService: DashboardService,
+  ) { }
 
   ngOnInit() {
 

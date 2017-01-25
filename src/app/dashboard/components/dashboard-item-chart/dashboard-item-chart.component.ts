@@ -2,6 +2,7 @@ import {Component, OnInit, Input} from '@angular/core';
 import {DashboardItemService} from "../../providers/dashboard-item.service";
 import {VisualizerService} from "../../providers/dhis-visualizer.service";
 import {type} from "os";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard-item-chart',
@@ -17,7 +18,8 @@ export class DashboardItemChartComponent implements OnInit {
   public chartHasError: boolean;
   constructor(
       private dashboardItemService: DashboardItemService,
-      private visualizationService: VisualizerService
+      private visualizationService: VisualizerService,
+      private route: ActivatedRoute
   ) {
     this.loadingChart = true;
     this.chartHasError = false;
@@ -28,29 +30,37 @@ export class DashboardItemChartComponent implements OnInit {
   }
 
   drawChart(chartType?:string) {
-
-    this.dashboardItemService.getDashboardItemObject(this.chartData).subscribe(chartObject => {
+    this.dashboardItemService.getDashboardItemAnalyticsObject(this.chartData, this.route.snapshot.params['id']).subscribe(analyticObject => {
       //@todo remove this hardcoding after finding the best way to include gauge chart
-      let chartObjectType = chartObject.type.toLowerCase() != 'gauge' ? chartObject.type.toLowerCase(): 'bar';
+      let chartObjectType = analyticObject.dashboardObject.type.toLowerCase() != 'gauge' ? analyticObject.dashboardObject.type.toLowerCase(): 'bar';
       let chartConfiguration = {
         'type': chartType ? chartType : chartObjectType,
-          'title': this.chartData.chart.displayName,
-          'xAxisType': 'pe',
-          'yAxisType': 'ou'
+        'title': this.getDisplayName(this.chartData),
+        'xAxisType': 'pe',
+        'yAxisType': 'ou'
       }
-      this.dashboardItemService.getDashboardItemAnalyticsObject(this.dashboardItemService.getDashBoardItemAnalyticsUrl(chartObject)).subscribe(analyticObject => {
-        this.chartObject = this.visualizationService.drawChart(analyticObject, chartConfiguration);
-        this.loadingChart = false;
-      }, error => {
-        this.chartHasError = true;
-        this.loadingChart = false;
-      })
-    })
+      this.chartObject = this.visualizationService.drawChart(analyticObject.analytic, chartConfiguration);
+      this.loadingChart = false;
+    }, error => {
+      this.loadingChart = false;
+      this.chartHasError = true;
+      console.log(error)
+      //@todo handle error when analytic object fails
+    });
   }
 
   updateChartType(type) {
     this.loadingChart = true;
     this.drawChart(type)
+  }
+
+  getDisplayName(chartData) {
+    let name = '';
+    if(chartData.hasOwnProperty('chart')) {
+      name = chartData.chart.displayName;
+    } else {
+      name = chartData.displayName;
+    }
   }
 
 }

@@ -21,9 +21,13 @@
 }
 
 .dashboard-item-body {
-    height: 400px;
+    height: 340px;
     position: relative;
     overflow: auto;
+}
+
+.no-footer {
+  height: 375px !important;
 }
 
 .chart-options {

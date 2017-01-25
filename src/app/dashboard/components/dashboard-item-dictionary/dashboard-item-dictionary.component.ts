@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {Response, Http} from "@angular/http";
 import {DashboardItemService} from "../../providers/dashboard-item.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard-item-dictionary',
@@ -21,7 +22,8 @@ export class DashboardItemDictionaryComponent implements OnInit {
 
   constructor(
     private http:Http,
-    private dashboardItemService: DashboardItemService
+    private dashboardItemService: DashboardItemService,
+    private route: ActivatedRoute
   ) {
     this.indicators=[];
     this.dataelements=[];
@@ -31,14 +33,13 @@ export class DashboardItemDictionaryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dashboardItemService.getDashboardItemObject(this.itemData).subscribe(dashboardItemObject => {
-      this.displayDetail(this.dashboardItemService.getDashboardItemMetadataIdentifiers(dashboardItemObject));
+    this.dashboardItemService.getDashboardItemAnalyticsObject(this.itemData, this.route.snapshot.params['id']).subscribe(analyticObject => {
+      this.displayDetail(this.dashboardItemService.getDashboardItemMetadataIdentifiers(analyticObject.dashboardObject));
       this.loadingDictionary = false;
     }, error => {
       this.loadingDictionary = false;
       this.dictionaryError = true;
     })
-    //this.displayDetail(uid)
 
   }
   displayDetail(uid){

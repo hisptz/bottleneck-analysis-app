@@ -20,3 +20,11 @@
     </table>
   </div>
 </div>
+<div class="row" *ngIf="tableHasError">
+  <div class="col-md-12">
+    <div class="alert alert-danger">
+      <i class="fa fa-exclamation-triangle"></i>
+      <small>Could not load Table</small>
+    </div>
+  </div>
+</div>

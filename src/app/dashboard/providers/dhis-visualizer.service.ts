@@ -577,7 +577,6 @@ export class VisualizerService {
       }
 
     }
-    console.log(table_rows_array);
 
     let counter = 0;
     for ( let rowItem of table_rows_array ) {
@@ -599,7 +598,6 @@ export class VisualizerService {
       table.rows.push( item );
       counter++;
     }
-    console.log(table);
     return table;
   }
 

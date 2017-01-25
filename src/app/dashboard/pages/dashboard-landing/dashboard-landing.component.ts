@@ -19,7 +19,7 @@ export class DashboardLandingComponent implements OnInit {
 
   ngOnInit() {
     this.dashboardService.all().subscribe(dashboards => {
-      this.router.navigate(['dashboards/tFPbgxRf1bc/dashboard']);
+      this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
     }, error => {
       this.hasError = true;
     })

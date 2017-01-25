@@ -10,6 +10,7 @@ export class DashboardService {
 
   public dashboards: Observable<Dashboard[]>;
   private _dashboardsPool: BehaviorSubject<Dashboard[]>;
+  public dashboardName: string;
   private baseUrl: string;
   private dataStore: {
     dashboards: Dashboard[]
@@ -19,6 +20,8 @@ export class DashboardService {
     private http: Http,
     private constant: Constants
   ) {
+    //@todo find best way to show dashboard name
+    this.dashboardName = '';
     this.baseUrl = this.constant.root_url + 'api/dashboards';
     this.dataStore = {dashboards: []};
     this._dashboardsPool = <BehaviorSubject<Dashboard[]>> new BehaviorSubject([]);
@@ -78,6 +81,14 @@ export class DashboardService {
         }
       });
     });
+  }
+
+  setDashboardName(name): void  {
+    this.dashboardName = name
+  }
+
+  getDashboardName():string {
+    return this.dashboardName;
   }
 
   create(dashboardData: Dashboard): Observable<string> {

@@ -1,6 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {DashboardSettingsService} from "../../providers/dashboard-settings.service";
-import {DashboardService} from "../../providers/dashboard.service";
 @Component({
   selector: 'app-dashboard-menu',
   templateUrl: './dashboard-menu.component.html',

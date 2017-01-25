@@ -22,12 +22,10 @@ import {DashboardItemService} from "./providers/dashboard-item.service";
 import {VisualizerService} from "./providers/dhis-visualizer.service";
 import { DashboardItemChartComponent } from './components/dashboard-item-chart/dashboard-item-chart.component';
 import { DashboardItemMapComponent } from './components/dashboard-item-map/dashboard-item-map.component';
-import { DashboardItemReportTableComponent } from './components/dashboard-item-report-table/dashboard-item-report-table.component';
 import { DashboardItemUsersComponent } from './components/dashboard-item-users/dashboard-item-users.component';
 import { DashboardItemEventReportComponent } from './components/dashboard-item-event-report/dashboard-item-event-report.component';
 import { DashboardItemReportComponent } from './components/dashboard-item-report/dashboard-item-report.component';
 import { DashboardItemResourcesComponent } from './components/dashboard-item-resources/dashboard-item-resources.component';
-import { DashboardItemEventChartComponent } from './components/dashboard-item-event-chart/dashboard-item-event-chart.component';
 import {UtilitiesService} from "./providers/utilities.service";
 import {ModalModule, TabsModule} from "ng2-bootstrap";
 import { DashboardItemTableComponent } from './components/dashboard-item-table/dashboard-item-table.component';
@@ -46,7 +44,7 @@ import {ChartModule} from "angular2-highcharts";
       TabsModule.forRoot(),
       ChartModule
   ],
-  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemReportTableComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemEventChartComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent],
+  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent],
   providers: [
       DashboardSettingsService,
       DashboardService,

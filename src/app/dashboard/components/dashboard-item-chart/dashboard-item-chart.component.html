@@ -3,6 +3,10 @@
   <chart *ngIf="!loadingChart && !chartHasError" [options]="chartObject"></chart>
   <!--<div class="chart-body" *ngIf="!loadingChart && !chartHasError" [ng2-highcharts]="chartObject"></div>-->
 </div>
+<div class="alert alert-danger" *ngIf="chartHasError">
+  <i class="fa fa-exclamation-triangle"></i>
+  <small>Could not load Chart</small>
+</div>
 
 
 

@@ -15,7 +15,11 @@
   <!--<li *ngIf="dashboards.length > 4"><a style="font-size: 12px;"><small>and {{dashboards.length - 4}} more</small></a></li>-->
 </ul>
 <ul class="nav navbar-nav dashboard-nav">
-  <li *ngIf="dashboardsLoading" style="padding-top:15px; border-right-color: transparent; padding-left: 3px;"><small>Loading dashboard items...</small></li>
+  <li *ngIf="dashboardsLoading" style="padding-top:6px; border-right-color: transparent; padding-left: 3px;">
+    <small>
+      <img src="assets/img/balls-3.svg" style="height: 15px; width: 15px;" alt="">Loading dashboard items...
+    </small>
+  </li>
 </ul>
 <app-create-dashboard></app-create-dashboard>
 <ul class="nav navbar-nav navbar-right dashboard-right">
