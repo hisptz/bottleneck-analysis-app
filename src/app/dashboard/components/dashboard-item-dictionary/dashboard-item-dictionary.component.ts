@@ -18,6 +18,7 @@ export class DashboardItemDictionaryComponent implements OnInit {
   private isDataset: boolean = false;
   public loadingDictionary: boolean;
   public dictionaryError: boolean;
+  public index: number;
   @Input() itemData: any;
 
   constructor(
@@ -30,6 +31,7 @@ export class DashboardItemDictionaryComponent implements OnInit {
     this.datasets=[];
     this.loadingDictionary = true;
     this.dictionaryError = false;
+    this.index = 0;
   }
 
   ngOnInit() {
@@ -42,6 +44,11 @@ export class DashboardItemDictionaryComponent implements OnInit {
     })
 
   }
+
+  toggleDictionaryBody(index) {
+    this.index = this.index == index ? -1 : index;
+  }
+
   displayDetail(uid){
     this.metadataFromAnalyticsLink(uid).forEach(value => {
       this.http.get('../../../api/identifiableObjects/'+value+'.json')

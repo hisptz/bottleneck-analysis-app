@@ -15,9 +15,9 @@
   <!--<li *ngIf="dashboards.length > 4"><a style="font-size: 12px;"><small>and {{dashboards.length - 4}} more</small></a></li>-->
 </ul>
 <ul class="nav navbar-nav dashboard-nav">
-  <li *ngIf="dashboardsLoading" style="padding-top:6px; border-right-color: transparent; padding-left: 3px;">
+  <li *ngIf="dashboardsLoading" style="padding-top:9px; border-right-color: transparent; padding-left: 3px;">
     <small>
-      <img src="assets/img/balls-3.svg" style="height: 15px; width: 15px;" alt="">Loading dashboard items...
+      <img src="assets/img/balls-3.svg" style="height: 20px; width: 20px;" alt=""> Loading dashboard items...
     </small>
   </li>
 </ul>
@@ -36,8 +36,6 @@
       </ul>
     </pagination-template>
   </li>
-  <!--<li><a href=""><i class="fa fa-chevron-left"></i></a></li>-->
-  <!--<li><a href=""><i class="fa fa-chevron-right"></i></a></li>-->
   <li *ngIf="isSearchOpen"><input type="text" size="12" [(ngModel)]="dashboardName" class="dashboard-search-input" autofocus></li>
   <li class="dashboard-search-button" (click)="isSearchOpen = !isSearchOpen"><a><i class="fa {{isSearchOpen ? 'fa-times':'fa-search'}}"></i></a></li>
 </ul>
