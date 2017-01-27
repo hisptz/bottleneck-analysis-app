@@ -1,100 +1,88 @@
 import { Injectable } from '@angular/core';
-import {Http} from '@angular/http';
-import {Observable, BehaviorSubject} from "rxjs"
+import {Http, Response} from '@angular/http';
+import {Observable} from "rxjs"
 import {Dashboard} from "../interfaces/dashboard";
 import {Constants} from "../../shared/constants";
+import {UtilitiesService} from "./utilities.service";
+import {isNull} from "util";
 
 @Injectable()
 export class DashboardService {
-
-  public dashboards: Observable<Dashboard[]>;
-  private _dashboardsPool: BehaviorSubject<Dashboard[]>;
-  public dashboardName: string;
-  private baseUrl: string;
-  private dataStore: {
-    dashboards: Dashboard[]
-  };
-
+  dashboards: Dashboard[];
+  dashboardName: string;
+  url: string;
   constructor(
     private http: Http,
-    private constant: Constants
+    private constant: Constants,
+    private utilService: UtilitiesService
   ) {
-    //@todo find best way to show dashboard name
-    this.dashboardName = '';
-    this.baseUrl = this.constant.root_url + 'api/dashboards';
-    this.dataStore = {dashboards: []};
-    this._dashboardsPool = <BehaviorSubject<Dashboard[]>> new BehaviorSubject([]);
-    this.dashboards = this._dashboardsPool;
+    this.url = this.constant.root_url + 'api/dashboards';
+    this.dashboards = [];
   }
 
-  //Methods
   all(): Observable<Dashboard[]> {
     return Observable.create(observer => {
-      this.dashboards.subscribe(pool => {
-        if(Object.keys(pool).map(key => pool[key]).length > 0) {
-          observer.next(Object.keys(pool).map(key => pool[key]));
-          observer.complete();
-        } else {
-          this._loadAll().subscribe(data => {
-            observer.next(Object.keys(data).map(key => data[key]));
-            observer.complete();
+      if(this.dashboards.length > 0) {
+        observer.next(this.dashboards)
+      } else {
+        this.http.get(this.url +  '.json?paging=false&fields=id,name')
+          .map((res: Response) => res.json())
+          .catch(this.utilService.handleError)
+          .subscribe(
+          response => {
+            this.dashboards = response.dashboards;
+            observer.next(this.dashboards)
+          },
+          error => {
+            observer.next(error)
           })
-        }
-      });
+      }
     });
-  }
-
-  private _loadAll(): Observable<any> {
-    return Observable.create(observer => {
-      this.http.get(this.baseUrl +  '.json?paging=false&fields=id,name').map(res => res.json()).subscribe(response => {
-        let dashboardData = [];
-        response.dashboards.forEach((dataItem, dataIndex) => {
-          dashboardData[dataItem.id] = dataItem;
-        });
-        this.dataStore.dashboards = dashboardData;
-        //persist dashboards into the pool
-        this._dashboardsPool.next(Object.assign({}, this.dataStore).dashboards);
-        observer.next(this._dashboardsPool);
-        observer.complete();
-      })
-    })
   }
 
   find(id: string): Observable<Dashboard> {
     return Observable.create(observer => {
-      this.dashboards.subscribe(dashboardData => {
-        if(dashboardData[id]) {
-          observer.next(dashboardData[id]);
-          observer.complete();
-        } else {
-          //load from source if pool has no data
-          this._loadAll().subscribe(dashboardData => {
-            if(dashboardData[id]) {
-              observer.next(dashboardData[id]);
-              observer.complete();
-            } else {
-              observer.next('Dashboard with id "'+ id + '" could not be found or may have been deleted');
-              observer.complete();
-            }
-          });
+      let dashboard: any = null;
+      for(let dashboardData of this.dashboards) {
+        if(dashboardData.id == id) {
+          dashboard = dashboardData;
+          break;
         }
-      });
-    });
+      }
+      if(!isNull(dashboard)) {
+        observer.next(dashboard)
+      } else {
+        this.http.get(this.url + '/' + id + '.json?fields=id,name')
+          .map((res: Response) => res.json())
+          .catch(this.utilService.handleError)
+          .subscribe(
+            dashboard => {
+              this.dashboards.push(dashboard);
+              observer.next(dashboard);
+            },
+            error => {
+              observer.error(error)
+            })
+      }
+
+    })
   }
 
-  setDashboardName(name): void  {
-    this.dashboardName = name
+  getName(): Observable<string> {
+    return Observable.create(observer => {
+      observer.next(this.dashboardName);
+    })
   }
 
-  getDashboardName():string {
-    return this.dashboardName;
+  setName(name : string, id?: string) {
+    if(id) this.find(id).subscribe(dashboard => {this.dashboardName = dashboard.name;});
+    if(!isNull(name)) this.dashboardName = name;
   }
 
   create(dashboardData: Dashboard): Observable<string> {
     return Observable.create(observer => {
-      this.http.post(this.baseUrl, dashboardData)
+      this.http.post(this.url, dashboardData)
           .map(response => {
-            //@todo find best way to pre-retrieve dashboard id after creation
             let dashboardid: string = null;
             response.headers.forEach((headerItem, headerIndex) => {
               if(headerIndex == 'location') {
@@ -102,50 +90,44 @@ export class DashboardService {
               }
             });
             return {id: dashboardid, name:dashboardData.name};
-          }).subscribe(response => {
-        //@todo find best way to declare variable of type dashboard
-        let data: any = {};
-        data[response.id] = response;
-        this.dataStore.dashboards.push(data);
-        this._dashboardsPool.next(Object.assign({}, this.dataStore).dashboards);
-        observer.next(response.id);
-        observer.complete();
-      }, error => {
-        observer.error(error);
-      });
-    })
-  }
-
-  update(dashboardData: Dashboard) {
-    let dashboardid = dashboardData.id;
-    //update the dashboardPool
-    this.all().subscribe(dashboards=> {
-      dashboards[dashboardid] = dashboardData
-    });
-    this.setDashboardName(dashboardData.name);
-    //persist data to the database
-    return this.http.put(this.baseUrl + '/'+ dashboardid, {name: dashboardData.name})
-  }
-
-  delete(dashboardId: string) {
-    this.http.delete(this.baseUrl + '/' + dashboardId)
-        .subscribe(response => {
-          //refresh dashboard pool
-          this._loadAll().subscribe(dashboardData => {
-            console.log('refreshed');
           })
-        }, error => console.log('error deleting dashboard'))
-  }
-
-  //@todo
-  dashboardLoaded(): Observable<boolean> {
-    return Observable.create(observer => {
-      this.dashboards.subscribe(dashboard => {
-        observer.next(true);
-        observer.complete();
-      }, error => {
-        observer.error(error);
-      })
+        .catch(this.utilService.handleError)
+        .subscribe(
+          dashboard => {
+          this.dashboards.push(dashboard);
+          observer.next(dashboard.id);
+          observer.complete();
+          },
+          error => {
+            observer.error(error);
+          });
     })
   }
+
+  update(dashboardData: Dashboard): Observable<any> {
+
+    this.setName(dashboardData.name);
+    for(let dashboard of this.dashboards) {
+      if(dashboard.id == dashboardData.id) {
+        this.dashboards[this.dashboards.indexOf(dashboard)] = dashboardData;
+        break;
+      }
+    }
+    return this.http.put(this.url + '/'+ dashboardData.id, {name: dashboardData.name})
+      .catch(this.utilService.handleError)
+  }
+
+  delete(id: string): Observable<any> {
+
+    for(let dashboard of this.dashboards) {
+      if(dashboard.id == id) {
+        this.dashboards.splice(this.dashboards.indexOf(dashboard));
+        break;
+      }
+    }
+    return this.http.delete(this.url + '/' + id)
+      .map((res: Response) => res.json())
+      .catch(this.utilService.handleError)
+  }
+
 }

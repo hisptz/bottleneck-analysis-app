@@ -1,3 +1,32 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3"><h4>{{(dashboardName | async)}}</h4></div>
+    <div class="col-md-5"><app-dashboard-item-search></app-dashboard-item-search></div>
+    <div class="col-md-4">
+      <ul class="list-inline pull-right" style="margin-top: 10px">
+        <li>
+          <a href="/dhis-web-dashboard-integration/showSendFeedback.action">
+            <span class="glyphicon glyphicon-pencil"></span>
+            <small>Write Feeback</small>
+          </a>
+        </li>
+        <li>
+          <a class="text-primary" href="../../../dhis-web-dashboard-integration/interpretation.action" id="interpretationBlock" data-toggle="tooltip" data-placement="top" title="Interpretation">
+            <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> <span style="background-color: #337AB7" class="badge bg-primary" id="interpretationId"></span>
+            <small>interpretation</small>
+          </a>
+        </li>
+        <li>
+          <a class="text-primary" href="../../../dhis-web-dashboard-integration/message.action" style="margin-right: 12px" id="messageBlock" data-toggle="tooltip" data-placement="top" title="Message">
+            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>  <span style="background-color: #337AB7" class="badge bg-primary" id="messageId"></span>
+            <small>message</small>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<app-dashboard-menu></app-dashboard-menu>
 <div class="container-fluid" >
   <div class="row" *ngIf="loading"><div class="col-md-12"><small>Loading dashboard items</small></div></div>
   <div class="row" *ngIf="!loading && dashboardItems.length > 0">

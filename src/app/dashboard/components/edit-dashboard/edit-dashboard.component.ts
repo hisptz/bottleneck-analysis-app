@@ -29,9 +29,8 @@ export class EditDashboardComponent implements OnInit {
   }
 
   save(dashboardData: Dashboard, isValid: boolean) {
-    this.dashboardService.update(dashboardData).subscribe(response => {
-      this.closeForm()
-    });
+    this.closeForm();
+    this.dashboardService.update(dashboardData).subscribe(response => {});
   }
 
   closeForm() {

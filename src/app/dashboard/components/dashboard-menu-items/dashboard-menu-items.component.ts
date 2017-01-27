@@ -4,6 +4,7 @@ import {DashboardService} from "../../providers/dashboard.service";
 import {PaginationInstance} from 'ng2-pagination';
 import {ContextMenuService} from "angular2-contextmenu";
 import {Observable} from "rxjs";
+import {RouterModule, Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard-menu-items',
@@ -26,7 +27,8 @@ export class DashboardMenuItemsComponent implements OnInit {
   };
   constructor(
      private dashboardService: DashboardService,
-     private contextMenuService: ContextMenuService
+     private contextMenuService: ContextMenuService,
+     private router: Router
   ) {
     this.isItemSearchOpen = false;
     this.dashboardsLoading = true;
@@ -47,7 +49,12 @@ export class DashboardMenuItemsComponent implements OnInit {
       {
         html: (): string => 'Delete',
         click: (item, $event): void => {
-          this.dashboardService.delete(item.id)
+          this.dashboardService.delete(item.id).subscribe(response => {
+            //@todo handle notifications
+            this.dashboardService.all().subscribe(dashboards => {
+              this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
+            })
+          });
         }
       }
     ]
