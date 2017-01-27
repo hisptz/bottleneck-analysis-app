@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {Dashboard} from "../../interfaces/dashboard";
 import {DashboardService} from "../../providers/dashboard.service";
 import {PaginationInstance} from 'ng2-pagination';
+import {ContextMenuService} from "angular2-contextmenu";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-dashboard-menu-items',
@@ -10,27 +12,50 @@ import {PaginationInstance} from 'ng2-pagination';
 })
 export class DashboardMenuItemsComponent implements OnInit {
 
-  public isEditFormOpen: boolean;
+  test: Observable<any>;
   public isItemSearchOpen: boolean;
   public dashboardsLoading: boolean;
   public dashboardsError: boolean;
+  public activeEditFormId: string;
   public dashboards: Dashboard[];
-
+  menuOptions: Array<any>;
   public config: PaginationInstance = {
     id: 'custom',
     itemsPerPage: 5,
     currentPage: 1
   };
   constructor(
-     private dashboardService: DashboardService
+     private dashboardService: DashboardService,
+     private contextMenuService: ContextMenuService
   ) {
-    this.isEditFormOpen = false;
     this.isItemSearchOpen = false;
     this.dashboardsLoading = true;
     this.dashboardsError = false;
+    this.activeEditFormId = '';
+    this.menuOptions = [
+      // {
+      //   html: () => 'Share',
+      //   click: (item, $event) => {
+      //   },
+      // },
+      {
+        html: (): string => 'Rename',
+        click: (item, $event): void => {
+          this.openEditForm(item.id)
+        }
+      },
+      {
+        html: (): string => 'Delete',
+        click: (item, $event): void => {
+          this.dashboardService.delete(item.id)
+        }
+      }
+    ]
+
   }
 
   ngOnInit() {
+    this.test = this.dashboardService.all();
     this.dashboardService.all().subscribe(dashboards => {
       this.dashboards = dashboards;
       this.dashboardsLoading = false;
@@ -38,6 +63,28 @@ export class DashboardMenuItemsComponent implements OnInit {
       this.dashboardsLoading = false;
       this.dashboardsError = true;
     })
+  }
+
+  public onContextMenu($event: MouseEvent, item: any): void{
+    this.contextMenuService.show.next({
+      actions: this.menuOptions,
+      event: $event,
+      item: item
+    });
+    $event.preventDefault();
+    $event.stopPropagation();
+  }
+
+  isEditFormOpen(id) {
+    return this.activeEditFormId == id ? true : false;
+  }
+
+  openEditForm(id) {
+    this.activeEditFormId = id;
+  }
+
+  closeEditForm(event) {
+    this.activeEditFormId = '';
   }
 
 }

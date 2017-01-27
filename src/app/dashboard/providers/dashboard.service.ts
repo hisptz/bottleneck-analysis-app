@@ -4,7 +4,6 @@ import {Observable, BehaviorSubject} from "rxjs"
 import {Dashboard} from "../interfaces/dashboard";
 import {Constants} from "../../shared/constants";
 
-
 @Injectable()
 export class DashboardService {
 
@@ -119,13 +118,13 @@ export class DashboardService {
 
   update(dashboardData: Dashboard) {
     let dashboardid = dashboardData.id;
-    this.http.put(this.baseUrl + '/'+ dashboardid, {name: dashboardData.name})
-        .map(response => response.json())
-        .subscribe(success => {
-          //update the dashboardPool also
-          this.dataStore.dashboards[dashboardid] = dashboardData;
-          this._dashboardsPool.next(Object.assign({}, this.dataStore).dashboards);
-        }, error => console.log('Could not update todo.'));
+    //update the dashboardPool
+    this.all().subscribe(dashboards=> {
+      dashboards[dashboardid] = dashboardData
+    });
+    this.setDashboardName(dashboardData.name);
+    //persist data to the database
+    return this.http.put(this.baseUrl + '/'+ dashboardid, {name: dashboardData.name})
   }
 
   delete(dashboardId: string) {

@@ -32,6 +32,8 @@ import { DashboardItemTableComponent } from './components/dashboard-item-table/d
 import { DashboardItemInterpretationComponent } from './components/dashboard-item-interpretation/dashboard-item-interpretation.component';
 import { DashboardItemDictionaryComponent } from './components/dashboard-item-dictionary/dashboard-item-dictionary.component';
 import {ChartModule} from "angular2-highcharts";
+import {ContextMenuService, ContextMenuComponent} from "angular2-contextmenu";
+import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboard.component';
 
 @NgModule({
   imports: [
@@ -44,13 +46,14 @@ import {ChartModule} from "angular2-highcharts";
       TabsModule.forRoot(),
       ChartModule
   ],
-  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent],
+  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent, ContextMenuComponent, EditDashboardComponent],
   providers: [
       DashboardSettingsService,
       DashboardService,
       DashboardItemService,
       VisualizerService,
-      UtilitiesService
+      UtilitiesService,
+      ContextMenuService
   ]
 })
 export class DashboardModule { }
