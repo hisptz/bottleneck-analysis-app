@@ -12,7 +12,7 @@
           <small><b>Indicator type:</b> {{indicator.indicatorType.name}}</small>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-6">
-          <a class="pull-right" (click)="toggleDictionaryBody(i)"><i class="fa {{index == i ? 'fa-caret-up' : 'fa-caret-down'}}"></i></a>
+          <a class="pull-right" style="cursor: pointer" (click)="toggleDictionaryBody(i)"><i class="fa {{index == i ? 'fa-caret-up' : 'fa-caret-down'}}"></i></a>
         </div>
       </div>
       <div class="row" *ngIf="index == i">
@@ -47,7 +47,7 @@
           <small><b>Category Combo:</b> {{dataelement.categoryCombo.name}}</small>
         </div>
         <div class="col-md-2 col-sm-2 col-xs-2">
-          <a class="pull-right" (click)="toggleDictionaryBody(i)"><i class="fa {{index == i ? 'fa-caret-up' : 'fa-caret-down'}}"></i></a>
+          <a class="pull-right" style="cursor: pointer" (click)="toggleDictionaryBody(i)"><i class="fa {{index == i ? 'fa-caret-up' : 'fa-caret-down'}}"></i></a>
         </div>
       </div>
       <div class="row" *ngIf="index == i">
