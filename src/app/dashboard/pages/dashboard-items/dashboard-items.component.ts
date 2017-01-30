@@ -31,7 +31,7 @@ export class DashboardItemsComponent implements OnInit {
       this.dashboardService.setName(null,dashboardId);
       this.dashboardName = this.dashboardService.getName();
       this.dashboardItemService.findByDashboard(dashboardId).subscribe(dashboardItems => {
-        this.dashboardItems = dashboardItems;
+        this.dashboardItems = dashboardItems.dashboardItems;
         this.loading = false;
       })
     })

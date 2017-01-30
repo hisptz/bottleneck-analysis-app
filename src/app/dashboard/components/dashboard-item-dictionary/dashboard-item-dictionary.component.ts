@@ -35,7 +35,7 @@ export class DashboardItemDictionaryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dashboardItemService.getDashboardItemAnalyticsObject(this.itemData, this.route.snapshot.params['id']).subscribe(analyticObject => {
+    this.dashboardItemService.getDashboardItemAnalyticsObject(this.itemData).subscribe(analyticObject => {
       this.displayDetail(this.dashboardItemService.getDashboardItemMetadataIdentifiers(analyticObject.dashboardObject));
       this.loadingDictionary = false;
     }, error => {

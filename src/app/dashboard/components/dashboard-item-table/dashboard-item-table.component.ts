@@ -27,7 +27,7 @@ export class DashboardItemTableComponent implements OnInit {
     this.drawTable();
   }
   drawTable() {
-    this.dashboardItemService.getDashboardItemAnalyticsObject(this.itemData, this.route.snapshot.params['id']).subscribe(analyticObject => {
+    this.dashboardItemService.getDashboardItemAnalyticsObject(this.itemData).subscribe(analyticObject => {
       this.tableData = this.visualizationService.drawTable(analyticObject.analytic, this.tableConfiguration(analyticObject.dashboardObject));
       this.loadingTable = false;
     }, error => {

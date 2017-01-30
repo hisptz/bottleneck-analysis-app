@@ -1,19 +1,20 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnDestroy} from '@angular/core';
 import {DashboardItemService} from "../../providers/dashboard-item.service";
 import {VisualizerService} from "../../providers/dhis-visualizer.service";
 import {type} from "os";
 import {ActivatedRoute} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-dashboard-item-chart',
   templateUrl: './dashboard-item-chart.component.html',
   styleUrls: ['./dashboard-item-chart.component.css']
 })
-export class DashboardItemChartComponent implements OnInit {
+export class DashboardItemChartComponent implements OnInit,OnDestroy {
 
   @Input() chartData: any;
   public chartObject: any;
-  public analyticObject: any;
+  subscription: Subscription;
   public loadingChart: boolean;
   public chartHasError: boolean;
   constructor(
@@ -28,9 +29,12 @@ export class DashboardItemChartComponent implements OnInit {
   ngOnInit() {
     this.drawChart()
   }
+  ngOnDestroy() {
+    if (this.subscription) this.subscription.unsubscribe();
+  }
 
   drawChart(chartType?:string) {
-    this.dashboardItemService.getDashboardItemAnalyticsObject(this.chartData, this.route.snapshot.params['id']).subscribe(analyticObject => {
+    this.subscription = this.dashboardItemService.getDashboardItemAnalyticsObject(this.chartData).subscribe(analyticObject => {
       //@todo remove this hardcoding after finding the best way to include gauge chart
       let chartObjectType = analyticObject.dashboardObject.type.toLowerCase() != 'gauge' ? analyticObject.dashboardObject.type.toLowerCase(): 'bar';
       let chartConfiguration = {

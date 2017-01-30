@@ -34,6 +34,9 @@ import { DashboardItemDictionaryComponent } from './components/dashboard-item-di
 import {ChartModule} from "angular2-highcharts";
 import {ContextMenuService, ContextMenuComponent} from "angular2-contextmenu";
 import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboard.component';
+import {DashboardSearchService} from "./providers/dashboard-search.service";
+import { SearchResultBodyComponent } from './components/search-result-body/search-result-body.component';
+import { ReadableNamePipe } from './pipes/readable-name.pipe';
 
 @NgModule({
   imports: [
@@ -46,14 +49,15 @@ import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboa
       TabsModule.forRoot(),
       ChartModule
   ],
-  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent, ContextMenuComponent, EditDashboardComponent],
+  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent, ContextMenuComponent, EditDashboardComponent, SearchResultBodyComponent, ReadableNamePipe],
   providers: [
       DashboardSettingsService,
       DashboardService,
       DashboardItemService,
       VisualizerService,
       UtilitiesService,
-      ContextMenuService
+      ContextMenuService,
+      DashboardSearchService
   ]
 })
 export class DashboardModule { }

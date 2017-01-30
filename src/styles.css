@@ -1,3 +1,6 @@
+body, input {
+  color: #23527C;
+}
 ::-webkit-scrollbar {
   width: 7px;
 }
@@ -32,6 +35,29 @@
 .nav-tabs > li.active > a:focus {
   background-color: #ECECEC !important;
 }
+
+.notification-box-danger,
+.notification-box-primary
+{
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  font-weight: lighter;
+}
+
+.notification-box-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+.notification-box-primary {
+  color: #fff;
+  background-color: #23527C;
+  border-color: #23527C;
+}
+
 
 /*.panel-default {*/
   /*border-color: #f5f5f5;*/

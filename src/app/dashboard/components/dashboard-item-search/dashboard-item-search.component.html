@@ -1,4 +1,32 @@
-<div class="form-group">
-    <input type="text"  class="form-control input-md" placeholder="Add items in your dashboard by searching here">
-</div>
+<div class="form-group" style="position: relative;">
+  <input type="text" id="search" (keyup)="searchTerm$.next($event.target.value)" class="form-control dashboard-search" placeholder="Add items in your dashboard by searching here">
+  <div class="search-body" [hidden]="!showBody" (blur)="showBody = false">
+    <div class="panel serach-panel" *ngIf="headers && headers.length == 0">
+      <div class="panel-body" style="padding-top: 4px; padding-bottom: 3px; margin-bottom: 0px;">
+        <b>No search result found</b>
+      </div>
+    </div>
+    <div class="panel search-panel" *ngFor="let header of headers">
+      <div class="panel-heading search-title" style="padding-bottom: 0px;">
+        <h6>
+          <b>{{header.name | readableName}}</b>&nbsp;
+          <span class="notification-box-primary">{{header.count}}</span>
+          <a class="pull-right" style="cursor: pointer;" (click)="toggleBlock(header.name,header.showBlock)"><i class="fa fa-{{header.showBlock ? 'caret-up' : 'caret-down'}}"></i></a>
+        </h6>
+      </div>
+      <div class="panel-body" style="padding-top: 4px; padding-bottom: 3px;" *ngIf="header.showBlock">
+        <div class="row" *ngFor="let item of results[header.name]">
+          <div class="col-md-12">
+            <p>
+              <i class="fa fa-{{getIcon(header.name)}}"></i>
+              <small>{{item.name}}</small>
+              <button class="btn btn-info btn-xs pull-right">ADD</button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+
+</div>
