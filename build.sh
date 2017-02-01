@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 ng build --prod
 mv dist/assets/manifest.webapp dist/
-cp -r dist/* /home/dhis/config/apps/newApp/
+rsync -a --progress dist/* /home/dhis/config/apps/idashboard2/

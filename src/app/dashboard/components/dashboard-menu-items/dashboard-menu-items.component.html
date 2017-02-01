@@ -2,6 +2,7 @@
   <li class="dashboard-list" routerLinkActive="active" *ngFor="let dashboard of dashboards | filterBy: dashboardName | paginate: config">
     <a routerLink="/dashboards/{{dashboard.id}}/dashboard" *ngIf="!isEditFormOpen(dashboard.id)" (contextmenu)="onContextMenu($event, dashboard)">{{dashboard.name}}</a>
     <app-edit-dashboard *ngIf="isEditFormOpen(dashboard.id)" [dashboard]="dashboard" (onFormClosed)="closeEditForm($event)"></app-edit-dashboard>
+    
     <context-menu></context-menu>
   </li>
   <!--<li *ngIf="dashboards.length > 4"><a style="font-size: 12px;"><small>and {{dashboards.length - 4}} more</small></a></li>-->

@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ReadableNamePipe implements PipeTransform {
 
-  transform(name: any, args?: any): any {
+  transform(name: any, underscore?: boolean): any {
 
     let readableName: any = [];
     let count: number = 0;
@@ -15,10 +15,17 @@ export class ReadableNamePipe implements PipeTransform {
         count++;
       } else {
         if(name[i] == name[i].toUpperCase()) {
-          readableName[count] = ' ';
-          count++;
-          readableName[count] = name[i].toLowerCase();
-          count++;
+          if(underscore) {
+            readableName[count] = '_';
+            count++;
+            readableName[count] = name[i];
+            count++;
+          } else {
+            readableName[count] = ' ';
+            count++;
+            readableName[count] = name[i].toLowerCase();
+            count++;
+          }
 
         } else{
           readableName[count] = name[i];
@@ -27,7 +34,7 @@ export class ReadableNamePipe implements PipeTransform {
       }
     }
 
-    return readableName.join("");
+    return underscore ? readableName.join("").toUpperCase() : readableName.join("");
   }
 
 }

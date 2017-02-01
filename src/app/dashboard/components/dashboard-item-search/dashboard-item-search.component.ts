@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {DashboardSearchService} from "../../providers/dashboard-search.service";
 import {Observable, Subject} from "rxjs";
+import {isObject} from "util";
+import {DashboardItemService} from "../../providers/dashboard-item.service";
+import {ActivatedRoute} from "@angular/router";
+import {UtilitiesService} from "../../providers/utilities.service";
 
 @Component({
   selector: 'app-dashboard-item-search',
@@ -13,8 +17,16 @@ export class DashboardItemSearchComponent implements OnInit {
   searchTerm$ = new Subject<string>();
   results: any;
   headers: Array<any>;
-  constructor(private searchService: DashboardSearchService) {
+  messageCount: number;
+  constructor(
+    private searchService: DashboardSearchService,
+    private dashboardItemService: DashboardItemService,
+    private route: ActivatedRoute,
+    private util: UtilitiesService
+  ) {
     this.showBody = false;
+    this.headers = [];
+    this.messageCount = 0;
   }
 
   ngOnInit() {
@@ -32,29 +44,25 @@ export class DashboardItemSearchComponent implements OnInit {
 
   getResultHeaders(results): Array<any> {
     let headers = [];
-    if(results.hasOwnProperty('users')) {
-      headers.push({name: 'users', count: results.userCount, showBlock: true})
-    }
-    if(results.hasOwnProperty('charts')) {
-      headers.push({name: 'charts', count: results.chartCount, showBlock: true})
-    }
-    if(results.hasOwnProperty('maps')) {
-      headers.push({name: 'maps', count: results.mapCount, showBlock: true})
-    }
-    if(results.hasOwnProperty('reportTables')) {
-      headers.push({name: 'reportTables', count: results.reportTableCount, showBlock: true})
-    }
-    if(results.hasOwnProperty('reports')) {
-      headers.push({name: 'reports', count: results.reportCount, showBlock: true})
-    }
-    if(results.hasOwnProperty('resources')) {
-      headers.push({name: 'resources', count: results.resourceCount, showBlock: true})
-    }
-    if(results.hasOwnProperty('eventCharts')) {
-      headers.push({name: 'eventCharts', count: results.eventChartCount, showBlock: true})
-    }
-    if(results.hasOwnProperty('eventReports')) {
-      headers.push({name: 'eventReports', count: results.eventReportCount, showBlock: true})
+    if(this.headers.length > 0) {
+      Object.keys(results).map(key => {
+        if(isObject(results[key])) {
+          let showBlockStatus = true;
+          for(let header of this.headers) {
+            if(header.name == key) {
+              showBlockStatus = header.showBlock
+              break;
+            }
+          }
+          headers.push({name: key, count: results[key.slice(0, key.length-1) + 'Count'], showBlock: showBlockStatus})
+        }
+      });
+    } else {
+      Object.keys(results).map(key => {
+        if(isObject(results[key])) {
+          headers.push({name: key, count: results[key.slice(0, key.length-1) + 'Count'], showBlock: true})
+        }
+      });
     }
     return headers;
   }
@@ -77,6 +85,26 @@ export class DashboardItemSearchComponent implements OnInit {
         header.showBlock = !showStatus;
       }
     }
+  }
+
+  addDashboardItem(type, id) {
+    this.showBody = false;
+    let typeValue = this.isPlural(type) ? this.util.readableName(type, true) : this.util.readableName(type.slice(0,type.length-1),true)
+    this.dashboardItemService.addDashboardItem(this.route.snapshot.params['id'], {type: typeValue, id: id})
+    //@todo need to subscribe to show progress when adding dashboards
+  }
+
+  isPlural(type):boolean {
+    //@todo find the best way to deal with plural form items
+    let plural = false;
+    let pluralTypes = ['users','reports','resources'];
+    for (let itemType of pluralTypes) {
+        if(itemType == type){
+          plural = true;
+          break;
+        }
+    }
+    return plural
   }
 
 }

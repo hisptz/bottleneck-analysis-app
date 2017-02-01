@@ -83,9 +83,10 @@ export class DashboardService {
     return Observable.create(observer => {
       this.http.post(this.url, dashboardData)
           .map(response => {
+            //@todo find best way to get dashboard id
             let dashboardid: string = null;
             response.headers.forEach((headerItem, headerIndex) => {
-              if(headerIndex == 'location') {
+              if(headerIndex == 'Location') {
                 dashboardid = headerItem[0].split("/")[2];
               }
             });

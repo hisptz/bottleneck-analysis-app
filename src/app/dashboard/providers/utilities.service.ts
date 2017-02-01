@@ -31,4 +31,34 @@ export class UtilitiesService {
     return Observable.throw(errMsg);
   }
 
+  readableName(name: string, hasUnderscore: boolean) {
+    let readableName: any = [];
+    let count: number = 0;
+    for (let i = 0; i <= name.length-1; i++) {
+      if(i == 0) {
+        readableName[count] = name[i].toUpperCase();
+        count++;
+      } else {
+        if(name[i] == name[i].toUpperCase()) {
+          if(hasUnderscore) {
+            readableName[count] = '_';
+            count++;
+            readableName[count] = name[i];
+            count++;
+          } else {
+            readableName[count] = ' ';
+            count++;
+            readableName[count] = name[i].toLowerCase();
+            count++;
+          }
+
+        } else{
+          readableName[count] = name[i];
+          count++;
+        }
+      }
+    }
+    return hasUnderscore ? readableName.join("").toUpperCase() : readableName.join("");
+  }
+
 }

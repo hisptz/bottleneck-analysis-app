@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable, BehaviorSubject} from "rxjs"
 import {DashboardItem} from "../interfaces/dashboard-item";
 import {UtilitiesService} from "./utilities.service";
@@ -54,7 +54,6 @@ export class DashboardItemService {
   updateShape(dashboardItemId, dashboardId, shape): void {
     //update dashboard item pool
     this.findByDashboard(dashboardId).subscribe(dashboardItems => {
-
       for(let dashboardItem of dashboardItems.dashboardItems) {
         if(dashboardItem.id == dashboardItemId) dashboardItem.shape = shape;
       }
@@ -196,6 +195,42 @@ export class DashboardItemService {
         }
       });
       return items.slice(0, -1);
+  }
+
+  addDashboardItem(dashboardId, itemData) {
+    let options = new RequestOptions({headers: new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'})});
+    this.http.post(this._url + '/' + dashboardId + '/items/content?type=' + itemData.type + '&id=' + itemData.id, options)
+      .map(response => {
+        //@todo find best way to get dashboarditem id
+        let dashboardItemId: string = null;
+        response.headers.forEach((headerItem, headerIndex) => {
+          if(headerIndex == 'location') {
+            dashboardItemId = headerItem[0].split("/")[2];
+          }
+        });
+        return dashboardItemId;
+      })
+      .subscribe(
+        dashboardItemId => {
+          this.http.get(this.constant.root_url + 'api/dashboardItems/' + dashboardItemId + '?fields=:all,reports[id,displayName],chart[id,displayName],map[id,displayName],reportTable[id,displayName],resources[id,displayName],users[id,displayName]')
+            .map(res => res.json())
+            .subscribe(
+              (dashboardItem) => {
+                //@todo find best way to add shape in an item
+                for(let dashboardItemData of this.dashboardItems) {
+                  if(dashboardItemData.id == dashboardId) {
+                    dashboardItemData.dashboardItems.push(dashboardItem);
+                    break;
+                  }
+                }
+                this.updateShape(dashboardItemId,dashboardId,'NORMAL');
+              }, error => {
+                //@todo handle errors
+              })
+        },
+        error => {
+          console.log('error')
+        })
   }
 
 }

@@ -1,7 +1,10 @@
 <div class="form-group" style="position: relative;">
-  <input type="text" id="search" (keyup)="searchTerm$.next($event.target.value)" class="form-control dashboard-search" placeholder="Add items in your dashboard by searching here">
-  <div class="search-body" [hidden]="!showBody" (blur)="showBody = false">
-    <div class="panel serach-panel" *ngIf="headers && headers.length == 0">
+  <div class="form-group has-feedback dashboard-search-block">
+    <input type="text" id="search" (keyup)="searchTerm$.next($event.target.value)" (mouseenter)="showBody = headers.length > 0 ? true : false" class="form-control dashboard-search" placeholder="Add items in your dashboard by searching here">
+    <span class="form-control-feedback"><i class="fa fa-search"></i></span>
+  </div>
+  <div class="search-body" [hidden]="!showBody" (mouseleave)="showBody = false">
+    <div class="panel search-panel" *ngIf="headers.length == 0">
       <div class="panel-body" style="padding-top: 4px; padding-bottom: 3px; margin-bottom: 0px;">
         <b>No search result found</b>
       </div>
@@ -15,18 +18,18 @@
         </h6>
       </div>
       <div class="panel-body" style="padding-top: 4px; padding-bottom: 3px;" *ngIf="header.showBlock">
-        <div class="row" *ngFor="let item of results[header.name]">
-          <div class="col-md-12">
-            <p>
-              <i class="fa fa-{{getIcon(header.name)}}"></i>
+        <table width="100%" class="search-table">
+          <tr *ngFor="let item of results[header.name]">
+            <td width="4%"><i class="fa fa-{{getIcon(header.name)}}"></i></td>
+            <td width="90%">
               <small>{{item.name}}</small>
-              <button class="btn btn-info btn-xs pull-right">ADD</button>
-            </p>
-          </div>
-        </div>
+            </td>
+            <td width="6%">
+              <button class="btn btn-info btn-xs pull-right" (click)="addDashboardItem(header.name, item.id)">ADD</button>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
-
-
 </div>

@@ -2,19 +2,150 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed1b13f6-8fe1-48fa-954c-1ac586fc72bd" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/area.jpg" afterPath="$PROJECT_DIR$/src/assets/img/area.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/bar-stacked.png" afterPath="$PROJECT_DIR$/src/assets/img/bar-stacked.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/bar.png" afterPath="$PROJECT_DIR$/src/assets/img/bar.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/column-stacked.png" afterPath="$PROJECT_DIR$/src/assets/img/column-stacked.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/column.png" afterPath="$PROJECT_DIR$/src/assets/img/column.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/combined.jpg" afterPath="$PROJECT_DIR$/src/assets/img/combined.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/gauge.jpg" afterPath="$PROJECT_DIR$/src/assets/img/gauge.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/icon.png" afterPath="$PROJECT_DIR$/src/assets/img/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/line.png" afterPath="$PROJECT_DIR$/src/assets/img/line.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/pie.png" afterPath="$PROJECT_DIR$/src/assets/img/pie.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assets/img/radar.png" afterPath="$PROJECT_DIR$/src/assets/img/radar.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/favicon.ico" afterPath="$PROJECT_DIR$/src/favicon.ico" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.editorconfig" afterPath="$PROJECT_DIR$/.editorconfig" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-cli.json" afterPath="$PROJECT_DIR$/angular-cli.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.sh" afterPath="$PROJECT_DIR$/build.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/e2e/app.e2e-spec.ts" afterPath="$PROJECT_DIR$/e2e/app.e2e-spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/e2e/app.po.ts" afterPath="$PROJECT_DIR$/e2e/app.po.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/e2e/tsconfig.json" afterPath="$PROJECT_DIR$/e2e/tsconfig.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/karma.conf.js" afterPath="$PROJECT_DIR$/karma.conf.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/protractor.conf.js" afterPath="$PROJECT_DIR$/protractor.conf.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/app.component.css" afterPath="$PROJECT_DIR$/src/app/app.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/app.component.html" afterPath="$PROJECT_DIR$/src/app/app.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/app.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/app.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/app.component.ts" afterPath="$PROJECT_DIR$/src/app/app.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/app.module.ts" afterPath="$PROJECT_DIR$/src/app/app.module.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-dimensions/dashboard-dimensions.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-dimensions/dashboard-dimensions.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-dimensions/dashboard-dimensions.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-dimensions/dashboard-dimensions.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-dimensions/dashboard-dimensions.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-dimensions/dashboard-dimensions.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-dimensions/dashboard-dimensions.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-dimensions/dashboard-dimensions.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.spec.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-event-report/dashboard-item-event-report.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-event-report/dashboard-item-event-report.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-event-report/dashboard-item-event-report.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-event-report/dashboard-item-event-report.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-event-report/dashboard-item-event-report.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-event-report/dashboard-item-event-report.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-event-report/dashboard-item-event-report.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-event-report/dashboard-item-event-report.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-map/dashboard-item-map.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-map/dashboard-item-map.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-map/dashboard-item-map.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-map/dashboard-item-map.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-map/dashboard-item-map.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-map/dashboard-item-map.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-map/dashboard-item-map.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-map/dashboard-item-map.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-report/dashboard-item-report.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-report/dashboard-item-report.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-report/dashboard-item-report.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-report/dashboard-item-report.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-report/dashboard-item-report.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-report/dashboard-item-report.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-report/dashboard-item-report.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-report/dashboard-item-report.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-resources/dashboard-item-resources.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-resources/dashboard-item-resources.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-resources/dashboard-item-resources.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-resources/dashboard-item-resources.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-resources/dashboard-item-resources.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-resources/dashboard-item-resources.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-resources/dashboard-item-resources.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-resources/dashboard-item-resources.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.spec.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.spec.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-users/dashboard-item-users.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-users/dashboard-item-users.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-users/dashboard-item-users.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-users/dashboard-item-users.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-users/dashboard-item-users.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-users/dashboard-item-users.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-users/dashboard-item-users.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-users/dashboard-item-users.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-pagination/dashboard-menu-pagination.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-pagination/dashboard-menu-pagination.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-pagination/dashboard-menu-pagination.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-pagination/dashboard-menu-pagination.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-pagination/dashboard-menu-pagination.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-pagination/dashboard-menu-pagination.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-pagination/dashboard-menu-pagination.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-pagination/dashboard-menu-pagination.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-orgunit-settings/dashboard-orgunit-settings.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-orgunit-settings/dashboard-orgunit-settings.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-orgunit-settings/dashboard-orgunit-settings.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-orgunit-settings/dashboard-orgunit-settings.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-orgunit-settings/dashboard-orgunit-settings.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-orgunit-settings/dashboard-orgunit-settings.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-orgunit-settings/dashboard-orgunit-settings.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-orgunit-settings/dashboard-orgunit-settings.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-period-settings/dashboard-period-settings.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-period-settings/dashboard-period-settings.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-period-settings/dashboard-period-settings.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-period-settings/dashboard-period-settings.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-period-settings/dashboard-period-settings.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-period-settings/dashboard-period-settings.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-period-settings/dashboard-period-settings.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-period-settings/dashboard-period-settings.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dimension-filter/dimension-filter.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dimension-filter/dimension-filter.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dimension-filter/dimension-filter.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dimension-filter/dimension-filter.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dimension-filter/dimension-filter.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dimension-filter/dimension-filter.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dimension-filter/dimension-filter.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dimension-filter/dimension-filter.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/interfaces/dashboard-item.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/interfaces/dashboard-item.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/interfaces/dashboard.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/interfaces/dashboard.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.spec.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pipes/readable-name.pipe.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/pipes/readable-name.pipe.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pipes/readable-name.pipe.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/pipes/readable-name.pipe.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-item.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-item.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-settings.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-settings.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/dhis-visualizer.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/dhis-visualizer.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/utilities.service.spec.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/utilities.service.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/utilities.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/utilities.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/components/progress/progress.component.css" afterPath="$PROJECT_DIR$/src/app/shared/components/progress/progress.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/components/progress/progress.component.html" afterPath="$PROJECT_DIR$/src/app/shared/components/progress/progress.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/components/progress/progress.component.spec.ts" afterPath="$PROJECT_DIR$/src/app/shared/components/progress/progress.component.spec.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/components/progress/progress.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/components/progress/progress.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/constants.ts" afterPath="$PROJECT_DIR$/src/app/shared/constants.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/environments/environment.prod.ts" afterPath="$PROJECT_DIR$/src/environments/environment.prod.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/environments/environment.ts" afterPath="$PROJECT_DIR$/src/environments/environment.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.html" afterPath="$PROJECT_DIR$/src/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.ts" afterPath="$PROJECT_DIR$/src/main.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/polyfills.ts" afterPath="$PROJECT_DIR$/src/polyfills.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles.css" afterPath="$PROJECT_DIR$/src/styles.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test.ts" afterPath="$PROJECT_DIR$/src/test.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tsconfig.json" afterPath="$PROJECT_DIR$/src/tsconfig.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tslint.json" afterPath="$PROJECT_DIR$/tslint.json" />
     </list>
     <ignored path="idashboard.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,35 +168,55 @@
       <file leaf-file-name="dashboard-item-search.component.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="13" column="106" selection-start-line="13" selection-start-column="106" selection-end-line="13" selection-end-column="106" />
+            <state relative-caret-position="252">
+              <caret line="27" column="107" selection-start-line="27" selection-start-column="107" selection-end-line="27" selection-end-column="107" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="e#748#754#0" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#h6#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#953#959#0" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#h6#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboard-item-search.component.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.css">
+      <file leaf-file-name="dashboard-item.service.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard-item.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+            <state relative-caret-position="-3443">
+              <caret line="53" column="2" selection-start-line="53" selection-start-column="2" selection-end-line="53" selection-end-column="2" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboard-item-search.component.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dashboard.service.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="123">
+              <caret line="84" column="10" selection-start-line="84" selection-start-column="10" selection-end-line="93" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="interpretation.service.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="143">
+              <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dashboard-item-search.component.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="76" column="38" selection-start-line="76" selection-start-column="38" selection-end-line="76" selection-end-column="38" />
+            <state relative-caret-position="247">
+              <caret line="93" column="69" selection-start-line="93" selection-start-column="69" selection-end-line="93" selection-end-column="69" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
               </folding>
@@ -73,23 +224,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboard-search.service.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts">
+      <file leaf-file-name="readable-name.pipe.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/pipes/readable-name.pipe.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="36" column="73" selection-start-line="36" selection-start-column="73" selection-end-line="36" selection-end-column="73" />
-              <folding>
-                <element signature="e#0#43#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="162">
+              <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="styles.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/styles.css">
+      <file leaf-file-name="dashboard-search.service.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+            <state relative-caret-position="18">
+              <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="utilities.service.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/utilities.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="59" column="5" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -110,8 +269,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/build-deploy.sh" />
-        <option value="$PROJECT_DIR$/src/assets/manifest.webapp" />
         <option value="$PROJECT_DIR$/src/app/shared/constants.ts" />
         <option value="$PROJECT_DIR$/src/app/shared/shared-module.module.ts" />
         <option value="$PROJECT_DIR$/src/app/app.component.ts" />
@@ -125,12 +282,10 @@
         <option value="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-analytic-object.service.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/providers/dhis-visualizer.service.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.html" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/providers/utilities.service.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.html" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu/dashboard-menu.component.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.css" />
-        <option value="$PROJECT_DIR$/build.sh" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.css" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.html" />
@@ -139,9 +294,7 @@
         <option value="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html" />
         <option value="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/edit-dashboard/edit-dashboard.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.html" />
         <option value="$PROJECT_DIR$/src/app/dashboard/interfaces/dashboard-item.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.ts" />
@@ -150,17 +303,23 @@
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.css" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-item.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.html" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.css" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/search-result-body/search-result-body.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.css" />
         <option value="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/pipes/readable-name.pipe.ts" />
+        <option value="$PROJECT_DIR$/build.sh" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.html" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.css" />
         <option value="$PROJECT_DIR$/src/styles.css" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/pipes/readable-name.pipe.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/providers/utilities.service.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.html" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-item.service.ts" />
       </list>
     </option>
   </component>
@@ -203,8 +362,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -299,7 +458,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="pipes" />
+              <option name="myItemId" value="providers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -359,36 +518,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idashboard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idashboard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dashboard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dashboard-item-card" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -400,7 +529,7 @@
     <property name="js-jscs-nodeInterpreter" value="$USER_HOME$/.nvm/versions/node/v6.5.0/bin/node" />
     <property name="ignore_missing_gitignore" value="true" />
     <property name="nodejs_interpreter_path" value="$USER_HOME$/.nvm/versions/node/v6.5.0/bin/node" />
-    <property name="SearchEverywhereHistoryKey" value="boo&#9;FILE&#9;file:///home/dhis/config/apps/idashboard/node_modules/bootstrap/dist/css/bootstrap.css&#10;boot&#9;FILE&#9;file:///home/dhis/config/apps/idashboard/node_modules/bootstrap/dist/css/bootstrap.css&#10;chart&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="content&#9;null&#9;null&#10;boot&#9;FILE&#9;file:///home/dhis/config/apps/idashboard/node_modules/bootstrap/dist/css/bootstrap.css&#10;boo&#9;FILE&#9;file:///home/dhis/config/apps/idashboard/node_modules/bootstrap/dist/css/bootstrap.css&#10;chart&#9;null&#9;null" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -524,12 +653,17 @@
       <workItem from="1485551175442" duration="13618000" />
       <workItem from="1485615789018" duration="926000" />
       <workItem from="1485685037861" duration="2954000" />
-      <workItem from="1485753850889" duration="22551000" />
+      <workItem from="1485753850889" duration="22742000" />
+      <workItem from="1485802632629" duration="289000" />
+      <workItem from="1485844125652" duration="599000" />
+      <workItem from="1485884440778" duration="4539000" />
+      <workItem from="1485932038647" duration="17013000" />
+      <workItem from="1485959637063" duration="9990000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="345729000" />
+    <option name="totallyTimeSpent" value="378350000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -616,13 +750,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/utilities.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -644,13 +771,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="15" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build-deploy.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -669,20 +789,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="87" selection-start-line="9" selection-start-column="87" selection-end-line="9" selection-end-column="127" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="40" column="1" selection-start-line="40" selection-start-column="1" selection-end-line="40" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -721,25 +827,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
           <caret line="21" column="56" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="864">
-          <caret line="54" column="85" selection-start-line="54" selection-start-column="85" selection-end-line="54" selection-end-column="85" />
         </state>
       </provider>
     </entry>
@@ -761,7 +852,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
           <caret line="33" column="59" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -769,7 +859,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1044">
           <caret line="61" column="14" selection-start-line="61" selection-start-column="14" selection-end-line="61" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -777,9 +866,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
           <caret line="32" column="59" selection-start-line="32" selection-start-column="59" selection-end-line="32" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#66#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -787,7 +873,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -795,27 +880,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="15" column="4" selection-start-line="15" selection-start-column="4" selection-end-line="22" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="40" column="3" selection-start-line="40" selection-start-column="3" selection-end-line="40" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#43#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1323">
-          <caret line="37" column="2" selection-start-line="37" selection-start-column="2" selection-end-line="37" selection-end-column="2" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -823,7 +887,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -831,7 +894,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -839,7 +901,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
           <caret line="27" column="3" selection-start-line="27" selection-start-column="3" selection-end-line="27" selection-end-column="3" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -847,15 +908,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="37" column="75" selection-start-line="37" selection-start-column="75" selection-end-line="37" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/bootstrap/dist/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="5255" column="0" selection-start-line="5255" selection-start-column="0" selection-end-line="5255" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -863,22 +915,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="9" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard-item.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="199" column="2" selection-start-line="199" selection-start-column="2" selection-end-line="199" selection-end-column="2" />
-          <folding>
-            <element signature="n#!!block;n#findByDashboard#0;n#DashboardItemService#0" expanded="false" />
-            <element signature="n#!!block;n#updateShape#0;n#DashboardItemService#0" expanded="false" />
-            <element signature="n#!!block;n#_getDashBoardItemAnalyticsUrl#0;n#DashboardItemService#0" expanded="false" />
-            <element signature="n#!!block;n#getDashboardItemAnalyticsObject#0;n#DashboardItemService#0" expanded="false" />
-            <element signature="n#!!block;n#getAnalytic#0;n#DashboardItemService#0" expanded="false" />
-            <element signature="n#!!block;n#getDashboardItemMetadataIdentifiers#0;n#DashboardItemService#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -886,7 +922,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
           <caret line="49" column="10" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="161" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -894,7 +929,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="117">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -902,17 +936,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="282">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="36" column="73" selection-start-line="36" selection-start-column="73" selection-end-line="36" selection-end-column="73" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -920,19 +943,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
           <caret line="27" column="6" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#a#0;n#h6#0;n#div#0;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/pipes/readable-name.pipe.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -940,7 +950,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="99">
           <caret line="51" column="757" selection-start-line="51" selection-start-column="757" selection-end-line="51" selection-end-column="757" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -948,56 +957,148 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="51" selection-start-line="1" selection-start-column="51" selection-end-line="1" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bootstrap/dist/css/bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="257" column="2" selection-start-line="257" selection-start-column="2" selection-end-line="260" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="34" column="74" selection-start-line="34" selection-start-column="74" selection-end-line="34" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state relative-caret-position="18">
+          <caret line="1" column="2" selection-start-line="1" selection-start-column="2" selection-end-line="5" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        <state relative-caret-position="256">
+          <caret line="58" column="1" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="864">
+          <caret line="54" column="85" selection-start-line="54" selection-start-column="85" selection-end-line="54" selection-end-column="85" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/pipes/readable-name.pipe.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/utilities.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="59" column="5" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="13" column="106" selection-start-line="13" selection-start-column="106" selection-end-line="13" selection-end-column="106" />
+        <state relative-caret-position="252">
+          <caret line="27" column="107" selection-start-line="27" selection-start-column="107" selection-end-line="27" selection-end-column="107" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="e#748#754#0" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#h6#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#953#959#0" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#h6#0;n#div#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="84" column="10" selection-start-line="84" selection-start-column="10" selection-end-line="93" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="76" column="38" selection-start-line="76" selection-start-column="38" selection-end-line="76" selection-end-column="38" />
+        <state relative-caret-position="247">
+          <caret line="93" column="69" selection-start-line="93" selection-start-column="69" selection-end-line="93" selection-end-column="69" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard-item.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3443">
+          <caret line="53" column="2" selection-start-line="53" selection-start-column="2" selection-end-line="53" selection-end-column="2" />
+          <folding />
         </state>
       </provider>
     </entry>
