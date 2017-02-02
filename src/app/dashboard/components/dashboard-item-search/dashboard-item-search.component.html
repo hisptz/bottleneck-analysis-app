@@ -1,12 +1,22 @@
 <div class="form-group" style="position: relative;">
   <div class="form-group has-feedback dashboard-search-block">
-    <input type="text" id="search" (keyup)="searchTerm$.next($event.target.value)" (mouseenter)="showBody = headers.length > 0 ? true : false" class="form-control dashboard-search" placeholder="Add items in your dashboard by searching here">
+    <input type="text" id="search" (keyup)="searchTerm$.next($event.target.value)" (focus)="showBody = headers.length > 0 ? true : false" class="form-control dashboard-search" placeholder="Add items in your dashboard by searching here">
     <span class="form-control-feedback"><i class="fa fa-search"></i></span>
   </div>
   <div class="search-body" [hidden]="!showBody" (mouseleave)="showBody = false">
     <div class="panel search-panel" *ngIf="headers.length == 0">
       <div class="panel-body" style="padding-top: 4px; padding-bottom: 3px; margin-bottom: 0px;">
         <b>No search result found</b>
+      </div>
+    </div>
+    <div class="panel search-panel" *ngIf="messageCount > 0">
+      <div class="panel-body alert-info" style="padding-top: 3px; padding-bottom: 3px; margin-bottom: 0px;">
+        <table width="100%" class="search-table">
+          <tr>
+            <td width="94%"><b>You have {{messageCount}} message{{messageCount > 1 ? 's' : ' '}}</b></td>
+            <td width="6%"><button class="btn btn-info btn-xs pull-right disabled" (click)="addDashboardItem(header.name, item.id)">ADD</button></td>
+          </tr>
+        </table>
       </div>
     </div>
     <div class="panel search-panel" *ngFor="let header of headers">

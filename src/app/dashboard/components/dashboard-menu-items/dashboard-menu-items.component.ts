@@ -19,6 +19,7 @@ export class DashboardMenuItemsComponent implements OnInit {
   public dashboardsError: boolean;
   public activeEditFormId: string;
   public dashboards: Dashboard[];
+  public itemToDelete: string;
   menuOptions: Array<any>;
   public config: PaginationInstance = {
     id: 'custom',
@@ -34,6 +35,7 @@ export class DashboardMenuItemsComponent implements OnInit {
     this.dashboardsLoading = true;
     this.dashboardsError = false;
     this.activeEditFormId = '';
+    this.itemToDelete = '';
     this.menuOptions = [
       // {
       //   html: () => 'Share',
@@ -49,12 +51,7 @@ export class DashboardMenuItemsComponent implements OnInit {
       {
         html: (): string => 'Delete',
         click: (item, $event): void => {
-          this.dashboardService.delete(item.id).subscribe(response => {
-            //@todo handle notifications
-            this.dashboardService.all().subscribe(dashboards => {
-              this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
-            })
-          });
+          this.itemToDelete= item.id;
         }
       }
     ]
@@ -86,12 +83,25 @@ export class DashboardMenuItemsComponent implements OnInit {
     return this.activeEditFormId == id ? true : false;
   }
 
+  isItemToDelete(id) {
+    return this.itemToDelete == id ? true : false;
+  }
+
   openEditForm(id) {
     this.activeEditFormId = id;
   }
 
   closeEditForm(event) {
     this.activeEditFormId = '';
+  }
+
+  deleteDashboard(id) {
+    this.dashboardService.delete(id).subscribe(response => {
+      //@todo handle notifications
+      this.dashboardService.all().subscribe(dashboards => {
+        this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
+      })
+    });
   }
 
 }

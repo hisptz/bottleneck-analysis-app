@@ -22,12 +22,14 @@ export class DashboardItemCardComponent implements OnInit{
   public isInterpretationShown: boolean;
   public currentVisualization: string;
   public dashboardShapeBuffer: string;
+  public confirmDelete: boolean;
   constructor(
       private dashboardItemService: DashboardItemService,
       private route: ActivatedRoute
   ) {
     this.isFullScreen = false;
     this.isInterpretationShown = false;
+    this.confirmDelete = false;
   }
 
   ngOnInit() {
@@ -48,6 +50,11 @@ export class DashboardItemCardComponent implements OnInit{
       newShape = shapes[0];
     }
     this.dashboardItemService.updateShape(this.itemData.id, this.route.snapshot.params['id'], newShape)
+
+    //@todo find best way to close interpretation on normal screen
+    if(newShape == 'NORMAL') {
+      this.isInterpretationShown = false;
+    }
   }
 
   setChartType(type) {
@@ -86,8 +93,14 @@ export class DashboardItemCardComponent implements OnInit{
       if(this.itemData.shape == 'NORMAL') {
         this.dashboardShapeBuffer = this.itemData.shape;
         this.itemData.shape = 'DOUBLE_WIDTH';
+      } else {
+        this.dashboardShapeBuffer = this.itemData.shape;
       }
     }
+  }
+
+  deleteDashboardItem(id) {
+    this.dashboardItemService.deleteDashboardItem(this.route.snapshot.params['id'], id);
   }
 
 }

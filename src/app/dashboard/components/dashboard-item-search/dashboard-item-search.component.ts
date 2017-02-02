@@ -34,6 +34,16 @@ export class DashboardItemSearchComponent implements OnInit {
     // this.searchService.getMessageCount().subscribe(count => {
     //   console.log(count)
     // });
+    this.searchTerm$.subscribe(terms => {
+      if(terms.match(/^[mM]/)) {
+        this.searchService.getMessageCount()
+          .subscribe(count => {
+            this.messageCount = count;
+          })
+      } else {
+        this.messageCount = 0;
+      }
+    })
     this.searchService.search(this.searchTerm$)
       .subscribe(results => {
         this.results = results;

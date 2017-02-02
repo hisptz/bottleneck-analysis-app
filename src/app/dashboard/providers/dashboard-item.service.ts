@@ -233,4 +233,29 @@ export class DashboardItemService {
         })
   }
 
+  deleteDashboardItem(dashboardId, itemId) {
+    //Delete from the pool first
+    for(let dashboardItemData of this.dashboardItems) {
+      if(dashboardItemData.id == dashboardId) {
+        for(let item of dashboardItemData.dashboardItems) {
+          if(item.id == itemId) {
+            console.log(dashboardItemData.dashboardItems.indexOf(item))
+            dashboardItemData.dashboardItems.splice(dashboardItemData.dashboardItems.indexOf(item));
+            break;
+          }
+        }
+        break;
+      }
+    }
+    this.http.delete(this._url + '/' + dashboardId + '/items/' + itemId)
+      .map((res: Response) => res.json())
+      .subscribe(
+        response => {
+
+        },
+        error => {
+
+        })
+  }
+
 }
