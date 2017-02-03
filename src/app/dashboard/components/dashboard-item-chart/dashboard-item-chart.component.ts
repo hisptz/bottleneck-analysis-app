@@ -40,8 +40,8 @@ export class DashboardItemChartComponent implements OnInit,OnDestroy {
       let chartConfiguration = {
         'type': chartType ? chartType : chartObjectType,
         'title': this.getDisplayName(this.chartData),
-        'xAxisType': 'pe',
-        'yAxisType': 'ou'
+        'xAxisType': analyticObject.dashboardObject.category,
+        'yAxisType': analyticObject.dashboardObject.series
       }
       this.chartObject = this.visualizationService.drawChart(analyticObject.analytic, chartConfiguration);
       this.loadingChart = false;

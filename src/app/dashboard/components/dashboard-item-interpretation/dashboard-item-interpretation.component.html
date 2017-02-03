@@ -1,25 +1,5 @@
-<div class="form-group" *ngIf="!showForm">
-  <button (click)="showForm = true" class="btn btn-info btn-sm" >Share new interpretation</button>
-</div>
-<form class="form" *ngIf="showForm" [formGroup]="createInterpretationForm" (ngSubmit)="saveInterpretation(createInterpretationForm.value)">
-  <div class="form-group">
-    <label for="" class="control-label">Write your interpretation</label>
-    <textarea Autosize formControlName="text" cols="30" rows="2" class="form-control" ></textarea>
-    <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 4px;" [disabled]="createInterpretationForm.invalid">Share</button>
-    <button  type="reset" (click)="showForm = false" class="btn btn-warning btn-sm" style="margin-top: 4px;">Cancel</button>
-  </div>
-</form>
-<!--<tabset>-->
-  <!--<tab *ngFor="let interpretation of interpretations">-->
-    <!--<template tabHeading>{{interpretation.user.name}}</template>-->
-    <!--<div class="row">-->
-      <!--<div class="col-md-12">-->
-        <!--<p>Tab 1 content</p>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</tab>-->
-<!--</tabset>-->
-<div class="panel panel-default interpretatiom-panel" *ngFor="let interpretation of interpretations">
+<h4 style="border-bottom: solid 1px #eee; margin-bottom: 0px; margin-top: 0px;"><b>Interpretations</b></h4>
+<div class="panel panel-default interpretation-panel" *ngFor="let interpretation of interpretations">
   <div class="panel-body" style="padding: 8px 8px 3px 8px;">
     <div class="row">
       <div class="col-md-9 col-sm-9 col-xs-8">
@@ -89,5 +69,16 @@
     </div>
   </div>
 </div>
+<div class="form-group" *ngIf="!showForm" style="margin-top: 5px;">
+  <button (click)="showForm = true" class="btn btn-info btn-sm" >Share new interpretation</button>
+</div>
+<form class="form" *ngIf="showForm" [formGroup]="createInterpretationForm" (ngSubmit)="saveInterpretation(createInterpretationForm.value)">
+  <div class="form-group">
+    <label for="" class="control-label">Write your interpretation</label>
+    <textarea Autosize formControlName="text" cols="30" rows="2" class="form-control" ></textarea>
+    <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 4px;" [disabled]="createInterpretationForm.invalid">Share</button>
+    <button  type="reset" (click)="showForm = false" class="btn btn-warning btn-sm" style="margin-top: 4px;">Cancel</button>
+  </div>
+</form>
 
 

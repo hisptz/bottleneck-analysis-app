@@ -1,8 +1,11 @@
-.interpretatiom-panel {
+.interpretation-panel {
   margin-bottom: 0px;
   border-radius: 0px;
   border-style: none;
   border-bottom: solid 1px #ddd;
+}
+.interpretation-panel:hover {
+  background-color: #f5f5f5;
 }
 .icon {
   float: left;
