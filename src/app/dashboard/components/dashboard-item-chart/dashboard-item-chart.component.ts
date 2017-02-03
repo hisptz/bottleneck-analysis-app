@@ -36,7 +36,10 @@ export class DashboardItemChartComponent implements OnInit,OnDestroy {
   drawChart(chartType?:string) {
     this.subscription = this.dashboardItemService.getDashboardItemAnalyticsObject(this.chartData).subscribe(analyticObject => {
       //@todo remove this hardcoding after finding the best way to include gauge chart
-      let chartObjectType = analyticObject.dashboardObject.type.toLowerCase() != 'gauge' ? analyticObject.dashboardObject.type.toLowerCase(): 'bar';
+      let chartObjectType = 'bar';
+      if(analyticObject.dashboardObject.hasOwnProperty('type')) {
+        chartObjectType = analyticObject.dashboardObject.type.toLowerCase() != 'gauge' ? analyticObject.dashboardObject.type.toLowerCase(): 'bar';
+      }
       let chartConfiguration = {
         'type': chartType ? chartType : chartObjectType,
         'title': this.getDisplayName(this.chartData),
@@ -65,6 +68,7 @@ export class DashboardItemChartComponent implements OnInit,OnDestroy {
     } else {
       name = chartData.displayName;
     }
+    return name;
   }
 
 }
