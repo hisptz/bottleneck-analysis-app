@@ -32,6 +32,7 @@ export class DashboardService {
           response => {
             this.dashboards = response.dashboards;
             observer.next(this.dashboards)
+            observer.complete()
           },
           error => {
             observer.next(error)
@@ -59,6 +60,7 @@ export class DashboardService {
             dashboard => {
               this.dashboards.push(dashboard);
               observer.next(dashboard);
+              observer.complete()
             },
             error => {
               observer.error(error)
@@ -81,27 +83,22 @@ export class DashboardService {
 
   create(dashboardData: Dashboard): Observable<string> {
     return Observable.create(observer => {
-      this.http.post(this.url, dashboardData)
-          .map(response => {
-            //@todo find best way to get dashboard id
-            let dashboardid: string = null;
-            response.headers.forEach((headerItem, headerIndex) => {
-              if(headerIndex == 'Location') {
-                dashboardid = headerItem[0].split("/")[2];
-              }
-            });
-            return {id: dashboardid, name:dashboardData.name};
-          })
-        .catch(this.utilService.handleError)
-        .subscribe(
-          dashboard => {
-          this.dashboards.push(dashboard);
-          observer.next(dashboard.id);
-          observer.complete();
-          },
-          error => {
-            observer.error(error);
-          });
+      this.utilService.getUniqueId()
+        .subscribe(uniqueId => {
+          dashboardData.id = uniqueId;
+          this.http.post(this.url, dashboardData)
+            .map(res => res.json())
+            .catch(this.utilService.handleError)
+            .subscribe(
+              response => {
+                this.dashboards.push(dashboardData);
+                observer.next(uniqueId);
+                observer.complete();
+              },
+              error => {
+                observer.error(error);
+              });
+        })
     })
   }
 
@@ -122,7 +119,7 @@ export class DashboardService {
 
     for(let dashboard of this.dashboards) {
       if(dashboard.id == id) {
-        this.dashboards.splice(this.dashboards.indexOf(dashboard));
+        this.dashboards.splice(this.dashboards.indexOf(dashboard),1);
         break;
       }
     }

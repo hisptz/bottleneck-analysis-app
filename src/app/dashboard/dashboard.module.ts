@@ -37,6 +37,10 @@ import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboa
 import {DashboardSearchService} from "./providers/dashboard-search.service";
 import { SearchResultBodyComponent } from './components/search-result-body/search-result-body.component';
 import { ReadableNamePipe } from './pipes/readable-name.pipe';
+import { AutosizeDirective } from './directives/autosize.directive';
+import {InterpretationService} from "./providers/interpretation.service";
+import { TruncatePipe } from './pipes/truncate.pipe';
+import {MomentModule} from "angular2-moment";
 
 @NgModule({
   imports: [
@@ -47,9 +51,10 @@ import { ReadableNamePipe } from './pipes/readable-name.pipe';
       DashboardRouteModule,
       ModalModule.forRoot(),
       TabsModule.forRoot(),
-      ChartModule
+      ChartModule,
+      MomentModule
   ],
-  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent, ContextMenuComponent, EditDashboardComponent, SearchResultBodyComponent, ReadableNamePipe],
+  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent, ContextMenuComponent, EditDashboardComponent, SearchResultBodyComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe],
   providers: [
       DashboardSettingsService,
       DashboardService,
@@ -57,7 +62,8 @@ import { ReadableNamePipe } from './pipes/readable-name.pipe';
       VisualizerService,
       UtilitiesService,
       ContextMenuService,
-      DashboardSearchService
+      DashboardSearchService,
+      InterpretationService
   ]
 })
 export class DashboardModule { }

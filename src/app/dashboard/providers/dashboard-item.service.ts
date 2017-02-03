@@ -218,8 +218,19 @@ export class DashboardItemService {
               (dashboardItem) => {
                 //@todo find best way to add shape in an item
                 for(let dashboardItemData of this.dashboardItems) {
+                  let itemExist: boolean = false;
                   if(dashboardItemData.id == dashboardId) {
-                    dashboardItemData.dashboardItems.push(dashboardItem);
+                    for (let item of dashboardItemData.dashboardItems) {
+                      if(item.id == dashboardItemId) {
+                        item = dashboardItem;
+                        itemExist = true;
+                        break;
+                      }
+                    }
+                    if(!itemExist) {
+                      dashboardItemData.dashboardItems.unshift(dashboardItem);
+                    }
+                    console.log(dashboardItemData.dashboardItems)
                     break;
                   }
                 }
@@ -239,8 +250,7 @@ export class DashboardItemService {
       if(dashboardItemData.id == dashboardId) {
         for(let item of dashboardItemData.dashboardItems) {
           if(item.id == itemId) {
-            console.log(dashboardItemData.dashboardItems.indexOf(item))
-            dashboardItemData.dashboardItems.splice(dashboardItemData.dashboardItems.indexOf(item));
+            dashboardItemData.dashboardItems.splice(dashboardItemData.dashboardItems.indexOf(item),1);
             break;
           }
         }

@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
-import {Response} from "@angular/http";
+import {Response, Http} from "@angular/http";
 import {Observable} from "rxjs";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import {Constants} from "../../shared/constants";
 
 @Injectable()
 export class UtilitiesService {
 
-  constructor() { }
+  constructor(
+    private constants: Constants,
+    private http: Http
+  ) { }
 
   formatEnumString(enumString){
     enumString = enumString.replace(/_/g,' ');
@@ -59,6 +63,43 @@ export class UtilitiesService {
       }
     }
     return hasUnderscore ? readableName.join("").toUpperCase() : readableName.join("");
+  }
+
+  camelCaseName(name) {
+    let camelCaseName: any = [];
+    let count: number = 0;
+    for (let i = 0; i <= name.length-1; i++) {
+      if(i == 0) {
+        camelCaseName[count] = name[i].toLowerCase();
+        count++;
+      } else {
+        if(name[i] == '_' || name[i] == '') {
+          camelCaseName[count] = name[i+1].toUpperCase();
+          count++;
+          i++;
+
+        } else{
+          camelCaseName[count] = name[i].toLowerCase();
+          count++;
+        }
+      }
+    }
+    return camelCaseName.join("");
+  }
+
+  getUniqueId(): Observable<string> {
+    return Observable.create(observer => {
+      this.http.get(this.constants.root_url + 'api/system/id.json?n=1')
+        .map(res => res.json())
+        .catch(this.handleError)
+        .subscribe(
+          response => {
+          observer.next(response.codes[0]);
+          observer.complete();
+          }, error => {
+            observer.error(error);
+          })
+    })
   }
 
 }

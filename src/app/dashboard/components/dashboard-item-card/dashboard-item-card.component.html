@@ -2,7 +2,7 @@
     <div class="panel panel-default dashboard-block">
         <div class="panel-heading" style=" padding-top: 0px; padding-bottom: 0px;">
             <div class="row">
-                <div class="col-md-6 col-sm-8 col-xs-7">
+                <div class="col-md-7 col-sm-8 col-xs-7">
                     <ul class="nav nav-pills navbar-left dashboard-item-header" *ngIf="canShowIcons(itemData.type)">
                         <!--<li><a href=""><i class="fa fa-table"></i></a></li>-->
                         <li><a href=""><i class="fa fa-filter"></i></a></li>
@@ -19,7 +19,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-6 col-sm-5 col-xs-5">
+                <div class="col-md-5 col-sm-5 col-xs-5">
                     <ul class="nav nav-pills navbar-right dashboard-item-header">
                         <!--<li><a href=""><i class="fa fa-times"></i></a></li>-->
                         <li *ngIf="!isFullScreen"><a (click)="resizeDashboard(itemData.shape)"><i class="fa fa-arrows-h"></i></a></li>
@@ -95,7 +95,8 @@
               <app-dashboard-item-dictionary *ngIf="isCurrentVisualization('DICTIONARY')" [itemData]="itemData"></app-dashboard-item-dictionary>
             </div>
             <div class="col-md-5" *ngIf="isInterpretationShown">
-              <app-dashboard-item-interpretation></app-dashboard-item-interpretation>
+              <app-dashboard-item-interpretation [itemData]="itemData"></app-dashboard-item-interpretation>
+              <!--<app-dashboard-item-interpretation></app-dashboard-item-interpretation>-->
             </div>
           </div>
         </div>

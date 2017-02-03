@@ -1,4 +1,4 @@
 export interface DashboardItem {
-    id
+    id: string;
     dashboardItems: Array<any>;
 }
