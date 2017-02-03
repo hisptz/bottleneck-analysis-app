@@ -19,22 +19,34 @@
     <!--</div>-->
   <!--</tab>-->
 <!--</tabset>-->
-<div class="panel panel-default" *ngFor="let interpretation of interpretations">
+<div class="panel panel-default interpretatiom-panel" *ngFor="let interpretation of interpretations">
   <div class="panel-body" style="padding: 8px 8px 3px 8px;">
     <div class="row">
       <div class="col-md-9 col-sm-9 col-xs-8">
         <div class="icon">RM</div>
         <div class="name">
-          <small><b>{{interpretation.user.name}}</b></small>
+          <small style="text-transform: capitalize;"><b>{{interpretation.user.name}}</b></small>
           <span style="font-size: 10px;" class="text-muted">{{interpretation.created | amCalendar}}</span><br>
-          <small *ngIf="currentShown != interpretation.id">{{interpretation.text | truncate:30}}</small>
+          <small>{{interpretation.text | truncate:30}}</small>
         </div>
       </div>
       <div class="col-md-3 coll-sm-3 col-xs-4">
         <div class="pull-right">
           <ul class="list-inline">
-            <li><small style="font-size: 10px;"><i class="fa fa-comment"></i>&nbsp;{{interpretation.comments.length}}</small></li>
-            <li><small style="font-size: 10px;"><i class="fa fa-thumbs-up"></i>&nbsp;{{interpretation.likes}}</small></li>
+            <li>
+              <a (click)="currentShown = interpretation.id">
+                <span style="font-size: 10px;">
+                  <i class="fa fa-comment"></i>&nbsp;{{interpretation.comments.length}}
+                </span>
+              </a>
+            </li>
+            <li>
+              <a aria-disabled="true">
+                <span style="font-size: 10px;">
+                  <i class="fa fa-thumbs-up"></i>&nbsp;{{interpretation.likes}}
+                </span>
+              </a>
+            </li>
           </ul>
           <a (click)="currentShown = currentShown == interpretation.id ? '' : interpretation.id" style="cursor: pointer"  class="pull-right">
             <i class="fa fa-caret-{{currentShown == interpretation.id  ? 'up' : 'down'}}"></i>
@@ -44,17 +56,10 @@
     </div>
   </div>
   <div class="panel-footer" *ngIf="currentShown == interpretation.id" style="padding: 8px 8px 8px 8px; background-color: #fff;">
-    <div class="row">
-      <div class="col-md-12">
-        <small>{{interpretation.text}}</small>
-        <ul class="list-inline" style="border-bottom: solid 1px #ddd; padding-bottom: 8px;">
-          <li><a href=""><small><i class="fa fa-thumbs-up"></i> Like</small></a></li>
-          <li><a href=""><small><i class="fa fa-comment"></i> Comment</small></a></li>
-        </ul>
-      </div>
-    </div>
+    <small>{{interpretation.text}}</small>
     <div class="row" *ngIf="interpretation.comments.length > 0">
       <div class="col-md-12">
+        <h6 style="border-bottom: solid 1px #eee;"><b>Comments</b></h6>
         <ul class="list-unstyled">
           <li style="margin-bottom: 10px;" *ngFor="let comment of interpretation.comments">
             <div class="row">

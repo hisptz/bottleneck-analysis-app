@@ -1,4 +1,9 @@
-
+.interpretatiom-panel {
+  margin-bottom: 0px;
+  border-radius: 0px;
+  border-style: none;
+  border-bottom: solid 1px #ddd;
+}
 .icon {
   float: left;
   height: 40px;

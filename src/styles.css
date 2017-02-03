@@ -1,6 +1,10 @@
 body, input {
   color: #23527C;
 }
+
+a {
+  cursor: pointer;
+}
 ::-webkit-scrollbar {
   width: 7px;
 }
