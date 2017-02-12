@@ -1,6 +1,10 @@
 <h4 style="border-bottom: solid 1px #eee; margin-bottom: 0px; margin-top: 0px;"><b>Interpretations</b></h4>
+<div *ngIf="loading">
+  <img src="assets/img/ball-3.svg" alt="" style="height: 30px; width: 30px;">
+  <small>Loading interpretations...</small>
+</div>
 <div class="panel panel-default interpretation-panel" *ngFor="let interpretation of interpretations">
-  <div class="panel-body" style="padding: 8px 8px 3px 8px;">
+  <div class="panel-body" style="padding: 8px 8px 3px 8px; cursor: pointer;" (click)="currentShown = interpretation.id">
     <div class="row">
       <div class="col-md-9 col-sm-9 col-xs-8">
         <div class="icon">RM</div>

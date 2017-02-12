@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { DashboardMenuComponent } from './dashboard-menu.component';
+import { ErrorNotifierComponent } from './error-notifier.component';
 
-describe('DashboardMenuComponent', () => {
-  let component: DashboardMenuComponent;
-  let fixture: ComponentFixture<DashboardMenuComponent>;
+describe('ErrorNotifierComponent', () => {
+  let component: ErrorNotifierComponent;
+  let fixture: ComponentFixture<ErrorNotifierComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardMenuComponent ]
+      declarations: [ ErrorNotifierComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardMenuComponent);
+    fixture = TestBed.createComponent(ErrorNotifierComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

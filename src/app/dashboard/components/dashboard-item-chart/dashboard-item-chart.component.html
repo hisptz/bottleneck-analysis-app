@@ -1,12 +1,51 @@
-<p *ngIf="loadingChart && !chartHasError">Loading chart....</p>
-<div class="chart-block">
-  <chart *ngIf="!loadingChart && !chartHasError" [options]="chartObject"></chart>
-  <!--<div class="chart-body" *ngIf="!loadingChart && !chartHasError" [ng2-highcharts]="chartObject"></div>-->
+<div class="row">
+  <div class="col-md-12 chart-block">
+    <app-loader *ngIf="loadingChart" [loadingMessage]="'Loading chart...'">Loading chart....</app-loader>
+    <div id="{{chartData.id}}" class="chart-body" *ngIf="!loadingChart && !chartHasError" [ng2-highcharts]="chartObject"></div>
+    <app-error-notifier *ngIf="chartHasError" [errorMessage]="errorMessage"></app-error-notifier>
+    <div class="chart-options">
+      <ul class="nav nav-stacked">
+        <li>
+          <a (click)="setChartType('bar')" tooltip="bar chart" placement="left" [ngClass]="currentChartType == 'bar' ? 'active-type' : ''">
+            <img src="assets/img/bar.png" class="chart-option-icon" alt="">
+          </a>
+        </li>
+        <li>
+          <a (click)="setChartType('line')" tooltip="line chart" placement="left" [ngClass]="currentChartType == 'line' ? 'active-type' : ''">
+            <img src="assets/img/line.png" class="chart-option-icon" alt="">
+          </a>
+        </li>
+        <li>
+          <a (click)="setChartType('combined')" tooltip="combined chart" placement="left" [ngClass]="currentChartType == 'combined' ? 'active-type' : ''">
+            <img src="assets/img/combined.png" class="chart-option-icon" alt="">
+          </a>
+        </li>
+        <li>
+          <a (click)="setChartType('column')" tooltip="column chart" placement="left" [ngClass]="currentChartType == 'column' ? 'active-type' : ''">
+            <img src="assets/img/column.png" class="chart-option-icon" alt="">
+          </a>
+        </li>
+        <li>
+          <a (click)="setChartType('area')" tooltip="area chart" placement="left" [ngClass]="currentChartType == 'area' ? 'active-type' : ''">
+            <img src="assets/img/area.png" class="chart-option-icon" alt="">
+          </a>
+        </li>
+        <li>
+          <a (click)="setChartType('pie')" tooltip="pie chart" placement="left" [ngClass]="currentChartType == 'pie' ? 'active-type' : ''">
+            <img src="assets/img/pie.png" class="chart-option-icon" alt="">
+          </a>
+        </li>
+        <li>
+          <a (click)="setChartType('stacked_column')" tooltip="stacked column chart" placement="left" [ngClass]="currentChartType == 'stacked_column' ? 'active-type' : ''">
+            <img src="assets/img/column-stacked.png" class="chart-option-icon img-responsive" alt="">
+          </a>
+        </li>
+        <li>
+          <a (click)="setChartType('stacked_bar')" tooltip="stacked bar chart" placement="left" [ngClass]="currentChartType == 'stacked_bar' ? 'active-type' : ''">
+            <img src="assets/img/bar-stacked.png" class="chart-option-icon" alt="">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
-<div class="alert alert-danger" *ngIf="chartHasError">
-  <i class="fa fa-exclamation-triangle"></i>
-  <small>Could not load Chart</small>
-</div>
-
-
-

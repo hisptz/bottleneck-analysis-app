@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, Input, ViewChild} from "@angular/core";
+import {Component, OnInit, AfterViewInit, Input, ViewChild, Output, EventEmitter} from "@angular/core";
 import {DashboardItemService} from "../../providers/dashboard-item.service";
 import {ActivatedRoute} from "@angular/router";
 import {DashboardItemChartComponent} from "../dashboard-item-chart/dashboard-item-chart.component";
@@ -16,8 +16,7 @@ export const DASHBOARD_SHAPES = {
 export class DashboardItemCardComponent implements OnInit{
 
   @Input() itemData: any;
-  @ViewChild(DashboardItemChartComponent) chartComponent: DashboardItemChartComponent;
-  public currentChartType: string;
+  @Output() onDelete: EventEmitter<boolean> = new EventEmitter<boolean>();
   public isFullScreen: boolean;
   public isInterpretationShown: boolean;
   public currentVisualization: string;
@@ -49,17 +48,12 @@ export class DashboardItemCardComponent implements OnInit{
     } else {
       newShape = shapes[0];
     }
-    this.dashboardItemService.updateShape(this.itemData.id, this.route.snapshot.params['id'], newShape)
+    this.dashboardItemService.updateShape(this.itemData.id, newShape)
 
     //@todo find best way to close interpretation on normal screen
     if(newShape == 'NORMAL') {
       this.isInterpretationShown = false;
     }
-  }
-
-  setChartType(type) {
-    this.currentChartType = type;
-    this.chartComponent.updateChartType(this.currentChartType)
   }
 
   toggleFullScreen() {
@@ -100,7 +94,14 @@ export class DashboardItemCardComponent implements OnInit{
   }
 
   deleteDashboardItem(id) {
-    this.dashboardItemService.deleteDashboardItem(this.route.snapshot.params['id'], id);
+    this.dashboardItemService.deleteDashboardItem(this.route.snapshot.params['id'], id)
+      .subscribe(
+        response => {
+          this.onDelete.emit(id);
+        },
+        error => {
+
+        })
   }
 
 }

@@ -1,0 +1,94 @@
+.dashboard-menu {
+  height: 40px;
+  min-height: 40px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.dashboard-collapse-btn {
+  margin-top: 4px;
+  margin-right: 20px;
+  height: 30px;
+  padding-top: 6px;
+  border-style: none;
+}
+
+/*.dashboard-collapse-body {*/
+  /*position: relative;*/
+  /*z-index: 2000;*/
+/*}*/
+
+.dashboard-nav > li > a,
+.dashboard-right > li > a{
+  border-right: solid 1px #ECECEC;
+  color: #286090;
+  height: 40px;
+  padding-top: 10px;
+}
+
+.dashboard-settings {
+  border: solid 1px #eee;
+  position: absolute;
+  padding: 3px;
+  left: 3px;
+  top: 115px;
+  background-color: #F8F8F8;
+  z-index: 2000;
+  border-radius: 3px;
+}
+
+.settings-nav > li > a {
+  cursor: pointer;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.dashboard-search-button {
+  border-left: solid 1px #ECECEC;
+}
+
+.dashboard-add-input,
+.dashboard-edit-input,
+.dashboard-search-input
+{
+  height: 30px !important;
+  padding-left: 10px;
+  border-color: transparent;
+  font-size: 16px;
+}
+.dashboard-search-input {
+  border-left: solid 1px #ECECEC;
+}
+
+.dashboard-add-input:focus,
+.dashboard-search-input:focus,
+.dashboard-edit-input:focus
+{
+  outline: none;
+}
+
+.dashboard-list {
+  position: relative;
+  height: 40px;
+}
+
+.dashboard-btn {
+  display: none;
+  position: absolute;
+  background-color: #ECECEC;
+  width: 20px;
+  height: 100%;
+  padding-top: 6px;
+  padding-left: 6px;
+  right: 0;
+  top: 0;
+}
+
+.dashboard-btn li > a {
+  color: #286090;
+  font-size: 10px;
+}
+
+.dashboard-list:hover .dashboard-btn{
+  display: block;
+}

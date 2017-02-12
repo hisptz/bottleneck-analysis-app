@@ -5,8 +5,8 @@
     <context-menu></context-menu>
   <div *ngIf="itemToDelete == dashboard.id" class="dashboard-delete-block">
     <small>Delete?</small>
-    <button (click)="deleteDashboard(dashboard.id)" class="btn btn-danger btn-xs"><i class="fa fa-check"></i></button>
     <button (click)="itemToDelete = ''" class="btn btn-success btn-xs"><i class="fa fa-times"></i></button>
+    <button (click)="deleteDashboard(dashboard.id)" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
   </div>
   </li>
   <!--<li *ngIf="dashboards.length > 4"><a style="font-size: 12px;"><small>and {{dashboards.length - 4}} more</small></a></li>-->
@@ -21,7 +21,7 @@
 <app-create-dashboard></app-create-dashboard>
 <ul class="nav navbar-nav navbar-right dashboard-right">
   <li>
-    <pagination-template #nm="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+    <pagination-template *ngIf="dashboards?.length > config.itemsPerPage" #nm="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
       <ul class="custom-pagination pagination dashboard-pagination">
         <li class="pagination-previous" [class.disabled]="nm.isFirstPage()">
           <a (click)="nm.previous()"> <i class="fa fa-chevron-left"></i> </a>

@@ -27,14 +27,21 @@ export class DashboardItemTableComponent implements OnInit {
     this.drawTable();
   }
   drawTable() {
-    this.dashboardItemService.getDashboardItemAnalyticsObject(this.itemData).subscribe(analyticObject => {
-      this.tableData = this.visualizationService.drawTable(analyticObject.analytic, this.tableConfiguration(analyticObject.dashboardObject));
-      this.loadingTable = false;
-    }, error => {
-      //@todo handle error when analytic object fails
-      this.loadingTable = false;
-      this.tableHasError = true;
-    });
+    this.dashboardItemService.findDashboardItemObject(this.itemData.id)
+      .subscribe(dashboardItemObject => {
+        this.dashboardItemService.findDashboardAnalyticObject(this.itemData.id)
+          .subscribe(
+            analyticObject => {
+              this.tableData = this.visualizationService.drawTable(analyticObject, this.tableConfiguration(dashboardItemObject));
+              this.loadingTable = false;
+            },error => {
+              this.loadingTable = false;
+              this.tableHasError = true;
+            })
+
+      }, error => {
+        console.log(error)
+      });
   }
 
   tableConfiguration(dashboardObject) {

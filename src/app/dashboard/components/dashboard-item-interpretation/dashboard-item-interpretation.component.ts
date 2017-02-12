@@ -18,6 +18,7 @@ export class DashboardItemInterpretationComponent implements OnInit {
   public commentForm: FormGroup;
   public submitted: boolean;
   private itemType: string;
+  public loading: boolean;
   constructor(
     private formGroup: FormBuilder,
     private util: UtilitiesService,
@@ -26,6 +27,7 @@ export class DashboardItemInterpretationComponent implements OnInit {
     this.showForm = false;
     this.currentShown = '';
     this.submitted = false;
+    this.loading = true;
   }
 
   ngOnInit() {
@@ -46,8 +48,9 @@ export class DashboardItemInterpretationComponent implements OnInit {
   get(type) {
     this.interpretationService.getInterpretation(type, this.itemData[type].id)
       .subscribe(response => {
+        this.loading = false;
         this.interpretations = response.interpretations;
-      })
+      }, error => console.log(error))
   }
 
   saveInterpretation(interpretation) {

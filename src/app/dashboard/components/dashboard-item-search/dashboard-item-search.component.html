@@ -14,7 +14,7 @@
         <table width="100%" class="search-table">
           <tr>
             <td width="94%"><b>You have {{messageCount}} message{{messageCount > 1 ? 's' : ' '}}</b></td>
-            <td width="6%"><button class="btn btn-info btn-xs pull-right disabled" (click)="addDashboardItem(header.name, item.id)">ADD</button></td>
+            <td width="6%"><button class="btn btn-default btn-xs pull-right disabled" (click)="addDashboardItem(header.name, item.id)">ADD</button></td>
           </tr>
         </table>
       </div>
@@ -35,7 +35,7 @@
               <small>{{item.name}}</small>
             </td>
             <td width="6%">
-              <button class="btn btn-info btn-xs pull-right" (click)="addDashboardItem(header.name, item.id)">ADD</button>
+              <button class="btn btn-default btn-xs pull-right" (click)="addDashboardItem(header.name, item.id)">ADD</button>
             </td>
           </tr>
         </table>

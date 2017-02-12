@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Dashboard} from "../../interfaces/dashboard";
 import {DashboardService} from "../../providers/dashboard.service";
 import {PaginationInstance} from 'ng2-pagination';
@@ -13,7 +13,6 @@ import {RouterModule, Router} from "@angular/router";
 })
 export class DashboardMenuItemsComponent implements OnInit {
 
-  test: Observable<any>;
   public isItemSearchOpen: boolean;
   public dashboardsLoading: boolean;
   public dashboardsError: boolean;
@@ -59,7 +58,6 @@ export class DashboardMenuItemsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.test = this.dashboardService.all();
     this.dashboardService.all().subscribe(dashboards => {
       this.dashboards = dashboards;
       this.dashboardsLoading = false;

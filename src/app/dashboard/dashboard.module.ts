@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import {DashboardRouteModule} from "./dashboard.routing.module";
-import { DashboardMenuComponent } from './components/dashboard-menu/dashboard-menu.component';
 import {SharedModule} from "../shared/shared-module.module";
 import { DashboardItemCardComponent } from './components/dashboard-item-card/dashboard-item-card.component';
 import { DashboardItemSearchComponent } from './components/dashboard-item-search/dashboard-item-search.component';
@@ -27,11 +26,10 @@ import { DashboardItemEventReportComponent } from './components/dashboard-item-e
 import { DashboardItemReportComponent } from './components/dashboard-item-report/dashboard-item-report.component';
 import { DashboardItemResourcesComponent } from './components/dashboard-item-resources/dashboard-item-resources.component';
 import {UtilitiesService} from "./providers/utilities.service";
-import {ModalModule, TabsModule} from "ng2-bootstrap";
+import {ModalModule, TabsModule, TooltipModule} from "ng2-bootstrap";
 import { DashboardItemTableComponent } from './components/dashboard-item-table/dashboard-item-table.component';
 import { DashboardItemInterpretationComponent } from './components/dashboard-item-interpretation/dashboard-item-interpretation.component';
 import { DashboardItemDictionaryComponent } from './components/dashboard-item-dictionary/dashboard-item-dictionary.component';
-import {ChartModule} from "angular2-highcharts";
 import {ContextMenuService, ContextMenuComponent} from "angular2-contextmenu";
 import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboard.component';
 import {DashboardSearchService} from "./providers/dashboard-search.service";
@@ -41,6 +39,9 @@ import { AutosizeDirective } from './directives/autosize.directive';
 import {InterpretationService} from "./providers/interpretation.service";
 import { TruncatePipe } from './pipes/truncate.pipe';
 import {MomentModule} from "angular2-moment";
+import { LoaderComponent } from './components/loader/loader.component';
+import { ErrorNotifierComponent } from './components/error-notifier/error-notifier.component';
+import {Ng2HighchartsModule} from "ng2-highcharts";
 
 @NgModule({
   imports: [
@@ -51,10 +52,11 @@ import {MomentModule} from "angular2-moment";
       DashboardRouteModule,
       ModalModule.forRoot(),
       TabsModule.forRoot(),
-      ChartModule,
-      MomentModule
+      TooltipModule.forRoot(),
+      MomentModule,
+      Ng2HighchartsModule
   ],
-  declarations: [DashboardComponent, DashboardMenuComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent, ContextMenuComponent, EditDashboardComponent, SearchResultBodyComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe],
+  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent, ContextMenuComponent, EditDashboardComponent, SearchResultBodyComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent],
   providers: [
       DashboardSettingsService,
       DashboardService,

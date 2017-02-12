@@ -1,68 +1,72 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-3"><h4>{{(dashboardName | async)}}</h4></div>
+    <div class="col-md-3">
+      <h4 *ngIf="!loading">{{dashboardName}}</h4>
+      <small *ngIf="loading">
+        <img src="assets/img/balls-3.svg" style="height: 30px; width: 30px;" alt="">
+        Loading dashboard name..
+      </small>
+    </div>
     <div class="col-md-5"><app-dashboard-item-search></app-dashboard-item-search></div>
     <div class="col-md-4">
       <div class="btn-group pull-right">
         <a href="../../../dhis-web-dashboard-integration/showSendFeedback.action" class="btn btn-default" style="background-color: #f5f5f5;  color: #269ABC;"><i class="fa fa-pencil"></i> Write feedback</a>
-        <a href="../../../dhis-web-dashboard-integration/message.action" class="btn btn-default" style="background-color: #f5f5f5; color: #269ABC;"><i class="fa fa-envelope"></i> 120</a>
-        <a href="../../../dhis-web-dashboard-integration/interpretation.action" class="btn btn-default" style="background-color: #f5f5f5; color: #269ABC;"><i class="fa fa-comments-o"></i> 1200</a>
+        <a href="../../../dhis-web-dashboard-integration/message.action" class="btn btn-default" style="background-color: #f5f5f5; color: #269ABC;"><i class="fa fa-envelope"></i> <small *ngIf="loadingNotification">Loading...</small> {{notification?.unreadMessageConversation}}</a>
+        <a href="../../../dhis-web-dashboard-integration/interpretation.action" class="btn btn-default" style="background-color: #f5f5f5; color: #269ABC;"><i class="fa fa-comments-o"></i> <small *ngIf="loadingNotification">Loading...</small> {{notification?.unreadInterpretations}}</a>
       </div>
-      <!--<div class="row">-->
-        <!--<div class="col-md-4 col-sm-4 col-xs-4">-->
-          <!--<a href="" class="btn btn-default btn-md"><small><i class="fa fa-pencil"></i> Write feedback</small></a>-->
-        <!--</div>-->
-        <!--<div class="col-md-4 col-sm-4 col-xs-4">-->
-          <!--<div class="form-group">-->
-            <!--<div class="input-group input-md">-->
-              <!--<div class="input-group-addon">-->
-                <!--<a href=""><small><i class="fa fa-envelope"></i> message</small></a>-->
-              <!--</div>-->
-              <!--<div class="input-group-addon" style="background-color: #fff;">-->
-                <!--4-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-4 col-sm-4 col-xs-4">-->
-          <!--<div class="input-group input-md">-->
-            <!--<div class="input-group-addon">-->
-              <!--<a href=""><small><i class="fa fa-bar-chart"></i> Interpretations</small></a>-->
-            <!--</div>-->
-            <!--<div class="input-group-addon" style="background-color: #fff;">-->
-              <!--4-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<ul class="list-inline pull-right" style="margin-top: 10px">-->
-        <!--<li>-->
-          <!--<a href="/dhis-web-dashboard-integration/showSendFeedback.action">-->
-            <!--<span class="glyphicon glyphicon-pencil"></span>-->
-            <!--<small>Write Feeback</small>-->
-          <!--</a>-->
-        <!--</li>-->
-        <!--<li>-->
-          <!--<a class="text-primary" href="../../../dhis-web-dashboard-integration/interpretation.action" id="interpretationBlock" data-toggle="tooltip" data-placement="top" title="Interpretation">-->
-            <!--<span class="glyphicon glyphicon-stats" aria-hidden="true"></span> <span style="background-color: #337AB7" class="badge bg-primary" id="interpretationId"></span>-->
-            <!--<small>interpretation</small>-->
-          <!--</a>-->
-        <!--</li>-->
-        <!--<li>-->
-          <!--&lt;!&ndash;<a class="text-primary" href="../../../dhis-web-dashboard-integration/message.action" style="margin-right: 12px" id="messageBlock" data-toggle="tooltip" data-placement="top" title="Message">&ndash;&gt;-->
-            <!--&lt;!&ndash;<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>  <span style="background-color: #337AB7" class="badge bg-primary" id="messageId"></span>&ndash;&gt;-->
-            <!--&lt;!&ndash;<small>message</small>&ndash;&gt;-->
-          <!--&lt;!&ndash;</a>&ndash;&gt;-->
-        <!--</li>-->
-      <!--</ul>-->
     </div>
   </div>
 </div>
-<app-dashboard-menu></app-dashboard-menu>
+<nav class="navbar navbar-default dashboard-menu">
+  <div class="container-fluid" style="padding-left: 0px; padding-right: 0px;">
+    <div class="navbar-header">
+      <a class="navbar-toggle collapsed dashboard-collapse-btn" data-toggle="collapse" data-target="#myNavbar" [attr.aria-expanded]="!isCollapsed" (click)="toggleCollapse()" [ngClass]="{'collapsed': isCollapsed}">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse dashboard-collapse-body" id="myNavbar" [ngClass]="{'in': !isCollapsed}">
+      <ul class="nav navbar-nav dashboard-nav">
+        <li>
+          <a type="button" class="navbar-brand" (click)="isSettingsOpen = !isSettingsOpen">
+            <i class="fa fa-cogs"></i>&nbsp;
+            <small><i class="fa {{isSettingsOpen ? 'fa-chevron-left':'fa-chevron-right'}}"></i></small>
+          </a>
+        </li>
+        <li *ngIf="isSettingsOpen"><a (click)="settingService.toggleItem('dimension')"><i class="fa {{settingService.isOpen('dimension')? 'fa-times':'fa-filter'}}"></i></a></li>
+        <li *ngIf="isSettingsOpen"><a (click)="settingService.toggleItem('share')"><i class="fa {{settingService.isOpen('share')? 'fa-times':'fa-share'}}"></i></a></li>
+      </ul>
+      <app-dashboard-menu-items (onDashboardsLoaded)="load()"></app-dashboard-menu-items>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <app-dashboard-item-search *ngIf="settingService.isOpen('search')"></app-dashboard-item-search>
+    <app-dashboard-share *ngIf="settingService.isOpen('share')"></app-dashboard-share>
+    <app-dashboard-dimensions *ngIf="settingService.isOpen('dimension')"></app-dashboard-dimensions>
+  </div>
+</div>
+
+
 <div class="container-fluid" >
-  <div class="row" *ngIf="loading"><div class="col-md-12"><small>Loading dashboard items</small></div></div>
-  <div class="row" *ngIf="!loading && dashboardItems.length > 0">
-    <app-dashboard-item-card *ngFor="let dashboardItem of dashboardItems" [itemData]="dashboardItem"></app-dashboard-item-card>
+  <div class="row" *ngIf="loading">
+    <div class="col-md-10 col-sm-10 col-xs-9">
+      <small>Loading dashboard items....</small>
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-3"><small class="pull-right">{{loadedItems}}/{{totalItems}} ({{calculateProgress(loadedItems,totalItems)}}%)</small></div>
+  </div>
+  <div class="row" *ngIf="loading">
+    <div class="col-md-12">
+      <div class="progress" style="height: 7px;">
+        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+             [attr.aria-valuenow]="calculateProgress()" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width' : calculateProgress() + '%'}">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="itemsLoaded && dashboardItems.length > 0">
+    <app-dashboard-item-card *ngFor="let dashboardItem of dashboardItems" [itemData]="dashboardItem" (onDelete)="reload($event)"></app-dashboard-item-card>
   </div>
   <div class="row" *ngIf="!loading && dashboardItems.length == 0">
     <div class="col-md-12">

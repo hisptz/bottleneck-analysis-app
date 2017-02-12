@@ -23,7 +23,10 @@
         "styles.css"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.js"
+        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/highcharts/highcharts.js",
+        "../node_modules/highcharts/highcharts-more.js",
+        "../node_modules/highcharts/modules/solid-gauge.js"
       ],
       "environments": {
         "source": "environments/environment.ts",

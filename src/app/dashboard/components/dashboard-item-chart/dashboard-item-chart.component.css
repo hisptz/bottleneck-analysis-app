@@ -1,42 +1,33 @@
-/*.chart-block {*/
-  /*overflow: auto;*/
-/*}*/
-
-/*.chart-body {*/
-  /*display: block;*/
-  /*width: 100%;*/
-/*}*/
-
 
 .chart-options {
   position: absolute;
   display: none;
   height: 100%;
+  width: 35px;
   right: 0;
   top:0;
   z-index: 1000;
   padding-top: 5px;
-  padding-right: 5px;
-  background-color: #fff;
+  padding-right: 2px;
+  background-color: transparent;
 }
 
 .chart-options ul > li > a {
   cursor: pointer;
-  /*padding-left: 9px;*/
-  /*padding-top: 7px;*/
-  /*padding: 0;*/
-  /*padding-left: -10px;*/
-  /*font-size: 10px;*/
-  /*height: 30px;*/
-  /*width: 30px;*/
-  /*border: solid 1px #cecece;*/
-  /*border-radius: 15px;*/
-  /*background-color: #cecece;*/
+  padding-left: 5px;
+  padding-top: 5px;
+  font-size: 10px;
+  height: 30px;
+  width: 30px;
+  border: solid 1px #ddd;
+  border-radius: 15px;
+  background-color: #ddd;
   -webkit-transition: all .2s ease-in-out;
   -moz-transition: all .2s ease-in-out;
   -o-transition: all .2s ease-in-out;
   -ms-transition: all .2s ease-in-out;
   transition: all .2s ease-in-out;
+  margin-bottom: 5px;
 }
 
 .chart-options ul > li > a:hover {
@@ -48,23 +39,34 @@
 }
 
 .chart-option-icon {
-  height: 10px;
-  width: 10px;
+  margin: auto;
+  height: 18px;
+  width: 18px;
+}
+.active-type {
+  background-color: #cecece !important;
 }
 
+.dashboard-item-body:hover .chart-options {
+  display: block;
+}
+.chart-body {
+  height: 315px !important;
+  width: 98%;
+}
 .chart-block:hover .chart-options {
   display: block;
 }
 
-chart {
-  display: block;
-  margin: auto;
-  position: relative;
-}
+/*chart {*/
+  /*display: block;*/
+  /*margin: auto;*/
+  /*position: relative;*/
+/*}*/
 
-chart div {
-  //border: solid 1px;
-  position: absolute;
-  width: 100%;
-  overflow: hidden;
-}
+/*chart div {*/
+  /*//border: solid 1px;*/
+  /*position: absolute;*/
+  /*width: 100%;*/
+  /*overflow: hidden;*/
+/*}*/

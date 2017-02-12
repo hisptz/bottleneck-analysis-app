@@ -74,3 +74,7 @@ a {
 /*.panel-footer {*/
   /*border-top-color: #f5f5f5 !important;*/
 /*}*/
+
+.tooltip {
+  z-index:2000;
+}
