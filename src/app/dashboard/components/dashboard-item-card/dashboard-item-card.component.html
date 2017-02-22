@@ -1,6 +1,6 @@
 <div [ngClass]="dashboardShapeClass(itemData.shape)" class="{{isFullScreen ? 'full-screen' : ''}} dashboard-card">
     <div class="panel panel-default dashboard-block">
-        <div class="panel-heading" style=" padding-top: 0px; padding-bottom: 0px; height: 40px;">
+        <div class="panel-heading dashboard-card-heading">
             <div class="row">
                 <div class="col-md-12" style="position: relative;">
                     <ul class="nav nav-pills navbar-left dashboard-item-header" *ngIf="canShowIcons(itemData.type)">
@@ -23,7 +23,7 @@
                     <li><a (click)="isFullScreen = !isFullScreen"><i class="fa fa-expand" tooltip="Full screen"></i></a></li>
                     <li *ngIf="confirmDelete" class="dashboard-delete-block">
                       <small>Delete?</small>
-                      <button (click)="confirmDelete = false" class="btn btn-success btn-xs"><i class="fa fa-times"></i></button>
+                      <button (click)="confirmDelete = false" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>
                       <button (click)="deleteDashboardItem(itemData.id)" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
                     </li>
                     <li><a *ngIf="!confirmDelete" (click)="confirmDelete=true" class="delete-btn" tooltip="Delete dashboard"><i class="fa fa-trash"></i></a></li>
@@ -135,7 +135,7 @@
             </div>
           </div>
         </div>
-        <div class="panel-footer" style=" padding-top: 0px; padding-bottom: 0px;" *ngIf="canShowIcons(itemData.type)">
+        <div class="panel-footer dashboard-card-footer" *ngIf="canShowIcons(itemData.type)">
             <div class="row">
                 <div class="col-md-12">
                     <ul class="nav nav-pills dashboard-footer-nav">

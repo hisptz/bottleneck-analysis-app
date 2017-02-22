@@ -14,10 +14,12 @@
 }
 
 .dashboard-item-header li > a {
-    font-size: 13px;
+    font-size: 12px;
+    height: 29px;
     border-radius: 0px;
     padding-right: 10px;
     padding-left: 10px;
+    padding-top: 6px;
 }
 
 .dashboard-item-body {
@@ -64,15 +66,17 @@
   -o-transition: all .2s ease-in-out;
   -ms-transition: all .2s ease-in-out;
   transition: all .2s ease-in-out;
-  border-radius: 30px;
+  font-size: 13px;
+  border-radius: 23px;
   margin-bottom: 2px;
   margin-top: 2px;
+  margin-right: 3px;
   cursor: pointer;
-  height: 30px;
-  width: 30px;
+  height: 23px;
+  width: 23px;
   background-color: #eee;
-  padding-left: 8px;
-  padding-top: 6px;
+  padding-left: 5px;
+  padding-top: 3px;
 }
 
 .dashboard-footer-nav > li> a:hover {
@@ -85,20 +89,16 @@
 
 .dictionary-btn > i {
   font-size: 20px;
-  margin-left: -1px;
-  margin-top: -1px;
+  margin-left: -2px;
+  margin-top: -2px;
 }
 
-.dashboard-block::-webkit-scrollbar {
-  width: 6px;
-}
-.dashboard-block::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  border-radius: 10px;
-}
-.dashboard-block::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+.dashboard-card-heading,
+.dashboard-card-footer {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  height: 30px;
+  background-color: transparent !important;
 }
 
 .dashboard-delete-btn {
@@ -114,7 +114,7 @@
 }
 
 .dashboard-delete-block {
-  padding-top: 9px;
+  padding-top: 4px;
   padding-right: 2px;
 }
 
@@ -182,6 +182,7 @@
 .dashboard-item-body:hover .chart-options {
   display: block;
 }
+
 .chart-body {
   height: 100% !important;
   width: 98%;
