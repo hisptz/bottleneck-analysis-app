@@ -23,7 +23,7 @@
 }
 
 .dashboard-item-body {
-    height: 340px;
+    height: 350px;
     position: relative;
     overflow: auto;
 }
@@ -33,7 +33,7 @@
 }
 
 .no-footer {
-  height: 375px !important;
+  height: 380px !important;
 }
 
 .dashboard-modal {
@@ -183,7 +183,14 @@
   display: block;
 }
 
+.chart-block {
+  /*position: relative;*/
+}
 .chart-body {
+  /*position: absolute;*/
+  /*top: 0;*/
+  /*bottom: 0;*/
+  /*left: 0;*/
   height: 100% !important;
   width: 98%;
 }
