@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DashboardSearchService} from "../../providers/dashboard-search.service";
-import {Observable, Subject} from "rxjs";
+import {Subject} from "rxjs";
 import {isObject} from "util";
 import {DashboardItemService} from "../../providers/dashboard-item.service";
 import {ActivatedRoute} from "@angular/router";
@@ -43,7 +43,7 @@ export class DashboardItemSearchComponent implements OnInit {
       } else {
         this.messageCount = 0;
       }
-    })
+    });
     this.searchService.search(this.searchTerm$)
       .subscribe(results => {
         this.results = results;
@@ -60,7 +60,7 @@ export class DashboardItemSearchComponent implements OnInit {
           let showBlockStatus = true;
           for(let header of this.headers) {
             if(header.name == key) {
-              showBlockStatus = header.showBlock
+              showBlockStatus = header.showBlock;
               break;
             }
           }
@@ -99,8 +99,8 @@ export class DashboardItemSearchComponent implements OnInit {
 
   addDashboardItem(type, id) {
     this.showBody = false;
-    let typeValue = this.isPlural(type) ? this.util.readableName(type, true) : this.util.readableName(type.slice(0,type.length-1),true)
-    this.dashboardItemService.addDashboardItem(this.route.snapshot.params['id'], {type: typeValue, id: id})
+    let typeValue = this.isPlural(type) ? this.util.readableName(type, true) : this.util.readableName(type.slice(0,type.length-1),true);
+    this.dashboardItemService.addDashboardItem(this.route.snapshot.params['id'], {type: typeValue, id: id});
     //@todo need to subscribe to show progress when adding dashboards
   }
 

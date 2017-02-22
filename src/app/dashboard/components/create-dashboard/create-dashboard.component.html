@@ -5,8 +5,14 @@
       <button type="submit" class="btn btn-primary btn-sm" style="border-radius: 0px;" [disabled]="createDashboardForm.invalid">Save</button>
     </form>
   </li>
+  <li *ngIf="submitted" style="padding-left: 2px; padding-top: 10px;">
+    <small>
+      <img [src]="'assets/img/balls-3.svg'" alt="" style="height: 20px; width: 20px;">
+      creating dashboard..
+    </small>
+  </li>
   <li>
-    <a (click)="isAddFormOpen = !isAddFormOpen">
+    <a (click)="isAddFormOpen = !isAddFormOpen" tooltip="Add new dashboard">
       <i class="fa {{isAddFormOpen? 'fa-times':'fa-plus'}}"></i>
     </a>
   </li>

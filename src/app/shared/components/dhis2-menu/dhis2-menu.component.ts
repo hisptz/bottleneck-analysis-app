@@ -96,15 +96,15 @@ export class Dhis2MenuComponent implements OnInit {
       // adding nessesary script tags for the menu
       const k = document.createElement('script');
       k.type = 'text/javascript';
-      k.src = '/dhis-web-commons/javascripts/dhis2/dhis2.translate.js';
+      k.src = this.dhis2_url + '/dhis-web-commons/javascripts/dhis2/dhis2.translate.js';
       this.elementRef.nativeElement.appendChild(k);
       const j = document.createElement('script');
       j.type = 'text/javascript';
-      j.src = '/dhis-web-commons/javascripts/dhis2/dhis2.menu.js';
+      j.src = this.dhis2_url + '/dhis-web-commons/javascripts/dhis2/dhis2.menu.js';
       this.elementRef.nativeElement.appendChild(j);
       const g = document.createElement('script');
       g.type = 'text/javascript';
-      g.src = '/dhis-web-commons/javascripts/dhis2/dhis2.menu.ui.js';
+      g.src = this.dhis2_url + '/dhis-web-commons/javascripts/dhis2/dhis2.menu.ui.js';
       this.elementRef.nativeElement.appendChild(g);
     }, 100);
   }

@@ -1,11 +1,14 @@
 import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 import {DashboardItemService} from "../../providers/dashboard-item.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {DashboardService} from "../../providers/dashboard.service";
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subscription, Subject, BehaviorSubject} from "rxjs";
 import {Dashboard} from "../../interfaces/dashboard";
 import {Http} from "@angular/http";
 import {DashboardSettingsService} from "../../providers/dashboard-settings.service";
+import {DashboardSearchService} from "../../providers/dashboard-search.service";
+import {UtilitiesService} from "../../providers/utilities.service";
+import {isObject} from "rxjs/util/isObject";
 
 @Component({
   selector: 'app-dashboard-items',
@@ -15,6 +18,7 @@ import {DashboardSettingsService} from "../../providers/dashboard-settings.servi
 export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
 
   public loading: boolean;
+  public dashboard: Dashboard;
   public hasError: boolean;
   public itemsLoaded: boolean;
   public dashboardItems: any;
@@ -22,16 +26,23 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
   public notification: any;
   public isSettingsOpen: boolean;
   isCollapsed: boolean = true;
-  dashboardName: string;
   subscription: Subscription[];
   totalItems: number;
   loadedItems: number;
+  showBody; boolean;
+  searchTerm$ = new Subject<string>();
+  results: any;
+  headers: Array<any>;
+  messageCount: number;
   constructor(
       private dashboardItemService: DashboardItemService,
       private dashboardService: DashboardService,
       private route: ActivatedRoute,
       private http: Http,
-      private settingService: DashboardSettingsService
+      private settingService: DashboardSettingsService,
+      private router: Router,
+      private searchService: DashboardSearchService,
+      private util: UtilitiesService
   ) {
     this.loading = true;
     this.hasError = false;
@@ -39,13 +50,30 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
     this.loadingNotification = true;
     this.subscription = [];
     this.isSettingsOpen = false;
+    this.showBody = false;
+    this.headers = [];
+    this.messageCount = 0;
+    this.dashboardItems = [];
   }
 
   ngOnInit() {
-
-  }
-
-  ngAfterViewInit() {
+    //search area
+    this.searchTerm$.subscribe(terms => {
+      if(terms.match(/^[mM]/)) {
+        this.searchService.getMessageCount()
+          .subscribe(count => {
+            this.messageCount = count;
+          })
+      } else {
+        this.messageCount = 0;
+      }
+    })
+    this.searchService.search(this.searchTerm$)
+      .subscribe(results => {
+        this.results = results;
+        this.headers = this.getResultHeaders(results);
+        this.showBody = true;
+      });
     //get notification information
     this.http.get('../../../api/me/dashboard.json')
       .map(res => res.json())
@@ -60,38 +88,97 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
         });
 
     this.route.params.subscribe(params => {
-      this.loadedItems = 0;
-      this.totalItems = 0;
-      this.dashboardItems = [];
-      this.dashboardService.find(this.route.snapshot.params['id'])
-        .subscribe(
-          dashboard => {
-            this.dashboardName = dashboard.name;
-            this.totalItems = dashboard.dashboardItems.length;
-            this.loading = this.totalItems == 0 ? false : true;
-            dashboard.dashboardItems.map(dashboardItem => {
-              this.subscription.push(
-                this.dashboardItemService.find(dashboardItem.id, dashboardItem.type)
-                  .subscribe(
-                    item => {
-                      this.loadedItems += 1;
-                      this.dashboardItems.push(item);
-                      this.loading = this.loadedItems == this.totalItems ? false : true;
-                      this.itemsLoaded = true;
-                    }, error => {
-                      //@todo handle error
-                      console.log(error)
-                    })
-              )
-            })
-          }, error => {
-            //@todo handle error
-          });
+      this.loadDashboardItems(params['id'])
     });
+  }
+
+  loadDashboardItems(dashboardId) {
+    this.loadedItems = 0;
+    this.totalItems = 0;
+    this.dashboardService.find(dashboardId)
+      .subscribe(
+        dashboard => {
+          this.dashboard = dashboard;
+          this.loading = false;
+        }, error => {
+          this.router.navigate(['/']);
+        });
+  }
+
+  ngAfterViewInit() {
+
   }
 
   ngOnDestroy() {
     this.subscription.map(sub => sub.unsubscribe());
+  }
+  getResultHeaders(results): Array<any> {
+    let headers = [];
+    if(this.headers.length > 0) {
+      Object.keys(results).map(key => {
+        if(isObject(results[key])) {
+          let showBlockStatus = true;
+          for(let header of this.headers) {
+            if(header.name == key) {
+              showBlockStatus = header.showBlock
+              break;
+            }
+          }
+          headers.push({name: key, count: results[key.slice(0, key.length-1) + 'Count'], showBlock: showBlockStatus})
+        }
+      });
+    } else {
+      Object.keys(results).map(key => {
+        if(isObject(results[key])) {
+          headers.push({name: key, count: results[key.slice(0, key.length-1) + 'Count'], showBlock: true})
+        }
+      });
+    }
+    return headers;
+  }
+
+  getIcon(name): string {
+    let icon = '';
+    if(name == 'users') {
+      icon = 'user'
+    } else if(name == 'charts' || name == 'eventCharts') {
+      icon = 'line-chart'
+    } else {
+      icon = 'table'
+    }
+    return icon
+  }
+
+  toggleBlock(name, showStatus) {
+    for(let header of this.headers) {
+      if(header.name == name) {
+        header.showBlock = !showStatus;
+      }
+    }
+  }
+
+  addDashboardItem(type, id) {
+    this.showBody = false;
+    let typeValue = this.isPlural(type) ? this.util.readableName(type, true) : this.util.readableName(type.slice(0,type.length-1),true);
+    let dashboardId = this.route.snapshot.params['id']
+    this.dashboardService.addDashboardItem(dashboardId, {type: typeValue, id: id})
+      .subscribe(response => {
+        this.loadDashboardItems(dashboardId)
+      });
+    //@todo need to subscribe to show progress when adding dashboards
+  }
+
+  isPlural(type):boolean {
+    //@todo find the best way to deal with plural form items
+    let plural = false;
+    let pluralTypes = ['users','reports','resources'];
+    for (let itemType of pluralTypes) {
+      if(itemType == type){
+        plural = true;
+        break;
+      }
+    }
+    return plural
   }
 
   calculateProgress() {
@@ -99,7 +186,7 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
   }
 
 
-  reload(dashboardItemId) {
+  deleteDashboardItem(dashboardItemId) {
     this.dashboardService.removeDashboardItem(dashboardItemId, this.route.snapshot.params['id']);
   }
 

@@ -1,12 +1,12 @@
 {
   "/api": {
-    "target": "http://localhost:8080",
+    "target": "http://localhost:8080/dhis",
     "secure": "false",
-    "auth":"rajabumkomwa:DHIS2016"
+    "auth":"admin:district"
   },
   "/": {
-    "target": "http://localhost:8080",
+    "target": "http://localhost:8080/dhis",
     "secure": "false",
-    "auth":"rajabumkomwa:DHIS2016"
+    "auth":"admin:district"
   }
 }

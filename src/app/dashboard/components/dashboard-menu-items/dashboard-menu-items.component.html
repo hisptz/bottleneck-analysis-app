@@ -34,5 +34,5 @@
     </pagination-template>
   </li>
   <li *ngIf="isSearchOpen"><input type="text" size="12" [(ngModel)]="dashboardName" class="dashboard-search-input" autofocus></li>
-  <li class="dashboard-search-button" (click)="isSearchOpen = !isSearchOpen"><a><i class="fa {{isSearchOpen ? 'fa-times':'fa-search'}}"></i></a></li>
+  <li class="dashboard-search-button" (click)="isSearchOpen = !isSearchOpen"><a tooltip="search dashboard"><i class="fa {{isSearchOpen ? 'fa-times':'fa-search'}}"></i></a></li>
 </ul>

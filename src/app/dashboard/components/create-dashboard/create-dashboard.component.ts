@@ -30,10 +30,12 @@ export class CreateDashboardComponent implements OnInit {
   }
 
   save(dashboardData: Dashboard, isValid: boolean) {
-    this.createDashboardForm.reset();
+    this.submitted = true;
     this.isAddFormOpen = false;
+    this.createDashboardForm.reset();
     this.dashboardService.create(dashboardData).subscribe(dashboardId => {
       this.router.navigate(['/dashboards/' + dashboardId +'/dashboard']);
+      this.submitted = false;
     });
   }
 

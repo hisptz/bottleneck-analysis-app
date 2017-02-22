@@ -1,7 +1,10 @@
 import {Component, OnInit, AfterViewInit, Input, ViewChild, Output, EventEmitter} from "@angular/core";
 import {DashboardItemService} from "../../providers/dashboard-item.service";
 import {ActivatedRoute} from "@angular/router";
-import {DashboardItemChartComponent} from "../dashboard-item-chart/dashboard-item-chart.component";
+import {DashboardService} from "../../providers/dashboard.service";
+import {UtilitiesService} from "../../providers/utilities.service";
+import {VisualizerService} from "../../providers/dhis-visualizer.service";
+import {Constants} from "../../../shared/constants";
 
 export const DASHBOARD_SHAPES = {
   'NORMAL': ['col-md-4','col-sm-6','col-xs-12'],
@@ -22,19 +25,115 @@ export class DashboardItemCardComponent implements OnInit{
   public currentVisualization: string;
   public dashboardShapeBuffer: string;
   public confirmDelete: boolean;
+  public chartObject: any;
+  public tableObject: any;
+  public loadingChart: boolean;
+  public loadingTable: boolean;
+  public chartHasError: boolean;
+  public tableHasError: boolean;
+  public currentChartType: string;
+  public metadataIdentifiers: string;
+  public chartTypes: any;
   constructor(
       private dashboardItemService: DashboardItemService,
-      private route: ActivatedRoute
+      private dashboardService: DashboardService,
+      private route: ActivatedRoute,
+      private utilService: UtilitiesService,
+      private visualizationService: VisualizerService,
+      private constants: Constants
   ) {
     this.isFullScreen = false;
     this.isInterpretationShown = false;
     this.confirmDelete = false;
+    this.chartHasError = this.tableHasError = false;
+    this.loadingChart = this.loadingTable = true;
+    this.chartTypes = this.constants.chartTypes
   }
 
   ngOnInit() {
     this.currentVisualization = this.itemData.type;
     this.dashboardShapeBuffer = this.itemData.shape;
+
+    //load dashbordItem object
+    if((this.currentVisualization == 'CHART') ||
+      (this.currentVisualization == 'EVENT_CHART') ||
+      (this.currentVisualization == 'TABLE') ||
+      (this.currentVisualization == 'REPORT_TABLE') ||
+      (this.currentVisualization == 'EVENT_REPORT')) {
+      if(this.itemData.hasOwnProperty('object')) {
+        this.visualize(this.currentVisualization)
+      } else {
+        this.dashboardService.getDashboardItemWithObjectAndAnalytics(this.route.snapshot.params['id'],this.itemData.id)
+          .subscribe(dashboardItem => {
+            this.itemData = dashboardItem;
+            this.visualize(this.currentVisualization)
+          })
+      }
+    }
   }
+
+  visualize(dashboardItemType) {
+    if((dashboardItemType == 'CHART') || (dashboardItemType == 'EVENT_CHART')) {
+      this.drawChart()
+    } else if ((dashboardItemType == 'TABLE') || (dashboardItemType == 'EVENT_REPORT') || (dashboardItemType == 'REPORT_TABLE')) {
+      this.drawTable()
+    } else if(dashboardItemType == 'DICTIONARY') {
+      this.metadataIdentifiers = this.dashboardService.getDashboardItemMetadataIdentifiers(this.itemData.object)
+    }
+  }
+
+  setVisualization(visualizationType) {
+    this.currentVisualization = visualizationType;
+    this.visualize(visualizationType)
+  }
+
+  drawChart(chartType?:string) {
+    let itemChartType = this.itemData.object.hasOwnProperty('type') ? this.itemData.object.type.toLowerCase() : 'bar';
+    let chartConfiguration = {
+      'type': chartType ? chartType : itemChartType,
+      'title': this.itemData.object.name,
+      'xAxisType': this.itemData.object.category ? this.itemData.object.category : 'pe',
+      'yAxisType': this.itemData.object.series ? [this.itemData.object.series] : 'dx'
+    };
+    this.chartObject = this.visualizationService.drawChart(this.itemData.analytic, chartConfiguration);
+    this.loadingChart = false;
+  }
+
+  drawTable() {
+    let dashboardObject = this.itemData.object;
+    let config = {rows: [], columns: []};
+    //get columns
+    if(dashboardObject.hasOwnProperty('columns')) {
+      dashboardObject.columns.forEach(colValue => {
+        config.columns.push(colValue.dimension);
+      });
+    } else {
+      config.columns = ['co'];
+    }
+
+    //get rows
+    if(dashboardObject.hasOwnProperty('rows')) {
+      dashboardObject.rows.forEach(rowValue => {
+        config.rows.push(rowValue.dimension)
+      })
+    } else {
+      config.rows = ['ou', 'dx', 'pe'];
+    }
+    this.tableObject = this.visualizationService.drawTable(this.itemData.analytic, config);
+    this.loadingTable = false;
+  }
+
+  updateChartType(type) {
+    this.loadingChart = true;
+    this.drawChart(type)
+  }
+
+  setChartType(type) {
+    this.currentChartType = type;
+    this.updateChartType(this.currentChartType)
+  }
+
+  //Methods for dashboard item  shape
 
   dashboardShapeClass(shape): Array<any> {
     return DASHBOARD_SHAPES[shape];
@@ -48,16 +147,12 @@ export class DashboardItemCardComponent implements OnInit{
     } else {
       newShape = shapes[0];
     }
-    this.dashboardItemService.updateShape(this.itemData.id, newShape)
+    this.dashboardService.updateShape(this.route.snapshot.params['id'],this.itemData.id, newShape);
 
     //@todo find best way to close interpretation on normal screen
     if(newShape == 'NORMAL') {
       this.isInterpretationShown = false;
     }
-  }
-
-  toggleFullScreen() {
-    this.isFullScreen = !this.isFullScreen;
   }
 
   canShowIcons(visualizationType): boolean {
@@ -69,13 +164,6 @@ export class DashboardItemCardComponent implements OnInit{
       }
     })
     return canShow;
-  }
-
-  isCurrentVisualization(visualizationType): boolean {
-    return this.currentVisualization == visualizationType ? true : false;
-  }
-  changeCurrentVisualization(newVisualizationType: string): void {
-    this.currentVisualization = newVisualizationType;
   }
 
   toggleInterpretation() {
@@ -94,14 +182,9 @@ export class DashboardItemCardComponent implements OnInit{
   }
 
   deleteDashboardItem(id) {
-    this.dashboardItemService.deleteDashboardItem(this.route.snapshot.params['id'], id)
-      .subscribe(
-        response => {
-          this.onDelete.emit(id);
-        },
-        error => {
-
-        })
+    this.dashboardService.deleteDashboardItem(this.route.snapshot.params['id'], id)
+      .subscribe(response => {this.onDelete.emit(id);},
+        error => {console.log('error deleting item')})
   }
 
 }

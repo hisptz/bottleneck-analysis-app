@@ -1,6 +1,6 @@
 {
   "project": {
-    "version": "1.0.0-beta.25.5",
+    "version": "1.0.0-beta.32.3",
     "name": "seed2"
   },
   "apps": [
@@ -28,8 +28,8 @@
         "../node_modules/highcharts/highcharts-more.js",
         "../node_modules/highcharts/modules/solid-gauge.js"
       ],
+      "environmentSource": "environments/environment.ts",
       "environments": {
-        "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }

@@ -8,6 +8,7 @@ import {isNull} from "util";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {isUndefined} from "util";
+import {DashboardService} from "./dashboard.service";
 
 
 @Injectable()
@@ -19,7 +20,8 @@ export class DashboardItemService {
   constructor(
     private http: Http,
     private utilService: UtilitiesService,
-    private constant: Constants
+    private constant: Constants,
+    private dashboardService: DashboardService
   ) {
     this._url = this.constant.root_url + 'api/dashboards';
     this.url = this.constant.root_url + 'api/dashboardItems';
@@ -28,6 +30,7 @@ export class DashboardItemService {
   }
 
   find(id: string, type?: string): any {
+    console.log(type)
     return Observable.create(observer => {
       let dashboardItem = this.dashboardItems.filter((item) => {return item.id == id ? item : null;})[0];
       if(isUndefined(dashboardItem)) {
@@ -37,8 +40,8 @@ export class DashboardItemService {
           .subscribe(
             dashboardItem => {
               //update the pool
-              this.dashboardItems.push(dashboardItem)
-              observer.next(dashboardItem)
+              this.dashboardItems.push(dashboardItem);
+              observer.next(dashboardItem);
               observer.complete()
             }, error => {
               observer.error(error)
@@ -246,51 +249,39 @@ export class DashboardItemService {
       return items.slice(0, -1);
   }
 
-  addDashboardItem(dashboardId, itemData) {
-    let options = new RequestOptions({headers: new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'})});
-    this.http.post(this._url + '/' + dashboardId + '/items/content?type=' + itemData.type + '&id=' + itemData.id, options)
-      .map(response => {
-        //@todo find best way to get dashboarditem id
-        let dashboardItemId: string = null;
-        response.headers.forEach((headerItem, headerIndex) => {
-          if(headerIndex == 'location') {
-            dashboardItemId = headerItem[0].split("/")[2];
-          }
-        });
-        return dashboardItemId;
-      })
-      .subscribe(
-        dashboardItemId => {
-          this.http.get(this.constant.root_url + 'api/dashboardItems/' + dashboardItemId + '?fields=:all,reports[id,displayName],chart[id,displayName],map[id,displayName],reportTable[id,displayName],resources[id,displayName],users[id,displayName]')
-            .map(res => res.json())
-            .subscribe(
-              (dashboardItem) => {
-                //@todo find best way to add shape in an item
-                for(let dashboardItemData of this.dashboardItems) {
-                  let itemExist: boolean = false;
-                  if(dashboardItemData.id == dashboardId) {
-                    for (let item of dashboardItemData.dashboardItems) {
-                      if(item.id == dashboardItemId) {
-                        item = dashboardItem;
-                        itemExist = true;
-                        break;
-                      }
-                    }
-                    if(!itemExist) {
-                      dashboardItemData.dashboardItems.unshift(dashboardItem);
-                    }
-                    console.log(dashboardItemData.dashboardItems)
-                    break;
+  addDashboardItem(dashboardId, itemData): Observable<string> {
+    return Observable.create(observer => {
+      let options = new RequestOptions({headers: new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'})});
+      this.http.post(this._url + '/' + dashboardId + '/items/content?type=' + itemData.type + '&id=' + itemData.id, options)
+        .map(res => res.json())
+        .catch(this.utilService.handleError)
+        .subscribe(response => {
+            //get and update the created item
+            this.dashboardService.load(dashboardId).subscribe(dashboard => {
+              dashboard.dashboardItems.forEach(itemValue => {
+                itemValue.shape = 'NORMAL';
+                let index = -1;
+                this.dashboardItems.forEach((dashboardItem, dashboardIndex) => {
+                  if(itemValue.id == dashboardItem.id) {
+                    index = dashboardIndex;
                   }
+                });
+
+                if(index == -1) {
+                  this.dashboardItems.unshift(itemValue);
+                } else {
+                  this.dashboardItems[index] = itemValue;
                 }
-                this.updateShape(dashboardItemId,'NORMAL');
-              }, error => {
-                //@todo handle errors
+                this.updateShape(itemValue.id, 'NORMAL');
               })
-        },
-        error => {
-          console.log('error')
-        })
+            })
+          observer.next('Item added');
+          observer.complete()
+          },
+          error => {
+            observer.error(error)
+          })
+    });
   }
 
   deleteDashboardItem(dashboardId, itemId) {

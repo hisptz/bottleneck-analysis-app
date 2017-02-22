@@ -19,17 +19,9 @@ import { CreateDashboardComponent } from './components/create-dashboard/create-d
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DashboardItemService} from "./providers/dashboard-item.service";
 import {VisualizerService} from "./providers/dhis-visualizer.service";
-import { DashboardItemChartComponent } from './components/dashboard-item-chart/dashboard-item-chart.component';
-import { DashboardItemMapComponent } from './components/dashboard-item-map/dashboard-item-map.component';
-import { DashboardItemUsersComponent } from './components/dashboard-item-users/dashboard-item-users.component';
-import { DashboardItemEventReportComponent } from './components/dashboard-item-event-report/dashboard-item-event-report.component';
-import { DashboardItemReportComponent } from './components/dashboard-item-report/dashboard-item-report.component';
-import { DashboardItemResourcesComponent } from './components/dashboard-item-resources/dashboard-item-resources.component';
 import {UtilitiesService} from "./providers/utilities.service";
 import {ModalModule, TabsModule, TooltipModule} from "ng2-bootstrap";
-import { DashboardItemTableComponent } from './components/dashboard-item-table/dashboard-item-table.component';
 import { DashboardItemInterpretationComponent } from './components/dashboard-item-interpretation/dashboard-item-interpretation.component';
-import { DashboardItemDictionaryComponent } from './components/dashboard-item-dictionary/dashboard-item-dictionary.component';
 import {ContextMenuService, ContextMenuComponent} from "angular2-contextmenu";
 import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboard.component';
 import {DashboardSearchService} from "./providers/dashboard-search.service";
@@ -42,6 +34,8 @@ import {MomentModule} from "angular2-moment";
 import { LoaderComponent } from './components/loader/loader.component';
 import { ErrorNotifierComponent } from './components/error-notifier/error-notifier.component';
 import {Ng2HighchartsModule} from "ng2-highcharts";
+import {TreeModule} from "angular2-tree-component";
+import {MetadataDictionaryComponent} from "./components/ng2-metadata-dictionary/metadata-dictionary.component";
 
 @NgModule({
   imports: [
@@ -54,9 +48,10 @@ import {Ng2HighchartsModule} from "ng2-highcharts";
       TabsModule.forRoot(),
       TooltipModule.forRoot(),
       MomentModule,
-      Ng2HighchartsModule
+      Ng2HighchartsModule,
+      TreeModule
   ],
-  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemChartComponent, DashboardItemMapComponent, DashboardItemUsersComponent, DashboardItemEventReportComponent, DashboardItemReportComponent, DashboardItemResourcesComponent, DashboardItemTableComponent, DashboardItemInterpretationComponent, DashboardItemDictionaryComponent, ContextMenuComponent, EditDashboardComponent, SearchResultBodyComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent],
+  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemInterpretationComponent, ContextMenuComponent, EditDashboardComponent, SearchResultBodyComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent,MetadataDictionaryComponent],
   providers: [
       DashboardSettingsService,
       DashboardService,

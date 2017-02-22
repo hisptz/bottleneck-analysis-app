@@ -2,17 +2,26 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class VisualizerService {
-
+  enable_labels:boolean = false;
   constructor() { }
 
   drawChart ( analyticObject: any, chartConfiguration:any ) {
     let chartObject = null;
+    if(!chartConfiguration.hasOwnProperty('show_labels')){
+      chartConfiguration.show_labels = false;
+    }
     switch (chartConfiguration.type){
       case 'bar':
         chartObject = this.drawOtherCharts(analyticObject, chartConfiguration);
+        chartObject.plotOptions = {bar:{dataLabels: {
+          enabled: chartConfiguration.show_labels
+        }}};
         break;
       case 'column':
         chartObject = this.drawOtherCharts(analyticObject, chartConfiguration);
+        chartObject.plotOptions = {column:{dataLabels: {
+          enabled: chartConfiguration.show_labels
+        }}};
         break;
       case 'radar':
         chartObject = this.drawSpiderChart(analyticObject, chartConfiguration);
@@ -30,9 +39,21 @@ export class VisualizerService {
         break;
       case 'combined':
         chartObject = this.drawCombinedChart(analyticObject, chartConfiguration);
+        chartObject.plotOptions = {column:{dataLabels: {
+          enabled: chartConfiguration.show_labels
+        }}};
         break;
       case 'line':
         chartObject = this.drawOtherCharts(analyticObject, chartConfiguration);
+        chartObject.plotOptions = {line:{dataLabels: {
+          enabled: chartConfiguration.show_labels
+        }}};
+        break;
+      case 'area':
+        chartObject = this.drawOtherCharts(analyticObject, chartConfiguration);
+        chartObject.plotOptions = {area:{dataLabels: {
+          enabled: chartConfiguration.show_labels
+        }}};
         break;
       case 'pie':
         chartObject = this.drawPieChart(analyticObject, chartConfiguration);
@@ -208,7 +229,7 @@ export class VisualizerService {
    */
   drawPieChart ( analyticsObject, chartConfiguration ){
 
-    let chartObject = this.chart_configuration_objects.pieChart;
+    let chartObject = this.getChartConfigurationObject('pieChart',chartConfiguration.show_labels);
     chartObject.title.text = chartConfiguration.title;
     let metaDataObject = this.prepareCategories(analyticsObject, chartConfiguration.xAxisType, chartConfiguration.yAxisType, chartConfiguration.xAxisItems, chartConfiguration.yAxisItems);
     let serie = [];
@@ -239,15 +260,15 @@ export class VisualizerService {
    * @returns {{title, chart, xAxis, yAxis, labels, series}|any}
    */
   drawCombinedChart (analyticsObject, chartConfiguration ) {
-    let chartObject = this.chart_configuration_objects.defaultChartObject;
+    let chartObject = this.getChartConfigurationObject('defaultChartObject',chartConfiguration.show_labels);
     chartObject.title.text = chartConfiguration.title;
     chartObject.chart.type = "";
     let pieSeries = [];
     let metaDataObject = this.prepareCategories( analyticsObject,
-        chartConfiguration.xAxisType,
-        chartConfiguration.yAxisType,
-        (chartConfiguration.hasOwnProperty('xAxisItems'))?chartConfiguration.xAxisItems:[],
-        (chartConfiguration.hasOwnProperty('yAxisItems'))?chartConfiguration.yAxisItems:[]
+      chartConfiguration.xAxisType,
+      chartConfiguration.yAxisType,
+      (chartConfiguration.hasOwnProperty('xAxisItems'))?chartConfiguration.xAxisItems:[],
+      (chartConfiguration.hasOwnProperty('yAxisItems'))?chartConfiguration.yAxisItems:[]
     );
     // set x-axis categories
     chartObject.xAxis.categories = [];
@@ -279,7 +300,7 @@ export class VisualizerService {
    * @returns {{title, chart, xAxis, yAxis, labels, series}|any}
    */
   drawOtherCharts (analyticsObject, chartConfiguration ){
-    let chartObject = this.chart_configuration_objects.defaultChartObject;
+    let chartObject = this.getChartConfigurationObject('defaultChartObject',chartConfiguration.show_labels);
     if ( chartConfiguration.type == 'bar' ){
       chartObject.chart.type = chartConfiguration.type;
       chartObject.xAxis.labels.rotation = 0;
@@ -288,10 +309,10 @@ export class VisualizerService {
     }
     chartObject.title.text = chartConfiguration.title;
     let metaDataObject = this.prepareCategories(analyticsObject,
-        chartConfiguration.xAxisType,
-        chartConfiguration.yAxisType,
-        (chartConfiguration.hasOwnProperty('xAxisItems'))?chartConfiguration.xAxisItems:[],
-        (chartConfiguration.hasOwnProperty('yAxisItems'))?chartConfiguration.yAxisItems:[]
+      chartConfiguration.xAxisType,
+      chartConfiguration.yAxisType,
+      (chartConfiguration.hasOwnProperty('xAxisItems'))?chartConfiguration.xAxisItems:[],
+      (chartConfiguration.hasOwnProperty('yAxisItems'))?chartConfiguration.yAxisItems:[]
     );
     chartObject.xAxis.categories = [];
     for ( let val of metaDataObject.xAxisItems ) {
@@ -344,16 +365,18 @@ export class VisualizerService {
 
     // decide which chart object to use
     let chartObject = ( chartConfiguration.stackingType == 'bar' ) ?
-        this.chart_configuration_objects.barStackedObject:
-        this.chart_configuration_objects.stackedChartObject;
+      this.getChartConfigurationObject('barStackedObject',chartConfiguration.show_labels):
+      this.getChartConfigurationObject('stackedChartObject',chartConfiguration.show_labels);
 
     chartObject.title.text = chartConfiguration.title;
     let metaDataObject = this.prepareCategories(analyticsObject,
-        chartConfiguration.xAxisType,
-        chartConfiguration.yAxisType,
-        (chartConfiguration.hasOwnProperty('xAxisItems')) ? chartConfiguration.xAxisItems : [],
-        (chartConfiguration.hasOwnProperty('yAxisItems')) ? chartConfiguration.yAxisItems : []
+      chartConfiguration.xAxisType,
+      chartConfiguration.yAxisType,
+      (chartConfiguration.hasOwnProperty('xAxisItems')) ? chartConfiguration.xAxisItems : [],
+      (chartConfiguration.hasOwnProperty('yAxisItems')) ? chartConfiguration.yAxisItems : []
     );
+    chartObject.xAxis.categories = [];
+    chartObject.series = [];
     for ( let val of metaDataObject.xAxisItems ) {
       chartObject.xAxis.categories.push(val.name);
     }
@@ -379,13 +402,13 @@ export class VisualizerService {
    * @returns {{chart, title, pane, tooltip, yAxis, plotOptions, credits, series}|any}
    */
   drawGaugeChart ( analyticsObject, chartConfiguration ) {
-    let chartObject = this.chart_configuration_objects.gaugeObject;
+    let chartObject = this.getChartConfigurationObject('gaugeObject',chartConfiguration.show_labels);
     chartObject.title.text = chartConfiguration.title;
     let metaDataObject = this.prepareCategories(analyticsObject,
-        chartConfiguration.xAxisType,
-        chartConfiguration.yAxisType,
-        (chartConfiguration.hasOwnProperty('xAxisItems')) ? chartConfiguration.xAxisItems : [],
-        (chartConfiguration.hasOwnProperty('yAxisItems')) ? chartConfiguration.yAxisItems : []
+      chartConfiguration.xAxisType,
+      chartConfiguration.yAxisType,
+      (chartConfiguration.hasOwnProperty('xAxisItems')) ? chartConfiguration.xAxisItems : [],
+      (chartConfiguration.hasOwnProperty('yAxisItems')) ? chartConfiguration.yAxisItems : []
     );
     let gaugeValue  = 0;
     for ( let yAxis of metaDataObject.yAxisItems ) {
@@ -417,10 +440,10 @@ export class VisualizerService {
    */
   drawSpiderChart ( analyticsObject, chartConfiguration ) {
     let metaDataObject = this.prepareCategories(analyticsObject,
-        chartConfiguration.xAxisType,
-        chartConfiguration.yAxisType,
-        (chartConfiguration.hasOwnProperty('xAxisItems')) ? chartConfiguration.xAxisItems : [],
-        (chartConfiguration.hasOwnProperty('yAxisItems')) ? chartConfiguration.yAxisItems : []
+      chartConfiguration.xAxisType,
+      chartConfiguration.yAxisType,
+      (chartConfiguration.hasOwnProperty('xAxisItems')) ? chartConfiguration.xAxisItems : [],
+      (chartConfiguration.hasOwnProperty('yAxisItems')) ? chartConfiguration.yAxisItems : []
     );
     let categories = [];
     for ( let val of metaDataObject.xAxisItems ) {
@@ -437,7 +460,7 @@ export class VisualizerService {
       }
       series.push({name: yAxis.name, data: chartSeries, pointPlacement: 'on'});
     }
-    let chartObject = {
+    let piechartObject = {
       chart: {
         polar: true,
         type: 'area',
@@ -484,7 +507,7 @@ export class VisualizerService {
       series: series
 
     };
-    return chartObject;
+    return piechartObject;
   }
 
 
@@ -618,221 +641,236 @@ export class VisualizerService {
 
   }
 
-  chart_configuration_objects = {
-    defaultChartObject: {
-      title: {
-        text: ''
-      },
-      chart: {
-        events: {
-          load: function(chart) {
-            setTimeout(function() {
-              chart.target.reflow();
-            }, 0);
+  getChartConfigurationObject(type,show_labels:boolean = false): any{
+    if(type == "defaultChartObject"){
+      return {
+        title: {
+          text: ''
+        },
+        chart: {
+          events: {
+            load: function(chart) {
+              setTimeout(function() {
+                chart.target.reflow();
+              }, 0);
+            }
+          },
+          type:''
+        },
+        xAxis: {
+          categories: [],
+          labels: {
+            rotation: -60,
+            style: {'color': '#000000', 'fontWeight': 'normal'}
           }
         },
-        type:''
-      },
-      xAxis: {
-        categories: [],
+        yAxis: {
+          min: 0,
+          title: {
+            text: ''
+          }, labels: {
+            style: {'color': '#000000', 'fontWeight': 'bold'}
+          }
+        },
         labels: {
-          rotation: -90,
-          style: {'color': '#000000', 'fontWeight': 'normal'}
-        }
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: ''
-        }, labels: {
-          style: {'color': '#000000', 'fontWeight': 'bold'}
-        }
-      },
-      labels: {
-        items: [{
-          html: '',
-          style: {
-            left: '50px',
-            top: '18px'
-            //color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
-          }
-        }]
-      },
-      series: []
-    },
-
-    stackedChartObject : {
-      chart: {
-        type: 'column',
-        events: {
-          load: function(chart) {
-            setTimeout(function() {
-              chart.target.reflow();
-            }, 0);
-          }
-        }
-      },
-      title: {
-        text: ''
-      },
-      xAxis: {
-        categories: []
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: ''
+          items: [{
+            html: '',
+            style: {
+              left: '50px',
+              top: '18px'
+              //color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+            }
+          }]
         },
-        stackLabels: {
-          enabled: true,
-          style: {
-            fontWeight: 'bold'
-          }
-        }
-      },
-      tooltip: {
-        headerFormat: '<b>{point.x}</b><br/>',
-        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
-      },
-      plotOptions: {
-        column: {
-          stacking: 'normal',
-          dataLabels: {
-            enabled: true
-          }
-        }
-      },
-      series: []
-    },
-
-    barStackedObject : {
-      chart: {
-        type: 'bar',
-        events: {
-          load: function(chart) {
-            setTimeout(function() {
-              chart.target.reflow();
-            }, 0);
-          }
-        }
-      },
-      title: {
-        text: ''
-      },
-      xAxis: {
-        categories: []
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: ''
-        }
-      },
-      legend: {
-        reversed: true
-      },
-      plotOptions: {
-        series: {
-          stacking: 'normal'
-        }
-      },
-      series: []
-    },
-
-    gaugeObject : {
-      chart: {
-        type: 'solidgauge',
-        events: {
-          load: function(chart) {
-            setTimeout(function() {
-              chart.target.reflow();
-            }, 0);
-          }
-        }
-      },
-
-      title: {
-        text : ''
-      },
-
-      pane: {
-        center: ['50%', '85%'],
-        size: '140%',
-        startAngle: -90,
-        endAngle: 90,
-        background: {
-          backgroundColor: '#EEE',
-          innerRadius: '60%',
-          outerRadius: '100%',
-          shape: 'arc'
-        }
-      },
-
-      tooltip: {
-        enabled: false
-      },
-
-      // the value axis
-      yAxis: {
-        stops: [
-          [0.1, '#DF5353'], // green
-          [0.5, '#DDDF0D'], // yellow
-          [0.9, '#55BF3B'] // red
-        ],
-        lineWidth: 0,
-        minorTickInterval: null,
-        tickPixelInterval: 400,
-        tickWidth: 0,
-        labels: {
-          y: 16
-        },
-        min: 0,
-        max: 100,
-        title: {
-          text: ''
-        }
-      },
-
-      plotOptions: {
-        solidgauge: {
-          dataLabels: {
-            y: 5,
-            borderWidth: 0,
-            useHTML: true
-          }
-        }
-      },
-      credits: {
-        enabled: false
-      },
-      series: []
-    },
-
-    pieChart : {
-      chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-      },
-      title: {
-        text: ''
-      },
-      tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      },
-      plotOptions: {
-        pie: {
-          allowPointSelect: true,
-          cursor: 'pointer',
-          dataLabels: {
-            enabled: true,
-            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-          }
-        }
-      },
-      series: []
+        plotOptions: {},
+        series: []
+      };
     }
-  };
+    else if(type == "stackedChartObject"){
+      return {
+        chart: {
+          type: 'column',
+          events: {
+            load: function(chart) {
+              setTimeout(function() {
+                chart.target.reflow();
+              }, 0);
+            }
+          }
+        },
+        title: {
+          text: ''
+        },
+        xAxis: {
+          categories: []
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: ''
+          },
+          stackLabels: {
+            enabled: show_labels,
+            style: {
+              fontWeight: 'bold'
+            }
+          }
+        },
+        tooltip: {
+          headerFormat: '<b>{point.x}</b><br/>',
+          pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        },
+        plotOptions: {
+          column: {
+            stacking: 'normal',
+            dataLabels: {
+              enabled: false
+            }
+          }
+        },
+        series: []
+      };
+    }
+    else if(type == "barStackedObject"){
+      return {
+        chart: {
+          type: 'bar',
+          events: {
+            load: function(chart) {
+              setTimeout(function() {
+                chart.target.reflow();
+              }, 0);
+            }
+          }
+        },
+        title: {
+          text: ''
+        },
+        xAxis: {
+          categories: []
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: ''
+          },
+          stackLabels: {
+            enabled: show_labels,
+            style: {
+              fontWeight: 'bold'
+            }
+          }
+        },
+        legend: {
+          reversed: true
+        },
+        plotOptions: {
+          series: {
+            stacking: 'normal',
+            dataLabels: {
+              enabled: false
+            }
+          }
+        },
+        series: []
+      };
+    }
+    else if(type == "gaugeObject"){
+      return {
+        chart: {
+          type: 'solidgauge',
+          events: {
+            load: function(chart) {
+              setTimeout(function() {
+                chart.target.reflow();
+              }, 0);
+            }
+          }
+        },
 
+        title: {
+          text : ''
+        },
+
+        pane: {
+          center: ['50%', '85%'],
+          size: '140%',
+          startAngle: -90,
+          endAngle: 90,
+          background: {
+            backgroundColor: '#EEE',
+            innerRadius: '60%',
+            outerRadius: '100%',
+            shape: 'arc'
+          }
+        },
+
+        tooltip: {
+          enabled: false
+        },
+
+        // the value axis
+        yAxis: {
+          stops: [
+            [0.1, '#DF5353'], // green
+            [0.5, '#DDDF0D'], // yellow
+            [0.9, '#55BF3B'] // red
+          ],
+          lineWidth: 0,
+          minorTickInterval: null,
+          tickPixelInterval: 400,
+          tickWidth: 0,
+          labels: {
+            y: 16
+          },
+          min: 0,
+          max: 100,
+          title: {
+            text: ''
+          }
+        },
+
+        plotOptions: {
+          solidgauge: {
+            dataLabels: {
+              y: 5,
+              borderWidth: 0,
+              useHTML: true
+            }
+          }
+        },
+        credits: {
+          enabled: false
+        },
+        series: []
+      };
+    }
+    else if(type == "pieChart"){
+      return {
+        chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: 'pie'
+        },
+        title: {
+          text: ''
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+          }
+        },
+        series: []
+      };
+    }
+  }
 }

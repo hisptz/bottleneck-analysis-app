@@ -97,7 +97,12 @@ export class DashboardMenuItemsComponent implements OnInit {
     this.dashboardService.delete(id).subscribe(response => {
       //@todo handle notifications
       this.dashboardService.all().subscribe(dashboards => {
-        this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
+        if(dashboards.length == 0) {
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
+        }
+
       })
     });
   }
