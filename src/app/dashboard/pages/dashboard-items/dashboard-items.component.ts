@@ -9,6 +9,7 @@ import {DashboardSettingsService} from "../../providers/dashboard-settings.servi
 import {DashboardSearchService} from "../../providers/dashboard-search.service";
 import {UtilitiesService} from "../../providers/utilities.service";
 import {isObject} from "rxjs/util/isObject";
+import {CurrentUserService} from "../../../shared/providers/current-user.service";
 
 @Component({
   selector: 'app-dashboard-items',
@@ -42,7 +43,8 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
       private settingService: DashboardSettingsService,
       private router: Router,
       private searchService: DashboardSearchService,
-      private util: UtilitiesService
+      private util: UtilitiesService,
+      private currentUserService: CurrentUserService
   ) {
     this.loading = true;
     this.hasError = false;
@@ -88,6 +90,11 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
         });
 
     this.route.params.subscribe(params => {
+      //update current dashboard in local storage
+      this.currentUserService.getCurrentUsername()
+        .subscribe(username => {
+          localStorage.setItem('dhis2.dashboard.current.' + username,params['id']);
+        });
       this.loadDashboardItems(params['id'])
     });
   }

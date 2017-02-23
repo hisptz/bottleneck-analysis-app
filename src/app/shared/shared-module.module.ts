@@ -5,6 +5,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import {Ng2PaginationModule} from "ng2-pagination";
 import { ProgressComponent } from './components/progress/progress.component';
 import {Constants} from "./constants";
+import {CurrentUserService} from "./providers/current-user.service";
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import {Constants} from "./constants";
       Ng2PaginationModule,
       ProgressComponent
   ],
-  providers: [Constants]
+  providers: [Constants, CurrentUserService]
 })
 
 export class SharedModule {}

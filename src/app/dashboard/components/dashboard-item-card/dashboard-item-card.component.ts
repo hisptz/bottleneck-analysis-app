@@ -34,6 +34,15 @@ export class DashboardItemCardComponent implements OnInit{
   public currentChartType: string;
   public metadataIdentifiers: string;
   public chartTypes: any;
+  orgunit_model: any = {
+    selection_mode: "orgUnit",
+    selected_level: "",
+    selected_group: "",
+    orgunit_levels: [],
+    orgunit_groups: [],
+    selected_orgunits: [],
+    user_orgunits: []
+  };
   constructor(
       private dashboardItemService: DashboardItemService,
       private dashboardService: DashboardService,
@@ -65,6 +74,7 @@ export class DashboardItemCardComponent implements OnInit{
       } else {
         this.dashboardService.getDashboardItemWithObjectAndAnalytics(this.route.snapshot.params['id'],this.itemData.id)
           .subscribe(dashboardItem => {
+            console.log(dashboardItem.object)
             this.itemData = dashboardItem;
             this.visualize(this.currentVisualization)
           })

@@ -2,6 +2,8 @@ import {Component, OnInit, Output, EventEmitter, AfterViewInit} from '@angular/c
 import {DashboardService} from "../../providers/dashboard.service";
 import {Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {CurrentUserService} from "../../../shared/providers/current-user.service";
+import {isUndefined} from "util";
 
 @Component({
   selector: 'app-dashboard-landing',
@@ -19,6 +21,7 @@ export class DashboardLandingComponent implements OnInit,AfterViewInit {
       private dashboardService: DashboardService,
       private router: Router,
       private formGroup: FormBuilder,
+      private currentUserService: CurrentUserService
   ) {
     this.hasError = false;
     this.loading = true;
@@ -31,7 +34,17 @@ export class DashboardLandingComponent implements OnInit,AfterViewInit {
       if(dashboards.length == 0) {
         this.loading = false;
       } else {
-        this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
+        //find last dashboard id for the user
+        this.currentUserService.getCurrentUsername().subscribe(username => {
+          let dashboardId = localStorage.getItem('dhis2.dashboard.current.' + username);
+
+          if(isUndefined(dashboardId)) {
+            localStorage.setItem('dhis2.dashboard.current.' + username,dashboards[0].id);
+            this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
+          } else {
+            this.router.navigate(['dashboards/'+ dashboardId + '/dashboard']);
+          }
+        })
       }
     }, error => {
       this.hasError = true;

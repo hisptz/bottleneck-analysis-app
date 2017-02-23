@@ -183,7 +183,6 @@ export class DashboardService {
           items += dashBoardObjectColumn.filter+';';
         }
         column += items.slice(0, -1);
-        console.log(column)
       }
     });
     //checking for rows
@@ -217,8 +216,6 @@ export class DashboardService {
 
     //set url base on type
     if( dashboardType=="EVENT_CHART" ) {
-      console.log(dashBoardObject.program)
-      console.log(dashBoardObject.programStage)
       url += "/events/aggregate/"+dashBoardObject.program.id+".json?stage=" +dashBoardObject.programStage.id+"&";
     }else if ( dashboardType.type=="EVENT_REPORT" ) {
       if( dashBoardObject.dataType=="AGGREGATED_VALUES") {
