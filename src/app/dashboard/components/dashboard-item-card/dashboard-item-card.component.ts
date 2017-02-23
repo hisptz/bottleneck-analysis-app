@@ -19,6 +19,7 @@ export const DASHBOARD_SHAPES = {
 export class DashboardItemCardComponent implements OnInit{
 
   @Input() itemData: any;
+  @Input() currentUser: any;
   @Output() onDelete: EventEmitter<boolean> = new EventEmitter<boolean>();
   public isFullScreen: boolean;
   public isInterpretationShown: boolean;
@@ -34,15 +35,7 @@ export class DashboardItemCardComponent implements OnInit{
   public currentChartType: string;
   public metadataIdentifiers: string;
   public chartTypes: any;
-  orgunit_model: any = {
-    selection_mode: "orgUnit",
-    selected_level: "",
-    selected_group: "",
-    orgunit_levels: [],
-    orgunit_groups: [],
-    selected_orgunits: [],
-    user_orgunits: []
-  };
+  orgunit_model: any;
   constructor(
       private dashboardItemService: DashboardItemService,
       private dashboardService: DashboardService,
@@ -60,6 +53,22 @@ export class DashboardItemCardComponent implements OnInit{
   }
 
   ngOnInit() {
+    //compile user orgunits
+    let userOrgUnits = [];
+    this.currentUser.dataViewOrganisationUnits.forEach(orgUnit => {
+      userOrgUnits.push(orgUnit.id);
+    })
+
+    this.orgunit_model = {
+      selection_mode: "orgUnit",
+      selected_level: "",
+      selected_group: "",
+      orgunit_levels: [],
+      orgunit_groups: [],
+      selected_orgunits: [],
+      user_orgunits: userOrgUnits
+    };
+    console.log(this.orgunit_model)
     this.currentVisualization = this.itemData.type;
     this.dashboardShapeBuffer = this.itemData.shape;
 
@@ -72,7 +81,7 @@ export class DashboardItemCardComponent implements OnInit{
       if(this.itemData.hasOwnProperty('object')) {
         this.visualize(this.currentVisualization)
       } else {
-        this.dashboardService.getDashboardItemWithObjectAndAnalytics(this.route.snapshot.params['id'],this.itemData.id)
+        this.dashboardService.getDashboardItemWithObjectAndAnalytics(this.route.snapshot.params['id'],this.itemData.id,this.currentUser.id)
           .subscribe(dashboardItem => {
             console.log(dashboardItem.object)
             this.itemData = dashboardItem;

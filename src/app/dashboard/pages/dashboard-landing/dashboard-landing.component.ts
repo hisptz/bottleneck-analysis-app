@@ -35,11 +35,11 @@ export class DashboardLandingComponent implements OnInit,AfterViewInit {
         this.loading = false;
       } else {
         //find last dashboard id for the user
-        this.currentUserService.getCurrentUsername().subscribe(username => {
-          let dashboardId = localStorage.getItem('dhis2.dashboard.current.' + username);
+        this.currentUserService.getCurrentUser().subscribe(currentUser => {
+          let dashboardId = localStorage.getItem('dhis2.dashboard.current.' + currentUser.userCredentials.username);
 
           if(isUndefined(dashboardId)) {
-            localStorage.setItem('dhis2.dashboard.current.' + username,dashboards[0].id);
+            localStorage.setItem('dhis2.dashboard.current.' + currentUser.userCredentials.username,dashboards[0].id);
             this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
           } else {
             this.router.navigate(['dashboards/'+ dashboardId + '/dashboard']);

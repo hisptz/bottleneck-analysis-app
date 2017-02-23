@@ -45,7 +45,7 @@ export class DashboardService {
     });
   }
 
-  getDashboardItemWithObjectAndAnalytics(dashboardId, dashboardItemId) {
+  getDashboardItemWithObjectAndAnalytics(dashboardId, dashboardItemId, currentUserId) {
     return Observable.create(observer => {
       let dashboard = this.dashboards.filter((item) => {return item.id == dashboardId ? item : null;})[0];
       let dashboardIndex = this.dashboards.indexOf(dashboard);
@@ -60,7 +60,7 @@ export class DashboardService {
               .subscribe(dashboardObject => {
                 dashboardItem['object'] = dashboardObject;
                 //get analytic object also
-                this.http.get(this._getDashBoardItemAnalyticsUrl(dashboardObject,dashboardItem.type))
+                this.http.get(this._getDashBoardItemAnalyticsUrl(dashboardObject,dashboardItem.type,currentUserId))
                   .map(res => res.json())
                   .catch(this.utilService.handleError)
                   .subscribe(analyticObject => {
@@ -166,7 +166,7 @@ export class DashboardService {
     })
   }
 
-  private _getDashBoardItemAnalyticsUrl(dashBoardObject, dashboardType): string {
+  private _getDashBoardItemAnalyticsUrl(dashBoardObject, dashboardType, currentUserId): string {
     let url = this.constant.root_url + "api/25/analytics";
     let column = "";
     let row = "";
@@ -239,7 +239,8 @@ export class DashboardService {
         : dashboardType=="EVENT_MAP" ?
           "&outputType=EVENT&displayProperty=NAME"
           :"&displayProperty=NAME" ;
-    console.log(url)
+
+    url += "&user=" + currentUserId;
     return url;
   }
 

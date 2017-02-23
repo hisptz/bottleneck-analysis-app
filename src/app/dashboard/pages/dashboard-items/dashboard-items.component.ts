@@ -35,6 +35,7 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
   results: any;
   headers: Array<any>;
   messageCount: number;
+  currentUser: any;
   constructor(
       private dashboardItemService: DashboardItemService,
       private dashboardService: DashboardService,
@@ -91,11 +92,12 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
 
     this.route.params.subscribe(params => {
       //update current dashboard in local storage
-      this.currentUserService.getCurrentUsername()
-        .subscribe(username => {
-          localStorage.setItem('dhis2.dashboard.current.' + username,params['id']);
-        });
-      this.loadDashboardItems(params['id'])
+      this.currentUserService.getCurrentUser()
+        .subscribe(currentUser => {
+          this.currentUser = currentUser;
+          localStorage.setItem('dhis2.dashboard.current.' + currentUser.userCredentials.username,params['id']);
+          this.loadDashboardItems(params['id'])
+        }, error => console.log('Something is wrong fetching user information'));
     });
   }
 
@@ -127,7 +129,7 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
           let showBlockStatus = true;
           for(let header of this.headers) {
             if(header.name == key) {
-              showBlockStatus = header.showBlock
+              showBlockStatus = header.showBlock;
               break;
             }
           }
@@ -167,9 +169,10 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
   addDashboardItem(type, id) {
     this.showBody = false;
     let typeValue = this.isPlural(type) ? this.util.readableName(type, true) : this.util.readableName(type.slice(0,type.length-1),true);
-    let dashboardId = this.route.snapshot.params['id']
+    let dashboardId = this.route.snapshot.params['id'];
     this.dashboardService.addDashboardItem(dashboardId, {type: typeValue, id: id})
       .subscribe(response => {
+        //@todo find best way to only update added item
         this.loadDashboardItems(dashboardId)
       });
     //@todo need to subscribe to show progress when adding dashboards
