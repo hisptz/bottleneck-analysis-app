@@ -5,6 +5,7 @@ import {DashboardService} from "../../providers/dashboard.service";
 import {UtilitiesService} from "../../providers/utilities.service";
 import {VisualizerService} from "../../providers/dhis-visualizer.service";
 import {Constants} from "../../../shared/constants";
+import {Observable} from "rxjs";
 
 export const DASHBOARD_SHAPES = {
   'NORMAL': ['col-md-4','col-sm-6','col-xs-12'],
@@ -23,6 +24,7 @@ export class DashboardItemCardComponent implements OnInit{
   @Output() onDelete: EventEmitter<boolean> = new EventEmitter<boolean>();
   public isFullScreen: boolean;
   public isInterpretationShown: boolean;
+  public interpretationReady: boolean;
   public currentVisualization: string;
   public dashboardShapeBuffer: string;
   public confirmDelete: boolean;
@@ -35,6 +37,7 @@ export class DashboardItemCardComponent implements OnInit{
   public currentChartType: string;
   public metadataIdentifiers: string;
   public chartTypes: any;
+  interpretation: string;
   orgunit_model: any;
   constructor(
       private dashboardItemService: DashboardItemService,
@@ -45,7 +48,7 @@ export class DashboardItemCardComponent implements OnInit{
       private constants: Constants
   ) {
     this.isFullScreen = false;
-    this.isInterpretationShown = false;
+    this.isInterpretationShown = this.interpretationReady = false;
     this.confirmDelete = false;
     this.chartHasError = this.tableHasError = false;
     this.loadingChart = this.loadingTable = true;
@@ -83,7 +86,20 @@ export class DashboardItemCardComponent implements OnInit{
       } else {
         this.dashboardService.getDashboardItemWithObjectAndAnalytics(this.route.snapshot.params['id'],this.itemData.id,this.currentUser.id)
           .subscribe(dashboardItem => {
-            console.log(dashboardItem.object)
+            this.interpretationReady = true;
+            let interpretationIndex = 0;
+            let interpretationLength = dashboardItem.object.interpretations.length;
+            if(interpretationLength > 0) {
+              Observable.interval(4000).subscribe(value => {
+                if(interpretationIndex <= interpretationLength - 1) {
+                  this.interpretation = dashboardItem.object.interpretations[interpretationIndex].text
+                  interpretationIndex += 1;
+                } else {
+                  interpretationIndex = 0;
+                  this.interpretation = dashboardItem.object.interpretations[interpretationIndex].text
+                }
+              })
+            }
             this.itemData = dashboardItem;
             this.visualize(this.currentVisualization)
           })

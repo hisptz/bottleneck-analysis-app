@@ -19,9 +19,10 @@
                         <li *ngIf="itemData.interpretationCount == 0"><a (click)="toggleInterpretation()" tooltip="share interpretation"><i class="fa fa-share-alt"></i></a></li>
                         <li *ngIf="itemData.interpretationCount > 0">
                           <a (click)="toggleInterpretation()" tooltip="{{itemData.interpretationCount}} new interpretations">
-                            <span *ngIf="!isInterpretationShown">
-                              <span class="badge intepretation-count">{{itemData.interpretationCount}}</span>&nbsp;
-                              <i class="fa fa-comments-o"></i>
+                            <span *ngIf="!isInterpretationShown && interpretationReady">
+                              <small>{{interpretation}}</small>
+                              <!--<span class="badge intepretation-count">{{itemData.interpretationCount}}</span>&nbsp;-->
+                              <!--<i class="fa fa-comments-o"></i>-->
                             </span>
                             <span *ngIf="isInterpretationShown"><i class="fa fa-times"></i></span>
                           </a>
