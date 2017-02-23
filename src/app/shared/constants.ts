@@ -9,8 +9,8 @@ export class Constants {
     this.api = this.root_url + 'api/25/';
     this.chartTypes = [
       {
-        type: 'bar',
-        description: 'Bar chart',
+        type: 'column',
+        description: 'Column chart',
         icon: 'assets/img/bar.png'
       },
       {
@@ -24,8 +24,8 @@ export class Constants {
         icon: 'assets/img/combined.png'
       },
       {
-        type: 'column',
-        description: 'Column chart',
+        type: 'bar',
+        description: 'Bar chart',
         icon: 'assets/img/column.png'
       },
       {

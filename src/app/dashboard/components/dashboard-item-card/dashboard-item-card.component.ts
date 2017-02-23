@@ -91,9 +91,9 @@ export class DashboardItemCardComponent implements OnInit{
     let itemChartType = this.itemData.object.hasOwnProperty('type') ? this.itemData.object.type.toLowerCase() : 'bar';
     let chartConfiguration = {
       'type': chartType ? chartType : itemChartType,
-      'title': this.itemData.object.name,
+      'title': this.itemData.object.title,
       'xAxisType': this.itemData.object.category ? this.itemData.object.category : 'pe',
-      'yAxisType': this.itemData.object.series ? [this.itemData.object.series] : 'dx'
+      'yAxisType': this.itemData.object.series ? this.itemData.object.series : 'dx'
     };
     this.chartObject = this.visualizationService.drawChart(this.itemData.analytic, chartConfiguration);
     this.loadingChart = false;

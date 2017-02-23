@@ -17,8 +17,8 @@
     font-size: 12px;
     height: 29px;
     border-radius: 0px;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding-right: 8px;
+    padding-left: 8px;
     padding-top: 6px;
 }
 
@@ -138,7 +138,7 @@
   width: 35px;
   right: 0;
   top:0;
-  z-index: 1000;
+  /*z-index: 500;*/
   padding-top: 5px;
   padding-right: 2px;
   background-color: transparent;
@@ -183,15 +183,9 @@
   display: block;
 }
 
-.chart-block {
-  /*position: relative;*/
-}
+.chart-block { }
 .chart-body {
-  /*position: absolute;*/
-  /*top: 0;*/
-  /*bottom: 0;*/
-  /*left: 0;*/
-  height: 100% !important;
+  height: 310px !important;
   width: 98%;
 }
 .chart-block:hover .chart-options {

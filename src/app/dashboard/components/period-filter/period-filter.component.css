@@ -1,0 +1,12 @@
+.selected-period{
+  background-color:grey;
+  border: 1px solid grey;
+}
+.period{
+  padding: 2px;
+  cursor:pointer;
+}
+.period:hover{
+  border: 1px solid grey;
+  background-color:lightgrey;
+}

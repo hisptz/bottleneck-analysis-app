@@ -5,7 +5,17 @@
                 <div class="col-md-12" style="position: relative;">
                     <ul class="nav nav-pills navbar-left dashboard-item-header" *ngIf="canShowIcons(itemData.type)">
                         <!--<li><a href=""><i class="fa fa-table"></i></a></li>-->
-                        <li><a href=""><i class="fa fa-filter"></i></a></li>
+                        <li *ngIf="filterShown">
+                          <ul class="list-inline">
+                            <li><app-organisation-unit-tree></app-organisation-unit-tree></li>
+                            <!--<li><app-period-filter></app-period-filter></li>-->
+                          </ul>
+                        </li>
+                        <li>
+                          <a (click)="filterShown = !filterShown" tooltip="Filter by period and orgunit">
+                            <i class="fa {{filterShown ? 'fa-times' : 'fa-filter'}}"></i>
+                          </a>
+                        </li>
                         <li *ngIf="itemData.interpretationCount == 0"><a (click)="toggleInterpretation()" tooltip="share interpretation"><i class="fa fa-share-alt"></i></a></li>
                         <li *ngIf="itemData.interpretationCount > 0">
                           <a (click)="toggleInterpretation()" tooltip="{{itemData.interpretationCount}} new interpretations">

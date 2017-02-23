@@ -1,0 +1,45 @@
+<div class="btn-group col-sm-12" dropdown autoClose="disabled" [(isOpen)]="value">
+  <button id="single-button" type="button" class="btn btn-default drop-down-button col-sm-12" dropdownToggle>
+    <span *ngIf="!selectedPeriod">Select Period</span><span class="selected"
+                                                            *ngIf="selectedPeriod">{{selectedPeriod.name}}</span> <span class="glyphicon glyphicon-triangle-bottom pull-right"></span>
+  </button>
+  <div dropdownMenu role="menu" aria-labelledby="single-button" style="width:400px">
+    <div>
+      <div class="col-sm-12">
+        <label>Period Type</label><!--
+        <button type="button" (click)=" isOpenMenu(false)" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+      </div>
+      <div class="col-sm-12">
+        <select [(ngModel)]="periodType" (ngModelChange)="periodTypeChanged($event)" class="form-control">
+          <option>Monthly</option>
+          <option>Yearly</option>
+        </select>
+      </div>
+      <!--<div class="col-sm-4">
+        <div class="btn-group pull-right" role="group" aria-label="...">
+          <button type="button" class="btn btn-default" (click)="previous()"><span
+            class="glyphicon glyphicon-chevron-left"></span></button>
+          <button type="button" class="btn btn-default" (click)="next()"><span
+            class="glyphicon glyphicon-chevron-right"></span></button>
+        </div>
+      </div>-->
+      <br/><br/>
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div *ngIf="!loading && !loadingError" class="panel-body">
+            <div [ngClass]="{'selected-period':selectedPeriod?selectedPeriod.value == p.value:false}" class="period" *ngFor="let p of list" (click)="select(p)">
+              {{p.name}}
+            </div>
+            <div *ngIf="list.length == 0">
+              No Period to Select
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-sm-12">
+        <button type="button" (click)=" isOpenMenu(false)" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
