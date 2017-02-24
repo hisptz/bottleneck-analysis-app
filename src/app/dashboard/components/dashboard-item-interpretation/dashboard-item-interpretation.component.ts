@@ -25,7 +25,6 @@ export class DashboardItemInterpretationComponent implements OnInit {
     private interpretationService: InterpretationService
   ) {
     this.showForm = false;
-    this.currentShown = '';
     this.submitted = false;
     this.loading = true;
   }
@@ -50,6 +49,7 @@ export class DashboardItemInterpretationComponent implements OnInit {
       .subscribe(response => {
         this.loading = false;
         this.interpretations = response.interpretations;
+        this.currentShown = this.interpretations[0].id;
       }, error => console.log(error))
   }
 

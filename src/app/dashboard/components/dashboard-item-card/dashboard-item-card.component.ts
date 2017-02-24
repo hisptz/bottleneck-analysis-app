@@ -52,7 +52,8 @@ export class DashboardItemCardComponent implements OnInit{
     this.confirmDelete = false;
     this.chartHasError = this.tableHasError = false;
     this.loadingChart = this.loadingTable = true;
-    this.chartTypes = this.constants.chartTypes
+    this.chartTypes = this.constants.chartTypes;
+    this.currentChartType = 'bar';
   }
 
   ngOnInit() {
@@ -71,7 +72,6 @@ export class DashboardItemCardComponent implements OnInit{
       selected_orgunits: [],
       user_orgunits: userOrgUnits
     };
-    console.log(this.orgunit_model)
     this.currentVisualization = this.itemData.type;
     this.dashboardShapeBuffer = this.itemData.shape;
 
@@ -81,37 +81,16 @@ export class DashboardItemCardComponent implements OnInit{
       (this.currentVisualization == 'TABLE') ||
       (this.currentVisualization == 'REPORT_TABLE') ||
       (this.currentVisualization == 'EVENT_REPORT')) {
-      if(this.itemData.hasOwnProperty('object')) {
-        this.visualize(this.currentVisualization)
-      } else {
-        this.dashboardService.getDashboardItemWithObjectAndAnalytics(this.route.snapshot.params['id'],this.itemData.id,this.currentUser.id)
-          .subscribe(dashboardItem => {
-            this.interpretationReady = true;
-            let interpretationIndex = 0;
-            let interpretationLength = dashboardItem.object.interpretations.length;
-            if(interpretationLength > 0) {
-              Observable.interval(4000).subscribe(value => {
-                if(interpretationIndex <= interpretationLength - 1) {
-                  this.interpretation = dashboardItem.object.interpretations[interpretationIndex].text
-                  interpretationIndex += 1;
-                } else {
-                  interpretationIndex = 0;
-                  this.interpretation = dashboardItem.object.interpretations[interpretationIndex].text
-                }
-              })
-            }
-            this.itemData = dashboardItem;
-            this.visualize(this.currentVisualization)
-          })
-      }
+        this.updateDasboardItemForAnalyticTypeItems();
     }
   }
 
-  visualize(dashboardItemType) {
+  visualize(dashboardItemType, dashboardObject, dashboardAnalytic,) {
     if((dashboardItemType == 'CHART') || (dashboardItemType == 'EVENT_CHART')) {
-      this.drawChart()
+      this.drawChart(dashboardObject, dashboardAnalytic,this.currentChartType);
     } else if ((dashboardItemType == 'TABLE') || (dashboardItemType == 'EVENT_REPORT') || (dashboardItemType == 'REPORT_TABLE')) {
-      this.drawTable()
+      console.log(dashboardObject);
+      this.drawTable(dashboardObject, dashboardAnalytic,)
     } else if(dashboardItemType == 'DICTIONARY') {
       this.metadataIdentifiers = this.dashboardService.getDashboardItemMetadataIdentifiers(this.itemData.object)
     }
@@ -119,23 +98,22 @@ export class DashboardItemCardComponent implements OnInit{
 
   setVisualization(visualizationType) {
     this.currentVisualization = visualizationType;
-    this.visualize(visualizationType)
+    this.visualize(visualizationType,this.itemData.object, this.itemData.analytic,)
   }
 
-  drawChart(chartType?:string) {
-    let itemChartType = this.itemData.object.hasOwnProperty('type') ? this.itemData.object.type.toLowerCase() : 'bar';
+  drawChart(dashboardObject, dashboardAnalytic, chartType?:string) {
+    // let itemChartType = this.itemData.object.hasOwnProperty('type') ? this.itemData.object.type.toLowerCase() : 'bar';
     let chartConfiguration = {
-      'type': chartType ? chartType : itemChartType,
-      'title': this.itemData.object.title,
-      'xAxisType': this.itemData.object.category ? this.itemData.object.category : 'pe',
-      'yAxisType': this.itemData.object.series ? this.itemData.object.series : 'dx'
+      'type': chartType,
+      'title': dashboardObject.title,
+      'xAxisType': dashboardObject.category ? this.itemData.object.category : 'pe',
+      'yAxisType': dashboardObject.series ? this.itemData.object.series : 'dx'
     };
-    this.chartObject = this.visualizationService.drawChart(this.itemData.analytic, chartConfiguration);
+    this.chartObject = this.visualizationService.drawChart(dashboardAnalytic, chartConfiguration);
     this.loadingChart = false;
   }
 
-  drawTable() {
-    let dashboardObject = this.itemData.object;
+  drawTable(dashboardObject, dashboardAnalytic) {
     let config = {rows: [], columns: []};
     //get columns
     if(dashboardObject.hasOwnProperty('columns')) {
@@ -154,13 +132,13 @@ export class DashboardItemCardComponent implements OnInit{
     } else {
       config.rows = ['ou', 'dx', 'pe'];
     }
-    this.tableObject = this.visualizationService.drawTable(this.itemData.analytic, config);
+    this.tableObject = this.visualizationService.drawTable(dashboardAnalytic, config);
     this.loadingTable = false;
   }
 
   updateChartType(type) {
     this.loadingChart = true;
-    this.drawChart(type)
+    this.drawChart(this.itemData.object,this.itemData.analytic,type)
   }
 
   setChartType(type) {
@@ -220,6 +198,37 @@ export class DashboardItemCardComponent implements OnInit{
     this.dashboardService.deleteDashboardItem(this.route.snapshot.params['id'], id)
       .subscribe(response => {this.onDelete.emit(id);},
         error => {console.log('error deleting item')})
+  }
+
+  updateDashboardCard(event) {
+    this.updateDasboardItemForAnalyticTypeItems(event);
+  }
+
+  updateDasboardItemForAnalyticTypeItems(customDimensions = []) {
+    this.dashboardService.getDashboardItemWithObjectAndAnalytics(this.route.snapshot.params['id'],this.itemData.id,this.currentUser.id,customDimensions)
+      .subscribe(dashboardItem => {
+        this.itemData = dashboardItem;
+        this.visualize(this.currentVisualization,dashboardItem.object, dashboardItem.analytic);
+        //@todo find best way to autoplay interpretation
+        this.autoplayInterpretation(dashboardItem);
+      })
+  }
+
+  autoplayInterpretation(dashboardItem) {
+    this.interpretationReady = true;
+    let interpretationIndex = 0;
+    let interpretationLength = dashboardItem.object.interpretations.length;
+    if(interpretationLength > 0) {
+      Observable.interval(4000).subscribe(value => {
+        if(interpretationIndex <= interpretationLength - 1) {
+          this.interpretation = dashboardItem.object.interpretations[interpretationIndex].text
+          interpretationIndex += 1;
+        } else {
+          interpretationIndex = 0;
+          this.interpretation = dashboardItem.object.interpretations[interpretationIndex].text
+        }
+      })
+    }
   }
 
 }
