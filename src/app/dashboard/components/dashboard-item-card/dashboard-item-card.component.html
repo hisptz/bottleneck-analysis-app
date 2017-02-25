@@ -8,7 +8,7 @@
                         <li *ngIf="filterShown">
                           <ul class="list-inline">
                             <li><app-organisation-unit-tree [orgunit_model]="orgunit_model" (onOrgUnitUpdate)="updateDashboardCard($event)"></app-organisation-unit-tree></li>
-                            <!--<li><app-period-filter></app-period-filter></li>-->
+                            <li><app-period-filter></app-period-filter></li>
                           </ul>
                         </li>
                         <li>

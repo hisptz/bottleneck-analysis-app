@@ -20,7 +20,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DashboardItemService} from "./providers/dashboard-item.service";
 import {VisualizerService} from "./providers/dhis-visualizer.service";
 import {UtilitiesService} from "./providers/utilities.service";
-import {ModalModule, TabsModule, TooltipModule, DropdownModule} from "ng2-bootstrap";
+import {ModalModule, TabsModule, TooltipModule, DropdownModule, AccordionModule} from "ng2-bootstrap";
 import { DashboardItemInterpretationComponent } from './components/dashboard-item-interpretation/dashboard-item-interpretation.component';
 import {ContextMenuService, ContextMenuComponent} from "angular2-contextmenu";
 import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboard.component';
@@ -51,6 +51,7 @@ import { PeriodFilterComponent } from './components/period-filter/period-filter.
       TabsModule.forRoot(),
       TooltipModule.forRoot(),
       DropdownModule.forRoot(),
+      AccordionModule.forRoot(),
       MomentModule,
       Ng2HighchartsModule,
       TreeModule

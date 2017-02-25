@@ -47,54 +47,55 @@ export class DashboardService {
 
   getDashboardItemWithObjectAndAnalytics(dashboardId, dashboardItemId, currentUserId, customDimensions) {
     return Observable.create(observer => {
-      let dashboard = this.dashboards.filter((item) => {return item.id == dashboardId ? item : null;})[0];
-      let dashboardIndex = this.dashboards.indexOf(dashboard);
-      dashboard.dashboardItems.forEach((dashboardItem) => {
-        if(dashboardItem.id == dashboardItemId) {
-          if(dashboardItem.hasOwnProperty('object')) {
-            if(customDimensions.length != 0) {
-              customDimensions.forEach((dimension) => {
-                if(dimension.name == 'ou') {
-                  dashboardItem.object.customOu = dimension.value;
-                }
+      for(let dashboard of this.dashboards) {
+        if(dashboard.id == dashboardId) {
+          for(let dashboardItem of dashboard.dashboardItems) {
+            if(dashboardItem.id == dashboardItemId) {
+              if(dashboardItem.hasOwnProperty('object')) {
+                if(customDimensions.length != 0) {
+                  customDimensions.forEach((dimension) => {
+                    if(dimension.name == 'ou') {
+                      dashboardItem.object.customOu = dimension.value;
+                    }
 
-                if(dimension.name == 'pe') {
-                  dashboardItem.object.customPe = dimension.value;
-                }
-              });
-              this.http.get(this._getDashBoardItemAnalyticsUrl(dashboardItem.object,dashboardItem.type,currentUserId,true)).map(res => res.json())
-                .catch(this.utilService.handleError)
-                .subscribe(analyticObject => {
-                  dashboardItem['analytic'] = analyticObject;
-                  //also persist in the pool
-                  this.dashboards[dashboardIndex] = dashboard;
+                    if(dimension.name == 'pe') {
+                      dashboardItem.object.customPe = dimension.value;
+                    }
+                  });
+                  this.http.get(this._getDashBoardItemAnalyticsUrl(dashboardItem.object,dashboardItem.type,currentUserId,true)).map(res => res.json())
+                    .catch(this.utilService.handleError)
+                    .subscribe(analyticObject => {
+                      dashboardItem['analytic'] = analyticObject;
+                      observer.next(dashboardItem);
+                      observer.complete();
+                    }, analyticError => observer.error(analyticError));
+                } else {
                   observer.next(dashboardItem);
                   observer.complete();
-                }, analyticError => observer.error(analyticError));
-            }
-            observer.next(dashboardItem);
-            observer.complete();
-          } else {
-            this.http.get(this.constant.root_url + "api/"+this.utilService.formatEnumString(dashboardItem.type)+"s/"+dashboardItem[this.utilService.formatEnumString(dashboardItem.type)].id+".json?fields=:all,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name],legendSet[id,name]],rows[dimension,filter,items[id,name],legendSet[id,name]],filters[dimension,filter,items[id,name],legendSet[id,name]],interpretations[id,%20text,lastUpdated,user[displayName],comments,likes],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,attributeDimensions[id,name,attribute[id,name,optionSet[id,name,options[id,name]]]],dataElementDimensions[id,name,dataElement[id,name,optionSet[id,name,options[id,name]]]],categoryDimensions[id,name,category[id,name,categoryOptions[id,name,options[id,name]]]]")
-              .map(res => res.json())
-              .catch(this.utilService.handleError)
-              .subscribe(dashboardObject => {
-                dashboardItem['object'] = dashboardObject;
-                //get analytic object also
-                this.http.get(this._getDashBoardItemAnalyticsUrl(dashboardObject,dashboardItem.type,currentUserId))
+                }
+              } else {
+                this.http.get(this.constant.root_url + "api/"+this.utilService.formatEnumString(dashboardItem.type)+"s/"+dashboardItem[this.utilService.formatEnumString(dashboardItem.type)].id+".json?fields=:all,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name],legendSet[id,name]],rows[dimension,filter,items[id,name],legendSet[id,name]],filters[dimension,filter,items[id,name],legendSet[id,name]],interpretations[id,%20text,lastUpdated,user[displayName],comments,likes],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,attributeDimensions[id,name,attribute[id,name,optionSet[id,name,options[id,name]]]],dataElementDimensions[id,name,dataElement[id,name,optionSet[id,name,options[id,name]]]],categoryDimensions[id,name,category[id,name,categoryOptions[id,name,options[id,name]]]]")
                   .map(res => res.json())
                   .catch(this.utilService.handleError)
-                  .subscribe(analyticObject => {
-                    dashboardItem['analytic'] = analyticObject;
-                    //also persist in the pool
-                    this.dashboards[dashboardIndex] = dashboard;
-                    observer.next(dashboardItem);
-                    observer.complete();
-                  }, analyticError => observer.error(analyticError));
-              },error => {observer.error(error)})
+                  .subscribe(dashboardObject => {
+                    dashboardItem['object'] = dashboardObject;
+                    //get analytic object also
+                    this.http.get(this._getDashBoardItemAnalyticsUrl(dashboardObject,dashboardItem.type,currentUserId))
+                      .map(res => res.json())
+                      .catch(this.utilService.handleError)
+                      .subscribe(analyticObject => {
+                        dashboardItem['analytic'] = analyticObject;
+                        observer.next(dashboardItem);
+                        observer.complete();
+                      }, analyticError => observer.error(analyticError));
+                  },error => {observer.error(error)})
+              }
+              break;
+            }
           }
+          break;
         }
-      });
+      }
     })
   }
 
@@ -352,4 +353,29 @@ export class DashboardService {
     return this.http.delete(this.url + '/' + dashboardId + '/items/' + dashboardItemId)
       .map((res: Response) => res.json())
   }
+
+  loadDashboardSharingData(dashboardId): Observable<any> {
+    return Observable.create(observer => {
+      for(let dashboard of this.dashboards) {
+        if(dashboard.id == dashboardId) {
+          if(dashboard.hasOwnProperty('sharing')) {
+            observer.next(dashboard['sharing']);
+            observer.complete()
+          } else {
+            this.http.get(this.constant.api + 'sharing?type=dashboard&id=' + dashboardId)
+              .map(res => res.json())
+              .catch(this.utilService.handleError)
+              .subscribe(sharing => {
+                //persist sharing locally
+                dashboard['sharing'] = sharing;
+                observer.next(sharing);
+                observer.complete()
+              }, error => observer.error(error));
+          }
+          break;
+        }
+      }
+    });
+  }
+
 }

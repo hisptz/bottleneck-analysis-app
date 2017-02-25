@@ -1,23 +1,48 @@
 <div class="col-md-12">
-  <ul class="list-inline">
-    <li>
-      <div class="badge share-badge">
+  <small *ngIf="loadingSharing">
+    Loading sharing settings...
+  </small>
+  <small *ngIf="hasError">
+    An error has occured
+  </small>
+  <ul class="list-inline share-list" *ngIf="!loadingSharing && !hasError">
+    <li *ngIf="sharingData.meta.allowExternalAccess" tooltip="Has {{sharingData.object.externalAccess ? '': 'no'}} External Access">
+      <div class="badge share-badge" (click)="sharingData.object.externalAccess = !sharingData.object.externalAccess">
        External Access
-        <!--<a href="" class="text-success"><i class="fa fa-check-circle"></i></a>-->
-        <a href="" class="text-danger"><i class="fa fa-times-circle"></i></a>
+        &nbsp;
+        <i *ngIf="sharingData.object.externalAccess" class="fa fa-check-circle-o text-success"></i>
       </div>
     </li>
-    <li><div class="badge share-badge">
-      Public Access
-      <a href="" class="text-success"><i class="fa fa-check-circle"></i></a>
-      <!--<a href="" class="text-danger"><i class="fa fa-times-circle"></i></a>-->
-      <!--<a href="" class="text-success"><i class="fa fa-eye"></i></a>-->
-      <a href="" class="text-success"><i class="fa fa-edit"></i></a>
+    <li *ngIf="sharingData.meta.allowPublicAccess" tooltip="{{readableAccess(sharingData.object.publicAccess)}}">
+      <div class="badge share-badge" (click)="togglePublicAccess(sharingData.object.publicAccess)">
+        Public Access
+        &nbsp;
+        <i *ngIf="sharingData.object.publicAccess == 'rw------'" class="fa fa-edit"></i>
+        <i *ngIf="sharingData.object.publicAccess == 'r-------'" class="fa fa-eye"></i>
     </div>
     </li>
-    <li><i class="fa fa-users"></i></li>
-    <li>
-      <input type="text" class="share-input" autofocus>
+    <li tooltip="add user groups"><i class="fa fa-users"></i></li>
+    <li *ngIf="sharingData.object.userGroupAccesses && sharingData.object.userGroupAccesses.length > 0">
+      <ul class="list-inline">
+        <li *ngFor="let group of sharingData.object.userGroupAccesses" tooltip="{{readableAccess(group.access)}}">
+          <div class="badge share-badge" style="padding-top: 13px; padding-bottom: 13px;">
+            {{group.displayName}}
+            &nbsp;
+            <i *ngIf="group.access == 'rw------'" class="fa fa-edit"></i>
+            <i *ngIf="group.access == 'r-------'" class="fa fa-eye"></i>
+            <a href=""><i class="fa fa-times"></i></a>
+          </div>
+        </li>
+      </ul>
     </li>
+    <li class="dropdown">
+      <input type="text" placeholder="Add user groups" class="share-input" (keyup)="searchTerm$.next($event.target.value)" autofocus>
+      <ul class="dropdown-menu" [ngStyle]="{'display': userGroups.length > 0 ? 'block' : 'none'}">
+        <li *ngFor="let group of userGroups">
+          <a (click)="addUserGroup(group)">{{group.displayName}}</a>
+        </li>
+      </ul>
+    </li>
+    <li><a class="btn btn-default share-btn">Update</a></li>
   </ul>
 </div>

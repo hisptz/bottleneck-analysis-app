@@ -1,15 +1,29 @@
-import {Component, OnInit, forwardRef, Output, Input, EventEmitter} from '@angular/core';
+import {Component, OnInit, forwardRef, Output, Input, EventEmitter, ViewChild} from '@angular/core';
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
+import {TreeComponent, IActionMapping, TREE_ACTIONS} from "angular2-tree-component";
+import {FilterService} from "../../providers/filter.service";
 
-const noop = () => {
+const actionMapping1:IActionMapping = {
+  mouse: {
+    click: (node, tree, $event) => {
+      $event.shiftKey
+        ? TREE_ACTIONS.TOGGLE_SELECTED_MULTI(node, tree, $event)
+        : TREE_ACTIONS.TOGGLE_SELECTED(node, tree, $event)
+    }
+  }
 };
 
-export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => PeriodFilterComponent),
-  multi: true
+const actionMapping:IActionMapping = {
+  mouse: {
+    click: (node, tree, $event) => {
+      $event.ctrlKey
+        ? TREE_ACTIONS.TOGGLE_SELECTED_MULTI(node, tree, $event)
+        : TREE_ACTIONS.TOGGLE_SELECTED(node, tree, $event)
+    }
+  }
 };
+
 
 @Component({
   selector: 'app-period-filter',
@@ -18,153 +32,98 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class PeriodFilterComponent implements OnInit {
 
-  private onChangeCallback: (_: any) => void = noop;
-  //get accessor
-  get value(): any {
-    return this.isOpen;
-  }
-  //set accessor including call the onchange callback
-  set value(v: any) {
-    if (v !== this.isOpen) {
-      this.isOpen = v;
-      this.onChangeCallback(v);
-    }
-  }
-  writeValue(value:any):void {
-    if (value !== this.isOpen) {
-      this.isOpen = value;
-    }
-  }
-
-  registerOnChange(fn:any):void {
-    this.onChangeCallback = fn;
-  }
-
-  registerOnTouched(fn:any):void {
-
-  }
-
-  setDisabledState(isDisabled:boolean):void {
-
-  }
-
-  @Output() periodSelected = new EventEmitter();
-  isDropDownOpen;
-
-
-  @Input() isOpen;
-
-  @Output() isOpenChange = new EventEmitter();
-  isOpenMenu(val){
-    this.isOpen = val;
-    this.isOpenChange.emit(this.isOpen);
-  }
-
   periods = [];
-
-  constructor(private route:ActivatedRoute, private router:Router) {
-    this.router.events.subscribe((val:any) => {
-      this.checkPeriod();
-
-    })
+  period: any = {};
+  showPerTree:boolean = true;
+  selected_periods:any[] = [];
+  period_type: string = "Quarterly";
+  year: number = 2016;
+  default_period: string[] = [];
+  @ViewChild('pertree')
+  pertree: TreeComponent;
+  constructor(private filterService: FilterService) {
   }
 
   ngOnInit() {
-    this.populateList();
-    this.checkPeriod()
+
   }
-  checkPeriod(){
-    let period = this.router.url.substr(this.router.url.indexOf("period/") + 7);
-    this.list.forEach((p)=>{
-      if(p.value == period){
-        this.selectedPeriod = p;
+
+  activateNode(nodeId:any, nodes){
+    setTimeout(() => {
+      let node = nodes.treeModel.getNodeById(nodeId);
+      if (node)
+        node.toggleActivated();
+    }, 0);
+  }
+
+  pushPeriodForward(){
+    this.year += 1;
+    this.periods = this.filterService.getPeriodArray(this.period_type,this.year);
+  }
+
+  pushPeriodBackward(){
+    this.year -= 1;
+    this.periods = this.filterService.getPeriodArray(this.period_type,this.year);
+  }
+
+  changePeriodType(){
+    this.periods = this.filterService.getPeriodArray(this.period_type,this.year);
+  }
+
+  //setting the period to next or previous
+  setPeriod(type){
+    if(type == "down"){
+      this.periods = this.filterService.getPeriodArray(this.period_type, this.filterService.getLastPeriod(this.period.id,this.period_type).substr(0,4));
+      this.activateNode(this.filterService.getLastPeriod(this.period.id,this.period_type), this.pertree);
+      this.period = {
+        id:this.filterService.getLastPeriod(this.period.id,this.period_type),
+        name:this.getPeriodName(this.filterService.getLastPeriod(this.period.id,this.period_type))
+      };
+
+    }
+    if(type == "up"){
+      this.periods = this.filterService.getPeriodArray(this.period_type, this.filterService.getNextPeriod(this.period.id,this.period_type).substr(0,4));
+      this.activateNode(this.filterService.getNextPeriod(this.period.id,this.period_type), this.pertree);
+      this.period = {
+        id:this.filterService.getNextPeriod(this.period.id,this.period_type),
+        name:this.getPeriodName(this.filterService.getNextPeriod(this.period.id,this.period_type))
+      };
+
+    }
+    setTimeout(() => {
+      // this.loadScoreCard()
+    }, 5);
+  }
+
+  // get the name of period to be used in a tittle
+  getPeriodName(id){
+    for ( let period of this.filterService.getPeriodArray(this.period_type, this.filterService.getLastPeriod(id,this.period_type).substr(0,4))){
+      if( this.filterService.getLastPeriod(id,this.period_type) == period.id){
+        return period.name;
       }
-    })
-  }
-  currentDate = new Date();
-  periodType = "Monthly";
-  periodTypeChanged(event){
-    this.periodType = event;
-    this.populateList();
-  }
-  populateList() {
-    if (this.periodType == "Monthly") {
-      this.populateMonthList();
-    }else if(this.periodType == "Yearly"){
-      this.populateYearList()
     }
   }
 
-  next() {
-    if (this.periodType == "Monthly") {
-      this.currentDate = new Date(this.currentDate.getFullYear() + 1, this.currentDate.getMonth(), this.currentDate.getDate());
-      this.populateList();
-    }else if(this.periodType == "Yearly"){
-      this.currentDate = new Date(this.currentDate.getFullYear() + 10, this.currentDate.getMonth(), this.currentDate.getDate());
-      this.populateYearList()
-    }
+  // custom settings for tree
+  customTemplateStringPeriodOptions: any = {
+    isExpandedField: 'expanded',
+    actionMapping1
+  };
 
+  // display period Tree
+  displayPerTree(){
+    this.showPerTree = !this.showPerTree;
   }
 
-  previous() {
-    if (this.periodType == "Monthly") {
-      this.currentDate = new Date(this.currentDate.getFullYear() - 1, this.currentDate.getMonth(), this.currentDate.getDate());
-      this.populateList();
-    }else if(this.periodType == "Yearly"){
-      this.currentDate = new Date(this.currentDate.getFullYear() - 10, this.currentDate.getMonth(), this.currentDate.getDate());
-      this.populateYearList()
-    }
-    this.allowNext = true;
-  }
+  // action to be called when a tree item is deselected(Remove item in array of selected items
+  deactivatePer ( $event ) {
 
-  allowNext = true;
-  allowPrevious = true;
-  list = [];
+  };
 
-  populateMonthList() {
-    //this.allowNext = true;
-    var monthNames = [ "January", "February", "March", "April", "May", "June" ,"July", "August", "September", "October", "November", "December"];
-    this.list = [];
-    var year = this.currentDate.getFullYear();
-    for(let i = 0;i < 3;i++){
-
-      var monthVal = this.currentDate.getMonth() - i;
-      console.log(monthVal);
-      if (monthVal < 0) {
-        monthVal = 12 + monthVal;
-        year--;
-      }
-      let monthText = "";
-      if ((monthVal + 1) < 10) {
-        monthText = "0" + (monthVal + 1);
-      }else{
-        monthText = "" + (monthVal + 1);
-      }
-      this.list.unshift({
-        name: monthNames[monthVal] + " " + year,
-        value: year + "" + monthText
-      })
-    }
-    this.list.reverse();
-  }
-  populateYearList() {
-    this.list = [];
-    var year = this.currentDate.getFullYear();
-    for(let i = 0;i < 10;i++){
-      this.list.push({
-        name: year - i,
-        value: year - i
-      })
-    }
-    this.allowNext = false;
-    this.list = this.list.splice(0,3);
-  }
-  model = "";
-  selectedPeriod;
-  select(period){
-    this.selectedPeriod = period;
-    this.periodSelected.emit(period.value);
-    this.isOpen = false;
-  }
+  // add item to array of selected items when item is selected
+  activatePer = ($event) => {
+    this.selected_periods = [$event.node.data];
+    this.period = $event.node.data;
+  };
 
 }

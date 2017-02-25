@@ -71,6 +71,7 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
         this.messageCount = 0;
       }
     })
+    this.searchTerm$.asObservable().subscribe(term => console.log(term));
     this.searchService.search(this.searchTerm$)
       .subscribe(results => {
         this.results = results;

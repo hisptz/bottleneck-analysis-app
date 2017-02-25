@@ -89,7 +89,6 @@ export class DashboardItemCardComponent implements OnInit{
     if((dashboardItemType == 'CHART') || (dashboardItemType == 'EVENT_CHART')) {
       this.drawChart(dashboardObject, dashboardAnalytic,this.currentChartType);
     } else if ((dashboardItemType == 'TABLE') || (dashboardItemType == 'EVENT_REPORT') || (dashboardItemType == 'REPORT_TABLE')) {
-      console.log(dashboardObject);
       this.drawTable(dashboardObject, dashboardAnalytic,)
     } else if(dashboardItemType == 'DICTIONARY') {
       this.metadataIdentifiers = this.dashboardService.getDashboardItemMetadataIdentifiers(this.itemData.object)
@@ -205,6 +204,7 @@ export class DashboardItemCardComponent implements OnInit{
   }
 
   updateDasboardItemForAnalyticTypeItems(customDimensions = []) {
+    this.loadingChart =  this.loadingTable = true;
     this.dashboardService.getDashboardItemWithObjectAndAnalytics(this.route.snapshot.params['id'],this.itemData.id,this.currentUser.id,customDimensions)
       .subscribe(dashboardItem => {
         this.itemData = dashboardItem;

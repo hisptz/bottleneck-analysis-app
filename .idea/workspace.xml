@@ -3,13 +3,21 @@
   <component name="ChangeListManager">
     <list default="true" id="ed1b13f6-8fe1-48fa-954c-1ac586fc72bd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/ng2-metadata-dictionary" afterPath="$PROJECT_DIR$/src/app/dashboard/components/ng2-metadata-dictionary" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/dhis-visualizer.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/dhis-visualizer.service.ts" />
     </list>
     <ignored path="idashboard.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,89 +37,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="dashboard-item-card.component.ts" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.ts">
+      <file leaf-file-name="dashboard-share.component.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="91" column="35" lean-forward="false" selection-start-line="91" selection-start-column="35" selection-end-line="91" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="organisation-unit-tree.component.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="284" column="0" lean-forward="false" selection-start-line="284" selection-start-column="0" selection-end-line="284" selection-end-column="0" />
+            <state relative-caret-position="252">
+              <caret line="24" column="55" lean-forward="false" selection-start-line="24" selection-start-column="55" selection-end-line="24" selection-end-column="55" />
               <folding>
-                <element signature="e#0#88#0" expanded="true" />
+                <element signature="e#521#527#0" expanded="true" />
+                <element signature="e#895#901#0" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#li#0;n#ul#0;n#li#3;n#ul#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#1555#1561#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboard.service.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts">
+      <file leaf-file-name="dashboard-share.component.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="200" column="49" lean-forward="false" selection-start-line="200" selection-start-column="49" selection-end-line="200" selection-end-column="49" />
+            <state relative-caret-position="36">
+              <caret line="2" column="20" lean-forward="false" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dhis-visualizer.service.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dhis-visualizer.service.ts">
+      <file leaf-file-name="dashboard-share.component.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="219" column="5" lean-forward="false" selection-start-line="219" selection-start-column="5" selection-end-line="219" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dashboard-item-interpretation.component.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="41" column="27" lean-forward="false" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
+            <state relative-caret-position="279">
+              <caret line="40" column="42" lean-forward="false" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
               <folding>
-                <element signature="n#style#0;n#h4#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dashboard-item-interpretation.component.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="51" column="48" lean-forward="false" selection-start-line="51" selection-start-column="48" selection-end-line="51" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="organisation-unit-tree.component.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="67" column="100" lean-forward="false" selection-start-line="67" selection-start-column="100" selection-end-line="67" selection-end-column="100" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dashboard-item-card.component.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="12" column="10" lean-forward="false" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="e#4506#4513#0" expanded="true" />
-                <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#0#50#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -120,9 +77,11 @@
       <file leaf-file-name="dashboard-items.component.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1458">
-              <caret line="81" column="154" lean-forward="false" selection-start-line="81" selection-start-column="154" selection-end-line="81" selection-end-column="154" />
-              <folding />
+            <state relative-caret-position="216">
+              <caret line="12" column="41" lean-forward="false" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="88" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -163,6 +122,7 @@
       <find>selected_level</find>
       <find>drawT</find>
       <find>push( item )</find>
+      <find>cust</find>
     </findStrings>
     <replaceStrings>
       <replace>itemData</replace>
@@ -176,10 +136,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/app/dashboard/components/error-notifier/error-notifier.component.ts" />
-        <option value="$PROJECT_DIR$/src/styles.css" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.html" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.html" />
         <option value="$PROJECT_DIR$/proxy-config.json" />
         <option value="$PROJECT_DIR$/src/app/shared/components/dhis2-menu/dhis2-menu.component.ts" />
@@ -207,26 +163,30 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/app/dashboard/providers/org-unit.service.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/providers/filter.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.html" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.css" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.css" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.css" />
         <option value="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.css" />
         <option value="$PROJECT_DIR$/src/app/shared/shared-module.module.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.ts" />
         <option value="$PROJECT_DIR$/src/app/shared/providers/current-user.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.html" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.html" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/providers/dhis-visualizer.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.html" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.css" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.css" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.html" />
       </list>
     </option>
   </component>
@@ -259,6 +219,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -485,6 +446,10 @@
               <option name="myItemId" value="components" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="period-filter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -541,10 +506,6 @@
               <option name="myItemId" value="components" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dashboard-item-interpretation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -572,13 +533,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dashboard-item-card" />
+              <option name="myItemId" value="dashboard-share" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -643,7 +603,7 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run" />
+      <command value="run-script" />
       <scripts />
       <node-interpreter value="project" />
       <envs />
@@ -755,11 +715,12 @@
       <workItem from="1487785919638" duration="7293000" />
       <workItem from="1487826959065" duration="25118000" />
       <workItem from="1487916767302" duration="13808000" />
+      <workItem from="1488044423454" duration="16980000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="674190000" />
+    <option name="totallyTimeSpent" value="691170000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -772,16 +733,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1366" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25167537" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23752792" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24944155" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3869969" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3637771" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3993808" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -827,85 +788,13 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-search/dashboard-item-search.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="51" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="28" column="2" lean-forward="false" selection-start-line="28" selection-start-column="2" selection-end-line="28" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-resources/dashboard-item-resources.component.html" />
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-users/dashboard-item-users.component.html" />
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-resources/dashboard-item-resources.component.css" />
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-report/dashboard-item-report.component.html" />
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.html" />
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-chart/dashboard-item-chart.component.css" />
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.css" />
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.html" />
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-dictionary/dashboard-item-dictionary.component.ts" />
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-table/dashboard-item-table.component.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/ng2-metadata-dictionary/metadata-dictionary.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="132" column="2" lean-forward="false" selection-start-line="132" selection-start-column="2" selection-end-line="132" selection-end-column="2" />
-          <folding>
-            <element signature="e#0#55#0" expanded="false" />
-            <marker date="1487761301306" expanded="true" signature="278:396" ph="..." />
-            <marker date="1487761301306" expanded="false" signature="318:351" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="481:3541" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="570:3533" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="602:774" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="633:763" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="719:751" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="862:3524" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="893:3513" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="2420:2640" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="2739:2955" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="3001:3268" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="3309:3493" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="3633:6653" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="3726:6645" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="3758:3934" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="3789:3923" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="3877:3911" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="4023:6636" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="4054:6625" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="5105:6612" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="5239:5653" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="5712:6598" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="6734:8612" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="6819:8603" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="6851:7019" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="6882:7008" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="6966:6996" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="7104:8594" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="7135:8583" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="7712:8570" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="8693:10346" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="8775:10338" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="8807:8971" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="8838:8960" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="8920:8948" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="9054:10329" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="9085:10318" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="10441:12077" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="10526:12069" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="10558:10734" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="10589:10723" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="10677:10711" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="10823:12060" ph="..." />
-            <marker date="1487761301306" expanded="true" signature="10854:12049" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/ng2-metadata-dictionary/metadata-dictionary.component.ts" />
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/create-dashboard/create-dashboard.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="305">
@@ -990,44 +879,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="1" lean-forward="false" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="52" column="31" lean-forward="false" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="50" column="40" lean-forward="false" selection-start-line="50" selection-start-column="40" selection-end-line="50" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="44" column="6" lean-forward="false" selection-start-line="44" selection-start-column="6" selection-end-line="44" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="108" column="16" lean-forward="false" selection-start-line="108" selection-start-column="16" selection-end-line="108" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -1091,45 +942,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1458">
-          <caret line="81" column="154" lean-forward="false" selection-start-line="81" selection-start-column="154" selection-end-line="81" selection-end-column="154" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="10" lean-forward="false" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="e#4506#4513#0" expanded="true" />
-            <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="67" column="100" lean-forward="false" selection-start-line="67" selection-start-column="100" selection-end-line="67" selection-end-column="100" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
+        <state relative-caret-position="864">
           <caret line="51" column="48" lean-forward="false" selection-start-line="51" selection-start-column="48" selection-end-line="51" selection-end-column="48" />
           <folding />
         </state>
@@ -1137,20 +952,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
+        <state relative-caret-position="738">
           <caret line="41" column="27" lean-forward="false" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
           <folding>
-            <element signature="n#style#0;n#h4#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="284" column="0" lean-forward="false" selection-start-line="284" selection-start-column="0" selection-end-line="284" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#88#0" expanded="true" />
+            <element signature="n#style#0;n#h4#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1159,31 +964,192 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dhis-visualizer.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
+        <state relative-caret-position="3942">
           <caret line="219" column="5" lean-forward="false" selection-start-line="219" selection-start-column="5" selection-end-line="219" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="53" column="32" lean-forward="false" selection-start-line="53" selection-start-column="32" selection-end-line="53" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="67" column="85" lean-forward="false" selection-start-line="67" selection-start-column="85" selection-end-line="67" selection-end-column="85" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="236" column="26" lean-forward="false" selection-start-line="236" selection-start-column="26" selection-end-line="236" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#88#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/pages/dashboard-landing/dashboard-landing.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-19">
+          <caret line="376" column="0" lean-forward="false" selection-start-line="376" selection-start-column="0" selection-end-line="376" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1433">
+          <caret line="108" column="16" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="376" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-19">
+          <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#4499#4506#0" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="118" column="2" lean-forward="false" selection-start-line="118" selection-start-column="2" selection-end-line="118" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard-search.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="28" column="2" lean-forward="true" selection-start-line="28" selection-start-column="2" selection-end-line="38" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/dashboard.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="200" column="49" lean-forward="false" selection-start-line="200" selection-start-column="49" selection-end-line="200" selection-end-column="49" />
-          <folding />
+        <state relative-caret-position="153">
+          <caret line="356" column="58" lean-forward="false" selection-start-line="356" selection-start-column="58" selection-end-line="356" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/period-filter/period-filter.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-19">
+          <caret line="52" column="31" lean-forward="false" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#select#0;n#div#0;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#2003#2009#1" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#div#1;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#0;n#div#1;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#form#0;n#div#2;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#5;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#5;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="91" column="35" lean-forward="false" selection-start-line="91" selection-start-column="35" selection-end-line="91" selection-end-column="35" />
+        <state relative-caret-position="-10">
+          <caret line="206" column="4" lean-forward="false" selection-start-line="206" selection-start-column="4" selection-end-line="206" selection-end-column="50" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="77" column="54" lean-forward="true" selection-start-line="77" selection-start-column="54" selection-end-line="77" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="41" lean-forward="false" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="88" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="40" column="42" lean-forward="false" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="20" lean-forward="false" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-share/dashboard-share.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="24" column="55" lean-forward="false" selection-start-line="24" selection-start-column="55" selection-end-line="24" selection-end-column="55" />
+          <folding>
+            <element signature="e#521#527#0" expanded="true" />
+            <element signature="e#895#901#0" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#li#0;n#ul#0;n#li#3;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#1555#1561#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
