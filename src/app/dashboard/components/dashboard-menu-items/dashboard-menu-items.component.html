@@ -38,6 +38,6 @@
   </li>
 </ul>
 <ul class="nav navbar-nav navbar-right dashboard-right">
-  <li *ngIf="isSearchOpen"><input type="text" size="12" [(ngModel)]="dashboardName" class="dashboard-search-input" autofocus></li>
-  <li class="dashboard-search-button" (click)="isSearchOpen = !isSearchOpen"><a tooltip="search dashboard"><i class="fa {{isSearchOpen ? 'fa-times':'fa-search'}}"></i></a></li>
+  <li *ngIf="settingsService.isOpen('menu-search')"><input type="text" size="12" [(ngModel)]="dashboardName" class="dashboard-search-input" autofocus></li>
+  <li class="dashboard-search-button" (click)="settingsService.toggleItem('menu-search')"><a tooltip="search dashboard" style="border-right-style: none;"><i class="fa {{settingsService.isOpen('menu-search') ? 'fa-times':'fa-search'}}"></i></a></li>
 </ul>

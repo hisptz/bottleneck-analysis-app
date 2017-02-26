@@ -56,10 +56,10 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="btn-group pull-right" style="background-color: #fff;">
-        <a href="../../../dhis-web-dashboard-integration/showSendFeedback.action" class="btn btn-default" style="background-color: #f5f5f5;  color: #269ABC;"><i class="fa fa-pencil"></i> Write feedback</a>
-        <a href="../../../dhis-web-dashboard-integration/message.action" class="btn btn-default" style="background-color: #f5f5f5; color: #269ABC;" *ngIf="notification?.unreadMessageConversations > 0"><i class="fa fa-envelope"></i> <small *ngIf="loadingNotification">Loading...</small> {{notification?.unreadMessageConversations}}</a>
-        <a href="../../../dhis-web-dashboard-integration/interpretation.action" class="btn btn-default" style="background-color: #f5f5f5; color: #269ABC;" *ngIf="notification?.unreadInterpretations > 0"><i class="fa fa-comments-o"></i> <small *ngIf="loadingNotification">Loading...</small> {{notification?.unreadInterpretations}}</a>
+      <div class="btn-group pull-right">
+        <a href="../../../dhis-web-dashboard-integration/showSendFeedback.action" class="btn btn-default" style="color: #269ABC;"><i class="fa fa-pencil"></i> Write feedback</a>
+        <a href="../../../dhis-web-dashboard-integration/message.action" class="btn btn-default" style="color: #269ABC;" *ngIf="notification?.unreadMessageConversations > 0"><i class="fa fa-envelope"></i> <small *ngIf="loadingNotification">Loading...</small>&nbsp;<small style="font-size: 12px;">{{notification?.unreadMessageConversations}}</small></a>
+        <a href="../../../dhis-web-dashboard-integration/interpretation.action" class="btn btn-default" style="color: #269ABC;" *ngIf="notification?.unreadInterpretations > 0"><i class="fa fa-comments-o"></i> <small *ngIf="loadingNotification">Loading...</small>&nbsp;<small style="font-size: 12px;">{{notification?.unreadInterpretations}}</small></a>
       </div>
     </div>
   </div>

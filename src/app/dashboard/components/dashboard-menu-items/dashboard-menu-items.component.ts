@@ -5,6 +5,7 @@ import {PaginationInstance} from 'ng2-pagination';
 import {ContextMenuService} from "angular2-contextmenu";
 import {Observable} from "rxjs";
 import {RouterModule, Router} from "@angular/router";
+import {DashboardSettingsService} from "../../providers/dashboard-settings.service";
 
 @Component({
   selector: 'app-dashboard-menu-items',
@@ -27,6 +28,7 @@ export class DashboardMenuItemsComponent implements OnInit {
   };
   constructor(
      private dashboardService: DashboardService,
+     private settingsService: DashboardSettingsService,
      private contextMenuService: ContextMenuService,
      private router: Router
   ) {
