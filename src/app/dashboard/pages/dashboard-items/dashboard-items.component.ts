@@ -36,6 +36,7 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
   headers: Array<any>;
   messageCount: number;
   currentUser: any;
+  searching: boolean = false;
   constructor(
       private dashboardItemService: DashboardItemService,
       private dashboardService: DashboardService,
@@ -61,7 +62,8 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
 
   ngOnInit() {
     //search area
-    this.searchTerm$.subscribe(terms => {
+    this.searchTerm$.asObservable().subscribe(terms => {
+      this.searching = true;
       if(terms.match(/^[mM]/)) {
         this.searchService.getMessageCount()
           .subscribe(count => {
@@ -70,14 +72,23 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
       } else {
         this.messageCount = 0;
       }
-    })
-    this.searchTerm$.asObservable().subscribe(term => console.log(term));
-    this.searchService.search(this.searchTerm$)
-      .subscribe(results => {
-        this.results = results;
-        this.headers = this.getResultHeaders(results);
-        this.showBody = true;
-      });
+
+      if(terms != "") {
+        this.searchService.search(this.searchTerm$)
+          .subscribe(results => {
+            this.results = results;
+            this.headers = this.getResultHeaders(results);
+            this.showBody = true;
+            this.searching = false;
+          });
+      } else {
+        this.headers = [];
+        this.results = {};
+        this.showBody = false;
+      }
+    });
+
+
     //get notification information
     this.http.get('../../../api/me/dashboard.json')
       .map(res => res.json())

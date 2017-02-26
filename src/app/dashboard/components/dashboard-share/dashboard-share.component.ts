@@ -38,20 +38,25 @@ export class DashboardShareComponent implements OnInit {
       this.loadingSharing = true;
       this.updated = false;
       this.loadSharingData(params['id'])
-    })
+    });
 
-    this.searchUserGroup().subscribe(result => {
-      this.userGroups = [];
-      //Push only those unavailable in the list
-      if(result.hasOwnProperty('userGroups')) {
-        result.userGroups.forEach(userGroup => {
-          userGroup.access = '--------';
-          if(!this.checkIfUserGroupExist(userGroup.id)) {
-            this.userGroups.push(userGroup);
+    this.searchTerm$.asObservable().subscribe(term => {
+      if(term != "") {
+        this.searchUserGroup().subscribe(result => {
+          this.userGroups = [];
+          //Push only those unavailable in the list
+          if(result.hasOwnProperty('userGroups')) {
+            result.userGroups.forEach(userGroup => {
+              userGroup.access = '--------';
+              if(!this.checkIfUserGroupExist(userGroup.id)) {
+                this.userGroups.push(userGroup);
+              }
+            });
+            this.showUserGroupList = this.userGroups.length > 0 ? true : false;
+          } else {
+            this.showUserGroupList = false;
           }
-        });
-        console.log(this.userGroups);
-        this.showUserGroupList = this.userGroups.length > 0 ? true : false;
+        })
       } else {
         this.showUserGroupList = false;
       }
@@ -70,7 +75,6 @@ export class DashboardShareComponent implements OnInit {
         }
       }
     }
-    console.log(exist);
     return exist;
   }
 
@@ -79,7 +83,6 @@ export class DashboardShareComponent implements OnInit {
       .subscribe(sharingData => {
         this.loadingSharing = false;
         this.sharingData = sharingData;
-        console.log(sharingData)
       }, error => {
         this.loadingSharing = false;
         this.hasError = true;
@@ -160,7 +163,7 @@ export class DashboardShareComponent implements OnInit {
       })
   }
 
-  closeSharinggBody() {
+  closeSharingBody() {
     this.onCloseSharing.emit(true);
   }
 

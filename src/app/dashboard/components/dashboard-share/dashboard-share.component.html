@@ -1,10 +1,10 @@
 <div class="col-md-12">
   <div class="panel panel-default">
-    <div class="panel-body">
-      <small *ngIf="loadingSharing">
+    <div class="panel-body" style="padding-bottom: 5px;">
+      <small *ngIf="loadingSharing" style="padding-top: 5px;">
         Loading sharing settings...
       </small>
-      <small *ngIf="hasError">
+      <small *ngIf="hasError" style="padding-top: 5px;">
         An error has occured
       </small>
       <ul class="list-inline share-list" *ngIf="!loadingSharing && !hasError">

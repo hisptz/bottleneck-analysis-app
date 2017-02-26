@@ -199,9 +199,9 @@ export class DashboardService {
       if(dashBoardObjectColumn.dimension != "dy"){
         (index == 0)? items = "dimension="+dashBoardObjectColumn.dimension+":": items += "&dimension="+dashBoardObjectColumn.dimension+":";
 
-        if(dashBoardObjectColumn.dimension == 'ou' && useCustomDimension) {
+        if(dashBoardObjectColumn.dimension == 'ou' && useCustomDimension && !isUndefined(dashBoardObject.customOu)) {
           items += dashBoardObject.customOu + ';';
-        } else if(dashBoardObjectColumn.dimension == 'pe' && useCustomDimension) {
+        } else if(dashBoardObjectColumn.dimension == 'pe' && useCustomDimension && !isUndefined(dashBoardObject.customPe)) {
           items += dashBoardObject.customPe + ';';
         } else {
           dashBoardObjectColumn.items.forEach((dashBoardObjectColumnItem : any)=>{
@@ -220,9 +220,9 @@ export class DashboardService {
       if(dashBoardObjectRow.dimension!="dy"){
         items += "&dimension="+dashBoardObjectRow.dimension+":";
 
-        if(dashBoardObjectRow.dimension == 'ou' && useCustomDimension) {
+        if(dashBoardObjectRow.dimension == 'ou' && useCustomDimension && !isUndefined(dashBoardObject.customOu)) {
           items += dashBoardObject.customOu + ';';
-        } else if(dashBoardObjectRow.dimension == 'pe' && useCustomDimension) {
+        } else if(dashBoardObjectRow.dimension == 'pe' && useCustomDimension && !isUndefined(dashBoardObject.customPe)) {
           items += dashBoardObject.customPe + ';';
         } else {
           dashBoardObjectRow.items.forEach((dashBoardObjectRowItem : any)=>{

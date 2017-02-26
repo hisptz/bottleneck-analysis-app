@@ -1,6 +1,6 @@
 <ul class="nav navbar-nav dashboard-nav" *ngIf="!dashboardsLoading">
   <li class="dashboard-list" routerLinkActive="active" *ngFor="let dashboard of dashboards | filterBy: dashboardName | paginate: config">
-    <a routerLink="/dashboards/{{dashboard.id}}/dashboard" *ngIf="!isEditFormOpen(dashboard.id) && !isItemToDelete(dashboard.id)" (contextmenu)="onContextMenu($event, dashboard)">{{dashboard.name}}</a>
+    <a routerLink="/dashboards/{{dashboard.id}}/dashboard" *ngIf="!isEditFormOpen(dashboard.id) && !isItemToDelete(dashboard.id)" (contextmenu)="onContextMenu($event, dashboard)">{{dashboard.name | truncate:12}}</a>
     <app-edit-dashboard *ngIf="isEditFormOpen(dashboard.id)" [dashboard]="dashboard" (onFormClosed)="closeEditForm($event)"></app-edit-dashboard>
     <context-menu></context-menu>
   <div *ngIf="itemToDelete == dashboard.id" class="dashboard-delete-block">
@@ -19,20 +19,25 @@
   </li>
 </ul>
 <app-create-dashboard></app-create-dashboard>
-<ul class="nav navbar-nav navbar-right dashboard-right">
+<ul class="nav navbar-nav dashboard-nav">
   <li>
     <pagination-template *ngIf="dashboards?.length > config.itemsPerPage" #nm="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
       <ul class="custom-pagination pagination dashboard-pagination">
         <li class="pagination-previous" [class.disabled]="nm.isFirstPage()">
-          <a (click)="nm.previous()"> <i class="fa fa-chevron-left"></i> </a>
+          <a (click)="nm.previous()" tooltip="previous"> <i class="fa fa-chevron-left"></i> </a>
         </li>
 
         <li class="pagination-next" [class.disabled]="nm.isLastPage()">
-          <a (click)="nm.next()"> <i class="fa fa-chevron-right"></i> </a>
+          <a (click)="nm.next()" tooltip="next"> <i class="fa fa-chevron-right"></i> </a>
         </li>
       </ul>
     </pagination-template>
   </li>
+  <li>
+    <input type="number" [(ngModel)]="config.itemsPerPage" class="dashboard-pagination-input" min="1" max="7">
+  </li>
+</ul>
+<ul class="nav navbar-nav navbar-right dashboard-right">
   <li *ngIf="isSearchOpen"><input type="text" size="12" [(ngModel)]="dashboardName" class="dashboard-search-input" autofocus></li>
   <li class="dashboard-search-button" (click)="isSearchOpen = !isSearchOpen"><a tooltip="search dashboard"><i class="fa {{isSearchOpen ? 'fa-times':'fa-search'}}"></i></a></li>
 </ul>

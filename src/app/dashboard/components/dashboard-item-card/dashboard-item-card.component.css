@@ -119,11 +119,16 @@
 }
 
 .delete-btn {
-  display: none;
+  visibility:hidden;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 
-.dashboard-block:hover .delete-btn {
-  display: block;
+.dashboard-card-heading:hover .delete-btn {
+  visibility:visible;
 }
 
 .active-visualisation {
@@ -133,7 +138,7 @@
 
 .chart-options {
   position: absolute;
-  display: none;
+  visibility:hidden;
   height: 100%;
   width: 35px;
   right: 0;
@@ -142,6 +147,11 @@
   padding-top: 5px;
   padding-right: 2px;
   background-color: transparent;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 
 .chart-options ul > li > a {
@@ -180,7 +190,7 @@
 }
 
 .dashboard-item-body:hover .chart-options {
-  display: block;
+  visibility:visible;
 }
 
 .chart-block { }
@@ -189,5 +199,5 @@
   width: 98%;
 }
 .chart-block:hover .chart-options {
-  display: block;
+  visibility:visible;
 }

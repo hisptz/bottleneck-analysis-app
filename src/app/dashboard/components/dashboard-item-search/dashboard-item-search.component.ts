@@ -13,20 +13,18 @@ import {UtilitiesService} from "../../providers/utilities.service";
 })
 export class DashboardItemSearchComponent implements OnInit {
 
-  showBody; boolean;
+  showBody; boolean = false;
   searchTerm$ = new Subject<string>();
-  results: any;
-  headers: Array<any>;
-  messageCount: number;
+  results: any = {};
+  headers: Array<any> = [];
+  messageCount: number = 0;
   constructor(
     private searchService: DashboardSearchService,
     private dashboardItemService: DashboardItemService,
     private route: ActivatedRoute,
     private util: UtilitiesService
   ) {
-    this.showBody = false;
-    this.headers = [];
-    this.messageCount = 0;
+
   }
 
   ngOnInit() {
@@ -34,7 +32,7 @@ export class DashboardItemSearchComponent implements OnInit {
     // this.searchService.getMessageCount().subscribe(count => {
     //   console.log(count)
     // });
-    this.searchTerm$.subscribe(terms => {
+    this.searchTerm$.asObservable().subscribe(terms => {
       if(terms.match(/^[mM]/)) {
         this.searchService.getMessageCount()
           .subscribe(count => {
@@ -44,12 +42,6 @@ export class DashboardItemSearchComponent implements OnInit {
         this.messageCount = 0;
       }
     });
-    this.searchService.search(this.searchTerm$)
-      .subscribe(results => {
-        this.results = results;
-        this.headers = this.getResultHeaders(results);
-        this.showBody = true;
-      });
   }
 
   getResultHeaders(results): Array<any> {

@@ -3,6 +3,7 @@ import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {Dashboard} from "../../interfaces/dashboard";
 import {DashboardService} from "../../providers/dashboard.service";
 import {Router} from "@angular/router";
+import {DashboardSettingsService} from "../../providers/dashboard-settings.service";
 
 @Component({
   selector: 'app-create-dashboard',
@@ -17,7 +18,8 @@ export class CreateDashboardComponent implements OnInit {
   constructor(
       private formGroup: FormBuilder,
       private dashboardService: DashboardService,
-      private router: Router
+      private router: Router,
+      private settingService: DashboardSettingsService
   ) {
     this.isAddFormOpen = false;
     this.submitted = false;
@@ -32,6 +34,7 @@ export class CreateDashboardComponent implements OnInit {
   save(dashboardData: Dashboard, isValid: boolean) {
     this.submitted = true;
     this.isAddFormOpen = false;
+    this.settingService.toggleItem('add-dashboard');
     this.createDashboardForm.reset();
     this.dashboardService.create(dashboardData).subscribe(dashboardId => {
       this.router.navigate(['/dashboards/' + dashboardId +'/dashboard']);

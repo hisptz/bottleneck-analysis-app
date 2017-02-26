@@ -31,13 +31,13 @@
                   <ul class="nav nav-pills dashboard-item-header" style="position: absolute; right:0; top:0;">
                     <!--<li><a href=""><i class="fa fa-times"></i></a></li>-->
                     <li><a *ngIf="!confirmDelete" (click)="confirmDelete=true" class="delete-btn" tooltip="Delete dashboard"><i class="fa fa-trash"></i></a></li>
-                    <li *ngIf="!isFullScreen"><a (click)="resizeDashboard(itemData.shape)" tooltip="Resize dashboard"><i class="fa fa-arrows-h"></i></a></li>
-                    <li><a (click)="isFullScreen = !isFullScreen"><i class="fa fa-expand" tooltip="Full screen"></i></a></li>
                     <li *ngIf="confirmDelete" class="dashboard-delete-block">
                       <small>Delete?</small>
-                      <button (click)="confirmDelete = false" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>
                       <button (click)="deleteDashboardItem(itemData.id)" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                      <button (click)="confirmDelete = false" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>
                     </li>
+                    <li *ngIf="!isFullScreen"><a (click)="resizeDashboard(itemData.shape)" tooltip="Resize dashboard"><i class="fa fa-arrows-h"></i></a></li>
+                    <li><a (click)="isFullScreen = !isFullScreen"><i class="fa fa-expand" tooltip="Full screen"></i></a></li>
                   </ul>
                 </div>
             </div>
@@ -75,7 +75,8 @@
 
               <!--map type section-->
               <div class="text-center" *ngIf="currentVisualization == 'MAP'">
-                <h2 class="text-info">Comming soon!</h2>
+                <i class="fa fa-map fa-3x"></i>
+                <h2 class="text-info">Stay tuned for cooler maps ever!</h2>
               </div>
               <!--end of map type section-->
 

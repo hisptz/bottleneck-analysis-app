@@ -224,7 +224,7 @@ export class DashboardItemCardComponent implements OnInit{
     if(interpretationLength > 0) {
       Observable.interval(4000).subscribe(value => {
         if(interpretationIndex <= interpretationLength - 1) {
-          this.interpretation = dashboardItem.object.interpretations[interpretationIndex].text
+          this.interpretation = dashboardItem.object.interpretations[interpretationIndex].text;
           interpretationIndex += 1;
         } else {
           interpretationIndex = 0;

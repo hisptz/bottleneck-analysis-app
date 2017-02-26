@@ -11,7 +11,8 @@
       <div class="form-group" style="position: relative;">
         <div class="form-group has-feedback dashboard-search-block">
           <input type="text" id="search" (keyup)="searchTerm$.next($event.target.value)" (focus)="showBody = headers.length > 0 ? true : false" class="form-control dashboard-search" placeholder="Add items in your dashboard by searching here">
-          <span class="form-control-feedback"><i class="fa fa-search"></i></span>
+          <span *ngIf="!searching" class="form-control-feedback"><i class="fa fa-search"></i></span>
+          <span *ngIf="searching" class="form-control-feedback"><img src="assets/img/balls-3.svg" style="height: 30px; width: 30px;" alt=""></span>
         </div>
         <div class="search-body" [hidden]="!showBody" (mouseleave)="showBody = false">
           <div class="panel search-panel" *ngIf="headers.length == 0">
@@ -72,7 +73,7 @@
     </div>
     <div class="collapse navbar-collapse dashboard-collapse-body" id="idashboardNavbar" [ngClass]="{'in': !isCollapsed}">
       <ul class="nav navbar-nav dashboard-nav dashboard-setting-nav">
-        <li class="{{settingService.isOpen('dimension') ? 'active' : ''}}"><a (click)="settingService.toggleItem('dimension')" class="navbar-brand" style="font-size: 14px;"><i class="fa fa-filter"></i></a></li>
+        <li class="{{settingService.isOpen('dimension') ? 'active' : ''}}" style="display: none;"><a (click)="settingService.toggleItem('dimension')" class="navbar-brand" style="font-size: 14px;"><i class="fa fa-filter"></i></a></li>
         <li class="{{settingService.isOpen('dimension') ? 'active' : ''}}"><a (click)="settingService.toggleItem('share')"><i class="fa fa-share-alt"></i></a></li>
       </ul>
       <app-dashboard-menu-items (onDashboardsLoaded)="load()"></app-dashboard-menu-items>
@@ -82,7 +83,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <app-dashboard-share *ngIf="settingService.isOpen('share')" (onCloseSharing)="settingService.toggleItem('dimension')"></app-dashboard-share>
+    <app-dashboard-share *ngIf="settingService.isOpen('share')" (onCloseSharing)="settingService.toggleItem('share')"></app-dashboard-share>
     <app-dashboard-dimensions *ngIf="settingService.isOpen('dimension')"></app-dashboard-dimensions>
   </div>
 </div>
