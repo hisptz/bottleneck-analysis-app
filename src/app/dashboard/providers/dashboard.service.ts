@@ -52,7 +52,7 @@ export class DashboardService {
           for(let dashboardItem of dashboard.dashboardItems) {
             if(dashboardItem.id == dashboardItemId) {
               if(dashboardItem.hasOwnProperty('object')) {
-                if(customDimensions.length != 0) {
+                if(customDimensions.length > 0) {
                   customDimensions.forEach((dimension) => {
                     if(dimension.name == 'ou') {
                       dashboardItem.object.customOu = dimension.value;
@@ -189,7 +189,7 @@ export class DashboardService {
   }
 
   private _getDashBoardItemAnalyticsUrl(dashBoardObject, dashboardType, currentUserId, useCustomDimension = false): string {
-    let url = this.constant.root_url + "api/25/analytics";
+    let url = this.constant.api + "analytics";
     let column = "";
     let row = "";
     let filter = "";
@@ -198,9 +198,10 @@ export class DashboardService {
       let items = "";
       if(dashBoardObjectColumn.dimension != "dy"){
         (index == 0)? items = "dimension="+dashBoardObjectColumn.dimension+":": items += "&dimension="+dashBoardObjectColumn.dimension+":";
-        if(dashBoardObjectColumn.dimension == 'ou' && useCustomDimension && !isUndefined(dashBoardObject.customOu)) {
+
+        if(dashBoardObjectColumn.dimension == 'ou' && useCustomDimension) {
           items += dashBoardObject.customOu + ';';
-        } else if(dashBoardObjectColumn.dimension == 'pe' && useCustomDimension && !isUndefined(dashBoardObject.customPe)) {
+        } else if(dashBoardObjectColumn.dimension == 'pe' && useCustomDimension) {
           items += dashBoardObject.customPe + ';';
         } else {
           dashBoardObjectColumn.items.forEach((dashBoardObjectColumnItem : any)=>{
@@ -219,13 +220,13 @@ export class DashboardService {
       if(dashBoardObjectRow.dimension!="dy"){
         items += "&dimension="+dashBoardObjectRow.dimension+":";
 
-        if(dashBoardObjectRow.dimension == 'ou' && useCustomDimension && !isUndefined(dashBoardObject.customOu)) {
-          items += dashBoardObject.customOu + ';';;
-        } else if(dashBoardObjectRow.dimension == 'pe' && useCustomDimension && !isUndefined(dashBoardObject.customPe)) {
-          items += dashBoardObject.customPe + ';';;
+        if(dashBoardObjectRow.dimension == 'ou' && useCustomDimension) {
+          items += dashBoardObject.customOu + ';';
+        } else if(dashBoardObjectRow.dimension == 'pe' && useCustomDimension) {
+          items += dashBoardObject.customPe + ';';
         } else {
           dashBoardObjectRow.items.forEach((dashBoardObjectRowItem : any)=>{
-            items += dashBoardObjectRowItem.id + ";"
+            items += dashBoardObjectRowItem.id + ";";
           });
           if(dashBoardObjectRow.filter) {
             items += dashBoardObjectRow.filter+';';
@@ -376,6 +377,26 @@ export class DashboardService {
         }
       }
     });
+  }
+
+  saveSharingData(sharingData, dashboardId): Observable<any> {
+    //update to the pull first
+    this.dashboards.forEach(dashboard => {
+      if(dashboard.id == dashboardId) {
+        dashboard['sharing'] = sharingData;
+      }
+    });
+
+    //update to the server
+    return this.http.post(this.constant.api + 'sharing?type=dashboard&id=' + dashboardId, sharingData)
+      .map(res => res.json())
+      .catch(this.utilService.handleError);
+  }
+
+
+
+  getPeriodForAnalytic(dashboardId, periodModel) {
+
   }
 
 }

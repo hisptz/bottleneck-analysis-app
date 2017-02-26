@@ -211,6 +211,9 @@ export class DashboardItemCardComponent implements OnInit{
         this.visualize(this.currentVisualization,dashboardItem.object, dashboardItem.analytic);
         //@todo find best way to autoplay interpretation
         this.autoplayInterpretation(dashboardItem);
+      }, error => {
+        this.tableHasError = this.chartHasError = true;
+        this.loadingChart =  this.loadingTable = false;
       })
   }
 

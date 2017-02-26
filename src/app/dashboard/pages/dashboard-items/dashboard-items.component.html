@@ -66,20 +66,14 @@
 <nav class="navbar navbar-default dashboard-menu">
   <div class="container-fluid" style="padding-left: 0px; padding-right: 0px;">
     <div class="navbar-header">
-      <a class="navbar-toggle collapsed dashboard-collapse-btn" data-toggle="collapse" data-target="#myNavbar" [attr.aria-expanded]="!isCollapsed" (click)="toggleCollapse()" [ngClass]="{'collapsed': isCollapsed}">
+      <a class="navbar-toggle collapsed dashboard-collapse-btn" data-toggle="collapse" data-target="#idashboardNavbar" [attr.aria-expanded]="!isCollapsed" (click)="toggleCollapse()" [ngClass]="{'collapsed': isCollapsed}">
         <i class="fa fa-bars"></i>
       </a>
     </div>
-    <div class="collapse navbar-collapse dashboard-collapse-body" id="myNavbar" [ngClass]="{'in': !isCollapsed}">
-      <ul class="nav navbar-nav dashboard-nav">
-        <li>
-          <a type="button" class="navbar-brand" (click)="isSettingsOpen = !isSettingsOpen">
-            <i class="fa fa-cogs"></i>&nbsp;
-            <small><i class="fa {{isSettingsOpen ? 'fa-chevron-left':'fa-chevron-right'}}"></i></small>
-          </a>
-        </li>
-        <li *ngIf="isSettingsOpen"><a (click)="settingService.toggleItem('dimension')"><i class="fa {{settingService.isOpen('dimension')? 'fa-times':'fa-filter'}}"></i></a></li>
-        <li *ngIf="isSettingsOpen"><a (click)="settingService.toggleItem('share')"><i class="fa {{settingService.isOpen('share')? 'fa-times':'fa-share-alt'}}"></i></a></li>
+    <div class="collapse navbar-collapse dashboard-collapse-body" id="idashboardNavbar" [ngClass]="{'in': !isCollapsed}">
+      <ul class="nav navbar-nav dashboard-nav dashboard-setting-nav">
+        <li class="{{settingService.isOpen('dimension') ? 'active' : ''}}"><a (click)="settingService.toggleItem('dimension')" class="navbar-brand" style="font-size: 14px;"><i class="fa fa-filter"></i></a></li>
+        <li class="{{settingService.isOpen('dimension') ? 'active' : ''}}"><a (click)="settingService.toggleItem('share')"><i class="fa fa-share-alt"></i></a></li>
       </ul>
       <app-dashboard-menu-items (onDashboardsLoaded)="load()"></app-dashboard-menu-items>
     </div>
@@ -88,8 +82,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <app-dashboard-item-search *ngIf="settingService.isOpen('search')"></app-dashboard-item-search>
-    <app-dashboard-share *ngIf="settingService.isOpen('share')"></app-dashboard-share>
+    <app-dashboard-share *ngIf="settingService.isOpen('share')" (onCloseSharing)="settingService.toggleItem('dimension')"></app-dashboard-share>
     <app-dashboard-dimensions *ngIf="settingService.isOpen('dimension')"></app-dashboard-dimensions>
   </div>
 </div>

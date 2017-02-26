@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {DashboardService} from "../../providers/dashboard.service";
 import {ActivatedRoute} from "@angular/router";
 import {Observable, Subject} from "rxjs";
 import {Http} from "@angular/http";
 import {Constants} from "../../../shared/constants";
+import {isUndefined} from "util";
 
+const availableAccesses = ['--------','r-------','rw------'];
 @Component({
   selector: 'app-dashboard-share',
   templateUrl: './dashboard-share.component.html',
@@ -13,11 +15,16 @@ import {Constants} from "../../../shared/constants";
 export class DashboardShareComponent implements OnInit {
 
   loadingSharing: boolean = true;
+  updated: boolean = false;
+  updating: boolean = false;
   hasError: boolean = false;
+  showUserGroupList: boolean = false;
   sharingData: any;
   errorMessage: any;
   searchTerm$ = new Subject<string>();
   userGroups: Array<any> = [];
+
+  @Output() onCloseSharing: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private dashboardService: DashboardService,
     private route: ActivatedRoute,
@@ -26,27 +33,80 @@ export class DashboardShareComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dashboardService.loadDashboardSharingData(this.route.snapshot.params['id'])
+    this.loadSharingData();
+    this.route.params.forEach(params => {
+      this.loadingSharing = true;
+      this.updated = false;
+      this.loadSharingData(params['id'])
+    })
+
+    this.searchUserGroup().subscribe(result => {
+      this.userGroups = [];
+      //Push only those unavailable in the list
+      if(result.hasOwnProperty('userGroups')) {
+        result.userGroups.forEach(userGroup => {
+          userGroup.access = '--------';
+          if(!this.checkIfUserGroupExist(userGroup.id)) {
+            this.userGroups.push(userGroup);
+          }
+        });
+        console.log(this.userGroups);
+        this.showUserGroupList = this.userGroups.length > 0 ? true : false;
+      } else {
+        this.showUserGroupList = false;
+      }
+    })
+  }
+
+  checkIfUserGroupExist(userGroupId) {
+    let exist = false;
+    if(this.sharingData.object.hasOwnProperty('userGroupAccesses')) {
+      if(this.sharingData.object.userGroupAccesses.length > 0) {
+        for(let group of this.sharingData.object.userGroupAccesses) {
+          if(group.id == userGroupId) {
+            exist = true;
+            break;
+          }
+        }
+      }
+    }
+    console.log(exist);
+    return exist;
+  }
+
+  loadSharingData(dashboardId?) {
+    this.dashboardService.loadDashboardSharingData(dashboardId ? dashboardId : this.route.snapshot.params['id'])
       .subscribe(sharingData => {
         this.loadingSharing = false;
-        this.sharingData = sharingData
+        this.sharingData = sharingData;
         console.log(sharingData)
       }, error => {
         this.loadingSharing = false;
         this.hasError = true;
         this.errorMessage = error;
       })
-
-    this.searchUserGroup().subscribe(result => {
-      this.userGroups = result.userGroups;
-    })
   }
 
   togglePublicAccess(currentAccess) {
-    let availableAccesses = ['--------','r-------','rw------'];
-
-    let newAccessIndex = availableAccesses.indexOf(currentAccess) == 2 ? 0 : availableAccesses.indexOf(currentAccess) + 1;
+    let newAccessIndex = this.getNewAccessIndex(currentAccess);
     this.sharingData.object.publicAccess = availableAccesses[newAccessIndex];
+  }
+
+  toggleUserGroupAccess(access, groupId) {
+    let newAccessIndex = this.getNewAccessIndex(access);
+    if(newAccessIndex == 0) {
+      this.removeUserGroup(groupId)
+    } else {
+      this.sharingData.object.userGroupAccesses.forEach(group => {
+        if(group.id == groupId) {
+          group.access = availableAccesses[newAccessIndex];
+        }
+      })
+    }
+  }
+
+  getNewAccessIndex(currentAccess): number {
+    return availableAccesses.indexOf(currentAccess) == 2 ? 0 : availableAccesses.indexOf(currentAccess) + 1;
   }
 
   readableAccess(access) {
@@ -71,6 +131,37 @@ export class DashboardShareComponent implements OnInit {
     return this.http
       .get(this.constant.api + 'sharing/search?key='+ term + '&pageSize=20')
       .map(res => res.json());
+  }
+
+  removeUserGroup(groupId) {
+    this.sharingData.object.userGroupAccesses.forEach((group, index) => {
+      if(group.id == groupId) {
+        this.sharingData.object.userGroupAccesses.splice(this.sharingData.object.userGroupAccesses.indexOf(group),1);
+      }
+    })
+  }
+
+  addUserGroup(group) {
+    this.showUserGroupList = false;
+    if(!this.sharingData.object.hasOwnProperty('userGroupAccesses')) {
+      this.sharingData.object.userGroupAccesses = [];
+    }
+    this.sharingData.object.userGroupAccesses.push(group);
+  }
+
+  updateSharing() {
+    this.updating = true;
+    this.dashboardService.saveSharingData(this.sharingData, this.route.snapshot.params['id'])
+      .subscribe(response => {
+        this.updating = false;
+        this.updated = true;
+      }, error => {
+        console.log('There was an error updating sharing settings')
+      })
+  }
+
+  closeSharinggBody() {
+    this.onCloseSharing.emit(true);
   }
 
 }

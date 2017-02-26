@@ -1,17 +1,23 @@
 <div class="tree-input" >
   <div>
     <div class="show_items" (click)="displayPerTree()">
-      <span *ngFor="let item of selected_periods" class="selected-item ng-binding ng-scope">
+      <span *ngIf="selected_periods.length > 1">
+            <span class="selected-item">
+              {{ selected_periods.length }} selected
+            </span>
+      </span>
+      <span *ngIf="selected_periods.length <= 1">
+        <span *ngFor="let item of selected_periods" class="selected-item ng-binding ng-scope">
         {{ item.name }}
       </span>
+      </span>
       <span class="no-selection"*ngIf="selected_periods.length == 0 && !period_tree_config.loading">{{ period_tree_config.placeholder }}</span>
-      <span class="glyphicon glyphicon-triangle-bottom pull-right" *ngIf="!period_tree_config.loading"></span>
       <span *ngIf="period_tree_config.loading">{{ period_tree_config.loading_message }}</span>
     </div>
-    <div class="show_tops">
-      <div class="arrows" title="go to next period" style="height: 19px;border-bottom: 1px solid black" (click)="setPeriod('up')" ><span class="glyphicon glyphicon-triangle-top"></span> </div>
-      <div class="arrows" title="go to previous period" style="height: 17px" (click)="setPeriod('down')"> <span class="glyphicon glyphicon-triangle-bottom"></span></div>
-    </div>
+    <!--<div class="show_tops">-->
+      <!--<div class="arrows" title="go to next period" style="height: 19px;border-bottom: 1px solid black" (click)="setPeriod('up')" ><span class="glyphicon glyphicon-triangle-top"></span> </div>-->
+      <!--<div class="arrows" title="go to previous period" style="height: 17px" (click)="setPeriod('down')"> <span class="glyphicon glyphicon-triangle-bottom"></span></div>-->
+    <!--</div>-->
     <div class="tree-view" [ngClass]="{'hiddenTree':showPerTree}">
       <div class="col-sm-7" style="padding-left: 0px; margin-bottom: 5px">
         <label>Period Type</label>
@@ -29,10 +35,9 @@
         </select>
       </div>
       <div class="col-sm-5" style="padding-right: 0px; margin-bottom: 5px">
-        <label>&nbsp;</label>
-        <div class="btn-group" style="width: 100%">
-          <button type="button" class="btn btn-default pull-right" style="height: 30px; font-size: 11px" (click)="pushPeriodForward()">>> year</button>
-          <button type="button" class="btn btn-default pull-right" style="height: 30px; font-size: 11px;" (click)="pushPeriodBackward()"><< year</button>
+        <div class="btn-group btn-group-sm pull-right" style="padding-top: 24px;">
+          <button type="button" class="btn btn-default" (click)="pushPeriodBackward()"><< year</button>
+          <button type="button" class="btn btn-default" (click)="pushPeriodForward()">>> year</button>
         </div>
       </div>
 
@@ -58,12 +63,14 @@
         </Tree>
       </div>
       <div class="close-area">
-        <button class="btn btn-default pull-right" style="height: 30px"  (click)="displayPerTree()">
-          <span class="glyphicon glyphicon-remove"></span> Close
-        </button>
-        <button type="button" class="btn btn-default pull-right"  style="height: 30px" (click)="loadScoreCard()">
-          <span class="glyphicon glyphicon-refresh"></span>  Update
-        </button>
+        <div class="pull-right">
+          <button type="button" class="btn btn-default btn-sm" (click)="updatePeriodModel()">
+            <span class="glyphicon glyphicon-refresh"></span>  Update
+          </button>
+          <button class="btn btn-default btn-sm"  (click)="displayPerTree()">
+            <span class="glyphicon glyphicon-remove"></span> Close
+          </button>
+        </div>
       </div>
     </div>
   </div>

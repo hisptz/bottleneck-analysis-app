@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {CurrentUserService} from "../../../shared/providers/current-user.service";
 import {isUndefined} from "util";
+import {isNull} from "util";
 
 @Component({
   selector: 'app-dashboard-landing',
@@ -37,8 +38,7 @@ export class DashboardLandingComponent implements OnInit,AfterViewInit {
         //find last dashboard id for the user
         this.currentUserService.getCurrentUser().subscribe(currentUser => {
           let dashboardId = localStorage.getItem('dhis2.dashboard.current.' + currentUser.userCredentials.username);
-
-          if(isUndefined(dashboardId)) {
+          if(isUndefined(dashboardId) || dashboardId == 'null') {
             localStorage.setItem('dhis2.dashboard.current.' + currentUser.userCredentials.username,dashboards[0].id);
             this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
           } else {

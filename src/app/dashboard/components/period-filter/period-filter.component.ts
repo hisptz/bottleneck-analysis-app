@@ -16,11 +16,8 @@ const actionMapping1:IActionMapping = {
 
 const actionMapping:IActionMapping = {
   mouse: {
-    click: (node, tree, $event) => {
-      $event.ctrlKey
-        ? TREE_ACTIONS.TOGGLE_SELECTED_MULTI(node, tree, $event)
-        : TREE_ACTIONS.TOGGLE_SELECTED(node, tree, $event)
-    }
+    dblClick: TREE_ACTIONS.TOGGLE_EXPANDED,
+    click: (node, tree, $event) => TREE_ACTIONS.TOGGLE_SELECTED_MULTI(node, tree, $event)
   }
 };
 
@@ -35,12 +32,22 @@ export class PeriodFilterComponent implements OnInit {
   periods = [];
   period: any = {};
   showPerTree:boolean = true;
-  selected_periods:any[] = [];
+  @Input() selected_periods:any[] = [];
   period_type: string = "Quarterly";
   year: number = 2016;
   default_period: string[] = [];
+  @Output() onPeriodUpdate: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('pertree')
   pertree: TreeComponent;
+  period_tree_config: any = {
+    show_search : true,
+    search_text : 'Search',
+    level: null,
+    loading: false,
+    loading_message: 'Loading Periods...',
+    multiple: true,
+    placeholder: "Select period"
+  };
   constructor(private filterService: FilterService) {
   }
 
@@ -105,10 +112,7 @@ export class PeriodFilterComponent implements OnInit {
   }
 
   // custom settings for tree
-  customTemplateStringPeriodOptions: any = {
-    isExpandedField: 'expanded',
-    actionMapping1
-  };
+  customTemplateStringPeriodOptions: any = {actionMapping};
 
   // display period Tree
   displayPerTree(){
@@ -117,13 +121,26 @@ export class PeriodFilterComponent implements OnInit {
 
   // action to be called when a tree item is deselected(Remove item in array of selected items
   deactivatePer ( $event ) {
-
+    this.selected_periods.splice(this.selected_periods.indexOf($event.node.data),1)
   };
 
   // add item to array of selected items when item is selected
-  activatePer = ($event) => {
-    this.selected_periods = [$event.node.data];
+  activatePer($event) {
+    this.selected_periods.push($event.node.data);
     this.period = $event.node.data;
   };
+
+  updatePeriodModel() {
+    this.displayPerTree();
+    this.onPeriodUpdate.emit([{name: 'pe', value: this.getPeriodsForAnalytics(this.selected_periods)}]);
+  }
+
+  getPeriodsForAnalytics(selectedPeriod) {
+    let periodForAnalytics = "";
+    selectedPeriod.forEach((periodValue, periodIndex) => {
+      periodForAnalytics += periodIndex == 0 ? periodValue.id : ';' + periodValue.id;
+    })
+    return periodForAnalytics
+  }
 
 }

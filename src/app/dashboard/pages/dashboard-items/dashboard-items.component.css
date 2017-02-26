@@ -149,4 +149,10 @@
 .search-table tr td {
   padding: 5px 0px 5px 0px;
 }
+/*.dashboard-setting-nav {*/
+  /*display: none;*/
+/*}*/
+/*#idashboardNavbar:hover .dashboard-setting-nav {*/
+  /*display: block;*/
+/*}*/
 
