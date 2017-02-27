@@ -23,7 +23,7 @@ export class DashboardShareComponent implements OnInit {
   errorMessage: any;
   searchTerm$ = new Subject<string>();
   userGroups: Array<any> = [];
-
+  searching: boolean = false;
   @Output() onCloseSharing: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private dashboardService: DashboardService,
@@ -40,8 +40,10 @@ export class DashboardShareComponent implements OnInit {
       this.loadSharingData(params['id'])
     });
 
+
     this.searchUserGroup().subscribe(result => {
-      this.searchTerm$.asObservable().subscribe(term => {
+      this.searching = false;
+      this.searchTerm$.subscribe(term => {
         if(term.length > 0) {
           this.userGroups = [];
           //Push only those unavailable in the list
@@ -52,7 +54,7 @@ export class DashboardShareComponent implements OnInit {
                 this.userGroups.push(userGroup);
               }
             });
-            this.showUserGroupList = this.userGroups.length > 0 ? true : false;
+            this.showUserGroupList = true;
           } else {
             this.showUserGroupList = false;
           }
@@ -125,6 +127,11 @@ export class DashboardShareComponent implements OnInit {
   }
 
   searchUserGroup() {
+    this.searchTerm$.subscribe(terms => {
+      if(terms.length > 0) {
+        this.searching = true;
+      }
+    })
     return this.searchTerm$.debounceTime(400)
       .distinctUntilChanged()
       .switchMap(term => this.searchEntries(term));
