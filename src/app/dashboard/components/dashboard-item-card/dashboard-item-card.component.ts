@@ -19,6 +19,44 @@ export const DASHBOARD_SHAPES = {
 })
 export class DashboardItemCardComponent implements OnInit{
 
+  headers=[
+    {
+      name: "dx",
+      column: "Data",
+      type: "java.lang.String",
+      hidden: false,
+      meta: true
+    },
+    {
+      name: "IymWT9V0HZI",
+      column: "Ownership",
+      type: "java.lang.String",
+      hidden: false,
+      meta: true
+    },
+    {
+      name: "VG4aAdXA4JI",
+      column: "Type",
+      type: "java.lang.String",
+      hidden: false,
+      meta: true
+    },
+    {
+      name: "pe",
+      column: "Period",
+      type: "java.lang.String",
+      hidden: false,
+      meta: true
+    },
+    {
+      name: "value",
+      column: "Value",
+      type: "java.lang.Double",
+      hidden: false,
+      meta: false
+    }
+  ]
+
   @Input() itemData: any;
   @Input() currentUser: any;
   @Output() onDelete: EventEmitter<boolean> = new EventEmitter<boolean>();

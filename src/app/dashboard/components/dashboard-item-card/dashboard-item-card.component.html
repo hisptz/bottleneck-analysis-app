@@ -16,6 +16,10 @@
                             <i class="fa {{filterShown ? 'fa-times' : 'fa-filter'}}"></i>
                           </a>
                         </li>
+                        <li *ngIf="layoutShown">
+                          <app-dashboard-layout [headers]="headers"></app-dashboard-layout>
+                        </li>
+                        <li><a (click)="layoutShown = !layoutShown"><i class="fa fa-retweet"></i></a></li>
                         <li *ngIf="itemData.interpretationCount == 0"><a (click)="toggleInterpretation()" tooltip="share interpretation"><i class="fa fa-share-alt"></i></a></li>
                         <li *ngIf="itemData.interpretationCount > 0">
                           <a (click)="toggleInterpretation()" tooltip="{{itemData.interpretationCount}} new interpretations">

@@ -1,0 +1,32 @@
+<div class="btn-group col-sm-12" dropdown autoClose="disabled" [(isOpen)]="isOpen">
+  <button id="single-button" type="button" class="btn btn-default btn-sm drop-down-button" dropdownToggle>
+    <span *ngIf="!selectedPeriod">Modify Filter</span><span class="selected" *ngIf="selectedPeriod">{{selectedPeriod.name}}</span>
+  </button>
+  <div dropdownMenu role="menu" aria-labelledby="single-button" style="width:600px;margin-left:15px">
+    <div>
+      <div class="col-sm-12">
+        <label>Table Layout</label>
+      </div>
+      <div class="col-sm-12">
+        <table class="table table-bordered">
+          <thead><tr><th width="33%">Column</th><th width="33%">Row</th><th width="33%">Filter</th></tr></thead>
+          <tbody><tr>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'columnDimension')">
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of dimensions.columnDimension" [dragData]="{data: dimension, dimension: 'columnDimension'}"><i [ngClass]="names[dimension].icon" class="fa"></i> {{names[dimension].name}}</div>
+            </td>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'rowDimension')">
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of dimensions.rowDimension" [dragData]="{data: dimension, dimension: 'rowDimension'}"><i [ngClass]="names[dimension].icon" class="fa"></i> {{names[dimension].name}}</div>
+            </td>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'filterDimension')">
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of dimensions.filterDimension" [dragData]="{data: dimension, dimension: 'filterDimension'}"><i [ngClass]="names[dimension].icon" class="fa"></i> {{names[dimension].name}}</div>
+            </td>
+          </tr></tbody>
+        </table>
+      </div>
+      <div class="col-sm-12 pull-right">
+        <button class="btn btn-default btn-sm" (click)="update()"><i class="fa fa-refresh"></i>Update</button>
+        <button class="btn btn-default btn-sm" (click)="isOpen = false"><i class="fa fa-times"></i>Close</button>
+      </div>
+    </div>
+  </div>
+</div>

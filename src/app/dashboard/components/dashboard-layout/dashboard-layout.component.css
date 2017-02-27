@@ -1,0 +1,7 @@
+.drop-target{
+  height:100px
+}
+.draggable{
+  border: 1px solid lightgrey;
+  padding: 3px;
+}

@@ -46,7 +46,7 @@ export class Constants {
       {
         type: 'gauge',
         description: 'Gauge chart',
-        icon: 'assets/img/gauge.png'
+        icon: 'assets/img/gauge.jpg'
       },
       {
         type: 'radar',

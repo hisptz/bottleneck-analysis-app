@@ -1,8 +1,8 @@
 <div class="container">
-  <div class="row">
+  <app-loader *ngIf="loading" [loadingMessage]="'Moving dashboards into position'"></app-loader>
+  <div class="row" *ngIf="!loading">
     <div class="col-md-12">
-      <h4 *ngIf="loading">Loading Dashboards, Please wait......</h4>
-      <div class="text-center" *ngIf="!loading">
+      <div class="text-center">
         <h1>
           <b>Welcome to interactive dashboard</b>
         </h1>

@@ -39,6 +39,10 @@ import { OrganisationUnitTreeComponent } from './components/organisation-unit-tr
 import {OrgUnitService} from "./providers/org-unit.service";
 import {FilterService} from "./providers/filter.service";
 import { PeriodFilterComponent } from './components/period-filter/period-filter.component';
+import { DragabbleDirective } from './components/dashboard-layout/directives/dragabble.directive';
+import { DropTargetDirective } from './components/dashboard-layout/directives/drop-target.directive';
+import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
+import {DndModule} from "ng2-dnd";
 
 @NgModule({
   imports: [
@@ -54,9 +58,10 @@ import { PeriodFilterComponent } from './components/period-filter/period-filter.
       AccordionModule.forRoot(),
       MomentModule,
       Ng2HighchartsModule,
-      TreeModule
+      TreeModule,
+      DndModule.forRoot()
   ],
-  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemInterpretationComponent, ContextMenuComponent, EditDashboardComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent,MetadataDictionaryComponent, OrganisationUnitTreeComponent, PeriodFilterComponent],
+  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemInterpretationComponent, ContextMenuComponent, EditDashboardComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent,MetadataDictionaryComponent, OrganisationUnitTreeComponent, PeriodFilterComponent, DragabbleDirective, DropTargetDirective, DashboardLayoutComponent],
   providers: [
       DashboardSettingsService,
       DashboardService,
