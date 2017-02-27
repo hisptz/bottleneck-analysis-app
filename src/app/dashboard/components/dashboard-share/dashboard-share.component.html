@@ -36,9 +36,9 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown">
-          <input type="text" placeholder="Add user groups" class="share-input" (keyup)="searchTerm$.next($event.target.value)" autofocus (focus)="showUserGroupList = userGroups.length > 0 ? true : false">
-          <ul class="dropdown-menu" [ngStyle]="{'display': showUserGroupList  ? 'block' : 'none'}">
+        <li class="dropdown" appClickOutside (clickOutside)="showUserGroupList = false">
+          <input type="text" placeholder="Add user groups" class="share-input" (keyup)="searchTerm$.next($event.target.value)" autofocus>
+          <ul *ngIf="showUserGroupList" class="user-group-dropdown">
             <li *ngFor="let group of userGroups">
               <a (click)="addUserGroup(group)">{{group.displayName}}</a>
             </li>

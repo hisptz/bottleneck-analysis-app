@@ -41,9 +41,9 @@ export class DashboardShareComponent implements OnInit {
     });
 
     this.searchUserGroup().subscribe(result => {
-      this.userGroups = [];
       this.searchTerm$.asObservable().subscribe(term => {
         if(term.length > 0) {
+          this.userGroups = [];
           //Push only those unavailable in the list
           if(result.hasOwnProperty('userGroups')) {
             result.userGroups.forEach(userGroup => {
