@@ -23,17 +23,17 @@
 }
 
 .dashboard-item-body {
-    height: 350px;
+    height: 400px;
     position: relative;
     overflow: auto;
 }
 
 .full-screen .dashboard-item-body {
-  height: 75vh;
+  height: 80vh;
 }
 
 .no-footer {
-  height: 380px !important;
+  height: 430px !important;
 }
 
 .dashboard-modal {
@@ -193,10 +193,12 @@
   visibility:visible;
 }
 
-.chart-block { }
 .chart-body {
-  height: 310px !important;
+  height: 370px !important;
   width: 98%;
+}
+.full-screen .dashboard-item-body .chart-body {
+  height: 75vh !important;
 }
 .chart-block:hover .chart-options {
   visibility:visible;

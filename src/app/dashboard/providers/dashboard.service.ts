@@ -158,14 +158,14 @@ export class DashboardService {
     })
   }
 
-  update(dashboardData: Dashboard): Observable<any> {
+  updateDashboardName(dashboardName: string, dashboardId): Observable<any> {
     for(let dashboard of this.dashboards) {
-      if(dashboard.id == dashboardData.id) {
-        this.dashboards[this.dashboards.indexOf(dashboard)] = dashboardData;
+      if(dashboard.id == dashboardId) {
+        dashboard.name = dashboardName;
         break;
       }
     }
-    return this.http.put(this.url + '/'+ dashboardData.id, {name: dashboardData.name})
+    return this.http.put(this.url + '/'+ dashboardId, {name: dashboardName})
       .catch(this.utilService.handleError)
   }
 

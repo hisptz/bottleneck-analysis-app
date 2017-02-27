@@ -6,6 +6,7 @@ import {Ng2PaginationModule} from "ng2-pagination";
 import { ProgressComponent } from './components/progress/progress.component';
 import {Constants} from "./constants";
 import {CurrentUserService} from "./providers/current-user.service";
+import {NotificationService} from "./providers/notification.service";
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import {CurrentUserService} from "./providers/current-user.service";
       Ng2PaginationModule,
       ProgressComponent
   ],
-  providers: [Constants, CurrentUserService]
+  providers: [Constants, CurrentUserService, NotificationService]
 })
 
 export class SharedModule {}

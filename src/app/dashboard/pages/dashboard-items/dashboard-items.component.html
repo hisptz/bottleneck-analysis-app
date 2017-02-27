@@ -8,13 +8,13 @@
       </small>
     </div>
     <div class="col-md-5">
-      <div class="form-group" style="position: relative;">
+      <div class="form-group" style="position: relative;" appClickOutside (clickOutside)="closeSearch($event)">
         <div class="form-group has-feedback dashboard-search-block">
           <input type="text" id="search" (keyup)="searchTerm$.next($event.target.value)" (focus)="showBody = headers.length > 0 ? true : false" class="form-control dashboard-search" placeholder="Add items in your dashboard by searching here">
           <span *ngIf="!searching" class="form-control-feedback"><i class="fa fa-search"></i></span>
           <span *ngIf="searching" class="form-control-feedback"><img src="assets/img/balls-3.svg" style="height: 30px; width: 30px;" alt=""></span>
         </div>
-        <div class="search-body" [hidden]="!showBody" (mouseleave)="showBody = false">
+        <div class="search-body" *ngIf="showBody">
           <div class="panel search-panel" *ngIf="headers.length == 0">
             <div class="panel-body" style="padding-top: 4px; padding-bottom: 3px; margin-bottom: 0px;">
               <b>No search result found</b>
@@ -86,6 +86,7 @@
     <app-dashboard-share *ngIf="settingService.isOpen('share')" (onCloseSharing)="settingService.toggleItem('share')"></app-dashboard-share>
     <app-dashboard-dimensions *ngIf="settingService.isOpen('dimension')"></app-dashboard-dimensions>
   </div>
+  <app-dashboard-notification-block *ngIf="notificationService.hasAlert()"></app-dashboard-notification-block>
 </div>
 
 

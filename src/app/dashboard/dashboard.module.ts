@@ -22,7 +22,7 @@ import {VisualizerService} from "./providers/dhis-visualizer.service";
 import {UtilitiesService} from "./providers/utilities.service";
 import {ModalModule, TabsModule, TooltipModule, DropdownModule, AccordionModule} from "ng2-bootstrap";
 import { DashboardItemInterpretationComponent } from './components/dashboard-item-interpretation/dashboard-item-interpretation.component';
-import {ContextMenuService, ContextMenuComponent} from "angular2-contextmenu";
+import {ContextMenuService} from "angular2-contextmenu";
 import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboard.component';
 import {DashboardSearchService} from "./providers/dashboard-search.service";
 import { ReadableNamePipe } from './pipes/readable-name.pipe';
@@ -43,6 +43,8 @@ import { DragabbleDirective } from './components/dashboard-layout/directives/dra
 import { DropTargetDirective } from './components/dashboard-layout/directives/drop-target.directive';
 import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
 import {DndModule} from "ng2-dnd";
+import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { DashboardNotificationBlockComponent } from './components/dashboard-notification-block/dashboard-notification-block.component';
 
 @NgModule({
   imports: [
@@ -61,7 +63,7 @@ import {DndModule} from "ng2-dnd";
       TreeModule,
       DndModule.forRoot()
   ],
-  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemInterpretationComponent, ContextMenuComponent, EditDashboardComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent,MetadataDictionaryComponent, OrganisationUnitTreeComponent, PeriodFilterComponent, DragabbleDirective, DropTargetDirective, DashboardLayoutComponent],
+  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemInterpretationComponent, EditDashboardComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent,MetadataDictionaryComponent, OrganisationUnitTreeComponent, PeriodFilterComponent, DragabbleDirective, DropTargetDirective, DashboardLayoutComponent, ClickOutsideDirective, DashboardNotificationBlockComponent],
   providers: [
       DashboardSettingsService,
       DashboardService,

@@ -1,4 +1,7 @@
-import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
+import {
+  Component, OnInit, OnDestroy, AfterViewInit, ElementRef, Output, EventEmitter,
+  HostListener
+} from '@angular/core';
 import {DashboardItemService} from "../../providers/dashboard-item.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DashboardService} from "../../providers/dashboard.service";
@@ -10,6 +13,7 @@ import {DashboardSearchService} from "../../providers/dashboard-search.service";
 import {UtilitiesService} from "../../providers/utilities.service";
 import {isObject} from "rxjs/util/isObject";
 import {CurrentUserService} from "../../../shared/providers/current-user.service";
+import {NotificationService} from "../../../shared/providers/notification.service";
 
 @Component({
   selector: 'app-dashboard-items',
@@ -30,7 +34,7 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
   subscription: Subscription[];
   totalItems: number;
   loadedItems: number;
-  showBody; boolean;
+  showBody: boolean = false;
   searchTerm$ = new Subject<string>();
   results: any;
   headers: Array<any>;
@@ -46,7 +50,8 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
       private router: Router,
       private searchService: DashboardSearchService,
       private util: UtilitiesService,
-      private currentUserService: CurrentUserService
+      private currentUserService: CurrentUserService,
+      private notificationService: NotificationService
   ) {
     this.loading = true;
     this.hasError = false;
@@ -54,7 +59,6 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
     this.loadingNotification = true;
     this.subscription = [];
     this.isSettingsOpen = false;
-    this.showBody = false;
     this.headers = [];
     this.messageCount = 0;
     this.dashboardItems = [];
@@ -72,20 +76,22 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
       } else {
         this.messageCount = 0;
       }
-
-      if(terms != "") {
-        this.searchService.search(this.searchTerm$)
-          .subscribe(results => {
-            this.results = results;
-            this.headers = this.getResultHeaders(results);
-            this.showBody = true;
-            this.searching = false;
-          });
-      } else {
-        this.headers = [];
-        this.results = {};
-        this.showBody = false;
-      }
+      this.searchService.search(this.searchTerm$)
+        .subscribe(results => {
+          this.searchTerm$.subscribe(terms => {
+            if(terms.length > 0) {
+              this.results = results;
+              this.headers = this.getResultHeaders(results);
+              this.showBody = true;
+              this.searching = false;
+            } else {
+              this.showBody = false;
+              this.searching = false;
+              this.headers = [];
+              this.results = {};
+            }
+          })
+        });
     });
 
 
@@ -216,4 +222,7 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
     this.isCollapsed = !this.isCollapsed;
   }
 
+  closeSearch(event) {
+    this.showBody = false;
+  }
 }

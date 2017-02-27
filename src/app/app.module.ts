@@ -16,7 +16,7 @@ import {AppRoutingModule} from "./app.routing.module";
     FormsModule,
     HttpModule,
     SharedModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

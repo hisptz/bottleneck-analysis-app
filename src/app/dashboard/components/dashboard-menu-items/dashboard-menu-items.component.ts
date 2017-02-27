@@ -1,11 +1,10 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {Dashboard} from "../../interfaces/dashboard";
 import {DashboardService} from "../../providers/dashboard.service";
 import {PaginationInstance} from 'ng2-pagination';
-import {ContextMenuService} from "angular2-contextmenu";
-import {Observable} from "rxjs";
 import {RouterModule, Router} from "@angular/router";
 import {DashboardSettingsService} from "../../providers/dashboard-settings.service";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-dashboard-menu-items',
@@ -21,6 +20,7 @@ export class DashboardMenuItemsComponent implements OnInit {
   public dashboards: Dashboard[];
   public itemToDelete: string;
   menuOptions: Array<any>;
+  updatedDashboard: string = '';
   public config: PaginationInstance = {
     id: 'custom',
     itemsPerPage: 5,
@@ -29,7 +29,6 @@ export class DashboardMenuItemsComponent implements OnInit {
   constructor(
      private dashboardService: DashboardService,
      private settingsService: DashboardSettingsService,
-     private contextMenuService: ContextMenuService,
      private router: Router
   ) {
     this.isItemSearchOpen = false;
@@ -37,25 +36,25 @@ export class DashboardMenuItemsComponent implements OnInit {
     this.dashboardsError = false;
     this.activeEditFormId = '';
     this.itemToDelete = '';
-    this.menuOptions = [
-      // {
-      //   html: () => 'Share',
-      //   click: (item, $event) => {
-      //   },
-      // },
-      {
-        html: (): string => 'Rename',
-        click: (item, $event): void => {
-          this.openEditForm(item.id)
-        }
-      },
-      {
-        html: (): string => 'Delete',
-        click: (item, $event): void => {
-          this.itemToDelete= item.id;
-        }
-      }
-    ]
+    // this.menuOptions = [
+    //   // {
+    //   //   html: () => 'Share',
+    //   //   click: (item, $event) => {
+    //   //   },
+    //   // },
+    //   {
+    //     html: (): string => 'Rename',
+    //     click: (item, $event): void => {
+    //       this.openEditForm(item.id)
+    //     }
+    //   },
+    //   {
+    //     html: (): string => 'Delete',
+    //     click: (item, $event): void => {
+    //       this.itemToDelete= item.id;
+    //     }
+    //   }
+    // ]
 
   }
 
@@ -69,15 +68,15 @@ export class DashboardMenuItemsComponent implements OnInit {
     })
   }
 
-  public onContextMenu($event: MouseEvent, item: any): void{
-    this.contextMenuService.show.next({
-      actions: this.menuOptions,
-      event: $event,
-      item: item
-    });
-    $event.preventDefault();
-    $event.stopPropagation();
-  }
+  // public onContextMenu($event: MouseEvent, item: any): void{
+  //   this.contextMenuService.show.next({
+  //     actions: this.menuOptions,
+  //     event: $event,
+  //     item: item
+  //   });
+  //   $event.preventDefault();
+  //   $event.stopPropagation();
+  // }
 
   isEditFormOpen(id) {
     return this.activeEditFormId == id ? true : false;
@@ -91,7 +90,8 @@ export class DashboardMenuItemsComponent implements OnInit {
     this.activeEditFormId = id;
   }
 
-  closeEditForm(event) {
+  closeEditForm(event, id) {
+    this.updatedDashboard = id;
     this.activeEditFormId = '';
   }
 
