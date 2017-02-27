@@ -6,6 +6,7 @@ import {UtilitiesService} from "../../providers/utilities.service";
 import {VisualizerService} from "../../providers/dhis-visualizer.service";
 import {Constants} from "../../../shared/constants";
 import {Observable} from "rxjs";
+import {isNull} from "util";
 
 export const DASHBOARD_SHAPES = {
   'NORMAL': ['col-md-4','col-sm-6','col-xs-12'],
@@ -18,44 +19,6 @@ export const DASHBOARD_SHAPES = {
   styleUrls: ['dashboard-item-card.component.css']
 })
 export class DashboardItemCardComponent implements OnInit{
-
-  headers=[
-    {
-      name: "dx",
-      column: "Data",
-      type: "java.lang.String",
-      hidden: false,
-      meta: true
-    },
-    {
-      name: "IymWT9V0HZI",
-      column: "Ownership",
-      type: "java.lang.String",
-      hidden: false,
-      meta: true
-    },
-    {
-      name: "VG4aAdXA4JI",
-      column: "Type",
-      type: "java.lang.String",
-      hidden: false,
-      meta: true
-    },
-    {
-      name: "pe",
-      column: "Period",
-      type: "java.lang.String",
-      hidden: false,
-      meta: true
-    },
-    {
-      name: "value",
-      column: "Value",
-      type: "java.lang.Double",
-      hidden: false,
-      meta: false
-    }
-  ]
 
   @Input() itemData: any;
   @Input() currentUser: any;
@@ -123,11 +86,11 @@ export class DashboardItemCardComponent implements OnInit{
     }
   }
 
-  visualize(dashboardItemType, dashboardObject, dashboardAnalytic,) {
+  visualize(dashboardItemType, dashboardObject, dashboardAnalytic, layout = null) {
     if((dashboardItemType == 'CHART') || (dashboardItemType == 'EVENT_CHART')) {
-      this.drawChart(dashboardObject, dashboardAnalytic,this.currentChartType);
+      this.drawChart(dashboardObject, dashboardAnalytic,this.currentChartType,layout);
     } else if ((dashboardItemType == 'TABLE') || (dashboardItemType == 'EVENT_REPORT') || (dashboardItemType == 'REPORT_TABLE')) {
-      this.drawTable(dashboardObject, dashboardAnalytic,)
+      this.drawTable(dashboardObject, dashboardAnalytic,layout)
     } else if(dashboardItemType == 'DICTIONARY') {
       this.metadataIdentifiers = this.dashboardService.getDashboardItemMetadataIdentifiers(this.itemData.object)
     }
@@ -135,11 +98,10 @@ export class DashboardItemCardComponent implements OnInit{
 
   setVisualization(visualizationType) {
     this.currentVisualization = visualizationType;
-    this.visualize(visualizationType,this.itemData.object, this.itemData.analytic,)
+    this.visualize(visualizationType,this.itemData.object, this.itemData.analytic)
   }
 
-  drawChart(dashboardObject, dashboardAnalytic, chartType?:string) {
-    // let itemChartType = this.itemData.object.hasOwnProperty('type') ? this.itemData.object.type.toLowerCase() : 'bar';
+  drawChart(dashboardObject, dashboardAnalytic,layout = null, chartType?:string) {
     let chartConfiguration = {
       'type': chartType,
       'title': dashboardObject.title,
@@ -150,25 +112,46 @@ export class DashboardItemCardComponent implements OnInit{
     this.loadingChart = false;
   }
 
-  drawTable(dashboardObject, dashboardAnalytic) {
+  drawTable(dashboardObject, dashboardAnalytic, layout = null) {
     let config = {rows: [], columns: []};
-    //get columns
-    if(dashboardObject.hasOwnProperty('columns')) {
-      dashboardObject.columns.forEach(colValue => {
-        config.columns.push(colValue.dimension);
-      });
+
+    if(!isNull(layout)) {
+      //get columns
+      if(layout.columnDimension.length > 0) {
+        layout.columnDimension.forEach(column => {
+          config.columns.push(column)
+        })
+      } else {
+        config.columns = ['co'];
+      }
+
+      if(layout.rowDimension.length > 0) {
+        layout.rowDimension.forEach(row => {
+          config.rows.push(row)
+        })
+      } else {
+        config.rows = ['ou', 'dx', 'pe'];
+      }
     } else {
-      config.columns = ['co'];
+      //get columns
+      if(dashboardObject.hasOwnProperty('columns')) {
+        dashboardObject.columns.forEach(colValue => {
+          config.columns.push(colValue.dimension);
+        });
+      } else {
+        config.columns = ['co'];
+      }
+
+      //get rows
+      if(dashboardObject.hasOwnProperty('rows')) {
+        dashboardObject.rows.forEach(rowValue => {
+          config.rows.push(rowValue.dimension)
+        })
+      } else {
+        config.rows = ['ou', 'dx', 'pe'];
+      }
     }
 
-    //get rows
-    if(dashboardObject.hasOwnProperty('rows')) {
-      dashboardObject.rows.forEach(rowValue => {
-        config.rows.push(rowValue.dimension)
-      })
-    } else {
-      config.rows = ['ou', 'dx', 'pe'];
-    }
     this.tableObject = this.visualizationService.drawTable(dashboardAnalytic, config);
     this.loadingTable = false;
   }
@@ -255,6 +238,12 @@ export class DashboardItemCardComponent implements OnInit{
       })
   }
 
+  updateDashboardItemLayout(event) {
+    console.log(event)
+    this.loadingChart =  this.loadingTable = true;
+    this.visualize(this.currentVisualization, this.itemData.object, this.itemData.analytic, event);
+  }
+
   autoplayInterpretation(dashboardItem) {
     this.interpretationReady = true;
     let interpretationIndex = 0;
@@ -271,5 +260,6 @@ export class DashboardItemCardComponent implements OnInit{
       })
     }
   }
+
 
 }

@@ -63,4 +63,9 @@ export class DashboardLayoutComponent implements OnInit {
     this.dimensions[dimension].push(event.dragData.data)
   }
 
+  updateLayout() {
+    this.isOpen = false;
+    this.onUpdate.emit(this.dimensions);
+  }
+
 }
