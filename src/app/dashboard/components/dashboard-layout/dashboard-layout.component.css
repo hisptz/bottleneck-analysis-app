@@ -5,3 +5,14 @@
   border: 1px solid lightgrey;
   padding: 3px;
 }
+
+.layout-btn {
+  display: block;
+  height: 29px;
+  padding-top: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.layout-btn:hover {
+  background-color: #ececec;
+}

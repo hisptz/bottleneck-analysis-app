@@ -7,6 +7,7 @@ import {VisualizerService} from "../../providers/dhis-visualizer.service";
 import {Constants} from "../../../shared/constants";
 import {Observable} from "rxjs";
 import {isNull} from "util";
+import {DashboardLayoutComponent} from "../dashboard-layout/dashboard-layout.component";
 
 export const DASHBOARD_SHAPES = {
   'NORMAL': ['col-md-4','col-sm-6','col-xs-12'],
@@ -23,6 +24,7 @@ export class DashboardItemCardComponent implements OnInit{
   @Input() itemData: any;
   @Input() currentUser: any;
   @Output() onDelete: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @ViewChild(DashboardLayoutComponent) dashboardLayout: DashboardLayoutComponent;
   public isFullScreen: boolean;
   public isInterpretationShown: boolean;
   public interpretationReady: boolean;
@@ -40,6 +42,7 @@ export class DashboardItemCardComponent implements OnInit{
   public chartTypes: any;
   interpretation: string;
   orgunit_model: any;
+  customLayout: any = null;
   constructor(
       private dashboardItemService: DashboardItemService,
       private dashboardService: DashboardService,
@@ -86,11 +89,11 @@ export class DashboardItemCardComponent implements OnInit{
     }
   }
 
-  visualize(dashboardItemType, dashboardObject, dashboardAnalytic, layout = null) {
+  visualize(dashboardItemType, dashboardObject, dashboardAnalytic) {
     if((dashboardItemType == 'CHART') || (dashboardItemType == 'EVENT_CHART')) {
-      this.drawChart(dashboardObject, dashboardAnalytic,this.currentChartType,layout);
+      this.drawChart(dashboardObject, dashboardAnalytic,this.currentChartType);
     } else if ((dashboardItemType == 'TABLE') || (dashboardItemType == 'EVENT_REPORT') || (dashboardItemType == 'REPORT_TABLE')) {
-      this.drawTable(dashboardObject, dashboardAnalytic,layout)
+      this.drawTable(dashboardObject, dashboardAnalytic)
     } else if(dashboardItemType == 'DICTIONARY') {
       this.metadataIdentifiers = this.dashboardService.getDashboardItemMetadataIdentifiers(this.itemData.object)
     }
@@ -98,35 +101,37 @@ export class DashboardItemCardComponent implements OnInit{
 
   setVisualization(visualizationType) {
     this.currentVisualization = visualizationType;
+    this.dashboardLayout.changeVisualisation(visualizationType,this.itemData.analytic.headers);
     this.visualize(visualizationType,this.itemData.object, this.itemData.analytic)
   }
 
-  drawChart(dashboardObject, dashboardAnalytic,layout = null, chartType?:string) {
+  drawChart(dashboardObject, dashboardAnalytic,chartType?:string) {
     let chartConfiguration = {
       'type': chartType,
       'title': dashboardObject.title,
       'xAxisType': dashboardObject.category ? this.itemData.object.category : 'pe',
       'yAxisType': dashboardObject.series ? this.itemData.object.series : 'dx'
     };
+    console.log(chartConfiguration)
     this.chartObject = this.visualizationService.drawChart(dashboardAnalytic, chartConfiguration);
     this.loadingChart = false;
   }
 
-  drawTable(dashboardObject, dashboardAnalytic, layout = null) {
+  drawTable(dashboardObject, dashboardAnalytic) {
     let config = {rows: [], columns: []};
 
-    if(!isNull(layout)) {
+    if(!isNull(this.customLayout)) {
       //get columns
-      if(layout.columnDimension.length > 0) {
-        layout.columnDimension.forEach(column => {
+      if(this.customLayout.columnDimension.length > 0) {
+        this.customLayout.columnDimension.forEach(column => {
           config.columns.push(column)
         })
       } else {
         config.columns = ['co'];
       }
 
-      if(layout.rowDimension.length > 0) {
-        layout.rowDimension.forEach(row => {
+      if(this.customLayout.rowDimension.length > 0) {
+        this.customLayout.rowDimension.forEach(row => {
           config.rows.push(row)
         })
       } else {
@@ -238,10 +243,10 @@ export class DashboardItemCardComponent implements OnInit{
       })
   }
 
-  updateDashboardItemLayout(event) {
-    console.log(event)
+  updateDashboardItemLayout(layout) {
+    this.customLayout = layout;
     this.loadingChart =  this.loadingTable = true;
-    this.visualize(this.currentVisualization, this.itemData.object, this.itemData.analytic, event);
+    this.visualize(this.currentVisualization, this.itemData.object, this.itemData.analytic);
   }
 
   autoplayInterpretation(dashboardItem) {

@@ -20,7 +20,7 @@ export interface Configuration {
 export class DashboardLayoutComponent implements OnInit {
 
   @Input() headers:Array<Header>;
-  @Input() config:Configuration={multiple:true};
+  @Input() visualizationType: string;
   @Output() onUpdate = new EventEmitter();
 
   isOpen = false;
@@ -38,9 +38,38 @@ export class DashboardLayoutComponent implements OnInit {
     columnDimension: [],
     rowDimension: []
   }
+  layoutType: string;
 
   ngOnInit() {
-    this.headers.forEach((header,index)=>{
+    this.changeVisualisation(this.visualizationType);
+    this.updateDimension(this.headers)
+  }
+  @Output('drop') drop = new EventEmitter();
+
+  onDrop(event, dimension) {
+    this.dimensions[event.dragData.dimension].splice(this.dimensions[event.dragData.dimension].indexOf(event.dragData.data),1);
+    this.dimensions[dimension].push(event.dragData.data)
+  }
+
+  changeVisualisation(visualizationType, headers = []) {
+    if((visualizationType == 'CHART') || (visualizationType == 'EVENT_CHART')) {
+      this.layoutType ='chart';
+    } else {
+      this.layoutType ='table';
+    }
+
+    if(headers) {
+      this.updateDimension(headers);
+    }
+  }
+
+  updateDimension(headers) {
+    this.dimensions = {
+      filterDimension: [],
+      columnDimension: [],
+      rowDimension: []
+    }
+    headers.forEach((header,index)=>{
       if(header.name != "value"){
         if(this.dimensions.columnDimension.length == 0){
           this.dimensions.columnDimension.push(header.name);
@@ -55,14 +84,8 @@ export class DashboardLayoutComponent implements OnInit {
         }
       }
     });
+    console.log(this.dimensions)
   }
-  @Output('drop') drop = new EventEmitter();
-
-  onDrop(event, dimension) {
-    this.dimensions[event.dragData.dimension].splice(this.dimensions[event.dragData.dimension].indexOf(event.dragData.data),1);
-    this.dimensions[dimension].push(event.dragData.data)
-  }
-
   updateLayout() {
     this.isOpen = false;
     this.onUpdate.emit(this.dimensions);
