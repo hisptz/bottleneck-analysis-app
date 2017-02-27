@@ -40,10 +40,10 @@ export class DashboardShareComponent implements OnInit {
       this.loadSharingData(params['id'])
     });
 
-    this.searchTerm$.asObservable().subscribe(term => {
-      if(term != "") {
-        this.searchUserGroup().subscribe(result => {
-          this.userGroups = [];
+    this.searchUserGroup().subscribe(result => {
+      this.userGroups = [];
+      this.searchTerm$.asObservable().subscribe(term => {
+        if(term.length > 0) {
           //Push only those unavailable in the list
           if(result.hasOwnProperty('userGroups')) {
             result.userGroups.forEach(userGroup => {
@@ -56,11 +56,11 @@ export class DashboardShareComponent implements OnInit {
           } else {
             this.showUserGroupList = false;
           }
-        })
-      } else {
-        this.showUserGroupList = false;
-      }
-    })
+        } else {
+          this.showUserGroupList = false;
+        }
+      });
+    });
   }
 
   checkIfUserGroupExist(userGroupId) {
