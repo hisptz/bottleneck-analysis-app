@@ -213,7 +213,6 @@ export class DashboardService {
           }
         }
         column += items.slice(0, -1);
-        console.log(column)
       }
     });
     //checking for rows
@@ -235,7 +234,6 @@ export class DashboardService {
           }
         }
         row += items.slice(0, -1);
-        console.log(row)
       }
     });
     //checking for filters

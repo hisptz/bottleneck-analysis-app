@@ -73,8 +73,8 @@
     </div>
     <div class="collapse navbar-collapse dashboard-collapse-body" id="idashboardNavbar" [ngClass]="{'in': !isCollapsed}">
       <ul class="nav navbar-nav dashboard-nav dashboard-setting-nav">
-        <li class="{{settingService.isOpen('dimension') ? 'active' : ''}}"><a (click)="settingService.toggleItem('dimension')" class="navbar-brand" style="font-size: 14px;"><i class="fa fa-filter"></i></a></li>
-        <li class="{{settingService.isOpen('share') ? 'active' : ''}}"><a (click)="settingService.toggleItem('share')"><i class="fa fa-share-alt"></i></a></li>
+        <li><a (click)="settingService.toggleItem('dimension')" class="navbar-brand" style="font-size: 14px;"><i class="fa {{settingService.isOpen('dimension') ? 'fa-times' : 'fa-filter'}}"></i></a></li>
+        <li><a (click)="settingService.toggleItem('share')"><i class="fa {{settingService.isOpen('share') ? 'fa-times' : 'fa-share-alt'}}"></i></a></li>
       </ul>
       <app-dashboard-menu-items (onDashboardsLoaded)="load()"></app-dashboard-menu-items>
     </div>

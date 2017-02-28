@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {Dashboard} from "../../interfaces/dashboard";
 import {DashboardService} from "../../providers/dashboard.service";
@@ -12,6 +12,7 @@ import {DashboardSettingsService} from "../../providers/dashboard-settings.servi
 })
 export class CreateDashboardComponent implements OnInit {
 
+  @Output() onCreateSuccess: EventEmitter<any> = new EventEmitter<any>();
   public createDashboardForm: FormGroup;
   public submitted: boolean;
   public isAddFormOpen : boolean;
@@ -37,6 +38,7 @@ export class CreateDashboardComponent implements OnInit {
     this.settingService.toggleItem('add-dashboard');
     this.createDashboardForm.reset();
     this.dashboardService.create(dashboardData).subscribe(dashboardId => {
+      this.onCreateSuccess.emit(dashboardId);
       this.router.navigate(['/dashboards/' + dashboardId +'/dashboard']);
       this.submitted = false;
     });
