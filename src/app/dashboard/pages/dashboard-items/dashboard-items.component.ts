@@ -43,6 +43,7 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
   currentUser: any;
   searching: boolean = false;
   cardStatus: any = {};
+  addingDashboard: boolean = false;
   constructor(
       private dashboardItemService: DashboardItemService,
       private dashboardService: DashboardService,
@@ -188,10 +189,12 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
 
   addDashboardItem(type, id) {
     this.showBody = false;
+    this.addingDashboard = true;
     let typeValue = this.isPlural(type) ? this.util.readableName(type, true) : this.util.readableName(type.slice(0,type.length-1),true);
     let dashboardId = this.route.snapshot.params['id'];
     this.dashboardService.addDashboardItem(dashboardId, {type: typeValue, id: id})
       .subscribe(response => {
+        this.addingDashboard = false;
         this.cardStatus = response;
       }, error => console.log('error adding dashboard item'));
     //@todo need to subscribe to show progress when adding dashboards

@@ -322,7 +322,7 @@ export class DashboardService {
     return Observable.create(observer => {
       let updatableDashboardId = this.getUpdatableDashboardItem(dashboardId, dashboardItemData);
       let existingDashboardId = this.dashboardItemExist(dashboardId,dashboardItemData.id);
-      if(!isNull(existingDashboardId) && isNull(updatableDashboardId)) {
+      if(isNull(existingDashboardId) && isNull(updatableDashboardId)) {
         let options = new RequestOptions({headers: new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'})});
         this.http.post(this.url + '/' + dashboardId + '/items/content?type=' + dashboardItemData.type + '&id=' + dashboardItemData.id, options)
           .map(res => res.json())
@@ -389,23 +389,33 @@ export class DashboardService {
             }, error => observer.error(error));
 
           }, error => {observer.error(error)})
-      } else {
-        observer.next({status: 'Already exist',id: existingDashboardId});
+      } else if (!isNull(existingDashboardId) && isNull(updatableDashboardId)) {
+        // this.updateDashboard(dashboardId,null,'exist',existingDashboardId);
+        observer.next({status: 'Already exist', id: existingDashboardId});
         observer.complete();
       }
     });
   }
 
-  updateDashboard(dashboardId, dashboardItem, action = 'save') {
+  updateDashboard(dashboardId, dashboardItem, action = 'save', dashboardItemId?) {
     for(let dashboard of this.dashboards) {
       if(dashboard.id == dashboardId) {
         if(action == 'save') {
           dashboard.dashboardItems.unshift(dashboardItem);
-        } else {
+        } else if(action == 'update') {
           for(let item of dashboard.dashboardItems) {
             if(item.id == dashboardItem.id) {
               dashboard.dashboardItems.splice(dashboard.dashboardItems.indexOf(item),1);
               dashboard.dashboardItems.unshift(dashboardItem);
+              break;
+            }
+          }
+        } else {
+          for(let item of dashboard.dashboardItems) {
+            if(item.id == dashboardItemId) {
+              let itemBuffer: any = item;
+              dashboard.dashboardItems.splice(dashboard.dashboardItems.indexOf(item),1);
+              dashboard.dashboardItems.unshift(itemBuffer);
               break;
             }
           }
@@ -439,7 +449,7 @@ export class DashboardService {
     return dashboardItemId;
   }
   dashboardItemExist(dashboardId, dashboardFavourateId) {
-    let dashboardItemId = null;
+    let itemId = null;
     for(let dashboard of this.dashboards) {
       if(dashboard.id == dashboardId) {
         if(dashboard.dashboardItems.length > 0) {
@@ -447,14 +457,14 @@ export class DashboardService {
             if(!isUndefined(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)])) {
               if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].hasOwnProperty('id')) {
                 if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].id == dashboardFavourateId) {
-                  dashboardItemId = dashboardItem.id;
+                  itemId = dashboardItem.id;
                   break;
                 }
               }
             } else {
               //for APP type
               if(dashboardItem.appKey == dashboardFavourateId) {
-                dashboardItemId = dashboardItem.id;
+                itemId = dashboardItem.id;
                 break;
               }
             }
@@ -463,7 +473,7 @@ export class DashboardService {
         break;
       }
     }
-    return dashboardItemId;
+    return itemId;
   }
 
   deleteDashboardItem(dashboardId, dashboardItemId) {

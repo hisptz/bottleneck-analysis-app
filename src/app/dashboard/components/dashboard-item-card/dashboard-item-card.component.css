@@ -13,15 +13,14 @@
     background-color: #23527C !important;
 }
 
-.block-focus,
-.block-focus .dashboard-card-heading,
-.block-focus .dashboard-card-footer{
-  -webkit-transition: all .2s ease-in-out;
-  -moz-transition: all .2s ease-in-out;
-  -o-transition: all .2s ease-in-out;
-  -ms-transition: all .2s ease-in-out;
-  transition: all .2s ease-in-out;
-  border-color: #23527C;
+.block-focus {
+  -webkit-transform: scale(1.02);
+  -moz-transform: scale(1.02);
+  -o-transform: scale(1.02);
+  -ms-transform: scale(1.02);
+  transform: scale(1.03);
+  box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.38), 0 10px 20px 0px rgba(0, 0, 0, 0.2), 0 15px 10px -10px rgba(0, 0, 0, 0.2);
+
 }
 
 .dashboard-item-header li > a {
