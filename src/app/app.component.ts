@@ -7,7 +7,7 @@ import {Constants} from "./shared/constants";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  rootUrl: string
+  rootUrl: string;
   constructor(private constants: Constants) {
     this.rootUrl = this.constants.root_url.slice(0,-1);
   }
