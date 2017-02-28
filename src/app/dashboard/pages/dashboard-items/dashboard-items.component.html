@@ -46,7 +46,7 @@
                     <small>{{item.name}}</small>
                   </td>
                   <td width="6%">
-                    <button class="btn btn-default btn-xs pull-right" (click)="addDashboardItem(header.name, item.id)">ADD</button>
+                    <button class="btn btn-default btn-xs pull-right" (click)="addDashboardItem(header.name, header.name == 'apps' ? item.key : item.id)">ADD</button>
                   </td>
                 </tr>
               </table>

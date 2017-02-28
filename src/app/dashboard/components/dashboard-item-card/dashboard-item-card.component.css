@@ -39,8 +39,9 @@
     overflow: auto;
 }
 
-.full-screen .dashboard-item-body {
-  height: 80vh;
+.full-screen .dashboard-item-body,
+.full-screen .no-footer {
+  height: 80vh !important;
 }
 
 .no-footer {

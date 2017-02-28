@@ -7,6 +7,7 @@ import { ProgressComponent } from './components/progress/progress.component';
 import {Constants} from "./constants";
 import {CurrentUserService} from "./providers/current-user.service";
 import {NotificationService} from "./providers/notification.service";
+import { SafePipe } from './pipes/safe.pipe';
 
 
 @NgModule({
@@ -17,13 +18,15 @@ import {NotificationService} from "./providers/notification.service";
   declarations: [
     Dhis2MenuComponent,
     FilterPipe,
-    ProgressComponent
+    ProgressComponent,
+    SafePipe
   ],
   exports: [
     Dhis2MenuComponent,
     FilterPipe,
       Ng2PaginationModule,
-      ProgressComponent
+      ProgressComponent,
+    SafePipe
   ],
   providers: [Constants, CurrentUserService, NotificationService]
 })

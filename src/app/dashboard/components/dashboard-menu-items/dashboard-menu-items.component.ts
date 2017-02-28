@@ -20,6 +20,7 @@ export class DashboardMenuItemsComponent implements OnInit {
   public dashboards: Dashboard[];
   public itemToDelete: string;
   menuOptions: Array<any>;
+  menuSearch: boolean = false;
   updatedDashboard: string = '';
   public config: PaginationInstance = {
     id: 'custom',

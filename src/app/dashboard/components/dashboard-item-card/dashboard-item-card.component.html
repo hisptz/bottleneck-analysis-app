@@ -142,6 +142,13 @@
               </div>
               <!--end of report table type section-->
 
+              <!--app type section-->
+              <div class="row" *ngIf="currentVisualization == 'APP'">
+                <iframe class="col-md-12" style="height:75vh;border:0" frameborder="0" scrolling="no" allowfullscreen="" [src]="constants.root_url + 'api/apps/' + itemData.appKey + '/index.html?dashboardItemId=' + itemData.id | safe"></iframe>
+                <!--<app-error-notifier *ngIf="itemData.appKey" [errorMessage]="'Missing dashboard App'"></app-error-notifier>-->
+              </div>
+              <!--end of app type section-->
+
               <!--dictionary section-->
               <app-metadata-dictionary *ngIf="currentVisualization == 'DICTIONARY'" [metadataidentifiers]="metadataIdentifiers"></app-metadata-dictionary>
               <!--end of dictionary section-->

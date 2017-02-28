@@ -321,7 +321,8 @@ export class DashboardService {
   addDashboardItem(dashboardId, dashboardItemData): Observable<string> {
     return Observable.create(observer => {
       let updatableDashboardId = this.getUpdatableDashboardItem(dashboardId, dashboardItemData);
-      if(!this.dashboardItemExist(dashboardId,dashboardItemData.id) && isNull(updatableDashboardId)) {
+      let existingDashboardId = this.dashboardItemExist(dashboardId,dashboardItemData.id);
+      if(!isNull(existingDashboardId) && isNull(updatableDashboardId)) {
         let options = new RequestOptions({headers: new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'})});
         this.http.post(this.url + '/' + dashboardId + '/items/content?type=' + dashboardItemData.type + '&id=' + dashboardItemData.id, options)
           .map(res => res.json())
@@ -336,18 +337,25 @@ export class DashboardService {
                       dashboardItem.shape = 'NORMAL';
                       this.updateShape(dashboardId,dashboardItem.id, 'NORMAL');
                     }
-                    if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].hasOwnProperty('id')) {
-                      if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].id == dashboardItemData.id) {
+                    if(dashboardItem.type == 'APP') {
+                      this.updateDashboard(dashboardId, dashboardItem);
+                      observer.next({status: 'created',id: dashboardItem.id});
+                      observer.complete();
+                      break;
+                    } else {
+                      if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].hasOwnProperty('id')) {
+                        if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].id == dashboardItemData.id) {
+                          this.updateDashboard(dashboardId, dashboardItem);
+                          observer.next({status: 'created',id: dashboardItem.id});
+                          observer.complete();
+                          break;
+                        }
+                      } else {
                         this.updateDashboard(dashboardId, dashboardItem);
                         observer.next({status: 'created',id: dashboardItem.id});
                         observer.complete();
                         break;
                       }
-                    } else {
-                      this.updateDashboard(dashboardId, dashboardItem);
-                      observer.next({status: 'created',id: dashboardItem.id});
-                      observer.complete();
-                      break;
                     }
                   }
               }, error => {observer.error(error)});
@@ -381,6 +389,9 @@ export class DashboardService {
             }, error => observer.error(error));
 
           }, error => {observer.error(error)})
+      } else {
+        observer.next({status: 'Already exist',id: existingDashboardId});
+        observer.complete();
       }
     });
   }
@@ -406,32 +417,44 @@ export class DashboardService {
 
   getUpdatableDashboardItem(dashboardId, dashboardFavourate) {
     let dashboardItemId = null;
-    for(let dashboard of this.dashboards) {
-      if(dashboard.id == dashboardId) {
-        if(dashboard.dashboardItems.length > 0) {
-          for(let dashboardItem of dashboard.dashboardItems) {
-            if(dashboardItem.type == dashboardFavourate.type) {
-              if(!dashboardItem[this.utilService.camelCaseName(dashboardFavourate.type)].hasOwnProperty('id')) {
-                dashboardItemId = dashboardItem.id;
+    if(dashboardFavourate.type != 'APP') {
+      for(let dashboard of this.dashboards) {
+        if(dashboard.id == dashboardId) {
+          if(dashboard.dashboardItems.length > 0) {
+            for(let dashboardItem of dashboard.dashboardItems) {
+              if(dashboardItem.type == dashboardFavourate.type) {
+                if(!isUndefined(dashboardItem[this.utilService.camelCaseName(dashboardFavourate.type)])) {
+                  if(!dashboardItem[this.utilService.camelCaseName(dashboardFavourate.type)].hasOwnProperty('id')) {
+                    dashboardItemId = dashboardItem.id;
+                  }
+                }
+                break;
               }
-              break;
             }
           }
+          break;
         }
-        break;
       }
     }
     return dashboardItemId;
   }
   dashboardItemExist(dashboardId, dashboardFavourateId) {
-    let exist = false;
+    let dashboardItemId = null;
     for(let dashboard of this.dashboards) {
       if(dashboard.id == dashboardId) {
         if(dashboard.dashboardItems.length > 0) {
           for(let dashboardItem of dashboard.dashboardItems) {
-            if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].hasOwnProperty('id')) {
-              if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].id == dashboardFavourateId) {
-                exist = true;
+            if(!isUndefined(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)])) {
+              if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].hasOwnProperty('id')) {
+                if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].id == dashboardFavourateId) {
+                  dashboardItemId = dashboardItem.id;
+                  break;
+                }
+              }
+            } else {
+              //for APP type
+              if(dashboardItem.appKey == dashboardFavourateId) {
+                dashboardItemId = dashboardItem.id;
                 break;
               }
             }
@@ -440,7 +463,7 @@ export class DashboardService {
         break;
       }
     }
-    return exist;
+    return dashboardItemId;
   }
 
   deleteDashboardItem(dashboardId, dashboardItemId) {

@@ -195,7 +195,7 @@ export class DashboardItemCardComponent implements OnInit{
   }
 
   canShowIcons(visualizationType): boolean {
-    let noFooterVisualization = ['USERS', 'REPORTS','RESOURCES'];
+    let noFooterVisualization = ['USERS', 'REPORTS','RESOURCES','APP'];
     let canShow = true;
     noFooterVisualization.forEach(visualizationValue => {
       if(visualizationType == visualizationValue) {
