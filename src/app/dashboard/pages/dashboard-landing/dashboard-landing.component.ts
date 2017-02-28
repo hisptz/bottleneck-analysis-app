@@ -5,6 +5,7 @@ import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {CurrentUserService} from "../../../shared/providers/current-user.service";
 import {isUndefined} from "util";
 import {isNull} from "util";
+import {NotificationService} from "../../../shared/providers/notification.service";
 
 @Component({
   selector: 'app-dashboard-landing',
@@ -22,7 +23,8 @@ export class DashboardLandingComponent implements OnInit,AfterViewInit {
       private dashboardService: DashboardService,
       private router: Router,
       private formGroup: FormBuilder,
-      private currentUserService: CurrentUserService
+      private currentUserService: CurrentUserService,
+      private notificationService: NotificationService
   ) {
     this.hasError = false;
     this.loading = true;
@@ -42,7 +44,13 @@ export class DashboardLandingComponent implements OnInit,AfterViewInit {
             localStorage.setItem('dhis2.dashboard.current.' + currentUser.userCredentials.username,dashboards[0].id);
             this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
           } else {
-            this.router.navigate(['dashboards/'+ dashboardId + '/dashboard']);
+            this.dashboardService.find(dashboardId).subscribe(dashboard => {
+              this.router.navigate(['dashboards/'+ dashboardId + '/dashboard']);
+            }, error => {
+              this.notificationService.setNotification('error','Opps, We could not find the dashboard you were looking, we instead redirect you to the first dashboard available');
+              this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
+            })
+
           }
         })
       }

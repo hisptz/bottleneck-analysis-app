@@ -132,6 +132,7 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
           this.dashboard = dashboard;
           this.loading = false;
         }, error => {
+          alert(error)
           this.router.navigate(['/']);
         });
   }

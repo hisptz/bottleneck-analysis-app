@@ -2,6 +2,7 @@
   <div class="col-md-12">
     <div class="alert" [ngClass]="statusData?.className">
       <i class="fa" [ngClass]="statusData?.icon"></i>
+      &nbsp;
       {{message}}
       <a (click)="notificationService.closeAlert()" class="close">&times;</a>
     </div>

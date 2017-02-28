@@ -41,7 +41,6 @@ export class DashboardService {
             observer.complete()
           }, error => {
             observer.next(error);
-            observer.complete();
           })
       }
     });

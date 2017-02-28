@@ -106,7 +106,7 @@
       <!--</div>-->
     <!--</div>-->
   <!--</div>-->
-  <div class="row" *ngIf="!loading && dashboard.dashboardItems.length > 0">
+  <div class="row" *ngIf="!hasError && !loading && dashboard.dashboardItems.length > 0">
     <div class="col-md-4" *ngIf="addingDashboard">
       <div class="panel panel-default text-center" style="height: 460px; border: dashed 1px; padding-top: 80px;">
         <img src="assets/img/balls-3.svg" alt="">
@@ -115,7 +115,7 @@
     </div>
     <app-dashboard-item-card *ngFor="let dashboardItem of dashboard.dashboardItems; let i = index" [itemData]="dashboardItem" (onDelete)="deleteDashboardItem($event)" [currentUser]="currentUser" [status]="cardStatus" [dimensionValues]="dimensionValues$"></app-dashboard-item-card>
   </div>
-  <div class="row" *ngIf="!loading && dashboard.dashboardItems.length == 0">
+  <div class="row" *ngIf="!hasError && !loading && dashboard.dashboardItems.length == 0">
     <div class="col-md-12 text-center">
       <h2><b>Welcome to Interactive dashboard</b></h2>
       <h4>Enjoy interactive dashboard by switching,filtering and changing layout to different visualization <br> <b>Search and add dashboard now!</b></h4>

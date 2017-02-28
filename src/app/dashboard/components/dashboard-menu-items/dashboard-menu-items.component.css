@@ -88,8 +88,8 @@
   /*background-color: #f5f5f5 !important;*/
   border-color: #f5f5f5;
 }
-.pagination-previous > a{
-  border-left-style: none;
+.pagination-next > a{
+  border-right-style: none;
 }
 
 .dashboard-pagination-input {
@@ -97,11 +97,10 @@
 
   border-top-style: none;
   border-bottom-style: none;
-  border-left: solid 1px #ececec;
   border-right-style: none;
-  /*border-right: solid 1px #ececec;*/
+  border-left: solid 1px #ececec;
   height: 38px;
-  width: 45px;
+  width: 42px;
   padding-left: 10px;
 }
 .dashboard-pagination-input:focus {

@@ -19,7 +19,7 @@
   </li>
 </ul>
 <app-create-dashboard (onCreateSuccess)="updateCurrentPage($event)"></app-create-dashboard>
-<ul class="nav navbar-nav dashboard-nav">
+<ul class="nav navbar-nav navbar-right dashboard-right">
   <li>
     <pagination-template *ngIf="dashboards?.length > config.itemsPerPage" #nm="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
       <ul class="custom-pagination pagination dashboard-pagination">
@@ -33,8 +33,6 @@
       </ul>
     </pagination-template>
   </li>
-</ul>
-<ul class="nav navbar-nav navbar-right dashboard-right">
   <li><input type="number" [(ngModel)]="config.itemsPerPage" class="dashboard-pagination-input" min="1" max="{{dashboards?.length <= 8 ? dashboards?.length : 8}}" onkeydown="return false"></li>
   <li *ngIf="settingsService.isOpen('menu-search')"><input type="text" size="12" [(ngModel)]="dashboardName" class="dashboard-search-input" autofocus></li>
   <li class="dashboard-search-button" (click)="settingsService.toggleItem('menu-search')"><a tooltip="search dashboard" style="border-right-style: none;"><i class="fa {{settingsService.isOpen('menu-search') ? 'fa-times':'fa-search'}}"></i></a></li>
