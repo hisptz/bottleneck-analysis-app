@@ -8,6 +8,7 @@ import {Constants} from "../../../shared/constants";
 import {Observable} from "rxjs";
 import {isNull} from "util";
 import {DashboardLayoutComponent} from "../dashboard-layout/dashboard-layout.component";
+import {isObject} from "rxjs/util/isObject";
 
 export const DASHBOARD_SHAPES = {
   'NORMAL': ['col-md-4','col-sm-6','col-xs-12'],
@@ -19,11 +20,12 @@ export const DASHBOARD_SHAPES = {
   templateUrl: 'dashboard-item-card.component.html',
   styleUrls: ['dashboard-item-card.component.css']
 })
-export class DashboardItemCardComponent implements OnInit{
+export class DashboardItemCardComponent implements OnInit, AfterViewInit{
 
   @Input() itemData: any;
   @Input() currentUser: any;
   @Input() status: any;
+  @Input() dimensionValues: any;
   @Output() onDelete: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild(DashboardLayoutComponent) dashboardLayout: DashboardLayoutComponent;
   public isFullScreen: boolean;
@@ -90,6 +92,12 @@ export class DashboardItemCardComponent implements OnInit{
     }
   }
 
+  ngAfterViewInit() {
+    this.dimensionValues.asObservable().subscribe(dimension => {
+      this.updateDashboardCard(dimension);
+    })
+  }
+
   visualize(dashboardItemType, dashboardObject, dashboardAnalytic) {
     if((dashboardItemType == 'CHART') || (dashboardItemType == 'EVENT_CHART')) {
       this.drawChart(dashboardObject, dashboardAnalytic,this.currentChartType);
@@ -113,7 +121,6 @@ export class DashboardItemCardComponent implements OnInit{
       'xAxisType': dashboardObject.category ? this.itemData.object.category : 'pe',
       'yAxisType': dashboardObject.series ? this.itemData.object.series : 'dx'
     };
-    console.log(chartConfiguration)
     this.chartObject = this.visualizationService.drawChart(dashboardAnalytic, chartConfiguration);
     this.loadingChart = false;
   }
@@ -226,8 +233,9 @@ export class DashboardItemCardComponent implements OnInit{
         error => {console.log('error deleting item')})
   }
 
-  updateDashboardCard(event) {
-    this.updateDasboardItemForAnalyticTypeItems(event);
+  updateDashboardCard(dimension) {
+    console.log(dimension)
+    this.updateDasboardItemForAnalyticTypeItems(dimension.length == 2 ? dimension : [dimension]);
   }
 
   updateDasboardItemForAnalyticTypeItems(customDimensions = []) {

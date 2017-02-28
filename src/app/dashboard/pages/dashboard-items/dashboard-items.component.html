@@ -73,8 +73,8 @@
     </div>
     <div class="collapse navbar-collapse dashboard-collapse-body" id="idashboardNavbar" [ngClass]="{'in': !isCollapsed}">
       <ul class="nav navbar-nav dashboard-nav dashboard-setting-nav">
-        <li class="{{settingService.isOpen('dimension') ? 'active' : ''}}" style="display: none;"><a (click)="settingService.toggleItem('dimension')" class="navbar-brand" style="font-size: 14px;"><i class="fa fa-filter"></i></a></li>
-        <li class="{{settingService.isOpen('dimension') ? 'active' : ''}}"><a (click)="settingService.toggleItem('share')"><i class="fa fa-share-alt"></i></a></li>
+        <li class="{{settingService.isOpen('dimension') ? 'active' : ''}}"><a (click)="settingService.toggleItem('dimension')" class="navbar-brand" style="font-size: 14px;"><i class="fa fa-filter"></i></a></li>
+        <li class="{{settingService.isOpen('share') ? 'active' : ''}}"><a (click)="settingService.toggleItem('share')"><i class="fa fa-share-alt"></i></a></li>
       </ul>
       <app-dashboard-menu-items (onDashboardsLoaded)="load()"></app-dashboard-menu-items>
     </div>
@@ -84,7 +84,7 @@
 <div class="container-fluid">
   <div class="row">
     <app-dashboard-share *ngIf="settingService.isOpen('share')" (onCloseSharing)="settingService.toggleItem('share')"></app-dashboard-share>
-    <app-dashboard-dimensions *ngIf="settingService.isOpen('dimension')"></app-dashboard-dimensions>
+    <app-dashboard-dimensions *ngIf="settingService.isOpen('dimension')" (onDimensionUpdate)="updateDimension($event)"></app-dashboard-dimensions>
   </div>
   <app-dashboard-notification-block *ngIf="notificationService.hasAlert()"></app-dashboard-notification-block>
 </div>
@@ -113,7 +113,7 @@
         <h4 style="margin-top: 50px;">Adding dashboard item....</h4>
       </div>
     </div>
-    <app-dashboard-item-card *ngFor="let dashboardItem of dashboard.dashboardItems; let i = index" [itemData]="dashboardItem" (onDelete)="deleteDashboardItem($event)" [currentUser]="currentUser" [status]="cardStatus"></app-dashboard-item-card>
+    <app-dashboard-item-card *ngFor="let dashboardItem of dashboard.dashboardItems; let i = index" [itemData]="dashboardItem" (onDelete)="deleteDashboardItem($event)" [currentUser]="currentUser" [status]="cardStatus" [dimensionValues]="dimensionValues$"></app-dashboard-item-card>
   </div>
   <div class="row" *ngIf="!loading && dashboard.dashboardItems.length == 0">
     <div class="col-md-12 text-center">

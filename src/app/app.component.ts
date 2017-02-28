@@ -9,6 +9,6 @@ import {Constants} from "./shared/constants";
 export class AppComponent {
   rootUrl: string
   constructor(private constants: Constants) {
-    this.rootUrl = this.constants.root_url;
+    this.rootUrl = this.constants.root_url.slice(0,-1);
   }
 }

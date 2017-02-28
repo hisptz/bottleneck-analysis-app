@@ -235,7 +235,7 @@ export class OrganisationUnitTreeComponent implements OnInit {
 
   updateOrgUnitModel() {
     this.displayOrgTree();
-    this.onOrgUnitUpdate.emit([{name: 'ou', value: this.getOrgUnitsForAnalytics(this.orgunit_model,true)}]);
+    this.onOrgUnitUpdate.emit({name: 'ou', value: this.getOrgUnitsForAnalytics(this.orgunit_model,true)});
   }
 
   // a function to prepare a list of organisation units for analytics

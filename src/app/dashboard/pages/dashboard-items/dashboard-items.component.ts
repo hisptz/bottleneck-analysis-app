@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnDestroy, AfterViewInit, ElementRef, Output, EventEmitter,
-  HostListener, ViewChild
+  HostListener, ViewChild, ViewChildren, QueryList
 } from '@angular/core';
 import {DashboardItemService} from "../../providers/dashboard-item.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -44,6 +44,7 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
   searching: boolean = false;
   cardStatus: any = {};
   addingDashboard: boolean = false;
+  dimensionValues$ = new Subject<Array<any>>();
   constructor(
       private dashboardItemService: DashboardItemService,
       private dashboardService: DashboardService,
@@ -228,5 +229,9 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
 
   closeSearch(event) {
     this.showBody = false;
+  }
+
+  updateDimension(event) {
+    this.dimensionValues$.next(event)
   }
 }

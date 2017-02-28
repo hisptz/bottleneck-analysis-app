@@ -213,6 +213,7 @@ export class DashboardService {
           }
         }
         column += items.slice(0, -1);
+        console.log(column)
       }
     });
     //checking for rows
@@ -234,6 +235,7 @@ export class DashboardService {
           }
         }
         row += items.slice(0, -1);
+        console.log(row)
       }
     });
     //checking for filters
@@ -390,7 +392,7 @@ export class DashboardService {
 
           }, error => {observer.error(error)})
       } else if (!isNull(existingDashboardId) && isNull(updatableDashboardId)) {
-        // this.updateDashboard(dashboardId,null,'exist',existingDashboardId);
+        this.updateDashboard(dashboardId,null,'exist',existingDashboardId);
         observer.next({status: 'Already exist', id: existingDashboardId});
         observer.complete();
       }
@@ -525,12 +527,6 @@ export class DashboardService {
     return this.http.post(this.constant.api + 'sharing?type=dashboard&id=' + dashboardId, sharingData)
       .map(res => res.json())
       .catch(this.utilService.handleError);
-  }
-
-
-
-  getPeriodForAnalytic(dashboardId, periodModel) {
-
   }
 
 }

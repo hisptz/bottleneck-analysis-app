@@ -132,7 +132,7 @@ export class PeriodFilterComponent implements OnInit {
 
   updatePeriodModel() {
     this.displayPerTree();
-    this.onPeriodUpdate.emit([{name: 'pe', value: this.getPeriodsForAnalytics(this.selected_periods)}]);
+    this.onPeriodUpdate.emit({name: 'pe', value: this.getPeriodsForAnalytics(this.selected_periods)});
   }
 
   getPeriodsForAnalytics(selectedPeriod) {

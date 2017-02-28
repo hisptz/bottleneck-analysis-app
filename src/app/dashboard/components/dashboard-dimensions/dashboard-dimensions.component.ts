@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {DashboardSettingsService} from "../../providers/dashboard-settings.service";
 
 @Component({
@@ -8,9 +8,26 @@ import {DashboardSettingsService} from "../../providers/dashboard-settings.servi
 })
 export class DashboardDimensionsComponent implements OnInit {
 
+  periods: any = {};
+  orgUnits: any = {};
+  @Output() onDimensionUpdate: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
   constructor(private settingService: DashboardSettingsService) { }
 
   ngOnInit() {
   }
 
+  getPeriodValues(event) {
+    this.periods = event;
+  }
+
+  getOrgUnitValues(event) {
+    this.orgUnits = event;
+  }
+
+  updateDashboard() {
+    let dimension = [];
+    dimension.push(this.orgUnits);
+    dimension.push(this.periods);
+    this.onDimensionUpdate.emit(dimension);
+  }
 }

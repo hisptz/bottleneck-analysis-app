@@ -84,7 +84,6 @@ export class DashboardLayoutComponent implements OnInit {
         }
       }
     });
-    console.log(this.dimensions)
   }
   updateLayout() {
     this.isOpen = false;
