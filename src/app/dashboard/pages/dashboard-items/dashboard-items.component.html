@@ -107,7 +107,7 @@
     <!--</div>-->
   <!--</div>-->
   <div class="row" *ngIf="!loading && dashboard.dashboardItems.length > 0">
-    <app-dashboard-item-card *ngFor="let dashboardItem of dashboard.dashboardItems; let i = index" [itemData]="dashboardItem" (onDelete)="deleteDashboardItem($event)" [currentUser]="currentUser"></app-dashboard-item-card>
+    <app-dashboard-item-card *ngFor="let dashboardItem of dashboard.dashboardItems; let i = index" [itemData]="dashboardItem" (onDelete)="deleteDashboardItem($event)" [currentUser]="currentUser" [status]="cardStatus"></app-dashboard-item-card>
   </div>
   <div class="row" *ngIf="!loading && dashboard.dashboardItems.length == 0">
     <div class="col-md-12 text-center">

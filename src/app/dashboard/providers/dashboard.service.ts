@@ -339,13 +339,13 @@ export class DashboardService {
                     if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].hasOwnProperty('id')) {
                       if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].id == dashboardItemData.id) {
                         this.updateDashboard(dashboardId, dashboardItem);
-                        observer.next({status: 'create',id: dashboardItem.id});
+                        observer.next({status: 'created',id: dashboardItem.id});
                         observer.complete();
                         break;
                       }
                     } else {
                       this.updateDashboard(dashboardId, dashboardItem);
-                      observer.next({status: 'create',id: dashboardItem.id});
+                      observer.next({status: 'created',id: dashboardItem.id});
                       observer.complete();
                       break;
                     }
@@ -372,7 +372,7 @@ export class DashboardService {
                 }
                 if(dashboardItem.id == updatableDashboardId) {
                   this.updateDashboard(dashboardId, dashboardItem, 'update');
-                  observer.next({status: 'update', id: dashboardItem.id});
+                  observer.next({status: 'updated', id: dashboardItem.id});
                   observer.complete();
                   break;
                 }
