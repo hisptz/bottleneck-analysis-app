@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnDestroy, AfterViewInit, ElementRef, Output, EventEmitter,
-  HostListener
+  HostListener, ViewChild
 } from '@angular/core';
 import {DashboardItemService} from "../../providers/dashboard-item.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -14,6 +14,7 @@ import {UtilitiesService} from "../../providers/utilities.service";
 import {isObject} from "rxjs/util/isObject";
 import {CurrentUserService} from "../../../shared/providers/current-user.service";
 import {NotificationService} from "../../../shared/providers/notification.service";
+import {DashboardItemCardComponent} from "../../components/dashboard-item-card/dashboard-item-card.component";
 
 @Component({
   selector: 'app-dashboard-items',
@@ -22,6 +23,7 @@ import {NotificationService} from "../../../shared/providers/notification.servic
 })
 export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
 
+  @ViewChild(DashboardItemCardComponent) dashboardCard: DashboardItemCardComponent;
   public loading: boolean;
   public dashboard: Dashboard;
   public hasError: boolean;
@@ -190,9 +192,8 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
     let dashboardId = this.route.snapshot.params['id'];
     this.dashboardService.addDashboardItem(dashboardId, {type: typeValue, id: id})
       .subscribe(response => {
-        //@todo find best way to only update added item
-        this.loadDashboardItems(dashboardId)
-      });
+        this.dashboardCard.setStatus(response);
+      }, error => console.log('error adding dashboard item'));
     //@todo need to subscribe to show progress when adding dashboards
   }
 

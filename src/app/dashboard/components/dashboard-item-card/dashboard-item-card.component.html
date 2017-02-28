@@ -1,6 +1,7 @@
 <div [ngClass]="dashboardShapeClass(itemData.shape)" class="{{isFullScreen ? 'full-screen' : ''}} dashboard-card">
     <div class="panel panel-default dashboard-block">
         <div class="panel-heading dashboard-card-heading">
+          <span *ngIf="itemStatus.id == itemData.id" appClickOutside (clickOutside)="itemStatus = {}" class="success-badge">{{itemStatus.status}}</span>
             <div class="row">
                 <div class="col-md-12" style="position: relative;">
                     <ul class="nav nav-pills navbar-left dashboard-item-header" *ngIf="canShowIcons(itemData.type)">

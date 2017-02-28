@@ -43,6 +43,7 @@ export class DashboardItemCardComponent implements OnInit{
   interpretation: string;
   orgunit_model: any;
   customLayout: any = null;
+  itemStatus: any = {id: '', status: ''};
   constructor(
       private dashboardItemService: DashboardItemService,
       private dashboardService: DashboardService,
@@ -266,5 +267,7 @@ export class DashboardItemCardComponent implements OnInit{
     }
   }
 
-
+  setStatus(status) {
+    this.itemStatus = status;
+  }
 }

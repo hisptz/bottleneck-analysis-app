@@ -6,6 +6,8 @@ import {Constants} from "../../shared/constants";
 import {UtilitiesService} from "./utilities.service";
 import {isNull} from "util";
 import {isUndefined} from "util";
+import {isObject} from "rxjs/util/isObject";
+import {isArray} from "rxjs/util/isArray";
 
 @Injectable()
 export class DashboardService {
@@ -129,7 +131,6 @@ export class DashboardService {
               if(dashboardItem.id == id) this.dashboards[dashboardIndex] = dashboard;
             });
           }
-
           observer.next(dashboard);
           observer.complete();
         }, error => {
@@ -319,27 +320,127 @@ export class DashboardService {
 
   addDashboardItem(dashboardId, dashboardItemData): Observable<string> {
     return Observable.create(observer => {
-      let options = new RequestOptions({headers: new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'})});
-      this.http.post(this.url + '/' + dashboardId + '/items/content?type=' + dashboardItemData.type + '&id=' + dashboardItemData.id, options)
-        .map(res => res.json())
-        .catch(this.utilService.handleError)
-        .subscribe(response => {
+      let updatableDashboardId = this.getUpdatableDashboardItem(dashboardId, dashboardItemData);
+      if(!this.dashboardItemExist(dashboardId,dashboardItemData.id) && isNull(updatableDashboardId)) {
+        let options = new RequestOptions({headers: new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'})});
+        this.http.post(this.url + '/' + dashboardId + '/items/content?type=' + dashboardItemData.type + '&id=' + dashboardItemData.id, options)
+          .map(res => res.json())
+          .catch(this.utilService.handleError)
+          .subscribe(response => {
+              //get and update the created item
+              this.http.get(this.url + '/' + dashboardId + '.json?fields=id,name,dashboardItems[:all,users[:all],resources[:all],reports[:all]]')
+                .map((res: Response) => res.json())
+                .catch(this.utilService.handleError).subscribe(dashboard => {
+                  for(let dashboardItem of dashboard.dashboardItems) {
+                    if(!dashboardItem.hasOwnProperty('shape'))  {
+                      dashboardItem.shape = 'NORMAL';
+                      this.updateShape(dashboardId,dashboardItem.id, 'NORMAL');
+                    }
+                    if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].hasOwnProperty('id')) {
+                      if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].id == dashboardItemData.id) {
+                        this.updateDashboard(dashboardId, dashboardItem);
+                        observer.next({status: 'create',id: dashboardItem.id});
+                        observer.complete();
+                        break;
+                      }
+                    } else {
+                      this.updateDashboard(dashboardId, dashboardItem);
+                      observer.next({status: 'create',id: dashboardItem.id});
+                      observer.complete();
+                      break;
+                    }
+                  }
+              }, error => {observer.error(error)});
+            },
+            error => {
+              observer.error(error)
+            })
+      } else if(!isNull(updatableDashboardId)) {
+        let options = new RequestOptions({headers: new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'})});
+        this.http.post(this.url + '/' + dashboardId + '/items/content?type=' + dashboardItemData.type + '&id=' + dashboardItemData.id, options)
+          .map(res => res.json())
+          .catch(this.utilService.handleError)
+          .subscribe(response => {
             //get and update the created item
-            this.load(dashboardId).subscribe(dashboard => {
-              dashboard.dashboardItems.forEach(dashboardItem => {
+            this.http.get(this.url + '/' + dashboardId + '.json?fields=id,name,dashboardItems[:all,users[:all],resources[:all],reports[:all]]')
+              .map((res: Response) => res.json())
+              .catch(this.utilService.handleError).subscribe(dashboard => {
+              for(let dashboardItem of dashboard.dashboardItems) {
                 if(!dashboardItem.hasOwnProperty('shape'))  {
                   dashboardItem.shape = 'NORMAL';
                   this.updateShape(dashboardId,dashboardItem.id, 'NORMAL');
                 }
-              })
-              observer.next('Item added');
-              observer.complete()
-            }, error => {console.log('failed to load dashboard')});
-          },
-          error => {
-            observer.error(error)
-          })
+                if(dashboardItem.id == updatableDashboardId) {
+                  this.updateDashboard(dashboardId, dashboardItem, 'update');
+                  observer.next({status: 'update', id: dashboardItem.id});
+                  observer.complete();
+                  break;
+                }
+              }
+
+            }, error => observer.error(error));
+
+          }, error => {observer.error(error)})
+      }
     });
+  }
+
+  updateDashboard(dashboardId, dashboardItem, action = 'save') {
+    for(let dashboard of this.dashboards) {
+      if(dashboard.id == dashboardId) {
+        if(action == 'save') {
+          dashboard.dashboardItems.unshift(dashboardItem);
+        } else {
+          for(let item of dashboard.dashboardItems) {
+            if(item.id == dashboardItem.id) {
+              dashboard.dashboardItems.splice(dashboard.dashboardItems.indexOf(item),1);
+              dashboard.dashboardItems.unshift(dashboardItem);
+              break;
+            }
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  getUpdatableDashboardItem(dashboardId, dashboardFavourate) {
+    let dashboardItemId = null;
+    for(let dashboard of this.dashboards) {
+      if(dashboard.id == dashboardId) {
+        if(dashboard.dashboardItems.length > 0) {
+          for(let dashboardItem of dashboard.dashboardItems) {
+            if(dashboardItem.type == dashboardFavourate.type) {
+              if(!dashboardItem[this.utilService.camelCaseName(dashboardFavourate.type)].hasOwnProperty('id')) {
+                dashboardItemId = dashboardItem.id;
+              }
+              break;
+            }
+          }
+        }
+        break;
+      }
+    }
+    return dashboardItemId;
+  }
+  dashboardItemExist(dashboardId, dashboardFavourateId) {
+    let exist = false;
+    for(let dashboard of this.dashboards) {
+      if(dashboard.id == dashboardId) {
+        if(dashboard.dashboardItems.length > 0) {
+          for(let dashboardItem of dashboard.dashboardItems) {
+            if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].hasOwnProperty('id')) {
+              if(dashboardItem[this.utilService.camelCaseName(dashboardItem.type)].id == dashboardFavourateId) {
+                exist = true;
+                break;
+              }
+            }
+          }
+        }
+        break;
+      }
+    }
+    return exist;
   }
 
   deleteDashboardItem(dashboardId, dashboardItemId) {
