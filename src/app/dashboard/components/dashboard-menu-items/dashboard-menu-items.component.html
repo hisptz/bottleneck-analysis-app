@@ -1,6 +1,6 @@
 <ul class="nav navbar-nav dashboard-nav" *ngIf="!dashboardsLoading">
   <li class="dashboard-list" routerLinkActive="active" *ngFor="let dashboard of dashboards | filterBy: dashboardName | paginate: config">
-    <span *ngIf="updatedDashboard == dashboard.id" appClickOutside (clickOutside)="updatedDashboard = ''" class="success-badge">Updated</span>
+    <span *ngIf="dashboardStatus.id == dashboard.id" appClickOutside (clickOutside)="dashboardStatus.id = {}" class="success-badge">{{dashboardStatus.status}}</span>
     <a routerLink="/dashboards/{{dashboard.id}}/dashboard" *ngIf="!isEditFormOpen(dashboard.id) && !isItemToDelete(dashboard.id)" (dblclick)="openEditForm(dashboard.id)" tooltip="{{dashboard.name}}">{{dashboard.name | truncate:12}}</a>
     <app-edit-dashboard *ngIf="isEditFormOpen(dashboard.id)" [dashboard]="dashboard" (onUpdateSuccess)="closeEditForm($event, dashboard.id)"></app-edit-dashboard>
   <div *ngIf="itemToDelete == dashboard.id" class="dashboard-delete-block">

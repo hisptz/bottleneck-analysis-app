@@ -126,11 +126,6 @@ export class DashboardService {
           if(isUndefined(this.dashboards.filter((item) => {return item.id == id ? item : null;})[0])) {
             this.dashboards.push(dashboard);
           }
-          // else {
-          //   this.dashboards.forEach((dashboardValue, dashboardIndex) => {
-          //     if(dashboardValue.id == id) this.dashboards[dashboardIndex] = dashboard;
-          //   });
-          // }
           observer.next(dashboard);
           observer.complete();
         }, error => {
@@ -150,6 +145,16 @@ export class DashboardService {
             .subscribe(
               response => {
                 this.load(uniqueId).subscribe(dashboard => {
+                  //sort dashboard
+                  this.dashboards.sort((a: any, b: any) => {
+                    if (a.name < b.name) {
+                      return -1;
+                    } else if (a.name > b.name) {
+                      return 1;
+                    } else {
+                      return 0;
+                    }
+                  });
                   observer.next(dashboard);
                   observer.complete();
                 }, error => observer.error(error))

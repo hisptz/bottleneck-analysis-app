@@ -21,7 +21,7 @@ export class DashboardMenuItemsComponent implements OnInit, AfterViewInit {
   public itemToDelete: string;
   menuOptions: Array<any>;
   menuSearch: boolean = false;
-  updatedDashboard: string = '';
+  dashboardStatus: any = {id: '', status: ''};
   public config: PaginationInstance = {
     id: 'custom',
     itemsPerPage: 8,
@@ -102,7 +102,7 @@ export class DashboardMenuItemsComponent implements OnInit, AfterViewInit {
   }
 
   closeEditForm(event, id) {
-    this.updatedDashboard = id;
+    this.dashboardStatus = {id: id, status: 'Updated'};
     this.activeEditFormId = '';
   }
 
@@ -155,6 +155,7 @@ export class DashboardMenuItemsComponent implements OnInit, AfterViewInit {
 
   updateCurrentPage(dashboardId) {
     this.dashboardService.all().subscribe(dashboards => {
+      this.dashboardStatus = {id: dashboardId, status: 'Created'};
       this.dashboards = dashboards;
       this.config.itemsPerPage = dashboards.length <= 8 ? dashboards.length : 8;
       this.config.currentPage = this.getCurrentPage(this.dashboards,dashboardId,this.config.itemsPerPage);
