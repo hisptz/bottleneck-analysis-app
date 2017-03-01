@@ -33,8 +33,8 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
   public isSettingsOpen: boolean;
   isCollapsed: boolean = true;
   subscription: Subscription[];
-  totalItems: number;
-  loadedItems: number;
+  totalItems: number = 0;
+  loadedItems: number = 0;
   showBody: boolean = false;
   searchTerm$ = new Subject<string>();
   results: any;
@@ -124,11 +124,10 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
   }
 
   loadDashboardItems(dashboardId) {
-    this.loadedItems = 0;
-    this.totalItems = 0;
     this.dashboardService.find(dashboardId)
       .subscribe(
         dashboard => {
+          this.totalItems = dashboard.dashboardItems.length;
           this.dashboard = dashboard;
           this.loading = false;
         }, error => {
@@ -234,5 +233,13 @@ export class DashboardItemsComponent implements OnInit,OnDestroy,AfterViewInit {
 
   updateDimension(event) {
     this.dimensionValues$.next(event)
+  }
+
+  updateProgress() {
+    this.loadedItems += 1;
+    if(this.loadedItems == this.totalItems) {
+      this.totalItems = 0;
+      this.loadedItems = 0;
+    }
   }
 }

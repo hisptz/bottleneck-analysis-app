@@ -27,6 +27,7 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
   @Input() status: any;
   @Input() dimensionValues: any;
   @Output() onDelete: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onItemLoaded: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild(DashboardLayoutComponent) dashboardLayout: DashboardLayoutComponent;
   public isFullScreen: boolean;
   public isInterpretationShown: boolean;
@@ -89,13 +90,16 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
       (this.currentVisualization == 'REPORT_TABLE') ||
       (this.currentVisualization == 'EVENT_REPORT')) {
         this.updateDasboardItemForAnalyticTypeItems();
+    } else {
+      this.onItemLoaded.emit(true)
     }
-  }
 
-  ngAfterViewInit() {
     this.dimensionValues.asObservable().subscribe(dimension => {
       this.updateDashboardCard(dimension);
     })
+  }
+
+  ngAfterViewInit() {
   }
 
   visualize(dashboardItemType, dashboardObject, dashboardAnalytic) {
@@ -241,6 +245,7 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
     this.loadingChart =  this.loadingTable = true;
     this.dashboardService.getDashboardItemWithObjectAndAnalytics(this.route.snapshot.params['id'],this.itemData.id,this.currentUser.id,customDimensions)
       .subscribe(dashboardItem => {
+        this.onItemLoaded.emit(true);
         this.itemData = dashboardItem;
         this.visualize(this.currentVisualization,dashboardItem.object, dashboardItem.analytic);
         //@todo find best way to autoplay interpretation
@@ -253,7 +258,6 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
 
   updateDashboardItemLayout(layout) {
     this.customLayout = layout;
-    console.log(layout)
     this.loadingChart =  this.loadingTable = true;
     this.visualize(this.currentVisualization, this.itemData.object, this.itemData.analytic);
   }
