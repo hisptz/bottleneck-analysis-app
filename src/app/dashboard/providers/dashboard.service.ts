@@ -125,11 +125,12 @@ export class DashboardService {
         .subscribe(dashboard => {
           if(isUndefined(this.dashboards.filter((item) => {return item.id == id ? item : null;})[0])) {
             this.dashboards.push(dashboard);
-          } else {
-            this.dashboards.forEach((dashboardItem, dashboardIndex) => {
-              if(dashboardItem.id == id) this.dashboards[dashboardIndex] = dashboard;
-            });
           }
+          // else {
+          //   this.dashboards.forEach((dashboardValue, dashboardIndex) => {
+          //     if(dashboardValue.id == id) this.dashboards[dashboardIndex] = dashboard;
+          //   });
+          // }
           observer.next(dashboard);
           observer.complete();
         }, error => {
@@ -148,8 +149,10 @@ export class DashboardService {
             .catch(this.utilService.handleError)
             .subscribe(
               response => {
-                observer.next(uniqueId);
-                observer.complete();
+                this.load(uniqueId).subscribe(dashboard => {
+                  observer.next(dashboard);
+                  observer.complete();
+                }, error => observer.error(error))
               },
               error => {
                 observer.error(error);

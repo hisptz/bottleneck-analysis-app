@@ -37,9 +37,9 @@ export class CreateDashboardComponent implements OnInit {
     this.isAddFormOpen = false;
     this.settingService.toggleItem('add-dashboard');
     this.createDashboardForm.reset();
-    this.dashboardService.create(dashboardData).subscribe(dashboardId => {
-      this.onCreateSuccess.emit(dashboardId);
-      this.router.navigate(['/dashboards/' + dashboardId +'/dashboard']);
+    this.dashboardService.create(dashboardData).subscribe((dashboard: any) => {
+      this.onCreateSuccess.emit(dashboard.id);
+      this.router.navigate(['/dashboards/' + dashboard.id +'/dashboard']);
       this.submitted = false;
     });
   }

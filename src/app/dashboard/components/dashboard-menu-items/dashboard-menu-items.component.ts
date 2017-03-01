@@ -154,11 +154,11 @@ export class DashboardMenuItemsComponent implements OnInit, AfterViewInit {
   }
 
   updateCurrentPage(dashboardId) {
-    console.log(dashboardId);
-    console.log(this.dashboards)
-    console.log(this.config.itemsPerPage)
-    this.config.currentPage = this.getCurrentPage(this.dashboards,dashboardId,this.config.itemsPerPage);
-    console.log(this.config.currentPage)
+    this.dashboardService.all().subscribe(dashboards => {
+      this.dashboards = dashboards;
+      this.config.itemsPerPage = dashboards.length <= 8 ? dashboards.length : 8;
+      this.config.currentPage = this.getCurrentPage(this.dashboards,dashboardId,this.config.itemsPerPage);
+    })
   }
 
 }

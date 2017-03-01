@@ -234,7 +234,6 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
   }
 
   updateDashboardCard(dimension) {
-    console.log(dimension)
     this.updateDasboardItemForAnalyticTypeItems(dimension.length == 2 ? dimension : [dimension]);
   }
 
@@ -254,6 +253,7 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
 
   updateDashboardItemLayout(layout) {
     this.customLayout = layout;
+    console.log(layout)
     this.loadingChart =  this.loadingTable = true;
     this.visualize(this.currentVisualization, this.itemData.object, this.itemData.analytic);
   }

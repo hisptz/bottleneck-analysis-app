@@ -20,7 +20,6 @@ export class DashboardNotificationBlockComponent implements OnInit {
   ngOnInit() {
     this.statusData = this.getStatusClassAndIcon(this.notificationService.notification.status);
     this.message = this.notificationService.notification.message;
-    console.log(this.statusData);
   }
 
   getStatusClassAndIcon(status) {
