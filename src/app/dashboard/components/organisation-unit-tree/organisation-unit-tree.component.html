@@ -3,7 +3,8 @@
     <div class="show_items" (click)="displayOrgTree()">
         <span *ngIf="orgunit_model.selected_orgunits.length > 1">
             <span class="selected-item">
-              {{ orgunit_model.selected_orgunits.length }} selected
+              {{orgunit_model.selected_orgunits[0].name}} and
+              {{ orgunit_model.selected_orgunits.length - 1 }} more
             </span>
         </span>
         <span *ngIf="orgunit_model.selected_orgunits.length <= 1">

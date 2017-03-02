@@ -37,7 +37,7 @@
           </ul>
         </li>
         <li class="dropdown" appClickOutside (clickOutside)="showUserGroupList = false">
-          <input type="text" placeholder="Add user groups" class="share-input" (keyup)="searchTerm$.next($event.target.value)" autofocus>
+          <input type="text" placeholder="Search to add user groups" class="share-input" (keyup)="searchTerm$.next($event.target.value)" autofocus>
           <img *ngIf="searching" src="assets/img/balls-3.svg" style="height: 20px; width: 20px;" alt="searching user groups" >
           <ul *ngIf="showUserGroupList" class="user-group-dropdown">
             <li><a style="cursor: none;" *ngIf="userGroups.length == 0"><b>No search result found</b></a></li>

@@ -21,7 +21,7 @@ body {
 }
 
 a, input, span, small, p, h1, h2, h3,
-h4,h5,h6,td,th,button,tspan,div,i,b,label, strong, code {
+h4,h5,h6,td,th,button,tspan,div,b,label, strong, code,text {
   color: #269ABC;
   font-family: "Lato","Helvetica Neue", Helvetica, Arial, sans-serif;
 }

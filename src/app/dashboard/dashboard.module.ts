@@ -4,17 +4,13 @@ import { DashboardComponent } from './dashboard.component';
 import {DashboardRouteModule} from "./dashboard.routing.module";
 import {SharedModule} from "../shared/shared-module.module";
 import { DashboardItemCardComponent } from './components/dashboard-item-card/dashboard-item-card.component';
-import { DashboardItemSearchComponent } from './components/dashboard-item-search/dashboard-item-search.component';
 import {DashboardSettingsService} from "./providers/dashboard-settings.service";
 import { DashboardShareComponent } from './components/dashboard-share/dashboard-share.component';
 import { DashboardDimensionsComponent } from './components/dashboard-dimensions/dashboard-dimensions.component';
-import { DashboardPeriodSettingsComponent } from './components/dashboard-period-settings/dashboard-period-settings.component';
-import { DashboardOrgunitSettingsComponent } from './components/dashboard-orgunit-settings/dashboard-orgunit-settings.component';
 import {DashboardService} from "./providers/dashboard.service";
 import { DashboardItemsComponent } from './pages/dashboard-items/dashboard-items.component';
 import { DashboardLandingComponent } from './pages/dashboard-landing/dashboard-landing.component';
 import { DashboardMenuItemsComponent } from './components/dashboard-menu-items/dashboard-menu-items.component';
-import { DashboardMenuPaginationComponent } from './components/dashboard-menu-pagination/dashboard-menu-pagination.component';
 import { CreateDashboardComponent } from './components/create-dashboard/create-dashboard.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DashboardItemService} from "./providers/dashboard-item.service";
@@ -22,7 +18,6 @@ import {VisualizerService} from "./providers/dhis-visualizer.service";
 import {UtilitiesService} from "./providers/utilities.service";
 import {ModalModule, TabsModule, TooltipModule, DropdownModule, AccordionModule} from "ng2-bootstrap";
 import { DashboardItemInterpretationComponent } from './components/dashboard-item-interpretation/dashboard-item-interpretation.component';
-import {ContextMenuService} from "angular2-contextmenu";
 import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboard.component';
 import {DashboardSearchService} from "./providers/dashboard-search.service";
 import { ReadableNamePipe } from './pipes/readable-name.pipe';
@@ -63,14 +58,13 @@ import { DashboardNotificationBlockComponent } from './components/dashboard-noti
       TreeModule,
       DndModule.forRoot()
   ],
-  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardItemSearchComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardPeriodSettingsComponent, DashboardOrgunitSettingsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, DashboardMenuPaginationComponent, CreateDashboardComponent, DashboardItemInterpretationComponent, EditDashboardComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent,MetadataDictionaryComponent, OrganisationUnitTreeComponent, PeriodFilterComponent, DragabbleDirective, DropTargetDirective, DashboardLayoutComponent, ClickOutsideDirective, DashboardNotificationBlockComponent],
+  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, CreateDashboardComponent, DashboardItemInterpretationComponent, EditDashboardComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent,MetadataDictionaryComponent, OrganisationUnitTreeComponent, PeriodFilterComponent, DragabbleDirective, DropTargetDirective, DashboardLayoutComponent, ClickOutsideDirective, DashboardNotificationBlockComponent],
   providers: [
       DashboardSettingsService,
       DashboardService,
       DashboardItemService,
       VisualizerService,
       UtilitiesService,
-      ContextMenuService,
       DashboardSearchService,
       InterpretationService,
       OrgUnitService,

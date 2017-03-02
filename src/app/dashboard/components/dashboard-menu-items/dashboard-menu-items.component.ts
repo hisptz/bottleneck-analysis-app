@@ -2,9 +2,9 @@ import {Component, OnInit, Input, Output, EventEmitter, ViewChild, AfterViewInit
 import {Dashboard} from "../../interfaces/dashboard";
 import {DashboardService} from "../../providers/dashboard.service";
 import {PaginationInstance} from 'ng2-pagination';
-import {RouterModule, Router, ActivatedRoute} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import {DashboardSettingsService} from "../../providers/dashboard-settings.service";
-import {Subject} from "rxjs";
+import {NotificationService} from "../../../shared/providers/notification.service";
 
 @Component({
   selector: 'app-dashboard-menu-items',
@@ -18,8 +18,7 @@ export class DashboardMenuItemsComponent implements OnInit, AfterViewInit {
   public dashboardsError: boolean;
   public activeEditFormId: string;
   public dashboards: Dashboard[];
-  public itemToDelete: string;
-  menuOptions: Array<any>;
+  public itemToDelete: string = null;
   menuSearch: boolean = false;
   dashboardStatus: any = {id: '', status: ''};
   public config: PaginationInstance = {
@@ -27,40 +26,24 @@ export class DashboardMenuItemsComponent implements OnInit, AfterViewInit {
     itemsPerPage: 8,
     currentPage: 1
   };
+
+  currentRightClicked: string = null;
   constructor(
      private dashboardService: DashboardService,
      private settingsService: DashboardSettingsService,
      private router: Router,
-     private route: ActivatedRoute
+     private route: ActivatedRoute,
+     private notificationService: NotificationService
   ) {
     this.isItemSearchOpen = false;
     this.dashboardsLoading = true;
     this.dashboardsError = false;
     this.activeEditFormId = '';
-    this.itemToDelete = '';
-    // this.menuOptions = [
-    //   // {
-    //   //   html: () => 'Share',
-    //   //   click: (item, $event) => {
-    //   //   },
-    //   // },
-    //   {
-    //     html: (): string => 'Rename',
-    //     click: (item, $event): void => {
-    //       this.openEditForm(item.id)
-    //     }
-    //   },
-    //   {
-    //     html: (): string => 'Delete',
-    //     click: (item, $event): void => {
-    //       this.itemToDelete= item.id;
-    //     }
-    //   }
-    // ]
 
   }
 
   ngOnInit() {
+
     this.dashboardService.all().subscribe(dashboards => {
       this.dashboards = dashboards;
       this.config.itemsPerPage = dashboards.length <= 8 ? dashboards.length : 8;
@@ -72,22 +55,17 @@ export class DashboardMenuItemsComponent implements OnInit, AfterViewInit {
     })
 
   }
-  ngAfterViewInit() {
-    // this.route.params.subscribe(params => {
-    //   this.config.currentPage = this.getCurrentPage(this.dashboards,params['id'],this.config.itemsPerPage);
-    //   console.log(this.config.currentPage)
-    // })
+
+  showOptions(dashboardId) {
+    this.currentRightClicked = dashboardId;
+    return false;
+
   }
 
-  // public onContextMenu($event: MouseEvent, item: any): void{
-  //   this.contextMenuService.show.next({
-  //     actions: this.menuOptions,
-  //     event: $event,
-  //     item: item
-  //   });
-  //   $event.preventDefault();
-  //   $event.stopPropagation();
-  // }
+  ngAfterViewInit() {
+
+  }
+
 
   isEditFormOpen(id) {
     return this.activeEditFormId == id ? true : false;
@@ -98,10 +76,20 @@ export class DashboardMenuItemsComponent implements OnInit, AfterViewInit {
   }
 
   openEditForm(id) {
+    this.currentRightClicked = null;
     this.activeEditFormId = id;
   }
+  openDeleteForm(id) {
+    this.currentRightClicked = null;
+    this.itemToDelete = id;
+  }
 
-  closeEditForm(event, id) {
+  openShareBlock() {
+    this.currentRightClicked = null;
+    this.settingsService.toggleItem('share');
+  }
+
+  closeEditForm(id) {
     this.dashboardStatus = {id: id, status: 'Updated'};
     this.activeEditFormId = '';
   }
@@ -113,6 +101,7 @@ export class DashboardMenuItemsComponent implements OnInit, AfterViewInit {
         if(dashboards.length == 0) {
           this.router.navigate(['/']);
         } else {
+          this.notificationService.setNotification('info','Dashboard has been deleted, we have redirected you to the first dashboard available');
           this.router.navigate(['dashboards/'+ dashboards[0].id + '/dashboard']);
         }
 

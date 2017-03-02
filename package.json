@@ -21,7 +21,6 @@
     "@angular/platform-browser": "^2.4.0",
     "@angular/platform-browser-dynamic": "^2.4.0",
     "@angular/router": "^3.4.0",
-    "angular2-contextmenu": "^0.7.1",
     "angular2-moment": "^1.1.0",
     "angular2-tree-component": "^2.8.1-performance",
     "bootstrap": "^3.3.7",
