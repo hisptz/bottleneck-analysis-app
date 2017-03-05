@@ -45,7 +45,6 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
   public metadataIdentifiers: string;
   public chartTypes: any;
   interpretation: string;
-  orgunit_model: any;
   customLayout: any = null;
   constructor(
       private dashboardItemService: DashboardItemService,
@@ -65,21 +64,7 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit() {
-    //compile user orgunits
-    let userOrgUnits = [];
-    this.currentUser.dataViewOrganisationUnits.forEach(orgUnit => {
-      userOrgUnits.push(orgUnit.id);
-    })
 
-    this.orgunit_model = {
-      selection_mode: "orgUnit",
-      selected_level: "",
-      selected_group: "",
-      orgunit_levels: [],
-      orgunit_groups: [],
-      selected_orgunits: [],
-      user_orgunits: userOrgUnits
-    };
     this.currentVisualization = this.itemData.type;
     this.dashboardShapeBuffer = this.itemData.shape;
 
@@ -119,11 +104,13 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
   }
 
   drawChart(dashboardObject, dashboardAnalytic,chartType?:string) {
+
     let chartConfiguration = {
-      'type': chartType,
-      'title': dashboardObject.title,
-      'xAxisType': dashboardObject.category ? this.itemData.object.category : 'pe',
-      'yAxisType': dashboardObject.series ? this.itemData.object.series : 'dx'
+      'type': dashboardObject.type ? dashboardObject.type.toLowerCase() : chartType,
+      'title': dashboardObject.title ? dashboardObject.title : dashboardObject.displayName,
+      'show_labels': true,
+      'xAxisType': dashboardObject.category ? dashboardObject.category : dashboardObject.rows[0].dimension,
+      'yAxisType': dashboardObject.series ? dashboardObject.series : dashboardObject.columns[0].dimension
     };
     this.chartObject = this.visualizationService.drawChart(dashboardAnalytic, chartConfiguration);
     this.loadingChart = false;

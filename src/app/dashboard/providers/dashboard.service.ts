@@ -56,11 +56,11 @@ export class DashboardService {
                 if(customDimensions.length > 0) {
                   customDimensions.forEach((dimension) => {
                     if(dimension.name == 'ou') {
-                      dashboardItem.object.customOu = dimension.value;
+                      dashboardItem.object.custom_ou = dimension.value;
                     }
 
                     if(dimension.name == 'pe') {
-                      dashboardItem.object.customPe = dimension.value;
+                      dashboardItem.object.custom_pe = dimension.value;
                     }
                   });
                   this.http.get(this._getDashBoardItemAnalyticsUrl(dashboardItem.object,dashboardItem.type,currentUserId,true)).map(res => res.json())
@@ -75,10 +75,12 @@ export class DashboardService {
                   observer.complete();
                 }
               } else {
-                this.http.get(this.constant.root_url + "api/"+this.utilService.formatEnumString(dashboardItem.type)+"s/"+dashboardItem[this.utilService.formatEnumString(dashboardItem.type)].id+".json?fields=:all,program[id,name],programStage[id,name],columns[dimension,filter,items[id,name],legendSet[id,name]],rows[dimension,filter,items[id,name],legendSet[id,name]],filters[dimension,filter,items[id,name],legendSet[id,name]],interpretations[id,%20text,lastUpdated,user[displayName],comments,likes],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,attributeDimensions[id,name,attribute[id,name,optionSet[id,name,options[id,name]]]],dataElementDimensions[id,name,dataElement[id,name,optionSet[id,name,options[id,name]]]],categoryDimensions[id,name,category[id,name,categoryOptions[id,name,options[id,name]]]]")
+                this.http.get(this.constant.api +this.utilService.formatEnumString(dashboardItem.type)+"s/"+dashboardItem[this.utilService.formatEnumString(dashboardItem.type)].id+".json?fields=*,interpretations[*,user[id,displayName],likedBy[id,displayName],comments[lastUpdated,text,user[id,displayName]]],columns[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],rows[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],filters[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],access,userGroupAccesses,publicAccess,displayDescription,user[displayName,dataViewOrganisationUnits],!href,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!organisationUnitGroups,!itemOrganisationUnitGroups,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits")
                   .map(res => res.json())
                   .catch(this.utilService.handleError)
                   .subscribe(dashboardObject => {
+                    //get orgUnitModel also
+                    dashboardObject['orgUnitModel'] = this.getOrgUnitModel(dashboardObject);
                     dashboardItem['object'] = dashboardObject;
                     //get analytic object also
                     this.http.get(this._getDashBoardItemAnalyticsUrl(dashboardObject,dashboardItem.type,currentUserId))
@@ -202,61 +204,9 @@ export class DashboardService {
     let row = "";
     let filter = "";
     //checking for columns
-    dashBoardObject.columns.forEach((dashBoardObjectColumn : any,index : any)=>{
-      let items = "";
-      if(dashBoardObjectColumn.dimension != "dy"){
-        (index == 0)? items = "dimension="+dashBoardObjectColumn.dimension+":": items += "&dimension="+dashBoardObjectColumn.dimension+":";
-
-        if(dashBoardObjectColumn.dimension == 'ou' && useCustomDimension && !isUndefined(dashBoardObject.customOu)) {
-          items += dashBoardObject.customOu + ';';
-        } else if(dashBoardObjectColumn.dimension == 'pe' && useCustomDimension && !isUndefined(dashBoardObject.customPe)) {
-          items += dashBoardObject.customPe + ';';
-        } else {
-          dashBoardObjectColumn.items.forEach((dashBoardObjectColumnItem : any)=>{
-            items += dashBoardObjectColumnItem.id + ";"
-          });
-          if(dashBoardObjectColumn.filter) {
-            items += dashBoardObjectColumn.filter+';';
-          }
-        }
-        column += items.slice(0, -1);
-      }
-    });
-    //checking for rows
-    dashBoardObject.rows.forEach((dashBoardObjectRow : any)=>{
-      let items = "";
-      if(dashBoardObjectRow.dimension!="dy"){
-        items += "&dimension="+dashBoardObjectRow.dimension+":";
-
-        if(dashBoardObjectRow.dimension == 'ou' && useCustomDimension && !isUndefined(dashBoardObject.customOu)) {
-          items += dashBoardObject.customOu + ';';
-        } else if(dashBoardObjectRow.dimension == 'pe' && useCustomDimension && !isUndefined(dashBoardObject.customPe)) {
-          items += dashBoardObject.customPe + ';';
-        } else {
-          dashBoardObjectRow.items.forEach((dashBoardObjectRowItem : any)=>{
-            items += dashBoardObjectRowItem.id + ";";
-          });
-          if(dashBoardObjectRow.filter) {
-            items += dashBoardObjectRow.filter+';';
-          }
-        }
-        row += items.slice(0, -1);
-      }
-    });
-    //checking for filters
-    dashBoardObject.filters.forEach((dashBoardObjectFilter : any)=>{
-      let items = "";
-      if(dashBoardObjectFilter.dimension!="dy"){
-        items += "&dimension="+dashBoardObjectFilter.dimension+":";
-        dashBoardObjectFilter.items.forEach((dashBoardObjectFilterItem : any)=>{
-          items += dashBoardObjectFilterItem.id + ";"
-        });
-        if(dashBoardObjectFilter.filter) {
-          items += dashBoardObjectFilter.filter+';';
-        }
-        filter += items.slice(0, -1);
-      }
-    });
+    column = this.getDashboardObjectDimension('columns',dashBoardObject, useCustomDimension);
+    row = this.getDashboardObjectDimension('rows',dashBoardObject, useCustomDimension);
+    filter = this.getDashboardObjectDimension('filters',dashBoardObject, useCustomDimension);
 
     //set url base on type
     if( dashboardType=="EVENT_CHART" ) {
@@ -274,8 +224,10 @@ export class DashboardService {
       url += ".json?";
     }
 
-    url += column+row;
-    ( filter == "" )? url+"" : url += filter;
+    url += column + '&' + row;
+    url += filter == "" ? "" : '&' + filter;
+    url += "&user=" + currentUserId;
+
     url += "&displayProperty=NAME"+  dashboardType=="EVENT_CHART" ?
       "&outputType=EVENT&"
       : dashboardType=="EVENT_REPORT" ?
@@ -283,9 +235,86 @@ export class DashboardService {
         : dashboardType=="EVENT_MAP" ?
           "&outputType=EVENT&displayProperty=NAME"
           :"&displayProperty=NAME" ;
-
-    url += "&user=" + currentUserId;
     return url;
+  }
+
+  getDashboardObjectDimension(dimension, dashboardObject, custom = false): string {
+    let items: string = "";
+    dashboardObject[dimension].forEach((dimensionValue : any)=>{
+      items += items != "" ? '&' : "";
+      if(dimensionValue.dimension != 'dy') {
+        items += dimension == 'filters' ? 'filter=' : 'dimension=';
+        items += dimensionValue.dimension;
+        items += dimensionValue.hasOwnProperty('legendSet') ? '-' + dimensionValue.legendSet.id : "";
+        items +=  ':';
+        items += dimensionValue.hasOwnProperty('filter') ? dimensionValue.filter : "";
+        if(custom && dashboardObject.hasOwnProperty('custom_' + dimensionValue.dimension)) {
+          items += dashboardObject['custom_' + dimensionValue.dimension] + ';';
+        } else {
+          dimensionValue.items.forEach((itemValue,itemIndex) => {
+            items += itemValue.dimensionItem;
+            items += itemIndex == dimensionValue.items.length-1 ? "" : ";";
+          })
+        }
+      }
+    });
+    return items
+  }
+
+  getOrgUnitModel(dashboardObject): any {
+    let orgUnitModel:any = {
+      selection_mode: "orgUnit",
+      selected_level: "",
+      selected_group: "",
+      orgunit_levels: [],
+      orgunit_groups: [],
+      selected_orgunits: [],
+      user_orgunits: []
+    };
+    let dimensionItems: any;
+    for(let columnDimension of dashboardObject.columns) {
+      if(columnDimension.dimension == 'ou') {
+        dimensionItems = columnDimension.items;
+        break;
+      } else {
+        for(let rowDimension of dashboardObject.rows) {
+          if(rowDimension.dimension == 'ou') {
+            dimensionItems = rowDimension.items;
+            break;
+          } else {
+            for(let filterDimension of dashboardObject.filters) {
+              if(filterDimension.dimension == 'ou') {
+                dimensionItems = filterDimension.items;
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    dimensionItems.forEach(item => {
+      if(item.hasOwnProperty('dimensionItemType')) {
+        orgUnitModel.selected_orgunits.push({id: item.id, name: item.displayName})
+      } else {
+        //find selected organisation group
+        if(item.dimensionItem.substring(0,8) == 'OU_GROUP') {
+          orgUnitModel.selected_group = item.dimensionItem;
+        }
+
+        //find selected level
+        if(item.dimensionItem.substring(0,5) == 'LEVEL') {
+          orgUnitModel.selected_level = item.dimensionItem;
+        }
+      }
+    });
+
+    //get user orgunits
+    dashboardObject.user.dataViewOrganisationUnits.forEach(orgUnit => {
+      orgUnitModel.user_orgunits.push(orgUnit.id);
+    });
+
+    return orgUnitModel
   }
 
   getDashboardItemMetadataIdentifiers(dashboardObject: any): string {

@@ -8,7 +8,7 @@
                         <!--<li><a href=""><i class="fa fa-table"></i></a></li>-->
                         <li *ngIf="filterShown">
                           <ul class="list-inline">
-                            <li><app-organisation-unit-tree [orgunit_model]="orgunit_model" (onOrgUnitUpdate)="updateDashboardCard($event)"></app-organisation-unit-tree></li>
+                            <li><app-organisation-unit-tree [orgunit_model]="itemData.object.orgUnitModel" (onOrgUnitUpdate)="updateDashboardCard($event)"></app-organisation-unit-tree></li>
                             <li><app-period-filter (onPeriodUpdate)="updateDashboardCard($event)"></app-period-filter></li>
                           </ul>
                         </li>
