@@ -16,3 +16,19 @@
 .layout-btn:hover {
   background-color: #ececec;
 }
+
+.layout-block {
+  position: absolute;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .15);
+  max-height: 360px;
+  overflow: hidden;
+  min-width: 400px;
+  z-index: 1000;
+  padding: 10px 5px;
+  /*margin-left:15; */
+  margin-top: 2px;
+}

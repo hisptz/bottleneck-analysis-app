@@ -9,7 +9,7 @@
                         <li *ngIf="filterShown">
                           <ul class="list-inline">
                             <li><app-organisation-unit-tree [orgunit_model]="itemData.object.orgUnitModel" (onOrgUnitUpdate)="updateDashboardCard($event)"></app-organisation-unit-tree></li>
-                            <li><app-period-filter (onPeriodUpdate)="updateDashboardCard($event)"></app-period-filter></li>
+                            <li><app-period-filter [selected_periods]="itemData.object.periodModel" (onPeriodUpdate)="updateDashboardCard($event)"></app-period-filter></li>
                           </ul>
                         </li>
                         <li>
@@ -18,7 +18,7 @@
                           </a>
                         </li>
                         <li>
-                          <app-dashboard-layout [headers]="itemData.analytic ? itemData.analytic.headers : []" [visualizationType]="currentVisualization" (onUpdate)="updateDashboardItemLayout($event)"></app-dashboard-layout>
+                          <app-dashboard-layout *ngIf="cardReady" [layout]="itemData.object.layout" [visualizationType]="currentVisualization" (onUpdate)="updateDashboardItemLayout($event)"></app-dashboard-layout>
                         </li>
                         <li *ngIf="itemData.interpretationCount == 0"><a (click)="toggleInterpretation()" tooltip="share interpretation"><i class="fa fa-share-alt"></i></a></li>
                         <li *ngIf="itemData.interpretationCount > 0">

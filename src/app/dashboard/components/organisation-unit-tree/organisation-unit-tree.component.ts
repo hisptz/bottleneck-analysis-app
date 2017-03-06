@@ -3,6 +3,8 @@ import {IActionMapping, TREE_ACTIONS, TreeComponent} from "angular2-tree-compone
 import {OrgUnitService} from "../../providers/org-unit.service";
 import {FilterService} from "../../providers/filter.service";
 import {Constants} from "../../../shared/constants";
+import {Http, Response} from "@angular/http";
+import {Observable} from "rxjs";
 
 // costants for enabling the organisation unit tree to have
 const actionMapping1:IActionMapping = {
@@ -66,12 +68,15 @@ export class OrganisationUnitTreeComponent implements OnInit {
   showOrgTree:boolean = true;
   constructor(
               private filterService: FilterService,
-              private costant: Constants,
-              private orgunitService: OrgUnitService) {
+              private constant: Constants,
+              private orgunitService: OrgUnitService,
+              private http: Http
+  ) {
 
   }
 
   ngOnInit() {
+
     this.orgunitService.getOrgunitLevelsInformation()
       .subscribe(
         (data: any) => {
@@ -87,7 +92,7 @@ export class OrganisationUnitTreeComponent implements OnInit {
                 let all_levels = data.pager.total;
                 let orgunits = this.orgunitService.getuserOrganisationUnitsWithHighestlevel(level,userOrgunit);
                 let use_level = parseInt(all_levels) - (parseInt(level) - 1);
-                this.orgunit_model.user_orgunits = orgunits;
+                // this.orgunit_model.user_orgunits = orgunits;
 
                 //load inital orgiunits to speed up loading speed
                 this.orgunitService.getInitialOrgunitsForTree(orgunits).subscribe(
@@ -98,7 +103,7 @@ export class OrganisationUnitTreeComponent implements OnInit {
                       name: initial_data.organisationUnits[0].name,
                       children: initial_data.organisationUnits[0].children
                     };
-                    this.orgunit_model.selected_orgunits = [this.orgUnit];
+                    // this.orgunit_model.selected_orgunits = [this.orgUnit];
                     // this.orgUnitlength = this.orgUnit.children.length+1;
                     // this.metadata_ready = true;
                     //noinspection TypeScriptUnresolvedVariable
@@ -138,7 +143,7 @@ export class OrganisationUnitTreeComponent implements OnInit {
               name: this.orgunitService.nodes[0].name,
               children: this.orgunitService.nodes[0].children
             };
-            this.orgunit_model.selected_orgunits = [this.orgUnit];
+            // this.orgunit_model.selected_orgunits = [this.orgUnit];
             // this.orgUnitlength = this.orgUnit.children.length+1;
             this.organisationunits = this.orgunitService.nodes;
             this.orgunit_model.orgunit_levels = this.orgunitService.orgunit_levels;

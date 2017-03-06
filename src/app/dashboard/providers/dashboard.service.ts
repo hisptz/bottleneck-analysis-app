@@ -81,6 +81,8 @@ export class DashboardService {
                   .subscribe(dashboardObject => {
                     //get orgUnitModel also
                     dashboardObject['orgUnitModel'] = this.getOrgUnitModel(dashboardObject);
+                    dashboardObject['periodModel'] = this.getPeriodModel(dashboardObject);
+                    dashboardObject['layout'] = this.getLayout(dashboardObject);
                     dashboardItem['object'] = dashboardObject;
                     //get analytic object also
                     this.http.get(this._getDashBoardItemAnalyticsUrl(dashboardObject,dashboardItem.type,currentUserId))
@@ -315,6 +317,66 @@ export class DashboardService {
     });
 
     return orgUnitModel
+  }
+
+  getPeriodModel(dashboardObject): any {
+    let periodModel = [];
+    let dimensionItems: any;
+    for (let columnDimension of dashboardObject.columns) {
+      if (columnDimension.dimension == 'pe') {
+        dimensionItems = columnDimension.items;
+        break;
+      } else {
+        for (let rowDimension of dashboardObject.rows) {
+          if (rowDimension.dimension == 'pe') {
+            dimensionItems = rowDimension.items;
+            break;
+          } else {
+            for (let filterDimension of dashboardObject.filters) {
+              if (filterDimension.dimension == 'pe') {
+                dimensionItems = filterDimension.items;
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    dimensionItems.forEach(item => {
+      periodModel.push({id: item.id, name: item.displayName, selected: true})
+    });
+    return periodModel;
+  }
+
+  getLayout(dashboardObject) {
+    let layout = {};
+
+    if(dashboardObject.hasOwnProperty('series')) {
+      layout = {
+        series: dashboardObject.series,
+        category: dashboardObject.category,
+      }
+    }
+
+    let rows = [];
+    dashboardObject.rows.forEach(row => {
+      rows.push(row.dimension);
+    });
+    let columns = [];
+    dashboardObject.columns.forEach(column => {
+      columns.push(column.dimension)
+    });
+    let filters = [];
+    dashboardObject.filters.forEach(filter => {
+      filters.push(filter.dimension)
+    });
+
+    layout['rows'] = rows;
+    layout['columns'] = columns;
+    layout['filters'] = filters;
+
+    return layout;
   }
 
   getDashboardItemMetadataIdentifiers(dashboardObject: any): string {

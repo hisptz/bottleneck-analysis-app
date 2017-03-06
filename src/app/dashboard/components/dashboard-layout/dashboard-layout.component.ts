@@ -19,10 +19,10 @@ export interface Configuration {
 })
 export class DashboardLayoutComponent implements OnInit {
 
-  @Input() headers:Array<Header>;
+  @Input() layout: any;
   @Input() visualizationType: string;
   @Output() onUpdate = new EventEmitter();
-
+  showLayout: boolean = false;
   isOpen = false;
   constructor() { }
 
@@ -42,7 +42,6 @@ export class DashboardLayoutComponent implements OnInit {
 
   ngOnInit() {
     this.changeVisualisation(this.visualizationType);
-    this.updateDimension(this.headers)
   }
   @Output('drop') drop = new EventEmitter();
 
@@ -56,10 +55,6 @@ export class DashboardLayoutComponent implements OnInit {
       this.layoutType ='chart';
     } else {
       this.layoutType ='table';
-    }
-
-    if(headers) {
-      this.updateDimension(headers);
     }
   }
 
@@ -84,10 +79,16 @@ export class DashboardLayoutComponent implements OnInit {
         }
       }
     });
+    console.log(this.dimensions)
   }
   updateLayout() {
     this.isOpen = false;
     this.onUpdate.emit(this.dimensions);
   }
+
+  check() {
+    console.log('clicked')
+  }
+
 
 }

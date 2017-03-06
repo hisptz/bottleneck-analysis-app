@@ -1,24 +1,22 @@
-<div dropdown autoClose="disabled" [(isOpen)]="isOpen">
-  <a class="layout-btn" dropdownToggle tooltip="Change layouts">
+<div style="position: relative;" appClickOutside (clickOutside)="showLayout = false">
+  <a class="layout-btn" tooltip="Change layouts" (click)="showLayout = !showLayout">
     <i class="fa fa-retweet"></i>
   </a>
-  <div dropdownMenu role="menu" aria-labelledby="single-button" style="width:600px;margin-left:15; margin-top: 3px;">
+  <div *ngIf="showLayout" class="layout-block">
     <div *ngIf="layoutType == 'table'">
       <div class="col-sm-12">
         <label>Table Layout</label>
-      </div>
-      <div class="col-sm-12">
         <table class="table table-bordered">
           <thead><tr><th width="33%">Column</th><th width="33%">Row</th><th width="33%">Filter</th></tr></thead>
           <tbody><tr>
             <td dnd-droppable (onDropSuccess)="onDrop($event,'columnDimension')">
-              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of dimensions.columnDimension" [dragData]="{data: dimension, dimension: 'columnDimension'}"><i [ngClass]="names[dimension].icon" class="fa"></i> {{names[dimension].name}}</div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.columns" [dragData]="{data: dimension, dimension: 'columnDimension'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{dimension}}</div>
             </td>
             <td dnd-droppable (onDropSuccess)="onDrop($event,'rowDimension')">
-              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of dimensions.rowDimension" [dragData]="{data: dimension, dimension: 'rowDimension'}"><i [ngClass]="names[dimension].icon" class="fa"></i> {{names[dimension].name}}</div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.rows" [dragData]="{data: dimension, dimension: 'rowDimension'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{dimension}}</div>
             </td>
             <td dnd-droppable (onDropSuccess)="onDrop($event,'filterDimension')">
-              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of dimensions.filterDimension" [dragData]="{data: dimension, dimension: 'filterDimension'}"><i [ngClass]="names[dimension].icon" class="fa"></i> {{names[dimension].name}}</div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.filters" [dragData]="{data: dimension, dimension: 'filterDimension'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{dimension}}</div>
             </td>
           </tr></tbody>
         </table>
@@ -27,6 +25,20 @@
     <div *ngIf="layoutType == 'chart'">
       <div class="col-sm-12">
         <label>Chart Layout</label>
+        <table class="table table-bordered">
+          <thead><tr><th width="33%">Category</th><th width="33%">Series</th><th width="33%">Filter</th></tr></thead>
+          <tbody><tr>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'columnDimension')">
+              <div class="draggable" dnd-draggable [dragEnabled]="true" [dragData]="{data: dimension, dimension: 'columnDimension'}"><i [ngClass]="icons[layout.category]" class="fa"></i> {{layout.category}}</div>
+            </td>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'rowDimension')">
+              <div class="draggable" dnd-draggable [dragEnabled]="true" [dragData]="{data: dimension, dimension: 'rowDimension'}"><i [ngClass]="icons[layout.series]" class="fa"></i> {{layout.series}}</div>
+            </td>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'filterDimension')">
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.filters" [dragData]="{data: dimension, dimension: 'filterDimension'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{dimension}}</div>
+            </td>
+          </tr></tbody>
+        </table>
       </div>
     </div>
     <div class="col-sm-12">

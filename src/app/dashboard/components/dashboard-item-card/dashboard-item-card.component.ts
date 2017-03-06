@@ -46,6 +46,7 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
   public chartTypes: any;
   interpretation: string;
   customLayout: any = null;
+  cardReady: boolean = false;
   constructor(
       private dashboardItemService: DashboardItemService,
       private dashboardService: DashboardService,
@@ -160,8 +161,6 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
       }
     }
 
-    console.log(config)
-
     this.tableObject = this.visualizationService.drawTable(dashboardAnalytic, config);
     this.loadingTable = false;
   }
@@ -238,6 +237,7 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
     this.loadingChart =  this.loadingTable = true;
     this.dashboardService.getDashboardItemWithObjectAndAnalytics(this.route.snapshot.params['id'],this.itemData.id,this.currentUser.id,customDimensions)
       .subscribe(dashboardItem => {
+        this.cardReady = true;
         this.onItemLoaded.emit(true);
         this.itemData = dashboardItem;
         this.visualize(this.currentVisualization,dashboardItem.object, dashboardItem.analytic);
