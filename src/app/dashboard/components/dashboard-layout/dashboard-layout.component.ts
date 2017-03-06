@@ -1,4 +1,5 @@
 import {Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
+import {isArray} from "util";
 
 export interface Header {
   name: string;
@@ -46,8 +47,23 @@ export class DashboardLayoutComponent implements OnInit {
   @Output('drop') drop = new EventEmitter();
 
   onDrop(event, dimension) {
-    this.dimensions[event.dragData.dimension].splice(this.dimensions[event.dragData.dimension].indexOf(event.dragData.data),1);
-    this.dimensions[dimension].push(event.dragData.data)
+    if(isArray(this.layout[event.dragData.dimension])) {
+      this.layout[event.dragData.dimension].splice(this.layout[event.dragData.dimension].indexOf(event.dragData.data),1);
+    } else {
+      this.layout[event.dragData.dimension];
+    }
+    if(dimension == 'category' || dimension == 'series') {
+      if(this.layout[dimension] != "") {
+        if(isArray(this.layout[event.dragData.dimension])) {
+          this.layout[event.dragData.dimension].push(this.layout[dimension])
+        } else {
+          this.layout[event.dragData.dimension] = this.layout[dimension];
+        }
+      }
+      this.layout[dimension] = event.dragData.data;
+    } else {
+      this.layout[dimension].push(event.dragData.data)
+    }
   }
 
   changeVisualisation(visualizationType, headers = []) {
@@ -82,12 +98,7 @@ export class DashboardLayoutComponent implements OnInit {
     console.log(this.dimensions)
   }
   updateLayout() {
-    this.isOpen = false;
     this.onUpdate.emit(this.dimensions);
-  }
-
-  check() {
-    console.log('clicked')
   }
 
 
