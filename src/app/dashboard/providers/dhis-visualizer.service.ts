@@ -91,6 +91,8 @@ export class VisualizerService {
    * @returns {Array}
    */
   getMetadataArray (analyticsObject, metadataType: string) {
+    console.log(analyticsObject);
+    console.log(metadataType)
     let metadataArray = [];
     if(metadataType === 'dx'){
       metadataArray = analyticsObject.metaData.dx;
@@ -103,6 +105,7 @@ export class VisualizerService {
     }else{
       metadataArray = analyticsObject.metaData[metadataType];
     }
+    console.log(metadataArray)
     return metadataArray;
   }
 

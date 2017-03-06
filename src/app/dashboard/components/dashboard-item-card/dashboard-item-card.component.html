@@ -121,6 +121,8 @@
               <div class="row" *ngIf="currentVisualization == 'REPORT_TABLE' || currentVisualization == 'TABLE' || currentVisualization == 'EVENT_REPORT'">
                 <div class="col-md-12">
                   <app-loader *ngIf="loadingTable" [loadingMessage]="'Loading ' + currentVisualization"></app-loader>
+                  <app-error-notifier *ngIf="tableHasError" [errorMessage]="'Something is wrong'"></app-error-notifier>
+                  <h4 *ngIf="!loadingTable && !tableHasError" class="text-center">{{itemData.object.displayName}}</h4>
                   <table class="table table-bordered table-responsive" *ngIf="!loadingTable && !tableHasError">
                     <thead>
                     <tr *ngFor="let header of tableObject.headers">

@@ -140,7 +140,9 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
       //get columns
       if(dashboardObject.hasOwnProperty('columns')) {
         dashboardObject.columns.forEach(colValue => {
-          config.columns.push(colValue.dimension);
+          if(colValue.dimension != 'dy') {
+            config.columns.push(colValue.dimension);
+          }
         });
       } else {
         config.columns = ['co'];
@@ -149,12 +151,16 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
       //get rows
       if(dashboardObject.hasOwnProperty('rows')) {
         dashboardObject.rows.forEach(rowValue => {
-          config.rows.push(rowValue.dimension)
+          if(rowValue.dimension != 'dy') {
+            config.rows.push(rowValue.dimension)
+          }
         })
       } else {
         config.rows = ['ou', 'dx', 'pe'];
       }
     }
+
+    console.log(config)
 
     this.tableObject = this.visualizationService.drawTable(dashboardAnalytic, config);
     this.loadingTable = false;
