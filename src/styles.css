@@ -1,0 +1,118 @@
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url('assets/UyBMtLsHKBKXelqf4x7VRQ.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url('assets/1YwB1sO8YE1Lyjf12WNiUA.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
+body {
+  color: #269ABC;
+
+}
+
+a, input, span, small, p, h1, h2, h3,
+h4,h5,h6,td,th,button,tspan,div,b,label, strong, code,text {
+  color: #269ABC;
+  font-family: "Lato","Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+
+a {
+  cursor: pointer;
+}
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(221, 221, 221, 0.3);
+  border-radius: 0px;
+  right: 5px;
+
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 0 6px rgba(221, 221, 221, 0.6);
+}
+.nav-tabs {
+  border: solid 1px #ddd !important;
+  background-color: #f5f5f5 !important;
+}
+
+.nav-tabs > li > a {
+  font-size: 12px;
+  border-top-style: none !important;
+  border-radius: 0px !important;
+  margin-right: 0px !important;
+  border-bottom: solid 1px #ddd !important;
+  border-left-style: none !important;
+  border-right: solid 1px #ddd !important;
+
+}
+.nav-tabs > li > a:hover,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  background-color: #ECECEC !important;
+}
+
+.notification-box-danger,
+.notification-box-primary
+{
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  font-weight: lighter;
+}
+
+.notification-box-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+.notification-box-primary {
+  color: #fff;
+  background-color: #23527C;
+  border-color: #23527C;
+}
+
+
+/*.panel-default {*/
+  /*border-color: #f5f5f5;*/
+/*}*/
+
+/*.panel-heading {*/
+  /*border-bottom-color: #f5f5f5 !important;*/
+/*}*/
+
+/*.panel-footer {*/
+  /*border-top-color: #f5f5f5 !important;*/
+/*}*/
+
+.tooltip {
+  z-index:2000;
+}
+
+.success-badge {
+  position: absolute;
+  top: -10px;
+  right: 2px;
+  margin: auto;
+  z-index: 1000;
+  font-size: 11px;
+  padding: 4px;
+  border-radius: 3px;
+  background-color: darkgreen;
+  color: #fff;
+}

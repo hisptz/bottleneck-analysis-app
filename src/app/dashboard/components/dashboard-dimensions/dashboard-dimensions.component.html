@@ -1,0 +1,14 @@
+<div class="col-md-12">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-4"><app-organisation-unit-tree (onOrgUnitUpdate)="getOrgUnitValues($event)"></app-organisation-unit-tree></div>
+        <div class="col-md-4"><app-period-filter (onPeriodUpdate)="getPeriodValues($event)"></app-period-filter></div>
+        <div class="col-md-4">
+          <a (click)="settingService.toggleItem('dimension')" class="btn btn-default btn-sm pull-right" style="margin-left: 2px;"><i class="fa fa-times"></i> Close</a>
+          <a (click)="updateDashboard()" class="btn btn-default btn-sm pull-right"><i class="fa fa-refresh"></i> Update</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

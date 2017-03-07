@@ -1,0 +1,124 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <h4 *ngIf="!loading">{{dashboard.name}}</h4>
+      <small *ngIf="loading">
+        <img src="assets/img/balls-3.svg" style="height: 30px; width: 30px;" alt="">
+        Loading dashboard name..
+      </small>
+    </div>
+    <div class="col-md-5">
+      <div class="form-group" style="position: relative;" appClickOutside (clickOutside)="closeSearch($event)">
+        <div class="form-group has-feedback dashboard-search-block">
+          <input type="text" id="search" (keyup)="searchTerm$.next($event.target.value)" (focus)="showBody = headers.length > 0 ? true : false" class="form-control dashboard-search" placeholder="Add items in your dashboard by searching here">
+          <span *ngIf="!searching" class="form-control-feedback"><i class="fa fa-search"></i></span>
+          <span *ngIf="searching" class="form-control-feedback"><img src="assets/img/balls-3.svg" style="height: 30px; width: 30px;" alt=""></span>
+        </div>
+        <div class="search-body" *ngIf="showBody">
+          <div class="panel search-panel" *ngIf="headers.length == 0">
+            <div class="panel-body" style="padding-top: 4px; padding-bottom: 3px; margin-bottom: 0px;">
+              <b>No search result found</b>
+            </div>
+          </div>
+          <div class="panel search-panel" *ngIf="messageCount > 0">
+            <div class="panel-body alert-info" style="padding-top: 3px; padding-bottom: 3px; margin-bottom: 0px;">
+              <table width="100%" class="search-table">
+                <tr>
+                  <td width="94%"><b>You have {{messageCount}} message{{messageCount > 1 ? 's' : ' '}}</b></td>
+                  <td width="6%"><button class="btn btn-default btn-xs pull-right disabled" (click)="addDashboardItem(header.name, item.id)">ADD</button></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="panel search-panel" *ngFor="let header of headers">
+            <div class="panel-heading search-title" style="padding-bottom: 0px;">
+              <h6>
+                <b>{{header.name | readableName}}</b>&nbsp;
+                <span class="notification-box-primary">{{header.count}}</span>
+                <a class="pull-right" style="cursor: pointer;" (click)="toggleBlock(header.name,header.showBlock)"><i class="fa fa-{{header.showBlock ? 'caret-up' : 'caret-down'}}"></i></a>
+              </h6>
+            </div>
+            <div class="panel-body" style="padding-top: 4px; padding-bottom: 3px;" *ngIf="header.showBlock">
+              <table width="100%" class="search-table">
+                <tr *ngFor="let item of results[header.name]">
+                  <td width="4%"><i class="fa fa-{{getIcon(header.name)}}"></i></td>
+                  <td width="90%">
+                    <small>{{item.name}}</small>
+                  </td>
+                  <td width="6%">
+                    <button class="btn btn-default btn-xs pull-right" (click)="addDashboardItem(header.name, header.name == 'apps' ? item.key : item.id)">ADD</button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="btn-group pull-right">
+        <a href="../../../dhis-web-dashboard-integration/showSendFeedback.action" class="btn btn-default" style="color: #269ABC;"><i class="fa fa-pencil"></i> Write feedback</a>
+        <a href="../../../dhis-web-dashboard-integration/message.action" class="btn btn-default" style="color: #269ABC;" *ngIf="notification?.unreadMessageConversations > 0"><i class="fa fa-envelope"></i> <small *ngIf="loadingNotification">Loading...</small>&nbsp;<small style="font-size: 12px;">{{notification?.unreadMessageConversations}}</small></a>
+        <a href="../../../dhis-web-dashboard-integration/interpretation.action" class="btn btn-default" style="color: #269ABC;" *ngIf="notification?.unreadInterpretations > 0"><i class="fa fa-comments-o"></i> <small *ngIf="loadingNotification">Loading...</small>&nbsp;<small style="font-size: 12px;">{{notification?.unreadInterpretations}}</small></a>
+      </div>
+    </div>
+  </div>
+</div>
+<nav class="navbar navbar-default dashboard-menu">
+  <div class="container-fluid" style="padding-left: 0px; padding-right: 0px;">
+    <div class="navbar-header">
+      <a class="navbar-toggle collapsed dashboard-collapse-btn" data-toggle="collapse" data-target="#idashboardNavbar" [attr.aria-expanded]="!isCollapsed" (click)="toggleCollapse()" [ngClass]="{'collapsed': isCollapsed}">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse dashboard-collapse-body" id="idashboardNavbar" [ngClass]="{'in': !isCollapsed}">
+      <ul class="nav navbar-nav dashboard-nav dashboard-setting-nav">
+        <li><a (click)="settingService.toggleItem('dimension')" class="navbar-brand" style="font-size: 14px;"><i class="fa {{settingService.isOpen('dimension') ? 'fa-times' : 'fa-filter'}}"></i></a></li>
+        <li><a (click)="settingService.toggleItem('share')"><i class="fa {{settingService.isOpen('share') ? 'fa-times' : 'fa-share-alt'}}"></i></a></li>
+      </ul>
+      <app-dashboard-menu-items (onDashboardsLoaded)="load()"></app-dashboard-menu-items>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <app-dashboard-share *ngIf="settingService.isOpen('share')" (onCloseSharing)="settingService.toggleItem('share')"></app-dashboard-share>
+    <app-dashboard-dimensions *ngIf="settingService.isOpen('dimension')" (onDimensionUpdate)="updateDimension($event)"></app-dashboard-dimensions>
+  </div>
+  <app-dashboard-notification-block *ngIf="notificationService.hasAlert()"></app-dashboard-notification-block>
+</div>
+
+
+<div class="container-fluid" >
+  <!--<div class="row" *ngIf="totalItems > 0">-->
+    <!--<div class="col-md-10 col-sm-10 col-xs-9">-->
+      <!--<small>Loading dashboard items....</small>-->
+    <!--</div>-->
+    <!--<div class="col-md-2 col-sm-2 col-xs-3"><small class="pull-right">{{loadedItems}}/{{totalItems}} ({{calculateProgress(loadedItems,totalItems)}}%)</small></div>-->
+  <!--</div>-->
+  <!--<div class="row" *ngIf="totalItems > 0">-->
+    <!--<div class="col-md-12">-->
+      <!--<div class="progress" style="height: 7px;">-->
+        <!--<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"-->
+             <!--[attr.aria-valuenow]="calculateProgress()" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width' : calculateProgress() + '%'}">-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <div class="row" *ngIf="!hasError && !loading && dashboard.dashboardItems.length > 0">
+    <div class="col-md-4" *ngIf="addingDashboard">
+      <div class="panel panel-default text-center" style="height: 460px; border: dashed 1px; padding-top: 80px;">
+        <img src="assets/img/balls-3.svg" alt="">
+        <h4 style="margin-top: 50px;">Adding dashboard item....</h4>
+      </div>
+    </div>
+    <app-dashboard-item-card *ngFor="let dashboardItem of dashboard.dashboardItems; let i = index" [itemData]="dashboardItem" (onDelete)="deleteDashboardItem($event)" [currentUser]="currentUser" [status]="cardStatus" [dimensionValues]="dimensionValues$"></app-dashboard-item-card>
+  </div>
+  <div class="row" *ngIf="!hasError && !loading && dashboard.dashboardItems.length == 0">
+    <div class="col-md-12 text-center">
+      <h2><b>Welcome to Interactive dashboard</b></h2>
+      <h4>Enjoy interactive dashboard by switching,filtering and changing layout to different visualization <br> <b>Search and add dashboard now!</b></h4>
+    </div>
+  </div>
+</div>

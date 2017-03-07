@@ -1,0 +1,88 @@
+<h4 style="border-bottom: solid 1px #eee; margin-bottom: 0px; margin-top: 0px;"><b>Interpretations</b></h4>
+<div *ngIf="loading">
+  <img src="assets/img/ball-3.svg" alt="" style="height: 30px; width: 30px;">
+  <small>Loading interpretations...</small>
+</div>
+<div class="panel panel-default interpretation-panel" *ngFor="let interpretation of interpretations">
+  <div class="panel-body" style="padding: 8px 8px 3px 8px; cursor: pointer;" (click)="currentShown = interpretation.id">
+    <div class="row">
+      <div class="col-md-9 col-sm-9 col-xs-8">
+        <div class="icon">RM</div>
+        <div class="name">
+          <small style="text-transform: capitalize;"><b>{{interpretation.user.name}}</b></small>
+          <span style="font-size: 10px;" class="text-muted">{{interpretation.created | amCalendar}}</span><br>
+          <small>{{interpretation.text | truncate:30}}</small>
+        </div>
+      </div>
+      <div class="col-md-3 coll-sm-3 col-xs-4">
+        <div class="pull-right">
+          <ul class="list-inline">
+            <li>
+              <a (click)="currentShown = interpretation.id">
+                <span style="font-size: 10px;">
+                  <i class="fa fa-comment"></i>&nbsp;{{interpretation.comments.length}}
+                </span>
+              </a>
+            </li>
+            <li>
+              <a aria-disabled="true">
+                <span style="font-size: 10px;">
+                  <i class="fa fa-thumbs-up"></i>&nbsp;{{interpretation.likes}}
+                </span>
+              </a>
+            </li>
+          </ul>
+          <a (click)="currentShown = currentShown == interpretation.id ? '' : interpretation.id" style="cursor: pointer"  class="pull-right">
+            <i class="fa fa-caret-{{currentShown == interpretation.id  ? 'up' : 'down'}}"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer" *ngIf="currentShown == interpretation.id" style="padding: 8px 8px 8px 8px; background-color: #fff;">
+    <small>{{interpretation.text}}</small>
+    <div class="row" *ngIf="interpretation.comments.length > 0">
+      <div class="col-md-12">
+        <h6 style="border-bottom: solid 1px #eee;"><b>Comments</b></h6>
+        <ul class="list-unstyled">
+          <li style="margin-bottom: 10px;" *ngFor="let comment of interpretation.comments">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="icon">RM</div>
+                <div class="name">
+                  <small>
+                    <b>{{comment.user.name}}</b>
+                    <span style="font-size: 10px;" class="text-muted">{{comment.created | amCalendar}}</span>
+                  </small><br>
+                  <small>{{comment.text}}</small>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row" >
+      <div class="col-md-12" >
+        <form [formGroup]="commentForm" (ngSubmit)="saveComment(commentForm.value, interpretation.id)">
+          <textarea formControlName="comment" Autosize class="form-control input-sm" id="" cols="30" rows="1" placeholder="Write your comment"></textarea>
+          <button type="submit" class="btn btn-default btn-sm" style="margin-top: 3px;" *ngIf="commentForm.valid">Post</button>
+          <button type="reset" class="btn btn-warning btn-sm" style="margin-top: 3px;" *ngIf="commentForm.valid">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="form-group" *ngIf="!showForm" style="margin-top: 5px;">
+  <button (click)="showForm = true" class="btn btn-info btn-sm" >Share new interpretation</button>
+</div>
+<form class="form" *ngIf="showForm" [formGroup]="createInterpretationForm" (ngSubmit)="saveInterpretation(createInterpretationForm.value)">
+  <div class="form-group">
+    <label for="" class="control-label">Write your interpretation</label>
+    <textarea Autosize formControlName="text" cols="30" rows="2" class="form-control" ></textarea>
+    <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 4px;" [disabled]="createInterpretationForm.invalid">Share</button>
+    <button  type="reset" (click)="showForm = false" class="btn btn-warning btn-sm" style="margin-top: 4px;">Cancel</button>
+  </div>
+</form>
+
+

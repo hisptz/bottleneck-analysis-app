@@ -1,0 +1,25 @@
+.dashboard-nav > li > a,
+.dashboard-right > li > a{
+  border-right: solid 1px #ECECEC;
+  color: #286090;
+  font-size: 13px;
+  height: 39px;
+  padding-top: 10px;
+}
+.dashboard-add-input
+{
+    height: 38px;
+    padding-left: 10px;
+    border-color: transparent;
+    font-size: 16px;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+.dashboard-add-input:focus
+{
+    outline: none;
+}

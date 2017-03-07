@@ -1,0 +1,34 @@
+.drop-target{
+  height:100px
+}
+.draggable{
+  border: 1px solid lightgrey;
+  padding: 3px;
+}
+
+.layout-btn {
+  display: block;
+  height: 29px;
+  padding-top: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.layout-btn:hover {
+  background-color: #ececec;
+}
+
+.layout-block {
+  position: absolute;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .15);
+  max-height: 360px;
+  overflow: hidden;
+  min-width: 500px;
+  z-index: 1000;
+  padding: 5px 5px;
+  /*margin-left:15; */
+  margin-top: 2px;
+}

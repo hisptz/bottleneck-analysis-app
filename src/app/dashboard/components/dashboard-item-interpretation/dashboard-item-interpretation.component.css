@@ -1,0 +1,33 @@
+.interpretation-panel {
+  margin-bottom: 0px;
+  border-radius: 0px;
+  border-style: none;
+  border-bottom: solid 1px #ddd;
+}
+.interpretation-panel:hover {
+  background-color: #f5f5f5;
+}
+.icon {
+  float: left;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  display: block;
+  font-size: 19px;
+  font-weight: 500;
+  color: #269ABC;
+  padding-top: 7px;
+  padding-left: 6px;
+  margin-right: 5px;
+  background-color: #f5f5f5;
+}
+.name {
+  /*float: right;*/
+  padding-left: 5px;
+  top: 0;
+
+}
+
+.count {
+  float: right;
+}
