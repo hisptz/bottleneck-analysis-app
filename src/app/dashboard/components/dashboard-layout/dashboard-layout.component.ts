@@ -28,12 +28,16 @@ export class DashboardLayoutComponent implements OnInit {
   constructor() { }
 
   names = {
+    dx: 'Data',
+    ou: 'Organisation Unit',
+    pe: 'Period'
   }
   icons = {
     dx:"fa-database",
     ou:"fa-sitemap",
     pe:"fa-calendar-check-o",
   }
+
   dimensions = {
     filterDimension: [],
     columnDimension: [],
@@ -47,13 +51,15 @@ export class DashboardLayoutComponent implements OnInit {
   @Output('drop') drop = new EventEmitter();
 
   onDrop(event, dimension) {
+    console.log(event.dragData);
+    console.log(dimension);
     if(isArray(this.layout[event.dragData.dimension])) {
       this.layout[event.dragData.dimension].splice(this.layout[event.dragData.dimension].indexOf(event.dragData.data),1);
-    } else {
-      this.layout[event.dragData.dimension];
     }
+
     if(dimension == 'category' || dimension == 'series') {
       if(this.layout[dimension] != "") {
+        //first send target value to the dropper
         if(isArray(this.layout[event.dragData.dimension])) {
           this.layout[event.dragData.dimension].push(this.layout[dimension])
         } else {
@@ -62,6 +68,9 @@ export class DashboardLayoutComponent implements OnInit {
       }
       this.layout[dimension] = event.dragData.data;
     } else {
+      if(event.dragData.dimension == 'category' || event.dragData.dimension == 'series') {
+        this.layout[event.dragData.dimension] = "";
+      }
       this.layout[dimension].push(event.dragData.data)
     }
   }
@@ -98,7 +107,8 @@ export class DashboardLayoutComponent implements OnInit {
     console.log(this.dimensions)
   }
   updateLayout() {
-    this.onUpdate.emit(this.dimensions);
+    this.showLayout = false;
+    this.onUpdate.emit(this.layout);
   }
 
 

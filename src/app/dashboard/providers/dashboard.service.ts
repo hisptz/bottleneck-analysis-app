@@ -351,9 +351,9 @@ export class DashboardService {
 
   getLayout(dashboardObject) {
     let layout = {};
-
     if(dashboardObject.hasOwnProperty('series')) {
       layout = {
+
         series: dashboardObject.series,
         category: dashboardObject.category,
       }

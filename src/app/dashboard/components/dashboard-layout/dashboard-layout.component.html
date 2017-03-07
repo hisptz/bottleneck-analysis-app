@@ -10,13 +10,13 @@
           <thead><tr><th width="33%">Column</th><th width="33%">Row</th><th width="33%">Filter</th></tr></thead>
           <tbody><tr>
             <td dnd-droppable (onDropSuccess)="onDrop($event,'columns')">
-              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.columns" [dragData]="{data: dimension, dimension: 'columns'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{dimension}}</div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.columns" [dragData]="{data: dimension, dimension: 'columns'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{names[dimension]}}</div>
             </td>
             <td dnd-droppable (onDropSuccess)="onDrop($event,'rows')">
-              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.rows" [dragData]="{data: dimension, dimension: 'rows'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{dimension}}</div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.rows" [dragData]="{data: dimension, dimension: 'rows'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{names[dimension]}}</div>
             </td>
             <td dnd-droppable (onDropSuccess)="onDrop($event,'filters')">
-              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.filters" [dragData]="{data: dimension, dimension: 'filters'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{dimension}}</div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.filters" [dragData]="{data: dimension, dimension: 'filters'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{names[dimension]}}</div>
             </td>
           </tr></tbody>
         </table>
@@ -29,10 +29,10 @@
           <thead><tr><th width="33%">Category</th><th width="33%">Series</th><th width="33%">Filter</th></tr></thead>
           <tbody><tr>
             <td dnd-droppable (onDropSuccess)="onDrop($event,'category')">
-              <div class="draggable" dnd-draggable [dragEnabled]="true" [dragData]="{data: dimension, dimension: 'category'}"><i [ngClass]="icons[layout.category]" class="fa"></i> {{layout.category}}</div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngIf="layout.category != ''" [dragData]="{data: layout.category, dimension: 'category'}"><i [ngClass]="icons[layout.category]" class="fa"></i> {{layout.category}}</div>
             </td>
             <td dnd-droppable (onDropSuccess)="onDrop($event,'series')">
-              <div class="draggable" dnd-draggable [dragEnabled]="true" [dragData]="{data: dimension, dimension: 'series'}"><i [ngClass]="icons[layout.series]" class="fa"></i> {{layout.series}}</div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngIf="layout.series != ''" [dragData]="{data: layout.series, dimension: 'series'}"><i [ngClass]="icons[layout.series]" class="fa"></i> {{layout.series}}</div>
             </td>
             <td dnd-droppable (onDropSuccess)="onDrop($event,'filters')">
               <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.filters" [dragData]="{data: dimension, dimension: 'filters'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{dimension}}</div>
@@ -44,7 +44,7 @@
     <div class="col-sm-12">
       <div class="pull-right">
         <button class="btn btn-default btn-sm" (click)="updateLayout()"><i class="fa fa-refresh"></i>Update</button>
-        <button class="btn btn-default btn-sm" (click)="isOpen = false"><i class="fa fa-times"></i>Close</button>
+        <button class="btn btn-default btn-sm" (click)="showLayout= false"><i class="fa fa-times"></i>Close</button>
       </div>
     </div>
   </div>

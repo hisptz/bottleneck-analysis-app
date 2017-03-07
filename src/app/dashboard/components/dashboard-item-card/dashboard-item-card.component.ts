@@ -61,7 +61,7 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
     this.chartHasError = this.tableHasError = false;
     this.loadingChart = this.loadingTable = true;
     this.chartTypes = this.constants.chartTypes;
-    this.currentChartType = 'bar';
+    this.currentChartType = null;
   }
 
   ngOnInit() {
@@ -90,7 +90,7 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
 
   visualize(dashboardItemType, dashboardObject, dashboardAnalytic) {
     if((dashboardItemType == 'CHART') || (dashboardItemType == 'EVENT_CHART')) {
-      this.drawChart(dashboardObject, dashboardAnalytic,this.currentChartType);
+      this.drawChart(dashboardObject, dashboardAnalytic);
     } else if ((dashboardItemType == 'TABLE') || (dashboardItemType == 'EVENT_REPORT') || (dashboardItemType == 'REPORT_TABLE')) {
       this.drawTable(dashboardObject, dashboardAnalytic)
     } else if(dashboardItemType == 'DICTIONARY') {
@@ -104,14 +104,30 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
     this.visualize(visualizationType,this.itemData.object, this.itemData.analytic)
   }
 
-  drawChart(dashboardObject, dashboardAnalytic,chartType?:string) {
+  drawChart(dashboardObject, dashboardAnalytic) {
+    let layout: any = {};
+    if(!isNull(this.customLayout)) {
+      layout['series'] = this.customLayout.series;
+      layout['category'] = this.customLayout.category;
+    } else {
+      layout['series'] = dashboardObject.series ? dashboardObject.series : dashboardObject.columns[0].dimension
+      layout['category'] = dashboardObject.category ? dashboardObject.category : dashboardObject.rows[0].dimension;
+    }
+
+    //manage chart types
+    let chartType: string;
+    if(!isNull(this.currentChartType)) {
+      chartType = this.currentChartType;
+    } else {
+      chartType = dashboardObject.type ? dashboardObject.type.toLowerCase() : 'bar'
+    }
 
     let chartConfiguration = {
-      'type': dashboardObject.type ? dashboardObject.type.toLowerCase() : chartType,
+      'type': chartType,
       'title': dashboardObject.title ? dashboardObject.title : dashboardObject.displayName,
       'show_labels': true,
-      'xAxisType': dashboardObject.category ? dashboardObject.category : dashboardObject.rows[0].dimension,
-      'yAxisType': dashboardObject.series ? dashboardObject.series : dashboardObject.columns[0].dimension
+      'xAxisType': layout.category,
+      'yAxisType': layout.series
     };
     this.chartObject = this.visualizationService.drawChart(dashboardAnalytic, chartConfiguration);
     this.loadingChart = false;
@@ -122,16 +138,16 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
 
     if(!isNull(this.customLayout)) {
       //get columns
-      if(this.customLayout.columnDimension.length > 0) {
-        this.customLayout.columnDimension.forEach(column => {
+      if(this.customLayout.columns.length > 0) {
+        this.customLayout.columns.forEach(column => {
           config.columns.push(column)
         })
       } else {
         config.columns = ['co'];
       }
 
-      if(this.customLayout.rowDimension.length > 0) {
-        this.customLayout.rowDimension.forEach(row => {
+      if(this.customLayout.rows.length > 0) {
+        this.customLayout.rows.forEach(row => {
           config.rows.push(row)
         })
       } else {
@@ -167,7 +183,8 @@ export class DashboardItemCardComponent implements OnInit, AfterViewInit{
 
   updateChartType(type) {
     this.loadingChart = true;
-    this.drawChart(this.itemData.object,this.itemData.analytic,type)
+    this.currentChartType = type
+    this.drawChart(this.itemData.object,this.itemData.analytic)
   }
 
   setChartType(type) {
