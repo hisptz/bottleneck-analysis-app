@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed1b13f6-8fe1-48fa-954c-1ac586fc72bd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.css" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -42,21 +40,31 @@
       <file leaf-file-name="dashboard-item-interpretation.component.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="89">
-              <caret line="76" column="81" lean-forward="false" selection-start-line="76" selection-start-column="81" selection-end-line="76" selection-end-column="81" />
+            <state relative-caret-position="71">
+              <caret line="34" column="109" lean-forward="false" selection-start-line="34" selection-start-column="109" selection-end-line="34" selection-end-column="109" />
               <folding>
                 <element signature="n#style#0;n#h4#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#1;n#div#1;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-                <element signature="e#4392#4398#0" expanded="true" />
-                <element signature="e#4465#4471#0" expanded="true" />
+                <element signature="e#4686#4692#0" expanded="true" />
+                <element signature="n#style#0;n#form#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#form#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dashboard-menu-items.component.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="3" column="257" lean-forward="false" selection-start-line="3" selection-start-column="257" selection-end-line="3" selection-end-column="257" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -71,7 +79,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="abbreviate.pipe.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="abbreviate.pipe.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/dashboard/pipes/abbreviate.pipe.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="144">
@@ -84,8 +92,18 @@
       <file leaf-file-name="dashboard-item-interpretation.component.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="37" column="29" lean-forward="false" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
+            <state relative-caret-position="188">
+              <caret line="108" column="18" lean-forward="false" selection-start-line="108" selection-start-column="18" selection-end-line="108" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="interpretation.service.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="154">
+              <caret line="16" column="158" lean-forward="false" selection-start-line="16" selection-start-column="158" selection-end-line="16" selection-end-column="158" />
               <folding />
             </state>
           </provider>
@@ -128,6 +146,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>RM</find>
+      <find>cu</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -138,9 +157,11 @@
       <list>
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-card/dashboard-item-card.component.html" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.css" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/pipes/abbreviate.pipe.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts" />
         <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.html" />
-        <option value="$PROJECT_DIR$/src/app/dashboard/pipes/abbreviate.pipe.ts" />
+        <option value="$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html" />
       </list>
     </option>
   </component>
@@ -339,6 +360,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="dashboard-menu-items" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="idashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="dashboard-item-interpretation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -383,6 +434,63 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="nodejs_interpreter_path" value="$USER_HOME$/.nvm/versions/node/v7.6.0/bin/node" />
+    <property name="js.eslint.eslintPackage" value="" />
+    <property name="js-jscs-nodeInterpreter" value="$USER_HOME$/.nvm/versions/node/v7.6.0/bin/node" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <method />
+    </configuration>
+    <configuration default="true" type="DartTestRunConfigurationType" factoryName="Dart Test">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="cucumber.js" factoryName="Cucumber.js">
+      <option name="cucumberJsArguments" value="" />
+      <option name="executablePath" />
+      <option name="filePath" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <working-directory />
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui />
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
+      <method />
+    </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -394,12 +502,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1488892861285</updated>
-      <workItem from="1488892867226" duration="15314000" />
+      <workItem from="1488892867226" duration="17446000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16458000" />
+    <option name="totallyTimeSpent" value="18590000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1366" height="744" extended-state="6" />
@@ -450,7 +558,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/dashboard.component.html" />
     <entry file="file://$PROJECT_DIR$/src/app/app.component.ts" />
     <entry file="file://$PROJECT_DIR$/src/app/shared/components/dhis2-menu/dhis2-menu.component.ts" />
     <entry file="file://$PROJECT_DIR$/src/app/app.component.html" />
@@ -508,7 +615,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.ts" />
     <entry file="file://$PROJECT_DIR$/src/styles.css" />
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html" />
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.ts" />
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/pages/dashboard-items/dashboard-items.component.html" />
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/organisation-unit-tree/organisation-unit-tree.component.spec.ts" />
@@ -604,26 +710,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/pipes/abbreviate.pipe.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="14" column="14" lean-forward="false" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/providers/interpretation.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="16" column="158" lean-forward="false" selection-start-line="16" selection-start-column="158" selection-end-line="16" selection-end-column="158" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="37" column="29" lean-forward="false" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
+        <state relative-caret-position="188">
+          <caret line="108" column="18" lean-forward="false" selection-start-line="108" selection-start-column="18" selection-end-line="108" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-item-interpretation/dashboard-item-interpretation.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="76" column="81" lean-forward="false" selection-start-line="76" selection-start-column="81" selection-end-line="76" selection-end-column="81" />
+        <state relative-caret-position="71">
+          <caret line="34" column="109" lean-forward="false" selection-start-line="34" selection-start-column="109" selection-end-line="34" selection-end-column="109" />
           <folding>
             <element signature="n#style#0;n#h4#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#1;n#div#1;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="e#4392#4398#0" expanded="true" />
-            <element signature="e#4465#4471#0" expanded="true" />
+            <element signature="e#4686#4692#0" expanded="true" />
+            <element signature="n#style#0;n#form#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
@@ -632,10 +754,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/dashboard/pipes/abbreviate.pipe.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/dashboard/components/dashboard-menu-items/dashboard-menu-items.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="14" column="14" lean-forward="false" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
+        <state relative-caret-position="126">
+          <caret line="3" column="257" lean-forward="false" selection-start-line="3" selection-start-column="257" selection-end-line="3" selection-end-column="257" />
           <folding />
         </state>
       </provider>

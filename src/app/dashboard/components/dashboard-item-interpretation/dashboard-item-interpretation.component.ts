@@ -21,7 +21,8 @@ export class DashboardItemInterpretationComponent implements OnInit {
   private itemType: string;
   public loading: boolean;
   interpretationEditFormId: string;
-  currentUserName: string;
+  commentEditFormId: string;
+  currentUser: string;
   constructor(
     private formGroup: FormBuilder,
     private util: UtilitiesService,
@@ -35,7 +36,7 @@ export class DashboardItemInterpretationComponent implements OnInit {
 
   ngOnInit() {
     this.currentUserService.getCurrentUser().subscribe(currentUser => {
-      this.currentUserName = currentUser.name
+      this.currentUser = currentUser
     })
     this.itemType = this.util.camelCaseName(this.itemData.type);
     this.get(this.itemType);
@@ -56,6 +57,7 @@ export class DashboardItemInterpretationComponent implements OnInit {
       .subscribe(response => {
         this.loading = false;
         this.interpretations = response.interpretations;
+        console.log(this.interpretations)
         this.currentShown = this.interpretations[0].id;
       }, error => console.log(error))
   }
@@ -90,6 +92,21 @@ export class DashboardItemInterpretationComponent implements OnInit {
 
   toggleInterpretationEditForm(id) {
     this.interpretationEditFormId = this.interpretationEditFormId == id ? '' : id;
+  }
+
+  toggleCommentEditForm(id) {
+    this.commentEditFormId = this.commentEditFormId == id ? '' : id;
+  }
+
+  hasCurrentUserLiked(likesBy, currentUserId) {
+    let status: boolean = false;
+    for(let likeBy of likesBy) {
+      if(likeBy.id == currentUserId) {
+        status = true;
+        break;
+      }
+    }
+    return status;
   }
 
 }
