@@ -40,6 +40,7 @@ import { DashboardLayoutComponent } from './components/dashboard-layout/dashboar
 import {DndModule} from "ng2-dnd";
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { DashboardNotificationBlockComponent } from './components/dashboard-notification-block/dashboard-notification-block.component';
+import { AbbreviatePipe } from './pipes/abbreviate.pipe';
 
 @NgModule({
   imports: [
@@ -58,7 +59,7 @@ import { DashboardNotificationBlockComponent } from './components/dashboard-noti
       TreeModule,
       DndModule.forRoot()
   ],
-  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, CreateDashboardComponent, DashboardItemInterpretationComponent, EditDashboardComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent,MetadataDictionaryComponent, OrganisationUnitTreeComponent, PeriodFilterComponent, DragabbleDirective, DropTargetDirective, DashboardLayoutComponent, ClickOutsideDirective, DashboardNotificationBlockComponent],
+  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, CreateDashboardComponent, DashboardItemInterpretationComponent, EditDashboardComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent,MetadataDictionaryComponent, OrganisationUnitTreeComponent, PeriodFilterComponent, DragabbleDirective, DropTargetDirective, DashboardLayoutComponent, ClickOutsideDirective, DashboardNotificationBlockComponent, AbbreviatePipe],
   providers: [
       DashboardSettingsService,
       DashboardService,

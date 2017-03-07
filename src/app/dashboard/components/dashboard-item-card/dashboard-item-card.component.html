@@ -155,7 +155,7 @@
               <app-metadata-dictionary *ngIf="currentVisualization == 'DICTIONARY'" [metadataidentifiers]="metadataIdentifiers"></app-metadata-dictionary>
               <!--end of dictionary section-->
             </div>
-            <div class="col-md-5" *ngIf="isInterpretationShown">
+            <div class="col-md-5" *ngIf="isInterpretationShown" style="height: 350px; overflow-y: auto">
               <app-dashboard-item-interpretation [itemData]="itemData"></app-dashboard-item-interpretation>
             </div>
           </div>
