@@ -1,10 +1,10 @@
-import { Seed2Page } from './app.po';
+import { Idashboard2Page } from './app.po';
 
-describe('seed2 App', function() {
-  let page: Seed2Page;
+describe('idashboard2 App', () => {
+  let page: Idashboard2Page;
 
   beforeEach(() => {
-    page = new Seed2Page();
+    page = new Idashboard2Page();
   });
 
   it('should display message saying app works', () => {

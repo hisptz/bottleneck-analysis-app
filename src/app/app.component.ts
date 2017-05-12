@@ -1,14 +1,33 @@
-import { Component } from '@angular/core';
-import {Constants} from "./shared/constants";
+import {Component, OnInit} from '@angular/core';
+import {Store} from "@ngrx/store";
+import {ApplicationState} from "./store/application-state";
+import {LoadCurrentUserAction, LoadDashboardsAction, CurrentDashboardChangeAction} from "./store/actions";
+import {userLastDashboardSelector} from "./store/selectors/user-last-dashboard.selector";
+import {Router} from "@angular/router";
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  rootUrl: string;
-  constructor(private constants: Constants) {
-    this.rootUrl = this.constants.root_url.slice(0,-1);
+export class AppComponent implements OnInit{
+  loading: boolean = true;
+  constructor(
+    private store: Store<ApplicationState>,
+    private router: Router
+  ) {
+    store.select(userLastDashboardSelector).subscribe(dashboardId => {
+      if(dashboardId != null) {
+        this.loading = false;
+        router.navigate(['dashboards/' + dashboardId]);
+
+      }
+    })
+  }
+
+  ngOnInit() {
+    this.store.dispatch(new LoadCurrentUserAction());
+    this.store.dispatch(new LoadDashboardsAction());
   }
 }

@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class Seed2Page {
+export class Idashboard2Page {
   navigateTo() {
     return browser.get('/');
   }

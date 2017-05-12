@@ -1,0 +1,35 @@
+<!--Header-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3 col-sm-3">
+      <h4>{{dashboardName$ | async}}</h4>
+    </div>
+    <div class="col-md-5 col-sm-5">Search</div>
+    <div class="col-md-4 col-sm-4">
+      <app-dashboard-notification-area></app-dashboard-notification-area>
+    </div>
+  </div>
+</div>
+<!--End of Header-->
+
+<!--Dashboard Menus-->
+<app-dashboard-menu></app-dashboard-menu>
+<!--End of Dashbaord Menus-->
+
+<!--Dashboard Items-->
+<div class="container-fluid">
+  <div class="row" *ngIf="(dashboardItems$ | async).length == 0">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h2><b>Welcome to Interactive dashboard</b></h2>
+          <h4>Enjoy interactive dashboard by switching,filtering and changing layout to different visualization <br> <b>Search and add dashboard now!</b></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <app-dashboard-item-card *ngFor="let dashbboardItem of dashboardItems$ | async" [cardData]="dashbboardItem"></app-dashboard-item-card>
+  </div>
+</div>
+<!--End of Dashboard Items-->

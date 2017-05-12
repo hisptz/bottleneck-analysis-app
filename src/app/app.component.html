@@ -1,4 +1,2 @@
-<ng2-dhis-menu [dhis2_url]="'../../..'"></ng2-dhis-menu>
-<section style="padding-top: 60px;">
-  <router-outlet></router-outlet>
-</section>
+<app-loader [loadingMessage]="'Moving Dashboards into position'" *ngIf="loading"></app-loader>
+<router-outlet></router-outlet>
