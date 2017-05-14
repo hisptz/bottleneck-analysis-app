@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {Visualization} from "../../model/visualization";
 import {TableService} from "../../services/table.service";
 
@@ -7,7 +7,7 @@ import {TableService} from "../../services/table.service";
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
 
   @Input() tableData: Visualization;
   @Input() customFilters: any[] = [];
@@ -21,12 +21,14 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeTable();
+    // this.initializeTable();
   }
 
   ngOnChanges() {
-    if(this.customFilters.length > 0) {
-      this.initializeTable();
+    this.loading = true;
+    if(this.tableData != undefined) {
+      this.tableObjects = this.tableService.getTableObjects(this.tableData);
+      this.loading = false;
     }
   }
 

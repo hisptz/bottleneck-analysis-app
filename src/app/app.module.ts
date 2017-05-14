@@ -42,6 +42,15 @@ import {Ng2HighchartsModule} from "ng2-highcharts";
 import {FavoriteService} from "./services/favorite.service";
 import {VisualizationObjectService} from "./services/visualization-object.service";
 import {LoadVisualizationObjectEffectService} from "./store/effects/load-visualization-effect.service";
+import {ChangeCurrentVisualizationObjectEffectService} from "./store/effects/change-current-visualization-effect.service";
+import {TreeModule} from "angular-tree-component/dist/angular-tree-component";
+import {OrgUnitService} from "./components/org-unit-filter/org-unit.service";
+import {OrgUnitFilterComponent} from "./components/org-unit-filter/org-unit-filter.component";
+import {PeriodFilterComponent} from "./components/period-filter/period-filter.component";
+import {ChangeFiltersEffectService} from "./store/effects/change-filters-effect.service";
+import {LayoutComponent} from "./components/layout/layout.component";
+import {DndModule} from "ng2-dnd";
+import {ChangeLayoutEffectService} from "./store/effects/change-layout-effect.service";
 
 @NgModule({
   declarations: [
@@ -56,7 +65,10 @@ import {LoadVisualizationObjectEffectService} from "./store/effects/load-visuali
     ChartComponent,
     MapComponent,
     TableComponent,
-    ErrorNotifierComponent
+    ErrorNotifierComponent,
+    OrgUnitFilterComponent,
+    PeriodFilterComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,
@@ -66,15 +78,20 @@ import {LoadVisualizationObjectEffectService} from "./store/effects/load-visuali
     AppRoutingModule,
     Ng2PaginationModule,
     Ng2HighchartsModule,
+    TreeModule,
     TooltipModule.forRoot(),
+    DndModule.forRoot(),
     StoreModule.provideStore({uiState: uiStateReducer,storeData: storeDataReducer},INITIAL_APPLICATION_STATE),
     EffectsModule.run(LoadCurrentUserEffectService),
     EffectsModule.run(LoadDashboardsEffectService),
     EffectsModule.run(UpdateDashboardEffectService),
     EffectsModule.run(LoadVisualizationObjectEffectService),
+    EffectsModule.run(ChangeCurrentVisualizationObjectEffectService),
+    EffectsModule.run(ChangeFiltersEffectService),
+    EffectsModule.run(ChangeLayoutEffectService),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
-  providers: [CurrentUserService, DashboardService, ChartService, TableService, MapService, AnalyticsService,Constants,Utilities,Store,VisualizationStore, VisualizerService, FavoriteService,VisualizationObjectService],
+  providers: [CurrentUserService, DashboardService, ChartService, TableService, MapService, AnalyticsService,Constants,Utilities,Store,VisualizationStore, VisualizerService, FavoriteService,VisualizationObjectService, OrgUnitService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

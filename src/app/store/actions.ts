@@ -16,6 +16,13 @@ export const UPDATE_VISUALIZATION_OBJECT_ACTION = 'UPDATE_VISUALIZATION_OBJECT_A
 export const VISUALIZATION_OBJECT_LOADED_ACTION = 'VISUALIZATION_OBJECT_LOADED_ACTION';
 export const LOAD_ANALYTICS_ACTION = 'LOAD_ANALYTICS_ACTION';
 export const ANALYTICS_LOADED_ACTION = 'ANALYTICS_LOADED_ACTION';
+export const CURRENT_VISUALIZATION_CHANGE_ACTION = 'CURRENT_VISUALIZATION_CHANGE_ACTION';
+export const CHANGE_CURRENT_VISUALIZATION_ACTION = 'CHANGE_CURRENT_VISUALIZATION_ACTION';
+export const CHANGE_FILTERS_ACTION = 'CHANGE_FILTERS_ACTION';
+export const FILTERS_CHANGE_ACTION = 'FILTERS_CHANGE_ACTION';
+export const CHANGE_LAYOUT_ACTION = 'CHANGE_LAYOUT_ACTION';
+export const LAYOUT_CHANGE_ACTION = 'LAYOUT_CHANGE_ACTION';
+
 
 
 
@@ -60,6 +67,37 @@ export class LoadVisualizationObjectAction implements Action {
 
 export class VisualizationObjectLoadedAction implements Action {
   readonly type = VISUALIZATION_OBJECT_LOADED_ACTION;
+  constructor(public payload: Visualization) {}
+}
+
+export class ChangeCurrentVisualizationAction implements Action {
+  readonly type = CHANGE_CURRENT_VISUALIZATION_ACTION;
+  constructor(public payload: Visualization) {}
+}
+
+export class CurrentVisualizationChangeAction implements Action {
+  readonly type = CURRENT_VISUALIZATION_CHANGE_ACTION;
+  constructor(public payload: Visualization) {}
+}
+
+export class ChangeFiltersAction implements Action {
+  readonly type = CHANGE_FILTERS_ACTION;
+  constructor(public payload: Visualization) {}
+}
+
+export class FiltersChangeAction implements Action {
+  readonly type = FILTERS_CHANGE_ACTION;
+  constructor(public payload: Visualization) {}
+}
+
+export class ChangeLayoutAction implements Action {
+  readonly type = CHANGE_LAYOUT_ACTION;
+  constructor(public payload: Visualization) {}
+}
+
+
+export class LayoutChangeAction implements Action {
+  readonly type = LAYOUT_CHANGE_ACTION;
   constructor(public payload: Visualization) {}
 }
 

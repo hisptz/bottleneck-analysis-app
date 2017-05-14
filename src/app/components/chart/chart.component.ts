@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {Visualization} from "../../model/visualization";
 import {ChartService} from "../../services/chart.service";
 import {PaginationInstance} from "ng2-pagination";
@@ -57,7 +57,7 @@ export const CHART_TYPES = [
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent implements OnInit {
+export class ChartComponent implements OnInit, OnChanges {
 
   @Input() chartData: Visualization;
   @Input() customFilters: any;
@@ -80,12 +80,16 @@ export class ChartComponent implements OnInit {
   constructor(private chartService: ChartService) { }
 
   ngOnInit() {
-    this.initializeChart();
+
+    // this.initializeChart();
   }
 
   ngOnChanges() {
-    if(this.customFilters.length > 0) {
-      this.initializeChart();
+    this.loading = true;
+    console.log(this.chartData)
+    if(this.chartData != undefined) {
+      this.chartObjects = this.chartService.getChartObjects(this.chartData);
+      this.loading = false;
     }
   }
 

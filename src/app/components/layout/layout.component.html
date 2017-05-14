@@ -1,0 +1,81 @@
+<a class="btn btn-default btn-sm" style="position: relative; height: 27px; padding-top: 3px; top: -10px;" tooltip="Change layouts" (click)="showLayout = !showLayout">
+  Layout
+</a>
+<div style="position: absolute">
+  <div *ngIf="showLayout" class="layout-block">
+    <div #elementreference style="padding:6px;margin-bottom: 6px;border-bottom: 1px solid rgba(0,0,0,0.1); cursor: move">
+      <label >Table Layout</label>
+    </div>
+    <div *ngIf="layoutType == 'table'">
+      <div class="col-sm-12" style="padding-left: 5px;padding-right: 5px">
+        <table class="table table-bordered" style="height: 250px">
+          <tr >
+            <td rowspan="2" dnd-droppable (onDropSuccess)="onDrop($event,'excluded')">
+              <div>
+                <label>Excluded dimension</label>
+              </div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.excluded" [dragData]="{data: dimension, dimension: 'excluded'}"><span [ngClass]="icons[dimension]"></span> {{names[dimension]}}</div>
+            </td>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'filters')" class="dimension-drops">
+              <div>
+                <label>Filters</label>
+              </div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.filters" [dragData]="{data: dimension, dimension: 'filters'}"><span [ngClass]="icons[dimension]"></span> {{names[dimension]}}</div>
+            </td>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'columns')" class="dimension-drops">
+              <div>
+                <label>Column</label>
+              </div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.columns" [dragData]="{data: dimension, dimension: 'columns'}"><span [ngClass]="icons[dimension]"></span> {{names[dimension]}}</div>
+            </td>
+          </tr>
+          <tr>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'rows')" class="dimension-drops">
+              <div>
+                <label>rows</label>
+              </div>
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.rows" [dragData]="{data: dimension, dimension: 'rows'}"><span [ngClass]="icons[dimension]"></span> {{names[dimension]}}</div>
+            </td>
+            <td class="dimension-drops"></td>
+          </tr>
+          <!--<thead><tr><th width="33%">Column</th><th width="33%">Row</th><th width="33%">Filter</th></tr></thead>-->
+          <!--<tbody>-->
+          <!--<tr>-->
+            <!---->
+            <!---->
+
+          <!--</tr>-->
+          <!--<tr>-->
+
+          <!--</tr>-->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="layoutType == 'chart'">
+      <div class="col-sm-12">
+        <label>Chart Layout</label>
+        <table class="table table-bordered">
+          <thead><tr><th width="33%">Category</th><th width="33%">Series</th><th width="33%">Filter</th></tr></thead>
+          <tbody><tr>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'category')">
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngIf="layout.category != ''" [dragData]="{data: layout.category, dimension: 'category'}"><i [ngClass]="icons[layout.category]" class="fa"></i> {{names[layout.category]}}</div>
+            </td>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'series')">
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngIf="layout.series != ''" [dragData]="{data: layout.series, dimension: 'series'}"><i [ngClass]="icons[layout.series]" class="fa"></i> {{names[layout.series]}}</div>
+            </td>
+            <td dnd-droppable (onDropSuccess)="onDrop($event,'filters')">
+              <div class="draggable" dnd-draggable [dragEnabled]="true" *ngFor="let dimension of layout.filters" [dragData]="{data: dimension, dimension: 'filters'}"><i [ngClass]="icons[dimension]" class="fa"></i> {{names[dimension]}}</div>
+            </td>
+          </tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="pull-right">
+        <button class="btn btn-default btn-sm" (click)="updateLayout()"><i class="fa fa-refresh"></i>Update</button>
+        <button class="btn btn-default btn-sm" (click)="showLayout= false"><i class="fa fa-times"></i>Close</button>
+      </div>
+    </div>
+  </div>
+</div>

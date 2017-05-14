@@ -19,6 +19,14 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
+    case 'CURRENT_VISUALIZATION_CHANGE_ACTION': {
+      state.visualizationObjects.map(item => {
+        return item.id === action.payload.id ? Object.assign({}, item, action.payload) : item;
+      });
+
+      return state;
+    }
+
     case 'VISUALIZATION_OBJECT_LOADED_ACTION': {
       state.visualizationObjects = [...state.visualizationObjects, action.payload];
       return state;

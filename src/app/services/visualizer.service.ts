@@ -90,7 +90,6 @@ export class VisualizerService {
   }
 
   _sanitizeIncomingAnalytics( analyticsObject:any ){
-    console.log(analyticsObject)
     for(let header of analyticsObject.headers ){
       if(header.hasOwnProperty("optionSet")){
         if( analyticsObject.metaData[header.name].length == 0 ){
@@ -107,6 +106,25 @@ export class VisualizerService {
       }
     }
 
+    //TODO find best way to remove analytic rows with no labels
+    let sanitizedRows: any[] = [];
+    for(let row of analyticsObject.rows) {
+      let emptyItemCount: number = 0;
+      for(let i=0; i<=row.length-1; i++) {
+        if(row[i] == "") {
+          emptyItemCount++;
+        }
+      }
+
+      if(emptyItemCount == 0) {
+        sanitizedRows.push(row);
+      }
+    }
+    //update analytics
+    analyticsObject.rows = sanitizedRows;
+
+
+
     return analyticsObject;
   }
 
@@ -114,11 +132,12 @@ export class VisualizerService {
     let return_array = [];
     for (let item of array ){
       if( return_array.indexOf(item[position]) == -1 ){
-        return_array.push(item[position]);
+        if(item[position] != "") {
+          return_array.push(item[position]);
+        }
       }
     }
 
-    console.log(return_array)
     return return_array;
   }
 
@@ -313,13 +332,25 @@ export class VisualizerService {
     );
     // set x-axis categories
     chartObject.xAxis.categories = [];
+    let category_items = [];
     for ( let val of metaDataObject.xAxisItems ) {
-      chartObject.xAxis.categories.push(val.name);
+      let checker = false;
+      for ( let yAxis of metaDataObject.yAxisItems ) {
+        let dataItems = this.getDataObject( chartConfiguration, val, yAxis );
+        let number = this.getDataValue( analyticsObject, dataItems );
+        if(number != 0){
+          checker = true
+        }
+      }
+      if(checker){
+        category_items.push(val);
+        chartObject.xAxis.categories.push(val.name);
+      }
     }
     chartObject.series = [];
     for ( let yAxis of metaDataObject.yAxisItems ){
       let barSeries = [];
-      for ( let xAxis of metaDataObject.xAxisItems ){
+      for ( let xAxis of category_items ){
         let dataItems = this.getDataObject( chartConfiguration, xAxis, yAxis );
         let number = this.getDataValue( analyticsObject, dataItems );
         barSeries.push(number);
@@ -356,23 +387,57 @@ export class VisualizerService {
       (chartConfiguration.hasOwnProperty('yAxisItems'))?chartConfiguration.yAxisItems:[]
     );
     chartObject.xAxis.categories = [];
+    let category_items = [];
     for ( let val of metaDataObject.xAxisItems ) {
-      chartObject.xAxis.categories.push( val.name );
+      let checker = false;
+      for ( let yAxis of metaDataObject.yAxisItems ) {
+        let dataItems = this.getDataObject( chartConfiguration, val, yAxis );
+        let number = this.getDataValue( analyticsObject, dataItems );
+        if(number != 0){
+          checker = true
+        }
+      }
+      if(checker){
+        category_items.push(val);
+        chartObject.xAxis.categories.push( val.name );
+      }
     }
     chartObject.series = [];
+    let series = [];
     for ( let yAxis of metaDataObject.yAxisItems ) {
       let chartSeries = [];
-      for ( let xAxis of metaDataObject.xAxisItems ) {
+      for ( let xAxis of category_items ) {
         let dataItems = this.getDataObject( chartConfiguration, xAxis, yAxis );
         let number = this.getDataValue( analyticsObject, dataItems );
         chartSeries.push( number );
       }
+      // if(!this._checkIfAllChartDataIsZero(chartSeries)){
       chartObject.series.push( {
         type: chartConfiguration.type,
         name: yAxis.name, data: chartSeries
       } );
+
+      // }
+
+    }
+    if ( chartConfiguration.type != 'bar' ){
+      if(chartObject.series[0].data.length < 6){
+        chartObject.xAxis.labels.rotation = 0;
+      }else{
+        chartObject.xAxis.labels.rotation = -45;
+      }
     }
     return chartObject;
+  }
+
+  _checkIfAllChartDataIsZero(series): boolean{
+    let checker = true;
+    for(let serie of series){
+      if (serie != 0){
+        checker = false;
+      }
+    }
+    return checker;
   }
 
   /**
@@ -418,12 +483,24 @@ export class VisualizerService {
     );
     chartObject.xAxis.categories = [];
     chartObject.series = [];
+    let category_items = [];
     for ( let val of metaDataObject.xAxisItems ) {
-      chartObject.xAxis.categories.push(val.name);
+      let checker = false;
+      for ( let yAxis of metaDataObject.yAxisItems ) {
+        let dataItems = this.getDataObject( chartConfiguration, val, yAxis );
+        let number = this.getDataValue( analyticsObject, dataItems );
+        if(number != 0){
+          checker = true
+        }
+      }
+      if(checker){
+        category_items.push(val);
+        chartObject.xAxis.categories.push(val.name);
+      }
     }
     for ( let yAxis of metaDataObject.yAxisItems ){
       let chartSeries = [];
-      for ( let xAxis of metaDataObject.xAxisItems ) {
+      for ( let xAxis of category_items ) {
         let dataItems = this.getDataObject( chartConfiguration, xAxis, yAxis );
         let number = this.getDataValue( analyticsObject, dataItems );
         chartSeries.push( number );
@@ -487,14 +564,27 @@ export class VisualizerService {
       (chartConfiguration.hasOwnProperty('yAxisItems')) ? chartConfiguration.yAxisItems : []
     );
     let categories = [];
+    let category_items = [];
     for ( let val of metaDataObject.xAxisItems ) {
-      categories.push(val.name);
+
+      let checker = false;
+      for ( let yAxis of metaDataObject.yAxisItems ) {
+        let dataItems = this.getDataObject( chartConfiguration, val, yAxis );
+        let number = this.getDataValue( analyticsObject, dataItems );
+        if(number != 0){
+          checker = true
+        }
+      }
+      if(checker){
+        category_items.push(val);
+        categories.push(val.name);
+      }
     }
 
     let series = [];
     for ( let yAxis of metaDataObject.yAxisItems){
       let chartSeries = [];
-      for ( let xAxis of metaDataObject.xAxisItems ) {
+      for ( let xAxis of category_items ) {
         let dataItems = this.getDataObject( chartConfiguration, xAxis, yAxis );
         let number = this.getDataValue( analyticsObject, dataItems );
         chartSeries.push( number );
@@ -726,29 +816,29 @@ export class VisualizerService {
           counter++;
         }
       }else{
-          let item = {
-            'items': [],
-            'headers': []
-          };
-          for (let colItem of table_columns_array) {
-            let dataItem = [];
-            for (let val of colItem) {
-              dataItem.push({'type': val.type, 'value': val.uid});
-            }
-            item.items.push({
-              'name': '',
-              'val': this.getDataValue(analyticsObject, dataItem),
-              'row_span': '1',
-              'display': true
-            });
+        let item = {
+          'items': [],
+          'headers': []
+        };
+        for (let colItem of table_columns_array) {
+          let dataItem = [];
+          for (let val of colItem) {
+            dataItem.push({'type': val.type, 'value': val.uid});
           }
-          if (tableConfiguration.hasOwnProperty("hide_zeros") && tableConfiguration.hide_zeros) {
-            if (!this.checkZeros(tableConfiguration.rows.length, item.items)) {
-              table.rows.push(item);
-            }
-          } else {
+          item.items.push({
+            'name': '',
+            'val': this.getDataValue(analyticsObject, dataItem),
+            'row_span': '1',
+            'display': true
+          });
+        }
+        if (tableConfiguration.hasOwnProperty("hide_zeros") && tableConfiguration.hide_zeros) {
+          if (!this.checkZeros(tableConfiguration.rows.length, item.items)) {
             table.rows.push(item);
           }
+        } else {
+          table.rows.push(item);
+        }
       }
     }
     return table;
@@ -782,6 +872,7 @@ export class VisualizerService {
   }
 
   getChartConfigurationObject(type,show_labels:boolean = false): any{
+
     if(type == "defaultChartObject"){
       return {
         title: {

@@ -6,6 +6,7 @@ import {MapService} from "./map.service";
 import {ChartService} from "./chart.service";
 import {TableService} from "./table.service";
 import * as _ from 'lodash';
+import {AnalyticsService} from "./analytics.service";
 
 @Injectable()
 export class VisualizationObjectService {
@@ -14,7 +15,8 @@ export class VisualizationObjectService {
     private favoriteService: FavoriteService,
     private mapService: MapService,
     private chartService: ChartService,
-    private tableService: TableService
+    private tableService: TableService,
+    private analyticsService: AnalyticsService
   ) { }
 
   getSanitizedVisualizationObject(initialVisualization: Visualization): Observable<any> {
@@ -22,9 +24,11 @@ export class VisualizationObjectService {
       if(initialVisualization.details.favorite.hasOwnProperty('id')) {
         this.favoriteService.getFavoriteDetails(initialVisualization.details.favorite.type, initialVisualization.details.favorite.id)
           .subscribe(favoriteObject => {
-            initialVisualization = this._updateVisualizationConfigurationAndSettings(initialVisualization, favoriteObject);
-            observer.next(initialVisualization);
-            observer.complete();
+            initialVisualization = this.updateVisualizationConfigurationAndSettings(initialVisualization, favoriteObject);
+            this.analyticsService.getAnalytic(initialVisualization).subscribe(visualization => {
+              observer.next(visualization);
+              observer.complete();
+            });
           })
       } else {
       //  TODO use external dimension concept
@@ -53,7 +57,7 @@ export class VisualizationObjectService {
     return subtitle;
   }
 
-  private _updateVisualizationConfigurationAndSettings(visualizationObject: Visualization, favoriteObject: any) {
+  public updateVisualizationConfigurationAndSettings(visualizationObject: Visualization, favoriteObject: any) {
 
     /**
      * Get visualization object name if any

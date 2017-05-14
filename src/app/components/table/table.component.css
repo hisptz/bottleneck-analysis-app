@@ -1,0 +1,4 @@
+.custom-table > thead > tr > th,
+.custom-table > tbody > tr > td {
+  font-size: 12px !important;
+}

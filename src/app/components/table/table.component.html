@@ -8,10 +8,10 @@
 <div class="row" *ngIf="!loading && !hasError">
   <div class="col-md-12" *ngFor="let tableObject of tableObjects">
     <!--<app-error-notifier *ngIf="tableHasError" [errorMessage]="'Something is wrong'"></app-error-notifier>-->
-    <h4 class="text-center item-title">{{tableObject.displayName}}</h4>
+    <h5 class="text-center item-title">{{tableData.name}}</h5>
     <h5 style="margin-top: 80px" class="text-center" *ngIf="tableObject.rows.length == 0"> No
       data to display</h5>
-    <table class="table table-bordered table-responsive"
+    <table class="table table-bordered table-responsive custom-table"
            *ngIf="tableObject.rows.length != 0">
       <thead>
       <tr *ngFor="let header of tableObject.headers; let j = index">

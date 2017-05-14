@@ -5,7 +5,12 @@ import {FavoriteService} from "../../services/favorite.service";
 import {ApplicationState} from "../../store/application-state";
 import {Store} from "@ngrx/store";
 import {loadedVisualizationSelector} from "../../store/selectors/loaded-visualizations.selector";
-import {LoadVisualizationObjectAction} from "../../store/actions";
+import {
+  LoadVisualizationObjectAction, ChangeCurrentVisualizationAction,
+  ChangeFiltersAction, ChangeLayoutAction
+} from "../../store/actions";
+import {Observable} from "rxjs";
+import {visualizationObjectsSelector} from "../../store/selectors/visualization-objects.selector";
 
 export const VISUALIZATION_WITH_NO_OPTIONS = ['USERS', 'REPORTS', 'RESOURCES', 'APP'];
 
@@ -33,6 +38,7 @@ export class DashboardItemCardComponent implements OnInit {
 
   @Input() cardData: any = {};
   visualizationObject: Visualization;
+  visualizationObject$: Observable<any>;
   cardConfiguration: any = {
     hideCardBorders: false,
     showCardHeader: true,
@@ -48,14 +54,34 @@ export class DashboardItemCardComponent implements OnInit {
   showFullScreen: boolean = false;
   currentVisualization: string;
   customFilters: any[] = [];
-  constructor(private store: Store<ApplicationState>) { }
+  constructor(private store: Store<ApplicationState>) {
+  }
 
   ngOnInit() {
+    /**
+     * get current visualization
+     * @type {any}
+     */
+    this.currentVisualization = this.cardData.type;
     /**
      * Get initial visualization object to pass to lower components
      * @type {Visualization}
      */
     this.visualizationObject = this.getInitialVisualization(this.cardData, this.cardConfiguration);
+    this.store.select(visualizationObjectsSelector).subscribe(visualizationObjects => {
+      let currentVisualizationObject: any = visualizationObjects.filter(object => {return object.id == this.visualizationObject.id})[0];
+
+      if(currentVisualizationObject != undefined) {
+        this.visualizationObject = currentVisualizationObject;
+      }
+
+      this.visualizationObject$ = Observable.of(currentVisualizationObject);
+
+
+      // if(this.visualizationObject$.hasOwnProperty('details') && this.visualizationObject$.details.hasOwnProperty('currentVisualization')) {
+      //   this.currentVisualization = this.visualizationObject$.details.currentVisualization;
+      // }
+    });
 
     this.store.select(loadedVisualizationSelector).subscribe(visualizations => {
       if(_.indexOf(visualizations, this.visualizationObject.id) == -1) {
@@ -63,12 +89,6 @@ export class DashboardItemCardComponent implements OnInit {
       }
     });
 
-
-    /**
-     * get current visualization
-     * @type {any}
-     */
-    this.currentVisualization = this.visualizationObject.type;
   }
 
   /**
@@ -89,15 +109,17 @@ export class DashboardItemCardComponent implements OnInit {
     return hide;
   }
 
-  updateDashboardCard(filterValues): void {
-    /**
-     * Make sure that array is passed
-     */
-    if(_.isPlainObject(filterValues)) {
-      filterValues = [filterValues]
-    }
+  updateFilters(filterValues): void {
+
+    this.visualizationObject.details.filters = _.isPlainObject(filterValues) ? [filterValues] : filterValues;
+    this.store.dispatch(new ChangeFiltersAction(this.visualizationObject));
 
     this.customFilters = filterValues;
+  }
+
+  updateLayout(layout) {
+    this.visualizationObject.details.layout = layout;
+    this.store.dispatch(new ChangeLayoutAction(this.visualizationObject))
   }
 
 
@@ -163,6 +185,8 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateVisualization(selectedVisualization) {
+    this.visualizationObject.details.currentVisualization = selectedVisualization;
+    this.store.dispatch(new ChangeCurrentVisualizationAction(this.visualizationObject));
     this.currentVisualization = selectedVisualization;
   }
 

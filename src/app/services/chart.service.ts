@@ -150,8 +150,6 @@ export class ChartService {
 
         if(layer.analytics.hasOwnProperty('headers')) {
           chartObjects.push(this.visualizationService.drawChart(layer.analytics, layer.settings.chartConfiguration))
-        } else {
-          console.warn('Analytic object is empty')
         }
       })
     }
