@@ -69,7 +69,7 @@ export class VisualizationObjectService {
     if (visualizationObject.details.currentVisualization == 'MAP') {
 
         if(!visualizationObject.details.hasOwnProperty('mapConfiguration')) {
-          visualizationObject.details.mapConfiguration = this.mapService.getMapConfiguration(favoriteObject);
+          visualizationObject.details.mapConfiguration = this.mapService._getMapConfiguration(favoriteObject);
         }
 
         if(visualizationObject.layers.length == 0) {
