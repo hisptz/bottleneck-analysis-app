@@ -6,6 +6,7 @@ import {dashboardNameSelector} from "../../store/selectors/dashboard-name.select
 import {ActivatedRoute} from "@angular/router";
 import {CurrentDashboardChangeAction} from "../../store/actions";
 import {currentDashboardItemsSelector} from "../../store/selectors/current-dashboard-items.selector";
+import {currentDeletedDashboardSelector} from "../../store/selectors/current-deleted-dashboard.selector";
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +27,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+
       this.store.dispatch(new CurrentDashboardChangeAction(params['id']));
     })
   }

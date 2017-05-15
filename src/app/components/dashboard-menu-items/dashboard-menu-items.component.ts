@@ -3,6 +3,8 @@ import {Observable} from "rxjs";
 import {ApplicationState} from "../../store/application-state";
 import {Store} from "@ngrx/store";
 import {dashboardMenuItemsSelector} from "../../store/selectors/dashboard-menu-items.selector";
+import {currentCreatedDashboardSelector} from "../../store/selectors/current-created-dashboard.selector";
+import {DeleteDashboardAction} from "../../store/actions";
 
 export interface DashboardMenusItem {
   id: string;
@@ -16,12 +18,36 @@ export interface DashboardMenusItem {
 export class DashboardMenuItemsComponent implements OnInit {
 
   dashboardMenuItems$: Observable<DashboardMenusItem[]>;
-  constructor(store: Store<ApplicationState>) {
-    this.dashboardMenuItems$ = store.select(dashboardMenuItemsSelector)
+  currentCreatedDashboard$: Observable<string>;
+  currentRightClicked: string = null;
+  itemToDelete: string = null;
+  deletingItem: boolean = false;
+  constructor(private store: Store<ApplicationState>) {
+    this.dashboardMenuItems$ = store.select(dashboardMenuItemsSelector);
+    this.currentCreatedDashboard$ = store.select(currentCreatedDashboardSelector)
 
   }
 
   ngOnInit() {
   }
+
+  showOptions(dashboardId) {
+    this.currentRightClicked = dashboardId;
+    return false;
+
+  }
+
+  openDeleteForm(id) {
+    this.deletingItem = false;
+    this.currentRightClicked = null;
+    this.itemToDelete = id;
+  }
+
+  deleteDashboard(id) {
+    this.deletingItem = true;
+    this.store.dispatch(new DeleteDashboardAction(id))
+  }
+
+
 
 }

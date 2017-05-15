@@ -10,6 +10,25 @@ export function uiStateReducer(state: UiState = INITIAL_UI_STATE, action) {
       state.visualizationObjectsLoaded = [...state.visualizationObjectsLoaded, action.payload.id];
       return state;
     }
+
+    case 'ADD_DASHBOARD_ACTION': {
+      state.currentCreatedDashboard = null;
+      return state;
+    }
+
+    case 'DASHBOARD_ADDED_ACTION': {
+      state.currentCreatedDashboard = action.payload.id;
+      return state;
+    }
+
+    case 'DASHBOARD_DELETED_ACTION': {
+      state.currentDeletedDashboard = action.payload;
+      if(state.currentDashboard == action.payload) {
+        state.currentDashboard = undefined;
+      }
+
+      return state;
+    }
     default:
       return state;
   }

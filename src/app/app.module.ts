@@ -51,6 +51,10 @@ import {ChangeFiltersEffectService} from "./store/effects/change-filters-effect.
 import {LayoutComponent} from "./components/layout/layout.component";
 import {DndModule} from "ng2-dnd";
 import {ChangeLayoutEffectService} from "./store/effects/change-layout-effect.service";
+import { DashboardAddFormComponent } from './components/dashboard-add-form/dashboard-add-form.component';
+import {AddDashboardEffectService} from "./store/effects/add-dashboard-effect.service";
+import { ClickOutsideDirective } from './directives/click-outside.directive';
+import {DeleteDashboardEffectService} from "./store/effects/delete-dashboard-effect.service";
 
 @NgModule({
   declarations: [
@@ -68,7 +72,9 @@ import {ChangeLayoutEffectService} from "./store/effects/change-layout-effect.se
     ErrorNotifierComponent,
     OrgUnitFilterComponent,
     PeriodFilterComponent,
-    LayoutComponent
+    LayoutComponent,
+    DashboardAddFormComponent,
+    ClickOutsideDirective
   ],
   imports: [
     BrowserModule,
@@ -89,6 +95,8 @@ import {ChangeLayoutEffectService} from "./store/effects/change-layout-effect.se
     EffectsModule.run(ChangeCurrentVisualizationObjectEffectService),
     EffectsModule.run(ChangeFiltersEffectService),
     EffectsModule.run(ChangeLayoutEffectService),
+    EffectsModule.run(AddDashboardEffectService),
+    EffectsModule.run(DeleteDashboardEffectService),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [CurrentUserService, DashboardService, ChartService, TableService, MapService, AnalyticsService,Constants,Utilities,Store,VisualizationStore, VisualizerService, FavoriteService,VisualizationObjectService, OrgUnitService],

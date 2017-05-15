@@ -68,6 +68,8 @@ export class DashboardItemCardComponent implements OnInit {
      * @type {Visualization}
      */
     this.visualizationObject = this.getInitialVisualization(this.cardData, this.cardConfiguration);
+
+
     this.store.select(visualizationObjectsSelector).subscribe(visualizationObjects => {
       let currentVisualizationObject: any = visualizationObjects.filter(object => {return object.id == this.visualizationObject.id})[0];
 

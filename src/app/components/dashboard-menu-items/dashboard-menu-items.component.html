@@ -7,21 +7,26 @@
 <!--</ul>-->
 <ul class="nav navbar-nav dashboard-nav" *ngIf="!dashboardsLoading">
   <li class="dashboard-list dropdown" routerLinkActive="active" *ngFor="let dashboard of dashboardMenuItems$ | async">
-    <!--<span *ngIf="dashboardStatus.id == dashboard.id" appClickOutside (clickOutside)="dashboardStatus.id = {}" class="success-badge">{{dashboardStatus.status}}</span>-->
+    <span *ngIf="(currentCreatedDashboard$ | async) == dashboard?.id" class="success-badge"><i class="fa fa-check"></i></span>
     <a routerLink="/dashboards/{{dashboard.id}}" *ngIf="activeEditFormId != dashboard.id && itemToDelete != dashboard.id" (dblclick)="activeEditFormId = dashboard.id" (contextmenu)="showOptions(dashboard.id)" tooltip="{{dashboard.name}}">{{dashboard.name}}</a>
     <!--<app-dashboard-edit-form *ngIf="activeEditFormId == dashboard.id" [dashboard]="dashboard" (onEditSuccess)="activeEditFormId = ''" (onCloseAction)="activeEditFormId = ''"></app-dashboard-edit-form>-->
-    <!--<div *ngIf="itemToDelete == dashboard.id" class="dashboard-delete-block">-->
-      <!--<small>Delete?</small>-->
-      <!--<button (click)="itemToDelete = null" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>-->
-      <!--<button (click)="deleteDashboard(dashboard.id)" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>-->
-    <!--</div>-->
-    <!--<ul [ngClass]="'option-dropdown'" *ngIf="currentRightClicked == dashboard.id" appClickOutside (clickOutside)="currentRightClicked = null">-->
-      <!--<li><a (click)="activeEditFormId = dashboard.id">Rename</a></li>-->
-      <!--<li><a (click)="openShareBlock()">Share</a></li>-->
-      <!--<li><a (click)="itemToDelete == dashboard.id" class="text-danger">Delete</a></li>-->
-    <!--</ul>-->
+    <div *ngIf="itemToDelete == dashboard.id && !deletingItem" class="dashboard-delete-block">
+      <small>Delete?</small>
+      <button (click)="itemToDelete = null" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>
+      <button (click)="deleteDashboard(dashboard.id)" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+    </div>
+    <small *ngIf="itemToDelete == dashboard.id && deletingItem" style="padding-top: 10px;">
+      <img [src]="'assets/img/balls-3.svg'" alt="" style="height: 20px; width: 20px;">
+      Deleting dashboard..
+    </small>
+    <ul [ngClass]="'option-dropdown'" *ngIf="currentRightClicked == dashboard.id" appClickOutside (clickOutside)="currentRightClicked = null">
+      <li><a (click)="activeEditFormId = dashboard.id">Rename</a></li>
+      <li><a (click)="openShareBlock()">Share</a></li>
+      <li><a (click)="openDeleteForm(dashboard.id)" class="text-danger">Delete</a></li>
+    </ul>
   </li>
 </ul>
+<app-dashboard-add-form></app-dashboard-add-form>
 <!--<app-create-dashboard (onCreateSuccess)="updateCurrentPage($event)"></app-create-dashboard>-->
 <ul class="nav navbar-nav navbar-right dashboard-right">
   <li>

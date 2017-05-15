@@ -22,8 +22,11 @@ export const CHANGE_FILTERS_ACTION = 'CHANGE_FILTERS_ACTION';
 export const FILTERS_CHANGE_ACTION = 'FILTERS_CHANGE_ACTION';
 export const CHANGE_LAYOUT_ACTION = 'CHANGE_LAYOUT_ACTION';
 export const LAYOUT_CHANGE_ACTION = 'LAYOUT_CHANGE_ACTION';
-
-
+export const ADD_DASHBOARD_ACTION = 'ADD_DASHBOARD_ACTION ';
+export const DASHBOARD_ADDED_ACTION = 'DASHBOARD_ADDED_ACTION';
+export const DELETE_DASHBOARD_ACTION = 'DELETE_DASHBOARD_ACTION ';
+export const DASHBOARD_DELETED_ACTION = 'DASHBOARD_DELETED_ACTION';
+export const LAST_DASHBOARD_CHANGE_ACTION = 'LAST_DASHBOARD_CHANGE_ACTION';
 
 
 
@@ -101,3 +104,27 @@ export class LayoutChangeAction implements Action {
   constructor(public payload: Visualization) {}
 }
 
+export class AddDashboardAction implements Action {
+  readonly type = ADD_DASHBOARD_ACTION;
+  constructor(public payload: string) {}
+}
+
+export class DashboardAddedAction implements Action {
+  readonly type = DASHBOARD_ADDED_ACTION;
+  constructor(public payload: Dashboard) {}
+}
+
+export class DeleteDashboardAction implements Action {
+  readonly type = DELETE_DASHBOARD_ACTION;
+  constructor(public payload: string) {}
+}
+
+export class DashboardDeletedAction implements Action {
+  readonly type = DASHBOARD_DELETED_ACTION;
+  constructor(public payload: string) {}
+}
+
+export class LastDashboardChangeAction implements Action {
+  readonly type = LAST_DASHBOARD_CHANGE_ACTION;
+  constructor(public payload: string) {}
+}
