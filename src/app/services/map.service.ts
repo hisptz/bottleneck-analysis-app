@@ -62,6 +62,7 @@ interface Legend {
 }
 
 interface LegendItem {
+  layerId: string;
   name: string;
   description: string;
   pinned: boolean;
@@ -76,10 +77,11 @@ interface Class {
   name: string;
   label: string;
   description: string;
+  collapse: string;
   min: number;
   max: number;
   color: string;
-  icon: string;
+  icon: "",
   radius: number;
   count: number;
 }
@@ -121,7 +123,7 @@ export class MapService {
            * Check if layer has map configuration
            */
           if (!mapDataFromStore.details.hasOwnProperty('mapConfiguration')) {
-            mapDataFromStore.details.mapConfiguration = this.getMapConfiguration({});
+            mapDataFromStore.details.mapConfiguration = this._getMapConfiguration({});
           }
 
           mapDataFromStore.layers.forEach(layer => {
@@ -187,7 +189,6 @@ export class MapService {
         observer.complete();
 
       } else {
-          console.log(JSON.stringify(mapData));
         if (mapData.details.hasOwnProperty('favorite')) {
           let favoriteType = mapData.details.favorite.hasOwnProperty('type') ? mapData.details.favorite.type : null;
           let favoriteId = mapData.details.favorite.hasOwnProperty('id') ? mapData.details.favorite.id : null;
@@ -203,7 +204,7 @@ export class MapService {
                  * Add map configurations to map data
                  * @type {MapConfiguration}
                  */
-                mapData.details.mapConfiguration = this.getMapConfiguration(favoriteResponse);
+                mapData.details.mapConfiguration = this._getMapConfiguration(favoriteResponse);
 
                 if (favoriteResponse.hasOwnProperty('mapViews')) {
                   let responseCount: number = 0;
@@ -237,15 +238,6 @@ export class MapService {
                       requestArray.push(this._getPredefinedLegend(predefinedLegendUrl))
                     }
 
-                    /**
-                     * Get organisation unit group set if any and create an observable for requesting it
-                     * @type {"../../Observable".Observable<any>}
-                     */
-                    // let organisationUnitGroupSetUrl = this._getOrganisationUnitGroupSetUrl(view);
-                    //
-                    // if (organisationUnitGroupSetUrl != null) {
-                    //   requestArray.push(this._getOrganisationUnitGroupSet(organisationUnitGroupSetUrl))
-                    // }
 
                     /**
                      * Make ajax call for available requests in the array
@@ -298,21 +290,12 @@ export class MapService {
                           view.legendSet = viewResult[2];
                         }
 
-                        viewResult.forEach(result => {
-                          if (result.organisationUnitGroupSet) {
-
-                            view.organisationUnitGroupSet = result.organisationUnitGroupSet;
-                          }
-                        })
 
                         /**
                          * Update map data
                          */
-                        mapData.layers.push({settings: view, analytics: analyticsResult});
 
-                        /**
-                         * Also update operating layers for runtime activities, this will be used for on fly updates
-                         */
+                        mapData.layers.push({settings: view, analytics: analyticsResult});
 
 
                         /**
@@ -338,6 +321,8 @@ export class MapService {
                       /**
                        * Increment response count to compensate for view that dont require ajax call
                        */
+                      if (view.layer == 'facility') {
+                      }
                       responseCount++;
                       /**
                        * Update map data
@@ -426,70 +411,64 @@ export class MapService {
 
   }
 
-  public getMapLegend(data, settings) {
-
-    let eventClustering = settings.eventClustering;
-    let legendSet = settings.legendSet;
-    let colorHigh = settings.colorHigh;
-    let colorLow = settings.colorLow;
-    let classes = settings.classes;
-    let colorScale = settings.colorScale;
-    let method = settings.method;
-
-    let dataRange = this._prepareDataRange(data);
-    let legendType = '';
-    let legendObject: Legend = null;
-    let legendsFromLegendSet = null;
-    let colorScaleArray = [];
-
-    let legend: LegendItem;
-
-    if (!colorScale && !legendSet) {
-      colorScale = this.getColorScaleFromHigLow(colorHigh, colorLow, classes);
+  public getMapFacilityLegend(features, settings) {
+    let legend: LegendItem = {
+      layerId: "",
+      name: "",
+      description: "",
+      pinned: false,
+      useIcons: false,
+      opacity: 0,
+      layer: "",
+      classes: [],
+      change: []
     }
 
-    if (!colorScale && legendSet) {
-      legendsFromLegendSet = this.getColorScaleFromLegendSet(legendSet);
-      colorScale = legendsFromLegendSet.colorScale;
-    }
+    let groupSet = settings.groupSet;
+    legend.layerId = settings.id;
+    legend.name = groupSet.name;
+    legend.opacity = groupSet.opacity;
 
 
-    if (colorScale && legendSet) {
-      legendsFromLegendSet = this.getColorScaleFromLegendSet(legendSet);
-      colorScale = legendsFromLegendSet.colorScale;
-    }
-
-    settings['colorScale'] = colorScale;
-
-
-    let sortedData = this.sortDataArray(data);
-
-    if (method == 1) {
-      legendObject = this._legendSetLegend(sortedData, legendsFromLegendSet, settings);
-    }
-
-    if (method == 2) {
-      if (settings.legendSet) {
-        legendObject = this._legendSetLegend(sortedData, legendsFromLegendSet, settings);
-      } else {
-        legendObject = this._generateClassLimits(sortedData, classes, "equalInterval");
+    groupSet.organisationUnitGroups.forEach(group => {
+      let classLegend: Class = {
+        name: group.name,
+        label: "",
+        description: "",
+        collapse: "",
+        min: 0,
+        max: 0,
+        color: "",
+        icon: group.symbol,
+        radius: 0,
+        count: 0
       }
 
-    }
+      features.forEach(feature => {
+        let propertyNames = Object.getOwnPropertyNames(feature.dimensions);
+        propertyNames.forEach(dimensionId => {
+          if (feature.dimensions[dimensionId] == group.name) {
+            classLegend.count += 1;
+          }
+        });
+      })
 
-    if (method == 3) {
+      legend.classes.push(classLegend);
 
-      if (settings.legendSet) {
-        legendObject = this._legendSetLegend(sortedData, legendsFromLegendSet, settings);
-      } else {
-        legendObject = this._generateClassLimits(sortedData, classes, "equalCounts");
+    })
+
+
+    return {
+      htmlLegend: "", scriptLegend: legend,
+      colorScale: [],
+      getFeatureRadius: (featureValue) => {
+        return null
+      },
+      getFeatureColor: (featureValue) => {
+
       }
     }
 
-    legendObject['colorScale'] = colorScale;
-    legendObject.htmlLegend = this._prepareHTMLLegend(legendsFromLegendSet, legendObject, settings);
-    this.mapLegend = legendObject;
-    return legendObject;
   }
 
   public getMapLegends(features, sortedData, settings) {
@@ -541,6 +520,7 @@ export class MapService {
     let legend: LegendItem = this.getDataLegend(obtainedDataLegend, settings);
     return {
       htmlLegend: this._prepareHTMLLegendNew(legend, legendSettings), scriptLegend: legend,
+      colorScale: legendSettings['colorScale'],
       getFeatureRadius: (featureValue) => {
         return this.getMapRadiusLegend(features, settings, sortedData, featureValue)
       },
@@ -552,11 +532,12 @@ export class MapService {
   }
 
   public getDataLegend(obtainedDataLegend, settings): LegendItem {
-
     let legend =
       {
+        layerId: settings.id,
         name: settings.name,
         description: settings.period,
+        collapse: "",
         pinned: false,
         useIcons: true,
         opacity: settings.opacity,
@@ -567,11 +548,12 @@ export class MapService {
 
     let legendClasses: Array<Class> = [];
 
-    obtainedDataLegend.scriptLegend.forEach(legendItem => {
+    obtainedDataLegend.scriptLegend.forEach((legendItem, legendItemIndex) => {
       let legendClass: Class = {
         name: "",
         label: "",
         description: "",
+        collapse: "",
         min: 0,
         max: 0,
         color: "",
@@ -583,7 +565,6 @@ export class MapService {
       legendClass.name = legendItem.min + " - " + legendItem.max;
       legendClass.label = legendItem.name;
       legendClass.color = legendItem.color;
-      legendClass.count = legendItem.count;
       legendClass.min = +(legendItem.min);
       legendClass.max = +(legendItem.max);
       legendClass.radius = legendItem.radius;
@@ -679,17 +660,19 @@ export class MapService {
   }
 
   public decideColor(dataElementScore: any, counter: any, legends: any, colorScale) {
-    let colorScaleArray = colorScale.split(',');
+    let colorScaleArray = Array.isArray(colorScale) ? colorScale : colorScale.split(',');
     let respectiveScoreColor: String = "rgba(255,255,255,0)";
     legends.forEach((legendItem: any, legendItemIndex) => {
       if (legendItem.min <= dataElementScore && dataElementScore < legendItem.max) {
         respectiveScoreColor = colorScaleArray[legendItemIndex];
         legendItem.color = respectiveScoreColor;
+        legendItem.count += 1;
       }
 
       if (legendItemIndex == legends.length - 1 && legendItem.min < dataElementScore && dataElementScore == legendItem.max) {
         respectiveScoreColor = colorScaleArray[legendItemIndex];
         legendItem.color = respectiveScoreColor;
+        legendItem.count += 1;
       }
     })
     return {respectiveScoreColor: respectiveScoreColor, updatedLegend: legends};
@@ -710,8 +693,7 @@ export class MapService {
     return sortedData;
   }
 
-  public dataDownLoad(formatType){
-    console.log(formatType);
+  public dataDownLoad(formatType) {
   }
 
   private _legendSetLegend(dataArray, legendsFromLegendSet, settings) {
@@ -832,7 +814,7 @@ export class MapService {
     let html = "<p style='margin:0 0 0px!important;'>&nbsp;&nbsp;<b>" + legend.name + "</b></p>";
     html += "<span>&nbsp;&nbsp;" + legend.description + "</span>";
     html += "<table>";
-    legendSettings.colorScale = legendSettings.colorScale.split(',');
+    legendSettings.colorScale = Array.isArray(legendSettings.colorScale) ? legendSettings.colorScale : legendSettings.colorScale.split(',');
     legend.classes.forEach((legendClass, legendClassIndex) => {
       legendClass.color = legendClass.color == "" ? legendSettings.colorScale[legendClassIndex] : legendClass.color;
       html += "<tr style='border: 4px solid #ffffff;'>";
@@ -871,7 +853,7 @@ export class MapService {
     }
 
     else if (legend) {
-      let colorScale = legendSetting.colorScale.split(',');
+      let colorScale = Array.isArray(legendSetting.colorScale) ? legendSetting.colorScale : legendSetting.colorScale.split(',');
       legend.scriptLegend.forEach((legendString, legendStringIndex) => {
         if (colorScale) {
           let color = colorScale[legendStringIndex];
@@ -968,7 +950,7 @@ export class MapService {
       .catch(error => Observable.throw(new Error(error)));
   }
 
-  private _getOrganisationUnitGroupSet(url): Observable<any> {
+  public getOrganisationUnitGroupSet(url): Observable<any> {
     return this.http.get(url)
       .map((res: Response) => res.json())
       .catch(error => Observable.throw(new Error(error)));
@@ -977,7 +959,7 @@ export class MapService {
   private _getGeoFeatureUrl(geoFeatureParams: string) {
     let url: string = this.constant.api + 'geoFeatures.json?';
     url += geoFeatureParams;
-    url += "&displayProperty=NAME";
+    url += "&displayProperty=NAME&includeGroupSets=true";
     return url;
   }
 
@@ -1041,11 +1023,11 @@ export class MapService {
     return items;
   }
 
-  getMapConfiguration(favoriteObject): MapConfiguration {
+  public _getMapConfiguration(favoriteObject): MapConfiguration {
     return {
       id: favoriteObject.hasOwnProperty('id') ? favoriteObject.id : null,
       name: favoriteObject.hasOwnProperty('name') ? favoriteObject.name : null,
-      basemap: favoriteObject.hasOwnProperty('basemap') ? favoriteObject.basemap : 'osmLight',
+      basemap: favoriteObject.hasOwnProperty('basemap') ? favoriteObject.basemap : null,
       zoom: favoriteObject.hasOwnProperty('zoom') ? favoriteObject.zoom : 0,
       latitude: favoriteObject.hasOwnProperty('latitude') ? favoriteObject.latitude : 0,
       longitude: favoriteObject.hasOwnProperty('longitude') ? favoriteObject.longitude : 0
@@ -1149,3 +1131,4 @@ export class MapService {
 
 
 }
+

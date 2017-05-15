@@ -1,1 +1,125 @@
-<div>maps</div>
+<div id="todownload" style="background-color: #ffffff;">
+  <!--loader block-->
+  <app-loader *ngIf="loading" [loadingMessage]="'Moving map into position'"></app-loader>
+  <!--end of loader block-->
+
+  <app-error-notifier *ngIf="hasError" [errorMessage]="errorMessage"></app-error-notifier>
+
+  <!-- Start of map object block -->
+  <div *ngIf="mapData" class="row" [ngStyle]="{'height': mapData.details.itemHeight}" id="{{mapData.id}}_container">
+    <div style="text-align: center">
+      <h4 class="forViewOnly" (mouseover)="showFullTitle()" *ngIf="isTrancated">{{formatStringLength(map?.name)}}</h4>
+      <h4 class="forViewOnly" (mouseleave)="trancateTitle()" *ngIf="!isTrancated">{{map?.name}}</h4>
+      <h4 id="titleOnPrint">{{map?.name}}</h4>
+    </div>
+    <div class="col-md-12" style="padding-right: 5px!important;padding-left: 5px!important; ">
+      <div id="{{mapData.id}}" [ngStyle]="{'height': '340px'}" *ngIf="!hasError">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="layers-button" *ngIf="!loading" (mouseover)="toggleLegendContainerView()">
+    <img src="assets/img/layers-icon.png" style="width:24px;height:24px;">
+  </div>
+
+  <div class="recenter-button" *ngIf="!loading" (click)="recenterMap()">
+    <i class="fa fa-arrows"></i>
+  </div>
+  <div class="map-legend-container" *ngIf="showLegendContainer" (mouseleave)="toggleLegendContainerView()">
+    <div class="legend-view-container" dnd-sortable-container [sortableData]="mapLegend">
+
+      <div class="custom-panel-group  custom-panel-heading" (onDropSuccess)="onDrop(mapLegend)" *ngFor="let legend of mapLegend; let i = index;" dnd-sortable [sortableIndex]="i"
+           style="max-width:219px;">
+        <div class="panel custom-panel-default"
+             style="margin-bottom: 0px!important;border-radius:0px!important;">
+          <div class="panel-heading" style="" role="tab">
+            <div class="custom-panel-title" style="padding:0!important;font-size: 15px!important;">
+              <div role="button">
+                <div class="col-md-2 pull-left" style="padding:0px!important;">
+                  <a class="forViewOnly" style="color:#565656!important;cursor: move;"><i class="fa fa-th"
+                                                                                          aria-hidden="true"></i></a>
+                </div>
+                <div class="col-md-8" style="padding:0px!important;" (click)="toggleLegendView(i)">{{legend.name}}</div>
+                <div class="col-md-2 pull-right" (click)="toggleLegendView(i)">
+                  <a style="cursor: pointer" *ngIf="legend.collapse=='in'"><i
+                    class="fa fa-chevron-up pull-left"></i></a>
+                  <a style="cursor: pointer" *ngIf="legend.collapse==''"><i
+                    class="fa fa-chevron-down pull-left"></i></a>
+                </div>
+              </div>
+              <p style="border-bottom: 1px solid #eeeeee"></p>
+              <p style="padding-bottom: 0px!important;">&nbsp;</p>
+            </div>
+          </div>
+          <div class="panel-collapse collapse {{legend.collapse}}">
+            <div class="panel-body" style="padding:0!important;font-size: 15px!important;padding-right: 5px!important;">
+              <div style="margin-top: 5px"></div>
+              <div class="legend-contents-items" style="overflow-x: auto!important;">
+                <div *ngFor="let class of legend.classes">
+                  <table>
+                    <tr *ngIf="class.label">
+                      <td rowspan="2" [style.background-color]="class.color" style="width:30px">&nbsp;</td>
+                      <td><b>&nbsp;{{class.label}}</b></td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="!class.label&&!class.icon" [style.background-color]="class.color" style="width:30px">
+                        &nbsp;</td>
+                      <td *ngIf="class.icon" style="width:30px"><img src="../images/orgunitgroup/{{class.icon}}"></td>
+                      <td>&nbsp;{{class.name}} ({{class.count}})</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div></div>
+
+              <div class="layer-actions row forViewOnly">
+                <div class="col-md-6" style="padding-right:0px!important;">
+                  <a style="cursor: pointer" (click)="toggleLayerView(legend.layerId)">
+                    <i *ngIf="legend.hidden" style="color:#999999;" class="fa fa-eye-slash"></i><i
+                    *ngIf="!legend.hidden" class="fa fa-eye"></i>
+                  </a>
+                </div>
+                <div class="col-md-6" style="padding-left:0px!important;text-align: right;">
+
+                  <div class="input-group pull-right" *ngIf="!loading">
+                    <input type="number" class="form-control "
+                           min="0"
+                           max="1"
+                           step="0.1"
+                           title="opacity"
+                           value="{{legend.opacity}}"
+                           (change)="updateOpacity(legend.layerId,$event)"
+                           style="box-sizing: border-box; line-height: 40%; border-radius: 4px;font-size: 14px; height: 15px!important;margin-top: 5px; margin-left: 5px; background-color: #ECECEC;text-align: center"
+                           aria-describedby="basic-addon1">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row forViewOnly">
+      <div class="col-md-12" style="margin-top: 5px;">
+        <div class="btn-group" data-toggle="buttons">
+          <label class="">
+            <a style="cursor: pointer" title="Pin legend" (click)="stickLegendContainer()"
+               [ngClass]="{freed:!legendIsSticky}"><i
+              class="fa fa-thumb-tack"></i></a>
+          </label>
+          <label class="">
+            <a style="cursor: pointer" title="Download Map" (click)="downloadToPng('todownload',map?.name)"><i
+              class="fa fa-download"></i></a>
+          </label>
+          <label class="">
+            <a *ngIf="isDownloading">
+              <i class="fa fa-spin fa-spinner forViewOnly"></i>
+            </a>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
