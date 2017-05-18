@@ -29,7 +29,6 @@ export class DashboardEditFormComponent implements OnInit {
   }
 
   save(dashboardFormObject: any, isValid: boolean) {
-    console.log(dashboardFormObject)
     this.submitted = true;
     this.store.dispatch(new UpdateDashboardAction(dashboardFormObject));
     this.onEditSuccess.emit(true);

@@ -21,23 +21,38 @@ export class VisualizationObjectService {
 
   getSanitizedVisualizationObject(initialVisualization: Visualization): Observable<any> {
     return Observable.create(observer => {
-      if(initialVisualization.details.favorite.hasOwnProperty('id')) {
-        this.favoriteService.getFavoriteDetails(initialVisualization.details.favorite.type, initialVisualization.details.favorite.id)
-          .subscribe(favoriteObject => {
-            initialVisualization = this.updateVisualizationConfigurationAndSettings(initialVisualization, favoriteObject);
-            this.analyticsService.getAnalytic(initialVisualization).subscribe(visualization => {
-              observer.next(visualization);
-              observer.complete();
-            });
-          })
+      console.log(initialVisualization)
+      if(initialVisualization.type == 'USERS' || initialVisualization.type == 'REPORTS' || initialVisualization.type == 'RESOURCES') {
+        observer.next(initialVisualization);
+        observer.complete();
       } else {
-      //  TODO use external dimension concept
+        if(initialVisualization.details.favorite.hasOwnProperty('id')) {
+          this.favoriteService.getFavoriteDetails(initialVisualization.details.favorite.type, initialVisualization.details.favorite.id, initialVisualization.layers.length > 0 ? true : false)
+            .subscribe(favoriteObject => {
+              initialVisualization = this.updateVisualizationConfigurationAndSettings(initialVisualization, favoriteObject);
+              this.analyticsService.getAnalytic(initialVisualization).subscribe(visualization => {
+                if(visualization.details.currentVisualization == 'MAP') {
+                  this.mapService.getGeoFeatures(visualization).subscribe(visualizationWithGeoFeature => {
+                    this.mapService.getPredefinedLegend(visualizationWithGeoFeature).subscribe(visualizationWithLegendSet => {
+                      this.mapService.getGroupSet(visualizationWithLegendSet).subscribe(visualizationWithGroupSet => {
+                        observer.next(visualizationWithGroupSet);
+                        observer.complete();
+                      })
+                    })
+                  })
+                } else {
+                  observer.next(visualization);
+                  observer.complete();
+                }
+
+              });
+            })
+        } else {
+          //  TODO use external dimension concept
+        }
       }
+
     });
-  }
-
-  private _loadOrUpdateAnalyticsObjects(visualizationObject: Visualization) {
-
   }
 
   private _getVisualizationSubtitle(filterArray: any) {

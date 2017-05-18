@@ -1,0 +1,10 @@
+<!--loader block-->
+<app-loader *ngIf="loading" [loadingMessage]="'Moving users into position'"></app-loader>
+<!--end of loader block-->
+<h5 class="text-center">USERS</h5>
+<table class="table table-hover table-striped table-condensed">
+  <tr *ngFor="let user of users">
+    <td width="95%">{{user.displayName}}</td>
+    <td width="5%"><a href="">&times;</a></td>
+  </tr>
+</table>

@@ -22,6 +22,7 @@ export class DashboardMenuItemsComponent implements OnInit {
   currentRightClicked: string = null;
   itemToDelete: string = null;
   deletingItem: boolean = false;
+  activeEditFormId: string = null;
   constructor(private store: Store<ApplicationState>) {
     this.dashboardMenuItems$ = store.select(dashboardMenuItemsSelector);
     this.currentCreatedDashboard$ = store.select(currentCreatedDashboardSelector)

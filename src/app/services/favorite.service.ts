@@ -11,8 +11,10 @@ export class FavoriteService {
     private constant: Constants
   ) { }
 
-  getFavoriteDetails(favoriteType: string, favoriteId: string): Observable<any> {
-
+  getFavoriteDetails(favoriteType: string, favoriteId: string, skipCall: boolean = false): Observable<any> {
+    if(skipCall) {
+      return Observable.of({});
+    }
     let url = this._getFavoriteUrl(favoriteType, favoriteId);
     if(url == null) {
       return Observable.create(observer => observer.error('Failed to construct call for favorite'))

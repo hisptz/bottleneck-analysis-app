@@ -55,6 +55,12 @@ import { DashboardAddFormComponent } from './components/dashboard-add-form/dashb
 import {AddDashboardEffectService} from "./store/effects/add-dashboard-effect.service";
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import {DeleteDashboardEffectService} from "./store/effects/delete-dashboard-effect.service";
+import {DeleteDashboardItemEffectService} from "./store/effects/delete-dashboard-item-effect.service";
+import { DashboardItemSearchComponent } from './components/dashboard-item-search/dashboard-item-search.component';
+import {SearchService} from "./services/search.service";
+import { ReadableNamePipe } from './pipes/readable-name.pipe';
+import {AddDashboardItemEffectService} from "./store/effects/add-dashboard-item-effect.service";
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +80,10 @@ import {DeleteDashboardEffectService} from "./store/effects/delete-dashboard-eff
     PeriodFilterComponent,
     LayoutComponent,
     DashboardAddFormComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    DashboardItemSearchComponent,
+    ReadableNamePipe,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -97,9 +106,11 @@ import {DeleteDashboardEffectService} from "./store/effects/delete-dashboard-eff
     EffectsModule.run(ChangeLayoutEffectService),
     EffectsModule.run(AddDashboardEffectService),
     EffectsModule.run(DeleteDashboardEffectService),
+    EffectsModule.run(DeleteDashboardItemEffectService),
+    EffectsModule.run(AddDashboardItemEffectService),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
-  providers: [CurrentUserService, DashboardService, ChartService, TableService, MapService, AnalyticsService,Constants,Utilities,Store,VisualizationStore, VisualizerService, FavoriteService,VisualizationObjectService, OrgUnitService],
+  providers: [CurrentUserService, DashboardService, ChartService, TableService, MapService, AnalyticsService,Constants,Utilities,Store,VisualizationStore, VisualizerService, FavoriteService,VisualizationObjectService, OrgUnitService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

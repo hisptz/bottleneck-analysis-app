@@ -9,7 +9,7 @@
   <li class="dashboard-list dropdown" routerLinkActive="active" *ngFor="let dashboard of dashboardMenuItems$ | async">
     <span *ngIf="(currentCreatedDashboard$ | async) == dashboard?.id" class="success-badge"><i class="fa fa-check"></i></span>
     <a routerLink="/dashboards/{{dashboard.id}}" *ngIf="activeEditFormId != dashboard.id && itemToDelete != dashboard.id" (dblclick)="activeEditFormId = dashboard.id" (contextmenu)="showOptions(dashboard.id)" tooltip="{{dashboard.name}}">{{dashboard.name}}</a>
-    <!--<app-dashboard-edit-form *ngIf="activeEditFormId == dashboard.id" [dashboard]="dashboard" (onEditSuccess)="activeEditFormId = ''" (onCloseAction)="activeEditFormId = ''"></app-dashboard-edit-form>-->
+    <app-dashboard-edit-form *ngIf="activeEditFormId == dashboard.id" [dashboard]="dashboard" (onEditSuccess)="activeEditFormId = ''" (onCloseAction)="activeEditFormId = ''"></app-dashboard-edit-form>
     <div *ngIf="itemToDelete == dashboard.id && !deletingItem" class="dashboard-delete-block">
       <small>Delete?</small>
       <button (click)="itemToDelete = null" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>

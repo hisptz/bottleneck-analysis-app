@@ -4,7 +4,9 @@
     <div class="col-md-3 col-sm-3">
       <h4>{{dashboardName$ | async}}</h4>
     </div>
-    <div class="col-md-5 col-sm-5">Search</div>
+    <div class="col-md-5 col-sm-5">
+      <app-dashboard-item-search></app-dashboard-item-search>
+    </div>
     <div class="col-md-4 col-sm-4">
       <app-dashboard-notification-area></app-dashboard-notification-area>
     </div>
@@ -29,7 +31,7 @@
     </div>
   </div>
   <div class="row">
-    <app-dashboard-item-card *ngFor="let dashbboardItem of dashboardItems$ | async" [cardData]="dashbboardItem"></app-dashboard-item-card>
+    <app-dashboard-item-card *ngFor="let dashbboardItem of dashboardItems$ | async" [cardData]="dashbboardItem" [currentDashboard]="currentDashboard"></app-dashboard-item-card>
   </div>
 </div>
 <!--End of Dashboard Items-->

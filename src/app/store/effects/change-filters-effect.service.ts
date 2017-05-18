@@ -6,6 +6,7 @@ import {CHANGE_FILTERS_ACTION,
   CurrentVisualizationChangeAction
 } from "../actions";
 import {AnalyticsService} from "../../services/analytics.service";
+import {VisualizationObjectService} from "../../services/visualization-object.service";
 
 
 @Injectable()
@@ -13,13 +14,14 @@ export class ChangeFiltersEffectService {
 
   constructor(
     private actions$: Actions,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private visualizationObjectSerivice: VisualizationObjectService
   ) { }
 
 
   @Effect() visualization$: Observable<Action> = this.actions$
     .ofType(CHANGE_FILTERS_ACTION)
-    .switchMap(action => this.analyticsService.getAnalytic(action.payload))
+    .switchMap(action => this.visualizationObjectSerivice.getSanitizedVisualizationObject(action.payload))
     .map(visualizationData => new CurrentVisualizationChangeAction(visualizationData));
 
 

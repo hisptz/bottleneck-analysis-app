@@ -15,31 +15,37 @@ export class AnalyticsService {
 
   public getAnalytic(visualizationObject: Visualization): Observable<Visualization> {
     return Observable.create(observer => {
-      if(visualizationObject.type == 'MAP') {
+      let analyticCallAArray: any[] = [];
+      visualizationObject.layers.forEach(layer => {
+        if(visualizationObject.type == 'MAP') {
+          if (layer.settings.layer != 'boundary' && layer.settings.layer != 'external' && layer.settings.layer != 'earthEngine' && layer.settings.layer != 'facility') {
+            analyticCallAArray.push(this.http.get(this.constructUrl(layer.settings, visualizationObject.type, visualizationObject.details.filters))
+              .map((res: Response) => res.json())
+              .catch(error => Observable.throw(new Error(error))))
+          }
+        } else {
+          analyticCallAArray.push(this.http.get(this.constructUrl(layer.settings, visualizationObject.type, visualizationObject.details.filters))
+            .map((res: Response) => res.json())
+            .catch(error => Observable.throw(new Error(error))))
+        }
+      });
 
-      } else {
-        this.getAnalyticsForOtherType(visualizationObject).subscribe(visualization => {
-          observer.next(visualization);
+      if(analyticCallAArray.length > 0) {
+        Observable.forkJoin(analyticCallAArray).subscribe(analyticsObjects => {
+          let layerIndex: number = 0;
+          visualizationObject.layers.forEach(layer => {
+            layer.analytics = analyticsObjects[layerIndex];
+            layerIndex++;
+          });
+          observer.next(visualizationObject);
           observer.complete();
         })
+      } else {
+        observer.next(visualizationObject);
+        observer.complete();
       }
-    })
+    });
 
-  }
-
-  getAnalyticsForOtherType(visualizationObject: Visualization): Observable<Visualization> {
-    return Observable.create(observer => {
-      visualizationObject.layers.forEach(layer => {
-        return this.http.get(this.constructUrl(layer.settings, visualizationObject.type, visualizationObject.details.filters))
-          .map((res: Response) => res.json())
-          .catch(error => Observable.throw(new Error(error)))
-          .subscribe(analyticObject => {
-            layer.analytics = analyticObject;
-            observer.next(visualizationObject);
-            observer.complete();
-          })
-      })
-    })
   }
 
   constructUrl(visualizationSettings: any, visualizationType: string, filters: any): string {
@@ -62,6 +68,21 @@ export class AnalyticsService {
         } else {
           url += "/events/query/" + this._getProgramParameters(visualizationSettings);
         }
+      }
+
+    } else if ( visualizationType == "EVENT_MAP") {
+
+      url += "/events/aggregate/" + this._getProgramParameters(visualizationSettings);
+
+    } else if(visualizationType == 'MAP' && visualizationSettings.layer == 'event') {
+
+      url += "/events/query/" + this._getProgramParameters(visualizationSettings);
+
+      /**
+       * Also get startDate and end date if available
+       */
+      if(visualizationSettings.hasOwnProperty('startDate') && visualizationSettings.hasOwnProperty('endDate')) {
+        url += 'startDate=' + visualizationSettings.startDate + '&' + 'endDate=' + visualizationSettings.endDate + '&';
       }
 
     } else {

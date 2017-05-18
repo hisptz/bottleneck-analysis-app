@@ -18,7 +18,6 @@ export class AppComponent implements OnInit{
     private router: Router
   ) {
     store.select(userLastDashboardSelector).subscribe(dashboardId => {
-      console.log(dashboardId)
       if(dashboardId != null) {
         this.loading = false;
         router.navigate(['dashboards/' + dashboardId]);

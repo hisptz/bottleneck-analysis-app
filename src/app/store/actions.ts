@@ -27,7 +27,10 @@ export const DASHBOARD_ADDED_ACTION = 'DASHBOARD_ADDED_ACTION';
 export const DELETE_DASHBOARD_ACTION = 'DELETE_DASHBOARD_ACTION ';
 export const DASHBOARD_DELETED_ACTION = 'DASHBOARD_DELETED_ACTION';
 export const LAST_DASHBOARD_CHANGE_ACTION = 'LAST_DASHBOARD_CHANGE_ACTION';
-
+export const DELETE_DASHBOARD_ITEM_ACTION = 'DELETE_DASHBOARD_ITEM_ACTION';
+export const DASHBOARD_ITEM_DELETED_ACTION = 'DASHBOARD_ITEM_DELETED_ACTION';
+export const ADD_DASHBOARD_ITEM_ACTION = 'ADD_DASHBOARD_ITEM_ACTION';
+export const DASHBOARD_ITEM_ADDED_ACTION = 'DASHBOARD_ITEM_ADDED_ACTION';
 
 
 export class LoadCurrentUserAction implements Action {
@@ -127,4 +130,24 @@ export class DashboardDeletedAction implements Action {
 export class LastDashboardChangeAction implements Action {
   readonly type = LAST_DASHBOARD_CHANGE_ACTION;
   constructor(public payload: string) {}
+}
+
+export class DeleteDashboardItemAction implements Action {
+  readonly type = DELETE_DASHBOARD_ITEM_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class DashboardItemDeletedAction implements Action {
+  readonly type = DASHBOARD_ITEM_DELETED_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class AddDashboardItemAction implements Action {
+  readonly type = ADD_DASHBOARD_ITEM_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class DashboardItemAddedAction implements Action {
+  readonly type = DASHBOARD_ITEM_ADDED_ACTION;
+  constructor(public payload: any) {}
 }

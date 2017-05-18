@@ -8,6 +8,7 @@ import {Constants} from "./constants";
 import {Visualization} from "../model/visualization";
 import {Observable} from "rxjs";
 import {MapConfiguration} from "../model/map-configuration";
+import * as _ from 'lodash';
 
 module colorModule {
   export class Color {
@@ -222,11 +223,11 @@ export class MapService {
                     /**
                      * Get geo feature parameters if any and create an observable for requesting it
                      */
-                    let geoFeatureParams = this._getGeoFeatureParameters(view);
+                    // let geoFeatureParams = this._getGeoFeatureParameters(view);
 
-                    if (geoFeatureParams != null) {
-                      requestArray.push(this._getGeoFeatures(geoFeatureParams));
-                    }
+                    // if (geoFeatureParams != null) {
+                    //   requestArray.push(this._getGeoFeatures(geoFeatureParams));
+                    // }
 
                     /**
                      * Get predefined legends if any and create an observable for requesting it
@@ -944,6 +945,92 @@ export class MapService {
       .catch(error => Observable.throw(new Error(error)));
   }
 
+  getGeoFeatures(visualizationObject: Visualization): Observable<any> {
+    return Observable.create(observer => {
+      let expectedGeoFeatureCount: number = visualizationObject.layers.length;
+      let geoFeatureResponse: number = 0;
+      visualizationObject.layers.forEach(layer => {
+        let geoFeatureParams = this._getGeoFeatureParameters(layer.settings, visualizationObject.details.filters);
+
+        if(geoFeatureParams != null) {
+          this._getGeoFeatures(geoFeatureParams).subscribe(geoFeature => {
+            layer.settings.geoFeature = geoFeature;
+            geoFeatureResponse++;
+            if(geoFeatureResponse == expectedGeoFeatureCount) {
+              observer.next(visualizationObject);
+              observer.complete();
+            }
+          })
+        } else {
+          geoFeatureResponse++;
+          if(geoFeatureResponse == expectedGeoFeatureCount) {
+            observer.next(visualizationObject);
+            observer.complete();
+          }
+        }
+
+      })
+    })
+  }
+
+  getPredefinedLegend(visualizationObject: Visualization): Observable<any> {
+    return Observable.create(observer => {
+      let expectedPredefinedLegendCount: number = visualizationObject.layers.length;
+      let predefinedLegendResponse: number = 0;
+      visualizationObject.layers.forEach(layer => {
+        let predefinedLegends = this._getPredefinedLegendUrl(layer.settings);
+        if(predefinedLegends != null) {
+          this._getPredefinedLegend(predefinedLegends).subscribe(predefinedLegend => {
+            layer.settings.legendSet = predefinedLegend;
+            predefinedLegendResponse++;
+            if(predefinedLegendResponse == expectedPredefinedLegendCount) {
+              observer.next(visualizationObject);
+              observer.complete();
+            }
+          })
+        } else {
+          predefinedLegendResponse++;
+          if(predefinedLegendResponse == expectedPredefinedLegendCount) {
+            observer.next(visualizationObject);
+            observer.complete();
+          }
+        }
+      })
+    })
+  }
+
+  getGroupSet(visualizationObject: Visualization): Observable<any> {
+    return Observable.create(observer => {
+      let expectedGroupSetCount: number = visualizationObject.layers.length;
+      let groupSetResponse: number = 0;
+      visualizationObject.layers.forEach(layer => {
+        let groupSetId = layer.settings.hasOwnProperty('organisationUnitGroupSet') ? layer.settings.organisationUnitGroupSet.hasOwnProperty('id') ? layer.settings.organisationUnitGroupSet.id : null : null;
+        if(groupSetId != null) {
+          let groupSetUrl = this.constant.api + "organisationUnitGroupSets/" + groupSetId + ".json?fields=id,name,organisationUnitGroups[id,name,displayName,symbol]";
+          this.http.get(groupSetUrl)
+            .map((res: Response) => res.json())
+            .catch(error => Observable.throw(new Error(error)))
+            .subscribe((organisationUnitGroup: any) => {
+              layer.settings.groupSet = organisationUnitGroup.organisationUnitGroups;
+              groupSetResponse++;
+              if(groupSetResponse == expectedGroupSetCount) {
+                observer.next(visualizationObject);
+                observer.complete();
+              }
+            })
+        } else {
+          groupSetResponse++;
+          if(groupSetResponse == expectedGroupSetCount) {
+            observer.next(visualizationObject);
+            observer.complete();
+          }
+        }
+
+
+      })
+    })
+  }
+
   private _getPredefinedLegend(url): Observable<any> {
     return this.http.get(url)
       .map((res: Response) => res.json())
@@ -975,36 +1062,62 @@ export class MapService {
     return url;
   }
 
-  private _getOrganisationUnitGroupSetUrl(mapView): string {
-    let url: string = null;
-    if (mapView.organisationUnitGroupSet) {
-      let organisationUnitGroupSet: String = mapView.organisationUnitGroupSet.id;
-      url = this.constant.api + 'organisationUnitGroupSets/' + organisationUnitGroupSet + '.json?fields=organisationUnitGroups[id,symbol,name,displayName]';
-
-    }
-
-    return url;
-  }
-
-  private _getGeoFeatureParameters(mapView): string {
+  private _getGeoFeatureParameters(mapView, filters): string {
     let dimensionItems: any;
     let params: string = 'ou=ou:';
-    let columnItems = this._findDimensionItems(mapView.columns, 'ou');
-    let rowItems = this._findDimensionItems(mapView.rows, 'ou');
-    let filterItems = this._findDimensionItems(mapView.filters, 'ou');
-    if (columnItems != null) {
-      dimensionItems = columnItems;
-    } else if (rowItems != null) {
-      dimensionItems = rowItems;
-    } else if (filterItems != null) {
-      dimensionItems = filterItems;
+    let customFilter = _.find(filters, ['name', 'ou']);
+
+    if(customFilter) {
+      params += customFilter.value + ";";
+    } else {
+      let columnItems = this._findDimensionItems(mapView.columns, 'ou');
+      let rowItems = this._findDimensionItems(mapView.rows, 'ou');
+      let filterItems = this._findDimensionItems(mapView.filters, 'ou');
+      if (columnItems != null) {
+        dimensionItems = columnItems;
+      } else if (rowItems != null) {
+        dimensionItems = rowItems;
+      } else if (filterItems != null) {
+        dimensionItems = filterItems;
+      }
+
+      if (dimensionItems.length > 0) {
+        dimensionItems.forEach(item => {
+          params += item.dimensionItem + ";";
+
+        })
+      }
     }
 
-    if (dimensionItems.length > 0) {
-      dimensionItems.forEach(item => {
-        params += item.dimensionItem + ";";
+    return params != 'ou=ou:' ? params : null;
+  }
 
-      })
+  getGeoFeatureParams(visualizationSettings, filters) {
+    let dimensionItems: any;
+    let params: string = 'ou=ou:';
+
+    if(filters.length > 0) {
+      params += _.find(filters, ['name', 'ou']).value;
+    } else {
+      let columnItems = _.find(visualizationSettings.columns, ['dimension','ou']);
+      let rowItems = _.find(visualizationSettings.rows, ['dimension','ou']);
+      let filterItems = _.find(visualizationSettings.filters, ['dimension','ou']);
+
+
+      if (columnItems != undefined) {
+        dimensionItems = columnItems;
+      } else if (rowItems != undefined) {
+        dimensionItems = rowItems;
+      } else if (filterItems != undefined) {
+        dimensionItems = filterItems;
+      }
+
+      if (dimensionItems.length > 0) {
+        dimensionItems.forEach(item => {
+          params += item.dimensionItem + ";";
+
+        })
+      }
     }
 
     return params != 'ou=ou:' ? params : null;

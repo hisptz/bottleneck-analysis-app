@@ -1,0 +1,46 @@
+<div class="form-group" style="position: relative;" appClickOutside (clickOutside)="showBody = false">
+  <div class="form-group has-feedback dashboard-search-block">
+    <input type="text" id="search" (keyup)="searchTerm$.next($event.target.value)" (focus)="showBody = headers.length > 0 ? true : false" class="form-control dashboard-search" placeholder="Add items in your dashboard by searching here">
+    <span *ngIf="!searching" class="form-control-feedback"><i class="fa fa-search"></i></span>
+    <span *ngIf="searching" class="form-control-feedback"><img src="assets/img/balls-3.svg" style="height: 30px; width: 30px;" alt=""></span>
+  </div>
+  <div class="search-body" *ngIf="showBody">
+    <div class="panel search-panel" *ngIf="headers.length == 0">
+      <div class="panel-body" style="padding-top: 4px; padding-bottom: 3px; margin-bottom: 0px;">
+        <b>No search result found</b>
+      </div>
+    </div>
+    <div class="panel search-panel" *ngIf="messageCount > 0">
+      <div class="panel-body alert-info" style="padding-top: 3px; padding-bottom: 3px; margin-bottom: 0px;">
+        <table width="100%" class="search-table">
+          <tr>
+            <td width="94%"><b>You have {{messageCount}} message{{messageCount > 1 ? 's' : ' '}}</b></td>
+            <td width="6%"><button class="btn btn-default btn-xs pull-right disabled" (click)="addDashboardItem({dashboardId: currentDashboard, type: header.name, id: item.id})">ADD</button></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="panel search-panel" *ngFor="let header of headers">
+      <div class="panel-heading search-title" style="padding-bottom: 0px;">
+        <h6>
+          <b>{{header.name | readableName}}</b>&nbsp;
+          <span class="notification-box-primary">{{header.count}}</span>
+          <a class="pull-right" style="cursor: pointer;" (click)="toggleBlock(header.name,header.showBlock)"><i class="fa fa-{{header.showBlock ? 'caret-up' : 'caret-down'}}"></i></a>
+        </h6>
+      </div>
+      <div class="panel-body" style="padding-top: 4px; padding-bottom: 3px;" *ngIf="header.showBlock">
+        <table width="100%" class="search-table">
+          <tr *ngFor="let item of results[header.name]">
+            <td width="4%"><i class="fa fa-{{getIcon(header.name)}}"></i></td>
+            <td width="90%">
+              <small>{{item.name}}</small>
+            </td>
+            <td width="6%">
+              <button class="btn btn-default btn-xs pull-right" (click)="addDashboardItem({dashboardId: currentDashboard, type: dashboardItemTypes[header.name], id: header.name == 'apps' ? item.key : item.id})">ADD</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -31,7 +31,7 @@
             <li><a *ngIf="!confirmDelete" (click)="confirmDelete=true" class="delete-btn" tooltip="Delete dashboard"><i class="fa fa-trash"></i></a></li>
             <li *ngIf="confirmDelete" class="dashboard-delete-block">
               <small>Delete?</small>
-              <button (click)="deleteDashboardItem(itemData.id)" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+              <button (click)="deleteDashboardItem(currentDashboard,visualizationObject.id)" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
               <button (click)="confirmDelete = false" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>
             </li>
             <li *ngIf="!showFullScreen"><a (click)="resizeDashboard(visualizationObject.shape, dashboardShapes)" tooltip="Resize dashboard"><i
@@ -63,6 +63,10 @@
       <!--map block-->
       <app-map [mapData]="visualizationObject$ | async" *ngIf="currentVisualization == 'MAP'"></app-map>
       <!--end of map block-->
+
+      <!--user block-->
+       <app-user [userData]="visualizationObject$ | async" *ngIf="currentVisualization == 'USERS'"></app-user>
+      <!--end of user block-->
     </div>
     <div [ngClass]="['panel-footer','dashboard-card-footer']" *ngIf="!hideOptions(visualizationObject.type, visualizationWithNoOptions) && cardConfiguration.showCardFooter">
       <div class="row">

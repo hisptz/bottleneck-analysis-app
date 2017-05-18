@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {Visualization} from "../../model/visualization";
 import {MapService} from "../../services/map.service";
 import 'leaflet';
@@ -47,7 +47,7 @@ export class Map {
   styleUrls: ['./map.component.css']
 })
 
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
 
   @Input() mapData: Visualization;
   @Input() customFilters: any[];
@@ -87,20 +87,31 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loading = true;
-    this.mapService.getSanitizedMapData(this.mapData, this.customFilters).subscribe(sanitizedData => {
+    // this.loading = true;
+    // this.mapService.getSanitizedMapData(this.mapData, this.customFilters).subscribe(sanitizedData => {
+    //
+    //   setTimeout(() => {
+    //     this.mapData = sanitizedData;
+    //     this.drawMap(this.mapData);
+    //     this.loading = false;
+    //   }, 20)
+    //
+    // }, error => {
+    //   this.loading = false;
+    //   this.hasError = true;
+    //   this.errorMessage = error.hasOwnProperty('message') ? error.message : 'Unknown error has occurred';
+    // })
+  }
 
+  ngOnChanges() {
+    console.log(this.mapData)
+    if(this.mapData != undefined) {
       setTimeout(() => {
-        this.mapData = sanitizedData;
         this.drawMap(this.mapData);
         this.loading = false;
       }, 20)
+    }
 
-    }, error => {
-      this.loading = false;
-      this.hasError = true;
-      this.errorMessage = error.hasOwnProperty('message') ? error.message : 'Unknown error has occurred';
-    })
   }
 
   resizeMap() {

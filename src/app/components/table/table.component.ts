@@ -26,7 +26,6 @@ export class TableComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.loading = true;
-    console.log('chnaged')
     if(this.tableData != undefined) {
       this.tableObjects = this.tableService.getTableObjects(this.tableData);
       this.loading = false;

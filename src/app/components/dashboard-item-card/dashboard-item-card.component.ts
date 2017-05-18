@@ -7,7 +7,7 @@ import {Store} from "@ngrx/store";
 import {loadedVisualizationSelector} from "../../store/selectors/loaded-visualizations.selector";
 import {
   LoadVisualizationObjectAction, ChangeCurrentVisualizationAction,
-  ChangeFiltersAction, ChangeLayoutAction
+  ChangeFiltersAction, ChangeLayoutAction, DeleteDashboardItemAction
 } from "../../store/actions";
 import {Observable} from "rxjs";
 import {visualizationObjectsSelector} from "../../store/selectors/visualization-objects.selector";
@@ -37,6 +37,7 @@ export const DASHBOARD_SHAPES = [
 export class DashboardItemCardComponent implements OnInit {
 
   @Input() cardData: any = {};
+  @Input() currentDashboard: string;
   visualizationObject: Visualization;
   visualizationObject$: Observable<any>;
   cardConfiguration: any = {
@@ -68,6 +69,7 @@ export class DashboardItemCardComponent implements OnInit {
      * @type {Visualization}
      */
     this.visualizationObject = this.getInitialVisualization(this.cardData, this.cardConfiguration);
+
 
 
     this.store.select(visualizationObjectsSelector).subscribe(visualizationObjects => {
@@ -211,7 +213,7 @@ export class DashboardItemCardComponent implements OnInit {
         layout: {},
         analyticsStrategy: 'normal'
       },
-      layers: [],
+      layers: this.getLayerDetailsForNonVisualizableObject(cardData),
       operatingLayers: []
     }
   }
@@ -221,6 +223,14 @@ export class DashboardItemCardComponent implements OnInit {
         id: _.isPlainObject(cardData[_.camelCase(cardData.type)]) ? cardData[_.camelCase(cardData.type)].id : undefined,
         type: _.camelCase(cardData.type)
       } : {};
+  }
+
+  getLayerDetailsForNonVisualizableObject(cardData) {
+    let layer: any = [];
+    if(cardData.type == 'USERS' || cardData.type == 'REPORTS' || cardData.type == 'RESOURCES' || cardData.type == 'APP') {
+      layer.push({settings: cardData, analytics: {}});
+    }
+    return layer
   }
 
   getsanitizedCurrentVisualizationType(visualizationType: string): string {
@@ -236,6 +246,10 @@ export class DashboardItemCardComponent implements OnInit {
       sanitizedVisualization = visualizationType;
     }
     return sanitizedVisualization
+  }
+
+  deleteDashboardItem(currentDashboard, dashboardItem) {
+    this.store.dispatch(new DeleteDashboardItemAction({dashboardId: currentDashboard, id: dashboardItem}))
   }
 
 }

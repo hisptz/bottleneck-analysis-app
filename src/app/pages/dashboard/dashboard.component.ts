@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
 
   dashboardName$: Observable<string>;
   dashboardItems$: Observable<any[]>;
+  currentDashboard: string;
   constructor(
     private store: Store<ApplicationState>,
     private route: ActivatedRoute
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-
+      this.currentDashboard = params['id'];
       this.store.dispatch(new CurrentDashboardChangeAction(params['id']));
     })
   }

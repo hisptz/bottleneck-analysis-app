@@ -14,16 +14,14 @@ export class DashboardService {
   }
 
   loadAll(): Observable<any> {
-    return this.http.get(this.url +  '.json?paging=false&fields=id,name,dashboardItems[*]')
+    return this.http.get(this.url +  '.json?paging=false&fields=id,name,dashboardItems[*,users[id,displayName]]')
       .map((res: Response) => res.json())
       .catch(error => Observable.throw(new Error(error)));
   }
 
   update(dashboard): Observable<any> {
     return this.http.put(this.url + '/'+ dashboard.id, dashboard)
-      .map((res: Response) => {
-        return dashboard
-        })
+      .map((res: Response) => {return dashboard})
       .catch(error => Observable.throw(new Error(error)));
   }
 
@@ -47,9 +45,32 @@ export class DashboardService {
     })
   }
 
+  addItem(dashboardItemData: any): Observable<any> {
+    return Observable.create(observer => {
+      this.http.post(this.url + '/' + dashboardItemData.dashboardId + '/items/content?type=' + dashboardItemData.type + '&id=' + dashboardItemData.id, {})
+        .map(res => res.json())
+        .catch(this.utilities.handleError)
+        .subscribe(response => {
+          this.http.get(this.url + '/' + dashboardItemData.dashboardId +'.json?paging=false&fields=id,name,dashboardItems[*,users[id,displayName]]')
+            .map(res => res.json())
+            .catch(this.utilities.handleError)
+            .subscribe(dashboard => {
+              observer.next(dashboard);
+              observer.complete();
+            })
+        })
+    })
+  }
+
   delete(id): Observable<any> {
     return this.http.delete(this.url + '/' + id)
       .map((res: Response) => {return id})
+      .catch(this.utilities.handleError);
+  }
+
+  deleteItem(dashboardItem) {
+    return this.http.delete(this.url + '/' + dashboardItem.dashboardId + '/items/' + dashboardItem.id)
+      .map((res: Response) => {return dashboardItem})
       .catch(this.utilities.handleError);
   }
 
