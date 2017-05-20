@@ -229,6 +229,8 @@ export class MapService {
   public getMapBoundaryLegend(settings) {
     let colors = ['black', "black", "blue", "red", "red"];
     let levels = ['LEVEL 1', "LEVEL 2", "LEVEL 3", "LEVEL 4", "LEVEL 5"];
+    let levelCount = 0;
+    let levelContainer = [];
     let legend: LegendItem = {
       layerId: "",
       name: "",
@@ -246,27 +248,63 @@ export class MapService {
     legend.name = "Boundaries";
     legend.opacity = settings.opacity ? settings.opacity*100 : 80;
 
+    features.forEach(feature=>{
+      if (levelContainer.indexOf(feature.le)<0)
+      {
+        levelContainer.push(feature.le);
+      }
+    })
+
+
     colors.forEach((color, colorIndex) => {
-      let classLegend: Class = {
-        name: levels[colorIndex],
-        label: "",
-        description: "",
-        min: 0,
-        max: 0,
-        level: 0,
-        color: color,
-        collapse: "",
-        icon: "",
-        radius: 0,
-        count: 0
+
+      if (levelContainer.length ==1 && levelContainer[0]-1 == colorIndex){
+        color = colors[0];
+
+        let classLegend: Class = {
+          name: levels[colorIndex],
+          label: "",
+          description: "",
+          min: 0,
+          max: 0,
+          level: 0,
+          color: color,
+          collapse: "",
+          icon: "",
+          radius: 0,
+          count: 0
+        }
+
+        features.forEach(feature => {
+          if (feature.le - 1 == colorIndex) {
+            classLegend.count += 1;
+          }
+        })
+        legend.classes.push(classLegend);
+
+      } else if (levelContainer.length >1 ){
+        let classLegend: Class = {
+          name: levels[colorIndex],
+          label: "",
+          description: "",
+          min: 0,
+          max: 0,
+          level: 0,
+          color: color,
+          collapse: "",
+          icon: "",
+          radius: 0,
+          count: 0
+        }
+
+        features.forEach(feature => {
+          if (feature.le - 1 == colorIndex) {
+            classLegend.count += 1;
+          }
+        })
+        legend.classes.push(classLegend);
       }
 
-      features.forEach(feature => {
-        if (feature.le - 1 == colorIndex) {
-          classLegend.count += 1;
-        }
-      })
-      legend.classes.push(classLegend);
     })
 
     return {

@@ -1375,7 +1375,12 @@ export class MapComponent implements OnInit {
     propertyNames.forEach(dimensionId => {
       legend.classes.forEach(legendClass => {
         if (feature.dimensions[dimensionId] == legendClass.name) {
-          icon = "<img src='../images/orgunitgroup/" + legendClass.icon + "'>"
+          if (legendClass.icon == "" || legendClass.icon == null) {
+
+          } else {
+            icon = "<img src='../images/orgunitgroup/" + legendClass.icon + "'>"
+          }
+
         }
       })
     });
