@@ -21,7 +21,6 @@ export class VisualizationObjectService {
 
   getSanitizedVisualizationObject(initialVisualization: Visualization): Observable<any> {
     return Observable.create(observer => {
-      console.log(initialVisualization)
       if(initialVisualization.type == 'USERS' || initialVisualization.type == 'REPORTS' || initialVisualization.type == 'RESOURCES') {
         observer.next(initialVisualization);
         observer.complete();

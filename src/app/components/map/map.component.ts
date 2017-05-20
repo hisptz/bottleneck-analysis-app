@@ -2,7 +2,7 @@ import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {Visualization} from "../../model/visualization";
 import {MapService} from "../../services/map.service";
 import 'leaflet';
-import {saveAs} from "file-saver";
+import "file-saver";
 import FeatureCollection  = GeoJSON.FeatureCollection
 import StyleFunction = L.StyleFunction;
 import Feature = GeoJSON.Feature;
@@ -12,6 +12,7 @@ import {Constants} from "../../services/constants";
 import {Observable} from "rxjs";
 import {Http, Response} from "@angular/http";
 import {forEach} from "@angular/router/src/utils/collection";
+import {timeInterval} from "rxjs/operator/timeInterval";
 
 declare var L;
 declare var $;
@@ -47,7 +48,7 @@ export class Map {
   styleUrls: ['./map.component.css']
 })
 
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnInit {
 
   @Input() mapData: Visualization;
   @Input() customFilters: any[];
@@ -81,41 +82,51 @@ export class MapComponent implements OnInit, OnChanges {
   public oldMapLayers: any;
   public mapObject: any;
   public favouriteObject: any;
+  public mapHeight: string = '340px';
+  public mapWidth: string = '100%';
+  public mapIsFullScreen = false;
 
   constructor(private mapService: MapService, private constant: Constants, private http: Http) {
 
   }
 
   ngOnInit() {
-    // this.loading = true;
-    // this.mapService.getSanitizedMapData(this.mapData, this.customFilters).subscribe(sanitizedData => {
-    //
-    //   setTimeout(() => {
-    //     this.mapData = sanitizedData;
-    //     this.drawMap(this.mapData);
-    //     this.loading = false;
-    //   }, 20)
-    //
-    // }, error => {
-    //   this.loading = false;
-    //   this.hasError = true;
-    //   this.errorMessage = error.hasOwnProperty('message') ? error.message : 'Unknown error has occurred';
-    // })
+
   }
 
   ngOnChanges() {
-    console.log(this.mapData)
-    if(this.mapData != undefined) {
+    this.loading = true;
+    if (this.mapData != undefined) {
       setTimeout(() => {
         this.drawMap(this.mapData);
-        this.loading = false;
-      }, 20)
+      }, 10)
+      this.loading = false;
     }
-
   }
 
-  resizeMap() {
-    this.mapInterface.invalidateSize();
+
+  resizeMap(dimension, dimensionType) {
+    this.mapHeight = '0px';
+    this.mapWidth = "0%";
+
+    if (dimension && dimensionType) {
+      if (dimensionType == "fullScreen") {
+        this.mapHeight = '650px';
+        this.mapWidth = "100%";
+        this.mapIsFullScreen = true;
+      } else {
+        this.mapHeight = '340px';
+        this.mapWidth = "100%";
+      }
+
+    } else {
+      this.mapHeight = '340px';
+      this.mapWidth = "100%";
+    }
+
+    setTimeout(() => {
+      this.mapInterface.invalidateSize({pan: true});
+    }, 800);
   }
 
   /**
@@ -123,6 +134,7 @@ export class MapComponent implements OnInit, OnChanges {
    * @param mapObject
    */
   drawMap(favouriteObject) {
+
     /**
      * Configure map object for display in the template
      * @type {L.Map}
@@ -193,7 +205,7 @@ export class MapComponent implements OnInit, OnChanges {
 
     this.baseLayers.forEach(baseLayer => {
       baseLayer.addTo(this.mapInterface);
-    })
+    });
 
 
     this.modifyMapInterface(this.mapLayers, this.mapObject);
@@ -205,7 +217,7 @@ export class MapComponent implements OnInit, OnChanges {
 
 
   updateOpacity(layerId, event) {
-    let opacityValue = event.target.value;
+    let opacityValue = +(event.target.value) / 100;
 
     this.updateMapConfigurationsForSingleLayer('opacity', opacityValue, layerId);
 
@@ -269,7 +281,6 @@ export class MapComponent implements OnInit, OnChanges {
 
     if (mapLayers.secondaryLayers) {
       mapLayers.secondaryLayers.forEach((secondaryLayer, secondaryLayerIndex) => {
-
         if (secondaryLayer.type == "basemap") {
           secondaryLayerCopy[Object.getOwnPropertyNames(secondaryLayer.layer)[0]] = secondaryLayer.layer[Object.getOwnPropertyNames(secondaryLayer.layer)[0]]
         }
@@ -398,6 +409,7 @@ export class MapComponent implements OnInit, OnChanges {
    * @returns {Array}
    */
   prepareBaseMapsForSettingsControl(baseMapArray, defaultBaseLayer): Array<any> {
+
     let baseMaps: Array<any> = [];
     if (baseMapArray) {
       let state = false;
@@ -490,37 +502,37 @@ export class MapComponent implements OnInit, OnChanges {
       })
     }
 
-    let googleSheetsBaseMap = {
-      'Google Streets': L.gridLayer.googleMutant({
-        type: 'roadmap'
-      })
-    }
-
-    let googleHybrid = {
-      'Google Hybrid': L.gridLayer.googleMutant({
-        type: 'hybrid'
-      })
-    }
-
-    let googleSatellite = {
-      'Google Hybrid': L.gridLayer.googleMutant({
-        type: 'satellite'
-      })
-    }
-
-    let googleTerrain = {
-      'Google Hybrid': L.gridLayer.googleMutant({
-        type: 'terrain'
-      })
-    }
-
+    // let googleSheetsBaseMap = {
+    //   'Google Streets': L.gridLayer.googleMutant({
+    //     type: 'roadmap'
+    //   })
+    // }
+    //
+    // let googleHybrid = {
+    //   'Google Hybrid': L.gridLayer.googleMutant({
+    //     type: 'hybrid'
+    //   })
+    // }
+    //
+    // let googleSatellite = {
+    //   'Google Hybrid': L.gridLayer.googleMutant({
+    //     type: 'satellite'
+    //   })
+    // }
+    //
+    // let googleTerrain = {
+    //   'Google Hybrid': L.gridLayer.googleMutant({
+    //     type: 'terrain'
+    //   })
+    // }
+    //
 
     if (!itemData.details.mapConfiguration.basemap || itemData.details.mapConfiguration.basemap == "osmLight") {
       baseMaps = defaultBaseMap;
     } else if (itemData.details.mapConfiguration.basemap == "googleStreets") {
-      baseMaps = googleSheetsBaseMap;
+      // baseMaps = googleSheetsBaseMap;
     } else if (itemData.details.mapConfiguration.basemap == "googleHybrid") {
-      baseMaps = googleHybrid;
+      // baseMaps = googleHybrid;
     }
 
 
@@ -528,14 +540,14 @@ export class MapComponent implements OnInit, OnChanges {
      * Get map layers from itemData Object and  basemaps
      * @type {{primaryLayers: Array; secondaryLayers: Array}}
      */
-
     mapObject = {
       id: itemData.id,
       name: itemData.details.mapConfiguration.name,
       basemap: itemData.details.mapConfiguration.basemap,
       baseMaps: baseMaps,
-      baseMapArray: [openStreetMap, googleTerrain, googleSheetsBaseMap, googleHybrid],
-      mapContainer: this.mapData.id,
+      // baseMapArray: [openStreetMap, googleTerrain, googleSheetsBaseMap, googleHybrid],
+      baseMapArray: [openStreetMap],
+      mapContainer: itemData.id,
       height: itemData.details.itemHeight,
       center: {
         latitude: itemData.details.mapConfiguration.latitude,
@@ -578,6 +590,7 @@ export class MapComponent implements OnInit, OnChanges {
     this.mapLayers.primaryLayers = [];
     this.mapLayers.secondaryLayers = [];
     if (Object.getOwnPropertyNames(baseMaps).length > 0) {
+
       this.mapLayers.primaryLayers.push({type: "basemap", layer: baseMaps[Object.getOwnPropertyNames(baseMaps)[0]]});
     }
 
@@ -716,7 +729,7 @@ export class MapComponent implements OnInit, OnChanges {
     let dx = layerAnalytics.metaData.dx;
     let ou = layerAnalytics.metaData.ou;
     let rows = layerAnalytics.rows;
-    let features = this.getGeoJsonObject(layerSetting.geoFeatures).features;
+    let features = this.getGeoJsonObject(layerSetting.geoFeature).features;
     let layer: any = "";
     let type = "";
 
@@ -893,12 +906,13 @@ export class MapComponent implements OnInit, OnChanges {
    */
   prepareThematicsLayer(layerSetting, layerAnalytics) {
 
+    let headers = layerAnalytics.headers;
     let names = layerAnalytics.metaData.names;
     let pe = layerAnalytics.metaData.pe;
     let dx = layerAnalytics.metaData.dx;
     let ou = layerAnalytics.metaData.ou;
     let rows = layerAnalytics.rows;
-    let features = this.getGeoJsonObject(layerSetting.geoFeatures).features;
+    let features = this.getGeoJsonObject(layerSetting.geoFeature).features;
     /**
      * add period attribute to layer settings
      */
@@ -908,7 +922,7 @@ export class MapComponent implements OnInit, OnChanges {
      * Give each feature in a layer it's respective value
      */
 
-    features = this.bindDataToThematicLayers(features, names, pe, dx, ou, rows);
+    features = this.bindDataToThematicLayers(features, headers, names, pe, dx, ou, rows);
     let sortedData = this.mapService.sortDataArray(features);
     let legendObject: any = this.mapService.getMapLegends(features, sortedData, layerSetting);
     let scriptLegend = legendObject.scriptLegend;
@@ -1166,7 +1180,7 @@ export class MapComponent implements OnInit, OnChanges {
     let labels = [];
     let boundaries: any = {};
     if (layerSetting) {
-      let features: any = layerSetting.geoFeatures;
+      let features: any = layerSetting.geoFeature;
       let geoJson = this.getGeoJsonObject(features);
       let featureCollection = geoJson.features;
       let levels = geoJson.levels;
@@ -1313,23 +1327,12 @@ export class MapComponent implements OnInit, OnChanges {
 
     if (layerSetting) {
 
+      let legendObject: any = this.mapService.getMapFacilityLegend(layerSetting);
+      let scriptLegend = legendObject.scriptLegend;
+      this.updateMapLegendVessel(scriptLegend);
 
-      if (layerSetting.organisationUnitGroupSet) {
-        let groupSetId = layerSetting.organisationUnitGroupSet.id;
-        let groupSetUrl = this.constant.api + "organisationUnitGroupSets/" + groupSetId + ".json?fields=id,name,organisationUnitGroups[id,name,displayName,symbol]";
-        this.http.get(groupSetUrl)
-          .map((res: Response) => res.json())
-          .catch(error => Observable.throw(new Error(error)))
-          .subscribe((organisationUnitGroup: any) => {
-            layerSetting['groupSet'] = organisationUnitGroup;
 
-            let legendObject: any = this.mapService.getMapFacilityLegend(features, layerSetting);
-            let scriptLegend = legendObject.scriptLegend;
-            this.updateMapLegendVessel(scriptLegend);
-          })
-      }
-
-      let features: any = layerSetting.geoFeatures;
+      let features: any = layerSetting.geoFeature;
 
 
       let geoJson = this.getGeoJsonObject(features);
@@ -1340,7 +1343,7 @@ export class MapComponent implements OnInit, OnChanges {
         featureCollection.forEach((feature, featureIndex) => {
           let coord = feature.geometry.coordinates;
           if (coord.length == 2) {
-            let featureImage = this.getFeatureImage(feature, layerSetting);
+            let featureImage = this.getFeatureImage(feature, scriptLegend);
             var icon = L.divIcon({
               className: 'map-marker',
               iconSize: new L.Point(10, 10),
@@ -1360,20 +1363,17 @@ export class MapComponent implements OnInit, OnChanges {
     return {name: layerSetting.name, layer: layer, type: 'facility'};
   }
 
-  getFeatureImage(feature, settings) {
+  getFeatureImage(feature, legend) {
     let icon = "<i class='fa fa-home' aria-hidden='true' ></i>";
 
-    let groupSet = settings.groupSet;
-
-    // groupSet.organisationUnitGroups.forEach(group => {
-    //
-    //   let propertyNames = Object.getOwnPropertyNames(feature.dimensions);
-    //   propertyNames.forEach(dimensionId => {
-    //     if (feature.dimensions[dimensionId] == group.name) {
-    //       icon = "<img src='../images/orgunitgroup/'" + group.symbol + ">"
-    //     }
-    //   });
-    // })
+    let propertyNames = Object.getOwnPropertyNames(feature.dimensions);
+    propertyNames.forEach(dimensionId => {
+      legend.classes.forEach(legendClass => {
+        if (feature.dimensions[dimensionId] == legendClass.name) {
+          icon = "<img src='../images/orgunitgroup/" + legendClass.icon + "'>"
+        }
+      })
+    });
 
     return icon;
   }
@@ -1406,14 +1406,37 @@ export class MapComponent implements OnInit, OnChanges {
    * @param rows
    * @returns {any}
    */
-  bindDataToThematicLayers(features, names, pe, dx, ou, rows) {
+  bindDataToThematicLayers(features, headers, names, pe, dx, ou, rows) {
+    let indexOfData = 0;
+    let indexOfPeriod = 0;
+    let indexOfOrganisationUnit = 0;
+    let indexOfValue = 0;
+
+    headers.forEach((header, headerIndex) => {
+      if (header.name == "dx") {
+        indexOfData = headerIndex;
+      }
+
+      if (header.name == "ou") {
+        indexOfOrganisationUnit = headerIndex;
+      }
+
+      if (header.name == "pe") {
+        indexOfPeriod = headerIndex;
+      }
+
+      if (header.name == "value") {
+        indexOfValue = headerIndex;
+      }
+    })
+
     dx.forEach(element => {
       features.forEach((feature, featureIndex) => {
         let countLows = rows.length;
         features[featureIndex].properties['dataElement'] = {id: element, name: names[element], value: ""}
         rows.forEach((row, rowIndex) => {
-          if (row[0] == element && row[1] == features[featureIndex].properties.id) {
-            features[featureIndex].properties.dataElement.value = Number(row[2]);
+          if (row[indexOfData] == element && row[indexOfOrganisationUnit] == features[featureIndex].properties.id) {
+            features[featureIndex].properties.dataElement.value = Number(row[indexOfValue]);
           } else if (countLows == rowIndex) {
             features[featureIndex].properties.dataElement.value = "";
           }

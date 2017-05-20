@@ -113,254 +113,6 @@ export class MapService {
               private constant: Constants) {
   }
 
-  public getSanitizedMapData(mapData: Visualization, customFilters): Observable<Visualization> {
-    return Observable.create(observer => {
-      let mapDataFromStore = this.visualizationStore.find(mapData.id);
-      if (mapDataFromStore != null) {
-        if (mapDataFromStore.type != 'MAP') {
-          let convertedSettings = [];
-
-          /**
-           * Check if layer has map configuration
-           */
-          if (!mapDataFromStore.details.hasOwnProperty('mapConfiguration')) {
-            mapDataFromStore.details.mapConfiguration = this._getMapConfiguration({});
-          }
-
-          mapDataFromStore.layers.forEach(layer => {
-            this._convertToMapType(layer.settings).subscribe(mapSettings => {
-
-              /**
-               * Prepare to update operating layers
-               */
-              if (mapSettings.length > 0) {
-                mapSettings.forEach(mapLayer => {
-                  convertedSettings.push(mapLayer);
-                })
-              }
-            });
-          });
-
-          let totalRequestCount: number = convertedSettings.length;
-          let requestCount: number = 0;
-          let settingCount: number = 0;
-          convertedSettings.forEach(setting => {
-            settingCount++;
-            setting.layer = 'thematic' + settingCount;
-            Observable.forkJoin(
-              this.analyticsService.getAnalytics(setting, 'MAP', customFilters),
-              this._getGeoFeatures(setting)
-            ).subscribe(result => {
-              requestCount++;
-              setting.geoFeatures = result[1];
-
-              mapDataFromStore.operatingLayers.push({
-                settings: setting,
-                analytics: result[0]
-              });
-
-              if (totalRequestCount == requestCount) {
-                /**
-                 * Also save in visualization store
-                 */
-                this.visualizationStore.createOrUpdate(mapDataFromStore);
-
-                /**
-                 * Return the sanitized data back to chart service
-                 */
-                observer.next(mapDataFromStore);
-                observer.complete();
-              }
-            })
-          })
-        } else {
-          observer.next(mapDataFromStore);
-          observer.complete();
-        }
-
-        /**
-         * Also update in visualization store
-         */
-        this.visualizationStore.createOrUpdate(mapDataFromStore);
-
-        /**
-         * Return the sanitized data back to chart service
-         */
-        observer.next(mapDataFromStore);
-        observer.complete();
-
-      } else {
-        if (mapData.details.hasOwnProperty('favorite')) {
-          let favoriteType = mapData.details.favorite.hasOwnProperty('type') ? mapData.details.favorite.type : null;
-          let favoriteId = mapData.details.favorite.hasOwnProperty('id') ? mapData.details.favorite.id : null;
-          /**
-           * Check if favorite has required parameters for favorite call
-           */
-          if (favoriteType != null && favoriteId != null) {
-            this.http.get(this.constant.api + favoriteType + 's/' + favoriteId + '.json?fields=id,user,displayName~rename(name),longitude,latitude,zoom,basemap,mapViews[*,columns[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],rows[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],filters[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],dataDimensionItems,program[id,displayName],programStage[id,displayName],legendSet[id,displayName],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit]')
-              .map((res: Response) => res.json())
-              .catch(error => Observable.throw(new Error(error)))
-              .subscribe((favoriteResponse: any) => {
-                /**
-                 * Add map configurations to map data
-                 * @type {MapConfiguration}
-                 */
-                mapData.details.mapConfiguration = this._getMapConfiguration(favoriteResponse);
-
-                if (favoriteResponse.hasOwnProperty('mapViews')) {
-                  let responseCount: number = 0;
-                  let totalResponse: number = favoriteResponse.mapViews.length;
-                  favoriteResponse.mapViews.forEach(view => {
-                    let requestArray: any[] = [];
-
-                    /**
-                     * Get analytic observable for analytic type layers
-                     */
-                    if (view.layer != 'boundary' && view.layer != 'external' && view.layer != 'earthEngine' && view.layer != 'facility') {
-                      requestArray.push(this.analyticsService.getAnalytics(view, mapData.type, customFilters))
-                    }
-
-                    /**
-                     * Get geo feature parameters if any and create an observable for requesting it
-                     */
-                    // let geoFeatureParams = this._getGeoFeatureParameters(view);
-
-                    // if (geoFeatureParams != null) {
-                    //   requestArray.push(this._getGeoFeatures(geoFeatureParams));
-                    // }
-
-                    /**
-                     * Get predefined legends if any and create an observable for requesting it
-                     * @type {"../../Observable".Observable<any>}
-                     */
-                    let predefinedLegendUrl = this._getPredefinedLegendUrl(view);
-
-                    if (predefinedLegendUrl != null) {
-                      requestArray.push(this._getPredefinedLegend(predefinedLegendUrl))
-                    }
-
-
-                    /**
-                     * Make ajax call for available requests in the array
-                     */
-                    if (requestArray.length > 0) {
-                      Observable.forkJoin(requestArray).subscribe((viewResult: any[]) => {
-                        responseCount += 1;
-                        let analyticsResult: any = {};
-
-                        /**
-                         * Check if only legend set is returned
-                         */
-                        if (viewResult.length == 1) {
-                          /**
-                           * Add geoFeatures on map data if any
-                           */
-                          view.geoFeatures = viewResult[0];
-                        }
-
-                        /**
-                         * Check if analytics and geoFeatures are returned
-                         */
-                        if (viewResult.length === 2) {
-
-                          /**
-                           * Get analytics result if any
-                           */
-                          analyticsResult = viewResult[0];
-                          /**
-                           * Add geoFeatures on map data if any
-                           */
-                          view.geoFeatures = viewResult[1];
-                        }
-
-                        /**
-                         * Check if analyitcs, geoFetaures and predifined legends are returned
-                         */
-                        if (viewResult.length === 3) {
-                          /**
-                           * Get analytics result if any
-                           */
-                          analyticsResult = viewResult[0];
-                          /**
-                           * Add geoFeatures on map data if any
-                           */
-                          view.geoFeatures = viewResult[1];
-                          /**
-                           * Add predefined legend on map data
-                           */
-                          view.legendSet = viewResult[2];
-                        }
-
-
-                        /**
-                         * Update map data
-                         */
-
-                        mapData.layers.push({settings: view, analytics: analyticsResult});
-
-
-                        /**
-                         * Check if every request has completed
-                         */
-                        if (responseCount == totalResponse) {
-                          /**
-                           * Also save in visualization store
-                           */
-                          this.visualizationStore.createOrUpdate(mapData);
-
-                          /**
-                           * Return the sanitized data back to chart service
-                           */
-                          observer.next(mapData);
-                          observer.complete();
-                        }
-
-                      }, viewError => {
-                        observer.error(viewError);
-                      });
-                    } else {
-                      /**
-                       * Increment response count to compensate for view that dont require ajax call
-                       */
-                      if (view.layer == 'facility') {
-                      }
-                      responseCount++;
-                      /**
-                       * Update map data
-                       */
-                      mapData.layers.push({settings: view, analytics: {}});
-
-                      if (responseCount == totalResponse) {
-                        /**
-                         * Also save in visualization store
-                         */
-                        this.visualizationStore.createOrUpdate(mapData);
-
-                        /**
-                         * Return the sanitized data back to chart service
-                         */
-                        observer.next(mapData);
-                        observer.complete();
-                      }
-                    }
-                  });
-
-                } else {
-                  observer.error({message: 'The object does not have map views in it'});
-                }
-              }, favoriteError => {
-                observer.error(favoriteError)
-              })
-          } else {
-            observer.error({message: 'Favorite essential parameters are not supplied'});
-          }
-        } else {
-          observer.error({message: 'There is no favorite reference on this object'});
-        }
-      }
-    })
-  }
-
   public getColorScaleFromHigLow(colorHigh: String, colorLow: String, classes: number) {
     this._setColorBounds(colorHigh, colorLow);
     let parseLow = this._colorParse(colorLow, 'hex');
@@ -412,7 +164,7 @@ export class MapService {
 
   }
 
-  public getMapFacilityLegend(features, settings) {
+  public getMapFacilityLegend(settings) {
     let legend: LegendItem = {
       layerId: "",
       name: "",
@@ -426,26 +178,28 @@ export class MapService {
     }
 
     let groupSet = settings.groupSet;
+    let features = settings.geoFeature;
     legend.layerId = settings.id;
     legend.name = groupSet.name;
-    legend.opacity = groupSet.opacity;
-
+    legend.opacity = groupSet.opacity?groupSet.opacity:0.8;
 
     groupSet.organisationUnitGroups.forEach(group => {
+
       let classLegend: Class = {
         name: group.name,
         label: "",
         description: "",
-        collapse: "",
         min: 0,
         max: 0,
         color: "",
+        collapse: "",
         icon: group.symbol,
         radius: 0,
         count: 0
       }
 
       features.forEach(feature => {
+
         let propertyNames = Object.getOwnPropertyNames(feature.dimensions);
         propertyNames.forEach(dimensionId => {
           if (feature.dimensions[dimensionId] == group.name) {
@@ -453,11 +207,9 @@ export class MapService {
           }
         });
       })
-
       legend.classes.push(classLegend);
 
     })
-
 
     return {
       htmlLegend: "", scriptLegend: legend,
@@ -473,7 +225,6 @@ export class MapService {
   }
 
   public getMapLegends(features, sortedData, settings) {
-
     let legendSettings = settings;
 
     let legendsFromLegendSet = null;
@@ -952,18 +703,18 @@ export class MapService {
       visualizationObject.layers.forEach(layer => {
         let geoFeatureParams = this._getGeoFeatureParameters(layer.settings, visualizationObject.details.filters);
 
-        if(geoFeatureParams != null) {
+        if (geoFeatureParams != null) {
           this._getGeoFeatures(geoFeatureParams).subscribe(geoFeature => {
             layer.settings.geoFeature = geoFeature;
             geoFeatureResponse++;
-            if(geoFeatureResponse == expectedGeoFeatureCount) {
+            if (geoFeatureResponse == expectedGeoFeatureCount) {
               observer.next(visualizationObject);
               observer.complete();
             }
           })
         } else {
           geoFeatureResponse++;
-          if(geoFeatureResponse == expectedGeoFeatureCount) {
+          if (geoFeatureResponse == expectedGeoFeatureCount) {
             observer.next(visualizationObject);
             observer.complete();
           }
@@ -979,18 +730,18 @@ export class MapService {
       let predefinedLegendResponse: number = 0;
       visualizationObject.layers.forEach(layer => {
         let predefinedLegends = this._getPredefinedLegendUrl(layer.settings);
-        if(predefinedLegends != null) {
+        if (predefinedLegends != null) {
           this._getPredefinedLegend(predefinedLegends).subscribe(predefinedLegend => {
             layer.settings.legendSet = predefinedLegend;
             predefinedLegendResponse++;
-            if(predefinedLegendResponse == expectedPredefinedLegendCount) {
+            if (predefinedLegendResponse == expectedPredefinedLegendCount) {
               observer.next(visualizationObject);
               observer.complete();
             }
           })
         } else {
           predefinedLegendResponse++;
-          if(predefinedLegendResponse == expectedPredefinedLegendCount) {
+          if (predefinedLegendResponse == expectedPredefinedLegendCount) {
             observer.next(visualizationObject);
             observer.complete();
           }
@@ -1005,22 +756,22 @@ export class MapService {
       let groupSetResponse: number = 0;
       visualizationObject.layers.forEach(layer => {
         let groupSetId = layer.settings.hasOwnProperty('organisationUnitGroupSet') ? layer.settings.organisationUnitGroupSet.hasOwnProperty('id') ? layer.settings.organisationUnitGroupSet.id : null : null;
-        if(groupSetId != null) {
+        if (groupSetId != null) {
           let groupSetUrl = this.constant.api + "organisationUnitGroupSets/" + groupSetId + ".json?fields=id,name,organisationUnitGroups[id,name,displayName,symbol]";
           this.http.get(groupSetUrl)
             .map((res: Response) => res.json())
             .catch(error => Observable.throw(new Error(error)))
             .subscribe((organisationUnitGroup: any) => {
-              layer.settings.groupSet = organisationUnitGroup.organisationUnitGroups;
+              layer.settings.groupSet = organisationUnitGroup;
               groupSetResponse++;
-              if(groupSetResponse == expectedGroupSetCount) {
+              if (groupSetResponse == expectedGroupSetCount) {
                 observer.next(visualizationObject);
                 observer.complete();
               }
             })
         } else {
           groupSetResponse++;
-          if(groupSetResponse == expectedGroupSetCount) {
+          if (groupSetResponse == expectedGroupSetCount) {
             observer.next(visualizationObject);
             observer.complete();
           }
@@ -1067,7 +818,7 @@ export class MapService {
     let params: string = 'ou=ou:';
     let customFilter = _.find(filters, ['name', 'ou']);
 
-    if(customFilter) {
+    if (customFilter) {
       params += customFilter.value + ";";
     } else {
       let columnItems = this._findDimensionItems(mapView.columns, 'ou');
@@ -1096,12 +847,12 @@ export class MapService {
     let dimensionItems: any;
     let params: string = 'ou=ou:';
 
-    if(filters.length > 0) {
+    if (filters.length > 0) {
       params += _.find(filters, ['name', 'ou']).value;
     } else {
-      let columnItems = _.find(visualizationSettings.columns, ['dimension','ou']);
-      let rowItems = _.find(visualizationSettings.rows, ['dimension','ou']);
-      let filterItems = _.find(visualizationSettings.filters, ['dimension','ou']);
+      let columnItems = _.find(visualizationSettings.columns, ['dimension', 'ou']);
+      let rowItems = _.find(visualizationSettings.rows, ['dimension', 'ou']);
+      let filterItems = _.find(visualizationSettings.filters, ['dimension', 'ou']);
 
 
       if (columnItems != undefined) {

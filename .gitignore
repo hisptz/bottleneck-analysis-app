@@ -22,6 +22,9 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
+#proxy-config.json
+proxy-config.json
+
 # misc
 /.sass-cache
 /connect.lock
