@@ -181,7 +181,7 @@ export class MapService {
     let features = settings.geoFeature;
     legend.layerId = settings.id;
     legend.name = groupSet.name;
-    legend.opacity = groupSet.opacity?groupSet.opacity:0.8;
+    legend.opacity = settings.opacity?settings.opacity:0.8;
 
     groupSet.organisationUnitGroups.forEach(group => {
 
@@ -210,6 +210,41 @@ export class MapService {
       legend.classes.push(classLegend);
 
     })
+
+    return {
+      htmlLegend: "", scriptLegend: legend,
+      colorScale: [],
+      getFeatureRadius: (featureValue) => {
+        return null
+      },
+      getFeatureColor: (featureValue) => {
+
+      }
+    }
+
+  }
+
+  public getMapBoundaryLegend(settings) {
+    let colors = ['black', "black", "blue", "red", "red"];
+    let legend: LegendItem = {
+      layerId: "",
+      name: "",
+      description: "",
+      pinned: false,
+      useIcons: false,
+      opacity: 0,
+      layer: "",
+      classes: [],
+      change: []
+    }
+
+    let groupSet = settings.groupSet;
+    let features = settings.geoFeature;
+    legend.layerId = settings.id;
+    legend.name = settings.name?settings.name:"Boundaries";
+    legend.opacity = settings.opacity?settings.opacity:0.8;
+
+    console.log(features);
 
     return {
       htmlLegend: "", scriptLegend: legend,

@@ -1175,11 +1175,16 @@ export class MapComponent implements OnInit {
    * @returns {{name, layer: string}}
    */
   prepareBoundaryLayer(layerSetting, layerAnalytics) {
-
     let showLabels = layerSetting.labels;
     let labels = [];
     let boundaries: any = {};
     if (layerSetting) {
+
+
+      let legendObject: any = this.mapService.getMapBoundaryLegend(layerSetting);
+      let scriptLegend = legendObject.scriptLegend;
+      this.updateMapLegendVessel(scriptLegend);
+
       let features: any = layerSetting.geoFeature;
       let geoJson = this.getGeoJsonObject(features);
       let featureCollection = geoJson.features;
