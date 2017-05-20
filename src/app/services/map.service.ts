@@ -81,6 +81,7 @@ interface Class {
   collapse: string;
   min: number;
   max: number;
+  level: number;
   color: string;
   icon: "",
   radius: number;
@@ -181,7 +182,7 @@ export class MapService {
     let features = settings.geoFeature;
     legend.layerId = settings.id;
     legend.name = groupSet.name;
-    legend.opacity = settings.opacity?settings.opacity:0.8;
+    legend.opacity = settings.opacity ? settings.opacity*100 : 80;
 
     groupSet.organisationUnitGroups.forEach(group => {
 
@@ -191,6 +192,7 @@ export class MapService {
         description: "",
         min: 0,
         max: 0,
+        level: 0,
         color: "",
         collapse: "",
         icon: group.symbol,
@@ -226,6 +228,7 @@ export class MapService {
 
   public getMapBoundaryLegend(settings) {
     let colors = ['black', "black", "blue", "red", "red"];
+    let levels = ['LEVEL 1', "LEVEL 2", "LEVEL 3", "LEVEL 4", "LEVEL 5"];
     let legend: LegendItem = {
       layerId: "",
       name: "",
@@ -238,13 +241,33 @@ export class MapService {
       change: []
     }
 
-    let groupSet = settings.groupSet;
     let features = settings.geoFeature;
     legend.layerId = settings.id;
-    legend.name = settings.name?settings.name:"Boundaries";
-    legend.opacity = settings.opacity?settings.opacity:0.8;
+    legend.name = "Boundaries";
+    legend.opacity = settings.opacity ? settings.opacity*100 : 80;
 
-    console.log(features);
+    colors.forEach((color, colorIndex) => {
+      let classLegend: Class = {
+        name: levels[colorIndex],
+        label: "",
+        description: "",
+        min: 0,
+        max: 0,
+        level: 0,
+        color: color,
+        collapse: "",
+        icon: "",
+        radius: 0,
+        count: 0
+      }
+
+      features.forEach(feature => {
+        if (feature.le - 1 == colorIndex) {
+          classLegend.count += 1;
+        }
+      })
+      legend.classes.push(classLegend);
+    })
 
     return {
       htmlLegend: "", scriptLegend: legend,
@@ -343,6 +366,7 @@ export class MapService {
         collapse: "",
         min: 0,
         max: 0,
+        level: 0,
         color: "",
         icon: "",
         radius: 0,

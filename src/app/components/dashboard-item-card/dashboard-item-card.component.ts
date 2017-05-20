@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ViewChild} from '@angular/core';
 import {Visualization} from "../../model/visualization";
 import * as _ from 'lodash';
 import {FavoriteService} from "../../services/favorite.service";
@@ -11,6 +11,7 @@ import {
 } from "../../store/actions";
 import {Observable} from "rxjs";
 import {visualizationObjectsSelector} from "../../store/selectors/visualization-objects.selector";
+import {MapComponent} from "../map/map.component";
 
 export const VISUALIZATION_WITH_NO_OPTIONS = ['USERS', 'REPORTS', 'RESOURCES', 'APP'];
 
@@ -55,6 +56,7 @@ export class DashboardItemCardComponent implements OnInit {
   showFullScreen: boolean = false;
   currentVisualization: string;
   customFilters: any[] = [];
+  @ViewChild(MapComponent) mapComponent: MapComponent;
   constructor(private store: Store<ApplicationState>) {
   }
 
@@ -147,6 +149,8 @@ export class DashboardItemCardComponent implements OnInit {
     //@todo update in the system also
     this.visualizationObject.shape = newShape;
 
+    //also resize map
+    this.mapComponent.resizeMap(newShape,'shape');
   }
 
   /**
@@ -186,6 +190,7 @@ export class DashboardItemCardComponent implements OnInit {
     }
 
     this.showFullScreen = !this.showFullScreen;
+    this.mapComponent.resizeMap(this.showFullScreen,'fullScreen');
   }
 
   updateVisualization(selectedVisualization) {

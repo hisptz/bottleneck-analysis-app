@@ -126,7 +126,7 @@ export class MapComponent implements OnInit {
 
     setTimeout(() => {
       this.mapInterface.invalidateSize({pan: true});
-    }, 800);
+    }, 200);
   }
 
   /**
