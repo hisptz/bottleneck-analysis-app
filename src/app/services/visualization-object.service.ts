@@ -29,7 +29,7 @@ export class VisualizationObjectService {
           this.favoriteService.getFavoriteDetails(initialVisualization.details.favorite.type, initialVisualization.details.favorite.id, initialVisualization.layers.length > 0 ? true : false)
             .subscribe(favoriteObject => {
               initialVisualization = this.updateVisualizationConfigurationAndSettings(initialVisualization, favoriteObject);
-              this.analyticsService.getAnalytic(initialVisualization).subscribe(visualization => {
+              this.analyticsService.getSanitizedAnalytics(initialVisualization).subscribe(visualization => {
                 if(visualization.details.currentVisualization == 'MAP') {
                   this.mapService.getGeoFeatures(visualization).subscribe(visualizationWithGeoFeature => {
                     this.mapService.getPredefinedLegend(visualizationWithGeoFeature).subscribe(visualizationWithLegendSet => {
@@ -109,6 +109,7 @@ export class VisualizationObjectService {
             })
           }
         } else {
+          visualizationObject = this.analyticsService.getSplitedAnalytics(visualizationObject);
           //TODO apply spliting of analytics and favorite
         }
 

@@ -48,8 +48,164 @@ export class AnalyticsService {
 
   }
 
-  splitAnalytics(analytics) {
+  getSanitizedAnalytics(visualizationObject: Visualization): Observable<Visualization> {
+    return Observable.create(observer => {
+      this.getAnalytic(visualizationObject).subscribe(visualization => {
 
+        if(visualization.details.analyticsStrategy == 'split') {
+          visualization = this.getSplitedAnalytics(visualization);
+        }
+
+        observer.next(visualization);
+        observer.complete();
+      })
+    })
+  }
+
+  getSplitedAnalytics(visualization): Visualization {
+    let newSettings: any[] = [];
+    let newAnalytics: any[] = [];
+    let newLayers: any[] = [];
+    visualization.layers.forEach(layer => {
+      this.splitFavorite(layer.settings).forEach(settings => {
+        newSettings.push(settings);
+      });
+      this.splitAnalyticsObject(layer.analytics).forEach(analytics => {
+        newAnalytics.push(analytics)
+      });
+    });
+
+    newSettings.forEach((settingsItem,settingsIndex) => {
+      newLayers.push({settings: settingsItem, analytics: newAnalytics[settingsIndex]});
+    })
+    visualization.layers = newLayers;
+
+    return visualization;
+  }
+
+  splitFavorite(favorite) {
+    let dimensionArray: any = {
+      ou: {items: []},
+      pe: {items: []},
+      dx: {items: []}
+    };
+
+    let favoriteArray: any[] = [];
+
+    if(favorite.hasOwnProperty('columns')) {
+      favorite.columns.forEach(column => {
+        column.items.forEach(item => {
+          dimensionArray[column.dimension].type = 'columns';
+          dimensionArray[column.dimension].items.push(item);
+        });
+      })
+
+    }
+
+    if(favorite.hasOwnProperty('rows')) {
+      favorite.rows.forEach(row => {
+        row.items.forEach(item => {
+          dimensionArray[row.dimension].type = 'rows';
+          dimensionArray[row.dimension].items.push(item);
+        });
+      })
+
+    }
+
+    if(favorite.hasOwnProperty('filters')) {
+      favorite.filters.forEach(filter => {
+        filter.items.forEach(item => {
+          dimensionArray[filter.dimension].type = 'filters';
+          dimensionArray[filter.dimension].items.push(item);
+        });
+      })
+
+    }
+
+    favorite.columns = [];
+    favorite.rows = [];
+    favorite.filters = [];
+
+    /**
+     * create favorite copy
+     */
+
+    dimensionArray.dx.items.forEach(dxItem => {
+      dimensionArray.pe.items.forEach(peItem => {
+        let newFavorite = favorite;
+        newFavorite[dimensionArray.dx.type] = [{dimension: 'dx', items: dxItem}];
+        newFavorite[dimensionArray.pe.type] = [{dimension: 'pe', items: peItem}];
+        newFavorite[dimensionArray.ou.type] = [{dimension: 'ou', items: dimensionArray.ou.items}];
+        favoriteArray.push(newFavorite);
+      })
+    });
+    return favoriteArray;
+  }
+
+
+  splitAnalyticsObject(analytics: any): Array<any> {
+
+    let analyticsArray: Array<any> = [];
+    let headers: any = analytics.headers;
+    let rows: Array<any> = analytics.rows;
+    let metaData: any = analytics.metaData;
+    let names: any = analytics.metaData.names;
+    let periods: any = analytics.metaData.pe;
+    let data: any = analytics.metaData.dx;
+    let ou: any = analytics.metaData.ou;
+    let numberOfAnalytics: number = 0;
+
+
+    let dataIndex: number = 0;
+    let valueIndex: number = 0;
+    let periodIndex: number = 0;
+    let orgUnitIndex: number = 0;
+
+    headers.forEach((header, headerIndex) => {
+      if (header.name == "dx") {
+        dataIndex = headerIndex;
+      }
+
+      if (header.name == "pe") {
+        periodIndex = headerIndex;
+      }
+
+      if (header.name == "value") {
+        valueIndex = headerIndex;
+      }
+
+      if (header.name == "ou") {
+        orgUnitIndex = headerIndex;
+      }
+
+    })
+    data.forEach((dataName, dataIndex) => {
+      periods.forEach((periodName, periodIndex) => {
+        let singleAnalytics: any = {headers: headers, metaData: {names: {}, pe: [], ou: {}, dx: []}, rows: []};
+        singleAnalytics.metaData.names[dataName] = names[dataName];
+        singleAnalytics.metaData.names[periodName] = names[periodName];
+        singleAnalytics.metaData.pe.push(periodName);
+        singleAnalytics.metaData.dx.push(dataName);
+        singleAnalytics.metaData.ou = ou;
+
+        analyticsArray.push(singleAnalytics);
+      });
+    });
+
+
+    analyticsArray.forEach(analytics => {
+      let data = analytics.metaData.dx[0];
+      let period = analytics.metaData.pe[0];
+
+      rows.forEach(row => {
+        if (row[dataIndex] == data) {
+          analytics.rows.push(row);
+        }
+      })
+    })
+
+
+    return analyticsArray;
   }
 
   constructUrl(visualizationSettings: any, visualizationType: string, filters: any): string {

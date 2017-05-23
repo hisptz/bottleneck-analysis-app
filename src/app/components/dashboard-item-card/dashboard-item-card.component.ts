@@ -219,8 +219,15 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateVisualization(selectedVisualization) {
-    this.visualizationObject.details.currentVisualization = selectedVisualization;
-    this.store.dispatch(new ChangeCurrentVisualizationAction(this.visualizationObject));
+    const visualizationObject: Visualization = _.clone(this.visualizationObject);
+    visualizationObject.details.currentVisualization = selectedVisualization;
+    if(selectedVisualization == 'MAP') {
+      visualizationObject.details.analyticsStrategy = 'split';
+    } else {
+      visualizationObject.details.analyticsStrategy = 'merge';
+    }
+
+    this.store.dispatch(new ChangeCurrentVisualizationAction(visualizationObject));
     this.currentVisualization = selectedVisualization;
   }
 
@@ -241,7 +248,7 @@ export class DashboardItemCardComponent implements OnInit {
         externalDimensions: {},
         filters: [],
         layout: {},
-        analyticsStrategy: 'normal'
+        analyticsStrategy: 'merge'
       },
       layers: this.getLayerDetailsForNonVisualizableObject(cardData),
       operatingLayers: []
