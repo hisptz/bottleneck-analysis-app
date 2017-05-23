@@ -47,12 +47,23 @@ export class VisualizationObjectService {
               });
             })
         } else {
-          //  TODO use external dimension concept
+          //TODO use external dimension concept
         }
       }
 
     });
   }
+
+  // getDrawableObjects(visualizationObject: Visualization): Visualization {
+  //   if(visualizationObject.details.currentVisualization == 'CHART') {
+  //     visualizationObject = this.chartService.getChartObjects(visualizationObject);
+  //   }else if(visualizationObject.details.currentVisualization == 'MAP') {
+  //
+  //   } else if(visualizationObject.details.currentVisualization == 'TABLE') {
+  //     visualizationObject = this.tableService.getTableObjects(visualizationObject)
+  //   }
+  //   return visualizationObject;
+  // }
 
   private _getVisualizationSubtitle(filterArray: any) {
     let subtitleArray: any = {};
@@ -97,6 +108,8 @@ export class VisualizationObjectService {
               visualizationObject.layers.push({settings: view, analytics: {}})
             })
           }
+        } else {
+          //TODO apply spliting of analytics and favorite
         }
 
 

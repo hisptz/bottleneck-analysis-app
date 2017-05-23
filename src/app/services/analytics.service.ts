@@ -48,6 +48,10 @@ export class AnalyticsService {
 
   }
 
+  splitAnalytics(analytics) {
+
+  }
+
   constructUrl(visualizationSettings: any, visualizationType: string, filters: any): string {
     let url: string = this.constant.api + "analytics";
     const rowParameters: string = this._getDimensionParameters(visualizationSettings.rows, filters);

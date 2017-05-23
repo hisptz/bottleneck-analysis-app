@@ -21,28 +21,20 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.loadTable();
     // this.initializeTable();
   }
 
   ngOnChanges() {
+
+  }
+
+  loadTable() {
     this.loading = true;
     if(this.tableData != undefined) {
       this.tableObjects = this.tableService.getTableObjects(this.tableData);
       this.loading = false;
     }
-  }
-
-  initializeTable() {
-    this.tableService.getSanitizedTableData(this.tableData, this.customFilters).subscribe(sanitizedData => {
-      this.tableData = sanitizedData;
-      this.tableObjects = this.tableService.getTableObjects(this.tableData);
-      this.loading = false;
-    }, error => {
-      this.loading = false;
-      this.hasError = true;
-      this.errorMessage = error.hasOwnProperty('message') ? error.message : 'Unknown error has occurred';
-      console.log(error.message)
-    })
   }
 
 }

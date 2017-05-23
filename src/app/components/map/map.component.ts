@@ -91,10 +91,14 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.loadMap();
   }
 
   ngOnChanges() {
+
+  }
+
+  loadMap() {
     this.loading = true;
     if (this.mapData != undefined) {
       setTimeout(() => {

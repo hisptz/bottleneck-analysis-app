@@ -15,13 +15,13 @@ export class ChangeFiltersEffectService {
   constructor(
     private actions$: Actions,
     private analyticsService: AnalyticsService,
-    private visualizationObjectSerivice: VisualizationObjectService
+    private visualizationObjectService: VisualizationObjectService
   ) { }
 
 
   @Effect() visualization$: Observable<Action> = this.actions$
     .ofType(CHANGE_FILTERS_ACTION)
-    .switchMap(action => this.visualizationObjectSerivice.getSanitizedVisualizationObject(action.payload))
+    .switchMap(action => this.visualizationObjectService.getSanitizedVisualizationObject(action.payload))
     .map(visualizationData => new CurrentVisualizationChangeAction(visualizationData));
 
 

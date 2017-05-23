@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, OnChanges} from '@angular/core';
+import {Component, OnInit, Input, OnChanges, ChangeDetectionStrategy, AfterViewInit} from '@angular/core';
 import {Visualization} from "../../model/visualization";
 import {ChartService} from "../../services/chart.service";
 import {PaginationInstance} from "ng2-pagination";
@@ -57,7 +57,7 @@ export const CHART_TYPES = [
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent implements OnInit, OnChanges {
+export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() chartData: Visualization;
   @Input() customFilters: any;
@@ -77,34 +77,28 @@ export class ChartComponent implements OnInit, OnChanges {
     itemsPerPage: 1,
     currentPage: 1
   };
-  constructor(private chartService: ChartService) { }
+  constructor(
+    private chartService: ChartService) { }
 
   ngOnInit() {
 
-    // this.initializeChart();
+  }
+
+  ngAfterViewInit() {
+    this.loadChart();
   }
 
   ngOnChanges() {
-    this.loading = true;
+
+  }
+
+  loadChart() {
     console.log(this.chartData)
+    this.loading = true;
     if(this.chartData != undefined) {
       this.chartObjects = this.chartService.getChartObjects(this.chartData);
       this.loading = false;
     }
-  }
-
-  initializeChart() {
-    this.chartService.getSanitizedChartData(this.chartData, this.customFilters).subscribe(sanitizedData => {
-      this.chartData = sanitizedData;
-      console.log(sanitizedData)
-      this.chartObjects = this.chartService.getChartObjects(this.chartData);
-      this.loading = false;
-    }, error => {
-      this.loading = false;
-      this.hasError = true;
-      this.erroMessage = error.hasOwnProperty('message') ? error.message : 'Unknown error has occurred';
-      console.log(error.message)
-    });
   }
 
   showChartOptions() {

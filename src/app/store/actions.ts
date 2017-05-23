@@ -31,6 +31,7 @@ export const DELETE_DASHBOARD_ITEM_ACTION = 'DELETE_DASHBOARD_ITEM_ACTION';
 export const DASHBOARD_ITEM_DELETED_ACTION = 'DASHBOARD_ITEM_DELETED_ACTION';
 export const ADD_DASHBOARD_ITEM_ACTION = 'ADD_DASHBOARD_ITEM_ACTION';
 export const DASHBOARD_ITEM_ADDED_ACTION = 'DASHBOARD_ITEM_ADDED_ACTION';
+export const ERROR_OCCURRED_ACTION = 'ERROR_OCCURRED_ACTION';
 
 
 export class LoadCurrentUserAction implements Action {
@@ -150,4 +151,9 @@ export class AddDashboardItemAction implements Action {
 export class DashboardItemAddedAction implements Action {
   readonly type = DASHBOARD_ITEM_ADDED_ACTION;
   constructor(public payload: any) {}
+}
+
+export class ErrorOccurredAction implements Action {
+  readonly type = ERROR_OCCURRED_ACTION;
+  constructor(public payload: string) {}
 }

@@ -12,6 +12,8 @@ import {
 import {Observable} from "rxjs";
 import {visualizationObjectsSelector} from "../../store/selectors/visualization-objects.selector";
 import {MapComponent} from "../map/map.component";
+import {ChartComponent} from "../chart/chart.component";
+import {TableComponent} from "../table/table.component";
 
 export const VISUALIZATION_WITH_NO_OPTIONS = ['USERS', 'REPORTS', 'RESOURCES', 'APP'];
 
@@ -57,6 +59,8 @@ export class DashboardItemCardComponent implements OnInit {
   currentVisualization: string;
   customFilters: any[] = [];
   @ViewChild(MapComponent) mapComponent: MapComponent;
+  @ViewChild(ChartComponent) chartComponent: ChartComponent;
+  @ViewChild(TableComponent) tableComponent: TableComponent;
   constructor(private store: Store<ApplicationState>) {
   }
 
@@ -73,20 +77,28 @@ export class DashboardItemCardComponent implements OnInit {
     this.visualizationObject = this.getInitialVisualization(this.cardData, this.cardConfiguration);
 
 
-
     this.store.select(visualizationObjectsSelector).subscribe(visualizationObjects => {
-      let currentVisualizationObject: any = visualizationObjects.filter(object => {return object.id == this.visualizationObject.id})[0];
+      const currentVisualizationObject: any = _.find(visualizationObjects, ['id', this.visualizationObject.id]);
+      this.visualizationObject$ = Observable.of(currentVisualizationObject);
 
       if(currentVisualizationObject != undefined) {
         this.visualizationObject = currentVisualizationObject;
+        this.currentVisualization = currentVisualizationObject.details.currentVisualization;
+
+        /**
+         *  Refresh components
+         */
+        setTimeout(() => {
+          if(this.currentVisualization == 'CHART') {
+            this.chartComponent.loadChart();
+          } else if(this.currentVisualization == 'TABLE') {
+            this.tableComponent.loadTable();
+          } else if(this.currentVisualization == 'MAP') {
+            this.mapComponent.loadMap();
+          }
+        }, 10)
       }
 
-      this.visualizationObject$ = Observable.of(currentVisualizationObject);
-
-
-      // if(this.visualizationObject$.hasOwnProperty('details') && this.visualizationObject$.details.hasOwnProperty('currentVisualization')) {
-      //   this.currentVisualization = this.visualizationObject$.details.currentVisualization;
-      // }
     });
 
     this.store.select(loadedVisualizationSelector).subscribe(visualizations => {
@@ -116,11 +128,24 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateFilters(filterValues): void {
+    const filterArray = _.isPlainObject(filterValues) ? [filterValues] : filterValues;
+    const visualizationObject = this.visualizationObject;
+    if(visualizationObject.details.filters.length > 0) {
+      filterArray.forEach(filter => {
+        const existingFilter = _.find(visualizationObject.details.filters, ['name', filter.name]);
+        if(!existingFilter) {
+          visualizationObject.details.filters.push(filter)
+        } else {
+          visualizationObject.details.filters[_.indexOf(visualizationObject.details.filters, existingFilter)] = filter;
+        }
+      });
 
-    this.visualizationObject.details.filters = _.isPlainObject(filterValues) ? [filterValues] : filterValues;
-    this.store.dispatch(new ChangeFiltersAction(this.visualizationObject));
+    } else {
+      visualizationObject.details.filters = filterArray;
+    }
 
-    this.customFilters = filterValues;
+    this.store.dispatch(new ChangeFiltersAction(visualizationObject));
+    // this.customFilters = filterValues;
   }
 
   updateLayout(layout) {
