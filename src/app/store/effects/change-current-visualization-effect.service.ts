@@ -3,7 +3,7 @@ import {Actions, Effect} from "@ngrx/effects";
 import {Action} from "@ngrx/store";
 import {Observable} from "rxjs";
 import {
-  CurrentVisualizationChangeAction, CHANGE_CURRENT_VISUALIZATION_ACTION
+  CurrentVisualizationChangeAction, CHANGE_CURRENT_VISUALIZATION_ACTION, VisualizationObjectLoadedAction
 } from "../actions";
 import {VisualizationObjectService} from "../../services/visualization-object.service";
 
@@ -20,7 +20,7 @@ export class ChangeCurrentVisualizationObjectEffectService {
   @Effect() visualization$: Observable<Action> = this.actions$
     .ofType(CHANGE_CURRENT_VISUALIZATION_ACTION)
     .switchMap(action => this.visualizationObjectService.updateVisualizationConfigurationAndSettings(action.payload, {}))
-    .map(visualizationData => new CurrentVisualizationChangeAction(visualizationData));
+    .map(visualizationData => new VisualizationObjectLoadedAction(visualizationData));
 
 
 }

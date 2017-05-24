@@ -118,7 +118,7 @@ export class VisualizationObjectService {
           this.mapService.getGeoFeatures(visualizationObject).subscribe(visualizationWithGeoFeature => {
             this.mapService.getPredefinedLegend(visualizationWithGeoFeature).subscribe(visualizationWithLegendSet => {
               this.mapService.getGroupSet(visualizationWithLegendSet).subscribe(visualizationWithGroupSet => {
-                observer.next(visualizationWithGroupSet);
+                observer.next(this.sanitizeMapSettings(visualizationWithGroupSet));
                 observer.complete();
               })
             })
@@ -182,6 +182,73 @@ export class VisualizationObjectService {
       observer.complete();
     });
 
+  }
+
+  sanitizeMapSettings(visualizationObject: Visualization): Visualization {
+    visualizationObject.layers.forEach(layer => {
+      if(!layer.settings.hasOwnProperty('labelFontColor')) {
+        layer.settings.labelFontColor = '#000000';
+      }
+
+      if(!layer.settings.hasOwnProperty('layer')) {
+        layer.settings.layer = 'thematic';
+      }
+
+      if(!layer.settings.hasOwnProperty('labelFontStyle')) {
+        layer.settings.labelFontStyle = 'normal';
+      }
+
+      if(!layer.settings.hasOwnProperty('radiusHigh')) {
+        layer.settings.radiusHigh = 15;
+      }
+
+      if(!layer.settings.hasOwnProperty('eventClustering')) {
+        layer.settings.eventClustering = false;
+      }
+
+      if(!layer.settings.hasOwnProperty('colorLow')) {
+        layer.settings.colorLow = 'ff0000';
+      }
+
+      if(!layer.settings.hasOwnProperty('colorHigh')) {
+        layer.settings.colorHigh = '00ff00';
+      }
+
+      if(!layer.settings.hasOwnProperty('opacity')) {
+        layer.settings.opacity = 0.8;
+      }
+
+      if(!layer.settings.hasOwnProperty('colorScale')) {
+        layer.settings.colorScale = '#fc8d59,#ffffbf,#91cf60';
+      }
+
+      if(!layer.settings.hasOwnProperty('labelFontSize')) {
+        layer.settings.labelFontSize = '11px';
+      }
+
+      if(!layer.settings.hasOwnProperty('eventPointRadius')) {
+        layer.settings.eventPointRadius = 0;
+      }
+
+      if(!layer.settings.hasOwnProperty('hidden')) {
+        layer.settings.hidden = false;
+      }
+
+      if(!layer.settings.hasOwnProperty('classes')) {
+        layer.settings.classes = 3;
+      }
+
+      if(!layer.settings.hasOwnProperty('labelFontWeight')) {
+        layer.settings.labelFontWeight = 'normal';
+      }
+
+      if(!layer.settings.hasOwnProperty('radiusLow')) {
+        layer.settings.radiusLow = 5;
+      }
+
+    });
+
+    return visualizationObject;
   }
 
 }

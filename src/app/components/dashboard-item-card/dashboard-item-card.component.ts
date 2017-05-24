@@ -69,7 +69,7 @@ export class DashboardItemCardComponent implements OnInit, OnChanges {
      * get current visualization
      * @type {any}
      */
-    this.currentVisualization = this.visualizationObject.type;
+    this.currentVisualization = this.visualizationObject.details ? this.visualizationObject.details.currentVisualization : null;
     /**
      * Get initial visualization object to pass to lower components
      * @type {Visualization}
@@ -192,14 +192,14 @@ export class DashboardItemCardComponent implements OnInit, OnChanges {
   updateVisualization(selectedVisualization) {
     const visualizationObject: Visualization = _.clone(this.visualizationObject);
     visualizationObject.details.currentVisualization = selectedVisualization;
-    if(selectedVisualization == 'MAP') {
+
+    if(selectedVisualization == 'MAP' && visualizationObject.type != 'MAP') {
       visualizationObject.details.analyticsStrategy = 'split';
     } else {
       visualizationObject.details.analyticsStrategy = 'merge';
     }
 
     this.store.dispatch(new ChangeCurrentVisualizationAction(visualizationObject));
-    this.currentVisualization = selectedVisualization;
   }
 
   deleteDashboardItem(currentDashboard, dashboardItem) {
