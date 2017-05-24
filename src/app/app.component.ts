@@ -3,7 +3,7 @@ import {Store} from "@ngrx/store";
 import {ApplicationState} from "./store/application-state";
 import {LoadCurrentUserAction, LoadDashboardsAction, CurrentDashboardChangeAction} from "./store/actions";
 import {userLastDashboardSelector} from "./store/selectors/user-last-dashboard.selector";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -15,7 +15,8 @@ export class AppComponent implements OnInit{
   loading: boolean = true;
   constructor(
     private store: Store<ApplicationState>,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     store.select(userLastDashboardSelector).subscribe(dashboardId => {
       if(dashboardId != null) {
@@ -27,6 +28,10 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
+    const currentHref = window.location.href;
+    if(currentHref.split('/').indexOf('dashboards') != -1) {
+      this.loading = false;
+    }
     this.store.dispatch(new LoadCurrentUserAction());
     this.store.dispatch(new LoadDashboardsAction());
   }
