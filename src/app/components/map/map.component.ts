@@ -93,7 +93,7 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    if (this.mapData != undefined) {
+    if (this.mapData != null) {
       setTimeout(() => {
         this.drawMap(this.mapData);
       }, 10)
@@ -142,7 +142,9 @@ export class MapComponent implements OnInit {
     this.baseMaps = this.prepareBaseMapsForSettingsControl(this.mapObject.baseMapArray, this.mapObject.baseMaps);
     this.prepareMapLayers(favouriteObject, this.mapObject.baseMaps);
     this.dataLayers = this.prepareDataLayers(this.mapLayers.secondaryLayers, this.mapObject.baseMaps);
-    this.renderMap(false);
+
+      this.renderMap(false);
+
   }
 
   renderMap(iSreRendering) {
@@ -188,7 +190,11 @@ export class MapComponent implements OnInit {
      * It's a fresh new map
      */
 
-    if (iSreRendering || this.mapInterface) {
+    if (iSreRendering) {
+      this.mapInterface.remove();
+    }
+
+    if (this.mapInterface) {
       this.mapInterface.remove();
     }
 
@@ -486,11 +492,18 @@ export class MapComponent implements OnInit {
     let mapObject: Map;
     let baseMaps = {};
     let defaultBaseMap = {
-      'OSM Light': L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+      'OSM Light': L.tileLayer('http://earthengine.google.org/static/hansen_2013/tree_alpha/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '&copy;<a href="https://carto.com/attribution">cartoDB</a>'
       })
     }
+
+    // let defaultBaseMap = {
+    //   'OSM Light': L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+    //     maxZoom: 18,
+    //     attribution: '&copy;<a href="https://carto.com/attribution">cartoDB</a>'
+    //   })
+    // }
 
     let openStreetMap = {
       'OSM Light': L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
@@ -599,7 +612,7 @@ export class MapComponent implements OnInit {
       layersInOrder.push(availableLayer.settings.name);
 
       //TODO find best way to handle visualization with no layers
-      if(!availableLayer.settings.hasOwnProperty('layer')) {
+      if (!availableLayer.settings.hasOwnProperty('layer')) {
         availableLayer.settings.layer = 'thematic';
       }
 

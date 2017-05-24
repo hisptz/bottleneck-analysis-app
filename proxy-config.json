@@ -1,11 +1,11 @@
 {
   "/api": {
-    "target": "http://localhost:8080/dhis",
+    "target": "http://localhost:8080",
     "secure": "false",
     "auth":"admin:district"
   },
   "/": {
-    "target": "http://localhost:8080/dhis",
+    "target": "http://localhost:8080",
     "secure": "false",
     "auth":"admin:district"
   }

@@ -6,7 +6,7 @@
   <app-error-notifier *ngIf="hasError" [errorMessage]="errorMessage"></app-error-notifier>
 
   <!-- Start of map object block -->
-  <div *ngIf="mapData" class="row" [ngStyle]="{'height': mapData.details.itemHeight}" id="{{mapData.id}}_container">
+  <div *ngIf="!hasError && mapData.id" class="row" [ngStyle]="{'height': mapData.details.itemHeight}" id="{{mapData.id}}_container">
     <div style="text-align: center">
       <h4 class="forViewOnly" (mouseover)="showFullTitle()" *ngIf="isTrancated">{{formatStringLength(map?.name)}}</h4>
       <h4 class="forViewOnly" (mouseleave)="trancateTitle()" *ngIf="!isTrancated">{{map?.name}}</h4>
@@ -19,11 +19,11 @@
 
   </div>
 
-  <div class="layers-button" *ngIf="!loading" (mouseover)="toggleLegendContainerView()">
+  <div class="layers-button" *ngIf="!loading&&!hasError" (mouseover)="toggleLegendContainerView()">
     <img src="assets/img/layers-icon.png" style="width:24px;height:24px;">
   </div>
 
-  <div class="recenter-button" *ngIf="!loading" (click)="recenterMap()">
+  <div class="recenter-button" *ngIf="!loading&&!hasError" (click)="recenterMap()">
     <i class="fa fa-arrows"></i>
   </div>
   <div class="map-legend-container" *ngIf="showLegendContainer" (mouseleave)="toggleLegendContainerView()">
