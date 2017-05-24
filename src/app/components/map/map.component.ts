@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, OnChanges} from '@angular/core';
+import {Component, OnInit, Input, OnChanges, ChangeDetectionStrategy} from '@angular/core';
 import {Visualization} from "../../model/visualization";
 import {MapService} from "../../services/map.service";
 import 'leaflet';
@@ -45,7 +45,8 @@ export class Map {
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class MapComponent implements OnInit {
@@ -91,14 +92,6 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadMap();
-  }
-
-  ngOnChanges() {
-
-  }
-
-  loadMap() {
     this.loading = true;
     if (this.mapData != undefined) {
       setTimeout(() => {
@@ -195,7 +188,7 @@ export class MapComponent implements OnInit {
      * It's a fresh new map
      */
 
-    if (iSreRendering) {
+    if (iSreRendering || this.mapInterface) {
       this.mapInterface.remove();
     }
 
@@ -605,6 +598,10 @@ export class MapComponent implements OnInit {
     availableLayers.forEach(availableLayer => {
       layersInOrder.push(availableLayer.settings.name);
 
+      //TODO find best way to handle visualization with no layers
+      if(!availableLayer.settings.hasOwnProperty('layer')) {
+        availableLayer.settings.layer = 'thematic';
+      }
 
       if (availableLayer.settings.layer == "external") {
         let layerSetting = availableLayer.settings;

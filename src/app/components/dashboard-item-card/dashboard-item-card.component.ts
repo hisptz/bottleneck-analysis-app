@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ViewChild} from '@angular/core';
+import {Component, OnInit, Input, ViewChild, OnChanges, ChangeDetectionStrategy} from '@angular/core';
 import {Visualization} from "../../model/visualization";
 import * as _ from 'lodash';
 import {FavoriteService} from "../../services/favorite.service";
@@ -35,14 +35,20 @@ export const DASHBOARD_SHAPES = [
 @Component({
   selector: 'app-dashboard-item-card',
   templateUrl: './dashboard-item-card.component.html',
-  styleUrls: ['./dashboard-item-card.component.css']
+  styleUrls: ['./dashboard-item-card.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardItemCardComponent implements OnInit {
+export class DashboardItemCardComponent implements OnInit, OnChanges {
 
-  @Input() cardData: any = {};
+  @Input() visualizationObject: Visualization;
   @Input() currentDashboard: string;
-  visualizationObject: Visualization;
   visualizationObject$: Observable<any>;
+
+  dashboardShapes: any[] = DASHBOARD_SHAPES;
+  visualizationWithNoOptions: any[] = VISUALIZATION_WITH_NO_OPTIONS;
+  showFullScreen: boolean = false;
+  currentVisualization: string;
+  customFilters: any[] = [];
   cardConfiguration: any = {
     hideCardBorders: false,
     showCardHeader: true,
@@ -52,12 +58,6 @@ export class DashboardItemCardComponent implements OnInit {
     fullScreenItemHeight: "75vh",
     fullScreenHeight: "80vh"
   };
-
-  dashboardShapes: any[] = DASHBOARD_SHAPES;
-  visualizationWithNoOptions: any[] = VISUALIZATION_WITH_NO_OPTIONS;
-  showFullScreen: boolean = false;
-  currentVisualization: string;
-  customFilters: any[] = [];
   @ViewChild(MapComponent) mapComponent: MapComponent;
   @ViewChild(ChartComponent) chartComponent: ChartComponent;
   @ViewChild(TableComponent) tableComponent: TableComponent;
@@ -69,43 +69,15 @@ export class DashboardItemCardComponent implements OnInit {
      * get current visualization
      * @type {any}
      */
-    this.currentVisualization = this.cardData.type;
+    this.currentVisualization = this.visualizationObject.type;
     /**
      * Get initial visualization object to pass to lower components
      * @type {Visualization}
      */
-    this.visualizationObject = this.getInitialVisualization(this.cardData, this.cardConfiguration);
+    this.visualizationObject$ = Observable.of(this.visualizationObject);
+  }
 
-
-    this.store.select(visualizationObjectsSelector).subscribe(visualizationObjects => {
-      const currentVisualizationObject: any = _.find(visualizationObjects, ['id', this.visualizationObject.id]);
-      this.visualizationObject$ = Observable.of(currentVisualizationObject);
-
-      if(currentVisualizationObject != undefined) {
-        this.visualizationObject = currentVisualizationObject;
-        this.currentVisualization = currentVisualizationObject.details.currentVisualization;
-
-        /**
-         *  Refresh components
-         */
-        setTimeout(() => {
-          if(this.currentVisualization == 'CHART') {
-            this.chartComponent.loadChart();
-          } else if(this.currentVisualization == 'TABLE') {
-            this.tableComponent.loadTable();
-          } else if(this.currentVisualization == 'MAP') {
-            this.mapComponent.loadMap();
-          }
-        }, 10)
-      }
-
-    });
-
-    this.store.select(loadedVisualizationSelector).subscribe(visualizations => {
-      if(_.indexOf(visualizations, this.visualizationObject.id) == -1) {
-        this.store.dispatch(new LoadVisualizationObjectAction(this.visualizationObject))
-      }
-    });
+  ngOnChanges() {
 
   }
 
@@ -145,7 +117,6 @@ export class DashboardItemCardComponent implements OnInit {
     }
 
     this.store.dispatch(new ChangeFiltersAction(visualizationObject));
-    // this.customFilters = filterValues;
   }
 
   updateLayout(layout) {
@@ -229,60 +200,6 @@ export class DashboardItemCardComponent implements OnInit {
 
     this.store.dispatch(new ChangeCurrentVisualizationAction(visualizationObject));
     this.currentVisualization = selectedVisualization;
-  }
-
-  getInitialVisualization(cardData, cardConfiguration): Visualization {
-
-    return {
-      id: cardData.hasOwnProperty('id') ? cardData.id : null,
-      name: null,
-      type: cardData.hasOwnProperty('type') ? cardData.type : null,
-      created: cardData.hasOwnProperty('created') ? cardData.created : null,
-      lastUpdated: cardData.hasOwnProperty('lastUpdated') ? cardData.lastUpdated: null,
-      shape: cardData.hasOwnProperty('shape') ? cardData.shape : 'NORMAL',
-      details: {
-        cardHeight: cardConfiguration.defaultHeight,
-        itemHeight: cardConfiguration.defaultItemHeight,
-        currentVisualization: this.getsanitizedCurrentVisualizationType(cardData.hasOwnProperty('type') ? cardData.type : null),
-        favorite: this.getFavoriteDetails(cardData),
-        externalDimensions: {},
-        filters: [],
-        layout: {},
-        analyticsStrategy: 'merge'
-      },
-      layers: this.getLayerDetailsForNonVisualizableObject(cardData),
-      operatingLayers: []
-    }
-  }
-
-  getFavoriteDetails(cardData) {
-    return cardData.type != null && cardData.hasOwnProperty(_.camelCase(cardData.type)) ? {
-        id: _.isPlainObject(cardData[_.camelCase(cardData.type)]) ? cardData[_.camelCase(cardData.type)].id : undefined,
-        type: _.camelCase(cardData.type)
-      } : {};
-  }
-
-  getLayerDetailsForNonVisualizableObject(cardData) {
-    let layer: any = [];
-    if(cardData.type == 'USERS' || cardData.type == 'REPORTS' || cardData.type == 'RESOURCES' || cardData.type == 'APP') {
-      layer.push({settings: cardData, analytics: {}});
-    }
-    return layer
-  }
-
-  getsanitizedCurrentVisualizationType(visualizationType: string): string {
-    let sanitizedVisualization: string = null;
-
-    if(visualizationType == 'CHART' || visualizationType == 'EVENT_CHART') {
-      sanitizedVisualization = 'CHART';
-    } else if(visualizationType == 'TABLE' || visualizationType == 'EVENT_REPORT' || visualizationType == 'REPORT_TABLE') {
-      sanitizedVisualization = 'TABLE';
-    } else if(visualizationType == 'MAP') {
-      sanitizedVisualization = 'MAP';
-    } else {
-      sanitizedVisualization = visualizationType;
-    }
-    return sanitizedVisualization
   }
 
   deleteDashboardItem(currentDashboard, dashboardItem) {

@@ -1,13 +1,14 @@
-import {Component, OnInit, Input, OnChanges} from '@angular/core';
+import {Component, OnInit, Input, OnChanges, ChangeDetectionStrategy} from '@angular/core';
 import {Visualization} from "../../model/visualization";
 import {TableService} from "../../services/table.service";
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  styleUrls: ['./table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableComponent implements OnInit, OnChanges {
+export class TableComponent implements OnInit {
 
   @Input() tableData: Visualization;
   @Input() customFilters: any[] = [];
@@ -21,15 +22,6 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.loadTable();
-    // this.initializeTable();
-  }
-
-  ngOnChanges() {
-
-  }
-
-  loadTable() {
     this.loading = true;
     if(this.tableData != undefined) {
       this.tableObjects = this.tableService.getTableObjects(this.tableData);

@@ -70,14 +70,16 @@ export class AnalyticsService {
       this.splitFavorite(layer.settings).forEach(settings => {
         newSettings.push(settings);
       });
-      this.splitAnalyticsObject(layer.analytics).forEach(analytics => {
-        newAnalytics.push(analytics)
-      });
+      if(layer.hasOwnProperty('analytics') && layer.analytics != undefined) {
+        this.splitAnalyticsObject(layer.analytics).forEach(analytics => {
+          newAnalytics.push(analytics)
+        });
+      }
     });
 
     newSettings.forEach((settingsItem,settingsIndex) => {
       newLayers.push({settings: settingsItem, analytics: newAnalytics[settingsIndex]});
-    })
+    });
     visualization.layers = newLayers;
 
     return visualization;

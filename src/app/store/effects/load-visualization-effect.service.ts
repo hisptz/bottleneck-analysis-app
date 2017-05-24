@@ -17,7 +17,7 @@ export class LoadVisualizationObjectEffectService {
 
   @Effect() visualization$: Observable<Action> = this.actions$
     .ofType(LOAD_VISUALIZATION_OBJECT_ACTION)
-    .switchMap(action => this.visualizationObjectService.getSanitizedVisualizationObject(action.payload))
+    .flatMap(action => this.visualizationObjectService.getSanitizedVisualizationObject(action.payload))
     .map(visualizationData => new VisualizationObjectLoadedAction(visualizationData));
 
 

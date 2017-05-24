@@ -83,7 +83,19 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
 
     case 'VISUALIZATION_OBJECT_LOADED_ACTION': {
       const newState: StoreData = _.clone(state);
-      newState.visualizationObjects = [...newState.visualizationObjects, action.payload];
+      const currentDashboard: any = _.find(newState.dashboards, ['id',action.payload.dashboardId]);
+      const currentDashboardIndex: number = _.indexOf(newState.dashboards, currentDashboard);
+
+      if(currentDashboard) {
+        currentDashboard.dashboardItems.forEach(dashboardItem => {
+          if(dashboardItem.id == action.payload.id) {
+            dashboardItem.visualizationObject = Object.assign({}, dashboardItem, action.payload);
+          }
+        });
+
+        newState.dashboards[currentDashboardIndex] = currentDashboard;
+      }
+
       return newState;
     }
 

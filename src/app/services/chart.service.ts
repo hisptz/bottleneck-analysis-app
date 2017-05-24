@@ -148,8 +148,10 @@ export class ChartService {
           layer.settings.chartConfiguration.type = chartType;
         }
 
-        if(layer.analytics.hasOwnProperty('headers')) {
-          chartObjects.push(this.visualizationService.drawChart(layer.analytics, layer.settings.chartConfiguration))
+        if(layer.hasOwnProperty('analytics') && layer.analytics != undefined) {
+          if(layer.analytics.hasOwnProperty('headers')) {
+            chartObjects.push(this.visualizationService.drawChart(layer.analytics, layer.settings.chartConfiguration))
+          }
         }
       })
     }

@@ -44,12 +44,12 @@
     </div>
     <div [ngClass]="['panel-body', 'dashboard-item-body', hideOptions(visualizationObject.type, visualizationWithNoOptions) ? 'no-footer' : '']">
       <!--Error block-->
-      <div class="row" *ngIf="currentVisualization == null">
-        <div class="col-md-12">
-          <h3>Ow,Span</h3>
-          <h5>Dashboard type is not defined</h5>
-        </div>
-      </div>
+      <!--<div class="row" *ngIf="currentVisualization == null">-->
+        <!--<div class="col-md-12">-->
+          <!--<h3>Ow,Span</h3>-->
+          <!--<h5>Dashboard type is not defined</h5>-->
+        <!--</div>-->
+      <!--</div>-->
       <!--end of error block-->
       <!--chart block-->
       <app-chart [chartData]="visualizationObject$ | async" *ngIf="currentVisualization == 'CHART' || currentVisualization == 'EVENT_CHART'"></app-chart>

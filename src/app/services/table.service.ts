@@ -195,11 +195,13 @@ export class TableService {
     let tableObjects: any[] = [];
     if(tableData.layers.length > 0) {
       tableData.layers.forEach(layer => {
-        if(layer.analytics.hasOwnProperty('headers')) {
-          tableObjects.push(this.visualizationService.drawTable(layer.analytics, layer.settings.tableConfiguration));
-        } else  {
-          console.warn('Analytic object is empty');
+        console.log(layer)
+        if(layer.hasOwnProperty('analytics') && layer.analytics != undefined) {
+          if(layer.analytics.hasOwnProperty('headers')) {
+            tableObjects.push(this.visualizationService.drawTable(layer.analytics, layer.settings.tableConfiguration));
+          }
         }
+
       })
     }
     return tableObjects;

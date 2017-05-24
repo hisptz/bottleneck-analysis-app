@@ -799,7 +799,6 @@ export class MapService {
       let geoFeatureResponse: number = 0;
       visualizationObject.layers.forEach(layer => {
         let geoFeatureParams = this._getGeoFeatureParameters(layer.settings, visualizationObject.details.filters);
-
         if (geoFeatureParams != null) {
           this._getGeoFeatures(geoFeatureParams).subscribe(geoFeature => {
             layer.settings.geoFeature = geoFeature;

@@ -19,7 +19,7 @@ export class ChangeLayoutEffectService {
 
   @Effect() visualization$: Observable<Action> = this.actions$
     .ofType(CHANGE_LAYOUT_ACTION)
-    .switchMap(action => Observable.of(this.visualizationObjectService.updateVisualizationConfigurationAndSettings(action.payload, {})))
+    .switchMap(action => this.visualizationObjectService.updateVisualizationConfigurationAndSettings(action.payload, {}))
     .map(visualizationData => new CurrentVisualizationChangeAction(visualizationData));
 
 

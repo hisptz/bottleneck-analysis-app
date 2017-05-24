@@ -55,9 +55,10 @@ export const CHART_TYPES = [
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.css']
+  styleUrls: ['./chart.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
+export class ChartComponent implements OnInit {
 
   @Input() chartData: Visualization;
   @Input() customFilters: any;
@@ -81,19 +82,6 @@ export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
     private chartService: ChartService) { }
 
   ngOnInit() {
-
-  }
-
-  ngAfterViewInit() {
-    this.loadChart();
-  }
-
-  ngOnChanges() {
-
-  }
-
-  loadChart() {
-    console.log(this.chartData)
     this.loading = true;
     if(this.chartData != undefined) {
       this.chartObjects = this.chartService.getChartObjects(this.chartData);

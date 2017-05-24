@@ -28,22 +28,23 @@ export class VisualizationObjectService {
         if(initialVisualization.details.favorite.hasOwnProperty('id')) {
           this.favoriteService.getFavoriteDetails(initialVisualization.details.favorite.type, initialVisualization.details.favorite.id, initialVisualization.layers.length > 0 ? true : false)
             .subscribe(favoriteObject => {
-              initialVisualization = this.updateVisualizationConfigurationAndSettings(initialVisualization, favoriteObject);
-              this.analyticsService.getSanitizedAnalytics(initialVisualization).subscribe(visualization => {
-                if(visualization.details.currentVisualization == 'MAP') {
-                  this.mapService.getGeoFeatures(visualization).subscribe(visualizationWithGeoFeature => {
-                    this.mapService.getPredefinedLegend(visualizationWithGeoFeature).subscribe(visualizationWithLegendSet => {
-                      this.mapService.getGroupSet(visualizationWithLegendSet).subscribe(visualizationWithGroupSet => {
-                        observer.next(visualizationWithGroupSet);
-                        observer.complete();
+              this.updateVisualizationConfigurationAndSettings(initialVisualization, favoriteObject).subscribe(visualizationWithSettings => {
+                this.analyticsService.getSanitizedAnalytics(visualizationWithSettings).subscribe(visualization => {
+                  if(visualization.details.currentVisualization == 'MAP') {
+                    this.mapService.getGeoFeatures(visualization).subscribe(visualizationWithGeoFeature => {
+                      this.mapService.getPredefinedLegend(visualizationWithGeoFeature).subscribe(visualizationWithLegendSet => {
+                        this.mapService.getGroupSet(visualizationWithLegendSet).subscribe(visualizationWithGroupSet => {
+                          observer.next(visualizationWithGroupSet);
+                          observer.complete();
+                        })
                       })
                     })
-                  })
-                } else {
-                  observer.next(visualization);
-                  observer.complete();
-                }
+                  } else {
+                    observer.next(visualization);
+                    observer.complete();
+                  }
 
+                });
               });
             })
         } else {
@@ -82,16 +83,17 @@ export class VisualizationObjectService {
     return subtitle;
   }
 
-  public updateVisualizationConfigurationAndSettings(visualizationObject: Visualization, favoriteObject: any) {
+  public updateVisualizationConfigurationAndSettings(visualizationObject: Visualization, favoriteObject: any): Observable<Visualization> {
 
-    /**
-     * Get visualization object name if any
-     */
-    if(visualizationObject.layers.length == 0) {
+    return Observable.create(observer => {
+      /**
+       * Get visualization object name if any
+       */
+      if(visualizationObject.layers.length == 0) {
         visualizationObject.name = favoriteObject.hasOwnProperty('displayName') ? favoriteObject.displayName : favoriteObject.hasOwnProperty('name') ? favoriteObject.name : null;
-    }
+      }
 
-    if (visualizationObject.details.currentVisualization == 'MAP') {
+      if (visualizationObject.details.currentVisualization == 'MAP') {
 
         if(!visualizationObject.details.hasOwnProperty('mapConfiguration')) {
           visualizationObject.details.mapConfiguration = this.mapService._getMapConfiguration(favoriteObject);
@@ -109,39 +111,49 @@ export class VisualizationObjectService {
             })
           }
         } else {
-          visualizationObject = this.analyticsService.getSplitedAnalytics(visualizationObject);
-          //TODO apply spliting of analytics and favorite
+          if(visualizationObject.details.analyticsStrategy == 'split') {
+            visualizationObject = this.analyticsService.getSplitedAnalytics(visualizationObject);
+          }
+
+          this.mapService.getGeoFeatures(visualizationObject).subscribe(visualizationWithGeoFeature => {
+            this.mapService.getPredefinedLegend(visualizationWithGeoFeature).subscribe(visualizationWithLegendSet => {
+              this.mapService.getGroupSet(visualizationWithLegendSet).subscribe(visualizationWithGroupSet => {
+                observer.next(visualizationWithGroupSet);
+                observer.complete();
+              })
+            })
+          });
         }
 
 
       } else if (visualizationObject.details.currentVisualization == 'CHART') {
 
-          if(visualizationObject.layers.length == 0) {
-            let settings: any = favoriteObject;
+        if(visualizationObject.layers.length == 0) {
+          let settings: any = favoriteObject;
 
-            /**
-             * Get chart subtitle
-             */
-            if(favoriteObject.hasOwnProperty('filters') && favoriteObject.filters.length > 0) {
-              settings.subititle = this._getVisualizationSubtitle(favoriteObject.filters)
-            }
-
-            /**
-             * get chart configuration
-             * @type {ChartConfiguration}
-             */
-            settings.chartConfiguration = this.chartService.getChartConfiguration(favoriteObject);
-
-
-            visualizationObject.layers.push({settings: settings, analytics: {}})
-
-          } else {
-            visualizationObject.layers.forEach(layer => {
-              if(!layer.settings.hasOwnProperty('chartConfiguration')) {
-                layer.settings.chartConfiguration = this.chartService.getChartConfiguration(layer.settings);
-              }
-            })
+          /**
+           * Get chart subtitle
+           */
+          if(favoriteObject.hasOwnProperty('filters') && favoriteObject.filters.length > 0) {
+            settings.subititle = this._getVisualizationSubtitle(favoriteObject.filters)
           }
+
+          /**
+           * get chart configuration
+           * @type {ChartConfiguration}
+           */
+          settings.chartConfiguration = this.chartService.getChartConfiguration(favoriteObject);
+
+
+          visualizationObject.layers.push({settings: settings, analytics: {}})
+
+        } else {
+          visualizationObject.layers.forEach(layer => {
+            if(!layer.settings.hasOwnProperty('chartConfiguration')) {
+              layer.settings.chartConfiguration = this.chartService.getChartConfiguration(layer.settings);
+            }
+          })
+        }
 
       } else if (visualizationObject.details.currentVisualization == 'TABLE') {
 
@@ -166,8 +178,10 @@ export class VisualizationObjectService {
         }
 
       }
+      observer.next(visualizationObject);
+      observer.complete();
+    });
 
-      return visualizationObject
   }
 
 }

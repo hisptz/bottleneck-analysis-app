@@ -5,6 +5,7 @@ export interface Visualization {
   created: string;
   lastUpdated: string;
   shape: string;
+  dashboardId: string;
   details: any;
   layers: Array<{
     settings: any;
