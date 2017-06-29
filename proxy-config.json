@@ -1,12 +1,20 @@
 {
   "/api": {
-    "target": "http://localhost:8080",
+    "target": "https://play.dhis2.org/demo/",
+    "target1": "https://waterpoint.tk/",
+    "target1": "http://localhost:8080",
     "secure": "false",
-    "auth":"admin:district"
+    "auth1":"rajabumkomwa:MKOMWA2017",
+    "auth":"admin:district",
+    "changeOrigin":true
   },
   "/": {
-    "target": "http://localhost:8080",
+    "target": "https://play.dhis2.org/demo/",
+    "target1": "https://waterpoint.tk/",
+    "target1": "http://localhost:8080",
     "secure": "false",
-    "auth":"admin:district"
+    "auth1":"rajabumkomwa:MKOMWA2017",
+    "auth":"admin:district",
+    "changeOrigin":true
   }
 }

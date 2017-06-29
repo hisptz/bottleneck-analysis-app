@@ -1,2 +1,5 @@
-<app-loader [loadingMessage]="'Moving Dashboards into position'" *ngIf="loading"></app-loader>
-<router-outlet></router-outlet>
+<app-menu></app-menu>
+<section style="margin-top: 70px;">
+  <app-notification></app-notification>
+  <router-outlet></router-outlet>
+</section>

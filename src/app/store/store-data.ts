@@ -1,20 +1,34 @@
-import {CurrentUser} from "../model/current-user";
-import {Dashboard} from "../model/dashboard";
-import {Visualization} from "../model/visualization";
+import {CurrentUser} from '../model/current-user';
+import {Dashboard} from '../model/dashboard';
+import {Visualization} from '../dashboard/model/visualization';
+import {ChartConfiguration} from '../dashboard/model/chart-configuration';
 export interface StoreData {
   currentUser: CurrentUser;
   dashboards: Dashboard[];
-  visualizationObjects: Visualization[];
-
+  favorites: any[];
+  analytics: any[],
+  chartConfigurations: ChartConfiguration[];
+  chartObjects: any[];
+  dashboardNotification: any;
+  visualizationObjects: Visualization[]
 }
 
 export const INITIAL_STORE_DATA: StoreData = {
   currentUser: {
     id: undefined,
-    organisationUnits: {},
-    dataViewOrganisationUnits: {},
+    name: undefined,
+    displayName: undefined,
+    email: undefined,
+    created: undefined,
+    lastUpdated: undefined,
+    dataViewOrganisationUnits: [],
     userCredentials: {}
   },
   dashboards: [],
-  visualizationObjects: []
+  favorites: [],
+  analytics: [],
+  dashboardNotification: null,
+  visualizationObjects: [],
+  chartConfigurations: [],
+  chartObjects: []
 };

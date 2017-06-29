@@ -1,38 +1,32 @@
 import {Component, OnInit} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {ApplicationState} from "./store/application-state";
-import {LoadCurrentUserAction, LoadDashboardsAction, CurrentDashboardChangeAction} from "./store/actions";
-import {userLastDashboardSelector} from "./store/selectors/user-last-dashboard.selector";
-import {Router, ActivatedRoute} from "@angular/router";
-
+import {ApplicationState} from './store/application-state';
+import {Store} from '@ngrx/store';
+import {LoadCurrentUserAction, LoadDashboardsAction, LoadSystemInfoAction} from './store/actions';
+import {apiRootUrlSelector} from './store/selectors/api-root-url.selector';
+import {Observable} from 'rxjs/Observable';
+import {LoginRedirectService} from './providers/login-redirect.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-  loading: boolean = true;
+export class AppComponent implements OnInit {
   constructor(
     private store: Store<ApplicationState>,
-    private router: Router,
-    private route: ActivatedRoute
+    private loginRedirectService: LoginRedirectService
   ) {
-    store.select(userLastDashboardSelector).subscribe(dashboardId => {
-      if(dashboardId != null) {
-        this.loading = false;
-        router.navigate(['dashboards/' + dashboardId]);
-
-      }
-    })
+    store.dispatch(new LoadSystemInfoAction());
   }
 
   ngOnInit() {
-    const currentHref = window.location.href;
-    if(currentHref.split('/').indexOf('dashboards') != -1) {
-      this.loading = false;
-    }
-    this.store.dispatch(new LoadCurrentUserAction());
-    this.store.dispatch(new LoadDashboardsAction());
+    this.store.select(apiRootUrlSelector).subscribe((rootUrl: string) => {
+      if (rootUrl !== '') {
+        this.store.dispatch(new LoadCurrentUserAction(rootUrl));
+        this.store.dispatch(new LoadDashboardsAction(rootUrl));
+      }
+    });
+
+    this.loginRedirectService.checkIfLogin('../../../')
   }
 }

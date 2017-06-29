@@ -1,6 +1,10 @@
-export interface  CurrentUser {
+export interface CurrentUser {
   id: string;
-  organisationUnits: any;
-  dataViewOrganisationUnits: any;
+  name: string;
+  displayName: string;
+  email: string;
+  created: string;
+  lastUpdated: string;
+  dataViewOrganisationUnits: any[];
   userCredentials: any;
 }

@@ -1,41 +1,67 @@
-import {CurrentUser} from "../model/current-user";
-import {Action} from "@ngrx/store";
-import {Dashboard} from "../model/dashboard";
-import {Visualization} from "../model/visualization";
+import {Action} from '@ngrx/store';
+import {Dashboard} from '../model/dashboard';
+import {CurrentUser} from '../model/current-user';
+import {SystemInfo} from '../providers/system-info.service';
+import {Visualization} from '../dashboard/model/visualization';
+export const LOAD_SYSTEM_INFO_ACTION = 'LOAD_SYSTEM_INFO_ACTION';
+export const SYSTEM_INFO_LOADED_ACTION = 'SYSTEM_INFO_LOADED_ACTION';
+export const ERROR_OCCURRED_ACTION = 'ERROR_OCCURRED_ACTION';
+export const CLEAR_MESSAGE_ACTION = 'CLEAR_MESSAGE_ACTION';
 export const LOAD_CURRENT_USER_ACTION = 'LOAD_CURRENT_USER_ACTION';
 export const LOAD_DASHBOARDS_ACTION = 'LOAD_DASHBOARDS_ACTION';
 export const CURRENT_USER_LOADED_ACTION = 'CURRENT_USER_LOADED_ACTION';
 export const DASHBOARDS_LOADED_ACTION = 'DASHBOARDS_LOADED_ACTION';
 export const CURRENT_DASHBOARD_CHANGE_ACTION = 'CURRENT_DASHBOARD_CHANGE_ACTION';
-export const UPDATE_DASHBOARD_ACTION = 'UPDATE_DASHBOARD_ACTION';
-export const DASHBOARD_UPDATED_ACTION = 'DASHBOARD_UPDATED_ACTION';
+export const LOAD_DASHBOARD_NOTIFICATION_ACTION = 'LOAD_DASHBOARD_NOTIFICATION_ACTION';
+export const DASHBOARD_NOTIFICATION_LOADED_ACTION = 'DASHBOARD_NOTIFICATION_LOADED_ACTION';
+export const CREATE_DASHBOARD_ACTION = 'CREATE_DASHBOARD_ACTION';
+export const EDIT_DASHBOARD_ACTION = 'EDIT_DASHBOARD_ACTION';
+export const DASHBOARD_CREATED_ACTION = 'DASHBOARD_CREATED_ACTION';
+export const DASHBOARD_EDITED_ACTION = 'DASHBOARD_EDITED_ACTION';
+export const DELETE_DASHBOARD_ACTION = 'DELETE_DASHBOARD_ACTION';
+export const DASHBOARD_DELETED_ACTION = 'DASHBOARD_DELETED_ACTION';
+export const LOAD_INITIAL_VISUALIZATION_OBJECT_ACTION = 'LOAD_INITIAL_VISUALIZATION_OBJECT_ACTION';
+export const INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION = 'INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION';
+export const LOAD_VISUALIZATION_OPTIONS_ACTION = 'LOAD_VISUALIZATION_OPTIONS_ACTION';
+export const VISUALIZATION_OPTIONS_LOADED_ACTION = 'VISUALIZATION_OPTIONS_LOADED_ACTION';
+export const RESIZE_DASHBOARD_ACTION = 'RESIZE_DASHBOARD_ACTION';
+export const DASHBOARD_RESIZED_ACTION = 'DASHBOARD_RESIZED_ACTION';
 export const LOAD_FAVORITE_ACTION = 'LOAD_FAVORITE_ACTION';
 export const FAVORITE_LOADED_ACTION = 'FAVORITE_LOADED_ACTION';
-export const LOAD_VISUALIZATION_OBJECT_ACTION = 'LOAD_VISUALIZATION_OBJECT_ACTION';
-export const UPDATE_VISUALIZATION_OBJECT_ACTION = 'UPDATE_VISUALIZATION_OBJECT_ACTION';
-export const VISUALIZATION_OBJECT_LOADED_ACTION = 'VISUALIZATION_OBJECT_LOADED_ACTION';
+export const GET_VISUALIZATION_FILTER_ACTION = 'GET_VISUALIZATION_FILTER_ACTION';
+export const UPDATE_VISUALIZATION_WITH_FILTER_ACTION = 'UPDATE_VISUALIZATION_WITH_FILTER_ACTION';
+export const GET_VISUALIZATION_LAYOUT_ACTION = 'GET_VISUALIZATION_LAYOUT_ACTION';
+export const UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION = 'UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION';
 export const LOAD_ANALYTICS_ACTION = 'LOAD_ANALYTICS_ACTION';
 export const ANALYTICS_LOADED_ACTION = 'ANALYTICS_LOADED_ACTION';
-export const CURRENT_VISUALIZATION_CHANGE_ACTION = 'CURRENT_VISUALIZATION_CHANGE_ACTION';
-export const CHANGE_CURRENT_VISUALIZATION_ACTION = 'CHANGE_CURRENT_VISUALIZATION_ACTION';
-export const CHANGE_FILTERS_ACTION = 'CHANGE_FILTERS_ACTION';
-export const FILTERS_CHANGE_ACTION = 'FILTERS_CHANGE_ACTION';
-export const CHANGE_LAYOUT_ACTION = 'CHANGE_LAYOUT_ACTION';
-export const LAYOUT_CHANGE_ACTION = 'LAYOUT_CHANGE_ACTION';
-export const ADD_DASHBOARD_ACTION = 'ADD_DASHBOARD_ACTION ';
-export const DASHBOARD_ADDED_ACTION = 'DASHBOARD_ADDED_ACTION';
-export const DELETE_DASHBOARD_ACTION = 'DELETE_DASHBOARD_ACTION ';
-export const DASHBOARD_DELETED_ACTION = 'DASHBOARD_DELETED_ACTION';
-export const LAST_DASHBOARD_CHANGE_ACTION = 'LAST_DASHBOARD_CHANGE_ACTION';
-export const DELETE_DASHBOARD_ITEM_ACTION = 'DELETE_DASHBOARD_ITEM_ACTION';
-export const DASHBOARD_ITEM_DELETED_ACTION = 'DASHBOARD_ITEM_DELETED_ACTION';
-export const ADD_DASHBOARD_ITEM_ACTION = 'ADD_DASHBOARD_ITEM_ACTION';
-export const DASHBOARD_ITEM_ADDED_ACTION = 'DASHBOARD_ITEM_ADDED_ACTION';
-export const ERROR_OCCURRED_ACTION = 'ERROR_OCCURRED_ACTION';
+export const GET_CHART_CONFIGURATION_ACTION = 'GET_CHART_CONFIGURATION_ACTION';
+export const GET_CHART_OBJECT_ACTION = 'GET_CHART_OBJECT_ACTION';
+export const SAVE_CHART_CONFIGURATION_ACTION = 'SAVE_CHART_CONFIGURATION_ACTION';
+export const SAVE_CHART_OBJECT_ACTION = 'SAVE_CHART_OBJECT_ACTION';
+export const LOAD_FAVORITE_ADDITIONAL_OPTIONS_ACTION = 'LOAD_FAVORITE_ADDITIONAL_OPTION_ACTION';
+export const FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION = 'FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION';
 
+export class LoadSystemInfoAction implements Action {
+  readonly type = LOAD_SYSTEM_INFO_ACTION;
+}
+
+export class SystemInfoLoadedAction implements Action {
+  readonly type = SYSTEM_INFO_LOADED_ACTION;
+  constructor (public payload: SystemInfo) {}
+}
+
+export class ErrorOccurredAction implements Action {
+  readonly type = ERROR_OCCURRED_ACTION;
+  constructor(public payload: string) {}
+}
+
+export class ClearMessageAction implements  Action{
+  readonly type = CLEAR_MESSAGE_ACTION;
+}
 
 export class LoadCurrentUserAction implements Action {
   readonly type = LOAD_CURRENT_USER_ACTION;
+  constructor (public payload: string) {}
 }
 
 export class CurrentUserLoadedAction implements Action {
@@ -45,6 +71,7 @@ export class CurrentUserLoadedAction implements Action {
 
 export class LoadDashboardsAction implements Action {
   readonly type = LOAD_DASHBOARDS_ACTION;
+  constructor (public payload: string) {}
 }
 
 export class DashboardsLoadedAction implements Action {
@@ -57,103 +84,141 @@ export class CurrentDashboardChangeAction implements Action {
   constructor(public payload: string) {}
 }
 
-export class UpdateDashboardAction implements Action {
-  readonly type = UPDATE_DASHBOARD_ACTION;
-  constructor(public payload: any) {}
+export class LoadDashboardNotificationAction implements Action {
+  readonly type = LOAD_DASHBOARD_NOTIFICATION_ACTION;
+  constructor (public payload: string) {}
 }
 
-export class DashboardUpdatedAction implements Action {
-  readonly type = DASHBOARD_UPDATED_ACTION;
-  constructor(public payload: any) {}
+export class DashboardNotificationLoadedAction implements Action {
+  readonly type = DASHBOARD_NOTIFICATION_LOADED_ACTION;
+  constructor (public payload: string) {}
 }
 
-export class LoadVisualizationObjectAction implements Action {
-  readonly type = LOAD_VISUALIZATION_OBJECT_ACTION;
-  constructor(public payload: Visualization) {}
+export class CreateDashboardAction implements Action {
+  readonly type = CREATE_DASHBOARD_ACTION;
+  constructor (public payload: any) {}
 }
 
-export class VisualizationObjectLoadedAction implements Action {
-  readonly type = VISUALIZATION_OBJECT_LOADED_ACTION;
-  constructor(public payload: Visualization) {}
+export class DashboardCreatedAction implements Action {
+  readonly type = DASHBOARD_CREATED_ACTION;
+  constructor (public payload: any) {}
 }
 
-export class ChangeCurrentVisualizationAction implements Action {
-  readonly type = CHANGE_CURRENT_VISUALIZATION_ACTION;
-  constructor(public payload: Visualization) {}
+export class EditDashboardAction implements Action {
+  readonly type = EDIT_DASHBOARD_ACTION;
+  constructor (public payload: any) {}
 }
 
-export class CurrentVisualizationChangeAction implements Action {
-  readonly type = CURRENT_VISUALIZATION_CHANGE_ACTION;
-  constructor(public payload: Visualization) {}
-}
-
-export class ChangeFiltersAction implements Action {
-  readonly type = CHANGE_FILTERS_ACTION;
-  constructor(public payload: Visualization) {}
-}
-
-export class FiltersChangeAction implements Action {
-  readonly type = FILTERS_CHANGE_ACTION;
-  constructor(public payload: Visualization) {}
-}
-
-export class ChangeLayoutAction implements Action {
-  readonly type = CHANGE_LAYOUT_ACTION;
-  constructor(public payload: Visualization) {}
-}
-
-
-export class LayoutChangeAction implements Action {
-  readonly type = LAYOUT_CHANGE_ACTION;
-  constructor(public payload: Visualization) {}
-}
-
-export class AddDashboardAction implements Action {
-  readonly type = ADD_DASHBOARD_ACTION;
-  constructor(public payload: string) {}
-}
-
-export class DashboardAddedAction implements Action {
-  readonly type = DASHBOARD_ADDED_ACTION;
-  constructor(public payload: Dashboard) {}
+export class DashboardEditedAction implements Action {
+  readonly type = DASHBOARD_EDITED_ACTION;
+  constructor (public payload: any) {}
 }
 
 export class DeleteDashboardAction implements Action {
   readonly type = DELETE_DASHBOARD_ACTION;
-  constructor(public payload: string) {}
+  constructor (public payload: any) {}
 }
 
 export class DashboardDeletedAction implements Action {
   readonly type = DASHBOARD_DELETED_ACTION;
-  constructor(public payload: string) {}
+  constructor (public payload: any) {}
 }
 
-export class LastDashboardChangeAction implements Action {
-  readonly type = LAST_DASHBOARD_CHANGE_ACTION;
-  constructor(public payload: string) {}
-}
-
-export class DeleteDashboardItemAction implements Action {
-  readonly type = DELETE_DASHBOARD_ITEM_ACTION;
+export class LoadInitialVisualizationObjectAction implements Action {
+  readonly type = LOAD_INITIAL_VISUALIZATION_OBJECT_ACTION;
   constructor(public payload: any) {}
 }
 
-export class DashboardItemDeletedAction implements Action {
-  readonly type = DASHBOARD_ITEM_DELETED_ACTION;
+export class InitialVisualizationObjectLoadedAction implements Action {
+  readonly type = INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION;
   constructor(public payload: any) {}
 }
 
-export class AddDashboardItemAction implements Action {
-  readonly type = ADD_DASHBOARD_ITEM_ACTION;
+export class LoadVisualizationOptionsAction implements Action {
+  readonly type = LOAD_VISUALIZATION_OPTIONS_ACTION;
+  constructor(public payload: Visualization) {}
+}
+
+export class VisualizationOptionsLoadedAction implements Action {
+  readonly type = VISUALIZATION_OPTIONS_LOADED_ACTION;
+  constructor(public payload: Visualization) {}
+}
+
+export class LoadFavoriteAction implements Action {
+  readonly type = LOAD_FAVORITE_ACTION;
+  constructor(public payload: Visualization) {}
+}
+
+export class FavoriteLoadedAction implements Action {
+  readonly type = FAVORITE_LOADED_ACTION;
+  constructor(public payload: Visualization) {}
+}
+
+export class ResizeDashboardAction implements Action {
+  readonly type = RESIZE_DASHBOARD_ACTION;
   constructor(public payload: any) {}
 }
 
-export class DashboardItemAddedAction implements Action {
-  readonly type = DASHBOARD_ITEM_ADDED_ACTION;
+export class DashboardRezisedAction implements Action {
+  readonly type = DASHBOARD_RESIZED_ACTION;
+}
+
+export class GetVisualizationFilterAction implements Action {
+  readonly type = GET_VISUALIZATION_FILTER_ACTION;
   constructor(public payload: any) {}
 }
 
-export class ErrorOccurredAction implements Action {
-  readonly type = ERROR_OCCURRED_ACTION;
-  constructor(public payload: string) {}
+export class UpdateVisualizationWithFilterAction implements Action {
+  readonly type = UPDATE_VISUALIZATION_WITH_FILTER_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class GetVisualizationLayoutAction implements Action {
+  readonly type = GET_VISUALIZATION_LAYOUT_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class UpdateVisualizationWithLayoutAction implements Action {
+  readonly type = UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class LoadAnalyticsAction implements Action {
+  readonly type = LOAD_ANALYTICS_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class AnalyticsLoadedAction implements Action {
+  readonly type = ANALYTICS_LOADED_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class GetChartConfigurationAction implements Action {
+  readonly type = GET_CHART_CONFIGURATION_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class SaveChartConfigurationAction implements Action {
+  readonly type = SAVE_CHART_CONFIGURATION_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class GetChartObjectAction implements Action {
+  readonly type = GET_CHART_OBJECT_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class SaveChartObjectAction implements Action {
+  readonly type = SAVE_CHART_OBJECT_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class LoadFavoriteAdditionalOptionAction implements Action {
+  readonly type = LOAD_FAVORITE_ADDITIONAL_OPTIONS_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class FavoriteAdditionalOptionsLoadedAction implements Action {
+  readonly type = FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION;
+  constructor(public payload: any) {}
 }

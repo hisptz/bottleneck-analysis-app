@@ -1,0 +1,20 @@
+CACHE MANIFEST
+
+# Explicitly cached 'master entries'.
+CACHE:
+favicon.ico
+index.html
+assets/styles/1YwB1sO8YE1Lyjf12WNiUA.woff2
+assets/styles/UyBMtLsHKBKXelqf4x7VRQ.woff2
+assets/img/icon-16x16.png
+assets/img/icon-48x48.png
+assets/img/icon-128x128.png
+assets/img/balls-3.svg
+assets/img/balls-5.svg
+
+# Resources that require the user to be online.
+NETWORK:
+*
+
+
+FALLBACK:

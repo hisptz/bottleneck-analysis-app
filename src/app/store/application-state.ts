@@ -1,6 +1,5 @@
-import {UiState, INITIAL_UI_STATE} from "./ui-state";
-import {StoreData, INITIAL_STORE_DATA} from "./store-data";
-
+import {INITIAL_UI_STATE, UiState} from './ui-state';
+import {INITIAL_STORE_DATA, StoreData} from './store-data';
 export interface ApplicationState {
   uiState: UiState;
   storeData: StoreData;

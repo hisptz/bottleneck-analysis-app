@@ -1,15 +1,23 @@
 export interface UiState {
-  currentDashboard: string;
-  currentCreatedDashboard: string;
-  currentDeletedDashboard: string;
-  visualizationObjectsLoaded: Array<string>;
   errorMessage: string;
+  systemInfo: {
+    rootUrl: string;
+    currentVersion: number;
+    maxSupportedVersion: number;
+    minSupportedVersion: number;
+    loaded: boolean;
+  };
+  currentDashboard: string;
 }
 
 export const INITIAL_UI_STATE = {
-  currentDashboard: undefined,
-  currentCreatedDashboard: null,
-  currentDeletedDashboard: null,
-  visualizationObjectsLoaded: [],
-  errorMessage: ''
+  errorMessage: '',
+  systemInfo: {
+    rootUrl: undefined,
+    currentVersion: 2.25,
+    maxSupportedVersion: 2.25,
+    minSupportedVersion: 2.23,
+    loaded: false
+  },
+  currentDashboard: undefined
 };

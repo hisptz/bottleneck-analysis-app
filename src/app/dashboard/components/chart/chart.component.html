@@ -1,0 +1,14 @@
+<div class="row" *ngIf="loading">
+  <div class="col-md-12">
+    loading
+  </div>
+</div>
+<div *ngIf="loaded">
+  <app-chart-template
+    *ngFor="let layer of visualizationObject.layers; let i=index"
+    [renderId]="visualizationObject.id + '_' + i"
+    [chartObject]="layer.chartObject"
+  ></app-chart-template>
+</div>
+
+

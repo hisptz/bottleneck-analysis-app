@@ -1,0 +1,50 @@
+<!--Header-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3 col-sm-3">
+      <h4>{{dashboardName$ | async}}</h4>
+    </div>
+    <div class="col-md-5 col-sm-5">
+      <!--<app-dashboard-item-search></app-dashboard-item-search>-->
+    </div>
+    <div class="col-md-4 col-sm-4">
+      <app-dashboard-notification-area></app-dashboard-notification-area>
+    </div>
+  </div>
+</div>
+<!--End of Header-->
+
+<!--Dashboard Menus-->
+<app-dashboard-menu></app-dashboard-menu>
+<!--End of Dashbaord Menus-->
+
+<!--global filter-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <app-period-filter (onPeriodUpdate)="globalFilters.next($event)"></app-period-filter>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end of global filter-->
+
+<!--Dashboard Items-->
+<div class="container-fluid">
+  <!--<app-loader *ngIf="loading" [loadingMessage]="'Moving dashboards into position'"></app-loader>-->
+  <div class="row" *ngIf="(visualizationObjects$ | async).length > 0">
+    <app-dashboard-item-card
+      *ngFor="let visualizationObject of visualizationObjects$ | async"
+      [visualizationObject]="visualizationObject"
+      [globalFilters]="globalFilters$"
+      (onFilterReset)="globalFilters.next($event)"
+    >
+    </app-dashboard-item-card>
+  </div>
+</div>
+<!--End of Dashboard Items-->
+
+

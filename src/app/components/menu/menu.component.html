@@ -1,0 +1,52 @@
+<nav class="navbar navbar-fixed-top" [ngStyle]="{'background-color': backgroundColor}">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand hidden-xs logo-link" href="{{root_dir}}dhis-web-commons-about/redirect.action">
+        <img src="{{root_dir}}api/staticContent/logo_banner" style="height: 40px; width: 40px; margin-top: -10px;" alt="">
+      </a>
+      <a href="{{root_dir}}dhis-web-commons-about/redirect.action" class="navbar-brand title-link"><b>{{applicationTitle}}</b></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><input type="text" id="app-search" *ngIf="!loadingModules" [(ngModel)]="filteredApp" class="search-input" [ngStyle]="{'background-color': backgroundColor}" placeholder="Search apps" (focus)="widdenSearch()" size="{{searchWidth}}"></li>
+        <!--<li><a href="" style="padding-top: 10px;"><i class="fa fa-bars fa-2x" aria-hidden="true"></i></a></li>-->
+        <div  class="apps" *ngIf="showApps" (mouseleave)="reduceSearch()">
+          <ul  class="list-inline">
+            <li *ngFor="let app of apps | filter: filteredApp">
+              <a  href="{{app.defaultAction}}" class="btn btn-default app-item-btn">
+                <img  alt="" style="height: 50px; width: 50px;" src="{{app.icon}}"><br>
+                <small style="font-size: 9px;">{{app.displayName}}</small>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <li>
+          <a (mouseenter)="showProfile = true" class="profile-btn" [ngStyle]="{'color': backgroundColor}" *ngIf="!loadingUser">{{currentUser?.AbbreviatedName}}</a>
+          <ul  class="profile list-inline" *ngIf="showProfile" (mouseleave)="showProfile = false">
+            <li  class="pull-left user-settings">
+              <ul  class="list-inline setting-items">
+                <li *ngFor="let profileMenu of profileMenus">
+                  <a  href="../../..{{profileMenu.defaultAction}}" class="btn btn-default profile-item-btn">
+                    <img  alt="" style="height: 50px; width: 50px;" src="../../..{{profileMenu.icon}}"><br >
+                    <small  style="font-size: 9px;">{{profileMenu.name}}</small>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li  class="user-profile pull-right" >
+              <div  class="user-profile-logo" style="color: rgb(39, 102, 150);" *ngIf="!loadingUser">{{currentUser?.AbbreviatedName}}</div>
+              <h6 *ngIf="!loadingUser">{{currentUser?.name}}</h6>
+              <h6 *ngIf="!loadingUser">{{currentUser?.email}}</h6>
+              <a  class="btn btn-default btn-sm logout-btn" href="../../../dhis-web-commons-security/logout.action" *ngIf="!loadingUser">LOGOUT</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

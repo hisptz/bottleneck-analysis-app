@@ -1,21 +1,21 @@
 {
-    "version": "2.0",
-    "name": "Interactive dashboard 2",
-    "description": "Interactive dashboard app for dhis2",
+    "version": "2.0.0",
+    "name": "Interactive dashboard",
+    "description": "Interactive dashboard",
     "launch_path": "index.html",
     "icons": {
-        "16": "assets/img/icon.png",
-        "48": "assets/img/icon.png",
-        "128": "assets/img/icon.png"
+        "16": "assets/img/icon-16x16.png",
+        "48": "assets/img/icon-48x48.png",
+        "128": "assets/img/icon-128x128.png"
     },
     "developer": {
         "name": "HISPTZ",
-        "url": ""
+        "url": "https://hisptanzania.org"
     },
     "default_locale": "en",
     "activities": {
         "dhis": {
-            "href": "../../.."
+            "href": "../../../"
         }
     }
 }

@@ -1,14 +1,14 @@
-import { NgModule }     from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {DashboardComponent} from "./pages/dashboard/dashboard.component";
-
+import {NgModule} from '@angular/core';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {HomeComponent} from './home/home.component';
 export const routes: Routes = [
-  { path: 'dashboards/:id', component: DashboardComponent}
+  {path: '', component: HomeComponent},
+  {path: 'dashboards/:id', loadChildren: 'app/dashboard/dashboard.module#DashboardModule'}
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes,{useHash: true})
+    RouterModule.forRoot(routes, {useHash: true, preloadingStrategy: PreloadAllModules})
   ],
   exports: [RouterModule]
 })
