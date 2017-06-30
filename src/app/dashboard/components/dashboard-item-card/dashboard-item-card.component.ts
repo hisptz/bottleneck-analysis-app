@@ -8,8 +8,7 @@ import {ApplicationState} from '../../../store/application-state';
 import {Store} from '@ngrx/store';
 import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector';
 import {
-  ResizeDashboardAction, UpdateVisualizationWithCustomFilterAction,
-  UpdateVisualizationWithFilterAction
+  ResizeDashboardAction, UpdateVisualizationWithCustomFilterAction
 } from '../../../store/actions';
 import {ChartComponent} from '../chart/chart.component';
 import {Observable} from 'rxjs/Observable';
@@ -67,6 +66,8 @@ export class DashboardItemCardComponent implements OnInit {
   @ViewChild('dashboardItemBody') dashboardItemBody: ElementRef;
   @ViewChild(ChartComponent)
   chartComponent: ChartComponent;
+  showFavoriteSettings: boolean = false;
+  currentShape: string;
   constructor(private store: Store<ApplicationState>) { }
 
   ngOnInit() {
@@ -77,6 +78,7 @@ export class DashboardItemCardComponent implements OnInit {
     this.visualizationObject.details.cardHeight = this.cardConfiguration.defaultHeight;
     this.visualizationObject.details.itemHeight = this.cardConfiguration.defaultItemHeight;
     this.currentVisualization = this.visualizationObject.details.currentVisualization;
+    this.currentShape = this.visualizationObject.shape;
     // console.log(JSON.stringify(this.visualizationObject))
 
     // this.globalFilters.subscribe(globalFilters => {
@@ -135,6 +137,7 @@ export class DashboardItemCardComponent implements OnInit {
       });
     }
     visualizationObject.shape = newShape;
+    this.currentShape = newShape;
 
     this.visualizationObject = visualizationObject;
 
@@ -204,6 +207,26 @@ export class DashboardItemCardComponent implements OnInit {
           }))
       }
     })
+  }
+
+  toggleFavoriteSettings(event?) {
+    // if (this.showFavoriteSettings) {
+    //   this.visualizationObject.shape = this.currentShape;
+    // } else {
+    //   if (this.currentShape === 'NORMAL') {
+    //     this.visualizationObject.shape = 'DOUBLE_WIDTH';
+    //   }
+    // }
+
+    this.showFavoriteSettings = !this.showFavoriteSettings;
+  }
+
+  getVisualizationSettings(visualizationLayers) {
+    return visualizationLayers.map(layer => {return layer.settings});
+  }
+
+  updateFavoriteOptions() {
+    console.log(this.visualizationObject)
   }
 
 }

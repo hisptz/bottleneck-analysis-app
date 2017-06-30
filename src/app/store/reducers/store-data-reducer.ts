@@ -101,11 +101,12 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       }
 
       /**
-       * Update visualizationObject with filters
+       * Update visualizationObject with favorite and additional options
        */
       const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
       if (currentVisualizationObject) {
         const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+
         currentVisualizationObject.layers = mapFavoriteToLayerSettings(action.payload.favorite);
         newState.visualizationObjects[currentVisualizationObjectIndex] = _.clone(currentVisualizationObject);
       }

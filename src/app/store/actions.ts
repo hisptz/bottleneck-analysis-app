@@ -41,6 +41,7 @@ export const SAVE_CHART_CONFIGURATION_ACTION = 'SAVE_CHART_CONFIGURATION_ACTION'
 export const SAVE_CHART_OBJECT_ACTION = 'SAVE_CHART_OBJECT_ACTION';
 export const LOAD_FAVORITE_ADDITIONAL_OPTIONS_ACTION = 'LOAD_FAVORITE_ADDITIONAL_OPTION_ACTION';
 export const FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION = 'FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION';
+export const UPDATE_FAVORITE_OPTIONS_ACTION = 'UPDATE_FAVORITE_OPTIONS_ACTION';
 
 export class LoadSystemInfoAction implements Action {
   readonly type = LOAD_SYSTEM_INFO_ACTION;
@@ -226,5 +227,10 @@ export class LoadFavoriteAdditionalOptionAction implements Action {
 
 export class FavoriteAdditionalOptionsLoadedAction implements Action {
   readonly type = FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class UpdateFavoriteOptionsAction implements Action {
+  readonly type = UPDATE_FAVORITE_OPTIONS_ACTION;
   constructor(public payload: any) {}
 }

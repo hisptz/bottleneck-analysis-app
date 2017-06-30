@@ -41,6 +41,17 @@
   padding-left: 8px;
   padding-top: 6px;
 }
+.dashboard-left-item-header li{
+  padding-right: 3px;
+  padding-left: 3px;
+}
+.dashboard-left-item-header li > a {
+  border-radius: 3px;
+  height: 25px;
+  padding-top: 2px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
 
 .full-screen {
   position: fixed;
@@ -120,4 +131,20 @@
 
 .active-visualisation {
   background-color: #cecece !important;
+}
+
+.favorite-settings {
+  position: absolute;
+  width: 350px;
+  background-color: #ffffff;
+  top: 0px;
+  bottom: 0px;
+  right: 10px;
+  z-index: 1000;
+  box-shadow: 0 32px 44px -24px rgba(0, 0, 0, 0.23), 0 20px 25px 0px rgba(0, 0, 0, 0.12), 0 15px 10px -10px rgba(0, 0, 0, 0.2);
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
 }

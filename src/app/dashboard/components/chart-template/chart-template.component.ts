@@ -10,6 +10,7 @@ declare var Highcharts: any;
 export class ChartTemplateComponent implements OnInit {
 
   @Input() renderId: string;
+  @Input() chartHeight
   @Input() chartObject: any;
   chart: any;
   constructor() { }

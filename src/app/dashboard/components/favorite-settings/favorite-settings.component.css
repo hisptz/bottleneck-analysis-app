@@ -1,0 +1,9 @@
+.option-input > td > input {
+  border-style: none;
+  border-bottom: solid 1px #eee;
+}
+
+.option-input > td > input:focus {
+  outline: none;
+  border-bottom: solid 1px #ddd;
+}

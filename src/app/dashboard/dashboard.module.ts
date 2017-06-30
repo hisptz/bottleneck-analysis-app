@@ -32,6 +32,8 @@ import {PeriodFilterComponent} from './components/period-filter/period-filter.co
 import {MultiselectComponent} from './components/org-unit-filter/multiselect/multiselect.component';
 import {TreeModule} from 'angular-tree-component';
 import {FilterLevelPipe} from './pipes/filter-level.pipe';
+import { FavoriteSettingsComponent } from './components/favorite-settings/favorite-settings.component';
+import {TruncatePipe} from './pipes/truncate.pipe';
 
 @NgModule({
   imports: [
@@ -61,7 +63,9 @@ import {FilterLevelPipe} from './pipes/filter-level.pipe';
     OrgUnitFilterComponent,
     PeriodFilterComponent,
     MultiselectComponent,
-    FilterLevelPipe
+    FilterLevelPipe,
+    FavoriteSettingsComponent,
+    TruncatePipe
   ],
   providers: [
     DashboardNotificationService,

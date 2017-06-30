@@ -205,8 +205,29 @@ export class FavoriteService {
     });
   }
 
-  loadFromDataStore(favoriteId) {
-
+  updateAdditionalOptions(visualizationDetails) {
+    const favoriteOptions = visualizationDetails.favoriteOptions;
+    return Observable.create(observer => {
+      if (favoriteOptions) {
+        this.http.get(visualizationDetails.apiRootUrl + 'dataStore/favoriteOptions/' + favoriteOptions.id)
+          .subscribe(() => {
+            this.http.put(visualizationDetails.apiRootUrl + 'dataStore/favoriteOptions/' + favoriteOptions.id, favoriteOptions)
+              .subscribe(() => {
+                observer.next(visualizationDetails);
+                observer.complete();
+              }, error => observer.error(error))
+          }, () => {
+            this.http.post(visualizationDetails.apiRootUrl + 'dataStore/favoriteOptions/' + favoriteOptions.id, favoriteOptions)
+              .subscribe(() => {
+                observer.next(visualizationDetails);
+                observer.complete();
+              }, error => observer.error(error))
+          });
+      } else {
+        observer.next(visualizationDetails);
+        observer.complete();
+      }
+    })
   }
 
 }
