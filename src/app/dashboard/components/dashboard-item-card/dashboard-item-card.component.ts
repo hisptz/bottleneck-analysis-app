@@ -7,7 +7,10 @@ import * as _ from 'lodash';
 import {ApplicationState} from '../../../store/application-state';
 import {Store} from '@ngrx/store';
 import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector';
-import {ResizeDashboardAction, UpdateVisualizationWithFilterAction} from '../../../store/actions';
+import {
+  ResizeDashboardAction, UpdateVisualizationWithCustomFilterAction,
+  UpdateVisualizationWithFilterAction
+} from '../../../store/actions';
 import {ChartComponent} from '../chart/chart.component';
 import {Observable} from 'rxjs/Observable';
 
@@ -193,7 +196,7 @@ export class DashboardItemCardComponent implements OnInit {
     }
     this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
       if (apiRootUrl !== '') {
-        this.store.dispatch(new UpdateVisualizationWithFilterAction(
+        this.store.dispatch(new UpdateVisualizationWithCustomFilterAction(
           {
             apiRootUrl: apiRootUrl,
             visualizationObject: newVisualizationObject,

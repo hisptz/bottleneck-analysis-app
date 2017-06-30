@@ -1,9 +1,8 @@
-<div class="row" *ngIf="loading">
-  <div class="col-md-12">
-    loading
-  </div>
+<div *ngIf="!visualizationObject.details.loaded">
+  loading chart
+  <!--{{visualizationObject | json}}-->
 </div>
-<div *ngIf="loaded">
+<div *ngIf="visualizationObject.details.loaded">
   <app-chart-template
     *ngFor="let layer of visualizationObject.layers; let i=index"
     [renderId]="visualizationObject.id + '_' + i"

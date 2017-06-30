@@ -91,23 +91,33 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
 
     case 'FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION': {
       const newState: StoreData = _.clone(state);
+
+      /**
+       * Save favorite with its option
+       */
       const currentFavorite = _.find(newState.favorites, ['id', action.payload.favorite.id]);
       if (!currentFavorite && action.payload.favorite !== {}) {
         newState.favorites.push(action.payload.favorite);
+      }
+
+      /**
+       * Update visualizationObject with filters
+       */
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+      if (currentVisualizationObject) {
+        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+        currentVisualizationObject.layers = mapFavoriteToLayerSettings(action.payload.favorite);
+        newState.visualizationObjects[currentVisualizationObjectIndex] = _.clone(currentVisualizationObject);
       }
       return newState;
     }
 
     case 'UPDATE_VISUALIZATION_WITH_FILTER_ACTION': {
-      const newState: StoreData = _.clone(state);
-      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
-      if (currentVisualizationObject) {
-        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
-        currentVisualizationObject.details.filters = action.payload.filters;
-        currentVisualizationObject.details.loaded = false;
-        newState.visualizationObjects[currentVisualizationObjectIndex] = _.clone(currentVisualizationObject);
-      }
-      return newState;
+      handleFiltersUpdateAction(state, action)
+    }
+
+    case 'UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION': {
+      handleFiltersUpdateAction(state, action)
     }
 
     case 'UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION': {
@@ -127,7 +137,11 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
 
     case 'SAVE_CHART_CONFIGURATION_ACTION': {
       const newState: StoreData = _.clone(state);
-      action.payload.forEach(chartConfigurationObject => {
+
+      /**
+       * Save chart configuration
+       */
+      action.payload.chartConfigurations.forEach(chartConfigurationObject => {
         const availableChartConfiguration = _.find(newState.chartConfigurations, ['id', chartConfigurationObject.id]);
         if (!availableChartConfiguration) {
           newState.chartConfigurations.push(chartConfigurationObject);
@@ -137,26 +151,73 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
         }
       });
 
+      /**
+       * Update visualization object with chart configuration
+       */
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObjectId]);
+      if (currentVisualizationObject) {
+        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+        currentVisualizationObject.layers.forEach((layer: any) => {
+          const chartConfigurationObject = _.find(state.chartConfigurations, ['id', layer.settings.id]);
+          if (chartConfigurationObject) {
+            layer.settings.chartConfiguration = chartConfigurationObject.chartConfiguration;
+          }
+        });
+        newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject
+      }
+
       return newState;
     }
 
     case 'SAVE_CHART_OBJECT_ACTION': {
       const newState: StoreData = _.clone(state);
-      action.payload.forEach(chartObject => {
+
+      /**
+       * Save chart objects
+       */
+      action.payload.chartObjects.forEach(chartObject => {
         const availableChartObject = _.find(newState.chartObjects, ['id', chartObject.id]);
         if (!availableChartObject) {
           newState.chartObjects.push(chartObject);
         } else {
-          const availableChartConfigurationIndex = _.findIndex(newState.chartConfigurations, availableChartObject);
-          newState.chartObjects[availableChartConfigurationIndex] = chartObject;
+          const availableChartObjectIndex = _.findIndex(newState.chartObjects, availableChartObject);
+          newState.chartObjects[availableChartObjectIndex] = chartObject;
         }
       });
+
+      /**
+       * Update visualization object chart Object
+       */
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+      if (currentVisualizationObject) {
+        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+        currentVisualizationObject.details.loaded = true;
+        currentVisualizationObject.layers.forEach((layer: any) => {
+          const chartObject = _.find(state.chartObjects, ['id', layer.settings.id]);
+          if (chartObject) {
+            layer.chartObject = chartObject.content;
+          }
+        });
+        newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
+      }
       return newState;
     }
 
     default:
       return state;
   }
+}
+
+function mapFavoriteToLayerSettings(favoriteObject: any) {
+  const layers: any[] = [];
+  if (favoriteObject.mapViews) {
+    favoriteObject.mapViews.forEach((view: any) => {
+      layers.push({settings: view})
+    })
+  } else {
+    layers.push({settings: favoriteObject})
+  }
+  return layers;
 }
 
 function mapStateToDashboardObject(dashboardData: any, action = null) {
@@ -239,9 +300,25 @@ function handleVisualizationObjectLoadedAction(state: StoreData, action: any) {
   return newState;
 }
 
+function handleFiltersUpdateAction(state: StoreData, action: any) {
+  const newState: StoreData = _.clone(state);
+  const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+  if (currentVisualizationObject) {
+    const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+    currentVisualizationObject.details.filters = action.payload.filters;
+    currentVisualizationObject.details.loaded = false;
+    currentVisualizationObject.details.analyticsLoaded = false;
+    newState.visualizationObjects[currentVisualizationObjectIndex] = _.clone(currentVisualizationObject);
+  }
+  return newState;
+}
+
 function handleAnalyticsLoadedAction(state: StoreData, action: any) {
   const newState: StoreData = _.clone(state);
   const favorite = action.payload.favorite;
+  /**
+   * Save Analytics action
+   */
   if (favorite) {
     if (favorite.mapViews) {
       favorite.mapViews.forEach((viewItem, viewIndex) => {
@@ -270,19 +347,40 @@ function handleAnalyticsLoadedAction(state: StoreData, action: any) {
       }
     }
   } else {
-    const settings = action.payload.visualizationObject.layers.map(layer => { return layer.settings });
-    settings.forEach((setting: any) => {
-      const analytics = _.find(newState.analytics, ['id', setting.id]);
-      if (!analytics) {
-        if (action.payload.analytics.length > 0 && action.payload.analytics[0]) {
-          newState.analytics.push({id: setting.id, analytics: action.payload.analytics[0]})
+    const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+    if (currentVisualizationObject) {
+
+      const settingsIds = currentVisualizationObject.layers.map(layer => { return layer.settings.id });
+      settingsIds.forEach((settingId: any, settingIndex: number) => {
+        const analytics = _.find(newState.analytics, ['id', settingId]);
+        if (!analytics) {
+          if (action.payload.analytics.length > 0 && action.payload.analytics[0]) {
+            newState.analytics.push({id: settingId, analytics: action.payload.analytics[settingIndex]})
+          }
+        } else {
+          const analyticsIndex = _.findIndex(newState.analytics, analytics);
+          const newAnalytics = _.clone(analytics);
+          newAnalytics.analytics = action.payload.analytics[settingIndex];
+          newState.analytics[analyticsIndex] = newAnalytics;
         }
-      } else {
-        const analyticsIndex = _.findIndex(newState.analytics, analytics);
-        const newAnalytics = action.payload.analytics[0];
-        newState.analytics[analyticsIndex] = newAnalytics;
+      })
+    }
+  }
+
+  /**
+   * Update visualizationObject with analytics
+   */
+  const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+  if (currentVisualizationObject) {
+    const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+    currentVisualizationObject.layers.forEach((layer: any) => {
+      const analyticsObject = _.find(state.analytics, ['id', layer.settings.id]);
+      if (analyticsObject) {
+        currentVisualizationObject.details.analyticsLoaded = true;
+        layer.analytics = analyticsObject.analytics;
       }
-    })
+    });
+    newState.visualizationObjects[currentVisualizationObjectIndex] = _.clone(currentVisualizationObject);
   }
   return newState;
 }

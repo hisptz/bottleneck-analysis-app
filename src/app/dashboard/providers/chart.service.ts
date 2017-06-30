@@ -10,9 +10,9 @@ export class ChartService {
     private visualizationService: VisualizationService
   ) { }
 
-  public getChartObjects(visualizationObject: Visualization, chartType: string = null): any[] {
+  public getChartObjects(visualizationObject: Visualization, chartType: string = null): any {
 
-    return visualizationObject.layers.map((layer, index) => {
+    const chartObjects = visualizationObject.layers.map((layer, index) => {
       const renderId: string = visualizationObject.id + '_' + index;
       /**
        * Include custom chart type if any
@@ -28,11 +28,14 @@ export class ChartService {
       }
 
       return {id: layer.settings.id, content: chartObject};
-    })
+    });
+
+    return {visualizationObject: visualizationObject, chartObjects: chartObjects}
   }
 
-  getChartConfiguration(visualizationSettings: any): ChartConfiguration[] {
+  getChartConfiguration(visualizationDetails: any): ChartConfiguration[] {
     const chartConfigurations = [];
+    const visualizationSettings = visualizationDetails.visualizationSettings;
     visualizationSettings.forEach(favoriteObject => {
       const chartConfiguration = {
         type: favoriteObject.hasOwnProperty('type') ? favoriteObject.type.toLowerCase() : 'bar',
@@ -47,7 +50,8 @@ export class ChartService {
       };
       chartConfigurations.push({id: favoriteObject.id, chartConfiguration: chartConfiguration})
     });
-    return chartConfigurations;
+    visualizationDetails.chartConfigurations = chartConfigurations;
+    return visualizationDetails;
   }
 
   private _getAxisType(axis, favoriteObject) {

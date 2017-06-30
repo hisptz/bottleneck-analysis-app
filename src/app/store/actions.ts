@@ -30,6 +30,7 @@ export const LOAD_FAVORITE_ACTION = 'LOAD_FAVORITE_ACTION';
 export const FAVORITE_LOADED_ACTION = 'FAVORITE_LOADED_ACTION';
 export const GET_VISUALIZATION_FILTER_ACTION = 'GET_VISUALIZATION_FILTER_ACTION';
 export const UPDATE_VISUALIZATION_WITH_FILTER_ACTION = 'UPDATE_VISUALIZATION_WITH_FILTER_ACTION';
+export const UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION = 'UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION';
 export const GET_VISUALIZATION_LAYOUT_ACTION = 'GET_VISUALIZATION_LAYOUT_ACTION';
 export const UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION = 'UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION';
 export const LOAD_ANALYTICS_ACTION = 'LOAD_ANALYTICS_ACTION';
@@ -170,6 +171,11 @@ export class GetVisualizationFilterAction implements Action {
 
 export class UpdateVisualizationWithFilterAction implements Action {
   readonly type = UPDATE_VISUALIZATION_WITH_FILTER_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class UpdateVisualizationWithCustomFilterAction implements Action {
+  readonly type = UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION;
   constructor(public payload: any) {}
 }
 

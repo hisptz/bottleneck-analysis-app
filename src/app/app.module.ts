@@ -48,7 +48,7 @@ import {VisualizationObjectEffect} from './store/effects/visualization-object.ef
     EffectsModule.run(DashboardEffect),
     EffectsModule.run(CurrentUserEffect),
     EffectsModule.run(DashboardNotificationEffect),
-    StoreDevtoolsModule.instrumentOnlyWithExtension()
+    // StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [
     SystemInfoService,

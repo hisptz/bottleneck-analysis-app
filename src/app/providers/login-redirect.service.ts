@@ -10,7 +10,7 @@ export class LoginRedirectService {
   ) { }
 
   checkIfLogin(rootUrl) {
-    Observable.timer(1, 12000).subscribe(() => {
+    Observable.timer(30000).subscribe(() => {
         this.http.post(rootUrl + 'dhis-web-commons-stream/ping.action',{})
           .map((res: Response) => res.json())
           .catch(error => Observable.throw(new Error(error)))

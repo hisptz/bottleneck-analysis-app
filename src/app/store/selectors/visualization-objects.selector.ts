@@ -1,19 +1,23 @@
 import {ApplicationState} from '../application-state';
 import * as _ from 'lodash';
 export function visualizationObjectsSelector(state: ApplicationState) {
-  return updateWithVisualizableObject(
-    state,
-    updateWithConfiguration(
-      state,
-      updateWithAnalytics(
-        state,
-        updateWithFavorite(
-          state,
-          _.filter(state.storeData.visualizationObjects, ['dashboardId', state.uiState.currentDashboard])
-        )
-      )
-    )
-  );
+  const visualizationObjects = _.filter(state.storeData.visualizationObjects, ['dashboardId', state.uiState.currentDashboard]);
+
+  // return updateWithVisualizableObject(
+  //   state,
+  //   updateWithConfiguration(
+  //     state,
+  //     updateWithAnalytics(
+  //       state,
+  //       updateWithFavorite(
+  //         state,
+  //         _.filter(state.storeData.visualizationObjects, ['dashboardId', state.uiState.currentDashboard])
+  //       )
+  //     )
+  //   )
+  // );
+
+  return visualizationObjects;
 
 }
 
@@ -69,9 +73,6 @@ function getVisualizableObject(state, visualizationObject) {
   switch (visualizationObject.details.currentVisualization) {
     case 'CHART': {
       visualizationObject.layers = updateWithChartObject(state, visualizationObject.layers);
-      if (visualizationObject.layers.filter(layer => { return layer.chartObject }).length > 0) {
-        visualizationObject.details.loaded = true;
-      }
       return visualizationObject;
     }
     default:

@@ -2,7 +2,7 @@ import {Actions, Effect} from '@ngrx/effects';
 import {Injectable} from '@angular/core';
 import {AnalyticsService} from '../../dashboard/providers/analytics.service';
 import {
-  AnalyticsLoadedAction, LOAD_ANALYTICS_ACTION, LoadAnalyticsAction,
+  AnalyticsLoadedAction, LOAD_ANALYTICS_ACTION, LoadAnalyticsAction, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION,
   UPDATE_VISUALIZATION_WITH_FILTER_ACTION
 } from '../actions';
 import {Observable} from 'rxjs/Observable';
@@ -16,6 +16,11 @@ export class AnalyticsEffect {
 
   @Effect() loadedVisualizationObjectWithFavorite$: Observable<Action> = this.actions$
     .ofType(UPDATE_VISUALIZATION_WITH_FILTER_ACTION)
+    .flatMap((action: any) => Observable.of(action.payload))
+    .map(visualizationObject => new LoadAnalyticsAction(visualizationObject));
+
+  @Effect() loadedVisualizationObjectWithFilters$: Observable<Action> = this.actions$
+    .ofType(UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION)
     .flatMap((action: any) => Observable.of(action.payload))
     .map(visualizationObject => new LoadAnalyticsAction(visualizationObject));
 

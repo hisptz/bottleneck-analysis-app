@@ -186,16 +186,22 @@ export class FavoriteService {
   }
 
   loadAdditionalOptions(visualizationDetails) {
+    const favoriteId = visualizationDetails.favorite.id;
     return Observable.create(observer => {
-      this.http.get(visualizationDetails.apiRootUrl + 'dataStore/favoriteOptions/' + visualizationDetails.favorite.id)
-        .subscribe(favoriteOptions => {
-          visualizationDetails.favorite = Object.assign({}, visualizationDetails.favorite, favoriteOptions);
-          observer.next(visualizationDetails);
-          observer.complete();
-        }, () => {
-          observer.next(visualizationDetails);
-          observer.complete();
-        })
+      if (favoriteId) {
+        this.http.get(visualizationDetails.apiRootUrl + 'dataStore/favoriteOptions/' + visualizationDetails.favorite.id)
+          .subscribe(favoriteOptions => {
+            visualizationDetails.favorite = Object.assign({}, visualizationDetails.favorite, favoriteOptions);
+            observer.next(visualizationDetails);
+            observer.complete();
+          }, () => {
+            observer.next(visualizationDetails);
+            observer.complete();
+          })
+      } else {
+        observer.next(visualizationDetails);
+        observer.complete();
+      }
     });
   }
 

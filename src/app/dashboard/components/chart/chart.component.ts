@@ -16,27 +16,27 @@ export class ChartComponent implements OnInit {
   @Input() visualizationObject: Visualization;
   @ViewChild(ChartTemplateComponent)
   chartTemplate: ChartTemplateComponent;
-  loaded: boolean = false;
   constructor(private store: Store<ApplicationState>) { }
 
   ngOnInit() {
-    console.log(this.visualizationObject.details.loaded)
     if (!this.visualizationObject.details.loaded) {
       if (this.visualizationObject.layers.length > 0) {
         /**
          * Get chart configuration
          */
-        this.store.dispatch(new GetChartConfigurationAction(this.visualizationObject.layers.map(layer => { return layer.settings })));
+        this.store.dispatch(new GetChartConfigurationAction({
+            visualizationObjectId: this.visualizationObject.id,
+            visualizationSettings: this.visualizationObject.layers.map(layer => { return layer.settings})
+        }));
 
         /**
          * Get chart object
          */
         if (this.visualizationObject.details.analyticsLoaded) {
+          // console.log('loaded')
           this.store.dispatch(new GetChartObjectAction(this.visualizationObject))
         }
       }
-    } else {
-      this.loaded = true;
     }
 
   }
