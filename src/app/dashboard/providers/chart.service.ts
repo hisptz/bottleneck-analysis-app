@@ -37,14 +37,19 @@ export class ChartService {
     const chartConfigurations = [];
     const visualizationSettings = visualizationDetails.visualizationSettings;
     visualizationSettings.forEach(favoriteObject => {
+      let chartType = favoriteObject.hasOwnProperty('type') ? favoriteObject.type.toLowerCase() : 'bar';
+      if (favoriteObject.useMultipleAxis) {
+        chartType = 'multipleAxis';
+      }
       const chartConfiguration = {
-        type: favoriteObject.hasOwnProperty('type') ? favoriteObject.type.toLowerCase() : 'bar',
+        type: chartType,
         title: favoriteObject.hasOwnProperty('displayName') ? favoriteObject.displayName : '',
         subtitle: favoriteObject.hasOwnProperty('subtitle') ? favoriteObject.subtitle : '',
         hideTitle: favoriteObject.hasOwnProperty('hideTitle') ? favoriteObject.hideTitle : true,
         hideSubtitle: favoriteObject.hasOwnProperty('hideSubtitle') ? favoriteObject.hideSubtitle : true,
         showData: favoriteObject.hasOwnProperty('showData') ? favoriteObject.showData : true,
         hideEmptyRows: favoriteObject.hasOwnProperty('hideEmptyRows') ? favoriteObject.hideEmptyRows : true,
+        multiAxisTypes: favoriteObject.hasOwnProperty('selectedChartTypes') ? favoriteObject.selectedChartTypes.map(selectedChartType => { return selectedChartType.value}) : [],
         xAxisType: this._getAxisType('xAxisType', favoriteObject),
         yAxisType: this._getAxisType('yAxisType', favoriteObject),
       };

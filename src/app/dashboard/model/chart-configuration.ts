@@ -8,4 +8,6 @@ export interface ChartConfiguration {
   hideTitle: boolean;
   hideSubtitle: boolean;
   hideEmptyRows: boolean;
+  axisCriteria: string;
+  multiAxisTypes: any[];
 }

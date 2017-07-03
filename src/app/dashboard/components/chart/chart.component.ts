@@ -33,7 +33,6 @@ export class ChartComponent implements OnInit {
          * Get chart object
          */
         if (this.visualizationObject.details.analyticsLoaded) {
-          // console.log('loaded')
           this.store.dispatch(new GetChartObjectAction(this.visualizationObject))
         }
       }

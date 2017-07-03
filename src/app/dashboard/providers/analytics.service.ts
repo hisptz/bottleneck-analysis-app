@@ -21,7 +21,7 @@ export class AnalyticsService {
           if (parameters !== '') {
             let visualizationSetting = this._getVisualizationSettings(visualizationDetails.favorite, filterObject.id);
             if (visualizationSetting == null) {
-              visualizationSetting = visualizationDetails.visualizationObject.layers.filter(layer => { return layer.settings.id === filterObject.id})
+              visualizationSetting = visualizationDetails.visualizationObject.layers.map(layer => { return layer.settings}).filter(setting => { return setting.id === filterObject.id})[0];
             }
             analyticUrl = this._constructAnalyticsUrl(
               visualizationDetails.apiRootUrl,
@@ -59,7 +59,6 @@ export class AnalyticsService {
     parameters: any
   ) {
     let url: string = apiRootUrl + 'analytics';
-
     const aggregationType: string = visualizationSettings.hasOwnProperty('aggregationType') ? '&aggregationType=' + visualizationSettings.aggregationType : '';
     const value: string = visualizationSettings.hasOwnProperty('value') ? '&value=' + visualizationSettings.value.id : '';
 

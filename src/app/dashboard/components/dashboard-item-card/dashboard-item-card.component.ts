@@ -197,17 +197,23 @@ export class DashboardItemCardComponent implements OnInit {
         })
       })
     }
+    this.updateVisualizationWithOptionsOrFilterUpdate(newVisualizationObject, filterArray)
+  }
+
+  updateVisualizationWithOptionsOrFilterUpdate(visualizationObject, filterArray) {
     this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
       if (apiRootUrl !== '') {
         this.store.dispatch(new UpdateVisualizationWithCustomFilterAction(
           {
             apiRootUrl: apiRootUrl,
-            visualizationObject: newVisualizationObject,
+            visualizationObject: visualizationObject,
             filters: filterArray
           }))
       }
     })
   }
+
+
 
   toggleFavoriteSettings(event?) {
     // if (this.showFavoriteSettings) {
@@ -225,8 +231,18 @@ export class DashboardItemCardComponent implements OnInit {
     return visualizationLayers.map(layer => {return layer.settings});
   }
 
-  updateFavoriteOptions() {
-    console.log(this.visualizationObject)
+  updateVisualizationSettings(visualizationSettings) {
+    const newVisualizationObject = _.clone(this.visualizationObject);
+    if (visualizationSettings) {
+      newVisualizationObject.layers.forEach((layer: any) => {
+        const newSetting = _.find(visualizationSettings, ['id', layer.settings.id]);
+        if (newSetting) {
+          layer.settings = newSetting;
+        }
+      })
+    }
+    const filterArray = this.visualizationObject.details.filters;
+    this.updateVisualizationWithOptionsOrFilterUpdate(newVisualizationObject, filterArray)
   }
 
 }

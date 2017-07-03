@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import {ChartConfiguration} from '../model/chart-configuration';
-
+import * as _ from 'lodash';
 @Injectable()
 export class VisualizationService {
   enable_labels:boolean = false;
   constructor() { }
 
-  drawChart ( analyticObject: any, chartConfiguration:any ) {
+  drawChart ( analyticObject: any, chartConfiguration: any ) {
     let chartObject = null;
-    if(!chartConfiguration.hasOwnProperty('show_labels')){
+    if (!chartConfiguration.hasOwnProperty('show_labels')){
       chartConfiguration.show_labels = false;
     }
-    switch (chartConfiguration.type){
+    switch (chartConfiguration.type) {
       case 'bar':
         chartObject = this.drawOtherCharts(analyticObject, chartConfiguration);
         chartObject.plotOptions = {bar:{dataLabels: {
@@ -58,6 +58,9 @@ export class VisualizationService {
         break;
       case 'pie':
         chartObject = this.drawPieChart(analyticObject, chartConfiguration);
+        break;
+      case 'multipleAxis':
+        chartObject = this.drawMultipleAxisChart(analyticObject, chartConfiguration);
         break;
       default :
         chartObject = this.drawOtherCharts(analyticObject, chartConfiguration);
@@ -209,11 +212,13 @@ export class VisualizationService {
       for ( let val of xAxisItems ){
         structure.xAxisItems.push( {'name': analyticsObject.metaData.names[val], 'uid': val} );
       }
-    }if ( yAxisItems.length !== 0 ) {
+    }
+    if ( yAxisItems.length !== 0 ) {
       for ( let val of yAxisItems ){
         structure.yAxisItems.push( {'name': analyticsObject.metaData.names[val] , 'uid': val} );
       }
-    }if( yAxisItems.length === 0 ){
+    }
+    if( yAxisItems.length === 0 ){
       for (let val of this.getMetadataArray(analyticsObject,yAxis) ){
         structure.yAxisItems.push( {'name': analyticsObject.metaData.names[val], 'uid': val} );
       }
@@ -867,6 +872,101 @@ export class VisualizationService {
     }
     return dimensions;
 
+  }
+
+  drawMultipleAxisChart(analyticsObject, chartConfiguration) {
+    let chartObject = {
+      chart: {
+        zoomType: 'xy'
+      },
+      title: {
+        text: chartConfiguration.title
+      },
+      xAxis: [{
+        categories: [],
+        crosshair: true
+      }],
+      yAxis: [],
+      tooltip: {
+        shared: true
+      },
+      legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        y: 15,
+        floating: true,
+        backgroundColor: '#FFFFFF'
+      },
+      series: []
+    };
+
+    let metaDataObject = this.prepareCategories( analyticsObject,
+      chartConfiguration.xAxisType,
+      chartConfiguration.yAxisType,
+      (chartConfiguration.hasOwnProperty('xAxisItems'))?chartConfiguration.xAxisItems:[],
+      (chartConfiguration.hasOwnProperty('yAxisItems'))?chartConfiguration.yAxisItems:[]
+    );
+    // set x-axis categories
+    let category_items = [];
+    for ( let val of metaDataObject.xAxisItems ) {
+      let checker = false;
+
+      for ( let yAxis of metaDataObject.yAxisItems ) {
+        let dataItems = this.getDataObject( chartConfiguration, val, yAxis );
+        let number = this.getDataValue( analyticsObject, dataItems );
+        if(number != 0){
+          checker = true
+        }
+      }
+      if(checker){
+        category_items.push(val);
+        chartObject.xAxis[0].categories.push(val.name);
+      }
+    }
+    // set y-axis
+    metaDataObject.yAxisItems.forEach((yAxis, yAxisIndex) => {
+      const yAxisObject = {
+        title: {
+          text: yAxis.name,
+          style: {'color': '#000000', 'fontWeight': 'normal'}
+        },
+        opposite: yAxisIndex !== 0 ? true : false
+      };
+      chartObject.yAxis.push(yAxisObject)
+
+    });
+
+    //set series
+    metaDataObject.yAxisItems.forEach((yAxis, yAxisIndex) => {
+      const seriesType = chartConfiguration.multiAxisTypes[yAxisIndex];
+      const seriesObject: any = {
+        name: yAxis.name,
+        type: seriesType ? seriesType : '',
+        dashStyle: 'shortdot',
+        data: []
+      };
+      if (yAxisIndex + 1 < metaDataObject.yAxisItems.length) {
+        seriesObject.yAxis = yAxisIndex + 1;
+      }
+
+      //get data
+      if (analyticsObject) {
+        const yAxisHeaderIndex = _.findIndex(analyticsObject.headers, _.find(analyticsObject.headers, ['name', chartConfiguration.yAxisType]));
+        const valueIndex = _.findIndex(analyticsObject.headers, _.find(analyticsObject.headers, ['name', 'value']));
+        if (yAxisHeaderIndex !== -1) {
+          analyticsObject.rows.forEach(row => {
+            if (row[yAxisHeaderIndex] === yAxis.uid) {
+              seriesObject.data.push(parseInt(row[valueIndex]))
+            }
+          })
+        }
+      }
+
+      chartObject.series.push(seriesObject);
+    })
+    console.log(JSON.stringify(chartObject))
+    return chartObject;
   }
 
   getChartConfigurationObject(type,show_labels:boolean = false): any{
