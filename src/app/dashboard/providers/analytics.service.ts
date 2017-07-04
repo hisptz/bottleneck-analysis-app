@@ -33,7 +33,7 @@ export class AnalyticsService {
         }
         return analyticUrl !== '' ? this.http.get(analyticUrl) : Observable.of(null)
       })).subscribe(analyticsResponse => {
-        visualizationDetails.analytics = analyticsResponse.filter(analytics => {return analytics !== null});
+        visualizationDetails.analytics = analyticsResponse;
         observer.next(visualizationDetails);
         observer.complete();
       }, error => observer.error(error))

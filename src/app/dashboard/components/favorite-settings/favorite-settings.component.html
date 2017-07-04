@@ -55,17 +55,28 @@
           <!--</select>-->
         <!--</div>-->
         <div class="form-group" style="position: relative;">
-          Chart types <br>
-          <button (click)="showChartTypes = !showChartTypes" class="btn btn-default btn-block" style="text-align: left;">
-            <span *ngIf="setting.selectedChartTypes.length === 0">Select chart types</span>
-            <span class="btn btn-default btn-xs" style="margin-right: 2px;" *ngFor="let selectedChartType of setting.selectedChartTypes">{{selectedChartType.name}}</span>
-            <i class="fa fa-caret-down pull-right" style="margin-top: 0px; font-size: 20px;"></i>
-          </button>
-          <ul class="chart-type-dropdown" *ngIf="showChartTypes">
-            <li class="{{chartType.selected ? 'active': ''}}" *ngFor="let chartType of chartTypes">
-              <a (click)="toggleChartSelection(chartType, setting.id)">{{chartType.name}}</a>
-            </li>
-          </ul>
+          <h4>Series Chart types</h4>
+          <table>
+            <tr *ngFor="let selectedChartType of setting.selectedChartTypes">
+              <td width="60%">{{selectedChartType.name}}</td>
+              <td width="40%">
+                <select [(ngModel)]="selectedChartType.type" class="form-control" id="">
+                  <option value="">Select type</option>
+                  <option value="{{chartType.value}}" *ngFor="let chartType of chartTypes">{{chartType.name}}</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+          <!--<button (click)="showChartTypes = !showChartTypes" class="btn btn-default btn-block" style="text-align: left;">-->
+            <!--<span *ngIf="setting.selectedChartTypes.length === 0">Select chart types</span>-->
+            <!--<span class="btn btn-default btn-xs" style="margin-right: 2px;" *ngFor="let selectedChartType of setting.selectedChartTypes">{{selectedChartType.name}}</span>-->
+            <!--<i class="fa fa-caret-down pull-right" style="margin-top: 0px; font-size: 20px;"></i>-->
+          <!--</button>-->
+          <!--<ul class="chart-type-dropdown" *ngIf="showChartTypes">-->
+            <!--<li class="{{chartType.selected ? 'active': ''}}" *ngFor="let chartType of chartTypes">-->
+              <!--<a (click)="toggleChartSelection(chartType, setting.id)">{{chartType.name}}</a>-->
+            <!--</li>-->
+          <!--</ul>-->
         </div>
       </li>
     </ul>

@@ -11,6 +11,9 @@ export interface StoreData {
   chartObjects: any[];
   dashboardNotification: any;
   visualizationObjects: Visualization[]
+  geoFeatures: any[];
+  legendSets: any[];
+  orgUnitGroupSets: any[];
 }
 
 export const INITIAL_STORE_DATA: StoreData = {
@@ -30,5 +33,8 @@ export const INITIAL_STORE_DATA: StoreData = {
   dashboardNotification: null,
   visualizationObjects: [],
   chartConfigurations: [],
-  chartObjects: []
+  chartObjects: [],
+  geoFeatures: [],
+  legendSets: [],
+  orgUnitGroupSets: []
 };

@@ -106,10 +106,20 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
       if (currentVisualizationObject) {
         const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
-
         currentVisualizationObject.layers = mapFavoriteToLayerSettings(action.payload.favorite);
+
+        /**
+         * Also get map configuration if current visualization is map
+         */
+        if (currentVisualizationObject.details.currentVisualization === 'MAP') {
+          currentVisualizationObject.details.basemap = action.payload.favorite.basemap;
+          currentVisualizationObject.details.zoom = action.payload.favorite.zoom;
+          currentVisualizationObject.details.latitude = action.payload.favorite.latitude;
+          currentVisualizationObject.details.longitude = action.payload.favorite.longitude;
+        }
         newState.visualizationObjects[currentVisualizationObjectIndex] = _.clone(currentVisualizationObject);
       }
+
       return newState;
     }
 
@@ -170,6 +180,20 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
+    case 'SAVE_MAP_CONFIGURATION_ACTION': {
+      const newState: StoreData = _.clone(state);
+      /**
+       * Update visualization object with map configuration
+       */
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.id]);
+      if (currentVisualizationObject) {
+        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+        currentVisualizationObject.details.mapConfiguration = action.payload.mapConfiguration;
+        newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject
+      }
+      return newState;
+    }
+
     case 'SAVE_CHART_OBJECT_ACTION': {
       const newState: StoreData = _.clone(state);
 
@@ -199,6 +223,113 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
             layer.chartObject = chartObject.content;
           }
         });
+        newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
+      }
+      return newState;
+    }
+
+    case 'GEO_FEATURE_LOADED_ACTION': {
+      const newState = _.clone(state);
+      /**
+       * Save geoFeatures
+       */
+      action.payload.geoFeatures.forEach(geoFeature => {
+        const currentGeoFeature = _.find(newState.geoFeatures, ['id', geoFeature.id]);
+        if (!currentGeoFeature && geoFeature.content.length > 0) {
+          newState.geoFeatures.push(geoFeature);
+        } else {
+          const currentGeoFeatureIndex = _.findIndex(newState.geoFeatures, currentGeoFeature);
+          newState.geoFeatures[currentGeoFeatureIndex] = geoFeature;
+        }
+      });
+
+      /**
+       * update visualization with geoFeatures
+       */
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+      if (currentVisualizationObject) {
+        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+        currentVisualizationObject.layers.forEach((layer: any) => {
+          const geoFeature = _.find(newState.geoFeatures, ['id', layer.settings.id]);
+          if (geoFeature) {
+            layer.settings.geoFeature = geoFeature.content;
+          }
+        });
+        newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
+      }
+      return newState;
+    }
+
+    case 'LEGEND_SET_LOADED_ACTION': {
+      const newState = _.clone(state);
+
+      /**
+       * save legend sets
+       */
+      action.payload.legendSets.forEach(legendSet => {
+        if (legendSet !== null) {
+          const currentLegendSet = _.find(newState.legendSets, ['id', legendSet.id]);
+          if (!currentLegendSet) {
+            newState.legendSets.push(legendSet);
+          } else {
+            const currentLegendSetIndex = _.findIndex(newState.legendSets, currentLegendSet);
+            newState.legendSets[currentLegendSetIndex] = legendSet;
+          }
+        }
+      });
+
+      /**
+       * update visualization with legend set
+       */
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+      if (currentVisualizationObject) {
+        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+        currentVisualizationObject.layers.forEach((layer: any) => {
+          if (layer.settings.legendSet) {
+            const legendSet = _.find(newState.legendSets, ['id', layer.settings.legendSet.id]);
+            if (legendSet) {
+              layer.settings.legendSet = legendSet;
+            }
+          }
+        });
+        newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
+      }
+      return newState;
+    }
+
+    case 'ORGUNIT_GROUP_SET_LOADED_ACTION': {
+      const newState = _.clone(state);
+
+      /**
+       * save group sets
+       */
+      action.payload.groupSets.forEach(groupSet => {
+        if (groupSet !== null) {
+          const currentGroupSet = _.find(newState.orgUnitGroupSets, ['id', groupSet.id]);
+          if (!currentGroupSet) {
+            newState.legendSets.push(groupSet);
+          } else {
+            const currentGroupSetIndex = _.findIndex(newState.legendSets, currentGroupSet);
+            newState.legendSets[currentGroupSetIndex] = groupSet;
+          }
+        }
+      });
+
+      /**
+       * update visualization with group set
+       */
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+      if (currentVisualizationObject) {
+        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+        currentVisualizationObject.layers.forEach((layer: any) => {
+          if (layer.settings.organisationUnitGroupSet) {
+            const organisationUnitGroupSet = _.find(newState.orgUnitGroupSets, ['id', layer.settings.organisationUnitGroupSet.id]);
+            if (organisationUnitGroupSet) {
+              layer.settings.organisationUnitGroupSet = organisationUnitGroupSet;
+            }
+          }
+        });
+        currentVisualizationObject.details.loaded = true;
         newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
       }
       return newState;
@@ -320,19 +451,22 @@ function handleAnalyticsLoadedAction(state: StoreData, action: any) {
   /**
    * Save Analytics action
    */
+
   if (favorite) {
     if (favorite.mapViews) {
       favorite.mapViews.forEach((viewItem, viewIndex) => {
         const analytics = _.find(newState.analytics, ['id', viewItem.id]);
 
         if (!analytics) {
-          if (action.payload.analytics.length > 0 && action.payload.analytics[viewIndex]) {
+          if (action.payload.analytics.length > 0 && action.payload.analytics[viewIndex] !== null) {
             newState.analytics.push({id: viewItem.id, analytics: action.payload.analytics[viewIndex]})
           }
         } else {
-          const analyticsIndex = _.findIndex(newState.analytics, analytics);
-          const newAnalytics = action.payload.analytics[viewIndex];
-          newState.analytics[analyticsIndex] = newAnalytics;
+          if (action.payload.analytics[viewIndex] !== null) {
+            const analyticsIndex = _.findIndex(newState.analytics, analytics);
+            const newAnalytics = action.payload.analytics[viewIndex];
+            newState.analytics[analyticsIndex] = newAnalytics;
+          }
         }
       })
     } else {

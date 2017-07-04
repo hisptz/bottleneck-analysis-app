@@ -939,11 +939,12 @@ export class VisualizationService {
 
     //set series
     metaDataObject.yAxisItems.forEach((yAxis, yAxisIndex) => {
-      const seriesType = chartConfiguration.multiAxisTypes[yAxisIndex];
+      const seriesTypeObject = _.find(chartConfiguration.multiAxisTypes, ['id', yAxis.uid]);
+      console.log(seriesTypeObject)
       const seriesObject: any = {
         name: yAxis.name,
-        type: seriesType ? seriesType : '',
-        dashStyle: 'shortdot',
+        type: seriesTypeObject ? seriesTypeObject.type : '',
+        dashStyle: seriesTypeObject.type === 'spline' ? 'shortdot' : '',
         data: []
       };
       if (yAxisIndex + 1 < metaDataObject.yAxisItems.length) {
@@ -965,7 +966,6 @@ export class VisualizationService {
 
       chartObject.series.push(seriesObject);
     })
-    console.log(JSON.stringify(chartObject))
     return chartObject;
   }
 

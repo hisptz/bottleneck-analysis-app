@@ -5,7 +5,7 @@ export const CHART_TYPES = [
   {name: 'line', value: 'line', selected: false},
   {name: 'bar', value: 'bar', selected: false},
   {name: 'column', value: 'column', selected: false},
-  {name: 'spline', value: 'spline', selected: false},
+  {name: 'Dotted', value: 'spline', selected: false},
 ]
 
 @Component({
@@ -40,10 +40,8 @@ export class FavoriteSettingsComponent implements OnInit {
         const newVisualizationSettings = _.clone(visualizationSettings);
         newVisualizationSettings.forEach((visualizationSetting: any) => {
           if (!visualizationSetting.selectedChartTypes) {
-            visualizationSetting.selectedChartTypes = [];
+            visualizationSetting.selectedChartTypes = this.prepareSeriesChartTypes(visualizationSetting.columns);
           }
-
-          console.log(visualizationSetting.series, visualizationSetting.columns)
 
           if (!visualizationSetting.useMultipleAxis) {
             visualizationSetting.useMultipleAxis = false;
@@ -55,6 +53,20 @@ export class FavoriteSettingsComponent implements OnInit {
       default:
         return visualizationSettings
     }
+  }
+
+  prepareSeriesChartTypes(seriesArray) {
+    let seriesWithChartTypes = [];
+    if (seriesArray) {
+      const seriesItems = seriesArray.map(series => {return series.items});
+      seriesWithChartTypes = seriesItems[0].map(seriesObject => { return {
+        name: seriesObject.displayName,
+        id: seriesObject.id,
+        type: ''
+      }})
+    }
+
+    return seriesWithChartTypes;
   }
 
   addOption() {

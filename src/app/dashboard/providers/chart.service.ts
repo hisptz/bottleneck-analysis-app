@@ -49,7 +49,7 @@ export class ChartService {
         hideSubtitle: favoriteObject.hasOwnProperty('hideSubtitle') ? favoriteObject.hideSubtitle : true,
         showData: favoriteObject.hasOwnProperty('showData') ? favoriteObject.showData : true,
         hideEmptyRows: favoriteObject.hasOwnProperty('hideEmptyRows') ? favoriteObject.hideEmptyRows : true,
-        multiAxisTypes: favoriteObject.hasOwnProperty('selectedChartTypes') ? favoriteObject.selectedChartTypes.map(selectedChartType => { return selectedChartType.value}) : [],
+        multiAxisTypes: favoriteObject.hasOwnProperty('selectedChartTypes') ? favoriteObject.selectedChartTypes : [],
         xAxisType: this._getAxisType('xAxisType', favoriteObject),
         yAxisType: this._getAxisType('yAxisType', favoriteObject),
       };

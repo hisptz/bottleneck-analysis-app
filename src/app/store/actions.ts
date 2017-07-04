@@ -36,13 +36,21 @@ export const UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION = 'UPDATE_VISUALIZATION_WIT
 export const LOAD_ANALYTICS_ACTION = 'LOAD_ANALYTICS_ACTION';
 export const ANALYTICS_LOADED_ACTION = 'ANALYTICS_LOADED_ACTION';
 export const GET_CHART_CONFIGURATION_ACTION = 'GET_CHART_CONFIGURATION_ACTION';
+export const GET_MAP_CONFIGURATION_ACTION = 'GET_MAP_CONFIGURATION_ACTION';
 export const GET_CHART_OBJECT_ACTION = 'GET_CHART_OBJECT_ACTION';
 export const SAVE_CHART_CONFIGURATION_ACTION = 'SAVE_CHART_CONFIGURATION_ACTION';
+export const SAVE_MAP_CONFIGURATION_ACTION = 'SAVE_MAP_CONFIGURATION_ACTION';
 export const SAVE_CHART_OBJECT_ACTION = 'SAVE_CHART_OBJECT_ACTION';
 export const LOAD_FAVORITE_ADDITIONAL_OPTIONS_ACTION = 'LOAD_FAVORITE_ADDITIONAL_OPTION_ACTION';
 export const FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION = 'FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION';
 export const UPDATE_FAVORITE_OPTIONS_ACTION = 'UPDATE_FAVORITE_OPTIONS_ACTION';
 export const UPDATE_FAVORITE_ACTION = 'UPDATE_FAVORITE_ACTION';
+export const LOAD_GEO_FEATURE_ACTION = 'LOAD_GEO_FEATURE_ACTION';
+export const GEO_FEATURE_LOADED_ACTION = 'GEO_FEATURE_LOADED_ACTION';
+export const LOAD_LEGEND_SET_ACTION = 'LOAD_LEGEND_SET_ACTION';
+export const LEGEND_SET_LOADED_ACTION = 'LEGEND_SET_LOADED_ACTION';
+export const LOAD_ORGUNIT_GROUP_SET_ACTION = 'LOAD_ORGUNIT_GROUP_SET_ACTION';
+export const ORGUNIT_GROUP_SET_LOADED_ACTION = 'ORGUNIT_GROUP_SET_LOADED_ACTION';
 
 export class LoadSystemInfoAction implements Action {
   readonly type = LOAD_SYSTEM_INFO_ACTION;
@@ -206,10 +214,21 @@ export class GetChartConfigurationAction implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetMapConfigurationAction implements Action {
+  readonly type = GET_MAP_CONFIGURATION_ACTION;
+  constructor(public payload: any) {}
+}
+
 export class SaveChartConfigurationAction implements Action {
   readonly type = SAVE_CHART_CONFIGURATION_ACTION;
   constructor(public payload: any) {}
 }
+
+export class SaveMapConfigurationAction implements Action {
+  readonly type = SAVE_MAP_CONFIGURATION_ACTION;
+  constructor(public payload: any) {}
+}
+
 
 export class GetChartObjectAction implements Action {
   readonly type = GET_CHART_OBJECT_ACTION;
@@ -233,5 +252,35 @@ export class FavoriteAdditionalOptionsLoadedAction implements Action {
 
 export class UpdateFavoriteOptionsAction implements Action {
   readonly type = UPDATE_FAVORITE_OPTIONS_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class LoadGeoFeatureAction implements Action {
+  readonly type = LOAD_GEO_FEATURE_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class GeoFeatureLoadedAction implements Action {
+  readonly type = GEO_FEATURE_LOADED_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class LoadLegendSetAction implements Action {
+  readonly type = LOAD_LEGEND_SET_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class LegendSetLoadedAction implements Action {
+  readonly type = LEGEND_SET_LOADED_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class LoadOrgUnitGroupSetAction implements Action {
+  readonly type = LOAD_ORGUNIT_GROUP_SET_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class OrgUnitGroupSetLoadedAction implements Action {
+  readonly type = ORGUNIT_GROUP_SET_LOADED_ACTION;
   constructor(public payload: any) {}
 }

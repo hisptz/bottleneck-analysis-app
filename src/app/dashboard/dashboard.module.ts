@@ -34,6 +34,11 @@ import {TreeModule} from 'angular-tree-component';
 import {FilterLevelPipe} from './pipes/filter-level.pipe';
 import { FavoriteSettingsComponent } from './components/favorite-settings/favorite-settings.component';
 import {TruncatePipe} from './pipes/truncate.pipe';
+import { MapComponent } from './components/map/map.component';
+import {GeoFeatureService} from './providers/geo-feature.service';
+import {LegendSetService} from './providers/legend-set.service';
+import {OrgunitGroupSetService} from './providers/orgunit-group-set.service';
+import {MapService} from './providers/map.service';
 
 @NgModule({
   imports: [
@@ -65,7 +70,8 @@ import {TruncatePipe} from './pipes/truncate.pipe';
     MultiselectComponent,
     FilterLevelPipe,
     FavoriteSettingsComponent,
-    TruncatePipe
+    TruncatePipe,
+    MapComponent
   ],
   providers: [
     DashboardNotificationService,
@@ -74,7 +80,11 @@ import {TruncatePipe} from './pipes/truncate.pipe';
     AnalyticsService,
     ChartService,
     VisualizationService,
-    OrgUnitService
+    OrgUnitService,
+    GeoFeatureService,
+    LegendSetService,
+    OrgunitGroupSetService,
+    MapService
   ]
 })
 export class DashboardModule { }

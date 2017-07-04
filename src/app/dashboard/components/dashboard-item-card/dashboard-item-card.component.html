@@ -112,7 +112,9 @@
       <!--end of table  block-->
 
       <!--map block-->
-      <!--<app-map [mapData]="visualizationObject" *ngIf="!loading && currentVisualization == 'MAP'"></app-map>-->
+      <app-map [visualizationObject]="visualizationObject"
+               *ngIf="currentVisualization == 'MAP'"
+      ></app-map>
       <!--end of map block-->
 
       <!--&lt;!&ndash;user block&ndash;&gt;-->
