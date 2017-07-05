@@ -118,6 +118,10 @@
       <!--&lt;!&ndash;user block&ndash;&gt;-->
       <!--<app-user [userData]="visualizationObject$ | async" *ngIf="currentVisualization == 'USERS'"></app-user>-->
       <!--end of user block-->
+      <app-metadata-dictionary
+        *ngIf="currentVisualization == 'DICTIONARY'"
+        [metadataidentifiers]="metadataIdentifiers"
+      ></app-metadata-dictionary>
 
       <!--app type section-->
       <!--<div class="row" *ngIf="currentVisualization == 'APP'">-->
@@ -142,13 +146,13 @@
         <div class="col-md-12">
           <ul class="nav nav-pills dashboard-footer-nav">
 
-            <li><a (click)="updateVisualization('TABLE')"
-                   [ngClass]="currentVisualization == 'TABLE' ? 'active-visualisation': ''"><i class="fa fa-table"></i></a>
-            </li>
-            <li><a (click)="updateVisualization('CHART')"
+            <!--<li><a (click)="updateVisualization('TABLE')"-->
+                   <!--[ngClass]="currentVisualization == 'TABLE' ? 'active-visualisation': ''"><i class="fa fa-table"></i></a>-->
+            <!--</li>-->
+            <li *ngIf="visualizationObject.details.currentVisualization === 'CHART'"><a (click)="updateVisualization('CHART')"
                    [ngClass]="currentVisualization == 'CHART' ? 'active-visualisation': ''"><i
               class="fa fa-line-chart"></i></a></li>
-            <li>
+            <li *ngIf="visualizationObject.details.currentVisualization === 'MAP'">
               <a (click)="updateVisualization('MAP')"
                  [ngClass]="currentVisualization == 'MAP' ? 'active-visualisation': ''"><i class="fa fa-map"></i></a>
             </li>
@@ -158,16 +162,16 @@
                 <i class="fa fa-info-circle"></i>
               </a>
             </li>
-            <li>
-              <a (click)="cardConfiguration.showDownloadOptions = !cardConfiguration.showDownloadOptions">
-                <i class="fa fa-download"></i>
-              </a>
-            </li>
+            <!--<li>-->
+              <!--<a (click)="cardConfiguration.showDownloadOptions = !cardConfiguration.showDownloadOptions">-->
+                <!--<i class="fa fa-download"></i>-->
+              <!--</a>-->
+            <!--</li>-->
             <li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" href=""><i class="fa fa-file-excel-o"></i></a></li>
             <li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" href=""><i class="fa fa-file-pdf-o"></i></a></li>
             <li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" href=""><i class="fa fa-file-image-o"></i></a></li>
             <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualization === 'MAP'"><a class="download-btn" href=""><i class="fa fa-file-o"></i></a></li>
-            <li style="position: absolute; float: right;"><a (click)="toggleFavoriteSettings()"><i class="fa fa-cog"></i></a></li>
+            <li *ngIf="currentVisualization !== 'DICTIONARY'"><a (click)="toggleFavoriteSettings()"><i class="fa fa-cog"></i></a></li>
           </ul>
         </div>
       </div>

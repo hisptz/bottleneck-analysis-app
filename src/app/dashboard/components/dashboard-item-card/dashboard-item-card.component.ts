@@ -69,6 +69,7 @@ export class DashboardItemCardComponent implements OnInit {
   chartComponent: ChartComponent;
   showFavoriteSettings: boolean = false;
   currentShape: string;
+  metadataIdentifiers: string;
   constructor(private store: Store<ApplicationState>) { }
 
   ngOnInit() {
@@ -186,7 +187,11 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateVisualization(selectedVisualization) {
+    this.currentVisualization = selectedVisualization;
 
+    if (selectedVisualization === 'DICTIONARY') {
+      this.metadataIdentifiers = this.getMetadataIdentifier(this.visualizationObject);
+    }
   }
 
   updateFilters(filterValue) {
@@ -253,6 +258,20 @@ export class DashboardItemCardComponent implements OnInit {
     }
     const filterArray = this.visualizationObject.details.filters;
     this.updateVisualizationWithOptionsOrFilterUpdate(newVisualizationObject, filterArray, true)
+  }
+
+  getMetadataIdentifier(visualizationObject) {
+    const visualizationFilters = visualizationObject.details.filters;
+    let metadataIdentifiers: string = '';
+    if (visualizationFilters) {
+      const metadataArray = visualizationFilters.map(filterObject => {
+        const metadata = _.find(filterObject.filters, ['name', 'dx']);
+        return metadata ? metadata.value : '';
+      });
+      metadataIdentifiers = metadataArray.join(';');
+    }
+
+    return metadataIdentifiers;
   }
 
 }

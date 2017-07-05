@@ -44,6 +44,8 @@ import {ColorInterpolationService} from './providers/color-interpolation.service
 import {TileLayers} from './constants/tile-layers';
 import { MapTemplateComponent } from './components/map-template/map-template.component';
 import {LoaderComponent} from './components/loader/loader.component';
+import { MetadataDictionaryComponent } from './components/metadata-dictionary/metadata-dictionary.component';
+import {AccordionModule} from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
@@ -56,6 +58,7 @@ import {LoaderComponent} from './components/loader/loader.component';
     EffectsModule.run(FavoriteEffect),
     EffectsModule.run(AnalyticsEffect),
     DndModule.forRoot(),
+    AccordionModule.forRoot(),
     TreeModule
   ],
   declarations: [
@@ -78,7 +81,8 @@ import {LoaderComponent} from './components/loader/loader.component';
     TruncatePipe,
     MapComponent,
     MapTemplateComponent,
-    LoaderComponent
+    LoaderComponent,
+    MetadataDictionaryComponent
   ],
   providers: [
     DashboardNotificationService,

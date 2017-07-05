@@ -28,13 +28,11 @@ export class ChartTemplateComponent implements OnInit {
   }
 
   reflow(shape, fullScreen?) {
-    console.log(shape)
     setTimeout(() => {
       const fullScreenWidth: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - 90;
       if (this.chart) {
         if (fullScreen) {
           const fullScreenHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 95;
-          console.log(fullScreenHeight)
           this.chart.setSize(fullScreenWidth, fullScreenHeight);
         } else {
           this.chart.setSize(this.computeWidth(shape, fullScreenWidth), '400');
