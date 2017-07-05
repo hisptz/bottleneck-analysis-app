@@ -12,6 +12,7 @@ import {
 } from '../../../store/actions';
 import {ChartComponent} from '../chart/chart.component';
 import {Observable} from 'rxjs/Observable';
+import {globalFilterSelector} from '../../../store/selectors/global-filter.selector';
 
 export const VISUALIZATION_WITH_NO_OPTIONS = ['USERS', 'REPORTS', 'RESOURCES', 'APP', 'MESSAGES'];
 
@@ -33,13 +34,13 @@ export const DASHBOARD_SHAPES = [
 @Component({
   selector: 'app-dashboard-item-card',
   templateUrl: './dashboard-item-card.component.html',
-  styleUrls: ['./dashboard-item-card.component.css']
+  styleUrls: ['./dashboard-item-card.component.css'],
 })
 export class DashboardItemCardComponent implements OnInit {
 
   @Input() visualizationObject: Visualization;
   @Input() globalFilters: Observable<any>;
-  @Output() onFilterReset: EventEmitter<any> = new EventEmitter<any>()
+  @Output() onFilterDeactivate: EventEmitter<any> = new EventEmitter<any>();
   dashboardShapes: any[] = DASHBOARD_SHAPES;
   visualizationWithNoOptions: any[] = VISUALIZATION_WITH_NO_OPTIONS;
   currentVisualization: string;
@@ -79,15 +80,13 @@ export class DashboardItemCardComponent implements OnInit {
     this.visualizationObject.details.itemHeight = this.cardConfiguration.defaultItemHeight;
     this.currentVisualization = this.visualizationObject.details.currentVisualization;
     this.currentShape = this.visualizationObject.shape;
-    // console.log(JSON.stringify(this.visualizationObject))
 
-    // this.globalFilters.subscribe(globalFilters => {
-    //   console.log(globalFilters)
-    //   if (globalFilters !== null) {
-    //     this.updateFilters(globalFilters);
-    //     this.onFilterReset.emit(null);
-    //   }
-    // })
+    this.globalFilters.subscribe(filters => {
+      if (filters != null) {
+        this.updateFilters(filters);
+        this.onFilterDeactivate.emit(null);
+      }
+    });
   }
 
   getDashboardShapeClasses(currentShape, shapes: any[] = []): any[] {
@@ -215,7 +214,7 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   saveSettings() {
-    const visualizationObject = _.clone(this.visualizationObject)
+    const visualizationObject = _.clone(this.visualizationObject);
     this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
       if (apiRootUrl !== '') {
         this.store.dispatch( new SaveFavoriteAction({
@@ -228,15 +227,7 @@ export class DashboardItemCardComponent implements OnInit {
 
 
 
-  toggleFavoriteSettings(event?) {
-    // if (this.showFavoriteSettings) {
-    //   this.visualizationObject.shape = this.currentShape;
-    // } else {
-    //   if (this.currentShape === 'NORMAL') {
-    //     this.visualizationObject.shape = 'DOUBLE_WIDTH';
-    //   }
-    // }
-
+  toggleFavoriteSettings() {
     this.showFavoriteSettings = !this.showFavoriteSettings;
   }
 

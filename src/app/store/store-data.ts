@@ -14,6 +14,7 @@ export interface StoreData {
   geoFeatures: any[];
   legendSets: any[];
   orgUnitGroupSets: any[];
+  globalFilters: any;
 }
 
 export const INITIAL_STORE_DATA: StoreData = {
@@ -36,5 +37,6 @@ export const INITIAL_STORE_DATA: StoreData = {
   chartObjects: [],
   geoFeatures: [],
   legendSets: [],
-  orgUnitGroupSets: []
+  orgUnitGroupSets: [],
+  globalFilters: null
 };

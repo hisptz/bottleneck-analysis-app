@@ -24,7 +24,7 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-body">
-          <app-period-filter (onPeriodUpdate)="globalFilters.next($event)"></app-period-filter>
+          <app-period-filter (onPeriodUpdate)="updateFilters($event)"></app-period-filter>
         </div>
       </div>
     </div>
@@ -38,9 +38,9 @@
   <div class="row" *ngIf="(visualizationObjects$ | async).length > 0">
     <app-dashboard-item-card
       *ngFor="let visualizationObject of visualizationObjects$ | async"
+      [globalFilters]="globalFilters"
+      (onFilterDeactivate)="updateFilters($event)"
       [visualizationObject]="visualizationObject"
-      [globalFilters]="globalFilters$"
-      (onFilterReset)="globalFilters.next($event)"
     >
     </app-dashboard-item-card>
   </div>

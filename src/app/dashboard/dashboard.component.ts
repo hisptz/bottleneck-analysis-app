@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {ApplicationState} from '../store/application-state';
 import {ActivatedRoute} from '@angular/router';
 import {
-  CurrentDashboardChangeAction, LoadInitialVisualizationObjectAction,
+  CurrentDashboardChangeAction, GlobalFilterUpdateAction, LoadInitialVisualizationObjectAction,
   UpdateVisualizationWithFilterAction
 } from '../store/actions';
 import {Observable} from 'rxjs/Observable';
@@ -28,20 +28,22 @@ export class DashboardComponent implements OnInit {
   dashboardName$: Observable<string>;
   visualizationObjects$: Observable<Visualization[]>;
   subscription: Subscription;
-  globalFilters: Subject<any> = new Subject<any>();
-  globalFilters$: Observable<any>;
+  dashboardId: string;
+  globalFilters: Observable<any>;
+  globalFilters$: Subject<any> = new Subject<any>();
   constructor(
     private store: Store<ApplicationState>,
     private route: ActivatedRoute
   ) {
     this.dashboardName$ = store.select(currentDashboardNameSelector);
     this.visualizationObjects$ = store.select(visualizationObjectsSelector);
-    this.globalFilters.next(null);
-    this.globalFilters$ = this.globalFilters.asObservable();
+    this.globalFilters$.next(null);
+    this.globalFilters = this.globalFilters$.asObservable();
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+      this.dashboardId = params.id;
       if (this.subscription) {
         this.subscription.unsubscribe()
       }
@@ -72,11 +74,8 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  updateFilters(filterValue) {
-    const visualizationObjects$ = _.clone(this.visualizationObjects$);
-    visualizationObjects$.subscribe(visualizationObjects => {
-
-    })
+  updateFilters(filterData) {
+    this.globalFilters$.next(filterData);
   }
 
 }

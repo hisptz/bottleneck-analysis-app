@@ -17,8 +17,7 @@
       <h6 class="text-center item-title" style="font-size: 12px; font-weight: 100;">
         &nbsp;{{visualizationObject?.subtitle}}</h6>
     </div>
-    {{visualizationObject.id}}
-    <div id="map-view-port-{{visualizationObject.id}}"
+    <div id="{{visualizationObject.id}}"
          style="width:100%"></div>
 
     <div class="map-data-table col-lg-12 col-md-12 col-xs-12" [ngClass]="{hide: loading||hasError|| hideTable}"

@@ -349,6 +349,30 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
+    case 'GLOBAL_FILTER_UPDATE_ACTION': {
+      const newState = _.clone(state);
+      const currentVisualizationObjects = _.filter(newState.visualizationObjects, ['dashboardId', action.payload.dashboardId]);
+      currentVisualizationObjects.forEach(visualizationObject => {
+        const newVisualizationObject = _.clone(visualizationObject);
+        const visualizationObjectIndex = _.findIndex(newState.visualizationObjects, visualizationObject);
+
+        newVisualizationObject.details.filters.forEach(filterObject => {
+          filterObject.filters.forEach(filter => {
+            if (action.payload.filterValue.name === filter.name) {
+              filter.value = action.payload.value;
+            }
+          })
+        });
+
+        if (newVisualizationObject.details.filters.length > 0) {
+          newVisualizationObject.details.loaded = false;
+          newVisualizationObject.details.analyticsLoaded = false;
+          newState.visualizationObjects[visualizationObjectIndex] = newVisualizationObject;
+        }
+      });
+      return newState;
+    }
+
     default:
       return state;
   }

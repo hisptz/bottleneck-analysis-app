@@ -132,7 +132,7 @@
           <app-favorite-settings
             [visualizationSettings]="getVisualizationSettings(visualizationObject.layers)"
             [visualizationType]="currentVisualization"
-            (onClose)="toggleFavoriteSettings($event)"
+            (onClose)="showFavoriteSettings = false"
             (onSettingsUpdate)="updateVisualizationSettings($event)"
           >
           </app-favorite-settings>

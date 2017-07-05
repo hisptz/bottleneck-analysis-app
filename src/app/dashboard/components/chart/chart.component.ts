@@ -21,6 +21,7 @@ export class ChartComponent implements OnInit {
   ngOnInit() {
     if (!this.visualizationObject.details.loaded) {
       if (this.visualizationObject.layers.length > 0) {
+
         /**
          * Get chart configuration
          */

@@ -26,7 +26,7 @@
 }
 
 .dashboard-item-body {
-  /*position: relative;*/
+  position: relative;
   overflow: auto;
   padding: 0px;
   /*padding-left: 15px;*/

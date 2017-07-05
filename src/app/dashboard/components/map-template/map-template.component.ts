@@ -54,7 +54,7 @@ export class MapTemplateComponent implements OnInit {
 
   drawMap(visualizationObject: Visualization, prioritizeFilter?: boolean) {
     const mapObject = this.mapVisualizationService.drawMap(L, visualizationObject, prioritizeFilter);
-    this.prepareMapContainer(mapObject.id, this.mapHeight, this.mapWidth, this.isFullScreen);
+    // this.prepareMapContainer(mapObject.id, this.mapHeight, this.mapWidth, this.isFullScreen);
     this.map = L.map(mapObject.id, mapObject.options);
     this.centeringLayer = mapObject.centeringLayer;
     this.mapLegend = mapObject.mapLegend;
