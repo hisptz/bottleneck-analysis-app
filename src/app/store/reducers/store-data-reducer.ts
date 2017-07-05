@@ -373,6 +373,17 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
+    case 'FULL_SCREEN_TOGGLE_ACTION': {
+      const newState = _.clone(state);
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObjectId]);
+      if (currentVisualizationObject) {
+        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+        currentVisualizationObject.details.showFullScreen = action.payload.fullScreen;
+        newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
+      }
+      return newState;
+    }
+
     default:
       return state;
   }

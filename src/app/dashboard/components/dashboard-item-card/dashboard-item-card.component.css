@@ -17,6 +17,10 @@
 
 }
 
+.dashboard-block {
+  padding-bottom: 0px;
+}
+
 .dashboard-card-footer {
   position: absolute;
   bottom: 25px;
@@ -28,9 +32,6 @@
 .dashboard-item-body {
   position: relative;
   overflow: auto;
-  padding: 0px;
-  /*padding-left: 15px;*/
-  /*padding-right: 15px;*/
 }
 
 .dashboard-item-header li > a {

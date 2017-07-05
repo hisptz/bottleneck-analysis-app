@@ -8,6 +8,7 @@ import {ApplicationState} from '../../../store/application-state';
 import {Store} from '@ngrx/store';
 import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector';
 import {
+  FullScreenToggleAction,
   ResizeDashboardAction, SaveFavoriteAction, UpdateVisualizationWithCustomFilterAction
 } from '../../../store/actions';
 import {ChartComponent} from '../chart/chart.component';
@@ -50,9 +51,9 @@ export class DashboardItemCardComponent implements OnInit {
     showCardFooter: false,
     showDeleteButton: false,
     confirmDelete: false,
-    defaultHeight: '460px',
-    defaultItemHeight: '420px',
-    fullScreenItemHeight: '91vh',
+    defaultHeight: '470px',
+    defaultItemHeight: '438px',
+    fullScreenItemHeight: '93vh',
     fullScreenHeight: '97vh',
     fullScreen: false,
     showOptions: true,
@@ -64,7 +65,6 @@ export class DashboardItemCardComponent implements OnInit {
     showFullScreen: false,
     showDownloadOptions: false
   };
-  @ViewChild('dashboardItemBody') dashboardItemBody: ElementRef;
   @ViewChild(ChartComponent)
   chartComponent: ChartComponent;
   showFavoriteSettings: boolean = false;
@@ -78,6 +78,7 @@ export class DashboardItemCardComponent implements OnInit {
      */
     this.visualizationObject.details.cardHeight = this.cardConfiguration.defaultHeight;
     this.visualizationObject.details.itemHeight = this.cardConfiguration.defaultItemHeight;
+    this.visualizationObject.details.showFullScreen = this.cardConfiguration.showFullScreen;
     this.currentVisualization = this.visualizationObject.details.currentVisualization;
     this.currentShape = this.visualizationObject.shape;
 
@@ -178,6 +179,10 @@ export class DashboardItemCardComponent implements OnInit {
     }
 
     this.cardConfiguration.showFullScreen = !this.cardConfiguration.showFullScreen;
+
+    this.store.dispatch(new FullScreenToggleAction({visualizationObjectId: this.visualizationObject.id, fullScreen: this.cardConfiguration.showFullScreen}));
+
+    this.resizeChildren();
   }
 
   updateVisualization(selectedVisualization) {
@@ -185,6 +190,7 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateFilters(filterValue) {
+    console.log(filterValue)
     const filterArray = this.visualizationObject.details.filters;
     const newVisualizationObject = _.clone(this.visualizationObject);
     if (filterArray) {

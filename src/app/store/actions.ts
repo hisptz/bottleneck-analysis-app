@@ -56,6 +56,7 @@ export const ORGUNIT_GROUP_SET_LOADED_ACTION = 'ORGUNIT_GROUP_SET_LOADED_ACTION'
 export const SAVE_FAVORITE_ACTION = 'SAVE_FAVORITE_ACTION';
 export const FAVORITE_SAVED_ACTION = 'FAVORITE_SAVED_ACTION';
 export const GLOBAL_FILTER_UPDATE_ACTION = 'GLOBAL_FILTER_UPDATE_ACTION';
+export const FULL_SCREEN_TOGGLE_ACTION = 'FULL_SCREEN_TOGGLE_ACTION';
 
 export class LoadSystemInfoAction implements Action {
   readonly type = LOAD_SYSTEM_INFO_ACTION;
@@ -312,5 +313,10 @@ export class FavoritesSavedAction implements Action {
 
 export class GlobalFilterUpdateAction implements Action {
   readonly type = GLOBAL_FILTER_UPDATE_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class FullScreenToggleAction implements Action {
+  readonly type = FULL_SCREEN_TOGGLE_ACTION;
   constructor(public payload: any) {}
 }

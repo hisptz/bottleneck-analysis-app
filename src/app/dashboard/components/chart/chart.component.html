@@ -1,8 +1,9 @@
 <app-loader *ngIf="!visualizationObject.details.loaded" [loadingMessage]="'Moving Chart into position'"></app-loader>
-<div *ngIf="visualizationObject.details.loaded">
+<div *ngIf="visualizationObject.details.loaded" id="chart_{{visualizationObject.id}}">
   <app-chart-template
     *ngFor="let layer of visualizationObject.layers; let i=index"
     [renderId]="visualizationObject.id + '_' + i"
+    [chartHeight]="visualizationObject.details.itemHeight"
     [chartObject]="layer.chartObject"
   ></app-chart-template>
 </div>

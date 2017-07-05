@@ -1,6 +1,6 @@
 <div
   [ngClass]="getDashboardShapeClasses(visualizationObject.shape, dashboardShapes)"
-  class="dashboard-card {{cardConfiguration.showFullScreen ? 'full-screen' : ''}}"
+  class="dashboard-card {{visualizationObject.details.showFullScreen ? 'full-screen' : ''}}"
   (mouseenter)="getMouseAction(visualizationObject.type,'mouseenter')"
   (mouseleave)="getMouseAction(visualizationObject.type,'mouseleave')"
 >
@@ -79,7 +79,7 @@
               </button>
               <button (click)="confirmDelete = false" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>
             </li>
-            <li *ngIf="!cardConfiguration.showFullScreen || cardConfiguration.showResizeButton">
+            <li *ngIf="!visualizationObject.details.showFullScreen || cardConfiguration.showResizeButton">
               <a (click)="resizeDashboard(visualizationObject.shape, dashboardShapes)" tooltip="Resize dashboard">
                 <i class="fa fa-arrows-h"></i>
               </a>

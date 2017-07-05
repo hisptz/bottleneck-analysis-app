@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {ChartTemplateComponent} from '../chart-template/chart-template.component';
 import {ApplicationState} from '../../../store/application-state';
 import {Store} from '@ngrx/store';
@@ -39,13 +39,13 @@ export class ChartComponent implements OnInit {
       }
     }
 
+    console.log(this.visualizationObject.details.showFullScreen)
+
   }
 
   resize() {
-    // const elment = document.getElementById('chart_' + this.visualizationObject.id);
-    // console.log(elment.offsetWidth)
     if (this.chartTemplate) {
-      this.chartTemplate.reflow();
+      this.chartTemplate.reflow(this.visualizationObject.shape, this.visualizationObject.details.showFullScreen);
     }
   }
 

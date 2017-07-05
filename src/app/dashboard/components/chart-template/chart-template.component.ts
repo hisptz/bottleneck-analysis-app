@@ -10,7 +10,7 @@ declare var Highcharts: any;
 export class ChartTemplateComponent implements OnInit {
 
   @Input() renderId: string;
-  @Input() chartHeight
+  @Input() chartHeight: string;
   @Input() chartObject: any;
   chart: any;
   constructor() { }
@@ -18,17 +18,37 @@ export class ChartTemplateComponent implements OnInit {
   ngOnInit() {
     if (this.chartObject) {
       setTimeout(() => {
-        this.chart = Highcharts.chart(this.chartObject)
+        this.chart = Highcharts.chart(this.chartObject);
       }, 20)
     }
   }
 
-  reflow() {
+  resize() {
+
+  }
+
+  reflow(shape, fullScreen?) {
+    console.log(shape)
     setTimeout(() => {
+      const chartDiv = document.getElementById(this.renderId)
+      console.log(chartDiv.offsetWidth, chartDiv.offsetHeight)
       if (this.chart) {
+        if (fullScreen) {
+          this.chart.setSize(null, '91vh');
+        } else {
+          this.chart.setSize(null, '400');
+        }
         this.chart.reflow();
       }
-    }, 100)
+    }, 150)
+  }
+
+  findWidth(currentShape, currentWidth) {
+
+  }
+  getHeight(height) {
+    console.log(height);
+    return height
   }
 
 }
