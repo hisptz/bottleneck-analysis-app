@@ -50,7 +50,7 @@ export class FavoriteEffect {
 
   @Effect() saveFavorite$: Observable<Action> = this.actions$
     .ofType(SAVE_FAVORITE_ACTION)
-    .flatMap((action: any) => Observable.of(this.favoriteService.createOrUpdateFavorite(action.payload)))
+    .flatMap((action: any) => this.favoriteService.createOrUpdateFavorite(action.payload))
     .map(payload => new FavoritesSavedAction(payload));
 
 }

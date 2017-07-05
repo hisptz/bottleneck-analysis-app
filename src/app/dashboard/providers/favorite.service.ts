@@ -205,7 +205,7 @@ export class FavoriteService {
     });
   }
 
-  updateAdditionalOptions(visualizationDetails) {
+  private _updateAdditionalOptions(visualizationDetails) {
     const favoriteOptions = visualizationDetails.favoriteOptions;
     return Observable.create(observer => {
       if (favoriteOptions) {
@@ -232,12 +232,55 @@ export class FavoriteService {
 
   createOrUpdateFavorite(visualizationDetails: any) {
     return Observable.create(observer => {
-
+      const visualizationSettings = visualizationDetails.visualizationObject.layers.map(layer => { return layer.settings});
+      const additionalOptionsArray = this._prepareAdditionalFavoriteOptions(visualizationSettings);
+      /**
+       * Update favorites
+       */
+      Observable.forkJoin(
+        visualizationSettings.map(setting => { return Observable.of(setting)})
+      ).subscribe(() => {
+        /**
+         * Update additional options
+         */
+        Observable.forkJoin(
+          additionalOptionsArray.map(option => { return this._updateAdditionalOptions({
+            apiRootUrl: visualizationDetails.apiRootUrl,
+            favoriteOptions: option
+          })})
+        ).subscribe(() => {
+          visualizationDetails.updateSuccess = true;
+          observer.next(visualizationDetails);
+          observer.complete()
+        }, error => {
+          visualizationDetails.updateSuccess = false;
+          visualizationDetails.updateError = error;
+          observer.next(visualizationDetails);
+          observer.complete()
+        })
+      }, favoriteError => {
+        visualizationDetails.updateSuccess = false;
+        visualizationDetails.updateError = favoriteError;
+        observer.next(visualizationDetails);
+        observer.complete()
+      })
     })
   }
 
-  private _prepareAdditionalFavoriteOptions(favoriteSettings) {
+  private _prepareAdditionalFavoriteOptions(visualizationSettings) {
+    const favoriteOptionArray: any[] = [];
+    if (visualizationSettings) {
+      visualizationSettings.forEach(visualizationSetting => {
+        const favoriteOption: any = {
+          id: visualizationSetting.id,
+          useMultipleAxis: visualizationSetting.useMultipleAxis,
+          selectedChartTypes: visualizationSetting.selectedChartTypes
+        };
 
+        favoriteOptionArray.push(favoriteOption)
+      })
+    }
+    return favoriteOptionArray
   }
 
 }
