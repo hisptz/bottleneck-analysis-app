@@ -9,6 +9,8 @@ import {Visualization} from '../model/visualization';
 import {MapObject} from '../model/map-object';
 import {saveAs} from 'file-saver';
 declare var html2canvas;
+// declare var GJV;
+import GJV from 'geojson-validation';
 
 @Injectable()
 export class MapVisualizationService {
@@ -432,7 +434,20 @@ export class MapVisualizationService {
     let layer: any;
     let layerGroup: any;
 
-    let geoJsonLayer: any = L.geoJSON(geoJsonFeatures, options);
+    let geoJsonLayer: any = {};
+    // console.log(JSON.stringify(geoJsonFeatures))
+    if (GJV.valid(geoJsonFeatures)){
+      console.log("this is valid GeoJSON!");
+    } else {
+      console.warn('invalid')
+    }
+
+    try {
+      geoJsonLayer = L.geoJSON(geoJsonFeatures, options);
+    } catch (e) {
+      console.log(e)
+    }
+
 
 
     if (showLabels) {

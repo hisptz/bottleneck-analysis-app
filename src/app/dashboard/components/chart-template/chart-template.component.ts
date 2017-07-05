@@ -30,25 +30,43 @@ export class ChartTemplateComponent implements OnInit {
   reflow(shape, fullScreen?) {
     console.log(shape)
     setTimeout(() => {
-      const chartDiv = document.getElementById(this.renderId)
-      console.log(chartDiv.offsetWidth, chartDiv.offsetHeight)
+      const fullScreenWidth: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - 90;
       if (this.chart) {
         if (fullScreen) {
-          this.chart.setSize(null, '91vh');
+          const fullScreenHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 95;
+          console.log(fullScreenHeight)
+          this.chart.setSize(fullScreenWidth, fullScreenHeight);
         } else {
-          this.chart.setSize(null, '400');
+          this.chart.setSize(this.computeWidth(shape, fullScreenWidth), '400');
         }
         this.chart.reflow();
       }
     }, 150)
   }
 
-  findWidth(currentShape, currentWidth) {
+  computeWidth(currentShape: string, fullScreenWidth: number) {
+    let newWidth: number = -40;
+    if (currentShape === 'NORMAL') {
+      if (fullScreenWidth > 1000) {
+        newWidth += fullScreenWidth/3;
+      } else if (fullScreenWidth > 750 && fullScreenWidth < 960) {
+        newWidth += fullScreenWidth/2;
+      } else {
+        newWidth += fullScreenWidth;
+      }
 
-  }
-  getHeight(height) {
-    console.log(height);
-    return height
+    } else if (currentShape === 'DOUBLE_WIDTH') {
+      if (fullScreenWidth > 1000) {
+        newWidth += fullScreenWidth * 0.67;
+      } else if (fullScreenWidth > 750 && fullScreenWidth < 960) {
+        newWidth += fullScreenWidth/2;
+      } else {
+        newWidth += fullScreenWidth;
+      }
+    } else {
+      newWidth += fullScreenWidth;
+    }
+    return newWidth.toFixed(0);
   }
 
 }

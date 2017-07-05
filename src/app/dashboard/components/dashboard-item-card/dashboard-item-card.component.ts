@@ -141,7 +141,7 @@ export class DashboardItemCardComponent implements OnInit {
 
     this.visualizationObject = visualizationObject;
 
-    this.resizeChildren();
+    this.resizeChildren(newShape);
 
     this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
       if (apiRootUrl !== '') {
@@ -158,9 +158,9 @@ export class DashboardItemCardComponent implements OnInit {
     });
   }
 
-  resizeChildren() {
+  resizeChildren(shape?) {
     if (this.chartComponent) {
-      this.chartComponent.resize();
+      this.chartComponent.resize(shape);
     }
   }
 

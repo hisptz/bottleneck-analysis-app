@@ -43,9 +43,9 @@ export class ChartComponent implements OnInit {
 
   }
 
-  resize() {
+  resize(shape?) {
     if (this.chartTemplate) {
-      this.chartTemplate.reflow(this.visualizationObject.shape, this.visualizationObject.details.showFullScreen);
+      this.chartTemplate.reflow(shape ? shape : this.visualizationObject.shape, this.visualizationObject.details.showFullScreen);
     }
   }
 

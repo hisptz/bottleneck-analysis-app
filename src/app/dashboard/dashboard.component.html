@@ -42,7 +42,7 @@
 <!--Dashboard Items-->
 <div class="container-fluid">
   <!--<app-loader *ngIf="loading" [loadingMessage]="'Moving dashboards into position'"></app-loader>-->
-  <div class="row" *ngIf="(visualizationObjects$ | async).length > 0">
+  <div class="row" *ngIf="(visualizationObjects$ | async).length > 0" id="{{dashboardId}}">
     <app-dashboard-item-card
       *ngFor="let visualizationObject of visualizationObjects$ | async"
       [globalFilters]="globalFilters"

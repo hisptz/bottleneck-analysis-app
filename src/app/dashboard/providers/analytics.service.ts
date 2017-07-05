@@ -14,22 +14,21 @@ export class AnalyticsService {
     return Observable.create(observer => {
       Observable.forkJoin(visualizationDetails.filters.map(filterObject => {
         let analyticUrl = '';
-        if (filterObject.filters.filter(filterValue => { return filterValue.value === ''}).length === 0) {
-          const parameters: string = filterObject.filters.map(filter => {
-            return filter.value !== '' ? 'dimension=' + filter.name + ':' + filter.value : 'dimension=' + filter.name
-          }).join('&');
-          if (parameters !== '') {
-            let visualizationSetting = this._getVisualizationSettings(visualizationDetails.favorite, filterObject.id);
-            if (visualizationSetting == null) {
-              visualizationSetting = visualizationDetails.visualizationObject.layers.map(layer => { return layer.settings}).filter(setting => { return setting.id === filterObject.id})[0];
-            }
-            analyticUrl = this._constructAnalyticsUrl(
-              visualizationDetails.apiRootUrl,
-              visualizationDetails.visualizationObject.type,
-              visualizationSetting,
-              parameters
-            )
+        const parametersArray: any[] = filterObject.filters.map(filter => {
+          return filter.value !== '' ? 'dimension=' + filter.name + ':' + filter.value : ['dx', 'pe', 'ou'].indexOf(filter.name) === -1 ? 'dimension=' + filter.name : ''
+        }).filter(param => { return param !== ''});
+        if (parametersArray.length > 0) {
+          const parameters: string = parametersArray.join('&');
+          let visualizationSetting = this._getVisualizationSettings(visualizationDetails.favorite, filterObject.id);
+          if (visualizationSetting == null) {
+            visualizationSetting = visualizationDetails.visualizationObject.layers.map(layer => { return layer.settings}).filter(setting => { return setting.id === filterObject.id})[0];
           }
+          analyticUrl = this._constructAnalyticsUrl(
+            visualizationDetails.apiRootUrl,
+            visualizationDetails.visualizationObject.type,
+            visualizationSetting,
+            parameters
+          )
         }
         return analyticUrl !== '' ? this.http.get(analyticUrl) : Observable.of(null)
       })).subscribe(analyticsResponse => {
@@ -98,12 +97,16 @@ export class AnalyticsService {
       url += '.json?';
     }
 
+
+    if (url.split('&').length <= 1 && parameters.split('&').length <= 1) {
+      return '';
+    }
+
     if (parameters !== '') {
       url += parameters;
     }
     url += value !== '' || value !== undefined ? value : '';
     url += aggregationType !== '' ? aggregationType : '';
-
     url += this._getAnalyticsCallStrategies(visualizationType, null);
     return url;
   }
