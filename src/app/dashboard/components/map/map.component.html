@@ -1,4 +1,4 @@
-<p>
-  map works!
-</p>
-{{visualizationObject | json}}
+<app-map-template
+  *ngIf="visualizationObject.details.loaded"
+  [visualizationObject]="visualizationObject"
+></app-map-template>

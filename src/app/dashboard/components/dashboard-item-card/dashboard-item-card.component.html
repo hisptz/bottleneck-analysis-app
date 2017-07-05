@@ -55,7 +55,7 @@
               </a>
             </li>
             <li style="background-color: #ddd;" *ngIf="visualizationObject.details.updateAvailable">
-              <a href="" title="Changes available, update">
+              <a (click)="saveSettings()" title="Changes available, update">
                 <i class="fa fa-save"></i>
                 <span style="font-size: 20px; position: absolute; top: -5px; right: 0px;">*</span>
               </a>

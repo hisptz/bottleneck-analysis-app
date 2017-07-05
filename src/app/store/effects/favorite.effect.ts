@@ -3,9 +3,11 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {
   FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION,
-  FAVORITE_LOADED_ACTION, FavoriteAdditionalOptionsLoadedAction, FavoriteLoadedAction, GET_VISUALIZATION_FILTER_ACTION,
+  FAVORITE_LOADED_ACTION, FavoriteAdditionalOptionsLoadedAction, FavoriteLoadedAction, FavoritesSavedAction,
+  GET_VISUALIZATION_FILTER_ACTION,
   GetVisualizationFilterAction,
   LOAD_FAVORITE_ACTION, LOAD_FAVORITE_ADDITIONAL_OPTIONS_ACTION, LoadFavoriteAdditionalOptionAction,
+  SAVE_FAVORITE_ACTION,
   UPDATE_VISUALIZATION_WITH_FILTER_ACTION,
   UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION,
   UpdateVisualizationWithFilterAction,
@@ -45,5 +47,10 @@ export class FavoriteEffect {
     .ofType(UPDATE_VISUALIZATION_WITH_FILTER_ACTION)
     .flatMap((action: any) => Observable.of(this.favoriteService.getVisualizationLayoutFromFavorite(action.payload)))
     .map(payload => new UpdateVisualizationWithLayoutAction(payload));
+
+  @Effect() saveFavorite$: Observable<Action> = this.actions$
+    .ofType(SAVE_FAVORITE_ACTION)
+    .flatMap((action: any) => Observable.of(this.favoriteService.createOrUpdateFavorite(action.payload)))
+    .map(payload => new FavoritesSavedAction(payload));
 
 }

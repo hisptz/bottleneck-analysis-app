@@ -73,7 +73,10 @@ export class DashboardComponent implements OnInit {
   }
 
   updateFilters(filterValue) {
+    const visualizationObjects$ = _.clone(this.visualizationObjects$);
+    visualizationObjects$.subscribe(visualizationObjects => {
 
+    })
   }
 
 }

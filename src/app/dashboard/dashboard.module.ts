@@ -39,6 +39,10 @@ import {GeoFeatureService} from './providers/geo-feature.service';
 import {LegendSetService} from './providers/legend-set.service';
 import {OrgunitGroupSetService} from './providers/orgunit-group-set.service';
 import {MapService} from './providers/map.service';
+import {MapVisualizationService} from './providers/map-visualization.service';
+import {ColorInterpolationService} from './providers/color-interpolation.service';
+import {TileLayers} from './constants/tile-layers';
+import { MapTemplateComponent } from './components/map-template/map-template.component';
 
 @NgModule({
   imports: [
@@ -71,7 +75,8 @@ import {MapService} from './providers/map.service';
     FilterLevelPipe,
     FavoriteSettingsComponent,
     TruncatePipe,
-    MapComponent
+    MapComponent,
+    MapTemplateComponent
   ],
   providers: [
     DashboardNotificationService,
@@ -84,7 +89,10 @@ import {MapService} from './providers/map.service';
     GeoFeatureService,
     LegendSetService,
     OrgunitGroupSetService,
-    MapService
+    MapService,
+    MapVisualizationService,
+    ColorInterpolationService,
+    TileLayers
   ]
 })
 export class DashboardModule { }

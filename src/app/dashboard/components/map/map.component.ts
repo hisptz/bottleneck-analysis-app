@@ -3,10 +3,16 @@ import {Visualization} from '../../model/visualization';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../../store/application-state';
 import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector';
+import * as _ from 'lodash';
+import 'leaflet';
+import 'leaflet.markercluster';
+declare var L;
 import {
-  GetMapConfigurationAction, LoadGeoFeatureAction, LoadLegendSetAction,
+  GetMapConfigurationAction, GetMapObjectAction, LoadGeoFeatureAction, LoadLegendSetAction,
   LoadOrgUnitGroupSetAction
 } from '../../../store/actions';
+import {MapVisualizationService} from '../../providers/map-visualization.service';
+import {TileLayers} from '../../constants/tile-layers';
 
 @Component({
   selector: 'app-map',
@@ -16,7 +22,11 @@ import {
 export class MapComponent implements OnInit {
 
   @Input() visualizationObject: Visualization;
-  constructor(private store: Store<ApplicationState>) { }
+  constructor(
+    private store: Store<ApplicationState>,
+    private mapVisualizationService: MapVisualizationService,
+    private tileLayers: TileLayers
+  ) { }
 
   ngOnInit() {
     if (!this.visualizationObject.details.loaded) {
@@ -33,22 +43,6 @@ export class MapComponent implements OnInit {
                  * Load geo features
                  */
                 this.store.dispatch(new LoadGeoFeatureAction({apiRootUrl: apiRootUrl, visualizationObject: this.visualizationObject}));
-
-                /**
-                 * Load legend set if needed
-                 */
-                this.store.dispatch(new LoadLegendSetAction({
-                  apiRootUrl: apiRootUrl,
-                  visualizationObject: this.visualizationObject
-                }))
-
-                /**
-                 * Load group set if any
-                 */
-                this.store.dispatch(new LoadOrgUnitGroupSetAction({
-                  apiRootUrl: apiRootUrl,
-                  visualizationObject: this.visualizationObject
-                }))
               }
             })
         }

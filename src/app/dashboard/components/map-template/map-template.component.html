@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-xs-12">
+    <div class="layers-button" [ngClass]="{hide: loading||hasError}" (mouseenter)="toggleLegendContainerView()">
+      <img src="assets/img/layers-icon.png" style="width:24px;height:24px;">
+    </div>
+    <!--(mouseleave)="toggleLegendContainerView()"-->
+    <div *ngIf="!loading&&legendIsOpen" class="legendContainer">
+    </div>
+
+
+    <div class="recenter-button" [ngClass]="{hide: loading||hasError}" (click)="recenterMap(map,centeringLayer)">
+      <i class="fa fa-home"></i>
+    </div>
+    <div class="row" [ngClass]="{hide: loading||hasError}" style="text-align: center">
+      <h4 class="forViewOnly">
+        {{visualizationObject?.name}}</h4>
+      <h6 class="text-center item-title" style="font-size: 12px; font-weight: 100;">
+        &nbsp;{{visualizationObject?.subtitle}}</h6>
+    </div>
+    {{visualizationObject.id}}
+    <div id="map-view-port-{{visualizationObject.id}}"
+         style="width:100%"></div>
+
+    <div class="map-data-table col-lg-12 col-md-12 col-xs-12" [ngClass]="{hide: loading||hasError|| hideTable}"
+         [ngStyle]="{zIndex:2000}">
+      <div class=" col-lg-12 col-md-12 col-xs-12">
+        <div class=" col-lg-11 col-md-11 col-xs-11">
+          <div style="padding-top:20px;">{{visualizationObject.name}}</div>
+        </div>
+        <div class=" col-lg-1 col-md-1 col-xs-1">
+          <div style="padding-top:20px;"><a (click)="hideDataTable()"><i class="fa fa-remove"></i></a></div>
+        </div>
+      </div>
+      <table class="table table-responsive">
+
+        <thead>
+        <tr>
+          <th>#</th>
+          <th *ngFor="let header of mapTable.headers">{{header}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of mapTable.rows;let i = index;">
+          <th scope="row">{{i+1}}</th>
+          <td>{{row}}</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

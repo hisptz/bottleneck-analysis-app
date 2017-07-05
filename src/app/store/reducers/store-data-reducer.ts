@@ -255,6 +255,7 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
             layer.settings.geoFeature = geoFeature.content;
           }
         });
+        currentVisualizationObject.details.geoFeatureLoaded = true;
         newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
       }
       return newState;
@@ -292,6 +293,8 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
             }
           }
         });
+        console.log('legend set')
+        currentVisualizationObject.details.legendSetLoaded = true;
         newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
       }
       return newState;
@@ -307,10 +310,10 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
         if (groupSet !== null) {
           const currentGroupSet = _.find(newState.orgUnitGroupSets, ['id', groupSet.id]);
           if (!currentGroupSet) {
-            newState.legendSets.push(groupSet);
+            newState.orgUnitGroupSets.push(groupSet);
           } else {
             const currentGroupSetIndex = _.findIndex(newState.legendSets, currentGroupSet);
-            newState.legendSets[currentGroupSetIndex] = groupSet;
+            newState.orgUnitGroupSets[currentGroupSetIndex] = groupSet;
           }
         }
       });
@@ -330,6 +333,17 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
           }
         });
         currentVisualizationObject.details.loaded = true;
+        newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
+      }
+      return newState;
+    }
+
+    case 'FAVORITE_SAVED_ACTION': {
+      const newState = _.clone(state);
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+      if (currentVisualizationObject) {
+        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+        currentVisualizationObject.details.updateAvailable = false;
         newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
       }
       return newState;
@@ -440,6 +454,9 @@ function handleFiltersUpdateAction(state: StoreData, action: any) {
     currentVisualizationObject.details.filters = action.payload.filters;
     currentVisualizationObject.details.loaded = false;
     currentVisualizationObject.details.analyticsLoaded = false;
+    if (action.payload.updateAvailable) {
+      currentVisualizationObject.details.updateAvailable = true;
+    }
     newState.visualizationObjects[currentVisualizationObjectIndex] = _.clone(currentVisualizationObject);
   }
   return newState;

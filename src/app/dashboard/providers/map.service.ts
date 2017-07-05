@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {MapConfiguration} from '../model/map-configuration';
+import {MapVisualizationService} from './map-visualization.service';
 
 @Injectable()
 export class MapService {
 
-  constructor() { }
+  constructor(private mapVisualizationService: MapVisualizationService) { }
 
   public getMapConfiguration(visualizationObject): any {
 
@@ -19,6 +20,10 @@ export class MapService {
     };
     visualizationObject.mapConfiguration = configuration;
     return visualizationObject;
+  }
+
+  getMapObject(visualizationDetails) {
+    return this.mapVisualizationService.drawMap(visualizationDetails.leafletObject, visualizationDetails.visualizationObject);
   }
 
 }

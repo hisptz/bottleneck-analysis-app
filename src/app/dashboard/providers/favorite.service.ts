@@ -230,4 +230,14 @@ export class FavoriteService {
     })
   }
 
+  createOrUpdateFavorite(visualizationDetails: any) {
+    return Observable.create(observer => {
+
+    })
+  }
+
+  private _prepareAdditionalFavoriteOptions(favoriteSettings) {
+
+  }
+
 }
