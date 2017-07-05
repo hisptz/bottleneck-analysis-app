@@ -62,7 +62,8 @@ export class FavoriteSettingsComponent implements OnInit {
       seriesWithChartTypes = seriesItems[0].map(seriesObject => { return {
         name: seriesObject.displayName,
         id: seriesObject.id,
-        type: ''
+        type: '',
+        axis: ''
       }})
     }
 

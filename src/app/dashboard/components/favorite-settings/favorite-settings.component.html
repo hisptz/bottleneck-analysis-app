@@ -56,11 +56,23 @@
         <!--</div>-->
         <div class="form-group" style="position: relative;">
           <h4>Series Chart types</h4>
-          <table>
+          <table class="table table-condensed">
+            <tr>
+              <th>Item</th>
+              <th>Axis</th>
+              <th>Type</th>
+            </tr>
             <tr *ngFor="let selectedChartType of setting.selectedChartTypes">
-              <td width="60%">{{selectedChartType.name}}</td>
-              <td width="40%">
-                <select [(ngModel)]="selectedChartType.type" class="form-control" id="">
+              <td width="40%">{{selectedChartType.name}}</td>
+              <td width="30%">
+                <select [(ngModel)]="selectedChartType.axis" class="form-control input-sm" id="">
+                  <option value="">Select axis</option>
+                  <option value="left">Left</option>
+                  <option value="right">Right</option>
+                </select>
+              </td>
+              <td width="30%">
+                <select [(ngModel)]="selectedChartType.type" class="form-control input-sm pull-right" id="">
                   <option value="">Select type</option>
                   <option value="{{chartType.value}}" *ngFor="let chartType of chartTypes">{{chartType.name}}</option>
                 </select>

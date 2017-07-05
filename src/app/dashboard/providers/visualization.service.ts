@@ -926,12 +926,13 @@ export class VisualizationService {
     }
     // set y-axis
     metaDataObject.yAxisItems.forEach((yAxis, yAxisIndex) => {
+      const seriesTypeObject = _.find(chartConfiguration.multiAxisTypes, ['id', yAxis.uid]);
       const yAxisObject = {
         title: {
           text: yAxis.name,
           style: {'color': '#000000', 'fontWeight': 'normal'}
         },
-        opposite: yAxisIndex !== 0 ? true : false
+        opposite: seriesTypeObject.axis === 'left' ? false : true
       };
       chartObject.yAxis.push(yAxisObject)
 
@@ -940,7 +941,6 @@ export class VisualizationService {
     //set series
     metaDataObject.yAxisItems.forEach((yAxis, yAxisIndex) => {
       const seriesTypeObject = _.find(chartConfiguration.multiAxisTypes, ['id', yAxis.uid]);
-      console.log(seriesTypeObject)
       const seriesObject: any = {
         name: yAxis.name,
         type: seriesTypeObject ? seriesTypeObject.type : '',
