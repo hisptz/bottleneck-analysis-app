@@ -100,7 +100,7 @@
   text-align: left;
   background-color: #fff;
   position: absolute;
-  z-index: 1000;
+  z-index: 1200;
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 4px;
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
@@ -145,8 +145,8 @@
 }
 
 .tree-area{
+  border-top: 1px solid #ffebcd;
   max-height: 270px;
-  min-height: 270px;
   overflow: hidden;
   width: 100%;
 }
@@ -380,10 +380,7 @@ table * {
   padding-left: 2px;
   padding-right: 2px;
 }
-.someclass{
-  color: rgba(0,0,0,0.1);
-  background-color: rgba(0,0,0,0.1);
-}
-.node-content-wrapper-focused{
-  background-color: white!important;
+
+.disabled-orgunit {
+  color: #888;
 }

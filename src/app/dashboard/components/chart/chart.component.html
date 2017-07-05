@@ -1,6 +1,4 @@
-<div *ngIf="!visualizationObject.details.loaded">
-  loading chart
-</div>
+<app-loader *ngIf="!visualizationObject.details.loaded" [loadingMessage]="'Moving Chart into position'"></app-loader>
 <div *ngIf="visualizationObject.details.loaded">
   <app-chart-template
     *ngFor="let layer of visualizationObject.layers; let i=index"

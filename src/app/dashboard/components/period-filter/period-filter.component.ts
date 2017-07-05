@@ -52,7 +52,7 @@ export class PeriodFilterComponent implements OnInit {
   @Output() onTypeUpdate: EventEmitter<any> = new EventEmitter<any>();
   periods = [];
   period: any = {};
-  showPerTree:boolean = false;
+  showPerTree:boolean = true;
   year: number = new Date().getFullYear();
   default_period: string[] = [];
   customTemplateStringOrgunitOptions: any;
@@ -315,14 +315,14 @@ export class PeriodFilterComponent implements OnInit {
         {id:year+'04',name:'April '+year},
         {id:year+'05',name:'May '+year},
         {id:year+'06',name:'June '+year}
-        )
+      )
     }else if(type == 'Quarterly'){
       periods.push(
         {id:last_yaer+'Q3',name:'July - September '+last_yaer},
         {id:last_yaer+'Q4',name:'October - December '+last_yaer},
         {id:year+'Q1',name:'January - March '+year,selected:true},
         {id:year+'Q2',name:'April - June '+year}
-        )
+      )
     }else if(type == 'FinancialJuly'){
       for (let i = 0; i <= 10; i++) {
         let useYear = parseInt(year) - i;

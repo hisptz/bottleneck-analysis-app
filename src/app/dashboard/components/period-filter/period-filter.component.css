@@ -432,3 +432,10 @@ table * {
 .fadeOut{
   color: rgba(0,0,0,0.4);
 }
+
+.period-body {
+  background-color: #ffffff;
+  margin: 3px;
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 0px
+}

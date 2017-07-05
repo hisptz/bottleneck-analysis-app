@@ -43,6 +43,7 @@ import {MapVisualizationService} from './providers/map-visualization.service';
 import {ColorInterpolationService} from './providers/color-interpolation.service';
 import {TileLayers} from './constants/tile-layers';
 import { MapTemplateComponent } from './components/map-template/map-template.component';
+import {LoaderComponent} from './components/loader/loader.component';
 
 @NgModule({
   imports: [
@@ -76,7 +77,8 @@ import { MapTemplateComponent } from './components/map-template/map-template.com
     FavoriteSettingsComponent,
     TruncatePipe,
     MapComponent,
-    MapTemplateComponent
+    MapTemplateComponent,
+    LoaderComponent
   ],
   providers: [
     DashboardNotificationService,
