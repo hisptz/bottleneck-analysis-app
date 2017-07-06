@@ -51,14 +51,14 @@
         <li *ngIf="showCreateDashboardForm">
           <app-create-dashboard (onDashboardCreate)="showCreateDashboardForm = !showCreateDashboardForm"></app-create-dashboard>
         </li>
-        <li>
+        <li *ngIf="menuConfig.showDashboardCreateButton">
           <a (click)="showCreateDashboardForm = !showCreateDashboardForm">
             <i class="fa {{showCreateDashboardForm ? 'fa-times' : 'fa-plus'}}"></i>
           </a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right dashboard-right">
-        <li>
+        <li *ngIf="menuConfig.showPaginationButtons">
           <pagination-template *ngIf="(dashboardMenuItems$ | async).length > config.itemsPerPage" #nm="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
             <ul class="custom-pagination pagination dashboard-pagination">
               <li class="pagination-previous" [class.hidden]="nm.isFirstPage()">
@@ -71,7 +71,7 @@
             </ul>
           </pagination-template>
         </li>
-        <li><input type="number" [(ngModel)]="config.itemsPerPage" class="dashboard-pagination-input" min="1" max="{{(dashboardMenuItems$ | async).length <= 8 ? (dashboardMenuItems$ | async).length : 8}}" onkeydown="return false"></li>
+        <li *ngIf="menuConfig.showPaginationCounter"><input type="number" [(ngModel)]="config.itemsPerPage" class="dashboard-pagination-input" min="1" max="{{(dashboardMenuItems$ | async).length <= 8 ? (dashboardMenuItems$ | async).length : 8}}" onkeydown="return false"></li>
         <li *ngIf="showDashboardSearch"><input type="text" size="12" [(ngModel)]="dashboardName" class="dashboard-search-input" autofocus></li>
         <li class="dashboard-search-button" (click)="showDashboardSearch = !showDashboardSearch"><a tooltip="search dashboard" style="border-right-style: none;"><i class="fa {{showDashboardSearch ? 'fa-times':'fa-search'}}"></i></a></li>
       </ul>

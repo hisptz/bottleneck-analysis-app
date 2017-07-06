@@ -31,6 +31,9 @@ export class DashboardComponent implements OnInit {
   dashboardId: string;
   globalFilters: Observable<any>;
   globalFilters$: Subject<any> = new Subject<any>();
+  dashboardConfig: any = {
+    showNotification: false
+  }
   constructor(
     private store: Store<ApplicationState>,
     private route: ActivatedRoute

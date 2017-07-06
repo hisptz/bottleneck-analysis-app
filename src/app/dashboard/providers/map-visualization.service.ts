@@ -434,19 +434,13 @@ export class MapVisualizationService {
     let layer: any;
     let layerGroup: any;
 
-    let geoJsonLayer: any = {};
+    let geoJsonLayer: any = L.geoJSON(geoJsonFeatures, options);
     // console.log(JSON.stringify(geoJsonFeatures))
-    if (GJV.valid(geoJsonFeatures)){
-      console.log("this is valid GeoJSON!");
-    } else {
-      console.warn('invalid')
-    }
-
-    try {
-      geoJsonLayer = L.geoJSON(geoJsonFeatures, options);
-    } catch (e) {
-      console.log(e)
-    }
+    // if (GJV.valid(geoJsonFeatures)){
+    //   console.log("this is valid GeoJSON!");
+    // } else {
+    //   console.warn('invalid')
+    // }
 
 
 

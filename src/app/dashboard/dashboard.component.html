@@ -8,7 +8,7 @@
       <!--<app-dashboard-item-search></app-dashboard-item-search>-->
     </div>
     <div class="col-md-4 col-sm-4">
-      <app-dashboard-notification-area></app-dashboard-notification-area>
+      <app-dashboard-notification-area *ngIf="dashboardConfig.showNotification"></app-dashboard-notification-area>
     </div>
   </div>
 </div>

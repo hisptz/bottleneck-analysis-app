@@ -1,10 +1,28 @@
 <div class="row">
   <div class="col-lg-12 col-md-12 col-xs-12">
+
+    <!--loader block-->
+    <app-loader *ngIf="loading" [loadingMessage]="'Moving map into position'"></app-loader>
+    <!--end of loader block-->
+
+    <!--<app-error-notifier *ngIf="hasError && !loading" [errorMessage]="errorMessage"></app-error-notifier>-->
+
     <div class="layers-button" [ngClass]="{hide: loading||hasError}" (mouseenter)="toggleLegendContainerView()">
       <img src="assets/img/layers-icon.png" style="width:24px;height:24px;">
     </div>
     <!--(mouseleave)="toggleLegendContainerView()"-->
-    <div *ngIf="!loading&&legendIsOpen" class="legendContainer">
+    <div *ngIf="!loading&&legendIsOpen" class="legendContainer"
+    >
+      <!--<app-visualization-legend [visualizationObject]="visualizationObject"-->
+                                <!--(updateMapLayers)="updateMapLayers($event)"-->
+                                <!--(changeMapTileLayer)="changeMapTileLayer($event)"-->
+                                <!--(stickyLegend)="stickyMapLegend($event)"-->
+                                <!--(downloadMapAsFiles)="downloadMapAsFiles($event)"-->
+                                <!--(closeLegend)="closeMapLegend()"-->
+                                <!--(layerDnDAction)="dragAndDropHandler($event)"-->
+                                <!--(showDataTable)="drawvisualizationObjectTable($event)"-->
+
+      <!--&gt;</app-visualization-legend>-->
     </div>
 
 
@@ -17,7 +35,7 @@
       <h6 class="text-center item-title" style="font-size: 12px; font-weight: 100;">
         &nbsp;{{visualizationObject?.subtitle}}</h6>
     </div>
-    <div id="{{visualizationObject.id}}"
+    <div id="map-view-port-{{visualizationObject.id}}" [ngClass]="{hide: loading||hasError}"
          style="width:100%"></div>
 
     <div class="map-data-table col-lg-12 col-md-12 col-xs-12" [ngClass]="{hide: loading||hasError|| hideTable}"

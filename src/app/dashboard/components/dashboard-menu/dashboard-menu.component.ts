@@ -27,6 +27,12 @@ export class DashboardMenuComponent implements OnInit {
     itemsPerPage: 8,
     currentPage: 1
   };
+  menuConfig: any = {
+    showDashboardCreateButton: false,
+    showPaginationCounter: true,
+    showPaginationButtons: true,
+    showMaintenanceOptions: false
+  }
   constructor(private store: Store<ApplicationState>) {
     this.dashboardMenuItems$ = store.select(dashboardMenuItemsSelector)
   }
@@ -36,7 +42,9 @@ export class DashboardMenuComponent implements OnInit {
 
   openEditForm(id) {
     this.currentRightClicked = '';
-    this.activeEditFormId = id;
+    if (this.menuConfig.showMaintenanceOptions) {
+      this.activeEditFormId = id;
+    }
   }
 
   openDeleteForm(id) {
@@ -49,6 +57,9 @@ export class DashboardMenuComponent implements OnInit {
   }
 
   showOptions(dashboardId) {
+    if (!this.menuConfig.showMaintenanceOptions) {
+      return true;
+    }
     this.currentRightClicked = dashboardId;
     return false;
   }

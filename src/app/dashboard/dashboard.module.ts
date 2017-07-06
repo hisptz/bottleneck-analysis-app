@@ -46,6 +46,7 @@ import { MapTemplateComponent } from './components/map-template/map-template.com
 import {LoaderComponent} from './components/loader/loader.component';
 import { MetadataDictionaryComponent } from './components/metadata-dictionary/metadata-dictionary.component';
 import {AccordionModule} from 'ngx-bootstrap';
+import {AngularIndexedDB} from 'angular2-indexeddb';
 
 @NgModule({
   imports: [

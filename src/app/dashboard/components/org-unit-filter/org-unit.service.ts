@@ -15,7 +15,7 @@ export class OrgUnitService {
   db;
 
   constructor(private http:Http) {
-    this.db = new AngularIndexedDB('water-point', 1);
+    this.db = new AngularIndexedDB('idashboard', 1);
   }
 
   userInfo;

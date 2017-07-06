@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Visualization} from '../../model/visualization';
 import 'leaflet';
 import 'leaflet.markercluster';
-import {MapService} from '../../providers/map.service';
 import {MapVisualizationService} from '../../providers/map-visualization.service';
 import {TileLayers} from '../../constants/tile-layers';
 declare var L;
@@ -14,9 +13,7 @@ import * as _ from 'lodash';
   styleUrls: ['./map-template.component.css']
 })
 export class MapTemplateComponent implements OnInit {
-
   @Input() visualizationObject: Visualization;
-  mapData: any;
   loading: boolean = true;
   hasError: boolean = false;
   errorMessage: string;
@@ -34,27 +31,31 @@ export class MapTemplateComponent implements OnInit {
   isFullScreen: boolean = false;
   hideTable: boolean = true;
   mapTable: any = {headers: [], rows: []};
-  constructor(
-    private mapVisualizationService: MapVisualizationService,
-    private tileLayers: TileLayers
-  ) { }
+
+  constructor(private mapVisualizationService: MapVisualizationService,
+              private tileLayers: TileLayers) {
+  }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.drawMap(this.visualizationObject)
-    }, 20)
+    if (this.visualizationObject.details.loaded) {
+      if (!this.visualizationObject.details.hasError) {
+        setTimeout(() => {
+          this.visualizationObject = this.getSubtitle(this.visualizationObject);
+          this.drawMap(this.visualizationObject);
+        }, 10);
+        this.hasError = false;
+      } else {
+        this.hasError = true;
+        this.loading = false;
+        this.errorMessage = this.visualizationObject.details.errorMessage;
+      }
+    }
   }
 
-  loadMap(initialMapData, prioritizeFilter?: boolean) {
-    setTimeout(() => {
-      this.visualizationObject = this.getSubtitle(this.visualizationObject);
-      this.drawMap(this.visualizationObject, prioritizeFilter);
-    }, 10);
-  }
 
   drawMap(visualizationObject: Visualization, prioritizeFilter?: boolean) {
     const mapObject = this.mapVisualizationService.drawMap(L, visualizationObject, prioritizeFilter);
-    // this.prepareMapContainer(mapObject.id, this.mapHeight, this.mapWidth, this.isFullScreen);
+    this.prepareMapContainer(mapObject.id, this.mapHeight, this.mapWidth, this.isFullScreen);
     this.map = L.map(mapObject.id, mapObject.options);
     this.centeringLayer = mapObject.centeringLayer;
     this.mapLegend = mapObject.mapLegend;
@@ -247,9 +248,9 @@ export class MapTemplateComponent implements OnInit {
   }
 
   dragAndDropHandler(event) {
-    let newMapData = this.visualizationObject;
-    let layers = newMapData.layers;
-    newMapData.layers = this.sortLayers(layers, event);
+    let newVisualizationObject = this.visualizationObject;
+    let layers = newVisualizationObject.layers;
+    newVisualizationObject.layers = this.sortLayers(layers, event);
     this.drawMap(this.visualizationObject);
   }
 
@@ -313,5 +314,4 @@ export class MapTemplateComponent implements OnInit {
     })
     return rowArray;
   }
-
 }

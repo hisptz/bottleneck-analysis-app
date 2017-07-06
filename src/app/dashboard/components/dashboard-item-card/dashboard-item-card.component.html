@@ -52,6 +52,7 @@
                 <i class="fa {{cardConfiguration.showFilter ? 'fa-times' : 'fa-filter'}}"></i>
               </a>
             </li>
+            <li *ngIf="currentVisualization !== 'DICTIONARY'"><a (click)="toggleFavoriteSettings()"><i class="fa fa-cog"></i></a></li>
             <li style="background-color: #ddd;" *ngIf="visualizationObject.details.updateAvailable">
               <a (click)="saveSettings()" title="Changes available, update">
                 <i class="fa fa-save"></i>
@@ -171,7 +172,6 @@
             <li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" href=""><i class="fa fa-file-pdf-o"></i></a></li>
             <li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" href=""><i class="fa fa-file-image-o"></i></a></li>
             <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualization === 'MAP'"><a class="download-btn" href=""><i class="fa fa-file-o"></i></a></li>
-            <li *ngIf="currentVisualization !== 'DICTIONARY'"><a (click)="toggleFavoriteSettings()"><i class="fa fa-cog"></i></a></li>
           </ul>
         </div>
       </div>
