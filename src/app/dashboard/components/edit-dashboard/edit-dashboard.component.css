@@ -1,0 +1,12 @@
+.dashboard-edit-input
+{
+  height: 38px;
+  padding-left: 10px;
+  border-color: transparent;
+  font-size: 16px;
+}
+
+.dashboard-edit-input:focus
+{
+  outline: none;
+}

@@ -1,0 +1,125 @@
+.pointer{
+  cursor: pointer;
+}
+.btn-info{
+  background-color: rgba(201, 194, 194, 0.53) !important;
+  color: #000;
+}
+.auto-growing{
+  /*color: #851C00;*/
+  color: #0869A2;
+}
+.direction-arrows:hover{
+  background-color: rgba(0,0,0,0.2);
+}
+
+.pivot-badge {
+  font-size: 10px !important;
+}
+
+.badge-de {
+  background-color: #204d74 !important;
+}
+
+.badge-ds {
+  background-color: darkgreen !important;
+}
+
+.metadata-list {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.metadata-list > li {
+  padding-left: 10px !important;
+}
+
+.data-header-list {
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+
+.metadata-list > li {
+  cursor: pointer;
+  padding: 3px;
+  font-size: 11px;
+}
+
+.metadata-list > li:hover {
+  background-color: #f5f5f5;
+}
+
+.tree-area1{
+  max-height: 150px;
+  min-height: 150px;
+  overflow: hidden;
+}
+.tree-area1:hover{
+  overflow: auto;
+}
+.tree-area1::-webkit-scrollbar {
+  width: 5px;
+}
+
+.tree-area1::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
+
+.tree-area1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+}
+
+
+.scrollable{
+  height: 115px;
+  overflow: auto;
+}
+.scrollable:hover{
+  overflow-y: scroll;
+}
+.scrollable::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+}
+.hiddenTree{
+  display: none;
+}
+
+.dnd-drag-start {
+  -moz-transform:scale(0.8);
+  -webkit-transform:scale(0.8);
+  transform:scale(1);
+  opacity:0.7;
+  border-top: 1px solid #204d74;
+}
+
+.dnd-drag-enter {
+  opacity:0.7;
+  border-top: 0px solid #204d74;
+}
+
+.dnd-drag-over {
+  border-top: 0px solid #204d74;
+}
+
+.dnd-sortable-drag {
+  -moz-transform:scale(0.9);
+  -webkit-transform:scale(0.9);
+  transform:scale(0.9);
+  opacity:0.7;
+  border-top: 2px dashed #000;
+}
+.fadeOut{
+  color: rgba(0,0,0,0.4);
+}

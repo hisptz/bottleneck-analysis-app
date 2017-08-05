@@ -1,0 +1,81 @@
+<div class="form-group" style="position: relative;" appClickOutside (clickOutside)="showBody = false">
+  <div class="form-group has-feedback dashboard-search-block">
+    <input
+      type="text"
+      id="search"
+      [(ngModel)]="searchText"
+      (ngModelChange)="search(searchText)"
+      [ngClass]="['form-control', 'dashboard-search']"
+      (focus)="updateSearchBody()"
+      placeholder="Add charts, tables, maps,etc. by searching them here"
+    >
+    <span *ngIf="!(dashboardSearchItems$ | async).loading" class="form-control-feedback search-icon">
+      <img [src]="'assets/img/search.png'" alt="">
+    </span>
+    <span *ngIf="(dashboardSearchItems$ | async).loading" class="form-control-feedback">
+      <img src="assets/img/balls-3.svg" style="height: 30px; width: 30px;" alt="">
+    </span>
+  </div>
+  <div class="panel search-panel" *ngIf="showBody">
+    <div class="panel-heading search-panel-heading">
+      <ul class="nav nav-pills search-header-nav">
+        <li
+          *ngFor="let header of (dashboardSearchItems$ | async).headers"
+          [ngClass]="header.selected ? 'active-search-header' : ''"
+        >
+          <a
+             tooltip="{{header.name}}"
+             placement="bottom"
+             style="position: relative"
+             (click)="toggleHeaderSelection(header)"
+          >
+            <span *ngIf="!header.icon">{{header.name}}</span>
+            <img *ngIf="header.icon" [src]="header.icon" alt="" [ngClass]="'search-header-icon'">
+            <!--<span class="badge search-header-icon-badge">5</span>-->
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="panel-body search-panel-body">
+      <div class="text-center" *ngIf="(dashboardSearchItems$ | async).results.length === 0">
+        <div style="margin: 40px;" *ngIf="(dashboardSearchItems$ | async).loaded">
+          <img [src]="'assets/img/empty-flag.png'" alt="">
+          <h3 class="text-muted">No search result could be found for keyword "{{searchText}}"</h3>
+        </div>
+      </div>
+      <app-loader
+        *ngIf="(dashboardSearchItems$ | async).loading"
+        [loadingMessage]="'Searching...'"
+      ></app-loader>
+      <div class="form-group"
+           *ngIf="(dashboardSearchItems$ | async).results.length > 0 && !(dashboardSearchItems$ | async).loading"
+      >
+        <input
+          type="text"
+          [ngClass]="['form-control', 'input-sm']"
+          [(ngModel)]="searchItemName"
+          placeholder="Search items"
+        >
+      </div>
+      <table
+        width="100%"
+        class="table table-hover search-table"
+        *ngIf="(dashboardSearchItems$ | async).results.length > 0 && !(dashboardSearchItems$ | async).loading">
+        <tr
+          *ngFor="let result of (dashboardSearchItems$ | async).results | filterBy: searchItemName"
+          [hidden]="!result.selected"
+        >
+          <td width="4%">
+            <img [src]="result.icon" [ngClass]="'result-header-icons'" alt="">
+          </td>
+          <td width="90%">
+            <a class="header-link"><small>{{result.name}}</small></a>
+          </td>
+          <td width="6%">
+            <button class="btn btn-default btn-xs pull-right result-header-btn" (click)="addDashboardItem({dashboardId: currentDashboard, type: dashboardItemTypes[result.type], id: result.type == 'apps' ? result.key : result.id})">ADD</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

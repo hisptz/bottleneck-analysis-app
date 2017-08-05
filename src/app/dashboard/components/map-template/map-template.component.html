@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-xs-12" [ngClass]="{fullScreen:isFullScreen}">
+
+    <!--loader block-->
+    <app-loader *ngIf="visualizationObject.details.loading" [loadingMessage]="'Moving map into position'"></app-loader>
+    <!--end of loader block-->
+
+    <!--<app-error-notifier *ngIf="hasError && !loading" [errorMessage]="errorMessage"></app-error-notifier>-->
+
+    <div class="layers-button" [ngClass]="{hide: loading||hasError,paddingFullScreen:isFullScreen}" (mouseenter)="toggleLegendContainerView()">
+      <img src="assets/img/layers-icon.png" style="width:24px;height:24px;">
+    </div>
+    <div *ngIf="!loading&&legendIsOpen" class="legendContainer"  (mouseleave)="closeMapLegend('leave')"
+    >
+
+      <app-visualization-legend
+                                [mapVsualizationObject]="visualizationObject"
+                                (updateMapLayers)="updateMapLayers($event)"
+                                (changeMapTileLayer)="changeMapTileLayer($event)"
+                                (stickyLegend)="stickyMapLegend($event)"
+                                (downloadMapAsFiles)="downloadMapAsFiles($event)"
+                                (closeLegend)="closeMapLegend()"
+                                (layerDnDAction)="dragAndDropHandler($event)"
+                                (showDataTable)="drawMapDataTable($event)"
+                                (newLayerEvent)="addNewLayer($event)"
+
+      ></app-visualization-legend>
+    </div>
+
+
+    <div class="recenter-button" [ngClass]="{hide: visualizationObject.details.loading||hasError,paddingFullScreen:isFullScreen}" (click)="recenterMap(map,centeringLayer)">
+      <i class="fa fa-home"></i>
+    </div>
+    <h4
+      class="forViewOnly text-center"
+    >
+      {{visualizationObject?.name}}
+    </h4>
+    <h6
+      class="text-center"
+      style="font-size: 12px; font-weight: 100; margin-bottom: 2px;"
+      *ngIf="visualizationObject.subtitle"
+    >
+      &nbsp;{{visualizationObject?.subtitle}}
+    </h6>
+
+    <div id="map-view-port-{{visualizationObject.id}}" [ngClass]="{hide: visualizationObject.details.loading||hasError}"
+         style="width:100%"></div>
+    <!-- MAP TABLE SECTION -->
+    <div class="map-data-table"
+         [ngStyle]="{width:tableWidth,zIndex:2000,marginLeft:'8px',fontSize:'10px'}"
+         [ngClass]="{hide: loading||hasError}" *ngIf="!hideTable">
+
+      <div class="col-lg-12 col-md-12 col-xs-12" style="padding:2px!important;">
+        <div  style="padding-left: 0px!important;" class=" col-lg-11 col-md-11 col-xs-11">
+          <div style=""><h4 style="font-size: 13px !important;font-weight:bold;">{{visualizationObject.name}}</h4></div>
+        </div>
+        <div class=" col-lg-1 col-md-1 col-xs-1 pull-right" style="padding-right: 0px!important;">
+          <div style=""><a (click)="hideDataTable()" class="btn btn-default btn-default-updated btn-sm  pull-right"><i
+            class="fa fa-remove"></i></a></div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-xs-12" style="padding:2px!important;">
+        <map-table [tableContents]="mapTable"></map-table>
+      </div>
+    </div>
+  </div>
+</div>

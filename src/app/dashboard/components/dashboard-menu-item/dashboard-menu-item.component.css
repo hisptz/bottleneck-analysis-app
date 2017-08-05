@@ -1,0 +1,12 @@
+.dashboard-list {
+  position: relative;
+  height: 40px;
+}
+
+.dashboard-delete-block {
+  padding-top: 9px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-right: solid 1px #ececec;
+  height: 39px;
+}
