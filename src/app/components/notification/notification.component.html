@@ -1,8 +1,0 @@
-<div id="notification" class="alert alert-danger" *ngIf="message$ | async">
-  <i class="fa fa-exclamation-triangle"></i>
-  <a class="btn">{{message$ | async}}</a>
-  <ul class="list-inline pull-right">
-    <li><a (click)="reload()" class="btn" style="cursor: pointer;"><i class="fa fa-refresh"></i></a></li>
-    <li><a (click)="close()" class="btn" style="cursor: pointer;"><i class="fa fa-times"></i></a></li>
-  </ul>
-</div>
