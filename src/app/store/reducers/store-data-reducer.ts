@@ -863,7 +863,7 @@ function handleAnalyticsLoadedAction(state: StoreData, action: any) {
 
   if (loadedAnalytics) {
     loadedAnalytics.forEach(analytics => {
-      newState.analytics = addArrayItem(newState.analytics, analytics, 'id');
+      newState.analytics = addArrayItem(newState.analytics, analytics, 'id', 'last', true);
     })
   }
   return newState;
