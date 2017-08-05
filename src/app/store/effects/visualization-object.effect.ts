@@ -22,11 +22,9 @@ import {
 } from '../actions';
 import {ChartService} from '../../dashboard/providers/chart.service';
 import {GeoFeatureService} from '../../dashboard/providers/geo-feature.service';
-import {observable} from 'rxjs/symbol/observable';
 import {LegendSetService} from '../../dashboard/providers/legend-set.service';
 import {OrgunitGroupSetService} from '../../dashboard/providers/orgunit-group-set.service';
 import {MapService} from '../../dashboard/providers/map.service';
-import {MapVisualizationService} from '../../dashboard/providers/map-visualization.service';
 import {TableService} from '../../dashboard/providers/table.service';
 import {ApplicationState} from '../application-state';
 @Injectable()

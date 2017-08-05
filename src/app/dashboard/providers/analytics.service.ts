@@ -11,52 +11,54 @@ export class AnalyticsService {
   }
 
   getAnalytics(visualizationDetails: any) {
+    const visualizationObject = _.clone(visualizationDetails.visualizationObject);
     return Observable.create(observer => {
-      // console.log(visualizationDetails.filters)
       Observable.forkJoin(visualizationDetails.filters.map(filterObject => {
         let analyticUrl = '';
-        const parametersArray: any[] = filterObject.filters.map(filter => {
-          return filter.value !== '' ? 'dimension=' + filter.name + ':' + filter.value : ['dx', 'pe', 'ou'].indexOf(filter.name) === -1 ? 'dimension=' + filter.name : ''
-        }).filter(param => {
-          return param !== ''
-        });
+        const parametersArray: any[] = this._getParametersArray(filterObject.filters);
         if (parametersArray.length > 0) {
           const parameters: string = parametersArray.join('&');
-          let visualizationSetting = this._getVisualizationSettings(visualizationDetails.favorite, filterObject.id);
-          if (visualizationSetting == null) {
-            visualizationSetting = visualizationDetails.visualizationObject.layers.map(layer => {
+          let visualizationSettings = this._getVisualizationSettings(visualizationDetails.favorite, filterObject.id);
+          if (visualizationSettings == null) {
+            visualizationSettings = _.filter(_.map(visualizationObject.layers, (layer) => {
               return layer.settings
-            }).filter(setting => {
+            }), (setting) => {
               return setting.id === filterObject.id
             })[0];
           }
 
           analyticUrl = this._constructAnalyticsUrl(
             visualizationDetails.apiRootUrl,
-            visualizationDetails.visualizationObject.type,
-            visualizationSetting,
+            visualizationObject.type,
+            visualizationSettings,
             parameters
           )
         }
         return analyticUrl !== '' ? this.http.get(analyticUrl) : Observable.of(null)
       })).subscribe(analyticsResponse => {
-        visualizationDetails.analytics = analyticsResponse;
+        console.log();
+        visualizationDetails.analytics = _.filter(_.map(visualizationDetails.filters, (filter, filterIndex) => {
+          return {id: filter.id, content: analyticsResponse[filterIndex]}
+        }), (analytics) => {
+          return analytics.content !== null;
+        });
+
         observer.next(visualizationDetails);
         observer.complete();
       }, error => {
-        // let analyticsError = null;
-        //
-        // try {
-        //   const errorObject =  error.json()
-        //   analyticsError = errorObject.message;
-        // } catch (e) {
-        //   analyticsError = error
-        // }
         visualizationDetails.error = error;
         observer.next(visualizationDetails);
         observer.complete();
       })
     });
+  }
+
+  private _getParametersArray(filters: any[]) {
+     return _.filter(_.map(filters, (filter) => {
+       return filter.value !== '' ? 'dimension=' + filter.name + ':' + filter.value : ['dx', 'pe', 'ou'].indexOf(filter.name) === -1 ? 'dimension=' + filter.name : ''
+     }), param => {
+       return param !== ''
+     });
   }
 
   private _getVisualizationSettings(favoriteObject, settingsId) {

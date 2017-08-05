@@ -10,7 +10,7 @@ import {Action, Store} from '@ngrx/store';
 import {ApplicationState} from '../application-state';
 import * as _ from 'lodash';
 import {
-  handleVisualizationChangeAction, mapFavoriteToLayerSettings,
+  mapFavoriteToLayerSettings,
   updateFavoriteWithCustomFilters
 } from '../reducers/store-data-reducer';
 @Injectable()
@@ -32,7 +32,7 @@ export class AnalyticsEffect {
     .flatMap(([action, store]) => {
       const visualizationObject = _.clone(action.payload.visualizationObject);
       const favorite: any = _.find(store.storeData.favorites, ['id', visualizationObject.details.favorite.id]);
-      const customFilters = _.cloneDeep(action.payload.filters);
+      const customFilters = _.clone(action.payload.filters);
       /**
        * Update visualization with original favorite and custom filters
        */

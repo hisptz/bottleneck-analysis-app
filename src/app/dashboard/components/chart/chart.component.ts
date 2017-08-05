@@ -77,7 +77,6 @@ export class ChartComponent implements OnInit {
       if (this.visualizationObject.details.type === 'CHART') {
         this.store.dispatch(new VisualizationObjectOptimizedAction(this.visualizationObject))
       } else if (this.visualizationObject.details.type !== 'CHART' && !this.visualizationObject.details.merged) {
-        console.log('merge')
         this.store.dispatch(new MergeVisualizationObjectAction(this.visualizationObject))
       }
 

@@ -58,7 +58,7 @@ export class DashboardItemCardComponent implements OnInit {
     showResizeButton: false,
     showFullScreen: false,
     showDownloadOptions: false,
-    allowMultipleSwitchingIcons: false
+    allowMultipleSwitchingIcons: true
   };
   @ViewChild(ChartComponent)
   chartComponent: ChartComponent;

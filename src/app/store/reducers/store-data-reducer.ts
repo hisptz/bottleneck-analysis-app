@@ -2,8 +2,7 @@ import * as _ from 'lodash';
 import {INITIAL_STORE_DATA, StoreData} from '../store-data';
 import {Visualization} from '../../dashboard/model/visualization';
 import {
-  CURRENT_VISUALIZATION_CHANGE_ACTION, DASHBOARD_GROUP_SETTINGS_UPDATE_ACTION,
-  DASHBOARD_ITEM_SEARCH_ACTION, DASHBOARD_SEARCH_ITEMS_LOADED_ACTION,
+  CURRENT_VISUALIZATION_CHANGE_ACTION, DASHBOARD_GROUP_SETTINGS_UPDATE_ACTION, DASHBOARD_SEARCH_ITEMS_LOADED_ACTION,
   DASHBOARDS_CUSTOM_SETTINGS_LOADED_ACTION, FAVORITE_OPTIONS_LOADED_ACTION, INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION,
   RESIZE_DASHBOARD_ACTION,
   SAVE_TABLE_CONFIGURATION_ACTION, SAVE_TABLE_OBJECT_ACTION, VISUALIZATION_OBJECT_MERGED_ACTION,
@@ -14,11 +13,14 @@ import {
   VISUALIZATION_OBJECT_OPTIMIZED_ACTION,
   LOAD_DASHBOARD_SEARCH_ITEMS_ACTION, DASHBOARD_SEARCH_HEADERS_CHANGE_ACTION, DASHBOARD_DELETED_ACTION,
   HIDE_DASHBOARD_MENU_ITEM_NOTIFICATION_ICON, GEO_FEATURE_LOADED_ACTION, SAVE_CHART_CONFIGURATION_ACTION,
-  SAVE_CHART_OBJECT_ACTION
+  SAVE_CHART_OBJECT_ACTION, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION
 } from '../actions';
 import {Dashboard} from '../../model/dashboard';
 import {DashboardSearchItem} from '../../dashboard/model/dashboard-search-item';
 import {mapStateToDashboardObject, mergeRelatedItems} from '../mappers/map-state-to-dashboard';
+import {replaceArrayItem} from '../../utilities/replaceArrayItem';
+import {addArrayItem} from '../../utilities/addArrayItem';
+
 export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) {
   switch (action.type) {
     case CURRENT_USER_LOADED_ACTION: {
@@ -30,7 +32,9 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
     case DASHBOARDS_LOADED_ACTION: {
       const newState: StoreData = _.clone(state);
       const loadedDashboards = action.payload.slice();
-      newState.dashboards = loadedDashboards.map(dashboard => { return mapStateToDashboardObject(dashboard) });
+      newState.dashboards = loadedDashboards.map(dashboard => {
+        return mapStateToDashboardObject(dashboard)
+      });
 
       return newState;
     }
@@ -169,7 +173,7 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       if (currentDashboard) {
         const currentDashboardIndex = _.findIndex(newState.dashboards, currentDashboard);
         const currentDashboardItem = _.find(currentDashboard.dashboardItems, ['id', visualizationObject.id]);
-        if (currentDashboardItem)  {
+        if (currentDashboardItem) {
           const currentDashboardItemIndex = _.findIndex(currentDashboard.dashboardItems, currentDashboardItem);
           currentDashboardItem.visualizationObjectLoaded = true;
           currentDashboard.dashboardItems[currentDashboardItemIndex] = _.clone(currentDashboardItem);
@@ -221,7 +225,7 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return handleFiltersUpdateAction(state, action)
     }
 
-    case 'UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION': {
+    case UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION: {
       return handleFiltersUpdateAction(state, action)
     }
 
@@ -237,7 +241,8 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
     }
 
     case ANALYTICS_LOADED_ACTION: {
-      return handleAnalyticsLoadedAction(state, action)
+      const newState = handleAnalyticsLoadedAction(state, action);
+      return updateVisualizationWithAnalytics(newState, action)
     }
 
     case SAVE_CHART_CONFIGURATION_ACTION: {
@@ -773,15 +778,12 @@ function mapPayloadToDashboardGroupSettings(payload) {
 }
 
 export function mapFavoriteToLayerSettings(favoriteObject: any) {
-  let layers: any[] = [];
   if (favoriteObject.mapViews) {
-    favoriteObject.mapViews.forEach((view: any) => {
-      layers = [...layers, {settings: view}]
-    })
-  } else {
-    layers = [...layers, {settings: favoriteObject}]
+    return _.map(favoriteObject.mapViews, (view: any) => {
+      return {settings: view}
+    });
   }
-  return layers;
+  return [{settings: favoriteObject}];
 }
 
 function handleFavoriteUpdateAction(state, action) {
@@ -832,150 +834,51 @@ function handleFiltersUpdateAction(state: StoreData, action: any) {
   const newState: StoreData = _.clone(state);
   const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
   if (currentVisualizationObject) {
-    const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+    const newVisualizationObject = _.clone(currentVisualizationObject);
 
-    currentVisualizationObject.details.filters = action.payload.filters;
-    currentVisualizationObject.details.loaded = false;
-    currentVisualizationObject.details.splited = false;
-    currentVisualizationObject.details.merged = false;
-    currentVisualizationObject.details.analyticsLoaded = false;
+    const visualizationDetails = _.clone(currentVisualizationObject.details);
+    visualizationDetails.filters = action.payload.filters;
+    visualizationDetails.loaded = false;
+    visualizationDetails.splited = false;
+    visualizationDetails.merged = false;
+    visualizationDetails.analyticsLoaded = false;
+
     if (action.payload.updateAvailable) {
-      currentVisualizationObject.details.updateAvailable = true;
+      visualizationDetails.updateAvailable = true;
     }
-    newState.visualizationObjects[currentVisualizationObjectIndex] = _.clone(currentVisualizationObject);
+
+    newVisualizationObject.details = _.assign({}, visualizationDetails);
+
+    newState.visualizationObjects = replaceArrayItem(
+      newState.visualizationObjects,
+      {id: currentVisualizationObject.id},
+      newVisualizationObject);
   }
   return newState;
 }
 
 function handleAnalyticsLoadedAction(state: StoreData, action: any) {
-  const newState: StoreData = _.clone(state);
-  const favorite = _.clone(action.payload.favorite);
-  const loadedVisualizationObject: Visualization = _.clone(action.payload.visualizationObject);
-  const loadedAnalytics = _.clone(action.payload.analytics);
-  const analyticsError = action.payload.error;
+  const newState = _.clone(state);
+  const loadedAnalytics = action.payload.analytics;
 
-  /**
-   * Save Analytics action
-   */
-
-  if (!analyticsError) {
-
-    /**
-     * Save using favorite if is initially loaded
-     */
-    if (favorite) {
-      /**
-       * Get favorite from map view if visualization is map
-       */
-      if (favorite.mapViews) {
-        favorite.mapViews.forEach((viewItem, viewIndex) => {
-          const analytics = _.find(newState.analytics, ['id', viewItem.id]);
-          if (!analytics) {
-            /**
-             * Add new analytics if not available
-             */
-            if (loadedAnalytics.length > 0 && loadedAnalytics[viewIndex] !== null) {
-              newState.analytics = [...newState.analytics, {id: viewItem.id, analytics: loadedAnalytics[viewIndex]}];
-            }
-          } else {
-            /**
-             * Replace with new analytics if present
-             */
-            if (loadedAnalytics[viewIndex] !== null) {
-              const analyticsIndex = _.findIndex(newState.analytics, analytics);
-              newState.analytics = [
-                ...newState.analytics.slice(0, analyticsIndex),
-                loadedAnalytics[viewIndex],
-                ...newState.analytics.slice(analyticsIndex + 1)
-              ];
-            }
-          }
-        })
-      } else {
-        const analytics = _.find(newState.analytics, ['id', favorite.id]);
-        if (!analytics) {
-
-          /**
-           * Add new analytics if not available
-           */
-          if (loadedAnalytics.length > 0 && loadedAnalytics[0]) {
-            newState.analytics = [...newState.analytics, {id: favorite.id, analytics: loadedAnalytics[0]}];
-          }
-        } else {
-
-          /**
-           * Replace with new analytics if present
-           */
-          const analyticsIndex = _.findIndex(newState.analytics, analytics);
-          newState.analytics = [
-            ...newState.analytics.slice(0, analyticsIndex),
-            loadedAnalytics[0],
-            ...newState.analytics.slice(analyticsIndex + 1)
-          ];
-        }
-      }
-    } else {
-      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', loadedVisualizationObject.id]);
-      if (currentVisualizationObject) {
-
-        /**
-         * Take visualization settings from source option if available
-         */
-        const newVisualizationLayers = _.clone(loadedVisualizationObject.layers.length > 0 ?
-          loadedVisualizationObject.layers :
-          currentVisualizationObject.layers
-        );
-
-        /**
-         * Update with analytics
-         */
-        const settingsIds = newVisualizationLayers.map(layer => { return layer.settings.id });
-        settingsIds.forEach((settingId: any, settingIndex: number) => {
-          const analytics = _.find(newState.analytics, ['id', settingId]);
-          if (!analytics) {
-            /**
-             * Add new array if not available
-             */
-            if (loadedAnalytics.length > 0 && loadedAnalytics[settingIndex] !== null) {
-              newState.analytics = [
-                ...newState.analytics,
-                {id: settingId, analytics: loadedAnalytics[settingIndex]}
-              ];
-            }
-          } else {
-
-            /**
-             * Update analytics if present
-             */
-            const analyticsIndex = _.findIndex(newState.analytics, analytics);
-            newState.analytics = [
-              ...newState.analytics.slice(0, analyticsIndex),
-              {id: settingId, analytics: loadedAnalytics[settingIndex]},
-              ...newState.analytics.slice(analyticsIndex + 1)
-            ];
-          }
-        })
-      }
-    }
+  if (loadedAnalytics) {
+    loadedAnalytics.forEach(analytics => {
+      newState.analytics = addArrayItem(newState.analytics, analytics, 'id');
+    })
   }
-
-  /**
-   * Update visualizationObject with analytics
-   */
-  return updateVisualizationObjectWithAnalytics(newState, action);
+  return newState;
 }
 
-function updateVisualizationObjectWithAnalytics(state, action) {
+function updateVisualizationWithAnalytics(state: StoreData, action: any) {
   const newState = _.clone(state);
   const analyticsError = action.payload.error;
   const loadedVisualizationObject: Visualization = _.clone(action.payload.visualizationObject);
+  const loadedAnalytics = _.clone(action.payload.analytics);
 
   const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', loadedVisualizationObject.id]);
   if (currentVisualizationObject) {
     const newVisualizationObject: Visualization = _.clone(currentVisualizationObject);
-    const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
-
-    const visualizationObjectDetails = _.cloneDeep(currentVisualizationObject.details);
+    const visualizationObjectDetails = _.clone(currentVisualizationObject.details);
 
     /**
      * Return non visualizable items with out analytics
@@ -997,11 +900,11 @@ function updateVisualizationObjectWithAnalytics(state, action) {
       /**
        * Update visualization layer with analytics
        */
-      const newVisualizationLayersWithAnalytics = newVisualizationLayers.map((layer: any) => {
+      const newVisualizationLayersWithAnalytics = _.map(newVisualizationLayers, (layer: any) => {
         const newLayer = _.clone(layer);
-        const analyticsObject = _.find(newState.analytics, ['id', newLayer.settings.id]);
+        const analyticsObject = _.find(loadedAnalytics, ['id', newLayer.settings.id]);
         if (analyticsObject) {
-          newLayer.analytics = Object.assign({}, analyticsObject.analytics);
+          newLayer.analytics = Object.assign({}, analyticsObject.content);
         }
         return newLayer;
       });
@@ -1034,15 +937,16 @@ function updateVisualizationObjectWithAnalytics(state, action) {
      * Update visualization object
      * @type {[any , any , any]}
      */
-    newState.visualizationObjects = [
-      ...newState.visualizationObjects.slice(0, currentVisualizationObjectIndex),
-      newVisualizationObject,
-      ...newState.visualizationObjects.slice(currentVisualizationObjectIndex + 1)
-    ];
+    newState.visualizationObjects = replaceArrayItem(
+      newState.visualizationObjects,
+      {id: currentVisualizationObject.id},
+      newVisualizationObject
+    );
   }
 
   return newState;
 }
+
 function handleIncomingSearchResults(state, action) {
   const newState: StoreData = _.clone(state);
   const searchResults = action.payload;
@@ -1115,119 +1019,91 @@ function updateWithHeaderSelectionCriterias(dashboardSearchItems: DashboardSearc
 
 export function handleVisualizationChangeAction(state, action) {
   const newState = _.clone(state);
-  const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+  const loadedVisualizationObject: Visualization = _.clone(action.payload.visualizationObject);
+  const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', loadedVisualizationObject.id]);
   if (currentVisualizationObject) {
-    const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
-    currentVisualizationObject.details.currentVisualization = action.payload.selectedVisualization;
-    currentVisualizationObject.details.loaded = false;
-    currentVisualizationObject.details.splited = false;
-    currentVisualizationObject.details.merged = false;
+    const newVisualizationObject = _.clone(currentVisualizationObject);
+
+    const newVisualizationObjectDetails = _.clone(currentVisualizationObject.details);
 
     /**
-     * Update favorite details
+     * Update visualization details
      */
-    const favorite: any = _.find(newState.favorites, ['id', action.payload.visualizationObject.details.favorite.id]);
+    newVisualizationObjectDetails.currentVisualization = action.payload.selectedVisualization;
+    newVisualizationObjectDetails.loaded = false;
+    newVisualizationObjectDetails.splited = false;
+    newVisualizationObjectDetails.merged = false;
+    newVisualizationObjectDetails.analyticsLoaded = true;
+
+    /**
+     * Update with favorite details
+     */
+    const favorite: any = _.find(newState.favorites, ['id', newVisualizationObjectDetails.favorite.id]);
+
     if (favorite) {
-      const visualizationLayers = _.cloneDeep(mapFavoriteToLayerSettings(favorite));
-      const customFilters = action.payload.visualizationObject.details.filters;
 
-      visualizationLayers.forEach(layer => {
-        const correspondingFilter = _.find(customFilters, ['id', layer.settings.id]);
+      /**
+       * Update with settings and analytics
+       */
+      newVisualizationObject.layers = _.map(updateFavoriteWithCustomFilters(
+        mapFavoriteToLayerSettings(favorite),
+        newVisualizationObjectDetails.filters
+      ), (layer: any) => {
+        const newLayer = _.clone(layer);
 
-        if (correspondingFilter) {
-          layer.settings.columns.forEach(column => {
-            const dimensionObject = _.find(correspondingFilter.filters, ['name', column.dimension]);
-
-            /**
-             * Get columns items
-             */
-            if (dimensionObject) {
-              column.items = dimensionObject.items
-            }
-          })
-
-          layer.settings.rows.forEach(row => {
-            const dimensionObject = _.find(correspondingFilter.filters, ['name', row.dimension]);
-
-            /**
-             * Get rows items
-             */
-            if (dimensionObject) {
-              row.items = dimensionObject.items
-            }
-          })
-
-          layer.settings.filters.forEach(filter => {
-            const dimensionObject = _.find(correspondingFilter.filters, ['name', filter.dimension]);
-
-            /**
-             * Get filters items
-             */
-            if (dimensionObject) {
-              filter.items = dimensionObject.items
-            }
-          })
+        if (layer.settings) {
+          const analyticsObject = _.find(newState.analytics, ['id', layer.settings.id]);
+          if (analyticsObject) {
+            newLayer.analytics = _.assign({}, analyticsObject.content);
+          }
         }
-
+        return newLayer;
       });
-      currentVisualizationObject.layers = _.cloneDeep(visualizationLayers);
     }
 
     /**
-     * Update with analytics
+     * Compile modified list with details
      */
-    currentVisualizationObject.layers.forEach((layer: any) => {
-      const analyticsObject = _.find(newState.analytics, ['id', layer.settings.id]);
-      if (analyticsObject) {
-        currentVisualizationObject.details.analyticsLoaded = true;
-        layer.analytics = analyticsObject.analytics;
-      }
-    });
-    newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
+    newVisualizationObject.details = _.assign({}, newVisualizationObjectDetails);
+
+
+    newState.visualizationObjects = replaceArrayItem(
+      newState.visualizationObjects,
+      {id: currentVisualizationObject.id},
+      newVisualizationObject);
   }
   return newState;
 }
 
 export function updateFavoriteWithCustomFilters(visualizationLayers, customFilters) {
-  visualizationLayers.forEach(layer => {
+  return _.map(visualizationLayers, (layer) => {
+    const newLayer = _.clone(layer);
+    const newSettings = _.clone(layer.settings);
     const correspondingFilter = _.find(customFilters, ['id', layer.settings.id]);
 
     if (correspondingFilter) {
-      layer.settings.columns.forEach(column => {
-        const dimensionObject = _.find(correspondingFilter.filters, ['name', column.dimension]);
-
-        /**
-         * Get columns items
-         */
-        if (dimensionObject) {
-          column.items = dimensionObject.items
-        }
-      })
-
-      layer.settings.rows.forEach(row => {
-        const dimensionObject = _.find(correspondingFilter.filters, ['name', row.dimension]);
-
-        /**
-         * Get rows items
-         */
-        if (dimensionObject) {
-          row.items = dimensionObject.items
-        }
-      })
-
-      layer.settings.filters.forEach(filter => {
-        const dimensionObject = _.find(correspondingFilter.filters, ['name', filter.dimension]);
-
-        /**
-         * Get filters items
-         */
-        if (dimensionObject) {
-          filter.items = dimensionObject.items
-        }
-      })
+      newSettings.columns = updateLayoutDimensionWithFilters(newSettings.columns, correspondingFilter.filters);
+      newSettings.rows = updateLayoutDimensionWithFilters(newSettings.rows, correspondingFilter.filters);
+      newSettings.filters = updateLayoutDimensionWithFilters(newSettings.filters, correspondingFilter.filters);
     }
 
+    newLayer.settings = _.assign({}, newSettings);
+     return newLayer;
   });
+}
 
-  return visualizationLayers;
+function updateLayoutDimensionWithFilters(layoutDimensionArray, filters) {
+  return _.map(layoutDimensionArray, (layoutDimension) => {
+    const newLayoutDimension = _.clone(layoutDimension);
+    const dimensionObject = _.find(filters, ['name', layoutDimension]);
+
+    /**
+     * Get columns items
+     */
+    if (dimensionObject) {
+      newLayoutDimension.items = _.assign([], dimensionObject.items)
+    }
+
+    return newLayoutDimension;
+  });
 }
