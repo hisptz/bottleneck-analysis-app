@@ -61,6 +61,14 @@ export class ChartService {
     return {visualizationObject: visualizationObject, chartObjects: chartObjects}
   }
 
+  getChartObject(analyticsObject: any, chartConfiguration: ChartConfiguration) {
+    if (!analyticsObject) {
+      return null;
+    }
+
+    return this.visualizer.drawChart(analyticsObject, chartConfiguration);
+  }
+
   getChartConfiguration(visualizationDetails: any): ChartConfiguration[] {
     const chartConfigurations = [];
     const visualizationSettings = visualizationDetails.visualizationSettings;
@@ -70,6 +78,7 @@ export class ChartService {
         chartType = 'multipleAxis';
       }
       const chartConfiguration = {
+        renderId: '',
         type: chartType,
         title: favoriteObject.hasOwnProperty('displayName') ? favoriteObject.displayName : '',
         subtitle: favoriteObject.hasOwnProperty('subtitle') ? favoriteObject.subtitle : '',
@@ -88,6 +97,29 @@ export class ChartService {
     });
     visualizationDetails.chartConfigurations = chartConfigurations;
     return visualizationDetails;
+  }
+
+  getChartConfiguration1(favoriteObject: any, renderId: string): ChartConfiguration {
+    let chartType = favoriteObject.hasOwnProperty('type') ? favoriteObject.type.toLowerCase() : 'column';
+    if (favoriteObject.useMultipleAxis) {
+      chartType = 'multipleAxis';
+    }
+    return {
+      renderId: renderId,
+      type: chartType,
+      title: favoriteObject.hasOwnProperty('displayName') ? favoriteObject.displayName : '',
+      subtitle: favoriteObject.hasOwnProperty('subtitle') ? favoriteObject.subtitle : '',
+      hideTitle: favoriteObject.hasOwnProperty('hideTitle') ? favoriteObject.hideTitle : true,
+      hideSubtitle: favoriteObject.hasOwnProperty('hideSubtitle') ? favoriteObject.hideSubtitle : true,
+      showData: favoriteObject.hasOwnProperty('showData') ? favoriteObject.showData : true,
+      hideEmptyRows: favoriteObject.hasOwnProperty('hideEmptyRows') ? favoriteObject.hideEmptyRows : true,
+      hideLegend: favoriteObject.hasOwnProperty('hideLegend') ? favoriteObject.hideLegend : true,
+      showLabels: true,
+      percentStackedValues: favoriteObject.hasOwnProperty('percentStackedValues') ? favoriteObject.percentStackedValues : false,
+      multiAxisTypes: favoriteObject.hasOwnProperty('selectedChartTypes') ? favoriteObject.selectedChartTypes : [],
+      xAxisType: this._getAxisType('xAxisType', favoriteObject),
+      yAxisType: this._getAxisType('yAxisType', favoriteObject),
+    };
   }
 
   private _getAxisType(axis, favoriteObject) {

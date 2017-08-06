@@ -37,10 +37,10 @@ export class DashboardMenuComponent implements OnInit {
   showOrgUnitFilter: boolean;
   private _config: PaginationInstance;
   menuConfig: any = {
-    showDashboardCreateButton: false,
+    showDashboardCreateButton: true,
     showPaginationCounter: true,
     showPaginationButtons: true,
-    showMaintenanceOptions: false,
+    showMaintenanceOptions: true,
     showFilter: false
   };
 
@@ -59,12 +59,12 @@ export class DashboardMenuComponent implements OnInit {
         shown: false
       },
       data:  {
-        enabled: false,
+        enabled: true,
         shown: false
       },
 
       period:  {
-        enabled: false,
+        enabled: true,
         shown: false
       },
       settings: {

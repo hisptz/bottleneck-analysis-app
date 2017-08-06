@@ -27,7 +27,6 @@ import {DashboardNotificationEffect} from './store/effects/dashboard-notificatio
 import {DashboardNotificationService} from './dashboard/providers/dashboard-notification.service';
 import {UtilitiesService} from './providers/utilities.service';
 import {LoginRedirectService} from './providers/login-redirect.service';
-import {VisualizationObjectEffect} from './store/effects/visualization-object.effect';
 
 @NgModule({
   declarations: [
@@ -48,7 +47,7 @@ import {VisualizationObjectEffect} from './store/effects/visualization-object.ef
     EffectsModule.run(DashboardEffect),
     EffectsModule.run(CurrentUserEffect),
     EffectsModule.run(DashboardNotificationEffect),
-    // StoreDevtoolsModule.instrumentOnlyWithExtension()
+    StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [
     SystemInfoService,

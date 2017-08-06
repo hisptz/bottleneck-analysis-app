@@ -46,11 +46,11 @@ export class ChartComponent implements OnInit {
      * Get chart objects
      */
     if (this.visualizationObject.details.loaded) {
+      console.log(this.visualizationObject)
       const newChartObjects  = _.map(this.visualizationObject.layers, (layer) => { return layer.chartObject });
       this._chartObjects =_.filter(newChartObjects, (chartObject) => {
         return chartObject !== undefined
       });
-      // console.log(JSON.stringify(this._chartObjects))
     }
 
     if (
@@ -74,26 +74,26 @@ export class ChartComponent implements OnInit {
       //   });
       // }
 
-      if (this.visualizationObject.details.type === 'CHART') {
-        this.store.dispatch(new VisualizationObjectOptimizedAction(this.visualizationObject))
-      } else if (this.visualizationObject.details.type !== 'CHART' && !this.visualizationObject.details.merged) {
-        this.store.dispatch(new MergeVisualizationObjectAction(this.visualizationObject))
-      }
-
-      if (this.visualizationObject.details.visualizationOptimized) {
-        /**
-         * Get chart configuration
-         */
-        this.store.dispatch(new GetChartConfigurationAction({
-          visualizationObjectId: this.visualizationObject.id,
-          visualizationSettings: this.visualizationObject.layers.map(layer => { return layer.settings})
-        }));
-
-        /**
-         * Get chart object
-         */
-        this.store.dispatch(new GetChartObjectAction(this.visualizationObject));
-      }
+      // if (this.visualizationObject.details.type === 'CHART') {
+      //   this.store.dispatch(new VisualizationObjectOptimizedAction(this.visualizationObject))
+      // } else if (this.visualizationObject.details.type !== 'CHART' && !this.visualizationObject.details.merged) {
+      //   this.store.dispatch(new MergeVisualizationObjectAction(this.visualizationObject))
+      // }
+      //
+      // if (this.visualizationObject.details.visualizationOptimized) {
+      //   /**
+      //    * Get chart configuration
+      //    */
+      //   this.store.dispatch(new GetChartConfigurationAction({
+      //     visualizationObjectId: this.visualizationObject.id,
+      //     visualizationSettings: this.visualizationObject.layers.map(layer => { return layer.settings})
+      //   }));
+      //
+      //   /**
+      //    * Get chart object
+      //    */
+      //   this.store.dispatch(new GetChartObjectAction(this.visualizationObject));
+      // }
     }
 
   }

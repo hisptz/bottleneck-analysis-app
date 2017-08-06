@@ -11,7 +11,6 @@ export interface ChartConfiguration {
   hideEmptyRows: boolean;
   hideLegend: boolean;
   showLabels: boolean;
-  axisCriteria: string;
   multiAxisTypes: any[];
   percentStackedValues: boolean;
 }

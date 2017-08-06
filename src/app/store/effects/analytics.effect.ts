@@ -37,7 +37,13 @@ export class AnalyticsEffect {
        * Update visualization with original favorite and custom filters
        */
       if (favorite) {
-        visualizationObject.layers = Object.assign([], updateFavoriteWithCustomFilters(mapFavoriteToLayerSettings(favorite), customFilters));
+        /**
+         * Update with original settings
+         */
+        visualizationObject.layers = updateFavoriteWithCustomFilters(
+          mapFavoriteToLayerSettings(favorite),
+          customFilters
+        )
       }
 
       return Observable.of({

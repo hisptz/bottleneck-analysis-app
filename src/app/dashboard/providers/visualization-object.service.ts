@@ -132,18 +132,21 @@ export class VisualizationObjectService {
     /**
      * Get visualization layers with removed undefined analytics
      */
-    const initialVisualizationLayers = newVisualizationObject.layers.filter(layer => {return layer.analytics !== undefined});
+    const initialVisualizationLayers = _.filter(newVisualizationObject.layers, (layer) => {
+      return layer.analytics !== undefined;
+    });
 
     if (initialVisualizationLayers) {
-      const sanitizedVisualizationLayers = initialVisualizationLayers.map(layer => {
+      const sanitizedVisualizationLayers = _.map(initialVisualizationLayers, (layer) => {
         const newLayer = _.clone(layer);
-        const settings = _.clone(newLayer.settings);
-
-        if (settings.layer) {
-          switch (settings.layer) {
+        if (newLayer.settings.layer) {
+          switch (newLayer.settings.layer) {
             case 'event':
-              if (settings.eventClustering) {
-                newLayer.analytics = Object.assign({}, this.analyticsService.mapEventClusteredAnalyticsToAggregate(newLayer.analytics));
+              if (newLayer.settings.eventClustering) {
+                newLayer.analytics = _.assign(
+                  {},
+                  this.analyticsService.mapEventClusteredAnalyticsToAggregate(newLayer.analytics)
+                );
               }
               break;
             default:
@@ -153,7 +156,7 @@ export class VisualizationObjectService {
         }
         return newLayer;
       });
-      newVisualizationObject.layers = Object.assign([], sanitizedVisualizationLayers);
+      newVisualizationObject.layers = _.assign([], sanitizedVisualizationLayers);
     }
     return newVisualizationObject;
   }

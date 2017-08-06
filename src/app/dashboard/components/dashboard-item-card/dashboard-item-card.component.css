@@ -117,7 +117,7 @@
   height: 23px;
   width: 23px;
   border:solid 1px #e0ecfc;
-  background-color: #ffffff;
+  background-color: transparent;
   padding-left: 5px;
   padding-top: 3px;
 }
@@ -137,7 +137,7 @@
   height: 29px;
   width: 29px;
   border:solid 1px #e0ecfc;
-  background-color: #ffffff;
+  background-color: transparent;
   padding-left: 8px;
   padding-top: 3px;
 }
@@ -173,6 +173,7 @@
 }
 
 .dashboard-filter-btn {
+  opacity: 0.8;
   width: 100% !important;
 }
 
@@ -187,11 +188,17 @@
   height: 15px;
 }
 
+.org-unit-filter-holder,
+.data-filter-holder {
+  border-radius: 5px;
+  top: 38px;
+  opacity: 0.95;
+}
 .org-unit-filter-holder {
   position: absolute;
   width: 350px;
   height: 390px;
-  border: solid 1px #eee;
+  border: solid 1px #e0ecfc;
   padding: 3px;
   background-color: #ffffff;
 }
@@ -200,7 +207,7 @@
   position: absolute;
   width: 400px;
   height: 350px;
-  border: solid 1px #eee;
+  border: solid 1px #e0ecfc;
   padding: 3px;
   background-color: #ffffff;
 }

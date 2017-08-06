@@ -13,7 +13,8 @@ import {
   VISUALIZATION_OBJECT_OPTIMIZED_ACTION,
   LOAD_DASHBOARD_SEARCH_ITEMS_ACTION, DASHBOARD_SEARCH_HEADERS_CHANGE_ACTION, DASHBOARD_DELETED_ACTION,
   HIDE_DASHBOARD_MENU_ITEM_NOTIFICATION_ICON, GEO_FEATURE_LOADED_ACTION, SAVE_CHART_CONFIGURATION_ACTION,
-  SAVE_CHART_OBJECT_ACTION, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION
+  SAVE_CHART_OBJECT_ACTION, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION,
+  UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION
 } from '../actions';
 import {Dashboard} from '../../model/dashboard';
 import {DashboardSearchItem} from '../../dashboard/model/dashboard-search-item';
@@ -241,8 +242,8 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
     }
 
     case ANALYTICS_LOADED_ACTION: {
-      const newState = handleAnalyticsLoadedAction(state, action);
-      return updateVisualizationWithAnalytics(newState, action)
+      return handleAnalyticsLoadedAction(state, action);
+      // return updateVisualizationWithAnalytics(newState, action)
     }
 
     case SAVE_CHART_CONFIGURATION_ACTION: {
@@ -557,12 +558,6 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
-    case CURRENT_VISUALIZATION_CHANGE_ACTION: {
-      const newState = _.clone(state);
-
-      return handleVisualizationChangeAction(newState, action);
-    }
-
     case VISUALIZATION_OBJECT_MERGED_ACTION: {
       const newState = _.clone(state);
       const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.id]);
@@ -765,6 +760,28 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
+    case UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION: {
+      const newState = _.clone(state);
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.id]);
+      if (currentVisualizationObject) {
+        const newVisualizationObject = _.clone(currentVisualizationObject);
+
+        const visualizationObjectDetails = _.clone(action.payload.details);
+        visualizationObjectDetails.loaded = true;
+        newVisualizationObject.details = _.assign({}, visualizationObjectDetails);
+
+        const visualizationLayers = _.clone(action.payload.layers);
+        newVisualizationObject.layers = _.assign({}, visualizationLayers);
+
+        newState.visualizationObjects = replaceArrayItem(
+          newState.visualizationObjects,
+          {id: currentVisualizationObject.id},
+          newVisualizationObject
+        )
+      }
+      return newState;
+    }
+
     default:
       return state;
   }
@@ -869,7 +886,7 @@ function handleAnalyticsLoadedAction(state: StoreData, action: any) {
   return newState;
 }
 
-function updateVisualizationWithAnalytics(state: StoreData, action: any) {
+function updateVisualizationWithAnalytics1(state: StoreData, action: any) {
   const newState = _.clone(state);
   const analyticsError = action.payload.error;
   const loadedVisualizationObject: Visualization = _.clone(action.payload.visualizationObject);
@@ -1030,10 +1047,6 @@ export function handleVisualizationChangeAction(state, action) {
      * Update visualization details
      */
     newVisualizationObjectDetails.currentVisualization = action.payload.selectedVisualization;
-    newVisualizationObjectDetails.loaded = false;
-    newVisualizationObjectDetails.splited = false;
-    newVisualizationObjectDetails.merged = false;
-    newVisualizationObjectDetails.analyticsLoaded = true;
 
     /**
      * Update with favorite details
