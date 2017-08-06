@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {Action, Store} from '@ngrx/store';
 import {VisualizationObjectService} from '../../dashboard/providers/visualization-object.service';
 import {
-  ANALYTICS_LOADED_ACTION,
+  ANALYTICS_LOADED_ACTION, CHART_TYPE_CHANGE_ACTION,
   CURRENT_VISUALIZATION_CHANGE_ACTION,
   FAVORITE_LOADED_ACTION, GEO_FEATURE_LOADED_ACTION, GeoFeatureLoadedAction, GET_CHART_CONFIGURATION_ACTION,
   GET_CHART_OBJECT_ACTION, GET_MAP_CONFIGURATION_ACTION, GET_MAP_OBJECT_ACTION, GET_TABLE_CONFIGURATION_ACTION,
@@ -128,6 +128,28 @@ export class VisualizationObjectEffect {
     .ofType(SPLIT_VISUALIZATION_OBJECT_ACTION)
     .flatMap((action: any) => Observable.of(this.visualizationObjectService.splitVisualizationObject(action.payload)))
     .map(legendSet => new VisualizationObjectSplitedAction(legendSet));
+
+  @Effect() chartTypeChange: Observable<Action> = this.actions$
+    .ofType(CHART_TYPE_CHANGE_ACTION)
+    .withLatestFrom(this.store)
+    .flatMap(([action, store]) => {
+      const currentVisualizationObject = _.find(store.storeData.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+      if (currentVisualizationObject) {
+        const newVisualizationObject = _.clone(currentVisualizationObject);
+
+        const visualizationLayers = _.map(currentVisualizationObject.layers, (layer) => {
+          const newLayer = _.clone(layer);
+          newLayer.settings.type = action.payload.chartType;
+          return newLayer;
+        });
+
+        newVisualizationObject.layers = _.assign([], visualizationLayers);
+
+        return this.getSanitizedVisualizationObject(newVisualizationObject, store.storeData.analytics);
+      }
+      return Observable.of(action.payload.visualizationObject);
+    })
+    .map(visualizationObject => new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObject));
 
   @Effect() currentVisualizationChange: Observable<Action> = this.actions$
     .ofType(CURRENT_VISUALIZATION_CHANGE_ACTION)

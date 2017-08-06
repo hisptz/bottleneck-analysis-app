@@ -133,7 +133,7 @@ export class VisualizationObjectService {
      * Get visualization layers with removed undefined analytics
      */
     const initialVisualizationLayers = _.filter(newVisualizationObject.layers, (layer) => {
-      return layer.analytics !== undefined;
+      return layer && layer.analytics !== undefined;
     });
 
     if (initialVisualizationLayers) {

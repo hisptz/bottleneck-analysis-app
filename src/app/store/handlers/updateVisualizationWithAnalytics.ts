@@ -9,7 +9,8 @@ export function updateVisualizationWithAnalytics(visualizationObject: Visualizat
    */
   newVisualizationObject.layers = _.map(newVisualizationObject.layers, (layer: any) => {
     const newLayer = _.clone(layer);
-    const analyticsObject = _.find(loadedAnalytics, ['id', newLayer.settings.id]);
+    const newSettings = newLayer ? newLayer.settings : null;
+    const analyticsObject = _.find(loadedAnalytics, ['id', newSettings !== null ? newSettings.id : '']);
     if (analyticsObject) {
       newLayer.analytics = Object.assign({}, analyticsObject.content);
     }

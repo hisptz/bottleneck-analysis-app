@@ -743,22 +743,22 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
-    case CHART_TYPE_CHANGE_ACTION: {
-      const newState = _.clone(state);
-      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
-      if (currentVisualizationObject) {
-        currentVisualizationObject.details.loaded = false;
-        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
-
-        currentVisualizationObject.layers.forEach(layer => {
-          layer.settings.type = action.payload.chartType;
-        });
-
-        newState.visualizationObjects[currentVisualizationObjectIndex] = _.cloneDeep(currentVisualizationObject);
-
-      }
-      return newState;
-    }
+    // case CHART_TYPE_CHANGE_ACTION: {
+    //   const newState = _.clone(state);
+    //   const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+    //   if (currentVisualizationObject) {
+    //     currentVisualizationObject.details.loaded = false;
+    //     const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
+    //
+    //     currentVisualizationObject.layers.forEach(layer => {
+    //       layer.settings.type = action.payload.chartType;
+    //     });
+    //
+    //     newState.visualizationObjects[currentVisualizationObjectIndex] = _.cloneDeep(currentVisualizationObject);
+    //
+    //   }
+    //   return newState;
+    // }
 
     case UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION: {
       const newState = _.clone(state);
