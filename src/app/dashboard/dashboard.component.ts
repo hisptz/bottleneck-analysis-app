@@ -35,8 +35,8 @@ export class DashboardComponent implements OnInit {
   globalFilters: Observable<any>;
   globalFilters$: Subject<any> = new Subject<any>();
   dashboardConfig: any = {
-    showNotification: false,
-    showSearch: false,
+    showNotification: true,
+    showSearch: true,
     showName: true
   };
   private _welcomingTitle: string;

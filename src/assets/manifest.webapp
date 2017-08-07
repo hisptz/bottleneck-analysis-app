@@ -1,7 +1,7 @@
 {
     "version": "2.0.0",
-    "name": "Malaria Dashboard",
-    "description": "Malaria dashboard",
+    "name": "Interactive Dashboard 2",
+    "description": "Interactive dashboard 2",
     "launch_path": "index.html",
     "icons": {
         "16": "assets/img/icon-16x16.png",

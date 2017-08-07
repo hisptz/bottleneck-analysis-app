@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setTitle('Malaria Dashboard');
+    this.setTitle('Interactive Dashboard 2');
     this.store.select(apiRootUrlSelector).subscribe((rootUrl: string) => {
       if (rootUrl !== '') {
         this.store.dispatch(new LoadCurrentUserAction(rootUrl));
