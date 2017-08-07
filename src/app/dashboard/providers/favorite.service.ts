@@ -39,7 +39,7 @@ export class FavoriteService {
 
         const newFavorite = _.clone(favorite);
 
-        newFavorite.subtitle = this._getFavoriteSubtitle(favorite.filters, visualizationDetails.visualizationObject.details.userOrganisationUnit);
+        newFavorite.subtitle = this.getFavoriteSubtitle(favorite.filters, visualizationDetails.visualizationObject.details.userOrganisationUnit);
         visualizationDetails.favorite = Object.assign({}, newFavorite, favoriteOptions);
         visualizationDetails.favorite = this.relativePeriodService.getISOFormatFromRelativePeriod(visualizationDetails.favorite);
         //todo to place period sanitizer
@@ -53,7 +53,7 @@ export class FavoriteService {
     });
   }
 
-  private _getFavoriteSubtitle(favoriteFilters: any[], userOrgUnit: string) {
+  getFavoriteSubtitle(favoriteFilters: any[], userOrgUnit: string) {
     let subtitle = '';
     if (favoriteFilters) {
       const newFavoriteFilters = _.map(favoriteFilters, filterObject => {

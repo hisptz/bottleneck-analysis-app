@@ -1,11 +1,8 @@
-<div class="row">
-  <iframe
-    class="col-md-12"
-    style="height:75vh;border:0"
-    frameborder="0"
-    scrolling="no"
-    allowfullscreen=""
-    [src]="appUrl | safe"
-  >
-  </iframe>
-</div>
+<iframe
+  [ngStyle]="{'width': '100%', 'height': appHeight}"
+  frameborder="0"
+  scrolling="no"
+  allowfullscreen
+  [src]="appUrl | safe"
+>
+</iframe>

@@ -66,8 +66,16 @@ export class VisualizationObjectEffect {
     .flatMap(([action, store]) => {
       return Observable.of(action.payload)
     })
-    .map(visualizationObject => {
-      return new LoadFavoriteAction(visualizationObject)
+    .map(visualizationObjectDetails => {
+
+      const visualizationDetails = visualizationObjectDetails.visualizationObject.details;
+
+      if (visualizationDetails) {
+        if (!visualizationDetails.favorite || !visualizationDetails.favorite.id) {
+          return new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObjectDetails.visualizationObject);
+        }
+      }
+      return new LoadFavoriteAction(visualizationObjectDetails)
     });
 
   @Effect() mapObject$: Observable<Action> = this.actions$
@@ -142,6 +150,8 @@ export class VisualizationObjectEffect {
          * Update visualization with original favorite and custom filters
          */
         if (favorite) {
+          const newLayoutObject = _.map(action.payload.layouts, (layoutObject) => { return layoutObject.layout})[0];
+          console.log(newLayoutObject.filters.map(filter => { return filter.value}))
           /**
            * Update with original settings
            */
