@@ -202,8 +202,8 @@ export class VisualizationService {
    * @param xAxisItems
    * @returns {{xAxisItems: Array, yAxisItems: Array}}
    */
-  prepareSingleCategories ( analyticsObject, itemIdentifier , preDefinedItems = [] ){
-    analyticsObject = this._sanitizeIncomingAnalytics(analyticsObject);
+  prepareSingleCategories ( initialAnalytics, itemIdentifier , preDefinedItems = [] ){
+    const analyticsObject = this._sanitizeIncomingAnalytics(initialAnalytics);
     let structure = [];
     if ( preDefinedItems.length === 0 ) {
       for ( let val of this.getMetadataArray(analyticsObject, itemIdentifier )){
@@ -291,6 +291,12 @@ export class VisualizationService {
       title: {
         text: chartConfiguration.title
       },
+      colors: [
+        '#A9BE3B', '#558CC0', '#D34957', '#FF9F3A',
+        '#968F8F', '#B7409F', '#FFDA64', '#4FBDAE',
+        '#B78040', '#676767', '#6A33CF', '#4A7833',
+        '#434348', '#7CB5EC', '#F7A35C', '#F15C80'
+      ],
       xAxis: [{
         categories: [],
         crosshair: true
@@ -668,7 +674,6 @@ export class VisualizationService {
   }
 
   drawTable ( analyticsObject , tableConfiguration ) {
-    console.log('Table configurations', tableConfiguration)
     let table = {
       'headers': [],
       'columns': [],

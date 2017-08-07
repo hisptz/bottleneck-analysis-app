@@ -73,6 +73,28 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
+    case CURRENT_VISUALIZATION_CHANGE_ACTION: {
+      const newState: StoreData = _.clone(state);
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+
+      if (currentVisualizationObject) {
+        const visualizationDetails = _.clone(currentVisualizationObject.details);
+        const newVisualizationObject = _.clone(currentVisualizationObject);
+
+        visualizationDetails.loaded = false;
+        visualizationDetails.currentVisualization = action.payload.selectedVisualization;
+
+        newVisualizationObject.details = _.assign({}, visualizationDetails);
+
+        newState.visualizationObjects = replaceArrayItem(
+          newState.visualizationObjects,
+          {id: action.payload.visualizationObject.id},
+          newVisualizationObject
+        )
+      }
+      return newState;
+    }
+
     case DASHBOARD_EDITED_ACTION: {
       const newState: StoreData = _.clone(state);
       let editedDashboard = null;
@@ -161,9 +183,18 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
        */
       if (visualizationObject.details.isNew) {
         visualizationObject.details.isNew = false;
-        newState.visualizationObjects.unshift(visualizationObject);
+        newState.visualizationObjects = addArrayItem(
+          newState.visualizationObjects,
+          visualizationObject,
+          'id',
+          'first'
+        );
       } else {
-        newState.visualizationObjects.push(visualizationObject);
+        newState.visualizationObjects = addArrayItem(
+          newState.visualizationObjects,
+          visualizationObject,
+          'id'
+        );
       }
 
 
@@ -743,23 +774,6 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
-    // case CHART_TYPE_CHANGE_ACTION: {
-    //   const newState = _.clone(state);
-    //   const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
-    //   if (currentVisualizationObject) {
-    //     currentVisualizationObject.details.loaded = false;
-    //     const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
-    //
-    //     currentVisualizationObject.layers.forEach(layer => {
-    //       layer.settings.type = action.payload.chartType;
-    //     });
-    //
-    //     newState.visualizationObjects[currentVisualizationObjectIndex] = _.cloneDeep(currentVisualizationObject);
-    //
-    //   }
-    //   return newState;
-    // }
-
     case UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION: {
       const newState = _.clone(state);
       const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.id]);
@@ -771,7 +785,7 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
         newVisualizationObject.details = _.assign({}, visualizationObjectDetails);
 
         const visualizationLayers = _.clone(action.payload.layers);
-        newVisualizationObject.layers = _.assign({}, visualizationLayers);
+        newVisualizationObject.layers = _.assign([], visualizationLayers);
 
         newState.visualizationObjects = replaceArrayItem(
           newState.visualizationObjects,
@@ -856,9 +870,6 @@ function handleFiltersUpdateAction(state: StoreData, action: any) {
     const visualizationDetails = _.clone(currentVisualizationObject.details);
     visualizationDetails.filters = action.payload.filters;
     visualizationDetails.loaded = false;
-    visualizationDetails.splited = false;
-    visualizationDetails.merged = false;
-    visualizationDetails.analyticsLoaded = false;
 
     if (action.payload.updateAvailable) {
       visualizationDetails.updateAvailable = true;
@@ -869,7 +880,8 @@ function handleFiltersUpdateAction(state: StoreData, action: any) {
     newState.visualizationObjects = replaceArrayItem(
       newState.visualizationObjects,
       {id: currentVisualizationObject.id},
-      newVisualizationObject);
+      newVisualizationObject
+    );
   }
   return newState;
 }
@@ -1108,13 +1120,13 @@ export function updateFavoriteWithCustomFilters(visualizationLayers, customFilte
 function updateLayoutDimensionWithFilters(layoutDimensionArray, filters) {
   return _.map(layoutDimensionArray, (layoutDimension) => {
     const newLayoutDimension = _.clone(layoutDimension);
-    const dimensionObject = _.find(filters, ['name', layoutDimension]);
+    const dimensionObject = _.find(filters, ['name', layoutDimension.dimension]);
 
     /**
-     * Get columns items
+     * Get items
      */
     if (dimensionObject) {
-      newLayoutDimension.items = _.assign([], dimensionObject.items)
+      newLayoutDimension.items = _.assign([], dimensionObject.items);
     }
 
     return newLayoutDimension;

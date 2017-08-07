@@ -24,12 +24,21 @@ export class MapComponent implements OnInit {
   @Input() visualizationObject: Visualization;
   private _mapHasError: boolean;
   private _errorMessage: string;
+  private _loaded: boolean;
   constructor(
     private store: Store<ApplicationState>
   ) {
     this._mapHasError = false;
   }
 
+
+  get loaded(): boolean {
+    return this._loaded;
+  }
+
+  set loaded(value: boolean) {
+    this._loaded = value;
+  }
 
   get mapHasError(): boolean {
     return this._mapHasError;
@@ -50,38 +59,7 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     this._mapHasError = this.visualizationObject.details.hasError;
     this._errorMessage = this.visualizationObject.details.errorMessage;
-    if (
-      !this.visualizationObject.details.loaded
-      && this.visualizationObject.layers.length > 0
-      && this.visualizationObject.details.analyticsLoaded
-    ) {
-      /**
-       * Split visualization Object
-       */
-      if (this.visualizationObject.details.type !== 'MAP' && !this.visualizationObject.details.splited) {
-
-        this.store.dispatch(new SplitVisualizationObjectAction(this.visualizationObject));
-      } else if (this.visualizationObject.details.type === 'MAP') {
-        this.store.dispatch(new VisualizationObjectOptimizedAction(this.visualizationObject))
-      }
-
-      if (this.visualizationObject.details.visualizationOptimized) {
-
-        /**
-         * Get map configuration
-         */
-        this.store.dispatch(new GetMapConfigurationAction(this.visualizationObject));
-
-        this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
-          if (apiRootUrl !== '') {
-            /**
-             * Load geo features
-             */
-            this.store.dispatch(new LoadGeoFeatureAction({apiRootUrl: apiRootUrl, visualizationObject: this.visualizationObject}));
-          }
-        });
-      }
-    }
+    this._loaded = this.visualizationObject.details.loaded;
   }
 
 }

@@ -47,7 +47,7 @@ import {LoginRedirectService} from './providers/login-redirect.service';
     EffectsModule.run(DashboardEffect),
     EffectsModule.run(CurrentUserEffect),
     EffectsModule.run(DashboardNotificationEffect),
-    StoreDevtoolsModule.instrumentOnlyWithExtension()
+    // StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [
     SystemInfoService,

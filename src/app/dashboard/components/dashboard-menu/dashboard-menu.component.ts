@@ -37,7 +37,7 @@ export class DashboardMenuComponent implements OnInit {
   showOrgUnitFilter: boolean;
   private _config: PaginationInstance;
   menuConfig: any = {
-    showDashboardCreateButton: true,
+    showDashboardCreateButton: false,
     showPaginationCounter: true,
     showPaginationButtons: true,
     showMaintenanceOptions: true,
@@ -68,7 +68,7 @@ export class DashboardMenuComponent implements OnInit {
         shown: false
       },
       settings: {
-        enabled: true,
+        enabled: false,
         shown: false
       }
     };
@@ -148,6 +148,7 @@ export class DashboardMenuComponent implements OnInit {
 
   updateFilters(filterValues) {
     this.onFilterUpdate.emit(filterValues);
+    this.toggleFilter();
   }
 
 

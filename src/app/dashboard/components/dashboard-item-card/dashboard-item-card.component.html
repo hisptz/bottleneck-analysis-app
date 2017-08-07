@@ -239,16 +239,16 @@
         <div class="col-md-12">
           <ul class="nav nav-pills dashboard-footer-nav">
 
-            <li *ngIf="cardConfiguration.allowMultipleSwitchingIcons || currentVisualizationType == 'TABLE'">
+            <li *ngIf="cardConfiguration.allowMultipleSwitchingIcons || currentVisualizationType == 'TABLE' || currentVisualizationType == 'DICTIONARY'">
               <a (click)="updateVisualization('TABLE')"
                    [ngClass]="currentVisualizationType == 'TABLE' ? 'active-visualisation': ''"><i class="fa fa-table"></i></a>
             </li>
-            <li *ngIf="cardConfiguration.allowMultipleSwitchingIcons || currentVisualizationType === 'CHART'">
+            <li *ngIf="cardConfiguration.allowMultipleSwitchingIcons || currentVisualizationType === 'CHART' || currentVisualizationType == 'DICTIONARY'">
               <a (click)="updateVisualization('CHART')"
                    [ngClass]="currentVisualizationType === 'CHART' ? 'active-visualisation': ''"><i
               class="fa fa-line-chart"></i></a>
             </li>
-            <li *ngIf="cardConfiguration.allowMultipleSwitchingIcons || currentVisualizationType === 'MAP'"
+            <li *ngIf="cardConfiguration.allowMultipleSwitchingIcons || currentVisualizationType === 'MAP' || currentVisualizationType == 'DICTIONARY'"
             >
               <a (click)="updateVisualization('MAP')"
                  [ngClass]="currentVisualizationType == 'MAP' ? 'active-visualisation': ''"><i class="fa fa-map"></i></a>

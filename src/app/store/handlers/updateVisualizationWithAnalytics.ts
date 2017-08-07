@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 
 export function updateVisualizationWithAnalytics(visualizationObject: Visualization, loadedAnalytics: any[]) {
   const newVisualizationObject: Visualization = _.clone(visualizationObject);
-
   /**
    * Update visualization layer with analytics
    */

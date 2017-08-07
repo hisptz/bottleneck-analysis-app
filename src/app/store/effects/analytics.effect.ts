@@ -40,10 +40,10 @@ export class AnalyticsEffect {
         /**
          * Update with original settings
          */
-        visualizationObject.layers = updateFavoriteWithCustomFilters(
+        visualizationObject.layers = _.assign([], updateFavoriteWithCustomFilters(
           mapFavoriteToLayerSettings(favorite),
           customFilters
-        )
+        ));
       }
 
       return Observable.of({

@@ -51,8 +51,14 @@ export class VisualizationObjectEffect {
 
   @Effect() initialVisualizationObject$: Observable<Action> = this.actions$
     .ofType(LOAD_INITIAL_VISUALIZATION_OBJECT_ACTION)
-    .switchMap((action: any) => this.visualizationObjectService.loadInitialVisualizationObject(action.payload))
-    .map(visualizationObject => new InitialVisualizationObjectLoadedAction(visualizationObject));
+    .withLatestFrom(this.store)
+    .switchMap(([action, store]) => {
+      return Observable.of({
+        apiRootUrl: store.uiState.systemInfo.apiRootUrl,
+        visualizationObject: this.visualizationObjectService.loadInitialVisualizationObject(action.payload)
+      });
+    })
+    .map(visualizationObjectDetails => new InitialVisualizationObjectLoadedAction(visualizationObjectDetails));
 
   @Effect() loadedVisualizationObject$: Observable<Action> = this.actions$
     .ofType(INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION)
@@ -63,31 +69,6 @@ export class VisualizationObjectEffect {
     .map(visualizationObject => {
       return new LoadFavoriteAction(visualizationObject)
     });
-
-  @Effect() chartConfiguration$: Observable<Action> = this.actions$
-    .ofType(GET_CHART_CONFIGURATION_ACTION)
-    .flatMap((action: any) => Observable.of(this.chartService.getChartConfiguration(action.payload)))
-    .map(chartConfiguration => new SaveChartConfigurationAction(chartConfiguration));
-
-  @Effect() mapConfiguration$: Observable<Action> = this.actions$
-    .ofType(GET_MAP_CONFIGURATION_ACTION)
-    .flatMap((action: any) => Observable.of(this.mapService.getMapConfiguration(action.payload)))
-    .map(chartConfiguration => new SaveMapConfigurationAction(chartConfiguration));
-
-  @Effect() tableConfiguration$: Observable<Action> = this.actions$
-    .ofType(GET_TABLE_CONFIGURATION_ACTION)
-    .flatMap((action: any) => Observable.of(this.tableService.getTableConfiguration(action.payload)))
-    .map(chartConfiguration => new SaveTableConfigurationAction(chartConfiguration));
-
-  @Effect() chartObject$: Observable<Action> = this.actions$
-    .ofType(GET_CHART_OBJECT_ACTION)
-    .flatMap((action: any) => Observable.of(this.chartService.getChartObjects(action.payload)))
-    .map(chartObject => new SaveChartObjectAction(chartObject));
-
-  @Effect() tableObject$: Observable<Action> = this.actions$
-    .ofType(GET_TABLE_OBJECT_ACTION)
-    .flatMap((action: any) => Observable.of(this.tableService.getTableObjects(action.payload)))
-    .map(tableObjects => new SaveTableObjectAction(tableObjects));
 
   @Effect() mapObject$: Observable<Action> = this.actions$
     .ofType(GET_MAP_OBJECT_ACTION)
@@ -103,16 +84,6 @@ export class VisualizationObjectEffect {
     .ofType(GEO_FEATURE_LOADED_ACTION)
     .flatMap((action: any) => Observable.of(action.payload))
     .map(visualizationDetails => new LoadLegendSetAction(visualizationDetails));
-
-  @Effect() loadlegendSet$: Observable<Action> = this.actions$
-    .ofType(LOAD_LEGEND_SET_ACTION)
-    .flatMap((action: any) => this.legendSetService.getLegendSet(action.payload))
-    .map(legendSet => new LegendSetLoadedAction(legendSet));
-
-  @Effect() legendSetLoaded: Observable<Action> = this.actions$
-    .ofType(LEGEND_SET_LOADED_ACTION)
-    .flatMap((action: any) => Observable.of(action.payload))
-    .map(visualizationDetails => new LoadOrgUnitGroupSetAction(visualizationDetails));
 
   @Effect() loadGroupSet$: Observable<Action> = this.actions$
     .ofType(LOAD_ORGUNIT_GROUP_SET_ACTION)
@@ -145,7 +116,7 @@ export class VisualizationObjectEffect {
 
         newVisualizationObject.layers = _.assign([], visualizationLayers);
 
-        return this.getSanitizedVisualizationObject(newVisualizationObject, store.storeData.analytics);
+        return this.getSanitizedVisualizationObject(newVisualizationObject, store.storeData.analytics, store.uiState.systemInfo.apiRootUrl);
       }
       return Observable.of(action.payload.visualizationObject);
     })
@@ -185,7 +156,7 @@ export class VisualizationObjectEffect {
          */
         newVisualizationObject.details = _.assign({}, newVisualizationObjectDetails);
 
-        return this.getSanitizedVisualizationObject(newVisualizationObject, store.storeData.analytics);
+        return this.getSanitizedVisualizationObject(newVisualizationObject, store.storeData.analytics, store.uiState.systemInfo.apiRootUrl);
       }
 
       return Observable.of(action.payload.visualizationObject);
@@ -199,8 +170,16 @@ export class VisualizationObjectEffect {
       const loadedAnalytics: any[] = action.payload.analytics;
       const analyticsError = action.payload.error;
       const currentVisualizationObject = _.find(store.storeData.visualizationObjects, ['id', action.payload.visualizationObject.id]);
-      if (!analyticsError) {
-        return this.getSanitizedVisualizationObject(currentVisualizationObject, loadedAnalytics);
+
+      if (!analyticsError && currentVisualizationObject) {
+
+        /**
+         * Use updated layers if avaialable
+         */
+        if (action.payload.visualizationObject.layers.length > 0) {
+          currentVisualizationObject.layers = _.assign([], action.payload.visualizationObject.layers);
+        }
+        return this.getSanitizedVisualizationObject(currentVisualizationObject, loadedAnalytics, store.uiState.systemInfo.apiRootUrl);
       } else {
         const newVisualizationObject = _.clone(currentVisualizationObject);
         const newVisualizationObjectDetails = _.clone(newVisualizationObject.details);
@@ -216,70 +195,118 @@ export class VisualizationObjectEffect {
     })
     .map(visualizationObject => new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObject));
 
-  getSanitizedVisualizationObject(currentVisualizationObject: Visualization, loadedAnalytics) {
+  getSanitizedVisualizationObject(currentVisualizationObject: Visualization, loadedAnalytics, apiRootUrl) {
     const newVisualizationObject = updateVisualizationWithAnalytics(currentVisualizationObject, loadedAnalytics);
     const currentVisualization: string = currentVisualizationObject.details.currentVisualization;
-    if (currentVisualization === 'CHART') {
-      const mergeVisualizationObject = this.visualizationObjectService.mergeVisualizationObject(newVisualizationObject);
-      /**
-       * Update visualization layers with chart configuration
-       */
-      const visualizationObjectLayersWithChartConfiguration = _.map(mergeVisualizationObject.layers, (layer, layerIndex) => {
-        const newLayer = _.clone(layer);
-        const newSettings = _.clone(layer.settings);
-        newSettings.chartConfiguration = _.assign({}, this.chartService.getChartConfiguration1(
-          newSettings,
-          mergeVisualizationObject.id + '_' + layerIndex
-        ));
-        newLayer.settings = _.assign({}, newSettings);
-        return newLayer;
-      });
+    return Observable.create(observer => {
+      if (currentVisualization === 'CHART') {
+        const mergeVisualizationObject = this.visualizationObjectService.mergeVisualizationObject(newVisualizationObject);
+        /**
+         * Update visualization layers with chart configuration
+         */
+        const visualizationObjectLayersWithChartConfiguration = _.map(mergeVisualizationObject.layers, (layer, layerIndex) => {
+          const newLayer = _.clone(layer);
+          const newSettings = _.clone(layer.settings);
+          newSettings.chartConfiguration = _.assign({}, this.chartService.getChartConfiguration1(
+            newSettings,
+            mergeVisualizationObject.id + '_' + layerIndex
+          ));
+          newLayer.settings = _.assign({}, newSettings);
+          return newLayer;
+        });
 
-      /**
-       * Update visualization layers with chart object
-       */
-      const visualizationObjectLayersWithChartObject = _.map(visualizationObjectLayersWithChartConfiguration, (layer) => {
-        const newLayer = _.clone(layer);
-        newLayer.chartObject = _.assign({}, this.chartService.getChartObject(newLayer.analytics, newLayer.settings.chartConfiguration));
-        return newLayer;
-      });
+        /**
+         * Update visualization layers with chart object
+         */
+        const visualizationObjectLayersWithChartObject = _.map(visualizationObjectLayersWithChartConfiguration, (layer) => {
+          const newLayer = _.clone(layer);
+          newLayer.chartObject = _.assign({}, this.chartService.getChartObject(newLayer.analytics, newLayer.settings.chartConfiguration));
+          return newLayer;
+        });
 
-      newVisualizationObject.layers = _.assign([], visualizationObjectLayersWithChartObject);
+        newVisualizationObject.layers = _.assign([], visualizationObjectLayersWithChartObject);
 
-      return Observable.of(newVisualizationObject);
-    } else if (currentVisualization === 'TABLE') {
-      const mergeVisualizationObject = this.visualizationObjectService.mergeVisualizationObject(newVisualizationObject);
+        observer.next(newVisualizationObject);
+        observer.complete();
 
-      /**
-       * Update visualization layers with table configuration
-       */
-      const visualizationObjectLayersWithTableConfiguration = _.map(mergeVisualizationObject.layers, (layer, layerIndex) => {
-        const newLayer = _.clone(layer);
-        const newSettings = _.clone(layer.settings);
-        newSettings.tableConfiguration = _.assign({}, this.tableService.getTableConfiguration1(
-          newSettings,
-          mergeVisualizationObject.details.id,
-          mergeVisualizationObject.type
-        ));
-        newLayer.settings = _.assign({}, newSettings);
-        return newLayer;
-      });
+      } else if (currentVisualization === 'TABLE') {
+        const mergeVisualizationObject = this.visualizationObjectService.mergeVisualizationObject(newVisualizationObject);
 
-      /**
-       * Update visualization layers with table object
-       */
-      const visualizationObjectLayersWithChartObject = _.map(visualizationObjectLayersWithTableConfiguration, (layer) => {
-        const newLayer = _.clone(layer);
-        newLayer.tableObject = _.assign({}, this.tableService.getTableObject(newLayer.analytics, newLayer.settings.tableConfiguration));
-        return newLayer;
-      });
+        /**
+         * Update visualization layers with table configuration
+         */
+        const visualizationObjectLayersWithTableConfiguration = _.map(mergeVisualizationObject.layers, (layer, layerIndex) => {
+          const newLayer = _.clone(layer);
+          const newSettings = _.clone(layer.settings);
+          newSettings.tableConfiguration = _.assign({}, this.tableService.getTableConfiguration1(
+            newSettings,
+            mergeVisualizationObject.details.layouts,
+            mergeVisualizationObject.type
+          ));
+          newLayer.settings = _.assign({}, newSettings);
+          return newLayer;
+        });
 
-      newVisualizationObject.layers = _.assign([], visualizationObjectLayersWithChartObject);
+        /**
+         * Update visualization layers with table object
+         */
+        const visualizationObjectLayersWithChartObject = _.map(visualizationObjectLayersWithTableConfiguration, (layer) => {
+          const newLayer = _.clone(layer);
+          newLayer.tableObject = _.assign({}, this.tableService.getTableObject(newLayer.analytics, newLayer.settings.tableConfiguration));
+          return newLayer;
+        });
 
-      return Observable.of(newVisualizationObject);
-    }
+        newVisualizationObject.layers = _.assign([], visualizationObjectLayersWithChartObject);
 
-    return Observable.of(newVisualizationObject);
+        observer.next(newVisualizationObject);
+        observer.complete();
+      } else if (currentVisualization === 'MAP') {
+        const splitedVisualizationObject = newVisualizationObject.details.type !== 'MAP' ?
+          this.visualizationObjectService.splitVisualizationObject(newVisualizationObject) :
+          _.clone(newVisualizationObject);
+
+        const newVisualizationDetails = _.clone(splitedVisualizationObject.details);
+
+        /**
+         * Update with map configuration
+         */
+        newVisualizationDetails.mapConfiguration = _.assign({}, this.mapService.getMapConfiguration(splitedVisualizationObject));
+
+        /**
+         * Update with geo features
+         */
+        this.geoFeatureService.getGeoFeature({
+          apiRootUrl: apiRootUrl,
+          visualizationObject: splitedVisualizationObject
+        }).subscribe(geoFeatureResponse => {
+          if (geoFeatureResponse.geoFeatures) {
+            splitedVisualizationObject.layers = _.map(splitedVisualizationObject.layers, (layer) => {
+              const newLayer = _.clone(layer);
+              const newSettings = _.clone(layer.settings);
+              const availableGeoFeatureObject = _.find(geoFeatureResponse.geoFeatures, ['id', newSettings.id]);
+
+              if (availableGeoFeatureObject) {
+                if (availableGeoFeatureObject.content.length === 0) {
+                  // newVisualizationDetails.hasError = true;
+                  // newVisualizationDetails.errorMessage = 'Coordinates for displaying a map are missing';
+                } else {
+                  newSettings.geoFeature = _.assign([], availableGeoFeatureObject.content);
+                }
+              }
+              newLayer.settings = _.assign({}, newSettings);
+
+              return newLayer;
+            });
+          }
+          splitedVisualizationObject.details = _.assign({}, newVisualizationDetails);
+          observer.next(splitedVisualizationObject);
+          observer.complete();
+        })
+      } else {
+        observer.next(newVisualizationObject);
+        observer.complete();
+      }
+    })
   }
 
 }

@@ -502,5 +502,5 @@ export class HideDashboardMenuNotificationIcon implements Action {
 
 export class UpdateVisualizationObjectWithRenderingObjectAction implements Action {
   readonly type = UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION;
-  constructor(public payload: Visualization) {}
+  constructor(public payload: any) {}
 }

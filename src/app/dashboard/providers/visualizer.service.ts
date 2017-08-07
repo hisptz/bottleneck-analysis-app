@@ -45,7 +45,7 @@ export class VisualizerService {
         chartObject = this._extendPieChartOptions(chartObject, analyticsObject, chartConfiguration);
         break;
       case 'multipleAxis':
-        console.log('multipleAxis');
+        // console.log('multipleAxis');
         break;
       case 'combined':
         console.log('combined');
@@ -134,6 +134,7 @@ export class VisualizerService {
         series.push({
           name: yAxisItem.name,
           index: yAxisIndex,
+          turboThreshold: 0,
           data: this._getSeriesData(
             analyticsObject,
             chartConfiguration,

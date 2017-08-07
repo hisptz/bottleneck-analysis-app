@@ -12,53 +12,49 @@ export class VisualizationObjectService {
               private favoriteService: FavoriteService) {
   }
 
-  loadInitialVisualizationObject(initialDetails: any): Observable<any> {
+  loadInitialVisualizationObject(initialDetails: any): Visualization {
     const cardData: any = initialDetails.dashboardItem;
     const favoriteOptions: any[] = initialDetails.favoriteOptions;
     const dashboardId: string = initialDetails.dashboardId;
     const currentUser: any = initialDetails.currentUser;
-    return Observable.create(observer => {
-      const visualizationObject: Visualization = {
-        id: cardData.hasOwnProperty('id') ? cardData.id : null,
-        name: this._getVisualizationObjectName(cardData),
-        type: cardData.hasOwnProperty('type') ? cardData.type : null,
-        created: cardData.hasOwnProperty('created') ? cardData.created : null,
-        lastUpdated: cardData.hasOwnProperty('lastUpdated') ? cardData.lastUpdated : null,
-        shape: cardData.hasOwnProperty('shape') ? cardData.shape : 'NORMAL',
-        dashboardId: dashboardId,
-        subtitle: null,
+    return {
+      id: cardData.hasOwnProperty('id') ? cardData.id : null,
+      name: this._getVisualizationObjectName(cardData),
+      type: cardData.hasOwnProperty('type') ? cardData.type : null,
+      created: cardData.hasOwnProperty('created') ? cardData.created : null,
+      lastUpdated: cardData.hasOwnProperty('lastUpdated') ? cardData.lastUpdated : null,
+      shape: cardData.hasOwnProperty('shape') ? cardData.shape : 'NORMAL',
+      dashboardId: dashboardId,
+      subtitle: null,
+      description: null,
+      details: {
+        loaded: false,
+        hasError: false,
+        errorMessage: '',
+        appKey: cardData.hasOwnProperty('appKey') ? cardData.appKey : null,
+        hideCardBorders: false,
+        showCardHeader: true,
+        showCardFooter: true,
+        showChartOptions: true,
+        showFilter: true,
+        cardHeight: '490px',
+        itemHeight: '465px',
+        fullScreen: false,
+        type: this._getSanitizedCurrentVisualizationType(cardData.hasOwnProperty('type') ? cardData.type : null),
+        currentVisualization: this._getSanitizedCurrentVisualizationType(cardData.hasOwnProperty('type') ? cardData.type : null),
+        favorite: this._getFavoriteDetails(cardData, favoriteOptions),
+        externalDimensions: {},
+        filters: [],
+        layouts: [],
+        analyticsStrategy: 'normal',
+        rowMergingStrategy: 'normal',
+        userOrganisationUnit: this._getUserOrganisationUnit(currentUser),
         description: null,
-        details: {
-          loaded: false,
-          hasError: false,
-          errorMessage: '',
-          appKey: cardData.hasOwnProperty('appKey') ? cardData.appKey : null,
-          hideCardBorders: false,
-          showCardHeader: true,
-          showCardFooter: true,
-          showChartOptions: true,
-          showFilter: true,
-          cardHeight: '490px',
-          itemHeight: '465px',
-          fullScreen: false,
-          type: this._getSanitizedCurrentVisualizationType(cardData.hasOwnProperty('type') ? cardData.type : null),
-          currentVisualization: this._getSanitizedCurrentVisualizationType(cardData.hasOwnProperty('type') ? cardData.type : null),
-          favorite: this._getFavoriteDetails(cardData, favoriteOptions),
-          externalDimensions: {},
-          filters: [],
-          layouts: [],
-          analyticsStrategy: 'normal',
-          rowMergingStrategy: 'normal',
-          userOrganisationUnit: this._getUserOrganisationUnit(currentUser),
-          description: null,
-          isNew: initialDetails.isNew
-        },
-        layers: this._getLayerDetailsForNonVisualizableObject(cardData),
-        operatingLayers: []
-      }
-      observer.next({apiRootUrl: initialDetails.apiRootUrl, visualizationObject: visualizationObject});
-      observer.complete();
-    });
+        isNew: initialDetails.isNew
+      },
+      layers: this._getLayerDetailsForNonVisualizableObject(cardData),
+      operatingLayers: []
+    };
   }
 
   /**
@@ -205,7 +201,7 @@ export class VisualizationObjectService {
       }
     }
 
-    visualizationObject.layers = _.cloneDeep(newSplitedLayers);
+    visualizationObject.layers = _.assign([], newSplitedLayers);
 
     return visualizationObject;
   }

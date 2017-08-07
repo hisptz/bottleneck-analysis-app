@@ -35,8 +35,8 @@ export class DashboardComponent implements OnInit {
   globalFilters: Observable<any>;
   globalFilters$: Subject<any> = new Subject<any>();
   dashboardConfig: any = {
-    showNotification: true,
-    showSearch: true,
+    showNotification: false,
+    showSearch: false,
     showName: true
   };
   private _welcomingTitle: string;
@@ -47,11 +47,11 @@ export class DashboardComponent implements OnInit {
   ) {
     this.dashboardName$ = store.select(currentDashboardNameSelector);
     this.visualizationObjects$ = store.select(visualizationObjectsSelector);
-    this.dashboardLoaded$ = store.select(dashboardLoadedSelector)
+    this.dashboardLoaded$ = store.select(dashboardLoadedSelector);
     this.globalFilters$.next(null);
     this.globalFilters = this.globalFilters$.asObservable();
-    this._welcomingTitle = 'Welcome to Malaria dashboard';
-    // this. _welcomingDescription = 'Enjoy interactive dashboard by switching,filtering and changing layout to different visualization <br> <b>Search and add dashboard now!</b>'
+    this._welcomingTitle = 'Welcome to Interactive dashboard';
+    this. _welcomingDescription = 'Enjoy interactive dashboard by switching,filtering and changing layout to different visualization <br> <b>Search and add dashboard now!</b>'
   }
 
 

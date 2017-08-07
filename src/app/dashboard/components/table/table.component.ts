@@ -91,52 +91,6 @@ export class TableComponent implements OnInit {
       this._tableObjects =_.filter(newTableObjects, (tableObject) => {
           return tableObject !== undefined
         });
-      console.log(this.visualizationObject.layers)
-    }
-
-    if (
-      !this.visualizationObject.details.loaded
-      && this.visualizationObject.layers.length > 0
-      && this.visualizationObject.details.analyticsLoaded
-    ) {
-      /**
-       * Merge visualization Object
-       */
-      // if (this.visualizationObject.details.type === 'TABLE') {
-      //   this.store.dispatch(new VisualizationObjectOptimizedAction(this.visualizationObject))
-      // } else if (this.visualizationObject.details.type !== 'CHART' && !this.visualizationObject.details.merged) {
-      //   console.log('merge')
-      // }
-      //
-      // if (this.visualizationObject.details.visualizationOptimized) {
-      //
-      //   this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
-      //     if (apiRootUrl !== '') {
-      //       this.store.dispatch(new LoadLegendSetAction({
-      //         apiRootUrl: apiRootUrl,
-      //         visualizationObject: this.visualizationObject
-      //       }))
-      //     }
-      //   });
-      //
-      //   /**
-      //    * Get table configuration
-      //    */
-      //   this.store.dispatch(new GetTableConfigurationAction({
-      //     visualizationObjectId: this.visualizationObject.id,
-      //     visualizationSettings: this.visualizationObject.layers.map(layer => {
-      //       return layer.settings
-      //     }),
-      //     visualizationType: this.visualizationObject.type,
-      //     visualizationLayout: this.visualizationObject.details.layouts
-      //   }));
-      //
-      //   /**
-      //    * Get table object
-      //    */
-      //   this.store.dispatch(new GetTableObjectAction(this.visualizationObject))
-      // }
-
     }
   }
 

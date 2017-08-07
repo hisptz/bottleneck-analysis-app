@@ -44,7 +44,6 @@ export class ChartService {
       }
 
       let chartObject = null;
-
       if (newLayer.analytics) {
           if (newChartConfiguration.type === 'multipleAxis') {
             //TODO REMOVE THIS AND CENTRALIZE EVERYTHING IN NEW VISUALIZATION COMPONENT
@@ -65,8 +64,14 @@ export class ChartService {
     if (!analyticsObject) {
       return null;
     }
-
-    return this.visualizer.drawChart(analyticsObject, chartConfiguration);
+    let chartObject = null;
+     if (chartConfiguration.type === 'multipleAxis') {
+       chartObject = this.visualizationService.drawChart(analyticsObject, chartConfiguration);
+       chartObject.chart.renderTo = chartConfiguration.renderId;
+     } else {
+       chartObject = this.visualizer.drawChart(analyticsObject, chartConfiguration);
+     }
+    return chartObject;
   }
 
   getChartConfiguration(visualizationDetails: any): ChartConfiguration[] {

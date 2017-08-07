@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import {MapConfiguration} from '../model/map-configuration';
 import {MapVisualizationService} from './map-visualization.service';
+import {Visualization} from '../model/visualization';
 
 @Injectable()
 export class MapService {
 
   constructor(private mapVisualizationService: MapVisualizationService) { }
 
-  public getMapConfiguration(visualizationObject): any {
-    const configuration = {
+  public getMapConfiguration(visualizationObject: Visualization): MapConfiguration {
+    return {
       id: visualizationObject.id,
       name: visualizationObject.name,
       subtitle: visualizationObject.subtitle,
@@ -17,8 +18,6 @@ export class MapService {
       latitude: visualizationObject.details.hasOwnProperty('latitude') ? visualizationObject.details.latitude : 0,
       longitude: visualizationObject.details.hasOwnProperty('longitude') ? visualizationObject.details.longitude : 0
     };
-    visualizationObject.mapConfiguration = configuration;
-    return visualizationObject;
   }
 
   getMapObject(visualizationDetails) {

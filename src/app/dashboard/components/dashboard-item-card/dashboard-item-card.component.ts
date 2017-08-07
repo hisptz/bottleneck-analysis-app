@@ -43,7 +43,7 @@ export class DashboardItemCardComponent implements OnInit {
   cardConfiguration: any = {
     showCardHeader: false,
     showCardFooter: false,
-    showDeleteButton: true,
+    showDeleteButton: false,
     confirmDelete: false,
     defaultHeight: '470px',
     defaultItemHeight: '438px',

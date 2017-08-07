@@ -3,18 +3,20 @@ import {Observable} from 'rxjs/Observable';
 import {HttpClientService} from '../../providers/http-client.service';
 import * as _ from 'lodash';
 import {UtilitiesService} from "../../providers/utilities.service";
+import {RelativePeriodService} from './relative-period.service';
 
 @Injectable()
 export class FavoriteService {
 
   constructor(private http: HttpClientService,
-              private utility: UtilitiesService) {
+              private utility: UtilitiesService,
+              private relativePeriodService: RelativePeriodService) {
   }
 
   private _getFavoriteUrl(apiRootUrl: string, favoriteType: string, favoriteId: string): string {
     let url: string = apiRootUrl + favoriteType + 's/' + favoriteId + '.json?fields=';
     if (favoriteType === 'map') {
-      url += 'id,user,displayName,longitude,latitude,zoom,basemap,mapViews[*,organisationUnitGroupSet[id,name,displayName,organisationUnitGroups[id,code,name,shortName,displayName,dimensionItem,symbol,organisationUnits[id,code,name,shortName]]],dataElementDimensions[dataElement[id,name,optionSet[id,options[id,name]]]],columns[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],rows[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],filters[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],dataDimensionItems,program[id,displayName],programStage[id,displayName],legendSet[id,displayName],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit]';
+      url += 'id,user,displayName,longitude,latitude,zoom,basemap,mapViews[*,organisationUnitGroupSet[id,name,displayName,organisationUnitGroups[id,code,name,shortName,displayName,dimensionItem,symbol,organisationUnits[id,code,name,shortName]]],dataElementDimensions[dataElement[id,name,optionSet[id,options[id,name]]]],columns[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],rows[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],filters[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],dataDimensionItems,program[id,displayName],programStage[id,displayName],legendSet[id,displayName,legends[*]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit]';
     } else {
       url += '*,dataElementDimensions[dataElement[id,name,optionSet[id,options[id,name]]]],displayDescription,program[id,name],programStage[id,name],legendSet[*,legends[*]],interpretations[*,user[id,displayName],likedBy[id,displayName],comments[lastUpdated,text,user[id,displayName]]],columns[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],rows[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],filters[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],access,userGroupAccesses,publicAccess,displayDescription,user[displayName,dataViewOrganisationUnits],!href,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!organisationUnitGroups,!itemOrganisationUnitGroups,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits';
     }
@@ -36,7 +38,7 @@ export class FavoriteService {
       ).subscribe((favorite: any[]) => {
 
         visualizationDetails.favorite = Object.assign({}, favorite, favoriteOptions);
-        visualizationDetails.favorite = this.utility.getISOFormatFromRelativePeriod(visualizationDetails.favorite);
+        visualizationDetails.favorite = this.relativePeriodService.getISOFormatFromRelativePeriod(visualizationDetails.favorite);
         //todo to place period sanitizer
         observer.next(visualizationDetails);
         observer.complete();

@@ -1009,7 +1009,7 @@ export class MapVisualizationService {
       }
     });
 
-    if (visualizationAnalytics.hasOwnProperty('headers')) {
+    if (visualizationAnalytics && visualizationAnalytics.hasOwnProperty('headers')) {
       const latitudeIndex = visualizationAnalytics.headers.indexOf(_.find(visualizationAnalytics.headers, ['name', 'latitude']));
       const longitudeIndex = visualizationAnalytics.headers.indexOf(_.find(visualizationAnalytics.headers, ['name', 'longitude']));
       const nameIndex = visualizationAnalytics.headers.indexOf(_.find(visualizationAnalytics.headers, ['name', 'ouname']));
