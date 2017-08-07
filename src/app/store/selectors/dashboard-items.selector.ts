@@ -7,6 +7,5 @@ export function dashboardItemsSelector(state: ApplicationState) {
     return [];
   }
   const currentDashboard: any = _.find(dashboards, ['id', state.uiState.currentDashboard]);
-  console.log(state.uiState.currentDashboard)
   return currentDashboard ? currentDashboard.dashboardItems : [];
 }

@@ -35,9 +35,12 @@ export class FavoriteService {
         visualizationDetails.apiRootUrl,
         visualizationObjectFavorite.type,
         visualizationObjectFavorite.id)
-      ).subscribe((favorite: any[]) => {
+      ).subscribe((favorite: any) => {
 
-        visualizationDetails.favorite = Object.assign({}, favorite, favoriteOptions);
+        const newFavorite = _.clone(favorite);
+
+        newFavorite.subtitle = this._getFavoriteSubtitle(favorite.filters, visualizationDetails.visualizationObject.details.userOrganisationUnit);
+        visualizationDetails.favorite = Object.assign({}, newFavorite, favoriteOptions);
         visualizationDetails.favorite = this.relativePeriodService.getISOFormatFromRelativePeriod(visualizationDetails.favorite);
         //todo to place period sanitizer
         observer.next(visualizationDetails);
@@ -48,6 +51,51 @@ export class FavoriteService {
         observer.complete();
       });
     });
+  }
+
+  private _getFavoriteSubtitle(favoriteFilters: any[], userOrgUnit: string) {
+    let subtitle = '';
+    if (favoriteFilters) {
+      const newFavoriteFilters = _.map(favoriteFilters, filterObject => {
+        return {
+          dimension: filterObject.dimension,
+          items: _.map(filterObject.items, (item) => {
+            return item.displayName;
+          })
+        }
+      });
+
+      /**
+       * Get data section of filter
+       */
+      const dxSection = _.find(newFavoriteFilters, ['dimension', 'dx']);
+
+      if (dxSection) {
+        subtitle += subtitle !== '' ? ' - ' : '';
+        subtitle += dxSection.items.join(',');
+      }
+
+      /**
+       * Get period section of filter
+       */
+      const peSection = _.find(newFavoriteFilters, ['dimension', 'pe']);
+
+      if (peSection) {
+        subtitle += subtitle !== '' ? ' - ' : '';
+        subtitle += peSection.items.join(',');
+      }
+
+      /**
+       * Get orgunit section of filter
+       */
+      const ouSection = _.find(newFavoriteFilters, ['dimension', 'ou']);
+
+      if (ouSection) {
+        subtitle += subtitle !== '' ? ' - ' : '';
+        subtitle += ouSection.items.join(',');
+      }
+    }
+    return subtitle;
   }
 
   getVisualizationFiltersFromFavorite(favoriteDetails: any) {

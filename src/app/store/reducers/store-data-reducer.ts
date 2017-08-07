@@ -14,7 +14,7 @@ import {
   LOAD_DASHBOARD_SEARCH_ITEMS_ACTION, DASHBOARD_SEARCH_HEADERS_CHANGE_ACTION, DASHBOARD_DELETED_ACTION,
   HIDE_DASHBOARD_MENU_ITEM_NOTIFICATION_ICON, GEO_FEATURE_LOADED_ACTION, SAVE_CHART_CONFIGURATION_ACTION,
   SAVE_CHART_OBJECT_ACTION, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION,
-  UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION
+  UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION, VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION
 } from '../actions';
 import {Dashboard} from '../../model/dashboard';
 import {DashboardSearchItem} from '../../dashboard/model/dashboard-search-item';
@@ -83,6 +83,29 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
 
         visualizationDetails.loaded = false;
         visualizationDetails.currentVisualization = action.payload.selectedVisualization;
+
+        newVisualizationObject.details = _.assign({}, visualizationDetails);
+
+        newState.visualizationObjects = replaceArrayItem(
+          newState.visualizationObjects,
+          {id: action.payload.visualizationObject.id},
+          newVisualizationObject
+        )
+      }
+      return newState;
+    }
+
+    case VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION: {
+      const newState: StoreData = _.clone(state);
+      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+
+      if (currentVisualizationObject) {
+        const visualizationDetails = _.clone(currentVisualizationObject.details);
+        const newVisualizationObject = _.clone(currentVisualizationObject);
+
+        visualizationDetails.loaded = false;
+        //TODO this is duplication, matches with that from visualization object effect
+        visualizationDetails.layouts = action.payload.layouts;
 
         newVisualizationObject.details = _.assign({}, visualizationDetails);
 

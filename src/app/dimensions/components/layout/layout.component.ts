@@ -30,26 +30,21 @@ export class LayoutComponent implements OnInit {
   private _filters: any;
   private _columns: any;
   private _rows: any;
-  constructor() { }
+  icons: any;
+  dimensions: any;
+  constructor() {
+    this.icons = {
+      dx: 'assets/img/data.png',
+      ou: 'assets/img/tree.png',
+      pe: 'assets/img/period.png'
+    };
 
-  names = {
-    dx: 'Data',
-    ou: 'Organisation Unit',
-    pe: 'Period'
-  };
-  icons = {
-    dx:"glyphicon glyphicon-oil",
-    ou:"glyphicon glyphicon-home",
-    pe:"glyphicon glyphicon-calendar"
-  };
-
-  dimensions = {
-    filterDimension: [],
-    columnDimension: [],
-    rowDimension: []
-  };
-  layoutType: string;
-
+    this.dimensions = {
+      filterDimension: [],
+      columnDimension: [],
+      rowDimension: []
+    };
+  }
 
   get columns(): any {
     return this._columns;
@@ -82,33 +77,31 @@ export class LayoutComponent implements OnInit {
   }
 
   onDrop(event, dimension) {
-    console.log(event, dimension);
-    if(isArray(this.layoutModel[event.dragData.dimension])) {
-      this.layoutModel[event.dragData.dimension].splice(this.layoutModel[event.dragData.dimension].indexOf(event.dragData.data),1);
-    }
+    this.layoutModel[event.dragData.dimension].splice(this.layoutModel[event.dragData.dimension].indexOf(event.dragData.data), 1);
+    this.layoutModel[dimension].push(event.dragData.data)
 
-    if(dimension == 'category' || dimension == 'series') {
-      if(this.layoutModel[dimension] != "") {
-        //first send target value to the dropper
-        if(isArray(this.layoutModel[event.dragData.dimension])) {
-          this.layoutModel[event.dragData.dimension].push(this.layoutModel[dimension])
-        } else {
-          this.layoutModel[event.dragData.dimension] = this.layoutModel[dimension];
-        }
-      }
-      this.layoutModel[dimension] = event.dragData.data;
-    } else {
-      if(event.dragData.dimension == 'category' || event.dragData.dimension == 'series') {
-        this.layoutModel[event.dragData.dimension] = "";
-      }
-      this.layoutModel[dimension].push(event.dragData.data)
-    }
+    // if(dimension == 'category' || dimension == 'series') {
+    //   if(this.layoutModel[dimension] != "") {
+    //     //first send target value to the dropper
+    //     if(isArray(this.layoutModel[event.dragData.dimension])) {
+    //       this.layoutModel[event.dragData.dimension].push(this.layoutModel[dimension])
+    //     } else {
+    //       this.layoutModel[event.dragData.dimension] = this.layoutModel[dimension];
+    //     }
+    //   }
+    //   this.layoutModel[dimension] = event.dragData.data;
+    // } else {
+    //   if(event.dragData.dimension == 'category' || event.dragData.dimension == 'series') {
+    //     this.layoutModel[event.dragData.dimension] = "";
+    //   }
+    //
+    // }
   }
 
   updateLayout() {
-    this.showLayout = false;
     this.onLayoutUpdate.emit(this.layoutModel);
   }
+
   close() {
     this.onLayoutClose.emit(true)
   }

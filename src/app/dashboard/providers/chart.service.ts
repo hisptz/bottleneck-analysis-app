@@ -104,7 +104,8 @@ export class ChartService {
     return visualizationDetails;
   }
 
-  getChartConfiguration1(favoriteObject: any, renderId: string): ChartConfiguration {
+  getChartConfiguration1(favoriteObject: any, renderId: string, visualizationLayouts: any): ChartConfiguration {
+    const visualizationLayoutObject: any = _.find(visualizationLayouts, ['id', favoriteObject.id]);
     let chartType = favoriteObject.hasOwnProperty('type') ? favoriteObject.type.toLowerCase() : 'column';
     if (favoriteObject.useMultipleAxis) {
       chartType = 'multipleAxis';
@@ -122,25 +123,25 @@ export class ChartService {
       showLabels: true,
       percentStackedValues: favoriteObject.hasOwnProperty('percentStackedValues') ? favoriteObject.percentStackedValues : false,
       multiAxisTypes: favoriteObject.hasOwnProperty('selectedChartTypes') ? favoriteObject.selectedChartTypes : [],
-      xAxisType: this._getAxisType('xAxisType', favoriteObject),
-      yAxisType: this._getAxisType('yAxisType', favoriteObject),
+      xAxisType: visualizationLayoutObject ? _.map(visualizationLayoutObject.layout.rows, (row) => {
+        return row.value
+      })[0] : 'dx',
+      yAxisType: visualizationLayoutObject ? _.map(visualizationLayoutObject.layout.columns, (column) => {
+        return column.value
+      })[0] : 'ou'
     };
   }
 
   private _getAxisType(axis, favoriteObject) {
     let axisType = '';
     if (axis === 'xAxisType') {
-      if (favoriteObject.hasOwnProperty('category')) {
-        axisType = favoriteObject.category;
-      } else if (favoriteObject.hasOwnProperty('rows') && favoriteObject.rows.length > 0) {
+      if (favoriteObject.hasOwnProperty('rows') && favoriteObject.rows.length > 0) {
         axisType = favoriteObject.rows[0].dimension;
       } else {
         axisType = 'dx'
       }
     } else {
-      if (favoriteObject.hasOwnProperty('series')) {
-        axisType = favoriteObject.series;
-      } else if (favoriteObject.hasOwnProperty('columns') && favoriteObject.columns.length > 0) {
+      if (favoriteObject.hasOwnProperty('columns') && favoriteObject.columns.length > 0) {
         axisType = favoriteObject.columns[0].dimension;
       } else {
         axisType = 'ou'

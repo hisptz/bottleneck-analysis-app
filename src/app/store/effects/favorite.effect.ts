@@ -33,11 +33,6 @@ export class FavoriteEffect {
     .flatMap((action: any) => this.favoriteService.getFavorite(action.payload))
     .map(favorite => new FavoriteLoadedAction(favorite));
 
-  // @Effect() favoriteLoaded$: Observable<Action> = this.actions$
-  //   .ofType(FAVORITE_LOADED_ACTION)
-  //   .flatMap((action: any) => Observable.of(action.payload))
-  //   .map(favorite => new LoadFavoriteAdditionalOptionAction(favorite));
-
   @Effect() additionalOptions$: Observable<Action> = this.actions$
     .ofType(LOAD_FAVORITE_ADDITIONAL_OPTIONS_ACTION)
     .flatMap((action: any) => this.favoriteService.loadAdditionalOptions(action.payload))

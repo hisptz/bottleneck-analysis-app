@@ -1,5 +1,4 @@
 export interface LayoutModel {
-  type: string;
   rows: Array<{
     name: string;
     value: string;
@@ -19,7 +18,6 @@ export interface LayoutModel {
 }
 
 export const INITIAL_LAYOUT_MODEL: LayoutModel = {
-  type: 'table',
   rows: [{
       name: 'Period',
       value: 'pe'

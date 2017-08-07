@@ -19,7 +19,7 @@ import {
   SaveChartConfigurationAction,
   SaveChartObjectAction, SaveMapConfigurationAction, SaveMapObjectAction, SaveTableConfigurationAction,
   SaveTableObjectAction, SPLIT_VISUALIZATION_OBJECT_ACTION,
-  UpdateVisualizationObjectWithRenderingObjectAction,
+  UpdateVisualizationObjectWithRenderingObjectAction, VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION,
   VisualizationObjectMergedAction,
   VisualizationObjectOptimizedAction,
   VisualizationObjectSplitedAction
@@ -122,6 +122,47 @@ export class VisualizationObjectEffect {
     })
     .map(visualizationObject => new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObject));
 
+  @Effect() visualizationObjectLayoutChange$: Observable<Action> = this.actions$
+    .ofType(VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION)
+    .withLatestFrom(this.store)
+    .flatMap(([action, store]) => {
+      const currentVisualizationObject = _.find(store.storeData.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+      if (currentVisualizationObject) {
+        const newVisualizationObject: Visualization = _.clone(currentVisualizationObject);
+
+        const newVisualizationObjectDetails = _.clone(currentVisualizationObject.details);
+
+        /**
+         * Update visualization layouts
+         */
+        newVisualizationObjectDetails.layouts = action.payload.layouts;
+
+        const favorite: any = _.find(store.storeData.favorites, ['id', newVisualizationObjectDetails.favorite.id]);
+        /**
+         * Update visualization with original favorite and custom filters
+         */
+        if (favorite) {
+          /**
+           * Update with original settings
+           */
+          newVisualizationObject.layers = _.assign([], updateFavoriteWithCustomFilters(
+            mapFavoriteToLayerSettings(favorite),
+            newVisualizationObjectDetails.filters
+          ));
+        }
+
+        /**
+         * Compile modified list with details
+         */
+        newVisualizationObject.details = _.assign({}, newVisualizationObjectDetails);
+
+        return this.getSanitizedVisualizationObject(newVisualizationObject, store.storeData.analytics, store.uiState.systemInfo.apiRootUrl);
+      }
+
+      return Observable.of(action.payload.visualizationObject);
+    })
+    .map(visualizationObject => new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObject));
+
   @Effect() currentVisualizationChange: Observable<Action> = this.actions$
     .ofType(CURRENT_VISUALIZATION_CHANGE_ACTION)
     .withLatestFrom(this.store)
@@ -209,7 +250,8 @@ export class VisualizationObjectEffect {
           const newSettings = _.clone(layer.settings);
           newSettings.chartConfiguration = _.assign({}, this.chartService.getChartConfiguration1(
             newSettings,
-            mergeVisualizationObject.id + '_' + layerIndex
+            mergeVisualizationObject.id + '_' + layerIndex,
+            mergeVisualizationObject.details.layouts
           ));
           newLayer.settings = _.assign({}, newSettings);
           return newLayer;

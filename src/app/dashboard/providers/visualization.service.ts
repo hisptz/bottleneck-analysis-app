@@ -688,6 +688,9 @@ export class VisualizationService {
     if(tableConfiguration.hasOwnProperty('title')){
       table['title'] = tableConfiguration.title;
     }
+    if(tableConfiguration.hasOwnProperty('subtitle')){
+      table['subtitle'] = tableConfiguration.subtitle;
+    }
     if (tableConfiguration.displayList) {
       table.headers[0] = {
         items: [],

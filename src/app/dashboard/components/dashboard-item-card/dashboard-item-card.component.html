@@ -97,6 +97,7 @@
                 *ngIf="showLayout"
               >
                 <app-layout
+                  [layoutModel]="layoutModel"
                   (onLayoutUpdate)="updateLayout($event)"
                   (onLayoutClose)="showLayout = false"
                 >

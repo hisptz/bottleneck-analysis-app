@@ -189,7 +189,8 @@
 }
 
 .org-unit-filter-holder,
-.data-filter-holder {
+.data-filter-holder,
+.layout-holder {
   border-radius: 5px;
   top: 38px;
   opacity: 0.95;
@@ -210,4 +211,13 @@
   border: solid 1px #e0ecfc;
   padding: 3px;
   background-color: #ffffff;
+}
+
+.layout-holder {
+  position: absolute;
+  background-color: #ffffff;
+  border: solid 1px #e0ecfc;
+  width: 400px;
+  padding: 3px;
+  height: 350px;
 }

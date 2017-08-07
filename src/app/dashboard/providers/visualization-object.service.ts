@@ -85,10 +85,10 @@ export class VisualizationObjectService {
    * @private
    */
   private _getUserOrganisationUnit(currentUser) {
-    if (!currentUser.dataViewOrganisationUnits) {
+    if (!currentUser.organisationUnits) {
       return null;
     }
-    const orderedOrgUnits = _.orderBy(currentUser.dataViewOrganisationUnits, ['level'], ['asc']);
+    const orderedOrgUnits = _.orderBy(currentUser.organisationUnits, ['level'], ['asc']);
     return orderedOrgUnits.length > 0 ? orderedOrgUnits[0].name : null;
   }
 

@@ -86,6 +86,7 @@ export const DASHBOARD_SEARCH_HEADERS_CHANGE_ACTION = 'DASHBOARD_SEARCH_HEADERS_
 export const VISUALIZATION_OBJECT_OPTIMIZED_ACTION = 'VISUALIZATION_OBJECT_OPTIMIZED_ACTION';
 export const HIDE_DASHBOARD_MENU_ITEM_NOTIFICATION_ICON = 'HIDE_DASHBOARD_MENU_ITEM_NOTIFICATION_ICON';
 export const UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION = 'UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION';
+export const VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION = 'VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION';
 
 export class LoadSystemInfoAction implements Action {
   readonly type = LOAD_SYSTEM_INFO_ACTION;
@@ -502,5 +503,10 @@ export class HideDashboardMenuNotificationIcon implements Action {
 
 export class UpdateVisualizationObjectWithRenderingObjectAction implements Action {
   readonly type = UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class VisualizationObjectLayoutChangeAction implements Action {
+  readonly type = VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION;
   constructor(public payload: any) {}
 }

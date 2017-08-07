@@ -10,7 +10,8 @@ import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector
 import {
   CurrentVisualizationChangeAction, DeleteVisualizationObjectAction,
   FullScreenToggleAction,
-  ResizeDashboardAction, SaveFavoriteAction, UpdateVisualizationWithCustomFilterAction
+  ResizeDashboardAction, SaveFavoriteAction, UpdateVisualizationWithCustomFilterAction,
+  VisualizationObjectLayoutChangeAction
 } from '../../../store/actions';
 import {ChartComponent} from '../chart/chart.component';
 import {Observable} from 'rxjs/Observable';
@@ -34,6 +35,7 @@ export class DashboardItemCardComponent implements OnInit {
   private _dashboardBlockClasses: any[];
   private _dashboardBlockHeight: string;
   private _showFilter: any;
+  private _layoutModel: any;
   showPeriodFilter: boolean;
   showOrgUnitFilter: boolean;
   showDataFilter: boolean;
@@ -81,12 +83,20 @@ export class DashboardItemCardComponent implements OnInit {
         shown: false
       },
       settings: {
-        enabled: false,
+        enabled: true,
         shown: false
       }
     };
   }
 
+
+  get layoutModel(): any {
+    return this._layoutModel;
+  }
+
+  set layoutModel(value: any) {
+    this._layoutModel = value;
+  }
 
   get showFilter(): any {
     return this._showFilter;
@@ -162,6 +172,13 @@ export class DashboardItemCardComponent implements OnInit {
      * @private
      */
     this._dashboardBlockHeight = this.visualizationObject.details.cardHeight;
+
+    /**
+     * Set initial layout model
+     */
+    if (this.visualizationObject.details.layouts.length > 0) {
+      this._layoutModel = this.visualizationObject.details.layouts[0].layout;
+    }
 
     /**
      * Get global filters
@@ -316,7 +333,6 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateFilters(filterValue) {
-    console.log(filterValue);
     const newFilterValue = filterValue.selectedData ? filterValue.selectedData : filterValue;
     const newFilterItems = filterValue.items ? filterValue.items : filterValue.itemList;
     const filterArray = this.visualizationObject.details.filters;
@@ -455,14 +471,20 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateLayout(layoutOptions) {
-    const layoutOptionsArray = this.visualizationObject.details.layouts;
+    const layoutOptionsArray = _.clone(this.visualizationObject.details.layouts);
 
     if (layoutOptionsArray) {
-      layoutOptionsArray.forEach(layoutOptions => {
-        console.log(layoutOptions)
-      })
+      const newLayoutArray = _.map(layoutOptionsArray, (layoutObject) => {
+        const newLayoutObject = _.clone(layoutObject);
+        newLayoutObject.layout = _.assign({}, layoutOptions);
+        return newLayoutObject;
+      });
+
+      this.store.dispatch(new VisualizationObjectLayoutChangeAction({
+        layouts: newLayoutArray,
+        visualizationObject: this.visualizationObject
+      }))
     }
-    console.log(layoutOptions, this.visualizationObject.details.layouts)
   }
 
 }
