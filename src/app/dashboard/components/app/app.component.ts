@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this._appUrl = '../../../api/apps/' + this.visualizationObject.details.appKey + '/index.html';
+    this._appUrl = '../../../api/apps/' + this.visualizationObject.details.appKey + '/index.html?dashboardItemId=' + this.visualizationObject.id;
   }
 
 

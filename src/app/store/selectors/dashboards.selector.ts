@@ -1,5 +1,6 @@
 import {ApplicationState} from '../application-state';
 import * as _ from 'lodash';
+import {addArrayItem} from '../../utilities/addArrayItem';
 export function dashboardsSelector (state: ApplicationState) {
   let newDashboards = [];
 
@@ -13,17 +14,17 @@ export function dashboardsSelector (state: ApplicationState) {
               const dashboard =  _.find(state.storeData.dashboards, ['id', dashboardId]);
               if (dashboard) {
                 dashboard.group = dashboardGroup.name;
-                newDashboards.push(dashboard);
+                newDashboards = addArrayItem(newDashboards, dashboard, 'id');
               }
             })
           }
         });
       }
     } else {
-      newDashboards = state.storeData.dashboards;
+      newDashboards = _.assign([], state.storeData.dashboards);
     }
   } else {
-    newDashboards = state.storeData.dashboards;
+    newDashboards = _.assign([], state.storeData.dashboards);;
   }
   return newDashboards;
 }
