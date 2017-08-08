@@ -30,10 +30,10 @@
 
 .dashboard-card-footer {
   position: absolute;
-  bottom: 5px;
+  bottom: 4px;
   padding-top: 2px;
   border-top-style: none;
-  z-index: 900;
+  z-index: 1000;
 }
 
 .dashboard-item-body {
@@ -117,7 +117,7 @@
   height: 23px;
   width: 23px;
   border:solid 1px #e0ecfc;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.69);
   padding-left: 5px;
   padding-top: 3px;
 }

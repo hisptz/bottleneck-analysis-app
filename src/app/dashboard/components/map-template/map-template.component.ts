@@ -142,7 +142,7 @@ export class MapTemplateComponent implements OnInit {
     div.setAttribute('id', mapObjectId + '-child-view-port');
     if (isFullscreen) {
       width = '100%';
-      height = '81vh';
+      // height = '81vh';
     }
     div.style.width = width;
     div.style.height = height;
@@ -260,18 +260,20 @@ export class MapTemplateComponent implements OnInit {
   }
 
   refineHeight(mapHeight) {
+
     let height = '';
     if (mapHeight.indexOf('vh') >= 0) {
-      // const splitMap = mapHeight.split('vh');
-      // height = ((+splitMap[0]) - 5) + 'vh';
-      height = mapHeight
+      console.log(mapHeight)
+      const splitMap = mapHeight.split('vh');
+      height = ((+splitMap[0]) + 3) + 'vh';
     }
 
     if (mapHeight.indexOf('px') >= 0) {
 
       const splitMap = mapHeight.split('px');
-      height = ((+splitMap[0]) - 60) + 'px';
+      height = ((+splitMap[0]) - 10) + 'px';
     }
+    console.log(height)
     return height;
   }
 

@@ -37,7 +37,7 @@ export class DashboardMenuComponent implements OnInit {
   showOrgUnitFilter: boolean;
   private _config: PaginationInstance;
   menuConfig: any = {
-    showDashboardCreateButton: false,
+    showDashboardCreateButton: true,
     showPaginationCounter: true,
     showPaginationButtons: true,
     showMaintenanceOptions: true,
