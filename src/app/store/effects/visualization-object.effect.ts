@@ -150,8 +150,22 @@ export class VisualizationObjectEffect {
          * Update visualization with original favorite and custom filters
          */
         if (favorite) {
-          const newLayoutObject = _.map(action.payload.layouts, (layoutObject) => { return layoutObject.layout})[0];
-          console.log(newLayoutObject.filters.map(filter => { return filter.value}))
+          //todo find best way to keep some options that might have already being changed
+          /**
+           * Update chart type if chart
+           */
+
+          if (favorite.type) {
+            if (action.payload.visualizationObject.layers) {
+              const visualizationLayer = action.payload.visualizationObject.layers[0];
+
+              if (visualizationLayer && visualizationLayer.settings) {
+                if (visualizationLayer.settings.type) {
+                  favorite.type = visualizationLayer.settings.type;
+                }
+              }
+            }
+          }
           /**
            * Update with original settings
            */
