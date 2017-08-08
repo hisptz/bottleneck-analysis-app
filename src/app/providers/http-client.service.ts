@@ -66,7 +66,6 @@ export class HttpClientService {
     if (error instanceof Response) {
       errMsg = error.toString();
     } else {
-
       const newErrorObject: any = Object.assign({}, error);
       let sanitizedError = newErrorObject.message ? newErrorObject.message : newErrorObject._body ? newErrorObject._body : newErrorObject.toString();
       try {

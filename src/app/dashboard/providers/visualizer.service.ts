@@ -97,10 +97,8 @@ export class VisualizerService {
   }
   private _extendOtherChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration): any {
     const newChartObject = _.clone(initialChartObject);
-    const xAxisCategories: any[] = _.reverse(this._getAxisItems(analyticsObject, chartConfiguration.xAxisType));
-    console.log(xAxisCategories)
+    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
-
     /**
      * Get x axis options
      */
@@ -235,7 +233,7 @@ export class VisualizerService {
 
     return dataLabels;
   }
-  private _getAxisItems(analyticsObject: any, axisType: string) {
+  private _getAxisItems(analyticsObject: any, axisType: string, isCategory: boolean = false) {
     let items: any[] = [];
     const metadataNames = analyticsObject.metaData.names;
     const metadataDimensions = analyticsObject.metaData.dimensions;
@@ -247,6 +245,10 @@ export class VisualizerService {
           name: metadataNames[itemKey]
         };
       })
+    }
+
+    if (isCategory) {
+      return _.reverse(items);
     }
     return items;
   }
@@ -320,7 +322,7 @@ export class VisualizerService {
           break;
         case 'pie':
           tooltipObject = {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{point.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
           };
           break;
         default:

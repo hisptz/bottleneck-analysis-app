@@ -239,6 +239,8 @@ export class VisualizationObjectEffect {
         newVisualizationObjectDetails.hasError = true;
         newVisualizationObjectDetails.errorMessage = analyticsError;
 
+        newVisualizationObject.details = _.assign({}, newVisualizationObjectDetails);
+
         return Observable.of(newVisualizationObject);
       }
 
