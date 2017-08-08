@@ -79,7 +79,7 @@ export class RelativePeriodService {
     }
     const periodFunctions = this._getExecutingPeriodFunctions();
     if (relativePeriod) {
-      var functionName = null;
+      let functionName = null;
       periodCategory.forEach((category) => {
         if (relativePeriod.id.indexOf(category) > -1) {
           functionName = category;
@@ -97,6 +97,8 @@ export class RelativePeriodService {
       }
 
     }
+
+    console.log(fixedPeriods);
     return fixedPeriods;
   }
 
@@ -267,6 +269,33 @@ export class RelativePeriodService {
         return lastweeks;
       },
       '_FINANCIAL_YEAR': (template, counts, tense) => {
+        const hypotheticalFinancialYearMonth = 10;
+        const currentFinancialYear = this._getThisFinancialYear();
+        let currentYear = currentDate.getFullYear();
+        let nthFinancialYears = [];
+        if (tense == 'LAST') {
+
+          for (let counter = 0; counter < counts; counter++) {
+            currentYear = currentYear - 1;
+            nthFinancialYears.push({
+              id: currentYear + 'Oct',
+              dimensionItem: currentYear + 'Oct',
+              displayName: currentYear + 'Oct',
+              dimensionItemType: 'PERIOD'
+            });
+          }
+
+        }
+
+        if (nthFinancialYears.length < 1) {
+          nthFinancialYears.push({
+            id: currentYear + 'Oct',
+            dimensionItem: currentYear + 'Oct',
+            displayName: currentYear + 'Oct',
+            dimensionItemType: 'PERIOD'
+          });
+        }
+        return nthFinancialYears;
       }
     }
   }
@@ -342,12 +371,6 @@ export class RelativePeriodService {
     return q[Math.floor(d.getMonth() / 6)];
   }
 
-  private  _getThisFinancialYear(d?) {
-    d = d || new Date();
-    const q = [1, 2];
-    return q[Math.floor(d.getMonth() / 6)];
-  }
-
   private _getThisWeek(d?) {
     d = d || new Date();
     d.setHours(0, 0, 0, 0);
@@ -359,6 +382,11 @@ export class RelativePeriodService {
         - 3 + (week.getDay() + 6) % 7) / 7);
 
     return thisWeek;
+  }
+
+  private _getThisFinancialYear(d?) {
+    d = d || new Date();
+    return d.getMonth()
   }
 
 }
