@@ -12,5 +12,7 @@ export interface ChartConfiguration {
   hideLegend: boolean;
   showLabels: boolean;
   multiAxisTypes: any[];
+  cumulativeValues: boolean;
+  sortOrder: number;
   percentStackedValues: boolean;
 }

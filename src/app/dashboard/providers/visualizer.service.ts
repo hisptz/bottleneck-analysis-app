@@ -11,7 +11,7 @@ export class VisualizerService {
   drawChart(incomingAnalyticsObject: any, chartConfiguration: ChartConfiguration): any {
 
     // TODO MOVE THIS LOGIC TO ANALYTICS OBJECT IN THE FUTURE
-    const analyticsObject = this._sanitizeIncomingAnalytics(incomingAnalyticsObject);
+    const analyticsObject = this._standardizeIncomingAnalytics(incomingAnalyticsObject);
 
     /**
      * Get generic chart object attributes
@@ -66,17 +66,24 @@ export class VisualizerService {
   private _extendPieChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
     const newChartObject = _.cloneDeep(initialChartObject);
 
-    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType);
+    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
+
     /**
-     * Get series
+     * Sort the corresponding series
      */
-    newChartObject.series = _.clone(this._getChartSeries(
+    const sortedSeries = this._getSortableSeries(this._getChartSeries(
       analyticsObject,
       xAxisCategories,
       yAxisSeriesItems,
       chartConfiguration
-    ));
+    ), chartConfiguration.sortOrder);
+
+    /**
+     * Get series
+     */
+    newChartObject.series = _.assign([], sortedSeries);
+
     return newChartObject;
   }
 
@@ -99,10 +106,6 @@ export class VisualizerService {
     const newChartObject = _.clone(initialChartObject);
     const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
-    /**
-     * Get x axis options
-     */
-    newChartObject.xAxis = _.clone(this._getXAxisOptions(xAxisCategories.map(category => { return category.name})));
 
     /**
      * Get y axis options
@@ -110,16 +113,68 @@ export class VisualizerService {
     newChartObject.yAxis = _.clone(this._getYAxisOptions(chartConfiguration));
 
     /**
-     * Get series
+     * Sort the corresponding series
      */
-    newChartObject.series = _.clone(this._getChartSeries(
+    const sortedSeries = this._getSortableSeries(this._getChartSeries(
       analyticsObject,
       xAxisCategories,
       yAxisSeriesItems,
       chartConfiguration
-    ));
-    // console.log(JSON.stringify(newChartObject.series))
+    ), chartConfiguration.sortOrder);
+
+    /**
+     * Get series
+     */
+    newChartObject.series = _.assign([], sortedSeries);
+
+    /**
+     * Get refined x axis options
+     */
+    newChartObject.xAxis = this._getXAxisOptions(this._getRefinedXAxisCategories(newChartObject.series));
+
     return newChartObject;
+  }
+
+  private _getRefinedXAxisCategories(series: any[]) {
+    let newCategories: any[] = [];
+    //todo find a way to effectively merge categories from each data
+    if (series) {
+      const seriesDataObjects = _.map(series, (seriesObject) => { return seriesObject.data });
+
+      if (seriesDataObjects) {
+        const seriesCategoryNamesArray = _.map(seriesDataObjects, (seriesData) => {
+          return _.map(seriesData, (data) => {
+            return data.name;
+          })
+        });
+
+        if (seriesCategoryNamesArray) {
+          newCategories = _.assign([], seriesCategoryNamesArray[0]);
+        }
+      }
+    }
+
+    return newCategories;
+  }
+
+
+  private _getSortableSeries(series, sortOrder) {
+    let newSeries = _.clone(series);
+
+    if (sortOrder === 1) {
+      newSeries = _.map(series, (seriesObject) => {
+        const newSeriesObject = _.clone(seriesObject);
+        newSeriesObject.data = _.assign([], _.reverse(_.sortBy(seriesObject.data, ['y'])));
+        return newSeriesObject;
+      })
+    } else if (sortOrder === -1) {
+      newSeries = _.map(series, (seriesObject) => {
+        const newSeriesObject = _.clone(seriesObject);
+        newSeriesObject.data = _.assign([], _.sortBy(seriesObject.data, ['y']));
+        return newSeriesObject;
+      })
+    }
+    return newSeries;
   }
 
   private _getChartSeries(
@@ -742,7 +797,7 @@ export class VisualizerService {
   //   return structure;
   // }
 
-  private _sanitizeIncomingAnalytics(analyticsObject: any) {
+  private _standardizeIncomingAnalytics(analyticsObject: any) {
     const sanitizedAnalyticsObject: AnalyticsObject = {
       headers: [],
       metaData: {
