@@ -96,8 +96,9 @@ export class VisualizerService {
     return newChartObject;
   }
   private _extendOtherChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration): any {
-    const newChartObject = _.cloneDeep(initialChartObject);
-    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType);
+    const newChartObject = _.clone(initialChartObject);
+    const xAxisCategories: any[] = _.reverse(this._getAxisItems(analyticsObject, chartConfiguration.xAxisType));
+    console.log(xAxisCategories)
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
 
     /**
@@ -119,6 +120,7 @@ export class VisualizerService {
       yAxisSeriesItems,
       chartConfiguration
     ));
+    // console.log(JSON.stringify(newChartObject.series))
     return newChartObject;
   }
 
@@ -182,20 +184,36 @@ export class VisualizerService {
         /**
          * Get the required data depending on xAxis and yAxis
          */
-        for (const row of analyticsObject.rows) {
-          if (row[yAxisItemIndex] === yAxisItemId && row[xAxisItemIndex] === xAxisItem.id) {
-            data.push({
-              id: xAxisItem.id,
-              name: xAxisItem.name,
-              dataLabels: this._getDataLabelsOptions(chartConfiguration),
-              y: parseFloat(row[dataIndex])
-            });
-            break;
-          }
-        }
+        const seriesValue = this._getSeriesValue(
+          analyticsObject.rows,
+          yAxisItemIndex,
+          yAxisItemId,
+          xAxisItemIndex,
+          xAxisItem.id,
+          dataIndex
+        );
+
+        data.push({
+          id: xAxisItem.id,
+          name: xAxisItem.name,
+          dataLabels: this._getDataLabelsOptions(chartConfiguration),
+          y: seriesValue
+        });
       })
     }
     return data;
+  }
+
+  private _getSeriesValue(analyticsRows, yAxisItemIndex, yAxisItemId, xAxisItemIndex, xAxisItemId, dataIndex) {
+    let seriesValue: any = null;
+    for (const row of analyticsRows) {
+      if (row[yAxisItemIndex] === yAxisItemId && row[xAxisItemIndex] === xAxisItemId) {
+        seriesValue = parseFloat(row[dataIndex]);
+        break;
+      }
+    }
+
+    return seriesValue;
   }
 
   private _getDataLabelsOptions(chartConfiguration: ChartConfiguration) {
@@ -223,7 +241,7 @@ export class VisualizerService {
     const metadataDimensions = analyticsObject.metaData.dimensions;
     const itemKeys = metadataDimensions[axisType];
     if (itemKeys) {
-      items = itemKeys.map(itemKey => {
+      items = _.map(itemKeys, itemKey => {
         return {
           id: itemKey,
           name: metadataNames[itemKey]
