@@ -68,7 +68,7 @@ export class RelativePeriodService {
    This function return array of fixed periods from one relative period
    */
   private _getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod): Array<Object> {
-    const periodCategory = ['_MONTH', '_BIMONTH', '_QUARTER', '_SIXMONTHS', '_SIX_MONTH', '_YEAR', '_FINANCIAL_YEAR'];
+    const periodCategory = ['_MONTH', '_BIMONTH', '_QUARTER', '_SIXMONTHS', '_SIX_MONTH', '_YEAR', '_WEEK', '_FINANCIAL_YEAR'];
     const periodTenses = ['THIS', 'LAST'];
     let fixedPeriods = [];
     const template = {
@@ -79,7 +79,7 @@ export class RelativePeriodService {
     }
     const periodFunctions = this._getExecutingPeriodFunctions();
     if (relativePeriod) {
-      var functionName = null;
+      let functionName = null;
       periodCategory.forEach((category) => {
         if (relativePeriod.id.indexOf(category) > -1) {
           functionName = category;
@@ -89,11 +89,16 @@ export class RelativePeriodService {
       /**
        Execute dynamic functions that return fixed periods
        */
-      fixedPeriods = periodFunctions[functionName](
-        template,
-        this._getPeriodCounts(periodTenses, relativePeriod),
-        this._getPeriodTense(periodTenses, relativePeriod));
+      if (functionName) {
+        fixedPeriods = periodFunctions[functionName](
+          template,
+          this._getPeriodCounts(periodTenses, relativePeriod),
+          this._getPeriodTense(periodTenses, relativePeriod));
+      }
+
     }
+
+    console.log(fixedPeriods);
     return fixedPeriods;
   }
 
@@ -241,7 +246,56 @@ export class RelativePeriodService {
         });
         return sixmonths;
       },
+      '_WEEK': (template, counts, tense) => {
+        const currentWeek = this._getThisWeek();
+        const lastWeeks = this._getLastPeriods(currentWeek, counts, 52, tense);
+        let currentYear = currentDate.getFullYear();
+        const lastweeks = [];
+        let endOfTheYear = false;
+        lastWeeks.forEach((nthLastWeek) => {
+          nthLastWeek === 2 ? endOfTheYear = true : endOfTheYear = false;
+          if (endOfTheYear) {
+            currentYear = currentYear - 1;
+            endOfTheYear = false;
+          }
+          lastweeks.push({
+            id: currentYear + 'W' + nthLastWeek,
+            dimensionItem: currentYear + 'W' + nthLastWeek,
+            displayName: currentYear + 'W' + nthLastWeek,
+            dimensionItemType: 'PERIOD'
+          });
+
+        });
+        return lastweeks;
+      },
       '_FINANCIAL_YEAR': (template, counts, tense) => {
+        const hypotheticalFinancialYearMonth = 10;
+        const currentFinancialYear = this._getThisFinancialYear();
+        let currentYear = currentDate.getFullYear();
+        let nthFinancialYears = [];
+        if (tense == 'LAST') {
+
+          for (let counter = 0; counter < counts; counter++) {
+            currentYear = currentYear - 1;
+            nthFinancialYears.push({
+              id: currentYear + 'Oct',
+              dimensionItem: currentYear + 'Oct',
+              displayName: currentYear + 'Oct',
+              dimensionItemType: 'PERIOD'
+            });
+          }
+
+        }
+
+        if (nthFinancialYears.length < 1) {
+          nthFinancialYears.push({
+            id: currentYear + 'Oct',
+            dimensionItem: currentYear + 'Oct',
+            displayName: currentYear + 'Oct',
+            dimensionItemType: 'PERIOD'
+          });
+        }
+        return nthFinancialYears;
       }
     }
   }
@@ -296,7 +350,6 @@ export class RelativePeriodService {
     } else {
       lastPeriods.push(current);
     }
-
     return lastPeriods;
   }
 
@@ -318,10 +371,22 @@ export class RelativePeriodService {
     return q[Math.floor(d.getMonth() / 6)];
   }
 
-  private  _getThisFinancialYear(d?) {
+  private _getThisWeek(d?) {
     d = d || new Date();
-    const q = [1, 2];
-    return q[Math.floor(d.getMonth() / 6)];
+    d.setHours(0, 0, 0, 0);
+
+    d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+
+    const week = new Date(d.getFullYear(), 0, 4);
+    let thisWeek = 1 + Math.round(((d.getTime() - week.getTime()) / 86400000
+        - 3 + (week.getDay() + 6) % 7) / 7);
+
+    return thisWeek;
+  }
+
+  private _getThisFinancialYear(d?) {
+    d = d || new Date();
+    return d.getMonth()
   }
 
 }
