@@ -54,7 +54,8 @@ export class DashboardItemSearchComponent implements OnInit {
     }
   }
 
-  toggleHeaderSelection(header) {
+  toggleHeaderSelection(header, event) {
+    event.stopPropagation()
     const newHeader = _.cloneDeep(header);
     newHeader.selected = !newHeader.selected;
     this.store.dispatch(new DashboardSearchHeaderChangeAction(newHeader))

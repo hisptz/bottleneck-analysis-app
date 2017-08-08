@@ -27,7 +27,7 @@
              tooltip="{{header.name}}"
              placement="bottom"
              style="position: relative"
-             (click)="toggleHeaderSelection(header)"
+             (click)="toggleHeaderSelection(header, $event)"
           >
             <span *ngIf="!header.icon">{{header.name}}</span>
             <img *ngIf="header.icon" [src]="header.icon" alt="" [ngClass]="'search-header-icon'">
@@ -47,16 +47,16 @@
         *ngIf="(dashboardSearchItems$ | async).loading"
         [loadingMessage]="'Searching...'"
       ></app-loader>
-      <div class="form-group"
-           *ngIf="(dashboardSearchItems$ | async).results.length > 0 && !(dashboardSearchItems$ | async).loading"
-      >
-        <input
-          type="text"
-          [ngClass]="['form-control', 'input-sm']"
-          [(ngModel)]="searchItemName"
-          placeholder="Search items"
-        >
-      </div>
+      <!--<div class="form-group"-->
+           <!--*ngIf="(dashboardSearchItems$ | async).results.length > 0 && !(dashboardSearchItems$ | async).loading"-->
+      <!--&gt;-->
+        <!--<input-->
+          <!--type="text"-->
+          <!--[ngClass]="['form-control', 'input-sm']"-->
+          <!--[(ngModel)]="searchItemName"-->
+          <!--placeholder="Search items"-->
+        <!--&gt;-->
+      <!--</div>-->
       <table
         width="100%"
         class="table table-hover search-table"
