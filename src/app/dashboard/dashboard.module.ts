@@ -64,6 +64,7 @@ import {MapFilesConversion} from './providers/map-files-conversion.service';
 import { TableTemplateComponent } from './components/table-template/table-template.component';
 import {RelativePeriodService} from "./providers/relative-period.service";
 import {DashboardShareComponent} from './components/dashboard-share/dashboard-share.component';
+import {DragulaModule} from 'ng2-dragula';
 
 @NgModule({
   imports: [
@@ -79,7 +80,8 @@ import {DashboardShareComponent} from './components/dashboard-share/dashboard-sh
     AccordionModule.forRoot(),
     TreeModule,
     DimensionsModule,
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    DragulaModule
   ],
   declarations: [
     DashboardComponent,

@@ -11,7 +11,10 @@ export class VisualizerService {
   drawChart(incomingAnalyticsObject: any, chartConfiguration: ChartConfiguration): any {
 
     // TODO MOVE THIS LOGIC TO ANALYTICS OBJECT IN THE FUTURE
-    const analyticsObject = this._standardizeIncomingAnalytics(incomingAnalyticsObject);
+    const analyticsObject = this._sanitizeAnalyticsBasedOnConfiguration(
+      this._standardizeIncomingAnalytics(incomingAnalyticsObject),
+      chartConfiguration
+    );
 
     /**
      * Get generic chart object attributes
@@ -769,32 +772,44 @@ export class VisualizerService {
     return newChartObject;
   }
 
-  // prepareCategories ( analyticsObject, xAxis: string, yAxis: string, xAxisItems = [],  yAxisItems = []){
-  //   let structure = {
-  //     'xAxisItems':[],
-  //     'yAxisItems':[]
-  //   };
-  //   if(xAxisItems.length === 0){
-  //     for ( let val of this.getMetadataArray(analyticsObject,xAxis )){
-  //       structure.xAxisItems.push( {'name':analyticsObject.metaData.names[val], 'uid': val} );
-  //     }
-  //   }if ( xAxisItems.length !== 0 ) {
-  //     for ( let val of xAxisItems ){
-  //       structure.xAxisItems.push( {'name': analyticsObject.metaData.names[val], 'uid': val} );
-  //     }
-  //   }
-  //   if ( yAxisItems.length !== 0 ) {
-  //     for ( let val of yAxisItems ){
-  //       structure.yAxisItems.push( {'name': analyticsObject.metaData.names[val] , 'uid': val} );
-  //     }
-  //   }
-  //   if( yAxisItems.length === 0 ){
-  //     for (let val of this.getMetadataArray(analyticsObject,yAxis) ){
-  //       structure.yAxisItems.push( {'name': analyticsObject.metaData.names[val], 'uid': val} );
-  //     }
-  //   }
-  //   return structure;
-  // }
+  private _sanitizeAnalyticsBasedOnConfiguration(analyticsObject: AnalyticsObject, chartConfiguration: ChartConfiguration) {
+    let newAnalyticsObject = _.clone(analyticsObject);
+
+    if (chartConfiguration.cumulativeValues) {
+      newAnalyticsObject = _.assign({}, this._mapAnalyticsToCumulativeFormat(analyticsObject, chartConfiguration.xAxisType, chartConfiguration.yAxisType));
+    }
+
+    return newAnalyticsObject;
+  }
+
+  private _mapAnalyticsToCumulativeFormat(analyticsObject: AnalyticsObject, xAxisType, yAxisType) {
+    const newAnalyticsObject = _.clone(analyticsObject);
+
+    if (analyticsObject) {
+      const yAxisDimensionArray = analyticsObject.metaData.dimensions[yAxisType];
+      const xAxisDimensionArray = _.reverse(analyticsObject.metaData.dimensions[xAxisType]);
+      const yAxisDimensionIndex = _.findIndex(analyticsObject.headers, _.find(analyticsObject.headers, ['name', yAxisType]));
+      const xAxisDimensionIndex = _.findIndex(analyticsObject.headers, _.find(analyticsObject.headers, ['name', xAxisType]));
+      const dataValueIndex = _.findIndex(analyticsObject.headers, _.find(analyticsObject.headers, ['name', 'value']));
+      const newRows: any[] = [];
+      yAxisDimensionArray.forEach(yAxisDimensionValue => {
+        let initialValue: number = 0;
+        xAxisDimensionArray.forEach(xAxisDimensionValue => {
+          analyticsObject.rows.forEach((row) => {
+            if (row[yAxisDimensionIndex] === yAxisDimensionValue && row[xAxisDimensionIndex] === xAxisDimensionValue) {
+              initialValue += parseInt(row[dataValueIndex]);
+              const newRow = _.clone(row);
+              newRow[dataValueIndex] = initialValue;
+              newRows.push(newRow);
+            }
+          })
+        })
+      });
+
+      newAnalyticsObject.rows = _.assign([], newRows);
+    }
+    return newAnalyticsObject;
+  }
 
   private _standardizeIncomingAnalytics(analyticsObject: any) {
     const sanitizedAnalyticsObject: AnalyticsObject = {

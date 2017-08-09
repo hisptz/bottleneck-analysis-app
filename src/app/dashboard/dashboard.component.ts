@@ -18,6 +18,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';
 import {favoriteOptionsSelector} from '../store/selectors/favorite-options.selector';
 import {dashboardLoadedSelector} from '../store/selectors/dashboard-loaded.selector';
+import {DragulaService} from 'ng2-dragula';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,7 +44,8 @@ export class DashboardComponent implements OnInit {
   private _welcomingDescription: string;
   constructor(
     private store: Store<ApplicationState>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dragulaService: DragulaService
   ) {
     this.dashboardName$ = store.select(currentDashboardNameSelector);
     this.visualizationObjects$ = store.select(visualizationObjectsSelector);
@@ -72,6 +74,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dragulaService.drop.subscribe(value => {
+      //todo find a way to get new position for dropped item
+      console.log(value);
+    });
     this.route.params.subscribe(params => {
       this.dashboardId = params.id;
       if (this.subscription) {

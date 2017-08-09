@@ -56,14 +56,21 @@
     class="row"
     *ngIf="(visualizationObjects$ | async).length > 0"
     id="{{dashboardId}}"
+    [dragula]="'bag'"
+    [dragulaModel]="(visualizationObjects$ | async)"
   >
-    <app-dashboard-item-card
+    <div
+      [attr.data_id]="visualizationObject.id"
+      [attr.data_index]="i"
       *ngFor="let visualizationObject of (visualizationObjects$ | async); let i = index"
-      [globalFilters]="globalFilters"
-      (onFilterDeactivate)="updateFilters($event)"
-      [visualizationObject]="visualizationObject"
     >
-    </app-dashboard-item-card>
+      <app-dashboard-item-card
+        [globalFilters]="globalFilters"
+        (onFilterDeactivate)="updateFilters($event)"
+        [visualizationObject]="visualizationObject"
+      >
+      </app-dashboard-item-card>
+    </div>
   </div>
 
   <div class="row" *ngIf="(visualizationObjects$ | async).length === 0">
