@@ -9,6 +9,7 @@ export class RelativePeriodService {
   }
 
 
+
   getISOFormatFromRelativePeriod(favourite): Array<string> {
     let isoFormat = [];
     let periodDimension = undefined;
@@ -63,7 +64,6 @@ export class RelativePeriodService {
     return fixedPeriods;
   }
 
-
   /**
    This function return array of fixed periods from one relative period
    */
@@ -97,16 +97,12 @@ export class RelativePeriodService {
       }
 
     }
-
-    console.log(fixedPeriods);
     return fixedPeriods;
   }
-
 
   /**
    Function that return other functions that return fixed periods specific to period type
    */
-
 
   private _getExecutingPeriodFunctions() {
     const currentDate = new Date();
@@ -286,7 +282,6 @@ export class RelativePeriodService {
           }
 
         }
-
         if (nthFinancialYears.length < 1) {
           nthFinancialYears.push({
             id: currentYear + 'Oct',
@@ -300,7 +295,6 @@ export class RelativePeriodService {
     }
   }
 
-
   /**
    This function return particular tense of the period
    */
@@ -313,7 +307,6 @@ export class RelativePeriodService {
     })
     return selectedTense;
   }
-
 
   /**
    This function return particular tense of the period

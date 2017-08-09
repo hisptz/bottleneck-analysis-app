@@ -1,19 +1,26 @@
 
+.legendContainer {
+  background-color: rgba(255, 255, 255, 0.84)!important;
+}
+bar {
+  background-color: rgba(236, 236, 236, 0.24)!important;
+}
+
+header {
+  background-color: rgba(255, 255, 255, 0.3)!important;
+}
+table {
+  background-color: transparent!important;
+}
+.btn-default-updated {
+  background-color: rgba(255, 255, 255, 0)!important;
+}
+
 .legend-view-container {
-  /*min-width: 200px;*/
-  /*width: 200px;*/
-  /*padding: 3px;*/
-  /*position: absolute;*/
-  /*right: 10px;*/
-  /*top: 40px;*/
   min-height: 10px;
   max-height: 260px;
   overflow-x: hidden;
-  /*margin: 150px 290px 0px !important;*/
-  /*background-color: #ffffff;*/
-  /*z-index: 1000 !important;*/
-  /*border-radius: 3px;*/
-  /*border: 2px solid #ffffff;*/
+  background-color:rgba(255,255,255,0)!important;
   -webkit-box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.5) !important;
   -moz-box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.5) !important;
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.5) !important;
@@ -50,17 +57,11 @@
 }
 
 .legend-header {
-  /*padding: 10px;*/
-  /*padding-left: 0px!important;*/
-  background-color: #ECECEC !important;
-  /*background-color: #ffffff !important;*/
+  background-color:rgba(255,255,255,0)!important;
 }
 
 .legend-header-lower-bar {
-  /*padding: 10px;*/
-  /*padding-left: 0px!important;*/
-  background-color: #ECECEC !important;
-  /*background-color: #ffffff !important;*/
+  background-color:rgba(255,255,255,0)!important;
   height: 30px;
 }
 
@@ -95,6 +96,7 @@
 .class-container {
   padding-left: 0px !important;
   padding-right: 0px !important;
+  background-color: transparent!important;
 }
 
 .hideLegend {
@@ -181,7 +183,7 @@ table.tiles-table tr td {
   height: 32px;
   /*overflow-y: auto;*/
   /*margin: 150px 290px 0px !important;*/
-  background-color: #ECECEC;
+  background-color:rgba(255,255,255,0)!important;
   z-index: 1005 !important;
   border-top: 1px solid #ccc;
   /*border-radius: 3px;*/
@@ -196,8 +198,7 @@ table.tiles-table tr td {
   bottom: 0px !important;
   height: 37px;
   /*overflow-y: auto;*/
-  /*margin: 150px 290px 0px !important;*/
-  background-color: #ECECEC;
+  background-color:rgba(255,255,255,0)!important;
   z-index: 1005 !important;
   /*border-radius: 3px;*/
 }
@@ -206,9 +207,6 @@ table.tiles-table tr td {
   color: #ffffff !important;
 }
 
-.btn-default-updated {
-  background-color: #ECECEC !important;
-}
 
 table.legend-button-table tr td {
   padding-right: 2px;

@@ -60,7 +60,7 @@ export class FavoriteService {
         return {
           dimension: filterObject.dimension,
           items: _.map(filterObject.items, (item) => {
-            return item.displayName;
+            return this._getRefinedFavouriteSubtitle(item.displayName);
           })
         }
       });
@@ -96,6 +96,17 @@ export class FavoriteService {
       }
     }
     return subtitle;
+  }
+
+  _getRefinedFavouriteSubtitle(subTitleString) {
+    let refinedSubtitle = "";
+
+    if ( subTitleString.indexOf('_') >= 0 ) {
+      // console.log(subTitleString('_'))
+
+    }
+
+    return refinedSubtitle;
   }
 
   getVisualizationFiltersFromFavorite(favoriteDetails: any) {
