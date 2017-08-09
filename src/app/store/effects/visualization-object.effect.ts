@@ -320,7 +320,7 @@ export class VisualizationObjectEffect {
          */
         const visualizationObjectLayersWithChartObject = _.map(visualizationObjectLayersWithTableConfiguration, (layer) => {
           const newLayer = _.clone(layer);
-          newLayer.tableObject = _.assign({}, this.tableService.getTableObject(newLayer.analytics, newLayer.settings.tableConfiguration));
+          newLayer.tableObject = _.assign({}, this.tableService.getTableObject(newLayer.analytics,newLayer.settings, newLayer.settings.tableConfiguration));
           return newLayer;
         });
 

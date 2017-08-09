@@ -78,7 +78,7 @@ export class TableService {
       tableObjects = visualizationObject.layers.map((layer: any) => {
         let tableObject: any = null;
         if (layer.analytics) {
-          tableObject = this.visualizationService.drawTable(layer.analytics, layer.settings.tableConfiguration);
+          tableObject = this.visualizationService.drawTable(layer.analytics,layer.settings, layer.settings.tableConfiguration);
         }
         return {id: layer.settings.id, content: tableObject};
       });
@@ -86,12 +86,12 @@ export class TableService {
     return {visualizationObject: visualizationObject, tableObjects: tableObjects};
   }
 
-  getTableObject(analyticsObject: any, tableConfiguration: TableConfiguration) {
+  getTableObject(analyticsObject: any,settings:any, tableConfiguration: TableConfiguration) {
     if (!analyticsObject) {
       return null;
     }
 
-    return this.visualizationService.drawTable(analyticsObject, tableConfiguration);
+    return this.visualizationService.drawTable(analyticsObject,settings, tableConfiguration);
   }
 
   private _getCellColorValue(settings, tableCellValue) {
