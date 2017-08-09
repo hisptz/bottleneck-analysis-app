@@ -102,10 +102,14 @@ export class FavoriteService {
     let refinedSubtitle = "";
 
     if ( subTitleString.indexOf('_') >= 0 ) {
-      // console.log(subTitleString('_'))
 
+      const splitted = subTitleString.split('_');
+      splitted.forEach((split)=>{
+        const lowercase = split.toLowerCase();
+        const capitalized = lowercase.charAt(0).toUpperCase();
+        refinedSubtitle += capitalized+''+lowercase.slice(1)+" ";
+      })
     }
-
     return refinedSubtitle;
   }
 
