@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import {INITIAL_UI_STATE, UiState} from '../ui-state';
-import {DASHBOARDS_LOADED_ACTION} from '../actions';
+import {CURRENT_DASHBOARD_CHANGE_ACTION, CURRENT_DASHBOARD_SAVE_ACTION, DASHBOARDS_LOADED_ACTION} from '../actions';
 export function uiStateReducer(state: UiState = INITIAL_UI_STATE, action) {
   switch (action.type) {
 
@@ -32,8 +32,9 @@ export function uiStateReducer(state: UiState = INITIAL_UI_STATE, action) {
       return newState;
     }
 
-    case 'CURRENT_DASHBOARD_CHANGE_ACTION': {
+    case CURRENT_DASHBOARD_SAVE_ACTION: {
       const newState: UiState = _.clone(state);
+      console.log(action.payload)
       newState.currentDashboard = action.payload;
       return newState;
     }

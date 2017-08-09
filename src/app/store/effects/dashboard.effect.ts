@@ -2,8 +2,10 @@ import {Injectable} from '@angular/core';
 import {DashboardService} from '../../providers/dashboard.service';
 import {Actions, Effect} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
+import * as _ from 'lodash';
 import {
-  CREATE_DASHBOARD_ACTION, CURRENT_DASHBOARD_CHANGE_ACTION, DASHBOARD_CREATED_ACTION, DASHBOARD_DELETED_ACTION,
+  CREATE_DASHBOARD_ACTION, CURRENT_DASHBOARD_CHANGE_ACTION, CurrentDashboardSaveAction, DASHBOARD_CREATED_ACTION,
+  DASHBOARD_DELETED_ACTION,
   DASHBOARD_GROUP_SETTINGS_UPDATE_ACTION,
   DASHBOARD_ITEM_ADD_ACTION,
   DashboardCreatedAction,
@@ -39,6 +41,27 @@ export class DashboardEffect {
 
       const newDashboards: Dashboard[] = dashboardResponse.dashboards;
       return new DashboardsLoadedAction(newDashboards)
+    });
+
+  @Effect() currentDashboardChange: Observable<Action> = this.actions$
+    .ofType(CURRENT_DASHBOARD_CHANGE_ACTION)
+    .withLatestFrom(this.store)
+    .switchMap(([action, store]) => {
+      if (store.uiState.dashboardLoaded) {
+        const currentDashboard = _.find(store.storeData.dashboards, ['id', action.payload]);
+
+        if (!currentDashboard) {
+          return Observable.of(store.storeData.dashboards[0]);
+        }
+      }
+      return Observable.of(action.payload);
+    })
+    .map(dashboard => {
+      if (dashboard.id) {
+        return new NavigateDashboardAction(dashboard)
+      }
+
+      return new CurrentDashboardSaveAction(dashboard);
     });
 
   @Effect() predefinedDashboards$: Observable<Action> = this.actions$
