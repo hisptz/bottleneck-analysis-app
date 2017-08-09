@@ -49,7 +49,7 @@
             (click)="showPeriodFilter = !showPeriodFilter"
           >
             <img [src]="'assets/img/period.png'" alt="">
-            <!--<span>Period</span>-->
+            <span>Period</span>
           </a>
           <app-period-filter
             *ngIf="showPeriodFilter"
@@ -70,7 +70,7 @@
             (click)="showOrgUnitFilter = !showOrgUnitFilter"
           >
             <img [src]="'assets/img/tree.png'" alt="">
-            <!--<span>Organisation Unit</span>-->
+            <span>Orgunit</span>
           </a>
           <div
             class="org-unit-filter-holder"
@@ -176,9 +176,24 @@
             (onUpdateSuccess)="closeEditForm()"
           ></app-edit-dashboard>
           <ul [ngClass]="'option-dropdown'" *ngIf="currentRightClicked == dashboardMenuItem.id" appClickOutside (clickOutside)="currentRightClicked = ''">
-            <li><a (click)="openEditForm(dashboardMenuItem.id)">Rename</a></li>
-            <li><a (click)="openShareBlock(dashboardMenuItem.id)">Share</a></li>
-            <li><a (click)="openDeleteForm(dashboardMenuItem.id)" class="text-danger">Delete</a></li>
+            <li>
+              <a (click)="openEditForm(dashboardMenuItem.id)">
+                <img [src]="'assets/img/edit.png'" alt="">
+                Rename
+              </a>
+            </li>
+            <li>
+              <a (click)="openShareBlock(dashboardMenuItem.id)">
+                <img [src]="'assets/img/share.png'" alt="">
+                Share
+              </a>
+            </li>
+            <li>
+              <a (click)="openDeleteForm(dashboardMenuItem.id)" class="text-danger">
+                <img [src]="'assets/img/trash.png'" alt="">
+                Delete
+              </a>
+            </li>
           </ul>
         </li>
       </ul>
@@ -244,3 +259,8 @@
     </div>
   </div>
 </nav>
+<app-dashboard-share *ngIf="showShareBlock"
+                     [apiRootUrl]="apiRootUrl$ | async"
+                     (onCloseSharing)="showShareBlock = false"
+>
+</app-dashboard-share>

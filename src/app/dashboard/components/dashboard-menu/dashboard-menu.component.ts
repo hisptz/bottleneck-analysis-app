@@ -25,11 +25,13 @@ export class DashboardMenuComponent implements OnInit {
   showCreateDashboardForm: boolean = false;
   showDashboardSearch: boolean = false;
   dashboardMenuObject$: Observable<any>;
+  apiRootUrl$: Observable<string>;
   dashboardName: string = '';
   currentRightClicked: string = '';
   currentDashboardGroup: string = '';
   activeEditFormId: string = '';
   itemToDelete: string = '';
+  showShareBlock: boolean;
   config$: Observable<PaginationInstance>;
   private _showFilter: any;
   showDataFilter: boolean;
@@ -53,13 +55,14 @@ export class DashboardMenuComponent implements OnInit {
   constructor(private store: Store<ApplicationState>) {
     this.dashboardMenuObject$ = store.select(dashboardMenuItemsSelector);
     this.config$ = store.select(dashboardPaginationConfigurationSelector);
+    this.apiRootUrl$ = this.store.select(apiRootUrlSelector);
     this._showFilter = {
       orgUnit: {
         enabled: true,
         shown: false
       },
       data:  {
-        enabled: true,
+        enabled: false,
         shown: false
       },
 
@@ -121,6 +124,7 @@ export class DashboardMenuComponent implements OnInit {
 
   openShareBlock() {
     this.currentRightClicked = '';
+    this.showShareBlock = true;
   }
 
   showOptions(dashboardId) {

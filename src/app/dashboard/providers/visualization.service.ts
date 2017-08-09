@@ -852,7 +852,7 @@ export class VisualizationService {
               'display': true
             });
           }
-          if (tableConfiguration.hasOwnProperty('hide_zeros') && tableConfiguration.hide_zeros) {
+          if (tableConfiguration.hasOwnProperty('hideEmptyRows') && tableConfiguration.hideEmptyRows) {
             console.log(item.items);
             if (!this.checkZeros(tableConfiguration.rows.length, item.items)) {
               table.rows.push(item);
@@ -880,7 +880,7 @@ export class VisualizationService {
             'display': true
           });
         }
-        if (tableConfiguration.hasOwnProperty('hide_zeros') && tableConfiguration.hide_zeros) {
+        if (tableConfiguration.hasOwnProperty('hideEmptyRows') && tableConfiguration.hideEmptyRows) {
           console.log(item.items);
           if (!this.checkZeros(tableConfiguration.rows.length, item.items)) {
             table.rows.push(item);
@@ -906,7 +906,7 @@ export class VisualizationService {
     if(tableConfiguration.hasOwnProperty('title')){
       table['title'] = tableConfiguration.title;
     }
-    if (tableConfiguration.hasOwnProperty('display_list') && tableConfiguration.display_list) {
+    if (tableConfiguration.hasOwnProperty('displayList') && tableConfiguration.displayList) {
       table.headers[0] = {
         items: [],
         style: ''
@@ -1059,7 +1059,7 @@ export class VisualizationService {
               'display': true
             });
           }
-          if (tableConfiguration.hasOwnProperty('hide_zeros') && tableConfiguration.hide_zeros) {
+          if (tableConfiguration.hasOwnProperty('hideEmptyRows') && tableConfiguration.hideEmptyRows) {
             console.log(item.items);
             if (!this.checkZeros(tableConfiguration.rows.length, item.items)) {
               table.rows.push(item);
@@ -1087,7 +1087,7 @@ export class VisualizationService {
             'display': true
           });
         }
-        if (tableConfiguration.hasOwnProperty('hide_zeros') && tableConfiguration.hide_zeros) {
+        if (tableConfiguration.hasOwnProperty('hideEmptyRows') && tableConfiguration.hideEmptyRows) {
           console.log(item.items);
           if (!this.checkZeros(tableConfiguration.rows.length, item.items)) {
             table.rows.push(item);

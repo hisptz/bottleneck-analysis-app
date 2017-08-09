@@ -131,7 +131,6 @@ export class VisualizerService {
      * Get refined x axis options
      */
     newChartObject.xAxis = this._getXAxisOptions(this._getRefinedXAxisCategories(newChartObject.series));
-
     return newChartObject;
   }
 

@@ -294,7 +294,8 @@ export class DashboardItemCardComponent implements OnInit {
     }
   }
 
-  toggleFullScreen(): void {
+  toggleFullScreen(event): void {
+    event.stopPropagation();
     /**
      * Change card height when toggling full screen to enable items to stretch accordingly
      */

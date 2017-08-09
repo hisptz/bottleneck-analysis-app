@@ -16,7 +16,7 @@ export class DashboardService {
 
   loadAll(rootUrl): Observable<any> {
     return Observable.create(observer => {
-      this.http.get(rootUrl + 'dashboards.json?fields=id,name,dashboardItems[id,type,created,shape,appKey,reports[id,displayName],chart[id,displayName],map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName],resources[id,displayName],users[id,displayName]')
+      this.http.get(rootUrl + 'dashboards.json?fields=id,name,publicAccess,access,externalAccess,userGroupAccesses,dashboardItems[id,type,created,shape,appKey,reports[id,displayName],chart[id,displayName],map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName],resources[id,displayName],users[id,displayName]&paging=false')
         .subscribe(dashboardResponse => {
           observer.next(dashboardResponse);
           observer.complete();
@@ -28,7 +28,7 @@ export class DashboardService {
   }
 
   load(rootUrl, id) {
-    return this.http.get(rootUrl + 'dashboards/' + id + '.json?fields=id,name,dashboardItems[id,type,created,shape,reports[id,displayName],chart[id,displayName],map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName],resources[id,displayName],users[id,displayName]]');
+    return this.http.get(rootUrl + 'dashboards/' + id + '.json?fields=id,name,publicAccess,access,externalAccess,userGroupAccesses,dashboardItems[id,type,created,shape,reports[id,displayName],chart[id,displayName],map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName],resources[id,displayName],users[id,displayName]]');
   }
 
   create(dashboardDetails: any): Observable<Dashboard> {
@@ -211,6 +211,14 @@ export class DashboardService {
     } else {
       this.router.navigate(['/dashboards/' + dashboard.id]);
     }
+  }
+
+  loadDashboardSharingData(apiRootUrl, dashboardId): Observable<any> {
+    return this.http.get(apiRootUrl + 'sharing?type=dashboard&id=' + dashboardId);
+  }
+
+  saveSharingData(sharingData, dashboardId, apiRootUrl): Observable<any> {
+    return this.http.post(apiRootUrl + 'sharing?type=dashboard&id=' + dashboardId, sharingData)
   }
 
 }

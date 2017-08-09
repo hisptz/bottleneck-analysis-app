@@ -63,6 +63,7 @@ import {LayerFormComponent} from './components/layer-form/layer-form.component';
 import {MapFilesConversion} from './providers/map-files-conversion.service';
 import { TableTemplateComponent } from './components/table-template/table-template.component';
 import {RelativePeriodService} from "./providers/relative-period.service";
+import {DashboardShareComponent} from './components/dashboard-share/dashboard-share.component';
 
 @NgModule({
   imports: [
@@ -115,7 +116,8 @@ import {RelativePeriodService} from "./providers/relative-period.service";
     ErrorNotifierComponent,
     LayerFormComponent,
     MapTableComponent,
-    TableTemplateComponent
+    TableTemplateComponent,
+    DashboardShareComponent
   ],
   providers: [
     DashboardNotificationService,

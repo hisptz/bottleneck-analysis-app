@@ -1,0 +1,68 @@
+<div class="col-md-12">
+  <div class="panel panel-default">
+    <div class="panel-body" style="padding-bottom: 2px;">
+      <span *ngIf="loadingSharing">
+        Loading sharing settings...
+      </span>
+      <span *ngIf="hasError" style="padding-top: 5px;">
+        An error has occured
+      </span>
+      <ul class="list-inline share-list" *ngIf="!loadingSharing && !hasError">
+        <li *ngIf="sharingData.meta.allowExternalAccess" tooltip="Has {{sharingData.object.externalAccess ? '': 'no'}} External Access">
+          <div class="badge share-badge" (click)="sharingData.object.externalAccess = !sharingData.object.externalAccess">
+            External Access
+            &nbsp;
+            <i *ngIf="sharingData.object.externalAccess" class="fa fa-check text-success"></i>
+          </div>
+        </li>
+        <li *ngIf="sharingData.meta.allowPublicAccess" tooltip="{{readableAccess(sharingData.object.publicAccess)}}">
+          <div class="badge share-badge" (click)="togglePublicAccess(sharingData.object.publicAccess)">
+            Public Access
+            &nbsp;
+            <i *ngIf="sharingData.object.publicAccess == 'rw------'" class="fa fa-edit"></i>
+            <i *ngIf="sharingData.object.publicAccess == 'r-------'" class="fa fa-eye"></i>
+          </div>
+        </li>
+        <li tooltip="add user groups"><i class="fa fa-users"></i></li>
+        <li *ngIf="sharingData.object.userGroupAccesses && sharingData.object.userGroupAccesses.length > 0">
+          <ul class="list-inline">
+            <li *ngFor="let group of sharingData.object.userGroupAccesses" tooltip="{{readableAccess(group.access)}}">
+              <div class="badge share-badge" style="padding-top: 13px; padding-bottom: 13px;" (click)="toggleUserGroupAccess(group.access, group.id)">
+                {{group.displayName}}
+                &nbsp;
+                <a href=""><i *ngIf="group.access == 'rw------'" class="fa fa-edit"></i></a>
+                <a href=""><i *ngIf="group.access == 'r-------'" class="fa fa-eye"></i></a>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown" appClickOutside (clickOutside)="showUserGroupList = false">
+          <input type="text" placeholder="Search to add user groups" class="share-input" (keyup)="searchTerm$.next($event.target.value)" autofocus>
+          <img *ngIf="searching" src="assets/img/balls-3.svg" style="height: 20px; width: 20px;" alt="searching user groups" >
+          <ul *ngIf="showUserGroupList" class="user-group-dropdown">
+            <li><a style="cursor: none;" *ngIf="userGroups.length == 0"><b>No search result found</b></a></li>
+            <li *ngFor="let group of userGroups;">
+                <a (click)="addUserGroup(group)">{{group.displayName}}</a>
+            </li>
+          </ul>
+        </li>
+        <li class="pull-right">
+          <a (click)="closeSharingBody()" class="btn btn-default">
+            <i class="fa fa-times"></i>
+            Close
+          </a>
+        </li>
+        <li class="pull-right">
+          <a appClickOutside (clickOutside)="updated = false"  (click)="updateSharing()" class="btn btn-default {{updating ? 'disabled' : ''}}">
+            <span *ngIf="!updating">
+              <i *ngIf="updated" class="fa fa-check text-success"></i>
+              {{updated ? 'Updated' : 'Update'}}
+            </span>
+            <img *ngIf="updating" src="assets/img/balls-3.svg" style="height: 20px; width: 20px;" alt="">
+            {{updating ? 'Updating sharing setting..' : ''}}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
