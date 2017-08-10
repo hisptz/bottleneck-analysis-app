@@ -32,7 +32,8 @@
         "../node_modules/highcharts/highcharts-more.js",
         "../node_modules/highcharts/modules/solid-gauge.js",
         "../node_modules/highcharts/modules/exporting.js",
-        "../node_modules/highcharts/modules/offline-exporting.js"
+        "../node_modules/highcharts/modules/offline-exporting.js",
+        "../node_modules/highcharts/modules/drilldown.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

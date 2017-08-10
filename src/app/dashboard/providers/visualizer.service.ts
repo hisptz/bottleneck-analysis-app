@@ -75,19 +75,81 @@ export class VisualizerService {
     /**
      * Sort the corresponding series
      */
-    const sortedSeries = this._getSortableSeries(this._getChartSeries(
+    let sortedSeries = this._getSortableSeries(this._getChartSeries(
       analyticsObject,
       xAxisCategories,
       yAxisSeriesItems,
       chartConfiguration
     ), chartConfiguration.sortOrder);
 
-    /**
-     * Get series
-     */
-    newChartObject.series = _.assign([], sortedSeries);
+    if (yAxisSeriesItems.length > 1) {
+
+      /**
+       * Get parent series for drilldown
+       * @type {{name: string; colorByPoint: boolean; data: any}[]}
+       */
+      newChartObject.series = this._getDrilldownParentSeries(
+        sortedSeries,
+        yAxisSeriesItems,
+        chartConfiguration.yAxisType
+      )
+
+      /**
+       * Get drilldown series
+       * @type {{series: any}}
+       */
+      newChartObject.drilldown = {
+        series: sortedSeries
+      }
+
+    } else {
+      /**
+       * Get series
+       */
+      newChartObject.series = _.assign([], sortedSeries);
+    }
+
+    console.log(JSON.stringify(newChartObject))
 
     return newChartObject;
+  }
+
+  private _getDrilldownParentSeries(drilldownSeries: any[], yAxisItems: any[], parentType: string) {
+    /**
+     * Get series name
+     * @type {string | string | string | string}
+     */
+    const seriesName = parentType === 'pe' ? 'Period' :
+      parentType === 'dx' ? 'Data' :
+        parentType === 'ou' ? 'Organisation unit' : 'Categories';
+
+    const seriesData = _.map(yAxisItems, yAxisObject => {
+      return {
+        name: yAxisObject.name,
+        drilldown: yAxisObject.id,
+        y: this._deduceDrilldownParentDataFromChildrenSeries(drilldownSeries, yAxisObject.id)
+      }
+    });
+
+    const newSeriesObject = {
+      name: seriesName,
+      colorByPoint: true,
+      data: seriesData
+    };
+    return [newSeriesObject];
+  }
+
+  private _deduceDrilldownParentDataFromChildrenSeries(drilldownSeries: any[], parentId: string): number {
+    let parentData = 0;
+    const correspondingSeriesObject = _.find(drilldownSeries, ['id', parentId]);
+
+    if (correspondingSeriesObject) {
+      parentData = _.reduce(_.map(correspondingSeriesObject.data, data => data.y), (sum, n) => {
+        const newNumber = !isNaN(n) ? parseInt(n) : 0;
+        return parseInt(sum) + newNumber;
+      });
+    }
+    return parentData;
   }
 
   private _extendSolidGaugeChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
@@ -109,7 +171,6 @@ export class VisualizerService {
     const newChartObject = _.clone(initialChartObject);
     const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
-    // console.log(JSON.stringify(xAxisCategories))
     /**
      * Get y axis options
      */
@@ -124,7 +185,6 @@ export class VisualizerService {
       yAxisSeriesItems,
       chartConfiguration
     ), chartConfiguration.cumulativeValues ? -1 : chartConfiguration.sortOrder);
-    // console.log(JSON.stringify(sortedSeries))
 
     /**
      * Get series
@@ -134,9 +194,8 @@ export class VisualizerService {
     /**
      * Get refined x axis options
      */
-    // newChartObject.xAxis = this._getXAxisOptions();
-    console.log(JSON.stringify(this._getRefinedXAxisCategories(newChartObject.series)))
     newChartObject.xAxis = this._getXAxisOptions(this._getRefinedXAxisCategories(newChartObject.series));
+
     return newChartObject;
   }
 
@@ -217,6 +276,7 @@ export class VisualizerService {
       yAxisItems.forEach((yAxisItem, yAxisIndex) => {
         series.push({
           name: yAxisItem.name,
+          id: yAxisItem.id,
           index: yAxisIndex,
           turboThreshold: 0,
           data: this._getSeriesData(
@@ -305,7 +365,7 @@ export class VisualizerService {
       case 'pie':
         dataLabels =  {
           enabled: chartConfiguration.showData,
-            format: '{point.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
+            format: '{series.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
         };
         break;
       default:
@@ -407,7 +467,7 @@ export class VisualizerService {
           break;
         case 'pie':
           tooltipObject = {
-            pointFormat: '{point.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
+            pointFormat: '{series.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
           };
           break;
         default:
