@@ -75,7 +75,7 @@ export class VisualizerService {
     /**
      * Sort the corresponding series
      */
-    let sortedSeries = this._getSortableSeries(this._getChartSeries(
+    const sortedSeries = this._getSortableSeries(this._getChartSeries(
       analyticsObject,
       xAxisCategories,
       yAxisSeriesItems,
@@ -109,8 +109,6 @@ export class VisualizerService {
       newChartObject.series = _.assign([], sortedSeries);
     }
 
-    console.log(JSON.stringify(newChartObject))
-
     return newChartObject;
   }
 
@@ -119,6 +117,7 @@ export class VisualizerService {
      * Get series name
      * @type {string | string | string | string}
      */
+      // todo find readable names for parent types that are not data, period or organisation unit
     const seriesName = parentType === 'pe' ? 'Period' :
       parentType === 'dx' ? 'Data' :
         parentType === 'ou' ? 'Organisation unit' : 'Categories';
@@ -365,7 +364,7 @@ export class VisualizerService {
       case 'pie':
         dataLabels =  {
           enabled: chartConfiguration.showData,
-            format: '{series.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
+            format: '{point.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
         };
         break;
       default:

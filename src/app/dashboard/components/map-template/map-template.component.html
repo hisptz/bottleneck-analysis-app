@@ -32,19 +32,21 @@
       <i class="fa fa-home"></i>
     </div>
     <div class="map-title-holder">
-      <h4
-        class="forViewOnly text-center"
-        style="margin-top: 2px;"
-      >
-        {{visualizationObject?.name}}
-      </h4>
-      <h6
-        class="text-center"
-        style="font-size: 12px; font-weight: 100; margin-bottom: 2px;"
-        *ngIf="visualizationObject.subtitle"
-      >
-        &nbsp;{{visualizationObject?.subtitle}}
-      </h6>
+      <div class="map-inner-holder">
+        <h4
+          class="forViewOnly text-center"
+          style="margin-top: 2px;"
+        >
+          {{visualizationObject?.name}}
+        </h4>
+        <h6
+          class="text-center"
+          style="font-size: 12px; font-weight: 100; margin-bottom: 2px;"
+          *ngIf="visualizationObject.subtitle"
+        >
+          &nbsp;{{visualizationObject?.subtitle}}
+        </h6>
+      </div>
     </div>
 
     <div id="map-view-port-{{visualizationObject.id}}" [ngClass]="{hide: visualizationObject.details.loading||hasError}"

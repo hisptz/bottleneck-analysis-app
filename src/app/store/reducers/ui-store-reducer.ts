@@ -34,7 +34,6 @@ export function uiStateReducer(state: UiState = INITIAL_UI_STATE, action) {
 
     case CURRENT_DASHBOARD_SAVE_ACTION: {
       const newState: UiState = _.clone(state);
-      console.log(action.payload)
       newState.currentDashboard = action.payload;
       return newState;
     }
