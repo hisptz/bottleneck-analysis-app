@@ -40,8 +40,11 @@ export class FavoriteService {
         const newFavorite = _.clone(favorite);
 
         newFavorite.subtitle = this.getFavoriteSubtitle(favorite.filters, visualizationDetails.visualizationObject.details.userOrganisationUnit);
+
         visualizationDetails.favorite = Object.assign({}, newFavorite, favoriteOptions);
+
         visualizationDetails.favorite = this.relativePeriodService.getISOFormatFromRelativePeriod(visualizationDetails.favorite);
+
         //todo to place period sanitizer
         observer.next(visualizationDetails);
         observer.complete();

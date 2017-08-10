@@ -82,7 +82,8 @@ export class AnalyticsService {
       return '';
     }
     let url: string = apiRootUrl + 'analytics';
-    const aggregationType: string = visualizationSettings.hasOwnProperty('aggregationType') ? '&aggregationType=' + visualizationSettings.aggregationType : '';
+    const aggregationType: string = visualizationSettings.hasOwnProperty('aggregationType') ?
+      visualizationSettings.aggregationType !== 'DEFAULT' ? '&aggregationType=' + visualizationSettings.aggregationType : '' : '';
     const value: string = visualizationSettings.hasOwnProperty('value') ? '&value=' + visualizationSettings.value.id : '';
 
     if (visualizationType === 'EVENT_CHART') {
@@ -138,7 +139,7 @@ export class AnalyticsService {
   private _getAnalyticsCallStrategies(visualizationType, layerType: string = null): string {
     let strategies = '';
     strategies += visualizationType === 'EVENT_CHART' || visualizationType === 'EVENT_REPORT' || visualizationType === 'EVENT_MAP' ? '&outputType=EVENT' : '';
-    strategies += '&displayProperty=NAME';
+    strategies += '&displayProperty=SHORTNAME';
     strategies += layerType !== null && layerType === 'event' ? '&coordinatesOnly=true' : '';
     return strategies;
   }

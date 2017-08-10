@@ -28,7 +28,7 @@ export class DashboardService {
   }
 
   load(rootUrl, id) {
-    return this.http.get(rootUrl + 'dashboards/' + id + '.json?fields=id,name,publicAccess,access,externalAccess,userGroupAccesses,dashboardItems[id,type,created,shape,reports[id,displayName],chart[id,displayName],map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName],resources[id,displayName],users[id,displayName]]');
+    return this.http.get(rootUrl + 'dashboards/' + id + '.json?fields=id,name,publicAccess,access,externalAccess,userGroupAccesses,dashboardItems[id,type,created,shape,appKey,reports[id,displayName],chart[id,displayName],map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName],resources[id,displayName],users[id,displayName]]');
   }
 
   create(dashboardDetails: any): Observable<Dashboard> {
@@ -175,6 +175,15 @@ export class DashboardService {
       newItems = _.clone(dashboardItems.filter(item => { return item.type[dashboardItemType.length - 1] === 'S'}));
     } else {
       for (const item of dashboardItems) {
+
+        /**
+         * Get new item for apps
+         */
+        if (item.type === 'APP' && dashboardItemType === 'APP') {
+          newItems = [item];
+          break;
+        }
+
         const itemTypeObject = item[_.camelCase(dashboardItemType)];
         if (itemTypeObject) {
           if (itemTypeObject.id === favoriteId ) {
@@ -184,7 +193,8 @@ export class DashboardService {
         }
       }
     }
-     return newItems;
+
+    return newItems;
   }
 
   deleteItem(dashboardDetails): Observable<any> {

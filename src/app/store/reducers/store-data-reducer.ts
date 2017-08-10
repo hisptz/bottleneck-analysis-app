@@ -777,9 +777,11 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
            * Update for list like items .ie. users =, reports ,etc
            */
           if (availableDashboardItem) {
-            if (availableDashboardItem[availableDashboardItem.length - 1] === 'S') {
+
+            if (availableDashboardItem.type[availableDashboardItem.type.length - 1] === 'S') {
               const availableDashboardItemIndex = _.findIndex(currentDashboard.dashboardItems, availableDashboardItem);
-              dashboardItems[availableDashboardItemIndex] = _.cloneDeep(mergeRelatedItems([newDashboardItem, availableDashboardItem]));
+
+              dashboardItems[availableDashboardItemIndex] = _.assign({}, mergeRelatedItems([newDashboardItem, availableDashboardItem])[0]);
             }
           } else {
             newDashboardItem.isNew = true;

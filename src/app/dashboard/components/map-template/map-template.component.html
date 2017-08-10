@@ -34,17 +34,19 @@
     <div class="map-title-holder">
       <div class="map-inner-holder">
         <h4
-          class="forViewOnly text-center"
+          class="forViewOnly"
           style="margin-top: 2px;"
         >
           {{visualizationObject?.name}}
         </h4>
+      </div>
+      <br>
+      <div class="map-inner-holder" style="margin-top: 2px;">
         <h6
-          class="text-center"
-          style="font-size: 12px; font-weight: 100; margin-bottom: 2px;"
+          style="font-size: 12px; margin-top: 2px; margin-bottom: 2px;"
           *ngIf="visualizationObject.subtitle"
         >
-          &nbsp;{{visualizationObject?.subtitle}}
+          {{visualizationObject?.subtitle}}
         </h6>
       </div>
     </div>

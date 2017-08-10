@@ -131,23 +131,28 @@ export function mergeRelatedItems(dashboardItems) {
   const newDashboardItems = _.clone(dashboardItems);
   const mergedItems: any[] = [];
   const mergableItems = dashboardItems.filter(item => { return item.type[item.type.length - 1] === 'S'});
-  newDashboardItems.forEach(dashboardItem => {
+  newDashboardItems.forEach((dashboardItem: any) => {
     const currentMergableItems = _.filter(mergableItems, ['type', dashboardItem.type]);
+
     if (currentMergableItems.length > 0) {
       if (!_.find(mergedItems, ['type', dashboardItem.type])) {
 
         let newItem = null;
-        currentMergableItems.forEach((itemObject, itemIndex) => {
+        currentMergableItems.forEach((itemObject: any, itemIndex: number) => {
+
           if (newItem === null) {
             newItem = _.clone(itemObject);
           } else {
             if (itemIndex === 1) {
               newItem.id = itemObject.id;
             }
-            const newTypeItems = itemObject[_.camelCase(itemObject.type)];
-            newItem[_.camelCase(newItem.type)] = mergeTypeItems(newTypeItems, newItem[_.camelCase(newItem.type)])
+
+            newItem[_.camelCase(newItem.type)] = _.assign([], mergeTypeItems(
+              itemObject[_.camelCase(itemObject.type)],
+              newItem[_.camelCase(newItem.type)]
+            ));
           }
-        })
+        });
 
         if (newItem !== null) {
           mergedItems.push(newItem)
@@ -157,10 +162,11 @@ export function mergeRelatedItems(dashboardItems) {
       mergedItems.push(dashboardItem)
     }
   });
+
   return mergedItems;
 }
 
-function mergeTypeItems(newItemArray, currentItemArray) {
+function mergeTypeItems(currentItemArray, newItemArray) {
   const mergedTypeItems: any[] = [];
 
   /**
