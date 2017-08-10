@@ -32,7 +32,7 @@ export const CHART_TYPES = [
   {
     type: 'stacked_column',
     description: 'stacked column chart',
-    icon: 'assets/img/column-stacked.png'
+    icon: 'assets/img/stacked-column.png'
   },
   {
     type: 'stacked_bar',

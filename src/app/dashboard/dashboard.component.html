@@ -56,12 +56,8 @@
     class="row"
     *ngIf="(visualizationObjects$ | async).length > 0"
     id="{{dashboardId}}"
-    [dragula]="'bag'"
-    [dragulaModel]="(visualizationObjects$ | async)"
   >
     <div
-      [attr.data_id]="visualizationObject.id"
-      [attr.data_index]="i"
       *ngFor="let visualizationObject of (visualizationObjects$ | async); let i = index"
     >
       <app-dashboard-item-card

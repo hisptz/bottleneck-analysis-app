@@ -71,7 +71,7 @@ export class VisualizerService {
 
     const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
-
+    // console.log(JSON.stringify(xAxisCategories));
     /**
      * Sort the corresponding series
      */
@@ -109,7 +109,7 @@ export class VisualizerService {
     const newChartObject = _.clone(initialChartObject);
     const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
-
+    // console.log(JSON.stringify(xAxisCategories))
     /**
      * Get y axis options
      */
@@ -123,7 +123,8 @@ export class VisualizerService {
       xAxisCategories,
       yAxisSeriesItems,
       chartConfiguration
-    ), chartConfiguration.sortOrder);
+    ), chartConfiguration.cumulativeValues ? -1 : chartConfiguration.sortOrder);
+    // console.log(JSON.stringify(sortedSeries))
 
     /**
      * Get series
@@ -133,6 +134,8 @@ export class VisualizerService {
     /**
      * Get refined x axis options
      */
+    // newChartObject.xAxis = this._getXAxisOptions();
+    console.log(JSON.stringify(this._getRefinedXAxisCategories(newChartObject.series)))
     newChartObject.xAxis = this._getXAxisOptions(this._getRefinedXAxisCategories(newChartObject.series));
     return newChartObject;
   }
@@ -162,17 +165,41 @@ export class VisualizerService {
 
   private _getSortableSeries(series, sortOrder) {
     let newSeries = _.clone(series);
-
+    let seriesCategories = [];
     if (sortOrder === 1) {
-      newSeries = _.map(series, (seriesObject) => {
+      newSeries = _.map(series, (seriesObject, seriesIndex) => {
         const newSeriesObject = _.clone(seriesObject);
-        newSeriesObject.data = _.assign([], _.reverse(_.sortBy(seriesObject.data, ['y'])));
+
+        if (seriesIndex === 0) {
+          newSeriesObject.data = _.assign([], _.reverse(_.sortBy(seriesObject.data, ['y'])));
+
+          /**
+           * Get series categories for the first series
+           */
+          seriesCategories = _.map(newSeriesObject.data, seriesData => seriesData.name)
+        } else {
+          if (seriesCategories) {
+            newSeriesObject.data = _.map(seriesCategories, seriesCategory => _.find(seriesObject.data, ['name', seriesCategory]))
+          }
+        }
+
         return newSeriesObject;
       })
     } else if (sortOrder === -1) {
-      newSeries = _.map(series, (seriesObject) => {
+      newSeries = _.map(series, (seriesObject, seriesIndex) => {
         const newSeriesObject = _.clone(seriesObject);
-        newSeriesObject.data = _.assign([], _.sortBy(seriesObject.data, ['y']));
+        if (seriesIndex === 0) {
+          newSeriesObject.data = _.assign([], _.sortBy(seriesObject.data, ['y']));
+
+          /**
+           * Get series categories for the first series
+           */
+          seriesCategories = _.map(newSeriesObject.data, seriesData => seriesData.name)
+        } else {
+          if (seriesCategories) {
+            newSeriesObject.data = _.map(seriesCategories, seriesCategory => _.find(seriesObject.data, ['name', seriesCategory]))
+          }
+        }
         return newSeriesObject;
       })
     }
@@ -304,7 +331,8 @@ export class VisualizerService {
       })
     }
 
-    if (isCategory) {
+    //todo find best way to remove this hardcoding
+    if (isCategory && axisType === 'pe') {
       return _.reverse(items);
     }
     return items;
@@ -805,7 +833,6 @@ export class VisualizerService {
           })
         })
       });
-
       newAnalyticsObject.rows = _.assign([], newRows);
     }
     return newAnalyticsObject;
