@@ -54,7 +54,6 @@ import { ResourcesComponent } from './components/resources/resources.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { AppComponent } from './components/app/app.component';
 import {SafePipe} from './pipes/safe.pipe';
-import { MessageComponent } from './components/message/message.component';
 import {ErrorNotifierComponent} from './components/error-notifier/error-notifier.component';
 import {MapTableComponent} from './components/map-table/map-table.component';
 import {VisualizerService} from './providers/visualizer.service';
@@ -62,9 +61,10 @@ import {DimensionsModule} from '../dimensions/dimensions.module';
 import {LayerFormComponent} from './components/layer-form/layer-form.component';
 import {MapFilesConversion} from './providers/map-files-conversion.service';
 import { TableTemplateComponent } from './components/table-template/table-template.component';
-import {RelativePeriodService} from "./providers/relative-period.service";
+import {RelativePeriodService} from './providers/relative-period.service';
 import {DashboardShareComponent} from './components/dashboard-share/dashboard-share.component';
 import {DragulaModule} from 'ng2-dragula';
+import {MessageModule} from '../message/message.module';
 
 @NgModule({
   imports: [
@@ -81,7 +81,8 @@ import {DragulaModule} from 'ng2-dragula';
     TreeModule,
     DimensionsModule,
     TooltipModule.forRoot(),
-    DragulaModule
+    DragulaModule,
+    MessageModule
   ],
   declarations: [
     DashboardComponent,
@@ -114,7 +115,6 @@ import {DragulaModule} from 'ng2-dragula';
     ReportsComponent,
     AppComponent,
     SafePipe,
-    MessageComponent,
     ErrorNotifierComponent,
     LayerFormComponent,
     MapTableComponent,

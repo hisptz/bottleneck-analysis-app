@@ -784,8 +784,16 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
               dashboardItems[availableDashboardItemIndex] = _.assign({}, mergeRelatedItems([newDashboardItem, availableDashboardItem])[0]);
             }
           } else {
-            newDashboardItem.isNew = true;
-            dashboardItems.unshift(newDashboardItem);
+
+            if (newDashboardItem.type === 'APP') {
+              if (!_.find(dashboardItems, ['appKey', newDashboardItem.appKey])) {
+                newDashboardItem.isNew = true;
+                dashboardItems.unshift(newDashboardItem);
+              }
+            } else {
+              newDashboardItem.isNew = true;
+              dashboardItems.unshift(newDashboardItem);
+            }
           }
 
           currentDashboard.dashboardItems = _.cloneDeep(dashboardItems);
