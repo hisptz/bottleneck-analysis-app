@@ -76,7 +76,7 @@ export class VisualizationLegendComponent implements OnInit {
         }
       )
 
-      this.visualizationLegends = [...thematicLegends, ...eventLegends, ...boundaryLegends,...facilityLegends];
+      this.visualizationLegends = [...thematicLegends, ...eventLegends,...boundaryLegends, ...facilityLegends];
     }
 
     this.visualizationLegends.forEach((legend, legendIndex) => {
@@ -95,7 +95,7 @@ export class VisualizationLegendComponent implements OnInit {
         legendId = mapVisualizationSettings.id;
       })
     }
-    console.log(legendClasses);
+
     const hiddenProperty:any = (new Function('return '+localStorage.getItem(legendId)))();
     const layerLegend: LegendSet = {
       id: mapVisualizationSettings.id,
@@ -112,7 +112,7 @@ export class VisualizationLegendComponent implements OnInit {
       isBoundary: mapVisualizationSettings.layer === 'boundary' ? true : false,
       isFacility: mapVisualizationSettings.layer === 'facility' ? true : false,
       opacity: mapVisualizationSettings.opacity,
-      classes: mapVisualizationSettings.layer != 'event' && mapVisualizationSettings.layer != 'boundary' && mapVisualizationSettings.layer != 'facility' ?legendClasses:legendClasses[0],
+      classes: mapVisualizationSettings.layer != 'boundary' && mapVisualizationSettings.layer != 'facility' ?legendClasses:legendClasses[0],
       change: []
     }
 

@@ -70,6 +70,28 @@
                 </table>
               </div>
             </div>
+
+            <div *ngIf="legend.isBoundary">
+              <div *ngFor="let class of legend.classes">
+                <table class="legend-table">
+                  <tr>
+                    <td>
+                  <tr>
+                    <td
+                      [ngStyle]="{backgroundColor:class.color,width:(class.radius*4)+'px',height:(class.radius*4)+'px',borderRadius:(class.radius*4)+'px'}"
+                      style="box-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);opacity:0.95;"></td>
+                    <td>Clusters</td>
+                  </tr>
+                  <br/>
+                  <tr>
+                    <td><i class="fa fa-map-marker fa-2x" style="color:#276696"></i></td>
+                    <td>Event Points</td>
+                  </tr>
+                  </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-lg-1 col-md-1 col-xs-1 eye-container">
@@ -84,7 +106,7 @@
       </div>
 
       <div class="col-lg-12 col-md-12 col-xs-12 legend-header" style="border-bottom: 1px solid #cccccc;"
-           *ngIf="legend.name=='Boundaries'">
+           *ngIf="boundaryLegend.length>0">
         <div class="col-lg-1 col-md-1 col-xs-1 legend-draggable-icon" (click)="toggleBoundaryLayer()">
           <a><i class="fa fa-connectdevelop" style="color:#000000;"></i></a>
         </div>
