@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Visualization} from '../../model/visualization';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-message',
@@ -8,7 +7,6 @@ import {Visualization} from '../../model/visualization';
 })
 export class MessageComponent implements OnInit {
 
-  @Input() visualizationObject: Visualization;
   constructor() { }
 
   ngOnInit() {

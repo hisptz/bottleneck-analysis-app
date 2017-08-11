@@ -101,6 +101,7 @@ export class TableComponent implements OnInit {
       this._tableObjects = _.filter(newTableObjects, (tableObject) => {
         return tableObject !== undefined
       });
+      console.log(JSON.stringify(this._tableObjects))
     }
   }
 
