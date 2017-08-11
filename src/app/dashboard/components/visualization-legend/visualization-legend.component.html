@@ -55,8 +55,8 @@
              [ngClass]="{'hide-button-icons': !showButtonIncons}"
              style="margin-left:-6px!important;"><i
             class="fa fa-eye"></i></a>
-          <a (click)="toggleLayerView(legend,'normal')" *ngIf="legend.hidden" [ngClass]="{pinned: legend.hidden}"
-             [ngClass]="{'hide-button-icons': !showButtonIncons}"
+          <a (click)="toggleLayerView(legend,'normal')" *ngIf="legend.hidden"
+             [ngClass]="{'hide-button-icons': !showButtonIncons,pinned: legend.hidden}"
              style="margin-left:-6px!important;"><i class="fa fa-eye-slash"></i></a>
         </div>
       </div>
@@ -228,7 +228,8 @@
   </div>
   <div class="legend-view-container col-lg-12 col-md-12 col-xs-12">
     <div class="row" style="border-bottom: 1px solid #cccccc">
-      <div class="col-lg-12 col-md-12 col-xs-12 legend-header-lower-bar" style="background-color: transparent!important;">
+      <div class="col-lg-12 col-md-12 col-xs-12 legend-header-lower-bar"
+           style="background-color: transparent!important;">
         <div class="col-lg-2 col-md-2 col-xs-2 legend-draggable-icon-2" style="padding-left: 2px!important;">
           <table class="legend-button-table" style="background-color:transparent">
             <tr>

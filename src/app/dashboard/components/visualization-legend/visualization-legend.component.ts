@@ -78,20 +78,22 @@ export class VisualizationLegendComponent implements OnInit {
   }
 
   private _prepareLayerLegend(mapVisualizationSettings, mapVisualizationAnalytics, legendClasses) {
-
+    let legendId = '';
     if (mapVisualizationAnalytics && mapVisualizationAnalytics.metaData) {
       mapVisualizationSettings.subtitle = ''; // !mapVisualizationSettings.subtitle ? '' : mapVisualizationSettings.subtitle;
       mapVisualizationAnalytics.metaData.pe.forEach(period => {
-        mapVisualizationSettings.subtitle += mapVisualizationAnalytics.metaData.names[period]
+        mapVisualizationSettings.subtitle += mapVisualizationAnalytics.metaData.names[period];
+        legendId = mapVisualizationSettings.id;
       })
     }
+    const hiddenProperty:any = (new Function('return '+localStorage.getItem(legendId)))();
     const layerLegend: LegendSet = {
       id: mapVisualizationSettings.id,
       name: mapVisualizationSettings.layer === 'event' ? this.legend.getEventName(mapVisualizationAnalytics)[0] :
         mapVisualizationSettings.layer === 'boundary' ? 'Boundaries' : mapVisualizationSettings.name,
       description: mapVisualizationSettings.subtitle,
       pinned: false,
-      hidden: false,
+      hidden:hiddenProperty?hiddenProperty:false ,
       opened: false,
       useIcons: false,
       isEvent: mapVisualizationSettings.layer === 'event' ? true : false,
@@ -110,6 +112,7 @@ export class VisualizationLegendComponent implements OnInit {
 
   changeTileLayer(tileLegend) {
     let checked = 0;
+
     this.visualizationTileLayersLegends.forEach(tileLegendLoop => {
 
       if (tileLegendLoop.active && tileLegend.name === tileLegendLoop.name) {
@@ -126,6 +129,7 @@ export class VisualizationLegendComponent implements OnInit {
   }
 
   updateMapLayer(layer, action) {
+    localStorage.setItem(layer.id,layer.hidden);
     const EVENT: MapLayerEvent = this.legend.prepareLayerEvent(layer, action);
     this.updateMapLayers.emit(EVENT);
   }

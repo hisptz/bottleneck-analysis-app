@@ -9,7 +9,6 @@ export class VisualizerService {
   constructor() { }
 
   drawChart(incomingAnalyticsObject: any, chartConfiguration: ChartConfiguration): any {
-    console.log(incomingAnalyticsObject, chartConfiguration.type)
     // TODO MOVE THIS LOGIC TO ANALYTICS OBJECT IN THE FUTURE
     const analyticsObject = this._sanitizeAnalyticsBasedOnConfiguration(
       this._standardizeIncomingAnalytics(incomingAnalyticsObject),
@@ -170,7 +169,6 @@ export class VisualizerService {
     const newChartObject = _.clone(initialChartObject);
     const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
-    console.log(chartConfiguration.yAxisType)
     /**
      * Get y axis options
      */
