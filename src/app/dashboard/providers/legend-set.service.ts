@@ -198,8 +198,6 @@ export class LegendSetService {
 
   public getEventName(visualizationAnalytics) {
     const metaDataObject = visualizationAnalytics.metaData;
-    // console.log(metaDataObject);
-
     const ou = metaDataObject.ou;
     const names = metaDataObject.names;
 
@@ -528,7 +526,6 @@ export class LegendSetService {
     legend.name = groupSet.name;
     legend.opacity = visualizationLayerSettings.opacity ? visualizationLayerSettings.opacity * 100 : 80;
     const totalFeatures: number = features.length;
-
     groupSet.organisationUnitGroups.forEach(group => {
       const classLegend = {
         name: group.name,

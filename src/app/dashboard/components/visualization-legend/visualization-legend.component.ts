@@ -95,6 +95,7 @@ export class VisualizationLegendComponent implements OnInit {
         legendId = mapVisualizationSettings.id;
       })
     }
+    console.log(legendClasses);
     const hiddenProperty:any = (new Function('return '+localStorage.getItem(legendId)))();
     const layerLegend: LegendSet = {
       id: mapVisualizationSettings.id,
@@ -111,7 +112,7 @@ export class VisualizationLegendComponent implements OnInit {
       isBoundary: mapVisualizationSettings.layer === 'boundary' ? true : false,
       isFacility: mapVisualizationSettings.layer === 'facility' ? true : false,
       opacity: mapVisualizationSettings.opacity,
-      classes: legendClasses,
+      classes: legendClasses[0],
       change: []
     }
 

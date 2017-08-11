@@ -20,10 +20,10 @@
             <p>&nbsp;{{legend.description}}</p>
 
             <div *ngIf="legend.isFacility">
-              <div  *ngFor="let class of legend.classes">
+              <div *ngFor="let class of legend.classes">
                 <table class="legend-table">
                   <tr>
-                    <td>{{class.icon}}</td>
+                    <td><img [src]="'../images/orgunitgroup/'+class.icon"></td><td>{{class.name}}</td>
                   </tr>
                 </table>
               </div>
@@ -31,20 +31,29 @@
 
 
             <div *ngIf="legend.isThematic">
-              <div  *ngFor="let class of legend.classes">
+              <div *ngFor="let class of legend.classes">
                 <table class="legend-table">
                   <tr>
-                    <td>{{class.icon}}</td>
+                    <td></td>
+                    <td [ngStyle]="{fontWeight:'bold'}">{{class.label}}</td>
+                  </tr>
+                  <tr>
+                    <td rowspan="2"
+                        [ngStyle]="{backgroundColor:class.color,width:'50px',height:'20px'}">&nbsp;
+                    </td>
+                    <td><span *ngIf="class.max!=0&&class.min!=class.max">{{class.min}} - {{class.max}}</span><span
+                      *ngIf="class.min!=0 && class.max!=0">({{class.count}}) ({{class.percentage}})</span>
+                    </td>
                   </tr>
                 </table>
               </div>
             </div>
 
             <div *ngIf="legend.isEvent">
-              <div  *ngFor="let class of legend.classes">
+              <div *ngFor="let class of legend.classes">
                 <table class="legend-table">
                   <tr>
-                    <td >
+                    <td>
                   <tr>
                     <td
                       [ngStyle]="{backgroundColor:class.color,width:(class.radius*4)+'px',height:(class.radius*4)+'px',borderRadius:(class.radius*4)+'px'}"
@@ -61,17 +70,6 @@
                 </table>
               </div>
             </div>
-
-            <div *ngIf="legend.isBoundary">
-              <div  *ngFor="let class of legend.classes">
-                <table class="legend-table">
-                  <tr>
-                    <td>{{class.icon}}</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-
           </div>
         </div>
         <div class="col-lg-1 col-md-1 col-xs-1 eye-container">
