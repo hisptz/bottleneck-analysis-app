@@ -23,7 +23,7 @@
               <div *ngFor="let class of legend.classes">
                 <table class="legend-table">
                   <tr>
-                    <td><img [src]="'../images/orgunitgroup/'+class.icon"></td><td>{{class.name}} (class.count) (class.frequency)</td>
+                    <td><img [src]="'../images/orgunitgroup/'+class.icon"></td><td>{{class.name}} ({{class.count}}) ({{class.relativeFrequency}})</td>
                   </tr>
                 </table>
               </div>
