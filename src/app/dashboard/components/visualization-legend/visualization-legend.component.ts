@@ -112,7 +112,7 @@ export class VisualizationLegendComponent implements OnInit {
       isBoundary: mapVisualizationSettings.layer === 'boundary' ? true : false,
       isFacility: mapVisualizationSettings.layer === 'facility' ? true : false,
       opacity: mapVisualizationSettings.opacity,
-      classes: legendClasses[0],
+      classes: mapVisualizationSettings.layer != 'event' && mapVisualizationSettings.layer != 'boundary' && mapVisualizationSettings.layer != 'facility' ?legendClasses:legendClasses[0],
       change: []
     }
 
