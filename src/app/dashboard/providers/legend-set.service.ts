@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import {ColorInterpolationService} from './color-interpolation.service';
 import {MapLayerEvent} from '../model/layer-event';
 import {OrgUnitService} from '../../dimensions/components/org-unit-filter/org-unit.service';
+import {LegendSet} from "../model/legend-set";
 
 @Injectable()
 export class LegendSetService {
@@ -197,17 +198,23 @@ export class LegendSetService {
 
   public getEventName(visualizationAnalytics) {
     const metaDataObject = visualizationAnalytics.metaData;
+    // console.log(metaDataObject);
+
+    const ou = metaDataObject.ou;
+    const names = metaDataObject.names;
 
     // TODO : Find a best way to remove this hardcoding
-    let eventId = '';
-    for (const propt in metaDataObject) {
-      if (['names', 'pe', 'ou'].indexOf(propt) === -1) {
-        eventId = propt;
+    let eventName = '';
+    let eventid = '';
+    for (const propt in names) {
+      if (ou.indexOf(propt)<0&&propt!=='ou'){
+        eventName = names[propt];
+        eventid = propt;
       }
 
     }
 
-    return [metaDataObject.names[eventId], metaDataObject[eventId]];
+    return [eventName, metaDataObject[eventid]];
   }
 
   public prepareLayerEvent(layer, action): MapLayerEvent {
@@ -496,23 +503,30 @@ export class LegendSetService {
   }
 
   getFacilityLayerLegendClasses(visualizationLayerSettings, isLegendView) {
-    const legend = {
-      layerId: '',
+    const legend: LegendSet = {
+      id: '',
       name: '',
       description: '',
+      hidden: false,
+      opened: false,
       pinned: false,
+      isEvent: false,
+      isClustered: false,
+      isThematic: false,
+      isBoundary: false,
+      isFacility: true,
       useIcons: false,
       opacity: 0,
-      layer: '',
       classes: [],
       change: []
     }
+
+
     const groupSet = visualizationLayerSettings.organisationUnitGroupSet;
     const features = visualizationLayerSettings.geoFeature;
-    legend.layerId = visualizationLayerSettings.id;
+    legend.id = visualizationLayerSettings.id;
     legend.name = groupSet.name;
     legend.opacity = visualizationLayerSettings.opacity ? visualizationLayerSettings.opacity * 100 : 80;
-
     const totalFeatures: number = features.length;
 
     groupSet.organisationUnitGroups.forEach(group => {
@@ -535,7 +549,6 @@ export class LegendSetService {
 
       classLegend.relativeFrequency = totalFeatures !== 0 ? (classLegend.count / totalFeatures).toFixed(0) + '%' : '';
       legend.classes.push(classLegend);
-
       if (!isLegendView) {
         features.forEach(feature => {
           const featureIndex = _.findIndex(group.organisationUnits, ['id', feature.id]);
