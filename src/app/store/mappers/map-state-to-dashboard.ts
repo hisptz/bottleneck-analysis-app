@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import {addArrayItem} from '../../utilities/addArrayItem';
 export function mapStateToDashboardObject(dashboardData: any, action = null) {
   switch (action) {
     case 'create': {
@@ -24,7 +25,7 @@ export function mapStateToDashboardObject(dashboardData: any, action = null) {
           showName: true
         },
         name: dashboardData.name,
-        dashboardItems: dashboardData.dashboardItems
+        dashboardItems:  _.assign([], dashboardData.dashboardItems)
       }
     }
 
@@ -37,7 +38,7 @@ export function mapStateToDashboardObject(dashboardData: any, action = null) {
           showName: false
         },
         name: dashboardData.name,
-        dashboardItems: dashboardData.dashboardItems
+        dashboardItems:  _.assign([], dashboardData.dashboardItems)
       }
     }
 
@@ -53,7 +54,7 @@ export function mapStateToDashboardObject(dashboardData: any, action = null) {
           showName: true
         },
         name: dashboardData.name,
-        dashboardItems: dashboardData.dashboardItems
+        dashboardItems:  _.assign([], dashboardData.dashboardItems)
       }
     }
 
@@ -65,7 +66,7 @@ export function mapStateToDashboardObject(dashboardData: any, action = null) {
           showName: false
         },
         name: dashboardData.name,
-        dashboardItems: dashboardData.dashboardItems
+        dashboardItems: _.assign([], dashboardData.dashboardItems)
       }
     }
 
@@ -74,7 +75,7 @@ export function mapStateToDashboardObject(dashboardData: any, action = null) {
       newDashboardData.details = {
         showName: true
       };
-      newDashboardData.dashboardItems = handleDuplicateInDashboardItems(dashboardData.dashboardItems);
+      newDashboardData.dashboardItems = _.assign([], handleDuplicateInDashboardItems(dashboardData.dashboardItems));
       return newDashboardData;
     }
   }
@@ -98,20 +99,23 @@ function handleDuplicateInDashboardItems(dashboardItems) {
 
 function removeDuplicateItems(dashboardItems) {
   const newDashboardItems = _.clone(dashboardItems);
-  const mergedDashboardItems: any[] = [];
+  let mergedDashboardItems: any[] = [];
 
   newDashboardItems.forEach(dashboardItem => {
     const dashboardTypeObject = dashboardItem[_.camelCase(dashboardItem.type)];
     if (dashboardTypeObject) {
       if (mergedDashboardItems.length === 0) {
-        mergedDashboardItems.push(dashboardItem)
+        // mergedDashboardItems.push(dashboardItem);
+        mergedDashboardItems = _.assign([], addArrayItem(mergedDashboardItems, dashboardItem, 'id'))
       } else {
         const relatedItems = mergedDashboardItems.filter(item => { return item.type === dashboardItem.type});
         if (relatedItems.length === 0) {
-          mergedDashboardItems.push(dashboardItem);
+          // mergedDashboardItems.push(dashboardItem);
+          mergedDashboardItems = _.assign([], addArrayItem(mergedDashboardItems, dashboardItem, 'id'))
         } else {
           if (!checkItemAvailability(relatedItems, dashboardItem.type, dashboardTypeObject)) {
-            mergedDashboardItems.push(dashboardItem);
+            // mergedDashboardItems.push(dashboardItem);
+            mergedDashboardItems = _.assign([], addArrayItem(mergedDashboardItems, dashboardItem, 'id'))
           }
         }
       }

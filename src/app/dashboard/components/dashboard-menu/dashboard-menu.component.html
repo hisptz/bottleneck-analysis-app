@@ -96,11 +96,7 @@
 
           </a>
         </li>
-        <!--End of settings options area-->
-      <!--<li><a (click)="settingService.toggleItem('dimension')" class="navbar-brand" style="font-size: 14px;"><i class="fa {{settingService.isOpen('dimension') ? 'fa-times' : 'fa-filter'}}"></i></a></li>-->
-      <!--<li><a (click)="settingService.toggleItem('share')"><i class="fa {{settingService.isOpen('share') ? 'fa-times' : 'fa-share-alt'}}"></i></a></li>-->
       </ul>
-      <!--<app-dashboard-menu-items></app-dashboard-menu-items>-->
 
       <ul class="nav navbar-nav dashboard-nav"
           *ngIf="(dashboardMenuObject$ | async) !== null && (dashboardMenuObject$ | async).showInGroupFormat"

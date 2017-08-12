@@ -47,7 +47,8 @@ export class DashboardEffect {
     .ofType(CURRENT_DASHBOARD_CHANGE_ACTION)
     .withLatestFrom(this.store)
     .switchMap(([action, store]) => {
-      if (store.uiState.dashboardLoaded) {
+
+      if (store.uiState.dashboardLoaded && store.uiState.dashboardCustomSettingsLoaded) {
         const currentDashboard = _.find(store.storeData.dashboards, ['id', action.payload]);
 
         if (!currentDashboard) {
