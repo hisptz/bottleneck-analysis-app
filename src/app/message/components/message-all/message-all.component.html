@@ -1,0 +1,14 @@
+<div class="msg">
+  <table>
+    <tr>
+      <td>Sender</td>
+      <td>Subject</td>
+      <td>Date</td>
+      </tr>
+      <tr *ngFor = 'let message of messages'>
+        <td>{{message.userSurname}}</td>
+        <td>{{message.subject}}</td>
+        <td>{{message.lastUpdated}}</td>
+      </tr>
+  </table>
+</div>
