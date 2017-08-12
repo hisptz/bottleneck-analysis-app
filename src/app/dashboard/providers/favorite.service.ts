@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {HttpClientService} from '../../providers/http-client.service';
 import * as _ from 'lodash';
-import {UtilitiesService} from "../../providers/utilities.service";
+import {UtilitiesService} from '../../providers/utilities.service';
 import {RelativePeriodService} from './relative-period.service';
 
 @Injectable()
@@ -16,9 +16,9 @@ export class FavoriteService {
   private _getFavoriteUrl(apiRootUrl: string, favoriteType: string, favoriteId: string): string {
     let url: string = apiRootUrl + favoriteType + 's/' + favoriteId + '.json?fields=';
     if (favoriteType === 'map') {
-      url += 'id,user,displayName,longitude,latitude,zoom,basemap,mapViews[*,organisationUnitGroupSet[id,name,displayName,organisationUnitGroups[id,code,name,shortName,displayName,dimensionItem,symbol,organisationUnits[id,code,name,shortName]]],dataElementDimensions[dataElement[id,name,optionSet[id,options[id,name]]]],columns[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],rows[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],filters[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],dataDimensionItems,program[id,displayName],programStage[id,displayName],legendSet[id,displayName,legends[*]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit]';
+      url += 'id,user,displayName,longitude,latitude,zoom,basemap,mapViews[*,organisationUnitGroupSet[id,name,displayName,organisationUnitGroups[id,code,name,shortName,displayName,dimensionItem,symbol,organisationUnits[id,code,name,shortName]]],dataElementDimensions[dataElement[id,name,optionSet[id,options[id,name,code]]]],columns[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],rows[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],filters[dimension,filter,items[dimensionItem,dimensionItemType,displayName]],dataDimensionItems,program[id,displayName],programStage[id,displayName],legendSet[id,displayName,legends[*]],!lastUpdated,!href,!created,!publicAccess,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!access,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!user,!organisationUnitGroups,!itemOrganisationUnitGroups,!userGroupAccesses,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits,!sortOrder,!topLimit]';
     } else {
-      url += '*,dataElementDimensions[dataElement[id,name,optionSet[id,options[id,name]]]],displayDescription,program[id,name],programStage[id,name],legendSet[*,legends[*]],interpretations[*,user[id,displayName],likedBy[id,displayName],comments[lastUpdated,text,user[id,displayName]]],columns[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],rows[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],filters[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],access,userGroupAccesses,publicAccess,displayDescription,user[displayName,dataViewOrganisationUnits],!href,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!organisationUnitGroups,!itemOrganisationUnitGroups,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits';
+      url += '*,dataElementDimensions[dataElement[id,name,optionSet[id,options[id,name,code]]]],displayDescription,program[id,name],programStage[id,name],legendSet[*,legends[*]],interpretations[*,user[id,displayName],likedBy[id,displayName],comments[lastUpdated,text,user[id,displayName]]],columns[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],rows[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],filters[dimension,filter,legendSet,items[id,dimensionItem,dimensionItemType,displayName]],access,userGroupAccesses,publicAccess,displayDescription,user[displayName,dataViewOrganisationUnits],!href,!rewindRelativePeriods,!userOrganisationUnit,!userOrganisationUnitChildren,!userOrganisationUnitGrandChildren,!externalAccess,!relativePeriods,!columnDimensions,!rowDimensions,!filterDimensions,!organisationUnitGroups,!itemOrganisationUnitGroups,!indicators,!dataElements,!dataElementOperands,!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits';
     }
     return url;
   }
@@ -102,15 +102,15 @@ export class FavoriteService {
   }
 
   _getRefinedFavouriteSubtitle(subTitleString) {
-    let refinedSubtitle = "";
+    let refinedSubtitle = '';
 
-    if ( subTitleString.indexOf('_') >= 0 ) {
+    if (subTitleString.indexOf('_') >= 0) {
 
       const splitted = subTitleString.split('_');
-      splitted.forEach((split)=>{
+      splitted.forEach((split) => {
         const lowercase = split.toLowerCase();
         const capitalized = lowercase.charAt(0).toUpperCase();
-        refinedSubtitle += capitalized+''+lowercase.slice(1)+" ";
+        refinedSubtitle += capitalized + '' + lowercase.slice(1) + ' ';
       })
     }
     return refinedSubtitle;
@@ -130,9 +130,14 @@ export class FavoriteService {
           /**
            * Get filters
            */
-          filterObject.filters.push(this._getDimensionValues(view.rows));
-          filterObject.filters.push(this._getDimensionValues(view.columns));
-          filterObject.filters.push(this._getDimensionValues(view.filters));
+          filterObject.filters.push(this._getDimensionValues(view.rows, view.dataElementDimensions));
+          filterObject.filters.push(this._getDimensionValues(view.columns, view.dataElementDimensions));
+          filterObject.filters.push(this._getDimensionValues(view.filters, view.dataElementDimensions));
+
+          /**
+           * Compile filters
+           * @type {any[]}
+           */
           filterObject.filters = this._compileDimensionFilters(filterObject.filters);
 
           filters.push(filterObject)
@@ -147,9 +152,14 @@ export class FavoriteService {
         /**
          * Get filters
          */
-        filterObject.filters.push(this._getDimensionValues(favorite.rows));
-        filterObject.filters.push(this._getDimensionValues(favorite.columns));
-        filterObject.filters.push(this._getDimensionValues(favorite.filters));
+        filterObject.filters.push(this._getDimensionValues(favorite.rows, favorite.dataElementDimensions));
+        filterObject.filters.push(this._getDimensionValues(favorite.columns, favorite.dataElementDimensions));
+        filterObject.filters.push(this._getDimensionValues(favorite.filters, favorite.dataElementDimensions));
+
+        /**
+         * Compile filters
+         * @type {any[]}
+         */
         filterObject.filters = this._compileDimensionFilters(filterObject.filters);
 
 
@@ -161,6 +171,13 @@ export class FavoriteService {
     }
     favoriteDetails.filters = filters;
     return favoriteDetails;
+  }
+
+  private _getOptionsFromDimensions(dataDimensions) {
+    if (dataDimensions) {
+
+    }
+    return []
   }
 
   private _getReadableDimensionValue(dimensionArray: any, readableDimensionValues: any) {
@@ -183,17 +200,25 @@ export class FavoriteService {
     return readableDimensionValues;
   }
 
-  private _getDimensionValues(dimensionArray: any) {
+  private _getDimensionValues(dimensionArray: any, dataDimensions) {
     const dimensionValues: any[] = [];
+    const newDataDimensions: any[] = _.map(dataDimensions, dataDimension => dataDimension.dataElement);
     const readableDimensionValues: any = {};
     if (dimensionArray) {
       dimensionArray.forEach((dimensionObject: any) => {
         if (dimensionObject.dimension !== 'dy') {
+
           const dimensionValue = {
             name: '',
             value: '',
             items: []
           };
+
+          const currentDataDimension: any = _.find(newDataDimensions,  ['id', dimensionObject.dimension]);
+
+          if (currentDataDimension) {
+            dimensionValue['options'] = currentDataDimension.optionSet ? currentDataDimension.optionSet.options : [];
+          }
 
           /**
            * Get dimension name
@@ -259,6 +284,7 @@ export class FavoriteService {
         })
       } else {
         const layout = {
+          // todo add flexibility for attributesDimensions and programIndicatorDimensions
           rows: this._getDimensionLayout(favorite.rows, favorite.dataElementDimensions),
           columns: this._getDimensionLayout(favorite.columns, favorite.dataElementDimensions),
           filters: this._getDimensionLayout(favorite.filters, favorite.dataElementDimensions)

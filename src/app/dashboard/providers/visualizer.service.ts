@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
 import {ChartConfiguration} from '../model/chart-configuration';
 import {AnalyticsHeader, AnalyticsMetadata, AnalyticsObject} from '../model/analytics-object';
@@ -6,7 +6,8 @@ import {AnalyticsHeader, AnalyticsMetadata, AnalyticsObject} from '../model/anal
 @Injectable()
 export class VisualizerService {
 
-  constructor() { }
+  constructor() {
+  }
 
   drawChart(incomingAnalyticsObject: any, chartConfiguration: ChartConfiguration): any {
     // TODO MOVE THIS LOGIC TO ANALYTICS OBJECT IN THE FUTURE
@@ -19,7 +20,7 @@ export class VisualizerService {
      * Get generic chart object attributes
      * @type {{chart: any; title: any; subtitle: any; credits: any; colors: any[]; plotOptions: {}; tooltip: any; exporting: any}}
      */
-    let chartObject = {
+    let chartObject: any = {
       chart: this._getChartAttributeOptions(chartConfiguration),
       title: this._getChartTitleObject(chartConfiguration),
       subtitle: this._getChartSubtitleObject(chartConfiguration),
@@ -65,12 +66,13 @@ export class VisualizerService {
     const newChartObject = _.cloneDeep(initialChartObject);
     return newChartObject;
   }
+
   private _extendPieChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
     const newChartObject = _.cloneDeep(initialChartObject);
 
     const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
-    // console.log(JSON.stringify(xAxisCategories));
+
     /**
      * Sort the corresponding series
      */
@@ -84,17 +86,17 @@ export class VisualizerService {
     if (yAxisSeriesItems.length > 1) {
 
       /**
-       * Get parent series for drilldown
+       * Get parent series for drill down
        * @type {{name: string; colorByPoint: boolean; data: any}[]}
        */
       newChartObject.series = this._getDrilldownParentSeries(
         sortedSeries,
         yAxisSeriesItems,
         chartConfiguration.yAxisType
-      )
+      );
 
       /**
-       * Get drilldown series
+       * Get drill down series
        * @type {{series: any}}
        */
       newChartObject.drilldown = {
@@ -143,8 +145,8 @@ export class VisualizerService {
 
     if (correspondingSeriesObject) {
       parentData = _.reduce(_.map(correspondingSeriesObject.data, data => data.y), (sum, n) => {
-        const newNumber = !isNaN(n) ? parseInt(n) : 0;
-        return parseInt(sum) + newNumber;
+        const newNumber = !isNaN(n) ? parseInt(n, 10) : 0;
+        return parseInt(sum, 10) + newNumber;
       });
     }
     return parentData;
@@ -161,10 +163,12 @@ export class VisualizerService {
 
     return newChartObject;
   }
+
   private _extendStackedChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
     const newChartObject = _.cloneDeep(initialChartObject);
     return newChartObject;
   }
+
   private _extendOtherChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration): any {
     const newChartObject = _.clone(initialChartObject);
     const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
@@ -185,9 +189,14 @@ export class VisualizerService {
     ), chartConfiguration.cumulativeValues ? -1 : chartConfiguration.sortOrder);
 
     /**
+     * Rearange series based on some chart type
+     */
+    const rearrangedSeries = this._getRearrangedSeries(sortedSeries, chartConfiguration.type)
+
+    /**
      * Get series
      */
-    newChartObject.series = _.assign([], sortedSeries);
+    newChartObject.series = _.assign([], rearrangedSeries);
 
     /**
      * Get refined x axis options
@@ -197,11 +206,17 @@ export class VisualizerService {
     return newChartObject;
   }
 
+  private _getRearrangedSeries(series: any[], chartType: string) {
+    // todo find best way to rearrange charts
+    // return _.indexOf(chartType, 'stacked') !== -1 || chartType === 'area' ? _.reverse(series) : series;
+    return series;
+  }
+
   private _getRefinedXAxisCategories(series: any[]) {
     let newCategories: any[] = [];
-    //todo find a way to effectively merge categories from each data
+    // todo find a way to effectively merge categories from each data
     if (series) {
-      const seriesDataObjects = _.map(series, (seriesObject) => { return seriesObject.data });
+      const seriesDataObjects = _.map(series, (seriesObject: any) => seriesObject.data);
 
       if (seriesDataObjects) {
         const seriesCategoryNamesArray = _.map(seriesDataObjects, (seriesData) => {
@@ -263,12 +278,10 @@ export class VisualizerService {
     return newSeries;
   }
 
-  private _getChartSeries(
-    analyticsObject: AnalyticsObject,
-    xAxisItems: any[],
-    yAxisItems: any[],
-    chartConfiguration: ChartConfiguration
-  ) {
+  private _getChartSeries(analyticsObject: AnalyticsObject,
+                          xAxisItems: any[],
+                          yAxisItems: any[],
+                          chartConfiguration: ChartConfiguration) {
     const series: any[] = [];
     if (yAxisItems) {
       yAxisItems.forEach((yAxisItem, yAxisIndex) => {
@@ -290,12 +303,10 @@ export class VisualizerService {
     return series;
   }
 
-  private _getSeriesData(
-    analyticsObject: AnalyticsObject,
-    chartConfiguration: ChartConfiguration,
-    yAxisItemId: string,
-    xAxisItems: any[]
-    ) {
+  private _getSeriesData(analyticsObject: AnalyticsObject,
+                         chartConfiguration: ChartConfiguration,
+                         yAxisItemId: string,
+                         xAxisItems: any[]) {
     const data: any[] = [];
     /**
      * Get index to locate data for y axis
@@ -361,9 +372,9 @@ export class VisualizerService {
 
     switch (chartConfiguration.type) {
       case 'pie':
-        dataLabels =  {
+        dataLabels = {
           enabled: chartConfiguration.showData,
-            format: '{point.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
+          format: '{point.name}<br/> <b>{point.y}</b> ( {point.percentage:.1f} % )'
         };
         break;
       default:
@@ -375,6 +386,7 @@ export class VisualizerService {
 
     return dataLabels;
   }
+
   private _getAxisItems(analyticsObject: any, axisType: string, isCategory: boolean = false) {
     let items: any[] = [];
     const metadataNames = analyticsObject.metaData.names;
@@ -403,9 +415,9 @@ export class VisualizerService {
     }
     return {
       text: chartConfiguration.title,
-        style: {
-          fontWeight: '600',
-          fontSize: '13px'
+      style: {
+        fontWeight: '600',
+        fontSize: '13px'
       }
     }
   }
@@ -446,9 +458,7 @@ export class VisualizerService {
   }
 
   private _getChartLabelOptions(chartConfiguration: ChartConfiguration) {
-    return {
-
-    }
+    return {}
   }
 
   private _getTooltipOptions(chartConfiguration: ChartConfiguration) {
@@ -527,7 +537,9 @@ export class VisualizerService {
           /**
            * Set attributes for stacked charts
            */
-          if (chartConfiguration.type === 'stacked_column' || chartConfiguration.type === 'stacked_bar') {
+          if (chartConfiguration.type === 'stacked_column' ||
+            chartConfiguration.type === 'stacked_bar' ||
+            chartConfiguration.type === 'area') {
             plotOptions[plotOptionChartType].stacking = chartConfiguration.percentStackedValues ? 'percent' : 'normal';
           }
           break;
@@ -752,14 +764,14 @@ export class VisualizerService {
      */
     newChartObject.pane = {
       center: ['50%', '85%'],
-        size: '140%',
-        startAngle: -90,
-        endAngle: 90,
-        background: {
+      size: '140%',
+      startAngle: -90,
+      endAngle: 90,
+      background: {
         backgroundColor: '#EEE',
-          innerRadius: '60%',
-          outerRadius: '100%',
-          shape: 'arc'
+        innerRadius: '60%',
+        outerRadius: '100%',
+        shape: 'arc'
       }
     };
 
@@ -788,13 +800,14 @@ export class VisualizerService {
 
     return newChartObject;
   }
+
   private _getMoreOptionsForStackedChartTypes(initialChartObject: any, chartConfiguration: ChartConfiguration, stackedType: string) {
     const newChartObject = _.cloneDeep(initialChartObject);
 
     /**
      * Set initial xAxis attributes
      */
-    newChartObject.xAxis =  {
+    newChartObject.xAxis = {
       categories: []
     };
 
@@ -833,7 +846,7 @@ export class VisualizerService {
     /**
      * Set initial xAxis attributes
      */
-    newChartObject.xAxis =  {
+    newChartObject.xAxis = {
       categories: [],
       labels: {
         rotation: -45,
@@ -861,7 +874,8 @@ export class VisualizerService {
     let newAnalyticsObject = _.clone(analyticsObject);
 
     if (chartConfiguration.cumulativeValues) {
-      newAnalyticsObject = _.assign({}, this._mapAnalyticsToCumulativeFormat(analyticsObject, chartConfiguration.xAxisType, chartConfiguration.yAxisType));
+      newAnalyticsObject = _.assign({}, this._mapAnalyticsToCumulativeFormat(
+        analyticsObject, chartConfiguration.xAxisType, chartConfiguration.yAxisType));
     }
 
     return newAnalyticsObject;
@@ -878,11 +892,11 @@ export class VisualizerService {
       const dataValueIndex = _.findIndex(analyticsObject.headers, _.find(analyticsObject.headers, ['name', 'value']));
       const newRows: any[] = [];
       yAxisDimensionArray.forEach(yAxisDimensionValue => {
-        let initialValue: number = 0;
+        let initialValue = 0;
         xAxisDimensionArray.forEach(xAxisDimensionValue => {
           analyticsObject.rows.forEach((row) => {
             if (row[yAxisDimensionIndex] === yAxisDimensionValue && row[xAxisDimensionIndex] === xAxisDimensionValue) {
-              initialValue += parseInt(row[dataValueIndex]);
+              initialValue += parseInt(row[dataValueIndex], 10);
               const newRow = _.clone(row);
               newRow[dataValueIndex] = initialValue;
               newRows.push(newRow);
