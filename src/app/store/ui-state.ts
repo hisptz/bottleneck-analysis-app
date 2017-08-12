@@ -9,6 +9,8 @@ export interface UiState {
     loaded: boolean;
   };
   dashboardLoaded: boolean;
+  dashboardCustomSettingsLoaded: boolean;
+  favoriteOptionsLoaded: boolean;
   currentDashboard: string;
 }
 
@@ -23,5 +25,7 @@ export const INITIAL_UI_STATE = {
     loaded: false
   },
   currentDashboard: undefined,
-  dashboardLoaded: false
+  dashboardLoaded: false,
+  dashboardCustomSettingsLoaded: false,
+  favoriteOptionsLoaded: false
 };

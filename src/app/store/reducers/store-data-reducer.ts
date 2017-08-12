@@ -14,7 +14,8 @@ import {
   LOAD_DASHBOARD_SEARCH_ITEMS_ACTION, DASHBOARD_SEARCH_HEADERS_CHANGE_ACTION, DASHBOARD_DELETED_ACTION,
   HIDE_DASHBOARD_MENU_ITEM_NOTIFICATION_ICON, GEO_FEATURE_LOADED_ACTION, SAVE_CHART_CONFIGURATION_ACTION,
   SAVE_CHART_OBJECT_ACTION, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION,
-  UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION, VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION
+  UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION, VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION,
+  UPDATE_VISUALIZATION_WITH_FILTER_ACTION
 } from '../actions';
 import {Dashboard} from '../../model/dashboard';
 import {DashboardSearchItem} from '../../dashboard/model/dashboard-search-item';
@@ -32,8 +33,8 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
 
     case DASHBOARDS_LOADED_ACTION: {
       const newState: StoreData = _.clone(state);
-      const loadedDashboards = action.payload.slice();
-      newState.dashboards = loadedDashboards.map(dashboard => {
+
+      newState.dashboards = _.map(action.payload, (dashboard: any) => {
         return mapStateToDashboardObject(dashboard)
       });
 
@@ -276,7 +277,7 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return handleFavoriteUpdateAction(newState, action);
     }
 
-    case 'UPDATE_VISUALIZATION_WITH_FILTER_ACTION': {
+    case UPDATE_VISUALIZATION_WITH_FILTER_ACTION: {
       return handleFiltersUpdateAction(state, action)
     }
 
@@ -508,44 +509,6 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
-    case 'ORGUNIT_GROUP_SET_LOADED_ACTION': {
-      const newState = _.clone(state);
-
-      /**
-       * save group sets
-       */
-      action.payload.groupSets.forEach(groupSet => {
-        if (groupSet !== null) {
-          const currentGroupSet = _.find(newState.orgUnitGroupSets, ['id', groupSet.id]);
-          if (!currentGroupSet) {
-            newState.orgUnitGroupSets.push(groupSet);
-          } else {
-            const currentGroupSetIndex = _.findIndex(newState.legendSets, currentGroupSet);
-            newState.orgUnitGroupSets[currentGroupSetIndex] = groupSet;
-          }
-        }
-      });
-
-      /**
-       * update visualization with group set
-       */
-      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
-      if (currentVisualizationObject) {
-        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
-        currentVisualizationObject.layers.forEach((layer: any) => {
-          if (layer.settings.organisationUnitGroupSet) {
-            const organisationUnitGroupSet = _.find(newState.orgUnitGroupSets, ['id', layer.settings.organisationUnitGroupSet.id]);
-            if (organisationUnitGroupSet) {
-              layer.settings.organisationUnitGroupSet = organisationUnitGroupSet;
-            }
-          }
-        });
-        currentVisualizationObject.details.loaded = true;
-        newState.visualizationObjects[currentVisualizationObjectIndex] = currentVisualizationObject;
-      }
-      return newState;
-    }
-
     case 'FAVORITE_SAVED_ACTION': {
       const newState = _.clone(state);
       const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
@@ -596,19 +559,19 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
 
     case FAVORITE_OPTIONS_LOADED_ACTION: {
       const newState = _.clone(state);
-      newState.favoriteOptions = action.payload;
+      newState.favoriteOptions = _.assign([], action.payload);
       return newState;
     }
 
     case DASHBOARDS_CUSTOM_SETTINGS_LOADED_ACTION: {
       const newState = _.clone(state);
-      newState.customDashboardSettings = action.payload;
+      newState.customDashboardSettings = _.assign({}, action.payload);
       return newState;
     }
 
     case DASHBOARD_GROUP_SETTINGS_UPDATE_ACTION: {
       const newState = _.clone(state);
-      newState.customDashboardSettings = action.payload.dashboardGroupSettings;
+      newState.customDashboardSettings = _.assign({}, action.payload.dashboardGroupSettings);
       return newState;
     }
 

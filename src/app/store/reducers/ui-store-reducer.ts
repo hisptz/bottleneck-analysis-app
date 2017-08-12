@@ -1,6 +1,9 @@
 import * as _ from 'lodash';
 import {INITIAL_UI_STATE, UiState} from '../ui-state';
-import {CURRENT_DASHBOARD_CHANGE_ACTION, CURRENT_DASHBOARD_SAVE_ACTION, DASHBOARDS_LOADED_ACTION} from '../actions';
+import {
+  CURRENT_DASHBOARD_CHANGE_ACTION, CURRENT_DASHBOARD_SAVE_ACTION, DASHBOARDS_CUSTOM_SETTINGS_LOADED_ACTION,
+  DASHBOARDS_LOADED_ACTION, FAVORITE_OPTIONS_LOADED_ACTION
+} from '../actions';
 export function uiStateReducer(state: UiState = INITIAL_UI_STATE, action) {
   switch (action.type) {
 
@@ -41,6 +44,18 @@ export function uiStateReducer(state: UiState = INITIAL_UI_STATE, action) {
     case DASHBOARDS_LOADED_ACTION: {
       const newState: UiState = _.clone(state);
       newState.dashboardLoaded = true;
+      return newState;
+    }
+
+    case DASHBOARDS_CUSTOM_SETTINGS_LOADED_ACTION: {
+      const newState: UiState = _.clone(state);
+      newState.dashboardCustomSettingsLoaded = true;
+      return newState;
+    }
+
+    case FAVORITE_OPTIONS_LOADED_ACTION: {
+      const newState: UiState = _.clone(state);
+      newState.favoriteOptionsLoaded = true;
       return newState;
     }
 

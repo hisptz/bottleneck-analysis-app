@@ -43,7 +43,7 @@ export const INITIAL_STORE_DATA: StoreData = {
   legendSets: [],
   orgUnitGroupSets: [],
   globalFilters: null,
-  favoriteOptions: null,
+  favoriteOptions: [],
   customDashboardSettings: null,
   dashboardSearchItems: {
     loading: false,
