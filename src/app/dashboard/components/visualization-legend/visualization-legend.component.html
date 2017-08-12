@@ -18,35 +18,79 @@
           <div class="body" [ngClass]="{hideLegend:!legend.opened}">
             <br/>
             <p>&nbsp;{{legend.description}}</p>
-            <div *ngFor="let class of legend.classes">
-              <table class="legend-table">
-                <tr>
-                  <td rowspan="2" *ngIf="!legend.isEvent"
-                      [ngStyle]="{backgroundColor:class.color,width:'50px',height:'20px'}">&nbsp;
+
+            <div *ngIf="legend.isFacility">
+              <div *ngFor="let class of legend.classes">
+                <table class="legend-table">
+                  <tr>
+                    <td><img [src]="'../images/orgunitgroup/'+class.icon"></td><td>{{class.name}} ({{class.count}}) ({{class.relativeFrequency}})</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+
+            <div *ngIf="legend.isThematic">
+              <div *ngFor="let class of legend.classes">
+                <table class="legend-table">
+                  <tr>
+                    <td></td>
+                    <td [ngStyle]="{fontWeight:'bold'}">{{class.label}}</td>
+                  </tr>
+                  <tr>
+                    <td rowspan="2"
+                        [ngStyle]="{backgroundColor:class.color,width:'50px',height:'20px'}">&nbsp;
+                    </td>
+                    <td><span *ngIf="class.max!=0&&class.min!=class.max">{{class.min}} - {{class.max}}</span><span
+                      *ngIf="class.min!=0 && class.max!=0">({{class.count}}) ({{class.percentage}})</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <div *ngIf="legend.isEvent">
+              <div *ngFor="let class of legend.classes">
+                <table class="legend-table">
+                  <tr>
+                    <td>
+                  <tr>
+                    <td
+                      [ngStyle]="{backgroundColor:class.color,width:(class.radius*4)+'px',height:(class.radius*4)+'px',borderRadius:(class.radius*4)+'px'}"
+                      style="box-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);opacity:0.95;"></td>
+                    <td>Clusters</td>
+                  </tr>
+                  <br/>
+                  <tr>
+                    <td><i class="fa fa-map-marker fa-2x" style="color:#276696"></i></td>
+                    <td>Event Points</td>
+                  </tr>
                   </td>
-                  <td *ngIf="legend.isEvent">
-                <tr>
-                  <td
-                    [ngStyle]="{backgroundColor:class.color,width:(class.radius*5)+'px',height:(class.radius*5)+'px',borderRadius:(class.radius*5)+'px'}"
-                    style="box-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);opacity:0.95;"></td>
-                  <td>Clusters</td>
-                </tr>
-                <br/>
-                <tr>
-                  <td><i class="fa fa-map-marker fa-2x" style="color:#276696"></i></td>
-                  <td>Event Points</td>
-                </tr>
-                </td>
-                <td [ngStyle]="{fontWeight:'bold'}">{{class.label}}</td>
-                <td *ngIf="!legend.isEvent"></td>
-                </tr>
-                <tr>
-                  <td><span *ngIf="class.max!=0&&class.min!=class.max">{{class.min}} - {{class.max}}</span><span
-                    *ngIf="class.min!=0 && class.max!=0">({{class.count}}) ({{class.percentage}})</span>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <div *ngIf="legend.isBoundary">
+              <div *ngFor="let class of legend.classes">
+                <table class="legend-table">
+                  <tr>
+                    <td>
+                  <tr>
+                    <td
+                      [ngStyle]="{backgroundColor:class.color,width:(class.radius*4)+'px',height:(class.radius*4)+'px',borderRadius:(class.radius*4)+'px'}"
+                      style="box-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);opacity:0.95;"></td>
+                    <td>Clusters</td>
+                  </tr>
+                  <br/>
+                  <tr>
+                    <td><i class="fa fa-map-marker fa-2x" style="color:#276696"></i></td>
+                    <td>Event Points</td>
+                  </tr>
                   </td>
-                  <td></td>
-                </tr>
-              </table>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -62,7 +106,7 @@
       </div>
 
       <div class="col-lg-12 col-md-12 col-xs-12 legend-header" style="border-bottom: 1px solid #cccccc;"
-           *ngIf="legend.name=='Boundaries'">
+           *ngIf="boundaryLegend.length>0">
         <div class="col-lg-1 col-md-1 col-xs-1 legend-draggable-icon" (click)="toggleBoundaryLayer()">
           <a><i class="fa fa-connectdevelop" style="color:#000000;"></i></a>
         </div>

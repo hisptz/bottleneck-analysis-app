@@ -42,6 +42,7 @@ export class VisualizationLegendComponent implements OnInit {
     const eventLegends = [];
     const thematicLegends = [];
     const boundaryLegends = [];
+    const facilityLegends = [];
     if (this.mapVsualizationObject.type === 'MAP' || this.mapVsualizationObject.type === 'REPORT_TABLE' || this.mapVsualizationObject.type === 'CHART' || this.mapVsualizationObject.type === 'EVENT_REPORT' || this.mapVsualizationObject.type === 'EVENT_CHART') {
       const mapLayers = this.mapVsualizationObject.layers;
       this.visualizationTileLayersLegends = this.legend.prepareTileLayers(TILE_LAYERS);
@@ -64,10 +65,18 @@ export class VisualizationLegendComponent implements OnInit {
             thematicLegends.push(this._prepareLayerLegend(mapVisualizationSettings, mapVisualizationAnalytics, this.legend.prepareThematicLayerLegendClasses(mapVisualizationSettings, mapVisualizationAnalytics)));
 
           }
+
+
+          if (mapLayer.settings.layer.indexOf('facility') > -1) {
+
+            facilityLegends.push(this._prepareLayerLegend(mapVisualizationSettings, mapVisualizationAnalytics, this.legend.getFacilityLayerLegendClasses(mapVisualizationSettings, true)));
+
+          }
+
         }
       )
 
-      this.visualizationLegends = [...thematicLegends, ...eventLegends, ...boundaryLegends];
+      this.visualizationLegends = [...thematicLegends, ...eventLegends,...boundaryLegends, ...facilityLegends];
     }
 
     this.visualizationLegends.forEach((legend, legendIndex) => {
@@ -86,21 +95,29 @@ export class VisualizationLegendComponent implements OnInit {
         legendId = mapVisualizationSettings.id;
       })
     }
+
     const hiddenProperty:any = (new Function('return '+localStorage.getItem(legendId)))();
     const layerLegend: LegendSet = {
       id: mapVisualizationSettings.id,
       name: mapVisualizationSettings.layer === 'event' ? this.legend.getEventName(mapVisualizationAnalytics)[0] :
-        mapVisualizationSettings.layer === 'boundary' ? 'Boundaries' : mapVisualizationSettings.name,
+        mapVisualizationSettings.layer === 'boundary' ? 'Boundaries' :  mapVisualizationSettings.layer === 'facility' ? 'Facility' : mapVisualizationSettings.name,
       description: mapVisualizationSettings.subtitle,
       pinned: false,
       hidden:hiddenProperty?hiddenProperty:false ,
       opened: false,
+      isClustered:false,
       useIcons: false,
       isEvent: mapVisualizationSettings.layer === 'event' ? true : false,
+      isThematic: mapVisualizationSettings.layer != 'event' && mapVisualizationSettings.layer != 'boundary' && mapVisualizationSettings.layer != 'facility' ? true : false,
+      isBoundary: mapVisualizationSettings.layer === 'boundary' ? true : false,
+      isFacility: mapVisualizationSettings.layer === 'facility' ? true : false,
       opacity: mapVisualizationSettings.opacity,
-      classes: legendClasses,
+      classes: mapVisualizationSettings.layer != 'boundary' && mapVisualizationSettings.layer != 'facility' ?legendClasses:legendClasses[0],
       change: []
     }
+
+
+
 
     return layerLegend;
   }
