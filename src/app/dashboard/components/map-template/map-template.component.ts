@@ -66,7 +66,7 @@ export class MapTemplateComponent implements OnInit {
     L.control.scale({position: 'bottomleft', metric: true, updateWhenIdle: true}).addTo(this.map);
     this.updateOnLayerLoad(mapObject);
     this.isFullScreen = visualizationObject.details.showFullScreen;
-    if (this.isFullScreen === true){
+    if (this.isFullScreen === true) {
       this.map.scrollWheelZoom.enable();
     }
   }
