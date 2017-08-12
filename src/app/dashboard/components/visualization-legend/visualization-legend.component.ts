@@ -32,6 +32,7 @@ export class VisualizationLegendComponent implements OnInit {
   showUpload: boolean = false;
   showButtonIncons: boolean = false;
   layerSelectionForm: boolean = false;
+  displayNone: boolean = false;
 
 
   constructor(private legend: LegendSetService) {
@@ -153,6 +154,7 @@ export class VisualizationLegendComponent implements OnInit {
 
   showDownloadContainer() {
     this.showDownload = !this.showDownload;
+    this.displayNone = true;
   }
 
   showUploadContainer() {
@@ -218,6 +220,7 @@ export class VisualizationLegendComponent implements OnInit {
 
   closeDownloads() {
     this.showDownload = false;
+    this.displayNone = false;
   }
 
   downloadMap(format) {
