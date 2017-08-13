@@ -113,21 +113,21 @@ export class VisualizationService {
   }
 
   _sanitizeIncomingAnalytics(analyticsObject: any) {
-    for (let header of analyticsObject.headers) {
-      if (header.hasOwnProperty('optionSet')) {
-        if (analyticsObject.metaData[header.name].length == 0) {
-          analyticsObject.metaData[header.name] = this._getRowItems(this._getTitleIndex(analyticsObject.headers, header.name), analyticsObject.rows);
-          for (let item of analyticsObject.metaData[header.name]) {
-            analyticsObject.metaData.names[item] = item;
-          }
-
-        } else {
-          for (let item of analyticsObject.metaData[header.name]) {
-            analyticsObject.metaData.names[item] = item;
-          }
-        }
-      }
-    }
+    // for (let header of analyticsObject.headers) {
+    //   if (header.hasOwnProperty('optionSet')) {
+    //     if (analyticsObject.metaData[header.name].length == 0) {
+    //       analyticsObject.metaData[header.name] = this._getRowItems(this._getTitleIndex(analyticsObject.headers, header.name), analyticsObject.rows);
+    //       for (let item of analyticsObject.metaData[header.name]) {
+    //         analyticsObject.metaData.names[item] = item;
+    //       }
+    //
+    //     } else {
+    //       for (let item of analyticsObject.metaData[header.name]) {
+    //         analyticsObject.metaData.names[item] = item;
+    //       }
+    //     }
+    //   }
+    // }
 
     return analyticsObject;
   }

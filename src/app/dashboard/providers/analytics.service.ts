@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClientService} from '../../providers/http-client.service';
 import {Observable} from 'rxjs/Observable';
 import * as _ from 'lodash';
-import {AnalyticsHeader, AnalyticsObject} from '../model/analytics-object';
 
 @Injectable()
 export class AnalyticsService {
@@ -36,9 +35,8 @@ export class AnalyticsService {
         }
         return analyticUrl !== '' ? this.http.get(analyticUrl) : Observable.of(null)
       })).subscribe(analyticsResponse => {
-        console.log();
         visualizationDetails.analytics = _.filter(_.map(visualizationDetails.filters, (filter, filterIndex) => {
-          return {id: filter.id, content: analyticsResponse[filterIndex]}
+          return {id: filter.id, content: this._sanitizeIncomingAnalytics(analyticsResponse[filterIndex], filter)}
         }), (analytics) => {
           return analytics.content !== null;
         });
@@ -53,12 +51,61 @@ export class AnalyticsService {
     });
   }
 
+  private _sanitizeIncomingAnalytics(analyticsObject: any, filterObject) {
+    const newAnalyticsObject: any = _.clone(analyticsObject);
+
+    if (analyticsObject !== null) {
+      const newMetadata: any = _.clone(analyticsObject.metaData);
+
+      if (analyticsObject.headers) {
+        const headerWithOptionSet = _.filter(analyticsObject.headers, analyticsHeader => analyticsHeader.optionSet)[0];
+
+        if (headerWithOptionSet) {
+          const headerOptionsObject = _.find(filterObject.filters, ['name', headerWithOptionSet.name]);
+
+          if (headerOptionsObject) {
+            const headerOptions = _.assign([], headerOptionsObject.options);
+            if (headerOptions) {
+              /**
+               * Update metadata dimension
+               */
+              if (newMetadata[headerWithOptionSet.name]) {
+                newMetadata[headerWithOptionSet.name] = _.assign(
+                  [], _.map(headerOptions, (option: any) => option.code ? option.code : option.id));
+              }
+
+              /**
+               * Update metadata names
+               */
+              const newMetadataNames = _.clone(newMetadata.names);
+
+              headerOptions.forEach((option: any) => {
+                const nameIndex = option.code ? option.code : option.id;
+
+                if (nameIndex) {
+                  newMetadataNames[nameIndex] = option.name;
+                }
+              });
+
+              newMetadata.names = _.assign({}, newMetadataNames);
+            }
+          }
+        }
+      }
+
+      newAnalyticsObject.metaData = _.assign({}, newMetadata);
+    }
+
+    return newAnalyticsObject;
+  }
+
   private _getParametersArray(filters: any[]) {
-     return _.filter(_.map(filters, (filter) => {
-       return filter.value !== '' ? 'dimension=' + filter.name + ':' + filter.value : ['dx', 'pe', 'ou'].indexOf(filter.name) === -1 ? 'dimension=' + filter.name : ''
-     }), param => {
-       return param !== ''
-     });
+    return _.filter(_.map(filters, (filter) => {
+      return filter.value !== '' ? 'dimension=' + filter.name + ':' + filter.value :
+        ['dx', 'pe', 'ou'].indexOf(filter.name) === -1 ? 'dimension=' + filter.name : '';
+    }), param => {
+      return param !== ''
+    });
   }
 
   private _getVisualizationSettings(favoriteObject, settingsId) {
@@ -138,7 +185,8 @@ export class AnalyticsService {
 
   private _getAnalyticsCallStrategies(visualizationType, layerType: string = null): string {
     let strategies = '';
-    strategies += visualizationType === 'EVENT_CHART' || visualizationType === 'EVENT_REPORT' || visualizationType === 'EVENT_MAP' ? '&outputType=EVENT' : '';
+    strategies += visualizationType === 'EVENT_CHART' ||
+    visualizationType === 'EVENT_REPORT' || visualizationType === 'EVENT_MAP' ? '&outputType=EVENT' : '';
     strategies += '&displayProperty=SHORTNAME';
     strategies += layerType !== null && layerType === 'event' ? '&coordinatesOnly=true' : '';
     return strategies;
@@ -309,19 +357,7 @@ export class AnalyticsService {
     return newRowsArray;
   }
 
-  organizeSplitsIntoLayers(splitedAnalytics, splitedFavorites, visualizationObject) {
-    // console.log(splitedAnalytics, splitedFavorites);
-    if (splitedAnalytics.length > 0 && splitedFavorites > 0) {
-      console.log(splitedAnalytics, splitedFavorites);
-    } else {
-      console.log(splitedAnalytics, splitedFavorites);
-      return visualizationObject.layers;
-    }
-
-  }
-
-  mapEventClusteredAnalyticsToAggregate(analyticsObject) {
-    console.log(analyticsObject)
+  mapEventClusteredAnalyticsToAggregate(analyticsObject: any): any {
     return analyticsObject;
   }
 
