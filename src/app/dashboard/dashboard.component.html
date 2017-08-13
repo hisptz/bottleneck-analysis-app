@@ -80,11 +80,10 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" *ngIf="!(dashboardLoaded$ | async)">
     <div class="col-md-12">
       <app-loader
         [loadingMessage]="'Loading Dashboards'"
-        *ngIf="!(dashboardLoaded$ | async)"
       ></app-loader>
     </div>
   </div>

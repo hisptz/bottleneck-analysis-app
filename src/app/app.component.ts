@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new LoadCurrentUserAction(rootUrl));
         this.store.dispatch(new LoadDashboardsAction(rootUrl));
         this.store.dispatch(new LoadDashboardsCustomSettingsAction(rootUrl));
-        this.store.dispatch(new LoadFavoriteOptionsAction(rootUrl));
       }
     });
     this.loginRedirectService.checkIfLogin('../../../')

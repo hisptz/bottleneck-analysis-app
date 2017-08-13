@@ -560,6 +560,7 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
     case FAVORITE_OPTIONS_LOADED_ACTION: {
       const newState = _.clone(state);
       newState.favoriteOptions = _.assign([], action.payload);
+      console.log(action.payload)
       return newState;
     }
 

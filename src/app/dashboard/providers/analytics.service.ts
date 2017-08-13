@@ -60,8 +60,12 @@ export class AnalyticsService {
       if (analyticsObject.headers) {
         const headerWithOptionSet = _.filter(analyticsObject.headers, analyticsHeader => analyticsHeader.optionSet)[0];
 
+        /**
+         * Check header with option set
+         */
         if (headerWithOptionSet) {
           const headerOptionsObject = _.find(filterObject.filters, ['name', headerWithOptionSet.name]);
+
 
           if (headerOptionsObject) {
             const headerOptions = _.assign([], headerOptionsObject.options);
@@ -91,12 +95,71 @@ export class AnalyticsService {
             }
           }
         }
+
+        const headersWithDynamicDimensionButNotOptionSet = _.filter(analyticsObject.headers,
+          (analyticsHeader: any) => (analyticsHeader.name !== 'dx' || analyticsHeader.name !== 'pe'
+            || analyticsHeader.name !== 'ou' || analyticsHeader.name !== 'value') && !analyticsHeader.optionSet)[0];
+
+        if (headersWithDynamicDimensionButNotOptionSet) {
+          const headerOptionsWithoutOptionSetObject = _.find(filterObject.filters, ['name', headersWithDynamicDimensionButNotOptionSet.name]);
+
+          if (headerOptionsWithoutOptionSetObject) {
+            const headerFilter = headerOptionsWithoutOptionSetObject.value;
+
+            if (headerFilter) {
+
+              const headerOptions = this._getFilterNumberRange(headerFilter);
+              if (headerOptions) {
+                /**
+                 * Update metadata dimension
+                 */
+                if (newMetadata[headersWithDynamicDimensionButNotOptionSet.name]) {
+                  newMetadata[headersWithDynamicDimensionButNotOptionSet.name] = _.assign(
+                    [], _.map(headerOptions, (option: any) => option.code ? option.code : option.id));
+                }
+
+                /**
+                 * Update metadata names
+                 */
+                const newMetadataNames = _.clone(newMetadata.names);
+
+                headerOptions.forEach((option: any) => {
+                  const nameIndex = option.code ? option.code : option.id;
+
+                  if (nameIndex) {
+                    newMetadataNames[nameIndex] = option.name;
+                  }
+                });
+
+                newMetadata.names = _.assign({}, newMetadataNames);
+              }
+            }
+          }
+        }
       }
 
       newAnalyticsObject.metaData = _.assign({}, newMetadata);
     }
 
     return newAnalyticsObject;
+  }
+
+  private _getFilterNumberRange(filterString) {
+    const splitedFilter = filterString.split(':');
+    let newNumberRange = [];
+    if (splitedFilter[0] === 'LE') {
+      const maxValue: number = parseInt(splitedFilter[1]);
+      if (!isNaN(maxValue)) {
+        newNumberRange = _.assign([], _.times(maxValue + 1, (value: number) => {
+          return {
+            code: (value).toString(),
+            name: (value).toString()
+          }
+        }))
+      }
+
+    }
+    return newNumberRange;
   }
 
   private _getParametersArray(filters: any[]) {
