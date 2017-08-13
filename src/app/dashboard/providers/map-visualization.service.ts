@@ -336,7 +336,7 @@ export class MapVisualizationService {
               this.mapObjects.push({id: mapObjectId, layer: centerLayer});
             }
 
-            // mapLayers.push(centerLayer[0]);
+
             if (centerLayer[0]) {
               mapLayers[visualizationLayers.length - layerIndex] = centerLayer[0];
             }
@@ -347,7 +347,7 @@ export class MapVisualizationService {
             centeringLayer = centerLayer[1];
           } else {
             const centerLayer = this._prepareMarkersLayerGroup(L, layer.settings, layer.analytics);
-            // mapLayers.push(centerLayer[0]);
+
             if (centerLayer[0]) {
               mapLayers[visualizationLayers.length - layerIndex] = centerLayer[0];
             }
@@ -359,7 +359,7 @@ export class MapVisualizationService {
           }
         } else if (layer.settings.layer === 'external') {
           const external = this.prepareTileLayer(L, this._prepareExternalTileLayer(layer.settings.config));
-          // mapLayers.push(external);
+
 
           if (external) {
             mapLayers[visualizationLayers.length - layerIndex] = external;
@@ -461,7 +461,6 @@ export class MapVisualizationService {
     return layer;
   }
 
-
   /**
    *
    * @param visualizationLayerSettings
@@ -542,7 +541,6 @@ export class MapVisualizationService {
       }
     }
   }
-
 
   private _getGEOJSONLayer(L, visualizationLayerSettings, visualizationAnalytics, options) {
     const geoJsonFeatures = this._getGeoJSONObject(visualizationLayerSettings.geoFeature, visualizationAnalytics);

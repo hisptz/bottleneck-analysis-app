@@ -41,6 +41,7 @@ export class RelativePeriodService {
       favourite[parentdimension].push(newPeriodDimension);
     }
 
+
     return favourite;
   }
 
@@ -60,6 +61,9 @@ export class RelativePeriodService {
         const newPeriods = this._getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod);
         fixedPeriods = [...fixedPeriods, ...newPeriods];
       })
+    }
+    if (fixedPeriods.length<=0){
+      fixedPeriods = relativePeriodArray;
     }
     return fixedPeriods;
   }
