@@ -31,6 +31,8 @@ export class DataService {
     dataSets: [],
   };
 
+  private _dataItems: any[] = [];
+
   constructor(private http: Http, private localDbService: LocalStorageService,private httpService:HttpClientService ) { }
 
   getIndicators(): Observable<Indicator[]>{
@@ -79,15 +81,26 @@ export class DataService {
 
 
   initiateData(){
-    return Observable.forkJoin(
-      this.getDataFromLocalDatabase(DATAELEMENT_KEY),
-      this.getDataFromLocalDatabase(INDICATOR_KEY),
-      this.getDataFromLocalDatabase(INDICATOR_GROUP_KEY),
-      this.getDataFromLocalDatabase(DATAELEMENT_GROUP_KEY),
-      this.getDataFromLocalDatabase(DATASET_KEY),
-      this.getDataFromLocalDatabase(CATEGORY_COMBOS_KEY),
-      this.getDataFromLocalDatabase(PROGRAM_KEY)
-    );
+    return Observable.create(observer => {
+      if (this._dataItems.length > 0) {
+        observer.next(this._dataItems);
+        observer.complete();
+      } else {
+        Observable.forkJoin(
+          this.getDataFromLocalDatabase(DATAELEMENT_KEY),
+          this.getDataFromLocalDatabase(INDICATOR_KEY),
+          this.getDataFromLocalDatabase(INDICATOR_GROUP_KEY),
+          this.getDataFromLocalDatabase(DATAELEMENT_GROUP_KEY),
+          this.getDataFromLocalDatabase(DATASET_KEY),
+          this.getDataFromLocalDatabase(CATEGORY_COMBOS_KEY),
+          this.getDataFromLocalDatabase(PROGRAM_KEY)
+        ).subscribe((dataItems: any[]) => {
+          this._dataItems = Object.assign([], dataItems);
+          observer.next(this._dataItems);
+          observer.complete();
+        })
+      }
+    })
 
   }
 

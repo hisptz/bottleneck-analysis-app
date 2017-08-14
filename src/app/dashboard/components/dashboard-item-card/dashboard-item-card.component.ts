@@ -37,6 +37,7 @@ export class DashboardItemCardComponent implements OnInit {
   private _showFilter: any;
   private _layoutModel: any;
   private _selectedDataItems: any;
+  private _selectedPeriods: any;
   showPeriodFilter: boolean;
   showOrgUnitFilter: boolean;
   showDataFilter: boolean;
@@ -90,6 +91,14 @@ export class DashboardItemCardComponent implements OnInit {
     this._selectedDataItems = [];
   }
 
+
+  get selectedPeriods(): any {
+    return this._selectedPeriods;
+  }
+
+  set selectedPeriods(value: any) {
+    this._selectedPeriods = value;
+  }
 
   get selectedDataItems(): any {
     return this._selectedDataItems;
@@ -202,7 +211,12 @@ export class DashboardItemCardComponent implements OnInit {
     /**
      * Get selected data items
      */
-    this._selectedDataItems = _.assign([], this.getSelectedData(this.visualizationObject.details.filters))
+    this._selectedDataItems = _.assign([], this.getSelectedItems(this.visualizationObject.details.filters, 'dx'));
+
+    /**
+     * Get selected periods
+     */
+    this._selectedPeriods = _.assign([], this.getSelectedItems(this.visualizationObject.details.filters, 'pe'));
   }
 
   private _getDashboardCardClasses(currentShape, shapes: any[] = [], showFullScreen: boolean = false): any[] {
@@ -503,15 +517,15 @@ export class DashboardItemCardComponent implements OnInit {
     }
   }
 
-  getSelectedData(filters: any[]) {
+  getSelectedItems(filters: any[], dimension: string) {
     // todo take data items based on the current layer
     if (filters && filters[0]) {
-      const dataItemObject = _.find(filters[0].filters, ['name', 'dx']);
+      const dataItemObject = _.find(filters[0].filters, ['name', dimension]);
 
       if (dataItemObject) {
         return _.map(dataItemObject.items, (dataItem: any) => {
           return {
-            id: dataItem.dimensionItemType,
+            id: dataItem.dimensionItem,
             name: dataItem.displayName
           }
         })

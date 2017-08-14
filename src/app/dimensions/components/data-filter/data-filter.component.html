@@ -33,13 +33,13 @@
       <th width="50%">
         <ul class="list-inline data-header-list">
           <li>Available <span class="fadeOut">({{(listItems| filterByName:listchanges).length - getSelectedItemsToRemove() }})</span></li>
-          <li class="pull-right pointer direction-arrows" (click)="selectAllItems()"><a title="Select all"><i class="fa fa-angle-double-right"></i></a></li>
+          <li class="pull-right pointer direction-arrows" (click)="selectAllItems($event)"><a title="Select all"><i class="fa fa-angle-double-right"></i></a></li>
         </ul>
       </th>
       <th width="50%">
         <ul class="list-inline data-header-list">
           <li class="pull-right">Selected <span class="fadeOut">({{ selectedItems.length }})</span></li>
-          <li class="pull-left pointer direction-arrows" (click)="deselectAllItems()" ><a title="Remove all selections"><i class="fa fa-angle-double-left"></i></a></li>
+          <li class="pull-left pointer direction-arrows" (click)="deselectAllItems($event)" ><a title="Remove all selections"><i class="fa fa-angle-double-left"></i></a></li>
         </ul>
       </th>
     </tr>
@@ -52,7 +52,7 @@
           <li *ngFor="let item of listItems
               | filterByName:listchanges
               |  paginate: { id: 'foo',itemsPerPage: 25, currentPage: p }"
-              (click)="addSelected(item)"
+              (click)="addSelected(item, $event)"
               [ngClass]="{'hiddenTree': inSelected(item, selectedItems)}"
               title="Click to select item"
               class="{{item.hasOwnProperty('programType') ? 'auto-growing' : ''}}"
@@ -73,7 +73,7 @@
       <td width="50%">
         <ul class="list-unstyled metadata-list scrollable">
           <li *ngFor="let item of selectedItems | paginate:{id: 'selectedlist',itemsPerPage: 100, currentPage: k}"
-              (click)="removeSelected(item)"
+              (click)="removeSelected(item, $event)"
               style="cursor: move"
               dnd-droppable (onDropSuccess)="transferDataSuccess($event,item)"
               title="click to unselect item"
@@ -89,7 +89,7 @@
     </tbody>
   </table>
   <div class="form-group">
-    <button (click)="close()" class="btn btn-default pull-right">Cancel</button>
-    <button (click)="emit()" class="btn btn-default pull-right">Update</button>
+    <button (click)="close($event)" class="btn btn-default pull-right">Cancel</button>
+    <button (click)="emit($event)" class="btn btn-default pull-right">Update</button>
   </div>
 </div>

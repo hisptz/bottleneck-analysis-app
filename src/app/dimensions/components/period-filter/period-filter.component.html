@@ -52,7 +52,7 @@
           <div class="col-sm-6 tree-area1" style=" border-right: 1px solid rgba(0,0,0,0.1)">
             <ul class="nav nav-pills nav-stacked">
               <li *ngFor="let period of periods"
-                  class="period" (click)="activatePer(period)"
+                  class="period" (click)="activatePer(period, $event)"
                   [ngClass]="{'hiddenTree': checkPeriodAvailabilty(period,selected_periods)}"
                   title="Click to select"
               >
@@ -63,7 +63,7 @@
           <div class="col-sm-6 tree-area1">
             <ul class="nav nav-pills nav-stacked">
               <li *ngFor="let period of selected_periods"
-                  class="period" (click)="deactivatePer(period)"
+                  class="period" (click)="deactivatePer(period, $event)"
                   title="Click to deselect"
                   dnd-droppable (onDropSuccess)="transferDataSuccess($event,period)"
               >
@@ -76,8 +76,8 @@
     </div>
     <div class="panel-footer period-filter-footer">
       <div class="pull-right">
-        <a (click)="updatePeriod()" class="btn btn-default btn-sm">Update</a>
-        <a (click)="close()" class="btn btn-default btn-sm">Close</a>
+        <a (click)="updatePeriod($event)" class="btn btn-default btn-sm">Update</a>
+        <a (click)="close($event)" class="btn btn-default btn-sm">Close</a>
       </div>
     </div>
   </div>

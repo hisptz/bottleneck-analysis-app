@@ -428,7 +428,6 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   // this will add a selected item in a list function
   addSelected(item){
     this.selectedItems.push(item);
-    console.log(this.selectedItems)
   }
 
   getAutogrowingTables(selections){
@@ -456,12 +455,14 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   }
 
   // Remove selected Item
-  removeSelected(item){
+  removeSelected(item, e){
+    e.stopPropagation();
     this.selectedItems.splice(this.selectedItems.indexOf(item),1);
   }
 
   //selecting all items
-  selectAllItems(){
+  selectAllItems(e){
+    e.stopPropagation();
     let newList = this.filterByName.transform(this.listItems ,this.listchanges);
     newList.forEach((item) => {
       if(!this.checkDataAvailabilty(item, this.selectedItems )){
@@ -472,7 +473,8 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   }
 
   //selecting all items
-  deselectAllItems(){
+  deselectAllItems(e){
+    e.stopPropagation();
     this.selectedItems = [];
     this.getSelectedPeriods();
   }
@@ -499,7 +501,8 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
     }
   }
 
-  emit() {
+  emit(e) {
+    e.stopPropagation();
     this.onDataUpdate.emit({
       itemList: this.selectedItems,
       need_functions: this.getFunctions(this.selectedItems),
@@ -640,7 +643,8 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
 
   }
 
-  close() {
+  close(e) {
+    e.stopPropagation();
     this.onDataFilterClose.emit(true);
   }
 

@@ -55,6 +55,7 @@
               </a>
               <app-period-filter
                 *ngIf="showPeriodFilter"
+                [selected_periods]="selectedPeriods"
                 (onPeriodUpdate)="updateFilters($event)"
                 (onPeriodFilterClose)="showPeriodFilter = false"
               >

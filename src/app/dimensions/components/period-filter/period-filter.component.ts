@@ -166,18 +166,21 @@ export class PeriodFilterComponent implements OnInit {
   }
 
   // action to be called when a tree item is deselected(Remove item in array of selected items
-  deactivatePer($event) {
-    this.selected_periods.splice(this.selected_periods.indexOf($event), 1);
+  deactivatePer(period, e) {
+    e.stopPropagation();
+    this.selected_periods.splice(this.selected_periods.indexOf(period), 1);
   };
 
   // add item to array of selected items when item is selected
-  activatePer($event) {
-    if (!this.checkPeriodAvailabilty($event, this.selected_periods)) {
-      this.selected_periods.push($event);
+  activatePer(period, e) {
+    e.stopPropagation();
+    if (!this.checkPeriodAvailabilty(period, this.selected_periods)) {
+      this.selected_periods.push(period);
     }
   };
 
-  updatePeriod() {
+  updatePeriod(e) {
+    e.stopPropagation();
     this.onPeriodUpdate.emit({
       items: this.selected_periods,
       type: this.period_type,
@@ -628,7 +631,8 @@ export class PeriodFilterComponent implements OnInit {
     }
   }
 
-  close() {
+  close(e) {
+    e.stopPropagation();
     this.onPeriodFilterClose.emit(true)
   }
 
