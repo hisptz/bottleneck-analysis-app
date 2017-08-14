@@ -5,5 +5,5 @@ mv dist/assets/manifest.webapp dist/
 cd dist
 #zip -r -D malariaV2.zip .
 zip -r -D idashboard2.zip .
-curl -X POST -u system:System123 -F file=@idashboard2.zip https://play.dhis2.org/demo/api/apps
+curl -X POST -u admin:district -F file=@idashboard2.zip https://scorecard-dev.dhis2.org/demo/api/apps
 echo "App built"

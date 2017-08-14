@@ -38,9 +38,9 @@ export class MapTemplateComponent implements OnInit {
 
   ngOnInit() {
     if (this.visualizationObject.details.loaded) {
-      // console.log(JSON.stringify(this.visualizationObject.layers));
       if (!this.visualizationObject.details.hasError) {
         setTimeout(() => {
+          console.log(this.visualizationObject);
           this.visualizationObject = this.getSubtitle(this.visualizationObject);
           this.mapHeight = this.refineHeight(this.mapHeight);
           this.drawMap(this.visualizationObject, this.visualizationObject.details.updateAvailable);
