@@ -52,6 +52,8 @@ export class AnalyticsService {
   }
 
   private _sanitizeIncomingAnalytics(analyticsObject: any, filterObject) {
+
+    // todo deal with analytics with more than one dynamic dimensions
     const newAnalyticsObject: any = _.clone(analyticsObject);
 
     if (analyticsObject !== null) {
@@ -97,8 +99,10 @@ export class AnalyticsService {
         }
 
         const headersWithDynamicDimensionButNotOptionSet = _.filter(analyticsObject.headers,
-          (analyticsHeader: any) => (analyticsHeader.name !== 'dx' || analyticsHeader.name !== 'pe'
-            || analyticsHeader.name !== 'ou' || analyticsHeader.name !== 'value') && !analyticsHeader.optionSet)[0];
+          (analyticsHeader: any) => {
+              return (analyticsHeader.name !== 'dx' && analyticsHeader.name !== 'pe'
+                && analyticsHeader.name !== 'ou' && analyticsHeader.name !== 'value') && !analyticsHeader.optionSet
+          })[0];
 
         if (headersWithDynamicDimensionButNotOptionSet) {
           const headerOptionsWithoutOptionSetObject = _.find(filterObject.filters, ['name', headersWithDynamicDimensionButNotOptionSet.name]);
