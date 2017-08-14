@@ -61,8 +61,10 @@ export class FavoriteService {
       const newFavoriteFilters = _.map(favoriteFilters, filterObject => {
         return {
           dimension: filterObject.dimension,
-          items: _.map(filterObject.items, (item) => {
-            return this._getRefinedFavouriteSubtitle(item.displayName);
+          items: _.map(filterObject.items, (item, index) => {
+            if (index === 0) {
+              return this._getRefinedFavouriteSubtitle(filterObject.items, userOrgUnit);
+            }
           })
         }
       });
@@ -100,18 +102,49 @@ export class FavoriteService {
     return subtitle;
   }
 
-  _getRefinedFavouriteSubtitle(subTitleString) {
+  _getRefinedFavouriteSubtitle(subTitleItems, userOrgUnit) {
     let refinedSubtitle = '';
-
-    if (subTitleString.indexOf('_') >= 0) {
-
-      const splitted = subTitleString.split('_');
-      splitted.forEach((split) => {
-        const lowercase = split.toLowerCase();
-        const capitalized = lowercase.charAt(0).toUpperCase();
-        refinedSubtitle += capitalized + '' + lowercase.slice(1) + ' ';
-      })
+    let monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const subTitleFunction = {
+      'THIS_YEAR': () => {
+        const date = new Date();
+        return date.getFullYear();
+      },
+      'LAST_YEAR': () => {
+        return (subTitleFunction['THIS_YEAR']() - 1);
+      },
+      'THIS_MONTH': () => {
+        const date = new Date();
+        return monthNames[date.getMonth()] + ' ' + date.getFullYear();
+      },
+      'LAST_MONTH': () => {
+        const date = new Date();
+        return monthNames[date.getMonth() - 1] + ' ' + date.getFullYear();
+      },
+      'THIS_QUARTER': () => {
+        let date = new Date(); // If no date supplied, use today
+        const quarter = ['January - March ', 'April - June ', 'July - September', 'October - December '];
+        return quarter[Math.floor(date.getMonth() / 3)] + date.getFullYear();
+      },
+      'USER_ORGUNIT': () => {
+        return userOrgUnit;
+      }
     }
+
+    subTitleItems.forEach(item => {
+      if (item.id.indexOf('_') < 0 && isNaN(item.id)) {
+        refinedSubtitle += item.displayName;
+      } else if (item.id.indexOf('_') < 0 && !isNaN(item.id)) {
+        refinedSubtitle += item.displayName;
+      } else {
+        if (subTitleFunction[item.id]) {
+          refinedSubtitle += subTitleFunction[item.id]() + " ";
+        } else {
+          refinedSubtitle += item.displayName;
+        }
+      }
+    })
+
     return refinedSubtitle;
   }
 
@@ -213,7 +246,7 @@ export class FavoriteService {
             items: []
           };
 
-          const currentDataDimension: any = _.find(newDataDimensions,  ['id', dimensionObject.dimension]);
+          const currentDataDimension: any = _.find(newDataDimensions, ['id', dimensionObject.dimension]);
 
           if (currentDataDimension) {
             dimensionValue['options'] = currentDataDimension.optionSet ? currentDataDimension.optionSet.options : [];

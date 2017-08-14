@@ -105,7 +105,6 @@ export class RelativePeriodService {
   /**
    Function that return other functions that return fixed periods specific to period type
    */
-
   private _getExecutingPeriodFunctions() {
     const currentDate = new Date();
     return {

@@ -724,7 +724,6 @@ export class VisualizationService {
   }
 
   drawTable(analyticsObject, settings, tableConfiguration) {
-    console.log(settings.legendSet);
     const legendSet = settings.legendSet ? settings.legendSet : null;
     let legendClasses = null;
     if (legendSet) {
