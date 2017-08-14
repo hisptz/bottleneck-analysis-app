@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, AfterViewInit, Output, EventEmitter, Input, ChangeDetectorRef} from '@angular/core';
 import * as _ from 'lodash'
 import {FuseSearchPipe} from '../../pipes/fuse-search.pipe';
 import {OrderPipe} from '../../pipes/order-by.pipe';
@@ -80,7 +80,8 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   constructor( private dataService: DataService,
                private filterByName:FilterByNamePipe,
                private fusePipe:FuseSearchPipe,
-               private orderPipe:OrderPipe) {
+               private orderPipe:OrderPipe,
+               private changeDetector: ChangeDetectorRef) {
     this.searchOptions={
       shouldSort: true,
       matchAllToken: true,
@@ -130,6 +131,11 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
         this.loading = false;
         this.dataGroups = this.groupList();
         this.listItems = this.dataItemList();
+
+        /**
+         * Detect changes manually
+         */
+        this.changeDetector.detectChanges();
       }
     )
   }
