@@ -39,11 +39,11 @@ export const CHART_TYPES = [
     description: 'stacked bar chart',
     icon: 'assets/img/stacked-bar.png'
   },
-  // {
-  //   type: 'solidgauge',
-  //   description: 'Gauge chart',
-  //   icon: 'assets/img/gauge.png'
-  // },
+  {
+    type: 'solidgauge',
+    description: 'Gauge chart',
+    icon: 'assets/img/gauge.png'
+  },
   {
     type: 'radar',
     description: 'Radar chart',
