@@ -108,7 +108,20 @@ export class AnalyticsService {
 
             if (headerFilter) {
 
-              const headerOptions = this._getFilterNumberRange(headerFilter);
+              let headerOptions = [];
+              if (headerFilter.split(':').length > 1) {
+                headerOptions = this._getFilterNumberRange(headerFilter);
+              } else {
+                if (headerOptionsWithoutOptionSetObject.items) {
+                  headerOptions =  _.map(headerOptionsWithoutOptionSetObject.items, (item: any) => {
+                    return {
+                      code: item.id,
+                      name: item.displayName
+                    }
+                  })
+                }
+              }
+
               if (headerOptions) {
                 /**
                  * Update metadata dimension
@@ -140,7 +153,6 @@ export class AnalyticsService {
 
       newAnalyticsObject.metaData = _.assign({}, newMetadata);
     }
-
     return newAnalyticsObject;
   }
 

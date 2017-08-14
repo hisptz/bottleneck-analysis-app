@@ -44,9 +44,9 @@ export const CHART_TYPES = [
   //   description: 'Gauge chart',
   //   icon: 'assets/img/gauge.png'
   // },
-  // {
-  //   type: 'spider_web',
-  //   description: 'Radar chart',
-  //   icon: 'assets/img/radar.png'
-  // },
+  {
+    type: 'radar',
+    description: 'Radar chart',
+    icon: 'assets/img/radar.png'
+  },
 ];
