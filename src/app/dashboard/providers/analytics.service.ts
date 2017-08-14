@@ -161,6 +161,7 @@ export class AnalyticsService {
   }
 
   private _getFilterNumberRange(filterString) {
+    // todo add more mechanism for other operations
     const splitedFilter = filterString.split(':');
     let newNumberRange = [];
     if (splitedFilter[0] === 'LE') {
@@ -173,6 +174,28 @@ export class AnalyticsService {
           }
         }))
       }
+
+    } else if (splitedFilter[0] === 'LT') {
+      const maxValue: number = parseInt(splitedFilter[1]);
+      if (!isNaN(maxValue)) {
+        newNumberRange = _.assign([], _.times(maxValue, (value: number) => {
+          return {
+            code: (value).toString(),
+            name: (value).toString()
+          }
+        }))
+      }
+
+    } else if (splitedFilter[0] === 'EQ') {
+      newNumberRange = [{
+        code: splitedFilter[1],
+        name: splitedFilter[1]
+      }]
+    } else if (splitedFilter[0] === 'GE') {
+
+    } else if (splitedFilter[0] === 'GT') {
+
+    } else if (splitedFilter[0] === 'NE') {
 
     }
     return newNumberRange;
