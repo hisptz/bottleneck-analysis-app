@@ -123,7 +123,6 @@ export class VisualizationLegendComponent implements OnInit {
     return layerLegend;
   }
 
-
   dragAndDropActions(visualizationLegends) {
     this.layerDnDAction.emit(visualizationLegends);
   }
@@ -161,7 +160,6 @@ export class VisualizationLegendComponent implements OnInit {
     this.showUpload = true;
   }
 
-
   removeUploadContainer() {
     this.showUpload = false;
   }
@@ -179,7 +177,6 @@ export class VisualizationLegendComponent implements OnInit {
   removeLegendContainer() {
     this.closeLegend.emit(null);
   }
-
 
   toggleTileLegendView() {
     this.openTileLegend = !this.openTileLegend;
@@ -282,6 +279,5 @@ export class VisualizationLegendComponent implements OnInit {
   uploadEvent(reader) {
     this.fileUploadEvent.emit(reader);
   }
-
 
 }

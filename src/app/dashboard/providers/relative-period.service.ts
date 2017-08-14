@@ -9,10 +9,9 @@ export class RelativePeriodService {
   }
 
 
-
   getISOFormatFromRelativePeriod(favourite): Array<string> {
     let isoFormat = [];
-    let periodDimension = undefined;
+    let periodDimension:any = undefined;
     let newPeriodDimension = {dimension: 'pe', items: []};
     let periodIndex = null;
     let parentdimension = null;
@@ -40,8 +39,7 @@ export class RelativePeriodService {
       favourite[parentdimension].splice(periodIndex, 1);
       favourite[parentdimension].push(newPeriodDimension);
     }
-
-
+    favourite.hideTitle = false;
     return favourite;
   }
 
@@ -62,7 +60,7 @@ export class RelativePeriodService {
         fixedPeriods = [...fixedPeriods, ...newPeriods];
       })
     }
-    if (fixedPeriods.length<=0){
+    if (fixedPeriods.length <= 0) {
       fixedPeriods = relativePeriodArray;
     }
     return fixedPeriods;
