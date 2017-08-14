@@ -84,12 +84,11 @@ export class VisualizationObjectService {
    * @returns {null}
    * @private
    */
-  private _getUserOrganisationUnit(currentUser) {
-    if (!currentUser.organisationUnits) {
-      return null;
+  private _getUserOrganisationUnit(currentUser: any) {
+    if (!currentUser.dataVieworganisationUnits) {
+      return [];
     }
-    const orderedOrgUnits = _.orderBy(currentUser.organisationUnits, ['level'], ['asc']);
-    return orderedOrgUnits.length > 0 ? orderedOrgUnits[0].name : null;
+    return currentUser.dataVieworganisationUnits;
   }
 
   /**

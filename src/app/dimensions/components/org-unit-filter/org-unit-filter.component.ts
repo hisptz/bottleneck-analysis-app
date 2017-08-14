@@ -143,62 +143,60 @@ export class OrgUnitFilterComponent implements OnInit {
           });
 
           // identify currently logged in usser
-          this.orgunitService.getUserInformation(this.orgunit_model.type).subscribe(
-            userOrgunit => {
-              let level = this.orgunitService.getUserHighestOrgUnitlevel(userOrgunit);
-              this.orgunit_model.user_orgunits = this.orgunitService.getUserOrgUnits(userOrgunit);
-              this.orgunitService.user_orgunits = this.orgunitService.getUserOrgUnits(userOrgunit);
-              if (this.orgunit_model.selection_mode == 'Usr_orgUnit') {
-                this.orgunit_model.selected_orgunits = this.orgunit_model.user_orgunits;
-              }
-              let all_levels = data.pager.total;
-              let orgunits = this.orgunitService.getuserOrganisationUnitsWithHighestlevel(level, userOrgunit);
-              let use_level = parseInt(all_levels) - (parseInt(level) - 1);
-              //load inital orgiunits to speed up loading speed
-              this.orgunitService.getInitialOrgunitsForTree(orgunits).subscribe(
-                (initial_data) => {
-                  this.organisationunits = initial_data
-                  this.orgunit_tree_config.loading = false;
-                  // a hack to make sure the user orgunit is not triggered on the first time
-                  this.initial_usr_orgunit = [{id: 'USER_ORGUNIT', name: 'User org unit'}];
-                  // after done loading initial organisation units now load all organisation units
-                  let fields = this.orgunitService.generateUrlBasedOnLevels(use_level);
-                  this.orgunitService.getAllOrgunitsForTree1(fields, orgunits).subscribe(
-                    items => {
-
-                      items[0].expanded = true;
-                      this.organisationunits = items;
-
-                      //activate organisation units
-                      for (let active_orgunit of this.orgunit_model.selected_orgunits) {
-                        this.activateNode(active_orgunit.id, this.orgtree, true);
-
-                      }
-
-
-                      this.prepareOrganisationUnitTree(this.organisationunits, 'parent');
-
-                      /**
-                       * Detect changes manually
-                       */
-                      this.changeDetector.detectChanges();
-                    },
-                    error => {
-                      console.log('something went wrong while fetching Organisation units');
-                      this.orgunit_tree_config.loading = false;
-                    }
-                  )
-                },
-                error => {
-                  console.log('something went wrong while fetching Organisation units');
-                  this.orgunit_tree_config.loading = false;
+          this.orgunitService.getUserInformation(this.orgunit_model.type).subscribe((userOrgunit: any) => {
+              if (userOrgunit !== null) {
+                let level = this.orgunitService.getUserHighestOrgUnitlevel(userOrgunit);
+                this.orgunit_model.user_orgunits = this.orgunitService.getUserOrgUnits(userOrgunit);
+                this.orgunitService.user_orgunits = this.orgunitService.getUserOrgUnits(userOrgunit);
+                if (this.orgunit_model.selection_mode == 'Usr_orgUnit') {
+                  this.orgunit_model.selected_orgunits = this.orgunit_model.user_orgunits;
                 }
-              )
+                let all_levels = data.pager.total;
+                let orgunits = this.orgunitService.getuserOrganisationUnitsWithHighestlevel(level, userOrgunit);
+                let use_level = parseInt(all_levels) - (parseInt(level) - 1);
+                //load inital orgiunits to speed up loading speed
+                this.orgunitService.getInitialOrgunitsForTree(orgunits).subscribe(
+                  (initial_data) => {
+                    this.organisationunits = initial_data
+                    this.orgunit_tree_config.loading = false;
+                    // a hack to make sure the user orgunit is not triggered on the first time
+                    this.initial_usr_orgunit = [{id: 'USER_ORGUNIT', name: 'User org unit'}];
+                    // after done loading initial organisation units now load all organisation units
+                    let fields = this.orgunitService.generateUrlBasedOnLevels(use_level);
+                    this.orgunitService.getAllOrgunitsForTree1(fields, orgunits).subscribe(
+                      items => {
 
-            }
-          )
-        }
-      );
+                        items[0].expanded = true;
+                        this.organisationunits = items;
+
+                        //activate organisation units
+                        for (let active_orgunit of this.orgunit_model.selected_orgunits) {
+                          this.activateNode(active_orgunit.id, this.orgtree, true);
+
+                        }
+
+
+                        this.prepareOrganisationUnitTree(this.organisationunits, 'parent');
+
+                        /**
+                         * Detect changes manually
+                         */
+                        this.changeDetector.detectChanges();
+                      },
+                      error => {
+                        console.log('something went wrong while fetching Organisation units');
+                        this.orgunit_tree_config.loading = false;
+                      }
+                    )
+                  },
+                  error => {
+                    console.log('something went wrong while fetching Organisation units');
+                    this.orgunit_tree_config.loading = false;
+                  }
+                )
+              }
+            })
+        });
   }
 
   clearAll() {
@@ -293,9 +291,12 @@ export class OrgUnitFilterComponent implements OnInit {
       this.orgunit_model.selected_orgunits.push($event.node.data);
     }
     this.orgUnit = $event.node.data;
+    console.log(this.orgunit_model)
   };
 
-  emit() {
+  emit(e) {
+    e.stopPropagation();
+    // console.log(this.orgunit_model)
     var mapper = {};
     this.orgunit_model.selected_orgunits.forEach(function (orgUnit) {
       if (!mapper[orgUnit.level]) {

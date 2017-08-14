@@ -38,6 +38,7 @@ export class DashboardItemCardComponent implements OnInit {
   private _layoutModel: any;
   private _selectedDataItems: any;
   private _selectedPeriods: any;
+  private _selectedOrgUnits: any;
   showPeriodFilter: boolean;
   showOrgUnitFilter: boolean;
   showDataFilter: boolean;
@@ -91,6 +92,14 @@ export class DashboardItemCardComponent implements OnInit {
     this._selectedDataItems = [];
   }
 
+
+  get selectedOrgUnits(): any {
+    return this._selectedOrgUnits;
+  }
+
+  set selectedOrgUnits(value: any) {
+    this._selectedOrgUnits = value;
+  }
 
   get selectedPeriods(): any {
     return this._selectedPeriods;
@@ -217,6 +226,11 @@ export class DashboardItemCardComponent implements OnInit {
      * Get selected periods
      */
     this._selectedPeriods = _.assign([], this.getSelectedItems(this.visualizationObject.details.filters, 'pe'));
+
+    /**
+     * Get selected Organisation unit
+     */
+    // console.log(this._getSelectedOrganUnitModel(this.getSelectedItems(this.visualizationObject.details.filters, 'ou')))
   }
 
   private _getDashboardCardClasses(currentShape, shapes: any[] = [], showFullScreen: boolean = false): any[] {
@@ -526,12 +540,16 @@ export class DashboardItemCardComponent implements OnInit {
         return _.map(dataItemObject.items, (dataItem: any) => {
           return {
             id: dataItem.dimensionItem,
-            name: dataItem.displayName
+            name: dataItem.displayName,
           }
         })
       }
     }
     return []
+  }
+
+  private _getSelectedOrganUnitModel(orgUnitArray) {
+    return orgUnitArray;
   }
 
 }

@@ -8,7 +8,7 @@ export class CurrentUserService {
   constructor(private http: HttpClientService) { }
 
   getUserInformation(rootUrl): Observable <any> {
-    return this.http.get(rootUrl + 'me.json?fields=id,name,displayName,created,lastUpdated,email,organisationUnits[id,name,level],userCredentials[username]')
+    return this.http.get(rootUrl + 'me.json?fields=id,name,displayName,created,lastUpdated,email,dataViewOrganisationUnits[id,name,level],userCredentials[username]')
   }
 
 }
