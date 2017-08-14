@@ -17,6 +17,7 @@ import {DndModule} from 'ng2-dnd';
 import {DataService} from './providers/data.service';
 import {LocalStorageService} from './providers/local-storage.service';
 import {ClickOutsideDirective} from './directives/click-outside.directive';
+import {FuseSearchPipe} from './pipes/fuse-search.pipe';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import {ClickOutsideDirective} from './directives/click-outside.directive';
     OrderPipe,
     FilterByNamePipe,
     AddUnderscorePipe,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    FuseSearchPipe
   ],
   exports: [
     OrgUnitFilterComponent,

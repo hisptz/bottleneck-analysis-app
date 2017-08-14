@@ -16,7 +16,7 @@
             *ngIf="!hideOptions(visualizationObject.type, visualizationWithNoOptions)"
           >
             <li>
-              <a (click)="toggleFilter()" tooltip="Filter by period and orgunit" placement="right">
+              <a (click)="toggleFilter($event)" tooltip="Filter by period and orgunit" placement="right">
                 <i class="fa fa-filter"></i>
               </a>
             </li>
@@ -36,6 +36,7 @@
                 *ngIf="showDataFilter"
               >
                 <app-data-filter
+                  [selectedItems]="selectedDataItems"
                   (onDataUpdate)="updateFilters($event)"
                   (onDataFilterClose)="showDataFilter = false"
                 ></app-data-filter>

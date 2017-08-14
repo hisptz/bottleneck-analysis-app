@@ -43,7 +43,7 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
       selected: false
     }
   ];
-  selectedGroup:any = {id:'ALL',name:'All Tables [Select Table]'};
+  selectedGroup:any = {id:'ALL',name:'All Groups [Select Group]'};
 
   @Output() selected_data_option: EventEmitter<any> = new EventEmitter<any>();
   @Output() selected_group: EventEmitter<any> = new EventEmitter<any>();
@@ -80,9 +80,7 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   constructor( private dataService: DataService,
                private filterByName:FilterByNamePipe,
                private fusePipe:FuseSearchPipe,
-               private orderPipe:OrderPipe) { }
-
-  ngOnInit() {
+               private orderPipe:OrderPipe) {
     this.searchOptions={
       shouldSort: true,
       matchAllToken: true,
@@ -97,12 +95,15 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
         "name"
       ]
     };
+
+  }
+
+  ngOnInit() {
     this.initiateData();
   }
 
   // trigger this to reset pagination pointer when search change
   searchChanged(){
-    console.log("changed")
     this.p =1;
   }
 
@@ -110,7 +111,7 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
     this.dataService.initiateData().subscribe(
       (items ) => {
 
-        this.metaData = {
+        this.metaData = Object.assign({}, {
           dataElements: items[0],
           indicators: items[1],
           dataElementGroups: items[3],
@@ -125,7 +126,7 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
             {id:'.ACTUAL_REPORTS_ON_TIME', name: "Reports Submitted on time"},
             {id:'.EXPECTED_REPORTS', name: "Expected Reports"}
           ]
-        };
+        });
         this.loading = false;
         this.dataGroups = this.groupList();
         this.listItems = this.dataItemList();
@@ -427,7 +428,7 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   // this will add a selected item in a list function
   addSelected(item){
     this.selectedItems.push(item);
-    this.getSelectedPeriods();
+    console.log(this.selectedItems)
   }
 
   getAutogrowingTables(selections){
@@ -457,7 +458,6 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   // Remove selected Item
   removeSelected(item){
     this.selectedItems.splice(this.selectedItems.indexOf(item),1);
-    this.getSelectedPeriods();
   }
 
   //selecting all items

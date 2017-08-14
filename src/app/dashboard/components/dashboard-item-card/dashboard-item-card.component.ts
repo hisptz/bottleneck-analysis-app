@@ -36,6 +36,7 @@ export class DashboardItemCardComponent implements OnInit {
   private _dashboardBlockHeight: string;
   private _showFilter: any;
   private _layoutModel: any;
+  private _selectedDataItems: any;
   showPeriodFilter: boolean;
   showOrgUnitFilter: boolean;
   showDataFilter: boolean;
@@ -65,7 +66,6 @@ export class DashboardItemCardComponent implements OnInit {
   @ViewChild(ChartComponent)
   chartComponent: ChartComponent;
   showFavoriteSettings: boolean = false;
-  currentShape: string;
   metadataIdentifiers: string;
   constructor(private store: Store<ApplicationState>) {
     this._showFilter = {
@@ -87,8 +87,17 @@ export class DashboardItemCardComponent implements OnInit {
         shown: false
       }
     };
+    this._selectedDataItems = [];
   }
 
+
+  get selectedDataItems(): any {
+    return this._selectedDataItems;
+  }
+
+  set selectedDataItems(value: any) {
+    this._selectedDataItems = value;
+  }
 
   get layoutModel(): any {
     return this._layoutModel;
@@ -189,6 +198,11 @@ export class DashboardItemCardComponent implements OnInit {
         this.onFilterDeactivate.emit(null);
       }
     });
+
+    /**
+     * Get selected data items
+     */
+    this._selectedDataItems = _.assign([], this.getSelectedData(this.visualizationObject.details.filters))
   }
 
   private _getDashboardCardClasses(currentShape, shapes: any[] = [], showFullScreen: boolean = false): any[] {
@@ -464,7 +478,8 @@ export class DashboardItemCardComponent implements OnInit {
 
   }
 
-  toggleFilter() {
+  toggleFilter(e) {
+    e.stopPropagation();
     this._showFilter.orgUnit.shown = !this._showFilter.orgUnit.shown;
     this._showFilter.data.shown = !this._showFilter.data.shown;
     this._showFilter.period.shown = !this._showFilter.period.shown;
@@ -486,6 +501,23 @@ export class DashboardItemCardComponent implements OnInit {
         visualizationObject: this.visualizationObject
       }))
     }
+  }
+
+  getSelectedData(filters: any[]) {
+    // todo take data items based on the current layer
+    if (filters && filters[0]) {
+      const dataItemObject = _.find(filters[0].filters, ['name', 'dx']);
+
+      if (dataItemObject) {
+        return _.map(dataItemObject.items, (dataItem: any) => {
+          return {
+            id: dataItem.dimensionItemType,
+            name: dataItem.displayName
+          }
+        })
+      }
+    }
+    return []
   }
 
 }

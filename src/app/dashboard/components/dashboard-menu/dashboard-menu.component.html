@@ -1,11 +1,16 @@
 <nav class="navbar navbar-default dashboard-menu">
   <div class="container-fluid" style="padding-left: 0px; padding-right: 0px;">
     <div class="navbar-header">
-      <a class="navbar-toggle collapsed dashboard-collapse-btn" data-toggle="collapse" data-target="#idashboardNavbar" [attr.aria-expanded]="!isCollapsed" (click)="toggleCollapse()" [ngClass]="{'collapsed': isCollapsed}">
+      <a
+        class="navbar-toggle collapsed dashboard-collapse-btn"
+      >
         <i class="fa fa-bars"></i>
       </a>
     </div>
-    <div class="collapse navbar-collapse dashboard-collapse-body" id="idashboardNavbar" [ngClass]="{'in': !isCollapsed}">
+    <div
+      class="collapse navbar-collapse dashboard-collapse-body"
+      id="idashboardNavbar"
+    >
       <ul class="nav navbar-nav dashboard-nav">
         <li>
           <a

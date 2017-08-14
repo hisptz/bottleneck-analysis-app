@@ -8,7 +8,6 @@ import {DashboardNotificationService} from './providers/dashboard-notification.s
 import { DashboardMenuComponent } from './components/dashboard-menu/dashboard-menu.component';
 import { CreateDashboardComponent } from './components/create-dashboard/create-dashboard.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { DashboardMenuItemComponent } from './components/dashboard-menu-item/dashboard-menu-item.component';
 import {Ng2PaginationModule} from 'ng2-pagination';
 import {ClickOutsideDirective} from './directives/click-outside.directive';
 import {FilterPipe} from './pipes/filter.pipe';
@@ -89,7 +88,6 @@ import {MessageModule} from '../message/message.module';
     DashboardNotificationAreaComponent,
     DashboardMenuComponent,
     CreateDashboardComponent,
-    DashboardMenuItemComponent,
     ClickOutsideDirective,
     FilterPipe,
     EditDashboardComponent,
