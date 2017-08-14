@@ -1,16 +1,17 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import {Response, Http} from '@angular/http';
 import {TreeComponent, TREE_ACTIONS, IActionMapping} from 'angular-tree-component';
 import {Observable} from 'rxjs';
 import {OrgUnitService} from './org-unit.service';
 import {MultiselectComponent} from './multiselect/multiselect.component';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-org-unit-filter',
   templateUrl: './org-unit-filter.component.html',
   styleUrls: ['./org-unit-filter.component.css']
 })
-export class OrgUnitFilterComponent implements OnInit {
+export class OrgUnitFilterComponent implements OnInit, OnDestroy {
   // the object that will carry the output value you can send one from outside to config start values
   @Input() orgunit_model: any = {
     selection_mode: 'Usr_orgUnit',
@@ -25,7 +26,7 @@ export class OrgUnitFilterComponent implements OnInit {
     selected_user_orgunit: []
   };
   initial_usr_orgunit = [];
-
+  subscription: Subscription;
   // The organisation unit configuration object This will have to come from outside.
   @Input() orgunit_tree_config: any = {
     show_search: true,
@@ -133,7 +134,7 @@ export class OrgUnitFilterComponent implements OnInit {
 
 
     // if (this.orgunitService.nodes == null) {
-    this.orgunitService.getOrgunitLevelsInformation()
+    this.subscription = this.orgunitService.getOrgunitLevelsInformation()
       .subscribe((data: any) => {
           // assign urgunit levels and groups to variables
           this.orgunit_model.orgunit_levels = data.organisationUnitLevels;
@@ -143,7 +144,7 @@ export class OrgUnitFilterComponent implements OnInit {
           });
 
           // identify currently logged in usser
-          this.orgunitService.getUserInformation(this.orgunit_model.type).subscribe((userOrgunit: any) => {
+        this.subscription =this.orgunitService.getUserInformation(this.orgunit_model.type).subscribe((userOrgunit: any) => {
               if (userOrgunit !== null) {
                 let level = this.orgunitService.getUserHighestOrgUnitlevel(userOrgunit);
                 this.orgunit_model.user_orgunits = this.orgunitService.getUserOrgUnits(userOrgunit);
@@ -155,7 +156,7 @@ export class OrgUnitFilterComponent implements OnInit {
                 let orgunits = this.orgunitService.getuserOrganisationUnitsWithHighestlevel(level, userOrgunit);
                 let use_level = parseInt(all_levels) - (parseInt(level) - 1);
                 //load inital orgiunits to speed up loading speed
-                this.orgunitService.getInitialOrgunitsForTree(orgunits).subscribe(
+                this.subscription = this.orgunitService.getInitialOrgunitsForTree(orgunits).subscribe(
                   (initial_data) => {
                     this.organisationunits = initial_data
                     this.orgunit_tree_config.loading = false;
@@ -163,7 +164,7 @@ export class OrgUnitFilterComponent implements OnInit {
                     this.initial_usr_orgunit = [{id: 'USER_ORGUNIT', name: 'User org unit'}];
                     // after done loading initial organisation units now load all organisation units
                     let fields = this.orgunitService.generateUrlBasedOnLevels(use_level);
-                    this.orgunitService.getAllOrgunitsForTree1(fields, orgunits).subscribe(
+                    this.subscription = this.orgunitService.getAllOrgunitsForTree1(fields, orgunits).subscribe(
                       items => {
 
                         items[0].expanded = true;
@@ -197,6 +198,13 @@ export class OrgUnitFilterComponent implements OnInit {
               }
             })
         });
+  }
+
+  ngOnDestroy() {
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   clearAll() {
@@ -543,7 +551,9 @@ export class OrgUnitFilterComponent implements OnInit {
       .catch(this.handleError);
   }
 
-  close() {
+  close(e) {
+    e.stopPropagation();
+    this.changeDetector.detach();
     this.onOrgUnitClose.emit(true)
   }
 }
