@@ -345,6 +345,10 @@ div.icon:hover {
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.5) !important;
 }
 
+.label{
+  display:block!important;
+}
+
 .layers-button {
   position: absolute;
   background-repeat: no-repeat;

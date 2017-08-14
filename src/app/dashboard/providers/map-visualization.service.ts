@@ -457,7 +457,6 @@ export class MapVisualizationService {
       )
     }
 
-
     return layer;
   }
 
@@ -553,7 +552,7 @@ export class MapVisualizationService {
     if (showLabels) {
       visualizationLayerSettings.geoFeature = geoJsonFeatures;
       const labels = this._getMapLabels(L, visualizationLayerSettings);
-      layerGroup = L.layerGroup([geoJsonLayer, labels]);
+      layerGroup = L.layerGroup([geoJsonLayer,labels]);
     } else {
       layerGroup = geoJsonLayer;
     }
@@ -574,27 +573,56 @@ export class MapVisualizationService {
     }
 
     const features = visualizationLayerSettings.geoFeature;
-    features.forEach(feature => {
+    features.forEach((feature, index) => {
       let center: any;
       if (feature.geometry.type === 'Point') {
         center = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
       } else {
-        center = new L.LatLngBounds(feature.geometry.coordinates);
-      }
+        const polygon = L.polygon(feature.geometry.coordinates);
+        center = polygon.getBounds().getCenter();
 
-      const label = L.marker(center, {
+      }
+      console.log(center.lat,center.lng);
+      // console.log([center[0], center[1]]);
+
+      const label = L.marker([center.lat,center.lng], {
         icon: L.divIcon({
-          iconSize: null,
+          iconSize: new L.Point(50, 50),
           className: 'label',
-          html: '<div  style="color:' + sanitizeColor(visualizationLayerSettings.labelFontColor) + '!important;font-size:' + visualizationLayerSettings.labelFontSize + '!important;;font-weight:bolder!important;;-webkit-text-stroke: 0.04em white!important;;">' + feature.properties.name + '</div>'
+          html: 'foo bar'//'<div  style="color:' + sanitizeColor(visualizationLayerSettings.labelFontColor) + '!important;font-size:' + visualizationLayerSettings.labelFontSize + '!important;;font-weight:bolder!important;;-webkit-text-stroke: 0.04em white!important;;">' + feature.properties.name + '</div>'
         })
       })
 
       markerLabels.push(label);
 
+
     });
 
     return L.layerGroup(markerLabels);
+  }
+
+  private _getCenter(featureCoordinates: any) {
+    const off = featureCoordinates[0]; //console.log("OFF",off)
+    let twicearea = 0;
+    let x = 0;
+    let y = 0;
+    let coordinateCount = featureCoordinates.length;
+    let p1, p2;
+    let f;
+    for (let i = 0, j = coordinateCount - 1; i < coordinateCount; j = i++) {
+      p1 = featureCoordinates[i];
+      p2 = featureCoordinates[j];
+      console.log(p1, p2);
+      f = (p1.lat - off.lat) * (p2.lng - off.lng) - (p2.lat - off.lat) * (p1.lng - off.lng);
+      twicearea += f;
+      x += (p1.lat + p2.lat - 2 * off.lat) * f;
+      y += (p1.lng + p2.lng - 2 * off.lng) * f;
+    }
+    f = twicearea * 3;
+    return {
+      lat: x / f + off.lat,
+      lng: y / f + off.lng
+    };
   }
 
   private _bindBoundaryLayerEvents(L, layer, visualizationObject) {
