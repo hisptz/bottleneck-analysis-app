@@ -36,7 +36,6 @@ export class FavoriteService {
         visualizationObjectFavorite.type,
         visualizationObjectFavorite.id)
       ).subscribe((favorite: any) => {
-
         const newFavorite = _.clone(favorite);
 
         newFavorite.subtitle = this.getFavoriteSubtitle(favorite.filters, visualizationDetails.visualizationObject.details.userOrganisationUnit);
@@ -342,15 +341,17 @@ export class FavoriteService {
   }
 
   getFavoriteOptions(apiRootUrl) {
-    return Observable.create(observer => {
-      this.http.get(apiRootUrl + 'dataStore/idashboard/favoriteOptions').subscribe(favoriteOptions => {
-        observer.next(favoriteOptions);
-        observer.complete();
-      }, () => {
-        observer.next([]);
-        observer.complete();
-      })
-    })
+    console.log('loaded')
+    return Observable.of([])
+    // return Observable.create(observer => {
+    //   this.http.get(apiRootUrl + 'dataStore/idashboard/favoriteOptions').subscribe((favoriteOptions: any) => {
+    //     observer.next(favoriteOptions);
+    //     observer.complete();
+    //   }, () => {
+    //     observer.next([]);
+    //     observer.complete();
+    //   })
+    // })
   }
 
   loadAdditionalOptions(visualizationDetails) {

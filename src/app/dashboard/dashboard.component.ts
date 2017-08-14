@@ -84,36 +84,35 @@ export class DashboardComponent implements OnInit {
         this.subscription.unsubscribe()
       }
 
+      // todo find best way to inlude favorite Options
       this.store.select(dashboardLoadedSelector).subscribe(dashboardLoaded => {
         if (dashboardLoaded) {
           this.store.dispatch(new CurrentDashboardChangeAction(params.id));
           this.store.select(currentUserSelector).subscribe(currentUser => {
             if (currentUser.id) {
-              this.store.select(favoriteOptionsSelector).subscribe(favoriteOptions => {
-                this.subscription = this.store.select(dashboardItemsSelector).subscribe((dashboardItems: any[]) => {
-                  if (dashboardItems.length > 0) {
-                    const newDashboardItems: any[] = dashboardItems.filter(dashboardItem => {
-                      return !dashboardItem.visualizationObjectLoaded
-                    });
-                    newDashboardItems.forEach(dashboardItem => {
-                      this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
-                        if (apiRootUrl !== '') {
-                          this.store.dispatch(new LoadInitialVisualizationObjectAction(
-                            {
-                              dashboardItem: dashboardItem,
-                              favoriteOptions: favoriteOptions,
-                              dashboardId: params.id,
-                              currentUser: currentUser,
-                              apiRootUrl: apiRootUrl,
-                              isNew: dashboardItem.isNew
-                            })
-                          )
-                        }
-                      })
-                    });
-                  }
-                });
-              })
+              this.subscription = this.store.select(dashboardItemsSelector).subscribe((dashboardItems: any[]) => {
+                if (dashboardItems.length > 0) {
+                  const newDashboardItems: any[] = dashboardItems.filter(dashboardItem => {
+                    return !dashboardItem.visualizationObjectLoaded
+                  });
+                  newDashboardItems.forEach(dashboardItem => {
+                    this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
+                      if (apiRootUrl !== '') {
+                        this.store.dispatch(new LoadInitialVisualizationObjectAction(
+                          {
+                            dashboardItem: dashboardItem,
+                            favoriteOptions: [],
+                            dashboardId: params.id,
+                            currentUser: currentUser,
+                            apiRootUrl: apiRootUrl,
+                            isNew: dashboardItem.isNew
+                          })
+                        )
+                      }
+                    })
+                  });
+                }
+              });
             }
           });
         }

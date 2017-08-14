@@ -34,15 +34,18 @@ export class VisualizerService {
     /**
      * Extend chart options depending on type
      */
+
     switch (chartConfiguration.type) {
-      case 'spider_web':
+      case 'radar':
         chartObject = this._extendSpiderWebChartOptions(chartObject, analyticsObject, chartConfiguration);
         break;
       case 'solidgauge':
         chartObject = this._extendSolidGaugeChartOptions(chartObject, analyticsObject, chartConfiguration);
         break;
       case 'gauge':
-        chartObject = this._extendSolidGaugeChartOptions(chartObject, analyticsObject, chartConfiguration);
+        const newChartConfiguration = _.clone(chartConfiguration);
+        newChartConfiguration.type = 'solidgauge';
+        chartObject = this._extendSolidGaugeChartOptions(chartObject, analyticsObject, newChartConfiguration);
         break;
       case 'pie':
         chartObject = this._extendPieChartOptions(chartObject, analyticsObject, chartConfiguration);
@@ -63,12 +66,55 @@ export class VisualizerService {
   }
 
   private _extendSpiderWebChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
-    const newChartObject = _.cloneDeep(initialChartObject);
+    const newChartObject = _.clone(initialChartObject);
+
+    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
+    const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
+
+    /**
+     * Get pane attribute
+     */
+    newChartObject.pane = _.assign({}, this._getPaneOptions(chartConfiguration.type));
+
+    /**
+     * Get y axis options
+     */
+    newChartObject.yAxis = _.assign({}, this._getYAxisOptions(chartConfiguration));
+
+
+    /**
+     * Sort the corresponding series
+     */
+    const sortedSeries = this._getSortableSeries(this._getChartSeries(
+      analyticsObject,
+      xAxisCategories,
+      yAxisSeriesItems,
+      chartConfiguration
+    ), chartConfiguration.cumulativeValues ? -1 : chartConfiguration.sortOrder);
+
+    /**
+     * Rearange series based on some chart type
+     */
+    const rearrangedSeries = this._getRearrangedSeries(sortedSeries, chartConfiguration.type);
+
+    /**
+     * Get series
+     */
+    newChartObject.series = _.assign([], rearrangedSeries);
+
+    /**
+     * Get refined x axis options
+     */
+    newChartObject.xAxis = this._getXAxisOptions(
+      this._getRefinedXAxisCategories(newChartObject.series),
+      chartConfiguration.type
+    );
+
     return newChartObject;
   }
 
   private _extendPieChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
-    const newChartObject = _.cloneDeep(initialChartObject);
+    const newChartObject = _.clone(initialChartObject);
 
     const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
@@ -153,30 +199,20 @@ export class VisualizerService {
   }
 
   private _extendSolidGaugeChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
-    const newChartObject = _.cloneDeep(initialChartObject);
+    // todo make gauge chart more understanble in analyisis
+    const newChartObject = _.clone(initialChartObject);
+    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
+    const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
 
     /**
      * Get pane options
      */
-    newChartObject.pane = this._getPaneOptions();
-    newChartObject.pane = this._getPaneOptions();
+    newChartObject.pane = this._getPaneOptions(chartConfiguration.type);
 
-    return newChartObject;
-  }
-
-  private _extendStackedChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
-    const newChartObject = _.cloneDeep(initialChartObject);
-    return newChartObject;
-  }
-
-  private _extendOtherChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration): any {
-    const newChartObject = _.clone(initialChartObject);
-    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
-    const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
     /**
      * Get y axis options
      */
-    newChartObject.yAxis = _.clone(this._getYAxisOptions(chartConfiguration));
+    newChartObject.yAxis = _.assign({}, this._getYAxisOptions(chartConfiguration));
 
     /**
      * Sort the corresponding series
@@ -191,7 +227,45 @@ export class VisualizerService {
     /**
      * Rearange series based on some chart type
      */
-    const rearrangedSeries = this._getRearrangedSeries(sortedSeries, chartConfiguration.type)
+    const rearrangedSeries = this._getRearrangedSeries(sortedSeries, chartConfiguration.type);
+
+    /**
+     * Get series
+     */
+    newChartObject.series = _.assign([], rearrangedSeries);
+
+    return newChartObject;
+  }
+
+  private _extendStackedChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
+    const newChartObject = _.cloneDeep(initialChartObject);
+    return newChartObject;
+  }
+
+  private _extendOtherChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration): any {
+    const newChartObject = _.clone(initialChartObject);
+
+    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
+    const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
+    /**
+     * Get y axis options
+     */
+    newChartObject.yAxis = _.assign({}, this._getYAxisOptions(chartConfiguration));
+
+    /**
+     * Sort the corresponding series
+     */
+    const sortedSeries = this._getSortableSeries(this._getChartSeries(
+      analyticsObject,
+      xAxisCategories,
+      yAxisSeriesItems,
+      chartConfiguration
+    ), chartConfiguration.cumulativeValues ? -1 : chartConfiguration.sortOrder);
+
+    /**
+     * Rearange series based on some chart type
+     */
+    const rearrangedSeries = this._getRearrangedSeries(sortedSeries, chartConfiguration.type);
 
     /**
      * Get series
@@ -201,7 +275,10 @@ export class VisualizerService {
     /**
      * Get refined x axis options
      */
-    newChartObject.xAxis = this._getXAxisOptions(this._getRefinedXAxisCategories(newChartObject.series));
+    newChartObject.xAxis = this._getXAxisOptions(
+      this._getRefinedXAxisCategories(newChartObject.series),
+      chartConfiguration.type
+      );
 
     return newChartObject;
   }
@@ -290,6 +367,7 @@ export class VisualizerService {
           id: yAxisItem.id,
           index: yAxisIndex,
           turboThreshold: 0,
+          pointPlacement: chartConfiguration.type === 'radar' ? 'on' : undefined,
           data: this._getSeriesData(
             analyticsObject,
             chartConfiguration,
@@ -469,7 +547,7 @@ export class VisualizerService {
       switch (tooltipChartType) {
         case 'solidgauge':
           tooltipObject = {
-            enabled: false
+            enabled: false,
           };
           break;
         case 'pie':
@@ -561,24 +639,38 @@ export class VisualizerService {
       chartOptions.plotBackgroundColor = null;
       chartOptions.plotBorderWidth = null;
       chartOptions.plotShadow = false;
+    } else if (chartConfiguration.type === 'radar') {
+      chartOptions.polar = true;
     }
 
     return chartOptions;
   }
 
-  private _getPaneOptions() {
-    return {
-      center: ['50%', '85%'],
-      size: '140%',
-      startAngle: -90,
-      endAngle: 90,
-      background: {
-        backgroundColor: '#EEE',
-        innerRadius: '60%',
-        outerRadius: '100%',
-        shape: 'arc'
-      }
+  private _getPaneOptions(chartType: string) {
+    let paneOptions = {};
+
+    switch(chartType) {
+      case 'radar':
+        paneOptions = _.assign({}, {
+          size: '80%'
+        });
+        break;
+      default:
+        paneOptions = _.assign({}, {
+          center: ['50%', '85%'],
+          size: '140%',
+          startAngle: -90,
+          endAngle: 90,
+          background: {
+            backgroundColor: '#EEE',
+            innerRadius: '60%',
+            outerRadius: '100%',
+            shape: 'arc'
+          }
+        });
+        break;
     }
+    return paneOptions;
   }
 
   private _getLegendOptions() {
@@ -587,18 +679,33 @@ export class VisualizerService {
     }
   }
 
-  private _getXAxisOptions(xAxisCategories: any[]) {
-    return {
-      categories: xAxisCategories,
-      labels: {
-        rotation: xAxisCategories.length <= 5 ? 0 : -45,
-        style: {'color': '#000000', 'fontWeight': 'normal'}
-      }
-    };
+  private _getXAxisOptions(xAxisCategories: any[], chartType) {
+    let xAxisOptions = {};
+
+    switch(chartType) {
+      case 'radar':
+        xAxisOptions = _.assign({}, {
+          categories: xAxisCategories,
+          tickmarkPlacement: 'on',
+          lineWidth: 0
+        });
+        break;
+      default:
+        xAxisOptions = _.assign({}, {
+        categories: xAxisCategories,
+        labels: {
+          rotation: xAxisCategories.length <= 5 ? 0 : -45,
+          style: {'color': '#000000', 'fontWeight': 'normal'}
+        }
+        });
+        break;
+    }
+
+    return xAxisOptions;
   }
 
   private _getYAxisOptions(chartConfiguration: ChartConfiguration) {
-    const yAxis = {
+    let yAxis = {
       min: 0,
       title: {
         text: ''
@@ -609,16 +716,12 @@ export class VisualizerService {
      * Get more options depending on chart type
      */
     switch (chartConfiguration.type) {
-      case 'solidgauge':
-        yAxis['stops'] = [
-          [0.1, '#DF5353'], // green
-          [0.5, '#DDDF0D'], // yellow
-          [0.9, '#55BF3B'] // red
-        ];
+      case 'radar':
+        yAxis['gridLineInterpolation'] = 'polygon';
         yAxis['lineWidth'] = 0;
-        yAxis['minorTickInterval'] = null;
-        yAxis['tickPixelInterval'] = 400;
-        yAxis['tickWidth'] = 0;
+        break;
+      case 'solidgauge':
+        yAxis['lineWidth'] = 0;
         yAxis['labels'] = {
           y: 16
         };
@@ -641,233 +744,18 @@ export class VisualizerService {
     return yAxis;
   }
 
-  private _getInitialChartObject(type: string, chartConfiguration: ChartConfiguration): any {
-    let initialChartObject = {};
-    if (chartConfiguration) {
-
-      /**
-       * Set chart attribute
-       */
-      initialChartObject['chart'] = {
-        renderTo: chartConfiguration.renderId,
-        type: this._getAllowedChartType(chartConfiguration.type)
-      };
-
-      if (type === 'pie') {
-        initialChartObject['chart'].plotBackgroundColor = null;
-        initialChartObject['chart'].plotBorderWidth = null;
-        initialChartObject['chart'].plotShadow = false;
-      }
-
-      /**
-       * Set chart events
-       */
-      initialChartObject['events'] = {};
-
-      /**
-       * Get chart title
-       */
-      initialChartObject['title'] = {
-        text: chartConfiguration.title,
-        style: {
-          color: '#269ABC',
-          fontWeight: '600',
-          fontSize: '13px'
-        }
-      };
-
-      /**
-       * Get chart subtitle
-       */
-      initialChartObject['subtitle'] = {
-        text: chartConfiguration.subtitle
-      };
-
-      /**
-       * disable credit
-       */
-      initialChartObject['credits'] = {
-        enabled: false
-      };
-
-      /**
-       * Set colors
-       */
-      initialChartObject['colors'] = [
-        '#A9BE3B', '#558CC0', '#D34957', '#FF9F3A',
-        '#968F8F', '#B7409F', '#FFDA64', '#4FBDAE',
-        '#B78040', '#676767', '#6A33CF', '#4A7833',
-        '#434348', '#7CB5EC', '#F7A35C', '#F15C80'
-      ];
-
-      /**
-       * Set exporting features
-       */
-      initialChartObject['exporting'] = {
-        buttons: {
-          contextButton: {
-            enabled: false
-          }
-        }
-      };
-
-      /**
-       * Set plot options
-       */
-      initialChartObject['plotOptions'] = this._getPlotOptions(chartConfiguration);
-
-      /**
-       * Set tooltip
-       */
-      initialChartObject['tooltip'] = this._getTooltipOptions(chartConfiguration);
-
-      /**
-       * Set more options for different chart types
-       */
-      switch (type) {
-        case 'stacked_column':
-          initialChartObject = this._getMoreOptionsForStackedChartTypes(initialChartObject, chartConfiguration, 'column');
-          break;
-        case 'stacked_bar':
-          initialChartObject = this._getMoreOptionsForStackedChartTypes(initialChartObject, chartConfiguration, 'bar');
-          break;
-        case 'solidgauge':
-          initialChartObject = this._getMoreOptionsForSolidGaugeChartTypes(initialChartObject, chartConfiguration);
-          break;
-        case 'pie':
-          initialChartObject = this._getMoreOptionsPieChartTypes(initialChartObject, chartConfiguration);
-          break;
-        default:
-          initialChartObject = this._getMoreOptionsForDefaultChartTypes(initialChartObject, chartConfiguration);
-          break;
-      }
-    }
-
-    return initialChartObject;
-  }
-
   private _getAllowedChartType(chartType: string): string {
-    const splitedChartType: any[] = chartType.split('_');
-    return splitedChartType.length > 1 ? splitedChartType[1] : splitedChartType[0];
-  }
-
-  private _getMoreOptionsPieChartTypes(initialChartObject: any, chartConfiguration: ChartConfiguration) {
-    const newChartObject = _.cloneDeep(initialChartObject);
-    return newChartObject;
-  }
-
-  private _getMoreOptionsForSolidGaugeChartTypes(initialChartObject: any, chartConfiguration: ChartConfiguration) {
-    const newChartObject = _.cloneDeep(initialChartObject);
-
-    /**
-     * Set pane attribute
-     */
-    newChartObject.pane = {
-      center: ['50%', '85%'],
-      size: '140%',
-      startAngle: -90,
-      endAngle: 90,
-      background: {
-        backgroundColor: '#EEE',
-        innerRadius: '60%',
-        outerRadius: '100%',
-        shape: 'arc'
-      }
-    };
-
-    /**
-     * Set initial yAxis attributes
-     */
-    newChartObject.yAxis = {
-      stops: [
-        [0.1, '#DF5353'], // green
-        [0.5, '#DDDF0D'], // yellow
-        [0.9, '#55BF3B'] // red
-      ],
-      lineWidth: 0,
-      minorTickInterval: null,
-      tickPixelInterval: 400,
-      tickWidth: 0,
-      labels: {
-        y: 16
-      },
-      min: 0,
-      max: 100,
-      title: {
-        text: ''
-      }
-    };
-
-    return newChartObject;
-  }
-
-  private _getMoreOptionsForStackedChartTypes(initialChartObject: any, chartConfiguration: ChartConfiguration, stackedType: string) {
-    const newChartObject = _.cloneDeep(initialChartObject);
-
-    /**
-     * Set initial xAxis attributes
-     */
-    newChartObject.xAxis = {
-      categories: []
-    };
-
-    /**
-     * Set initial yAxis attributes
-     */
-    newChartObject.yAxis = {
-      min: 0,
-      title: {
-        text: ''
-      },
-      stackLabels: {
-        enabled: chartConfiguration.showLabels,
-        style: {
-          fontWeight: 'bold'
-        }
-      }
-    };
-
-
-    if (stackedType === 'bar') {
-
-      /**
-       * Set legend for bar stacked charts
-       */
-      newChartObject.legend = {
-        reversed: true
-      }
+    let newChartType = '';
+    switch(chartType) {
+      case 'radar':
+        newChartType = 'line';
+        break;
+      default:
+        const splitedChartType: any[] = chartType.split('_');
+        newChartType = splitedChartType.length > 1 ? splitedChartType[1] : splitedChartType[0];
+        break;
     }
-    return newChartObject;
-  }
-
-  private _getMoreOptionsForDefaultChartTypes(initialChartObject: any, chartConfiguration: ChartConfiguration) {
-    const newChartObject = _.cloneDeep(initialChartObject);
-
-    /**
-     * Set initial xAxis attributes
-     */
-    newChartObject.xAxis = {
-      categories: [],
-      labels: {
-        rotation: -45,
-        style: {'color': '#000000', 'fontWeight': 'normal'}
-      }
-    };
-
-    /**
-     * Set initial yAxis attributes
-     */
-    newChartObject.yAxis = {
-      min: 0,
-      title: {
-        text: ''
-      },
-      labels: {
-        style: {'color': '#000000', 'fontWeight': 'bold'}
-      }
-    };
-
-    return newChartObject;
+    return newChartType;
   }
 
   private _sanitizeAnalyticsBasedOnConfiguration(analyticsObject: AnalyticsObject, chartConfiguration: ChartConfiguration) {
