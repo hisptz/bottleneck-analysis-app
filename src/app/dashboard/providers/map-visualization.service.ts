@@ -135,10 +135,8 @@ export class MapVisualizationService {
     if (data.settings.layer === 'event') {
       geoJsonData = JSON.stringify(this._prepareGeoJsonDataFromEvents(data.analytics));
     } else {
-
-      console.log(data.settings);
-      console.log(data.analytics);
-      geoJsonData = JSON.stringify(this._prepareGeoJsonDataFromGeoFeatures(data.settings, data.analytics));
+      geoJsonData = this._prepareGeoJsonDataFromGeoFeatures(data.settings, data.analytics);
+      console.log(geoJsonData);
     }
 
     return geoJsonData;
@@ -240,7 +238,8 @@ export class MapVisualizationService {
   }
 
   private _prepareGeoJsonDataFromGeoFeatures(settings: any, analytics: any[]): any {
-    const features = this._getGeoJSONObject(settings, analytics);
+    const legendClasses = this.legendSet.prepareThematicLayerLegendClasses(settings, analytics);
+    const features = this._getGeoJSONObject(settings, analytics, legendClasses);
     return {'type': 'FeatureCollection', 'features': features};
   }
 
@@ -545,7 +544,8 @@ export class MapVisualizationService {
   }
 
   private _getGEOJSONLayer(L, visualizationLayerSettings, visualizationAnalytics, options) {
-    const geoJsonFeatures = this._getGeoJSONObject(visualizationLayerSettings, visualizationAnalytics);
+    const legendClasses = null;//this.legendSet.prepareThematicLayerLegendClasses(visualizationLayerSettings, visualizationAnalytics);
+    const geoJsonFeatures = this._getGeoJSONObject(visualizationLayerSettings, visualizationAnalytics, legendClasses);
     const showLabels = visualizationLayerSettings.labels;
     let layer: any;
     let layerGroup: any;
@@ -553,8 +553,7 @@ export class MapVisualizationService {
     const geoJsonLayer: any = L.geoJSON(geoJsonFeatures, options);
 
     if (showLabels) {
-      visualizationLayerSettings.geoFeature = geoJsonFeatures;
-      const labels = this._getMapLabels(L, visualizationLayerSettings);
+      const labels = this._getMapLabels(L, geoJsonFeatures);
       layerGroup = L.layerGroup([geoJsonLayer, labels]);
     } else {
       layerGroup = geoJsonLayer;
@@ -564,7 +563,7 @@ export class MapVisualizationService {
     return layer;
   }
 
-  private _getMapLabels(L, visualizationLayerSettings) {
+  private _getMapLabels(L, features) {
     const markerLabels = [];
     const sanitizeColor = (color: any) => {
 
@@ -574,8 +573,6 @@ export class MapVisualizationService {
       }
       return color;
     }
-
-    const features = visualizationLayerSettings.geoFeature;
     features.forEach((feature, index) => {
       let center: any;
       if (feature.geometry.type === 'Point') {
@@ -583,19 +580,17 @@ export class MapVisualizationService {
       } else {
         const polygon = L.polygon(feature.geometry.coordinates);
         center = polygon.getBounds().getCenter();
-
       }
 
       const label = L.marker([center.lng, center.lat], {
         icon: L.divIcon({
           iconSize: new L.Point(50, 50),
           className: 'feature-label',
-          html: feature.properties.name //'<div  style="color:' + sanitizeColor(visualizationLayerSettings.labelFontColor) + '!important;font-size:' + visualizationLayerSettings.labelFontSize + '!important;;font-weight:bolder!important;;-webkit-text-stroke: 0.04em white!important;;">' + feature.properties.name + '</div>'
+          html: feature.properties.name
         })
       })
 
       markerLabels.push(label);
-
 
     });
 
@@ -613,7 +608,6 @@ export class MapVisualizationService {
     for (let i = 0, j = coordinateCount - 1; i < coordinateCount; j = i++) {
       p1 = featureCoordinates[i];
       p2 = featureCoordinates[j];
-      console.log(p1, p2);
       f = (p1.lat - off.lat) * (p2.lng - off.lng) - (p2.lat - off.lat) * (p1.lng - off.lng);
       twicearea += f;
       x += (p1.lat + p2.lat - 2 * off.lat) * f;
@@ -918,18 +912,18 @@ export class MapVisualizationService {
 
   }
 
-  private _getGeoJSONObject(settingsObject: any, analyticObject: any): any {
+  private _getGeoJSONObject(settingsObject: any, analyticObject: any, legendClassess: any): any {
     const geoFeatures = settingsObject.geoFeature;
     const geoJSONObject: any = [];
     if (geoFeatures) {
-      geoFeatures.forEach((geoFeature) => {
 
+      geoFeatures.forEach((geoFeature) => {
         const sampleGeometry: any = {
           'type': 'Feature',
           'le': geoFeature.le,
           'geometry': {
             'type': '',
-            'coordinates': JSON.parse(geoFeature.co)
+            'coordinates': (new Function('return ' + geoFeature.co))()
           },
           'properties': {
             'id': geoFeature.id,
@@ -937,9 +931,9 @@ export class MapVisualizationService {
             'dataElement.id': '',
             'dataElement.name': '',
             'dataElement.value': 0,
-            'fill': '#000000',
+            'fill': '#00ff00',
             'fill-opacity': 1,
-            'stroke': '#000000',
+            'stroke': '#ffffff',
             'stroke-opacity': 1,
             'stroke-width': 1
           }
@@ -959,6 +953,10 @@ export class MapVisualizationService {
           }
         }
 
+        if (legendClassess) {
+          sampleGeometry.properties['fill'] = this._getFeatureColorFromValue(legendClassess, sampleGeometry.properties['dataElement.value']);
+        }
+
         // TODO:: FIND BEST WAY TO DETERMINE FEATURE TYPE
         if (geoFeature.le >= 4) {
           sampleGeometry.geometry.type = 'Point';
@@ -970,6 +968,20 @@ export class MapVisualizationService {
       });
       return geoJSONObject;
     }
+  }
+
+  private _getFeatureColorFromValue(legendClass, dataElementValue): string {
+    dataElementValue = +(dataElementValue);
+    let legendItem = legendClass.filter((legend, legendIndex) => {
+      if (legend.min <= dataElementValue && legend.max > dataElementValue) {
+        return legend.color;
+      }
+      if (legendIndex === legendClass.length - 1 && legend.max === dataElementValue) {
+        return legend.color;
+      }
+    })
+    return legendItem[0] ? legendItem[0].color:"";
+
   }
 
   private _getDataForGeoFeature(geoFeatureId: string, analyticObject: any): any {

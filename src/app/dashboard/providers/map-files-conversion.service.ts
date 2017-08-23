@@ -31,7 +31,7 @@ export class MapFilesConversion {
 
 
   private _root(_, options) {
-    _ = (new Function('return ' + _))();
+
     if (!_.type) {
       return ''
     }
@@ -81,7 +81,6 @@ export class MapFilesConversion {
           }
         }
       }
-
       return styleDefinition + this._tag('Placemark',
           this._name(_.properties, options) +
           this._description(_.properties, options) +
@@ -315,8 +314,6 @@ export class MapFilesConversion {
 
 // ## Style helpers
   private _hashStyle(_) {
-    console.log("HASH STYLE IS HERE");
-    console.log(_);
     let hash = '';
 
     if (_['marker-symbol']) {
