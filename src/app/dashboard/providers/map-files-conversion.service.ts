@@ -9,6 +9,114 @@ export class MapFilesConversion {
     this.geometry = this._getGeometry();
   }
 
+  /***
+   * *  KML FILE GENERATION FUNCTIONS FROM
+   * *
+   * *
+   * */
+
+  toGML(fileDataObject: Object, options?: Object) {
+    options = options || {
+        documentName: undefined,
+        documentDescription: undefined,
+        name: 'name',
+        description: 'description',
+        simplestyle: true,
+        timestamp: 'timestamp'
+      };
+
+    return '<?xml version="1.0" encoding="utf-8" ?>' +
+      this._tag('ogr:FeatureCollection',
+        this._gml(fileDataObject, options)
+        , [
+          ['xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance'],
+          ['xsi:schemaLocation', ''],
+          ['xmlns:ogr', 'http://ogr.maptools.org/'],
+          ['xmlns:gml', 'http://www.opengis.net/gml']
+        ]);
+  }
+
+  private _gml(_, options) {
+    if (!_.type) {
+      return ''
+    }
+
+    switch (_.type) {
+      case 'FeatureCollection':
+        if (!_.features) {
+          return ''
+        }
+        ;
+        return _.features.map(this._gmlFeature(options)).join('');
+      case 'Feature':
+        return this._gmlFeature(options)(_);
+      default:
+        return this._gmlFeature(options)({
+          type: 'Feature',
+          geometry: _,
+          properties: {}
+        });
+    }
+  }
+
+  private _gmlFeature(options) {
+    return (_) => {
+      if (!_.properties || !this.geometry.valid(_.geometry)) return '';
+      const geometryString = this.geometry.any(_.geometry);
+      if (!geometryString) return '';
+
+
+      return this._tag('gml:featureMember', this._gmlFeatureAttributes(_, options));
+    };
+  }
+
+  private _gmlFeatureAttributes(_, options) {
+    const name = options.documentName.replace(/[- &\/\\#,+()$~%.'":*?<>{}]/g, '_');
+    return this._tag('ogr:' + name,
+      this._tag('org:geometryProperty',
+        this._tag('gml:' + _.geometry.type,
+          this._tag('gml:polygonMember',
+            this._tag('gml:Polygon',
+              this._tag('gml:outerBoundaryIs',
+                this._tag('gml:LinearRing',
+                  this._tag('gml:coordinates', this._convertfeatureCoordinateToGmlFormat(_.geometry.coordinates)))))), [['srsName', 'EPSG:4326']])) +
+      this._tag('org:Name', _.properties.name) +
+      this._tag('org:altitudeMode', "clampToGround") +
+      this._tag('org:tessellate', "-1") +
+      this._tag('org:extrude', "0") +
+      this._tag('org:visibility', "-1")
+      , [['fid', name + "." + _.properties.id]]);
+  }
+
+  private _convertfeatureCoordinateToGmlFormat(coordinates) {
+    let gmlCoordinates = this._getCoordinate(coordinates);
+    return gmlCoordinates;
+  }
+
+  private _getCoordinate(coordinates) {
+    let coord = "";
+    coordinates.forEach((coordinate, index) => {
+      if (!isNaN(coordinate)) {
+        coord += coordinate;
+        if (index == 0){
+          coord+=","
+        }else{
+          coord+=" ";
+        }
+      } else {
+        coord += this._getCoordinate(coordinate);
+      }
+    })
+
+    return coord;
+  }
+
+  /***
+   * *  KML FILE GENERATION FUNCTIONS FROM
+   * *
+   * *
+   * */
+
   toKML(fileDataObject: Object, options?: Object) {
     options = options || {
         documentName: undefined,
@@ -39,7 +147,10 @@ export class MapFilesConversion {
 
     switch (_.type) {
       case 'FeatureCollection':
-        if (!_.features) {return ''};
+        if (!_.features) {
+          return ''
+        }
+        ;
         return _.features.map(this._feature(options, styleHashesArray)).join('');
       case 'Feature':
         return this._feature(options, styleHashesArray)(_);

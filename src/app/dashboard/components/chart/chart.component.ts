@@ -46,7 +46,6 @@ export class ChartComponent implements OnInit {
      * Get chart objects
      */
     if (this.visualizationObject.details.loaded) {
-      // console.log(this.visualizationObject)
       const newChartObjects  = _.map(this.visualizationObject.layers, (layer) => { return layer.chartObject });
       this._chartObjects =_.filter(newChartObjects, (chartObject) => {
         return chartObject !== undefined

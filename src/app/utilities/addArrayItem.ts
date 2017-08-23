@@ -15,6 +15,5 @@ export function addArrayItem(array: any[], newItem: any, identifier: string, add
     return replaceArrayItem(array, [identifier, newItem[identifier]], newItem)
   }
 
-  console.log(newArray)
   return newArray;
 }

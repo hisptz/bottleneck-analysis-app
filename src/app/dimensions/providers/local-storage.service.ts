@@ -91,7 +91,6 @@ export class LocalStorageService {
           observer.next(value);
           observer.complete();
         }, (error) => {
-          console.log(error);
         });
       });
     });

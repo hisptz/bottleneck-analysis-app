@@ -70,7 +70,7 @@ export class MapVisualizationService {
         let modifiedMapData: any = null;
         if (fileFormat === 'geojson') {
           const fileName: any = this._prepareFileNameForDownload(fileFormat, 'json', data, layer);
-          modifiedMapData = this.convertToBinaryData(this._prepareGeoJsonDataForDownload(layer), fileFormat);
+          modifiedMapData = this.convertToBinaryData(JSON.stringify(this._prepareGeoJsonDataForDownload(layer)), fileFormat);
           if (modifiedMapData && fileName) {
             setTimeout(() => {
               saveAs(modifiedMapData, fileName);
@@ -92,6 +92,27 @@ export class MapVisualizationService {
             timestamp: 'timestamp'
           });
           modifiedMapData = this.convertToBinaryData(kml, fileFormat);
+          if (modifiedMapData && fileName) {
+            setTimeout(() => {
+              saveAs(modifiedMapData, fileName);
+            }, 10)
+          } else {
+
+          }
+        }
+
+        if (fileFormat === 'gml') {
+          const fileName: any = this._prepareFileNameForDownload(fileFormat, 'gml', data, layer);
+          const geoJsonObject = this._prepareGeoJsonDataForDownload(layer);
+          const gml = this.fileConversion.toGML(geoJsonObject, {
+            documentName: data.name,
+            documentDescription: data.name,
+            name: 'name',
+            description: 'description',
+            simplestyle: true,
+            timestamp: 'timestamp'
+          });
+          modifiedMapData = this.convertToBinaryData(gml, fileFormat);
           if (modifiedMapData && fileName) {
             setTimeout(() => {
               saveAs(modifiedMapData, fileName);
@@ -136,7 +157,6 @@ export class MapVisualizationService {
       geoJsonData = JSON.stringify(this._prepareGeoJsonDataFromEvents(data.analytics));
     } else {
       geoJsonData = this._prepareGeoJsonDataFromGeoFeatures(data.settings, data.analytics);
-      console.log(geoJsonData);
     }
 
     return geoJsonData;
@@ -907,9 +927,7 @@ export class MapVisualizationService {
       const circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
       return circleMarker
     }
-
     return options;
-
   }
 
   private _getGeoJSONObject(settingsObject: any, analyticObject: any, legendClassess: any): any {
@@ -933,13 +951,11 @@ export class MapVisualizationService {
             'dataElement.value': 0,
             'fill': '#00ff00',
             'fill-opacity': 1,
-            'stroke': '#ffffff',
+            'stroke': '#000000',
             'stroke-opacity': 1,
             'stroke-width': 1
           }
         };
-
-
         /**
          * Also get data if analytics is not empty
          */

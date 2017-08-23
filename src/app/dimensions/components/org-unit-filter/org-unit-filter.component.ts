@@ -185,13 +185,11 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
                         this.changeDetector.detectChanges();
                       },
                       error => {
-                        console.log('something went wrong while fetching Organisation units');
                         this.orgunit_tree_config.loading = false;
                       }
                     )
                   },
                   error => {
-                    console.log('something went wrong while fetching Organisation units');
                     this.orgunit_tree_config.loading = false;
                   }
                 )
@@ -299,12 +297,10 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
       this.orgunit_model.selected_orgunits.push($event.node.data);
     }
     this.orgUnit = $event.node.data;
-    console.log(this.orgunit_model)
   };
 
   emit(e) {
     e.stopPropagation();
-    // console.log(this.orgunit_model)
     var mapper = {};
     this.orgunit_model.selected_orgunits.forEach(function (orgUnit) {
       if (!mapper[orgUnit.level]) {

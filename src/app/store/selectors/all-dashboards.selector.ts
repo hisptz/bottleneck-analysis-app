@@ -4,7 +4,6 @@ import {dashboardMenuItemsSelector} from './dashboard-menu-items.selector';
 export function allDashboardsSelector(state: ApplicationState) {
   const newDashboardsIds = [];
   const compiledDashboards = [];
-  // console.log(JSON.stringify(state.storeData.customDashboardSettings.dashboardGroups.map(dashboardGroup => { return dashboardGroup.dashboards})))
   state.storeData.customDashboardSettings.dashboardGroups
     .map(dashboardGroup => { return dashboardGroup.dashboards})
     .forEach(dashboardArray => {
