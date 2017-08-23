@@ -88,7 +88,7 @@ export class MapVisualizationService {
             documentDescription: data.name,
             name: 'name',
             description: 'description',
-            simplestyle: false,
+            simplestyle: true,
             timestamp: 'timestamp'
           });
           modifiedMapData = this.convertToBinaryData(kml, fileFormat);
@@ -135,7 +135,10 @@ export class MapVisualizationService {
     if (data.settings.layer === 'event') {
       geoJsonData = JSON.stringify(this._prepareGeoJsonDataFromEvents(data.analytics));
     } else {
-      geoJsonData = JSON.stringify(this._prepareGeoJsonDataFromGeoFeatures(data.settings.geoFeature, data.analytics));
+
+      console.log(data.settings);
+      console.log(data.analytics);
+      geoJsonData = JSON.stringify(this._prepareGeoJsonDataFromGeoFeatures(data.settings, data.analytics));
     }
 
     return geoJsonData;
@@ -236,8 +239,8 @@ export class MapVisualizationService {
     return {'type': 'FeatureCollection', 'features': geoJSONObject};
   }
 
-  private _prepareGeoJsonDataFromGeoFeatures(geoFeatures: any[], analytics: any[]): any {
-    const features = this._getGeoJSONObject(geoFeatures, analytics);
+  private _prepareGeoJsonDataFromGeoFeatures(settings: any, analytics: any[]): any {
+    const features = this._getGeoJSONObject(settings, analytics);
     return {'type': 'FeatureCollection', 'features': features};
   }
 
@@ -542,7 +545,7 @@ export class MapVisualizationService {
   }
 
   private _getGEOJSONLayer(L, visualizationLayerSettings, visualizationAnalytics, options) {
-    const geoJsonFeatures = this._getGeoJSONObject(visualizationLayerSettings.geoFeature, visualizationAnalytics);
+    const geoJsonFeatures = this._getGeoJSONObject(visualizationLayerSettings, visualizationAnalytics);
     const showLabels = visualizationLayerSettings.labels;
     let layer: any;
     let layerGroup: any;
@@ -552,7 +555,7 @@ export class MapVisualizationService {
     if (showLabels) {
       visualizationLayerSettings.geoFeature = geoJsonFeatures;
       const labels = this._getMapLabels(L, visualizationLayerSettings);
-      layerGroup = L.layerGroup([geoJsonLayer,labels]);
+      layerGroup = L.layerGroup([geoJsonLayer, labels]);
     } else {
       layerGroup = geoJsonLayer;
     }
@@ -582,14 +585,12 @@ export class MapVisualizationService {
         center = polygon.getBounds().getCenter();
 
       }
-      console.log(center.lat,center.lng);
-      // console.log([center[0], center[1]]);
 
-      const label = L.marker([center.lat,center.lng], {
+      const label = L.marker([center.lng, center.lat], {
         icon: L.divIcon({
           iconSize: new L.Point(50, 50),
-          className: 'label',
-          html: 'foo bar'//'<div  style="color:' + sanitizeColor(visualizationLayerSettings.labelFontColor) + '!important;font-size:' + visualizationLayerSettings.labelFontSize + '!important;;font-weight:bolder!important;;-webkit-text-stroke: 0.04em white!important;;">' + feature.properties.name + '</div>'
+          className: 'feature-label',
+          html: feature.properties.name //'<div  style="color:' + sanitizeColor(visualizationLayerSettings.labelFontColor) + '!important;font-size:' + visualizationLayerSettings.labelFontSize + '!important;;font-weight:bolder!important;;-webkit-text-stroke: 0.04em white!important;;">' + feature.properties.name + '</div>'
         })
       })
 
@@ -917,20 +918,30 @@ export class MapVisualizationService {
 
   }
 
-  private _getGeoJSONObject(geoFeatures: any[], analyticObject: any): any {
+  private _getGeoJSONObject(settingsObject: any, analyticObject: any): any {
+    const geoFeatures = settingsObject.geoFeature;
     const geoJSONObject: any = [];
     if (geoFeatures) {
       geoFeatures.forEach((geoFeature) => {
+
         const sampleGeometry: any = {
           'type': 'Feature',
           'le': geoFeature.le,
-          'geometry': {'type': '', coordinates: JSON.parse(geoFeature.co)},
+          'geometry': {
+            'type': '',
+            'coordinates': JSON.parse(geoFeature.co)
+          },
           'properties': {
             'id': geoFeature.id,
             'name': geoFeature.na,
             'dataElement.id': '',
             'dataElement.name': '',
-            'dataElement.value': 0
+            'dataElement.value': 0,
+            'fill': '#000000',
+            'fill-opacity': 1,
+            'stroke': '#000000',
+            'stroke-opacity': 1,
+            'stroke-width': 1
           }
         };
 
@@ -942,7 +953,6 @@ export class MapVisualizationService {
           const dataElement = this._getDataForGeoFeature(geoFeature.id, analyticObject);
 
           if (dataElement) {
-            // sampleGeometry.properties.dataElement = dataElement;
             sampleGeometry.properties['dataElement.id'] = dataElement.id;
             sampleGeometry.properties['dataElement.name'] = dataElement.name;
             sampleGeometry.properties['dataElement.value'] = dataElement.value;

@@ -166,8 +166,8 @@ export class VisualizerService {
      */
       // todo find readable names for parent types that are not data, period or organisation unit
     const seriesName = parentType === 'pe' ? 'Period' :
-      parentType === 'dx' ? 'Data' :
-        parentType === 'ou' ? 'Organisation unit' : 'Categories';
+        parentType === 'dx' ? 'Data' :
+          parentType === 'ou' ? 'Organisation unit' : 'Categories';
 
     const seriesData = _.map(yAxisItems, yAxisObject => {
       return {
@@ -278,7 +278,7 @@ export class VisualizerService {
     newChartObject.xAxis = this._getXAxisOptions(
       this._getRefinedXAxisCategories(newChartObject.series),
       chartConfiguration.type
-      );
+    );
 
     return newChartObject;
   }
@@ -649,7 +649,7 @@ export class VisualizerService {
   private _getPaneOptions(chartType: string) {
     let paneOptions = {};
 
-    switch(chartType) {
+    switch (chartType) {
       case 'radar':
         paneOptions = _.assign({}, {
           size: '80%'
@@ -682,7 +682,7 @@ export class VisualizerService {
   private _getXAxisOptions(xAxisCategories: any[], chartType) {
     let xAxisOptions = {};
 
-    switch(chartType) {
+    switch (chartType) {
       case 'radar':
         xAxisOptions = _.assign({}, {
           categories: xAxisCategories,
@@ -692,11 +692,11 @@ export class VisualizerService {
         break;
       default:
         xAxisOptions = _.assign({}, {
-        categories: xAxisCategories,
-        labels: {
-          rotation: xAxisCategories.length <= 5 ? 0 : -45,
-          style: {'color': '#000000', 'fontWeight': 'normal'}
-        }
+          categories: xAxisCategories,
+          labels: {
+            rotation: xAxisCategories.length <= 5 ? 0 : -45,
+            style: {'color': '#000000', 'fontWeight': 'normal'}
+          }
         });
         break;
     }
@@ -746,7 +746,7 @@ export class VisualizerService {
 
   private _getAllowedChartType(chartType: string): string {
     let newChartType = '';
-    switch(chartType) {
+    switch (chartType) {
       case 'radar':
         newChartType = 'line';
         break;

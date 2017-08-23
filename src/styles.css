@@ -201,6 +201,15 @@ a {
   position: absolute;
 }
 
+
+.feature-label{
+  text-align: center;
+  line-height: 12px;
+  text-shadow: -1px 0 #f5f5f5, 0 1px #f5f5f5, 1px 0 #f5f5f5, 0 -1px #f5f5f5;
+  min-width: 80px;
+  pointer-events: none;
+  display: block;
+}
 /* control positioning */
 
 .leaflet-control {

@@ -15,7 +15,7 @@ export class MapFilesConversion {
         documentDescription: undefined,
         name: 'name',
         description: 'description',
-        simplestyle: false,
+        simplestyle: true,
         timestamp: 'timestamp'
       };
 
@@ -35,13 +35,11 @@ export class MapFilesConversion {
     if (!_.type) {
       return ''
     }
-    ;
     const styleHashesArray = [];
 
     switch (_.type) {
       case 'FeatureCollection':
         if (!_.features) {return ''};
-        console.log(_.features.map(this._feature(options, styleHashesArray)).join(''));
         return _.features.map(this._feature(options, styleHashesArray)).join('');
       case 'Feature':
         return this._feature(options, styleHashesArray)(_);
@@ -64,6 +62,7 @@ export class MapFilesConversion {
       let styleDefinition = '',
         styleReference = '';
       if (options.simplestyle) {
+
         const styleHash = this._hashStyle(_.properties);
         if (styleHash) {
           if (this.geometry.isPoint(_.geometry) && this._hasMarkerStyle(_.properties)) {
@@ -316,6 +315,8 @@ export class MapFilesConversion {
 
 // ## Style helpers
   private _hashStyle(_) {
+    console.log("HASH STYLE IS HERE");
+    console.log(_);
     let hash = '';
 
     if (_['marker-symbol']) {
@@ -343,7 +344,7 @@ export class MapFilesConversion {
     }
     ;
     if (_['fill']) {
-      hash = hash + 'f' + _['fill'].replace('#', '')
+      hash = hash + '#' + _['fill'].replace('#', '')
     }
     ;
     if (_['fill-opacity']) {
