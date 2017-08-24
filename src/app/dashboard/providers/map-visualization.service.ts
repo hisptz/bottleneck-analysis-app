@@ -618,7 +618,7 @@ export class MapVisualizationService {
   }
 
   private _getCenter(featureCoordinates: any) {
-    const off = featureCoordinates[0]; //console.log("OFF",off)
+    const off = featureCoordinates[0];
     let twicearea = 0;
     let x = 0;
     let y = 0;
@@ -961,7 +961,6 @@ export class MapVisualizationService {
          */
         if (analyticObject) {
           const dataElement = this._getDataForGeoFeature(geoFeature.id, analyticObject);
-
           if (dataElement) {
             sampleGeometry.properties['dataElement.id'] = dataElement.id;
             sampleGeometry.properties['dataElement.name'] = dataElement.name;
@@ -1013,8 +1012,16 @@ export class MapVisualizationService {
         data.value = row[dataIndex]
       }
     });
+    return !data.hasOwnProperty('id') ? this._getDefaultData(analyticObject): data;
+  }
 
-    return data !== {} ? data : undefined;
+  _getDefaultData(analyticObject){
+
+    let data: any = {};
+    data.id = analyticObject.metaData.dx[0];
+    data.name = analyticObject.metaData.names[data.id];
+    data.value = '';
+    return data;
   }
 
   private _prepareBoundaryFeatureStyle(feature, visualizationLayerSettings, legendSet) {
