@@ -201,6 +201,9 @@ a {
   position: absolute;
 }
 
+.transparent{
+  display: none!important;
+}
 
 .feature-label{
   text-align: center;

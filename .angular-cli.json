@@ -35,7 +35,8 @@
         "../node_modules/highcharts/modules/exporting.js",
         "../node_modules/highcharts/modules/offline-exporting.js",
         "../node_modules/highcharts/modules/drilldown.js",
-        "../node_modules/leaflet-compass/dist/leaflet-compass.min.js"
+        "../node_modules/leaflet-compass/dist/leaflet-compass.min.js",
+        "../node_modules/shpjs/dist/shp.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

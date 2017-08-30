@@ -49,6 +49,7 @@
     "ng2-pagination": "^2.0.2",
     "ngx-bootstrap": "^1.8.0",
     "rxjs": "^5.1.0",
+    "shpjs": "^3.4.0",
     "typescript": "^2.4.2",
     "zone.js": "^0.8.4"
   },

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Visualization} from '../../model/visualization';
 import 'leaflet';
 import 'leaflet.markercluster';
@@ -6,6 +6,7 @@ import {MapVisualizationService} from '../../providers/map-visualization.service
 import {TileLayers} from '../../constants/tile-layers';
 declare var L;
 import * as _ from 'lodash';
+import {VisualizationLegendComponent} from "../visualization-legend/visualization-legend.component";
 
 @Component({
   selector: 'app-map-template',
@@ -31,6 +32,8 @@ export class MapTemplateComponent implements OnInit {
   isFullScreen: boolean = false;
   hideTable: boolean = true;
   mapTable: any = {headers: [], rows: []};
+  @ViewChild(VisualizationLegendComponent)
+  visualizationLegendComponent: VisualizationLegendComponent;
 
   constructor(private mapVisualizationService: MapVisualizationService,
               private tileLayers: TileLayers) {
@@ -212,6 +215,10 @@ export class MapTemplateComponent implements OnInit {
       data = this.map.getContainer();
     }
     this.mapVisualizationService.downLoadMapAsFiles(fileFormat, data);
+  }
+
+  downloadMap(fileFormat){
+    this.mapVisualizationService.downLoadMapAsFiles(fileFormat, this.visualizationObject);
   }
 
   closeMapLegend(flag) {

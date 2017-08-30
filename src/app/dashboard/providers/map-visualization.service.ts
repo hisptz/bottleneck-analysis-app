@@ -995,7 +995,7 @@ export class MapVisualizationService {
         return legend.color;
       }
     })
-    return legendItem[0] ? legendItem[0].color:"";
+    return legendItem[0] ? legendItem[0].color : "";
 
   }
 
@@ -1012,10 +1012,10 @@ export class MapVisualizationService {
         data.value = row[dataIndex]
       }
     });
-    return !data.hasOwnProperty('id') ? this._getDefaultData(analyticObject): data;
+    return !data.hasOwnProperty('id') ? this._getDefaultData(analyticObject) : data;
   }
 
-  _getDefaultData(analyticObject){
+  _getDefaultData(analyticObject) {
 
     let data: any = {};
     data.id = analyticObject.metaData.dx[0];

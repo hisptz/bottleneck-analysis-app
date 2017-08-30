@@ -19,6 +19,7 @@ import {
   DASHBOARD_BLOCK_CLASSES, DASHBOARD_SHAPES, NO_BORDER_CLASS,
   VISUALIZATION_WITH_NO_OPTIONS
 } from '../../constants/visualization';
+import {MapComponent} from "../map/map.component";
 
 
 @Component({
@@ -67,6 +68,8 @@ export class DashboardItemCardComponent implements OnInit {
   };
   @ViewChild(ChartComponent)
   chartComponent: ChartComponent;
+  @ViewChild(MapComponent)
+  mapComponent: MapComponent;
   showFavoriteSettings: boolean = false;
   metadataIdentifiers: string;
   constructor(private store: Store<ApplicationState>) {
@@ -482,14 +485,22 @@ export class DashboardItemCardComponent implements OnInit {
     return metadataIdentifiers;
   }
 
-  downloadVisualization(downloadFormat) {
-    if (downloadFormat === 'excel') {
-      console.log('download excel')
-    } else {
-      if (this.chartComponent) {
-        this.chartComponent.download(downloadFormat);
+  downloadVisualization(downloadFormat,currentVisualizationType) {
+
+    if (currentVisualizationType == "MAP")
+    {
+      this.mapComponent.downLoadFiles(downloadFormat);
+    } else
+    {
+      if (downloadFormat === 'excel') {
+        console.log('download excel')
+      } else {
+        if (this.chartComponent) {
+          this.chartComponent.download(downloadFormat);
+        }
       }
     }
+
   }
 
   deleteVisualizationObject(visualizationObject) {

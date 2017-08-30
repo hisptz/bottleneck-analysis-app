@@ -4,6 +4,7 @@ import {LegendSet} from '../../model/legend-set';
 import {LegendSetService} from '../../providers/legend-set.service';
 import {TILE_LAYERS} from '../../constants/tile-layers';
 import {MapLayerEvent} from '../../constants/layer-event';
+declare var shp;
 @Component({
   selector: 'app-visualization-legend',
   templateUrl: 'visualization-legend.component.html',
@@ -32,7 +33,9 @@ export class VisualizationLegendComponent implements OnInit {
   showUpload: boolean = false;
   showButtonIncons: boolean = false;
   layerSelectionForm: boolean = false;
+  showTransparent: boolean = false;
   displayNone: boolean = false;
+
 
 
   constructor(private legend: LegendSetService) {
@@ -77,15 +80,18 @@ export class VisualizationLegendComponent implements OnInit {
         }
       )
 
-      this.visualizationLegends = [...thematicLegends, ...eventLegends,...boundaryLegends, ...facilityLegends];
+      this.visualizationLegends = [...thematicLegends, ...eventLegends, ...boundaryLegends, ...facilityLegends];
     }
 
     this.visualizationLegends.forEach((legend, legendIndex) => {
       legendIndex === 0 ? legend.opened = true : legend.opened = false;
     })
 
-    this.uploadFile();
   }
+
+  // onChange(event: EventTarget) {
+  //   console.log(event)
+  // }
 
   private _prepareLayerLegend(mapVisualizationSettings, mapVisualizationAnalytics, legendClasses) {
     let legendId = '';
@@ -97,27 +103,25 @@ export class VisualizationLegendComponent implements OnInit {
       })
     }
 
-    const hiddenProperty:any = (new Function('return '+localStorage.getItem(legendId)))();
+    const hiddenProperty: any = (new Function('return ' + localStorage.getItem(legendId)))();
     const layerLegend: LegendSet = {
       id: mapVisualizationSettings.id,
       name: mapVisualizationSettings.layer === 'event' ? this.legend.getEventName(mapVisualizationAnalytics)[0] :
-        mapVisualizationSettings.layer === 'boundary' ? 'Boundaries' :  mapVisualizationSettings.layer === 'facility' ? 'Facility' : mapVisualizationSettings.name,
+        mapVisualizationSettings.layer === 'boundary' ? 'Boundaries' : mapVisualizationSettings.layer === 'facility' ? 'Facility' : mapVisualizationSettings.name,
       description: mapVisualizationSettings.subtitle,
       pinned: false,
-      hidden:hiddenProperty?hiddenProperty:false ,
+      hidden: hiddenProperty ? hiddenProperty : false,
       opened: false,
-      isClustered:false,
+      isClustered: false,
       useIcons: false,
       isEvent: mapVisualizationSettings.layer === 'event' ? true : false,
       isThematic: mapVisualizationSettings.layer != 'event' && mapVisualizationSettings.layer != 'boundary' && mapVisualizationSettings.layer != 'facility' ? true : false,
       isBoundary: mapVisualizationSettings.layer === 'boundary' ? true : false,
       isFacility: mapVisualizationSettings.layer === 'facility' ? true : false,
       opacity: mapVisualizationSettings.opacity,
-      classes: mapVisualizationSettings.layer != 'boundary' && mapVisualizationSettings.layer != 'facility' ?legendClasses:legendClasses[0],
+      classes: mapVisualizationSettings.layer != 'boundary' && mapVisualizationSettings.layer != 'facility' ? legendClasses : legendClasses[0],
       change: []
     }
-
-
 
 
     return layerLegend;
@@ -146,22 +150,27 @@ export class VisualizationLegendComponent implements OnInit {
   }
 
   updateMapLayer(layer, action) {
-    localStorage.setItem(layer.id,layer.hidden);
+    localStorage.setItem(layer.id, layer.hidden);
     const EVENT: MapLayerEvent = this.legend.prepareLayerEvent(layer, action);
     this.updateMapLayers.emit(EVENT);
   }
 
   showDownloadContainer() {
+    this.showTransparent = false;
     this.showDownload = !this.showDownload;
     this.displayNone = true;
   }
 
   showUploadContainer() {
     this.showUpload = true;
+    this.displayNone = true;
+    this.layerSelectionForm = false;
   }
 
   removeUploadContainer() {
     this.showUpload = false;
+    this.displayNone = false;
+    this.layerSelectionForm = false;
   }
 
   toggleLegendView(legendToggled, index) {
@@ -217,10 +226,10 @@ export class VisualizationLegendComponent implements OnInit {
 
   closeDownloads() {
     this.showDownload = false;
-    this.displayNone = false;
+    this.displayNone = true;
   }
 
-  downloadMap(format) {
+  downloadMapFromLegend(format) {
     this.downloadMapAsFiles.emit({format: format, data: this.mapVsualizationObject});
   }
 
@@ -258,22 +267,29 @@ export class VisualizationLegendComponent implements OnInit {
     this.newLayerEvent.emit({visualization: this.mapVsualizationObject, event: event});
   }
 
-  uploadFile() {
+  uploadFile(event: EventTarget) {
+    let eventObj: MSInputMethodContext = <MSInputMethodContext> event;
+    let target: HTMLInputElement = <HTMLInputElement> eventObj.target;
+    let files: FileList = target.files;
+    let file = files[0];
 
-    const thisComponent = this;
+      shp(file.name).then(function(data){
+        console.log(data);
+      });
 
-    function handleFileSelect() {
-      const storiesContainer = document.getElementById('fileInput');
-
-      const reader = new FileReader();
-
-      thisComponent.uploadEvent(reader);
-
-      reader.readAsText(this.files[0]);
-    }
-
-    document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
-
+    // var reader = new FileReader();
+    // reader.onload = function (result: any) {
+    //   let byteArray = new Uint8Array(result.target.result)
+    //   let fileData = '';
+    //   for (let byteCount = 0; byteCount < byteArray.byteLength; byteCount++) {
+    //     fileData += String.fromCharCode(byteArray[byteCount]);
+    //   }
+    //   console.log(shp);
+    //   shp(fileData).then(function(data){
+    //     console.log(data);
+    //   });
+    // };
+    // reader.readAsArrayBuffer(file);
   }
 
   uploadEvent(reader) {

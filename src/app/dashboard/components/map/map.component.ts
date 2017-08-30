@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Visualization} from '../../model/visualization';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../../store/application-state';
@@ -13,6 +13,7 @@ import {
 } from '../../../store/actions';
 import {MapVisualizationService} from '../../providers/map-visualization.service';
 import {TileLayers} from '../../constants/tile-layers';
+import {MapTemplateComponent} from "../map-template/map-template.component";
 
 @Component({
   selector: 'app-map',
@@ -22,9 +23,12 @@ import {TileLayers} from '../../constants/tile-layers';
 export class MapComponent implements OnInit {
 
   @Input() visualizationObject: Visualization;
+  @Input() downloadOptions: any;
   private _mapHasError: boolean;
   private _errorMessage: string;
   private _loaded: boolean;
+  @ViewChild(MapTemplateComponent)
+  mapTempaletComponent: MapTemplateComponent;
   constructor(
     private store: Store<ApplicationState>
   ) {
@@ -56,10 +60,16 @@ export class MapComponent implements OnInit {
     this._errorMessage = value;
   }
 
+  downLoadFiles(fileFormat){
+    this.mapTempaletComponent.downloadMap(fileFormat);
+  }
+
   ngOnInit() {
     this._mapHasError = this.visualizationObject.details.hasError;
     this._errorMessage = this.visualizationObject.details.errorMessage;
     this._loaded = this.visualizationObject.details.loaded;
   }
+
+
 
 }

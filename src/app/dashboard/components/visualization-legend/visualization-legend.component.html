@@ -367,8 +367,8 @@
     <table>
       <tr>
         <td>
-          <form #fileInputForm>
-            <input type="file" id="fileInput" title="Format (GeoJSON,SLD,GML)" style="width:180px;"
+          <form >
+            <input type="file" id="fileInput" title="Format (GeoJSON,SLD,GML,Shape file)" (change)="uploadFile($event)" style="width:180px;"
                    placeholder="(GeoJSON,SLD,GML)">
           </form>
         </td>
