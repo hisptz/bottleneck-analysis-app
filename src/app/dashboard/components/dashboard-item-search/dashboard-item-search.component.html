@@ -40,7 +40,7 @@
       <div class="text-center" *ngIf="(dashboardSearchItems$ | async).results.length === 0">
         <div style="margin: 40px;" *ngIf="(dashboardSearchItems$ | async).loaded">
           <img [src]="'assets/img/empty-flag.png'" alt="">
-          <h3 class="text-muted">No search result could be found for keyword "{{searchText}}"</h3>
+          <h3 class="text-muted">No search results found for "{{searchText}}"</h3>
         </div>
       </div>
       <app-loader
