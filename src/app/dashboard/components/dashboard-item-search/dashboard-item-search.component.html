@@ -24,7 +24,7 @@
           [ngClass]="header.selected ? 'active-search-header' : ''"
         >
           <a
-             tooltip="{{header.name}}"
+             tooltip="{{header.title}}"
              placement="bottom"
              style="position: relative"
              (click)="toggleHeaderSelection(header, $event)"
@@ -47,16 +47,6 @@
         *ngIf="(dashboardSearchItems$ | async).loading"
         [loadingMessage]="'Searching...'"
       ></app-loader>
-      <!--<div class="form-group"-->
-           <!--*ngIf="(dashboardSearchItems$ | async).results.length > 0 && !(dashboardSearchItems$ | async).loading"-->
-      <!--&gt;-->
-        <!--<input-->
-          <!--type="text"-->
-          <!--[ngClass]="['form-control', 'input-sm']"-->
-          <!--[(ngModel)]="searchItemName"-->
-          <!--placeholder="Search items"-->
-        <!--&gt;-->
-      <!--</div>-->
       <table
         width="100%"
         class="table table-hover search-table"
