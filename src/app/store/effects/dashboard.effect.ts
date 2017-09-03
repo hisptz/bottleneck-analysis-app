@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {DashboardService} from '../../providers/dashboard.service';
 import {Actions, Effect} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/withLatestFrom';
 import * as _ from 'lodash';
 import {
   CREATE_DASHBOARD_ACTION, CURRENT_DASHBOARD_CHANGE_ACTION, CurrentDashboardSaveAction, DASHBOARD_CREATED_ACTION,
@@ -103,13 +104,13 @@ export class DashboardEffect {
 
   @Effect() deleteDashboard$: Observable<Action> = this.actions$
     .ofType(DELETE_DASHBOARD_ACTION)
-    .flatMap(action => this.dashboardService.delete(action.payload))
+    .switchMap(action => this.dashboardService.delete(action.payload))
     .map(dashboard => new DashboardDeletedAction(dashboard))
     .catch((error) => Observable.of(new ErrorOccurredAction(error)));
 
   @Effect() deletedDashboard$: Observable<Action> = this.actions$
     .ofType(DASHBOARD_DELETED_ACTION)
-    .flatMap(action => Observable.of(action.payload))
+    .switchMap(action => Observable.of(action.payload))
     .map(dashboard => new NavigateDashboardAction(dashboard));
 
   @Effect() resizeDashboard$: Observable<Action> = this.actions$

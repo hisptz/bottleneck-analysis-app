@@ -13,9 +13,7 @@ import {ManifestService} from './providers/manifest.service';
 import {HttpClientService} from './providers/http-client.service';
 import {HttpModule} from '@angular/http';
 import { NotificationComponent } from './components/notification/notification.component';
-import {MenuComponent} from './components/menu/menu.component';
 import {FormsModule} from '@angular/forms';
-import {FilterPipe} from './components/menu/filter.pipe';
 import { HomeComponent } from './home/home.component';
 import {DashboardService} from './providers/dashboard.service';
 import {CurrentUserService} from './providers/current-user.service';
@@ -27,13 +25,12 @@ import {DashboardNotificationEffect} from './store/effects/dashboard-notificatio
 import {DashboardNotificationService} from './dashboard/providers/dashboard-notification.service';
 import {UtilitiesService} from './providers/utilities.service';
 import {LoginRedirectService} from './providers/login-redirect.service';
+import {MenuModule} from './menu/menu.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotificationComponent,
-    MenuComponent,
-    FilterPipe,
     HomeComponent,
     LoaderComponent
   ],
@@ -42,6 +39,7 @@ import {LoginRedirectService} from './providers/login-redirect.service';
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    MenuModule,
     StoreModule.provideStore({uiState: uiStateReducer, storeData: storeDataReducer}, INITIAL_APPLICATION_STATE),
     EffectsModule.run(SystemInfoEffect),
     EffectsModule.run(DashboardEffect),
