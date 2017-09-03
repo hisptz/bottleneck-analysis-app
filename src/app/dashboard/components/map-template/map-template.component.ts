@@ -240,8 +240,6 @@ export class MapTemplateComponent implements OnInit {
     this.drawMap(this.visualizationObject);
   }
 
-  clickedOutSideLegend(event) {
-  }
 
   sortLayers(layers, eventLayers) {
     const newLayers = [];

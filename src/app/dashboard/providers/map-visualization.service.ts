@@ -47,7 +47,6 @@ export class MapVisualizationService {
 
   downLoadMapAsFiles(fileFormat, data) {
 
-
     if (fileFormat === 'image') {
       html2canvas(data, {
         onrendered: (canvas) => {
@@ -1140,7 +1139,7 @@ export class MapVisualizationService {
             markersCoordinates.push([latitude, longitude]);
             const icon = L.divIcon({
               iconSize: null,
-              html: '<i class="fa fa-map-marker fa-2x" style="color:#276696"></i>'
+              html: '<i class="fa fa-map-marker" style="color:#276696;font-size: 16px"></i>'
             });
             markers.addLayer(L.marker([latitude, longitude], {
               icon: icon
@@ -1232,7 +1231,7 @@ export class MapVisualizationService {
             markersCoordinates.push([latitude, longitude]);
             const icon = L.divIcon({
               iconSize: null,
-              html: '<i class="fa fa-map-marker fa-2x" style="color:#276696;-webkit-text-stroke: 1px white;"></i>'
+              html: '<i class="fa fa-map-marker" style="color:#276696;-webkit-text-stroke: 1px white;font-size: 16px"></i>'
             });
             markersArray.push(L.marker([latitude, longitude], {
               icon: icon
