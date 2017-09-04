@@ -229,7 +229,7 @@ export class VisualizationLegendComponent implements OnInit {
     this.displayNone = true;
   }
 
-  downloadMapFromLegend(format) {
+  downloadMap(format) {
     this.downloadMapAsFiles.emit({format: format, data: this.mapVsualizationObject});
   }
 
