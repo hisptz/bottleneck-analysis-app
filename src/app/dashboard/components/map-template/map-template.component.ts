@@ -31,7 +31,7 @@ export class MapTemplateComponent implements OnInit {
   operatingLayers: Array<any> = [];
   isFullScreen: boolean = false;
   hideTable: boolean = true;
-  mapTable: any = {headers: [], rows: []};
+  mapTable: any = {headers: [], rows: [], mapLegend: this.mapLegend};
   @ViewChild(VisualizationLegendComponent)
   visualizationLegendComponent: VisualizationLegendComponent;
 
@@ -238,7 +238,6 @@ export class MapTemplateComponent implements OnInit {
     newVisualizationObject.layers = this.sortLayers(layers, event);
     this.drawMap(this.visualizationObject);
   }
-
 
   sortLayers(layers, eventLayers) {
     const newLayers = [];
