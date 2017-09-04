@@ -51,6 +51,9 @@
         width="100%"
         class="table table-hover search-table"
         *ngIf="(dashboardSearchItems$ | async).results.length > 0 && !(dashboardSearchItems$ | async).loading">
+        <!--<tr>-->
+          <!--<td colspan="3"><small>{{(dashboardSearchItems$ | async).results.length}} results found</small></td>-->
+        <!--</tr>-->
         <tr
           *ngFor="let result of (dashboardSearchItems$ | async).results | filterBy: searchItemName"
           [hidden]="!result.selected"

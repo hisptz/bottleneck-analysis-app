@@ -38,7 +38,6 @@ import {MapVisualizationService} from './providers/map-visualization.service';
 import {ColorInterpolationService} from './providers/color-interpolation.service';
 import {TileLayers} from './constants/tile-layers';
 import { MapTemplateComponent } from './components/map-template/map-template.component';
-import {LoaderComponent} from './components/loader/loader.component';
 import { MetadataDictionaryComponent } from './components/metadata-dictionary/metadata-dictionary.component';
 import {AccordionModule, TooltipModule} from 'ngx-bootstrap';
 import { TableComponent } from './components/table/table.component';
@@ -64,6 +63,7 @@ import {RelativePeriodService} from './providers/relative-period.service';
 import {DashboardShareComponent} from './components/dashboard-share/dashboard-share.component';
 import {DragulaModule} from 'ng2-dragula';
 import {MessageModule} from '../message/message.module';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -81,7 +81,8 @@ import {MessageModule} from '../message/message.module';
     DimensionsModule,
     TooltipModule.forRoot(),
     DragulaModule,
-    MessageModule
+    MessageModule,
+    SharedModule
   ],
   declarations: [
     DashboardComponent,
@@ -101,7 +102,6 @@ import {MessageModule} from '../message/message.module';
     MapTemplateComponent,
     VisualizationLegendComponent,
     MapTableComponent,
-    LoaderComponent,
     MetadataDictionaryComponent,
     TableComponent,
     ProgressComponent,
