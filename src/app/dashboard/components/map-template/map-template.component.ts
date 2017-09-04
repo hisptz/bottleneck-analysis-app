@@ -190,7 +190,7 @@ export class MapTemplateComponent implements OnInit {
 
 
     if (layerActedUpon) {
-
+        console.log(layerActedUpon);
       if (event.action === 'HIDE') {
         layerActedUpon.removeFrom(this.map);
         this.map.removeLayer(layerActedUpon);

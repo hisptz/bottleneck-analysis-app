@@ -164,7 +164,7 @@ export class LegendSetService {
       legendSettings['colorScale'] = legendsFromLegendSet.colorScale;
     }
 
-    if (visualizationAnalytics.hasOwnProperty('headers')) {
+    if (visualizationAnalytics && visualizationAnalytics.hasOwnProperty('headers')) {
       visualizationAnalytics.rows.forEach((row) => {
         dataArray.push(+row[_.findIndex(visualizationAnalytics.headers, {'name': 'value'})]);
       })
@@ -267,7 +267,7 @@ export class LegendSetService {
     const classLimits = [], classRanges = [];
     let doneWorkAround = false;
 
-    if (visualizationAnalytics.hasOwnProperty('headers')) {
+    if (visualizationAnalytics && visualizationAnalytics.hasOwnProperty('headers')) {
       const sortedData = this._getDataSortedArray(visualizationAnalytics);
       dataArray = sortedData;
 
@@ -583,7 +583,7 @@ export class LegendSetService {
   private _getDataSortedArray(visualizationAnalytics) {
     const dataArray = [];
     let sortedData = [];
-    if (visualizationAnalytics.hasOwnProperty('headers')) {
+    if (visualizationAnalytics && visualizationAnalytics.hasOwnProperty('headers')) {
       visualizationAnalytics.rows.forEach((row) => {
         dataArray.push(+row[_.findIndex(visualizationAnalytics.headers, {'name': 'value'})]);
       })

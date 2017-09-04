@@ -948,6 +948,7 @@ export class MapVisualizationService {
             'dataElement.id': '',
             'dataElement.name': '',
             'dataElement.value': 0,
+            'classInterval': '',
             'fill': '#00ff00',
             'fill-opacity': 1,
             'stroke': '#000000',
@@ -968,7 +969,10 @@ export class MapVisualizationService {
         }
 
         if (legendClassess) {
-          sampleGeometry.properties['fill'] = this._getFeatureColorFromValue(legendClassess, sampleGeometry.properties['dataElement.value']);
+
+          let featureLegendClass = this._getFeatureClassFromValue(legendClassess, sampleGeometry.properties['dataElement.value']);
+          sampleGeometry.properties['fill'] = featureLegendClass.color;
+          sampleGeometry.properties['classInterval'] = featureLegendClass.min + ' - ' + featureLegendClass.max + ' (' + featureLegendClass.count + ')';
         }
 
         // TODO:: FIND BEST WAY TO DETERMINE FEATURE TYPE
@@ -984,17 +988,17 @@ export class MapVisualizationService {
     }
   }
 
-  private _getFeatureColorFromValue(legendClass, dataElementValue): string {
+  private _getFeatureClassFromValue(legendClass, dataElementValue): any {
     dataElementValue = +(dataElementValue);
     let legendItem = legendClass.filter((legend, legendIndex) => {
       if (legend.min <= dataElementValue && legend.max > dataElementValue) {
-        return legend.color;
+        return legend;
       }
       if (legendIndex === legendClass.length - 1 && legend.max === dataElementValue) {
-        return legend.color;
+        return legend;
       }
     })
-    return legendItem[0] ? legendItem[0].color : "";
+    return legendItem[0] ? legendItem[0] : "";
 
   }
 
