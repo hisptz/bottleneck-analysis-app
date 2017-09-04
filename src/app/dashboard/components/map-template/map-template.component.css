@@ -50,6 +50,14 @@
   border-bottom-right-radius: 0px;
 }
 
+.screenMaxWidth{
+  width:100%;
+}
+
+.screenMinWidth{
+  width: 95%;
+}
+
 .legendContainer {
   overflow-y: scroll;
   overflow-x: hidden;
