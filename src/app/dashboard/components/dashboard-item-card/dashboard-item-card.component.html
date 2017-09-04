@@ -268,7 +268,7 @@
             </li>
             <!--<li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" (click)="downloadVisualization('excel')"><i class="fa fa-file-excel-o"></i></a></li>-->
             <!--<li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" (click)="downloadVisualization('pdf')"><i class="fa fa-file-pdf-o"></i></a></li>-->
-            <li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" (click)="downloadVisualization('png',currentVisualizationType)"><i class="fa fa-file-image-o"></i></a></li>
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType !== 'MAP'"><a class="download-btn" (click)="downloadVisualization('png',currentVisualizationType)"><i class="fa fa-file-image-o"></i></a></li>
             <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('csv',currentVisualizationType)"><i class="fa fa-file-excel-o"></i></a></li>
             <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('geojson',currentVisualizationType)"><i class="fa fa-file-code-o"></i></a></li>
             <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('kml',currentVisualizationType)"><i class="fa fa-file-text-o"></i></a></li>
