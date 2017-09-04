@@ -254,7 +254,7 @@ export class VisualizationLegendComponent implements OnInit {
   }
 
   showDataTableAction() {
-    this.showDataTable.emit(this.mapVsualizationObject);
+    this.showDataTable.emit({visualizationObject:this.mapVsualizationObject,legend:this.visualizationLegends});
   }
 
   addLayer() {

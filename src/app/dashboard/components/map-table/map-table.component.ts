@@ -16,7 +16,6 @@ export class MapTableComponent implements OnInit {
 
   ngOnInit() {
     if (this.tableContents) {
-      console.log(this.tableContents);
       this.activeLayer = this.tableContents.headers[0];
       this.activeLink[this.activeLayer] = 'active';
     }
@@ -27,11 +26,20 @@ export class MapTableComponent implements OnInit {
     this.activeLink = {};
     this.activeLayer = layerName;
     this.activeLink[this.activeLayer] = 'active';
-    console.log(this.activeLink);
   }
 
   readableName(header) {
     return header.split('$')[0]
+  }
+
+  getBackgroundColor(columnIndex, columnValue): string {
+    let color: string = "";
+    if (columnIndex == 3) {
+      color = columnValue;
+    } else {
+      color = "";
+    }
+    return color;
   }
 
 }

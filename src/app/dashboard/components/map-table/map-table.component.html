@@ -12,9 +12,11 @@
       <table class="table table-responsive">
         <thead>
         <tr>
-          <th style="text-align:center;">#</th>
+          <th style="text-align:center;">No.</th>
           <th style="text-align:center;">Organisation Unit</th>
           <th style="text-align:center;">Value</th>
+          <th style="text-align:center;">Class Interval</th>
+          <th style="text-align:center;">Color</th>
         </tr>
         </thead>
       </table>
@@ -26,7 +28,7 @@
         <tbody>
         <tr *ngFor="let row of tableContents.rows[activeLayer];let dataIndex = index;">
           <td>{{dataIndex+1}}</td>
-          <td *ngFor="let column of row">{{column}}</td>
+          <td *ngFor="let column of row; let columnIndex = index;" [ngStyle]="{backgroundColor:getBackgroundColor(columnIndex,column),textAlign:'center'}">{{column}}</td>
         </tr>
         </tbody>
       </table>
