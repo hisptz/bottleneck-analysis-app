@@ -1,0 +1,31 @@
+.center-justified {
+  margin: 0 auto;
+  text-align: justify;
+  width: 30em;
+}
+
+.message-container {
+  display: flex;
+  display: -webkit-flex;
+  -webkit-flex-direction: row; /* Safari */
+  flex-direction:         row;
+  justify-content:         center;
+  -webkit-justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,.12), 0 1px 3px rgba(0,0,0,.24);
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 70px;
+}
+
+.message-image,
+.message-content {
+  margin: 5px;
+}
+
+.message-image {
+  height: 200px;
+}
+
+.message-image img {
+  height: 100%;
+}

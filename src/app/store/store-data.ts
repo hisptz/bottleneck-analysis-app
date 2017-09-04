@@ -51,21 +51,25 @@ export const INITIAL_STORE_DATA: StoreData = {
     headers: [
       {
         name: 'all',
+        title: 'All',
         selected: true
       },
       {
         icon: 'assets/img/users.png',
         name: 'users',
+        title: 'Users',
         selected: false
       },
       {
         icon: 'assets/img/table.png',
         name: 'tables',
+        title: 'Tables',
         selected: false
       },
       {
         icon: 'assets/img/map.png',
         name: 'maps',
+        title: 'Maps',
         selected: false
       },
       {
@@ -76,16 +80,19 @@ export const INITIAL_STORE_DATA: StoreData = {
       {
         icon: 'assets/img/report.png',
         name: 'reports',
+        title: 'Reports',
         selected: false
       },
       {
         icon: 'assets/img/resource.png',
         name: 'resources',
+        title: 'Resources',
         selected: false
       },
       {
         icon: 'assets/img/app.png',
         name: 'apps',
+        title: 'Apps',
         selected: false
       },
     ],

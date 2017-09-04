@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Http, Response} from '@angular/http';
+import 'rxjs/add/observable/timer';
 
 @Injectable()
 export class LoginRedirectService {

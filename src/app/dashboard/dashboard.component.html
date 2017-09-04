@@ -20,31 +20,6 @@
 ></app-dashboard-menu>
 <!--End of Dashbaord Menus-->
 
-<!--global filter-->
-<!--<div class="container-fluid">-->
-  <!--<div class="row">-->
-    <!--<div class="col-md-12">-->
-      <!--<div class="panel panel-default">-->
-        <!--<div class="panel-body">-->
-          <!--<div class="row">-->
-            <!--<div class="col-md-4">-->
-              <!--<app-layout></app-layout>-->
-              <!--&lt;!&ndash;<app-data-filter></app-data-filter>&ndash;&gt;-->
-            <!--</div>-->
-            <!--<div class="col-md-4">-->
-             <!--<app-org-unit-filter></app-org-unit-filter>-->
-            <!--</div>-->
-            <!--<div class="col-md-4">-->
-              <!--<app-period-filter></app-period-filter>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
-<!--end of global filter-->
-
 <!--Progress message component-->
 <app-progress></app-progress>
 <!--end of progress message component-->
@@ -69,12 +44,20 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="(visualizationObjects$ | async).length === 0">
+  <div class="row" *ngIf="(visualizationObjects$ | async).length === 0 && (dashboardLoaded$ | async)">
     <div class="col-md-12">
       <div class="row">
-        <div class="col-md-12 text-center">
-          <h2><b>{{welcomingTitle}}</b></h2>
-          <h4 [innerHtml]="welcomingDescription"></h4>
+        <div class="col-md-8 col-md-offset-2">
+          <div class="message-container">
+            <div class="message-image">
+              <img [src]="'assets/img/welcome-image.png'" alt="" class="img-responsive">
+            </div>
+            <div class="message-content">
+              <h2><b>{{welcomingTitle}}</b></h2>
+              <h3 [innerHtml]="welcomingDescription"></h3>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

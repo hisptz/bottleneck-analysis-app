@@ -24,7 +24,7 @@
           [ngClass]="header.selected ? 'active-search-header' : ''"
         >
           <a
-             tooltip="{{header.name}}"
+             tooltip="{{header.title}}"
              placement="bottom"
              style="position: relative"
              (click)="toggleHeaderSelection(header, $event)"
@@ -40,27 +40,20 @@
       <div class="text-center" *ngIf="(dashboardSearchItems$ | async).results.length === 0">
         <div style="margin: 40px;" *ngIf="(dashboardSearchItems$ | async).loaded">
           <img [src]="'assets/img/empty-flag.png'" alt="">
-          <h3 class="text-muted">No search result could be found for keyword "{{searchText}}"</h3>
+          <h3 class="text-muted">No search results found for "{{searchText}}"</h3>
         </div>
       </div>
       <app-loader
         *ngIf="(dashboardSearchItems$ | async).loading"
         [loadingMessage]="'Searching...'"
       ></app-loader>
-      <!--<div class="form-group"-->
-           <!--*ngIf="(dashboardSearchItems$ | async).results.length > 0 && !(dashboardSearchItems$ | async).loading"-->
-      <!--&gt;-->
-        <!--<input-->
-          <!--type="text"-->
-          <!--[ngClass]="['form-control', 'input-sm']"-->
-          <!--[(ngModel)]="searchItemName"-->
-          <!--placeholder="Search items"-->
-        <!--&gt;-->
-      <!--</div>-->
       <table
         width="100%"
         class="table table-hover search-table"
         *ngIf="(dashboardSearchItems$ | async).results.length > 0 && !(dashboardSearchItems$ | async).loading">
+        <!--<tr>-->
+          <!--<td colspan="3"><small>{{(dashboardSearchItems$ | async).results.length}} results found</small></td>-->
+        <!--</tr>-->
         <tr
           *ngFor="let result of (dashboardSearchItems$ | async).results | filterBy: searchItemName"
           [hidden]="!result.selected"
