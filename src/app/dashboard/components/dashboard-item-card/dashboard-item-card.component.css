@@ -90,6 +90,15 @@
   height:100vh!important;
 }
 
+.delete-btn {
+  padding: 3px 5px 3px 5px !important;
+}
+
+
+.delete-btn img {
+  height: 16px;
+}
+
 .dashboard-block:hover .delete-btn {
   visibility:visible;
 }
@@ -163,8 +172,24 @@
 }
 
 .dashboard-delete-block {
-  padding-top: 4px;
-  padding-right: 2px;
+  padding: 3px;
+  margin-top: 5px;
+  border: solid 1px #eee;
+  background-color: rgba(255, 255, 255, 0.69);
+  border-radius: 15px;
+}
+
+.dashboard-delete-block button {
+  border-radius: 10px;
+}
+
+.dashboard-delete-block button img {
+  height: 13px;
+}
+
+.confirm-delete-btn {
+  padding: 1px 5px 2px 5px;
+  border-radius: 14px !important;
 }
 
 .active-visualisation {

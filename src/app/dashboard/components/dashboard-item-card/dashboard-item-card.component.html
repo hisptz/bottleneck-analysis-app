@@ -138,15 +138,17 @@
                 (click)="cardConfiguration.confirmDelete = true"
                 class="delete-btn" tooltip="Delete dashboard"
               >
-                <i class="fa fa-trash"></i>
+                <img [src]="'assets/img/trash.png'" alt="">
               </a>
             </li>
             <li *ngIf="cardConfiguration.confirmDelete" class="dashboard-delete-block">
               <small>Delete?</small>
-              <button (click)="deleteVisualizationObject(visualizationObject)" class="btn btn-danger btn-xs">
-                <i class="fa fa-trash"></i>
+              <button (click)="deleteVisualizationObject(visualizationObject)" class="btn btn-xs confirm-delete-btn">
+                <img [src]="'assets/img/trash.png'" alt="">
               </button>
-              <button (click)="cardConfiguration.confirmDelete = false" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>
+              <button (click)="cardConfiguration.confirmDelete = false" class="btn btn-default btn-xs">
+                <i class="fa fa-times"></i>
+              </button>
             </li>
             <li
               *ngIf="visualizationObject.details.deleting"
@@ -158,7 +160,7 @@
             >
               <a class="text-danger dashboard-filter-btn">Delete failed!</a>
             </li>
-            <li *ngIf="cardConfiguration.showCardHeader && (!visualizationObject.details.showFullScreen || cardConfiguration.showResizeButton)">
+            <li *ngIf="cardConfiguration.showCardHeader && (!visualizationObject.details.showFullScreen || cardConfiguration.showResizeButton) || cardConfiguration.confirmDelete">
               <a (click)="resizeDashboard()" tooltip="Resize dashboard">
                 <i class="fa fa-arrows-h"></i>
               </a>

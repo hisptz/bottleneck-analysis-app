@@ -22,6 +22,10 @@ export class CreateDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    setTimeout(() => {
+      document.getElementById('dashboard_add_input').focus();
+    }, 10);
+
     this.createDashboardForm = this.formGroup.group({
       name: ['', [Validators.required, Validators.minLength(2)]]
     })
