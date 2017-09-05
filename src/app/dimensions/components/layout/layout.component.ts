@@ -32,6 +32,8 @@ export class LayoutComponent implements OnInit {
   private _rows: any;
   icons: any;
   dimensions: any;
+  columnName: string;
+  rowName: string;
   constructor() {
     this.icons = {
       dx: 'assets/img/data.png',
@@ -44,6 +46,8 @@ export class LayoutComponent implements OnInit {
       columnDimension: [],
       rowDimension: []
     };
+    this.columnName = 'Columns';
+    this.rowName = 'Rows'
   }
 
   get columns(): any {
@@ -74,6 +78,11 @@ export class LayoutComponent implements OnInit {
     this._filters = this.layoutModel.filters;
     this._columns = this.layoutModel.columns;
     this._rows = this.layoutModel.rows;
+
+    if (this.visualizationType === 'CHART') {
+      this.rowName = 'Series (Y-Axis)';
+      this.columnName = 'Categories (X-axis)';
+    }
   }
 
   onDrop(event, dimension) {
