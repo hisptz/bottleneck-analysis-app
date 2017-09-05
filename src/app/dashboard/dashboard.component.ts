@@ -92,6 +92,7 @@ export class DashboardComponent implements OnInit {
             if (currentUser.id) {
               this.subscription = this.store.select(dashboardItemsSelector).subscribe((dashboardItems: any[]) => {
                 if (dashboardItems.length > 0) {
+                  console.log('here')
                   const newDashboardItems: any[] = dashboardItems.filter(dashboardItem => {
                     return !dashboardItem.visualizationObjectLoaded
                   });

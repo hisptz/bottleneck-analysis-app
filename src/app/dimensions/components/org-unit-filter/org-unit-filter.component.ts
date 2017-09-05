@@ -42,7 +42,7 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
   @Output() onOrgUnitUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() onOrgUnitInit: EventEmitter<any> = new EventEmitter<any>();
   @Output() onOrgUnitModelUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onOrgUnitClose: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() onOrgUnitClose: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   orgUnit: any = {};
   root_url = '../../../';

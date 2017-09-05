@@ -149,7 +149,7 @@
               *ngIf="dashboardMenuItem.details.showIcon"
               appClickOutside (clickOutside)="hideDashboardNotificationIcon(dashboardMenuItem)"
             >
-              <img *ngIf="!dashboardMenuItem.details.error" [src]="'assets/img/double-tick.png'" alt="">
+              <img *ngIf="!dashboardMenuItem.details.error" [src]="'assets/img/tick.png'" alt="">
               <img *ngIf="dashboardMenuItem.details.error" [src]="'assets/img/error.png'" alt="">
             </a>
             <span *ngIf="dashboardMenuItem.details.showName">{{dashboardMenuItem.name}}</span>
