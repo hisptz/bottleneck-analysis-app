@@ -281,11 +281,11 @@
             </li>
             <!--<li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" (click)="downloadVisualization('excel')"><i class="fa fa-file-excel-o"></i></a></li>-->
             <!--<li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" (click)="downloadVisualization('pdf')"><i class="fa fa-file-pdf-o"></i></a></li>-->
-            <li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" (click)="downloadVisualization('png',currentVisualizationType)"><i class="fa fa-file-image-o"></i></a></li>
-            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('csv',currentVisualizationType)"><i class="fa fa-file-excel-o"></i></a></li>
-            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('geojson',currentVisualizationType)"><i class="fa fa-file-code-o"></i></a></li>
-            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('kml',currentVisualizationType)"><i class="fa fa-file-text-o"></i></a></li>
-            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('gml',currentVisualizationType)"><i class="fa fa-file-text-o"></i></a></li>
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType !== 'MAP'"><a class="download-btn" (click)="downloadVisualization('png',currentVisualizationType)" title="Download Image"><i class="fa fa-file-image-o"></i></a></li>
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('csv',currentVisualizationType)" title="Download CSV"><i class="fa fa-file-excel-o"></i></a></li>
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('geojson',currentVisualizationType)" title="Download GeoJSON"><i class="fa fa-file-code-o"></i></a></li>
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('kml',currentVisualizationType)" title="Download KML"><i class="fa fa-file-text-o"></i></a></li>
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('gml',currentVisualizationType)" title="Download GML"><i class="fa fa-file-text-o"></i></a></li>
           </ul>
         </div>
       </div>

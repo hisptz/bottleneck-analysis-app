@@ -12,6 +12,7 @@ cd dist
 zip -r -D idashboard2.zip .
 #Install the app into DHIS
 #curl -X POST -u happynyanda:Happie311291 -F file=@idashboard2.zip https://etl.moh.go.tz/api/apps
+curl -X POST -u system:System123 -F file=@idashboard2.zip https://play.dhis2.org/demo/api/apps
 echo "App built"
 #Restore original state of manifest service
 cd ..

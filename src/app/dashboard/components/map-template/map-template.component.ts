@@ -31,7 +31,7 @@ export class MapTemplateComponent implements OnInit {
   operatingLayers: Array<any> = [];
   isFullScreen: boolean = false;
   hideTable: boolean = true;
-  mapTable: any = {headers: [], rows: []};
+  mapTable: any = {headers: [], rows: [], mapLegend: this.mapLegend};
   @ViewChild(VisualizationLegendComponent)
   visualizationLegendComponent: VisualizationLegendComponent;
 
@@ -190,7 +190,6 @@ export class MapTemplateComponent implements OnInit {
 
 
     if (layerActedUpon) {
-        console.log(layerActedUpon);
       if (event.action === 'HIDE') {
         layerActedUpon.removeFrom(this.map);
         this.map.removeLayer(layerActedUpon);
@@ -217,7 +216,7 @@ export class MapTemplateComponent implements OnInit {
     this.mapVisualizationService.downLoadMapAsFiles(fileFormat, data);
   }
 
-  downloadMap(fileFormat){
+  downloadMap(fileFormat) {
     this.mapVisualizationService.downLoadMapAsFiles(fileFormat, this.visualizationObject);
   }
 
@@ -240,7 +239,6 @@ export class MapTemplateComponent implements OnInit {
     this.drawMap(this.visualizationObject);
   }
 
-
   sortLayers(layers, eventLayers) {
     const newLayers = [];
     const testlayers = [];
@@ -257,9 +255,17 @@ export class MapTemplateComponent implements OnInit {
   }
 
   drawMapDataTable(event) {
+    console.log(event);
+    let layers = event.visualizationObject.layers;
+    let legendClasses = null;
+
+    event.legend.forEach(legendItem => {
+      legendClasses = legendItem.classes;
+    })
+
     this.hideTable = false;
-    this.mapTable.headers = this.prepareTableHeaders(event.layers);
-    this.mapTable.rows = this.prepareTableRows(event.layers);
+    this.mapTable.headers = this.prepareTableHeaders(layers);
+    this.mapTable.rows = this.prepareTableRows(layers, legendClasses);
   }
 
   addNewLayer() {
@@ -297,7 +303,7 @@ export class MapTemplateComponent implements OnInit {
     return headers;
   }
 
-  prepareTableRows(layers) {
+  prepareTableRows(layers, legendClasses) {
     const rowArray = {};
     layers.forEach((layer, index) => {
       const rows = [];
@@ -310,11 +316,32 @@ export class MapTemplateComponent implements OnInit {
           const columns = [];
           columns.push(names[row[indexOU]]);
           columns.push(row[indexVal]);
+          let classItem = this._getClassItem(legendClasses, row[indexVal]);
+          columns.push(classItem.min + ' - ' + classItem.max);
+          columns.push(classItem.color);
+          console.log(classItem);
+
           rows.push(columns);
         })
         rowArray[layer.settings.name + '$' + index] = rows;
       }
     })
     return rowArray;
+  }
+
+  private _getClassItem(legendClasses, value): any {
+    let legendItem: any = null;
+    legendClasses.forEach(classItem => {
+      if (classItem.min <= value && classItem.max > value) {
+        legendItem = classItem;
+      }
+
+      if (classItem.max <= value) {
+        legendItem = classItem;
+      }
+
+    })
+
+    return legendItem;
   }
 }
