@@ -7,5 +7,5 @@
 <div class="btn-group pull-right" *ngIf="(notification$ | async) !== null">
   <a href="../../../dhis-web-dashboard-integration/showSendFeedback.action" class="btn btn-default" style="color: #269ABC;"><i class="fa fa-pencil"></i> Write feedback</a>
   <a href="../../../dhis-web-dashboard-integration/message.action" class="btn btn-default" style="color: #269ABC;" *ngIf="(notification$ | async).unreadMessageConversations > 0"><i class="fa fa-envelope"></i> &nbsp;<small style="font-size: 12px;">{{(notification$ | async).unreadMessageConversations}}</small></a>
-  <a href="../../../dhis-web-dashboard-integration/interpretation.action" class="btn btn-default" style="color: #269ABC;" *ngIf="(notification$ | async).unreadInterpretations > 0"><i class="fa fa-comments-o"></i> &nbsp;<small style="font-size: 12px;">{{(notification$ | async).unreadInterpretations}}</small></a>
+  <a [href]="interpretationLink$ | async" class="btn btn-default" style="color: #269ABC;" *ngIf="(notification$ | async).unreadInterpretations > 0"><i class="fa fa-comments-o"></i> &nbsp;<small style="font-size: 12px;">{{(notification$ | async).unreadInterpretations}}</small></a>
 </div>

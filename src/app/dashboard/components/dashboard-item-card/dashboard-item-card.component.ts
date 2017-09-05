@@ -20,6 +20,8 @@ import {
   VISUALIZATION_WITH_NO_OPTIONS
 } from '../../constants/visualization';
 import {MapComponent} from "../map/map.component";
+import {rootUrlSelector} from '../../../store/selectors/root-url.selector';
+import {interpretationLinkSelector} from '../../../store/selectors/interpretation-link.selector';
 
 
 @Component({
@@ -73,6 +75,7 @@ export class DashboardItemCardComponent implements OnInit {
   mapComponent: MapComponent;
   showFavoriteSettings: boolean = false;
   metadataIdentifiers: string;
+  interpretationLink$: Observable<string>;
   constructor(private store: Store<ApplicationState>) {
     this._showFilter = {
       orgUnit: {
@@ -96,6 +99,7 @@ export class DashboardItemCardComponent implements OnInit {
     this._selectedDataItems = [];
 
     this._interpretations = [];
+    this.interpretationLink$ = store.select(interpretationLinkSelector);
   }
 
 

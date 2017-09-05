@@ -110,6 +110,7 @@
             <li *ngIf="interpretations.length > 0">
               <a
                 class="interpretation-btn"
+                [href]="interpretationLink$ | async"
                 tooltip="{{interpretations.length}} interpretation{{interpretations.length > 1 ? 's' : ''}} available"
               >
                 <img [src]="'assets/img/interpretation.png'" alt="">
