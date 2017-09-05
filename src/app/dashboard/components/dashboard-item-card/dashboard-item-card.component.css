@@ -72,7 +72,7 @@
   left: 0;
   margin: 0;
   padding: 0px;
-  z-index: 1050;
+  z-index: 1400;
   overflow: hidden;
   border-radius: 0px;
   -webkit-overflow-scrolling: touch;
@@ -130,14 +130,13 @@
   transition: all .2s ease-in-out;
   font-size: 13px;
   border-radius: 23px;
-  /*margin-bottom: 2px;*/
   margin-top: 5px;
   margin-right: 2px;
   cursor: pointer;
   height: 29px;
   width: 29px;
   border:solid 1px #e0ecfc;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.69);
   padding-left: 8px;
   padding-top: 3px;
 }
@@ -177,15 +176,37 @@
   width: 100% !important;
 }
 
+.dashboard-filter-btn img {
+  height: 15px;
+}
+
+.interpretation-btn {
+  border-radius: 50% !important;
+  padding: 3px 5px 3px 5px !important;
+}
+
+.interpretation-btn img {
+  height: 18px !important;
+}
+
+.interpretation-badge {
+  position: absolute;
+  top: -4px;
+  left: 34%;
+  right: -5px;
+  background-color: rgba(38, 154, 188, 0.6);
+  color: #FFFFFF;
+  text-align: center;
+  padding: 1px 2px 1px 2px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
 .dashboard-filter-btn:hover {
   -webkit-transform: scale(1.02) !important;
   -moz-transform: scale(1.02) !important;
   -o-transform: scale(1.02) !important;
   -ms-transform: scale(1.02) !important;
-}
-
-.dashboard-filter-btn img {
-  height: 15px;
 }
 
 .org-unit-filter-holder,

@@ -46,6 +46,7 @@ export class DashboardItemCardComponent implements OnInit {
   showLayout: boolean;
   visualizationWithNoOptions: any[] = VISUALIZATION_WITH_NO_OPTIONS;
   private _currentVisualizationType: string;
+  private _interpretations: any[];
   cardConfiguration: any = {
     showCardHeader: false,
     showCardFooter: false,
@@ -93,8 +94,18 @@ export class DashboardItemCardComponent implements OnInit {
       }
     };
     this._selectedDataItems = [];
+
+    this._interpretations = [];
   }
 
+
+  get interpretations(): any[] {
+    return this._interpretations;
+  }
+
+  set interpretations(value: any[]) {
+    this._interpretations = value;
+  }
 
   get selectedOrgUnits(): any {
     return this._selectedOrgUnits;
@@ -234,6 +245,11 @@ export class DashboardItemCardComponent implements OnInit {
      * Get selected Organisation unit
      */
     // console.log(this._getSelectedOrganUnitModel(this.getSelectedItems(this.visualizationObject.details.filters, 'ou')))
+
+    if (this.visualizationObject.details.interpretations) {
+      this._interpretations = this.visualizationObject.details.interpretations[0].interpretations
+    }
+
   }
 
   private _getDashboardCardClasses(currentShape, shapes: any[] = [], showFullScreen: boolean = false): any[] {

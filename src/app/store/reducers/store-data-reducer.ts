@@ -15,7 +15,7 @@ import {
   HIDE_DASHBOARD_MENU_ITEM_NOTIFICATION_ICON, GEO_FEATURE_LOADED_ACTION, SAVE_CHART_CONFIGURATION_ACTION,
   SAVE_CHART_OBJECT_ACTION, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION,
   UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION, VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION,
-  UPDATE_VISUALIZATION_WITH_FILTER_ACTION
+  UPDATE_VISUALIZATION_WITH_FILTER_ACTION, UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION
 } from '../actions';
 import {Dashboard} from '../../model/dashboard';
 import {DashboardSearchItem} from '../../dashboard/model/dashboard-search-item';
@@ -279,6 +279,10 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
 
     case UPDATE_VISUALIZATION_WITH_FILTER_ACTION: {
       return handleFiltersUpdateAction(state, action)
+    }
+
+    case UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION: {
+      return handleInterpretationUpdateAction(state, action);
     }
 
     case UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION: {
@@ -883,6 +887,31 @@ function handleFiltersUpdateAction(state: StoreData, action: any) {
   return newState;
 }
 
+function handleInterpretationUpdateAction(state: StoreData, action: any) {
+  const newState: StoreData = _.clone(state);
+  const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+  if (currentVisualizationObject) {
+    const newVisualizationObject = _.clone(currentVisualizationObject);
+
+    const visualizationDetails = _.clone(currentVisualizationObject.details);
+    visualizationDetails.interpretations = action.payload.interpretations;
+    visualizationDetails.loaded = false;
+
+    if (action.payload.updateAvailable) {
+      visualizationDetails.updateAvailable = true;
+    }
+
+    newVisualizationObject.details = _.assign({}, visualizationDetails);
+
+    newState.visualizationObjects = replaceArrayItem(
+      newState.visualizationObjects,
+      {id: currentVisualizationObject.id},
+      newVisualizationObject
+    );
+  }
+  return newState;
+}
+
 function handleAnalyticsLoadedAction(state: StoreData, action: any) {
   const newState = _.clone(state);
   const loadedAnalytics = action.payload.analytics;
@@ -1041,60 +1070,6 @@ function updateWithHeaderSelectionCriterias(dashboardSearchItems: DashboardSearc
   });
 
   return dashboardSearchItems;
-}
-
-export function handleVisualizationChangeAction(state, action) {
-  const newState = _.clone(state);
-  const loadedVisualizationObject: Visualization = _.clone(action.payload.visualizationObject);
-  const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', loadedVisualizationObject.id]);
-  if (currentVisualizationObject) {
-    const newVisualizationObject = _.clone(currentVisualizationObject);
-
-    const newVisualizationObjectDetails = _.clone(currentVisualizationObject.details);
-
-    /**
-     * Update visualization details
-     */
-    newVisualizationObjectDetails.currentVisualization = action.payload.selectedVisualization;
-
-    /**
-     * Update with favorite details
-     */
-    const favorite: any = _.find(newState.favorites, ['id', newVisualizationObjectDetails.favorite.id]);
-
-    if (favorite) {
-
-      /**
-       * Update with settings and analytics
-       */
-      newVisualizationObject.layers = _.map(updateFavoriteWithCustomFilters(
-        mapFavoriteToLayerSettings(favorite),
-        newVisualizationObjectDetails.filters
-      ), (layer: any) => {
-        const newLayer = _.clone(layer);
-
-        if (layer.settings) {
-          const analyticsObject = _.find(newState.analytics, ['id', layer.settings.id]);
-          if (analyticsObject) {
-            newLayer.analytics = _.assign({}, analyticsObject.content);
-          }
-        }
-        return newLayer;
-      });
-    }
-
-    /**
-     * Compile modified list with details
-     */
-    newVisualizationObject.details = _.assign({}, newVisualizationObjectDetails);
-
-
-    newState.visualizationObjects = replaceArrayItem(
-      newState.visualizationObjects,
-      {id: currentVisualizationObject.id},
-      newVisualizationObject);
-  }
-  return newState;
 }
 
 export function updateFavoriteWithCustomFilters(visualizationLayers, customFilters) {

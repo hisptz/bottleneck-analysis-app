@@ -107,6 +107,15 @@
                 </app-layout>
               </div>
             </li>
+            <li *ngIf="interpretations.length > 0">
+              <a
+                class="interpretation-btn"
+                tooltip="{{interpretations.length}} interpretation{{interpretations.length > 1 ? 's' : ''}} available"
+              >
+                <img [src]="'assets/img/interpretation.png'" alt="">
+                <span class="interpretation-badge">{{interpretations.length}}</span>
+              </a>
+            </li>
             <!--<li *ngIf="cardConfiguration.showCardHeader"><a (click)="toggleFavoriteSettings()"><i class="fa fa-cog"></i></a></li>-->
             <!--<li style="background-color: #ddd;" *ngIf="visualizationObject.details.updateAvailable">-->
               <!--<a (click)="saveSettings()" title="Changes available, update">-->

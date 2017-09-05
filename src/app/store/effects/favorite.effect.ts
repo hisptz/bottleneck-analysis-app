@@ -10,9 +10,9 @@ import {
   LOAD_FAVORITE_ACTION, LOAD_FAVORITE_ADDITIONAL_OPTIONS_ACTION, LOAD_FAVORITE_OPTIONS_ACTION,
   LoadFavoriteAdditionalOptionAction,
   SAVE_FAVORITE_ACTION,
-  UPDATE_VISUALIZATION_WITH_FILTER_ACTION,
+  UPDATE_VISUALIZATION_WITH_FILTER_ACTION, UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION,
   UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION,
-  UpdateVisualizationWithFilterAction,
+  UpdateVisualizationWithFilterAction, UpdateVisualizationWithInterpretationAction,
   UpdateVisualizationWithLayoutAction
 } from '../actions';
 import {Action, Store} from '@ngrx/store';
@@ -50,6 +50,11 @@ export class FavoriteEffect {
 
   @Effect() filters$: Observable<Action> = this.actions$
     .ofType(UPDATE_VISUALIZATION_WITH_FILTER_ACTION)
+    .flatMap((action: any) => Observable.of(this.favoriteService.getVisualizationInterpretationFromFavorite(action.payload)))
+    .map(payload => new UpdateVisualizationWithInterpretationAction(payload));
+
+  @Effect() interpretations$: Observable<Action> = this.actions$
+    .ofType(UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION)
     .flatMap((action: any) => Observable.of(this.favoriteService.getVisualizationLayoutFromFavorite(action.payload)))
     .map(payload => new UpdateVisualizationWithLayoutAction(payload));
 

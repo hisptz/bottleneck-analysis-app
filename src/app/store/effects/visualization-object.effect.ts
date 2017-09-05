@@ -78,26 +78,6 @@ export class VisualizationObjectEffect {
       return new LoadFavoriteAction(visualizationObjectDetails)
     });
 
-  @Effect() mapObject$: Observable<Action> = this.actions$
-    .ofType(GET_MAP_OBJECT_ACTION)
-    .flatMap((action: any) => Observable.of(this.mapService.getMapObject(action.payload)))
-    .map(chartObject => new SaveMapObjectAction(chartObject));
-
-  @Effect() loadGeoFeature$: Observable<Action> = this.actions$
-    .ofType(LOAD_GEO_FEATURE_ACTION)
-    .flatMap((action: any) => this.geoFeatureService.getGeoFeature(action.payload))
-    .map(geoFeature => new GeoFeatureLoadedAction(geoFeature));
-
-  @Effect() geoFeatureLoaded$: Observable<Action> = this.actions$
-    .ofType(GEO_FEATURE_LOADED_ACTION)
-    .flatMap((action: any) => Observable.of(action.payload))
-    .map(visualizationDetails => new LoadLegendSetAction(visualizationDetails));
-
-  @Effect() loadGroupSet$: Observable<Action> = this.actions$
-    .ofType(LOAD_ORGUNIT_GROUP_SET_ACTION)
-    .flatMap((action: any) => this.orgUnitGroupSetService.getGroupSet(action.payload))
-    .map(legendSet => new OrgUnitGroupSetLoadedAction(legendSet));
-
   @Effect() mergeVisualizationObject$: Observable<Action> = this.actions$
     .ofType(MERGE_VISUALIZATION_OBJECT_ACTION)
     .flatMap((action: any) => Observable.of(this.visualizationObjectService.mergeVisualizationObject(action.payload)))
