@@ -11,10 +11,12 @@ cd dist
 #Compress the file
 zip -r -D idashboard2.zip .
 #Install the app into DHIS
+echo "Install the app into DHIS"
 #curl -X POST -u happynyanda:Happie311291 -F file=@idashboard2.zip https://etl.moh.go.tz/api/apps
 curl -X POST -u system:System123 -F file=@idashboard2.zip https://play.dhis2.org/demo/api/apps
 echo "App built"
 #Restore original state of manifest service
+echo "Restore original state of manifest service"
 cd ..
 sed -i -e 's#manifest#assets/manifest#g' src/app/providers/manifest.service.ts
 echo "Manifest service restored to its original state"
