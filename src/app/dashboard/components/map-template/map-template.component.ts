@@ -255,7 +255,6 @@ export class MapTemplateComponent implements OnInit {
   }
 
   drawMapDataTable(event) {
-    console.log(event);
     let layers = event.visualizationObject.layers;
     let legendClasses = null;
 
@@ -319,8 +318,6 @@ export class MapTemplateComponent implements OnInit {
           let classItem = this._getClassItem(legendClasses, row[indexVal]);
           columns.push(classItem.min + ' - ' + classItem.max);
           columns.push(classItem.color);
-          console.log(classItem);
-
           rows.push(columns);
         })
         rowArray[layer.settings.name + '$' + index] = rows;

@@ -278,8 +278,11 @@
           <table class="legend-button-table" [ngClass]="{displayNone:displayNone}" style="background-color:transparent">
             <tr>
               <td>
-                <a title="Add Layer" class="btn btn-default btn-default-updated btn-sm" (click)="addLayer()"><i
-                  class="fa fa-plus"></i></a>
+                <a title="Show map data table" class="btn btn-default btn-default-updated btn-sm"
+                   (click)="showDataTableAction()"><i
+                  class="fa fa-table"></i></a>
+                <!--<a title="Add Layer" class="btn btn-default btn-default-updated btn-sm" disabled="disabled" style="color:#FFFFFF;"><i-->
+                  <!--class="fa fa-plus"></i></a>-->
               </td>
             </tr>
           </table>
@@ -289,14 +292,16 @@
           <table class="legend-button-table" [ngClass]="{displayNone:displayNone}" style="background-color: transparent;">
             <tr>
               <td>
-                <a title="Show map data table" class="btn btn-default btn-default-updated btn-sm"
-                   (click)="showDataTableAction()"><i
-                  class="fa fa-table"></i></a>
+                <a class="btn btn-default btn-default-updated" style="border-color: #FFFFFF!important;height:10px!important;cursor: default!important;">&nbsp;</a>
+                <!--<a title="Show map data table" class="btn btn-default btn-default-updated btn-sm"-->
+                   <!--(click)="showDataTableAction()"><i-->
+                  <!--class="fa fa-table"></i></a>-->
               </td>
               <td>
-                <a title="Upload Shapefile" class="btn btn-default btn-default-updated btn-sm"
-                   (click)="showUploadContainer()"><i
-                  class="fa fa-upload"></i></a>
+                <a class="btn btn-default btn-default-updated" style="border-color: #FFFFFF!important;height:10px!important;cursor: default!important;">&nbsp;</a>
+                <!--<a title="Upload Shapefile" class="btn btn-default btn-default-updated btn-sm"-->
+                   <!--(click)="showUploadContainer()"><i-->
+                  <!--class="fa fa-upload"></i></a>-->
               </td>
 
               <td>

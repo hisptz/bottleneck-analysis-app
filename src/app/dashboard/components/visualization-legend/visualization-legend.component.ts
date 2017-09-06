@@ -234,7 +234,7 @@ export class VisualizationLegendComponent implements OnInit {
   }
 
   updateOpacity(event) {
-    console.log(event);
+
   }
 
   shortenTitle(longTitle) {
