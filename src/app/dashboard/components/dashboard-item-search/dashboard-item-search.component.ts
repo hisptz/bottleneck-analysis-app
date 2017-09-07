@@ -63,16 +63,7 @@ export class DashboardItemSearchComponent implements OnInit {
 
   addDashboardItem(dashboardItemData) {
     this.showBody = false;
-    this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
-      if (apiRootUrl !== '') {
-        this.store.dispatch(new DashboardItemAddAction(
-          {
-            apiRootUrl: apiRootUrl,
-            dashboardItemData: dashboardItemData
-          }
-        ))
-      }
-    })
+    this.store.dispatch(new DashboardItemAddAction(dashboardItemData))
   }
 
 }

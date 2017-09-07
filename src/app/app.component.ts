@@ -26,13 +26,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.setTitle('Interactive Dashboard 2');
-    this.store.select(apiRootUrlSelector).subscribe((rootUrl: string) => {
-      if (rootUrl !== '') {
-        this.store.dispatch(new LoadCurrentUserAction(rootUrl));
-        this.store.dispatch(new LoadDashboardsAction(rootUrl));
-        this.store.dispatch(new LoadDashboardsCustomSettingsAction(rootUrl));
-      }
-    });
     this.loginRedirectService.checkIfLogin('../../../')
   }
 

@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {ApplicationState} from '../store/application-state';
 import {ActivatedRoute} from '@angular/router';
 import {
-  CurrentDashboardChangeAction, GlobalFilterUpdateAction, LoadInitialVisualizationObjectAction,
+  CurrentDashboardChangeAction, GlobalFilterUpdateAction, LoadCurrentDashboard, LoadInitialVisualizationObjectAction,
   UpdateVisualizationWithFilterAction
 } from '../store/actions';
 import {Observable} from 'rxjs/Observable';
@@ -80,6 +80,7 @@ export class DashboardComponent implements OnInit {
     });
     this.route.params.subscribe(params => {
       this.dashboardId = params.id;
+      this.store.dispatch(new CurrentDashboardChangeAction(params.id))
       if (this.subscription) {
         this.subscription.unsubscribe()
       }
@@ -87,35 +88,7 @@ export class DashboardComponent implements OnInit {
       // todo find best way to inlude favorite Options
       this.store.select(dashboardLoadedSelector).subscribe(dashboardLoaded => {
         if (dashboardLoaded) {
-          this.store.dispatch(new CurrentDashboardChangeAction(params.id));
-          this.store.select(currentUserSelector).subscribe(currentUser => {
-            if (currentUser.id) {
-              this.subscription = this.store.select(dashboardItemsSelector).subscribe((dashboardItems: any[]) => {
-                if (dashboardItems.length > 0) {
-                  console.log('here')
-                  const newDashboardItems: any[] = dashboardItems.filter(dashboardItem => {
-                    return !dashboardItem.visualizationObjectLoaded
-                  });
-                  newDashboardItems.forEach(dashboardItem => {
-                    this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
-                      if (apiRootUrl !== '') {
-                        this.store.dispatch(new LoadInitialVisualizationObjectAction(
-                          {
-                            dashboardItem: dashboardItem,
-                            favoriteOptions: [],
-                            dashboardId: params.id,
-                            currentUser: currentUser,
-                            apiRootUrl: apiRootUrl,
-                            isNew: dashboardItem.isNew
-                          })
-                        )
-                      }
-                    })
-                  });
-                }
-              });
-            }
-          });
+          this.store.dispatch(new LoadCurrentDashboard())
         }
       })
     })

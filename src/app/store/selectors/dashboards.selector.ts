@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 import {addArrayItem} from '../../utilities/addArrayItem';
 export function dashboardsSelector (state: ApplicationState) {
   let newDashboards = [];
-
   if (state.uiState.dashboardLoaded && state.uiState.dashboardCustomSettingsLoaded) {
     if (state.storeData.customDashboardSettings !== null && state.storeData.dashboards.length > 0) {
       if (state.storeData.customDashboardSettings.useDashboardGroups) {
@@ -29,5 +28,5 @@ export function dashboardsSelector (state: ApplicationState) {
     }
   }
 
-  return newDashboards;
+  return state.storeData.dashboards;
 }

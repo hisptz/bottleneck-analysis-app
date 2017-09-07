@@ -89,6 +89,10 @@ export const UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION = 'UPDATE_
 export const VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION = 'VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION';
 export const CURRENT_DASHBOARD_SAVE_ACTION = 'CURRENT_DASHBOARD_SAVE_ACTION';
 export const UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION = 'UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION';
+export const LOAD_CURRENT_DASHBOARD = 'LOAD_CURRENT_DASHBOARD';
+export const CURRENT_DASHBOARD_LOADED = 'CURRENT_DASHBOARD_LOADED';
+export const DASHBOARD_NAVIGATION_ACTION = 'DASHBOARD_NAVIGATION_ACTION';
+export const DASHBOARD_ITEMS_INITIATED = 'DASHBOARD_ITEMS_INITIATED';
 
 export class LoadSystemInfoAction implements Action {
   readonly type = LOAD_SYSTEM_INFO_ACTION;
@@ -521,4 +525,21 @@ export class CurrentDashboardSaveAction implements Action {
 export class UpdateVisualizationWithInterpretationAction implements Action {
   readonly type = UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION;
   constructor(public payload: any) {}
+}
+
+export class LoadCurrentDashboard implements Action {
+  readonly type = LOAD_CURRENT_DASHBOARD;
+}
+
+export class CurrentDashboardLoaded implements Action {
+  readonly type = CURRENT_DASHBOARD_LOADED;
+  constructor(public payload: Dashboard) {}
+}
+
+export class DashboardNavigationAction implements Action {
+  readonly type = DASHBOARD_NAVIGATION_ACTION;
+}
+
+export class DashboardItemsInitiated implements Action {
+  readonly type = DASHBOARD_ITEMS_INITIATED;
 }
