@@ -5,7 +5,19 @@
     <!--end of loader block-->
 
     <!--<app-error-notifier *ngIf="hasError && !loading" [errorMessage]="errorMessage"></app-error-notifier>-->
-
+    <div class="map-control-widgets" [ngClass]="{hide: loading||hasError,paddingFullScreen:isFullScreen}">
+      <div class="zoom-control">
+        <div class="positive-zoom-button">
+          <a (click)="zoomIn('in')"><i class="fa fa-plus"></i></a>
+        </div>
+        <div class="original-zoom">
+          <a  (click)="recenterMap(map,centeringLayer)"><i class="fa fa-home"></i></a>
+        </div>
+        <div class="negative-zoom-button">
+          <a  (click)="zoomIn('out')"><i class="fa fa-minus"></i></a>
+        </div>
+      </div>
+    </div>
     <div class="layers-button" [ngClass]="{hide: loading||hasError,paddingFullScreen:isFullScreen}" (mouseenter)="toggleLegendContainerView()">
       <img src="assets/img/layers-icon.png" style="width:24px;height:24px;">
     </div>
@@ -27,9 +39,9 @@
     </div>
 
 
-    <div class="recenter-button" [ngClass]="{hide: visualizationObject.details.loading||hasError,paddingFullScreen:isFullScreen}" (click)="recenterMap(map,centeringLayer)">
-      <i class="fa fa-home"></i>
-    </div>
+    <!--<div class="recenter-button" [ngClass]="{hide: visualizationObject.details.loading||hasError,paddingFullScreen:isFullScreen}" (click)="recenterMap(map,centeringLayer)">-->
+      <!--<i class="fa fa-home"></i>-->
+    <!--</div>-->
     <div class="map-title-holder">
       <div class="map-inner-holder">
         <h4

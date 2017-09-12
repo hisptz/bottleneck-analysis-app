@@ -432,3 +432,43 @@ div.leaflet-div-icon{
   padding: 4px;
 }
 
+.map-control-widgets{
+  position: absolute;
+  margin-top: 10px;
+  margin-left:10px;
+  box-shadow: 2px 2px 5px -3px #545454;
+  z-index: 490!important;
+  right:26px!important;
+  top:32px!important;
+}
+
+.zoom-control{
+  background-color: #ffffff;
+  width:26px!important;
+  text-align: center;
+  color:#000000!important;
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.5) !important;
+}
+
+.zoom-control a{
+  color:#000000!important;
+}
+
+.original-zoom , .positive-zoom-button , .negative-zoom-button{
+  padding-top:0.2rem;
+  padding-bottom:0.2rem;
+  padding-left:0.5rem;
+  padding-right:0.5rem;
+  cursor: pointer;
+  /*font-weight:bolder;*/
+}
+
+.original-zoom{
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+}
+
+.original-zoom:hover , .positive-zoom-button:hover , .negative-zoom-button:hover{
+  background-color: #ffffff;
+  opacity: 1;
+}

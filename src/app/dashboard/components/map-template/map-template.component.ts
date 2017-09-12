@@ -31,6 +31,7 @@ export class MapTemplateComponent implements OnInit {
   operatingLayers: Array<any> = [];
   isFullScreen: boolean = false;
   hideTable: boolean = true;
+  mapOptions:any;
   mapTable: any = {headers: [], rows: [], mapLegend: this.mapLegend};
   @ViewChild(VisualizationLegendComponent)
   visualizationLegendComponent: VisualizationLegendComponent;
@@ -60,11 +61,12 @@ export class MapTemplateComponent implements OnInit {
   drawMap(visualizationObject: Visualization, prioritizeFilter?: boolean) {
     const mapObject = this.mapVisualizationService.drawMap(L, visualizationObject, prioritizeFilter);
     const container = this.prepareMapContainer(mapObject.id, this.mapHeight, this.mapWidth, this.isFullScreen);
+    this.mapOptions = mapObject.options;
     this.map = L.map(container, mapObject.options);
     this.centeringLayer = mapObject.centeringLayer;
     this.mapLegend = mapObject.mapLegend;
     this.operatingLayers = mapObject.operatingLayers;
-    L.control.zoom({position: 'topright'}).addTo(this.map);
+    // L.control.zoom({position: 'topright'}).addTo(this.map);
     L.control.scale({position: 'bottomleft', metric: true, updateWhenIdle: true}).addTo(this.map);
     this.updateOnLayerLoad(mapObject);
     this.isFullScreen = visualizationObject.details.showFullScreen;
@@ -87,7 +89,6 @@ export class MapTemplateComponent implements OnInit {
       try {
         map.fitBounds(bounds);
       } catch (e) {
-        // console.log('INVALID COORDINATE');
       }
 
     } else {
@@ -95,6 +96,15 @@ export class MapTemplateComponent implements OnInit {
       this.errorMessage = 'Invalid organisation unit boundaries found!';
     }
 
+  }
+
+  /**
+   * Update map Zoom Level
+   * */
+  zoomIn(zoomType) {
+    zoomType === 'in' ? this.map.zoomIn() :
+      zoomType === 'out' ? this.map.zoomOut() :
+        this.map.setZoom(this.mapOptions.zoom);
   }
 
   updateOnLayerLoad(mapObject) {
