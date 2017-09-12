@@ -28,7 +28,7 @@ export class VisualizationLegendComponent implements OnInit {
   openTileLegend: boolean = false;
   sticky: boolean = false;
   isRemovable: boolean = false;
-  toggleBoundary: boolean = false;
+  toggleBoundary: boolean = true;
   boundaryLegend: Array<any> = [];
   showDownload: boolean = false;
   showUpload: boolean = false;
@@ -120,7 +120,7 @@ export class VisualizationLegendComponent implements OnInit {
       isBoundary: mapVisualizationSettings.layer === 'boundary' ? true : false,
       isFacility: mapVisualizationSettings.layer === 'facility' ? true : false,
       opacity: mapVisualizationSettings.opacity,
-      classes: mapVisualizationSettings.layer != 'boundary' && mapVisualizationSettings.layer != 'facility' ? legendClasses : legendClasses[0],
+      classes: mapVisualizationSettings.layer != 'boundary' && mapVisualizationSettings.layer != 'facility' ? legendClasses : legendClasses,
       change: []
     }
 
