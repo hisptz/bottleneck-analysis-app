@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
     this.globalFilters$.next(null);
     this.globalFilters = this.globalFilters$.asObservable();
     this._welcomingTitle = 'Welcome to the most interactive dashboard';
-    this. _welcomingDescription = 'Enjoy interactive features with support for one click switching between tables, charts and maps, changing data selections as well as layouts'
+    this._welcomingDescription = 'Enjoy interactive features with support for one click switching between tables, charts and maps, changing data selections as well as layouts'
   }
 
 
@@ -85,7 +85,7 @@ export class DashboardComponent implements OnInit {
         this.subscription.unsubscribe()
       }
 
-      // todo find best way to inlude favorite Options
+      // todo find best way to include favorite Options
       this.store.select(dashboardLoadedSelector).subscribe(dashboardLoaded => {
         if (dashboardLoaded) {
           this.store.dispatch(new LoadCurrentDashboard())

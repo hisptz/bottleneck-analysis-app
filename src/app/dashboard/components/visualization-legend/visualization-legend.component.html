@@ -23,7 +23,7 @@
               <div *ngFor="let class of legend.classes">
                 <table class="legend-table">
                   <tr>
-                    <td><img [src]="'../images/orgunitgroup/'+class.icon"></td><td>{{class.name}} ({{class.count}}) ({{class.relativeFrequency}})</td>
+                    <td><img [src]="baseHref+'images/orgunitgroup/'+class.icon"></td><td>{{class.name}} ({{class.count}}) ({{class.relativeFrequency}})</td>
                   </tr>
                 </table>
               </div>
@@ -105,8 +105,8 @@
         </div>
       </div>
 
-      <div class="col-lg-12 col-md-12 col-xs-12 legend-header" style="border-bottom: 1px solid #cccccc;"
-           *ngIf="boundaryLegend.length>0">
+      <div class="col-lg-12 col-md-12 col-xs-12 legend-header" *ngIf="legend.name=='Boundaries'" style="border-bottom: 1px solid #cccccc;"
+           >
         <div class="col-lg-1 col-md-1 col-xs-1 legend-draggable-icon" (click)="toggleBoundaryLayer()">
           <a><i class="fa fa-connectdevelop" style="color:#000000;"></i></a>
         </div>

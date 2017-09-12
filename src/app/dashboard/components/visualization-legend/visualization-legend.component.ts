@@ -1,9 +1,10 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, Inject} from '@angular/core';
 import * as _ from 'lodash';
 import {LegendSet} from '../../model/legend-set';
 import {LegendSetService} from '../../providers/legend-set.service';
 import {TILE_LAYERS} from '../../constants/tile-layers';
 import {MapLayerEvent} from '../../constants/layer-event';
+import { APP_BASE_HREF } from '@angular/common';
 declare var shp;
 @Component({
   selector: 'app-visualization-legend',
@@ -35,11 +36,12 @@ export class VisualizationLegendComponent implements OnInit {
   layerSelectionForm: boolean = false;
   showTransparent: boolean = false;
   displayNone: boolean = false;
+  baseHref:string;
 
 
 
-  constructor(private legend: LegendSetService) {
-
+  constructor(private legend: LegendSetService,@Inject(APP_BASE_HREF) public rootHref:string) {
+    this.baseHref = rootHref;
   }
 
   ngOnInit() {
@@ -69,7 +71,6 @@ export class VisualizationLegendComponent implements OnInit {
             thematicLegends.push(this._prepareLayerLegend(mapVisualizationSettings, mapVisualizationAnalytics, this.legend.prepareThematicLayerLegendClasses(mapVisualizationSettings, mapVisualizationAnalytics)));
 
           }
-
 
           if (mapLayer.settings.layer.indexOf('facility') > -1) {
 

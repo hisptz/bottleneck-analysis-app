@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 
 import * as _ from 'lodash';
 import {Color} from './color';
@@ -8,6 +8,7 @@ import {LegendSetService} from './legend-set.service';
 import {Visualization} from '../model/visualization';
 import {MapObject} from '../model/map-object';
 import {saveAs} from 'file-saver';
+import { APP_BASE_HREF } from '@angular/common';
 
 declare var html2canvas;
 // declare var GJV;
@@ -32,7 +33,8 @@ export class MapVisualizationService {
   constructor(private tileLayers: TileLayers,
               private colorInterpolation: ColorInterpolationService,
               private legendSet: LegendSetService,
-              private fileConversion: MapFilesConversion) {
+              private fileConversion: MapFilesConversion,
+              @Inject(APP_BASE_HREF) private baseHref:string) {
   }
 
   drawMap(L, visualizationObject: Visualization, prioritizeFilter?: boolean): MapObject {
@@ -508,7 +510,7 @@ export class MapVisualizationService {
 
     const featureId = _.findIndex(geoFeatures, ['id', feature.properties.id]);
     if (featureId > -1) {
-      icon = '<img src="../images/orgunitgroup/' + geoFeatures[featureId].dimensions.icon + '">';
+      icon = '<img src="'+this.baseHref+'images/orgunitgroup/' + geoFeatures[featureId].dimensions.icon + '">';
     }
 
     return icon;
