@@ -7,6 +7,7 @@ import {TileLayers} from '../../constants/tile-layers';
 declare var L;
 import * as _ from 'lodash';
 import {VisualizationLegendComponent} from "../visualization-legend/visualization-legend.component";
+import {hasOwnProperty} from "tslint/lib/utils";
 
 @Component({
   selector: 'app-map-template',
@@ -31,7 +32,7 @@ export class MapTemplateComponent implements OnInit {
   operatingLayers: Array<any> = [];
   isFullScreen: boolean = false;
   hideTable: boolean = true;
-  mapOptions:any;
+  mapOptions: any;
   mapTable: any = {headers: [], rows: [], mapLegend: this.mapLegend};
   @ViewChild(VisualizationLegendComponent)
   visualizationLegendComponent: VisualizationLegendComponent;
@@ -228,6 +229,18 @@ export class MapTemplateComponent implements OnInit {
 
   downloadMap(fileFormat) {
     this.mapVisualizationService.downLoadMapAsFiles(fileFormat, this.visualizationObject);
+  }
+
+  processFileUpload(event) {
+    if (event.hasOwnProperty('type') && event.type == 'FeatureCollection') {
+      this.drawUploadedlLayer(this.mapVisualizationService.prepareGeoJsonLayerFromFileContents(event,L));
+    } else {
+      console.log("THIS IS NOT VALID GEOJSON FILR");
+    }
+  }
+
+  drawUploadedlLayer(layer) {
+    this.map.addLayer(layer);
   }
 
   closeMapLegend(flag) {

@@ -4,7 +4,7 @@ import {LegendSet} from '../../model/legend-set';
 import {LegendSetService} from '../../providers/legend-set.service';
 import {TILE_LAYERS} from '../../constants/tile-layers';
 import {MapLayerEvent} from '../../constants/layer-event';
-import { APP_BASE_HREF } from '@angular/common';
+import {APP_BASE_HREF} from '@angular/common';
 declare var shp;
 @Component({
   selector: 'app-visualization-legend',
@@ -36,11 +36,10 @@ export class VisualizationLegendComponent implements OnInit {
   layerSelectionForm: boolean = false;
   showTransparent: boolean = false;
   displayNone: boolean = false;
-  baseHref:string;
+  baseHref: string;
 
 
-
-  constructor(private legend: LegendSetService,@Inject(APP_BASE_HREF) public rootHref:string) {
+  constructor(private legend: LegendSetService, @Inject(APP_BASE_HREF) public rootHref: string) {
     this.baseHref = rootHref;
   }
 
@@ -214,6 +213,7 @@ export class VisualizationLegendComponent implements OnInit {
   }
 
   toggleLayerView(layer, layerType) {
+    console.log(layer);
     const legend = _.find(this.boundaryLegend, ['id', layer.id]);
     const other = _.find(this.visualizationLegends, ['id', layer.id]);
     const toggleLayer = legend ? legend : other;
@@ -255,7 +255,7 @@ export class VisualizationLegendComponent implements OnInit {
   }
 
   showDataTableAction() {
-    this.showDataTable.emit({visualizationObject:this.mapVsualizationObject,legend:this.visualizationLegends});
+    this.showDataTable.emit({visualizationObject: this.mapVsualizationObject, legend: this.visualizationLegends});
   }
 
   addLayer() {
@@ -273,28 +273,28 @@ export class VisualizationLegendComponent implements OnInit {
     let target: HTMLInputElement = <HTMLInputElement> eventObj.target;
     let files: FileList = target.files;
     let file = files[0];
+    const fileName = file.name;
+    if (fileName.indexOf('.json') >= 0 || fileName.indexOf('.geojson') >= 0) {
+      if (file) {
+        const r = new FileReader();
+        r.onload = (e: any) => {
+          let contentFromUploadedFile: any;
+          contentFromUploadedFile = (new Function("return " + e.target.result))();
+          this.uploadEvent(contentFromUploadedFile);
+        }
+        r.readAsText(file);
+      } else {
 
-      shp(file.name).then(function(data){
-        console.log(data);
-      });
+      }
+    } else {
+      console.log("Not a geojson file");
+    }
 
-    // var reader = new FileReader();
-    // reader.onload = function (result: any) {
-    //   let byteArray = new Uint8Array(result.target.result)
-    //   let fileData = '';
-    //   for (let byteCount = 0; byteCount < byteArray.byteLength; byteCount++) {
-    //     fileData += String.fromCharCode(byteArray[byteCount]);
-    //   }
-    //   console.log(shp);
-    //   shp(fileData).then(function(data){
-    //     console.log(data);
-    //   });
-    // };
-    // reader.readAsArrayBuffer(file);
+
   }
 
-  uploadEvent(reader) {
-    this.fileUploadEvent.emit(reader);
+  uploadEvent(eventInformation) {
+    this.fileUploadEvent.emit(eventInformation);
   }
 
 }

@@ -8,7 +8,7 @@ import {LegendSetService} from './legend-set.service';
 import {Visualization} from '../model/visualization';
 import {MapObject} from '../model/map-object';
 import {saveAs} from 'file-saver';
-import { APP_BASE_HREF } from '@angular/common';
+import {APP_BASE_HREF} from '@angular/common';
 
 declare var html2canvas;
 // declare var GJV;
@@ -34,7 +34,7 @@ export class MapVisualizationService {
               private colorInterpolation: ColorInterpolationService,
               private legendSet: LegendSetService,
               private fileConversion: MapFilesConversion,
-              @Inject(APP_BASE_HREF) private baseHref:string) {
+              @Inject(APP_BASE_HREF) private baseHref: string) {
   }
 
   drawMap(L, visualizationObject: Visualization, prioritizeFilter?: boolean): MapObject {
@@ -139,6 +139,36 @@ export class MapVisualizationService {
     }
 
 
+  }
+
+  prepareGeoJsonLayerFromFileContents(fileContents, L) {
+    let createdLayer: any;
+    const geoJsonLayer: any = L.geoJSON(fileContents.features, {
+      onEachFeature: (feature) => {
+
+
+      },
+      pointToLayer: (geoJsonPoint, latlng) => {
+        const icon = L.divIcon({
+          className: 'map-marker',
+          iconSize: new L.Point(10, 10),
+          iconAnchor: [10, 27],
+          html: "<div style='width:10px;height:10px;border: 1px solid #000000;border-radius:10px;'></div>"
+        });
+        return L.marker(latlng, {icon: icon});
+      },
+      style:(feature) => {
+        return {
+          'color': '#000000',
+          'fillColor': '#ffffff',
+          'fillOpacity': 0,
+          'weight': 1,
+          'opacity': 0.8,
+          'stroke': true
+        }
+      }
+    });
+    return geoJsonLayer;
   }
 
   private _prepareFileNameForDownload(format, extension, data, layer) {
@@ -510,7 +540,7 @@ export class MapVisualizationService {
 
     const featureId = _.findIndex(geoFeatures, ['id', feature.properties.id]);
     if (featureId > -1) {
-      icon = '<img src="'+this.baseHref+'images/orgunitgroup/' + geoFeatures[featureId].dimensions.icon + '">';
+      icon = '<img src="' + this.baseHref + 'images/orgunitgroup/' + geoFeatures[featureId].dimensions.icon + '">';
     }
 
     return icon;
@@ -935,7 +965,6 @@ export class MapVisualizationService {
     const geoFeatures = settingsObject.geoFeature;
     const geoJSONObject: any = [];
     if (geoFeatures) {
-
       geoFeatures.forEach((geoFeature) => {
         const sampleGeometry: any = {
           'type': 'Feature',
