@@ -6,6 +6,7 @@ import {
   UPDATE_VISUALIZATION_WITH_FILTER_ACTION
 } from '../actions';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/take';
 import {Action, Store} from '@ngrx/store';
 import {ApplicationState} from '../application-state';
 import * as _ from 'lodash';
@@ -29,6 +30,7 @@ export class AnalyticsEffect {
   @Effect() loadedVisualizationObjectWithFilters$: Observable<Action> = this.actions$
     .ofType(UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION)
     .withLatestFrom(this.store)
+    .take(1)
     .flatMap(([action, store]) => {
       const visualizationObject = _.clone(action.payload.visualizationObject);
       const favorite: any = _.find(store.storeData.favorites, ['id', visualizationObject.details.favorite.id]);

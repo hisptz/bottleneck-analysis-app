@@ -6,28 +6,15 @@ import {VisualizationObjectService} from '../../dashboard/providers/visualizatio
 import {
   ANALYTICS_LOADED_ACTION, CHART_TYPE_CHANGE_ACTION,
   CURRENT_VISUALIZATION_CHANGE_ACTION,
-  FAVORITE_LOADED_ACTION, GEO_FEATURE_LOADED_ACTION, GeoFeatureLoadedAction, GET_CHART_CONFIGURATION_ACTION,
-  GET_CHART_OBJECT_ACTION, GET_MAP_CONFIGURATION_ACTION, GET_MAP_OBJECT_ACTION, GET_TABLE_CONFIGURATION_ACTION,
-  GET_TABLE_OBJECT_ACTION,
-  GET_VISUALIZATION_FILTER_ACTION,
-  GetVisualizationFilterAction,
   INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION,
-  InitialVisualizationObjectLoadedAction, LEGEND_SET_LOADED_ACTION, LegendSetLoadedAction, LOAD_FAVORITE_ACTION,
-  LOAD_GEO_FEATURE_ACTION,
-  LOAD_INITIAL_VISUALIZATION_OBJECT_ACTION, LOAD_LEGEND_SET_ACTION, LOAD_ORGUNIT_GROUP_SET_ACTION, LoadFavoriteAction,
-  LoadLegendSetAction, LoadOrgUnitGroupSetAction, MERGE_VISUALIZATION_OBJECT_ACTION, OrgUnitGroupSetLoadedAction,
-  SaveChartConfigurationAction,
-  SaveChartObjectAction, SaveMapConfigurationAction, SaveMapObjectAction, SaveTableConfigurationAction,
-  SaveTableObjectAction, SPLIT_VISUALIZATION_OBJECT_ACTION,
+  InitialVisualizationObjectLoadedAction,
+  LOAD_INITIAL_VISUALIZATION_OBJECT_ACTION, LoadFavoriteAction, MERGE_VISUALIZATION_OBJECT_ACTION, SPLIT_VISUALIZATION_OBJECT_ACTION,
   UpdateVisualizationObjectWithRenderingObjectAction, VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION,
   VisualizationObjectMergedAction,
-  VisualizationObjectOptimizedAction,
   VisualizationObjectSplitedAction
 } from '../actions';
 import {ChartService} from '../../dashboard/providers/chart.service';
 import {GeoFeatureService} from '../../dashboard/providers/geo-feature.service';
-import {LegendSetService} from '../../dashboard/providers/legend-set.service';
-import {OrgunitGroupSetService} from '../../dashboard/providers/orgunit-group-set.service';
 import {MapService} from '../../dashboard/providers/map.service';
 import {TableService} from '../../dashboard/providers/table.service';
 import {ApplicationState} from '../application-state';
@@ -35,6 +22,7 @@ import * as _ from 'lodash';
 import {updateVisualizationWithAnalytics} from '../handlers/updateVisualizationWithAnalytics';
 import {Visualization} from '../../dashboard/model/visualization';
 import {mapFavoriteToLayerSettings, updateFavoriteWithCustomFilters} from '../reducers/store-data-reducer';
+import 'rxjs/add/operator/take';
 @Injectable()
 export class VisualizationObjectEffect {
   constructor(
@@ -43,8 +31,6 @@ export class VisualizationObjectEffect {
     private visualizationObjectService: VisualizationObjectService,
     private chartService: ChartService,
     private geoFeatureService: GeoFeatureService,
-    private legendSetService: LegendSetService,
-    private orgUnitGroupSetService: OrgunitGroupSetService,
     private mapService: MapService,
     private tableService: TableService
   ) {}
@@ -62,10 +48,7 @@ export class VisualizationObjectEffect {
 
   @Effect() loadedVisualizationObject$: Observable<Action> = this.actions$
     .ofType(INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION)
-    .withLatestFrom(this.store)
-    .flatMap(([action, store]) => {
-      return Observable.of(action.payload)
-    })
+    .flatMap((action: any) => Observable.of(action.payload))
     .map(visualizationObjectDetails => {
 
       const visualizationDetails = visualizationObjectDetails.visualizationObject.details;

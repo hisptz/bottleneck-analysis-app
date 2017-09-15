@@ -3,6 +3,7 @@ import {Actions, Effect} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
 import {Action, Store} from '@ngrx/store';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/take';
 import {
   CurrentUserLoadedAction, ErrorOccurredAction, LOAD_CURRENT_USER_ACTION, LoadCurrentUserAction,
   SYSTEM_INFO_LOADED_ACTION
@@ -16,6 +17,7 @@ export class CurrentUserEffect {
   @Effect() systemInfoLoaded$: Observable<Action> = this.actions$
     .ofType(SYSTEM_INFO_LOADED_ACTION)
     .withLatestFrom(this.store)
+    .take(1)
     .switchMap(([action, store]) => Observable.of(store.uiState.systemInfo.apiRootUrl))
     .map((apiRootUrl) => new LoadCurrentUserAction(apiRootUrl));
 

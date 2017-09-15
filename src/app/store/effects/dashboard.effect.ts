@@ -3,6 +3,7 @@ import {DashboardService} from '../../providers/dashboard.service';
 import {Actions, Effect} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/take';
 import * as _ from 'lodash';
 import {
   CREATE_DASHBOARD_ACTION, CURRENT_DASHBOARD_CHANGE_ACTION, CURRENT_DASHBOARD_LOADED, CURRENT_USER_LOADED_ACTION,
@@ -32,18 +33,19 @@ import {ApplicationState} from '../application-state';
 import {Dashboard} from '../../model/dashboard';
 import {Router} from '@angular/router';
 import {Visualization} from '../../dashboard/model/visualization';
+
 @Injectable()
 export class DashboardEffect {
-  constructor(
-    private actions$: Actions,
-    private store: Store<ApplicationState>,
-    private dashboardService: DashboardService,
-    private router: Router
-  ) {}
+  constructor(private actions$: Actions,
+              private store: Store<ApplicationState>,
+              private dashboardService: DashboardService,
+              private router: Router) {
+  }
 
   @Effect() currentUserLoaded$: Observable<Action> = this.actions$
     .ofType(CURRENT_USER_LOADED_ACTION)
     .withLatestFrom(this.store)
+    .take(1)
     .switchMap(([action, store]) => Observable.of(store.uiState.systemInfo.apiRootUrl))
     .map((apiRootUrl) => new LoadDashboardsAction(apiRootUrl));
 
@@ -138,12 +140,12 @@ export class DashboardEffect {
   @Effect() loadDashboardSearchItems$: Observable<Action> = this.actions$
     .ofType(LOAD_DASHBOARD_SEARCH_ITEMS_ACTION)
     .withLatestFrom(this.store)
-    .switchMap(([action, store]) => {
-      return this.dashboardService.loadSearchItems({
+
+    .switchMap(([action, store]) => this.dashboardService.loadSearchItems({
         apiRootUrl: store.uiState.systemInfo.apiRootUrl,
         searchText: action.payload
       })
-    })
+    )
     .map((searchResult) => new DashboardSearchItemsLoadedAction(searchResult))
     .catch((error) => Observable.of(new ErrorOccurredAction(error)));
 
@@ -159,7 +161,7 @@ export class DashboardEffect {
   @Effect() dashboardItemAdded$: Observable<Action> = this.actions$
     .ofType(DASHBOARD_ITEM_ADDED_ACTION)
     .switchMap(() => Observable.of(null))
-    .map(() => new LoadCurrentDashboard())
+    .map(() => new LoadCurrentDashboard());
 
   @Effect() deleteVisualizationObject$: Observable<Action> = this.actions$
     .ofType(DELETE_VISUALIZATION_OBJECT_ACTION)
@@ -172,7 +174,10 @@ export class DashboardEffect {
     .switchMap(([action, store]) => {
       const dashboardId = store.uiState.currentDashboard;
       const currentDashboard: Dashboard = _.find(store.storeData.dashboards, ['id', dashboardId]);
-      return Observable.of({currentDashboard: currentDashboard, nextPossibleDashboardId: store.storeData.dashboards[0].id});
+      return Observable.of({
+        currentDashboard: currentDashboard,
+        nextPossibleDashboardId: store.storeData.dashboards[0].id
+      });
     })
     .map((dashboardPayload: any) => {
       if (!dashboardPayload.currentDashboard) {
@@ -199,13 +204,13 @@ export class DashboardEffect {
       resultPayload.dashboardItems.forEach((dashboardItem: any) => {
         if (!_.find(resultPayload.availableVisualizationObjects, ['id', dashboardItem.id])) {
           this.store.dispatch(new LoadInitialVisualizationObjectAction({
-              dashboardItem: dashboardItem,
-              favoriteOptions: [],
-              dashboardId: resultPayload.dashboardId,
-              currentUser: resultPayload.currentUser,
-              apiRootUrl: resultPayload.apiRootUrl,
-              isNew: dashboardItem.isNew
-            }));
+            dashboardItem: dashboardItem,
+            favoriteOptions: [],
+            dashboardId: resultPayload.dashboardId,
+            currentUser: resultPayload.currentUser,
+            apiRootUrl: resultPayload.apiRootUrl,
+            isNew: dashboardItem.isNew
+          }));
         }
       });
       return new DashboardItemsInitiated();

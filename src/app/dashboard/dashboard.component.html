@@ -29,7 +29,7 @@
   <!--<app-loader *ngIf="loading" [loadingMessage]="'Moving dashboards into position'"></app-loader>-->
   <div
     class="row"
-    *ngIf="(visualizationObjects$ | async).length > 0"
+    *ngIf="(dashboardLoaded$ | async)"
     id="{{dashboardId}}"
   >
     <div
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="(visualizationObjects$ | async).length === 0 && (dashboardLoaded$ | async)">
+  <div class="row" *ngIf="(dashboardLoaded$ | async) && (visualizationObjects$ | async).length === 0">
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-8 col-md-offset-2">

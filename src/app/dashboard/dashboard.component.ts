@@ -1,37 +1,28 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from '../store/application-state';
 import {ActivatedRoute} from '@angular/router';
 import {
-  CurrentDashboardChangeAction, GlobalFilterUpdateAction, LoadCurrentDashboard, LoadInitialVisualizationObjectAction,
-  UpdateVisualizationWithFilterAction
+  CurrentDashboardChangeAction, LoadCurrentDashboard
 } from '../store/actions';
 import {Observable} from 'rxjs/Observable';
 import {currentDashboardNameSelector} from '../store/selectors/current-dashboard-name.selector';
-import {dashboardItemsSelector} from '../store/selectors/dashboard-items.selector';
-import * as _ from 'lodash';
-import {currentUserSelector} from '../store/selectors/current-user.selector';
 import {Visualization} from './model/visualization';
 import {visualizationObjectsSelector} from '../store/selectors/visualization-objects.selector';
-import {apiRootUrlSelector} from '../store/selectors/api-root-url.selector';
-import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';
-import {favoriteOptionsSelector} from '../store/selectors/favorite-options.selector';
 import {dashboardLoadedSelector} from '../store/selectors/dashboard-loaded.selector';
 import {DragulaService} from 'ng2-dragula';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
 
   dashboardName$: Observable<string>;
   visualizationObjects$: Observable<Visualization[]>;
   dashboardLoaded$: Observable<boolean>;
-  subscription: Subscription;
   dashboardId: string;
   globalFilters: Observable<any>;
   globalFilters$: Subject<any> = new Subject<any>();
@@ -40,8 +31,8 @@ export class DashboardComponent implements OnInit {
     showSearch: true,
     showName: true
   };
-  private _welcomingTitle: string;
-  private _welcomingDescription: string;
+  welcomingTitle: string;
+  welcomingDescription: string;
   constructor(
     private store: Store<ApplicationState>,
     private route: ActivatedRoute,
@@ -52,25 +43,8 @@ export class DashboardComponent implements OnInit {
     this.dashboardLoaded$ = store.select(dashboardLoadedSelector);
     this.globalFilters$.next(null);
     this.globalFilters = this.globalFilters$.asObservable();
-    this._welcomingTitle = 'Welcome to the most interactive dashboard';
-    this. _welcomingDescription = 'Enjoy interactive features with support for one click switching between tables, charts and maps, changing data selections as well as layouts'
-  }
-
-
-  get welcomingTitle(): string {
-    return this._welcomingTitle;
-  }
-
-  set welcomingTitle(value: string) {
-    this._welcomingTitle = value;
-  }
-
-  get welcomingDescription(): string {
-    return this._welcomingDescription;
-  }
-
-  set welcomingDescription(value: string) {
-    this._welcomingDescription = value;
+    this.welcomingTitle = 'Welcome to the most interactive dashboard';
+    this.welcomingDescription = 'Enjoy interactive features with support for one click switching between tables, charts and maps, changing data selections as well as layouts'
   }
 
   ngOnInit() {
@@ -80,17 +54,12 @@ export class DashboardComponent implements OnInit {
     });
     this.route.params.subscribe(params => {
       this.dashboardId = params.id;
-      this.store.dispatch(new CurrentDashboardChangeAction(params.id))
-      if (this.subscription) {
-        this.subscription.unsubscribe()
-      }
+      this.store.dispatch(new CurrentDashboardChangeAction(params.id));
 
       // todo find best way to inlude favorite Options
-      this.store.select(dashboardLoadedSelector).subscribe(dashboardLoaded => {
-        if (dashboardLoaded) {
-          this.store.dispatch(new LoadCurrentDashboard())
-        }
-      })
+      this.store.select(dashboardLoadedSelector)
+        .first((loaded: boolean) => loaded)
+        .subscribe(dashboardLoaded => this.store.dispatch(new LoadCurrentDashboard()))
     })
   }
 
