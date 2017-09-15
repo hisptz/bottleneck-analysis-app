@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Inject, NgModule} from '@angular/core';
+import {APP_BASE_HREF, CommonModule} from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
@@ -136,7 +136,8 @@ import {SharedModule} from '../shared/shared.module';
     TableService,
     VisualizerService,
     MapFilesConversion,
-    RelativePeriodService
+    RelativePeriodService,
+    {provide: APP_BASE_HREF, useValue: '../../../'}
   ]
 })
 export class DashboardModule { }
