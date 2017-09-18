@@ -143,9 +143,11 @@ export class MapVisualizationService {
 
   prepareGeoJsonLayerFromFileContents(fileContents, L) {
     let createdLayer: any;
+    let poUps = [];
+    let featureCounts = fileContents.features.length;
+    let featureIndex = 0;
     const geoJsonLayer: any = L.geoJSON(fileContents.features, {
       onEachFeature: (feature) => {
-
 
       },
       pointToLayer: (geoJsonPoint, latlng) => {
@@ -157,7 +159,7 @@ export class MapVisualizationService {
         });
         return L.marker(latlng, {icon: icon});
       },
-      style:(feature) => {
+      style: (feature) => {
         return {
           'color': '#000000',
           'fillColor': '#ffffff',
@@ -168,6 +170,92 @@ export class MapVisualizationService {
         }
       }
     });
+
+    geoJsonLayer.on({
+      mouseover: (event) => {
+        const hoveredFeature: any = event.layer.feature;
+        const properties = hoveredFeature.properties;
+
+
+        /// TOOL TIP
+        let toolTipContent: string = '<div style="color:#333!important;font-size: 10px">' +
+          '<table>';
+
+        toolTipContent += '<tr><td style="color:#333!important;font-weight:bold;" > ' + properties.name + ' </td></tr>';
+
+
+        toolTipContent += '</table></div>';
+
+        geoJsonLayer.bindTooltip(toolTipContent, {
+          direction: 'auto',
+          permanent: false,
+          sticky: true,
+          interactive: true,
+          opacity: 1
+        });
+
+
+        // POP UP
+
+        let popUContent: string =
+          `
+            <div style="color:#333!important;font-size: 10px">
+              <table>
+              <tr><td style="color:#333!important;font-weight:bold;"></td><td style="color:#333!important;" ><b>${hoveredFeature.properties['name']}</b></td>
+            `;
+        if (hoveredFeature.properties['dataElement.value']) {
+          popUContent += `<tr><td style="color:#333!important;font-weight:bold;">Data: </td><td style="color:#333!important;" >${hoveredFeature.properties['dataElement.name']}</td></tr>
+                               <tr><td style="color:#333!important;font-weight:bold;">Value: </td><td style="color:#333!important;" >${hoveredFeature.properties['dataElement.value']}</td></tr>
+                               <tr><td style="color:#333!important;font-weight:bold;" ></td></tr>`;
+        }
+
+        geoJsonLayer.bindPopup(popUContent);
+
+
+
+        const popUp = geoJsonLayer.getPopup();
+        if (popUp && popUp.isOpen()) {
+          geoJsonLayer.closePopup();
+        }
+
+        geoJsonLayer.setStyle((feature: GeoJSON.Feature<GeoJSON.GeometryObject>) => {
+          const properties: any = feature.properties;
+          const featureStyle: any =
+            {
+              'weight': 1,
+              'opacity': 1,
+              'stroke': true
+            }
+          const hov: any = hoveredFeature.properties;
+          if (hov.id === properties.id) {
+            featureStyle.weight = 1;
+            featureStyle.fillOpacity = 0.4;
+            featureStyle.fillColor = '#00ff00';
+          }
+          return featureStyle;
+        });
+
+      }, mouseout: (event) => {
+
+        const hoveredFeature: any = event.layer.feature;
+        geoJsonLayer.setStyle((feature: GeoJSON.Feature<GeoJSON.GeometryObject>) => {
+          const properties: any = feature.properties;
+          const featureStyle: any =
+            {
+              'fillColor': '#00ff00',
+              'fillOpacity': 0,
+              'weight': 1,
+              'opacity': 1,
+              'stroke': true
+            }
+          const hov: any = hoveredFeature.properties;
+          if (hov.id === properties.id) {
+            featureStyle.weight = 1;
+          }
+          return featureStyle;
+        });
+      }
+    })
     return geoJsonLayer;
   }
 
