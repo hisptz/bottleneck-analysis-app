@@ -246,7 +246,7 @@
   <div class="legend-view-container col-lg-12 col-md-12 col-xs-12">
     <div class="row" style="border-bottom: 1px solid #cccccc">
       <div class="col-lg-12 col-md-12 col-xs-12 legend-header-lower-bar"
-           style="background-color: transparent!important;">
+           style="background-color: transparent!important;" [ngClass]="{hide:showUpload}">
         <div class="col-lg-4 col-md-4 col-xs-4 legend-draggable-icon-2" style="padding-left: 2px!important;">
           <table class="legend-button-table" [ngClass]="{displayNone:displayNone}" style="background-color:transparent">
             <tr>
@@ -289,85 +289,26 @@
           </table>
         </div>
       </div>
+      <div class="col-lg-12 col-md-12 col-xs-12 " [ngClass]="{hide:!showUpload}">
+        <table>
+          <tr>
+            <td>
+              <form>
+                <input type="file" id="fileInput" title="Format (GeoJSON,SLD,GML,Shape file)" (change)="uploadFile($event)"
+                       style="width:180px;"
+                       placeholder="(GeoJSON,SLD,GML)">
+              </form>
+            </td>
+            <td>
+              <a class="btn btn-default btn-default-updated btn-sm" title="Back" (click)="removeUploadContainer()">
+                <i class="fa fa-arrow-right"></i>
+              </a>
+            </td>
+          </tr>
+        </table>
+
+      </div>
     </div>
   </div>
 </div>
 
-<!-- MAP DOWNLOADS CONTAINER-->
-<div class="map-downloads-container" [ngClass]="{hide:!showDownload}" style="border-bottom: 1px solid #cccccc">
-  <div class="col-lg-12 col-md-12 col-xs-12" style="margin-top: -2px;padding-left:0px!important;">
-    <table class="legend-button-table">
-      <tr>
-        <td>
-          <a title="Download image" class="btn btn-default btn-default-updated btn-sm" (click)="downloadMap('image')"><i
-            class="fa fa-file-image-o "></i></a>
-        </td>
-        <td>
-          <a title="Download csv" class="btn btn-default btn-default-updated btn-sm" (click)="downloadMap('csv')"
-             style="font-size: 12px"><i
-            class="fa fa-file-excel-o "></i></a>
-        </td>
-        <td>
-          <a title="Download geojson" class="btn btn-default btn-default-updated btn-sm"
-             (click)="downloadMap('geojson')"
-             style="font-size: 12px"><i
-            class="fa fa-file-code-o "></i></a>
-        </td>
-        <td>
-          <a title="Download KML" class="btn btn-default btn-default-updated btn-sm"
-             (click)="downloadMap('kml')"
-             style="font-size: 12px"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
-        </td>
-        <td>
-          <a title="Download GML" class="btn btn-default btn-default-updated btn-sm"
-             (click)="downloadMap('gml')"
-             style="font-size: 12px"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
-        </td>
-        <td style="width:115px;">
-          <a (click)="closeDownloads()" class="btn btn-default btn-default-updated btn-sm pull-right"
-             title="Back to panel"><i
-            class="fa fa-arrow-right" aria-hidden="true" style="font-size: 12px"></i></a>
-        </td>
-      </tr>
-    </table>
-  </div>
-</div>
-
-<!-- MAPA UPLOADS CONTAINER-->
-
-<div class="map-uploads-container" [ngClass]="{hide:!showUpload}" style="border-bottom: 1px solid #cccccc">
-  <div class="col-lg-12 col-md-12 col-xs-12 ">
-    <table>
-      <tr>
-        <td>
-          <form>
-            <input type="file" id="fileInput" title="Format (GeoJSON,SLD,GML,Shape file)" (change)="uploadFile($event)"
-                   style="width:180px;"
-                   placeholder="(GeoJSON,SLD,GML)">
-          </form>
-        </td>
-        <td>
-          <a class="btn btn-default btn-default-updated btn-sm" title="Back" (click)="removeUploadContainer()">
-            <i class="fa fa-arrow-right"></i>
-          </a>
-        </td>
-      </tr>
-    </table>
-
-    <!--<div class="col-lg-9 col-md-9 col-xs-9 ">-->
-    <!--<form class="form-horizontal">-->
-    <!--<div class="form-group">-->
-    <!--<div class="col-sm-10">-->
-    <!--<input type="file" id="file" title="Format (GeoJSON,SLD,GML)" placeholder="(GeoJSON,SLD,GML)">-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</form>-->
-    <!--</div>-->
-    <!--<div class="col-lg-1 col-md-1 col-xs-1">-->
-    <!--<a class="pull-right" (click)="removeUploadContainer()">-->
-    <!--<i class="fa fa-times"></i>-->
-    <!--</a>-->
-    <!--</div>-->
-
-  </div>
-</div>

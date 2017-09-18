@@ -67,7 +67,6 @@ export class MapTemplateComponent implements OnInit {
     this.centeringLayer = mapObject.centeringLayer;
     this.mapLegend = mapObject.mapLegend;
     this.operatingLayers = mapObject.operatingLayers;
-    // L.control.zoom({position: 'topright'}).addTo(this.map);
     L.control.scale({position: 'bottomleft', metric: true, updateWhenIdle: true}).addTo(this.map);
     this.updateOnLayerLoad(mapObject);
     this.isFullScreen = visualizationObject.details.showFullScreen;
@@ -235,7 +234,7 @@ export class MapTemplateComponent implements OnInit {
     if (event.hasOwnProperty('type') && event.type == 'FeatureCollection') {
       this.drawUploadedlLayer(this.mapVisualizationService.prepareGeoJsonLayerFromFileContents(event,L));
     } else {
-      console.log("THIS IS NOT VALID GEOJSON FILR");
+      console.log("THIS IS NOT VALID GEOJSON FILE");
     }
   }
 
