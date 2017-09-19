@@ -19,33 +19,22 @@ export class HttpClientService {
   }
 
   get(url) {
-    const headers = new Headers();
-    this.createAuthorizationHeader(headers);
-    return this.http.get(url, {headers: headers})
-      .timeout(120000)
+    return this.http.get(url)
       .map(this.responseHandler())
       .catch(this.handleError);
   }
 
   post(url, data, options?) {
-    const headers = new Headers();
-    this.createAuthorizationHeader(headers, options);
-    return this.http.post(url, data, {headers: headers})
+    return this.http.post(url, data)
       .map(this.responseHandler())
       .catch(this.handleError);
   }
   put(url, data, options?) {
-    const headers = new Headers();
-    this.createAuthorizationHeader(headers, options);
-    return this.http.put(url, data, {
-      headers: headers
-    }).map(this.responseHandler());
+    return this.http.put(url, data).map(this.responseHandler());
   }
 
   delete(url, options?) {
-    const headers = new Headers();
-    this.createAuthorizationHeader(headers, options);
-    return this.http.delete(url, {headers: headers})
+    return this.http.delete(url)
       .map(this.responseHandler())
       .catch(this.handleError);
   }

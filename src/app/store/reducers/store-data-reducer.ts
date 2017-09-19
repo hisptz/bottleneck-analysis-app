@@ -647,22 +647,26 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
 
     case DASHBOARD_SEARCH_HEADERS_CHANGE_ACTION: {
       const newState = _.clone(state);
+      const clickedHeader = action.payload.header;
       const dashboardSearchHeaders: any[] = _.clone(newState.dashboardSearchItems.headers);
       newState.dashboardSearchItems.headers = dashboardSearchHeaders.map(header => {
         const newHeader = _.clone(header);
-
-        if (newHeader.name === action.payload.name) {
-          newHeader.selected = action.payload.selected;
+        if (newHeader.name === clickedHeader.name) {
+          newHeader.selected = clickedHeader.selected;
         }
 
-        if (action.payload.name === 'all') {
-          if (newHeader.name !== 'all' && action.payload.selected) {
+        if (clickedHeader.name === 'all') {
+          if (newHeader.name !== 'all' && clickedHeader.selected) {
             newHeader.selected = false;
           }
         } else {
-          if (newHeader.name === 'all' && action.payload.selected) {
+          if (newHeader.name === 'all' && clickedHeader.selected) {
             newHeader.selected = false;
           }
+        }
+
+        if (!action.payload.multipleSelection && clickedHeader.name !== newHeader.name) {
+          newHeader.selected = false;
         }
 
         return newHeader;

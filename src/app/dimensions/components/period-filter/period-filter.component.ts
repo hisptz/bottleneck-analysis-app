@@ -1,9 +1,7 @@
 import {
-  Component, OnInit, Output, Input, EventEmitter, ViewChild, AfterViewInit,
-  ChangeDetectionStrategy, OnChanges, SimpleChanges
+  Component, OnInit, Output, Input, EventEmitter
 } from '@angular/core';
 import {Http} from '@angular/http';
-import {_keyValueDiffersFactory} from '@angular/core/src/application_module';
 
 
 const PERIOD_TYPE: Array<any> = [
@@ -298,27 +296,32 @@ export class PeriodFilterComponent implements OnInit {
         let currentYear = useYear + 1;
         periods.push({id: useYear + 'April', name: 'April ' + useYear + ' - March ' + currentYear})
       }
-    } else if (type == 'Relative Weeks') {
+    } else if (type == 'RelativeWeeks') {
       periods.push({id: 'THIS_WEEK', name: 'This Week'}, {id: 'LAST_WEEK', name: 'Last Week'}, {
         id: 'LAST_4_WEEK',
         name: 'Last 4 Weeks',
         selected: true
-      }, {id: 'LAST_12_WEEK', name: 'last 12 Weeks'}, {id: 'LAST_52_WEEK', name: 'Last 52 weeks'});
+      }, {id: 'LAST_12_WEEK', name: 'last 12 Weeks'}, {id: 'LAST_52_WEEK', name: 'Last 52 weeks'},
+        {id: 'WEEKS_THIS_YEAR', name: 'Weeks this year'});
     } else if (type == 'RelativeMonth') {
       periods.push({id: 'THIS_MONTH', name: 'This Month'}, {id: 'LAST_MONTH', name: 'Last Month'}, {
         id: 'LAST_3_MONTHS',
         name: 'Last 3 Months'
-      }, {id: 'LAST_6_MONTHS', name: 'Last 6 Months'}, {id: 'LAST_12_MONTHS', name: 'Last 12 Months', selected: true});
-    } else if (type == 'Relative Bi-Month') {
+      }, {id: 'LAST_6_MONTHS', name: 'Last 6 Months'},
+        {id: 'LAST_12_MONTHS', name: 'Last 12 Months', selected: true},
+        {id: 'MONTHS_THIS_YEAR', name: 'Months this year'});
+    } else if (type == 'RelativeBiMonth') {
       periods.push({id: 'THIS_BIMONTH', name: 'This Bi-month'}, {
         id: 'LAST_BIMONTH',
         name: 'Last Bi-month'
-      }, {id: 'LAST_6_BIMONTHS', name: 'Last 6 bi-month', selected: true});
+      }, {id: 'LAST_6_BIMONTHS', name: 'Last 6 Bi-month', selected: true},
+        {id: 'BIMONTHS_THIS_YEAR', name: 'Bi-Months this year'});
     } else if (type == 'RelativeQuarter') {
       periods.push({id: 'THIS_QUARTER', name: 'This Quarter'}, {
         id: 'LAST_QUARTER',
         name: 'Last Quarter'
-      }, {id: 'LAST_4_QUARTERS', name: 'Last 4 Quarters', selected: true});
+      }, {id: 'LAST_4_QUARTERS', name: 'Last 4 Quarters', selected: true},
+        {id: 'QUARTERS_THIS_YEAR', name: 'Quarters this year'});
     } else if (type == 'RelativeSixMonthly') {
       periods.push({id: 'THIS_SIX_MONTH', name: 'This Six-month'}, {
         id: 'LAST_SIX_MONTH',
