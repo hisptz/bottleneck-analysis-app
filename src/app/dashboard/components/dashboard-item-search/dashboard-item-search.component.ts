@@ -30,13 +30,13 @@ export class DashboardItemSearchComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.dashboardItemTypes = DASHBOARD_TYPES;
-    this.dashboardSearchItems$ = store.select(dashboardSearchItemsSelector)
+    this.dashboardSearchItems$ = store.select(dashboardSearchItemsSelector);
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.currentDashboard = params.id;
-    })
+    });
   }
 
   search(searchText) {
@@ -66,5 +66,4 @@ export class DashboardItemSearchComponent implements OnInit {
     this.showBody = false;
     this.store.dispatch(new DashboardItemAddAction(dashboardItemData))
   }
-
 }

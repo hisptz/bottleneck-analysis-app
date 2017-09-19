@@ -1073,6 +1073,23 @@ function updateWithHeaderSelectionCriterias(dashboardSearchItems: DashboardSearc
     return newResult;
   });
 
+  const newDashboardSearchHeaders = _.clone(dashboardSearchItems.headers);
+
+  dashboardSearchItems.headers = newDashboardSearchHeaders.map(header => {
+    const newHeader = _.clone(header);
+
+    if (newHeader.name === 'all') {
+      newHeader.itemCount = dashboardSearchItems.results.length
+    } else {
+      newHeader.itemCount = _.filter(dashboardSearchItems.results, (result) => result.displayType === newHeader.name).length;
+    }
+    return newHeader;
+  });
+
+  dashboardSearchItems.resultCount = dashboardSearchItems.headers.filter((header) => header.selected)
+    .map((filteredHeader) => filteredHeader.itemCount)
+    .reduce((sum: number, count: number) => sum + count);
+
   return dashboardSearchItems;
 }
 

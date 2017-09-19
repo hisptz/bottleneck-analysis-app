@@ -120,6 +120,9 @@
 
 .search-header-icon-badge {
   position: absolute;
+  background-color: #0CA55B;
+  font-size: 9px;
+  border-radius: 3px;
   top: -4px;
   right: -2px;
 }

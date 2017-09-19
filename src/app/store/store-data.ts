@@ -52,51 +52,60 @@ export const INITIAL_STORE_DATA: StoreData = {
       {
         name: 'all',
         title: 'All',
-        selected: true
+        selected: true,
+        itemCount: 0
       },
       {
         icon: 'assets/img/users.png',
         name: 'users',
         title: 'Users',
-        selected: false
+        selected: false,
+        itemCount: 0
       },
       {
         icon: 'assets/img/table.png',
         name: 'tables',
         title: 'Tables',
-        selected: false
+        selected: false,
+        itemCount: 0
       },
       {
         icon: 'assets/img/map.png',
         name: 'maps',
         title: 'Maps',
-        selected: false
+        selected: false,
+        itemCount: 0
       },
       {
         icon: 'assets/img/bar.png',
         name: 'charts',
-        selected: false
+        selected: false,
+        itemCount: 0
       },
       {
         icon: 'assets/img/report.png',
         name: 'reports',
         title: 'Reports',
-        selected: false
+        selected: false,
+        itemCount: 0
       },
       {
         icon: 'assets/img/resource.png',
         name: 'resources',
         title: 'Resources',
-        selected: false
+        selected: false,
+        itemCount: 0
       },
       {
         icon: 'assets/img/app.png',
         name: 'apps',
         title: 'Apps',
-        selected: false
+        selected: false,
+        itemCount: 0
       },
     ],
-    results: []
+    results: [],
+    resultCount: 0
   }
 };
 

@@ -3,4 +3,5 @@ export interface DashboardSearchItem {
   loaded: boolean;
   headers: any[];
   results: any
+  resultCount: number;
 }

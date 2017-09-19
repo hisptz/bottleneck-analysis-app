@@ -31,10 +31,13 @@
           >
             <span *ngIf="!header.icon">{{header.name}}</span>
             <img *ngIf="header.icon" [src]="header.icon" alt="" [ngClass]="'search-header-icon'">
-            <!--<span class="badge search-header-icon-badge">5</span>-->
+            <span
+              *ngIf="header.itemCount > 0 && header.name !== 'all'"
+              class="badge search-header-icon-badge bg-success">{{header.itemCount}}</span>
           </a>
         </li>
       </ul>
+      <div><small>About {{(dashboardSearchItems$ | async).resultCount}} results</small></div>
     </div>
     <div class="panel-body search-panel-body">
       <div class="text-center" *ngIf="(dashboardSearchItems$ | async).results.length === 0">
@@ -51,9 +54,6 @@
         width="100%"
         class="table table-hover search-table"
         *ngIf="(dashboardSearchItems$ | async).results.length > 0 && !(dashboardSearchItems$ | async).loading">
-        <!--<tr>-->
-          <!--<td colspan="3"><small>{{(dashboardSearchItems$ | async).results.length}} results found</small></td>-->
-        <!--</tr>-->
         <tr
           *ngFor="let result of (dashboardSearchItems$ | async).results | filterBy: searchItemName"
           [hidden]="!result.selected"
