@@ -1086,9 +1086,10 @@ function updateWithHeaderSelectionCriterias(dashboardSearchItems: DashboardSearc
     return newHeader;
   });
 
-  dashboardSearchItems.resultCount = dashboardSearchItems.headers.filter((header) => header.selected)
-    .map((filteredHeader) => filteredHeader.itemCount)
-    .reduce((sum: number, count: number) => sum + count);
+  const selectedHeaderCountArray = dashboardSearchItems.headers.filter((header) => header.selected)
+    .map((filteredHeader) => filteredHeader.itemCount);
+  dashboardSearchItems.resultCount = selectedHeaderCountArray.length > 0 ?
+    selectedHeaderCountArray.reduce((sum: number, count: number) => sum + count) : 0;
 
   return dashboardSearchItems;
 }
