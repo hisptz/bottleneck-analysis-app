@@ -318,6 +318,17 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: #ffffff;
 }
 
+
+.period-filter-holder {
+  position: absolute;
+  width: 400px;
+  height: 320px;
+  z-index: 1200;
+  border: solid 1px #e0ecfc;
+  padding: 3px;
+  background-color: #ffffff;
+}
+
 .dashboard-menu-notification-icon {
   position: absolute;
   top: -1px;

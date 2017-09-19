@@ -257,6 +257,15 @@
   background-color: #ffffff;
 }
 
+.period-filter-holder {
+  position: absolute;
+  width: 400px;
+  height: 320px;
+  border: solid 1px #e0ecfc;
+  padding: 3px;
+  background-color: #ffffff;
+}
+
 .layout-holder {
   position: absolute;
   background-color: #ffffff;

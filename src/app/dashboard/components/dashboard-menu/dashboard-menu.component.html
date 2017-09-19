@@ -56,12 +56,16 @@
             <img [src]="'assets/img/period.png'" alt="">
             <span>Period</span>
           </a>
-          <app-period-filter
+          <div
+            class="period-filter-holder"
             *ngIf="showPeriodFilter"
-            (onPeriodUpdate)="updateFilters($event)"
-            (onPeriodFilterClose)="showPeriodFilter = false"
           >
-          </app-period-filter>
+            <app-period-filter
+              (onPeriodUpdate)="updateFilters($event)"
+              (onPeriodFilterClose)="showPeriodFilter = false"
+            >
+            </app-period-filter>
+          </div>
         </li>
         <!--End of period filter area-->
 

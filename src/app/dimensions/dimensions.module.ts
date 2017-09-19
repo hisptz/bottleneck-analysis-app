@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './components/layout/layout.component';
-import { PeriodFilterComponent } from './components/period-filter/period-filter.component';
 import { DataFilterComponent } from './components/data-filter/data-filter.component';
 import {MultiselectComponent} from './components/org-unit-filter/multiselect/multiselect.component';
 import {FilterLevelPipe} from './pipes/filter-level.pipe';
@@ -30,7 +29,6 @@ import {FuseSearchPipe} from './pipes/fuse-search.pipe';
   declarations: [
     LayoutComponent,
     OrgUnitFilterComponent,
-    PeriodFilterComponent,
     DataFilterComponent,
     MultiselectComponent,
     FilterLevelPipe,
@@ -42,7 +40,6 @@ import {FuseSearchPipe} from './pipes/fuse-search.pipe';
   ],
   exports: [
     OrgUnitFilterComponent,
-    PeriodFilterComponent,
     DataFilterComponent,
     LayoutComponent
   ],

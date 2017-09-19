@@ -65,7 +65,13 @@
             <a class="header-link"><small>{{result.name}}</small></a>
           </td>
           <td width="6%">
-            <button class="btn btn-default btn-xs pull-right result-header-btn" (click)="addDashboardItem({dashboardId: currentDashboard, type: dashboardItemTypes[result.type], id: result.type == 'apps' ? result.key : result.id})">ADD</button>
+            <button
+              class="btn btn-default btn-xs pull-right result-header-btn"
+              (click)="addDashboardItem({
+              dashboardId: currentDashboard,
+              type: dashboardItemTypes[result.type],
+              id: result.type == 'apps' ? result.key : result.id})"
+            >ADD</button>
           </td>
         </tr>
       </table>

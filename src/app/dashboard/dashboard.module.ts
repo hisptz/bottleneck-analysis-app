@@ -64,6 +64,7 @@ import {DashboardShareComponent} from './components/dashboard-share/dashboard-sh
 import {DragulaModule} from 'ng2-dragula';
 import {MessageModule} from '../message/message.module';
 import {SharedModule} from '../shared/shared.module';
+import {PeriodFilterModule} from '../period-filter/period-filter.module';
 
 @NgModule({
   imports: [
@@ -82,7 +83,8 @@ import {SharedModule} from '../shared/shared.module';
     TooltipModule.forRoot(),
     DragulaModule,
     MessageModule,
-    SharedModule
+    SharedModule,
+    PeriodFilterModule
   ],
   declarations: [
     DashboardComponent,
