@@ -7,7 +7,6 @@ import {TileLayers} from '../../constants/tile-layers';
 declare var L;
 import * as _ from 'lodash';
 import {VisualizationLegendComponent} from "../visualization-legend/visualization-legend.component";
-import {hasOwnProperty} from "tslint/lib/utils";
 
 @Component({
   selector: 'app-map-template',
@@ -73,6 +72,7 @@ export class MapTemplateComponent implements OnInit {
     if (this.isFullScreen === true) {
       this.map.scrollWheelZoom.enable();
     }
+
   }
 
   recenterMap(map, layer) {

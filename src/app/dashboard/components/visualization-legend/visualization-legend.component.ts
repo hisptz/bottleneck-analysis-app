@@ -213,7 +213,6 @@ export class VisualizationLegendComponent implements OnInit {
   }
 
   toggleLayerView(layer, layerType) {
-    console.log(layer);
     const legend = _.find(this.boundaryLegend, ['id', layer.id]);
     const other = _.find(this.visualizationLegends, ['id', layer.id]);
     const toggleLayer = legend ? legend : other;
