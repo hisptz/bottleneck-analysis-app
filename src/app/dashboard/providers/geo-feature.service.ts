@@ -13,11 +13,22 @@ export class GeoFeatureService {
     private favoriteService: FavoriteService
   ) { }
 
+  getGeoFeature1(apiRootUrl: string, orgUnitFilterValues: any): Observable<any[]> {
+    const geoFeatureUrl = this._getGeoFeatureUrl(apiRootUrl, this._getGeoFeatureParams(orgUnitFilterValues));
+
+    return geoFeatureUrl ? this.http.get(geoFeatureUrl) : Observable.of(null);
+  }
+
+  private _getGeoFeatureParams(orgUnitFilterValue: any) {
+    return orgUnitFilterValue !== '' ? 'ou=ou:' + orgUnitFilterValue : '';
+  }
+
+
   getGeoFeature(visualizationDetails: any) {
     const apiRootUrl = visualizationDetails.apiRootUrl;
     // const visualizationFilters = visualizationDetails.visualizationObject.details.filters;
     const visualizationFilters = visualizationDetails.visualizationObject.layers.map(layer => {
-      const filterDetails = this.favoriteService.getVisualizationFiltersFromFavorite({favorite: layer.settings});
+      const filterDetails: any = this.favoriteService.getVisualizationFiltersFromFavorite({favorite: layer.settings});
 
       let filters = [];
       let newFilter = null;
@@ -59,7 +70,8 @@ export class GeoFeatureService {
   }
 
   private _getGeoFeatureUrl(apiRootUrl: string, geoFeatureParams: string) {
-    return apiRootUrl + 'geoFeatures.json?' + geoFeatureParams + '&displayProperty=NAME&includeGroupSets=true';
+    return geoFeatureParams !== '' ?
+      apiRootUrl + 'geoFeatures.json?' + geoFeatureParams + '&displayProperty=NAME&includeGroupSets=true' : '';
   }
 
 }

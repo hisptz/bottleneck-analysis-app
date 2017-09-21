@@ -9,7 +9,9 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "manifest.webapp",
+        "manifest.json"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -35,6 +37,7 @@
         "../node_modules/highcharts/modules/exporting.js",
         "../node_modules/highcharts/modules/offline-exporting.js",
         "../node_modules/highcharts/modules/drilldown.js",
+        "../node_modules/highcharts-grouped-categories/grouped-categories.js",
         "../node_modules/leaflet-compass/dist/leaflet-compass.min.js",
         "../node_modules/shpjs/dist/shp.min.js"
       ],

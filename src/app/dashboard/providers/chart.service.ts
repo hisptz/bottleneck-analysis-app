@@ -74,40 +74,44 @@ export class ChartService {
     return chartObject;
   }
 
-  getChartConfiguration(visualizationDetails: any): ChartConfiguration[] {
-    const chartConfigurations = [];
-    const visualizationSettings = visualizationDetails.visualizationSettings;
-    visualizationSettings.forEach(favoriteObject => {
-      let chartType = favoriteObject.hasOwnProperty('type') ? favoriteObject.type.toLowerCase() : 'column';
-      if (favoriteObject.useMultipleAxis) {
-        chartType = 'multipleAxis';
-      }
-      const chartConfiguration = {
-        renderId: '',
-        type: chartType,
-        title: favoriteObject.hasOwnProperty('displayName') ? favoriteObject.displayName : '',
-        subtitle: favoriteObject.hasOwnProperty('subtitle') ? favoriteObject.subtitle : '',
-        hideTitle: favoriteObject.hasOwnProperty('hideTitle') ? favoriteObject.hideTitle : true,
-        hideSubtitle: favoriteObject.hasOwnProperty('hideSubtitle') ? favoriteObject.hideSubtitle : true,
-        showData: favoriteObject.hasOwnProperty('showData') ? favoriteObject.showData : true,
-        hideEmptyRows: favoriteObject.hasOwnProperty('hideEmptyRows') ? favoriteObject.hideEmptyRows : true,
-        hideLegend: favoriteObject.hasOwnProperty('hideLegend') ? favoriteObject.hideLegend : true,
-        cumulativeValues: favoriteObject.hasOwnProperty('cumulativeValues') ? favoriteObject.cumulativeValues : false,
-        showLabels: true,
-        sortOrder: favoriteObject.hasOwnProperty('sortOrder') ? favoriteObject.sortOrder : 0,
-        percentStackedValues: favoriteObject.hasOwnProperty('percentStackedValues') ? favoriteObject.percentStackedValues : false,
-        multiAxisTypes: favoriteObject.hasOwnProperty('selectedChartTypes') ? favoriteObject.selectedChartTypes : [],
-        xAxisType: this._getAxisType('xAxisType', favoriteObject),
-        yAxisType: this._getAxisType('yAxisType', favoriteObject),
-      };
-      chartConfigurations.push({id: favoriteObject.id, chartConfiguration: chartConfiguration})
-    });
-    visualizationDetails.chartConfigurations = chartConfigurations;
-    return visualizationDetails;
+  getChartConfiguration(visualizationSettings: any, renderId: string, visualizationLayouts: any, customChartType: string = ''): ChartConfiguration {
+    const chartType = customChartType !== '' ? customChartType.toLowerCase() :
+      visualizationSettings.type ? visualizationSettings.type.toLowerCase() : 'column';
+
+    return {
+      renderId: renderId,
+      type: chartType,
+      title: visualizationSettings.hasOwnProperty('displayName') ? visualizationSettings.displayName : '',
+      subtitle: visualizationSettings.hasOwnProperty('subtitle') ? visualizationSettings.subtitle : '',
+      hideTitle: visualizationSettings.hasOwnProperty('hideTitle') ? visualizationSettings.hideTitle : true,
+      hideSubtitle: visualizationSettings.hasOwnProperty('hideSubtitle') ? visualizationSettings.hideSubtitle : true,
+      showData: visualizationSettings.hasOwnProperty('showData') ? visualizationSettings.showData : true,
+      hideEmptyRows: visualizationSettings.hasOwnProperty('hideEmptyRows') ? visualizationSettings.hideEmptyRows : true,
+      hideLegend: visualizationSettings.hasOwnProperty('hideLegend') ? visualizationSettings.hideLegend : true,
+      cumulativeValues: visualizationSettings.hasOwnProperty('cumulativeValues') ? visualizationSettings.cumulativeValues : false,
+      targetLineValue: visualizationSettings.targetLineValue ? visualizationSettings.targetLineValue : undefined,
+      targetLineLabel: visualizationSettings.targetLineLabel ? visualizationSettings.targetLineLabel : '',
+      baseLineValue: visualizationSettings.baseLineValue ? visualizationSettings.baseLineValue : undefined,
+      baseLineLabel: visualizationSettings.baseLineLabel ? visualizationSettings.baseLineLabel : '',
+      legendAlign: 'bottom',
+      reverseLegend: false,
+      showLabels: true,
+      axes: visualizationSettings.axes ? visualizationSettings.axes : [],
+      rangeAxisMaxValue: visualizationSettings.rangeAxisMaxValue ? visualizationSettings.rangeAxisMaxValue : undefined,
+      rangeAxisMinValue: visualizationSettings.rangeAxisMinValue ? visualizationSettings.rangeAxisMinValue : undefined,
+      sortOrder: visualizationSettings.hasOwnProperty('sortOrder') ? visualizationSettings.sortOrder : 0,
+      percentStackedValues: visualizationSettings.hasOwnProperty('percentStackedValues') ? visualizationSettings.percentStackedValues : false,
+      multiAxisTypes: visualizationSettings.hasOwnProperty('selectedChartTypes') ? visualizationSettings.selectedChartTypes : [],
+      xAxisType: visualizationLayouts ? _.map(visualizationLayouts.rows, (row) => {
+        return row.value;
+      }) : ['dx'],
+      yAxisType: visualizationLayouts ? _.map(visualizationLayouts.columns, (column) => {
+        return column.value;
+      })[0] : 'ou'
+    };
   }
 
-  getChartConfiguration1(favoriteObject: any, renderId: string, visualizationLayouts: any): ChartConfiguration {
-    const visualizationLayoutObject: any = _.find(visualizationLayouts, ['id', favoriteObject.id]);
+  getChartConfiguration1(favoriteObject: any, renderId: string, visualizationLayouts: any): any {
     let chartType = favoriteObject.hasOwnProperty('type') ? favoriteObject.type.toLowerCase() : 'column';
     if (favoriteObject.useMultipleAxis) {
       chartType = 'multipleAxis';
@@ -127,10 +131,10 @@ export class ChartService {
       sortOrder: favoriteObject.hasOwnProperty('sortOrder') ? favoriteObject.sortOrder : 0,
       percentStackedValues: favoriteObject.hasOwnProperty('percentStackedValues') ? favoriteObject.percentStackedValues : false,
       multiAxisTypes: favoriteObject.hasOwnProperty('selectedChartTypes') ? favoriteObject.selectedChartTypes : [],
-      xAxisType: visualizationLayoutObject ? _.map(visualizationLayoutObject.layout.rows, (row) => {
+      xAxisType: visualizationLayouts ? _.map(visualizationLayouts.rows, (row) => {
         return row.value
       })[0] : 'dx',
-      yAxisType: visualizationLayoutObject ? _.map(visualizationLayoutObject.layout.columns, (column) => {
+      yAxisType: visualizationLayouts ? _.map(visualizationLayouts.columns, (column) => {
         return column.value
       })[0] : 'ou'
     };

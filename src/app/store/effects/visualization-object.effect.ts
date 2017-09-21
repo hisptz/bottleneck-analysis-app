@@ -5,14 +5,12 @@ import {Action, Store} from '@ngrx/store';
 import {VisualizationObjectService} from '../../dashboard/providers/visualization-object.service';
 import {
   ANALYTICS_LOADED_ACTION, CHART_TYPE_CHANGE_ACTION,
-  CURRENT_VISUALIZATION_CHANGE_ACTION,
-  INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION,
-  InitialVisualizationObjectLoadedAction,
-  LOAD_INITIAL_VISUALIZATION_OBJECT_ACTION, LoadFavoriteAction, MERGE_VISUALIZATION_OBJECT_ACTION, SPLIT_VISUALIZATION_OBJECT_ACTION,
+  CURRENT_VISUALIZATION_CHANGE_ACTION, LoadFavoriteAction, MERGE_VISUALIZATION_OBJECT_ACTION, SPLIT_VISUALIZATION_OBJECT_ACTION,
   UpdateVisualizationObjectWithRenderingObjectAction, VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION,
   VisualizationObjectMergedAction,
   VisualizationObjectSplitedAction
 } from '../actions';
+import * as fromAction from '../actions';
 import {ChartService} from '../../dashboard/providers/chart.service';
 import {GeoFeatureService} from '../../dashboard/providers/geo-feature.service';
 import {MapService} from '../../dashboard/providers/map.service';
@@ -35,30 +33,21 @@ export class VisualizationObjectEffect {
     private tableService: TableService
   ) {}
 
-  @Effect() initialVisualizationObject$: Observable<Action> = this.actions$
-    .ofType(LOAD_INITIAL_VISUALIZATION_OBJECT_ACTION)
+  @Effect({dispatch: false}) loadedVisualizationObject$: Observable<Action> = this.actions$
+    .ofType(fromAction.INITIAL_VISUALIZATION_OBJECTS_LOADED_ACTION)
     .withLatestFrom(this.store)
-    .switchMap(([action, store]) => {
-      return Observable.of({
-        apiRootUrl: store.uiState.systemInfo.apiRootUrl,
-        visualizationObject: this.visualizationObjectService.loadInitialVisualizationObject(action.payload)
-      });
-    })
-    .map(visualizationObjectDetails => new InitialVisualizationObjectLoadedAction(visualizationObjectDetails));
+    .switchMap(([action, store]: [any, ApplicationState]) => {
+      action.payload.forEach((visualizationObject: Visualization) => {
+        const visualizationDetails: any = {...visualizationObject.details};
 
-  @Effect() loadedVisualizationObject$: Observable<Action> = this.actions$
-    .ofType(INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION)
-    .flatMap((action: any) => Observable.of(action.payload))
-    .map(visualizationObjectDetails => {
-
-      const visualizationDetails = visualizationObjectDetails.visualizationObject.details;
-
-      if (visualizationDetails) {
-        if (!visualizationDetails.favorite || !visualizationDetails.favorite.id) {
-          return new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObjectDetails.visualizationObject);
+        if (visualizationDetails && visualizationDetails.favorite && visualizationDetails.favorite.id) {
+          this.store.dispatch(new fromAction.LoadFavoriteAction({
+            apiRootUrl: store.uiState.systemInfo.apiRootUrl,
+            visualizationObject: visualizationObject
+          }))
         }
-      }
-      return new LoadFavoriteAction(visualizationObjectDetails)
+      });
+      return Observable.of(null)
     });
 
   @Effect() mergeVisualizationObject$: Observable<Action> = this.actions$
@@ -70,28 +59,6 @@ export class VisualizationObjectEffect {
     .ofType(SPLIT_VISUALIZATION_OBJECT_ACTION)
     .flatMap((action: any) => Observable.of(this.visualizationObjectService.splitVisualizationObject(action.payload)))
     .map(legendSet => new VisualizationObjectSplitedAction(legendSet));
-
-  @Effect() chartTypeChange: Observable<Action> = this.actions$
-    .ofType(CHART_TYPE_CHANGE_ACTION)
-    .withLatestFrom(this.store)
-    .flatMap(([action, store]) => {
-      const currentVisualizationObject = _.find(store.storeData.visualizationObjects, ['id', action.payload.visualizationObject.id]);
-      if (currentVisualizationObject) {
-        const newVisualizationObject = _.clone(currentVisualizationObject);
-
-        const visualizationLayers = _.map(currentVisualizationObject.layers, (layer) => {
-          const newLayer = _.clone(layer);
-          newLayer.settings.type = action.payload.chartType;
-          return newLayer;
-        });
-
-        newVisualizationObject.layers = _.assign([], visualizationLayers);
-
-        return this.getSanitizedVisualizationObject(newVisualizationObject, store.storeData.analytics, store.uiState.systemInfo.apiRootUrl);
-      }
-      return Observable.of(action.payload.visualizationObject);
-    })
-    .map(visualizationObject => new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObject));
 
   @Effect() visualizationObjectLayoutChange$: Observable<Action> = this.actions$
     .ofType(VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION)
@@ -150,80 +117,14 @@ export class VisualizationObjectEffect {
     })
     .map(visualizationObject => new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObject));
 
-  @Effect() currentVisualizationChange: Observable<Action> = this.actions$
-    .ofType(CURRENT_VISUALIZATION_CHANGE_ACTION)
+  @Effect() visualizationWithMapSettings$ = this.actions$
+    .ofType(fromAction.UPDATE_VISUALIZATION_WITH_MAP_SETTINGS)
     .withLatestFrom(this.store)
-    .flatMap(([action, store]) => {
-      const currentVisualizationObject = _.find(store.storeData.visualizationObjects, ['id', action.payload.visualizationObject.id]);
-      if (currentVisualizationObject) {
-        const newVisualizationObject: Visualization = _.clone(currentVisualizationObject);
-
-        const newVisualizationObjectDetails = _.clone(currentVisualizationObject.details);
-
-        /**
-         * Update visualization details
-         */
-        newVisualizationObjectDetails.currentVisualization = action.payload.selectedVisualization;
-
-        const favorite: any = _.find(store.storeData.favorites, ['id', newVisualizationObjectDetails.favorite.id]);
-        /**
-         * Update visualization with original favorite and custom filters
-         */
-        if (favorite) {
-          /**
-           * Update with original settings
-           */
-          newVisualizationObject.layers = _.assign([], updateFavoriteWithCustomFilters(
-            mapFavoriteToLayerSettings(favorite),
-            newVisualizationObjectDetails.filters
-          ));
-        }
-
-        /**
-         * Compile modified list with details
-         */
-        newVisualizationObject.details = _.assign({}, newVisualizationObjectDetails);
-
-        return this.getSanitizedVisualizationObject(newVisualizationObject, store.storeData.analytics, store.uiState.systemInfo.apiRootUrl);
-      }
-
-      return Observable.of(action.payload.visualizationObject);
-    })
-    .map(visualizationObject => new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObject));
-
-  @Effect() analyticsLoaded$: Observable<Action> = this.actions$
-    .ofType(ANALYTICS_LOADED_ACTION)
-    .withLatestFrom(this.store)
-    .flatMap(([action, store]) => {
-      const loadedAnalytics: any[] = action.payload.analytics;
-      const analyticsError = action.payload.error;
-      const currentVisualizationObject = _.find(store.storeData.visualizationObjects, ['id', action.payload.visualizationObject.id]);
-
-      if (!analyticsError && currentVisualizationObject) {
-
-        /**
-         * Use updated layers if avaialable
-         */
-        if (action.payload.visualizationObject.layers.length > 0) {
-          currentVisualizationObject.layers = _.assign([], action.payload.visualizationObject.layers);
-        }
-        return this.getSanitizedVisualizationObject(currentVisualizationObject, loadedAnalytics, store.uiState.systemInfo.apiRootUrl);
-      } else {
-        const newVisualizationObject = _.clone(currentVisualizationObject);
-        const newVisualizationObjectDetails = _.clone(newVisualizationObject.details);
-
-        newVisualizationObjectDetails.laoded = true;
-        newVisualizationObjectDetails.hasError = true;
-        newVisualizationObjectDetails.errorMessage = analyticsError;
-
-        newVisualizationObject.details = _.assign({}, newVisualizationObjectDetails);
-
-        return Observable.of(newVisualizationObject);
-      }
-
-      // return Observable.of(action.payload.visualizationObject)
-    })
-    .map(visualizationObject => new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObject));
+    .flatMap(([action, store]: [any, ApplicationState]) => this.visualizationObjectService.updateVisualizationWithMapSettings(
+      store.uiState.systemInfo.apiRootUrl,
+      action.payload
+    ))
+    .map((visualization: Visualization) => new fromAction.SaveVisualization(visualization));
 
   getSanitizedVisualizationObject(currentVisualizationObject: Visualization, loadedAnalytics, apiRootUrl) {
     const newVisualizationObject = updateVisualizationWithAnalytics(currentVisualizationObject, loadedAnalytics);

@@ -9,49 +9,14 @@ export class AnalyticsService {
   constructor(private http: HttpClientService) {
   }
 
-  getAnalytics(visualizationDetails: any) {
-    const visualizationObject = _.clone(visualizationDetails.visualizationObject);
-    return Observable.create(observer => {
-      Observable.forkJoin(visualizationDetails.filters.map(filterObject => {
-        let analyticUrl = '';
-        const parametersArray: any[] = this._getParametersArray(filterObject.filters);
-        if (parametersArray.length > 0) {
-          const parameters: string = parametersArray.join('&');
-          let visualizationSettings = this._getVisualizationSettings(visualizationDetails.favorite, filterObject.id);
-          if (visualizationSettings == null) {
-            visualizationSettings = _.filter(_.map(visualizationObject.layers, (layer) => {
-              return layer.settings
-            }), (setting) => {
-              return setting.id === filterObject.id
-            })[0];
-          }
-
-          analyticUrl = this._constructAnalyticsUrl(
-            visualizationDetails.apiRootUrl,
-            visualizationObject.type,
-            visualizationSettings,
-            parameters
-          )
-        }
-        return analyticUrl !== '' ? this.http.get(analyticUrl) : Observable.of(null)
-      })).subscribe(analyticsResponse => {
-        visualizationDetails.analytics = _.filter(_.map(visualizationDetails.filters, (filter, filterIndex) => {
-          return {id: filter.id, content: this._sanitizeIncomingAnalytics(analyticsResponse[filterIndex], filter)}
-        }), (analytics) => {
-          return analytics.content !== null;
-        });
-
-        observer.next(visualizationDetails);
-        observer.complete();
-      }, error => {
-        visualizationDetails.error = error;
-        observer.next(visualizationDetails);
-        observer.complete();
-      })
-    });
+  getAnalytics(apiRootUrl: string, visualizationSettings: any, visualizationType: string, visualizationFilters: any[]) {
+    const analyticsUrl = this._constructAnalyticsUrl(apiRootUrl, visualizationType, visualizationSettings, visualizationFilters);
+    return analyticsUrl !== '' ? this.http.get(analyticsUrl)
+      .map((analytics: any) => this._sanitizeIncomingAnalytics(analytics, visualizationFilters)) :
+      Observable.of(null);
   }
 
-  private _sanitizeIncomingAnalytics(analyticsObject: any, filterObject) {
+  private _sanitizeIncomingAnalytics(analyticsObject: any, visualizationFilters: any[]) {
 
     // todo deal with analytics with more than one dynamic dimensions
     const newAnalyticsObject: any = _.clone(analyticsObject);
@@ -66,7 +31,7 @@ export class AnalyticsService {
          * Check header with option set
          */
         if (headerWithOptionSet) {
-          const headerOptionsObject = _.find(filterObject.filters, ['name', headerWithOptionSet.name]);
+          const headerOptionsObject = _.find(visualizationFilters, ['name', headerWithOptionSet.name]);
 
 
           if (headerOptionsObject) {
@@ -100,12 +65,12 @@ export class AnalyticsService {
 
         const headersWithDynamicDimensionButNotOptionSet = _.filter(analyticsObject.headers,
           (analyticsHeader: any) => {
-              return (analyticsHeader.name !== 'dx' && analyticsHeader.name !== 'pe'
-                && analyticsHeader.name !== 'ou' && analyticsHeader.name !== 'value') && !analyticsHeader.optionSet
+            return (analyticsHeader.name !== 'dx' && analyticsHeader.name !== 'pe'
+              && analyticsHeader.name !== 'ou' && analyticsHeader.name !== 'value') && !analyticsHeader.optionSet
           })[0];
 
         if (headersWithDynamicDimensionButNotOptionSet) {
-          const headerOptionsWithoutOptionSetObject = _.find(filterObject.filters, ['name', headersWithDynamicDimensionButNotOptionSet.name]);
+          const headerOptionsWithoutOptionSetObject = _.find(visualizationFilters, ['name', headersWithDynamicDimensionButNotOptionSet.name]);
 
           if (headerOptionsWithoutOptionSetObject) {
             const headerFilter = headerOptionsWithoutOptionSetObject.value;
@@ -117,7 +82,7 @@ export class AnalyticsService {
                 headerOptions = this._getFilterNumberRange(headerFilter);
               } else {
                 if (headerOptionsWithoutOptionSetObject.items) {
-                  headerOptions =  _.map(headerOptionsWithoutOptionSetObject.items, (item: any) => {
+                  headerOptions = _.map(headerOptionsWithoutOptionSetObject.items, (item: any) => {
                     return {
                       code: item.id,
                       name: item.displayName
@@ -205,27 +170,13 @@ export class AnalyticsService {
     return _.filter(_.map(filters, (filter) => {
       return filter.value !== '' ? 'dimension=' + filter.name + ':' + filter.value :
         ['dx', 'pe', 'ou'].indexOf(filter.name) === -1 ? 'dimension=' + filter.name : '';
-    }), param => {
-      return param !== ''
-    });
-  }
-
-  private _getVisualizationSettings(favoriteObject, settingsId) {
-    let settings: any = null;
-    if (favoriteObject) {
-      if (favoriteObject.mapViews) {
-        settings = _.find(favoriteObject.mapViews, ['id', settingsId])
-      } else if (favoriteObject.id === settingsId) {
-        settings = favoriteObject
-      }
-    }
-    return settings;
+    }), param => param !== '');
   }
 
   private _constructAnalyticsUrl(apiRootUrl: string,
                                  visualizationType: string,
                                  visualizationSettings: any,
-                                 parameters: any) {
+                                 visualizationFilters: any[]) {
 
     if (!visualizationSettings) {
       return '';
@@ -271,7 +222,7 @@ export class AnalyticsService {
       url += '.json?';
     }
 
-
+    const parameters = this._getParametersArray(visualizationFilters).join('&');
     if (url.split('&').length <= 1 && parameters.split('&').length <= 1) {
       return '';
     }

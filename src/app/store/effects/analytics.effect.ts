@@ -5,6 +5,7 @@ import {
   AnalyticsLoadedAction, LOAD_ANALYTICS_ACTION, LoadAnalyticsAction, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION,
   UPDATE_VISUALIZATION_WITH_FILTER_ACTION
 } from '../actions';
+import * as fromAction from '../actions';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import {Action, Store} from '@ngrx/store';
@@ -14,6 +15,7 @@ import {
   mapFavoriteToLayerSettings,
   updateFavoriteWithCustomFilters
 } from '../reducers/store-data-reducer';
+import {Visualization} from '../../dashboard/model/visualization';
 @Injectable()
 export class AnalyticsEffect {
   constructor(
@@ -59,6 +61,49 @@ export class AnalyticsEffect {
 
   @Effect() visualizationObjectWithAnalytics$: Observable<Action> = this.actions$
     .ofType(LOAD_ANALYTICS_ACTION)
-    .flatMap((action: any) => this.analyticsService.getAnalytics(action.payload))
-    .map(payload => new AnalyticsLoadedAction(payload))
+    .withLatestFrom(this.store)
+    .flatMap(([action, store]: [any, ApplicationState]) => {
+      const visualization: Visualization = action.payload;
+      const visualizationLayers: any[] = visualization.layers;
+      const analyticsPromises = _.map(visualizationLayers, (visualizationLayer: any) => {
+        const visualizationFilter = _.find(visualization.details.filters, ['id', visualizationLayer.settings.id]);
+        return this.analyticsService.getAnalytics(
+          store.uiState.systemInfo.apiRootUrl,
+          visualizationLayer.settings,
+          visualization.type,
+          visualizationFilter ? visualizationFilter.filters : []
+          );
+      });
+
+      return new Observable((observer) => {
+        Observable.forkJoin(analyticsPromises)
+          .subscribe((analyticsResponse: any[]) => {
+            visualization.details.loaded = visualization.details.currentVisualization === 'MAP' ? false : true;
+            visualization.layers = [..._.map(visualizationLayers, (visualizationLayer: any, layerIndex: number) => {
+              const newVisualizationLayer: any = {...visualizationLayer};
+              const analytics = {...analyticsResponse[layerIndex]};
+
+              if (analytics.headers) {
+                newVisualizationLayer.analytics = analytics;
+              }
+              return newVisualizationLayer;
+            })];
+            observer.next(visualization);
+            observer.complete();
+          }, (error) => {
+            visualization.details.loaded = true;
+            visualization.details.hasError = true;
+            visualization.details.errorMessage = error;
+            observer.next(visualization);
+            observer.complete();
+          });
+      });
+    })
+    .map((visualization: Visualization) => {
+      visualization.operatingLayers = [...visualization.layers];
+      if (visualization.details.currentVisualization === 'MAP') {
+        return new fromAction.UpdateVisualizationWithMapSettings(visualization)
+      }
+      return new fromAction.SaveVisualization(visualization)
+    })
 }

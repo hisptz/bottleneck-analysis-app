@@ -3,20 +3,21 @@ import {INITIAL_STORE_DATA, StoreData} from '../store-data';
 import {Visualization} from '../../dashboard/model/visualization';
 import {
   CURRENT_VISUALIZATION_CHANGE_ACTION, DASHBOARD_GROUP_SETTINGS_UPDATE_ACTION, DASHBOARD_SEARCH_ITEMS_LOADED_ACTION,
-  DASHBOARDS_CUSTOM_SETTINGS_LOADED_ACTION, FAVORITE_OPTIONS_LOADED_ACTION, INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION,
-  RESIZE_DASHBOARD_ACTION,
+  DASHBOARDS_CUSTOM_SETTINGS_LOADED_ACTION, FAVORITE_OPTIONS_LOADED_ACTION,
   SAVE_TABLE_CONFIGURATION_ACTION, SAVE_TABLE_OBJECT_ACTION, VISUALIZATION_OBJECT_MERGED_ACTION,
-  VISUALIZATION_OBJECT_SPLITED_ACTION, FAVORITE_LOADED_ACTION, VISUALIZATION_OBJECT_DELETED_ACTION,
+  VISUALIZATION_OBJECT_SPLITED_ACTION, VISUALIZATION_OBJECT_DELETED_ACTION,
   DELETE_VISUALIZATION_OBJECT_ACTION, DASHBOARDS_LOADED_ACTION, DASHBOARD_ITEM_ADDED_ACTION, DELETE_DASHBOARD_ACTION,
   CURRENT_USER_LOADED_ACTION, CREATE_DASHBOARD_ACTION, DASHBOARD_CREATED_ACTION, EDIT_DASHBOARD_ACTION,
-  DASHBOARD_EDITED_ACTION, CHART_TYPE_CHANGE_ACTION, ANALYTICS_LOADED_ACTION, FULL_SCREEN_TOGGLE_ACTION,
+  DASHBOARD_EDITED_ACTION, ANALYTICS_LOADED_ACTION, FULL_SCREEN_TOGGLE_ACTION,
   VISUALIZATION_OBJECT_OPTIMIZED_ACTION,
   LOAD_DASHBOARD_SEARCH_ITEMS_ACTION, DASHBOARD_SEARCH_HEADERS_CHANGE_ACTION, DASHBOARD_DELETED_ACTION,
   HIDE_DASHBOARD_MENU_ITEM_NOTIFICATION_ICON, GEO_FEATURE_LOADED_ACTION, SAVE_CHART_CONFIGURATION_ACTION,
   SAVE_CHART_OBJECT_ACTION, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION,
   UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION, VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION,
-  UPDATE_VISUALIZATION_WITH_FILTER_ACTION, UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION
+  UPDATE_VISUALIZATION_WITH_FILTER_ACTION, UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION,
+  INITIAL_VISUALIZATION_OBJECTS_LOADED_ACTION
 } from '../actions';
+import * as fromAction from '../actions';
 import {Dashboard} from '../../model/dashboard';
 import {DashboardSearchItem} from '../../dashboard/model/dashboard-search-item';
 import {mapStateToDashboardObject, mergeRelatedItems} from '../mappers/map-state-to-dashboard';
@@ -190,91 +191,77 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
-    case INITIAL_VISUALIZATION_OBJECT_LOADED_ACTION: {
+    case INITIAL_VISUALIZATION_OBJECTS_LOADED_ACTION: {
       const newState: StoreData = _.clone(state);
-      const visualizationObject: Visualization = _.clone(action.payload.visualizationObject);
-
-      /**
-       * Update for non visualizable items
-       */
-      const favorite = visualizationObject.details.favorite;
-      if (!favorite.id) {
-        visualizationObject.details.loaded = true;
-      }
-
-      /**
-       * Persist visualization object
-       */
-      if (visualizationObject.details.isNew) {
-        visualizationObject.details.isNew = false;
-        newState.visualizationObjects = addArrayItem(
-          newState.visualizationObjects,
-          visualizationObject,
-          'id',
-          'first'
-        );
-      } else {
-        newState.visualizationObjects = addArrayItem(
-          newState.visualizationObjects,
-          visualizationObject,
-          'id'
-        );
-      }
-
-
-      /**
-       * Update current dashboard
-       */
-      const currentDashboard = _.find(newState.dashboards, ['id', visualizationObject.dashboardId]);
-      if (currentDashboard) {
-        const currentDashboardIndex = _.findIndex(newState.dashboards, currentDashboard);
-        const currentDashboardItem = _.find(currentDashboard.dashboardItems, ['id', visualizationObject.id]);
-        if (currentDashboardItem) {
-          const currentDashboardItemIndex = _.findIndex(currentDashboard.dashboardItems, currentDashboardItem);
-          currentDashboardItem.visualizationObjectLoaded = true;
-          currentDashboard.dashboardItems[currentDashboardItemIndex] = _.clone(currentDashboardItem);
-          newState.dashboards[currentDashboardIndex] = _.clone(currentDashboard);
-        }
-      }
+      newState.visualizationObjects = [...newState.visualizationObjects, ...action.payload];
       return newState;
     }
 
-    case RESIZE_DASHBOARD_ACTION: {
-      const newState: StoreData = _.clone(state);
+    case fromAction.RESIZE_DASHBOARD_ACTION: {
+      const newState: StoreData = {...state};
+      const visualizationObject = {...action.payload.visualizationObject};
+      const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects,
+        _.find(newState.visualizationObjects, ['id', visualizationObject.id]));
 
-      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.id]);
-      if (currentVisualizationObject) {
-        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
-        currentVisualizationObject.shape = action.payload.shape;
-        newState.visualizationObjects[currentVisualizationObjectIndex] = _.clone(currentVisualizationObject);
+      if (currentVisualizationObjectIndex !== -1) {
+        newState.visualizationObjects = [
+          ...newState.visualizationObjects.slice(0, currentVisualizationObjectIndex),
+          action.payload.visualizationObject,
+          ...newState.visualizationObjects.slice(currentVisualizationObjectIndex + 1)
+        ];
       }
+
       return newState;
     }
 
-    case FAVORITE_LOADED_ACTION: {
+    case fromAction.FAVORITE_LOADED_ACTION: {
       const newState: StoreData = _.clone(state);
       const favorite = action.payload.favorite;
 
       if (favorite) {
         /**
-         * By-pass favorite saving if no favorite
-         */
-        if (!action.payload.favorite.id) {
-          return newState;
-        }
-        /**
          * Save favorite with its option
          */
         const currentFavorite = _.find(newState.favorites, ['id', action.payload.favorite.id]);
         if (!currentFavorite && action.payload.favorite !== {}) {
-          newState.favorites.push(action.payload.favorite);
+          newState.favorites = [...newState.favorites, action.payload.favorite];
         }
       }
 
-      /**
-       * Update visualizationObject with favorite and additional options
-       */
-      return handleFavoriteUpdateAction(newState, action);
+      return newState;
+    }
+
+    case fromAction.SAVE_VISUALIZATION: {
+      const newState: StoreData = {...state};
+
+      const currentVisualization = _.find(newState.visualizationObjects, ['id', action.payload.id]);
+
+      if (currentVisualization) {
+        const visualizationIndex = _.findIndex(newState.visualizationObjects, currentVisualization);
+        newState.visualizationObjects = [
+          ...newState.visualizationObjects.slice(0, visualizationIndex),
+          action.payload,
+          ...newState.visualizationObjects.slice(visualizationIndex + 1)
+        ];
+      }
+
+      return newState;
+    }
+
+    case fromAction.VISUALIZATION_WITH_MAP_SETTINGS_UPDATED: {
+      const newState: StoreData = {...state};
+
+      const currentVisualization = _.find(newState.visualizationObjects, ['id', action.payload.id]);
+      if (currentVisualization) {
+        const visualizationIndex = _.findIndex(newState.visualizationObjects, currentVisualization);
+        newState.visualizationObjects = [
+          ...newState.visualizationObjects.slice(0, visualizationIndex),
+          action.payload,
+          ...newState.visualizationObjects.slice(visualizationIndex + 1)
+        ];
+      }
+
+      return newState;
     }
 
     case UPDATE_VISUALIZATION_WITH_FILTER_ACTION: {
@@ -548,15 +535,17 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
-    case FULL_SCREEN_TOGGLE_ACTION: {
-      const newState = _.clone(state);
-      const currentVisualizationObject = _.find(newState.visualizationObjects, ['id', action.payload.id]);
-      if (currentVisualizationObject) {
-        const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, currentVisualizationObject);
-        currentVisualizationObject.details.showFullScreen = action.payload.details.showFullScreen;
-        currentVisualizationObject.details.cardHeight = action.payload.details.cardHeight;
-        currentVisualizationObject.details.itemHeight = action.payload.details.itemHeight;
-        newState.visualizationObjects[currentVisualizationObjectIndex] = _.cloneDeep(currentVisualizationObject);
+    case fromAction.FULL_SCREEN_TOGGLE_ACTION: {
+      const newState: StoreData = {...state};
+
+      const currentVisualizationObjectIndex = _.findIndex(newState.visualizationObjects, _.find(newState.visualizationObjects, ['id', action.payload.id]));
+
+      if (currentVisualizationObjectIndex !== -1) {
+        newState.visualizationObjects = [
+          ...newState.visualizationObjects.slice(0, currentVisualizationObjectIndex),
+          action.payload,
+          ...newState.visualizationObjects.slice(currentVisualizationObjectIndex + 1)
+        ];
       }
       return newState;
     }
@@ -564,7 +553,6 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
     case FAVORITE_OPTIONS_LOADED_ACTION: {
       const newState = _.clone(state);
       newState.favoriteOptions = _.assign([], action.payload);
-      console.log(action.payload)
       return newState;
     }
 
@@ -1107,7 +1095,7 @@ export function updateFavoriteWithCustomFilters(visualizationLayers, customFilte
     }
 
     newLayer.settings = _.assign({}, newSettings);
-     return newLayer;
+    return newLayer;
   });
 }
 

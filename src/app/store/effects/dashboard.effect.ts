@@ -15,32 +15,28 @@ import {
   DASHBOARD_ITEM_ADD_ACTION, DASHBOARD_ITEM_ADDED_ACTION,
   DashboardCreatedAction,
   DashboardDeletedAction,
-  DashboardEditedAction, DashboardGroupSettingsUpdatedAction, DashboardItemAddedAction, DashboardItemsInitiated,
+  DashboardEditedAction, DashboardGroupSettingsUpdatedAction, DashboardItemAddedAction,
   DashboardNavigatedAction,
-  DashboardNavigationAction,
-  DashboardRezisedAction, DashboardsCustomSettingsLoadedAction, DashboardSearchItemsLoadedAction,
+  DashboardNavigationAction, DashboardsCustomSettingsLoadedAction, DashboardSearchItemsLoadedAction,
   DashboardsLoadedAction,
   DELETE_DASHBOARD_ACTION, DELETE_VISUALIZATION_OBJECT_ACTION, EDIT_DASHBOARD_ACTION,
-  ErrorOccurredAction, LOAD_CURRENT_DASHBOARD, LOAD_DASHBOARD_SEARCH_ITEMS_ACTION,
-  LOAD_DASHBOARDS_ACTION, LOAD_DASHBOARDS_CUSTOM_SETTINGS_ACTION, LoadCurrentDashboard, LoadDashboardsAction,
-  LoadInitialVisualizationObjectAction, NAVIGATE_DASHBOARD_ACTION,
+  ErrorOccurredAction, InitialVisualizationObjectsLoadedAction, LOAD_CURRENT_DASHBOARD,
+  LOAD_DASHBOARD_SEARCH_ITEMS_ACTION,
+  LOAD_DASHBOARDS_ACTION, LOAD_DASHBOARDS_CUSTOM_SETTINGS_ACTION, LoadCurrentDashboard, LoadDashboardsAction, NAVIGATE_DASHBOARD_ACTION,
   NavigateDashboardAction,
   RESIZE_DASHBOARD_ACTION,
   VisualizationObjectDeletedAction
 } from '../actions';
+import * as fromAction from '../actions';
 import {Action, Store} from '@ngrx/store';
 import {ApplicationState} from '../application-state';
 import {Dashboard} from '../../model/dashboard';
 import {Router} from '@angular/router';
 import {Visualization} from '../../dashboard/model/visualization';
+import {VisualizationObjectService} from '../../dashboard/providers/visualization-object.service';
 
 @Injectable()
 export class DashboardEffect {
-  constructor(private actions$: Actions,
-              private store: Store<ApplicationState>,
-              private dashboardService: DashboardService,
-              private router: Router) {
-  }
 
   @Effect() currentUserLoaded$: Observable<Action> = this.actions$
     .ofType(CURRENT_USER_LOADED_ACTION)
@@ -131,11 +127,22 @@ export class DashboardEffect {
     .switchMap(action => Observable.of(action.payload))
     .map(dashboard => new NavigateDashboardAction(dashboard));
 
-  @Effect() resizeDashboard$: Observable<Action> = this.actions$
-    .ofType(RESIZE_DASHBOARD_ACTION)
-    .switchMap(action => this.dashboardService.resize(action.payload))
-    .map(() => new DashboardRezisedAction())
-    .catch((error) => Observable.of(new ErrorOccurredAction(error)));
+  @Effect({dispatch: false}) resizeDashboard$: Observable<Action> = this.actions$
+    .ofType(fromAction.RESIZE_DASHBOARD_ACTION)
+    .withLatestFrom(this.store)
+    .switchMap(([action, store]) => {
+      return new Observable(observer => {
+        action.payload.apiRootUrl = store.uiState.systemInfo.apiRootUrl;
+        this.dashboardService.resize(action.payload)
+          .subscribe(() => {
+            observer.next(null);
+            observer.complete();
+          }, () => {
+            observer.next(null);
+            observer.complete();
+          })
+      })
+    });
 
   @Effect() loadDashboardSearchItems$: Observable<Action> = this.actions$
     .ofType(LOAD_DASHBOARD_SEARCH_ITEMS_ACTION)
@@ -201,19 +208,27 @@ export class DashboardEffect {
           visualizationObject.dashboardId === state.uiState.currentDashboard)
     }))
     .map((resultPayload: any) => {
+      let initialVisualizations: Visualization[] = [];
       resultPayload.dashboardItems.forEach((dashboardItem: any) => {
         if (!_.find(resultPayload.availableVisualizationObjects, ['id', dashboardItem.id])) {
-          this.store.dispatch(new LoadInitialVisualizationObjectAction({
+          initialVisualizations = [...initialVisualizations, this.visualizationObjectService.loadInitialVisualizationObject({
             dashboardItem: dashboardItem,
             favoriteOptions: [],
             dashboardId: resultPayload.dashboardId,
             currentUser: resultPayload.currentUser,
             apiRootUrl: resultPayload.apiRootUrl,
             isNew: dashboardItem.isNew
-          }));
+          })]
         }
       });
-      return new DashboardItemsInitiated();
+      return new InitialVisualizationObjectsLoadedAction(initialVisualizations);
     });
+
+  constructor(private actions$: Actions,
+              private store: Store<ApplicationState>,
+              private dashboardService: DashboardService,
+              private visualizationObjectService: VisualizationObjectService,
+              private router: Router) {
+  }
 
 }

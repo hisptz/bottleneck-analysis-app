@@ -33,7 +33,8 @@ export class ChartTemplateComponent implements OnInit {
     }
   }
 
-  reflow(shape, fullScreen?) {
+  reflow(shape, fullScreen, height) {
+    this.chartHeight = height;
     setTimeout(() => {
       const fullScreenWidth: number = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - 90;
       if (this.chart) {

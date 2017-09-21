@@ -19,9 +19,9 @@
       <ul class="nav nav-stacked">
         <li *ngFor="let chartType of chartTypes">
           <a
-            (click)="updateChartType(chartType.type)"
+            (click)="updateChartType(chartType.type, $event)"
             title="{{chartType.description}}"
-            [ngClass]="'bar' == chartType.type ? 'active-type' : ''"
+            [ngClass]="currentChartType === chartType.type ? 'active-type' : ''"
           >
             <img [src]="chartType.icon" class="chart-option-icon" alt="">
           </a>

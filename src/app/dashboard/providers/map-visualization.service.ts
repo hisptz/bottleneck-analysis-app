@@ -8,7 +8,6 @@ import {LegendSetService} from './legend-set.service';
 import {Visualization} from '../model/visualization';
 import {MapObject} from '../model/map-object';
 import {saveAs} from 'file-saver';
-import {APP_BASE_HREF} from '@angular/common';
 
 declare var html2canvas;
 // declare var GJV;
@@ -29,12 +28,12 @@ export class MapVisualizationService {
   private operatingLayers: any[] = [];
 
   private visualizationObject: any = null;
+  private baseHref = '../../../';
 
   constructor(private tileLayers: TileLayers,
               private colorInterpolation: ColorInterpolationService,
               private legendSet: LegendSetService,
-              private fileConversion: MapFilesConversion,
-              @Inject(APP_BASE_HREF) private baseHref: string) {
+              private fileConversion: MapFilesConversion) {
   }
 
   drawMap(L, visualizationObject: Visualization, prioritizeFilter?: boolean): MapObject {

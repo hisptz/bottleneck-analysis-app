@@ -48,4 +48,5 @@
 
 .active-type {
   background-color: #e0ecfc;
+  cursor: not-allowed;
 }

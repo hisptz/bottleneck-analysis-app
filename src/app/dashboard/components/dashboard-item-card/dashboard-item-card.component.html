@@ -1,7 +1,7 @@
 <div
   [ngClass]="dashboardCardClasses"
-  (mouseenter)="getMouseAction('mouseenter')"
-  (mouseleave)="getMouseAction('mouseleave')"
+  (mouseenter)="getMouseAction('mouseenter', $event)"
+  (mouseleave)="getMouseAction('mouseleave', $event)"
 >
   <div
     [ngClass]="dashboardBlockClasses"
@@ -165,7 +165,7 @@
               <a class="text-danger dashboard-filter-btn">Delete failed!</a>
             </li>
             <li *ngIf="cardConfiguration.showCardHeader && (!visualizationObject.details.showFullScreen || cardConfiguration.showResizeButton) || cardConfiguration.confirmDelete">
-              <a (click)="resizeDashboard()" tooltip="Resize dashboard">
+              <a (click)="resizeDashboard($event)" tooltip="Resize dashboard">
                 <i class="fa fa-arrows-h"></i>
               </a>
             </li>
@@ -184,16 +184,17 @@
       <!--<app-loader *ngIf="currentVisualizationType == null" [loadingMessage]="'Analysing current dashboard item..'"></app-loader>-->
       <!--chart block-->
       <app-chart
-        [visualizationObject]="visualizationObject"
-        *ngIf="currentVisualizationType == 'CHART'"
+        [visualizationObject]="localVisualizationObject"
+        (onChartTypeChange)="updateVisualizationWithChartType($event)"
+        *ngIf="currentVisualizationType == 'CHART' && localVisualizationObject !== null"
       >
       </app-chart>
       <!--end of chart  block-->
 
       <!--table block-->
       <app-table
-        [visualizationObject]="visualizationObject"
-        *ngIf="currentVisualizationType == 'TABLE'"
+        [visualizationObject]="localVisualizationObject"
+        *ngIf="currentVisualizationType == 'TABLE' && localVisualizationObject !== null"
       >
       </app-table>
       <!--end of table  block-->

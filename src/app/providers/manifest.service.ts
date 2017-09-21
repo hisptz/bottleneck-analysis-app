@@ -8,6 +8,6 @@ export class ManifestService {
   constructor(private http: HttpClientService) { }
 
   getRootUrl(): Observable<string> {
-    return this.http.get('assets/manifest.webapp').map(manifect => { return manifect.activities.dhis.href});
+    return this.http.get('manifest.webapp').map(manifect => { return manifect.activities.dhis.href});
   }
 }

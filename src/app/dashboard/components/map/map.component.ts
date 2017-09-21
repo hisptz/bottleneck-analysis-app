@@ -7,13 +7,11 @@ import * as _ from 'lodash';
 import 'leaflet';
 import 'leaflet.markercluster';
 declare var L;
-import {
-  GetMapConfigurationAction, GetMapObjectAction, LoadGeoFeatureAction, LoadLegendSetAction,
-  LoadOrgUnitGroupSetAction, SplitVisualizationObjectAction, VisualizationObjectOptimizedAction
-} from '../../../store/actions';
-import {MapVisualizationService} from '../../providers/map-visualization.service';
-import {TileLayers} from '../../constants/tile-layers';
 import {MapTemplateComponent} from "../map-template/map-template.component";
+import {VisualizationObjectService} from '../../providers/visualization-object.service';
+import {GeoFeatureService} from '../../providers/geo-feature.service';
+import {Observable} from 'rxjs/Observable';
+import {MapService} from '../../providers/map.service';
 
 @Component({
   selector: 'app-map',
@@ -24,50 +22,28 @@ export class MapComponent implements OnInit {
 
   @Input() visualizationObject: Visualization;
   @Input() downloadOptions: any;
-  private _mapHasError: boolean;
-  private _errorMessage: string;
-  private _loaded: boolean;
+  mapHasError: boolean;
+  errorMessage: string;
+  loaded: boolean;
   @ViewChild(MapTemplateComponent)
-  mapTempaletComponent: MapTemplateComponent;
+  mapTemplateComponent: MapTemplateComponent;
   constructor(
+    private visualizationObjectService: VisualizationObjectService,
+    private geoFeatureService: GeoFeatureService,
+    private mapService: MapService,
     private store: Store<ApplicationState>
   ) {
-    this._mapHasError = false;
-  }
-
-
-  get loaded(): boolean {
-    return this._loaded;
-  }
-
-  set loaded(value: boolean) {
-    this._loaded = value;
-  }
-
-  get mapHasError(): boolean {
-    return this._mapHasError;
-  }
-
-  set mapHasError(value: boolean) {
-    this._mapHasError = value;
-  }
-
-  get errorMessage(): string {
-    return this._errorMessage;
-  }
-
-  set errorMessage(value: string) {
-    this._errorMessage = value;
+    this.mapHasError = false;
   }
 
   downLoadFiles(fileFormat){
-    this.mapTempaletComponent.downloadMap(fileFormat);
+    this.mapTemplateComponent.downloadMap(fileFormat);
   }
 
   ngOnInit() {
-    this._mapHasError = this.visualizationObject.details.hasError;
-    this._errorMessage = this.visualizationObject.details.errorMessage;
-    this._loaded = this.visualizationObject.details.loaded;
+    this.mapHasError = this.visualizationObject.details.hasError;
+    this.errorMessage = this.visualizationObject.details.errorMessage;
+    this.loaded = this.visualizationObject.details.loaded;
   }
 
 

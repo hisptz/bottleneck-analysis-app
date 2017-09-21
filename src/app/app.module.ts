@@ -26,6 +26,24 @@ import {UtilitiesService} from './providers/utilities.service';
 import {LoginRedirectService} from './providers/login-redirect.service';
 import {MenuModule} from './menu/menu.module';
 import {SharedModule} from './shared/shared.module';
+import {VisualizationObjectService} from './dashboard/providers/visualization-object.service';
+import {FavoriteService} from './dashboard/providers/favorite.service';
+import {AnalyticsService} from './dashboard/providers/analytics.service';
+import {ChartService} from './dashboard/providers/chart.service';
+import {VisualizationService} from './dashboard/providers/visualization.service';
+import {GeoFeatureService} from './dashboard/providers/geo-feature.service';
+import {LegendSetService} from './dashboard/providers/legend-set.service';
+import {OrgunitGroupSetService} from './dashboard/providers/orgunit-group-set.service';
+import {MapService} from './dashboard/providers/map.service';
+import {MapVisualizationService} from './dashboard/providers/map-visualization.service';
+import {ColorInterpolationService} from './dashboard/providers/color-interpolation.service';
+import {TileLayers} from './dashboard/constants/tile-layers';
+import {TableService} from './dashboard/providers/table.service';
+import {VisualizerService} from './dashboard/providers/visualizer.service';
+import {MapFilesConversion} from './dashboard/providers/map-files-conversion.service';
+import {RelativePeriodService} from './dashboard/providers/relative-period.service';
+import {DimensionsModule} from './dimensions/dimensions.module';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -39,13 +57,14 @@ import {SharedModule} from './shared/shared.module';
     HttpModule,
     AppRoutingModule,
     MenuModule,
+    DimensionsModule,
     SharedModule,
     StoreModule.provideStore({uiState: uiStateReducer, storeData: storeDataReducer}, INITIAL_APPLICATION_STATE),
     EffectsModule.run(SystemInfoEffect),
     EffectsModule.run(DashboardEffect),
     EffectsModule.run(CurrentUserEffect),
     EffectsModule.run(DashboardNotificationEffect),
-    // StoreDevtoolsModule.instrumentOnlyWithExtension()
+    !environment.production ? StoreDevtoolsModule.instrumentOnlyWithExtension() : []
   ],
   providers: [
     SystemInfoService,
@@ -55,7 +74,24 @@ import {SharedModule} from './shared/shared.module';
     CurrentUserService,
     DashboardNotificationService,
     UtilitiesService,
-    LoginRedirectService
+    LoginRedirectService,
+    DashboardNotificationService,
+    VisualizationObjectService,
+    FavoriteService,
+    AnalyticsService,
+    ChartService,
+    VisualizationService,
+    GeoFeatureService,
+    LegendSetService,
+    OrgunitGroupSetService,
+    MapService,
+    MapVisualizationService,
+    ColorInterpolationService,
+    TileLayers,
+    TableService,
+    VisualizerService,
+    MapFilesConversion,
+    RelativePeriodService
   ],
   bootstrap: [AppComponent]
 })
