@@ -136,7 +136,7 @@
           <ul class="nav nav-pills dashboard-item-header dashboard-header-nav  pull-right">
             <li>
               <a
-                *ngIf="cardConfiguration.showCardHeader &&
+                *ngIf="cardConfiguration.enableDeleteButton &&
                 cardConfiguration.showDeleteButton &&
                 !cardConfiguration.confirmDelete &&
                 !visualizationObject.details.deleting"

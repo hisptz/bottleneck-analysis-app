@@ -59,7 +59,8 @@ export class DashboardItemCardComponent implements OnInit {
   cardConfiguration: any = {
     showCardHeader: false,
     showCardFooter: false,
-    showDeleteButton: true,
+    enableDeleteButton: true,
+    showDeleteButton: false,
     confirmDelete: false,
     defaultHeight: '470px',
     defaultItemHeight: '438px',
@@ -219,8 +220,8 @@ export class DashboardItemCardComponent implements OnInit {
     /**
      * Footer actions
      */
-    const visualizationType = this.currentVisualizationType;
-    if (!this.hideOptions(visualizationType, this.visualizationWithNoOptions)) {
+    this.cardConfiguration.showDeleteButton = !this.cardConfiguration.showDeleteButton;
+    if (!this.hideOptions(this.currentVisualizationType, this.visualizationWithNoOptions)) {
       this.cardConfiguration.showCardFooter = !this.cardConfiguration.showCardFooter;
       this.cardConfiguration.showCardHeader = !this.cardConfiguration.showCardHeader;
     }
@@ -228,7 +229,7 @@ export class DashboardItemCardComponent implements OnInit {
     /**
      * Pass the action to children
      */
-    if (visualizationType === 'CHART') {
+    if (this.currentVisualizationType === 'CHART') {
       if (this.chartComponent) {
         this.chartComponent.toggleOptions(event)
       }

@@ -36,7 +36,6 @@ import {
   LOAD_DASHBOARD_SEARCH_ITEMS_ACTION,
   LOAD_DASHBOARDS_ACTION,
   LOAD_DASHBOARDS_CUSTOM_SETTINGS_ACTION,
-  LoadCurrentDashboard,
   LoadDashboardsAction,
   NAVIGATE_DASHBOARD_ACTION,
   NavigateDashboardAction,
