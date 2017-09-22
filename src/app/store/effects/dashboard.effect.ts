@@ -13,12 +13,10 @@ import {
   CurrentDashboardLoaded,
   CurrentDashboardSaveAction,
   DASHBOARD_CREATED_ACTION,
-  DASHBOARD_DELETED_ACTION,
   DASHBOARD_GROUP_SETTINGS_UPDATE_ACTION,
   DASHBOARD_ITEM_ADD_ACTION,
   DASHBOARD_ITEM_ADDED_ACTION,
   DashboardCreatedAction,
-  DashboardDeletedAction,
   DashboardEditedAction,
   DashboardGroupSettingsUpdatedAction,
   DashboardItemAddedAction,
@@ -103,7 +101,7 @@ export class DashboardEffect {
   @Effect() updateDashboardsSettings$: Observable<Action> = this.actions$
     .ofType(DASHBOARD_GROUP_SETTINGS_UPDATE_ACTION)
     .switchMap(action => this.dashboardService.updateCustomDashboardSettings(action.payload))
-    .map(dashboardsSettings => new DashboardGroupSettingsUpdatedAction(dashboardsSettings))
+    .map(dashboardsSettings => new DashboardGroupSettingsUpdatedAction(dashboardsSettings));
 
   @Effect() createDashboard$: Observable<Action> = this.actions$
     .ofType(CREATE_DASHBOARD_ACTION)
@@ -131,16 +129,32 @@ export class DashboardEffect {
     })
     .map(dashboard => new DashboardEditedAction(dashboard));
 
-  @Effect() deleteDashboard$: Observable<Action> = this.actions$
-    .ofType(DELETE_DASHBOARD_ACTION)
-    .switchMap(action => this.dashboardService.delete(action.payload))
-    .map(dashboard => new DashboardDeletedAction(dashboard))
-    .catch((error) => Observable.of(new ErrorOccurredAction(error)));
+  @Effect({dispatch: false}) deleteDashboard$: Observable<Action> = this.actions$
+    .ofType(fromAction.DELETE_DASHBOARD_ACTION)
+    .withLatestFrom(this.store)
+    .switchMap(([action, store]) => {
+      return new Observable(observer => {
+        this.dashboardService.delete(action.payload)
+          .subscribe((dashboardToDelete: any) => {
+            const dashboardIndex = _.findIndex(store.storeData.dashboards,
+              _.find(store.storeData.dashboards, ['id', dashboardToDelete.id]));
 
-  @Effect() deletedDashboard$: Observable<Action> = this.actions$
-    .ofType(DASHBOARD_DELETED_ACTION)
-    .switchMap(action => Observable.of(action.payload))
-    .map(dashboard => new NavigateDashboardAction(dashboard));
+            if (dashboardIndex !== -1) {
+              const dashboardToNavigate = dashboardIndex === 0 ? store.storeData.dashboards[1] :
+                store.storeData.dashboards[dashboardIndex - 1];
+              this.store.dispatch(new fromAction.DashboardDeletedAction(dashboardToDelete));
+
+              this.router.navigate(['/dashboards/' + dashboardToNavigate.id]);
+
+              observer.next(null);
+              observer.complete();
+            }
+          }, () => {
+            observer.next(null);
+            observer.complete();
+          })
+      })
+    });
 
   @Effect({dispatch: false}) resizeDashboard$: Observable<Action> = this.actions$
     .ofType(fromAction.RESIZE_DASHBOARD_ACTION)

@@ -150,9 +150,9 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
-    case DASHBOARD_DELETED_ACTION: {
-      const newState: StoreData = _.clone(state);
-      const newDashboards: Dashboard[] = _.clone(newState.dashboards);
+    case fromAction.DASHBOARD_DELETED_ACTION: {
+      const newState: StoreData = {...state};
+      const newDashboards: Dashboard[] = [...newState.dashboards];
       const dashboardToDelete = _.find(newDashboards, ['id', action.payload.id]);
       if (dashboardToDelete) {
         newDashboards.splice(_.findIndex(newState.dashboards, dashboardToDelete), 1);

@@ -1,10 +1,6 @@
 import {Actions, Effect} from '@ngrx/effects';
 import {Injectable} from '@angular/core';
 import {AnalyticsService} from '../../dashboard/providers/analytics.service';
-import {
-  LOAD_ANALYTICS_ACTION, LoadAnalyticsAction,
-  UPDATE_VISUALIZATION_WITH_FILTER_ACTION
-} from '../actions';
 import * as fromAction from '../actions';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
@@ -13,7 +9,7 @@ import {ApplicationState} from '../application-state';
 import * as _ from 'lodash';
 import {Visualization} from '../../dashboard/model/visualization';
 import {VisualizationObjectService} from '../../dashboard/providers/visualization-object.service';
-import {getSanitizedCustomFilterObject, updateVisualizationWithCustomFilters} from '../helpers/visualization.helpers';
+import * as fromVisualizationHelper from '../helpers/visualization.helpers';
 @Injectable()
 export class AnalyticsEffect {
   constructor(
@@ -23,11 +19,6 @@ export class AnalyticsEffect {
     private visualizationObjectService: VisualizationObjectService
   ) {}
 
-  @Effect() loadedVisualizationObjectWithFavorite$: Observable<Action> = this.actions$
-    .ofType(UPDATE_VISUALIZATION_WITH_FILTER_ACTION)
-    .flatMap((action: any) => Observable.of(action.payload))
-    .map(visualizationObject => new LoadAnalyticsAction(visualizationObject));
-
   @Effect({dispatch: false}) globalFilterChange$ = this.actions$
     .ofType(fromAction.GLOBAL_FILTER_CHANGE_ACTION)
     .withLatestFrom(this.store)
@@ -35,16 +26,16 @@ export class AnalyticsEffect {
         const visualizationObjects: Visualization[] =
           _.filter(store.storeData.visualizationObjects, (visualization: Visualization) => visualization.dashboardId === action.payload.dashboardId);
         visualizationObjects.forEach((visualization: Visualization) => {
-          this.store.dispatch(new LoadAnalyticsAction(updateVisualizationWithCustomFilters(
+          this.store.dispatch(new fromAction.LoadAnalyticsAction(fromVisualizationHelper.updateVisualizationWithCustomFilters(
             visualization,
-            getSanitizedCustomFilterObject(action.payload.filterObject)
+            fromVisualizationHelper.getSanitizedCustomFilterObject(action.payload.filterObject)
           )));
         });
         return Observable.of(null);
     });
 
   @Effect() visualizationObjectWithAnalytics$: Observable<Action> = this.actions$
-    .ofType(LOAD_ANALYTICS_ACTION)
+    .ofType(fromAction.LOAD_ANALYTICS_ACTION)
     .withLatestFrom(this.store)
     .flatMap(([action, store]: [any, ApplicationState]) => {
       const visualization: Visualization = action.payload;

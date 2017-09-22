@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
+  Component, EventEmitter, Input, OnInit, Output,
   ViewChild
 } from '@angular/core';
 import {Visualization} from '../../model/visualization';
@@ -8,12 +8,6 @@ import * as _ from 'lodash';
 import {ApplicationState} from '../../../store/application-state';
 import {Store} from '@ngrx/store';
 import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector';
-import {
-  CurrentVisualizationChangeAction, DeleteVisualizationObjectAction,
-  FullScreenToggleAction, LoadAnalyticsAction,
-  ResizeDashboardAction, SaveFavoriteAction, SaveVisualization, UpdateVisualizationWithCustomFilterAction,
-  VisualizationObjectLayoutChangeAction
-} from '../../../store/actions';
 import * as fromAction from '../../../store/actions';
 import {ChartComponent} from '../chart/chart.component';
 import {Observable} from 'rxjs/Observable';
@@ -269,7 +263,7 @@ export class DashboardItemCardComponent implements OnInit {
     }
     visualizationObject.shape = newShape;
 
-    this.store.dispatch(new ResizeDashboardAction({
+    this.store.dispatch(new fromAction.ResizeDashboardAction({
         id: visualizationObject.id,
         visualizationObject: visualizationObject,
         dashboardId: visualizationObject.dashboardId,
@@ -302,7 +296,7 @@ export class DashboardItemCardComponent implements OnInit {
 
     visualizationObject.details.showFullScreen = !visualizationObject.details.showFullScreen;
 
-    this.store.dispatch(new FullScreenToggleAction(visualizationObject));
+    this.store.dispatch(new fromAction.FullScreenToggleAction(visualizationObject));
   }
 
   updateVisualization(selectedVisualization) {
@@ -348,7 +342,7 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateVisualizationWithOptionsOrFilterUpdate(visualizationObject, filterArray, updateAvailable?) {
-    this.store.dispatch(new UpdateVisualizationWithCustomFilterAction({
+    this.store.dispatch(new fromAction.UpdateVisualizationWithCustomFilterAction({
         visualizationObject: visualizationObject,
         filters: filterArray,
         updateAvailable: updateAvailable ? true : false
@@ -359,7 +353,7 @@ export class DashboardItemCardComponent implements OnInit {
     const visualizationObject = _.clone(this.visualizationObject);
     this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
       if (apiRootUrl !== '') {
-        this.store.dispatch( new SaveFavoriteAction({
+        this.store.dispatch( new fromAction.SaveFavoriteAction({
           apiRootUrl: apiRootUrl,
           visualizationObject: visualizationObject
         }))
@@ -427,7 +421,7 @@ export class DashboardItemCardComponent implements OnInit {
     this.cardConfiguration.confirmDelete = false;
     this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
       if (apiRootUrl !== '') {
-        this.store.dispatch(new DeleteVisualizationObjectAction({
+        this.store.dispatch(new fromAction.DeleteVisualizationObjectAction({
           apiRootUrl: apiRootUrl,
           dashboardId: visualizationObject.dashboardId,
           visualizationObjectId: visualizationObject.id
