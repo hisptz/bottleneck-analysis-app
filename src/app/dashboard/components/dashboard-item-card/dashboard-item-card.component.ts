@@ -10,7 +10,7 @@ import {Store} from '@ngrx/store';
 import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector';
 import {
   CurrentVisualizationChangeAction, DeleteVisualizationObjectAction,
-  FullScreenToggleAction,
+  FullScreenToggleAction, LoadAnalyticsAction,
   ResizeDashboardAction, SaveFavoriteAction, SaveVisualization, UpdateVisualizationWithCustomFilterAction,
   VisualizationObjectLayoutChangeAction
 } from '../../../store/actions';
@@ -24,6 +24,10 @@ import {
 import {MapComponent} from "../map/map.component";
 import {interpretationLinkSelector} from '../../../store/selectors/interpretation-link.selector';
 import {VisualizationObjectService} from '../../providers/visualization-object.service';
+import {
+  getSanitizedCustomFilterObject,
+  updateVisualizationWithCustomFilters
+} from '../../../store/helpers/visualization.helpers';
 
 
 @Component({
@@ -316,6 +320,8 @@ export class DashboardItemCardComponent implements OnInit {
 
       if (selectedVisualization === 'MAP' && visualization.details.type !== 'MAP') {
         visualization = this.visualizationObjectService.splitVisualizationObject(visualization);
+        visualization.details.loaded = false;
+        this.store.dispatch(new fromAction.SaveVisualization(visualization));
         this.store.select(apiRootUrlSelector)
           .subscribe((apiRootUrl) => {
             this.visualizationObjectService.updateVisualizationWithMapSettings(apiRootUrl, visualization)
@@ -336,52 +342,14 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateFilters(filterValue) {
-    const newFilterValue = filterValue.selectedData ? filterValue.selectedData : filterValue;
-    const newFilterItems = filterValue.items ? filterValue.items : filterValue.itemList;
-    const filterArray = this.visualizationObject.details.filters;
-    const newVisualizationObject = _.clone(this.visualizationObject);
-    if (filterArray) {
-      filterArray.forEach(filterObject => {
-        filterObject.filters.forEach(filter => {
-          if (newFilterValue.name === filter.name) {
-            filter.value = newFilterValue.value;
-            filter.items = this._mapFilterItemsToFavoriteFormat(newFilterItems, filter.name);
-          }
-        })
-      })
-    }
-    this.updateVisualizationWithOptionsOrFilterUpdate(newVisualizationObject, filterArray, true)
-  }
+    const newVisualizationObject: Visualization = updateVisualizationWithCustomFilters(
+      this.visualizationObject,
+      getSanitizedCustomFilterObject(filterValue)
+    );
 
-  private _mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {
-    const newFilterItems: any = [];
-
-    filterItems.forEach(filterItem => {
-      if (dimensionType === 'pe') {
-        newFilterItems.push({
-          id: filterItem.id,
-          dimensionItem: filterItem.id,
-          displayName: filterItem.name,
-          dimensionItemType: 'PERIOD'
-        })
-      } else if (dimensionType === 'ou') {
-        newFilterItems.push({
-          id: filterItem.id,
-          dimensionItem: filterItem.id,
-          displayName: filterItem.name,
-          dimensionItemType: 'ORGANISATION_UNIT'
-        })
-      } else if (dimensionType === 'dx') {
-        newFilterItems.push({
-          id: filterItem.id,
-          dimensionItem: filterItem.id,
-          displayName: filterItem.name,
-          dimensionItemType: filterItem.dataElementId ? 'DATA_ELEMENT' : 'INDICATOR'
-        })
-      }
-    });
-
-    return newFilterItems;
+    newVisualizationObject.details.loaded = false;
+    this.store.dispatch(new fromAction.SaveVisualization(newVisualizationObject));
+    this.store.dispatch(new fromAction.LoadAnalyticsAction(newVisualizationObject));
   }
 
   updateVisualizationWithOptionsOrFilterUpdate(visualizationObject, filterArray, updateAvailable?) {

@@ -15,7 +15,7 @@
         (onChartRenderFailure)="getChartError($event)"
       ></app-chart-template>
     </div>
-    <div class="options-block" *ngIf="showOptions && loaded && !chartHasError">
+    <div class="options-block" [hidden]="!showOptions">
       <ul class="nav nav-stacked">
         <li *ngFor="let chartType of chartTypes">
           <a

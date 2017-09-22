@@ -9,8 +9,7 @@ import {VisualizationObjectService} from '../../providers/visualization-object.s
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
 
@@ -43,7 +42,6 @@ export class ChartComponent implements OnInit {
     this.chartHasError = this.visualizationObject.details.hasError;
     this.errorMessage = this.visualizationObject.details.errorMessage;
     this.chartHeight = this.visualizationObject.details.itemHeight;
-    this.showOptions = this.visualizationObject.details.showChartOptions;
     /**
      * Get chart objects
      */
@@ -76,11 +74,10 @@ export class ChartComponent implements OnInit {
 
   toggleOptions(event) {
     if (event === 'mouseenter') {
-      this.showOptions = this.visualizationObject.details.showChartOptions ? true : false;
+      this.showOptions = this.visualizationObject.details.showChartOptions;
     } else {
       this.showOptions = false;
     }
-    console.log(this.showOptions)
   }
 
   resize(shape: string, fullScreen: boolean, height: string) {

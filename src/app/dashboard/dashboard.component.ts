@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {ApplicationState} from '../store/application-state';
 import {ActivatedRoute} from '@angular/router';
 import {
-  CurrentDashboardChangeAction, LoadCurrentDashboard
+  CurrentDashboardChangeAction, GlobalFilterChangeAction, LoadCurrentDashboard
 } from '../store/actions';
 import {Observable} from 'rxjs/Observable';
 import {currentDashboardNameSelector} from '../store/selectors/current-dashboard-name.selector';
@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
   }
 
   updateFilters(filterData) {
-    this.globalFilters$.next(filterData);
+    this.store.dispatch(new GlobalFilterChangeAction({dashboardId: this.dashboardId, filterObject: filterData}));
   }
 
 }

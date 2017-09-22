@@ -15,7 +15,6 @@ export class GeoFeatureService {
 
   getGeoFeature1(apiRootUrl: string, orgUnitFilterValues: any): Observable<any[]> {
     const geoFeatureUrl = this._getGeoFeatureUrl(apiRootUrl, this._getGeoFeatureParams(orgUnitFilterValues));
-
     return geoFeatureUrl ? this.http.get(geoFeatureUrl) : Observable.of(null);
   }
 

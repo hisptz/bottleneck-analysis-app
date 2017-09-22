@@ -2,7 +2,7 @@ import {Actions, Effect} from '@ngrx/effects';
 import {Injectable} from '@angular/core';
 import {AnalyticsService} from '../../dashboard/providers/analytics.service';
 import {
-  AnalyticsLoadedAction, LOAD_ANALYTICS_ACTION, LoadAnalyticsAction, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION,
+  LOAD_ANALYTICS_ACTION, LoadAnalyticsAction,
   UPDATE_VISUALIZATION_WITH_FILTER_ACTION
 } from '../actions';
 import * as fromAction from '../actions';
@@ -11,17 +11,16 @@ import 'rxjs/add/operator/take';
 import {Action, Store} from '@ngrx/store';
 import {ApplicationState} from '../application-state';
 import * as _ from 'lodash';
-import {
-  mapFavoriteToLayerSettings,
-  updateFavoriteWithCustomFilters
-} from '../reducers/store-data-reducer';
 import {Visualization} from '../../dashboard/model/visualization';
+import {VisualizationObjectService} from '../../dashboard/providers/visualization-object.service';
+import {getSanitizedCustomFilterObject, updateVisualizationWithCustomFilters} from '../helpers/visualization.helpers';
 @Injectable()
 export class AnalyticsEffect {
   constructor(
     private actions$: Actions,
     private store: Store<ApplicationState>,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private visualizationObjectService: VisualizationObjectService
   ) {}
 
   @Effect() loadedVisualizationObjectWithFavorite$: Observable<Action> = this.actions$
@@ -29,35 +28,20 @@ export class AnalyticsEffect {
     .flatMap((action: any) => Observable.of(action.payload))
     .map(visualizationObject => new LoadAnalyticsAction(visualizationObject));
 
-  @Effect() loadedVisualizationObjectWithFilters$: Observable<Action> = this.actions$
-    .ofType(UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION)
+  @Effect({dispatch: false}) globalFilterChange$ = this.actions$
+    .ofType(fromAction.GLOBAL_FILTER_CHANGE_ACTION)
     .withLatestFrom(this.store)
-    .take(1)
-    .flatMap(([action, store]) => {
-      const visualizationObject = _.clone(action.payload.visualizationObject);
-      const favorite: any = _.find(store.storeData.favorites, ['id', visualizationObject.details.favorite.id]);
-      const customFilters = _.clone(action.payload.filters);
-      /**
-       * Update visualization with original favorite and custom filters
-       */
-      if (favorite) {
-        /**
-         * Update with original settings
-         */
-        visualizationObject.layers = _.assign([], updateFavoriteWithCustomFilters(
-          mapFavoriteToLayerSettings(favorite),
-          customFilters
-        ));
-      }
-
-      return Observable.of({
-        apiRootUrl: _.clone(store.uiState.systemInfo.apiRootUrl),
-        visualizationObject: _.clone(visualizationObject),
-        filters: _.clone(customFilters),
-        updateAvailable: _.clone(action.payload.updateAvailable)
-      })
-    })
-    .map(visualizationObject => new LoadAnalyticsAction(visualizationObject));
+    .switchMap(([action, store]) => {
+        const visualizationObjects: Visualization[] =
+          _.filter(store.storeData.visualizationObjects, (visualization: Visualization) => visualization.dashboardId === action.payload.dashboardId);
+        visualizationObjects.forEach((visualization: Visualization) => {
+          this.store.dispatch(new LoadAnalyticsAction(updateVisualizationWithCustomFilters(
+            visualization,
+            getSanitizedCustomFilterObject(action.payload.filterObject)
+          )));
+        });
+        return Observable.of(null);
+    });
 
   @Effect() visualizationObjectWithAnalytics$: Observable<Action> = this.actions$
     .ofType(LOAD_ANALYTICS_ACTION)
@@ -103,6 +87,8 @@ export class AnalyticsEffect {
       visualization.operatingLayers = [...visualization.layers];
       if (visualization.details.currentVisualization === 'MAP') {
         return new fromAction.UpdateVisualizationWithMapSettings(visualization)
+      } else if (visualization.details.type === 'MAP' && visualization.details.currentVisualization !== 'MAP') {
+        visualization = this.visualizationObjectService.mergeVisualizationObject(visualization);
       }
       return new fromAction.SaveVisualization(visualization)
     })

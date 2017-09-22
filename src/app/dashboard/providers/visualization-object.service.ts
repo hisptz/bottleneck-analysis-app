@@ -218,7 +218,14 @@ export class VisualizationObjectService {
   }
 
   updateVisualizationWithMapSettings(apiRootUrl: string, visualization: Visualization) {
-    const visualizationObject: Visualization = {...visualization};
+    let visualizationObject: Visualization = {...visualization};
+
+    /**
+     * Split visualization if it is not map
+     */
+    if (visualizationObject.details.type !== 'MAP') {
+      visualizationObject = this.splitVisualizationObject(visualization);
+    }
     const dimensionArea = this._findOrgUnitDimension(visualizationObject.details.layout[0].layout);
     return new Observable(observer => {
       visualizationObject.details.mapConfiguration = this.mapService.getMapConfiguration(visualizationObject);

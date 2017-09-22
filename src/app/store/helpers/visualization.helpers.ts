@@ -165,12 +165,6 @@ function getVisualizationObjectName(dashboardItem): string {
       ? dashboardItem[_.camelCase(dashboardItem.type)].displayName : null : null;
 }
 
-// export function getVisualizationContainerClasses(currentShape: string,
-//                                                  shapes: fromVisualizationState.VisualizationShape[] =
-//                                                    fromVisualizationState.VISUALIZATION_SHAPES): Array<string> {
-//   const shape = _.find(shapes, ['name', currentShape]);
-//   return shape ? shape.classes : ['col-md-4', 'visualization-card'];
-// }
 
 function getSanitizedCurrentVisualizationType(visualizationType: string): string {
   let sanitizedVisualization: string = null;
@@ -213,4 +207,105 @@ export function getVisualizationSettingsUrl(apiRootUrl: string, visualizationTyp
       '!periods,!organisationUnitLevels,!organisationUnits';
   }
   return settingsId ? url : '';
+}
+
+export function updateVisualizationWithCustomFilters(visualization: Visualization, customfilterObject: any) {
+  const newVisualization: Visualization = {...visualization};
+  const filterArray = visualization.details.filters;
+
+  if (filterArray) {
+    filterArray.forEach(filterObject => {
+      filterObject.filters.forEach(filter => {
+        if (customfilterObject.name === filter.name) {
+          filter.value = customfilterObject.value;
+          filter.items = mapFilterItemsToFavoriteFormat(customfilterObject.items, filter.name);
+        }
+      })
+    })
+  }
+
+  newVisualization.details.filters = [...filterArray];
+
+  // TODO FIND BEST WAY TO MAKE FILTER CHANGES CONSISTENCE
+  /**
+   * Also update layers with filters
+   */
+
+  newVisualization.operatingLayers = updateLayersWithCustomFilters(newVisualization.operatingLayers, filterArray);
+
+  newVisualization.layers = newVisualization.operatingLayers;
+
+  return newVisualization;
+}
+
+export function mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {
+  const newFilterItems: any = [];
+
+  filterItems.forEach(filterItem => {
+    if (dimensionType === 'pe') {
+      newFilterItems.push({
+        id: filterItem.id,
+        dimensionItem: filterItem.id,
+        displayName: filterItem.name,
+        dimensionItemType: 'PERIOD'
+      })
+    } else if (dimensionType === 'ou') {
+      newFilterItems.push({
+        id: filterItem.id,
+        dimensionItem: filterItem.id,
+        startingName: filterItem.startingName,
+        displayName: filterItem.name,
+        dimensionItemType: 'ORGANISATION_UNIT'
+      })
+    } else if (dimensionType === 'dx') {
+      newFilterItems.push({
+        id: filterItem.id,
+        dimensionItem: filterItem.id,
+        displayName: filterItem.name,
+        dimensionItemType: filterItem.dataElementId ? 'DATA_ELEMENT' : 'INDICATOR'
+      })
+    }
+  });
+
+  return newFilterItems;
+}
+
+export function updateLayersWithCustomFilters(visualizationLayers, customFilters) {
+  return _.map(visualizationLayers, (layer) => {
+    const newLayer = _.clone(layer);
+    const newSettings = _.clone(layer.settings);
+    const correspondingFilter = _.find(customFilters, ['id', layer.settings.id]);
+
+    if (correspondingFilter) {
+      newSettings.columns = updateLayoutDimensionWithFilters(newSettings.columns, correspondingFilter.filters);
+      newSettings.rows = updateLayoutDimensionWithFilters(newSettings.rows, correspondingFilter.filters);
+      newSettings.filters = updateLayoutDimensionWithFilters(newSettings.filters, correspondingFilter.filters);
+    }
+
+    newLayer.settings = _.assign({}, newSettings);
+    return newLayer;
+  });
+}
+
+function updateLayoutDimensionWithFilters(layoutDimensionArray, filters) {
+  return _.map(layoutDimensionArray, (layoutDimension) => {
+    const newLayoutDimension = _.clone(layoutDimension);
+    const dimensionObject = _.find(filters, ['name', layoutDimension.dimension]);
+
+    /**
+     * Get items
+     */
+    if (dimensionObject) {
+      newLayoutDimension.items = _.assign([], dimensionObject.items);
+    }
+
+    return newLayoutDimension;
+  });
+}
+
+export function getSanitizedCustomFilterObject(filterObject) {
+  const newFilterValue = filterObject.selectedData ? filterObject.selectedData : filterObject;
+  const newFilterItems = filterObject.items ? filterObject.items : filterObject.itemList;
+
+  return {name: newFilterValue.name, value: newFilterValue.value, items: newFilterItems};
 }

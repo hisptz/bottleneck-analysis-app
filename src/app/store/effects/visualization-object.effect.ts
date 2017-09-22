@@ -3,9 +3,7 @@ import {Actions, Effect} from '@ngrx/effects';
 import {Observable} from 'rxjs/Observable';
 import {Action, Store} from '@ngrx/store';
 import {VisualizationObjectService} from '../../dashboard/providers/visualization-object.service';
-import {
-  ANALYTICS_LOADED_ACTION, CHART_TYPE_CHANGE_ACTION,
-  CURRENT_VISUALIZATION_CHANGE_ACTION, LoadFavoriteAction, MERGE_VISUALIZATION_OBJECT_ACTION, SPLIT_VISUALIZATION_OBJECT_ACTION,
+import { MERGE_VISUALIZATION_OBJECT_ACTION, SPLIT_VISUALIZATION_OBJECT_ACTION,
   UpdateVisualizationObjectWithRenderingObjectAction, VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION,
   VisualizationObjectMergedAction,
   VisualizationObjectSplitedAction
@@ -19,7 +17,7 @@ import {ApplicationState} from '../application-state';
 import * as _ from 'lodash';
 import {updateVisualizationWithAnalytics} from '../handlers/updateVisualizationWithAnalytics';
 import {Visualization} from '../../dashboard/model/visualization';
-import {mapFavoriteToLayerSettings, updateFavoriteWithCustomFilters} from '../reducers/store-data-reducer';
+import {mapFavoriteToLayerSettings} from '../reducers/store-data-reducer';
 import 'rxjs/add/operator/take';
 @Injectable()
 export class VisualizationObjectEffect {
@@ -60,62 +58,62 @@ export class VisualizationObjectEffect {
     .flatMap((action: any) => Observable.of(this.visualizationObjectService.splitVisualizationObject(action.payload)))
     .map(legendSet => new VisualizationObjectSplitedAction(legendSet));
 
-  @Effect() visualizationObjectLayoutChange$: Observable<Action> = this.actions$
-    .ofType(VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION)
-    .withLatestFrom(this.store)
-    .flatMap(([action, store]) => {
-      const currentVisualizationObject = _.find(store.storeData.visualizationObjects, ['id', action.payload.visualizationObject.id]);
-      if (currentVisualizationObject) {
-        const newVisualizationObject: Visualization = _.clone(currentVisualizationObject);
-
-        const newVisualizationObjectDetails = _.clone(currentVisualizationObject.details);
-
-        /**
-         * Update visualization layouts
-         */
-        newVisualizationObjectDetails.layouts = action.payload.layouts;
-
-        const favorite: any = _.find(store.storeData.favorites, ['id', newVisualizationObjectDetails.favorite.id]);
-        /**
-         * Update visualization with original favorite and custom filters
-         */
-        if (favorite) {
-          //todo find best way to keep some options that might have already being changed
-          /**
-           * Update chart type if chart
-           */
-
-          if (favorite.type) {
-            if (action.payload.visualizationObject.layers) {
-              const visualizationLayer = action.payload.visualizationObject.layers[0];
-
-              if (visualizationLayer && visualizationLayer.settings) {
-                if (visualizationLayer.settings.type) {
-                  favorite.type = visualizationLayer.settings.type;
-                }
-              }
-            }
-          }
-          /**
-           * Update with original settings
-           */
-          newVisualizationObject.layers = _.assign([], updateFavoriteWithCustomFilters(
-            mapFavoriteToLayerSettings(favorite),
-            newVisualizationObjectDetails.filters
-          ));
-        }
-
-        /**
-         * Compile modified list with details
-         */
-        newVisualizationObject.details = _.assign({}, newVisualizationObjectDetails);
-
-        return this.getSanitizedVisualizationObject(newVisualizationObject, store.storeData.analytics, store.uiState.systemInfo.apiRootUrl);
-      }
-
-      return Observable.of(action.payload.visualizationObject);
-    })
-    .map(visualizationObject => new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObject));
+  // @Effect() visualizationObjectLayoutChange$: Observable<Action> = this.actions$
+  //   .ofType(VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION)
+  //   .withLatestFrom(this.store)
+  //   .flatMap(([action, store]) => {
+  //     const currentVisualizationObject = _.find(store.storeData.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+  //     if (currentVisualizationObject) {
+  //       const newVisualizationObject: Visualization = _.clone(currentVisualizationObject);
+  //
+  //       const newVisualizationObjectDetails = _.clone(currentVisualizationObject.details);
+  //
+  //       /**
+  //        * Update visualization layouts
+  //        */
+  //       newVisualizationObjectDetails.layouts = action.payload.layouts;
+  //
+  //       const favorite: any = _.find(store.storeData.favorites, ['id', newVisualizationObjectDetails.favorite.id]);
+  //       /**
+  //        * Update visualization with original favorite and custom filters
+  //        */
+  //       if (favorite) {
+  //         //todo find best way to keep some options that might have already being changed
+  //         /**
+  //          * Update chart type if chart
+  //          */
+  //
+  //         if (favorite.type) {
+  //           if (action.payload.visualizationObject.layers) {
+  //             const visualizationLayer = action.payload.visualizationObject.layers[0];
+  //
+  //             if (visualizationLayer && visualizationLayer.settings) {
+  //               if (visualizationLayer.settings.type) {
+  //                 favorite.type = visualizationLayer.settings.type;
+  //               }
+  //             }
+  //           }
+  //         }
+  //         /**
+  //          * Update with original settings
+  //          */
+  //         newVisualizationObject.layers = _.assign([], updateFavoriteWithCustomFilters(
+  //           mapFavoriteToLayerSettings(favorite),
+  //           newVisualizationObjectDetails.filters
+  //         ));
+  //       }
+  //
+  //       /**
+  //        * Compile modified list with details
+  //        */
+  //       newVisualizationObject.details = _.assign({}, newVisualizationObjectDetails);
+  //
+  //       return this.getSanitizedVisualizationObject(newVisualizationObject, store.storeData.analytics, store.uiState.systemInfo.apiRootUrl);
+  //     }
+  //
+  //     return Observable.of(action.payload.visualizationObject);
+  //   })
+  //   .map(visualizationObject => new UpdateVisualizationObjectWithRenderingObjectAction(visualizationObject));
 
   @Effect() visualizationWithMapSettings$ = this.actions$
     .ofType(fromAction.UPDATE_VISUALIZATION_WITH_MAP_SETTINGS)
