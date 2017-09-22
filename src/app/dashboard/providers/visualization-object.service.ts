@@ -168,7 +168,9 @@ export class VisualizationObjectService {
     return newVisualizationObject;
   }
 
-  splitVisualizationObject(visualizationObject: Visualization) {
+  splitVisualizationObject(visualization: Visualization) {
+    const visualizationObject: Visualization = {...visualization};
+
     const newSplitedLayers: any[] = [];
     const favoriteObjectArray = visualizationObject.layers.map(layer => {
       return layer.settings
@@ -212,24 +214,19 @@ export class VisualizationObjectService {
       }
     }
 
-    visualizationObject.layers = _.assign([], newSplitedLayers);
+    visualizationObject.layers = [...newSplitedLayers];
 
     return visualizationObject;
   }
 
   updateVisualizationWithMapSettings(apiRootUrl: string, visualization: Visualization) {
-    let visualizationObject: Visualization = {...visualization};
+    const visualizationObject: Visualization = visualization.details.type !== 'MAP' ?
+      this.splitVisualizationObject(visualization) : {...visualization};
 
-    /**
-     * Split visualization if it is not map
-     */
-    if (visualizationObject.details.type !== 'MAP') {
-      visualizationObject = this.splitVisualizationObject(visualization);
-    }
-    const dimensionArea = this._findOrgUnitDimension(visualizationObject.details.layout[0].layout);
+    const dimensionArea = this._findOrgUnitDimension(visualizationObject.details.layouts[0].layout);
     return new Observable(observer => {
       visualizationObject.details.mapConfiguration = this.mapService.getMapConfiguration(visualizationObject);
-      const geoFeaturePromises = visualizationObject.layers.map((layer: any) => {
+      const geoFeaturePromises = _.map(visualizationObject.layers, (layer: any) => {
         const visualizationFilters = getDimensionValues(layer.settings[dimensionArea], []);
         const orgUnitFilterObject = _.find(visualizationFilters ? visualizationFilters : [], ['name' , 'ou']);
         const orgUnitFilterValue = orgUnitFilterObject ? orgUnitFilterObject.value : '';

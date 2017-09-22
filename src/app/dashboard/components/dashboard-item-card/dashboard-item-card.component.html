@@ -184,17 +184,17 @@
       <!--<app-loader *ngIf="currentVisualizationType == null" [loadingMessage]="'Analysing current dashboard item..'"></app-loader>-->
       <!--chart block-->
       <app-chart
-        [visualizationObject]="localVisualizationObject"
+        [visualizationObject]="visualizationObject"
         (onChartTypeChange)="updateVisualizationWithChartType($event)"
-        *ngIf="currentVisualizationType == 'CHART' && localVisualizationObject !== null"
+        *ngIf="currentVisualizationType == 'CHART'"
       >
       </app-chart>
       <!--end of chart  block-->
 
       <!--table block-->
       <app-table
-        [visualizationObject]="localVisualizationObject"
-        *ngIf="currentVisualizationType == 'TABLE' && localVisualizationObject !== null"
+        [visualizationObject]="visualizationObject"
+        *ngIf="currentVisualizationType == 'TABLE'"
       >
       </app-table>
       <!--end of table  block-->

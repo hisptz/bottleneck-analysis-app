@@ -25,11 +25,9 @@ export class LayoutComponent implements OnInit {
   @Input() visualizationType: string;
   @Output() onLayoutUpdate = new EventEmitter();
   @Output() onLayoutClose: EventEmitter<boolean> = new EventEmitter<boolean>();
-  // @Output('drop') drop = new EventEmitter();
-  showLayout: boolean = false;
-  private _filters: any;
-  private _columns: any;
-  private _rows: any;
+  filters: any;
+  columns: any;
+  rows: any;
   icons: any;
   dimensions: any;
   columnName: string;
@@ -50,34 +48,10 @@ export class LayoutComponent implements OnInit {
     this.rowName = 'Rows'
   }
 
-  get columns(): any {
-    return this._columns;
-  }
-
-  set columns(value: any) {
-    this._columns = value;
-  }
-
-  get rows(): any {
-    return this._rows;
-  }
-
-  set rows(value: any) {
-    this._rows = value;
-  }
-
-  get filters(): any {
-    return this._filters;
-  }
-
-  set filters(value: any) {
-    this._filters = value;
-  }
-
   ngOnInit() {
-    this._filters = this.layoutModel.filters;
-    this._columns = this.layoutModel.columns;
-    this._rows = this.layoutModel.rows;
+    this.filters = this.layoutModel.filters;
+    this.columns = this.layoutModel.columns;
+    this.rows = this.layoutModel.rows;
 
     if (this.visualizationType === 'CHART') {
       this.rowName = 'Series (Y-Axis)';

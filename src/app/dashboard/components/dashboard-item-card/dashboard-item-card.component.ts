@@ -84,7 +84,6 @@ export class DashboardItemCardComponent implements OnInit {
   metadataIdentifiers: string;
   interpretationLink$: Observable<string>;
   needUpdate: boolean;
-  localVisualizationObject: Visualization = null;
   constructor(
     private store: Store<ApplicationState>,
     private visualizationObjectService: VisualizationObjectService
@@ -116,10 +115,6 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.visualizationObject.details.loaded && this.needUpdate) {
-      this.localVisualizationObject = {...this.visualizationObject};
-      this.needUpdate = false;
-    }
 
     /**
      * Set initial visualization type
@@ -293,7 +288,7 @@ export class DashboardItemCardComponent implements OnInit {
     /**
      * Change card height when toggling full screen to enable items to stretch accordingly
      */
-    const visualizationObject = {...this.localVisualizationObject};
+    const visualizationObject = {...this.visualizationObject};
     if (visualizationObject.details.showFullScreen) {
       document.getElementsByTagName('body')[0].style.overflow = 'auto';
       visualizationObject.details.cardHeight = '490px';
@@ -319,7 +314,6 @@ export class DashboardItemCardComponent implements OnInit {
       }
 
       if (selectedVisualization === 'MAP' && visualization.details.type !== 'MAP') {
-        visualization = this.visualizationObjectService.splitVisualizationObject(visualization);
         visualization.details.loaded = false;
         this.store.dispatch(new fromAction.SaveVisualization(visualization));
         this.store.select(apiRootUrlSelector)
@@ -450,21 +444,16 @@ export class DashboardItemCardComponent implements OnInit {
     this.showFilter.settings.shown = !this.showFilter.settings.shown;
   }
 
-  updateLayout(layoutOptions) {
-    const layoutOptionsArray = _.clone(this.visualizationObject.details.layouts);
+  updateLayout(layoutOptions: any) {
 
-    if (layoutOptionsArray) {
-      const newLayoutArray = _.map(layoutOptionsArray, (layoutObject) => {
-        const newLayoutObject = _.clone(layoutObject);
-        newLayoutObject.layout = _.assign({}, layoutOptions);
-        return newLayoutObject;
-      });
+    const newVisualizationObject: Visualization = {...this.visualizationObject};
 
-      this.store.dispatch(new VisualizationObjectLayoutChangeAction({
-        layouts: newLayoutArray,
-        visualizationObject: this.visualizationObject
-      }))
-    }
+    newVisualizationObject.details.layouts = _.map(newVisualizationObject.details.layouts, (layoutObject: any) => {
+      layoutObject.layout = {...layoutOptions};
+      return layoutObject;
+    });
+
+    this.store.dispatch(new fromAction.SaveVisualization(newVisualizationObject));
   }
 
   getSelectedItems(filters: any[], dimension: string) {

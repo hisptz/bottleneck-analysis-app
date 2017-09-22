@@ -21,7 +21,7 @@ export function updateVisualizationWithSettings(visualization: Visualization, se
     });
 
     newVisualization.details.filters = [...visualizationFilters];
-    newVisualization.details.layout = [...visualizationLayouts];
+    newVisualization.details.layouts = [...visualizationLayouts];
     newVisualization.details.interpretations = [...visualizationInterpretations];
 
     newVisualization.layers = [..._.map(settings.mapViews, (view: any) => {
@@ -31,7 +31,7 @@ export function updateVisualizationWithSettings(visualization: Visualization, se
   } else {
     const newSettings = {...settings};
     newVisualization.details.filters = [{id: settings.id, filters: getVisualizationFilters(settings)}];
-    newVisualization.details.layout = [{id: settings.id, layout: getVisualizationLayout(settings)}];
+    newVisualization.details.layouts = [{id: settings.id, layout: getVisualizationLayout(settings)}];
     newVisualization.details.interpretations = [{id: settings.id, interpretations: settings.interpretations}];
 
     newVisualization.layers = [{settings: newSettings}];

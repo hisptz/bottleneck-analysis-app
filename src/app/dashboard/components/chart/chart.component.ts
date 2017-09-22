@@ -54,7 +54,7 @@ export class ChartComponent implements OnInit {
   getChartObjects(visualizationObject: Visualization, chartType: string = '') {
     return visualizationObject.layers.map((layer, index) => {
       const settings = {...layer.settings};
-      const layoutObject = _.find(visualizationObject.details.layout, ['id', settings.id]);
+      const layoutObject = _.find(visualizationObject.details.layouts, ['id', settings.id]);
       let chartObject = null;
 
       if (layoutObject) {
