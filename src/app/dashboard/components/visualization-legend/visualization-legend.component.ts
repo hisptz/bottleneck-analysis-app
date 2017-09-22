@@ -4,7 +4,6 @@ import {LegendSet} from '../../model/legend-set';
 import {LegendSetService} from '../../providers/legend-set.service';
 import {TILE_LAYERS} from '../../constants/tile-layers';
 import {MapLayerEvent} from '../../constants/layer-event';
-import {APP_BASE_HREF} from '@angular/common';
 declare var shp;
 @Component({
   selector: 'app-visualization-legend',
@@ -36,11 +35,10 @@ export class VisualizationLegendComponent implements OnInit {
   layerSelectionForm: boolean = false;
   showTransparent: boolean = false;
   displayNone: boolean = false;
-  baseHref: string;
+  private baseHref = '../../../';
 
 
-  constructor(private legend: LegendSetService, @Inject(APP_BASE_HREF) public rootHref: string) {
-    this.baseHref = rootHref;
+  constructor(private legend: LegendSetService) {
   }
 
   ngOnInit() {

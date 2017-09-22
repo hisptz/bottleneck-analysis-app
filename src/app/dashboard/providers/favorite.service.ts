@@ -44,7 +44,6 @@ export class FavoriteService {
 
         visualizationDetails.favorite = this.relativePeriodService.getISOFormatFromRelativePeriod(visualizationDetails.favorite);
 
-        //todo to place period sanitizer
         observer.next(visualizationDetails);
         observer.complete();
       }, error => {
@@ -148,8 +147,7 @@ export class FavoriteService {
     return refinedSubtitle;
   }
 
-  getVisualizationFiltersFromFavorite(favoriteDetails: any) {
-    const favorite: any = _.clone(favoriteDetails.favorite);
+  getVisualizationFiltersFromFavorite(favorite: any) {
     const filters: any[] = [];
     if (favorite) {
       if (favorite.mapViews) {
@@ -201,8 +199,8 @@ export class FavoriteService {
         filters.push(filterObject)
       }
     }
-    favoriteDetails.filters = filters;
-    return favoriteDetails;
+
+    return filters;
   }
 
   private _getOptionsFromDimensions(dataDimensions) {
@@ -301,8 +299,7 @@ export class FavoriteService {
     return compiledFilters;
   }
 
-  getVisualizationLayoutFromFavorite(favoriteDetails: any) {
-    const favorite: any = favoriteDetails.favorite;
+  getVisualizationLayoutFromFavorite(favorite: any) {
     const layouts: any[] = [];
     if (favorite) {
       if (favorite.mapViews) {
@@ -323,13 +320,11 @@ export class FavoriteService {
         }
         layouts.push({id: favorite.id, layout: layout})
       }
-      favoriteDetails.layouts = layouts;
     }
-    return favoriteDetails;
+    return layouts;
   }
 
-  getVisualizationInterpretationFromFavorite(favoriteDetails) {
-    const favorite: any = favoriteDetails.favorite;
+  getVisualizationInterpretationFromFavorite(favorite: any) {
     const interpretations: any[] = [];
     if (favorite) {
       if (favorite.mapViews) {
@@ -340,9 +335,8 @@ export class FavoriteService {
 
         interpretations.push({id: favorite.id, interpretations: favorite.interpretations})
       }
-      favoriteDetails.interpretations = interpretations;
     }
-    return favoriteDetails
+    return interpretations
   }
 
   private _getDimensionLayout(dimensionArray, dataElementDimensions) {

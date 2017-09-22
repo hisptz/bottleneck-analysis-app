@@ -4,12 +4,19 @@ import {Visualization} from '../model/visualization';
 import * as _ from 'lodash';
 import {AnalyticsService} from './analytics.service';
 import {FavoriteService} from './favorite.service';
+import {GeoFeatureService} from './geo-feature.service';
+import {MapService} from './map.service';
+import {getDimensionValues} from '../../store/helpers/visualization.helpers';
 
 @Injectable()
 export class VisualizationObjectService {
 
-  constructor(private analyticsService: AnalyticsService,
-              private favoriteService: FavoriteService) {
+  constructor(
+    private analyticsService: AnalyticsService,
+    private favoriteService: FavoriteService,
+    private geoFeatureService: GeoFeatureService,
+    private mapService: MapService,
+  ) {
   }
 
   loadInitialVisualizationObject(initialDetails: any): Visualization {
@@ -28,7 +35,7 @@ export class VisualizationObjectService {
       subtitle: null,
       description: null,
       details: {
-        loaded: false,
+        loaded: this._getLoadedStatus(cardData),
         hasError: false,
         errorMessage: '',
         appKey: cardData.hasOwnProperty('appKey') ? cardData.appKey : null,
@@ -113,6 +120,11 @@ export class VisualizationObjectService {
     return cardData.type !== null && cardData.hasOwnProperty(_.camelCase(cardData.type)) ? _.isPlainObject(cardData[_.camelCase(cardData.type)]) ? cardData[_.camelCase(cardData.type)].displayName : null : null;
   }
 
+  private _getLoadedStatus(cardData) {
+    return cardData.type === 'USERS' || cardData.type === 'REPORTS' ||
+      cardData.type === 'RESOURCES' || cardData.type === 'APP' || cardData.type === 'MESSAGES';
+  }
+
   private _getLayerDetailsForNonVisualizableObject(cardData) {
     const layer: any = [];
     if (cardData.type === 'USERS' || cardData.type === 'REPORTS' || cardData.type === 'RESOURCES' || cardData.type === 'APP') {
@@ -122,13 +134,13 @@ export class VisualizationObjectService {
   }
 
   mergeVisualizationObject(visualizationObject: Visualization) {
-    const newVisualizationObject = _.clone(visualizationObject);
+    const newVisualizationObject: Visualization = {...visualizationObject};
 
     /**
      * Get visualization layers with removed undefined analytics
      */
     const initialVisualizationLayers = _.filter(newVisualizationObject.layers, (layer) => {
-      return layer && layer.analytics !== undefined;
+      return layer && layer.analytics;
     });
 
     if (initialVisualizationLayers) {
@@ -205,7 +217,53 @@ export class VisualizationObjectService {
     return visualizationObject;
   }
 
+  updateVisualizationWithMapSettings(apiRootUrl: string, visualization: Visualization) {
+    const visualizationObject: Visualization = {...visualization};
+    const dimensionArea = this._findOrgUnitDimension(visualizationObject.details.layout[0].layout);
+    return new Observable(observer => {
+      visualizationObject.details.mapConfiguration = this.mapService.getMapConfiguration(visualizationObject);
+      const geoFeaturePromises = visualizationObject.layers.map((layer: any) => {
+        const visualizationFilters = getDimensionValues(layer.settings[dimensionArea], []);
+        const orgUnitFilterObject = _.find(visualizationFilters ? visualizationFilters : [], ['name' , 'ou']);
+        const orgUnitFilterValue = orgUnitFilterObject ? orgUnitFilterObject.value : '';
+        return this.geoFeatureService.getGeoFeature1(apiRootUrl, orgUnitFilterValue);
+      });
 
+      Observable.forkJoin(geoFeaturePromises)
+        .subscribe((geoFeatureResponse: any[]) => {
+          visualizationObject.layers = visualizationObject.layers.map((layer: any, layerIndex: number) => {
+            const newLayer = {...layer};
+            if (geoFeatureResponse[layerIndex] !== null) {
+              newLayer.settings.geoFeature = [...geoFeatureResponse[layerIndex]];
+            }
+            return newLayer;
+          });
+          visualizationObject.details.loaded = true;
+          observer.next(visualizationObject);
+          observer.complete();
+        }, (error) => {
+          visualizationObject.details.hasError = true;
+          visualizationObject.details.errorMessage = error;
+          visualizationObject.details.loaded = true;
+          observer.next(visualizationObject);
+          observer.complete();
+        })
+    })
+  }
+
+  private _findOrgUnitDimension(visualizationLayout: any) {
+    let dimensionArea = '';
+
+    if (_.find(visualizationLayout.columns, ['value', 'ou'])) {
+      dimensionArea = 'columns';
+    } else if (_.find(visualizationLayout.rows, ['value', 'ou'])) {
+      dimensionArea = 'rows';
+    } else {
+      dimensionArea = 'filters'
+    }
+
+    return dimensionArea;
+  }
 
 
 }

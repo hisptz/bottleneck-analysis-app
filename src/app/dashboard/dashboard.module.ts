@@ -122,24 +122,6 @@ import {PeriodFilterModule} from '../period-filter/period-filter.module';
     DashboardShareComponent
   ],
   providers: [
-    DashboardNotificationService,
-    VisualizationObjectService,
-    FavoriteService,
-    AnalyticsService,
-    ChartService,
-    VisualizationService,
-    GeoFeatureService,
-    LegendSetService,
-    OrgunitGroupSetService,
-    MapService,
-    MapVisualizationService,
-    ColorInterpolationService,
-    TileLayers,
-    TableService,
-    VisualizerService,
-    MapFilesConversion,
-    RelativePeriodService,
-    {provide: APP_BASE_HREF, useValue: '../../../'}
   ]
 })
 export class DashboardModule { }

@@ -28,7 +28,8 @@ export class VisualizerService {
       colors: this._getChartColors(),
       plotOptions: this._getPlotOptions(chartConfiguration),
       tooltip: this._getTooltipOptions(chartConfiguration),
-      exporting: this._getChartExportingOptions()
+      exporting: this._getChartExportingOptions(),
+      // legend: this._getLegendOptions(chartConfiguration)
     };
 
     /**
@@ -50,9 +51,6 @@ export class VisualizerService {
       case 'pie':
         chartObject = this._extendPieChartOptions(chartObject, analyticsObject, chartConfiguration);
         break;
-      case 'multipleAxis':
-        // console.log('multipleAxis');
-        break;
       case 'combined':
         console.log('combined');
         break;
@@ -67,8 +65,6 @@ export class VisualizerService {
 
   private _extendSpiderWebChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
     const newChartObject = _.clone(initialChartObject);
-
-    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
 
     /**
@@ -79,15 +75,15 @@ export class VisualizerService {
     /**
      * Get y axis options
      */
-    newChartObject.yAxis = _.assign({}, this._getYAxisOptions(chartConfiguration));
+    newChartObject.yAxis = _.assign([], this._getYAxisOptions(chartConfiguration));
 
 
     /**
      * Sort the corresponding series
      */
-    const sortedSeries = this._getSortableSeries(this._getChartSeries(
+    const sortedSeries = this._getSortableSeries(this._getChartSeriesNew(
       analyticsObject,
-      xAxisCategories,
+      this._getAxisItemsNew(analyticsObject, chartConfiguration.xAxisType, true),
       yAxisSeriesItems,
       chartConfiguration
     ), chartConfiguration.cumulativeValues ? -1 : chartConfiguration.sortOrder);
@@ -115,16 +111,14 @@ export class VisualizerService {
 
   private _extendPieChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
     const newChartObject = _.clone(initialChartObject);
-
-    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
 
     /**
      * Sort the corresponding series
      */
-    const sortedSeries = this._getSortableSeries(this._getChartSeries(
+    const sortedSeries = this._getSortableSeries(this._getChartSeriesNew(
       analyticsObject,
-      xAxisCategories,
+      this._getAxisItemsNew(analyticsObject, chartConfiguration.xAxisType, true),
       yAxisSeriesItems,
       chartConfiguration
     ), chartConfiguration.sortOrder);
@@ -166,8 +160,8 @@ export class VisualizerService {
      */
       // todo find readable names for parent types that are not data, period or organisation unit
     const seriesName = parentType === 'pe' ? 'Period' :
-        parentType === 'dx' ? 'Data' :
-          parentType === 'ou' ? 'Organisation unit' : 'Categories';
+      parentType === 'dx' ? 'Data' :
+        parentType === 'ou' ? 'Organisation unit' : 'Categories';
 
     const seriesData = _.map(yAxisItems, yAxisObject => {
       return {
@@ -201,7 +195,6 @@ export class VisualizerService {
   private _extendSolidGaugeChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
     // todo make gauge chart more understanble in analyisis
     const newChartObject = _.clone(initialChartObject);
-    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
 
     /**
@@ -212,14 +205,14 @@ export class VisualizerService {
     /**
      * Get y axis options
      */
-    newChartObject.yAxis = _.assign({}, this._getYAxisOptions(chartConfiguration));
+    newChartObject.yAxis = _.assign([], this._getYAxisOptions(chartConfiguration));
 
     /**
      * Sort the corresponding series
      */
-    const sortedSeries = this._getSortableSeries(this._getChartSeries(
+    const sortedSeries = this._getSortableSeries(this._getChartSeriesNew(
       analyticsObject,
-      xAxisCategories,
+      this._getAxisItemsNew(analyticsObject, chartConfiguration.xAxisType, true),
       yAxisSeriesItems,
       chartConfiguration
     ), chartConfiguration.cumulativeValues ? -1 : chartConfiguration.sortOrder);
@@ -234,30 +227,26 @@ export class VisualizerService {
      */
     newChartObject.series = _.assign([], rearrangedSeries);
 
-    return newChartObject;
-  }
-
-  private _extendStackedChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration) {
-    const newChartObject = _.cloneDeep(initialChartObject);
     return newChartObject;
   }
 
   private _extendOtherChartOptions(initialChartObject: any, analyticsObject: any, chartConfiguration: ChartConfiguration): any {
     const newChartObject = _.clone(initialChartObject);
 
-    const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
+    // const xAxisCategories: any[] = this._getAxisItems(analyticsObject, chartConfiguration.xAxisType, true);
     const yAxisSeriesItems: any[] = this._getAxisItems(analyticsObject, chartConfiguration.yAxisType);
+
     /**
      * Get y axis options
      */
-    newChartObject.yAxis = _.assign({}, this._getYAxisOptions(chartConfiguration));
+    newChartObject.yAxis = _.assign([], this._getYAxisOptions(chartConfiguration));
 
     /**
      * Sort the corresponding series
      */
-    const sortedSeries = this._getSortableSeries(this._getChartSeries(
+    const sortedSeries = this._getSortableSeries(this._getChartSeriesNew(
       analyticsObject,
-      xAxisCategories,
+      this._getAxisItemsNew(analyticsObject, chartConfiguration.xAxisType, true),
       yAxisSeriesItems,
       chartConfiguration
     ), chartConfiguration.cumulativeValues ? -1 : chartConfiguration.sortOrder);
@@ -268,25 +257,130 @@ export class VisualizerService {
     const rearrangedSeries = this._getRearrangedSeries(sortedSeries, chartConfiguration.type);
 
     /**
+     * Update series with axis options
+     */
+    const seriesWithAxisOptions = this._updateSeriesWithAxisOptions(
+      rearrangedSeries,
+      chartConfiguration.multiAxisTypes
+    );
+
+    /**
      * Get series
      */
-    newChartObject.series = _.assign([], rearrangedSeries);
+    newChartObject.series = _.assign([], seriesWithAxisOptions);
 
     /**
      * Get refined x axis options
      */
+
     newChartObject.xAxis = this._getXAxisOptions(
-      this._getRefinedXAxisCategories(newChartObject.series),
+      this._getRefinedXAxisCategoriesNew(newChartObject.series),
       chartConfiguration.type
     );
 
+    /**
+     * Update colors by considering if series has data
+     */
+    const newColors: any[] = _.filter(
+      _.map(newChartObject.series, (seriesObject) => seriesObject.data[0].color), (color) => color);
+
+    if (newColors.length > 0) {
+      newChartObject.colors = newColors;
+    }
+
     return newChartObject;
+  }
+
+  private _updateSeriesWithAxisOptions(series: any[], multiAxisOptions: any[]) {
+    return _.map(series, (seriesObject: any) => {
+      const newSeriesObject = _.clone(seriesObject);
+      const availableAxisOption: any = _.find(multiAxisOptions, ['id', newSeriesObject.id]);
+      if (availableAxisOption) {
+        newSeriesObject.yAxis = availableAxisOption.axis === 'left' ? 0 : 1;
+        newSeriesObject.type = availableAxisOption.type !== '' ? availableAxisOption.type : seriesObject.type;
+
+        /**
+         *Also apply colors on chart
+         */
+        newSeriesObject.data = _.map(newSeriesObject.data, (dataObject) => {
+          const newDataObject = _.clone(dataObject);
+          if (availableAxisOption.color !== '') {
+            newDataObject.color = availableAxisOption.color;
+          }
+          return newDataObject
+        })
+      }
+      return newSeriesObject;
+    });
   }
 
   private _getRearrangedSeries(series: any[], chartType: string) {
     // todo find best way to rearrange charts
     // return _.indexOf(chartType, 'stacked') !== -1 || chartType === 'area' ? _.reverse(series) : series;
     return series;
+  }
+
+  private _getRefinedXAxisCategoriesNew(series: any[]) {
+    let newCategories: any[] = [];
+    // todo find a way to effectively merge categories from each data
+    if (series) {
+      const seriesDataObjects = _.map(series, (seriesObject: any) => seriesObject.data);
+
+      if (seriesDataObjects) {
+        const seriesCategoryNamesArray = _.map(seriesDataObjects, (seriesData) => {
+          return _.map(seriesData, (data) => {
+            const nameArray = data.name.split('_');
+            const newCategoryArray = [];
+            if (nameArray) {
+              const reversedNameArray = _.reverse(nameArray);
+              _.times(nameArray.length, (num: number) => {
+                if (num === 0) {
+                  newCategoryArray.push({name: reversedNameArray[num]});
+                } else {
+                  const parentCategory: any = _.find(newCategoryArray, ['name', reversedNameArray[num - 1]]);
+
+                  if (parentCategory) {
+                    const parentCategoryIndex = _.findIndex(newCategoryArray, parentCategory);
+                    let newChildrenCategories: any[] = parentCategory.categories ? parentCategory.categories : [];
+                    newChildrenCategories = _.concat(newChildrenCategories, reversedNameArray[num]);
+                    parentCategory.categories = _.assign([], newChildrenCategories);
+
+                    newCategoryArray[parentCategoryIndex] = parentCategory;
+                  }
+                }
+              });
+            }
+            return newCategoryArray[0];
+          })
+        });
+
+        if (seriesCategoryNamesArray) {
+          const groupedCategoryNames = _.groupBy(seriesCategoryNamesArray[0], 'name');
+          const categoryNameGroupKeys = _.keys(groupedCategoryNames);
+          const sanitizedCategoryNames: any[] = [];
+          _.forEach(categoryNameGroupKeys, (key: any) => {
+            const categories = _.filter(_.map(groupedCategoryNames[key], (categoryObject: any) => {
+              return categoryObject.categories ? categoryObject.categories[0] : null;
+            }), (category: any) => category !== null);
+            if (categories.length === 0) {
+              sanitizedCategoryNames.push({name: key})
+            } else {
+              sanitizedCategoryNames.push({name: key, categories: categories})
+            }
+
+          });
+
+          newCategories = _.assign([], sanitizedCategoryNames);
+        }
+      }
+    }
+
+    /**
+     * Split categories array when applicable
+     */
+
+
+    return newCategories;
   }
 
   private _getRefinedXAxisCategories(series: any[]) {
@@ -353,6 +447,89 @@ export class VisualizerService {
       })
     }
     return newSeries;
+  }
+
+  private _getChartSeriesNew(analyticsObject: AnalyticsObject,
+                             xAxisItems: any[],
+                             yAxisItems: any[],
+                             chartConfiguration: ChartConfiguration) {
+    const series: any[] = [];
+    if (yAxisItems) {
+      yAxisItems.forEach((yAxisItem, yAxisIndex) => {
+        series.push({
+          name: yAxisItem.name,
+          id: yAxisItem.id,
+          index: yAxisIndex,
+          turboThreshold: 0,
+          pointPlacement: chartConfiguration.type === 'radar' ? 'on' : undefined,
+          data: this._getSeriesDataNew(
+            analyticsObject,
+            chartConfiguration,
+            yAxisItem.id,
+            xAxisItems
+          ),
+          type: this._getAllowedChartType(chartConfiguration.type)
+        })
+      })
+    }
+    return series;
+  }
+
+  private _getSeriesDataNew(analyticsObject: AnalyticsObject,
+                            chartConfiguration: ChartConfiguration,
+                            yAxisItemId: string,
+                            xAxisItems: any[]) {
+    const data: any[] = [];
+    /**
+     * Get index to locate data for y axis
+     */
+    const yAxisItemIndex = _.findIndex(
+      analyticsObject.headers,
+      _.find(analyticsObject.headers, ['name', chartConfiguration.yAxisType]
+      ));
+
+    /**
+     * Get index for value attribute to get the data
+     */
+    const dataIndex = _.findIndex(
+      analyticsObject.headers,
+      _.find(analyticsObject.headers, ['name', 'value']
+      ));
+
+    /**
+     * Get index to locate data for x axis
+     */
+    const xAxisItemIndex = _.map(chartConfiguration.xAxisType, (xAxisType: any) => {
+      return _.findIndex(
+        analyticsObject.headers,
+        _.find(analyticsObject.headers, ['name', xAxisType]
+        ));
+    }).join('_');
+
+    if (xAxisItems) {
+      xAxisItems.forEach(xAxisItem => {
+        /**
+         * Get the required data depending on xAxis and yAxis
+         */
+        const seriesValue = this._getSeriesValueNew(
+          analyticsObject.rows,
+          yAxisItemIndex,
+          yAxisItemId,
+          xAxisItemIndex,
+          xAxisItem.id,
+          dataIndex
+        );
+
+        data.push({
+          id: xAxisItem.id,
+          name: xAxisItem.name,
+          dataLabels: this._getDataLabelsOptions(chartConfiguration),
+          y: seriesValue
+        });
+      });
+    }
+
+    return data;
   }
 
   private _getChartSeries(analyticsObject: AnalyticsObject,
@@ -433,6 +610,24 @@ export class VisualizerService {
     return data;
   }
 
+  private _getSeriesValueNew(analyticsRows, yAxisItemIndex, yAxisItemId, xAxisItemIndex, xAxisItemId, dataIndex) {
+    let seriesValue: any = null;
+
+    for (const row of analyticsRows) {
+      let xAxisRowId = '';
+      _.forEach(xAxisItemIndex.split('_'), (axisIndex: any) => {
+        xAxisRowId += xAxisRowId !== '' ? '_' : '';
+        xAxisRowId += row[axisIndex];
+      });
+      if (row[yAxisItemIndex] === yAxisItemId && xAxisRowId === xAxisItemId) {
+        seriesValue = parseFloat(row[dataIndex]);
+        break;
+      }
+    }
+
+    return seriesValue;
+  }
+
   private _getSeriesValue(analyticsRows, yAxisItemIndex, yAxisItemId, xAxisItemIndex, xAxisItemId, dataIndex) {
     let seriesValue: any = null;
     for (const row of analyticsRows) {
@@ -465,6 +660,42 @@ export class VisualizerService {
     return dataLabels;
   }
 
+  private _getAxisItemsNew(analyticsObject: any, axisTypeArray: any[], isCategory: boolean = false) {
+    let items: any[] = [];
+    const metadataNames = analyticsObject.metaData.names;
+    const metadataDimensions = analyticsObject.metaData.dimensions;
+    axisTypeArray.forEach((axisType, axisIndex) => {
+      const itemKeys = metadataDimensions[axisType];
+      if (itemKeys) {
+        if (axisIndex > 0) {
+          const availableItems = _.assign([], items);
+          items = [];
+          itemKeys.forEach(itemKey => {
+            availableItems.forEach(item => {
+              items.push({
+                id: item.id + '_' + itemKey,
+                name: item.name + '_' + metadataNames[itemKey].trim()
+              })
+            })
+          });
+        } else {
+          items = _.map(itemKeys, itemKey => {
+            return {
+              id: itemKey,
+              name: metadataNames[itemKey].trim()
+            };
+          })
+        }
+      }
+    });
+
+    // todo find best way to remove this hardcoding
+    // if (isCategory && axisType === 'pe') {
+    //   return _.reverse(items);
+    // }
+    return items;
+  }
+
   private _getAxisItems(analyticsObject: any, axisType: string, isCategory: boolean = false) {
     let items: any[] = [];
     const metadataNames = analyticsObject.metaData.names;
@@ -480,9 +711,9 @@ export class VisualizerService {
     }
 
     // todo find best way to remove this hardcoding
-    if (isCategory && axisType === 'pe') {
-      return _.reverse(items);
-    }
+    // if (isCategory && axisType === 'pe') {
+    //   return _.reverse(items);
+    // }
     return items;
   }
 
@@ -517,6 +748,7 @@ export class VisualizerService {
   }
 
   private _getChartColors(): any[] {
+
     return [
       '#A9BE3B', '#558CC0', '#D34957', '#FF9F3A',
       '#968F8F', '#B7409F', '#FFDA64', '#4FBDAE',
@@ -608,7 +840,7 @@ export class VisualizerService {
           };
           break;
         default:
-          plotOptions[plotOptionChartType] = {
+          plotOptions[plotOptionChartType !== '' ? plotOptionChartType : 'series'] = {
             showInLegend: !chartConfiguration.hideLegend
           };
 
@@ -673,9 +905,12 @@ export class VisualizerService {
     return paneOptions;
   }
 
-  private _getLegendOptions() {
+  private _getLegendOptions(chartConfiguration: ChartConfiguration) {
     return {
-      reversed: true
+      align: chartConfiguration.legendAlign,
+      reversed: chartConfiguration.reverseLegend,
+      layout: chartConfiguration.legendAlign === 'right' || chartConfiguration.legendAlign === 'left' ? 'vertical' : 'horizontal',
+      y: chartConfiguration.legendAlign === 'top' ? 0 : chartConfiguration.legendAlign === 'bottom' ? 25 : 0,
     }
   }
 
@@ -705,43 +940,87 @@ export class VisualizerService {
   }
 
   private _getYAxisOptions(chartConfiguration: ChartConfiguration) {
-    let yAxis = {
-      min: 0,
-      title: {
-        text: ''
-      }
-    };
 
-    /**
-     * Get more options depending on chart type
-     */
-    switch (chartConfiguration.type) {
-      case 'radar':
-        yAxis['gridLineInterpolation'] = 'polygon';
-        yAxis['lineWidth'] = 0;
-        break;
-      case 'solidgauge':
-        yAxis['lineWidth'] = 0;
-        yAxis['labels'] = {
-          y: 16
-        };
-        yAxis['max'] = 100;
-        break;
-      case 'stacked_column':
-        yAxis['stackLabels'] = {
-          enabled: false,
-          style: {
-            fontWeight: 'bold'
+    const yAxes: any[] = chartConfiguration.axes;
+    let newYAxes: any[] = [];
+
+    if (yAxes.length === 0) {
+      newYAxes = _.assign([], [
+        {
+          min: chartConfiguration.rangeAxisMinValue,
+          max: chartConfiguration.rangeAxisMaxValue,
+          title: {
+            text: '',
+            style: {'color': '#000000', 'fontWeight': 'normal'}
           }
-        };
-        break;
-      default:
-        yAxis['labels'] = {
-          style: {'color': '#000000', 'fontWeight': 'bold'}
-        };
-        break;
+        }
+      ]);
+    } else {
+      newYAxes = _.map(yAxes, (yAxis: any, yAxisIndex: any) => {
+        return {
+          min: chartConfiguration.rangeAxisMinValue,
+          max: chartConfiguration.rangeAxisMaxValue,
+          title: {
+            text: yAxis.name,
+            style: {'color': '#000000', 'fontWeight': 'normal'}
+          },
+          opposite: yAxis.orientation === 'left' ? false : true
+        }
+      })
     }
-    return yAxis;
+
+
+    return _.map(newYAxes, (yAxis: any) => {
+      /**
+       * Get more options depending on chart type
+       */
+      switch (chartConfiguration.type) {
+        case 'radar':
+          yAxis['gridLineInterpolation'] = 'polygon';
+          yAxis['lineWidth'] = 0;
+          break;
+        case 'solidgauge':
+          yAxis['lineWidth'] = 0;
+          yAxis['labels'] = {
+            y: 16
+          };
+          yAxis['max'] = 100;
+          break;
+        case 'stacked_column':
+          yAxis['stackLabels'] = {
+            enabled: false,
+            style: {
+              fontWeight: 'bold'
+            }
+          };
+          break;
+        default:
+          yAxis['labels'] = {
+            style: {'color': '#000000', 'fontWeight': 'bold'}
+          };
+          yAxis['plotLines'] = [{
+            color: '#000000',
+            dashStyle: 'Solid',
+            value: chartConfiguration.targetLineValue,
+            width: 2,
+            zIndex: 1000,
+            label: {
+              text: chartConfiguration.targetLineLabel
+            },
+          }, {
+            color: '#000000',
+            dashStyle: 'Solid',
+            value: chartConfiguration.baseLineValue,
+            zIndex: 1000,
+            width: 2,
+            label: {
+              text: chartConfiguration.baseLineLabel
+            },
+          }];
+          break;
+      }
+      return yAxis;
+    });
   }
 
   private _getAllowedChartType(chartType: string): string {
@@ -763,7 +1042,7 @@ export class VisualizerService {
 
     if (chartConfiguration.cumulativeValues) {
       newAnalyticsObject = _.assign({}, this._mapAnalyticsToCumulativeFormat(
-        analyticsObject, chartConfiguration.xAxisType, chartConfiguration.yAxisType));
+        analyticsObject, chartConfiguration.xAxisType[0], chartConfiguration.yAxisType));
     }
 
     return newAnalyticsObject;

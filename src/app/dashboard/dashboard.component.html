@@ -33,7 +33,7 @@
     id="{{dashboardId}}"
   >
     <div
-      *ngFor="let visualizationObject of (visualizationObjects$ | async); let i = index"
+      *ngFor="let visualizationObject of (visualizationObjects$ | async); trackBy: visualizationObject?.id"
     >
       <app-dashboard-item-card
         [globalFilters]="globalFilters"

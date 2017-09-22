@@ -1,128 +1,91 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ChartTemplateComponent} from '../chart-template/chart-template.component';
-import {ApplicationState} from '../../../store/application-state';
-import {Store} from '@ngrx/store';
-import {
-  ChartTypeChangeAction,
-  GetChartConfigurationAction, GetChartObjectAction,
-  MergeVisualizationObjectAction, VisualizationObjectOptimizedAction
-} from '../../../store/actions';
 import {Visualization} from '../../model/visualization';
 import {CHART_TYPES} from '../../constants/chart';
 import * as _ from 'lodash';
+import {ChartService} from '../../providers/chart.service';
+import {VisualizationObjectService} from '../../providers/visualization-object.service';
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.css']
+  styleUrls: ['./chart.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartComponent implements OnInit {
 
   @Input() visualizationObject: Visualization;
   @ViewChild(ChartTemplateComponent)
   chartTemplate: ChartTemplateComponent;
-  private _showOptions: boolean;
-  private _chartTypes: any[];
-  private _loaded: boolean;
-  private _chartHasError: boolean;
-  private _errorMessage: string;
-  private _chartObjects: any;
-  private _chartHeight: string;
-  constructor(private store: Store<ApplicationState>) {
-    this._chartTypes = CHART_TYPES;
-    this._showOptions = false;
-    this._loaded = false;
-    this._chartHasError = false;
-    this._chartObjects = [];
+  @Output() onChartTypeChange = new EventEmitter();
+  showOptions: boolean;
+  chartTypes: any[];
+  loaded: boolean;
+  chartHasError: boolean;
+  errorMessage: string;
+  chartObjects: any;
+  chartHeight: string;
+  currentChartType: string;
+  constructor(
+    private chartService: ChartService,
+    private visualizationObjectService: VisualizationObjectService
+  ) {
+    this.chartTypes = CHART_TYPES;
+    this.showOptions = false;
+    this.loaded = false;
+    this.chartHasError = false;
+    this.chartObjects = [];
+    this.currentChartType = '';
   }
 
   ngOnInit() {
-    this._loaded = this.visualizationObject.details.loaded;
-    this._chartHasError = this.visualizationObject.details.hasError;
-    this._errorMessage = this.visualizationObject.details.errorMessage;
-    this._chartHeight = this.visualizationObject.details.itemHeight;
-
+    this.loaded = this.visualizationObject.details.loaded;
+    this.chartHasError = this.visualizationObject.details.hasError;
+    this.errorMessage = this.visualizationObject.details.errorMessage;
+    this.chartHeight = this.visualizationObject.details.itemHeight;
+    this.showOptions = this.visualizationObject.details.showChartOptions;
     /**
      * Get chart objects
      */
     if (this.visualizationObject.details.loaded) {
-      const newChartObjects  = _.map(this.visualizationObject.layers, (layer) => { return layer.chartObject });
-      this._chartObjects =_.filter(newChartObjects, (chartObject) => {
-        return chartObject !== undefined
-      });
+      this.chartObjects = this.getChartObjects(this.visualizationObject, this.currentChartType)
     }
 
   }
 
+  getChartObjects(visualizationObject: Visualization, chartType: string = '') {
+    return visualizationObject.layers.map((layer, index) => {
+      const settings = {...layer.settings};
+      const layoutObject = _.find(visualizationObject.details.layout, ['id', settings.id]);
+      let chartObject = null;
 
-  get chartHeight(): string {
-    return this._chartHeight;
-  }
+      if (layoutObject) {
+        chartObject = this.chartService.getChartObject(
+          layer.analytics,
+          this.chartService.getChartConfiguration(
+            settings,
+            visualizationObject.id + '_' + index,
+            layoutObject.layout,
+            chartType
+          ));
+      }
 
-  set chartHeight(value: string) {
-    this._chartHeight = value;
-  }
-
-  get chartObjects(): any {
-    return this._chartObjects;
-  }
-
-  set chartObjects(value: any) {
-    this._chartObjects = value;
-  }
-
-  get errorMessage(): string {
-    return this._errorMessage;
-  }
-
-  set errorMessage(value: string) {
-    this._errorMessage = value;
-  }
-
-  get chartHasError(): boolean {
-    return this._chartHasError;
-  }
-
-  set chartHasError(value: boolean) {
-    this._chartHasError = value;
-  }
-
-  get loaded(): boolean {
-    return this._loaded;
-  }
-
-  set loaded(value: boolean) {
-    this._loaded = value;
-  }
-
-  get chartTypes(): any[] {
-    return this._chartTypes;
-  }
-
-  set chartTypes(value: any[]) {
-    this._chartTypes = value;
-  }
-
-
-  get showOptions(): boolean {
-    return this._showOptions;
-  }
-
-  set showOptions(value: boolean) {
-    this._showOptions = value;
+      return chartObject
+    }).filter((chartObject) => chartObject !== null);
   }
 
   toggleOptions(event) {
     if (event === 'mouseenter') {
-      this._showOptions = this.visualizationObject.details.showChartOptions ? true : false;
+      this.showOptions = this.visualizationObject.details.showChartOptions ? true : false;
     } else {
-      this._showOptions = false;
+      this.showOptions = false;
     }
+    console.log(this.showOptions)
   }
 
-  resize(shape?) {
+  resize(shape: string, fullScreen: boolean, height: string) {
     if (this.chartTemplate) {
-      this.chartTemplate.reflow(shape ? shape : this.visualizationObject.shape, this.visualizationObject.details.showFullScreen);
+      this.chartTemplate.reflow(shape, fullScreen, height);
     }
   }
 
@@ -132,16 +95,15 @@ export class ChartComponent implements OnInit {
     }
   }
 
-  updateChartType(chartType) {
-    this.store.dispatch(new ChartTypeChangeAction({
-      visualizationObject: this.visualizationObject,
-      chartType: chartType
-    }))
+  updateChartType(chartType: string, e) {
+    e.stopPropagation();
+    this.currentChartType = chartType;
+    this.onChartTypeChange.emit(chartType);
   }
 
   getChartError(errorMessage: string) {
-    this._chartHasError = true;
-    this._errorMessage = errorMessage;
+    this.chartHasError = true;
+    this.errorMessage = errorMessage;
   }
 
 }
