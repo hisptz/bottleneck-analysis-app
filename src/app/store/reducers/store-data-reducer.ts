@@ -6,21 +6,20 @@ import {
   DASHBOARDS_CUSTOM_SETTINGS_LOADED_ACTION, FAVORITE_OPTIONS_LOADED_ACTION,
   SAVE_TABLE_CONFIGURATION_ACTION, SAVE_TABLE_OBJECT_ACTION, VISUALIZATION_OBJECT_MERGED_ACTION,
   VISUALIZATION_OBJECT_SPLITED_ACTION, VISUALIZATION_OBJECT_DELETED_ACTION,
-  DELETE_VISUALIZATION_OBJECT_ACTION, DASHBOARDS_LOADED_ACTION, DASHBOARD_ITEM_ADDED_ACTION, DELETE_DASHBOARD_ACTION,
+  DELETE_VISUALIZATION_OBJECT_ACTION, DASHBOARDS_LOADED_ACTION, DELETE_DASHBOARD_ACTION,
   CURRENT_USER_LOADED_ACTION, CREATE_DASHBOARD_ACTION, DASHBOARD_CREATED_ACTION, EDIT_DASHBOARD_ACTION,
   DASHBOARD_EDITED_ACTION, ANALYTICS_LOADED_ACTION,
   VISUALIZATION_OBJECT_OPTIMIZED_ACTION,
   LOAD_DASHBOARD_SEARCH_ITEMS_ACTION, DASHBOARD_SEARCH_HEADERS_CHANGE_ACTION, DASHBOARD_DELETED_ACTION,
   HIDE_DASHBOARD_MENU_ITEM_NOTIFICATION_ICON, GEO_FEATURE_LOADED_ACTION, SAVE_CHART_CONFIGURATION_ACTION,
   SAVE_CHART_OBJECT_ACTION, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION,
-  UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION, VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION,
-  UPDATE_VISUALIZATION_WITH_FILTER_ACTION, UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION,
-  INITIAL_VISUALIZATION_OBJECTS_LOADED_ACTION
+  UPDATE_VISUALIZATION_OBJECT_WITH_RENDERING_OBJECT_ACTION,
+  UPDATE_VISUALIZATION_WITH_FILTER_ACTION, UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION
 } from '../actions';
 import * as fromAction from '../actions';
 import {Dashboard} from '../../model/dashboard';
 import {DashboardSearchItem} from '../../dashboard/model/dashboard-search-item';
-import {mapStateToDashboardObject, mergeRelatedItems} from '../mappers/map-state-to-dashboard';
+import {mapStateToDashboardObject} from '../mappers/map-state-to-dashboard';
 import {replaceArrayItem} from '../../utilities/replaceArrayItem';
 import {addArrayItem} from '../../utilities/addArrayItem';
 
@@ -168,9 +167,14 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
-    case INITIAL_VISUALIZATION_OBJECTS_LOADED_ACTION: {
-      const newState: StoreData = _.clone(state);
-      newState.visualizationObjects = [...newState.visualizationObjects, ...action.payload];
+    case fromAction.INITIAL_VISUALIZATION_OBJECTS_LOADED_ACTION: {
+      const newState: StoreData = {...state};
+      action.payload.forEach((visualization: Visualization) => {
+        newState.visualizationObjects = visualization.details.isNew ?
+          [visualization, ...newState.visualizationObjects] :
+          [...newState.visualizationObjects, visualization];
+      });
+
       return newState;
     }
 
@@ -713,48 +717,16 @@ export function storeDataReducer(state: StoreData = INITIAL_STORE_DATA, action) 
       return newState;
     }
 
-    case DASHBOARD_ITEM_ADDED_ACTION: {
-      const newState = _.clone(state);
-      const newDashboardItem = action.payload.dashboardItems.length > 1 ?
-        mergeRelatedItems(action.payload.dashboardItems)[0] :
-        action.payload.dashboardItems[0];
-      if (newDashboardItem) {
-        const currentDashboard = _.find(newState.dashboards, ['id', action.payload.dashboardId]);
-        if (currentDashboard) {
-          const dashboardItems = _.cloneDeep(currentDashboard.dashboardItems);
-          const currentDashboardIndex = _.findIndex(newState.dashboards, currentDashboard);
-          const availableDashboardItem = _.find(dashboardItems, ['id', newDashboardItem.id]);
+    case fromAction.UPDATE_DASHBOARD_ACTION: {
+      const newState: StoreData = {...state};
+      const dashboardIndex = _.findIndex(newState.dashboards, _.find(newState.dashboards, ['id', action.payload.id]));
 
-          /**
-           * Update for list like items .ie. users =, reports ,etc
-           */
-          if (availableDashboardItem) {
-
-            if (availableDashboardItem.type[availableDashboardItem.type.length - 1] === 'S') {
-              const availableDashboardItemIndex = _.findIndex(currentDashboard.dashboardItems, availableDashboardItem);
-
-              dashboardItems[availableDashboardItemIndex] = _.assign({}, mergeRelatedItems([newDashboardItem, availableDashboardItem])[0]);
-            }
-          } else {
-
-            if (newDashboardItem.type === 'APP') {
-              if (!_.find(dashboardItems, ['appKey', newDashboardItem.appKey])) {
-                newDashboardItem.isNew = true;
-                dashboardItems.unshift(newDashboardItem);
-              }
-            } else {
-              newDashboardItem.isNew = true;
-              dashboardItems.unshift(newDashboardItem);
-            }
-          }
-
-          currentDashboard.dashboardItems = _.cloneDeep(dashboardItems);
-
-          /**
-           * Save new changes
-           */
-          newState.dashboards[currentDashboardIndex] = _.cloneDeep(currentDashboard);
-        }
+      if (dashboardIndex !== -1) {
+        newState.dashboards = [
+          ...newState.dashboards.slice(0, dashboardIndex),
+          action.payload,
+          ...newState.dashboards.slice(dashboardIndex + 1)
+        ];
       }
       return newState;
     }

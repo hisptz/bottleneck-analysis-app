@@ -80,7 +80,7 @@ export const UPDATE_VISUALIZATION_WITH_MAP_SETTINGS = 'UPDATE_VISUALIZATION_WITH
 export const VISUALIZATION_WITH_MAP_SETTINGS_UPDATED = 'VISUALIZATION_WITH_MAP_SETTINGS_UPDATED';
 export const SAVE_VISUALIZATION = 'SAVE_VISUALIZATION';
 export const GLOBAL_FILTER_CHANGE_ACTION = 'GLOBAL_FILTER_CHANGE_ACTION';
-export const LOCAL_FILTER_CHANGE_ACTION = 'LOCAL_FILTER_CHANGE_ACTION';
+export const UPDATE_DASHBOARD_ACTION = 'UPDATE_DASHBOARD_ACTION';
 
 export class LoadSystemInfoAction implements Action {
   readonly type = LOAD_SYSTEM_INFO_ACTION;
@@ -384,4 +384,8 @@ export class SaveVisualization implements Action {
 export class GlobalFilterChangeAction implements Action {
   readonly type = GLOBAL_FILTER_CHANGE_ACTION;
   constructor(public payload: any) {}
+}
+export class UpdateDashboardAction implements Action {
+  readonly type = UPDATE_DASHBOARD_ACTION;
+  constructor(public payload: Dashboard) {}
 }

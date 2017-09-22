@@ -6,25 +6,40 @@ import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/take';
 import * as _ from 'lodash';
 import {
-  CREATE_DASHBOARD_ACTION, CURRENT_DASHBOARD_CHANGE_ACTION, CURRENT_DASHBOARD_LOADED, CURRENT_USER_LOADED_ACTION,
+  CREATE_DASHBOARD_ACTION,
+  CURRENT_DASHBOARD_CHANGE_ACTION,
+  CURRENT_DASHBOARD_LOADED,
+  CURRENT_USER_LOADED_ACTION,
   CurrentDashboardLoaded,
   CurrentDashboardSaveAction,
   DASHBOARD_CREATED_ACTION,
   DASHBOARD_DELETED_ACTION,
   DASHBOARD_GROUP_SETTINGS_UPDATE_ACTION,
-  DASHBOARD_ITEM_ADD_ACTION, DASHBOARD_ITEM_ADDED_ACTION,
+  DASHBOARD_ITEM_ADD_ACTION,
+  DASHBOARD_ITEM_ADDED_ACTION,
   DashboardCreatedAction,
   DashboardDeletedAction,
-  DashboardEditedAction, DashboardGroupSettingsUpdatedAction, DashboardItemAddedAction,
+  DashboardEditedAction,
+  DashboardGroupSettingsUpdatedAction,
+  DashboardItemAddedAction,
   DashboardNavigatedAction,
-  DashboardNavigationAction, DashboardsCustomSettingsLoadedAction, DashboardSearchItemsLoadedAction,
+  DashboardNavigationAction,
+  DashboardsCustomSettingsLoadedAction,
+  DashboardSearchItemsLoadedAction,
   DashboardsLoadedAction,
-  DELETE_DASHBOARD_ACTION, DELETE_VISUALIZATION_OBJECT_ACTION, EDIT_DASHBOARD_ACTION,
-  ErrorOccurredAction, InitialVisualizationObjectsLoadedAction, LOAD_CURRENT_DASHBOARD,
+  DELETE_DASHBOARD_ACTION,
+  DELETE_VISUALIZATION_OBJECT_ACTION,
+  EDIT_DASHBOARD_ACTION,
+  ErrorOccurredAction,
+  InitialVisualizationObjectsLoadedAction,
+  LOAD_CURRENT_DASHBOARD,
   LOAD_DASHBOARD_SEARCH_ITEMS_ACTION,
-  LOAD_DASHBOARDS_ACTION, LOAD_DASHBOARDS_CUSTOM_SETTINGS_ACTION, LoadCurrentDashboard, LoadDashboardsAction, NAVIGATE_DASHBOARD_ACTION,
+  LOAD_DASHBOARDS_ACTION,
+  LOAD_DASHBOARDS_CUSTOM_SETTINGS_ACTION,
+  LoadCurrentDashboard,
+  LoadDashboardsAction,
+  NAVIGATE_DASHBOARD_ACTION,
   NavigateDashboardAction,
-  RESIZE_DASHBOARD_ACTION,
   VisualizationObjectDeletedAction
 } from '../actions';
 import * as fromAction from '../actions';
@@ -34,6 +49,7 @@ import {Dashboard} from '../../model/dashboard';
 import {Router} from '@angular/router';
 import {Visualization} from '../../dashboard/model/visualization';
 import {VisualizationObjectService} from '../../dashboard/providers/visualization-object.service';
+import {mergeRelatedItems} from '../mappers/map-state-to-dashboard';
 
 @Injectable()
 export class DashboardEffect {
@@ -167,8 +183,86 @@ export class DashboardEffect {
 
   @Effect() dashboardItemAdded$: Observable<Action> = this.actions$
     .ofType(DASHBOARD_ITEM_ADDED_ACTION)
-    .switchMap(() => Observable.of(null))
-    .map(() => new LoadCurrentDashboard());
+    .withLatestFrom(this.store)
+    .switchMap(([action, store]: [any, ApplicationState]) => {
+      const newDashboardItem: any = action.payload.dashboardItems.length > 1 ?
+        mergeRelatedItems(action.payload.dashboardItems)[0] :
+        action.payload.dashboardItems[0];
+
+      const currentDashboard = _.find(store.storeData.dashboards, ['id', action.payload.dashboardId]);
+      if (newDashboardItem) {
+        if (currentDashboard) {
+          const availableDashboardItem = _.find(currentDashboard.dashboardItems, ['id', newDashboardItem.id]);
+
+          /**
+           * Update for list like items .ie. users , reports ,etc
+           */
+          if (availableDashboardItem) {
+
+            if (availableDashboardItem.type[availableDashboardItem.type.length - 1] === 'S') {
+              const availableDashboardItemIndex = _.findIndex(currentDashboard.dashboardItems, availableDashboardItem);
+
+              /**
+               * Update the item in its corresponding dashboard
+               * @type {[any , {} , any]}
+               */
+              const mergedDashboardItem: any = {...mergeRelatedItems([newDashboardItem, availableDashboardItem])[0]};
+              currentDashboard.dashboardItems = [
+                ...currentDashboard.dashboardItems.slice(0, availableDashboardItemIndex),
+                mergedDashboardItem,
+                ...currentDashboard.dashboardItems.slice(availableDashboardItemIndex + 1)
+              ];
+
+              /**
+               * Also update its associated visualization object
+               */
+              this.store.dispatch(new fromAction.SaveVisualization(this.visualizationObjectService.loadInitialVisualizationObject({
+                dashboardItem: mergedDashboardItem,
+                favoriteOptions: [],
+                dashboardId: action.payload.dashboardId,
+                currentUser: store.storeData.currentUser,
+                apiRootUrl: store.uiState.systemInfo.apiRootUrl,
+                isNew: false
+              })))
+            }
+          } else {
+
+            if (newDashboardItem.type === 'APP') {
+              if (!_.find(currentDashboard.dashboardItems, ['appKey', newDashboardItem.appKey])) {
+                newDashboardItem.isNew = true;
+                currentDashboard.dashboardItems = [newDashboardItem, ...currentDashboard.dashboardItems];
+
+                this.store.dispatch(new fromAction.InitialVisualizationObjectsLoadedAction(
+                  [this.visualizationObjectService.loadInitialVisualizationObject({
+                    dashboardItem: newDashboardItem,
+                    favoriteOptions: [],
+                    dashboardId: action.payload.dashboardId,
+                    currentUser: store.storeData.currentUser,
+                    apiRootUrl: store.uiState.systemInfo.apiRootUrl,
+                    isNew: true
+                  })]))
+              }
+            } else {
+              newDashboardItem.isNew = true;
+              currentDashboard.dashboardItems = [newDashboardItem, ...currentDashboard.dashboardItems];
+
+              this.store.dispatch(new fromAction.InitialVisualizationObjectsLoadedAction(
+                [this.visualizationObjectService.loadInitialVisualizationObject({
+                  dashboardItem: newDashboardItem,
+                  favoriteOptions: [],
+                  dashboardId: action.payload.dashboardId,
+                  currentUser: store.storeData.currentUser,
+                  apiRootUrl: store.uiState.systemInfo.apiRootUrl,
+                  isNew: true
+                })]))
+            }
+          }
+        }
+      }
+
+      return Observable.of(currentDashboard);
+    })
+    .map((dashboard: Dashboard) => new fromAction.UpdateDashboardAction(dashboard));
 
   @Effect() deleteVisualizationObject$: Observable<Action> = this.actions$
     .ofType(DELETE_VISUALIZATION_OBJECT_ACTION)

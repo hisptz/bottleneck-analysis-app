@@ -3,12 +3,8 @@ import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../../store/application-state';
 import {Observable} from 'rxjs/Observable';
 import {dashboardSearchItemsSelector} from '../../../store/selectors/dashboard-search-item.selector';
-import {
-  DashboardItemAddAction, DashboardItemSearchAction, DashboardSearchHeaderChangeAction,
-  LoadDashboardSearchItemsAction
-} from '../../../store/actions';
+import * as fromAction from '../../../store/actions';
 import {DASHBOARD_TYPES} from '../../constants/visualization';
-import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector';
 import {ActivatedRoute} from '@angular/router';
 import * as _ from 'lodash';
 
@@ -42,7 +38,7 @@ export class DashboardItemSearchComponent implements OnInit {
   search(searchText) {
     if (this.searchText.trim() !== '') {
       this.showBody = true;
-      this.store.dispatch(new LoadDashboardSearchItemsAction(searchText))
+      this.store.dispatch(new fromAction.LoadDashboardSearchItemsAction(searchText))
     } else {
       this.showBody = false
     }
@@ -59,11 +55,11 @@ export class DashboardItemSearchComponent implements OnInit {
 
     const newHeader = _.cloneDeep(header);
     newHeader.selected = !newHeader.selected;
-    this.store.dispatch(new DashboardSearchHeaderChangeAction({header: newHeader, multipleSelection: event.ctrlKey ? true : false}))
+    this.store.dispatch(new fromAction.DashboardSearchHeaderChangeAction({header: newHeader, multipleSelection: event.ctrlKey ? true : false}))
   }
 
   addDashboardItem(dashboardItemData) {
     this.showBody = false;
-    this.store.dispatch(new DashboardItemAddAction(dashboardItemData))
+    this.store.dispatch(new fromAction.DashboardItemAddAction(dashboardItemData))
   }
 }
