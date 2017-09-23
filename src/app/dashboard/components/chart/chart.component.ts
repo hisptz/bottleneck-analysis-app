@@ -38,7 +38,6 @@ export class ChartComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.visualizationObject)
     this.loaded = this.visualizationObject.details.loaded;
     this.chartHasError = this.visualizationObject.details.hasError;
     this.errorMessage = this.visualizationObject.details.errorMessage;
@@ -47,7 +46,6 @@ export class ChartComponent implements OnInit {
      * Get chart objects
      */
     if (this.visualizationObject.details.loaded) {
-      console.log(this.visualizationObject.details.loaded)
       this.chartObjects = this.getChartObjects(this.visualizationObject, this.currentChartType)
     }
 

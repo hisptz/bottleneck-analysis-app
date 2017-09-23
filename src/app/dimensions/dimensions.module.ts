@@ -17,12 +17,14 @@ import {DataService} from './providers/data.service';
 import {LocalStorageService} from './providers/local-storage.service';
 import {ClickOutsideDirective} from './directives/click-outside.directive';
 import {FuseSearchPipe} from './pipes/fuse-search.pipe';
+import {DragulaModule} from 'ng2-dragula';
 
 @NgModule({
   imports: [
     CommonModule,
     TreeModule,
     FormsModule,
+    DragulaModule,
     Ng2PaginationModule,
     DndModule.forRoot()
   ],

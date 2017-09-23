@@ -1,10 +1,8 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from '../store/application-state';
 import {ActivatedRoute} from '@angular/router';
-import {
-  CurrentDashboardChangeAction, GlobalFilterChangeAction, LoadCurrentDashboard
-} from '../store/actions';
+import * as fromAction from '../store/actions';
 import {Observable} from 'rxjs/Observable';
 import {currentDashboardNameSelector} from '../store/selectors/current-dashboard-name.selector';
 import {Visualization} from './model/visualization';
@@ -49,15 +47,18 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.dashboardId = params.id;
-      this.store.dispatch(new CurrentDashboardChangeAction(params.id));
+
       this.store.select(dashboardLoadedSelector)
-        .first((loaded: boolean) => loaded)
-        .subscribe(dashboardLoaded => this.store.dispatch(new LoadCurrentDashboard()))
+        .subscribe(dashboardLoaded => {
+          if (dashboardLoaded) {
+            this.store.dispatch(new fromAction.LoadCurrentDashboard(params.id))
+          }
+        })
     })
   }
 
   updateFilters(filterData) {
-    this.store.dispatch(new GlobalFilterChangeAction({dashboardId: this.dashboardId, filterObject: filterData}));
+    this.store.dispatch(new fromAction.GlobalFilterChangeAction({dashboardId: this.dashboardId, filterObject: filterData}));
   }
 
 }

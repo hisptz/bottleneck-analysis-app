@@ -11,7 +11,6 @@ export const LOAD_CURRENT_USER_ACTION = 'LOAD_CURRENT_USER_ACTION';
 export const LOAD_DASHBOARDS_ACTION = 'LOAD_DASHBOARDS_ACTION';
 export const CURRENT_USER_LOADED_ACTION = 'CURRENT_USER_LOADED_ACTION';
 export const DASHBOARDS_LOADED_ACTION = 'DASHBOARDS_LOADED_ACTION';
-export const CURRENT_DASHBOARD_CHANGE_ACTION = 'CURRENT_DASHBOARD_CHANGE_ACTION';
 export const LOAD_DASHBOARD_NOTIFICATION_ACTION = 'LOAD_DASHBOARD_NOTIFICATION_ACTION';
 export const DASHBOARD_NOTIFICATION_LOADED_ACTION = 'DASHBOARD_NOTIFICATION_LOADED_ACTION';
 export const CREATE_DASHBOARD_ACTION = 'CREATE_DASHBOARD_ACTION';
@@ -20,19 +19,14 @@ export const DASHBOARD_CREATED_ACTION = 'DASHBOARD_CREATED_ACTION';
 export const DASHBOARD_EDITED_ACTION = 'DASHBOARD_EDITED_ACTION';
 export const DELETE_DASHBOARD_ACTION = 'DELETE_DASHBOARD_ACTION';
 export const DASHBOARD_DELETED_ACTION = 'DASHBOARD_DELETED_ACTION';
-export const LOAD_INITIAL_VISUALIZATION_OBJECTS_ACTION = 'LOAD_INITIAL_VISUALIZATION_OBJECTS_ACTION';
 export const INITIAL_VISUALIZATION_OBJECTS_LOADED_ACTION = 'INITIAL_VISUALIZATION_OBJECTS_LOADED_ACTION';
-export const LOAD_VISUALIZATION_OPTIONS_ACTION = 'LOAD_VISUALIZATION_OPTIONS_ACTION';
-export const VISUALIZATION_OPTIONS_LOADED_ACTION = 'VISUALIZATION_OPTIONS_LOADED_ACTION';
 export const RESIZE_DASHBOARD_ACTION = 'RESIZE_DASHBOARD_ACTION';
 export const LOAD_FAVORITE_ACTION = 'LOAD_FAVORITE_ACTION';
 export const FAVORITE_LOADED_ACTION = 'FAVORITE_LOADED_ACTION';
-export const GET_VISUALIZATION_FILTER_ACTION = 'GET_VISUALIZATION_FILTER_ACTION';
 export const UPDATE_VISUALIZATION_WITH_FILTER_ACTION = 'UPDATE_VISUALIZATION_WITH_FILTER_ACTION';
 export const UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION = 'UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION';
 export const UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION = 'UPDATE_VISUALIZATION_WITH_LAYOUT_ACTION';
 export const LOAD_ANALYTICS_ACTION = 'LOAD_ANALYTICS_ACTION';
-export const ANALYTICS_LOADED_ACTION = 'ANALYTICS_LOADED_ACTION';
 export const SAVE_CHART_CONFIGURATION_ACTION = 'SAVE_CHART_CONFIGURATION_ACTION';
 export const SAVE_TABLE_CONFIGURATION_ACTION = 'SAVE_TABLE_CONFIGURATION_ACTION';
 export const SAVE_MAP_CONFIGURATION_ACTION = 'SAVE_MAP_CONFIGURATION_ACTION';
@@ -44,7 +38,6 @@ export const GEO_FEATURE_LOADED_ACTION = 'GEO_FEATURE_LOADED_ACTION';
 export const LEGEND_SET_LOADED_ACTION = 'LEGEND_SET_LOADED_ACTION';
 export const SAVE_FAVORITE_ACTION = 'SAVE_FAVORITE_ACTION';
 export const FAVORITE_SAVED_ACTION = 'FAVORITE_SAVED_ACTION';
-export const GLOBAL_FILTER_UPDATE_ACTION = 'GLOBAL_FILTER_UPDATE_ACTION';
 export const FULL_SCREEN_TOGGLE_ACTION = 'FULL_SCREEN_TOGGLE_ACTION';
 export const LOAD_FAVORITE_OPTIONS_ACTION = 'LOAD_FAVORITE_OPTIONS_ACTION';
 export const FAVORITE_OPTIONS_LOADED_ACTION = 'FAVORITE_OPTIONS_LOADED_ACTION';
@@ -119,11 +112,6 @@ export class LoadDashboardsAction implements Action {
 export class DashboardsLoadedAction implements Action {
   readonly type = DASHBOARDS_LOADED_ACTION;
   constructor(public payload: Dashboard[]) {}
-}
-
-export class CurrentDashboardChangeAction implements Action {
-  readonly type = CURRENT_DASHBOARD_CHANGE_ACTION;
-  constructor(public payload: string) {}
 }
 
 export class LoadDashboardNotificationAction implements Action {
@@ -206,11 +194,6 @@ export class LoadAnalyticsAction implements Action {
   constructor(public payload: any) {}
 }
 
-export class AnalyticsLoadedAction implements Action {
-  readonly type = ANALYTICS_LOADED_ACTION;
-  constructor(public payload: any) {}
-}
-
 export class FavoriteAdditionalOptionsLoadedAction implements Action {
   readonly type = FAVORITE_ADDITIONAL_OPTIONS_LOADED_ACTION;
   constructor(public payload: any) {}
@@ -262,11 +245,6 @@ export class DashboardGroupSettingsUpdatedAction implements Action {
   constructor(public payload: any) {}
 }
 
-export class CurrentVisualizationChangeAction implements Action {
-  readonly type = CURRENT_VISUALIZATION_CHANGE_ACTION;
-  constructor(public payload: any) {}
-}
-
 export class VisualizationObjectSplitedAction implements Action {
   readonly type = VISUALIZATION_OBJECT_SPLITED_ACTION;
 
@@ -291,12 +269,6 @@ export class DashboardSearchItemsLoadedAction implements Action {
   constructor(public payload: any) {}
 }
 
-export class DashboardItemSearchAction implements Action {
-  readonly type = DASHBOARD_ITEM_SEARCH_ACTION;
-
-  constructor(public payload: string) {}
-}
-
 export class DashboardItemAddAction implements Action {
   readonly type = DASHBOARD_ITEM_ADD_ACTION;
 
@@ -316,11 +288,6 @@ export class DeleteVisualizationObjectAction implements Action {
 
 export class VisualizationObjectDeletedAction implements Action {
   readonly type = VISUALIZATION_OBJECT_DELETED_ACTION;
-  constructor(public payload: any) {}
-}
-
-export class NavigateDashboardAction implements Action {
-  readonly type = NAVIGATE_DASHBOARD_ACTION;
   constructor(public payload: any) {}
 }
 
@@ -344,16 +311,6 @@ export class UpdateVisualizationObjectWithRenderingObjectAction implements Actio
   constructor(public payload: any) {}
 }
 
-export class VisualizationObjectLayoutChangeAction implements Action {
-  readonly type = VISUALIZATION_OBJECT_LAYOUT_CHANGE_ACTION;
-  constructor(public payload: any) {}
-}
-
-export class CurrentDashboardSaveAction implements Action {
-  readonly type = CURRENT_DASHBOARD_SAVE_ACTION;
-  constructor(public payload: any) {}
-}
-
 export class UpdateVisualizationWithInterpretationAction implements Action {
   readonly type = UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION;
   constructor(public payload: any) {}
@@ -361,16 +318,9 @@ export class UpdateVisualizationWithInterpretationAction implements Action {
 
 export class LoadCurrentDashboard implements Action {
   readonly type = LOAD_CURRENT_DASHBOARD;
+  constructor(public payload: string) {}
 }
 
-export class CurrentDashboardLoaded implements Action {
-  readonly type = CURRENT_DASHBOARD_LOADED;
-  constructor(public payload: Dashboard) {}
-}
-
-export class DashboardNavigationAction implements Action {
-  readonly type = DASHBOARD_NAVIGATION_ACTION;
-}
 
 export class UpdateVisualizationWithMapSettings implements Action {
   readonly type = UPDATE_VISUALIZATION_WITH_MAP_SETTINGS;

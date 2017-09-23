@@ -282,19 +282,21 @@ export class DashboardItemCardComponent implements OnInit {
     /**
      * Change card height when toggling full screen to enable items to stretch accordingly
      */
-    const visualizationObject = {...this.visualizationObject};
-    if (visualizationObject.details.showFullScreen) {
+    const visualizationObject: Visualization = {...this.visualizationObject};
+    const visualizationDetails: any = {...this.visualizationObject.details};
+    if (visualizationDetails.showFullScreen) {
       document.getElementsByTagName('body')[0].style.overflow = 'auto';
-      visualizationObject.details.cardHeight = '490px';
-      visualizationObject.details.itemHeight = '465px';
+      visualizationDetails.cardHeight = '490px';
+      visualizationDetails.itemHeight = '465px';
     } else {
       document.getElementsByTagName('body')[0].style.overflow = 'hidden';
-      visualizationObject.details.cardHeight = '97vh';
-      visualizationObject.details.itemHeight = '93vh';
+      visualizationDetails.cardHeight = '97vh';
+      visualizationDetails.itemHeight = '93vh';
     }
 
-    visualizationObject.details.showFullScreen = !visualizationObject.details.showFullScreen;
+    visualizationDetails.showFullScreen = !visualizationDetails.showFullScreen;
 
+    visualizationObject.details = {...visualizationDetails};
     this.store.dispatch(new fromAction.FullScreenToggleAction(visualizationObject));
   }
 
@@ -472,13 +474,19 @@ export class DashboardItemCardComponent implements OnInit {
 
     visualization.layers = _.map(visualization.layers, (layer: any) => {
       const newLayer = _.clone(layer);
-      newLayer.settings.type = chartType;
+      const newSettings: any = {...layer.settings};
+      newSettings.type = chartType;
+
+      newLayer.settings = {...newSettings};
       return newLayer;
     });
 
     visualization.operatingLayers = _.map(visualization.layers, (layer: any) => {
       const newLayer = _.clone(layer);
-      newLayer.settings.type = chartType;
+      const newSettings: any = {...layer.settings};
+      newSettings.type = chartType;
+
+      newLayer.settings = {...newSettings};
       return newLayer;
     });
 

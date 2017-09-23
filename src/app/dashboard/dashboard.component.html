@@ -51,8 +51,14 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="(dashboardLoaded$ | async) && (visualizationObjects$ | async).length === 0">
+  <div class="row" *ngIf="(visualizationObjects$ | async).length === 0" style="margin-top: 70px;">
     <div class="col-md-12">
+      <div class="row" *ngIf="!(dashboardLoaded$ | async)">
+        <div class="col-md-8 col-md-offset-2">
+          <span><img src="assets/img/balls-3.svg" alt="" style="height: 40px;"></span>
+          <span style="font-size: 20px;">Moving interactive visualizations into position</span>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <div class="message-container">
@@ -67,14 +73,6 @@
 
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="row" *ngIf="!(dashboardLoaded$ | async)">
-    <div class="col-md-12">
-      <app-loader
-        [loadingMessage]="'Loading Dashboards'"
-      ></app-loader>
     </div>
   </div>
 </div>

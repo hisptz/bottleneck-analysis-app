@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Dashboard} from '../../../model/dashboard';
 import {ApplicationState} from '../../../store/application-state';
 import {Store} from '@ngrx/store';
-import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector';
 import {CreateDashboardAction} from '../../../store/actions';
 
 @Component({
@@ -15,7 +14,7 @@ export class CreateDashboardComponent implements OnInit {
 
   createDashboardForm: FormGroup;
   submitted: boolean = false;
-  @Output() onDashboardCreate: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() onDashboardCreate: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
     private store: Store<ApplicationState>,
     private formGroup: FormBuilder,
@@ -34,12 +33,7 @@ export class CreateDashboardComponent implements OnInit {
   save(dashboardData: Dashboard) {
     this.submitted = true;
     this.createDashboardForm.reset();
-    this.store.select(apiRootUrlSelector).subscribe((apiRootUrl: string) => {
-      if (apiRootUrl !== '') {
-        this.store.dispatch(new CreateDashboardAction({apiRootUrl: apiRootUrl, dashboardData: dashboardData}))
-      }
-    });
-
+    this.store.dispatch(new CreateDashboardAction(dashboardData));
     this.onDashboardCreate.emit(true)
   }
 }

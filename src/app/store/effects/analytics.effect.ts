@@ -46,10 +46,11 @@ export class AnalyticsEffect {
     .ofType(fromAction.LOAD_ANALYTICS_ACTION)
     .withLatestFrom(this.store)
     .flatMap(([action, store]: [any, ApplicationState]) => {
-      const visualization: Visualization = action.payload;
-      const visualizationLayers: any[] = visualization.layers;
+      const visualization: Visualization = {...action.payload};
+      const visualizationDetails: any = {...visualization.details};
+      const visualizationLayers: any[] = [...visualization.layers];
       const analyticsPromises = _.map(visualizationLayers, (visualizationLayer: any) => {
-        const visualizationFilter = _.find(visualization.details.filters, ['id', visualizationLayer.settings.id]);
+        const visualizationFilter = _.find(visualizationDetails.filters, ['id', visualizationLayer.settings.id]);
         return this.analyticsService.getAnalytics(
           store.uiState.systemInfo.apiRootUrl,
           visualizationLayer.settings,
@@ -61,7 +62,7 @@ export class AnalyticsEffect {
       return new Observable((observer) => {
         Observable.forkJoin(analyticsPromises)
           .subscribe((analyticsResponse: any[]) => {
-            visualization.details.loaded = visualization.details.currentVisualization === 'MAP' ? false : true;
+            visualizationDetails.loaded = visualization.details.currentVisualization === 'MAP' ? false : true;
             visualization.layers = [..._.map(visualizationLayers, (visualizationLayer: any, layerIndex: number) => {
               const newVisualizationLayer: any = {...visualizationLayer};
               const analytics = {...analyticsResponse[layerIndex]};
@@ -71,12 +72,15 @@ export class AnalyticsEffect {
               }
               return newVisualizationLayer;
             })];
+
+            visualization.details = {...visualizationDetails};
             observer.next(visualization);
             observer.complete();
           }, (error) => {
-            visualization.details.loaded = true;
-            visualization.details.hasError = true;
-            visualization.details.errorMessage = error;
+            visualizationDetails.loaded = true;
+            visualizationDetails.hasError = true;
+            visualizationDetails.errorMessage = error;
+            visualization.details = {...visualizationDetails};
             observer.next(visualization);
             observer.complete();
           });

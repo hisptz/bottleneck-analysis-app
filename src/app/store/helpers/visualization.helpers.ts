@@ -4,25 +4,29 @@ import {Visualization} from '../../dashboard/model/visualization';
 export function updateVisualizationWithSettings(visualization: Visualization, settings: any) {
   const newVisualization: Visualization = {...visualization};
 
+  const visualizationDetails: any = {...newVisualization.details};
   if (settings.mapViews) {
     let visualizationFilters = [];
     let visualizationLayouts = [];
     let visualizationInterpretations = [];
-    if (newVisualization.details.currentVisualization === 'MAP') {
-      newVisualization.details.basemap = settings.basemap;
-      newVisualization.details.zoom = settings.zoom;
-      newVisualization.details.latitude = settings.latitude;
-      newVisualization.details.longitude = settings.longitude;
+    if (visualizationDetails.currentVisualization === 'MAP') {
+      visualizationDetails.basemap = settings.basemap;
+      visualizationDetails.zoom = settings.zoom;
+      visualizationDetails.latitude = settings.latitude;
+      visualizationDetails.longitude = settings.longitude;
     }
     settings.mapViews.forEach((view: any) => {
       visualizationFilters = [...visualizationFilters, {id: view.id, filters: getVisualizationFilters(view)}];
       visualizationLayouts = [...visualizationLayouts, {id: view.id, layout: getVisualizationLayout(view)}];
-      visualizationInterpretations = [...visualizationInterpretations, {id: view.id, interpretations: view.interpretations}];
+      visualizationInterpretations = [...visualizationInterpretations, {
+        id: view.id,
+        interpretations: view.interpretations
+      }];
     });
 
-    newVisualization.details.filters = [...visualizationFilters];
-    newVisualization.details.layouts = [...visualizationLayouts];
-    newVisualization.details.interpretations = [...visualizationInterpretations];
+    visualizationDetails.filters = [...visualizationFilters];
+    visualizationDetails.layouts = [...visualizationLayouts];
+    visualizationDetails.interpretations = [...visualizationInterpretations];
 
     newVisualization.layers = [..._.map(settings.mapViews, (view: any) => {
       const newView: any = {...view};
@@ -30,13 +34,14 @@ export function updateVisualizationWithSettings(visualization: Visualization, se
     })];
   } else {
     const newSettings = {...settings};
-    newVisualization.details.filters = [{id: settings.id, filters: getVisualizationFilters(settings)}];
-    newVisualization.details.layouts = [{id: settings.id, layout: getVisualizationLayout(settings)}];
-    newVisualization.details.interpretations = [{id: settings.id, interpretations: settings.interpretations}];
+    visualizationDetails.filters = [{id: settings.id, filters: getVisualizationFilters(settings)}];
+    visualizationDetails.layouts = [{id: settings.id, layout: getVisualizationLayout(settings)}];
+    visualizationDetails.interpretations = [{id: settings.id, interpretations: settings.interpretations}];
 
     newVisualization.layers = [{settings: newSettings}];
   }
 
+  newVisualization.details = {...visualizationDetails};
   return newVisualization;
 }
 
@@ -211,29 +216,33 @@ export function getVisualizationSettingsUrl(apiRootUrl: string, visualizationTyp
 
 export function updateVisualizationWithCustomFilters(visualization: Visualization, customfilterObject: any) {
   const newVisualization: Visualization = _.cloneDeep(visualization);
-  const filterArray = visualization.details.filters;
+  const filterArray: any[] = [...visualization.details.filters];
 
-  if (filterArray) {
-    filterArray.forEach(filterObject => {
-      filterObject.filters.forEach(filter => {
-        if (customfilterObject.name === filter.name) {
-          filter.value = customfilterObject.value;
-          filter.items = mapFilterItemsToFavoriteFormat(customfilterObject.items, filter.name);
-        }
-      })
-    })
-  }
+  const newFilterArray: any[] = filterArray.map((filterObject: any) => {
+    const newFilterObject: any = {...filterObject};
+    const newFilters = filterObject.filters.map((filter: any) => {
+      const newFilter: any = {...filter};
+      if (customfilterObject.name === newFilter.name) {
+        newFilter.value = customfilterObject.value;
+        newFilter.items = [...mapFilterItemsToFavoriteFormat(customfilterObject.items, filter.name)];
+      }
+      return newFilter;
+    });
 
-  newVisualization.details.filters = [...filterArray];
+    newFilterObject.filters = [...newFilters];
+    return newFilterObject;
+  });
+
+  newVisualization.details.filters = [...newFilterArray];
 
   // TODO FIND BEST WAY TO MAKE FILTER CHANGES CONSISTENCE
   /**
    * Also update layers with filters
    */
 
-  newVisualization.operatingLayers = updateLayersWithCustomFilters(newVisualization.operatingLayers, filterArray);
+  newVisualization.operatingLayers = [...updateLayersWithCustomFilters(newVisualization.operatingLayers, filterArray)];
 
-  newVisualization.layers = newVisualization.operatingLayers;
+  newVisualization.layers = [...newVisualization.operatingLayers];
 
   return newVisualization;
 }

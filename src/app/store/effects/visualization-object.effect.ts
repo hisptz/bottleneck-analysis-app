@@ -25,10 +25,6 @@ export class VisualizationObjectEffect {
     private actions$: Actions,
     private store: Store<ApplicationState>,
     private visualizationObjectService: VisualizationObjectService,
-    private chartService: ChartService,
-    private geoFeatureService: GeoFeatureService,
-    private mapService: MapService,
-    private tableService: TableService
   ) {}
 
   @Effect({dispatch: false}) loadedVisualizationObject$: Observable<Action> = this.actions$

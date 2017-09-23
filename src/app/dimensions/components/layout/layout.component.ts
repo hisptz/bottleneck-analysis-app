@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {isArray} from "rxjs/util/isArray";
 import {INITIAL_LAYOUT_MODEL} from '../../model/layout-model';
+import {DragulaService} from 'ng2-dragula';
 
 export interface Header {
   name: string;
@@ -32,7 +33,7 @@ export class LayoutComponent implements OnInit {
   dimensions: any;
   columnName: string;
   rowName: string;
-  constructor() {
+  constructor(private dragulaService: DragulaService) {
     this.icons = {
       dx: 'assets/img/data.png',
       ou: 'assets/img/tree.png',
@@ -49,10 +50,7 @@ export class LayoutComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filters = this.layoutModel.filters;
-    this.columns = this.layoutModel.columns;
-    this.rows = this.layoutModel.rows;
-
+    this.updateLayoutDimensions();
     if (this.visualizationType === 'CHART') {
       this.rowName = 'Series (Y-Axis)';
       this.columnName = 'Categories (X-axis)';
@@ -62,26 +60,16 @@ export class LayoutComponent implements OnInit {
   onDrop(event, dimension) {
     this.layoutModel[event.dragData.dimension].splice(this.layoutModel[event.dragData.dimension].indexOf(event.dragData.data), 1);
     this.layoutModel[dimension].push(event.dragData.data)
+  }
 
-    // if(dimension == 'category' || dimension == 'series') {
-    //   if(this.layoutModel[dimension] != "") {
-    //     //first send target value to the dropper
-    //     if(isArray(this.layoutModel[event.dragData.dimension])) {
-    //       this.layoutModel[event.dragData.dimension].push(this.layoutModel[dimension])
-    //     } else {
-    //       this.layoutModel[event.dragData.dimension] = this.layoutModel[dimension];
-    //     }
-    //   }
-    //   this.layoutModel[dimension] = event.dragData.data;
-    // } else {
-    //   if(event.dragData.dimension == 'category' || event.dragData.dimension == 'series') {
-    //     this.layoutModel[event.dragData.dimension] = "";
-    //   }
-    //
-    // }
+  updateLayoutDimensions() {
+    this.filters = this.layoutModel.filters;
+    this.columns = this.layoutModel.columns;
+    this.rows = this.layoutModel.rows;
   }
 
   updateLayout() {
+    console.log(this.filters, this.rows, this.columns)
     this.onLayoutUpdate.emit(this.layoutModel);
   }
 

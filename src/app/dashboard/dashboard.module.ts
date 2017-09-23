@@ -11,12 +11,8 @@ import {Ng2PaginationModule} from 'ng2-pagination';
 import {ClickOutsideDirective} from './directives/click-outside.directive';
 import {FilterPipe} from './pipes/filter.pipe';
 import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboard.component';
-import {EffectsModule} from '@ngrx/effects';
-import {VisualizationObjectEffect} from '../store/effects/visualization-object.effect';
 import { DashboardItemCardComponent } from './components/dashboard-item-card/dashboard-item-card.component';
-import {FavoriteEffect} from '../store/effects/favorite.effect';
 import {DndModule} from 'ng2-dnd';
-import {AnalyticsEffect} from '../store/effects/analytics.effect';
 import { ChartComponent } from './components/chart/chart.component';
 import { ChartTemplateComponent } from './components/chart-template/chart-template.component';
 import {TreeModule} from 'angular-tree-component';
@@ -46,7 +42,6 @@ import { TableTemplateComponent } from './components/table-template/table-templa
 import {DashboardShareComponent} from './components/dashboard-share/dashboard-share.component';
 import {DragulaModule} from 'ng2-dragula';
 import {MessageModule} from '../message/message.module';
-import {SharedModule} from '../shared/shared.module';
 import {PeriodFilterModule} from '../period-filter/period-filter.module';
 import { ChartLoaderComponent } from './components/chart-loader/chart-loader.component';
 import { TableLoaderComponent } from './components/table-loader/table-loader.component';
@@ -59,9 +54,6 @@ import { MapLoaderComponent } from './components/map-loader/map-loader.component
     ReactiveFormsModule,
     DashboardRoutingModule,
     Ng2PaginationModule,
-    EffectsModule.run(VisualizationObjectEffect),
-    EffectsModule.run(FavoriteEffect),
-    EffectsModule.run(AnalyticsEffect),
     DndModule.forRoot(),
     AccordionModule.forRoot(),
     TreeModule,
@@ -69,7 +61,6 @@ import { MapLoaderComponent } from './components/map-loader/map-loader.component
     TooltipModule.forRoot(),
     DragulaModule,
     MessageModule,
-    SharedModule,
     PeriodFilterModule
   ],
   declarations: [

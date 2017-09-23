@@ -46,10 +46,15 @@
           <h3 class="text-muted">No search results found for "{{searchText}}"</h3>
         </div>
       </div>
-      <app-loader
-        *ngIf="(dashboardSearchItems$ | async).loading"
-        [loadingMessage]="'Searching...'"
-      ></app-loader>
+
+      <div class="row" *ngIf="(dashboardSearchItems$ | async).loading">
+        <div class="col-md-12 text-center">
+          <img src="assets/img/balls-3.svg" alt="">
+          <h5 style="margin-top: 20px;">
+            Searching...
+          </h5>
+        </div>
+      </div>
       <table
         width="100%"
         class="table table-hover search-table"
