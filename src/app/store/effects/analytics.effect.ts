@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import {Visualization} from '../../dashboard/model/visualization';
 import {VisualizationObjectService} from '../../dashboard/providers/visualization-object.service';
 import * as fromVisualizationHelper from '../helpers/visualization.helpers';
+import {getSanitizedCustomFilterObject, updateVisualizationWithCustomFilters} from '../helpers/visualization.helpers';
 @Injectable()
 export class AnalyticsEffect {
   constructor(
@@ -33,6 +34,13 @@ export class AnalyticsEffect {
         });
         return Observable.of(null);
     });
+
+  @Effect() localFilterChange$ = this.actions$
+    .ofType(fromAction.LOCAL_FILTER_CHANGE_ACTION)
+    .switchMap((action) => Observable.of(updateVisualizationWithCustomFilters(
+      action.payload.visualizationObject,
+      getSanitizedCustomFilterObject(action.payload.filterValue)
+    ))).map((visualization: Visualization) => new fromAction.LoadAnalyticsAction(visualization));
 
   @Effect() visualizationObjectWithAnalytics$: Observable<Action> = this.actions$
     .ofType(fromAction.LOAD_ANALYTICS_ACTION)

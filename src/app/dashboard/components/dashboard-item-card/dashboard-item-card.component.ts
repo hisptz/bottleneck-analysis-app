@@ -110,7 +110,6 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   ngOnInit() {
-
     /**
      * Set initial visualization type
      * @type {string}
@@ -331,14 +330,10 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateFilters(filterValue) {
-    const newVisualizationObject: Visualization = updateVisualizationWithCustomFilters(
-      this.visualizationObject,
-      getSanitizedCustomFilterObject(filterValue)
-    );
-
-    newVisualizationObject.details.loaded = false;
-    this.store.dispatch(new fromAction.SaveVisualization(newVisualizationObject));
-    this.store.dispatch(new fromAction.LoadAnalyticsAction(newVisualizationObject));
+    this.showDataFilter = false;
+    this.showPeriodFilter = false;
+    this.showOrgUnitFilter = false;
+    this.store.dispatch(new fromAction.LocalFilterChangeAction({visualizationObject: this.visualizationObject, filterValue: filterValue}));
   }
 
   updateVisualizationWithOptionsOrFilterUpdate(visualizationObject, filterArray, updateAvailable?) {

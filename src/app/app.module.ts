@@ -64,7 +64,7 @@ import {environment} from '../environments/environment';
     EffectsModule.run(DashboardEffect),
     EffectsModule.run(CurrentUserEffect),
     EffectsModule.run(DashboardNotificationEffect),
-    !environment.production ? StoreDevtoolsModule.instrumentOnlyWithExtension() : []
+    // !environment.production ? StoreDevtoolsModule.instrumentOnlyWithExtension() : []
   ],
   providers: [
     SystemInfoService,

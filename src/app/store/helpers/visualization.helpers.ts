@@ -210,7 +210,7 @@ export function getVisualizationSettingsUrl(apiRootUrl: string, visualizationTyp
 }
 
 export function updateVisualizationWithCustomFilters(visualization: Visualization, customfilterObject: any) {
-  const newVisualization: Visualization = {...visualization};
+  const newVisualization: Visualization = _.cloneDeep(visualization);
   const filterArray = visualization.details.filters;
 
   if (filterArray) {
