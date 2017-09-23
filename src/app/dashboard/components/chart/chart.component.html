@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-md-12" style="position: relative;">
-    <app-loader
+    <app-chart-loader
       *ngIf="!loaded && !chartHasError"
-      [loadingMessage]="'Moving Chart into position'"
+      [chartName]="visualizationObject.name"
     >
-    </app-loader>
+    </app-chart-loader>
     <app-error-notifier [errorMessage]="errorMessage" *ngIf="chartHasError"></app-error-notifier>
     <div *ngIf="loaded && !chartHasError" id="chart_{{visualizationObject.id}}">
       <app-chart-template

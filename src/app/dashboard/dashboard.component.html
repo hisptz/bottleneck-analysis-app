@@ -32,6 +32,13 @@
     *ngIf="(dashboardLoaded$ | async)"
     id="{{dashboardId}}"
   >
+    <!--<div class="col-md-6">-->
+      <!--<div class="panel panel-default" style="height: 490px">-->
+        <!--<div class="panel-body">-->
+
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
     <div
       *ngFor="let visualizationObject of (visualizationObjects$ | async); trackBy: visualizationObject?.id"
     >

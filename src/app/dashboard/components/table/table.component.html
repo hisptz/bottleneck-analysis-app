@@ -1,6 +1,6 @@
 <!--loader block-->
-<app-loader *ngIf="!loaded && !tableHasError"
-            [loadingMessage]="'Moving table into position'"></app-loader>
+<app-table-loader *ngIf="!loaded && !tableHasError"
+            [tableName]="visualizationObject.name"></app-table-loader>
 <!--end of loader block-->
 
 <!--error block-->
