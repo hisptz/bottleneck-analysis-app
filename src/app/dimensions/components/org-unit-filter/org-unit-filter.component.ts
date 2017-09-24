@@ -315,11 +315,23 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
     this.onOrgUnitUpdate.emit({
       starting_name: this.getProperPreOrgunitName(),
       arrayed_org_units: arrayed_org_units,
-      items: this.orgunit_model.selected_orgunits,
+      items: this.getSelectedOrgUnitItems(this.orgunit_model),
       name: 'ou',
       value: this.getOrgUnitsForAnalytics(this.orgunit_model, false)
     });
     this.onOrgUnitModelUpdate.emit(this.orgunit_model);
+  }
+
+  getSelectedOrgUnitItems(orgUnitModel: any) {
+    return [
+      ...orgUnitModel.selected_orgunits,
+      ...orgUnitModel.selected_levels.map((levelObject) => {
+      return {id: 'LEVEL-' + levelObject.level, name: levelObject.name}
+    }),
+      ...orgUnitModel.selected_groups.map((levelObject) => {
+        return {id: 'OU_GROUP-' + levelObject.id, name: levelObject.name}
+      })
+    ]
   }
 
   // set selected groups

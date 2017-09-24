@@ -4,25 +4,29 @@ import {Visualization} from '../../dashboard/model/visualization';
 export function updateVisualizationWithSettings(visualization: Visualization, settings: any) {
   const newVisualization: Visualization = {...visualization};
 
+  const visualizationDetails: any = {...newVisualization.details};
   if (settings.mapViews) {
     let visualizationFilters = [];
     let visualizationLayouts = [];
     let visualizationInterpretations = [];
-    if (newVisualization.details.currentVisualization === 'MAP') {
-      newVisualization.details.basemap = settings.basemap;
-      newVisualization.details.zoom = settings.zoom;
-      newVisualization.details.latitude = settings.latitude;
-      newVisualization.details.longitude = settings.longitude;
+    if (visualizationDetails.currentVisualization === 'MAP') {
+      visualizationDetails.basemap = settings.basemap;
+      visualizationDetails.zoom = settings.zoom;
+      visualizationDetails.latitude = settings.latitude;
+      visualizationDetails.longitude = settings.longitude;
     }
     settings.mapViews.forEach((view: any) => {
       visualizationFilters = [...visualizationFilters, {id: view.id, filters: getVisualizationFilters(view)}];
       visualizationLayouts = [...visualizationLayouts, {id: view.id, layout: getVisualizationLayout(view)}];
-      visualizationInterpretations = [...visualizationInterpretations, {id: view.id, interpretations: view.interpretations}];
+      visualizationInterpretations = [...visualizationInterpretations, {
+        id: view.id,
+        interpretations: view.interpretations
+      }];
     });
 
-    newVisualization.details.filters = [...visualizationFilters];
-    newVisualization.details.layout = [...visualizationLayouts];
-    newVisualization.details.interpretations = [...visualizationInterpretations];
+    visualizationDetails.filters = [...visualizationFilters];
+    visualizationDetails.layouts = [...visualizationLayouts];
+    visualizationDetails.interpretations = [...visualizationInterpretations];
 
     newVisualization.layers = [..._.map(settings.mapViews, (view: any) => {
       const newView: any = {...view};
@@ -30,13 +34,14 @@ export function updateVisualizationWithSettings(visualization: Visualization, se
     })];
   } else {
     const newSettings = {...settings};
-    newVisualization.details.filters = [{id: settings.id, filters: getVisualizationFilters(settings)}];
-    newVisualization.details.layout = [{id: settings.id, layout: getVisualizationLayout(settings)}];
-    newVisualization.details.interpretations = [{id: settings.id, interpretations: settings.interpretations}];
+    visualizationDetails.filters = [{id: settings.id, filters: getVisualizationFilters(settings)}];
+    visualizationDetails.layouts = [{id: settings.id, layout: getVisualizationLayout(settings)}];
+    visualizationDetails.interpretations = [{id: settings.id, interpretations: settings.interpretations}];
 
     newVisualization.layers = [{settings: newSettings}];
   }
 
+  newVisualization.details = {...visualizationDetails};
   return newVisualization;
 }
 
@@ -165,12 +170,6 @@ function getVisualizationObjectName(dashboardItem): string {
       ? dashboardItem[_.camelCase(dashboardItem.type)].displayName : null : null;
 }
 
-// export function getVisualizationContainerClasses(currentShape: string,
-//                                                  shapes: fromVisualizationState.VisualizationShape[] =
-//                                                    fromVisualizationState.VISUALIZATION_SHAPES): Array<string> {
-//   const shape = _.find(shapes, ['name', currentShape]);
-//   return shape ? shape.classes : ['col-md-4', 'visualization-card'];
-// }
 
 function getSanitizedCurrentVisualizationType(visualizationType: string): string {
   let sanitizedVisualization: string = null;
@@ -213,4 +212,109 @@ export function getVisualizationSettingsUrl(apiRootUrl: string, visualizationTyp
       '!periods,!organisationUnitLevels,!organisationUnits';
   }
   return settingsId ? url : '';
+}
+
+export function updateVisualizationWithCustomFilters(visualization: Visualization, customfilterObject: any) {
+  const newVisualization: Visualization = _.cloneDeep(visualization);
+  const filterArray: any[] = [...visualization.details.filters];
+
+  const newFilterArray: any[] = filterArray.map((filterObject: any) => {
+    const newFilterObject: any = {...filterObject};
+    const newFilters = filterObject.filters.map((filter: any) => {
+      const newFilter: any = {...filter};
+      if (customfilterObject.name === newFilter.name) {
+        newFilter.value = customfilterObject.value;
+        newFilter.items = [...mapFilterItemsToFavoriteFormat(customfilterObject.items, filter.name)];
+      }
+      return newFilter;
+    });
+
+    newFilterObject.filters = [...newFilters];
+    return newFilterObject;
+  });
+
+  newVisualization.details.filters = [...newFilterArray];
+
+  // TODO FIND BEST WAY TO MAKE FILTER CHANGES CONSISTENCE
+  /**
+   * Also update layers with filters
+   */
+
+  newVisualization.operatingLayers = [...updateLayersWithCustomFilters(newVisualization.operatingLayers, filterArray)];
+
+  newVisualization.layers = [...newVisualization.operatingLayers];
+
+  return newVisualization;
+}
+
+export function mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {
+  const newFilterItems: any = [];
+
+  filterItems.forEach(filterItem => {
+    if (dimensionType === 'pe') {
+      newFilterItems.push({
+        id: filterItem.id,
+        dimensionItem: filterItem.id,
+        displayName: filterItem.name,
+        dimensionItemType: 'PERIOD'
+      })
+    } else if (dimensionType === 'ou') {
+      newFilterItems.push({
+        id: filterItem.id,
+        dimensionItem: filterItem.id,
+        startingName: filterItem.startingName,
+        displayName: filterItem.name,
+        dimensionItemType: 'ORGANISATION_UNIT'
+      })
+    } else if (dimensionType === 'dx') {
+      newFilterItems.push({
+        id: filterItem.id,
+        dimensionItem: filterItem.id,
+        displayName: filterItem.name,
+        dimensionItemType: filterItem.dataElementId ? 'DATA_ELEMENT' : 'INDICATOR'
+      })
+    }
+  });
+
+  return newFilterItems;
+}
+
+export function updateLayersWithCustomFilters(visualizationLayers, customFilters) {
+  return _.map(visualizationLayers, (layer) => {
+    const newLayer = _.clone(layer);
+    const newSettings = _.clone(layer.settings);
+    const correspondingFilter = _.find(customFilters, ['id', layer.settings.id]);
+
+    if (correspondingFilter) {
+      newSettings.columns = updateLayoutDimensionWithFilters(newSettings.columns, correspondingFilter.filters);
+      newSettings.rows = updateLayoutDimensionWithFilters(newSettings.rows, correspondingFilter.filters);
+      newSettings.filters = updateLayoutDimensionWithFilters(newSettings.filters, correspondingFilter.filters);
+    }
+
+    newLayer.settings = _.assign({}, newSettings);
+    return newLayer;
+  });
+}
+
+function updateLayoutDimensionWithFilters(layoutDimensionArray, filters) {
+  return _.map(layoutDimensionArray, (layoutDimension) => {
+    const newLayoutDimension = _.clone(layoutDimension);
+    const dimensionObject = _.find(filters, ['name', layoutDimension.dimension]);
+
+    /**
+     * Get items
+     */
+    if (dimensionObject) {
+      newLayoutDimension.items = _.assign([], dimensionObject.items);
+    }
+
+    return newLayoutDimension;
+  });
+}
+
+export function getSanitizedCustomFilterObject(filterObject) {
+  const newFilterValue = filterObject.selectedData ? filterObject.selectedData : filterObject;
+  const newFilterItems = filterObject.items ? filterObject.items : filterObject.itemList;
+
+  return {name: newFilterValue.name, value: newFilterValue.value, items: newFilterItems};
 }

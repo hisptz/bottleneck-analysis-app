@@ -1,5 +1,5 @@
 <!--loader section-->
-<app-loader *ngIf="!loaded && !mapHasError" [loadingMessage]="'Moving Map into position'"></app-loader>
+<app-map-loader *ngIf="!loaded && !mapHasError" [mapName]="visualizationObject.name"></app-map-loader>
 <!--end of loader section-->
 
 <!--error notifier section-->

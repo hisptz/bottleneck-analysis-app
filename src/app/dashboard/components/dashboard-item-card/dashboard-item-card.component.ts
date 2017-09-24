@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
+  Component, EventEmitter, Input, OnInit, Output,
   ViewChild
 } from '@angular/core';
 import {Visualization} from '../../model/visualization';
@@ -8,12 +8,6 @@ import * as _ from 'lodash';
 import {ApplicationState} from '../../../store/application-state';
 import {Store} from '@ngrx/store';
 import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector';
-import {
-  CurrentVisualizationChangeAction, DeleteVisualizationObjectAction,
-  FullScreenToggleAction,
-  ResizeDashboardAction, SaveFavoriteAction, SaveVisualization, UpdateVisualizationWithCustomFilterAction,
-  VisualizationObjectLayoutChangeAction
-} from '../../../store/actions';
 import * as fromAction from '../../../store/actions';
 import {ChartComponent} from '../chart/chart.component';
 import {Observable} from 'rxjs/Observable';
@@ -24,6 +18,10 @@ import {
 import {MapComponent} from "../map/map.component";
 import {interpretationLinkSelector} from '../../../store/selectors/interpretation-link.selector';
 import {VisualizationObjectService} from '../../providers/visualization-object.service';
+import {
+  getSanitizedCustomFilterObject,
+  updateVisualizationWithCustomFilters
+} from '../../../store/helpers/visualization.helpers';
 
 
 @Component({
@@ -55,7 +53,8 @@ export class DashboardItemCardComponent implements OnInit {
   cardConfiguration: any = {
     showCardHeader: false,
     showCardFooter: false,
-    showDeleteButton: true,
+    enableDeleteButton: true,
+    showDeleteButton: false,
     confirmDelete: false,
     defaultHeight: '470px',
     defaultItemHeight: '438px',
@@ -80,7 +79,6 @@ export class DashboardItemCardComponent implements OnInit {
   metadataIdentifiers: string;
   interpretationLink$: Observable<string>;
   needUpdate: boolean;
-  localVisualizationObject: Visualization = null;
   constructor(
     private store: Store<ApplicationState>,
     private visualizationObjectService: VisualizationObjectService
@@ -112,11 +110,6 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.visualizationObject.details.loaded && this.needUpdate) {
-      this.localVisualizationObject = {...this.visualizationObject};
-      this.needUpdate = false;
-    }
-
     /**
      * Set initial visualization type
      * @type {string}
@@ -220,8 +213,8 @@ export class DashboardItemCardComponent implements OnInit {
     /**
      * Footer actions
      */
-    const visualizationType = this.currentVisualizationType;
-    if (!this.hideOptions(visualizationType, this.visualizationWithNoOptions)) {
+    this.cardConfiguration.showDeleteButton = !this.cardConfiguration.showDeleteButton;
+    if (!this.hideOptions(this.currentVisualizationType, this.visualizationWithNoOptions)) {
       this.cardConfiguration.showCardFooter = !this.cardConfiguration.showCardFooter;
       this.cardConfiguration.showCardHeader = !this.cardConfiguration.showCardHeader;
     }
@@ -229,7 +222,7 @@ export class DashboardItemCardComponent implements OnInit {
     /**
      * Pass the action to children
      */
-    if (visualizationType === 'CHART') {
+    if (this.currentVisualizationType === 'CHART') {
       if (this.chartComponent) {
         this.chartComponent.toggleOptions(event)
       }
@@ -269,7 +262,7 @@ export class DashboardItemCardComponent implements OnInit {
     }
     visualizationObject.shape = newShape;
 
-    this.store.dispatch(new ResizeDashboardAction({
+    this.store.dispatch(new fromAction.ResizeDashboardAction({
         id: visualizationObject.id,
         visualizationObject: visualizationObject,
         dashboardId: visualizationObject.dashboardId,
@@ -289,20 +282,22 @@ export class DashboardItemCardComponent implements OnInit {
     /**
      * Change card height when toggling full screen to enable items to stretch accordingly
      */
-    const visualizationObject = {...this.localVisualizationObject};
-    if (visualizationObject.details.showFullScreen) {
+    const visualizationObject: Visualization = {...this.visualizationObject};
+    const visualizationDetails: any = {...this.visualizationObject.details};
+    if (visualizationDetails.showFullScreen) {
       document.getElementsByTagName('body')[0].style.overflow = 'auto';
-      visualizationObject.details.cardHeight = '490px';
-      visualizationObject.details.itemHeight = '465px';
+      visualizationDetails.cardHeight = '490px';
+      visualizationDetails.itemHeight = '465px';
     } else {
       document.getElementsByTagName('body')[0].style.overflow = 'hidden';
-      visualizationObject.details.cardHeight = '97vh';
-      visualizationObject.details.itemHeight = '93vh';
+      visualizationDetails.cardHeight = '97vh';
+      visualizationDetails.itemHeight = '93vh';
     }
 
-    visualizationObject.details.showFullScreen = !visualizationObject.details.showFullScreen;
+    visualizationDetails.showFullScreen = !visualizationDetails.showFullScreen;
 
-    this.store.dispatch(new FullScreenToggleAction(visualizationObject));
+    visualizationObject.details = {...visualizationDetails};
+    this.store.dispatch(new fromAction.FullScreenToggleAction(visualizationObject));
   }
 
   updateVisualization(selectedVisualization) {
@@ -315,7 +310,8 @@ export class DashboardItemCardComponent implements OnInit {
       }
 
       if (selectedVisualization === 'MAP' && visualization.details.type !== 'MAP') {
-        visualization = this.visualizationObjectService.splitVisualizationObject(visualization);
+        visualization.details.loaded = false;
+        this.store.dispatch(new fromAction.SaveVisualization(visualization));
         this.store.select(apiRootUrlSelector)
           .subscribe((apiRootUrl) => {
             this.visualizationObjectService.updateVisualizationWithMapSettings(apiRootUrl, visualization)
@@ -336,56 +332,14 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   updateFilters(filterValue) {
-    const newFilterValue = filterValue.selectedData ? filterValue.selectedData : filterValue;
-    const newFilterItems = filterValue.items ? filterValue.items : filterValue.itemList;
-    const filterArray = this.visualizationObject.details.filters;
-    const newVisualizationObject = _.clone(this.visualizationObject);
-    if (filterArray) {
-      filterArray.forEach(filterObject => {
-        filterObject.filters.forEach(filter => {
-          if (newFilterValue.name === filter.name) {
-            filter.value = newFilterValue.value;
-            filter.items = this._mapFilterItemsToFavoriteFormat(newFilterItems, filter.name);
-          }
-        })
-      })
-    }
-    this.updateVisualizationWithOptionsOrFilterUpdate(newVisualizationObject, filterArray, true)
-  }
-
-  private _mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {
-    const newFilterItems: any = [];
-
-    filterItems.forEach(filterItem => {
-      if (dimensionType === 'pe') {
-        newFilterItems.push({
-          id: filterItem.id,
-          dimensionItem: filterItem.id,
-          displayName: filterItem.name,
-          dimensionItemType: 'PERIOD'
-        })
-      } else if (dimensionType === 'ou') {
-        newFilterItems.push({
-          id: filterItem.id,
-          dimensionItem: filterItem.id,
-          displayName: filterItem.name,
-          dimensionItemType: 'ORGANISATION_UNIT'
-        })
-      } else if (dimensionType === 'dx') {
-        newFilterItems.push({
-          id: filterItem.id,
-          dimensionItem: filterItem.id,
-          displayName: filterItem.name,
-          dimensionItemType: filterItem.dataElementId ? 'DATA_ELEMENT' : 'INDICATOR'
-        })
-      }
-    });
-
-    return newFilterItems;
+    this.showDataFilter = false;
+    this.showPeriodFilter = false;
+    this.showOrgUnitFilter = false;
+    this.store.dispatch(new fromAction.LocalFilterChangeAction({visualizationObject: this.visualizationObject, filterValue: filterValue}));
   }
 
   updateVisualizationWithOptionsOrFilterUpdate(visualizationObject, filterArray, updateAvailable?) {
-    this.store.dispatch(new UpdateVisualizationWithCustomFilterAction({
+    this.store.dispatch(new fromAction.UpdateVisualizationWithCustomFilterAction({
         visualizationObject: visualizationObject,
         filters: filterArray,
         updateAvailable: updateAvailable ? true : false
@@ -396,7 +350,7 @@ export class DashboardItemCardComponent implements OnInit {
     const visualizationObject = _.clone(this.visualizationObject);
     this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
       if (apiRootUrl !== '') {
-        this.store.dispatch( new SaveFavoriteAction({
+        this.store.dispatch( new fromAction.SaveFavoriteAction({
           apiRootUrl: apiRootUrl,
           visualizationObject: visualizationObject
         }))
@@ -464,7 +418,7 @@ export class DashboardItemCardComponent implements OnInit {
     this.cardConfiguration.confirmDelete = false;
     this.store.select(apiRootUrlSelector).subscribe(apiRootUrl => {
       if (apiRootUrl !== '') {
-        this.store.dispatch(new DeleteVisualizationObjectAction({
+        this.store.dispatch(new fromAction.DeleteVisualizationObjectAction({
           apiRootUrl: apiRootUrl,
           dashboardId: visualizationObject.dashboardId,
           visualizationObjectId: visualizationObject.id
@@ -482,21 +436,16 @@ export class DashboardItemCardComponent implements OnInit {
     this.showFilter.settings.shown = !this.showFilter.settings.shown;
   }
 
-  updateLayout(layoutOptions) {
-    const layoutOptionsArray = _.clone(this.visualizationObject.details.layouts);
+  updateLayout(layoutOptions: any) {
 
-    if (layoutOptionsArray) {
-      const newLayoutArray = _.map(layoutOptionsArray, (layoutObject) => {
-        const newLayoutObject = _.clone(layoutObject);
-        newLayoutObject.layout = _.assign({}, layoutOptions);
-        return newLayoutObject;
-      });
+    const newVisualizationObject: Visualization = {...this.visualizationObject};
 
-      this.store.dispatch(new VisualizationObjectLayoutChangeAction({
-        layouts: newLayoutArray,
-        visualizationObject: this.visualizationObject
-      }))
-    }
+    newVisualizationObject.details.layouts = _.map(newVisualizationObject.details.layouts, (layoutObject: any) => {
+      layoutObject.layout = {...layoutOptions};
+      return layoutObject;
+    });
+
+    this.store.dispatch(new fromAction.SaveVisualization(newVisualizationObject));
   }
 
   getSelectedItems(filters: any[], dimension: string) {
@@ -525,13 +474,19 @@ export class DashboardItemCardComponent implements OnInit {
 
     visualization.layers = _.map(visualization.layers, (layer: any) => {
       const newLayer = _.clone(layer);
-      newLayer.settings.type = chartType;
+      const newSettings: any = {...layer.settings};
+      newSettings.type = chartType;
+
+      newLayer.settings = {...newSettings};
       return newLayer;
     });
 
     visualization.operatingLayers = _.map(visualization.layers, (layer: any) => {
       const newLayer = _.clone(layer);
-      newLayer.settings.type = chartType;
+      const newSettings: any = {...layer.settings};
+      newSettings.type = chartType;
+
+      newLayer.settings = {...newSettings};
       return newLayer;
     });
 

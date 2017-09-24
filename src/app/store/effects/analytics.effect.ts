@@ -1,72 +1,56 @@
 import {Actions, Effect} from '@ngrx/effects';
 import {Injectable} from '@angular/core';
 import {AnalyticsService} from '../../dashboard/providers/analytics.service';
-import {
-  AnalyticsLoadedAction, LOAD_ANALYTICS_ACTION, LoadAnalyticsAction, UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION,
-  UPDATE_VISUALIZATION_WITH_FILTER_ACTION
-} from '../actions';
 import * as fromAction from '../actions';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import {Action, Store} from '@ngrx/store';
 import {ApplicationState} from '../application-state';
 import * as _ from 'lodash';
-import {
-  mapFavoriteToLayerSettings,
-  updateFavoriteWithCustomFilters
-} from '../reducers/store-data-reducer';
 import {Visualization} from '../../dashboard/model/visualization';
+import {VisualizationObjectService} from '../../dashboard/providers/visualization-object.service';
+import * as fromVisualizationHelper from '../helpers/visualization.helpers';
+import {getSanitizedCustomFilterObject, updateVisualizationWithCustomFilters} from '../helpers/visualization.helpers';
 @Injectable()
 export class AnalyticsEffect {
   constructor(
     private actions$: Actions,
     private store: Store<ApplicationState>,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private visualizationObjectService: VisualizationObjectService
   ) {}
 
-  @Effect() loadedVisualizationObjectWithFavorite$: Observable<Action> = this.actions$
-    .ofType(UPDATE_VISUALIZATION_WITH_FILTER_ACTION)
-    .flatMap((action: any) => Observable.of(action.payload))
-    .map(visualizationObject => new LoadAnalyticsAction(visualizationObject));
-
-  @Effect() loadedVisualizationObjectWithFilters$: Observable<Action> = this.actions$
-    .ofType(UPDATE_VISUALIZATION_WITH_CUSTOM_FILTER_ACTION)
+  @Effect({dispatch: false}) globalFilterChange$ = this.actions$
+    .ofType(fromAction.GLOBAL_FILTER_CHANGE_ACTION)
     .withLatestFrom(this.store)
-    .take(1)
-    .flatMap(([action, store]) => {
-      const visualizationObject = _.clone(action.payload.visualizationObject);
-      const favorite: any = _.find(store.storeData.favorites, ['id', visualizationObject.details.favorite.id]);
-      const customFilters = _.clone(action.payload.filters);
-      /**
-       * Update visualization with original favorite and custom filters
-       */
-      if (favorite) {
-        /**
-         * Update with original settings
-         */
-        visualizationObject.layers = _.assign([], updateFavoriteWithCustomFilters(
-          mapFavoriteToLayerSettings(favorite),
-          customFilters
-        ));
-      }
+    .switchMap(([action, store]) => {
+        const visualizationObjects: Visualization[] =
+          _.filter(store.storeData.visualizationObjects, (visualization: Visualization) => visualization.dashboardId === action.payload.dashboardId);
+        visualizationObjects.forEach((visualization: Visualization) => {
+          this.store.dispatch(new fromAction.LoadAnalyticsAction(fromVisualizationHelper.updateVisualizationWithCustomFilters(
+            visualization,
+            fromVisualizationHelper.getSanitizedCustomFilterObject(action.payload.filterObject)
+          )));
+        });
+        return Observable.of(null);
+    });
 
-      return Observable.of({
-        apiRootUrl: _.clone(store.uiState.systemInfo.apiRootUrl),
-        visualizationObject: _.clone(visualizationObject),
-        filters: _.clone(customFilters),
-        updateAvailable: _.clone(action.payload.updateAvailable)
-      })
-    })
-    .map(visualizationObject => new LoadAnalyticsAction(visualizationObject));
+  @Effect() localFilterChange$ = this.actions$
+    .ofType(fromAction.LOCAL_FILTER_CHANGE_ACTION)
+    .switchMap((action) => Observable.of(updateVisualizationWithCustomFilters(
+      action.payload.visualizationObject,
+      getSanitizedCustomFilterObject(action.payload.filterValue)
+    ))).map((visualization: Visualization) => new fromAction.LoadAnalyticsAction(visualization));
 
   @Effect() visualizationObjectWithAnalytics$: Observable<Action> = this.actions$
-    .ofType(LOAD_ANALYTICS_ACTION)
+    .ofType(fromAction.LOAD_ANALYTICS_ACTION)
     .withLatestFrom(this.store)
     .flatMap(([action, store]: [any, ApplicationState]) => {
-      const visualization: Visualization = action.payload;
-      const visualizationLayers: any[] = visualization.layers;
+      const visualization: Visualization = {...action.payload};
+      const visualizationDetails: any = {...visualization.details};
+      const visualizationLayers: any[] = [...visualization.layers];
       const analyticsPromises = _.map(visualizationLayers, (visualizationLayer: any) => {
-        const visualizationFilter = _.find(visualization.details.filters, ['id', visualizationLayer.settings.id]);
+        const visualizationFilter = _.find(visualizationDetails.filters, ['id', visualizationLayer.settings.id]);
         return this.analyticsService.getAnalytics(
           store.uiState.systemInfo.apiRootUrl,
           visualizationLayer.settings,
@@ -78,7 +62,7 @@ export class AnalyticsEffect {
       return new Observable((observer) => {
         Observable.forkJoin(analyticsPromises)
           .subscribe((analyticsResponse: any[]) => {
-            visualization.details.loaded = visualization.details.currentVisualization === 'MAP' ? false : true;
+            visualizationDetails.loaded = visualization.details.currentVisualization === 'MAP' ? false : true;
             visualization.layers = [..._.map(visualizationLayers, (visualizationLayer: any, layerIndex: number) => {
               const newVisualizationLayer: any = {...visualizationLayer};
               const analytics = {...analyticsResponse[layerIndex]};
@@ -88,12 +72,15 @@ export class AnalyticsEffect {
               }
               return newVisualizationLayer;
             })];
+
+            visualization.details = {...visualizationDetails};
             observer.next(visualization);
             observer.complete();
           }, (error) => {
-            visualization.details.loaded = true;
-            visualization.details.hasError = true;
-            visualization.details.errorMessage = error;
+            visualizationDetails.loaded = true;
+            visualizationDetails.hasError = true;
+            visualizationDetails.errorMessage = error;
+            visualization.details = {...visualizationDetails};
             observer.next(visualization);
             observer.complete();
           });
@@ -103,6 +90,8 @@ export class AnalyticsEffect {
       visualization.operatingLayers = [...visualization.layers];
       if (visualization.details.currentVisualization === 'MAP') {
         return new fromAction.UpdateVisualizationWithMapSettings(visualization)
+      } else if (visualization.details.type === 'MAP' && visualization.details.currentVisualization !== 'MAP') {
+        visualization = this.visualizationObjectService.mergeVisualizationObject(visualization);
       }
       return new fromAction.SaveVisualization(visualization)
     })

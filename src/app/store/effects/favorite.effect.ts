@@ -28,14 +28,9 @@ export class FavoriteEffect {
   @Effect() favorite$: Observable<Action> = this.actions$
     .ofType(fromAction.LOAD_FAVORITE_ACTION)
     .flatMap((action: any) => this.favoriteService.getFavorite(action.payload))
-    .map(favorite => new fromAction.FavoriteLoadedAction(favorite));
-
-  @Effect() additionalOptionsLoaded$: Observable<Action> = this.actions$
-    .ofType(FAVORITE_LOADED_ACTION)
-    .flatMap((action: any) => Observable.of(fromVisualizationHelper.updateVisualizationWithSettings(
-      action.payload.visualizationObject, action.payload.favorite
-    )))
-    .map((visualizationObject: Visualization) => new fromAction.LoadAnalyticsAction(visualizationObject));
+    .map(favoriteDetails => new fromAction.LoadAnalyticsAction(fromVisualizationHelper.updateVisualizationWithSettings(
+      favoriteDetails.visualizationObject, favoriteDetails.favorite
+    )));
 
   @Effect() favoriteOptions$: Observable<Action> = this.actions$
     .ofType(LOAD_FAVORITE_OPTIONS_ACTION)

@@ -61,14 +61,14 @@ export class TableComponent implements OnInit {
 
     if (this.visualizationObject.details.loaded) {
 
-      this.tableObjects = this.getTableObjects(this.visualizationObject)
+      this.tableObjects = this.getTableObjects(this.visualizationObject);
     }
   }
 
   getTableObjects(visualizationObject: Visualization) {
     return visualizationObject.layers.map((layer, index) => {
       const settings = {...layer.settings};
-      const layoutObject = _.find(visualizationObject.details.layout, ['id', settings.id]);
+      const layoutObject = _.find(visualizationObject.details.layouts, ['id', settings.id]);
       let tableObject = null;
 
       if (layoutObject) {
@@ -81,7 +81,6 @@ export class TableComponent implements OnInit {
             visualizationObject.type
           ));
       }
-
       return tableObject
     }).filter((tableObject) => tableObject !== null);
   }

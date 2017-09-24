@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {INITIAL_APPLICATION_STATE} from './store/application-state';
-import {StoreModule} from '@ngrx/store';
+import {combineReducers, StoreModule} from '@ngrx/store';
 import {uiStateReducer} from './store/reducers/ui-store-reducer';
 import {storeDataReducer} from './store/reducers/store-data-reducer';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
@@ -25,7 +25,6 @@ import {DashboardNotificationService} from './dashboard/providers/dashboard-noti
 import {UtilitiesService} from './providers/utilities.service';
 import {LoginRedirectService} from './providers/login-redirect.service';
 import {MenuModule} from './menu/menu.module';
-import {SharedModule} from './shared/shared.module';
 import {VisualizationObjectService} from './dashboard/providers/visualization-object.service';
 import {FavoriteService} from './dashboard/providers/favorite.service';
 import {AnalyticsService} from './dashboard/providers/analytics.service';
@@ -44,11 +43,17 @@ import {MapFilesConversion} from './dashboard/providers/map-files-conversion.ser
 import {RelativePeriodService} from './dashboard/providers/relative-period.service';
 import {DimensionsModule} from './dimensions/dimensions.module';
 import {environment} from '../environments/environment';
+import {LoaderComponent} from './components/loader/loader.component';
+import {VisualizationObjectEffect} from './store/effects/visualization-object.effect';
+import {FavoriteEffect} from './store/effects/favorite.effect';
+import {AnalyticsEffect} from './store/effects/analytics.effect';
+import { storeFreeze } from 'ngrx-store-freeze';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotificationComponent,
+    LoaderComponent,
     HomeComponent
   ],
   imports: [
@@ -58,13 +63,15 @@ import {environment} from '../environments/environment';
     AppRoutingModule,
     MenuModule,
     DimensionsModule,
-    SharedModule,
-    StoreModule.provideStore({uiState: uiStateReducer, storeData: storeDataReducer}, INITIAL_APPLICATION_STATE),
+    StoreModule.provideStore({uiState: uiStateReducer, storeData: storeDataReducer} , INITIAL_APPLICATION_STATE),
     EffectsModule.run(SystemInfoEffect),
     EffectsModule.run(DashboardEffect),
     EffectsModule.run(CurrentUserEffect),
     EffectsModule.run(DashboardNotificationEffect),
-    !environment.production ? StoreDevtoolsModule.instrumentOnlyWithExtension() : []
+    EffectsModule.run(VisualizationObjectEffect),
+    EffectsModule.run(FavoriteEffect),
+    EffectsModule.run(AnalyticsEffect),
+    // !environment.production ? StoreDevtoolsModule.instrumentOnlyWithExtension() : []
   ],
   providers: [
     SystemInfoService,

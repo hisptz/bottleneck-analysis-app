@@ -24,31 +24,35 @@ export class FavoriteService {
   }
 
   getFavorite(visualizationDetails: any): Observable<any> {
-    const visualizationObjectFavorite: any = visualizationDetails.visualizationObject.details.favorite;
-    const favoriteOptions = visualizationObjectFavorite.options ? visualizationObjectFavorite.options : {};
+    const newVisualizationDetails: any = {...visualizationDetails};
+    const visualizationObjectFavorite: any = {...newVisualizationDetails.visualizationObject.details.favorite};
+
+    const favoriteOptions: any = visualizationObjectFavorite.options ? {...visualizationObjectFavorite.options} : {};
+
     if (!visualizationObjectFavorite.id) {
-      visualizationDetails.favorite = {};
-      return Observable.of(visualizationDetails);
+      newVisualizationDetails['favorite'] = {};
+      return Observable.of(newVisualizationDetails);
     }
+
     return Observable.create(observer => {
       this.http.get(this._getFavoriteUrl(
-        visualizationDetails.apiRootUrl,
+        newVisualizationDetails.apiRootUrl,
         visualizationObjectFavorite.type,
         visualizationObjectFavorite.id)
       ).subscribe((favorite: any) => {
-        const newFavorite = _.clone(favorite);
+        const newFavorite: any = {...favorite};
 
-        newFavorite.subtitle = this.getFavoriteSubtitle(favorite.filters, visualizationDetails.visualizationObject.details.userOrganisationUnit);
+        newFavorite.subtitle = this.getFavoriteSubtitle(favorite.filters, newVisualizationDetails.visualizationObject.details.userOrganisationUnit);
 
-        visualizationDetails.favorite = Object.assign({}, newFavorite, favoriteOptions);
+        const combinedFavorite = this.relativePeriodService.getISOFormatFromRelativePeriod({...newFavorite, ...favoriteOptions});
 
-        visualizationDetails.favorite = this.relativePeriodService.getISOFormatFromRelativePeriod(visualizationDetails.favorite);
+        newVisualizationDetails['favorite'] = {...combinedFavorite};
 
-        observer.next(visualizationDetails);
+        observer.next(newVisualizationDetails);
         observer.complete();
       }, error => {
-        visualizationDetails.error = error;
-        observer.next(visualizationDetails);
+        newVisualizationDetails['error'] = error;
+        observer.next(newVisualizationDetails);
         observer.complete();
       });
     });

@@ -40,8 +40,7 @@ export class TableService {
     return visualizationDetails;
   }
 
-  getTableConfiguration1(favoriteObject, visualizationLayouts, type) {
-    const visualizationLayoutObject: any = _.find(visualizationLayouts, ['id', favoriteObject.id]);
+  getTableConfiguration1(favoriteObject: any, visualizationLayout: any, type: string) {
     return {
       title: favoriteObject.hasOwnProperty('displayName') ? favoriteObject.displayName : favoriteObject.hasOwnProperty('name') ? favoriteObject.name : '',
       subtitle: favoriteObject.hasOwnProperty('subtitle') ? favoriteObject.subtitle : '',
@@ -53,10 +52,10 @@ export class TableService {
       hideEmptyRows: favoriteObject.hasOwnProperty('hideEmptyRows') ? favoriteObject.hideEmptyRows : true,
       showHierarchy: favoriteObject.hasOwnProperty('showHierarchy') ? favoriteObject.showHierarchy : true,
       displayList: this._checkForEventDataType(favoriteObject, type),
-      rows: visualizationLayoutObject ? visualizationLayoutObject.layout.rows.map(row => {
+      rows: visualizationLayout ? visualizationLayout.rows.map(row => {
         return row.value
       }) : ['pe'],
-      columns: visualizationLayoutObject ? visualizationLayoutObject.layout.columns.map(column => {
+      columns: visualizationLayout ? visualizationLayout.columns.map(column => {
         return column.value
       }) : ['dx']
     };
