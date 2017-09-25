@@ -611,21 +611,20 @@ export class VisualizerService {
   }
 
   private _getSeriesValueNew(analyticsRows, yAxisItemIndex, yAxisItemId, xAxisItemIndex, xAxisItemId, dataIndex) {
-    let seriesValue: any = null;
-
+    let seriesValue: any = 0;
     for (const row of analyticsRows) {
       let xAxisRowId = '';
       _.forEach(xAxisItemIndex.split('_'), (axisIndex: any) => {
         xAxisRowId += xAxisRowId !== '' ? '_' : '';
         xAxisRowId += row[axisIndex];
       });
+
       if (row[yAxisItemIndex] === yAxisItemId && xAxisRowId === xAxisItemId) {
-        seriesValue = parseFloat(row[dataIndex]);
-        break;
+        seriesValue += parseFloat(row[dataIndex]);
       }
     }
 
-    return seriesValue;
+    return seriesValue !== 0 ? seriesValue : null;
   }
 
   private _getSeriesValue(analyticsRows, yAxisItemIndex, yAxisItemId, xAxisItemIndex, xAxisItemId, dataIndex) {
