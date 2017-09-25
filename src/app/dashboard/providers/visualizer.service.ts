@@ -611,8 +611,9 @@ export class VisualizerService {
   }
 
   private _getSeriesValueNew(analyticsRows, yAxisItemIndex, yAxisItemId, xAxisItemIndex, xAxisItemId, dataIndex) {
-    let seriesValue: any = 0;
-    for (const row of analyticsRows) {
+    let finalValue = 0;
+    const seriesValues = _.map(analyticsRows, (row) => {
+      let seriesValue: any = 0;
       let xAxisRowId = '';
       _.forEach(xAxisItemIndex.split('_'), (axisIndex: any) => {
         xAxisRowId += xAxisRowId !== '' ? '_' : '';
@@ -622,9 +623,22 @@ export class VisualizerService {
       if (row[yAxisItemIndex] === yAxisItemId && xAxisRowId === xAxisItemId) {
         seriesValue += parseFloat(row[dataIndex]);
       }
+      return seriesValue;
+    }).filter((value) => value > 0);
+
+    if (seriesValues) {
+      let isRatio = _.some(seriesValues, (seriesValue) => seriesValue < 105 && seriesValue.toString().split('.')[1]);
+
+      let valueSum = seriesValues.length > 0 ? seriesValues.reduce((sum, count) => sum + count) : 0;
+
+      if (isRatio) {
+        finalValue = parseInt((valueSum / seriesValues.length).toFixed(1));
+      } else {
+        finalValue = valueSum;
+      }
     }
 
-    return seriesValue !== 0 ? seriesValue : null;
+    return finalValue !== 0 ? finalValue : null;
   }
 
   private _getSeriesValue(analyticsRows, yAxisItemIndex, yAxisItemId, xAxisItemIndex, xAxisItemId, dataIndex) {
