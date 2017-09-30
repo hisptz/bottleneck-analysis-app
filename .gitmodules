@@ -3,4 +3,4 @@
 	url = https://github.com/hisptz/ng2-dhis-menu-module.git
 [submodule "src/app/period-filter"]
 	path = src/app/period-filter
-	url = git@github.com:hisptz/period-filter-module.git
+	url = https://github.com/hisptz/period-filter-module.git
