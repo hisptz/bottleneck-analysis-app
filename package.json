@@ -49,10 +49,9 @@
     "ng2-dnd": "^4.2.0",
     "ng2-dragula": "^1.5.0",
     "ng2-pagination": "^2.0.2",
-    "ngx-bootstrap": "^1.8.0",
+    "ngx-bootstrap": "^1.9.3",
     "rxjs": "^5.1.0",
     "shpjs": "^3.4.0",
-    "typescript": "^2.4.2",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
@@ -70,6 +69,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ngrx-store-freeze": "^0.1.9",
     "protractor": "~5.1.2",
     "sw-precache": "^5.2.0",
     "ts-node": "~3.0.4",

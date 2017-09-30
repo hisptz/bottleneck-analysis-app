@@ -21,10 +21,11 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "../node_modules/bootstrap/dist/css/bootstrap.css",
+        "../src/bootstrap.css",
         "../node_modules/font-awesome/css/font-awesome.css",
         "../node_modules/dragula/dist/dragula.css",
         "../node_modules/leaflet-compass/dist/leaflet-compass.min.css",
+        "../node_modules/ng2-dnd/bundles/style.css",
         "styles.css"
       ],
       "scripts": [
