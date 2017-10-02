@@ -85,11 +85,11 @@
             class="org-unit-filter-holder"
             *ngIf="showOrgUnitFilter"
           >
-            <app-org-unit-filter
+            <app-orgunit-filter
               (onOrgUnitUpdate)="updateFilters($event)"
               (onOrgUnitClose)="showOrgUnitFilter = !showOrgUnitFilter"
             >
-            </app-org-unit-filter>
+            </app-orgunit-filter>
           </div>
         </li>
         <!--end of orgunit filter area-->

@@ -41,7 +41,6 @@ import {DragulaModule} from 'ng2-dragula';
     FuseSearchPipe
   ],
   exports: [
-    OrgUnitFilterComponent,
     DataFilterComponent,
     LayoutComponent
   ],

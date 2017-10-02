@@ -18,10 +18,6 @@ import {
 import {MapComponent} from "../map/map.component";
 import {interpretationLinkSelector} from '../../../store/selectors/interpretation-link.selector';
 import {VisualizationObjectService} from '../../providers/visualization-object.service';
-import {
-  getSanitizedCustomFilterObject,
-  updateVisualizationWithCustomFilters
-} from '../../../store/helpers/visualization.helpers';
 
 
 @Component({

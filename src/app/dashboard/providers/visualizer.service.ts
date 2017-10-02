@@ -624,7 +624,7 @@ export class VisualizerService {
         seriesValue += parseFloat(row[dataIndex]);
       }
       return seriesValue;
-    }).filter((value) => value > 0);
+    }).filter((value) => value !== 0);
 
     if (seriesValues) {
       let isRatio = _.some(seriesValues, (seriesValue) => seriesValue < 105 && seriesValue.toString().split('.')[1]);
@@ -632,7 +632,7 @@ export class VisualizerService {
       let valueSum = seriesValues.length > 0 ? seriesValues.reduce((sum, count) => sum + count) : 0;
 
       if (isRatio) {
-        finalValue = parseInt((valueSum / seriesValues.length).toFixed(1));
+        finalValue = parseFloat((valueSum / seriesValues.length).toFixed(2));
       } else {
         finalValue = valueSum;
       }
