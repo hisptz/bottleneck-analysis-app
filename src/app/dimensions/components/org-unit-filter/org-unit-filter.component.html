@@ -43,20 +43,35 @@
           aria-haspopup="true" aria-expanded="false"
           (click)="showOrgUnitSettings = !showOrgUnitSettings"
         >
-          <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>
+          <img *ngIf="orgunit_model.selection_mode == 'orgUnit'" src="assets/img/tree.png" class="group-image">
+          <img *ngIf="orgunit_model.selection_mode == 'Level'" src="assets/img/genealogy.png" class="group-image">
+          <img *ngIf="orgunit_model.selection_mode == 'Group'" src="assets/img/group.png" class="group-image">
+          <span class="caret"></span>
         </button>
         <ul
           class="multiselect-dropdown"
           *ngIf="showOrgUnitSettings"
         >
           <li>
-            <a (click)="setType('orgUnit')"><span *ngIf="orgunit_model.selection_mode == 'orgUnit'" class="glyphicon glyphicon-ok"></span> Select Organisation Unit</a>
+            <a (click)="setType('orgUnit')">
+              <span *ngIf="orgunit_model.selection_mode == 'orgUnit'" class="fa fa-check"></span>
+              <img src="assets/img/tree.png" class="group-image">
+              Select Administrative Unit
+            </a>
           </li>
           <li>
-            <a (click)="setType('Level')"><span *ngIf="orgunit_model.selection_mode == 'Level'" class="glyphicon glyphicon-ok"></span> Select Level</a>
+            <a (click)="setType('Level')">
+              <span *ngIf="orgunit_model.selection_mode == 'Level'" class="fa fa-check"></span>
+              <img src="assets/img/genealogy.png" class="group-image">
+              Select Level
+            </a>
           </li>
           <li>
-            <a (click)="setType('Group')"><span *ngIf="orgunit_model.selection_mode == 'Group'" class="glyphicon glyphicon-ok"></span> Select Group</a>
+            <a (click)="setType('Group')">
+              <span *ngIf="orgunit_model.selection_mode == 'Group'" class="fa fa-check"></span>
+              <img src="assets/img/group.png" class="group-image">
+              Select Group
+            </a>
           </li>
         </ul>
       </div>

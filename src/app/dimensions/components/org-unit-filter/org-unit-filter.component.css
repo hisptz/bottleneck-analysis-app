@@ -440,3 +440,7 @@ table * {
   text-decoration: none;
   background-color: #f5f5f5;
 }
+
+.group-image{
+  height: 15px;
+}
