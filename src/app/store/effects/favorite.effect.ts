@@ -3,19 +3,14 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import {
-  FAVORITE_LOADED_ACTION, FavoriteAdditionalOptionsLoadedAction, FavoriteLoadedAction, FavoriteOptionsLoadedAction,
-  FavoritesSavedAction,
-  LOAD_FAVORITE_ACTION, LOAD_FAVORITE_ADDITIONAL_OPTIONS_ACTION, LOAD_FAVORITE_OPTIONS_ACTION,
-  SAVE_FAVORITE_ACTION,
-  UPDATE_VISUALIZATION_WITH_FILTER_ACTION, UPDATE_VISUALIZATION_WITH_INTERPRETATION_ACTION,
-  UpdateVisualizationWithFilterAction, UpdateVisualizationWithInterpretationAction,
-  UpdateVisualizationWithLayoutAction
+  FavoriteOptionsLoadedAction,
+  FavoritesSavedAction, LOAD_FAVORITE_OPTIONS_ACTION,
+  SAVE_FAVORITE_ACTION
 } from '../actions';
 import * as fromAction from '../actions';
 import {Action, Store} from '@ngrx/store';
 import {FavoriteService} from '../../dashboard/providers/favorite.service';
 import {ApplicationState} from '../application-state';
-import {Visualization} from '../../dashboard/model/visualization';
 import * as fromVisualizationHelper from '../helpers/visualization.helpers';
 @Injectable()
 export class FavoriteEffect {

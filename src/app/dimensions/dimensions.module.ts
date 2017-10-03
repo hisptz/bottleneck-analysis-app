@@ -42,7 +42,8 @@ import {DragulaModule} from 'ng2-dragula';
   ],
   exports: [
     DataFilterComponent,
-    LayoutComponent
+    LayoutComponent,
+    OrgUnitFilterComponent
   ],
   providers: [
     OrgUnitService,

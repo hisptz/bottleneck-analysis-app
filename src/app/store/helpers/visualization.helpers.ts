@@ -240,7 +240,7 @@ export function updateVisualizationWithCustomFilters(visualization: Visualizatio
    * Also update layers with filters
    */
 
-  newVisualization.operatingLayers = [...updateLayersWithCustomFilters(newVisualization.operatingLayers, filterArray)];
+  newVisualization.operatingLayers = [...updateLayersWithCustomFilters(newVisualization.operatingLayers, newFilterArray)];
 
   newVisualization.layers = [...newVisualization.operatingLayers];
 
@@ -284,14 +284,13 @@ export function updateLayersWithCustomFilters(visualizationLayers, customFilters
     const newLayer = _.clone(layer);
     const newSettings = _.clone(layer.settings);
     const correspondingFilter = _.find(customFilters, ['id', layer.settings.id]);
-
     if (correspondingFilter) {
       newSettings.columns = updateLayoutDimensionWithFilters(newSettings.columns, correspondingFilter.filters);
       newSettings.rows = updateLayoutDimensionWithFilters(newSettings.rows, correspondingFilter.filters);
       newSettings.filters = updateLayoutDimensionWithFilters(newSettings.filters, correspondingFilter.filters);
     }
 
-    newLayer.settings = _.assign({}, newSettings);
+    newLayer.settings = {...newSettings};
     return newLayer;
   });
 }
@@ -313,8 +312,8 @@ function updateLayoutDimensionWithFilters(layoutDimensionArray, filters) {
 }
 
 export function getSanitizedCustomFilterObject(filterObject) {
+
   const newFilterValue = filterObject.selectedData ? filterObject.selectedData : filterObject;
   const newFilterItems = filterObject.items ? filterObject.items : filterObject.itemList;
-
   return {name: newFilterValue.name, value: newFilterValue.value, items: newFilterItems};
 }

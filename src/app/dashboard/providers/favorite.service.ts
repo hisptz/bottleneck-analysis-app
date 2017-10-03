@@ -44,9 +44,8 @@ export class FavoriteService {
 
         newFavorite.subtitle = this.getFavoriteSubtitle(favorite.filters, newVisualizationDetails.visualizationObject.details.userOrganisationUnit);
 
-        const combinedFavorite = this.relativePeriodService.getISOFormatFromRelativePeriod({...newFavorite, ...favoriteOptions});
-
-        newVisualizationDetails['favorite'] = {...combinedFavorite};
+        // const combinedFavorite = this.relativePeriodService.getISOFormatFromRelativePeriod({...newFavorite, ...favoriteOptions});
+        newVisualizationDetails['favorite'] = {...newFavorite, ...favoriteOptions};
 
         observer.next(newVisualizationDetails);
         observer.complete();

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
+import {iterator} from 'rxjs/symbol/iterator';
 
 @Injectable()
 export class RelativePeriodService {
@@ -86,7 +87,7 @@ export class RelativePeriodService {
         if (relativePeriod.id.indexOf(category) > -1) {
           functionName = category;
         }
-      })
+      });
 
       /**
        Execute dynamic functions that return fixed periods
@@ -137,19 +138,20 @@ export class RelativePeriodService {
               dimensionItemType: 'PERIOD'
             });
           }
-        })
-        return months;
+        });
+
+        return _.reverse(months);
       },
       '_QUARTER': (template, counts, tense) => {
         const currentQuarter = this._getThisQuarter();
-        const lastNQuarters = this._getLastPeriods(currentQuarter, counts, 4, tense);
+        const lastNQuarters = this._getLastQuarters(currentQuarter, tense, counts);
         let currentYear = currentDate.getFullYear();
         const quarters = [];
         let endOfTheYear = false;
         lastNQuarters.forEach((nthQuarter) => {
 
           nthQuarter === 4 ? endOfTheYear = true : endOfTheYear = false;
-          if (endOfTheYear) {
+          if (endOfTheYear && tense === 'LAST') {
             currentYear = currentYear - 1;
             endOfTheYear = false
           }
@@ -160,9 +162,8 @@ export class RelativePeriodService {
             dimensionItemType: 'PERIOD'
           });
 
-
-        })
-        return quarters;
+        });
+        return _.reverse(quarters);
       },
       '_YEAR': (template, counts, tense) => {
         const currentYear = currentDate.getFullYear();
@@ -305,7 +306,7 @@ export class RelativePeriodService {
       if (relativePeriod.id.indexOf(tense) > -1) {
         selectedTense = tense;
       }
-    })
+    });
     return selectedTense;
   }
 
@@ -324,26 +325,48 @@ export class RelativePeriodService {
         }
         return;
       }
-    })
+    });
     return selectedCount;
   }
 
-  private _getLastPeriods(current, counts, typeLimit, tense) {
-    const lastPeriods = [];
+  private _getLastQuarters(current, tense, counts) {
+    const lastQuarters = [];
     if (tense === 'LAST') {
-      for (let counter = 1; counter <= counts; counter++) {
-        current = current - 1;
-        if (current === 0) {
-          current = typeLimit;
-          lastPeriods.push(current);
+      let iterator =   current - 1;
+      lastQuarters.push(iterator);
+      for (let counter = 1; counter <= counts - 1; counter++) {
+        if (iterator === 1) {
+          iterator = 4;
+          lastQuarters.push(iterator);
         } else {
-          lastPeriods.push(current);
+          iterator--;
+          lastQuarters.push(iterator);
         }
 
       }
     } else {
-      lastPeriods.push(current);
+      lastQuarters.push(current)
     }
+
+    return lastQuarters;
+  }
+
+  private _getLastPeriods(current, counts, typeLimit, tense) {
+    const lastPeriods = [current];
+    let iterator = current;
+    if (tense === 'LAST') {
+      for (let counter = 1; counter <= counts - 1; counter++) {
+        if (iterator === 1) {
+          iterator = 12;
+          lastPeriods.push(iterator);
+        } else {
+          iterator--;
+          lastPeriods.push(iterator);
+        }
+
+      }
+    }
+
     return lastPeriods;
   }
 

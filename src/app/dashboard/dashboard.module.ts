@@ -46,7 +46,6 @@ import {PeriodFilterModule} from '../period-filter/period-filter.module';
 import { ChartLoaderComponent } from './components/chart-loader/chart-loader.component';
 import { TableLoaderComponent } from './components/table-loader/table-loader.component';
 import { MapLoaderComponent } from './components/map-loader/map-loader.component';
-import {OrgunitFilterModule} from '../orgunit-filter/orgunit-filter.module';
 
 @NgModule({
   imports: [
@@ -63,7 +62,6 @@ import {OrgunitFilterModule} from '../orgunit-filter/orgunit-filter.module';
     DragulaModule,
     MessageModule,
     PeriodFilterModule,
-    OrgunitFilterModule
   ],
   declarations: [
     DashboardComponent,

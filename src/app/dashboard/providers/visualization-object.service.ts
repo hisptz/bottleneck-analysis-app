@@ -7,6 +7,7 @@ import {FavoriteService} from './favorite.service';
 import {GeoFeatureService} from './geo-feature.service';
 import {MapService} from './map.service';
 import {getDimensionValues} from '../../store/helpers/visualization.helpers';
+import {RelativePeriodService} from './relative-period.service';
 
 @Injectable()
 export class VisualizationObjectService {
@@ -15,6 +16,7 @@ export class VisualizationObjectService {
     private analyticsService: AnalyticsService,
     private favoriteService: FavoriteService,
     private geoFeatureService: GeoFeatureService,
+    private relativePeriodService: RelativePeriodService,
     private mapService: MapService,
   ) {
   }
@@ -173,8 +175,9 @@ export class VisualizationObjectService {
 
     const newSplitedLayers: any[] = [];
     const favoriteObjectArray = visualizationObject.layers.map(layer => {
-      return layer.settings
+      return this.relativePeriodService.getISOFormatFromRelativePeriod(layer.settings)
     });
+
     const analyticsObjectArray = visualizationObject.layers.map(layer => {
       return layer.analytics
     });
@@ -202,6 +205,7 @@ export class VisualizationObjectService {
               const dataDimension = analytics.metaData['dx'][0];
               const periodDimension = analytics.metaData['pe'][0];
               const analyticsId = favoriteObject.analyticsIdentifier;
+              console.log(analyticsId, dataDimension + '_' + periodDimension, periodDimension + '_' + dataDimension)
               if (analyticsId === dataDimension + '_' + periodDimension || analyticsId === periodDimension + '_' + dataDimension) {
                 newSplitedLayers.push({
                   settings: favoriteObject,
