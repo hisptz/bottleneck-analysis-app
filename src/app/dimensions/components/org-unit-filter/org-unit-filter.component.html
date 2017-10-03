@@ -53,21 +53,21 @@
           *ngIf="showOrgUnitSettings"
         >
           <li>
-            <a (click)="setType('orgUnit')">
+            <a (click)="setType('orgUnit', $event)">
               <span *ngIf="orgunit_model.selection_mode == 'orgUnit'" class="fa fa-check"></span>
               <img src="assets/img/tree.png" class="group-image">
               Select Administrative Unit
             </a>
           </li>
           <li>
-            <a (click)="setType('Level')">
+            <a (click)="setType('Level', $event)">
               <span *ngIf="orgunit_model.selection_mode == 'Level'" class="fa fa-check"></span>
               <img src="assets/img/genealogy.png" class="group-image">
               Select Level
             </a>
           </li>
           <li>
-            <a (click)="setType('Group')">
+            <a (click)="setType('Group', $event)">
               <span *ngIf="orgunit_model.selection_mode == 'Group'" class="fa fa-check"></span>
               <img src="assets/img/group.png" class="group-image">
               Select Group

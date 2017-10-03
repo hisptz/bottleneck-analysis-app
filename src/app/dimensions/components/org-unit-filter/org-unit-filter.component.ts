@@ -211,7 +211,8 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
     }
   }
 
-  setType(type: string) {
+  setType(type: string, e) {
+    e.stopPropagation();
     this.orgunit_model.selection_mode = type;
     if (type != 'orgUnit') {
       this.orgunit_model.selected_user_orgunit = [];
