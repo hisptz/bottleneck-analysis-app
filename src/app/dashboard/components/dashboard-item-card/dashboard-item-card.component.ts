@@ -145,6 +145,7 @@ export class DashboardItemCardComponent implements OnInit {
      */
     if (this.visualizationObject.details.layouts.length > 0) {
       this.layoutModel = this.visualizationObject.details.layouts[0].layout;
+      console.log(this.layoutModel)
     }
 
     /**

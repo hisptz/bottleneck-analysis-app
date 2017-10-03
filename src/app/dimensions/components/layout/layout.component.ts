@@ -45,15 +45,15 @@ export class LayoutComponent implements OnInit {
       columnDimension: [],
       rowDimension: []
     };
-    this.columnName = 'Columns';
-    this.rowName = 'Rows'
+    this.columnName = 'Column dimensions';
+    this.rowName = 'Row dimensions'
   }
 
   ngOnInit() {
     this.updateLayoutDimensions();
     if (this.visualizationType === 'CHART') {
-      this.rowName = 'Series (Y-Axis)';
-      this.columnName = 'Categories (X-axis)';
+      this.rowName = 'Categories (X-axis) dimensions';
+      this.columnName = 'Series (Y-Axis) dimensions';
     }
   }
 
