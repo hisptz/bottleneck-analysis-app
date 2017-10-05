@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#Install everything first
+sh install.sh
 #Prepare manifest service for building by changing manifest file root url
 echo "Modifying manifest service for building";
 #sed -i -e 's#assets/##g' src/app/providers/manifest.service.ts
