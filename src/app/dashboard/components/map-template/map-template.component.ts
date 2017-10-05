@@ -304,7 +304,7 @@ export class MapTemplateComponent implements OnInit {
     if (mapHeight.indexOf('px') >= 0) {
 
       const splitMap = mapHeight.split('px');
-      height = ((+splitMap[0]) - 10) + 'px';
+      height = ((+splitMap[0]) + 15) + 'px';
     }
     return height;
   }
