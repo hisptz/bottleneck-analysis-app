@@ -281,12 +281,6 @@ export class DashboardItemCardComponent implements OnInit {
     )
   }
 
-  resizeChildren(shape, fullScreen, height) {
-    if (this.chartComponent) {
-      this.chartComponent.resize(shape, fullScreen, height);
-    }
-  }
-
   toggleFullScreen(event): void {
     event.stopPropagation();
     /**
@@ -366,12 +360,6 @@ export class DashboardItemCardComponent implements OnInit {
         }))
       }
     })
-  }
-
-
-
-  toggleFavoriteSettings() {
-    this.showFavoriteSettings = !this.showFavoriteSettings;
   }
 
   getVisualizationSettings(visualizationLayers) {
@@ -477,18 +465,20 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   private _getSelectedOrganUnitModel(orgUnitArray) {
-    const selectedOrgUnitLevel = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('LEVEL') !== -1);
-    const selectedUserOrgUnit = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('USER') != -1)
+    const selectedOrgUnitLevels = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('LEVEL') !== -1);
+    const selectedUserOrgUnit = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('USER') != -1);
+
+    const selectionMode = selectedOrgUnitLevels.length > 0 ? 'Level' : 'orgUnit';
     const orgUnitModel = {
-      selection_mode: 'orgUnit',
-      selected_levels: [],
-      show_update_button: true,
-      selected_groups: [],
-      orgunit_levels: selectedOrgUnitLevel.map((orgunitlevel) => {
+      selection_mode: selectionMode,
+      selected_levels: selectedOrgUnitLevels.map((orgunitlevel) => {
         return {
           level: orgunitlevel.id.split('-')[1]
         }
       }),
+      show_update_button: true,
+      selected_groups: [],
+      orgunit_levels: [],
       orgunit_groups: [],
       selected_orgunits: orgUnitArray.filter((orgunit) => orgunit.type === 'ORGANISATION_UNIT'),
       user_orgunits: [],
@@ -499,7 +489,7 @@ export class DashboardItemCardComponent implements OnInit {
           shown: true
         }
       })
-    }
+    };
     return orgUnitModel;
   }
 

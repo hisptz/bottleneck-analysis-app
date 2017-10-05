@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {OrgUnitService} from './org-unit.service';
 import {MultiselectComponent} from './multiselect/multiselect.component';
 import {Subscription} from 'rxjs/Subscription';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-org-unit-filter',
@@ -138,6 +139,18 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
           // assign urgunit levels and groups to variables
           this.orgunit_model.orgunit_levels = data.organisationUnitLevels;
+
+          /**
+           * Update level with meaningful names
+           */
+          this.orgunit_model.selected_levels = this.orgunit_model.selected_levels.map((selectedLevel) => {
+            const newSelectedLevel = _.find(this.orgunit_model.orgunit_levels, ['level', parseInt(selectedLevel.level)]);
+
+            return newSelectedLevel ? newSelectedLevel : {
+              level: selectedLevel.level,
+              name: 'Level ' + selectedLevel.level
+            };
+          });
           // setting organisation groups
           this.orgunitService.getOrgunitGroups().subscribe(groups => {//noinspection TypeScriptUnresolvedVariable
             this.orgunit_model.orgunit_groups = groups;
@@ -170,6 +183,11 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
                         items[0].isExpanded = true;
                         this.organisationunits = items;
                         this.toggleNodeExpand(items[0].id, this.orgtree);
+                        const combinedOrgUnits = this.getCombinedOrgUnitList(this.organisationunits, this.orgunit_model.orgunit_levels.length);
+                        this.orgunit_model.selected_orgunits = this.orgunit_model.selected_orgunits.map((orgUnit) => {
+                          return _.find(combinedOrgUnits, ['id', orgUnit.id]);
+                        });
+
 
                         //activate organisation units
                         for (let active_orgunit of this.orgunit_model.selected_orgunits) {
@@ -197,6 +215,26 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
               }
             })
         });
+  }
+
+  getCombinedOrgUnitList(orgUnitList, levelCount) {
+    let combinedList = [];
+    for (let level = 1; level <= levelCount; level++) {
+      if (level === 1) {
+        combinedList = [...orgUnitList]
+      }
+
+      if (level > 1) {
+        combinedList.filter((list) => list.level === level - 1).forEach((orgUnit) => {
+          if (orgUnit.children) {
+            combinedList = [...combinedList, ...orgUnit.children]
+          }
+        })
+
+      }
+    }
+
+    return combinedList;
   }
 
   ngOnDestroy() {
@@ -358,6 +396,7 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
 
   // set selected groups
   setSelectedLevels(selected_levels) {
+    console.log(this.orgunit_model.selected_levels)
     this.orgunit_model.selected_levels = selected_levels;
   }
 

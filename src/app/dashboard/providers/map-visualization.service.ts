@@ -41,7 +41,6 @@ export class MapVisualizationService {
     mapObject.options.layers = layers[0];
     mapObject.operatingLayers = layers[1];
     mapObject.centeringLayer = layers[2];
-    console.log(layers);
     return mapObject;
   }
 

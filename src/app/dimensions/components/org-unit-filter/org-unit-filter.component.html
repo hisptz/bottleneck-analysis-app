@@ -93,7 +93,13 @@
     </div>
     <!--org_unit_levels-->
     <div class="col-sm-9" style="padding-right: 0px; margin-bottom: 5px" *ngIf="orgunit_model.selection_mode == 'Level'">
-      <app-multiselect [prefix]="'Level: '" [prefix_multiple]="'Levels: '" [placeholder]="'Select Organisation units levels'" [selected_items]="orgunit_model.selected_levels" [items]="orgunit_model.orgunit_levels | filterLevel:organisationunits[0]:orgunit_model.selected_orgunits" (onSelected)="setSelectedLevels($event)"></app-multiselect>
+      <app-multiselect
+        [prefix]="'Level: '"
+        [prefix_multiple]="'Levels: '"
+        [placeholder]="'Select Organisation units levels'"
+        [selected_items]="orgunit_model.selected_levels"
+        [items]="orgunit_model.orgunit_levels | filterLevel:organisationunits[0]:orgunit_model.selected_orgunits"
+        (onSelected)="setSelectedLevels($event)"></app-multiselect>
 
     </div>
     <!--<div class="search-area">-->
