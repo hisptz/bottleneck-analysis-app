@@ -63,13 +63,13 @@
   overflow-x: hidden;
   font-size: 10px !important;
   z-index: 1029;
-  right:54px;/*26px*/
   min-height: 35px;
   max-height: 360px;
   width: 239px;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.84)!important;
-  margin-top: 67px; /*115px*/
+  left: 56px;
+  margin-top: 43px; /*115px*/
   border: 2px solid #ffffff;
   -webkit-box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.5) !important;
   -moz-box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.5) !important;
@@ -360,7 +360,7 @@ div.icon:hover {
 .layers-button {
   position: absolute;
   background-repeat: no-repeat;
-  right: 26px;
+  /*right: 26px;*/
   top: 128px;
   width: 26px !important;
   height: 26px !important;
@@ -369,6 +369,7 @@ div.icon:hover {
   background-color: #ffffff;
   z-index: 490 !important;
   text-align: center;
+  margin-left:10px;
   /*border-radius: 28px;*/
   /*border: 1px solid rgba(0, 0, 0, .4) !important*/
 
@@ -378,7 +379,7 @@ div.icon:hover {
 }
 
 .paddingFullScreen{
-  right: 11px!important;
+  left: 11px!important;
 }
 
 .legend-content {
@@ -438,7 +439,7 @@ div.leaflet-div-icon{
   margin-left:10px;
   box-shadow: 2px 2px 5px -3px #545454;
   z-index: 490!important;
-  right:26px;
+  /*right:26px;*/
   top:32px!important;
 }
 

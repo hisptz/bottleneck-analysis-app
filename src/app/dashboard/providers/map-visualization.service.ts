@@ -41,6 +41,7 @@ export class MapVisualizationService {
     mapObject.options.layers = layers[0];
     mapObject.operatingLayers = layers[1];
     mapObject.centeringLayer = layers[2];
+    console.log(layers);
     return mapObject;
   }
 
@@ -405,7 +406,7 @@ export class MapVisualizationService {
      * Get tile layer from basemap configuration
      */
     const baseMap = this.prepareTileLayer(L, this.tileLayers.getTileLayer(basemap));
-    if (baseMap != null) {
+    if (baseMap) {
       mapLayers.push(baseMap);
       const layerObject = {};
       layerObject[basemap] = baseMap;
@@ -514,6 +515,10 @@ export class MapVisualizationService {
     mapLayers = mapLayers.filter(function (element) {
       return element !== undefined;
     })
+
+    if (baseMap) {
+      mapLayers.push(baseMap);
+    }
     return [mapLayers, mapLayersWithNames, centeringLayer];
   }
 
