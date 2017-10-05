@@ -248,6 +248,7 @@ export function updateVisualizationWithCustomFilters(visualization: Visualizatio
 }
 
 export function mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {
+  console.log(filterItems)
   const newFilterItems: any = [];
 
   filterItems.forEach(filterItem => {

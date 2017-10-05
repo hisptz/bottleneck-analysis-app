@@ -14,7 +14,7 @@ import {Subscription} from 'rxjs/Subscription';
 export class OrgUnitFilterComponent implements OnInit, OnDestroy {
   // the object that will carry the output value you can send one from outside to config start values
   @Input() orgunit_model: any = {
-    selection_mode: 'Usr_orgUnit',
+    selection_mode: 'orgUnit',
     selected_levels: [],
     show_update_button: true,
     selected_groups: [],
@@ -63,7 +63,7 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
   customTemplateStringOrgunitOptions: any;
 
   user_orgunits_types: Array<any> = [
-    {id: 'USER_ORGUNIT', name: 'User Admin Unit', shown: true},
+    {id: 'USER_ORGUNIT', name: 'User Org Unit', shown: true},
     {id: 'USER_ORGUNIT_CHILDREN', name: 'User sub-units', shown: true},
     {id: 'USER_ORGUNIT_GRANDCHILDREN', name: 'User sub-x2-units', shown: true}
   ];
@@ -149,7 +149,7 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
                 let level = this.orgunitService.getUserHighestOrgUnitlevel(userOrgunit);
                 this.orgunit_model.user_orgunits = this.orgunitService.getUserOrgUnits(userOrgunit);
                 this.orgunitService.user_orgunits = this.orgunitService.getUserOrgUnits(userOrgunit);
-                if (this.orgunit_model.selection_mode == 'Usr_orgUnit') {
+                if (this.orgunit_model.selection_mode === 'orgUnit' && this.orgunit_model.selected_orgunits.length === 0) {
                   this.orgunit_model.selected_orgunits = this.orgunit_model.user_orgunits;
                 }
                 let all_levels = data.pager.total;
@@ -158,21 +158,22 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
                 //load inital orgiunits to speed up loading speed
                 this.subscription = this.orgunitService.getInitialOrgunitsForTree(orgunits).subscribe(
                   (initial_data) => {
-                    this.organisationunits = initial_data
+                    this.organisationunits = initial_data;
                     this.orgunit_tree_config.loading = false;
                     // a hack to make sure the user orgunit is not triggered on the first time
-                    this.initial_usr_orgunit = [{id: 'USER_ORGUNIT', name: 'User org unit'}];
+                    this.initial_usr_orgunit = [{id: 'USER_ORGUNIT', name: 'User Org unit'}];
                     // after done loading initial organisation units now load all organisation units
                     let fields = this.orgunitService.generateUrlBasedOnLevels(use_level);
                     this.subscription = this.orgunitService.getAllOrgunitsForTree1(fields, orgunits).subscribe(
                       items => {
 
-                        items[0].expanded = true;
+                        items[0].isExpanded = true;
                         this.organisationunits = items;
+                        this.toggleNodeExpand(items[0].id, this.orgtree);
 
                         //activate organisation units
                         for (let active_orgunit of this.orgunit_model.selected_orgunits) {
-                          this.activateNode(active_orgunit.id, this.orgtree, true);
+                          this.activateNode(active_orgunit.id, this.orgtree, active_orgunit.id === this.orgunit_model.user_orgunits.id);
 
                         }
 
@@ -242,6 +243,15 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
       if (node)
         node.setIsActive(true, true);
       if (first && node) {
+        node.toggleExpanded()
+      }
+    }, 0);
+  }
+
+  toggleNodeExpand(nodeId: any, nodes) {
+    setTimeout(() => {
+      let node = nodes.treeModel.getNodeById(nodeId);
+      if (node) {
         node.toggleExpanded()
       }
     }, 0);
@@ -337,6 +347,7 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
 
   // set selected groups
   setSelectedGroups(selected_groups) {
+    console.log(this.orgunit_model)
     this.orgunit_model.selected_groups = selected_groups;
     this.onOrgUnitModelUpdate.emit(this.orgunit_model);
   }
@@ -348,6 +359,7 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
 
   // set selected groups
   setSelectedLevels(selected_levels) {
+    console.log(this.orgunit_model)
     this.orgunit_model.selected_levels = selected_levels;
   }
 

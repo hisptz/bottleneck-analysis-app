@@ -38,7 +38,18 @@ export class DashboardItemCardComponent implements OnInit {
   layoutModel: any;
   selectedDataItems: any;
   selectedPeriods: any;
-  selectedOrgUnits: any;
+  orgUnitModel: any = {
+    selection_mode: 'orgUnit',
+    selected_levels: [],
+    show_update_button: true,
+    selected_groups: [],
+    orgunit_levels: [],
+    orgunit_groups: [],
+    selected_orgunits: [],
+    user_orgunits: [],
+    type: 'report', // can be 'data_entry'
+    selected_user_orgunit: []
+  };
   showPeriodFilter: boolean;
   showOrgUnitFilter: boolean;
   showDataFilter: boolean;
@@ -145,7 +156,6 @@ export class DashboardItemCardComponent implements OnInit {
      */
     if (this.visualizationObject.details.layouts.length > 0) {
       this.layoutModel = this.visualizationObject.details.layouts[0].layout;
-      console.log(this.layoutModel)
     }
 
     /**
@@ -158,20 +168,23 @@ export class DashboardItemCardComponent implements OnInit {
       }
     });
 
-    /**
-     * Get selected data items
-     */
-    this.selectedDataItems = _.assign([], this.getSelectedItems(this.visualizationObject.details.filters, 'dx'));
+    if (this.visualizationObject.details.filters.length > 0) {
+      /**
+       * Get selected data items
+       */
+      this.selectedDataItems = _.assign([], this.getSelectedItems(this.visualizationObject.details.filters, 'dx'));
 
-    /**
-     * Get selected periods
-     */
-    this.selectedPeriods = _.assign([], this.getSelectedItems(this.visualizationObject.details.filters, 'pe'));
+      /**
+       * Get selected periods
+       */
+      this.selectedPeriods = _.assign([], this.getSelectedItems(this.visualizationObject.details.filters, 'pe'));
 
-    /**
-     * Get selected Organisation unit
-     */
-    // console.log(this._getSelectedOrganUnitModel(this.getSelectedItems(this.visualizationObject.details.filters, 'ou')))
+      /**
+       * Get selected Organisation unit
+       */
+      this.orgUnitModel = this._getSelectedOrganUnitModel(this.getSelectedItems(this.visualizationObject.details.filters, 'ou'));
+    }
+
 
     if (this.visualizationObject.details.interpretations) {
       this.interpretations = this.visualizationObject.details.interpretations[0].interpretations
@@ -455,6 +468,7 @@ export class DashboardItemCardComponent implements OnInit {
           return {
             id: dataItem.dimensionItem,
             name: dataItem.displayName,
+            type: dataItem.dimensionItemType
           }
         })
       }
@@ -463,7 +477,30 @@ export class DashboardItemCardComponent implements OnInit {
   }
 
   private _getSelectedOrganUnitModel(orgUnitArray) {
-    return orgUnitArray;
+    const selectedOrgUnitLevel = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('LEVEL') !== -1);
+    const selectedUserOrgUnit = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('USER') != -1)
+    const orgUnitModel = {
+      selection_mode: 'orgUnit',
+      selected_levels: [],
+      show_update_button: true,
+      selected_groups: [],
+      orgunit_levels: selectedOrgUnitLevel.map((orgunitlevel) => {
+        return {
+          level: orgunitlevel.id.split('-')[1]
+        }
+      }),
+      orgunit_groups: [],
+      selected_orgunits: orgUnitArray.filter((orgunit) => orgunit.type === 'ORGANISATION_UNIT'),
+      user_orgunits: [],
+      type: 'report',
+      selected_user_orgunit: selectedUserOrgUnit.map((userorgunit) => {
+        return {
+          id: userorgunit.id,
+          shown: true
+        }
+      })
+    }
+    return orgUnitModel;
   }
 
   updateVisualizationWithChartType(chartType: string) {

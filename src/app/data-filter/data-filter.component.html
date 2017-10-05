@@ -1,0 +1,110 @@
+<div class="data-filter-container">
+  <div class="data-filter-options">
+    <ul class="list-inline data-filter-options-icon">
+      <li *ngFor="let option of dataFilterOptions">
+        <a (click)="toggleDataFilterOption(option, $event)"
+           [ngClass]="{
+            'btn': true,
+            'btn-sm': true,
+            'btn-info': option.selected,
+            'btn-default': !option.selected
+           }"
+           title="Click to see {{option.name}}"
+        >
+          {{option.name}}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div
+    class="data-filter-group-selection"
+    appClickOutside (clickOutside)="showGroups = false"
+  >
+    <!--Group selection button-->
+    <button
+      class="btn btn-default btn-sm btn-block"
+      (click)="toggleDataFilterGroupList($event)"
+    >
+      <span class="pull-left">{{ selectedGroup?.name || 'Select'}}</span>
+      <span class="pull-right">
+      <span class="fa fa-caret-down"></span>
+    </span>
+    </button>
+
+    <!--Group selection list-->
+    <div
+      class="panel panel-default data-filter-group-panel"
+      *ngIf="showGroups"
+    >
+      <div class="panel-body data-filter-group-panel-body">
+        <input type="search" class="form-control input-sm" placeholder="Search" [(ngModel)]="querystring">
+        <ul class="nav nav-pills nav-stacked data-filter-group-list">
+          <li
+            *ngFor="let item of dataGroups | filterByName:querystring | orderBy: 'sorOrder':false"
+          ><a (click)="setSelectedGroup(item, scrollse, $event)">{{ item.name }}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="data-filter-list-search">
+    <input type="text" class="form-control input-sm" (focus)="showBody = true" (keyup)="searchChanged()" placeholder="Search" [(ngModel)]="listchanges">
+  </div>
+
+  <div class="data-filter-available-header">
+    <div>
+      <small class="pull-left btn-sm"><b>Available ({{(listItems| filterByName:listchanges).length}})</b></small>
+      <a class="btn btn-sm pull-right" (click)="selectAllItems($event)">&raquo;</a>
+    </div>
+  </div>
+  <div class="data-filter-selected-header">
+    <a class="btn btn-sm pull-left" (click)="deselectAllItems($event)">&laquo;</a>
+    <small class="pull-right btn-sm"><b>Selected ({{ selectedItems.length }})</b></small>
+  </div>
+  <div class="data-filter-available-body">
+    <ul class="nav nav-pills nav-stacked" #scrollse>
+      <li *ngIf="loading">Loading...</li>
+      <li *ngIf="!loading && (listItems| filterByName:listchanges).length == 0"><a>No items</a></li>
+      <li *ngFor="let item of listItems
+              | filterByName:listchanges
+              |  paginate: { id: 'foo',itemsPerPage: 25, currentPage: p }"
+          [ngClass]="{'hiddenTree': inSelected(item, selectedItems)}"
+          title="Click to select item"
+          class="{{item.hasOwnProperty('programType') ? 'auto-growing' : ''}}"
+          id="{{item.id | addUnderscore}}"
+      >
+        <a (click)="addSelected(item, $event)">{{ item.name }}</a>
+      </li>
+      <li *ngIf="(listItems| filterByName:listchanges).length >= 25">
+        <a>
+          <pagination-controls  id="foo"
+                                (pageChange)="p = $event"
+                                maxSize="0">
+          </pagination-controls>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="data-filter-selected-body">
+    <ul class="nav nav-pills nav-stacked">
+      <li *ngFor="let item of selectedItems | paginate:{id: 'selectedlist',itemsPerPage: 100, currentPage: k}"
+          style="cursor: move"
+          dnd-droppable (onDropSuccess)="transferDataSuccess($event,item)"
+          title="click to unselect item"
+      >
+        <a dnd-draggable [dragEnabled]="true" (click)="removeSelected(item, $event)" [dragData]="item" class="{{item.hasOwnProperty('programType') ? 'auto-growing' : ''}}"> {{ item.name }} </a>
+      </li>
+      <li *ngIf="selectedItems.length > 100">
+        <pagination-controls id ='selectedlist' maxSize="0" (pageChange)="k = $event"></pagination-controls>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="data-filter-btns">
+  <div>
+    <div class="pull-right">
+      <button class="btn btn-default btn-sm" (click)="emit($event)">Update</button>
+      <button class="btn btn-default btn-sm" (click)="close($event)">Close</button>
+    </div>
+  </div>
+</div>

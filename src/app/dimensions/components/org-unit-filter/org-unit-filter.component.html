@@ -83,7 +83,12 @@
     </div>
     <!--user_org_unit-->
     <div class="col-sm-9" style="padding-right: 0px; margin-bottom: 5px" [ngClass]="{'hiddenTree': orgunit_model.selection_mode != 'orgUnit'}">
-      <app-multiselect #period_selector [placeholder]="'Select Organisation Unit'" [items]="user_orgunits_types" (onSelected)="setSelectedUserOrg($event)"></app-multiselect>
+      <app-multiselect
+        #period_selector
+        [placeholder]="'Select Organisation Unit'"
+        [items]="user_orgunits_types"
+        [selected_items]="orgunit_model.selected_user_orgunit"
+        (onSelected)="setSelectedUserOrg($event)"></app-multiselect>
 
     </div>
     <!--org_unit_levels-->

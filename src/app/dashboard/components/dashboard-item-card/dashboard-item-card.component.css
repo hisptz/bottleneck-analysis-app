@@ -250,8 +250,8 @@
 
 .data-filter-holder {
   position: absolute;
-  width: 400px;
-  height: 350px;
+  width: 450px;
+  height: 340px;
   border: solid 1px #e0ecfc;
   padding: 3px;
   background-color: #ffffff;
@@ -273,4 +273,8 @@
   width: 400px;
   padding: 3px;
   height: 350px;
+}
+
+.hiddenItem {
+  display: none;
 }

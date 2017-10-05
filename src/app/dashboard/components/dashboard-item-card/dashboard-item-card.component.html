@@ -16,7 +16,7 @@
             *ngIf="!hideOptions(visualizationObject.type, visualizationWithNoOptions)"
           >
             <li>
-              <a (click)="toggleFilter($event)" tooltip="Filter by period and orgunit">
+              <a (click)="toggleFilter($event)" tooltip="Filter by data, period and orgunit">
                 <i class="fa fa-filter"></i>
               </a>
             </li>
@@ -66,7 +66,7 @@
               </div>
             </li>
             <li
-              *ngIf="showFilter.orgUnit.shown && showFilter.orgUnit.enabled"
+              [ngClass]="{'hiddenItem': !showFilter.orgUnit.shown && showFilter.orgUnit.enabled}"
               appClickOutside (clickOutside)="showOrgUnitFilter = false"
             >
               <a
@@ -77,10 +77,13 @@
                 <span>Organisation Unit</span>
               </a>
               <div
-                class="org-unit-filter-holder"
-                *ngIf="showOrgUnitFilter"
+                [ngClass]="{
+                'org-unit-filter-holder': true,
+                'hiddenItem': !showOrgUnitFilter
+                }"
               >
                 <app-org-unit-filter
+                  [orgunit_model]="orgUnitModel"
                   (onOrgUnitUpdate)="updateFilters($event)"
                   (onOrgUnitClose)="showOrgUnitFilter = !showOrgUnitFilter"
                 >

@@ -52,8 +52,8 @@ export class LayoutComponent implements OnInit {
   ngOnInit() {
     this.updateLayoutDimensions();
     if (this.visualizationType === 'CHART') {
-      this.rowName = 'Categories (X-axis) dimensions';
-      this.columnName = 'Series (Y-Axis) dimensions';
+      this.rowName = 'Categories dimensions';
+      this.columnName = 'Series dimensions';
     }
   }
 
@@ -69,7 +69,6 @@ export class LayoutComponent implements OnInit {
   }
 
   updateLayout() {
-    console.log(this.filters, this.rows, this.columns)
     this.onLayoutUpdate.emit(this.layoutModel);
   }
 

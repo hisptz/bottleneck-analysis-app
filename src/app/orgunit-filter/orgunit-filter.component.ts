@@ -40,6 +40,8 @@ export class OrgunitFilterComponent implements OnInit {
 
   private _canShowAllSelectedOrgUnits: boolean;
 
+  showOrgUnitSettings: boolean;
+
   constructor(private orgUnitService: OrgunitService) {
     this.orgUnitModel = INITIAL_ORG_UNIT_MODEL;
     this.orgUnitTreeConfiguration = INITIAL_ORG_UNIT_TREE_CONFIGURATION;

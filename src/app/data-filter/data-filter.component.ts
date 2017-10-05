@@ -1,10 +1,10 @@
-import {Component, OnInit, AfterViewInit, Output, EventEmitter, Input, ChangeDetectorRef} from '@angular/core';
-import * as _ from 'lodash'
-import {FuseSearchPipe} from '../../pipes/fuse-search.pipe';
-import {OrderPipe} from '../../pipes/order-by.pipe';
-import {FilterByNamePipe} from '../../pipes/filter-by-name.pipe';
-import {DataService} from '../../providers/data.service';
-
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import * as fromDataFilterModel from './data-filter.model';
+import {DataFilterService} from './services/data-filter.service';
+import * as _ from 'lodash';
+import {FuseSearchPipe} from './pipes/fuse-search.pipe';
+import {OrderPipe} from './pipes/order-by.pipe';
+import {FilterByNamePipe} from './pipes/filter-by-name.pipe';
 
 @Component({
   selector: 'app-data-filter',
@@ -12,37 +12,10 @@ import {DataService} from '../../providers/data.service';
   styleUrls: ['./data-filter.component.css'],
   providers:[FuseSearchPipe,OrderPipe,FilterByNamePipe]
 })
-export class DataFilterComponent implements OnInit, AfterViewInit {
-
+export class DataFilterComponent implements OnInit {
 
   listItems:any[] = [];
   dataGroups: any[] = [];
-  dataOptions: any[] = [
-    {
-      name: 'All',
-      prefix: 'ALL',
-      selected: true},
-    {
-      name: 'Data elements',
-      prefix: 'de',
-      selected: false
-    },
-    {
-      name: 'Indicators',
-      prefix: 'in',
-      selected: false
-    },
-    {
-      name: 'Data sets',
-      prefix: 'cv',
-      selected: false
-    },
-    {
-      name: 'Program indicators',
-      prefix: 'at',
-      selected: false
-    }
-  ];
   selectedGroup:any = {id:'ALL',name:'All'};
 
   @Output() selected_data_option: EventEmitter<any> = new EventEmitter<any>();
@@ -54,7 +27,6 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   @Input() hiddenDataElements:any[] = [];
   querystring: string = null;
   listchanges: string = null;
-  showGroups:boolean = false;
   showBody:boolean = false;
   metaData:any = {
     dataElements: [],
@@ -64,6 +36,7 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
     categoryOptions: [],
     dataSets: [],
     programs: [],
+    programIndicators: [],
     dataSetGroups: [
       {id:'', name: "Reporting Rate"},
       {id:'.REPORTING_RATE_ON_TIME', name: "Reporting Rate on time"},
@@ -77,26 +50,18 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   k:number = 1;
   need_groups:boolean =true;
   searchOptions:any;
-  constructor( private dataService: DataService,
-               private filterByName:FilterByNamePipe,
-               private fusePipe:FuseSearchPipe,
-               private orderPipe:OrderPipe,
-               private changeDetector: ChangeDetectorRef) {
-    this.searchOptions={
-      shouldSort: true,
-      matchAllToken: true,
-      findAllMatches: false,
-      threshold: 0,
-      location: 0,
-      sort: true,
-      distance: 100,
-      maxPatternLength: 60,
-      minMatchCharLength: 1,
-      keys: [
-        "name"
-      ]
-    };
 
+  dataFilterOptions: any[];
+  showGroups: boolean;
+  constructor(
+    private dataFilterService: DataFilterService,
+    private filterByName:FilterByNamePipe,
+    private fusePipe:FuseSearchPipe,
+    private orderPipe:OrderPipe,
+    private changeDetector: ChangeDetectorRef
+  ) {
+    this.dataFilterOptions = fromDataFilterModel.DATA_FILTER_OPTIONS;
+    this.showGroups = false;
   }
 
   ngOnInit() {
@@ -109,7 +74,7 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   }
 
   initiateData() {
-    this.dataService.initiateData().subscribe(
+    this.dataFilterService.initiateData().subscribe(
       (items ) => {
 
         this.metaData = Object.assign({}, {
@@ -120,6 +85,7 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
           categoryOptions: items[5],
           dataSets: items[4],
           programs: items[6],
+          programIndicators: items[7],
           dataSetGroups: [
             {id:'', name: "Reporting Rate"},
             {id:'.REPORTING_RATE_ON_TIME', name: "Reporting Rate on time"},
@@ -140,61 +106,8 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
     )
   }
 
-  ngAfterViewInit() {
-    //
-  }
-
-  toggleDataOption(optionPrefix,event) {
-    let someItems = this.manyItemsSelected(this.dataOptions, optionPrefix);
-    if(event.ctrlKey) {
-      this.dataOptions.forEach((value) => {
-        if( value['prefix'] == optionPrefix ){
-          value['selected'] = !value['selected'];
-        }
-      });
-    } else {
-      this.dataOptions.forEach((value) => {
-        if( value['prefix'] == optionPrefix ){
-          if(someItems.many && someItems.available){
-            value['selected'] = true;
-          }else{
-            value['selected'] = !value['selected'];
-          }
-        }else{
-          value['selected'] = false;
-
-        }
-      });
-    }
-    this.selectedGroup = {id:'ALL', name:'All'};
-    this.dataGroups = this.groupList();
-    this.listItems = this.dataItemList();
-    this.p =1;
-    this.listchanges = '';
-  }
-
-  manyItemsSelected(optios:any, optionPrefix:string){
-    let selected = {
-      many: false,
-      items: [],
-      available: false
-    };let counter = 0;
-    optios.forEach(( option )=> {
-      if(option['selected']) {
-        counter++;
-        selected.items.push(option);
-        if(option['prefix'] == optionPrefix){
-          selected.available = true;
-        }
-      }
-    })
-    if (counter > 1 ){
-      selected.many = true
-    }
-    return selected;
-  }
-
-  setSelectedGroup(group,listArea) {
+  setSelectedGroup(group, listArea, event) {
+    event.stopPropagation();
     this.listchanges = '';
     this.selectedGroup = group;
     this.listItems = this.dataItemList();
@@ -205,7 +118,7 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
 
   getSelectedOption(): any[] {
     let someArr = [];
-    this.dataOptions.forEach((val) => {
+    this.dataFilterOptions.forEach((val) => {
       if (val.selected) {
         someArr.push(val);
       }
@@ -220,10 +133,10 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
       dataElements.push(...this.getDetailedDataElements( dataelement ))
     });
     return {
-      dx: dataElements,
-      ind: this.metaData.indicators,
-      dt: this.metaData.dataSets,
-      at: this.metaData.programs
+      de: dataElements,
+      in: this.metaData.indicators,
+      ds: this.metaData.dataSets,
+      pi: this.metaData.programIndicators
     }
   }
 
@@ -275,8 +188,9 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   getData( ){
     return {
       dx: this.metaData.dataElementGroups,
-      ind: this.metaData.indicatorGroups,
-      dt: this.metaData.dataSetGroups
+      in: this.metaData.indicatorGroups,
+      ds: this.metaData.dataSetGroups,
+      pr: this.metaData.programs
     }
   }
 
@@ -289,13 +203,13 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
     // check if data element is in a selected group
     if(_.includes(selectedOptions, 'ALL') || _.includes(selectedOptions,'de')){
       if( group.id == 'ALL' ){
-        currentList.push(...data.dx)
-      }else{
+        currentList.push(...data.de)
+      } else{
         if( group.hasOwnProperty('dataElements')){
-          let newArray = _.filter(data.dx, (dataElement) => {
+          let newArray = _.filter(data.de, (dataElement) => {
             return _.includes(_.map(group.dataElements,'id'), dataElement.dataElementId);
           });
-          currentList.push(...newArray)
+          currentList.push(...newArray);
         }
 
       }
@@ -304,10 +218,10 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
     // check if data indicators are in a selected group
     if(_.includes(selectedOptions, 'ALL') || _.includes(selectedOptions,'in')){
       if( group.id == 'ALL' ){
-        currentList.push(...data.ind)
+        currentList.push(...data.in)
       }else{
         if( group.hasOwnProperty('indicators')){
-          let newArray = _.filter(data.ind, (indicator) => {
+          let newArray = _.filter(data.in, (indicator) => {
             return _.includes(_.map(group.indicators,'id'),indicator['id']);
           });
           currentList.push(...newArray)
@@ -316,60 +230,41 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
     }
 
     // check if data data sets are in a selected group
-    if(_.includes(selectedOptions, 'ALL') || _.includes(selectedOptions,'cv')){
+    if(_.includes(selectedOptions, 'ALL') || _.includes(selectedOptions,'ds')){
       if( group.id == 'ALL' ){
         this.metaData.dataSetGroups.forEach((group) => {
-          currentList.push(...data.dt.map(datacv => {
+          currentList.push(...data.ds.map(datacv => {
             return {id:datacv.id + group.id, name:group.name+' '+datacv.name}
           }))
         });
-      }else if( !group.hasOwnProperty('indicators') && !group.hasOwnProperty('dataElements') ){
-        currentList.push(...data.dt.map(datacv => {
+      } else if( !group.hasOwnProperty('indicators') && !group.hasOwnProperty('dataElements') ){
+        currentList.push(...data.ds.map(datacv => {
           return {id:datacv.id + group.id, name:group.name+' '+datacv.name}
         }));
       }
     }
-    // check if auto-growing
-    if(_.includes(selectedOptions, 'ALL') || _.includes(selectedOptions,'at')){
+    // check if program
+    if(_.includes(selectedOptions, 'ALL') || _.includes(selectedOptions,'pr')){
       if( group.id == 'ALL' ) {
-        currentList.push(...data.at);
+        currentList.push(...data.pi);
+      } else{
+        if( group.hasOwnProperty('programIndicators')){
+          let newArray = _.filter(data.pi, (indicator) => {
+            return _.includes(_.map(group.programIndicators,'id'),indicator['id']);
+          });
+          currentList.push(...newArray)
+        }
       }
     }
-    let SortOrder=["WF00","WF01","WF02","WF03","DF02","DF03"];
-    // return this.orderPipe.transform(currentList,'name',false);
-    let newcurrentList = [];
-    currentList.forEach((listItem) => {
-      let nameArr = listItem.name.split(" ");
-      if(listItem.name.indexOf("WF00") !== -1 && nameArr[0] == "WF00"){
-        listItem.sorOrder = "A"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("WF00") !== -1){
-        listItem.sorOrder = "B"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("WF01") !== -1){
-        listItem.sorOrder = "C"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("WF02") !== -1){
-        listItem.sorOrder = "D"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("WF03") !== -1){
-        listItem.sorOrder = "E"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("DF02") !== -1){
-        listItem.sorOrder = "F"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("DF03") !== -1){
-        listItem.sorOrder = "G"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else{
-        listItem.sorOrder = "H";
-        // newcurrentList.push(listItem)
-      }
-    });
-    newcurrentList = _.filter(currentList,(item=>{
+
+    const currentListWithOutHiddenItems = _.filter(currentList,(item=> {
       return !_.includes(this.hiddenDataElements,item['id']);
     }));
-    return this.orderPipe.transform(newcurrentList,'sorOrder',false);
+
+    return this.orderPipe.transform(
+      currentListWithOutHiddenItems.filter((item: any) => !_.find(this.selectedItems, ['id', item.id])),
+      'sorOrder',
+      false);
 
   }
 
@@ -380,60 +275,71 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
     const options = this.getSelectedOption();
     const data = this.getData();
 
-    currentGroupList.push(...[{id:'ALL',name:'All Tables'}]);
+    // currentGroupList.push(...[{id:'ALL',name:'All Tables'}]);
     if(_.includes(options, 'ALL') || _.includes(options,'de')){
 
       currentGroupList.push(...data.dx)
-    }if(_.includes(options, 'ALL') || _.includes(options,'in')){
+    }
+
+    if(_.includes(options, 'ALL') || _.includes(options,'in')){
       if(options.length == 1 && _.includes(options,'in')){
-        currentGroupList.push(...data.ind)
+        currentGroupList.push(...data.in)
       }else{
-        currentGroupList.push(...data.ind.map(indicatorGroup => {
+        currentGroupList.push(...data.in.map(indicatorGroup => {
           return {id:indicatorGroup.id, name:indicatorGroup.name+' - Computed',indicators:indicatorGroup.indicators,}
         }));
       }
-    }if(_.includes(options, 'ALL') || _.includes(options,'cv')){
-      currentGroupList.push(...data.dt)
-    }if(_.includes(options,'at')){
+    }
+
+    if(_.includes(options, 'ALL') || _.includes(options,'pr')){
+      currentGroupList.push(...data.pr)
+    }
+
+    if(_.includes(options, 'ALL') || _.includes(options,'ds')){
+      currentGroupList.push(...data.ds)
+    }
+
+    if(_.includes(options,'ds')){
       this.need_groups = false;
     }
-    currentGroupList.forEach((listItem) => {
-      if(listItem.name.indexOf("All Tables") !== -1){
-        listItem.sorOrder = "0AA"+listItem.name;
-      }
-      else if(listItem.name.indexOf("WF00") !== -1){
-        listItem.sorOrder = "A"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("WF00") !== -1){
-        listItem.sorOrder = "B"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("WF01") !== -1){
-        listItem.sorOrder = "C"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("WF02") !== -1){
-        listItem.sorOrder = "D"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("WF03") !== -1){
-        listItem.sorOrder = "E"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("DF02") !== -1){
-        listItem.sorOrder = "F"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else if(listItem.name.indexOf("DF03") !== -1){
-        listItem.sorOrder = "G"+listItem.name;
-        // newcurrentList.push(listItem)
-      }else{
-        listItem.sorOrder = "H";
-        // newcurrentList.push(listItem)
-      }
-    });
+
     return this.orderPipe.transform(currentGroupList,'sorOrder',false);
-    // return currentGroupList;
   }
 
   // this will add a selected item in a list function
-  addSelected(item){
-    this.selectedItems.push(item);
+  addSelected(item, event){
+    event.stopPropagation();
+    const itemIndex = _.findIndex(this.listItems, item);
+
+    this.listItems = [
+      ...this.listItems.slice(0, itemIndex),
+      ...this.listItems.slice(itemIndex + 1)
+    ];
+
+    if (!_.find(this.selectedItems, ['id', item.id])) {
+      this.selectedItems = [
+        ...this.selectedItems,
+        item
+      ];
+    }
+  }
+
+  // Remove selected Item
+  removeSelected(item, event){
+    event.stopPropagation();
+    const itemIndex = _.findIndex(this.selectedItems, item);
+
+    this.selectedItems = [
+      ...this.selectedItems.slice(0, itemIndex),
+      ...this.selectedItems.slice(itemIndex + 1)
+    ];
+
+    if (!_.find(this.listItems, ['id', item.id])) {
+      this.listItems = [
+        ...this.listItems,
+        item
+      ];
+    }
   }
 
   getAutogrowingTables(selections){
@@ -460,29 +366,35 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
     return mappings;
   }
 
-  // Remove selected Item
-  removeSelected(item, e){
-    e.stopPropagation();
-    this.selectedItems.splice(this.selectedItems.indexOf(item),1);
-  }
-
   //selecting all items
-  selectAllItems(e){
-    e.stopPropagation();
-    let newList = this.filterByName.transform(this.listItems ,this.listchanges);
-    newList.forEach((item) => {
-      if(!this.checkDataAvailabilty(item, this.selectedItems )){
-        this.selectedItems.push(item);
+  selectAllItems(event){
+    event.stopPropagation();
+
+    this.listItems.forEach((item) => {
+      if (!_.find(this.selectedItems, ['id', item.id])) {
+        this.selectedItems = [
+          ...this.selectedItems,
+          item
+        ];
       }
     });
-    this.getSelectedPeriods();
+
+    this.listItems = [];
   }
 
   //selecting all items
   deselectAllItems(e){
     e.stopPropagation();
+    this.selectedItems.forEach((item) => {
+      if (!_.find(this.listItems, ['id', item.id])) {
+        this.listItems = [
+          ...this.listItems,
+          item
+        ];
+      }
+    });
+
     this.selectedItems = [];
-    this.getSelectedPeriods();
   }
 
   // Check if item is in selected list
@@ -561,53 +473,6 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
 
   hideMonth:boolean = false;
   hideQuarter:boolean = false;
-  getSelectedPeriods(){
-    let periods = [];
-    for (let data_item of this.selectedItems ){
-      if(data_item.hasOwnProperty("dataSets")){
-        for( let dataset of data_item.dataSets ){
-          if(periods.indexOf(dataset.periodType) == -1){
-            periods.push(dataset.periodType)
-          }
-        }
-      }
-      if(data_item.hasOwnProperty("dataSetElements")){
-        for( let dataset of data_item.dataSetElements ){
-          if(periods.indexOf(dataset.dataSet.periodType) == -1){
-            periods.push(dataset.dataSet.periodType)
-          }
-        }
-
-      }if(data_item.hasOwnProperty("programType")){
-
-        if(data_item.name.indexOf("DF02") !== -1 || data_item.name.indexOf("WF02") !== -1 ){
-          periods.push("Quarterly");
-        }if(data_item.name.indexOf("DF03") !== -1 || data_item.name.indexOf("WF03") !== -1 ){
-          periods.push("FinancialJuly");
-        }
-        if(data_item.name.indexOf("WF01") !== -1 ){
-          periods.push("Monthly");
-        }
-      }
-    }
-    if(this.selectedItems.length > 0){
-      if(periods.indexOf("Monthly") == -1 && (periods.indexOf("Quarterly") != -1  || periods.indexOf("FinancialJuly") != -1 )){
-        this.hideMonth = true;
-      }else{
-        this.hideMonth = false;
-      }
-      if(periods.indexOf("Monthly") == -1 && periods.indexOf("Quarterly") == -1 && periods.indexOf("FinancialJuly") != -1){
-        this.hideMonth = true;
-        this.hideQuarter = true;
-      }else{
-        this.hideQuarter = false;
-      }
-      if(periods.indexOf("Quarterly") != -1){
-        this.hideQuarter = false;
-      }
-
-    }
-  }
 
   getDataForAnalytics(selectedData) {
     let dataForAnalytics = "";
@@ -632,18 +497,6 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
     return dataForAnalytics;
   }
 
-  dynamicSort(property) {
-    var sortOrder = 1;
-    if(property[0] === "-") {
-      sortOrder = -1;
-      property = property.substr(1);
-    }
-    return function (a,b) {
-      var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-      return result * sortOrder;
-    }
-  }
-
   getSelectedItemsToRemove(){
     return this.filterByName.transform(this.selectedItems ,this.listchanges).length;
 
@@ -652,6 +505,57 @@ export class DataFilterComponent implements OnInit, AfterViewInit {
   close(e) {
     e.stopPropagation();
     this.onDataFilterClose.emit(true);
+  }
+
+  toggleDataFilterOption(toggledOption, event) {
+    event.stopPropagation();
+    const multipleSelection = event.ctrlKey ? true: false;
+
+    this.dataFilterOptions = this.dataFilterOptions.map(option => {
+      const newOption: any = {...option};
+
+      if (toggledOption.prefix === 'ALL') {
+        if (newOption.prefix !== 'ALL') {
+          newOption.selected = false;
+        } else {
+          newOption.selected = !toggledOption.selected;
+        }
+      } else {
+
+        if (newOption.prefix === toggledOption.prefix) {
+          newOption.selected = !newOption.selected;
+        }
+
+        if (toggledOption.prefix === 'ALL') {
+          if (newOption.prefix !== 'ALL' && toggledOption.selected) {
+            newOption.selected = false;
+          }
+        } else {
+          if (newOption.prefix === 'ALL') {
+            newOption.selected = false;
+          }
+        }
+
+        if (!multipleSelection && toggledOption.prefix !== newOption.prefix) {
+          newOption.selected = false;
+        }
+      }
+
+      return newOption;
+    });
+
+    const selectedDataFilters: any[] = this.dataFilterOptions.filter((option) => option.selected);
+    this.selectedGroup = {id:'ALL', name:'All'};
+    this.dataGroups = this.groupList();
+
+    this.listItems = this.dataItemList();
+    this.p =1;
+    this.listchanges = '';
+  }
+
+  toggleDataFilterGroupList(e) {
+    e.stopPropagation();
+    this.showGroups = !this.showGroups;
   }
 
 }
