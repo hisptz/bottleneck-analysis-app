@@ -205,7 +205,6 @@ export class VisualizationObjectService {
               const dataDimension = analytics.metaData['dx'][0];
               const periodDimension = analytics.metaData['pe'][0];
               const analyticsId = favoriteObject.analyticsIdentifier;
-              console.log(analyticsId, dataDimension + '_' + periodDimension, periodDimension + '_' + dataDimension)
               if (analyticsId === dataDimension + '_' + periodDimension || analyticsId === periodDimension + '_' + dataDimension) {
                 newSplitedLayers.push({
                   settings: favoriteObject,

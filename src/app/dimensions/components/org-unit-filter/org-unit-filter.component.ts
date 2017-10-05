@@ -347,7 +347,6 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
 
   // set selected groups
   setSelectedGroups(selected_groups) {
-    console.log(this.orgunit_model)
     this.orgunit_model.selected_groups = selected_groups;
     this.onOrgUnitModelUpdate.emit(this.orgunit_model);
   }
@@ -359,7 +358,6 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
 
   // set selected groups
   setSelectedLevels(selected_levels) {
-    console.log(this.orgunit_model)
     this.orgunit_model.selected_levels = selected_levels;
   }
 

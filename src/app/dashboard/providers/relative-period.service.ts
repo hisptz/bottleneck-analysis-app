@@ -246,17 +246,17 @@ export class RelativePeriodService {
       },
       '_WEEK': (template, counts, tense) => {
         const currentWeek = this._getThisWeek();
-        const lastWeeks = this._getLastPeriods(currentWeek, counts, 52, tense);
+        const lastNWeeks = this._getLastWeeks(currentWeek, tense, counts);
         let currentYear = currentDate.getFullYear();
-        const lastweeks = [];
+        const lastWeeks = [];
         let endOfTheYear = false;
-        lastWeeks.forEach((nthLastWeek) => {
-          nthLastWeek === 2 ? endOfTheYear = true : endOfTheYear = false;
+        lastNWeeks.forEach((nthLastWeek) => {
+          nthLastWeek === 52 ? endOfTheYear = true : endOfTheYear = false;
           if (endOfTheYear) {
             currentYear = currentYear - 1;
             endOfTheYear = false;
           }
-          lastweeks.push({
+          lastWeeks.push({
             id: currentYear + 'W' + nthLastWeek,
             dimensionItem: currentYear + 'W' + nthLastWeek,
             displayName: currentYear + 'W' + nthLastWeek,
@@ -264,7 +264,7 @@ export class RelativePeriodService {
           });
 
         });
-        return lastweeks;
+        return _.reverse(lastWeeks);
       },
       '_FINANCIAL_YEAR': (template, counts, tense) => {
         const hypotheticalFinancialYearMonth = 10;
@@ -349,6 +349,28 @@ export class RelativePeriodService {
     }
 
     return lastQuarters;
+  }
+
+  _getLastWeeks(current, tense, counts) {
+    const lastWeeks = [];
+    if (tense === 'LAST') {
+      let iterator =   current - 1;
+      lastWeeks.push(iterator);
+      for (let counter = 1; counter <= counts - 1; counter++) {
+        if (iterator === 1) {
+          iterator = 52;
+          lastWeeks.push(iterator);
+        } else {
+          iterator--;
+          lastWeeks.push(iterator);
+        }
+
+      }
+    } else {
+      lastWeeks.push(current)
+    }
+
+    return lastWeeks;
   }
 
   private _getLastPeriods(current, counts, typeLimit, tense) {
