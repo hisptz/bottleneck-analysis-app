@@ -133,6 +133,13 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
       this.customTemplateStringOrgunitOptions = {actionMapping};
     }
 
+    /**
+     * Update user orgunit with meaningfull names
+     */
+    this.orgunit_model.selected_user_orgunit = this.orgunit_model.selected_user_orgunit.map((userOrgUnit) => {
+      return _.find(this.user_orgunits_types, ['id', userOrgUnit.id]);
+    }).filter((selectedUserOrgUnit) => selectedUserOrgUnit);
+
 
     // if (this.orgunitService.nodes == null) {
     this.subscription = this.orgunitService.getOrgunitLevelsInformation()
@@ -151,6 +158,7 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
               name: 'Level ' + selectedLevel.level
             };
           });
+
           // setting organisation groups
           this.orgunitService.getOrgunitGroups().subscribe(groups => {//noinspection TypeScriptUnresolvedVariable
             this.orgunit_model.orgunit_groups = groups;
@@ -396,7 +404,6 @@ export class OrgUnitFilterComponent implements OnInit, OnDestroy {
 
   // set selected groups
   setSelectedLevels(selected_levels) {
-    console.log(this.orgunit_model.selected_levels)
     this.orgunit_model.selected_levels = selected_levels;
   }
 

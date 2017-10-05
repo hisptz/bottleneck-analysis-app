@@ -248,7 +248,6 @@ export function updateVisualizationWithCustomFilters(visualization: Visualizatio
 }
 
 export function mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {
-  console.log(filterItems)
   const newFilterItems: any = [];
 
   filterItems.forEach(filterItem => {
@@ -265,7 +264,7 @@ export function mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {
         dimensionItem: filterItem.id,
         startingName: filterItem.startingName,
         displayName: filterItem.name,
-        dimensionItemType: 'ORGANISATION_UNIT'
+        dimensionItemType: filterItem.id.indexOf('LEVEL') !== -1 ? 'LEVEL' : 'ORGANISATION_UNIT'
       })
     } else if (dimensionType === 'dx') {
       newFilterItems.push({

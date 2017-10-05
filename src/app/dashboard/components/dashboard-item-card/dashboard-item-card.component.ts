@@ -467,6 +467,12 @@ export class DashboardItemCardComponent implements OnInit {
   private _getSelectedOrganUnitModel(orgUnitArray) {
     const selectedOrgUnitLevels = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('LEVEL') !== -1);
     const selectedUserOrgUnit = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('USER') != -1);
+    console.log(selectedUserOrgUnit.map((userorgunit) => {
+      return {
+        id: userorgunit.id,
+        shown: true
+      }
+    }))
 
     const selectionMode = selectedOrgUnitLevels.length > 0 ? 'Level' : 'orgUnit';
     const orgUnitModel = {

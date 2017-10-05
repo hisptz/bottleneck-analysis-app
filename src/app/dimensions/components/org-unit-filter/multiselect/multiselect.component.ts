@@ -49,7 +49,8 @@ export class MultiselectComponent implements OnInit {
     return checker;
   }
 
-  selectItem(item){
+  selectItem(item, e){
+    e.stopPropagation();
     if(this.checkItemAvailabilty(item, this.selected_items )){
       this.selected_items.splice(this.selected_items.indexOf(item),1);
     }else{
