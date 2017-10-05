@@ -144,7 +144,7 @@ export class RelativePeriodService {
       },
       '_QUARTER': (template, counts, tense) => {
         const currentQuarter = this._getThisQuarter();
-        const lastNQuarters = this._getLastQuarters(currentQuarter, tense, counts);
+        const lastNQuarters = this._getPeriods(currentQuarter, tense, counts, 4);
         let currentYear = currentDate.getFullYear();
         const quarters = [];
         let endOfTheYear = false;
@@ -167,22 +167,20 @@ export class RelativePeriodService {
       },
       '_YEAR': (template, counts, tense) => {
         const currentYear = currentDate.getFullYear();
-        const lastNYears = this._getLastPeriods(currentYear, counts, 1, tense);
-        const years = [];
-        lastNYears.forEach((nthYear) => {
-          years.push({
+        const lastNYears = this._getPeriods(currentYear, tense, counts, 12);
+
+        return _.reverse(lastNYears.map((nthYear) => {
+          return {
             id: nthYear + '',
             dimensionItem: nthYear + '',
             displayName: nthYear + '',
             dimensionItemType: 'PERIOD'
-          });
-
-        })
-        return years;
+          };
+        }));
       },
       '_BIMONTH': (template, counts, tense) => {
         const currentBimonth = this._getThisBimonth();
-        const lastNBimonths = this._getLastPeriods(currentBimonth, counts, 6, tense);
+        const lastNBimonths = this._getPeriods(currentBimonth, tense, counts, 6);
         let currentYear = currentDate.getFullYear();
         const bimonths = [];
         let endOfTheYear = false;
@@ -199,8 +197,9 @@ export class RelativePeriodService {
             dimensionItemType: 'PERIOD'
           });
 
-        })
-        return bimonths;
+        });
+
+        return _.reverse(bimonths);
       },
       '_SIXMONTHS': (template, counts, tense) => {
         const currentSixmonth = this._getThisSixmonth();
@@ -246,7 +245,7 @@ export class RelativePeriodService {
       },
       '_WEEK': (template, counts, tense) => {
         const currentWeek = this._getThisWeek();
-        const lastNWeeks = this._getLastWeeks(currentWeek, tense, counts);
+        const lastNWeeks = this._getPeriods(currentWeek, tense, counts, 52);
         let currentYear = currentDate.getFullYear();
         const lastWeeks = [];
         let endOfTheYear = false;
@@ -272,7 +271,6 @@ export class RelativePeriodService {
         let currentYear = currentDate.getFullYear();
         let nthFinancialYears = [];
         if (tense == 'LAST') {
-
           for (let counter = 0; counter < counts; counter++) {
             currentYear = currentYear - 1;
             nthFinancialYears.push({
@@ -292,7 +290,7 @@ export class RelativePeriodService {
             dimensionItemType: 'PERIOD'
           });
         }
-        return nthFinancialYears;
+        return _.reverse(nthFinancialYears);
       }
     }
   }
@@ -327,6 +325,28 @@ export class RelativePeriodService {
       }
     });
     return selectedCount;
+  }
+
+  private _getPeriods(current, tense, counts, endingValue) {
+    const periods = [];
+    if (tense === 'LAST') {
+      let iterator =   current - 1;
+      periods.push(iterator);
+      for (let counter = 1; counter <= counts - 1; counter++) {
+        if (iterator === 1) {
+          iterator = endingValue;
+          periods.push(iterator);
+        } else {
+          iterator--;
+          periods.push(iterator);
+        }
+
+      }
+    } else {
+      periods.push(current)
+    }
+
+    return periods;
   }
 
   private _getLastQuarters(current, tense, counts) {
@@ -371,6 +391,28 @@ export class RelativePeriodService {
     }
 
     return lastWeeks;
+  }
+
+  _getLastYears(current, tense, counts) {
+    const lastYears = [];
+    if (tense === 'LAST') {
+      let iterator =   current - 1;
+      lastYears.push(iterator);
+      for (let counter = 1; counter <= counts - 1; counter++) {
+        if (iterator === 1) {
+          iterator = 12;
+          lastYears.push(iterator);
+        } else {
+          iterator--;
+          lastYears.push(iterator);
+        }
+
+      }
+    } else {
+      lastYears.push(current)
+    }
+
+    return lastYears;
   }
 
   private _getLastPeriods(current, counts, typeLimit, tense) {

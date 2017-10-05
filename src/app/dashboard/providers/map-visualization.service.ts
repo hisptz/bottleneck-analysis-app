@@ -10,8 +10,6 @@ import {MapObject} from '../model/map-object';
 import {saveAs} from 'file-saver';
 
 declare var html2canvas;
-// declare var GJV;
-import GJV from 'geojson-validation';
 import {MapFilesConversion} from './map-files-conversion.service';
 
 @Injectable()
