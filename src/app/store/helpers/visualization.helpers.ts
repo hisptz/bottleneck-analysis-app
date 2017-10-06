@@ -264,7 +264,8 @@ export function mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {
         dimensionItem: filterItem.id,
         startingName: filterItem.startingName,
         displayName: filterItem.name,
-        dimensionItemType: filterItem.id.indexOf('LEVEL') !== -1 ? 'LEVEL' : 'ORGANISATION_UNIT'
+        dimensionItemType: filterItem.id.indexOf('LEVEL') !== -1 ? 'LEVEL' :
+          filterItem.id.indexOf('OU_GROUP') !== -1 ? 'GROUP' : 'ORGANISATION_UNIT'
       })
     } else if (dimensionType === 'dx') {
       newFilterItems.push({

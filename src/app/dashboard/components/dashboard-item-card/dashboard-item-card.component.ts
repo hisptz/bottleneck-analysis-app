@@ -467,14 +467,9 @@ export class DashboardItemCardComponent implements OnInit {
   private _getSelectedOrganUnitModel(orgUnitArray) {
     const selectedOrgUnitLevels = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('LEVEL') !== -1);
     const selectedUserOrgUnit = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('USER') != -1);
-    console.log(selectedUserOrgUnit.map((userorgunit) => {
-      return {
-        id: userorgunit.id,
-        shown: true
-      }
-    }))
+    const selectedOrgUnitGroups = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('OU_GROUP') !== -1);
 
-    const selectionMode = selectedOrgUnitLevels.length > 0 ? 'Level' : 'orgUnit';
+    const selectionMode = selectedOrgUnitLevels.length > 0 ? 'Level' : selectedOrgUnitGroups.length > 0 ? 'Group' : 'orgUnit';
     const orgUnitModel = {
       selection_mode: selectionMode,
       selected_levels: selectedOrgUnitLevels.map((orgunitlevel) => {
@@ -483,7 +478,7 @@ export class DashboardItemCardComponent implements OnInit {
         }
       }),
       show_update_button: true,
-      selected_groups: [],
+      selected_groups: selectedOrgUnitGroups,
       orgunit_levels: [],
       orgunit_groups: [],
       selected_orgunits: orgUnitArray.filter((orgunit) => orgunit.type === 'ORGANISATION_UNIT'),
