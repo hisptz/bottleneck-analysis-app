@@ -8,10 +8,10 @@
 }
 .dashboard-add-input
 {
-    height: 38px;
-    padding-left: 10px;
-    border-color: transparent;
-    font-size: 16px;
+  height: 38px;
+  padding-left: 10px;
+  border-color: transparent;
+  font-size: 16px;
   -webkit-transition: all .2s ease-in-out;
   -moz-transition: all .2s ease-in-out;
   -o-transition: all .2s ease-in-out;
@@ -21,5 +21,5 @@
 
 .dashboard-add-input:focus
 {
-    outline: none;
+  outline: none;
 }

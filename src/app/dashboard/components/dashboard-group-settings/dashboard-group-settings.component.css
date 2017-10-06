@@ -1,0 +1,48 @@
+.dashboard-group {
+  box-shadow: 0 32px 44px -24px rgba(0, 0, 0, 0.23), 0 20px 25px 0px rgba(0, 0, 0, 0.12), 0 15px 10px -10px rgba(0, 0, 0, 0.2);
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  position: absolute;
+  width: 340px;
+  margin: 0;
+  background-color: #ffffff;
+  border: solid 1px #ddd;
+  border-radius: 3px;
+  top: 40px;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  height: 400px;
+  overflow: auto;
+}
+
+.dashboard-group-list > a {
+  border-left-style: none;
+  border-right-style: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.dashboard-group-body {
+  height: 330px;
+  overflow: auto;
+}
+
+.dashboard-group-footer {
+  background-color: #ffffff;
+  border-top-style: none;
+  height: 50px;
+  position: relative;
+}
+
+.dashboard-dropdown {
+  height: 100px;
+  z-index: 2000 !important;
+}
+
+.dashboard-dropdown > li {
+  padding: 5px;
+}

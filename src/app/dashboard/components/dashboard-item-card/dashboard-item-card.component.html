@@ -1,176 +1,303 @@
-<div [ngClass]="dashboardShapeClass(itemData.shape)" class="{{isFullScreen ? 'full-screen' : ''}} dashboard-card">
-    <div class="panel panel-default dashboard-block {{status.id == itemData.id ? 'block-focus' : ''}}">
-        <div class="panel-heading dashboard-card-heading">
-          <span *ngIf="status.id == itemData.id" appClickOutside (clickOutside)="status = {}" class="success-badge">{{status.status}}</span>
-            <div class="row">
-                <div class="col-md-12" style="position: relative;">
-                    <ul class="nav nav-pills navbar-left dashboard-item-header" *ngIf="canShowIcons(itemData.type)">
-                        <!--<li><a href=""><i class="fa fa-table"></i></a></li>-->
-                        <li *ngIf="filterShown">
-                          <ul class="list-inline">
-                            <li><app-organisation-unit-tree [orgunit_model]="itemData.object.orgUnitModel" (onOrgUnitUpdate)="updateDashboardCard($event)"></app-organisation-unit-tree></li>
-                            <li><app-period-filter [selected_periods]="itemData.object.periodModel" (onPeriodUpdate)="updateDashboardCard($event)"></app-period-filter></li>
-                          </ul>
-                        </li>
-                        <li>
-                          <a (click)="filterShown = !filterShown" tooltip="Filter by period and orgunit" placement="right">
-                            <i class="fa {{filterShown ? 'fa-times' : 'fa-filter'}}"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <app-dashboard-layout *ngIf="cardReady" [layout]="itemData.object.layout" [visualizationType]="currentVisualization" (onUpdate)="updateDashboardItemLayout($event)"></app-dashboard-layout>
-                        </li>
-                        <li *ngIf="itemData.interpretationCount == 0"><a (click)="toggleInterpretation()" tooltip="share interpretation"><i class="fa fa-share-alt"></i></a></li>
-                        <li *ngIf="itemData.interpretationCount > 0">
-                          <a (click)="toggleInterpretation()" tooltip="{{itemData.interpretationCount}} new interpretations">
-                            <span *ngIf="!isInterpretationShown && interpretationReady">
-                              <small>{{interpretation}}</small>
-                              <!--<span class="badge intepretation-count">{{itemData.interpretationCount}}</span>&nbsp;-->
-                              <!--<i class="fa fa-comments-o"></i>-->
-                            </span>
-                            <span *ngIf="isInterpretationShown"><i class="fa fa-times"></i></span>
-                          </a>
-                        </li>
-                    </ul>
-                  <ul class="nav nav-pills dashboard-item-header" style="position: absolute; right:0; top:0;">
-                    <!--<li><a href=""><i class="fa fa-times"></i></a></li>-->
-                    <li><a *ngIf="!confirmDelete" (click)="confirmDelete=true" class="delete-btn" tooltip="Delete dashboard"><i class="fa fa-trash"></i></a></li>
-                    <li *ngIf="confirmDelete" class="dashboard-delete-block">
-                      <small>Delete?</small>
-                      <button (click)="deleteDashboardItem(itemData.id)" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
-                      <button (click)="confirmDelete = false" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>
-                    </li>
-                    <li *ngIf="!isFullScreen"><a (click)="resizeDashboard(itemData.shape)" tooltip="Resize dashboard"><i class="fa fa-arrows-h"></i></a></li>
-                    <li><a (click)="isFullScreen = !isFullScreen"><i class="fa fa-expand" tooltip="Full screen"></i></a></li>
-                  </ul>
-                </div>
-            </div>
+<div
+  [ngClass]="dashboardCardClasses"
+  (mouseenter)="getMouseAction('mouseenter', $event)"
+  (mouseleave)="getMouseAction('mouseleave', $event)"
+>
+  <div
+    [ngClass]="dashboardBlockClasses"
+    [ngStyle]="{'height': dashboardBlockHeight}"
+  >
+    <div [ngClass]="['panel-heading', 'dashboard-card-heading']">
+      <div class="row">
+        <div [ngClass]="'col-md-12'" style="position: relative;">
+          <!--left hand side options-->
+          <ul
+            [ngClass]="['nav', 'nav-pills', 'navbar-left', 'dashboard-item-header', 'dashboard-header-nav']"
+            *ngIf="!hideOptions(visualizationObject.type, visualizationWithNoOptions)"
+          >
+            <li>
+              <a (click)="toggleFilter($event)" tooltip="Filter by data, period and orgunit">
+                <i class="fa fa-filter"></i>
+              </a>
+            </li>
+            <li
+              *ngIf="showFilter.data.shown && showFilter.data.enabled"
+              appClickOutside (clickOutside)="showDataFilter = false"
+            >
+              <a
+                 class="btn btn-default dashboard-filter-btn"
+                 (click)="showDataFilter = !showDataFilter"
+              >
+                <img [src]="'assets/img/data.png'" alt="">
+                <span>Data</span>
+              </a>
+              <div
+                class="data-filter-holder"
+                *ngIf="showDataFilter"
+              >
+                <app-data-filter
+                  [selectedItems]="selectedDataItems"
+                  (onDataUpdate)="updateFilters($event)"
+                  (onDataFilterClose)="showDataFilter = false"
+                ></app-data-filter>
+              </div>
+            </li>
+            <li
+              *ngIf="showFilter.period.shown && showFilter.period.enabled"
+              appClickOutside (clickOutside)="showPeriodFilter = false"
+            >
+              <a
+                 class="btn btn-default dashboard-filter-btn"
+                 (click)="showPeriodFilter = !showPeriodFilter"
+              >
+                <img [src]="'assets/img/period.png'" alt="">
+                <span>Period</span>
+              </a>
+              <div
+                class="period-filter-holder"
+                *ngIf="showPeriodFilter"
+              >
+                <app-period-filter
+                  [selectedPeriods]="selectedPeriods"
+                  (onPeriodUpdate)="updateFilters($event)"
+                  (onPeriodFilterClose)="showPeriodFilter = false"
+                >
+                </app-period-filter>
+              </div>
+            </li>
+            <li
+              *ngIf="showFilter.orgUnit.shown && showFilter.orgUnit.enabled"
+              appClickOutside (clickOutside)="showOrgUnitFilter = false"
+            >
+              <a
+                 class="btn btn-default dashboard-filter-btn"
+                 (click)="showOrgUnitFilter = !showOrgUnitFilter"
+              >
+                <img [src]="'assets/img/tree.png'" alt="">
+                <span>Organisation Unit</span>
+              </a>
+              <div
+                [ngClass]="{
+                'org-unit-filter-holder': true,
+                'hiddenItem': !showOrgUnitFilter
+                }"
+              >
+                <app-org-unit-filter
+                  [orgunit_model]="orgUnitModel"
+                  (onOrgUnitUpdate)="updateFilters($event)"
+                  (onOrgUnitClose)="showOrgUnitFilter = !showOrgUnitFilter"
+                >
+                </app-org-unit-filter>
+              </div>
+            </li>
+            <li
+              *ngIf="showFilter.settings.shown &&
+              showFilter.settings.enabled"
+              appClickOutside (clickOutside)="showLayout = false"
+            >
+              <a
+                class="btn btn-default dashboard-filter-btn"
+                (click)="showLayout = !showLayout"
+              >
+                <img [src]="'assets/img/layout.png'" alt="">
+                <span>Layout</span>
+              </a>
+              <div
+                class="layout-holder"
+                *ngIf="showLayout"
+              >
+                <app-layout
+                  [layoutModel]="layoutModel"
+                  [visualizationType]="currentVisualizationType"
+                  (onLayoutUpdate)="updateLayout($event)"
+                  (onLayoutClose)="showLayout = false"
+                >
+                </app-layout>
+              </div>
+            </li>
+            <li *ngIf="interpretations.length > 0">
+              <a
+                class="interpretation-btn"
+                [href]="interpretationLink$ | async"
+                tooltip="{{interpretations.length}} interpretation{{interpretations.length > 1 ? 's' : ''}} available"
+              >
+                <img [src]="'assets/img/interpretation.png'" alt="">
+                <span class="interpretation-badge">{{interpretations.length}}</span>
+              </a>
+            </li>
+            <!--<li *ngIf="cardConfiguration.showCardHeader"><a (click)="toggleFavoriteSettings()"><i class="fa fa-cog"></i></a></li>-->
+            <!--<li style="background-color: #ddd;" *ngIf="visualizationObject.details.updateAvailable">-->
+              <!--<a (click)="saveSettings()" title="Changes available, update">-->
+                <!--<i class="fa fa-save"></i>-->
+                <!--<span style="font-size: 20px; position: absolute; top: -5px; right: 0px;">*</span>-->
+              <!--</a>-->
+            <!--</li>-->
+          </ul>
+          <!-- end of left hand options-->
+
+          <!--right hand options-->
+          <ul class="nav nav-pills dashboard-item-header dashboard-header-nav  pull-right">
+            <li>
+              <a
+                *ngIf="cardConfiguration.enableDeleteButton &&
+                cardConfiguration.showDeleteButton &&
+                !cardConfiguration.confirmDelete &&
+                !visualizationObject.details.deleting"
+                (click)="cardConfiguration.confirmDelete = true"
+                class="delete-btn" tooltip="Delete dashboard"
+              >
+                <img [src]="'assets/img/trash.png'" alt="">
+              </a>
+            </li>
+            <li *ngIf="cardConfiguration.confirmDelete" class="dashboard-delete-block">
+              <small>Delete?</small>
+              <button (click)="deleteVisualizationObject(visualizationObject)" class="btn btn-xs confirm-delete-btn">
+                <img [src]="'assets/img/trash.png'" alt="">
+              </button>
+              <button (click)="cardConfiguration.confirmDelete = false" class="btn btn-default btn-xs">
+                <i class="fa fa-times"></i>
+              </button>
+            </li>
+            <li
+              *ngIf="visualizationObject.details.deleting"
+            >
+              <a class="dashboard-filter-btn">Deleting..</a>
+            </li>
+            <li
+              *ngIf="visualizationObject.details.deleteFail"
+            >
+              <a class="text-danger dashboard-filter-btn">Delete failed!</a>
+            </li>
+            <li *ngIf="cardConfiguration.showCardHeader && (!visualizationObject.details.showFullScreen || cardConfiguration.showResizeButton) || cardConfiguration.confirmDelete">
+              <a (click)="resizeDashboard($event)" tooltip="Resize dashboard">
+                <i class="fa fa-arrows-h"></i>
+              </a>
+            </li>
+            <li><a (click)="toggleFullScreen($event)"><i class="fa fa-expand" tooltip="Full screen"></i></a></li>
+          </ul>
+          <!--end of right hand options-->
         </div>
-        <div class="panel-body dashboard-item-body {{!canShowIcons(itemData.type) ? 'no-footer' : ''}}">
-          <div class="row">
-            <div [ngClass]="isInterpretationShown ? 'col-md-7' : 'col-md-12'">
-              <!--user type section-->
-              <table class="table table-hover" *ngIf="currentVisualization == 'USERS'">
-                <tr>
-                  <th colspan="2">
-                    Users
-                  </th>
-                </tr>
-                <tr *ngFor="let user of itemData.users">
-                  <td width="95%">{{user.displayName}}</td>
-                  <td width="5%"><a href="">&times;</a></td>
-                </tr>
-              </table>
-              <!--end of use type section-->
-
-              <!--resources type section-->
-              <table class="table table-hover" *ngIf="currentVisualization == 'RESOURCES'">
-                <tr>
-                  <th colspan="2">
-                    Resources
-                  </th>
-                </tr>
-                <tr *ngFor="let resource of itemData.resources">
-                  <td width="95%">{{resource.displayName}}</td>
-                  <td width="5%"><a href="">&times;</a></td>
-                </tr>
-              </table>
-              <!--end of resource type section-->
-
-              <!--map type section-->
-              <div class="text-center" *ngIf="currentVisualization == 'MAP'">
-                <i class="fa fa-map fa-3x"></i>
-                <h2 class="text-info">Stay tuned for cooler maps ever!</h2>
-              </div>
-              <!--end of map type section-->
-
-              <!--reports type section-->
-              <table class="table table-hover" *ngIf="currentVisualization == 'REPORTS'">
-                <tr>
-                  <th colspan="2">
-                    Reports
-                  </th>
-                </tr>
-                <tr *ngFor="let report of itemData.reports">
-                  <td width="95%">{{report.displayName}}</td>
-                  <td width="5%"><a href="">&times;</a></td>
-                </tr>
-              </table>
-              <!--end of report type section-->
-
-              <!--chart or event chart type section-->
-              <div class="row" *ngIf="currentVisualization == 'CHART' || currentVisualization == 'EVENT_CHART'">
-                <div class="col-md-12 chart-block">
-                  <app-loader *ngIf="loadingChart" [loadingMessage]="'Loading chart...'"></app-loader>
-                  <div class="chart-body" *ngIf="!loadingChart && !chartHasError" [ng2-highcharts]="chartObject"></div>
-                  <app-error-notifier *ngIf="chartHasError" [errorMessage]="'Something is wrong'"></app-error-notifier>
-                  <div class="chart-options">
-                    <ul class="nav nav-stacked">
-                      <li *ngFor="let chartType of chartTypes">
-                        <a (click)="setChartType(chartType.type)" title="{{chartType.description}}" [ngClass]="currentChartType == chartType.type ? 'active-type' : ''">
-                          <img [src]="chartType.icon" class="chart-option-icon" alt="">
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <!--end of chart or event chart section-->
-
-              <!--report table type section-->
-              <div class="row" *ngIf="currentVisualization == 'REPORT_TABLE' || currentVisualization == 'TABLE' || currentVisualization == 'EVENT_REPORT'">
-                <div class="col-md-12">
-                  <app-loader *ngIf="loadingTable" [loadingMessage]="'Loading ' + currentVisualization"></app-loader>
-                  <app-error-notifier *ngIf="tableHasError" [errorMessage]="'Something is wrong'"></app-error-notifier>
-                  <h4 *ngIf="!loadingTable && !tableHasError" class="text-center">{{itemData.object.displayName}}</h4>
-                  <table class="table table-bordered table-responsive" *ngIf="!loadingTable && !tableHasError">
-                    <thead>
-                    <tr *ngFor="let header of tableObject.headers">
-                      <th *ngFor="let table_column of tableObject.columns"></th>
-                      <th *ngFor="let header_column of header.items" [colSpan]="header_column.span" style="text-align: center">
-                        {{ header_column.name }}
-                      </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let row of tableObject.rows">
-                      <td *ngFor="let header_column of row.items" style="text-align: center;vertical-align: middle" [attr.rowspan]="header_column.row_span">
-                        {{ header_column.val }}
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <!--end of report table type section-->
-
-              <!--app type section-->
-              <div class="row" *ngIf="currentVisualization == 'APP'">
-                <iframe class="col-md-12" style="height:75vh;border:0" frameborder="0" scrolling="no" allowfullscreen="" [src]="constants.root_url + 'api/apps/' + itemData.appKey + '/index.html?dashboardItemId=' + itemData.id | safe"></iframe>
-                <!--<app-error-notifier *ngIf="itemData.appKey" [errorMessage]="'Missing dashboard App'"></app-error-notifier>-->
-              </div>
-              <!--end of app type section-->
-
-              <!--dictionary section-->
-              <app-metadata-dictionary *ngIf="currentVisualization == 'DICTIONARY'" [metadataidentifiers]="metadataIdentifiers"></app-metadata-dictionary>
-              <!--end of dictionary section-->
-            </div>
-            <div class="col-md-5" *ngIf="isInterpretationShown">
-              <app-dashboard-item-interpretation [itemData]="itemData"></app-dashboard-item-interpretation>
-            </div>
-          </div>
-        </div>
-        <div class="panel-footer dashboard-card-footer" *ngIf="canShowIcons(itemData.type)">
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="nav nav-pills dashboard-footer-nav">
-                        <li><a (click)="setVisualization('TABLE')" [ngClass]="currentVisualization == 'TABLE' ? 'active-visualisation': ''"><i class="fa fa-table"></i></a></li>
-                        <li><a (click)="setVisualization('CHART')" [ngClass]="currentVisualization == 'CHART' ? 'active-visualisation': ''"><i class="fa fa-line-chart"></i></a></li>
-                        <li><a (click)="setVisualization('MAP')" [ngClass]="currentVisualization == 'MAP' ? 'active-visualisation': ''"><i class="fa fa-map"></i></a></li>
-                        <li><a (click)="setVisualization('DICTIONARY')" class="dictionary-btn" [ngClass]="currentVisualization == 'DICTIONARY' ? 'active-visualisation': ''"><i class="fa fa-info-circle"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div
+      [ngClass]="['panel-body', 'dashboard-item-body']"
+      [ngStyle]="{'height': dashboardBlockHeight, 'position': 'relative'}"
+      id="{{visualizationObject.id}}"
+    >
+      <!--{{visualizationObject.details.filters | json}}-->
+      <!--<app-loader *ngIf="currentVisualizationType == null" [loadingMessage]="'Analysing current dashboard item..'"></app-loader>-->
+      <!--chart block-->
+      <app-chart
+        [visualizationObject]="visualizationObject"
+        (onChartTypeChange)="updateVisualizationWithChartType($event)"
+        *ngIf="currentVisualizationType == 'CHART'"
+      >
+      </app-chart>
+      <!--end of chart  block-->
+
+      <!--table block-->
+      <app-table
+        [visualizationObject]="visualizationObject"
+        *ngIf="currentVisualizationType == 'TABLE'"
+      >
+      </app-table>
+      <!--end of table  block-->
+
+      <!--map block-->
+      <app-map
+        [visualizationObject]="visualizationObject"
+        *ngIf="currentVisualizationType == 'MAP'"
+      ></app-map>
+      <!--end of map block-->
+
+      <!--user block-->
+      <app-users
+        [visualizationObject]="visualizationObject"
+        *ngIf="currentVisualizationType == 'USERS'"
+      ></app-users>
+      <!--end of user block-->
+
+      <!--resources block-->
+      <app-resources
+        [visualizationObject]="visualizationObject"
+        *ngIf="currentVisualizationType == 'RESOURCES'"
+      ></app-resources>
+      <!--end of resources block-->
+
+      <!--reports block-->
+      <app-reports
+        [visualizationObject]="visualizationObject"
+        *ngIf="currentVisualizationType == 'REPORTS'"
+      ></app-reports>
+      <!--end of report block-->
+
+      <app-metadata-dictionary
+        *ngIf="currentVisualizationType == 'DICTIONARY'"
+        [metadataidentifiers]="metadataIdentifiers"
+      ></app-metadata-dictionary>
+
+      <!--app type section-->
+      <app-app
+        [visualizationObject]="visualizationObject"
+        *ngIf="currentVisualizationType == 'APP'"
+      ></app-app>
+      <!--end of app type section-->
+
+      <!--message section-->
+      <app-message
+        *ngIf="currentVisualizationType == 'MESSAGES'"
+      ></app-message>
+      <!--end of message section-->
+
+      <app-favorite-settings
+        *ngIf="showFavoriteSettings"
+        [visualizationSettings]="getVisualizationSettings(visualizationObject.layers)"
+        [visualizationType]="currentVisualizationType"
+        (onClose)="showFavoriteSettings = false"
+        (onSettingsUpdate)="updateVisualizationSettings($event)"
+      >
+      </app-favorite-settings>
+    </div>
+    <div [ngClass]="['panel-footer','dashboard-card-footer']" *ngIf="cardConfiguration.showCardFooter">
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="nav nav-pills dashboard-footer-nav">
+
+            <li *ngIf="cardConfiguration.allowMultipleSwitchingIcons || currentVisualizationType == 'TABLE' || currentVisualizationType == 'DICTIONARY'">
+              <a (click)="updateVisualization('TABLE')"
+                   [ngClass]="currentVisualizationType == 'TABLE' ? 'active-visualisation': ''"><i class="fa fa-table"></i></a>
+            </li>
+            <li *ngIf="cardConfiguration.allowMultipleSwitchingIcons || currentVisualizationType === 'CHART' || currentVisualizationType == 'DICTIONARY'">
+              <a (click)="updateVisualization('CHART')"
+                   [ngClass]="currentVisualizationType === 'CHART' ? 'active-visualisation': ''"><i
+              class="fa fa-line-chart"></i></a>
+            </li>
+            <li *ngIf="cardConfiguration.allowMultipleSwitchingIcons || currentVisualizationType === 'MAP' || currentVisualizationType == 'DICTIONARY'"
+            >
+              <a (click)="updateVisualization('MAP')"
+                 [ngClass]="currentVisualizationType == 'MAP' ? 'active-visualisation': ''"><i class="fa fa-map"></i></a>
+            </li>
+            <li>
+              <a (click)="updateVisualization('DICTIONARY')"
+                 class="dictionary-btn" [ngClass]="currentVisualizationType == 'DICTIONARY' ? 'active-visualisation': ''">
+                <img [src]="'assets/img/dictionary.png'" alt="">
+              </a>
+            </li>
+            <li>
+              <a (click)="cardConfiguration.showDownloadOptions = !cardConfiguration.showDownloadOptions">
+                <i class="fa fa-download"></i>
+              </a>
+            </li>
+            <!--<li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" (click)="downloadVisualization('excel')"><i class="fa fa-file-excel-o"></i></a></li>-->
+            <!--<li *ngIf="cardConfiguration.showDownloadOptions"><a class="download-btn" (click)="downloadVisualization('pdf')"><i class="fa fa-file-pdf-o"></i></a></li>-->
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType !== 'MAP'"><a class="download-btn" (click)="downloadVisualization('png',currentVisualizationType)" title="Download Image"><i class="fa fa-file-image-o"></i></a></li>
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('csv',currentVisualizationType)" title="Download CSV"><i class="fa fa-file-excel-o"></i></a></li>
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('geojson',currentVisualizationType)" title="Download GeoJSON"><i class="fa fa-file-code-o"></i></a></li>
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('kml',currentVisualizationType)" title="Download KML"><i class="fa fa-file-text-o"></i></a></li>
+            <li *ngIf="cardConfiguration.showDownloadOptions && currentVisualizationType === 'MAP'"><a class="download-btn" (click)="downloadVisualization('gml',currentVisualizationType)" title="Download GML"><i class="fa fa-file-text-o"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

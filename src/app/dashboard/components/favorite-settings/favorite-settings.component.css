@@ -1,0 +1,59 @@
+.option-input > td > input {
+  border-style: none;
+  border-bottom: solid 1px #eee;
+}
+
+.option-input > td > input:focus {
+  outline: none;
+  border-bottom: solid 1px #ddd;
+}
+
+.chart-type-dropdown {
+  border: solid  1px #f5f5f5;
+  position: absolute;
+  list-style: none;
+  z-index: 2000;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  box-shadow: 0 32px 44px -24px rgba(0, 0, 0, 0.23), 0 20px 25px 0px rgba(0, 0, 0, 0.12), 0 15px 10px -10px rgba(0, 0, 0, 0.2);
+}
+
+.chart-type-dropdown > li > a {
+  text-decoration: none;
+  width: 100%;
+  display: block;
+  padding-top: 2px;
+  padding-left: 10px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-bottom: 2px;
+}
+
+.chart-type-dropdown .active {
+  background-color: #ddd;
+}
+
+.favorite-settings {
+  box-shadow: 0 32px 44px -24px rgba(0, 0, 0, 0.23), 0 20px 25px 0px rgba(0, 0, 0, 0.12), 0 15px 10px -10px rgba(0, 0, 0, 0.2);
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  position: absolute;
+  width: 340px;
+  margin: 0;
+  background-color: #ffffff;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  height: 100%;
+  overflow: auto;
+}
+
+.favorite-settings-footer {
+  margin-bottom: 10px;
+}

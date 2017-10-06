@@ -14,7 +14,7 @@ export class ReadableNamePipe implements PipeTransform {
         readableName[count] = name[i].toUpperCase();
         count++;
       } else {
-        if(name[i] == name[i].toUpperCase()) {
+        if(name[i] == name[i].toUpperCase() && name[i-1] == name[i-1].toLowerCase()) {
           if(underscore) {
             readableName[count] = '_';
             count++;
@@ -28,7 +28,7 @@ export class ReadableNamePipe implements PipeTransform {
           }
 
         } else{
-          readableName[count] = name[i];
+          readableName[count] = name[i].toLowerCase();
           count++;
         }
       }

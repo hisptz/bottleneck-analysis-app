@@ -1,0 +1,19 @@
+.custom-table > thead > tr > th,
+.custom-table > tbody > tr > td {
+  font-size: 13px !important;
+}
+
+
+table tr th{
+  background-color:rgba(238, 238, 238, 0.29);;
+  padding:4px;
+  text-align: center;
+}
+
+table tr td{
+  padding:4px;
+}
+
+table tr td:first-child{
+  background-color:rgba(238, 238, 238, 0.29);;
+}

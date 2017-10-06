@@ -1,12 +1,10 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
-import {DashboardService} from "../../providers/dashboard.service";
-import {ActivatedRoute} from "@angular/router";
-import {Observable, Subject} from "rxjs";
-import {Http} from "@angular/http";
-import {Constants} from "../../../shared/constants";
-import {isUndefined} from "util";
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
+import {DashboardService} from '../../../providers/dashboard.service';
+import {ActivatedRoute} from '@angular/router';
+import {HttpClientService} from '../../../providers/http-client.service';
 
-const availableAccesses = ['--------','r-------','rw------'];
+const availableAccesses = ['--------', 'r-------', 'rw------'];
 @Component({
   selector: 'app-dashboard-share',
   templateUrl: './dashboard-share.component.html',
@@ -24,12 +22,12 @@ export class DashboardShareComponent implements OnInit {
   searchTerm$ = new Subject<string>();
   userGroups: Array<any> = [];
   searching: boolean = false;
+  @Input() apiRootUrl: string;
   @Output() onCloseSharing: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private dashboardService: DashboardService,
     private route: ActivatedRoute,
-    private http: Http,
-    private constant: Constants
+    private http: HttpClientService
   ) { }
 
   ngOnInit() {
@@ -44,10 +42,9 @@ export class DashboardShareComponent implements OnInit {
     this.searchUserGroup().subscribe(result => {
       this.searching = false;
       this.searchTerm$.subscribe(term => {
-        if(term.length > 0) {
+        if (term.length > 0) {
           this.userGroups = [];
-          //Push only those unavailable in the list
-          if(result.hasOwnProperty('userGroups')) {
+          if (result.hasOwnProperty('userGroups')) {
             result.userGroups.forEach(userGroup => {
               userGroup.access = '--------';
               if(!this.checkIfUserGroupExist(userGroup.id)) {
@@ -81,7 +78,7 @@ export class DashboardShareComponent implements OnInit {
   }
 
   loadSharingData(dashboardId?) {
-    this.dashboardService.loadDashboardSharingData(dashboardId ? dashboardId : this.route.snapshot.params['id'])
+    this.dashboardService.loadDashboardSharingData(this.apiRootUrl, dashboardId ? dashboardId : this.route.snapshot.params['id'])
       .subscribe(sharingData => {
         this.loadingSharing = false;
         this.sharingData = sharingData;
@@ -138,9 +135,7 @@ export class DashboardShareComponent implements OnInit {
   }
 
   searchEntries(term) {
-    return this.http
-      .get(this.constant.api + 'sharing/search?key='+ term + '&pageSize=20')
-      .map(res => res.json());
+    return this.http.get(this.apiRootUrl + 'sharing/search?key='+ term + '&pageSize=20')
   }
 
   removeUserGroup(groupId) {
@@ -161,7 +156,7 @@ export class DashboardShareComponent implements OnInit {
 
   updateSharing() {
     this.updating = true;
-    this.dashboardService.saveSharingData(this.sharingData, this.route.snapshot.params['id'])
+    this.dashboardService.saveSharingData(this.sharingData, this.route.snapshot.params['id'], this.apiRootUrl)
       .subscribe(response => {
         this.updating = false;
         this.updated = true;

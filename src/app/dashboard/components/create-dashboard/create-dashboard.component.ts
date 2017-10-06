@@ -1,9 +1,9 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
-import {Validators, FormBuilder, FormGroup} from "@angular/forms";
-import {Dashboard} from "../../interfaces/dashboard";
-import {DashboardService} from "../../providers/dashboard.service";
-import {Router} from "@angular/router";
-import {DashboardSettingsService} from "../../providers/dashboard-settings.service";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Dashboard} from '../../../model/dashboard';
+import {ApplicationState} from '../../../store/application-state';
+import {Store} from '@ngrx/store';
+import {CreateDashboardAction} from '../../../store/actions';
 
 @Component({
   selector: 'app-create-dashboard',
@@ -12,37 +12,28 @@ import {DashboardSettingsService} from "../../providers/dashboard-settings.servi
 })
 export class CreateDashboardComponent implements OnInit {
 
-  @Output() onCreateSuccess: EventEmitter<any> = new EventEmitter<any>();
-  public createDashboardForm: FormGroup;
-  public submitted: boolean;
-  public isAddFormOpen : boolean;
+  createDashboardForm: FormGroup;
+  submitted: boolean = false;
+  @Output() onDashboardCreate: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
-      private formGroup: FormBuilder,
-      private dashboardService: DashboardService,
-      private router: Router,
-      private settingService: DashboardSettingsService
-  ) {
-    this.isAddFormOpen = false;
-    this.submitted = false;
-  }
+    private store: Store<ApplicationState>,
+    private formGroup: FormBuilder,
+  ) { }
 
   ngOnInit() {
+    setTimeout(() => {
+      document.getElementById('dashboard_add_input').focus();
+    }, 10);
+
     this.createDashboardForm = this.formGroup.group({
-      name: ['',[Validators.required,Validators.minLength(3)]]
+      name: ['', [Validators.required, Validators.minLength(2)]]
     })
   }
 
-  save(dashboardData: Dashboard, isValid: boolean) {
+  save(dashboardData: Dashboard) {
     this.submitted = true;
-    this.isAddFormOpen = false;
-    this.settingService.toggleItem('add-dashboard');
     this.createDashboardForm.reset();
-    this.dashboardService.create(dashboardData).subscribe((dashboard: any) => {
-      this.onCreateSuccess.emit(dashboard.id);
-      this.router.navigate(['/dashboards/' + dashboard.id +'/dashboard']);
-      this.submitted = false;
-    });
+    this.store.dispatch(new CreateDashboardAction(dashboardData));
+    this.onDashboardCreate.emit(true)
   }
-
-
 }

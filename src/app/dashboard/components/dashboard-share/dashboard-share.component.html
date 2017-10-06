@@ -1,12 +1,12 @@
 <div class="col-md-12">
   <div class="panel panel-default">
     <div class="panel-body" style="padding-bottom: 2px;">
-      <small *ngIf="loadingSharing" style="padding-top: 5px;">
+      <span *ngIf="loadingSharing">
         Loading sharing settings...
-      </small>
-      <small *ngIf="hasError" style="padding-top: 5px;">
+      </span>
+      <span *ngIf="hasError" style="padding-top: 5px;">
         An error has occured
-      </small>
+      </span>
       <ul class="list-inline share-list" *ngIf="!loadingSharing && !hasError">
         <li *ngIf="sharingData.meta.allowExternalAccess" tooltip="Has {{sharingData.object.externalAccess ? '': 'no'}} External Access">
           <div class="badge share-badge" (click)="sharingData.object.externalAccess = !sharingData.object.externalAccess">

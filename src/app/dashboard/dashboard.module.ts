@@ -1,74 +1,109 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Inject, NgModule} from '@angular/core';
+import {APP_BASE_HREF, CommonModule} from '@angular/common';
+
+import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
-import {DashboardRouteModule} from "./dashboard.routing.module";
-import {SharedModule} from "../shared/shared-module.module";
-import { DashboardItemCardComponent } from './components/dashboard-item-card/dashboard-item-card.component';
-import {DashboardSettingsService} from "./providers/dashboard-settings.service";
-import { DashboardShareComponent } from './components/dashboard-share/dashboard-share.component';
-import { DashboardDimensionsComponent } from './components/dashboard-dimensions/dashboard-dimensions.component';
-import {DashboardService} from "./providers/dashboard.service";
-import { DashboardItemsComponent } from './pages/dashboard-items/dashboard-items.component';
-import { DashboardLandingComponent } from './pages/dashboard-landing/dashboard-landing.component';
-import { DashboardMenuItemsComponent } from './components/dashboard-menu-items/dashboard-menu-items.component';
+import {DashboardNotificationAreaComponent} from './components/dashboard-notification-area/dashboard-notification-area.component';
+import { DashboardMenuComponent } from './components/dashboard-menu/dashboard-menu.component';
 import { CreateDashboardComponent } from './components/create-dashboard/create-dashboard.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {DashboardItemService} from "./providers/dashboard-item.service";
-import {VisualizerService} from "./providers/dhis-visualizer.service";
-import {UtilitiesService} from "./providers/utilities.service";
-import {ModalModule, TabsModule, TooltipModule, DropdownModule, AccordionModule} from "ng2-bootstrap";
-import { DashboardItemInterpretationComponent } from './components/dashboard-item-interpretation/dashboard-item-interpretation.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {Ng2PaginationModule} from 'ng2-pagination';
+import {ClickOutsideDirective} from './directives/click-outside.directive';
+import {FilterPipe} from './pipes/filter.pipe';
 import { EditDashboardComponent } from './components/edit-dashboard/edit-dashboard.component';
-import {DashboardSearchService} from "./providers/dashboard-search.service";
-import { ReadableNamePipe } from './pipes/readable-name.pipe';
-import { AutosizeDirective } from './directives/autosize.directive';
-import {InterpretationService} from "./providers/interpretation.service";
-import { TruncatePipe } from './pipes/truncate.pipe';
-import {MomentModule} from "angular2-moment";
-import { LoaderComponent } from './components/loader/loader.component';
-import { ErrorNotifierComponent } from './components/error-notifier/error-notifier.component';
-import {Ng2HighchartsModule} from "ng2-highcharts";
-import {TreeModule} from "angular2-tree-component";
-import {MetadataDictionaryComponent} from "./components/ng2-metadata-dictionary/metadata-dictionary.component";
-import { OrganisationUnitTreeComponent } from './components/organisation-unit-tree/organisation-unit-tree.component';
-import {OrgUnitService} from "./providers/org-unit.service";
-import {FilterService} from "./providers/filter.service";
-import { PeriodFilterComponent } from './components/period-filter/period-filter.component';
-import { DragabbleDirective } from './components/dashboard-layout/directives/dragabble.directive';
-import { DropTargetDirective } from './components/dashboard-layout/directives/drop-target.directive';
-import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
-import {DndModule} from "ng2-dnd";
-import { ClickOutsideDirective } from './directives/click-outside.directive';
-import { DashboardNotificationBlockComponent } from './components/dashboard-notification-block/dashboard-notification-block.component';
+import { DashboardItemCardComponent } from './components/dashboard-item-card/dashboard-item-card.component';
+import {DndModule} from 'ng2-dnd';
+import { ChartComponent } from './components/chart/chart.component';
+import { ChartTemplateComponent } from './components/chart-template/chart-template.component';
+import {TreeModule} from 'angular-tree-component';
+import {FilterLevelPipe} from './pipes/filter-level.pipe';
+import { FavoriteSettingsComponent } from './components/favorite-settings/favorite-settings.component';
+import {TruncatePipe} from './pipes/truncate.pipe';
+import { MapComponent } from './components/map/map.component';
+import { MapTemplateComponent } from './components/map-template/map-template.component';
+import { MetadataDictionaryComponent } from './components/metadata-dictionary/metadata-dictionary.component';
+import {AccordionModule, TooltipModule} from 'ngx-bootstrap';
+import { TableComponent } from './components/table/table.component';
+import {ProgressComponent} from '../components/progress/progress.component';
+import { DashboardGroupSettingsComponent } from './components/dashboard-group-settings/dashboard-group-settings.component';
+import {VisualizationLegendComponent} from './components/visualization-legend/visualization-legend.component';
+import { DashboardItemSearchComponent } from './components/dashboard-item-search/dashboard-item-search.component';
+import {ReadableNamePipe} from './pipes/readable-name.pipe';
+import { UsersComponent } from './components/users/users.component';
+import { ResourcesComponent } from './components/resources/resources.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { AppComponent } from './components/app/app.component';
+import {SafePipe} from './pipes/safe.pipe';
+import {ErrorNotifierComponent} from './components/error-notifier/error-notifier.component';
+import {MapTableComponent} from './components/map-table/map-table.component';
+import {DimensionsModule} from '../dimensions/dimensions.module';
+import {LayerFormComponent} from './components/layer-form/layer-form.component';
+import { TableTemplateComponent } from './components/table-template/table-template.component';
+import {DashboardShareComponent} from './components/dashboard-share/dashboard-share.component';
+import {DragulaModule} from 'ng2-dragula';
+import {MessageModule} from '../message/message.module';
+import {PeriodFilterModule} from '../period-filter/period-filter.module';
+import { ChartLoaderComponent } from './components/chart-loader/chart-loader.component';
+import { TableLoaderComponent } from './components/table-loader/table-loader.component';
+import { MapLoaderComponent } from './components/map-loader/map-loader.component';
+import {DataFilterModule} from '../data-filter/data-filter.module';
 
 @NgModule({
   imports: [
-      FormsModule,
-      ReactiveFormsModule,
-      CommonModule,
-      SharedModule,
-      DashboardRouteModule,
-      ModalModule.forRoot(),
-      TabsModule.forRoot(),
-      TooltipModule.forRoot(),
-      DropdownModule.forRoot(),
-      AccordionModule.forRoot(),
-      MomentModule,
-      Ng2HighchartsModule,
-      TreeModule,
-      DndModule.forRoot()
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    DashboardRoutingModule,
+    Ng2PaginationModule,
+    DndModule.forRoot(),
+    AccordionModule.forRoot(),
+    TreeModule,
+    DimensionsModule,
+    TooltipModule.forRoot(),
+    DragulaModule,
+    MessageModule,
+    PeriodFilterModule,
+    DataFilterModule
   ],
-  declarations: [DashboardComponent, DashboardItemCardComponent, DashboardShareComponent, DashboardDimensionsComponent, DashboardItemsComponent, DashboardLandingComponent, DashboardMenuItemsComponent, CreateDashboardComponent, DashboardItemInterpretationComponent, EditDashboardComponent, ReadableNamePipe, AutosizeDirective, TruncatePipe, LoaderComponent, ErrorNotifierComponent,MetadataDictionaryComponent, OrganisationUnitTreeComponent, PeriodFilterComponent, DragabbleDirective, DropTargetDirective, DashboardLayoutComponent, ClickOutsideDirective, DashboardNotificationBlockComponent],
+  declarations: [
+    DashboardComponent,
+    DashboardNotificationAreaComponent,
+    DashboardMenuComponent,
+    CreateDashboardComponent,
+    ClickOutsideDirective,
+    FilterPipe,
+    EditDashboardComponent,
+    DashboardItemCardComponent,
+    ChartComponent,
+    ChartTemplateComponent,
+    FilterLevelPipe,
+    FavoriteSettingsComponent,
+    TruncatePipe,
+    MapComponent,
+    MapTemplateComponent,
+    VisualizationLegendComponent,
+    MapTableComponent,
+    MetadataDictionaryComponent,
+    TableComponent,
+    ProgressComponent,
+    DashboardGroupSettingsComponent,
+    DashboardItemSearchComponent,
+    ReadableNamePipe,
+    UsersComponent,
+    ResourcesComponent,
+    ReportsComponent,
+    AppComponent,
+    SafePipe,
+    ErrorNotifierComponent,
+    LayerFormComponent,
+    MapTableComponent,
+    TableTemplateComponent,
+    DashboardShareComponent,
+    ChartLoaderComponent,
+    TableLoaderComponent,
+    MapLoaderComponent
+  ],
   providers: [
-      DashboardSettingsService,
-      DashboardService,
-      DashboardItemService,
-      VisualizerService,
-      UtilitiesService,
-      DashboardSearchService,
-      InterpretationService,
-      OrgUnitService,
-      FilterService
   ]
 })
 export class DashboardModule { }

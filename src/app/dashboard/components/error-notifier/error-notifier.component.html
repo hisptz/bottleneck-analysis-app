@@ -1,7 +1,7 @@
 <div class="row">
-  <div class="col-md-12 text-center">
+  <div class="col-md-12 text-center" style="margin-top: 40px; background-color: transparent !important;">
     <i class="fa fa-exclamation-triangle fa-4x"></i><br>
-    <h3>Oops! We are sorry for this inconvience, our server tell us that</h3>
-    <small>{{errorMessage}}</small>
+    <h3 style="font-size: 25px;">Oops! We are sorry for this inconvience, our server tell us that</h3>
+    <div [innerHtml]="safeErrorMessage"></div>
   </div>
 </div>

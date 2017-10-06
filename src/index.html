@@ -1,11 +1,14 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Interactive Dashboard</title>
-  <base href=" ">
+  <title></title>
+  <base href="">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#db5945">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <app-root>
@@ -14,5 +17,14 @@
       <h4 style="margin-top: 50px;">Loading Interactive Dashboard Awesomeness</h4>
     </div>
   </app-root>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+        console.log('Service Worker registered');
+      }).catch(function(err) {
+        console.log('Service Worker registration failed: ', err);
+      });
+    }
+  </script>
 </body>
 </html>

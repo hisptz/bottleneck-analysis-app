@@ -1,0 +1,126 @@
+<!--result display block-->
+<div class="org-unit-filter-result-block">
+
+  <!--selected org unit list block-->
+  <span
+    *ngFor="let selectedOrgUnit of selectedOrgUnitToDisplay"
+    class="org-unit-filter-selected-item"
+  >
+          {{selectedOrgUnit.name}}&nbsp;
+          <a
+            (click)="deActivateNode(selectedOrgUnit.id, orgUnitTree, $event)"
+            class="org-unit-filter-remove-org-unit-btn"
+          >&times;</a>
+  </span>
+  <!--end of selected org unit list block-->
+
+  <!--more selected org unit block-->
+  <a
+    *ngIf="enableShowMoreButton"
+    class="org-unit-filter-selected-item org-unit-filter-more-btn"
+    (click)="toggleSelectedOrgUnitCount($event)"
+  >
+    and {{moreItemsCount}} more
+  </a>
+  <!--end of more selected org unit block-->
+
+  <!--show less org unit button-->
+  <a
+    *ngIf="enableShowLessButton"
+    class="org-unit-filter-selected-item org-unit-filter-more-btn"
+    (click)="toggleSelectedOrgUnitCount($event)"
+  >
+    Show less
+  </a>
+  <!--end of show less org unit button-->
+
+  <!--No selection block-->
+  <span *ngIf="showOrgUnitPlaceholder">{{orgUnitPlaceholder}}</span>
+  <!--end of no selection block-->
+
+  <!--Loading block-->
+  <span *ngIf="loading">{{loadingMessage}}</span>
+  <!--end of loading block-->
+
+  <!--clear all block-->
+  <button
+    class="btn org-unit-filter-clear-all-btn"
+    *ngIf="showClearAllButton"
+    (click)="clearAllSelected($event)"
+  >
+    Clear All
+  </button>
+  <!--end of clear all block-->
+</div>
+<!--end of result display block-->
+
+<!--selection mode block-->
+<div class="org-unit-filter-selection-mode-block row">
+  <div class="col-md-3 col-sm-3 col-xs-3">
+    <button
+      class="btn btn-default btn-sm"
+      aria-haspopup="true" aria-expanded="false"
+      (click)="showOrgUnitSettings = !showOrgUnitSettings"
+    >
+      <i class="fa fa-cog"></i> <i class="fa fa-caret-down"></i>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a (click)="setType('orgUnit')">
+          <span *ngIf="selectionMode == 'orgUnit'" class="glyphicon glyphicon-ok"></span>
+          <img src="assets/img/icons8-Tree.png" class="group-image">
+          Select Administrative Unit
+        </a>
+      </li>
+      <li>
+        <a (click)="setType('Level')">
+          <span *ngIf="selectionMode == 'Level'" class="glyphicon glyphicon-ok"></span>
+          <img src="assets/img/icons8-Genealogy.png" class="group-image">
+          Select Level
+        </a>
+      </li>
+      <li>
+        <a (click)="setType('Group')">
+          <span *ngIf="selectionMode == 'Group'" class="glyphicon glyphicon-ok"></span>
+          <img src="assets/img/icons8-Group.png" class="group-image">
+          Select Group
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-9 col-xs-9 col-xs-9">
+    <app-multiselect
+      [placeholder]="'Select user organisation unit'"
+      [items]="orgUnitModel.orgUnitGroups"
+    ></app-multiselect>
+  </div>
+</div>
+<!--end of selection mode block-->
+
+<!--tree block-->
+<div class="org-unit-filter-tree-block">
+  <tree-root
+    #orgUnitTree
+    [nodes]="nodes"
+    [focused]="true"
+    [options]="orgUnitTreeOptions"
+    (activate)="activateOrgUnit($event)"
+    (deactivate)="deactivateOrgUnit($event)"
+  >
+  </tree-root>
+</div>
+<!--end of tree block-->
+
+<div class="org-unit-filter-footer-block">
+  <a
+    class="btn btn-sm pull-right org-unit-filter-footer-btn"
+  >
+    Cancel
+  </a>
+  <a
+    class="btn btn-sm pull-right org-unit-filter-footer-btn"
+    (click)="updateOrgUnit($event)"
+  >
+    Update
+  </a>
+</div>

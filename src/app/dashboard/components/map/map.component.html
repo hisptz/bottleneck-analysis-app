@@ -1,0 +1,13 @@
+<!--loader section-->
+<app-map-loader *ngIf="!loaded && !mapHasError" [mapName]="visualizationObject.name"></app-map-loader>
+<!--end of loader section-->
+
+<!--error notifier section-->
+<app-error-notifier [errorMessage]="errorMessage" *ngIf="mapHasError"></app-error-notifier>
+<!--end of error notifier section-->
+<!--<div>{{visualizationObject.details|json}}</div>-->
+<app-map-template
+  *ngIf="loaded && !mapHasError"
+  [visualizationObject]="visualizationObject"
+  [mapHeight]="visualizationObject.details.itemHeight"
+></app-map-template>

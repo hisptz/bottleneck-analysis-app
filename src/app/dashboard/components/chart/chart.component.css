@@ -1,0 +1,52 @@
+.options-block {
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  position: absolute;
+  border-left: solid 1px #ececec;
+  border-right: solid 1px #ececec;
+  top: 20px;
+  bottom: 0px;
+  right: 0px;
+  width: 40px;
+  height: 95%;
+  border-style: none;
+  background-color: transparent;
+}
+
+.options-block ul > li > a {
+  cursor: pointer;
+  margin-left: 4px;
+  margin-top: 5px;
+  padding-left: 5px;
+  padding-top: 5px;
+  font-size: 10px;
+  height: 30px;
+  width: 30px;
+  border: solid 1px #e0ecfc;
+  border-radius: 15px;
+  background-color: transparent;
+  margin-bottom: 5px;
+}
+
+.options-block ul > li > a:hover {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+  background-color: #e0ecfc;
+}
+
+.chart-option-icon {
+  margin: auto;
+  height: 18px;
+  width: 18px;
+}
+
+.active-type {
+  background-color: #e0ecfc;
+  cursor: not-allowed;
+}

@@ -1,4 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-error-notifier',
@@ -8,9 +9,12 @@ import {Component, OnInit, Input} from '@angular/core';
 export class ErrorNotifierComponent implements OnInit {
 
   @Input() errorMessage: string;
-  constructor() { }
+  safeErrorMessage: any;
+  constructor(private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+
+    this.safeErrorMessage = this._sanitizer.bypassSecurityTrustHtml(this.errorMessage);
   }
 
 }

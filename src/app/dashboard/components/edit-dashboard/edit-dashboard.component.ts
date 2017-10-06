@@ -1,8 +1,10 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {Dashboard} from "../../interfaces/dashboard";
-import {FormGroup, Validators, FormBuilder} from "@angular/forms";
-import {DashboardService} from "../../providers/dashboard.service";
-import {NotificationService} from "../../../shared/providers/notification.service";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Dashboard} from '../../../model/dashboard';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {apiRootUrlSelector} from '../../../store/selectors/api-root-url.selector';
+import {EditDashboardAction} from '../../../store/actions';
+import {ApplicationState} from '../../../store/application-state';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'app-edit-dashboard',
@@ -17,31 +19,23 @@ export class EditDashboardComponent implements OnInit {
   public submitted: boolean;
   constructor(
     private formGroup: FormBuilder,
-    private dashboardService: DashboardService,
-    private notificationService: NotificationService
-  ) {
-    this.submitted = false;
-  }
+    private store: Store<ApplicationState>
+  ) { }
 
   ngOnInit() {
     this.editDashboardForm = this.formGroup.group({
-      name: [this.dashboard.name,[Validators.required,Validators.minLength(3)]]
+      id: [this.dashboard.id],
+      name: [this.dashboard.name, [Validators.required, Validators.minLength(3)]]
     })
-  }
-
-  save(dashboardFormObject: any, isValid: boolean) {
-    this.submitted = true;
-    this.dashboardService.updateDashboardName(dashboardFormObject.name, this.dashboard.id)
-      .subscribe(response => {
-        this.closeForm();
-      }, error => {
-        console.log('error uppdating dashboard')
-      });
   }
 
   closeForm() {
     this.onUpdateSuccess.emit(true);
-    this.submitted = false;
   }
 
+  save(dashboardData: any, isValid: boolean) {
+    this.submitted = true;
+    this.store.dispatch(new EditDashboardAction(dashboardData));
+    this.closeForm();
+  }
 }

@@ -1,1 +1,74 @@
-<router-outlet></router-outlet>
+<!--Header-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3 col-sm-3" *ngIf="dashboardConfig.showName">
+      <h4>{{dashboardName$ | async}}</h4>
+    </div>
+    <div class="col-md-5 col-sm-5" *ngIf="dashboardConfig.showSearch">
+      <app-dashboard-item-search></app-dashboard-item-search>
+    </div>
+    <div class="col-md-4 col-sm-4" *ngIf="dashboardConfig.showNotification">
+      <app-dashboard-notification-area></app-dashboard-notification-area>
+    </div>
+  </div>
+</div>
+<!--End of Header-->
+
+<!--Dashboard Menus-->
+<app-dashboard-menu
+  (onFilterUpdate)="updateFilters($event)"
+></app-dashboard-menu>
+<!--End of Dashbaord Menus-->
+
+<!--Progress message component-->
+<app-progress></app-progress>
+<!--end of progress message component-->
+
+<!--Dashboard Items-->
+<div class="container-fluid">
+  <!--<app-loader *ngIf="loading" [loadingMessage]="'Moving dashboards into position'"></app-loader>-->
+  <div
+    class="row"
+    *ngIf="(dashboardLoaded$ | async)"
+    id="{{dashboardId}}"
+  >
+    <div
+      *ngFor="let visualizationObject of (visualizationObjects$ | async); trackBy: visualizationObject?.id"
+    >
+      <app-dashboard-item-card
+        [globalFilters]="globalFilters"
+        (onFilterDeactivate)="updateFilters($event)"
+        [visualizationObject]="visualizationObject"
+      >
+      </app-dashboard-item-card>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="(visualizationObjects$ | async).length === 0" style="margin-top: 70px;">
+    <div class="col-md-12">
+      <div class="row" *ngIf="!(dashboardLoaded$ | async)">
+        <div class="col-md-8 col-md-offset-2">
+          <span><img src="assets/img/balls-3.svg" alt="" style="height: 40px;"></span>
+          <span style="font-size: 20px;">Moving interactive visualizations into position</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="message-container">
+            <div class="message-image">
+              <img [src]="'assets/img/welcome-image.png'" alt="" class="img-responsive">
+            </div>
+            <div class="message-content">
+              <h2><b>{{welcomingTitle}}</b></h2>
+              <h3 [innerHtml]="welcomingDescription"></h3>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--End of Dashboard Items-->
+
+
