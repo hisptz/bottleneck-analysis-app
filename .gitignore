@@ -44,3 +44,5 @@ Thumbs.db
 /*.zip
 /idashboard2.zip
 /proxy-config.json
+/dist/
+/node_modules/
