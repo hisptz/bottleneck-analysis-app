@@ -5,7 +5,6 @@ import * as _ from 'lodash';
 import {AnalyticsService} from './analytics.service';
 import {FavoriteService} from './favorite.service';
 import {GeoFeatureService} from './geo-feature.service';
-import {MapService} from './map.service';
 import {getDimensionValues} from '../../store/helpers/visualization.helpers';
 import {RelativePeriodService} from './relative-period.service';
 
@@ -16,8 +15,7 @@ export class VisualizationObjectService {
     private analyticsService: AnalyticsService,
     private favoriteService: FavoriteService,
     private geoFeatureService: GeoFeatureService,
-    private relativePeriodService: RelativePeriodService,
-    private mapService: MapService,
+    private relativePeriodService: RelativePeriodService
   ) {
   }
 
@@ -228,7 +226,7 @@ export class VisualizationObjectService {
 
     const dimensionArea = this._findOrgUnitDimension(visualizationObject.details.layouts[0].layout);
     return new Observable(observer => {
-      visualizationObject.details.mapConfiguration = this.mapService.getMapConfiguration(visualizationObject);
+      visualizationObject.details.mapConfiguration = this._getMapConfiguration(visualizationObject);
       const geoFeaturePromises = _.map(visualizationObject.layers, (layer: any) => {
         const visualizationFilters = getDimensionValues(layer.settings[dimensionArea], []);
         const orgUnitFilterObject = _.find(visualizationFilters ? visualizationFilters : [], ['name' , 'ou']);
@@ -258,6 +256,26 @@ export class VisualizationObjectService {
     })
   }
 
+  private _getMapConfiguration(visualizationObject: Visualization): {
+    id: string;
+    basemap: string;
+    name: string;
+    subtitle: string;
+    zoom: number;
+    latitude: string;
+    longitude: string;
+
+  } {
+    return {
+      id: visualizationObject.id,
+      name: visualizationObject.name,
+      subtitle: visualizationObject.subtitle,
+      basemap: visualizationObject.details.hasOwnProperty('basemap') && visualizationObject.details.basemap ? visualizationObject.details.basemap : 'osmlight',
+      zoom: visualizationObject.details.hasOwnProperty('zoom') ? visualizationObject.details.zoom : 0,
+      latitude: visualizationObject.details.hasOwnProperty('latitude') ? visualizationObject.details.latitude : 0,
+      longitude: visualizationObject.details.hasOwnProperty('longitude') ? visualizationObject.details.longitude : 0
+    };
+  }
   private _findOrgUnitDimension(visualizationLayout: any) {
     let dimensionArea = '';
 

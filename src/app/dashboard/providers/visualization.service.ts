@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {ChartConfiguration} from '../model/chart-configuration';
 import * as _ from 'lodash';
-import {LegendSetService} from './legend-set.service';
 
 @Injectable()
 export class VisualizationService {
   enable_labels: boolean = false;
 
-  constructor(private legendSetService: LegendSetService) {
+  constructor() {
   }
 
   drawChart(analyticObject: any, chartConfiguration: any) {

@@ -11,7 +11,6 @@ import { MERGE_VISUALIZATION_OBJECT_ACTION, SPLIT_VISUALIZATION_OBJECT_ACTION,
 import * as fromAction from '../actions';
 import {ChartService} from '../../dashboard/providers/chart.service';
 import {GeoFeatureService} from '../../dashboard/providers/geo-feature.service';
-import {MapService} from '../../dashboard/providers/map.service';
 import {TableService} from '../../dashboard/providers/table.service';
 import {ApplicationState} from '../application-state';
 import * as _ from 'lodash';

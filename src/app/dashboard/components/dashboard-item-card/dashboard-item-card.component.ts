@@ -15,7 +15,6 @@ import {
   DASHBOARD_BLOCK_CLASSES, DASHBOARD_SHAPES, NO_BORDER_CLASS,
   VISUALIZATION_WITH_NO_OPTIONS
 } from '../../constants/visualization';
-import {MapComponent} from "../map/map.component";
 import {interpretationLinkSelector} from '../../../store/selectors/interpretation-link.selector';
 import {VisualizationObjectService} from '../../providers/visualization-object.service';
 
@@ -80,8 +79,8 @@ export class DashboardItemCardComponent implements OnInit {
   };
   @ViewChild(ChartComponent)
   chartComponent: ChartComponent;
-  @ViewChild(MapComponent)
-  mapComponent: MapComponent;
+  // @ViewChild(MapComponent)
+  // mapComponent: MapComponent;
   showFavoriteSettings: boolean = false;
   metadataIdentifiers: string;
   interpretationLink$: Observable<string>;
@@ -398,7 +397,7 @@ export class DashboardItemCardComponent implements OnInit {
 
     if (currentVisualizationType == "MAP")
     {
-      this.mapComponent.downLoadFiles(downloadFormat);
+      // this.mapComponent.downLoadFiles(downloadFormat);
     } else
     {
       if (downloadFormat === 'excel') {
