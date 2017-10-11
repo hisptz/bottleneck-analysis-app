@@ -43,6 +43,7 @@ import {VisualizationObjectEffect} from './store/effects/visualization-object.ef
 import {FavoriteEffect} from './store/effects/favorite.effect';
 import {AnalyticsEffect} from './store/effects/analytics.effect';
 import { storeFreeze } from 'ngrx-store-freeze';
+import {MapModule} from './map/map.module';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
     HttpModule,
     AppRoutingModule,
     MenuModule,
+    MapModule,
     DimensionsModule,
     StoreModule.provideStore({uiState: uiStateReducer, storeData: storeDataReducer} , INITIAL_APPLICATION_STATE),
     EffectsModule.run(SystemInfoEffect),

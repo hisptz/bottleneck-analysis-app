@@ -42,6 +42,11 @@ import {PeriodFilterModule} from '../period-filter/period-filter.module';
 import { ChartLoaderComponent } from './components/chart-loader/chart-loader.component';
 import { TableLoaderComponent } from './components/table-loader/table-loader.component';
 import {DataFilterModule} from '../data-filter/data-filter.module';
+import {MapComponent} from "../map/map.component";
+import {MapTableComponent} from "../map/components/map-table/map-table.component";
+import {VisualizationLegendComponent} from "../map/components/visualization-legend/visualization-legend.component";
+import {MapTemplateComponent} from "../map/components/map-template/map-template.component";
+import {MapLoaderComponent} from "../map/components/map-loader/map-loader.component";
 
 @NgModule({
   imports: [
@@ -91,6 +96,11 @@ import {DataFilterModule} from '../data-filter/data-filter.module';
     DashboardShareComponent,
     ChartLoaderComponent,
     TableLoaderComponent,
+    MapComponent,
+    MapTemplateComponent,
+    MapTableComponent,
+    MapLoaderComponent,
+    VisualizationLegendComponent
   ],
   providers: [
   ]

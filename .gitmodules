@@ -4,3 +4,6 @@
 [submodule "src/app/period-filter"]
 	path = src/app/period-filter
 	url = git@github.com:hisptz/period-filter-module.git
+[submodule "src/app/map"]
+	path = src/app/map
+	url = git@github.com:hisptz/map-module.git
