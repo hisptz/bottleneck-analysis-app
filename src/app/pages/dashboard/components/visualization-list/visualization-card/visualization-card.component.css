@@ -1,0 +1,69 @@
+.visualization-card {
+  width: 100%;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.visualization-card-header {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 5px;
+  z-index: 1000;
+
+}
+
+.visualization-card-header-right,
+.visualization-card-header-left {
+  display: flex;
+}
+
+.visualization-card-footer {
+  /*display: inline-flex;*/
+  /*justify-content: space-between;*/
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 5px;
+  z-index: 1000;
+
+}
+
+.visualization-card-footer-right,
+.visualization-card-footer-left {
+  display: flex;
+}
+
+.visualization-filter-section-container {
+  margin-right: 5px;
+}
+
+.visualization-interpretation-button-container {
+
+}
+
+.visualization-card-body {
+  height: 100%;
+  overflow: auto;
+}
+
+.chart-container {
+  height: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow: hidden;
+}
+
+.table-container {
+  padding-top: 20px;
+  overflow: hidden;
+}
+
+.dictionary-container {
+  padding: 50px 10px 10px 10px;
+}

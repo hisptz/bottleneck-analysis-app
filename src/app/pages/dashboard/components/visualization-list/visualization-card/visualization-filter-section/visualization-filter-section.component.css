@@ -1,0 +1,10 @@
+.visualization-filter-btn {
+  /*padding-top: 4px;*/
+  /*padding-left: 10px;*/
+}
+
+.visualization-filter-btn img {
+  display: block;
+  margin: auto;
+  height: 10px;
+}

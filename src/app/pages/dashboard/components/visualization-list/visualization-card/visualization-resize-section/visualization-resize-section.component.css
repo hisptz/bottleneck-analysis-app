@@ -1,0 +1,13 @@
+.visualization-resize-section {
+  display: flex;
+}
+
+.visualization-resize-btn {
+  margin-left: 5px;
+}
+
+.visualization-resize-btn img {
+  display: block;
+  margin: auto;
+  height: 16px;
+}

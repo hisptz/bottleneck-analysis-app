@@ -1,0 +1,76 @@
+<div class="visualization-card"
+     [style.height]="visualizationObject.details.cardHeight"
+>
+  <!--Visualization card header content-->
+  <div class="visualization-card-header">
+    <div class="visualization-card-header-left">
+      <div class="visualization-filter-section-container">
+        <app-visualization-filter-section></app-visualization-filter-section>
+      </div>
+      <div class="visualization-interpretation-button-container">
+        <app-visualization-interpretation-button></app-visualization-interpretation-button>
+      </div>
+    </div>
+    <div class="visualization-card-header-right">
+      <app-visualization-resize-section></app-visualization-resize-section>
+    </div>
+  </div>
+  <!--End of Visualization card header content-->
+
+  <div
+    class="visualization-card-body"
+    *ngIf="visualizationObject.details.loaded"
+  >
+    <!--chart block-->
+    <div
+      class="chart-container"
+      *ngIf="currentVisualization === 'CHART'"
+    >
+      <app-chart-list
+        [visualizationLayers]="visualizationObject.layers"
+        [visualizationId]="visualizationObject.id"
+        [chartHeight]="visualizationObject.details.itemHeight"
+      ></app-chart-list>
+    </div>
+    <!--end of chart block-->
+
+    <!--table block-->
+    <div
+      class="table-container"
+      *ngIf="currentVisualization === 'TABLE'"
+    >
+      <app-table-list
+        [visualizationType]="visualizationObject.type"
+        [visualizationLayers]="visualizationObject.layers"
+      ></app-table-list>
+    </div>
+    <!--end of table block-->
+
+    <!--map block-->
+    <div
+      class="map-container"
+      *ngIf="currentVisualization === 'MAP'"
+    >
+      <h1>Map</h1>
+    </div>
+    <!--end of map-block-->
+
+    <!--dictionary block-->
+    <div
+      class="dictionary-container"
+      *ngIf="currentVisualization === 'INFO'"
+    >
+      <app-dictionary-list [metadataIdentifiers]="visualizationObject.details.metadataIdentifiers"></app-dictionary-list>
+    </div>
+    <!--end of dictionary block-->
+  </div>
+  <div class="visualization-card-footer">
+    <div class="visualization-card-footer-left">
+      <app-visualization-types-section
+        [currentVisualization]="currentVisualization"
+        (onCurrentVisualizationChange)="currentVisualizationChange($event)"
+      ></app-visualization-types-section>
+      <app-visualization-download-section></app-visualization-download-section>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div id="dashboard-menu-list-container-desktop" class="dashboard-border">
+  <div id="dashboard-menu-left-container-desktop">
+    <div id="dashboard-menu-left-arrow-container-desktop">
+      <button
+        id="dashboard-menu-left-arrow-desktop"
+        [disabled]="!((currentDashboardPage$ | async) > 1)"
+        (click)="getPreviousPage($event)"
+      >
+        <img src="assets/icons/arrow-left.png" alt="">
+      </button>
+    </div>
+    <div id="dashboard-menu-list-desktop">
+      <app-dashboard-menu-list-desktop></app-dashboard-menu-list-desktop>
+    </div>
+    <div id="dashboard-menu-create-desktop">
+      <app-dashboard-menu-create></app-dashboard-menu-create>
+    </div>
+  </div>
+  <div id="dashboard-menu-right-container-desktop">
+    <div id="dashboard-menu-search-container-desktop">
+      <app-dashboard-menu-search></app-dashboard-menu-search>
+    </div>
+    <div id="dashboard-menu-right-arrow-container-desktop">
+      <button
+        id="dashboard-menu-right-arrow-desktop"
+        [disabled]="(currentDashboardPage$ | async) === (dashboardPages$ | async)"
+        (click)="getNextPage($event)"
+      >
+        <img src="assets/icons/arrow-right.png" alt="">
+      </button>
+    </div>
+  </div>
+</div>

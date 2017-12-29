@@ -1,0 +1,11 @@
+<div id="dashboard-menu-list-container-desktop">
+  <div
+    class="dashboard-menu-item-block-desktop"
+    *ngFor="let dashboardMenuItem of dashboardMenuItems$ | async"
+  >
+    <app-dashboard-menu-item-desktop
+      [dashboardMenuItem]="dashboardMenuItem"
+    >
+    </app-dashboard-menu-item-desktop>
+  </div>
+</div>

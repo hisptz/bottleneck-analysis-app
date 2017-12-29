@@ -1,0 +1,34 @@
+<div class="dashboard-header-container">
+  <div class="dashboard-title-block">
+    <div class="dashboard-title">
+      <app-current-dashboard-title
+        [currentDashboardTitle]="(currentDashboard$ | async)?.name"
+      ></app-current-dashboard-title>
+    </div>
+    <div class="dashboard-options">
+      <!--<div class="current-dashboard-info-button">-->
+      <!---->
+      <!--</div>-->
+
+      <div class="current-dashboard-share-button">
+        <app-current-dashboard-share-section></app-current-dashboard-share-section>
+      </div>
+
+      <div class="current-dashboard-bookmark-button">
+        <app-current-dashboard-bookmark-button></app-current-dashboard-bookmark-button>
+      </div>
+      <div class="current-dashboard-global-filter">
+        <app-dashboard-global-filter></app-dashboard-global-filter>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard-search-block">
+    <app-dashboard-item-search></app-dashboard-item-search>
+  </div>
+  <!--<div class="dashboard-description">-->
+    <!--<app-current-dashboard-description-->
+      <!--[currentDashboardDescription]="(currentDashboard$ | async)?.description"-->
+    <!--&gt;-->
+    <!--</app-current-dashboard-description>-->
+  <!--</div>-->
+</div>
