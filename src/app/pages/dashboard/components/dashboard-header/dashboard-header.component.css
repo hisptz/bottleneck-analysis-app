@@ -30,8 +30,7 @@
 }
 
 @media (max-width: 999px) {
-  .dashboard-title-block,
-  .dashboard-options {
+  .dashboard-header-container {
     display: block;
   }
 

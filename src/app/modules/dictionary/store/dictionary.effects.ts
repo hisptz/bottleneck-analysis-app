@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
+import * as _ from 'lodash';
 import * as DictionaryActions from './dictionary.actions';
 import {mergeMap, map, tap} from 'rxjs/operators';
 import {from} from 'rxjs/observable/from';
@@ -9,14 +10,17 @@ import {AppState} from '../../../store/app.reducers';
 import {Observable} from 'rxjs/Observable';
 import {DatePipe} from '@angular/common';
 
+
 @Injectable()
 export class DictionaryEffects {
 
   @Effect({dispatch: false})
   initializeDictionary$ = this.actions$
     .ofType<DictionaryActions.InitializeAction>(DictionaryActions.DictionaryActions.INITIALIZE)
+    .withLatestFrom(this.store)
     .pipe(
-      map((action: any) => action.payload),
+      map(([action, state]: [any, AppState]) =>
+        _.filter(action.payload, (identifier) => !_.find(state.metadataDictionary, ['id', identifier]))),
       tap((identifiers) => {
         /**
          * Add incoming items to the dictionary list
@@ -68,8 +72,55 @@ export class DictionaryEffects {
 
   getDataSetInfo(dataSetUrl: string, dataSetId: string) {
     this.httpClient.get(dataSetUrl).subscribe((dataSet: any) => {
-      console.log(dataSet)
-    })
+      let dataSetDescription = '<p>' + dataSet.name + ' of the <strong>' + dataSet.formType + '</strong> Form created ' +
+        'at <strong>' + this.datePipe.transform(dataSet.created) + ' by ' + dataSet.user.name + '</strong>';
+
+      if (dataSet.categoryCombo && dataSet.categoryCombo.name !== 'default') {
+        dataSetDescription += '<span> With <strong>' + dataSet.categoryCombo.name + '</strong> Dimension which is divided' +
+          ' into ';
+
+        dataSet.categoryCombo.categories.forEach((category, categoryIndex) => {
+
+          if (categoryIndex !== 0 && categoryIndex !== dataSet.categoryCombo.categories.length - 1) {
+            dataSetDescription += ', ';
+          }
+
+          if (categoryIndex === dataSet.categoryCombo.categories.length - 1 && dataSet.categoryCombo.categories.length > 1) {
+            dataSetDescription += ' and ';
+          }
+
+          dataSetDescription += '<strong>';
+
+          category.categoryOptions.forEach((categoryOption, categoryOptionIndex) => {
+            if (categoryOptionIndex !== 0 && categoryOptionIndex !== category.categoryOptions.length - 1) {
+              dataSetDescription += ', ';
+            }
+
+            if (categoryOptionIndex === category.categoryOptions.length - 1 && category.categoryOptions.length > 1) {
+              dataSetDescription += ' and ';
+            }
+
+            dataSetDescription += '<span>' + categoryOption.name + '</span>';
+          });
+
+          dataSetDescription += '</strong>';
+        });
+
+        dataSetDescription += '</span>';
+      }
+
+      dataSetDescription += '</p>';
+
+      this.store.dispatch(new DictionaryActions.UpdateAction({
+        id: dataSetId,
+        description: dataSetDescription,
+        progress: {
+          loading: false,
+          loadingSucceeded: true,
+          loadingFailed: false
+        }
+      }));
+    });
   }
 
   getDataElementInfo(dataElementUrl: string, dataElementId: string) {
@@ -368,7 +419,7 @@ export class DictionaryEffects {
     if (dataElement.indexOf('.') >= 1) {
       uid.push((dataElement.replace(/#/g, '').replace(/{/g, '').replace(/}/g, '')).split('.')[0]);
     } else {
-      uid.push((dataElement.replace(/#/g, '').replace(/{/g, '').replace(/}/g, '')))
+      uid.push((dataElement.replace(/#/g, '').replace(/{/g, '').replace(/}/g, '')));
     }
 
     return uid;

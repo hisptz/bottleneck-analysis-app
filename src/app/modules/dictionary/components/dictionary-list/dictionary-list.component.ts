@@ -23,8 +23,8 @@ export class DictionaryListComponent implements OnInit {
 
   ngOnInit() {
     if (this.metadataIdentifiers.length > 0) {
-      this.dictionaryList$ = this.dictionaryStoreService.getInfo(this.metadataIdentifiers);
       this.dictionaryStoreService.initializeInfo(this.metadataIdentifiers);
+      this.dictionaryList$ = this.dictionaryStoreService.getInfo(this.metadataIdentifiers);
     }
   }
 

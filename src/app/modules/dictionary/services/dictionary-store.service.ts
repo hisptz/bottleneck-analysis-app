@@ -21,13 +21,7 @@ export class DictionaryStoreService {
   }
 
   initializeInfo(metadataIdentifiers: Array<string>) {
-    this.getInfo(metadataIdentifiers)
-      .take(1)
-      .subscribe((dictionary: DictionaryState[]) => {
-        if (dictionary.length === 0) {
-          this.store.dispatch(new DictionaryActions.InitializeAction(metadataIdentifiers));
-        }
-      });
+    this.store.dispatch(new DictionaryActions.InitializeAction(metadataIdentifiers));
   }
 
 }
