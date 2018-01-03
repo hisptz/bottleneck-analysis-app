@@ -8,7 +8,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class VisualizationFilterSectionComponent implements OnInit {
 
   @Input() selectedDimensions: any;
+  @Input() visualizationType: string;
   @Output() onFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onLayoutUpdate:  EventEmitter<any> = new EventEmitter<any>();
   showFilters: boolean;
   selectedFilter: string;
 
@@ -32,7 +34,12 @@ export class VisualizationFilterSectionComponent implements OnInit {
 
   onFilterUpdateAction(filterValue: any, filterType: string) {
     this.selectedFilter = undefined;
-    this.onFilterUpdate.emit(filterValue);
+
+    if (filterType === 'LAYOUT') {
+      this.onLayoutUpdate.emit(filterValue);
+    } else {
+      this.onFilterUpdate.emit(filterValue);
+    }
   }
 
 }

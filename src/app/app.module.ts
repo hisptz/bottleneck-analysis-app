@@ -51,6 +51,7 @@ import {DictionaryModule} from './modules/dictionary/dictionary.module';
 import {OrgUnitFilterModule} from './modules/org-unit-filter/org-unit-filter.module';
 import {PeriodFilterModule} from './modules/period-filter/period-filter.module';
 import {DataFilterModule} from './modules/data-filter/data-filter.module';
+import {LayoutModule} from './modules/layout/layout.module';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -103,6 +104,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     OrgUnitFilterModule,
     PeriodFilterModule,
     DataFilterModule,
+    LayoutModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

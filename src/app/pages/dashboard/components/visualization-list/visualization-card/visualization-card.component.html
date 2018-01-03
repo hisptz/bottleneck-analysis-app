@@ -7,7 +7,9 @@
       <div class="visualization-filter-section-container">
         <app-visualization-filter-section
           [selectedDimensions]="selectedDimensions"
+          [visualizationType]="currentVisualization"
           (onFilterUpdate)="onFilterUpdate($event)"
+          (onLayoutUpdate)="onLayoutUpdate($event)"
         ></app-visualization-filter-section>
       </div>
       <div class="visualization-interpretation-button-container">

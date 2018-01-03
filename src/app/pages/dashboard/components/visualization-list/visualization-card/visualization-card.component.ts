@@ -23,10 +23,12 @@ export class VisualizationCardComponent implements OnInit {
   }
 
   get selectedDimensions() {
-    return this.visualizationObject.details && this.visualizationObject.details.filters.length > 0 ? {
+    return this.visualizationObject.details
+    && this.visualizationObject.details.filters.length > 0 && this.visualizationObject.details.layouts.length > 0 ? {
       selectedDataItems: this.getSelectedItems(this.visualizationObject.details.filters, 'dx'),
       selectedPeriods: this.getSelectedItems(this.visualizationObject.details.filters, 'pe'),
-      orgUnitModel: this._getSelectedOrgUnitModel(this.getSelectedItems(this.visualizationObject.details.filters, 'ou'))
+      orgUnitModel: this._getSelectedOrgUnitModel(this.getSelectedItems(this.visualizationObject.details.filters, 'ou')),
+      layoutModel: this.visualizationObject.details.layouts[0].layout
     } : null;
   }
 
@@ -90,6 +92,35 @@ export class VisualizationCardComponent implements OnInit {
   onFilterUpdate(filterValue: any) {
     this.store.dispatch(new visualization.LocalFilterChangeAction(
       {visualizationObject: this.visualizationObject, filterValue: filterValue}));
+  }
+
+  onLayoutUpdate(layoutOptions: any) {
+
+    const newVisualizationObjectDetails = {...this.visualizationObject.details};
+
+    // TODO use only single place for saving layout options
+    const visualizationLayouts = _.map(newVisualizationObjectDetails.layouts, (layoutObject: any) => {
+      return {
+        ...layoutObject,
+        layout: layoutOptions
+      };
+    });
+
+    const visualizationLayers = _.map(this.visualizationObject.layers, (layer: any) => {
+      return {
+        ...layer,
+        layout: layoutOptions
+      };
+    });
+
+    this.store.dispatch(new visualization.UpdateAction({
+      ...this.visualizationObject,
+      details: {
+        ...newVisualizationObjectDetails,
+        layouts: [...visualizationLayouts]
+      },
+      layers: visualizationLayers
+    }));
   }
 
 }
