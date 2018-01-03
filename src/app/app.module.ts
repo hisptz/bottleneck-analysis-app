@@ -12,7 +12,9 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {CustomSerializer} from './utils/custom-route-serializer.util';
 import {effects} from './store/app.effects';
 import {metaReducers, reducers} from './store/app.reducers';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {HttpClientService} from './services/http-client.service';
 import {ManifestService} from './services/manifest.service';
 import {MenuModule} from './modules/menu/menu.module';
@@ -46,6 +48,15 @@ import { DashboardProgressComponent } from './pages/dashboard/components/dashboa
 import { TableContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/table-container/table-container.component';
 import {TableModule} from './modules/table/table.module';
 import {DictionaryModule} from './modules/dictionary/dictionary.module';
+import {OrgUnitFilterModule} from './modules/org-unit-filter/org-unit-filter.module';
+import {PeriodFilterModule} from './modules/period-filter/period-filter.module';
+
+// Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http,
+    './assets/i18n/',
+    '.json');
+}
 
 
 @NgModule({
@@ -88,6 +99,15 @@ import {DictionaryModule} from './modules/dictionary/dictionary.module';
     ChartModule,
     TableModule,
     DictionaryModule,
+    OrgUnitFilterModule,
+    PeriodFilterModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
 
     /**
      * Module for routing

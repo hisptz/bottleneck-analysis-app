@@ -5,7 +5,10 @@
   <div class="visualization-card-header">
     <div class="visualization-card-header-left">
       <div class="visualization-filter-section-container">
-        <app-visualization-filter-section></app-visualization-filter-section>
+        <app-visualization-filter-section
+          [selectedDimensions]="selectedDimensions"
+          (onFilterUpdate)="onFilterUpdate($event)"
+        ></app-visualization-filter-section>
       </div>
       <div class="visualization-interpretation-button-container">
         <app-visualization-interpretation-button></app-visualization-interpretation-button>

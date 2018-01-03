@@ -9,6 +9,8 @@ import {getSplitedVisualization} from './get-splited-visualization.helper';
 import {getMapConfiguration} from './get-map-configuration.helper';
 import {getDimensionValues} from './get-dimension-values.helpers';
 import {getGeoFeatureUrl} from './get-geo-feature-url.helper';
+import {updateVisualizationWithCustomFilters} from './update-visualization-with-custom-filters.helper';
+import {getSanitizedCustomFilterObject} from './get-sanitized-custom-filter-object.helper';
 
 export {
   mapDashboardItemToVisualization,
@@ -21,6 +23,8 @@ export {
   getSplitedVisualization,
   getMapConfiguration,
   getDimensionValues,
-  getGeoFeatureUrl
+  getGeoFeatureUrl,
+  updateVisualizationWithCustomFilters,
+  getSanitizedCustomFilterObject
 };
 

@@ -7,7 +7,8 @@ export enum VisualizationActions {
   LOAD_ANALYTICS = '[Visualization] Load analytics for visualization',
   UPDATE_VISUALIZATION_WITH_MAP_SETTINGS = '[Visualization] Update visualization with map settings',
   UPDATE = '[Visualization] Update visualization',
-  VISUALIZATION_CHANGE = '[Visualization] Update visualization type with currently selected'
+  VISUALIZATION_CHANGE = '[Visualization] Update visualization type with currently selected',
+  LOCAL_FILTER_CHANGE = '[Visualization] Update visualization object when local filters changes'
 }
 
 export class SetInitialAction implements Action {
@@ -39,6 +40,12 @@ export class VisualizationChangeAction implements Action {
   readonly type = VisualizationActions.VISUALIZATION_CHANGE;
   constructor(public payload: {type: string, id: string}) {}
 }
+
+export class LocalFilterChangeAction implements Action {
+  readonly type = VisualizationActions.LOCAL_FILTER_CHANGE;
+  constructor(public payload: any) {}
+}
+
 export type VisualizationAction = SetInitialAction |
   LoadFavoriteAction | LoadAnalyticsAction | UpdateVisualizationWithMapSettingsAction |
-  UpdateAction | VisualizationChangeAction;
+  UpdateAction | VisualizationChangeAction | LocalFilterChangeAction;

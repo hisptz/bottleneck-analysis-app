@@ -21,6 +21,7 @@
       "prefix": "app",
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.css",
+        "../node_modules/angular-tree-component/dist/angular-tree-component.css",
         "styles.css"
       ],
       "scripts": [],

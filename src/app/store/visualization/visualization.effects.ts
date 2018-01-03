@@ -164,6 +164,14 @@ export class VisualizationEffects {
     })
     .map((visualizationObject: Visualization) => new visualization.UpdateAction(visualizationObject));
 
+  @Effect()
+  localFilterChange$ = this.actions$
+    .ofType<visualization.LocalFilterChangeAction>(visualization.VisualizationActions.LOCAL_FILTER_CHANGE)
+    .switchMap((action: any) => Observable.of(visualizationHelpers.updateVisualizationWithCustomFilters(
+      action.payload.visualizationObject,
+      visualizationHelpers.getSanitizedCustomFilterObject(action.payload.filterValue)
+    ))).map((visualizationObject: Visualization) => new visualization.LoadAnalyticsAction(visualizationObject));
+
   constructor(private actions$: Actions,
               private store: Store<AppState>,
               private router: Router,

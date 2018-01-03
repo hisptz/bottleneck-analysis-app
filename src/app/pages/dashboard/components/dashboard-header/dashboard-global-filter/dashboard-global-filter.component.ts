@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardGlobalFilterComponent implements OnInit {
 
-  constructor() { }
+  showGlobalFilters: boolean;
+  constructor() {
+    this.showGlobalFilters = false;
+  }
 
   ngOnInit() {
+  }
+
+  toggleGlobalFilters(e) {
+    e.stopPropagation();
+    this.showGlobalFilters = !this.showGlobalFilters;
   }
 
 }

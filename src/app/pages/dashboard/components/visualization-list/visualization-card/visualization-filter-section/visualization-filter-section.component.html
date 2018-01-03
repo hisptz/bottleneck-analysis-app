@@ -1,8 +1,65 @@
 <div class="visualization-filter-section">
-  <button
-    class="dashboard-btn visualization-filter-btn"
-    title="Filter by different dimensions"
+  <div class="visualization-filter-buttons">
+    <button
+      class="dashboard-btn visualization-filter-btn"
+      title="Filter by different dimensions"
+      (click)="toggleFilters($event)"
+    >
+      <img *ngIf="!showFilters" src="assets/icons/filter.png" alt="">
+      <img *ngIf="showFilters" src="assets/icons/close.png" alt="">
+    </button>
+    <div
+      *ngIf="showFilters"
+      class="visualization-filter-list">
+      <button
+        class="dashboard-btn data-filter-btn"
+        [ngClass]="{'active-filter': selectedFilter === 'DATA'}"
+        title="Filter by data"
+        (click)="toggleCurrentFilter($event, 'DATA')"
+      >
+        <img src="assets/icons/data.png" alt="">
+      </button>
+      <button
+        class="dashboard-btn period-filter-btn"
+        [ngClass]="{'active-filter': selectedFilter === 'PERIOD'}"
+        title="Filter by period"
+        (click)="toggleCurrentFilter($event, 'PERIOD')"
+      >
+        <img src="assets/icons/period.png" alt="">
+      </button>
+      <button
+        class="dashboard-btn org-unit-filter-btn"
+        [ngClass]="{'active-filter': selectedFilter === 'ORG_UNIT'}"
+        title="Filter by organisation unit"
+        (click)="toggleCurrentFilter($event, 'ORG_UNIT')"
+      >
+        <img src="assets/icons/tree.png" alt="">
+      </button>
+
+      <button
+        class="dashboard-btn layout-filter-btn"
+        [ngClass]="{'active-filter': selectedFilter === 'LAYOUT'}"
+        title="Change layout"
+        (click)="toggleCurrentFilter($event, 'LAYOUT')"
+      >
+        <img src="assets/icons/layout.png" alt="">
+      </button>
+
+    </div>
+  </div>
+  <div
+    class="visualization-filter-body dashboard-border"
+    *ngIf="selectedFilter"
   >
-    <img src="assets/icons/filter.png" alt="">
-  </button>
+    <app-org-unit-filter
+      *ngIf="selectedFilter === 'ORG_UNIT'"
+      [orgUnitModel]="selectedDimensions.orgUnitModel"
+    ></app-org-unit-filter>
+    <app-period-filter
+      *ngIf="selectedFilter === 'PERIOD'"
+      [selectedPeriods]="selectedDimensions.selectedPeriods"
+      (onPeriodFilterClose)="selectedFilter = undefined"
+      (onPeriodUpdate)="onFilterUpdateAction($event, 'PERIOD')"
+    ></app-period-filter>
+  </div>
 </div>

@@ -9,3 +9,59 @@
   margin: auto;
   height: 15px;
 }
+
+
+.global-filter-body-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 100%;
+  z-index: 1400;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+  /*box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);*/
+  /*-webkit-box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);*/
+  /*-moz-box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);*/
+}
+
+.global-filter-body {
+  background-color: #ffffff;
+  width: 50%;
+  height: 60vh;
+  padding: 10px;
+  position: relative;
+
+}
+
+.global-filter-close-block {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+}
+
+.global-filter-close-btn {
+  box-shadow: none;
+}
+
+.global-filter-close-btn img {
+  display: block;
+  margin: auto;
+  height: 20px;
+}
+
+.global-filter-close-btn {
+
+}
+
+@media (max-width: 900px) {
+  .global-filter-body {
+    width: 95%;
+    height: 80vh;
+  }
+}
