@@ -51,15 +51,29 @@
     class="visualization-filter-body dashboard-border"
     *ngIf="selectedFilter"
   >
+    <!--org unit filter-->
     <app-org-unit-filter
       *ngIf="selectedFilter === 'ORG_UNIT'"
       [orgUnitModel]="selectedDimensions.orgUnitModel"
     ></app-org-unit-filter>
+    <!--end of org unit filter-->
+
+    <!--period filter-->
     <app-period-filter
       *ngIf="selectedFilter === 'PERIOD'"
       [selectedPeriods]="selectedDimensions.selectedPeriods"
       (onPeriodFilterClose)="selectedFilter = undefined"
       (onPeriodUpdate)="onFilterUpdateAction($event, 'PERIOD')"
     ></app-period-filter>
+    <!--end of period filter-->
+
+    <!--data filter-->
+    <app-data-filter
+      [selectedItems]="selectedDimensions.selectedDataItems"
+      (onDataFilterClose)="selectedFilter = undefined"
+      (onDataUpdate)="onFilterUpdateAction($event, 'DATA')"
+    ></app-data-filter>
+    <!--end of data filter-->
+
   </div>
 </div>

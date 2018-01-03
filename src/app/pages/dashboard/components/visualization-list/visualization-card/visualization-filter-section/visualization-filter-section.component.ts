@@ -31,6 +31,7 @@ export class VisualizationFilterSectionComponent implements OnInit {
   }
 
   onFilterUpdateAction(filterValue: any, filterType: string) {
+    this.selectedFilter = undefined;
     this.onFilterUpdate.emit(filterValue);
   }
 
