@@ -52,6 +52,7 @@ import {OrgUnitFilterModule} from './modules/org-unit-filter/org-unit-filter.mod
 import {PeriodFilterModule} from './modules/period-filter/period-filter.module';
 import {DataFilterModule} from './modules/data-filter/data-filter.module';
 import {LayoutModule} from './modules/layout/layout.module';
+import {FullScreenDashboardItemViewComponent} from './pages/full-screen-dashboard-item-view/full-screen-dashboard-item-view.component';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -90,7 +91,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CurrentDashboardShareSectionComponent,
     ChartContainerComponent,
     DashboardProgressComponent,
-    TableContainerComponent
+    TableContainerComponent,
+    FullScreenDashboardItemViewComponent
   ],
   imports: [
     BrowserModule,

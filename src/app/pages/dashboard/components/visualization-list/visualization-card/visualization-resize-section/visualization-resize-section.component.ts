@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-visualization-resize-section',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VisualizationResizeSectionComponent implements OnInit {
 
-  constructor() { }
+  @Input() dashboardId: string;
+  @Input() visualizationId: string;
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  toggleFullScreen(e) {
+    e.stopPropagation();
+    this.router.navigate([`/dashboards/${this.dashboardId}/item/${this.visualizationId}`]);
   }
 
 }

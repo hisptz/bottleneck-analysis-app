@@ -51,11 +51,15 @@ export class DashboardEffects {
         action.payload.dashboards,
         action.payload.currentUser);
 
+      console.log(action.payload.url.indexOf('dashboards'))
+
       if (currentDashboardId) {
         /**
-         * Navigate to the particular dashboard
+         * Navigate to the particular dashboard if comes from home
          */
-        this.router.navigate(['/dashboards/' + currentDashboardId]);
+        if (action.payload.url.indexOf('dashboards') === -1) {
+          this.router.navigate(['/dashboards/' + currentDashboardId]);
+        }
 
         /**
          * Save current dashboard into the store and load visualizations
@@ -93,6 +97,7 @@ export class DashboardEffects {
     .withLatestFrom(this.store)
     .switchMap(([action, state]: [any, AppState]) => {
       const currentDashboardId = state.route.state.url.split('/')[2];
+      console.log(currentDashboardId)
       if (currentDashboardId) {
         /**
          * Save current dashboard into the store and load visualizations
