@@ -4,6 +4,7 @@ import {Dashboard} from './dashboard.state';
 import {Actions, Effect} from '@ngrx/effects';
 import {HttpClientService} from '../../services/http-client.service';
 import * as dashboard from './dashboard.actions';
+import * as visualization from '../visualization/visualization.actions';
 import * as currentUser from '../current-user/current-user.actions';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
@@ -50,6 +51,12 @@ export class DashboardEffects {
         action.payload.url,
         action.payload.dashboards,
         action.payload.currentUser);
+
+      const currentVisualization = action.payload.url.split('/')[4];
+
+      if (currentVisualization) {
+        this.store.dispatch(new visualization.SetCurrentAction(currentVisualization));
+      }
 
       if (currentDashboardId) {
         /**
