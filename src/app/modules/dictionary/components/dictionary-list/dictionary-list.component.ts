@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import * as _ from 'lodash';
 import {DictionaryStoreService} from '../../services/dictionary-store.service';
 import {Observable} from 'rxjs/Observable';
 import {DictionaryState} from '../../store/dictionary.state';
@@ -22,7 +21,6 @@ export class DictionaryListComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.metadataIdentifiers)
     if (this.metadataIdentifiers.length > 0) {
       this.dictionaryStoreService.initializeInfo(this.metadataIdentifiers);
       this.dictionaryList$ = this.dictionaryStoreService.getInfo(this.metadataIdentifiers);

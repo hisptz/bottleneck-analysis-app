@@ -64,6 +64,10 @@
   overflow: hidden;
 }
 
+.map-container {
+  overflow: hidden;
+}
+
 .dictionary-container {
   padding: 50px 10px 10px 10px;
 }

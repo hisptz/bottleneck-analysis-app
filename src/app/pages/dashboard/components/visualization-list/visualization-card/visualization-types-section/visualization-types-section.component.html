@@ -4,6 +4,7 @@
     [ngClass]="{
     'active-visualization': currentVisualization === 'TABLE'
     }"
+    [disabled]="currentVisualization === 'TABLE'"
     title="View Table"
     (click)="onVisualizationSelect($event, 'TABLE')"
   >
@@ -15,6 +16,7 @@
     [ngClass]="{
     'active-visualization': currentVisualization === 'CHART'
     }"
+    [disabled]="currentVisualization === 'CHART'"
     title="View Chart"
     (click)="onVisualizationSelect($event, 'CHART')"
   >
@@ -26,6 +28,7 @@
     [ngClass]="{
     'active-visualization': currentVisualization === 'MAP'
     }"
+    [disabled]="currentVisualization === 'MAP'"
     title="View Map"
     (click)="onVisualizationSelect($event, 'MAP')"
   >
@@ -36,6 +39,7 @@
     [ngClass]="{
     'active-visualization': currentVisualization === 'INFO'
     }"
+    [disabled]="currentVisualization === 'INFO'"
     title="View Information"
     (click)="onVisualizationSelect($event, 'INFO')"
   >

@@ -2,7 +2,9 @@ import * as visualization from './visualization.state';
 import * as _ from 'lodash';
 import {VisualizationAction, VisualizationActions} from './visualization.actions';
 
-export function visualizationReducer(state: visualization.VisualizationState = visualization.INITIAL_VISUALIZATION_STATE, action: VisualizationAction) {
+export function visualizationReducer(
+  state: visualization.VisualizationState = visualization.INITIAL_VISUALIZATION_STATE,
+  action: VisualizationAction) {
   switch (action.type) {
     case VisualizationActions.SET_INITIAL:
       return {...state, visualizationObjects: [...state.visualizationObjects, ...action.payload]};

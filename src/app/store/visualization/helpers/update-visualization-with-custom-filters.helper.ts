@@ -3,8 +3,6 @@ import * as _ from 'lodash';
 import {mapSettingsToVisualizationFilters} from './map-settings-to-visualization-filters';
 
 export function updateVisualizationWithCustomFilters(visualization: Visualization, customFilterObject: any): Visualization {
-  const newVisualization: Visualization = {...visualization};
-  const visualizationDetails: any = {...visualization.details};
   const filterArray: any[] = [...visualization.details.filters];
 
   const newFilterArray: any[] = filterArray.map((filterObject: any) => {
@@ -22,18 +20,14 @@ export function updateVisualizationWithCustomFilters(visualization: Visualizatio
     return newFilterObject;
   });
 
-  visualizationDetails.filters = [...newFilterArray];
-
   // TODO FIND BEST WAY TO MAKE FILTER CHANGES CONSISTENCE
   /**
    * Also update layers with filters
    */
 
-  newVisualization.operatingLayers = [...updateLayersWithCustomFilters(newVisualization.operatingLayers, newFilterArray)];
+  const layers = [...updateLayersWithCustomFilters(visualization.operatingLayers, newFilterArray)];
 
-  newVisualization.layers = [...newVisualization.operatingLayers];
-
-  visualizationDetails.metadataIdentifiers = newVisualization.layers.map(visualizationLayer =>
+  const metadataIdentifiers = layers.map(visualizationLayer =>
     _.find(visualizationLayer.filters, ['name', 'dx']))
     .filter(dxObject => dxObject)
     .map(dxObject => dxObject.value.split('.')[0])
@@ -43,8 +37,14 @@ export function updateVisualizationWithCustomFilters(visualization: Visualizatio
     .filter(value => value !== '');
 
   return {
-    ...newVisualization,
-    details: visualizationDetails
+    ...visualization,
+    details: {
+      ...visualization.details,
+      filters: [...newFilterArray],
+      metadataIdentifiers: metadataIdentifiers
+    },
+    layers: [...layers],
+    operatingLayers: [...layers]
   };
 }
 

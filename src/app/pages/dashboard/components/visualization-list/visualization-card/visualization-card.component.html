@@ -60,7 +60,10 @@
       class="map-container"
       *ngIf="currentVisualization === 'MAP'"
     >
-      <h1>Map</h1>
+      <app-map
+        [visualizationObject]="visualizationObject"
+        [mapHeight]="customCardHeight || visualizationObject.details.cardHeight"
+      ></app-map>
     </div>
     <!--end of map-block-->
 
