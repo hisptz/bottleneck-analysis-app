@@ -26,9 +26,11 @@ export interface Visualization {
 
 
 export interface VisualizationState {
+  currentVisualization: string;
   visualizationObjects: Visualization[];
 }
 
 export const INITIAL_VISUALIZATION_STATE: VisualizationState = {
+  currentVisualization: undefined,
   visualizationObjects: []
 }

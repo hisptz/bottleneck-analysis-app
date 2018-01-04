@@ -22,6 +22,7 @@ export class DictionaryListComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.metadataIdentifiers)
     if (this.metadataIdentifiers.length > 0) {
       this.dictionaryStoreService.initializeInfo(this.metadataIdentifiers);
       this.dictionaryList$ = this.dictionaryStoreService.getInfo(this.metadataIdentifiers);

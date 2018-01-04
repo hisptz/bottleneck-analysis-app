@@ -7,3 +7,16 @@
         <img src="assets/icons/close.png" alt="Close">
       </a>
     </div>
+    <div
+      class="full-screen-dashboard-item-body"
+      *ngIf="currentVisualizationObject$ | async"
+    >
+      <app-visualization-card
+        [visualizationObject]="currentVisualizationObject$ | async"
+        [customCardHeight]="'100vh'"
+        [customItemHeight]="'96vh'"
+        [hideResizeBlock]="true"
+      ></app-visualization-card>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 <div class="visualization-card"
-     [style.height]="visualizationObject.details.cardHeight"
+     [style.height]="customCardHeight || visualizationObject.details.cardHeight"
 >
   <!--Visualization card header content-->
   <div class="visualization-card-header">
@@ -18,6 +18,7 @@
     </div>
     <div class="visualization-card-header-right">
       <app-visualization-resize-section
+        *ngIf="!hideResizeBlock"
         [dashboardId]="visualizationObject.dashboardId"
         [visualizationId]="visualizationObject.id"
       ></app-visualization-resize-section>
@@ -37,7 +38,7 @@
       <app-chart-list
         [visualizationLayers]="visualizationObject.layers"
         [visualizationId]="visualizationObject.id"
-        [chartHeight]="visualizationObject.details.itemHeight"
+        [chartHeight]="customItemHeight || visualizationObject.details.itemHeight"
       ></app-chart-list>
     </div>
     <!--end of chart block-->

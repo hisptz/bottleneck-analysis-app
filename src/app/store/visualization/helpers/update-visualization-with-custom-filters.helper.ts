@@ -1,8 +1,9 @@
 import {Visualization} from '../visualization.state';
 import * as _ from 'lodash';
 
-export function updateVisualizationWithCustomFilters(visualization: Visualization, customFilterObject: any) {
-  const newVisualization: Visualization = _.cloneDeep(visualization);
+export function updateVisualizationWithCustomFilters(visualization: Visualization, customFilterObject: any): Visualization {
+  const newVisualization: Visualization = {...visualization};
+  const visualizationDetails: any = {...visualization.details};
   const filterArray: any[] = [...visualization.details.filters];
 
   const newFilterArray: any[] = filterArray.map((filterObject: any) => {
@@ -20,7 +21,7 @@ export function updateVisualizationWithCustomFilters(visualization: Visualizatio
     return newFilterObject;
   });
 
-  newVisualization.details.filters = [...newFilterArray];
+  visualizationDetails.filters = [...newFilterArray];
 
   // TODO FIND BEST WAY TO MAKE FILTER CHANGES CONSISTENCE
   /**
@@ -31,7 +32,19 @@ export function updateVisualizationWithCustomFilters(visualization: Visualizatio
 
   newVisualization.layers = [...newVisualization.operatingLayers];
 
-  return newVisualization;
+  visualizationDetails.metadataIdentifiers = newVisualization.layers.map(visualizationLayer =>
+    _.find(visualizationLayer.filters, ['name', 'dx']))
+    .filter(dxObject => dxObject)
+    .map(dxObject => dxObject.value.split('.')[0])
+    .filter(dxValue => dxValue !== '')
+    .join(';')
+    .split(';')
+    .filter(value => value !== '');
+
+  return {
+    ...newVisualization,
+    details: visualizationDetails
+  };
 }
 
 function mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {

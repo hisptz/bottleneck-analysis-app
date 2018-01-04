@@ -14,6 +14,9 @@ import {OrgUnitModel} from '../../../../../modules/org-unit-filter/models/orguni
 export class VisualizationCardComponent implements OnInit {
 
   @Input() visualizationObject: Visualization;
+  @Input() customCardHeight: string;
+  @Input() customItemHeight: string;
+  @Input() hideResizeBlock: boolean;
 
   constructor(private store: Store<AppState>) {
   }
