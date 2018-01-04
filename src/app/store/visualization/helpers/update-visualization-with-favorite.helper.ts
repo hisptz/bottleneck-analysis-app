@@ -1,6 +1,7 @@
 import {Visualization} from '../visualization.state';
 import * as _ from 'lodash';
 import {getDimensionValues} from './get-dimension-values.helpers';
+import {mapSettingsToVisualizationFilters} from './map-settings-to-visualization-filters';
 
 export function updateVisualizationWithSettings(visualization: Visualization, settings: any) {
   const newVisualization: Visualization = {...visualization};
@@ -17,7 +18,7 @@ export function updateVisualizationWithSettings(visualization: Visualization, se
       visualizationDetails.longitude = settings.longitude;
     }
     settings.mapViews.forEach((view: any) => {
-      visualizationFilters = [...visualizationFilters, {id: view.id, filters: getVisualizationFilters(view)}];
+      visualizationFilters = [...visualizationFilters, {id: view.id, filters: mapSettingsToVisualizationFilters(view)}];
       visualizationLayouts = [...visualizationLayouts, {id: view.id, layout: getVisualizationLayout(view)}];
       visualizationInterpretations = [...visualizationInterpretations, {
         id: view.id,
@@ -34,19 +35,19 @@ export function updateVisualizationWithSettings(visualization: Visualization, se
       return {
         settings: newView,
         layout: getVisualizationLayout(view),
-        filters: getVisualizationFilters(view)
+        filters: mapSettingsToVisualizationFilters(view)
       };
     })];
   } else {
     const newSettings = {...settings};
-    visualizationDetails.filters = [{id: settings.id, filters: getVisualizationFilters(settings)}];
+    visualizationDetails.filters = [{id: settings.id, filters: mapSettingsToVisualizationFilters(settings)}];
     visualizationDetails.layouts = [{id: settings.id, layout: getVisualizationLayout(settings)}];
     visualizationDetails.interpretations = [{id: settings.id, interpretations: settings.interpretations || []}];
 
     newVisualization.layers = [{
       settings: newSettings,
       layout: getVisualizationLayout(newSettings),
-      filters: getVisualizationFilters(newSettings)
+      filters: mapSettingsToVisualizationFilters(newSettings)
     }];
   }
 
@@ -115,13 +116,4 @@ function getLayoutName(layoutValue, dataElementDimensions) {
     }
   }
 
-}
-
-function getVisualizationFilters(visualizationSettings: any) {
-  const visualizationFilters: any = [
-    ...getDimensionValues(visualizationSettings.rows, visualizationSettings.dataElementDimensions),
-    ...getDimensionValues(visualizationSettings.columns, visualizationSettings.dataElementDimensions),
-    ...getDimensionValues(visualizationSettings.filters, visualizationSettings.dataElementDimensions)
-  ];
-  return visualizationFilters;
 }

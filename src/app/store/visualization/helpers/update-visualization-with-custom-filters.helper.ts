@@ -1,5 +1,6 @@
 import {Visualization} from '../visualization.state';
 import * as _ from 'lodash';
+import {mapSettingsToVisualizationFilters} from './map-settings-to-visualization-filters';
 
 export function updateVisualizationWithCustomFilters(visualization: Visualization, customFilterObject: any): Visualization {
   const newVisualization: Visualization = {...visualization};
@@ -82,7 +83,6 @@ function mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {
 
 function updateLayersWithCustomFilters(visualizationLayers, customFilters) {
   return _.map(visualizationLayers, (layer) => {
-    const newLayer = _.clone(layer);
     const newSettings = _.clone(layer.settings);
     const correspondingFilter = _.find(customFilters, ['id', layer.settings.id]);
     if (correspondingFilter) {
@@ -91,8 +91,11 @@ function updateLayersWithCustomFilters(visualizationLayers, customFilters) {
       newSettings.filters = updateLayoutDimensionWithFilters(newSettings.filters, correspondingFilter.filters);
     }
 
-    newLayer.settings = {...newSettings};
-    return newLayer;
+    return {
+      ...layer,
+      settings: newSettings,
+      filters: mapSettingsToVisualizationFilters(newSettings)
+    };
   });
 }
 
