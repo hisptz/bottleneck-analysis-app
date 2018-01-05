@@ -52,6 +52,10 @@ export class DashboardMenuItemDesktopComponent implements OnInit {
     this.showDashboardItemDropdown = false;
   }
 
+  openShareBlock(e) {
+    e.stopPropagation();
+  }
+
   hideDashboardNotificationIcon() {
     // this.store.dispatch(new HideDashboardMenuNotificationIcon(this.dashboardMenuItem));
   }

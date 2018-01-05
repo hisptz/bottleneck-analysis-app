@@ -23,6 +23,39 @@
   position: relative;
 }
 
+
+.dashboard-item-dropdown {
+  position: absolute;
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  min-width: 120px;
+  max-height: 250px;
+  left: 0;
+}
+
+.dashboard-item-dropdown > li > a {
+  display: flex;
+  justify-content: flex-start;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.dashboard-item-dropdown > li > a > img {
+  margin-right: 5px;
+  margin-top: 2px;
+  height: 15px;
+}
+
+.dashboard-item-dropdown > li > a:hover {
+  background-color: #eee;
+}
+
+
 .option-dropdown-desktop {
   position: absolute;
   top: 100%;

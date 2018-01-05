@@ -24,6 +24,7 @@
         "../node_modules/angular-tree-component/dist/angular-tree-component.css",
        "../node_modules/dragula/dist/dragula.css",
         "../node_modules/leaflet/dist/leaflet.css",
+        "../node_modules/animate.css/animate.css",
         "styles.css"
       ],
       "scripts": [],

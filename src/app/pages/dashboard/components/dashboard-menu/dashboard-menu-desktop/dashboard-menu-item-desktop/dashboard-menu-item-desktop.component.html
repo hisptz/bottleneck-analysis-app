@@ -1,5 +1,6 @@
 <div
   class="dashboard-menu-item-desktop"
+  (mouseleave)="showDashboardItemDropdown = false; $event.stopPropagation()"
 >
   <!--name block-->
   <a
@@ -59,31 +60,29 @@
   <!--end of dashboard menu item notification-->
 
   <!--dashboard item dropdown-->
-  <div class="dashboard-item-dropdown">
-    <ul
-      class="option-dropdown"
-      *ngIf="showDashboardItemDropdown"
-      appClickOutside
-      (clickOutside)="showDashboardItemDropdown = false">
-      <li>
-        <a (click)="toggleEditForm($event)">
-          <img [src]="'assets/icons/edit.png'" alt="">
-          Rename
-        </a>
-      </li>
-      <!--<li>-->
-      <!--<a (click)="openShareBlock()">-->
-      <!--<img [src]="'assets/icons/share.png'" alt="">-->
-      <!--Share-->
-      <!--</a>-->
-      <!--</li>-->
-      <li>
-        <a (click)="toggleDeleteForm($event)" class="text-danger">
-          <img [src]="'assets/icons/trash.png'" alt="">
-          Delete
-        </a>
-      </li>
-    </ul>
-  </div>
+  <ul
+    class="dashboard-item-dropdown dashboard-border flipInX"
+    *ngIf="showDashboardItemDropdown"
+    appClickOutside
+    (clickOutside)="showDashboardItemDropdown = false">
+    <li>
+      <a (click)="toggleEditForm($event)">
+        <img [src]="'assets/icons/edit.png'" alt="">
+        <span>Rename</span>
+      </a>
+    </li>
+    <li>
+    <a (click)="openShareBlock($event)">
+    <img [src]="'assets/icons/share.png'" alt="">
+    <span>Share</span>
+    </a>
+    </li>
+    <li>
+      <a (click)="toggleDeleteForm($event)">
+        <img [src]="'assets/icons/trash.png'" alt="">
+        <span>Delete</span>
+      </a>
+    </li>
+  </ul>
   <!-- end of dashboard item dropdown-->
 </div>
