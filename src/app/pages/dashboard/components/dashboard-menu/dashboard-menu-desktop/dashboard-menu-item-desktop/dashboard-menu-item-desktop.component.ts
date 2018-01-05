@@ -62,6 +62,8 @@ export class DashboardMenuItemDesktopComponent implements OnInit {
   }
 
   hideDashboardNotificationIcon() {
-    this.store.dispatch(new dashboardActions.HideMenuNotificationIconAction(this.dashboardMenuItem));
+    if (this.dashboardMenuItem.details.showIcon) {
+      this.store.dispatch(new dashboardActions.HideMenuNotificationIconAction(this.dashboardMenuItem));
+    }
   }
 }

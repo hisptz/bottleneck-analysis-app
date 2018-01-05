@@ -1,6 +1,7 @@
 <div
   class="dashboard-menu-item-desktop"
   (mouseleave)="showDashboardItemDropdown = false; $event.stopPropagation()"
+  appClickOutside (clickOutside)="hideDashboardNotificationIcon()"
 >
   <!--name block-->
   <a
