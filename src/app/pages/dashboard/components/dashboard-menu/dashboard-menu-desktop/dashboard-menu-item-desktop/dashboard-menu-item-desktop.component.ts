@@ -46,8 +46,12 @@ export class DashboardMenuItemDesktopComponent implements OnInit {
     return false;
   }
 
-  toggleDeleteForm(e) {
-    e.stopPropagation();
+  toggleDeleteForm(e?) {
+
+    if (e) {
+      e.stopPropagation();
+    }
+
     this.showDeleteBlock = !this.showDeleteBlock;
     this.showDashboardItemDropdown = false;
   }

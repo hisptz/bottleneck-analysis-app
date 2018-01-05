@@ -55,6 +55,7 @@ import {LayoutModule} from './modules/layout/layout.module';
 import {FullScreenDashboardItemViewComponent} from './pages/full-screen-dashboard-item-view/full-screen-dashboard-item-view.component';
 import {MapModule} from './modules/map/map.module';
 import { DashboardMenuEditComponent } from './pages/dashboard/components/dashboard-menu/dashboard-menu-edit/dashboard-menu-edit.component';
+import { DashboardMenuDeleteComponent } from './pages/dashboard/components/dashboard-menu/dashboard-menu-delete/dashboard-menu-delete.component';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -95,7 +96,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DashboardProgressComponent,
     TableContainerComponent,
     FullScreenDashboardItemViewComponent,
-    DashboardMenuEditComponent
+    DashboardMenuEditComponent,
+    DashboardMenuDeleteComponent
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,9 @@ export enum DashboardActions {
   CREATE_SUCCESS = '[Dashboard] Dashboard create success',
   RENAME = '[Dashboard] Rename dashboard',
   RENAME_SUCCESS = '[Dashboard] Dashboard rename success',
+  DELETE = '[Dashboard] Delete dashboard',
+  DELETE_SUCCESS = '[Dashboard] Dashboard delete success',
+  COMMIT_DELETE = '[Dashboard] Permanently remove dashboard from the list'
 }
 
 export class LoadAction implements Action {
@@ -52,6 +55,21 @@ export class RenameSuccessAction implements Action {
   constructor(public payload: Dashboard) {}
 }
 
+export class DeleteAction implements Action {
+  readonly type = DashboardActions.DELETE;
+  constructor(public payload: string) {}
+}
+
+export class DeleteSuccessAction implements Action {
+  readonly type = DashboardActions.DELETE_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class CommitDeleteAction  implements Action {
+  readonly type =   DashboardActions.COMMIT_DELETE;
+  constructor(public payload: string) {}
+}
+
 export type DashboardAction = LoadAction | LoadSuccessAction
   | SetCurrentAction | ChangeCurrentPageAction | CreateAction | CreateSuccessAction
-  | RenameAction | RenameSuccessAction;
+  | RenameAction | RenameSuccessAction | DeleteAction | DeleteSuccessAction | CommitDeleteAction;

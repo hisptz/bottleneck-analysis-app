@@ -89,7 +89,7 @@ export class DashboardEffects {
   // TODO deal with errors when dashboard creation fails
 
   @Effect()
-  renameDashboard$ =  this.actions$
+  renameDashboard$ = this.actions$
     .ofType<dashboard.RenameAction>(dashboard.DashboardActions.RENAME)
     .switchMap((action: any) => this._rename(action.payload))
     .map((dashboardObject: any) => new dashboard.RenameSuccessAction(dashboardObject));
@@ -99,6 +99,36 @@ export class DashboardEffects {
     .ofType<dashboard.CreateSuccessAction>(dashboard.DashboardActions.CREATE_SUCCESS)
     .switchMap((action: any) => {
       this.router.navigate([`/dashboards/${action.payload.id}`]);
+      return Observable.of(null);
+    });
+
+  @Effect()
+  deleteDashboard$ = this.actions$
+    .ofType<dashboard.DeleteAction>(dashboard.DashboardActions.DELETE)
+    .switchMap((action: any) => this._delete(action.payload))
+    .map((dashboardId: string) => new dashboard.DeleteSuccessAction(dashboardId));
+
+  @Effect({dispatch: false})
+  dashboardDeleted$ = this.actions$
+    .ofType<dashboard.DeleteSuccessAction>(dashboard.DashboardActions.DELETE_SUCCESS)
+    .withLatestFrom(this.store)
+    .switchMap(([action, store]: [any, AppState]) => {
+      const dashboardIndex = _.findIndex(store.dashboard.dashboards,
+        _.find(store.dashboard.dashboards, ['id', action.payload]));
+
+      if (dashboardIndex !== -1) {
+        const dashboardToNavigate = store.dashboard.dashboards.length > 1 ? dashboardIndex === 0 ?
+          store.dashboard.dashboards[1] : store.dashboard.dashboards[dashboardIndex - 1] : null;
+
+        this.store.dispatch(new dashboard.CommitDeleteAction(action.payload));
+
+        if (dashboardToNavigate) {
+          this.router.navigate([`/dashboards/${dashboardToNavigate.id}`]);
+        } else {
+          this.router.navigate(['/']);
+        }
+      }
+
       return Observable.of(null);
     });
 
@@ -198,7 +228,7 @@ export class DashboardEffects {
     });
   }
 
-  private _rename(dashboardData: {id: string, name: string}): Observable<Dashboard> {
+  private _rename(dashboardData: { id: string, name: string }): Observable<Dashboard> {
     return new Observable(observer => {
       this.httpClient.put(`dashboards/${dashboardData.id}`, {name: dashboardData.name})
         .subscribe(() => {
@@ -207,6 +237,16 @@ export class DashboardEffects {
             observer.complete();
           }, dashboardLoadError => observer.error(dashboardLoadError));
         }, renameError => observer.error(renameError));
+    });
+  }
+
+  private _delete(dashboardId: string) {
+    return new Observable(observer => {
+      this.httpClient.delete(`dashboards/${dashboardId}`)
+        .subscribe(() => {
+          observer.next(dashboardId);
+          observer.complete();
+        }, error => observer.error(error));
     });
   }
 

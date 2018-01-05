@@ -38,12 +38,12 @@
   <!--end of edit block-->
 
   <!--delete block-->
-  <div *ngIf="showDeleteBlock">
-    <!--<app-delete-dashboard-->
-      <!--[dashboardId]="dashboardMenuItem.id"-->
-      <!--[deleting]="dashboardMenuItem.details.toDelete"-->
-      <!--(onCancelDelete)="showDeleteBlock = false"-->
-    <!--&gt;</app-delete-dashboard>-->
+  <div *ngIf="showDeleteBlock || dashboardMenuItem.details.toDelete">
+   <app-dashboard-menu-delete
+     [dashboardId]="dashboardMenuItem.id"
+     [deleting]="dashboardMenuItem.details.toDelete"
+     (onCancelDelete)="toggleDeleteForm()"
+   ></app-dashboard-menu-delete>
   </div>
   <!--end of delete block-->
 

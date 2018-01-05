@@ -97,6 +97,30 @@ export function dashboardReducer(state: dashboard.DashboardState = dashboard.INI
       };
     }
 
+    case DashboardActions.DELETE: {
+      const dashboardToDelete = _.find(state.dashboards, ['id', action.payload]);
+      const dashboardToDeleteIndex = _.findIndex(state.dashboards, dashboardToDelete);
+
+      return {
+        ...state,
+        dashboards: dashboardToDeleteIndex !== -1 ? [
+          ...state.dashboards.slice(0, dashboardToDeleteIndex),
+          dashboardHelpers.mapStateToDashboardObject(dashboardToDelete, 'delete'),
+          ...state.dashboards.slice(dashboardToDeleteIndex + 1)
+        ] : [...state.dashboards]
+      };
+    }
+    case DashboardActions.COMMIT_DELETE: {
+      const dashboardDeletedIndex = _.findIndex(state.dashboards, _.find(state.dashboards, ['id', action.payload]));
+      return {
+        ...state,
+        dashboards: dashboardDeletedIndex !== -1 ? [
+          ...state.dashboards.slice(0, dashboardDeletedIndex),
+          ...state.dashboards.slice(dashboardDeletedIndex + 1)
+        ] : [...state.dashboards]
+      };
+    }
+
     default:
       return state;
   }

@@ -1,0 +1,21 @@
+<div class="dashboard-delete-block">
+  <div
+    class="delete-dialog"
+    *ngIf="!deleting"
+  >
+    <span class="dashboard-delete-text">Delete?</span>
+    <button (click)="cancelDelete($event)" class="dashboard-btn dashboard-delete-btn">
+      <img src="assets/icons/close.png" alt="">
+    </button>
+    <button (click)="deleteDashboard($event)" class="dashboard-btn dashboard-delete-btn">
+      <img src="assets/icons/trash.png" alt="">
+    </button>
+  </div>
+  <div
+    class="deleting-dialog"
+    *ngIf="deleting"
+  >
+    <img [src]="'assets/img/balls-3.svg'" alt="" style="height: 20px; width: 20px;">
+    <span class="dashboard-delete-text">Deleting dashboard..</span>
+  </div>
+</div>

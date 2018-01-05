@@ -9,8 +9,8 @@ const visualizationState = (state: AppState) => state.visualization;
 
 export const getCurrentDashboardVisualizationObjects = createSelector(visualizationState, getCurrentDashboard,
   (visualization: VisualizationState, currentDashboard: Dashboard) =>
-    visualization.currentVisualization ? [] : _.filter(visualization.visualizationObjects, (visualizationObject: Visualization) =>
-      visualizationObject.dashboardId === currentDashboard.id));
+    visualization.currentVisualization || !currentDashboard ? [] : _.filter(visualization.visualizationObjects,
+      (visualizationObject: Visualization) => visualizationObject.dashboardId === currentDashboard.id));
 
 export const getCurrentVisualizationObject = createSelector(visualizationState,
   (visualization: VisualizationState) => _.find(visualization.visualizationObjects, ['id', visualization.currentVisualization]));
