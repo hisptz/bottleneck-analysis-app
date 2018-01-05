@@ -52,7 +52,6 @@
     tooltip=""
     class="dashboard-menu-notification-icon"
     *ngIf="dashboardMenuItem.details.showIcon"
-    appClickOutside (clickOutside)="hideDashboardNotificationIcon()"
   >
     <img *ngIf="dashboardMenuItem.details.editComplete || dashboardMenuItem.details.creationComplete" [src]="'assets/icons/tick.png'" alt="">
     <img *ngIf="dashboardMenuItem.details.error" [src]="'assets/icons/error.png'" alt="">

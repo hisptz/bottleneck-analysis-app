@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../../../../store/app.reducers';
+import * as dashboardActions from '../../../../../../store/dashboard/dashboard.actions';
 import {Router} from '@angular/router';
 
 @Component({
@@ -61,6 +62,6 @@ export class DashboardMenuItemDesktopComponent implements OnInit {
   }
 
   hideDashboardNotificationIcon() {
-    // this.store.dispatch(new HideDashboardMenuNotificationIcon(this.dashboardMenuItem));
+    this.store.dispatch(new dashboardActions.HideMenuNotificationIconAction(this.dashboardMenuItem));
   }
 }

@@ -134,6 +134,28 @@ export function dashboardReducer(state: dashboard.DashboardState = dashboard.INI
       };
     }
 
+    case DashboardActions.HIDE_MENU_NOTIFICATION_ICON: {
+      const correspondingDashboard: Dashboard = _.find(state.dashboards, ['id', action.payload.id]);
+      const correspondingDashboardIndex = _.findIndex(state.dashboards, correspondingDashboard);
+
+      return correspondingDashboardIndex !== -1 ? {
+        ...state,
+        dashboards: [
+          ...state.dashboards.slice(0, correspondingDashboardIndex),
+          {
+            ...correspondingDashboard,
+            details: {
+              ...correspondingDashboard.details,
+              showIcon: false
+            }
+          },
+          ...state.dashboards.slice(correspondingDashboardIndex + 1)
+        ]
+      } : {
+        ...state
+      };
+    }
+
     default:
       return state;
   }

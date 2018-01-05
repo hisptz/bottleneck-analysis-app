@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Dashboard} from './dashboard.state';
+import {Dashboard, DashboardMenuItem} from './dashboard.state';
 import {CurrentUserState} from '../current-user/current-user.state';
 
 export enum DashboardActions {
@@ -14,7 +14,8 @@ export enum DashboardActions {
   DELETE = '[Dashboard] Delete dashboard',
   DELETE_SUCCESS = '[Dashboard] Dashboard delete success',
   COMMIT_DELETE = '[Dashboard] Permanently remove dashboard from the list',
-  CHANGE_PAGE_ITEMS = '[Dashboard] Change number of item per dashboard pages in the menu'
+  CHANGE_PAGE_ITEMS = '[Dashboard] Change number of item per dashboard pages in the menu',
+  HIDE_MENU_NOTIFICATION_ICON = '[Dashboard] Hide menu notification icons'
 }
 
 export class LoadAction implements Action {
@@ -76,7 +77,12 @@ export class ChangePageItemsAction implements Action {
   constructor(public payload: number) {}
 }
 
+export class HideMenuNotificationIconAction implements Action {
+  readonly type = DashboardActions.HIDE_MENU_NOTIFICATION_ICON;
+  constructor(public payload: DashboardMenuItem) {}
+}
+
 export type DashboardAction = LoadAction | LoadSuccessAction
   | SetCurrentAction | ChangeCurrentPageAction | CreateAction | CreateSuccessAction
   | RenameAction | RenameSuccessAction | DeleteAction | DeleteSuccessAction | CommitDeleteAction
-  | ChangePageItemsAction;
+  | ChangePageItemsAction | HideMenuNotificationIconAction;

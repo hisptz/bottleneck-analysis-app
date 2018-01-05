@@ -57,6 +57,7 @@ import {MapModule} from './modules/map/map.module';
 import { DashboardMenuEditComponent } from './pages/dashboard/components/dashboard-menu/dashboard-menu-edit/dashboard-menu-edit.component';
 import { DashboardMenuDeleteComponent } from './pages/dashboard/components/dashboard-menu/dashboard-menu-delete/dashboard-menu-delete.component';
 import {FilterByNamePipe} from './pipes/filter-by-name.pipe';
+import {ClickOutsideDirective} from './directives/click-outside.directive';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -99,7 +100,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FullScreenDashboardItemViewComponent,
     DashboardMenuEditComponent,
     DashboardMenuDeleteComponent,
-    FilterByNamePipe
+    FilterByNamePipe,
+    ClickOutsideDirective
   ],
   imports: [
     BrowserModule,
