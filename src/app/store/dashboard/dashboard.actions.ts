@@ -13,7 +13,8 @@ export enum DashboardActions {
   RENAME_SUCCESS = '[Dashboard] Dashboard rename success',
   DELETE = '[Dashboard] Delete dashboard',
   DELETE_SUCCESS = '[Dashboard] Dashboard delete success',
-  COMMIT_DELETE = '[Dashboard] Permanently remove dashboard from the list'
+  COMMIT_DELETE = '[Dashboard] Permanently remove dashboard from the list',
+  CHANGE_PAGE_ITEMS = '[Dashboard] Change number of item per dashboard pages in the menu'
 }
 
 export class LoadAction implements Action {
@@ -70,6 +71,12 @@ export class CommitDeleteAction  implements Action {
   constructor(public payload: string) {}
 }
 
+export class ChangePageItemsAction implements Action {
+  readonly type = DashboardActions.CHANGE_PAGE_ITEMS;
+  constructor(public payload: number) {}
+}
+
 export type DashboardAction = LoadAction | LoadSuccessAction
   | SetCurrentAction | ChangeCurrentPageAction | CreateAction | CreateSuccessAction
-  | RenameAction | RenameSuccessAction | DeleteAction | DeleteSuccessAction | CommitDeleteAction;
+  | RenameAction | RenameSuccessAction | DeleteAction | DeleteSuccessAction | CommitDeleteAction
+  | ChangePageItemsAction;

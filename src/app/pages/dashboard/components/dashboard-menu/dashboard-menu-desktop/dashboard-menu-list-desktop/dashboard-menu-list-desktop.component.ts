@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {DashboardMenuItem} from '../../../../../../store/dashboard/dashboard.state';
 import {AppState} from '../../../../../../store/app.reducers';
@@ -12,6 +12,8 @@ import * as dashboardSelectors from '../../../../../../store/dashboard/dashboard
 })
 export class DashboardMenuListDesktopComponent implements OnInit {
 
+  @Input() dashboardSearchQuery: string;
+  @Input() slideCss = '';
   dashboardMenuItems$: Observable<DashboardMenuItem[]>;
   constructor(private store: Store<AppState>) {
     this.dashboardMenuItems$ = this.store.select(dashboardSelectors.getDashboardMenuItems);

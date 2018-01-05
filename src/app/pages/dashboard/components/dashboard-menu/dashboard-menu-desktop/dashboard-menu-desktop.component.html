@@ -10,7 +10,10 @@
       </button>
     </div>
     <div id="dashboard-menu-list-desktop">
-      <app-dashboard-menu-list-desktop></app-dashboard-menu-list-desktop>
+      <app-dashboard-menu-list-desktop
+        [dashboardSearchQuery]="dashboardSearchQuery$ | async"
+        [slideCss]="slideCss$ | async"
+      ></app-dashboard-menu-list-desktop>
     </div>
     <div id="dashboard-menu-create-desktop">
       <app-dashboard-menu-create></app-dashboard-menu-create>
@@ -18,7 +21,9 @@
   </div>
   <div id="dashboard-menu-right-container-desktop">
     <div id="dashboard-menu-search-container-desktop">
-      <app-dashboard-menu-search></app-dashboard-menu-search>
+      <app-dashboard-menu-search
+        (onSearch)="onDashboardSearch($event)"
+      ></app-dashboard-menu-search>
     </div>
     <div id="dashboard-menu-right-arrow-container-desktop">
       <button

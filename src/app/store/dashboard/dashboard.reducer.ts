@@ -121,6 +121,19 @@ export function dashboardReducer(state: dashboard.DashboardState = dashboard.INI
       };
     }
 
+    case DashboardActions.CHANGE_PAGE_ITEMS: {
+      return {
+        ...state,
+        dashboardPerPage: action.payload,
+        currentDashboardPage: dashboardHelpers.getCurrentPage(
+          state.dashboards,
+          state.currentDashboard,
+          action.payload
+        ),
+        dashboardPageNumber: Math.ceil(state.dashboards.length / action.payload)
+      };
+    }
+
     default:
       return state;
   }
