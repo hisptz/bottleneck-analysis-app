@@ -27,7 +27,8 @@ export class DictionaryListComponent implements OnInit {
     }
   }
 
-  setActiveItem(index) {
+  setActiveItem(index, e) {
+    e.stopPropagation();
     if (this.activeItem === index) {
       this.activeItem = -1;
     } else {

@@ -12,6 +12,7 @@ declare var shp;
 })
 export class VisualizationLegendComponent implements OnInit {
   @Input() mapVsualizationObject: any;
+  @Input() mapHeight: string;
   @Output() changeMapTileLayer: EventEmitter<any> = new EventEmitter();
   @Output() closeLegend: EventEmitter<any> = new EventEmitter();
   @Output() downloadMapAsFiles: EventEmitter<any> = new EventEmitter();
@@ -35,10 +36,12 @@ export class VisualizationLegendComponent implements OnInit {
   layerSelectionForm: boolean = false;
   showTransparent: boolean = false;
   displayNone: boolean = false;
+  activeLayer: number;
   private baseHref = '../../../';
 
 
   constructor(private legend: LegendSetService) {
+    this.activeLayer = 0;
   }
 
   ngOnInit() {
@@ -149,7 +152,8 @@ export class VisualizationLegendComponent implements OnInit {
     this.displayNone = true;
   }
 
-  showUploadContainer() {
+  showUploadContainer(e) {
+    e.stopPropagation();
     this.showUpload = true;
     this.displayNone = true;
     this.layerSelectionForm = false;
@@ -171,7 +175,8 @@ export class VisualizationLegendComponent implements OnInit {
     this.isRemovable = !this.isRemovable;
   }
 
-  removeLegendContainer() {
+  removeLegendContainer(e) {
+    e.stopPropagation();
     this.closeLegend.emit(null);
   }
 
@@ -187,7 +192,8 @@ export class VisualizationLegendComponent implements OnInit {
     this.showButtonIncons = false;
   }
 
-  stickLegendContainer() {
+  stickLegendContainer(e) {
+    e.stopPropagation();
     if (!this.sticky) {
       this.sticky = true;
     } else {
@@ -243,7 +249,8 @@ export class VisualizationLegendComponent implements OnInit {
     return longTitle;
   }
 
-  showDataTableAction() {
+  showDataTableAction(e) {
+    e.stopPropagation();
     this.showDataTable.emit({visualizationObject: this.mapVsualizationObject, legend: this.visualizationLegends});
   }
 
@@ -284,6 +291,15 @@ export class VisualizationLegendComponent implements OnInit {
 
   uploadEvent(eventInformation) {
     this.fileUploadEvent.emit(eventInformation);
+  }
+
+  setActiveItem(index, e) {
+    e.stopPropagation();
+    if (this.activeLayer === index) {
+      this.activeLayer = -2;
+    } else {
+      this.activeLayer = index;
+    }
   }
 
 }

@@ -10,6 +10,7 @@
 
 .dictionary-title {
   padding: 5px 10px 5px 10px;
+  cursor: pointer;
 }
 
 .dictionary-item-container:last-child {
