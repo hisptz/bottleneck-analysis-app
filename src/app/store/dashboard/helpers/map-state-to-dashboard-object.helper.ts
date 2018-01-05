@@ -49,8 +49,8 @@ export function mapStateToDashboardObject(dashboardData: any, action = null, cur
           edited: true,
           editComplete: true,
           showIcon: true,
-          editFailed: dashboardData.details.editFailed ? dashboardData.details.editFailed : false,
-          error: dashboardData.details.error,
+          editFailed: dashboardData.details && dashboardData.details.editFailed ? dashboardData.details.editFailed : false,
+          error: dashboardData.details && dashboardData.details.error ? dashboardData.details.error : undefined,
           showName: true
         },
         name: dashboardData.name,

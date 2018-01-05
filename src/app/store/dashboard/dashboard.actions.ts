@@ -8,7 +8,9 @@ export enum DashboardActions {
   SET_CURRENT = '[Dashboard] Set current dashboard',
   CHANGE_CURRENT_PAGE = '[Dashboard] Change current dashboard page',
   CREATE = '[Dashboard] Create new dashboard',
-  CREATE_SUCCESS = '[Dashboard] Dashboard create success'
+  CREATE_SUCCESS = '[Dashboard] Dashboard create success',
+  RENAME = '[Dashboard] Rename dashboard',
+  RENAME_SUCCESS = '[Dashboard] Dashboard rename success',
 }
 
 export class LoadAction implements Action {
@@ -40,5 +42,16 @@ export class CreateSuccessAction implements Action {
   constructor(public payload: Dashboard) {}
 }
 
+export class RenameAction implements Action {
+  readonly type = DashboardActions.RENAME;
+  constructor(public payload: {id: string, name: string}) {}
+}
+
+export class RenameSuccessAction implements Action {
+  readonly type = DashboardActions.RENAME_SUCCESS;
+  constructor(public payload: Dashboard) {}
+}
+
 export type DashboardAction = LoadAction | LoadSuccessAction
-  | SetCurrentAction | ChangeCurrentPageAction | CreateAction | CreateSuccessAction;
+  | SetCurrentAction | ChangeCurrentPageAction | CreateAction | CreateSuccessAction
+  | RenameAction | RenameSuccessAction;

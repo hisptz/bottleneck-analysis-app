@@ -29,10 +29,10 @@
     class="dashboard-edit-block"
     *ngIf="showEditForm"
   >
-    <!--<app-edit-dashboard-->
-      <!--[dashboard]="dashboardMenuItem"-->
-      <!--(onUpdateSuccess)="toggleEditForm()"-->
-    <!--&gt;</app-edit-dashboard>-->
+    <app-dashboard-menu-edit
+      [dashboardMenuItem]="dashboardMenuItem"
+      (onEditFormClose)="toggleEditForm()"
+    ></app-dashboard-menu-edit>
   </div>
 
   <!--end of edit block-->

@@ -61,6 +61,42 @@ export function dashboardReducer(state: dashboard.DashboardState = dashboard.INI
       };
     }
 
+    case DashboardActions.RENAME: {
+      const availableDashboard: Dashboard = _.find(state.dashboards, ['id', action.payload.id]);
+      const createdDashboardIndex = _.findIndex(state.dashboards, availableDashboard);
+
+      const newDashboardsWithToBeUpdated = createdDashboardIndex !== -1 ? [
+        ...state.dashboards.slice(0, createdDashboardIndex),
+        dashboardHelpers.mapStateToDashboardObject(availableDashboard, 'update'),
+        ...state.dashboards.slice(createdDashboardIndex + 1)
+      ] : state.dashboards;
+
+      return {
+        ...state,
+        dashboards: newDashboardsWithToBeUpdated,
+      };
+    }
+
+    case DashboardActions.RENAME_SUCCESS: {
+      const renamedDashboardIndex = _.findIndex(state.dashboards, _.find(state.dashboards, ['id', action.payload.id]));
+
+      const newDashboardsWithUpdated: Dashboard[] = renamedDashboardIndex !== -1 ?
+        _.sortBy([
+          ...state.dashboards.slice(0, renamedDashboardIndex),
+          dashboardHelpers.mapStateToDashboardObject(action.payload, 'updated'),
+          ...state.dashboards.slice(renamedDashboardIndex + 1)
+        ], ['name']) : [...state.dashboards];
+      return {
+        ...state,
+        dashboards: newDashboardsWithUpdated,
+        currentDashboardPage: dashboardHelpers.getCurrentPage(
+          newDashboardsWithUpdated,
+          action.payload.id,
+          state.dashboardPerPage
+        )
+      };
+    }
+
     default:
       return state;
   }

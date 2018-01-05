@@ -88,6 +88,12 @@ export class DashboardEffects {
     .map((dashboardObject: any) => new dashboard.CreateSuccessAction(dashboardObject));
   // TODO deal with errors when dashboard creation fails
 
+  @Effect()
+  renameDashboard$ =  this.actions$
+    .ofType<dashboard.RenameAction>(dashboard.DashboardActions.RENAME)
+    .switchMap((action: any) => this._rename(action.payload))
+    .map((dashboardObject: any) => new dashboard.RenameSuccessAction(dashboardObject));
+
   @Effect({dispatch: false})
   dashboardCreated$ = this.actions$
     .ofType<dashboard.CreateSuccessAction>(dashboard.DashboardActions.CREATE_SUCCESS)
@@ -189,6 +195,18 @@ export class DashboardEffects {
             }, dashboardLoadError => observer.error(dashboardLoadError));
           }, dashboardCreationError => observer.error(dashboardCreationError));
         }, uniqueIdError => observer.error(uniqueIdError));
+    });
+  }
+
+  private _rename(dashboardData: {id: string, name: string}): Observable<Dashboard> {
+    return new Observable(observer => {
+      this.httpClient.put(`dashboards/${dashboardData.id}`, {name: dashboardData.name})
+        .subscribe(() => {
+          this._load(dashboardData.id).subscribe((dashboardObject: any) => {
+            observer.next(dashboardObject);
+            observer.complete();
+          }, dashboardLoadError => observer.error(dashboardLoadError));
+        }, renameError => observer.error(renameError));
     });
   }
 

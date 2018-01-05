@@ -49,6 +49,24 @@ export class HttpClientService {
     });
   }
 
+  put(url: string, data: any, useRootUrl: boolean = false) {
+    return new Observable(observer => {
+      const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
+
+      rootUrlPromise.subscribe((rootUrl: string) => {
+        this.httpClient.put(rootUrl + url, data)
+          .subscribe((response: any) => {
+            observer.next(response);
+            observer.complete();
+          }, (error) => {
+
+            console.log(this._handleError(error));
+            observer.error(this._handleError(error));
+          });
+      });
+    });
+  }
+
   // Private methods
 
   private _handleError(err: HttpErrorResponse) {
