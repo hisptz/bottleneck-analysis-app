@@ -3,6 +3,7 @@ import {DashboardAction, DashboardActions} from './dashboard.actions';
 import * as dashboardHelpers from './helpers/index';
 import {Dashboard} from './dashboard.state';
 import * as _ from 'lodash';
+import {updateWithHeaderSelectionCriterias} from './helpers/map-state-to-dashboard-search-items.helper';
 
 export function dashboardReducer(state: dashboard.DashboardState = dashboard.INITIAL_DASHBOARD_STATE, action: DashboardAction) {
   switch (action.type) {
@@ -155,6 +156,64 @@ export function dashboardReducer(state: dashboard.DashboardState = dashboard.INI
         ...state
       };
     }
+
+    case DashboardActions.SEARCH_ITEMS: {
+      return {
+        ...state,
+        dashboardSearchItem: {
+          ...state.dashboardSearchItem,
+          loading: true,
+          loaded: false
+        }
+      };
+    }
+
+    case DashboardActions.UPDATE_SEARCH_RESULT: {
+      return {
+        ...state,
+        dashboardSearchItem: dashboardHelpers.mapStateToDashboardSearchItems(
+          state.dashboardSearchItem, action.payload
+        )
+      };
+    }
+
+    case DashboardActions.CHANGE_SEARCH_HEADER: {
+      const clickedHeader = action.payload.header;
+
+      return {
+        ...state,
+        dashboardSearchItem: updateWithHeaderSelectionCriterias({
+          ...state.dashboardSearchItem,
+          headers: state.dashboardSearchItem.headers.map(header => {
+            const newHeader: any = {...header};
+            if (newHeader.name === clickedHeader.name) {
+              newHeader.selected = clickedHeader.selected;
+            }
+
+            if (clickedHeader.name === 'all') {
+              if (newHeader.name !== 'all' && clickedHeader.selected) {
+                newHeader.selected = false;
+              }
+            } else {
+              if (newHeader.name === 'all' && clickedHeader.selected) {
+                newHeader.selected = false;
+              }
+            }
+
+            if (!action.payload.multipleSelection && clickedHeader.name !== newHeader.name) {
+              newHeader.selected = false;
+            }
+
+            return newHeader;
+          })
+        })
+      };
+    }
+
+    // case DashboardActions.ADD_ITEM_SUCCESS: {
+    //   console.log(action.payload)
+    //   return state;
+    // }
 
     default:
       return state;

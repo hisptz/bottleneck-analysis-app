@@ -1,6 +1,7 @@
 import {Action} from '@ngrx/store';
 import {Dashboard, DashboardMenuItem} from './dashboard.state';
 import {CurrentUserState} from '../current-user/current-user.state';
+import {Observable} from 'rxjs/Observable';
 
 export enum DashboardActions {
   LOAD = '[Dashboard] Load dashboards',
@@ -15,7 +16,12 @@ export enum DashboardActions {
   DELETE_SUCCESS = '[Dashboard] Dashboard delete success',
   COMMIT_DELETE = '[Dashboard] Permanently remove dashboard from the list',
   CHANGE_PAGE_ITEMS = '[Dashboard] Change number of item per dashboard pages in the menu',
-  HIDE_MENU_NOTIFICATION_ICON = '[Dashboard] Hide menu notification icons'
+  HIDE_MENU_NOTIFICATION_ICON = '[Dashboard] Hide menu notification icons',
+  SEARCH_ITEMS = '[Dashboard] Search dashboard items',
+  UPDATE_SEARCH_RESULT = '[Dashboard] Update search results',
+  CHANGE_SEARCH_HEADER = '[Dashboard] Change search header',
+  ADD_ITEM = '[Dashboard] Add dashboard item',
+  ADD_ITEM_SUCCESS = '[Dashboard] Add dashboard item success'
 }
 
 export class LoadAction implements Action {
@@ -82,7 +88,33 @@ export class HideMenuNotificationIconAction implements Action {
   constructor(public payload: DashboardMenuItem) {}
 }
 
+export class SearchItemsAction implements Action {
+  readonly type = DashboardActions.SEARCH_ITEMS;
+  constructor(public payload: Observable<string>) {}
+}
+
+export class UpdateSearchResultAction implements Action {
+  readonly type = DashboardActions.UPDATE_SEARCH_RESULT;
+  constructor(public payload: any) {}
+}
+
+export class ChangeSearchHeaderAction implements Action {
+  readonly type = DashboardActions.CHANGE_SEARCH_HEADER;
+  constructor(public payload: {header: any, multipleSelection: boolean}) {}
+}
+
+export class AddItemAction implements Action {
+  readonly type = DashboardActions.ADD_ITEM;
+  constructor(public payload: any) {}
+}
+
+export class AddItemSuccessAction implements Action {
+  readonly type = DashboardActions.ADD_ITEM_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 export type DashboardAction = LoadAction | LoadSuccessAction
   | SetCurrentAction | ChangeCurrentPageAction | CreateAction | CreateSuccessAction
   | RenameAction | RenameSuccessAction | DeleteAction | DeleteSuccessAction | CommitDeleteAction
-  | ChangePageItemsAction | HideMenuNotificationIconAction;
+  | ChangePageItemsAction | HideMenuNotificationIconAction | SearchItemsAction | UpdateSearchResultAction
+  | ChangeSearchHeaderAction | AddItemAction | AddItemSuccessAction;

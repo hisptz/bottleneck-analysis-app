@@ -14,6 +14,13 @@ export const getDashboardPages = createSelector(dashboardState, (dashboardObject
 export const getCurrentDashboard = createSelector(dashboardState, (dashboardObject: DashboardState) =>
   _.find(dashboardObject.dashboards, ['id', dashboardObject.currentDashboard]));
 
+export const getDashboardSearchItems = createSelector(dashboardState, (dashboardObject: DashboardState) => {
+  return {
+    ...dashboardObject.dashboardSearchItem,
+    results: dashboardObject.dashboardSearchItem.results.filter(result => result.selected)
+  };
+});
+
 export const getDashboardMenuItems = createSelector(dashboardState,
   (dashboardObject: DashboardState) => dashboardObject.dashboards.length > 0 ? dashboardObject.dashboards.slice(
     getStartItemIndex(dashboardObject.currentDashboardPage, dashboardObject.dashboardPerPage),

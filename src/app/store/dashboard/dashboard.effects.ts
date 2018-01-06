@@ -4,6 +4,7 @@ import {Dashboard} from './dashboard.state';
 import {Actions, Effect} from '@ngrx/effects';
 import {HttpClientService} from '../../services/http-client.service';
 import * as dashboard from './dashboard.actions';
+import * as dashboardHelpers from './helpers/index';
 import * as visualization from '../visualization/visualization.actions';
 import * as currentUser from '../current-user/current-user.actions';
 import 'rxjs/add/operator/switchMap';
@@ -16,6 +17,8 @@ import * as _ from 'lodash';
 import {Router} from '@angular/router';
 import 'rxjs/add/operator/take';
 import {ROUTER_NAVIGATION} from '@ngrx/router-store';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Injectable()
 export class DashboardEffects {
@@ -159,6 +162,40 @@ export class DashboardEffects {
       return Observable.of(null);
     });
 
+  @Effect()
+  searchItem$ = this.actions$
+    .ofType<dashboard.SearchItemsAction>(dashboard.DashboardActions.SEARCH_ITEMS)
+    .switchMap((action: any) => action.payload.debounceTime(400)
+      .distinctUntilChanged()
+      .switchMap((term: string) => this._searchItems(term)))
+    .map((searchResult: any) => new dashboard.UpdateSearchResultAction(searchResult));
+
+  @Effect()
+  addDashboardItemAction$ = this.actions$
+    .ofType<dashboard.AddItemAction>(dashboard.DashboardActions.ADD_ITEM)
+    .withLatestFrom(this.store)
+    .switchMap(([action, store]) => this._addItem(
+      store.dashboard.currentDashboard,
+      action.payload.id,
+      action.payload.type
+    ))
+    .map((dashboardItems: any[]) => new dashboard.AddItemSuccessAction(dashboardItems));
+
+  @Effect({dispatch: false})
+  dashboardItemAddedAction$ = this.actions$
+    .ofType<dashboard.AddItemSuccessAction>(dashboard.DashboardActions.ADD_ITEM_SUCCESS)
+    .withLatestFrom(this.store)
+    .switchMap(([action, state]: [any, AppState]) => {
+      console.log(action.payload)
+      const currentDashboard: Dashboard = _.find(state.dashboard.dashboards, ['id', state.dashboard.currentDashboard]);
+
+      if (currentDashboard) {
+        const newDashboard: Dashboard = dashboardHelpers.updateDashboardWithAddedItem(currentDashboard, action.payload);
+      }
+
+      return Observable.of(null);
+    });
+
   constructor(private actions$: Actions,
               private store: Store<AppState>,
               private router: Router,
@@ -249,6 +286,73 @@ export class DashboardEffects {
         }, error => observer.error(error));
     });
   }
+
+  private _searchItems(searchText: string) {
+    return new Observable(observer => {
+      this.httpClient.get('dashboards/q/' + searchText + '.json?max=USERS&&max=MAP&max=REPORT_TABLE&max=CHART&' +
+        'max=EVENT_CHART&max=EVENT_REPORT&max=RESOURCES&max=REPORTS&max=APP')
+        .subscribe(searchResult => {
+          observer.next(searchResult);
+          observer.complete();
+        }, () => {
+          observer.next(null);
+          observer.complete();
+        });
+    });
+  }
+
+  private _addItem(dashboardId, itemId, dashboardItemType) {
+    return new Observable(observer => {
+      this.httpClient.post(
+        'dashboards/' + dashboardId +
+        '/items/content?type=' + dashboardItemType +
+        '&id=' + itemId, {})
+        .subscribe(() => {
+          this._load(dashboardId)
+            .subscribe((dashboardResponse: any) => {
+              observer.next(this._retrieveAddedItem(dashboardResponse.dashboardItems, dashboardItemType, itemId));
+              observer.complete();
+            }, () => {
+              observer.next([]);
+              observer.complete();
+            });
+        }, () => {
+          observer.next([]);
+          observer.complete();
+        });
+    });
+  }
+
+  private _retrieveAddedItem(dashboardItems, dashboardItemType, favoriteId) {
+    let newItems = [];
+    if (dashboardItemType[dashboardItemType.length - 1] === 'S') {
+      newItems = _.clone(dashboardItems.filter(item => {
+        return item.type[dashboardItemType.length - 1] === 'S'
+      }));
+    } else {
+      for (const item of dashboardItems) {
+
+        /**
+         * Get new item for apps
+         */
+        if (item.type === 'APP' && dashboardItemType === 'APP') {
+          newItems = [item];
+          break;
+        }
+
+        const itemTypeObject = item[_.camelCase(dashboardItemType)];
+        if (itemTypeObject) {
+          if (itemTypeObject.id === favoriteId) {
+            newItems = [item];
+            break;
+          }
+        }
+      }
+    }
+
+    return newItems;
+  }
+
 
   getUniqueId(): Observable<string> {
     return new Observable(observer => {

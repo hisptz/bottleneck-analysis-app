@@ -1,3 +1,89 @@
-<div class="dashboard-item-search-container">
-  <input type="text" class="dashboard-input" placeholder="Search for charts, tables, maps" size="60">
+<div
+  class="dashboard-item-search-container"
+  appClickOutside (clickOutside)="showBody = false"
+>
+  <input
+    type="text"
+    class="dashboard-input"
+    placeholder="Search for charts, tables, maps"
+    size="60"
+    (keyup)="search($event)"
+    (focus)="updateSearchBody($event)"
+  >
+  <div
+    *ngIf="showBody"
+    class="dashboard-item-search-result-container dashboard-border animated flipInX">
+    <div class="dashboard-search-result-header">
+      <ul class="dashboard-search-header-list">
+        <li
+          *ngFor="let header of (dashboardSearchItems$ | async).headers"
+        >
+          <a
+            title="{{header.title}}"
+            [ngClass]="header.selected ? 'active-search-header' : ''"
+            (click)="toggleHeaderSelection(header, $event)"
+          >
+            <img *ngIf="header.icon" [src]="header.icon" alt="" [ngClass]="'search-header-icon'">
+            <span class="search-item-title">{{header.title}}</span>
+            <span
+              class="search-item-count"
+              *ngIf="header.itemCount > 0 && header.name !== 'all'"
+            >{{header.itemCount | kNumber}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="dashboard-search-result-body">
+      <div
+        class="dashboard-search-summary"
+        *ngIf="(dashboardSearchItems$ | async).results.length > 0 && (dashboardSearchItems$ | async).loaded"
+      >
+        <span>About {{(dashboardSearchItems$ | async).resultCount}} result{{(dashboardSearchItems$ | async).resultCount > 1 ? 's': ''}} found</span>
+      </div>
+
+      <div
+        class="dashboard-empty-search-result"
+        *ngIf="(dashboardSearchItems$ | async).results.length === 0 && (dashboardSearchItems$ | async).loaded">
+        <div class="text-center">
+          <img [src]="'assets/icons/empty-flag.png'" alt="">
+          <h4 class="text-muted">No search results found for "{{searchTerm}}"</h4>
+        </div>
+      </div>
+
+      <div class="dashboard-searching" *ngIf="(dashboardSearchItems$ | async).loading">
+        <div>
+          <app-progress-loader></app-progress-loader>
+        </div>
+        <div style="width: 90%">
+          <app-progress-loader></app-progress-loader>
+        </div>
+        <div style="width: 80%">
+          <app-progress-loader></app-progress-loader>
+        </div>
+      </div>
+
+      <div class="search-result-list">
+        <div
+          class="search-result-item"
+          *ngFor="let result of (dashboardSearchItems$ | async).results"
+        >
+          <div class="search-result-title-block">
+            <img [src]="result.icon" alt="">
+            <span class="search-result-title">{{ result.name }}</span>
+          </div>
+          <div class="search-result-actions">
+            <button
+              title="Add to dashboard"
+              class="dashboard-btn search-result-btn"
+              (click)="addDashboardItem({
+              type: dashboardItemTypes[result.type],
+              id: result.type == 'apps' ? result.key : result.id}, $event)"
+            >
+              <img src="assets/icons/plus.png" alt="">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

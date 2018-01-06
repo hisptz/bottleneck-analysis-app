@@ -40,6 +40,7 @@ export class VisualizationEffects {
          * Update visualizations with favorites
          */
         initialVisualizations.forEach((visualizationObject: Visualization) => {
+          console.log(visualizationObject.details.filters)
           this.store.dispatch(new visualization.LoadFavoriteAction(visualizationObject));
         });
       }

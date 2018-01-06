@@ -58,6 +58,8 @@ import { DashboardMenuEditComponent } from './pages/dashboard/components/dashboa
 import { DashboardMenuDeleteComponent } from './pages/dashboard/components/dashboard-menu/dashboard-menu-delete/dashboard-menu-delete.component';
 import {FilterByNamePipe} from './pipes/filter-by-name.pipe';
 import {ClickOutsideDirective} from './directives/click-outside.directive';
+import {KNumberPipe} from './pipes/k-number.pipe';
+import {SharedModule} from './shared/shared.module';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -101,7 +103,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DashboardMenuEditComponent,
     DashboardMenuDeleteComponent,
     FilterByNamePipe,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    KNumberPipe
   ],
   imports: [
     BrowserModule,
@@ -117,6 +120,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DataFilterModule,
     LayoutModule,
     MapModule,
+    SharedModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
