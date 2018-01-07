@@ -6,6 +6,7 @@ import {HttpClientService} from '../../services/http-client.service';
 import * as dashboard from './dashboard.actions';
 import * as dashboardHelpers from './helpers/index';
 import * as visualization from '../visualization/visualization.actions';
+import * as visualizationHelpers from '../visualization/helpers/index';
 import * as currentUser from '../current-user/current-user.actions';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
@@ -19,6 +20,7 @@ import 'rxjs/add/operator/take';
 import {ROUTER_NAVIGATION} from '@ngrx/router-store';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import {Visualization} from '../visualization/visualization.state';
 
 @Injectable()
 export class DashboardEffects {
@@ -186,11 +188,19 @@ export class DashboardEffects {
     .ofType<dashboard.AddItemSuccessAction>(dashboard.DashboardActions.ADD_ITEM_SUCCESS)
     .withLatestFrom(this.store)
     .switchMap(([action, state]: [any, AppState]) => {
-      console.log(action.payload)
       const currentDashboard: Dashboard = _.find(state.dashboard.dashboards, ['id', state.dashboard.currentDashboard]);
 
       if (currentDashboard) {
-        const newDashboard: Dashboard = dashboardHelpers.updateDashboardWithAddedItem(currentDashboard, action.payload);
+        const newDashboardItem: any = dashboardHelpers.getCheckedAddedItem(currentDashboard, action.payload);
+
+        const initialVisualization: Visualization = visualizationHelpers.mapDashboardItemToVisualization(
+          newDashboardItem, state.dashboard.currentDashboard, state.currentUser);
+        this.store.dispatch(new visualization.AddOrUpdateAction({
+          visualizationObject: initialVisualization,
+          placementPreference: 'first'
+        }));
+
+        this.store.dispatch(new visualization.LoadFavoriteAction(initialVisualization));
       }
 
       return Observable.of(null);

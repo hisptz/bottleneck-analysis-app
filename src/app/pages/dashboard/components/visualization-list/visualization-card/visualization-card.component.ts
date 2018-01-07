@@ -116,13 +116,15 @@ export class VisualizationCardComponent implements OnInit {
       };
     });
 
-    this.store.dispatch(new visualization.UpdateAction({
-      ...this.visualizationObject,
-      details: {
-        ...newVisualizationObjectDetails,
-        layouts: [...visualizationLayouts]
-      },
-      layers: visualizationLayers
+    this.store.dispatch(new visualization.AddOrUpdateAction({
+      visualizationObject: {
+        ...this.visualizationObject,
+        details: {
+          ...newVisualizationObjectDetails,
+          layouts: [...visualizationLayouts]
+        },
+        layers: visualizationLayers
+      }, placementPreference: 'normal'
     }));
   }
 

@@ -6,7 +6,7 @@ export enum VisualizationActions {
   LOAD_FAVORITE = '[Visualization] Load favorite details for visualization',
   LOAD_ANALYTICS = '[Visualization] Load analytics for visualization',
   UPDATE_VISUALIZATION_WITH_MAP_SETTINGS = '[Visualization] Update visualization with map settings',
-  UPDATE = '[Visualization] Update visualization',
+  ADD_OR_UPDATE = '[Visualization] Add or Update visualization',
   VISUALIZATION_CHANGE = '[Visualization] Update visualization type with currently selected',
   LOCAL_FILTER_CHANGE = '[Visualization] Update visualization object when local filters changes',
   LAYOUT_CHANGE = '[Visualization] Update layout for visualization',
@@ -42,10 +42,10 @@ export class UpdateVisualizationWithMapSettingsAction implements Action {
   }
 }
 
-export class UpdateAction implements Action {
-  readonly type = VisualizationActions.UPDATE;
+export class AddOrUpdateAction implements Action {
+  readonly type = VisualizationActions.ADD_OR_UPDATE;
 
-  constructor(public payload: Visualization) {
+  constructor(public payload: {visualizationObject: Visualization, placementPreference: string}) {
   }
 }
 
@@ -83,5 +83,5 @@ export class UnSetCurrentAction implements Action {
 
 export type VisualizationAction = SetInitialAction |
   LoadFavoriteAction | LoadAnalyticsAction | UpdateVisualizationWithMapSettingsAction |
-  UpdateAction | VisualizationChangeAction | LocalFilterChangeAction | LayoutChangeAction |
+  AddOrUpdateAction | VisualizationChangeAction | LocalFilterChangeAction | LayoutChangeAction |
   SetCurrentAction | UnSetCurrentAction;

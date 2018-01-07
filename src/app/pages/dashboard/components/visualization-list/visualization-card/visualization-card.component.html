@@ -27,8 +27,17 @@
   <!--End of Visualization card header content-->
 
   <div
+    class="visualization-card-loading-block"
+
+  >
+    <app-visualization-card-loader
+      [visualizationType]="currentVisualization"
+    ></app-visualization-card-loader>
+  </div>
+
+  <div
     class="visualization-card-body"
-    *ngIf="visualizationObject.details.loaded"
+    *ngIf="visualizationObject.details.loading"
   >
     <!--chart block-->
     <div

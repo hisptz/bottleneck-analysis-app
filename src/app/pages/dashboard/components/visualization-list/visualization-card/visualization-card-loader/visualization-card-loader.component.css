@@ -1,0 +1,44 @@
+.visualization-card-loader-container {
+  height: 100%;
+}
+
+.loader-block {
+  position: absolute;
+  bottom: 15%;
+  height: 80%;
+  width: 100%;
+}
+.chart-loader {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.chart-loader div {
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 10%;
+}
+
+.loading-text {
+  position: absolute;
+  bottom: 0;
+  height: 12%;
+  padding-left: 5%;
+  padding-bottom: 10px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.loading-text span {
+  padding-top: 5px;
+}
+
+.loading-text img {
+  display: block;
+  height: 40px;
+}

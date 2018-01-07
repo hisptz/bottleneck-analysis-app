@@ -40,7 +40,6 @@ export class VisualizationEffects {
          * Update visualizations with favorites
          */
         initialVisualizations.forEach((visualizationObject: Visualization) => {
-          console.log(visualizationObject.details.filters)
           this.store.dispatch(new visualization.LoadFavoriteAction(visualizationObject));
         });
       }
@@ -114,7 +113,10 @@ export class VisualizationEffects {
         // TODO find best way to merge visualization object
         // visualizationObject = this.visualizationObjectService.mergeVisualizationObject(visualization);
       }
-      return new visualization.UpdateAction(visualizationObject);
+      return new visualization.AddOrUpdateAction({
+        visualizationObject: visualizationObject,
+        placementPreference: 'normal'
+      });
     });
 
   @Effect()
@@ -122,7 +124,10 @@ export class VisualizationEffects {
     .ofType<visualization.UpdateVisualizationWithMapSettingsAction>
     (visualization.VisualizationActions.UPDATE_VISUALIZATION_WITH_MAP_SETTINGS)
     .flatMap((action) => this._updateVisualizationWithMapSettings(action.payload))
-    .map((visualizationObject: Visualization) => new visualization.UpdateAction(visualizationObject));
+    .map((visualizationObject: Visualization) => new visualization.AddOrUpdateAction({
+      visualizationObject: visualizationObject,
+      placementPreference: 'normal'
+    }));
 
   @Effect()
   visualizationChange$ = this.actions$
@@ -163,7 +168,10 @@ export class VisualizationEffects {
         }
       });
     })
-    .map((visualizationObject: Visualization) => new visualization.UpdateAction(visualizationObject));
+    .map((visualizationObject: Visualization) => new visualization.AddOrUpdateAction({
+      visualizationObject: visualizationObject,
+      placementPreference: 'normal'
+    }));
 
   @Effect()
   localFilterChange$ = this.actions$

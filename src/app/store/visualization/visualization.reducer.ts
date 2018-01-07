@@ -7,19 +7,36 @@ export function visualizationReducer(
   action: VisualizationAction) {
   switch (action.type) {
     case VisualizationActions.SET_INITIAL:
-      return {...state, visualizationObjects: [...state.visualizationObjects, ...action.payload]};
-    case VisualizationActions.UPDATE:
-      const visualizationIndex = _.findIndex(state.visualizationObjects,
-        _.find(state.visualizationObjects, ['id', action.payload ? action.payload.id : '']));
+      return {
+        ...state,
+        visualizationObjects: [...state.visualizationObjects, ...action.payload]
+      };
+    case VisualizationActions.ADD_OR_UPDATE:
+      const visualizationIndex = state.visualizationObjects.indexOf(_.find(state.visualizationObjects,
+        ['id', action.payload.visualizationObject ? action.payload.visualizationObject.id : undefined]));
 
       return visualizationIndex !== -1 ? {
         ...state,
-        visualizationObjects: [
+        visualizationObjects: action.payload.placementPreference === 'first' ? [
+          action.payload.visualizationObject,
           ...state.visualizationObjects.slice(0, visualizationIndex),
-          action.payload,
+          ...state.visualizationObjects.slice(visualizationIndex + 1)
+        ] : [
+          ...state.visualizationObjects.slice(0, visualizationIndex),
+          action.payload.visualizationObject,
           ...state.visualizationObjects.slice(visualizationIndex + 1)
         ]
-      } : state;
+      } : {
+        ...state,
+        visualizationObjects: action.payload.placementPreference === 'first' ?
+          [
+            action.payload.visualizationObject,
+            ...state.visualizationObjects
+          ] : [
+            ...state.visualizationObjects,
+            action.payload.visualizationObject
+        ]
+      };
 
     case VisualizationActions.SET_CURRENT:
       return {

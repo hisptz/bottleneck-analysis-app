@@ -2,11 +2,11 @@ import {mergeRelatedItems} from './map-state-to-dashboard-object.helper';
 import * as _ from 'lodash';
 import {Dashboard} from '../dashboard.state';
 
-export function updateDashboardWithAddedItem(currentDashboard, dashboardItems): Dashboard {
-  const newDashboardItem: any = dashboardItems.length > 1 ?
+export function getCheckedAddedItem(currentDashboard, dashboardItems): Dashboard {
+  let newDashboardItem: any = dashboardItems.length > 1 ?
     mergeRelatedItems(dashboardItems)[0] : dashboardItems[0];
 
-  let newDashboardItems: any[] = [];
+  let isNew = false;
 
   if (newDashboardItem) {
     if (currentDashboard) {
@@ -18,36 +18,31 @@ export function updateDashboardWithAddedItem(currentDashboard, dashboardItems): 
       if (availableDashboardItem) {
 
         if (availableDashboardItem.type[availableDashboardItem.type.length - 1] === 'S') {
-          const availableDashboardItemIndex = _.findIndex(currentDashboard.dashboardItems, availableDashboardItem);
 
           /**
            * Update the item in its corresponding dashboard
            * @type {[any , {} , any]}
            */
 
-          newDashboardItems = [
-            ...currentDashboard.dashboardItems.slice(0, availableDashboardItemIndex),
-            {...mergeRelatedItems([newDashboardItem, availableDashboardItem])[0]},
-            ...currentDashboard.dashboardItems.slice(availableDashboardItemIndex + 1)
-          ];
+          newDashboardItem =  {
+            ...mergeRelatedItems([newDashboardItem, availableDashboardItem])[0]
+          };
         }
       } else {
 
         if (newDashboardItem.type === 'APP') {
           if (!_.find(currentDashboard.dashboardItems, ['appKey', newDashboardItem.appKey])) {
-            newDashboardItem.isNew = true;
-            newDashboardItems = [newDashboardItem, ...currentDashboard.dashboardItems];
+            isNew = true;
           }
         } else {
-          newDashboardItem.isNew = true;
-          newDashboardItems = [newDashboardItem, ...currentDashboard.dashboardItems];
+          isNew = true;
         }
       }
     }
   }
 
   return {
-    ...currentDashboard,
-    dashboardItems: newDashboardItems
+    ...newDashboardItem,
+    isNew: isNew
   };
 }
