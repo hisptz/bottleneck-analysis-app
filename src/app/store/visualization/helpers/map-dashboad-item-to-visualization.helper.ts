@@ -1,6 +1,7 @@
 import {Visualization} from '../visualization.state';
 import * as _ from 'lodash';
 import {CurrentUserState} from '../../current-user/current-user.state';
+import {getVisualizationWidthFromShape} from './get-visualization-width-from-shape.helper';
 
 export function mapDashboardItemToVisualization(dashboardItem: any, dashboardId: string, currentUser: CurrentUserState): Visualization {
   return {
@@ -26,6 +27,7 @@ export function mapDashboardItemToVisualization(dashboardItem: any, dashboardId:
       showFilter: true,
       cardHeight: '450px',
       itemHeight: '430px',
+      width: getVisualizationWidthFromShape(dashboardItem.shape),
       fullScreen: false,
       type: getSanitizedCurrentVisualizationType(dashboardItem.type),
       currentVisualization: getSanitizedCurrentVisualizationType(dashboardItem.type),
