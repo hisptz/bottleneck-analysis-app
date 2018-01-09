@@ -32,8 +32,12 @@
       </div>
     </div>
   </div>
-  <!--<div class="loading-text">-->
-    <!--<img src="assets/img/balls-3.svg" alt="">-->
-    <!--<span>Loading text</span>-->
-  <!--</div>-->
+  <div
+    class="map-loader"
+    *ngIf="visualizationType === 'MAP'"
+  >
+    <div class="map-image">
+      <app-progress-loader></app-progress-loader>
+    </div>
+  </div>
 </div>

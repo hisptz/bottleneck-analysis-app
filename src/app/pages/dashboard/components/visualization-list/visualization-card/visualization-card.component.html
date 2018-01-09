@@ -41,8 +41,7 @@
 
   <div
     class="visualization-card-loading-block"
-    *ngIf="loading"
-
+    *ngIf="!loaded"
   >
     <app-visualization-card-loader
       [visualizationType]="currentVisualization"

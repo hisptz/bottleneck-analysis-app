@@ -19,33 +19,19 @@ export class VisualizationCardComponent implements OnInit {
   @Input() hideResizeBlock: boolean;
 
   isCardFocused: boolean;
+  selectedDimensions: any;
+  currentVisualization: string;
+  loaded: boolean;
 
   constructor(private store: Store<AppState>) {
   }
 
-  get currentVisualization(): string {
-    return this.visualizationObject.details.currentVisualization;
-  }
-
-  get selectedDimensions() {
-    return this.visualizationObject.details
-    && this.visualizationObject.details.filters.length > 0 && this.visualizationObject.details.layouts.length > 0 ? {
-      selectedDataItems: this.getSelectedItems(this.visualizationObject.details.filters, 'dx'),
-      selectedPeriods: this.getSelectedItems(this.visualizationObject.details.filters, 'pe'),
-      orgUnitModel: this._getSelectedOrgUnitModel(this.getSelectedItems(this.visualizationObject.details.filters, 'ou')),
-      layoutModel: this.visualizationObject.details.layouts[0].layout
-    } : null;
-  }
-
-  get loaded() {
-    return this.visualizationObject.details.loaded;
-  }
-
-  get loading() {
-    return this.visualizationObject.details.loading;
-  }
-
   ngOnInit() {
+    this.selectedDimensions = this.getSelectedDimensions();
+
+    this.currentVisualization = this.visualizationObject.details.currentVisualization;
+
+    this.loaded = this.visualizationObject.details.loaded;
   }
 
   currentVisualizationChange(visualizationType: string) {
@@ -141,6 +127,16 @@ export class VisualizationCardComponent implements OnInit {
   toggleCardFocusAction(e, isFocused) {
     e.stopPropagation();
     this.isCardFocused = isFocused;
+  }
+
+  getSelectedDimensions() {
+    return this.visualizationObject.details
+    && this.visualizationObject.details.filters.length > 0 && this.visualizationObject.details.layouts.length > 0 ? {
+      selectedDataItems: this.getSelectedItems(this.visualizationObject.details.filters, 'dx'),
+      selectedPeriods: this.getSelectedItems(this.visualizationObject.details.filters, 'pe'),
+      orgUnitModel: this._getSelectedOrgUnitModel(this.getSelectedItems(this.visualizationObject.details.filters, 'ou')),
+      layoutModel: this.visualizationObject.details.layouts[0].layout
+    } : null;
   }
 
 }

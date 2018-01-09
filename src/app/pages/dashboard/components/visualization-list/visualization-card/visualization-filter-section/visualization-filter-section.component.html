@@ -1,4 +1,7 @@
-<div class="visualization-filter-section">
+<div
+  class="visualization-filter-section"
+  appClickOutside (clickOutside)="selectedFilter = undefined"
+>
   <div class="visualization-filter-buttons">
     <button
       class="dashboard-btn visualization-filter-btn"
@@ -49,7 +52,7 @@
     </div>
   </div>
   <div
-    class="visualization-filter-body dashboard-border"
+    class="visualization-filter-body dashboard-border animated flipInX"
     *ngIf="selectedFilter"
   >
     <!--org unit filter-->
