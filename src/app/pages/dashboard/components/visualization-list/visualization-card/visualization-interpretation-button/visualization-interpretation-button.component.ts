@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-visualization-interpretation-button',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VisualizationInterpretationButtonComponent implements OnInit {
 
+  @Input() loaded: boolean;
   constructor() { }
 
   ngOnInit() {

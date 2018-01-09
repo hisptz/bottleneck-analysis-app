@@ -18,6 +18,8 @@ export class VisualizationCardComponent implements OnInit {
   @Input() customItemHeight: string;
   @Input() hideResizeBlock: boolean;
 
+  isCardFocused: boolean;
+
   constructor(private store: Store<AppState>) {
   }
 
@@ -33,6 +35,14 @@ export class VisualizationCardComponent implements OnInit {
       orgUnitModel: this._getSelectedOrgUnitModel(this.getSelectedItems(this.visualizationObject.details.filters, 'ou')),
       layoutModel: this.visualizationObject.details.layouts[0].layout
     } : null;
+  }
+
+  get loaded() {
+    return this.visualizationObject.details.loaded;
+  }
+
+  get loading() {
+    return this.visualizationObject.details.loading;
   }
 
   ngOnInit() {
@@ -126,6 +136,11 @@ export class VisualizationCardComponent implements OnInit {
         layers: visualizationLayers
       }, placementPreference: 'normal'
     }));
+  }
+
+  toggleCardFocusAction(e, isFocused) {
+    e.stopPropagation();
+    this.isCardFocused = isFocused;
   }
 
 }

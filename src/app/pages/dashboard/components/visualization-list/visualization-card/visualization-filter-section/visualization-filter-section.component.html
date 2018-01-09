@@ -3,6 +3,7 @@
     <button
       class="dashboard-btn visualization-filter-btn"
       title="Filter by different dimensions"
+      [disabled]="!loaded"
       (click)="toggleFilters($event)"
     >
       <img *ngIf="!showFilters" src="assets/icons/filter.png" alt="">

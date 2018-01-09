@@ -13,6 +13,8 @@ export class VisualizationResizeSectionComponent implements OnInit {
 
   @Input() dashboardId: string;
   @Input() visualizationId: string;
+  @Input() loaded: boolean;
+  @Input() showResizeButton: boolean;
   constructor(
     private router: Router,
     private store: Store<AppState>

@@ -4,11 +4,13 @@
 
 .loader-block {
   position: absolute;
-  bottom: 15%;
-  height: 80%;
+  top: 5%;
+  bottom: 5%;
+  height: 90%;
   width: 100%;
 }
-.chart-loader {
+.chart-loader,
+.table-loader {
   display: flex;
   justify-content: center;
   position: absolute;
@@ -21,6 +23,16 @@
   margin-left: 5%;
   margin-right: 5%;
   width: 10%;
+}
+
+.table-loader {
+  flex-wrap: wrap;
+}
+
+.table-loader div  {
+  margin: 1%;
+  width: 10%;
+  height: 10%;
 }
 
 .loading-text {

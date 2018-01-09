@@ -1,19 +1,30 @@
 <div class="visualization-card"
      [style.height]="customCardHeight || visualizationObject.details.cardHeight"
+     (mouseenter)="toggleCardFocusAction($event, true)"
+     (mouseleave)="toggleCardFocusAction($event, false)"
 >
   <!--Visualization card header content-->
-  <div class="visualization-card-header">
+  <div
+    class="visualization-card-header"
+  >
     <div class="visualization-card-header-left">
-      <div class="visualization-filter-section-container">
+      <div
+        class="visualization-filter-section-container"
+      >
         <app-visualization-filter-section
           [selectedDimensions]="selectedDimensions"
           [visualizationType]="currentVisualization"
+          [loaded]="loaded"
           (onFilterUpdate)="onFilterUpdate($event)"
           (onLayoutUpdate)="onLayoutUpdate($event)"
         ></app-visualization-filter-section>
       </div>
-      <div class="visualization-interpretation-button-container">
-        <app-visualization-interpretation-button></app-visualization-interpretation-button>
+      <div
+        class="visualization-interpretation-button-container"
+      >
+        <app-visualization-interpretation-button
+          [loaded]="loaded"
+        ></app-visualization-interpretation-button>
       </div>
     </div>
     <div class="visualization-card-header-right">
@@ -21,6 +32,8 @@
         *ngIf="!hideResizeBlock"
         [dashboardId]="visualizationObject.dashboardId"
         [visualizationId]="visualizationObject.id"
+        [loaded]="loaded"
+        [showResizeButton]="isCardFocused"
       ></app-visualization-resize-section>
     </div>
   </div>
@@ -28,6 +41,7 @@
 
   <div
     class="visualization-card-loading-block"
+    *ngIf="loading"
 
   >
     <app-visualization-card-loader
@@ -37,7 +51,7 @@
 
   <div
     class="visualization-card-body"
-    *ngIf="visualizationObject.details.loading"
+    *ngIf="loaded"
   >
     <!--chart block-->
     <div
@@ -85,8 +99,13 @@
     </div>
     <!--end of dictionary block-->
   </div>
-  <div class="visualization-card-footer">
-    <div class="visualization-card-footer-left">
+  <div
+    class="visualization-card-footer animated fadeInLeft"
+    *ngIf="loaded && isCardFocused"
+  >
+    <div
+      class="visualization-card-footer-left"
+    >
       <app-visualization-types-section
         [currentVisualization]="currentVisualization"
         (onCurrentVisualizationChange)="currentVisualizationChange($event)"

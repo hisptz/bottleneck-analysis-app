@@ -1,6 +1,9 @@
 <div class="visualization-card-loader-container">
   <div class="loader-block">
-    <div class="chart-loader">
+    <div
+      class="chart-loader"
+      *ngIf="visualizationType === 'CHART'"
+    >
       <div style="margin-top: 30%;">
         <app-progress-loader></app-progress-loader>
       </div>
@@ -20,9 +23,17 @@
         <app-progress-loader></app-progress-loader>
       </div>
     </div>
+    <div
+      class="table-loader"
+      *ngIf="visualizationType === 'TABLE'"
+    >
+      <div *ngFor="let tableCell of tableCellCounts">
+        <app-progress-loader></app-progress-loader>
+      </div>
+    </div>
   </div>
-  <div class="loading-text">
-    <img src="assets/img/balls-3.svg" alt="">
-    <span>Loading text</span>
-  </div>
+  <!--<div class="loading-text">-->
+    <!--<img src="assets/img/balls-3.svg" alt="">-->
+    <!--<span>Loading text</span>-->
+  <!--</div>-->
 </div>

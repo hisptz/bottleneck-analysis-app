@@ -9,6 +9,7 @@ export class VisualizationFilterSectionComponent implements OnInit {
 
   @Input() selectedDimensions: any;
   @Input() visualizationType: string;
+  @Input() loaded: boolean;
   @Output() onFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() onLayoutUpdate:  EventEmitter<any> = new EventEmitter<any>();
   showFilters: boolean;
