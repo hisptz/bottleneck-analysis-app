@@ -11,6 +11,8 @@ import {getDimensionValues} from './get-dimension-values.helpers';
 import {getGeoFeatureUrl} from './get-geo-feature-url.helper';
 import {updateVisualizationWithCustomFilters} from './update-visualization-with-custom-filters.helper';
 import {getSanitizedCustomFilterObject} from './get-sanitized-custom-filter-object.helper';
+import {getVisualizationShape} from './get-visualization-shape.helper';
+import {getVisualizationWidthFromShape} from './get-visualization-width-from-shape.helper';
 
 export {
   mapDashboardItemToVisualization,
@@ -25,6 +27,8 @@ export {
   getDimensionValues,
   getGeoFeatureUrl,
   updateVisualizationWithCustomFilters,
-  getSanitizedCustomFilterObject
+  getSanitizedCustomFilterObject,
+  getVisualizationShape,
+  getVisualizationWidthFromShape
 };
 

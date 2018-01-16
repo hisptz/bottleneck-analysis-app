@@ -1,6 +1,8 @@
 import * as visualization from './visualization.state';
 import * as _ from 'lodash';
 import {VisualizationAction, VisualizationActions} from './visualization.actions';
+import {Visualization} from './visualization.state';
+import * as visualizationHelpers from './helpers/index';
 
 export function visualizationReducer(
   state: visualization.VisualizationState = visualization.INITIAL_VISUALIZATION_STATE,
@@ -48,6 +50,24 @@ export function visualizationReducer(
         ...state,
         currentVisualization: undefined
       };
+    case VisualizationActions.RESIZE:
+      const visualizationObject: Visualization = _.find(state.visualizationObjects, ['id', action.payload.visualizationId]);
+      const visualizationObjectIndex = state.visualizationObjects.indexOf(visualizationObject);
+      return visualizationObjectIndex !== -1 ? {
+        ...state,
+        visualizationObjects: [
+          ...state.visualizationObjects.slice(0, visualizationObjectIndex),
+          {
+            ...visualizationObject,
+            shape: action.payload.shape,
+            details: {
+              ...visualizationObject.details,
+              width: visualizationHelpers.getVisualizationWidthFromShape(action.payload.shape)
+            }
+          },
+          ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
+        ]
+      } : state;
     default:
       return state;
   }

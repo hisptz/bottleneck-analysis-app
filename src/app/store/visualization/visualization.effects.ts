@@ -13,6 +13,7 @@ import * as visualizationHelpers from './helpers/index';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/forkJoin';
 import {Router} from '@angular/router';
+import {map, tap} from 'rxjs/operators';
 
 @Injectable()
 export class VisualizationEffects {
@@ -176,6 +177,14 @@ export class VisualizationEffects {
       visualizationHelpers.getSanitizedCustomFilterObject(action.payload.filterValue)
     ))).map((visualizationObject: Visualization) => new visualization.LoadAnalyticsAction(visualizationObject));
 
+  @Effect({dispatch: false})
+  resizeAction$ = this.actions$
+    .ofType<visualization.ResizeAction>(visualization.VisualizationActions.RESIZE)
+    .switchMap((action: any) => this._resize(
+      action.payload.visualizationId,
+      action.payload.shape))
+    .map(() => new visualization.ResizeSuccessAction());
+
   constructor(private actions$: Actions,
               private store: Store<AppState>,
               private router: Router,
@@ -238,5 +247,9 @@ export class VisualizationEffects {
     }
 
     return dimensionArea;
+  }
+
+  private _resize(visualizationId: string, shape: string) {
+    return this.httpClient.put('dashboardItems/' + visualizationId + '/shape/' + shape, '');
   }
 }

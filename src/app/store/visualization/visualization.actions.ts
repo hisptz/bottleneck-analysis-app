@@ -11,7 +11,9 @@ export enum VisualizationActions {
   LOCAL_FILTER_CHANGE = '[Visualization] Update visualization object when local filters changes',
   LAYOUT_CHANGE = '[Visualization] Update layout for visualization',
   SET_CURRENT = '[Visualizaton] Set current visualization Object',
-  UNSET_CURRENT = '[Visualizaton] Unset current visualization Object'
+  UNSET_CURRENT = '[Visualizaton] Unset current visualization Object',
+  RESIZE = '[Visualizaton] Resize visualization object',
+  RESIZE_SUCCESS = '[Visualizaton] Resize visualization object success'
 }
 
 export class SetInitialAction implements Action {
@@ -81,7 +83,16 @@ export class UnSetCurrentAction implements Action {
   readonly type = VisualizationActions.UNSET_CURRENT;
 }
 
+export class ResizeAction implements Action {
+  readonly type = VisualizationActions.RESIZE;
+  constructor(public payload: {visualizationId: string, shape: string}) {}
+}
+
+export class ResizeSuccessAction implements Action {
+  readonly type = VisualizationActions.RESIZE_SUCCESS;
+}
+
 export type VisualizationAction = SetInitialAction |
   LoadFavoriteAction | LoadAnalyticsAction | UpdateVisualizationWithMapSettingsAction |
   AddOrUpdateAction | VisualizationChangeAction | LocalFilterChangeAction | LayoutChangeAction |
-  SetCurrentAction | UnSetCurrentAction;
+  SetCurrentAction | UnSetCurrentAction | ResizeAction | ResizeSuccessAction;

@@ -4,6 +4,7 @@
     title="Resize item"
     [disabled]="!loaded"
     *ngIf="showResizeButton && loaded"
+    (click)="resizeCard($event)"
   >
     <img src="assets/icons/resize.png" alt="">
   </button>
