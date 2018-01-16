@@ -46,7 +46,7 @@ export class VisualizationEffects {
       return Observable.of(null);
     });
 
-  @Effect({dispatch: false})
+  @Effect()
   laodFavorite$ = this.actions$
     .ofType<visualization.LoadFavoriteAction>(visualization.VisualizationActions.LOAD_FAVORITE)
     .flatMap((action: any) => {
@@ -54,13 +54,8 @@ export class VisualizationEffects {
 
       const favoritePromise = favoriteUrl !== '' ? this.httpClient.get(favoriteUrl) : Observable.of({});
 
-      favoritePromise.subscribe((favorite: any) =>
-        this.store.dispatch(new visualization.LoadAnalyticsAction(
-          visualizationHelpers.updateVisualizationWithSettings(action.payload, favorite))), error => {
-        console.log(error);
-      });
-      return Observable.of(null);
-    });
+      return favoritePromise.map((favorite: any) => visualizationHelpers.updateVisualizationWithSettings(action.payload, favorite));
+    }).map((visualizationObject: any) => new visualization.LoadAnalyticsAction(visualizationObject));
 
   @Effect()
   loadAnalytics$ = this.actions$
