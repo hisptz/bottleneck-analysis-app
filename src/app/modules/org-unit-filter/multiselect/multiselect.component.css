@@ -1,3 +1,6 @@
+.multiselect-container {
+  position: relative;
+}
 .hiddenTree{
   display: none;
 }
@@ -141,4 +144,33 @@ span.selected-item {
 
 .removeitem:hover{
   font-size: 1.1em;
+}
+
+.item-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  z-index: 1200;
+  -webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+  width: 100%;
+  background-color: #ffffff;
+  top: 30px;
+  max-height: 250px;
+  overflow: hidden;
+}
+
+.item-list:hover {
+  overflow: auto;
+}
+
+.item-list > li {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.item-list > li:hover {
+  background-color: #eeeeee;
 }

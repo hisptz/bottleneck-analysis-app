@@ -6,25 +6,25 @@ import {Observable} from 'rxjs/Observable';
 export class OrgUnitService {
 
   nodes: any[] = null;
-  orgunit_levels: any[] = [];
-  user_orgunits: any[] = [];
-  orgunit_groups: any[] = [];
-  initial_orgunits: any[] = [];
+  orgUnitLevels: any[] = [];
+  userOrgUnits: any[] = [];
+  orgUnitGroups: any[] = [];
+  initialOrgUnits: any[] = [];
   private _userInfo: any = null;
 
-  constructor(private httpClient: HttpClientService) {
+  constructor(private http: HttpClientService) {
   }
 
   // Get current user information
   getUserInformation(priority = null) {
-    return new Observable(observer => {
+    return Observable.create(observer => {
       if (this._userInfo !== null) {
         observer.next(this._userInfo);
         observer.complete();
       } else {
-        const userInfoCall: Observable<any> = !priority ?
-          this.httpClient.get('me.json?fields=dataViewOrganisationUnits[id,name,level],organisationUnits[id,name,level]') :
-          this.httpClient.get('me.json?fields=organisationUnits[id,name,level]');
+        const userInfoCall: Observable<any> = priority === false ?
+          this.http.get('me.json?fields=dataViewOrganisationUnits[id,name,level],organisationUnits[id,name,level]') :
+          this.http.get('me.json?fields=organisationUnits[id,name,level]');
 
         userInfoCall.subscribe((userInfo: any) => {
           this._userInfo = Object.assign({}, userInfo);
@@ -47,19 +47,19 @@ export class OrgUnitService {
         }
       });
     } else {
-      if (userOrgunits.dataViewOrganisationUnits.length == 0) {
+      if (userOrgunits.dataViewOrganisationUnits.length === 0) {
         userOrgunits.organisationUnits.forEach((orgunit) => {
-          if (orgunit.level == level) {
+          if (orgunit.level === level) {
             orgunits.push(orgunit.id);
           }
-        })
+        });
       } else {
         level = userOrgunits.dataViewOrganisationUnits[0].level;
         userOrgunits.dataViewOrganisationUnits.forEach((orgunit) => {
-          if (orgunit.level == level) {
+          if (orgunit.level === level) {
             orgunits.push(orgunit.id);
           }
-        })
+        });
       }
     }
     return orgunits;
@@ -72,29 +72,28 @@ export class OrgUnitService {
    */
   getUserHighestOrgUnitlevel(userOrgunits) {
     let level: any;
-    let orgunits = [];
     if (!userOrgunits.hasOwnProperty('dataViewOrganisationUnits')) {
       level = userOrgunits.organisationUnits[0].level;
       userOrgunits.organisationUnits.forEach((orgunit) => {
         if (orgunit.level <= level) {
           level = orgunit.level;
         }
-      })
+      });
     } else {
-      if (userOrgunits.dataViewOrganisationUnits.length == 0) {
+      if (userOrgunits.dataViewOrganisationUnits.length === 0) {
         level = userOrgunits.organisationUnits[0].level;
         userOrgunits.organisationUnits.forEach((orgunit) => {
           if (orgunit.level <= level) {
             level = orgunit.level;
           }
-        })
+        });
       } else {
         level = userOrgunits.dataViewOrganisationUnits[0].level;
         userOrgunits.dataViewOrganisationUnits.forEach((orgunit) => {
           if (orgunit.level <= level) {
             level = orgunit.level;
           }
-        })
+        });
       }
 
     }
@@ -107,51 +106,23 @@ export class OrgUnitService {
    * @returns {any}
    */
   getUserOrgUnits(userOrgunits) {
-    let orgunits = [];
+    const orgunits = [];
     if (!userOrgunits.hasOwnProperty('dataViewOrganisationUnits')) {
       userOrgunits.organisationUnits.forEach((orgunit) => {
         orgunits.push(orgunit);
-      })
+      });
     } else {
-      if (userOrgunits.dataViewOrganisationUnits.length == 0) {
+      if (userOrgunits.dataViewOrganisationUnits.length === 0) {
         userOrgunits.organisationUnits.forEach((orgunit) => {
           orgunits.push(orgunit);
-        })
+        });
       } else {
         userOrgunits.dataViewOrganisationUnits.forEach((orgunit) => {
           orgunits.push(orgunit);
-        })
+        });
       }
     }
     return orgunits;
-  }
-
-  prepareOrgunits(priority = null) {
-    this.getOrgunitLevelsInformation()
-      .subscribe(
-        (data: any) => {
-          this.orgunit_levels = data.organisationUnitLevels;
-          this.getUserInformation(priority).subscribe(
-            userOrgunit => {
-              this.user_orgunits = this.getUserOrgUnits(userOrgunit);
-              let level = this.getUserHighestOrgUnitlevel(userOrgunit);
-              let all_levels = data.pager.total;
-              let orgunits = this.getuserOrganisationUnitsWithHighestlevel(level, userOrgunit);
-              let use_level = parseInt(all_levels) - (parseInt(level) - 1);
-              let fields = this.generateUrlBasedOnLevels(use_level);
-              this.getAllOrgunitsForTree1(fields, orgunits).subscribe(
-                items => {
-                  //noinspection TypeScriptUnresolvedVariable
-                  this.nodes = items.organisationUnits;
-                }
-              )
-            }
-          )
-        }
-      );
-    this.getOrgunitGroups().subscribe(groups => {//noinspection TypeScriptUnresolvedVariable
-      this.orgunit_groups = groups.organisationUnitGroups
-    });
   }
 
 
@@ -159,7 +130,7 @@ export class OrgUnitService {
   generateUrlBasedOnLevels(level) {
     let childrenLevels = '[]';
     for (let i = 1; i < level + 1; i++) {
-      childrenLevels = childrenLevels.replace('[]', '[id,name,level,children[]]')
+      childrenLevels = childrenLevels.replace('[]', '[id,name,level,children[]]');
     }
     let new_string = childrenLevels.substring(1);
     new_string = new_string.replace(',children[]]', '');
@@ -169,84 +140,79 @@ export class OrgUnitService {
   // Get system wide settings
   getOrgunitLevelsInformation() {
     return Observable.create(observer => {
-      if (this.orgunit_levels.length != 0) {
-        observer.next(this.orgunit_levels);
+      if (this.orgUnitLevels.length !== 0) {
+        observer.next(this.orgUnitLevels);
         observer.complete();
       } else {
-        this.httpClient.get('organisationUnitLevels.json?fields=id,name,level&order=level:asc')
-          .subscribe((levels) => {
-              this.orgunit_levels = levels;
-              observer.next(this.orgunit_levels);
+        this.http.get('organisationUnitLevels.json?fields=id,name,level&order=level:asc')
+          .subscribe((levels: any[]) => {
+              this.orgUnitLevels = levels;
+              observer.next(this.orgUnitLevels);
               observer.complete();
             },
             error => {
-              observer.error('some error occur')
-            })
+              observer.error('some error occur');
+            });
       }
-    })
+    });
   }
 
   // Get organisation unit groups information
   getOrgunitGroups() {
     return Observable.create(observer => {
-      if (this.orgunit_groups.length != 0) {
-        observer.next(this.orgunit_groups);
+      if (this.orgUnitGroups.length !== 0) {
+        observer.next(this.orgUnitGroups);
         observer.complete();
       } else {
-        this.httpClient.get('organisationUnitGroups.json?fields=id,name&paging=false')
+        this.http.get('organisationUnitGroups.json?fields=id,name&paging=false')
           .subscribe((groups: any) => {
-              this.orgunit_groups = groups.organisationUnitGroups;
-              observer.next(this.orgunit_groups);
+              this.orgUnitGroups = groups.organisationUnitGroups;
+              observer.next(this.orgUnitGroups);
               observer.complete();
             },
             error => {
-              observer.error('some error occur')
-            })
+              observer.error('some error occur');
+            });
       }
-    })
-  }
-
-  // Get system wide settings
-  getAllOrgunitsForTree(fields) {
-    return this.httpClient.get('organisationUnits.json?filter=level:eq:1&paging=false&fields=' + fields);
+    });
   }
 
   // Get orgunit for specific
   getAllOrgunitsForTree1(fields = null, orgunits = null) {
     return Observable.create(observer => {
-      if (this.nodes != null) {
+      if (this.nodes !== null) {
         observer.next(this.nodes);
         observer.complete();
       } else {
-        this.httpClient.get('organisationUnits.json?fields=' + fields + '&filter=id:in:[' + orgunits.join(',') + ']&paging=false')
+        this.http.get('organisationUnits.json?fields=' + fields + '&filter=id:in:[' + orgunits.join(',') + ']&paging=false')
           .subscribe((nodes: any) => {
             this.nodes = nodes.organisationUnits;
             observer.next(this.nodes);
             observer.complete();
           }, error => {
-            observer.error('some error occured')
-          })
+            observer.error('some error occured');
+          });
       }
-    })
+    });
 
   }
 
   // Get initial organisation units to speed up things during loading
   getInitialOrgunitsForTree(orgunits) {
     return Observable.create(observer => {
-      if (this.initial_orgunits != null) {
-        observer.next(this.initial_orgunits);
+      if (this.initialOrgUnits !== null) {
+        observer.next(this.initialOrgUnits);
         observer.complete();
       } else {
-        this.httpClient.get('organisationUnits.json?fields=id,name,level,children[id,name]&' +
+        this.http.get('organisationUnits.json?fields=id,name,level,children[id,name]&' +
           'filter=id:in:[' + orgunits.join(',') + ']&paging=false')
           .subscribe((nodes: any) => {
-            this.initial_orgunits = nodes.organisationUnits;
-            observer.next(this.initial_orgunits);
+            this.initialOrgUnits = nodes.organisationUnits;
+            observer.next(this.initialOrgUnits);
             observer.complete();
           }, error => {
             observer.error('some error occured');
-          })
+          });
       }
     });
   }

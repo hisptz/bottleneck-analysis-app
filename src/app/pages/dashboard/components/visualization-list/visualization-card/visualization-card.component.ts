@@ -4,7 +4,6 @@ import {Store} from '@ngrx/store';
 import * as _ from 'lodash';
 import {AppState} from '../../../../../store/app.reducers';
 import * as visualization from '../../../../../store/visualization/visualization.actions';
-import {OrgUnitModel} from '../../../../../modules/org-unit-filter/models/orgunit.model';
 import {CurrentUserState} from '../../../../../store/current-user/current-user.state';
 
 @Component({
@@ -61,9 +60,9 @@ export class VisualizationCardComponent implements OnInit {
     return [];
   }
 
-  private _getSelectedOrgUnitModel(orgUnitArray): OrgUnitModel {
+  private _getSelectedOrgUnitModel(orgUnitArray): any {
     const selectedOrgUnitLevels = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('LEVEL') !== -1);
-    const selectedUserOrgUnit = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('USER') !== -1);
+    const selectedUserOrgUnits = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('USER') !== -1);
     const selectedOrgUnitGroups = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('OU_GROUP') !== -1);
 
     return {
@@ -80,7 +79,7 @@ export class VisualizationCardComponent implements OnInit {
       selectedOrgUnits: orgUnitArray.filter((orgUnit: any) => orgUnit.type === 'ORGANISATION_UNIT'),
       userOrgUnits: [],
       type: 'report',
-      selectedUserOrgUnits: selectedUserOrgUnit.map((userorgunit) => {
+      selectedUserOrgUnits: selectedUserOrgUnits.map((userorgunit) => {
         return {
           id: userorgunit.id,
           shown: true

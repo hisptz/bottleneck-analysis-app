@@ -59,6 +59,8 @@
     <app-org-unit-filter
       *ngIf="selectedFilter === 'ORG_UNIT'"
       [orgUnitModel]="selectedDimensions.orgUnitModel"
+      (onOrgUnitClose)="selectedFilter = undefined"
+      (onOrgUnitUpdate)="onFilterUpdateAction($event, 'ORG_UNIT')"
     ></app-org-unit-filter>
     <!--end of org unit filter-->
 
