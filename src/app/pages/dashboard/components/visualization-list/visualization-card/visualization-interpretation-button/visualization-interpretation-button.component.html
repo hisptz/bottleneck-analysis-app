@@ -2,8 +2,13 @@
   <button
     class="dashboard-btn interpretation-btn"
     [disabled]="!loaded"
+    title="{{ interpretationTitle }}"
+    (click)="toggleInterpretation($event)"
   >
-    <div class="interpretation-value">24</div>
+    <div
+      class="interpretation-value"
+      *ngIf="interpretationCount > 0"
+    >{{ interpretationCount }}</div>
     <img src="assets/icons/chat.png" alt="">
   </button>
 </div>

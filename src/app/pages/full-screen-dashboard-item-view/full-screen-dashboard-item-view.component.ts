@@ -8,6 +8,8 @@ import * as visualizationActions from '../../store/visualization/visualization.a
 import {Dashboard} from '../../store/dashboard/dashboard.state';
 import {Observable} from 'rxjs/Observable';
 import {Visualization} from '../../store/visualization/visualization.state';
+import {CurrentUserState} from '../../store/current-user/current-user.state';
+import {getCurrentUser} from '../../store/current-user/current-user.selectors';
 
 @Component({
   selector: 'app-full-screen-dashboard-item-view',
@@ -17,9 +19,11 @@ import {Visualization} from '../../store/visualization/visualization.state';
 export class FullScreenDashboardItemViewComponent implements OnInit {
 
   currentVisualizationObject$: Observable<Visualization>;
+  currentUser$: Observable<CurrentUserState>;
   constructor(private router: Router,
               private store: Store<AppState>) {
     this.currentVisualizationObject$ = this.store.select(visualizationSelectors.getCurrentVisualizationObject);
+    this.currentUser$ = store.select(getCurrentUser);
   }
 
   ngOnInit() {

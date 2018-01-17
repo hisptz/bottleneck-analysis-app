@@ -13,7 +13,8 @@ export enum VisualizationActions {
   SET_CURRENT = '[Visualizaton] Set current visualization Object',
   UNSET_CURRENT = '[Visualizaton] Unset current visualization Object',
   RESIZE = '[Visualizaton] Resize visualization object',
-  RESIZE_SUCCESS = '[Visualizaton] Resize visualization object success'
+  RESIZE_SUCCESS = '[Visualizaton] Resize visualization object success',
+  TOGGLE_INTERPRETATION = '[Visualizaton] Toggle interpratation'
 }
 
 export class SetInitialAction implements Action {
@@ -92,7 +93,12 @@ export class ResizeSuccessAction implements Action {
   readonly type = VisualizationActions.RESIZE_SUCCESS;
 }
 
+export class ToggleInterpretationAction implements Action {
+  readonly type = VisualizationActions.TOGGLE_INTERPRETATION;
+  constructor (public payload: string) {}
+}
+
 export type VisualizationAction = SetInitialAction |
   LoadFavoriteAction | LoadAnalyticsAction | UpdateVisualizationWithMapSettingsAction |
   AddOrUpdateAction | VisualizationChangeAction | LocalFilterChangeAction | LayoutChangeAction |
-  SetCurrentAction | UnSetCurrentAction | ResizeAction | ResizeSuccessAction;
+  SetCurrentAction | UnSetCurrentAction | ResizeAction | ResizeSuccessAction | ToggleInterpretationAction;

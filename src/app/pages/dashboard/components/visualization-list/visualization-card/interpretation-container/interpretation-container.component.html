@@ -1,0 +1,17 @@
+<div class="interpretation-container">
+  <div
+    class="interpretation-list"
+    *ngFor="let layer of visualizationLayers"
+  >
+    <app-interpretation-list
+      [interpretations]="layer.interpretation.interpretations"
+      [visualizationTypeObject]="{
+        id: layer.interpretation.id,
+        type: layer.interpretation.type
+      }"
+      [currentUser]="currentUser"
+      [rootUrl]="''"
+      [itemHeight]="itemHeight"
+    ></app-interpretation-list>
+  </div>
+</div>

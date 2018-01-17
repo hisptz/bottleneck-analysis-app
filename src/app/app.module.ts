@@ -61,6 +61,8 @@ import {ClickOutsideDirective} from './directives/click-outside.directive';
 import {KNumberPipe} from './pipes/k-number.pipe';
 import {SharedModule} from './shared/shared.module';
 import { VisualizationCardLoaderComponent } from './pages/dashboard/components/visualization-list/visualization-card/visualization-card-loader/visualization-card-loader.component';
+import {InterpretationModule} from './modules/interpretation/interpretation.module';
+import { InterpretationContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/interpretation-container/interpretation-container.component';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -106,7 +108,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FilterByNamePipe,
     ClickOutsideDirective,
     KNumberPipe,
-    VisualizationCardLoaderComponent
+    VisualizationCardLoaderComponent,
+    InterpretationContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -123,6 +126,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LayoutModule,
     MapModule,
     SharedModule,
+    InterpretationModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

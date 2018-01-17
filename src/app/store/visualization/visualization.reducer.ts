@@ -4,9 +4,8 @@ import {VisualizationAction, VisualizationActions} from './visualization.actions
 import {Visualization} from './visualization.state';
 import * as visualizationHelpers from './helpers/index';
 
-export function visualizationReducer(
-  state: visualization.VisualizationState = visualization.INITIAL_VISUALIZATION_STATE,
-  action: VisualizationAction) {
+export function visualizationReducer(state: visualization.VisualizationState = visualization.INITIAL_VISUALIZATION_STATE,
+                                     action: VisualizationAction) {
   switch (action.type) {
     case VisualizationActions.SET_INITIAL:
       return {
@@ -37,7 +36,7 @@ export function visualizationReducer(
           ] : [
             ...state.visualizationObjects,
             action.payload.visualizationObject
-        ]
+          ]
       };
 
     case VisualizationActions.SET_CURRENT:
@@ -50,7 +49,7 @@ export function visualizationReducer(
         ...state,
         currentVisualization: undefined
       };
-    case VisualizationActions.RESIZE:
+    case VisualizationActions.RESIZE: {
       const visualizationObject: Visualization = _.find(state.visualizationObjects, ['id', action.payload.visualizationId]);
       const visualizationObjectIndex = state.visualizationObjects.indexOf(visualizationObject);
       return visualizationObjectIndex !== -1 ? {
@@ -62,12 +61,43 @@ export function visualizationReducer(
             shape: action.payload.shape,
             details: {
               ...visualizationObject.details,
-              width: visualizationHelpers.getVisualizationWidthFromShape(action.payload.shape)
+              width: visualizationHelpers.getVisualizationWidthFromShape(action.payload.shape),
+              shape: action.payload.shape
             }
           },
           ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
         ]
       } : state;
+    }
+    case VisualizationActions.TOGGLE_INTERPRETATION: {
+      const visualizationObject: Visualization = _.find(state.visualizationObjects, ['id', action.payload]);
+      const visualizationObjectIndex = state.visualizationObjects.indexOf(visualizationObject);
+      /**
+       * Change size of the dashboard item
+       */
+
+      const newShape = visualizationObject ?
+        visualizationObject.details.showInterpretationBlock ? visualizationObject.details.shape :
+          visualizationObject.shape === 'NORMAL' ? 'DOUBLE_WIDTH' : 'FULL_WIDTH' : '';
+
+      return visualizationObjectIndex !== -1 ? {
+        ...state,
+        visualizationObjects: [
+          ...state.visualizationObjects.slice(0, visualizationObjectIndex),
+          {
+            ...visualizationObject,
+            shape: newShape,
+            details: {
+              ...visualizationObject.details,
+              width: visualizationHelpers.getVisualizationWidthFromShape(newShape),
+              showInterpretationBlock: !visualizationObject.details.showInterpretationBlock,
+              shape: visualizationObject.shape
+            }
+          },
+          ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
+        ]
+      } : state;
+    }
     default:
       return state;
   }

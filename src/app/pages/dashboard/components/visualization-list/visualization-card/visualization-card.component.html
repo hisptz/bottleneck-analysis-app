@@ -24,6 +24,8 @@
       >
         <app-visualization-interpretation-button
           [loaded]="loaded"
+          [visualizationId]="visualizationObject.id"
+          [visualizationLayers]="visualizationObject.layers"
         ></app-visualization-interpretation-button>
       </div>
     </div>
@@ -53,51 +55,67 @@
     class="visualization-card-body"
     *ngIf="loaded"
   >
-    <!--chart block-->
     <div
-      class="chart-container"
-      *ngIf="currentVisualization === 'CHART'"
+      class="visualization-block"
+      [style.flex]="'2'"
     >
-      <app-chart-list
+      <!--chart block-->
+      <div
+        class="chart-container"
+        *ngIf="currentVisualization === 'CHART'"
+      >
+        <app-chart-list
+          [visualizationLayers]="visualizationObject.layers"
+          [visualizationId]="visualizationObject.id"
+          [chartHeight]="customItemHeight || visualizationObject.details.itemHeight"
+        ></app-chart-list>
+      </div>
+      <!--end of chart block-->
+
+      <!--table block-->
+      <div
+        class="table-container"
+        *ngIf="currentVisualization === 'TABLE'"
+      >
+        <app-table-list
+          [visualizationType]="visualizationObject.type"
+          [visualizationLayers]="visualizationObject.layers"
+        ></app-table-list>
+      </div>
+      <!--end of table block-->
+
+      <!--map block-->
+      <div
+        class="map-container"
+        *ngIf="currentVisualization === 'MAP'"
+      >
+        <app-map
+          [visualizationObject]="visualizationObject"
+          [mapHeight]="customCardHeight || visualizationObject.details.cardHeight"
+        ></app-map>
+      </div>
+      <!--end of map-block-->
+
+      <!--dictionary block-->
+      <div
+        class="dictionary-container"
+        *ngIf="currentVisualization === 'INFO'"
+      >
+        <app-dictionary-list [metadataIdentifiers]="visualizationObject.details.metadataIdentifiers"></app-dictionary-list>
+      </div>
+      <!--end of dictionary block-->
+    </div>
+    <div
+      class="visualization-interpretation"
+      [style.flex]="'1'"
+      *ngIf="visualizationObject.details.showInterpretationBlock"
+    >
+      <app-interpretation-container
         [visualizationLayers]="visualizationObject.layers"
-        [visualizationId]="visualizationObject.id"
-        [chartHeight]="customItemHeight || visualizationObject.details.itemHeight"
-      ></app-chart-list>
+        [currentUser]="currentUser"
+        [itemHeight]="customItemHeight || visualizationObject.details.itemHeight"
+      ></app-interpretation-container>
     </div>
-    <!--end of chart block-->
-
-    <!--table block-->
-    <div
-      class="table-container"
-      *ngIf="currentVisualization === 'TABLE'"
-    >
-      <app-table-list
-        [visualizationType]="visualizationObject.type"
-        [visualizationLayers]="visualizationObject.layers"
-      ></app-table-list>
-    </div>
-    <!--end of table block-->
-
-    <!--map block-->
-    <div
-      class="map-container"
-      *ngIf="currentVisualization === 'MAP'"
-    >
-      <app-map
-        [visualizationObject]="visualizationObject"
-        [mapHeight]="customCardHeight || visualizationObject.details.cardHeight"
-      ></app-map>
-    </div>
-    <!--end of map-block-->
-
-    <!--dictionary block-->
-    <div
-      class="dictionary-container"
-      *ngIf="currentVisualization === 'INFO'"
-    >
-      <app-dictionary-list [metadataIdentifiers]="visualizationObject.details.metadataIdentifiers"></app-dictionary-list>
-    </div>
-    <!--end of dictionary block-->
   </div>
   <div
     class="visualization-card-footer animated fadeInLeft"

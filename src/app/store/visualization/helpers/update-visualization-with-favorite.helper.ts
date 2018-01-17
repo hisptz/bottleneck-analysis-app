@@ -10,7 +10,6 @@ export function updateVisualizationWithSettings(visualization: Visualization, se
   if (settings.mapViews) {
     let visualizationFilters = [];
     let visualizationLayouts = [];
-    let visualizationInterpretations = [];
     if (visualizationDetails.currentVisualization === 'MAP') {
       visualizationDetails.basemap = settings.basemap;
       visualizationDetails.zoom = settings.zoom;
@@ -20,34 +19,38 @@ export function updateVisualizationWithSettings(visualization: Visualization, se
     settings.mapViews.forEach((view: any) => {
       visualizationFilters = [...visualizationFilters, {id: view.id, filters: mapSettingsToVisualizationFilters(view)}];
       visualizationLayouts = [...visualizationLayouts, {id: view.id, layout: getVisualizationLayout(view)}];
-      visualizationInterpretations = [...visualizationInterpretations, {
-        id: view.id,
-        interpretations: view.interpretations || []
-      }];
     });
 
     visualizationDetails.filters = [...visualizationFilters];
     visualizationDetails.layouts = [...visualizationLayouts];
-    visualizationDetails.interpretations = [...visualizationInterpretations];
 
     newVisualization.layers = [..._.map(settings.mapViews, (view: any) => {
       const newView: any = {...view};
       return {
-        settings: newView,
+        settings: _.omit(newView, ['interpretations']),
         layout: getVisualizationLayout(view),
-        filters: mapSettingsToVisualizationFilters(view)
+        filters: mapSettingsToVisualizationFilters(view),
+        interpretation: {
+          id: visualization.details.favorite.id,
+          type: visualization.details.favorite.type,
+          interpretations: view.interpretations || []
+        }
       };
     })];
   } else {
     const newSettings = {...settings};
     visualizationDetails.filters = [{id: settings.id, filters: mapSettingsToVisualizationFilters(settings)}];
     visualizationDetails.layouts = [{id: settings.id, layout: getVisualizationLayout(settings)}];
-    visualizationDetails.interpretations = [{id: settings.id, interpretations: settings.interpretations || []}];
 
     newVisualization.layers = [{
-      settings: newSettings,
+      settings: _.omit(newSettings, ['interpretations']),
       layout: getVisualizationLayout(newSettings),
-      filters: mapSettingsToVisualizationFilters(newSettings)
+      filters: mapSettingsToVisualizationFilters(newSettings),
+      interpretation: {
+        id: visualization.details.favorite.id,
+        type: visualization.details.favorite.type,
+        interpretations: newSettings.interpretations || []
+      }
     }];
   }
 

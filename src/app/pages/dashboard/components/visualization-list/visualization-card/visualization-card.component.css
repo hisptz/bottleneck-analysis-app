@@ -49,6 +49,14 @@
 
 .visualization-card-body {
   height: 100%;
+  display: flex;
+}
+
+.visualization-block {
+  overflow: hidden;
+}
+
+.visualization-block:hover {
   overflow: auto;
 }
 

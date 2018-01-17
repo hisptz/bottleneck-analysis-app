@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import {AppState} from '../../../../../store/app.reducers';
 import * as visualization from '../../../../../store/visualization/visualization.actions';
 import {OrgUnitModel} from '../../../../../modules/org-unit-filter/models/orgunit.model';
+import {CurrentUserState} from '../../../../../store/current-user/current-user.state';
 
 @Component({
   selector: 'app-visualization-card',
@@ -17,6 +18,7 @@ export class VisualizationCardComponent implements OnInit {
   @Input() customCardHeight: string;
   @Input() customItemHeight: string;
   @Input() hideResizeBlock: boolean;
+  @Input() currentUser: CurrentUserState;
 
   isCardFocused: boolean;
   selectedDimensions: any;
