@@ -62,7 +62,10 @@
         </div>
       </div>
 
-      <div class="search-result-list">
+      <div
+        class="search-result-list"
+        *ngIf="(dashboardSearchItems$ | async).loaded"
+      >
         <div
           class="search-result-item"
           *ngFor="let result of (dashboardSearchItems$ | async).results"

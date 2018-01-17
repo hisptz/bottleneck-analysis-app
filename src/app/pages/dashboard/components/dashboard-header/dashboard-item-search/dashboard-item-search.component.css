@@ -105,6 +105,10 @@
   height: 30px;
 }
 
+.dashboard-searching {
+  padding: 10px;
+}
+
 .dashboard-searching div {
   margin-bottom: 3px;
   height: 5px;
