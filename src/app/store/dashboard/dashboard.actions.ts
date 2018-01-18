@@ -1,7 +1,8 @@
 import {Action} from '@ngrx/store';
-import {Dashboard, DashboardMenuItem} from './dashboard.state';
+import {Dashboard, DashboardMenuItem, DashboardSharing} from './dashboard.state';
 import {CurrentUserState} from '../current-user/current-user.state';
 import {Observable} from 'rxjs/Observable';
+import {SharingEntity} from '../../modules/sharing-filter/models/sharing-entity';
 
 export enum DashboardActions {
   LOAD = '[Dashboard] Load dashboards',
@@ -21,7 +22,9 @@ export enum DashboardActions {
   UPDATE_SEARCH_RESULT = '[Dashboard] Update search results',
   CHANGE_SEARCH_HEADER = '[Dashboard] Change search header',
   ADD_ITEM = '[Dashboard] Add dashboard item',
-  ADD_ITEM_SUCCESS = '[Dashboard] Add dashboard item success'
+  ADD_ITEM_SUCCESS = '[Dashboard] Add dashboard item success',
+  LOAD_SHARING_DATA = '[Dashboard] Load dashboard sharing data',
+  LOAD_SHARING_DATA_SUCCESS = '[Dashboard] Load dashboard sharing data success'
 }
 
 export class LoadAction implements Action {
@@ -113,8 +116,18 @@ export class AddItemSuccessAction implements Action {
   constructor(public payload: any) {}
 }
 
+export class LoadSharingDataAction implements Action {
+  readonly type = DashboardActions.LOAD_SHARING_DATA;
+  constructor(public payload: any) {}
+}
+
+export class LoadSharingDataSuccessAction implements Action {
+  readonly type = DashboardActions.LOAD_SHARING_DATA_SUCCESS;
+  constructor(public payload: DashboardSharing) {}
+}
+
 export type DashboardAction = LoadAction | LoadSuccessAction
   | SetCurrentAction | ChangeCurrentPageAction | CreateAction | CreateSuccessAction
   | RenameAction | RenameSuccessAction | DeleteAction | DeleteSuccessAction | CommitDeleteAction
   | ChangePageItemsAction | HideMenuNotificationIconAction | SearchItemsAction | UpdateSearchResultAction
-  | ChangeSearchHeaderAction | AddItemAction | AddItemSuccessAction;
+  | ChangeSearchHeaderAction | AddItemAction | AddItemSuccessAction | LoadSharingDataAction | LoadSharingDataSuccessAction;

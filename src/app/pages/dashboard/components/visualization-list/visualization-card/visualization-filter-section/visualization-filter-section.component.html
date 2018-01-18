@@ -14,7 +14,9 @@
     </button>
     <div
       *ngIf="showFilters"
-      class="visualization-filter-list">
+      class="visualization-filter-list"
+      [@open]
+    >
       <button
         class="dashboard-btn data-filter-btn"
         [ngClass]="{'active-filter': selectedFilter === 'DATA'}"
@@ -52,7 +54,8 @@
     </div>
   </div>
   <div
-    class="visualization-filter-body dashboard-border animated flipInX"
+    class="visualization-filter-body dashboard-border"
+    [@open]
     *ngIf="selectedFilter"
   >
     <!--org unit filter-->

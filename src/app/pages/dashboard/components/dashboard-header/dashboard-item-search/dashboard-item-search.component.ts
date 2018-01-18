@@ -5,11 +5,31 @@ import * as dashboardSelectors from '../../../../../store/dashboard/dashboard.se
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {DASHBOARD_TYPES, DashboardSearchItem} from '../../../../../store/dashboard/dashboard.state';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-dashboard-item-search',
   templateUrl: './dashboard-item-search.component.html',
-  styleUrls: ['./dashboard-item-search.component.css']
+  styleUrls: ['./dashboard-item-search.component.css'],
+  animations: [
+    trigger('open', [
+      state('in', style({
+        opacity: 1
+      })),
+      transition('void => *', [
+        style({
+          opacity: 0
+        }),
+        animate(700)
+      ]),
+      transition('* => void', [
+        animate(300),
+        style({
+          opacity: 0
+        }),
+      ])
+    ])
+  ]
 })
 export class DashboardItemSearchComponent implements OnInit {
 

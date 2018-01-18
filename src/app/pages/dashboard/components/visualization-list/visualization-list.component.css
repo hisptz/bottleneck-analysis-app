@@ -13,7 +13,7 @@
     /*grid-template-columns: repeat(3, 1fr);*/
   }
   .visualization-card-container {
-    grid-row: span 2 !important;
+    /*grid-row: span 2 !important;*/
     /*grid-column: auto !important;*/
   }
 }

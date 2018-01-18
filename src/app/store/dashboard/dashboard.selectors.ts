@@ -20,6 +20,8 @@ export const getDashboardSearchItems = createSelector(dashboardState, (dashboard
     results: dashboardObject.dashboardSearchItem.results.filter(result => result.selected)
   };
 });
+export const getCurrentDashboardSharing = createSelector(dashboardState,
+  (dashboardObject: DashboardState) => dashboardObject.dashboardSharing[dashboardObject.currentDashboard]);
 
 export const getDashboardMenuItems = createSelector(dashboardState,
   (dashboardObject: DashboardState) => dashboardObject.dashboards.length > 0 ? dashboardObject.dashboards.slice(

@@ -1,11 +1,12 @@
 .dashboard-delete-block {
-  padding-top: 5px;
-  padding-left: 3px;
-  padding-right: 3px;
+  padding-top: 9px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .dashboard-delete-btn {
   margin-left: 4px;
+  cursor: pointer;
 }
 
 .delete-dialog {
@@ -20,7 +21,7 @@
 .dashboard-delete-btn img {
   display: block;
   margin: auto;
-  height: 15px;
+  height: 10px;
 }
 
 .dashboard-delete-text,

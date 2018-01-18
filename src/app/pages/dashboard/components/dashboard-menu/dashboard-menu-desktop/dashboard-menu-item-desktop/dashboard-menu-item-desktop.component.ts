@@ -3,11 +3,31 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../../../../../store/app.reducers';
 import * as dashboardActions from '../../../../../../store/dashboard/dashboard.actions';
 import {Router} from '@angular/router';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-dashboard-menu-item-desktop',
   templateUrl: './dashboard-menu-item-desktop.component.html',
-  styleUrls: ['./dashboard-menu-item-desktop.component.css']
+  styleUrls: ['./dashboard-menu-item-desktop.component.css'],
+  animations: [
+    trigger('open', [
+      state('in', style({
+        opacity: 1
+      })),
+      transition('void => *', [
+        style({
+          opacity: 0
+        }),
+        animate(700)
+      ]),
+      transition('* => void', [
+        animate(400),
+        style({
+          opacity: 0
+        }),
+      ])
+    ])
+  ]
 })
 export class DashboardMenuItemDesktopComponent implements OnInit {
 

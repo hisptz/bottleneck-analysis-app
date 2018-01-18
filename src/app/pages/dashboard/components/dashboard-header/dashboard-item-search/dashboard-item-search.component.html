@@ -12,7 +12,8 @@
   >
   <div
     *ngIf="showBody"
-    class="dashboard-item-search-result-container dashboard-border animated flipInX">
+    class="dashboard-item-search-result-container dashboard-border"
+    [@open]>
     <div class="dashboard-search-result-header">
       <ul class="dashboard-search-header-list">
         <li
@@ -36,21 +37,28 @@
     <div class="dashboard-search-result-body">
       <div
         class="dashboard-search-summary"
-        *ngIf="(dashboardSearchItems$ | async).results.length > 0 && (dashboardSearchItems$ | async).loaded"
+        *ngIf="(dashboardSearchItems$ | async).loaded && (dashboardSearchItems$ | async).results.length > 0"
+        [@open]
       >
         <span>About {{(dashboardSearchItems$ | async).resultCount}} result{{(dashboardSearchItems$ | async).resultCount > 1 ? 's': ''}} found</span>
       </div>
 
       <div
         class="dashboard-empty-search-result"
-        *ngIf="(dashboardSearchItems$ | async).results.length === 0 && (dashboardSearchItems$ | async).loaded">
+        *ngIf="(dashboardSearchItems$ | async).loaded && (dashboardSearchItems$ | async).results.length === 0"
+        [@open]
+      >
         <div class="text-center">
           <img [src]="'assets/icons/empty-flag.png'" alt="">
           <h4 class="text-muted">No search results found for "{{searchTerm}}"</h4>
         </div>
       </div>
 
-      <div class="dashboard-searching" *ngIf="(dashboardSearchItems$ | async).loading">
+      <div
+        class="dashboard-searching"
+        *ngIf="(dashboardSearchItems$ | async).loading"
+        [@open]
+      >
         <div>
           <app-progress-loader></app-progress-loader>
         </div>
@@ -65,6 +73,7 @@
       <div
         class="search-result-list"
         *ngIf="(dashboardSearchItems$ | async).loaded"
+        [@open]
       >
         <div
           class="search-result-item"

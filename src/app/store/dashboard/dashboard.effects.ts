@@ -1,26 +1,27 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Dashboard} from './dashboard.state';
+import {Dashboard, DashboardSharing} from './dashboard.state';
 import {Actions, Effect} from '@ngrx/effects';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/withLatestFrom';
 import {HttpClientService} from '../../services/http-client.service';
 import * as dashboard from './dashboard.actions';
 import * as dashboardHelpers from './helpers/index';
 import * as visualization from '../visualization/visualization.actions';
 import * as visualizationHelpers from '../visualization/helpers/index';
 import * as currentUser from '../current-user/current-user.actions';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
 import {AppState} from '../app.reducers';
 import {Store} from '@ngrx/store';
-import 'rxjs/add/operator/withLatestFrom';
 import {CurrentUserState} from '../current-user/current-user.state';
 import * as _ from 'lodash';
 import {Router} from '@angular/router';
-import 'rxjs/add/operator/take';
 import {ROUTER_NAVIGATION} from '@ngrx/router-store';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
 import {Visualization} from '../visualization/visualization.state';
+import {SharingEntity} from '../../modules/sharing-filter/models/sharing-entity';
 
 @Injectable()
 export class DashboardEffects {
@@ -59,25 +60,19 @@ export class DashboardEffects {
 
       const currentVisualization = action.payload.url.split('/')[4];
 
-      if (currentVisualization) {
-        this.store.dispatch(new visualization.SetCurrentAction(currentVisualization));
-      }
-
       if (currentDashboardId) {
         /**
          * Navigate to the particular dashboard if comes from home
          */
         if (action.payload.url.indexOf('dashboards') === -1) {
           this.router.navigate(['/dashboards/' + currentDashboardId]);
-        }
-
-        /**
-         * Save current dashboard into the store and load visualizations
-         */
-        const currentDashboard = _.find(action.payload.dashboards, ['id', currentDashboardId]);
-
-        if (currentDashboard) {
-          this.store.dispatch(new dashboard.SetCurrentAction(currentDashboard.id));
+        } else {
+          if (currentVisualization) {
+            this.store.dispatch(new visualization.SetCurrentAction(currentVisualization));
+          } else {
+            this.store.dispatch(new dashboard.SetCurrentAction(currentDashboardId));
+            this.store.dispatch(new dashboard.LoadSharingDataAction(currentDashboardId));
+          }
         }
       } else {
         this.router.navigate(['/']);
@@ -159,6 +154,7 @@ export class DashboardEffects {
            * Set current dashboard in the store
            */
           this.store.dispatch(new dashboard.SetCurrentAction(currentDashboard.id));
+          this.store.dispatch(new dashboard.LoadSharingDataAction(currentDashboardId));
         }
       }
       return Observable.of(null);
@@ -205,6 +201,12 @@ export class DashboardEffects {
 
       return Observable.of(null);
     });
+
+  @Effect()
+  loadDashboardSharing = this.actions$
+    .ofType<dashboard.LoadSharingDataAction>(dashboard.DashboardActions.LOAD_SHARING_DATA)
+    .switchMap((action: any) => this._loadSharingInfo(action.payload))
+    .map((sharingInfo: DashboardSharing) => new dashboard.LoadSharingDataSuccessAction(sharingInfo));
 
   constructor(private actions$: Actions,
               private store: Store<AppState>,
@@ -337,7 +339,7 @@ export class DashboardEffects {
     let newItems = [];
     if (dashboardItemType[dashboardItemType.length - 1] === 'S') {
       newItems = _.clone(dashboardItems.filter(item => {
-        return item.type[dashboardItemType.length - 1] === 'S'
+        return item.type[dashboardItemType.length - 1] === 'S';
       }));
     } else {
       for (const item of dashboardItems) {
@@ -361,6 +363,57 @@ export class DashboardEffects {
     }
 
     return newItems;
+  }
+
+  private _loadSharingInfo(dashboardId: string): Observable<DashboardSharing> {
+    return this.httpClient.get('sharing?type=dashboard&id=' + dashboardId)
+      .map((sharingResponse: any) => {
+        return sharingResponse && sharingResponse.object ?
+          {
+            id: dashboardId,
+            user: sharingResponse.object.user,
+            sharingEntity: this._deduceSharingEntities(sharingResponse.object)
+          } : null;
+      });
+  }
+
+  private _deduceSharingEntities(sharingObject: any): SharingEntity {
+    return sharingObject ?
+      this._getEntities(
+        [
+          ...sharingObject.userAccesses || [],
+          ...sharingObject.userGroupAccesses || []] || [], {
+        'external_access': {
+          id: 'external_access',
+          name: 'External Access',
+          isExternal: true,
+          access: sharingObject.externalAccess
+        },
+        'public_access': {
+          id: 'public_access',
+          name: 'Public Access',
+          access: sharingObject.publicAccess
+        }
+      }) : null;
+  }
+
+  private  _getEntities(itemArray, initialValues: SharingEntity) {
+    console.log(itemArray)
+    return itemArray.reduce(
+      (items: { [id: string]: any }, item: any) => {
+        return {
+          ...items,
+          [item.id]: {
+            id: item.id,
+            name: item.displayName || item.name,
+            access: item.access
+          },
+        };
+      },
+      {
+        ...initialValues,
+      }
+    );
   }
 
 

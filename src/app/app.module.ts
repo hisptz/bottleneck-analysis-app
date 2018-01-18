@@ -63,6 +63,7 @@ import {SharedModule} from './shared/shared.module';
 import { VisualizationCardLoaderComponent } from './pages/dashboard/components/visualization-list/visualization-card/visualization-card-loader/visualization-card-loader.component';
 import {InterpretationModule} from './modules/interpretation/interpretation.module';
 import { InterpretationContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/interpretation-container/interpretation-container.component';
+import {SharingFilterModule} from './modules/sharing-filter/sharing-filter.module';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -127,6 +128,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MapModule,
     SharedModule,
     InterpretationModule,
+    SharingFilterModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

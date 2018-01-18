@@ -210,10 +210,17 @@ export function dashboardReducer(state: dashboard.DashboardState = dashboard.INI
       };
     }
 
-    // case DashboardActions.ADD_ITEM_SUCCESS: {
-    //   console.log(action.payload)
-    //   return state;
-    // }
+    case DashboardActions.LOAD_SHARING_DATA:
+      return state;
+
+    case DashboardActions.LOAD_SHARING_DATA_SUCCESS:
+      return {
+        ...state,
+        dashboardSharing: {
+          ...state.dashboardSharing,
+          [action.payload.id]: action.payload
+        }
+      };
 
     default:
       return state;

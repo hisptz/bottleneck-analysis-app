@@ -27,7 +27,7 @@
 
   <!--edit block-->
   <div
-    class="dashboard-edit-block"
+    class="dashboard-edit-block animated fadeIn"
     *ngIf="showEditForm"
   >
     <app-dashboard-menu-edit
@@ -39,7 +39,10 @@
   <!--end of edit block-->
 
   <!--delete block-->
-  <div *ngIf="showDeleteBlock || dashboardMenuItem.details.toDelete">
+  <div
+    *ngIf="showDeleteBlock || dashboardMenuItem.details.toDelete"
+    class="animated fadeIn"
+  >
    <app-dashboard-menu-delete
      [dashboardId]="dashboardMenuItem.id"
      [deleting]="dashboardMenuItem.details.toDelete"
@@ -53,6 +56,7 @@
     tooltip=""
     class="dashboard-menu-notification-icon"
     *ngIf="dashboardMenuItem.details.showIcon"
+    [@open]
   >
     <img *ngIf="dashboardMenuItem.details.editComplete || dashboardMenuItem.details.creationComplete" [src]="'assets/icons/tick.png'" alt="">
     <img *ngIf="dashboardMenuItem.details.error" [src]="'assets/icons/error.png'" alt="">
@@ -61,7 +65,8 @@
 
   <!--dashboard item dropdown-->
   <ul
-    class="dashboard-item-dropdown dashboard-border animated flipInX"
+    class="dashboard-item-dropdown dashboard-border"
+    [@open]
     *ngIf="showDashboardItemDropdown"
     appClickOutside
     (clickOutside)="showDashboardItemDropdown = false">

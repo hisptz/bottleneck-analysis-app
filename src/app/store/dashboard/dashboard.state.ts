@@ -1,8 +1,19 @@
+import {SharingEntity} from '../../modules/sharing-filter/models/sharing-entity';
+
+export interface DashboardSharing {
+  id: string;
+  user: {
+    id: string;
+    name: string;
+  };
+  sharingEntity: SharingEntity;
+}
+
 export interface Dashboard {
   id: string;
   name: string;
-  description: string;
-  group: string;
+  description?: string;
+  group?: string;
   details: any;
   dashboardItems: any[];
 }
@@ -20,6 +31,7 @@ export interface DashboardState {
   currentDashboard: string;
   dashboardsLoaded: boolean;
   dashboards: Dashboard[];
+  dashboardSharing: {[id: string]: DashboardSharing};
   dashboardSearchItem: DashboardSearchItem;
 }
 
@@ -102,6 +114,7 @@ export const INITIAL_DASHBOARD_STATE: DashboardState = {
   currentDashboard: undefined,
   dashboardsLoaded: false,
   dashboards: [],
+  dashboardSharing: null,
   dashboardSearchItem: INITIAL_DASHBOARD_SEARCH_ITEM
 };
 
