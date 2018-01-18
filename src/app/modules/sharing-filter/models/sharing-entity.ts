@@ -2,6 +2,7 @@ export interface SharingItem {
   id: string;
   name: string;
   access?: string;
+  type?: string;
   isExternal?: boolean;
 }
 export interface SharingEntity {

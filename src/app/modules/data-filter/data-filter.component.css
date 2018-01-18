@@ -12,7 +12,8 @@
 .data-filter-options-icon {
   padding-left: 0;
   list-style: none;
-  margin-left: -5px;
+  margin: 0;
+  /*margin-left: -5px;*/
 }
 
 .data-filter-options-icon > li {
@@ -146,7 +147,7 @@
 .data-filter-available-body,
 .data-filter-selected-body {
   padding: .2em;
-  height: 140px;
+  height: 130px;
   overflow: hidden;
 }
 

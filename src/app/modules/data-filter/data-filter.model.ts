@@ -22,5 +22,9 @@ export const DATA_FILTER_OPTIONS: any[] = [
     name: 'Program indicators',
     prefix: 'pr',
     selected: false
+  },{
+    name: 'Functions',
+    prefix: 'fn',
+    selected: false
   }
 ];

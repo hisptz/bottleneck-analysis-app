@@ -381,8 +381,8 @@ export class DashboardEffects {
     return sharingObject ?
       this._getEntities(
         [
-          ...sharingObject.userAccesses || [],
-          ...sharingObject.userGroupAccesses || []] || [], {
+          ...this.updateSharingAccessesWithType(sharingObject.userAccesses, 'user'),
+          ...this.updateSharingAccessesWithType(sharingObject.userGroupAccesses, 'userGroup')] || [], {
         'external_access': {
           id: 'external_access',
           name: 'External Access',
@@ -397,8 +397,16 @@ export class DashboardEffects {
       }) : null;
   }
 
+  updateSharingAccessesWithType(accessArray: any[], type: string) {
+    return accessArray ? _.map(accessArray, (accessObject: any) => {
+      return {
+        ...accessObject,
+        type: type
+      };
+    }) : [];
+  }
+
   private  _getEntities(itemArray, initialValues: SharingEntity) {
-    console.log(itemArray)
     return itemArray.reduce(
       (items: { [id: string]: any }, item: any) => {
         return {
@@ -406,6 +414,7 @@ export class DashboardEffects {
           [item.id]: {
             id: item.id,
             name: item.displayName || item.name,
+            type: item.type,
             access: item.access
           },
         };
