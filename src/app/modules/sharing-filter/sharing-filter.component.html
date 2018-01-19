@@ -1,21 +1,19 @@
 <div class="sharing-filter-container">
-  <ul class="sharing-list">
-    <li
-      *ngFor="let sharingItem of sharingList$ | async"
-      class="sharing-item"
-    >
-      <img *ngIf="sharingItem.isExternal && sharingItem.access" src="assets/icons/tick.png" alt="">
-      <img *ngIf="!sharingItem.isExternal && sharingItem.access === 'r-------'" src="assets/icons/eye.png" alt="">
-      <img *ngIf="!sharingItem.isExternal && sharingItem.access === 'rw------'" src="assets/icons/edit.png" alt="">
-      {{ sharingItem.name }}
-    </li>
-    <li class="share-input-block">
-      <input
-        type="text"
-        class="share-input"
-        id="sharing_filter_input"
-        (keyup)="searchUserGroup($event)"
-        placeholder="Search user Groups"
-        autofocus></li>
-  </ul>
+    <ul class="sharing-input-list">
+        <li class="share-input-block">
+            <input type="text" class="share-input" id="sharing_filter_input" (keyup)="searchUserGroup($event)" placeholder="Search users and user Groups to share the dashboard" autofocus>
+            <ul class="share-search-result-list" [@open] *ngIf="showSearchList && searchList.length > 0">
+                <li *ngFor="let searchItem of searchList">
+                    <a href="">{{ searchItem.name }}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="sharing-list">
+        <li *ngFor="let sharingItem of sharingList$ | async" class="sharing-item">
+            <img *ngIf="sharingItem.isExternal && sharingItem.access" src="assets/icons/tick.png" alt="">
+            <img *ngIf="!sharingItem.isExternal && sharingItem.access === 'r-------'" src="assets/icons/eye.png" alt="">
+            <img *ngIf="!sharingItem.isExternal && sharingItem.access === 'rw------'" src="assets/icons/edit.png" alt=""> {{ sharingItem.name }}
+        </li>
+    </ul>
 </div>

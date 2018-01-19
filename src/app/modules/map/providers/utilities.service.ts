@@ -1,37 +1,34 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {HttpClientService} from './http-client.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { HttpClientService } from './http-client.service';
 import * as _ from 'lodash';
 
 @Injectable()
 export class UtilitiesService {
-
-  constructor(private http: HttpClientService) {
-  }
+  constructor(private http: HttpClientService) {}
 
   getUniqueId(apiRootUrl): Observable<string> {
     return Observable.create(observer => {
-      this.http.get(apiRootUrl + 'system/id.json?n=1')
-        .subscribe(
-          response => {
-            observer.next(response['codes'][0]);
-            observer.complete();
-          }, error => observer.error(error))
-    })
+      this.http.get(apiRootUrl + 'system/id.json?n=1').subscribe(
+        response => {
+          observer.next(response['codes'][0]);
+          observer.complete();
+        },
+        error => observer.error(error)
+      );
+    });
   }
 
   getHumanReadableFromRelativePeriod(relativePeriod): Array<string> {
-
     let humanReadable = [];
     humanReadable = relativePeriod;
     return humanReadable;
   }
 
-
   getISOFormatFromRelativePeriod(favourite): Array<string> {
-    let isoFormat = [];
-    let periodDimension = undefined;
-    let newPeriodDimension = {dimension: 'pe', items: []};
+    const isoFormat = [];
+    let periodDimension;
+    let newPeriodDimension = { dimension: 'pe', items: [] };
     let periodIndex = null;
     let parentdimension = null;
 
@@ -54,7 +51,10 @@ export class UtilitiesService {
     }
 
     if (periodDimension && favourite[parentdimension]) {
-      newPeriodDimension = this._getNewDimentions(newPeriodDimension, periodDimension);
+      newPeriodDimension = this._getNewDimentions(
+        newPeriodDimension,
+        periodDimension
+      );
       favourite[parentdimension].splice(periodIndex, 1);
       favourite[parentdimension].push(newPeriodDimension);
     }
@@ -78,9 +78,10 @@ export class UtilitiesService {
             displayName: thisMonth,
             dimensionItemType: 'PERIOD'
           };
-          return [item]
+          return [item];
         }
-      }, LAST_MONTH: {
+      },
+      LAST_MONTH: {
         getIso: () => {
           const year = currentDate.getFullYear();
           const month = currentDate.getMonth() - 1;
@@ -92,9 +93,10 @@ export class UtilitiesService {
             displayName: thisMonth,
             dimensionItemType: 'PERIOD'
           };
-          return [item]
+          return [item];
         }
-      }, LAST_3_MONTHS: {
+      },
+      LAST_3_MONTHS: {
         getIso: () => {
           const year = currentDate.getFullYear();
           const month = currentDate.getMonth();
@@ -105,11 +107,12 @@ export class UtilitiesService {
               dimensionItem: year + '' + (month - monthCount),
               displayName: year + '' + (month - monthCount),
               dimensionItemType: 'PERIOD'
-            })
+            });
           }
           return items;
         }
-      }, THIS_YEAR: {
+      },
+      THIS_YEAR: {
         getIso: () => {
           const year = currentDate.getFullYear();
           const stringYear = year + '';
@@ -119,30 +122,30 @@ export class UtilitiesService {
             displayName: stringYear,
             dimensionItemType: 'PERIOD'
           };
-          return [item]
+          return [item];
         }
-      }, LAST_YEAR: {
+      },
+      LAST_YEAR: {
         getIso: () => {
           const year = currentDate.getFullYear();
           const month = currentDate.getMonth();
-          let workingYear = 0
+          let workingYear = 0;
           const backYears = 1;
           const items = [];
           for (let counter = backYears; counter >= 1; counter--) {
             workingYear = year - counter;
-            items.push(
-              {
-                id: workingYear,
-                dimensionItem: workingYear,
-                displayName: workingYear,
-                dimensionItemType: 'PERIOD'
-              }
-            )
+            items.push({
+              id: workingYear,
+              dimensionItem: workingYear,
+              displayName: workingYear,
+              dimensionItemType: 'PERIOD'
+            });
           }
 
-          return items
+          return items;
         }
-      }, LAST_12_MONTHS: {
+      },
+      LAST_12_MONTHS: {
         getIso: () => {
           let year = currentDate.getFullYear();
           const month = currentDate.getMonth();
@@ -150,23 +153,20 @@ export class UtilitiesService {
           const items = [];
           let monthString = '';
           for (let monthCount = 1; monthCount < 13; monthCount++) {
-            if ((month - monthCount) < 10) {
-
-              if ((month - monthCount) > 0) {
+            if (month - monthCount < 10) {
+              if (month - monthCount > 0) {
                 monthString = '0' + (workingMonth - monthCount);
-              } else if ((month - monthCount) === 0) {
+              } else if (month - monthCount === 0) {
                 workingMonth = 12;
                 year = year - 1;
                 monthString = workingMonth + '';
-              } else if ((month - monthCount) < 0) {
-                if ((workingMonth + (month - monthCount)) < 10) {
+              } else if (month - monthCount < 0) {
+                if (workingMonth + (month - monthCount) < 10) {
                   monthString = '0' + (workingMonth + (month - monthCount));
                 } else {
                   monthString = workingMonth + (month - monthCount) + '';
                 }
-
               }
-
             } else {
               // monthString = (workingMonth - monthCount) + '';
             }
@@ -175,11 +175,12 @@ export class UtilitiesService {
               dimensionItem: year + '' + monthString,
               displayName: year + '' + monthString,
               dimensionItemType: 'PERIOD'
-            })
+            });
           }
           return items;
         }
-      }, LAST_4_QUARTERS: {
+      },
+      LAST_4_QUARTERS: {
         getIso: () => {
           let year = currentDate.getFullYear();
           const month = currentDate.getMonth();
@@ -191,40 +192,38 @@ export class UtilitiesService {
             thisQuater--;
             if (thisQuater < 0) {
               year--;
-              thisQuater = 3
+              thisQuater = 3;
             }
 
-            items.push(
-              {
-                id: year + '' + quarters[thisQuater],
-                dimensionItem: year + '' + quarters[thisQuater],
-                displayName: year + '' + quarters[thisQuater],
-                dimensionItemType: 'PERIOD'
-              }
-            )
+            items.push({
+              id: year + '' + quarters[thisQuater],
+              dimensionItem: year + '' + quarters[thisQuater],
+              displayName: year + '' + quarters[thisQuater],
+              dimensionItemType: 'PERIOD'
+            });
           }
 
-          return items
+          return items;
         }
-      }, THIS_QUARTER: {
+      },
+      THIS_QUARTER: {
         getIso: () => {
           const year = currentDate.getFullYear();
           const month = currentDate.getMonth();
           const thisQuater = this._getQuarter() - 1;
           const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
           const items = [];
-          items.push(
-            {
-              id: year + '' + quarters[thisQuater],
-              dimensionItem: year + '' + quarters[thisQuater],
-              displayName: year + '' + quarters[thisQuater],
-              dimensionItemType: 'PERIOD'
-            }
-          )
+          items.push({
+            id: year + '' + quarters[thisQuater],
+            dimensionItem: year + '' + quarters[thisQuater],
+            displayName: year + '' + quarters[thisQuater],
+            dimensionItemType: 'PERIOD'
+          });
 
-          return items
+          return items;
         }
-      }, LAST_QUARTER: {
+      },
+      LAST_QUARTER: {
         getIso: () => {
           let year = currentDate.getFullYear();
           const month = currentDate.getMonth();
@@ -236,45 +235,41 @@ export class UtilitiesService {
             thisQuater--;
             if (thisQuater < 0) {
               year--;
-              thisQuater = 3
+              thisQuater = 3;
             }
 
-            items.push(
-              {
-                id: year + '' + quarters[thisQuater],
-                dimensionItem: year + '' + quarters[thisQuater],
-                displayName: year + '' + quarters[thisQuater],
-                dimensionItemType: 'PERIOD'
-              }
-            )
+            items.push({
+              id: year + '' + quarters[thisQuater],
+              dimensionItem: year + '' + quarters[thisQuater],
+              displayName: year + '' + quarters[thisQuater],
+              dimensionItemType: 'PERIOD'
+            });
           }
 
-          return items
+          return items;
         }
-      }
-      , LAST_5_YEARS: {
+      },
+      LAST_5_YEARS: {
         getIso: () => {
           const year = currentDate.getFullYear();
           const month = currentDate.getMonth();
-          let workingYear = 0
+          let workingYear = 0;
           const backYears = 5;
           const items = [];
           for (let counter = backYears; counter >= 1; counter--) {
             workingYear = year - counter;
-            items.push(
-              {
-                id: workingYear,
-                dimensionItem: workingYear,
-                displayName: workingYear,
-                dimensionItemType: 'PERIOD'
-              }
-            )
+            items.push({
+              id: workingYear,
+              dimensionItem: workingYear,
+              displayName: workingYear,
+              dimensionItemType: 'PERIOD'
+            });
           }
 
-          return items
+          return items;
         }
       }
-    }
+    };
 
     dimensionsObject.items.forEach(periodDimensionItem => {
       if (this._isRelativePeriod(periodDimensionItem.id)) {
@@ -285,8 +280,7 @@ export class UtilitiesService {
       } else {
         dimentionTemplate.items.push(periodDimensionItem);
       }
-
-    })
+    });
 
     return dimentionTemplate;
   }
