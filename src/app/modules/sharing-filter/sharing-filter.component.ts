@@ -17,6 +17,7 @@ import {
   transition,
   animate
 } from '@angular/animations';
+import * as sharingConstants from './sharing-constants';
 
 @Component({
   selector: 'app-sharing-filter',
@@ -52,18 +53,22 @@ export class SharingFilterComponent implements OnInit {
   >([]);
   sharingList$: Observable<SharingItem[]>;
   searchTerm: string;
-  showSearchList: boolean;
+  loadingSearchList: boolean;
   searchList: any[];
   constructor(private sharingService: SharingService) {
     this.sharingEntity = INITIAL_SHARING_ENTITY;
     this.sharingList$ = this._sharingList$.asObservable();
     this.searchList = [];
-    this.showSearchList = false;
+    this.loadingSearchList = true;
   }
 
   ngOnInit() {
     this._sharingList$.next(this.mapEntityToSharingList(this.sharingEntity));
     this.focusInput();
+    this.sharingService.getSearchList().subscribe((searchList: any[]) => {
+      this.searchList = this._updateSearchList(searchList, this.sharingEntity);
+      this.loadingSearchList = false;
+    });
   }
 
   mapEntityToSharingList(sharingEntity) {
@@ -74,34 +79,78 @@ export class SharingFilterComponent implements OnInit {
     document.getElementById('sharing_filter_input').focus();
   }
 
-  searchUserGroup(e) {
+  addSharingItem(e, sharingItem: any) {
     e.stopPropagation();
-    this.searchTerm = e.target.value;
-    if (this.searchTerm.trim() !== '') {
-      Observable.from(this.searchTerm)
-        .debounceTime(400)
-        .distinctUntilChanged()
-        .switchMap((term: string) =>
-          this.sharingService.searchSharingDetails(term)
-        )
-        .subscribe((sharingResults: any) => {
-          this.searchList = _.filter(
-            _.flatten(
-              _.map(_.keys(sharingResults), key => {
-                return _.map(sharingResults[key], sharingObject => {
-                  return {
-                    ...sharingObject,
-                    type: key === 'userGroups' ? 'userGroup' : 'user'
-                  };
-                });
-              })
-            ),
-            (searchObject: any) => !this.sharingEntity[searchObject.id]
-          );
-          this.showSearchList = true;
-        });
-    } else {
-      this.showSearchList = false;
-    }
+
+    this.sharingEntity = {
+      ...this.sharingEntity,
+      [sharingItem.id]: {
+        id: sharingItem.id,
+        name: sharingItem.displayName || sharingItem.name,
+        type: sharingItem.type,
+        access: 'r-------'
+      }
+    };
+
+    this._sharingList$.next(this.mapEntityToSharingList(this.sharingEntity));
+
+    this.searchList = this._updateSearchList(
+      this.searchList,
+      this.sharingEntity
+    );
+  }
+
+  changeAccess(e, sharingItem: SharingItem) {
+    e.stopPropagation();
+
+    this.sharingEntity = {
+      ...this.sharingEntity,
+      [sharingItem.id]: {
+        ...sharingItem,
+        access: sharingItem.isExternal
+          ? !sharingItem.access
+          : sharingConstants.ACCESS_LIST[
+              this._getNewAccessIndex(sharingItem.access)
+            ]
+      }
+    };
+
+    this._sharingList$.next(this.mapEntityToSharingList(this.sharingEntity));
+
+    this.searchList = this._updateSearchList(
+      this.searchList,
+      this.sharingEntity
+    );
+  }
+
+  removeSharingItem(e, sharingItem: SharingItem) {
+    e.stopPropagation();
+    this.sharingEntity = {
+      ..._.omit(this.sharingEntity, [sharingItem.id])
+    };
+
+    this._sharingList$.next(this.mapEntityToSharingList(this.sharingEntity));
+
+    this.searchList = this._updateSearchList(
+      this.searchList,
+      this.sharingEntity
+    );
+  }
+
+  private _getNewAccessIndex(currentAccess): number {
+    return sharingConstants.ACCESS_LIST.indexOf(currentAccess) === 2
+      ? 0
+      : sharingConstants.ACCESS_LIST.indexOf(currentAccess) + 1;
+  }
+
+  private _updateSearchList(searchList, sharingEntity) {
+    return _.map(searchList, (searchItem: any) => {
+      const availabelEntity = sharingEntity[searchItem.id];
+      return {
+        ...searchItem,
+        available: availabelEntity ? true : false,
+        access: availabelEntity ? availabelEntity.access : ''
+      };
+    });
   }
 }
