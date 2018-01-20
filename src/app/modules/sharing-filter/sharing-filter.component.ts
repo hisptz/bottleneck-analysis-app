@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import {
   INITIAL_SHARING_ENTITY,
@@ -48,6 +48,10 @@ import * as sharingConstants from './sharing-constants';
 })
 export class SharingFilterComponent implements OnInit {
   @Input() sharingEntity: SharingEntity;
+  @Output()
+  onSharingEntityUpdate: EventEmitter<SharingEntity> = new EventEmitter<
+    SharingEntity
+  >();
   private _sharingList$: BehaviorSubject<SharingItem[]> = new BehaviorSubject<
     SharingItem[]
   >([]);
@@ -98,6 +102,8 @@ export class SharingFilterComponent implements OnInit {
       this.searchList,
       this.sharingEntity
     );
+
+    this.onSharingEntityUpdate.emit(this.sharingEntity);
   }
 
   changeAccess(e, sharingItem: SharingItem) {
@@ -121,6 +127,8 @@ export class SharingFilterComponent implements OnInit {
       this.searchList,
       this.sharingEntity
     );
+
+    this.onSharingEntityUpdate.emit(this.sharingEntity);
   }
 
   removeSharingItem(e, sharingItem: SharingItem) {
@@ -135,6 +143,8 @@ export class SharingFilterComponent implements OnInit {
       this.searchList,
       this.sharingEntity
     );
+
+    this.onSharingEntityUpdate.emit(this.sharingEntity);
   }
 
   private _getNewAccessIndex(currentAccess): number {

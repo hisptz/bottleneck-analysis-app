@@ -275,16 +275,27 @@ export class DashboardEffects {
       return Observable.of(null);
     });
 
-  @Effect()
+  @Effect({ dispatch: false })
   loadDashboardSharing = this.actions$
     .ofType<dashboard.LoadSharingDataAction>(
       dashboard.DashboardActions.LOAD_SHARING_DATA
     )
-    .switchMap((action: any) => this._loadSharingInfo(action.payload))
-    .map(
-      (sharingInfo: DashboardSharing) =>
-        new dashboard.LoadSharingDataSuccessAction(sharingInfo)
-    );
+    .withLatestFrom(this.store)
+    .switchMap(([action, state]: [any, AppState]) => {
+      if (
+        !state.dashboard.dashboardSharing ||
+        !state.dashboard.dashboardSharing[action.payload]
+      ) {
+        this._loadSharingInfo(action.payload).subscribe(
+          (sharingInfo: DashboardSharing) => {
+            this.store.dispatch(
+              new dashboard.LoadSharingDataSuccessAction(sharingInfo)
+            );
+          }
+        );
+      }
+      return Observable.of(null);
+    });
 
   constructor(
     private actions$: Actions,

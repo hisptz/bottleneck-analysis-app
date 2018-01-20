@@ -1,8 +1,12 @@
-import {Action} from '@ngrx/store';
-import {Dashboard, DashboardMenuItem, DashboardSharing} from './dashboard.state';
-import {CurrentUserState} from '../current-user/current-user.state';
-import {Observable} from 'rxjs/Observable';
-import {SharingEntity} from '../../modules/sharing-filter/models/sharing-entity';
+import { Action } from '@ngrx/store';
+import {
+  Dashboard,
+  DashboardMenuItem,
+  DashboardSharing
+} from './dashboard.state';
+import { CurrentUserState } from '../current-user/current-user.state';
+import { Observable } from 'rxjs/Observable';
+import { SharingEntity } from '../../modules/sharing-filter/models/sharing-entity';
 
 export enum DashboardActions {
   LOAD = '[Dashboard] Load dashboards',
@@ -24,7 +28,8 @@ export enum DashboardActions {
   ADD_ITEM = '[Dashboard] Add dashboard item',
   ADD_ITEM_SUCCESS = '[Dashboard] Add dashboard item success',
   LOAD_SHARING_DATA = '[Dashboard] Load dashboard sharing data',
-  LOAD_SHARING_DATA_SUCCESS = '[Dashboard] Load dashboard sharing data success'
+  LOAD_SHARING_DATA_SUCCESS = '[Dashboard] Load dashboard sharing data success',
+  UPDATE_SHARING_DATA = '[Dashboard] Update dashboard sharing data'
 }
 
 export class LoadAction implements Action {
@@ -33,7 +38,13 @@ export class LoadAction implements Action {
 
 export class LoadSuccessAction implements Action {
   readonly type = DashboardActions.LOAD_SUCCESS;
-  constructor(public payload: {dashboards: Dashboard[], url: string, currentUser: CurrentUserState}) {}
+  constructor(
+    public payload: {
+      dashboards: Dashboard[];
+      url: string;
+      currentUser: CurrentUserState;
+    }
+  ) {}
 }
 
 export class SetCurrentAction implements Action {
@@ -58,7 +69,7 @@ export class CreateSuccessAction implements Action {
 
 export class RenameAction implements Action {
   readonly type = DashboardActions.RENAME;
-  constructor(public payload: {id: string, name: string}) {}
+  constructor(public payload: { id: string; name: string }) {}
 }
 
 export class RenameSuccessAction implements Action {
@@ -76,8 +87,8 @@ export class DeleteSuccessAction implements Action {
   constructor(public payload: any) {}
 }
 
-export class CommitDeleteAction  implements Action {
-  readonly type =   DashboardActions.COMMIT_DELETE;
+export class CommitDeleteAction implements Action {
+  readonly type = DashboardActions.COMMIT_DELETE;
   constructor(public payload: string) {}
 }
 
@@ -103,7 +114,7 @@ export class UpdateSearchResultAction implements Action {
 
 export class ChangeSearchHeaderAction implements Action {
   readonly type = DashboardActions.CHANGE_SEARCH_HEADER;
-  constructor(public payload: {header: any, multipleSelection: boolean}) {}
+  constructor(public payload: { header: any; multipleSelection: boolean }) {}
 }
 
 export class AddItemAction implements Action {
@@ -126,8 +137,30 @@ export class LoadSharingDataSuccessAction implements Action {
   constructor(public payload: DashboardSharing) {}
 }
 
-export type DashboardAction = LoadAction | LoadSuccessAction
-  | SetCurrentAction | ChangeCurrentPageAction | CreateAction | CreateSuccessAction
-  | RenameAction | RenameSuccessAction | DeleteAction | DeleteSuccessAction | CommitDeleteAction
-  | ChangePageItemsAction | HideMenuNotificationIconAction | SearchItemsAction | UpdateSearchResultAction
-  | ChangeSearchHeaderAction | AddItemAction | AddItemSuccessAction | LoadSharingDataAction | LoadSharingDataSuccessAction;
+export class UpdateSharingDataAction implements Action {
+  readonly type = DashboardActions.UPDATE_SHARING_DATA;
+  constructor(public payload: SharingEntity) {}
+}
+
+export type DashboardAction =
+  | LoadAction
+  | LoadSuccessAction
+  | SetCurrentAction
+  | ChangeCurrentPageAction
+  | CreateAction
+  | CreateSuccessAction
+  | RenameAction
+  | RenameSuccessAction
+  | DeleteAction
+  | DeleteSuccessAction
+  | CommitDeleteAction
+  | ChangePageItemsAction
+  | HideMenuNotificationIconAction
+  | SearchItemsAction
+  | UpdateSearchResultAction
+  | ChangeSearchHeaderAction
+  | AddItemAction
+  | AddItemSuccessAction
+  | LoadSharingDataAction
+  | LoadSharingDataSuccessAction
+  | UpdateSharingDataAction;

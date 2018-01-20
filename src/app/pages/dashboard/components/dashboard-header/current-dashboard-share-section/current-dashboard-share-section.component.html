@@ -12,7 +12,7 @@
         class="dashboard-sharing-user text-muted">
         Created by {{(currentDashboardSharing$ | async)?.user.name}}</div> -->
             <div class="dashboard-sharing-filter">
-                <app-sharing-filter [sharingEntity]="(currentDashboardSharing$ | async).sharingEntity"></app-sharing-filter>
+                <app-sharing-filter [sharingEntity]="(currentDashboardSharing$ | async).sharingEntity" (onSharingEntityUpdate)="onSharingUpdate($event)"></app-sharing-filter>
             </div>
         </div>
 

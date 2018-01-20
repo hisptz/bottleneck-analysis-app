@@ -6,15 +6,27 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class SharingService {
-  constructor(private httpClient: HttpClientService) {}
+  private _searchList: any[];
+  private _searchListLoaded: boolean;
+  constructor(private httpClient: HttpClientService) {
+    this._searchList = [];
+    this._searchListLoaded = false;
+  }
 
-  searchSharingDetails(searchTerm: string) {
+  getSearchList(): Observable<any[]> {
     return new Observable(observer => {
-      this.httpClient
-        .get('sharing/search?key=' + searchTerm + '&paging=false')
-        .subscribe(
-          (userGroupResponse: any) => {
-            observer.next(userGroupResponse);
+      if (this._searchListLoaded) {
+        observer.next(this._searchList);
+        observer.complete();
+      } else {
+        Observable.forkJoin(
+          this.getUserList(),
+          this.getUserGroupList()
+        ).subscribe(
+          response => {
+            this._searchList = _.sortBy(_.flatten(response), 'name');
+            this._searchListLoaded = true;
+            observer.next(this._searchList);
             observer.complete();
           },
           () => {
@@ -22,24 +34,7 @@ export class SharingService {
             observer.complete();
           }
         );
-    });
-  }
-
-  getSearchList(): Observable<any[]> {
-    return new Observable(observer => {
-      Observable.forkJoin(
-        this.getUserList(),
-        this.getUserGroupList()
-      ).subscribe(
-        response => {
-          observer.next(_.sortBy(_.flatten(response), 'name'));
-          observer.complete();
-        },
-        () => {
-          observer.next(null);
-          observer.complete();
-        }
-      );
+      }
     });
   }
 
