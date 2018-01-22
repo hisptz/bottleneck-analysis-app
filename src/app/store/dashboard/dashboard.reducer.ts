@@ -1,9 +1,10 @@
+import * as _ from 'lodash';
 import * as dashboard from './dashboard.state';
 import { DashboardAction, DashboardActions } from './dashboard.actions';
 import * as dashboardHelpers from './helpers/index';
 import { Dashboard, DashboardSharing } from './dashboard.state';
-import * as _ from 'lodash';
 import { updateWithHeaderSelectionCriterias } from './helpers/map-state-to-dashboard-search-items.helper';
+import * as visualizationActions from '../visualization/visualization.actions';
 
 export function dashboardReducer(
   state: dashboard.DashboardState = dashboard.INITIAL_DASHBOARD_STATE,
@@ -318,6 +319,46 @@ export function dashboardReducer(
             sharingEntity: action.payload
           }
         }
+      };
+    }
+
+    case DashboardActions.DELETE_ITEM_SUCCESS: {
+      const currentDashboard: Dashboard = _.find(state.dashboards, [
+        'id',
+        action.payload.dashboardId
+      ]);
+      const dashboardIndex = state.dashboards.indexOf(currentDashboard);
+
+      const dashboardItemIndex = currentDashboard
+        ? currentDashboard.dashboardItems.indexOf(
+            _.find(currentDashboard.dashboardItems, [
+              'id',
+              action.payload.visualizationId
+            ])
+          )
+        : -1;
+
+      return {
+        ...state,
+        dashboards:
+          dashboardIndex !== -1
+            ? [
+                ...state.dashboards.slice(0, dashboardIndex),
+                {
+                  ...currentDashboard,
+                  dashboardItems: [
+                    ...currentDashboard.dashboardItems.slice(
+                      0,
+                      dashboardItemIndex
+                    ),
+                    ...currentDashboard.dashboardItems.slice(
+                      dashboardItemIndex + 1
+                    )
+                  ]
+                },
+                ...state.dashboards.slice(dashboardIndex + 1)
+              ]
+            : [...state.dashboards]
       };
     }
 

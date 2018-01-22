@@ -29,7 +29,8 @@ export enum DashboardActions {
   ADD_ITEM_SUCCESS = '[Dashboard] Add dashboard item success',
   LOAD_SHARING_DATA = '[Dashboard] Load dashboard sharing data',
   LOAD_SHARING_DATA_SUCCESS = '[Dashboard] Load dashboard sharing data success',
-  UPDATE_SHARING_DATA = '[Dashboard] Update dashboard sharing data'
+  UPDATE_SHARING_DATA = '[Dashboard] Update dashboard sharing data',
+  DELETE_ITEM_SUCCESS = '[Dashboard] Delete dashboard item success'
 }
 
 export class LoadAction implements Action {
@@ -142,6 +143,13 @@ export class UpdateSharingDataAction implements Action {
   constructor(public payload: SharingEntity) {}
 }
 
+export class DeleteItemSuccessAction implements Action {
+  readonly type = DashboardActions.DELETE_ITEM_SUCCESS;
+  constructor(
+    public payload: { dashboardId: string; visualizationId: string }
+  ) {}
+}
+
 export type DashboardAction =
   | LoadAction
   | LoadSuccessAction
@@ -163,4 +171,5 @@ export type DashboardAction =
   | AddItemSuccessAction
   | LoadSharingDataAction
   | LoadSharingDataSuccessAction
-  | UpdateSharingDataAction;
+  | UpdateSharingDataAction
+  | DeleteItemSuccessAction;

@@ -290,6 +290,22 @@ export class VisualizationEffects {
       )
     );
 
+  @Effect()
+  deleteSuccess$ = this.actions$
+    .ofType<visualization.DeleteSuccessAction>(
+      visualization.VisualizationActions.DELETE_SUCCESS
+    )
+    .pipe(
+      map((action: visualization.DeleteSuccessAction) => action.payload),
+      map(
+        ({ dashboardId, visualizationId }) =>
+          new dashboard.DeleteItemSuccessAction({
+            dashboardId,
+            visualizationId
+          })
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
