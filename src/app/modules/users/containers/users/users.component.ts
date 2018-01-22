@@ -21,7 +21,11 @@ export class UsersComponent implements OnInit {
           items: [
             {
               value: 'Users',
-              style: { 'font-weight': 'bold', 'text-align': 'center' },
+              style: {
+                'font-weight': 'bold',
+                'text-align': 'center',
+                'background-color': '#eee'
+              },
               colSpan: 2
             }
           ]
@@ -29,7 +33,14 @@ export class UsersComponent implements OnInit {
         {
           id: 'user_headers',
           items: [
-            { value: '#', style: { 'font-weight': 'bold' } },
+            {
+              value: '#',
+              style: {
+                'font-weight': 'bold',
+                width: '5%',
+                'background-color': '#eee'
+              }
+            },
             { value: 'Name', style: { 'font-weight': 'bold' } }
           ]
         },
@@ -45,7 +56,11 @@ export class UsersComponent implements OnInit {
               id: userListItem.id,
               items: [
                 {
-                  value: userListItemIndex + 1
+                  value: userListItemIndex + 1,
+                  style: {
+                    width: '5%',
+                    'background-color': '#eee'
+                  }
                 },
                 ..._.map(itemKeys, (key: string) => {
                   return {

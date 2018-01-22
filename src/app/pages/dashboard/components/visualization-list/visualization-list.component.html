@@ -1,18 +1,10 @@
 <div id="dashboard-visualization-list">
-  <div
-    class="visualization-card-container dashboard-border"
-    *ngFor="let visualizationObject of visualizationObjects$ | async"
-    [style.grid-column]="visualizationObject.details.width"
-    [style.grid-row]="'span 1'"
-  >
-    <!--&lt;!&ndash;visualization delete section&ndash;&gt;-->
-    <!--<div class="visualization-delete-block">-->
-      <!--<button>delete</button>-->
-    <!--</div>-->
-    <!--&lt;!&ndash; end of visualization delete section&ndash;&gt;-->
-    <app-visualization-card
-      [visualizationObject]="visualizationObject"
-      [currentUser]="currentUser$ | async"
-    ></app-visualization-card>
-  </div>
+    <div class="visualization-card-container dashboard-border" *ngFor="let visualizationObject of visualizationObjects$ | async" [style.grid-column]="visualizationObject.details.width" [style.grid-row]="'span 1'">
+        <!--visualization delete section-->
+        <!-- <div class="visualization-delete-block">
+            <button>delete</button>
+        </div> -->
+        <!-- end of visualization delete section-->
+        <app-visualization-card [visualizationObject]="visualizationObject" [currentUser]="currentUser$ | async"></app-visualization-card>
+    </div>
 </div>

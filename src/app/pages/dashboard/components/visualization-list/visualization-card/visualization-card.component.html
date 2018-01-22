@@ -2,10 +2,10 @@
     <!--Visualization card header content-->
     <div class="visualization-card-header">
         <div class="visualization-card-header-left">
-            <div class="visualization-filter-section-container">
+            <div class="visualization-filter-section-container" *ngIf="!visualizationObject.details.nonVisualizable">
                 <app-visualization-filter-section [selectedDimensions]="selectedDimensions" [visualizationType]="currentVisualization" [loaded]="loaded" (onFilterUpdate)="onFilterUpdate($event)" (onLayoutUpdate)="onLayoutUpdate($event)"></app-visualization-filter-section>
             </div>
-            <div class="visualization-interpretation-button-container">
+            <div class="visualization-interpretation-button-container" *ngIf="!visualizationObject.details.nonVisualizable">
                 <app-visualization-interpretation-button [loaded]="loaded" [visualizationId]="visualizationObject.id" [visualizationLayers]="visualizationObject.layers"></app-visualization-interpretation-button>
             </div>
         </div>
@@ -55,7 +55,7 @@
             <app-interpretation-container [visualizationLayers]="visualizationObject.layers" [currentUser]="currentUser" [itemHeight]="customItemHeight || visualizationObject.details.itemHeight"></app-interpretation-container>
         </div>
     </div>
-    <div class="visualization-card-footer animated fadeInLeft" *ngIf="loaded && isCardFocused">
+    <div class="visualization-card-footer animated fadeInLeft" *ngIf="loaded && isCardFocused && !visualizationObject.details.nonVisualizable">
         <div class="visualization-card-footer-left">
             <app-visualization-types-section [currentVisualization]="currentVisualization" (onCurrentVisualizationChange)="currentVisualizationChange($event)"></app-visualization-types-section>
             <app-visualization-download-section></app-visualization-download-section>
