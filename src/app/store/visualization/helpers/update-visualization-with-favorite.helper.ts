@@ -1,12 +1,15 @@
-import {Visualization} from '../visualization.state';
+import { Visualization } from '../visualization.state';
 import * as _ from 'lodash';
-import {getDimensionValues} from './get-dimension-values.helpers';
-import {mapSettingsToVisualizationFilters} from './map-settings-to-visualization-filters';
+import { getDimensionValues } from './get-dimension-values.helpers';
+import { mapSettingsToVisualizationFilters } from './map-settings-to-visualization-filters';
 
-export function updateVisualizationWithSettings(visualization: Visualization, settings: any) {
-  const newVisualization: Visualization = {...visualization};
+export function updateVisualizationWithSettings(
+  visualization: Visualization,
+  settings: any
+) {
+  const newVisualization: Visualization = { ...visualization };
 
-  const visualizationDetails: any = {...newVisualization.details};
+  const visualizationDetails: any = { ...newVisualization.details };
   if (settings.mapViews) {
     let visualizationFilters = [];
     let visualizationLayouts = [];
@@ -17,46 +20,72 @@ export function updateVisualizationWithSettings(visualization: Visualization, se
       visualizationDetails.longitude = settings.longitude;
     }
     settings.mapViews.forEach((view: any) => {
-      visualizationFilters = [...visualizationFilters, {id: view.id, filters: mapSettingsToVisualizationFilters(view)}];
-      visualizationLayouts = [...visualizationLayouts, {id: view.id, layout: getVisualizationLayout(view)}];
+      visualizationFilters = [
+        ...visualizationFilters,
+        { id: view.id, filters: mapSettingsToVisualizationFilters(view) }
+      ];
+      visualizationLayouts = [
+        ...visualizationLayouts,
+        { id: view.id, layout: getVisualizationLayout(view) }
+      ];
     });
 
     visualizationDetails.filters = [...visualizationFilters];
     visualizationDetails.layouts = [...visualizationLayouts];
 
-    newVisualization.layers = [..._.map(settings.mapViews, (view: any) => {
-      const newView: any = {...view};
-      return {
-        settings: _.omit(newView, ['interpretations']),
-        layout: getVisualizationLayout(view),
-        filters: mapSettingsToVisualizationFilters(view),
-        interpretation: {
-          id: visualization.details.favorite.id,
-          type: visualization.details.favorite.type,
-          interpretations: view.interpretations || []
-        }
-      };
-    })];
+    newVisualization.layers = [
+      ..._.map(settings.mapViews, (view: any) => {
+        const newView: any = { ...view };
+        return {
+          settings: _.omit(newView, ['interpretations']),
+          layout: getVisualizationLayout(view),
+          filters: mapSettingsToVisualizationFilters(view),
+          interpretation: {
+            id: visualization.details.favorite.id,
+            type: visualization.details.favorite.type,
+            interpretations: view.interpretations || []
+          }
+        };
+      })
+    ];
   } else {
-    const newSettings = {...settings};
-    visualizationDetails.filters = [{id: settings.id, filters: mapSettingsToVisualizationFilters(settings)}];
-    visualizationDetails.layouts = [{id: settings.id, layout: getVisualizationLayout(settings)}];
+    const newSettings = { ...settings };
+    visualizationDetails.filters = [
+      { id: settings.id, filters: mapSettingsToVisualizationFilters(settings) }
+    ];
+    visualizationDetails.layouts = [
+      { id: settings.id, layout: getVisualizationLayout(settings) }
+    ];
 
-    newVisualization.layers = [{
-      settings: _.omit(newSettings, ['interpretations']),
-      layout: getVisualizationLayout(newSettings),
-      filters: mapSettingsToVisualizationFilters(newSettings),
-      interpretation: {
-        id: visualization.details.favorite.id,
-        type: visualization.details.favorite.type,
-        interpretations: newSettings.interpretations || []
-      }
-    }];
+    newVisualization.layers = settings.id
+      ? [
+          {
+            settings: _.omit(newSettings, ['interpretations']),
+            layout: getVisualizationLayout(newSettings),
+            filters: mapSettingsToVisualizationFilters(newSettings),
+            interpretation: {
+              id: visualization.details.favorite.id,
+              type: visualization.details.favorite.type,
+              interpretations: newSettings.interpretations || []
+            }
+          }
+        ]
+      : _.map(visualization.layers, layer => {
+          return {
+            ...layer,
+            interpretation: {
+              id: visualization.details.favorite.id,
+              type: visualization.details.favorite.type,
+              interpretations: newSettings.interpretations || []
+            }
+          };
+        });
   }
 
-
-  visualizationDetails.metadataIdentifiers = newVisualization.layers.map(visualizationLayer =>
-    _.find(visualizationLayer.filters, ['name', 'dx']))
+  visualizationDetails.metadataIdentifiers = newVisualization.layers
+    .map(visualizationLayer =>
+      _.find(visualizationLayer.filters, ['name', 'dx'])
+    )
     .filter(dxObject => dxObject)
     .map(dxObject => dxObject.value.split('.')[0])
     .filter(dxValue => dxValue !== '')
@@ -64,15 +93,24 @@ export function updateVisualizationWithSettings(visualization: Visualization, se
     .split(';')
     .filter(value => value !== '');
 
-  newVisualization.details = {...visualizationDetails};
+  newVisualization.details = { ...visualizationDetails };
   return newVisualization;
 }
 
 function getVisualizationLayout(visualizationSettings: any) {
   return {
-    rows: getDimensionLayout(visualizationSettings.rows, visualizationSettings.dataElementDimensions),
-    columns: getDimensionLayout(visualizationSettings.columns, visualizationSettings.dataElementDimensions),
-    filters: getDimensionLayout(visualizationSettings.filters, visualizationSettings.dataElementDimensions)
+    rows: getDimensionLayout(
+      visualizationSettings.rows,
+      visualizationSettings.dataElementDimensions
+    ),
+    columns: getDimensionLayout(
+      visualizationSettings.columns,
+      visualizationSettings.dataElementDimensions
+    ),
+    filters: getDimensionLayout(
+      visualizationSettings.filters,
+      visualizationSettings.dataElementDimensions
+    )
   };
 }
 
@@ -83,7 +121,7 @@ function getDimensionLayout(dimensionArray, dataElementDimensions) {
       if (dimensionObject.dimension !== 'dy') {
         const layoutValue = dimensionObject.dimension;
         const layoutName = getLayoutName(layoutValue, dataElementDimensions);
-        newDimensionLayoutArray.push({name: layoutName, value: layoutValue});
+        newDimensionLayoutArray.push({ name: layoutName, value: layoutValue });
       }
     });
   }
@@ -107,9 +145,11 @@ function getLayoutName(layoutValue, dataElementDimensions) {
     default: {
       let layoutName = '';
       if (dataElementDimensions) {
-        const compiledDimension = dataElementDimensions.map(dataElementDimension => {
-          return dataElementDimension.dataElement;
-        });
+        const compiledDimension = dataElementDimensions.map(
+          dataElementDimension => {
+            return dataElementDimension.dataElement;
+          }
+        );
         const layoutObject = _.find(compiledDimension, ['id', layoutValue]);
         if (layoutObject) {
           layoutName = layoutObject.name;
@@ -118,5 +158,4 @@ function getLayoutName(layoutValue, dataElementDimensions) {
       return layoutName !== '' ? layoutName : 'Category Option';
     }
   }
-
 }

@@ -1,0 +1,17 @@
+import { Component, OnInit, Input } from '@angular/core';
+import * as fromModels from '../../models';
+
+@Component({
+  selector: 'app-list-table',
+  templateUrl: './list-table.component.html',
+  styleUrls: ['./list-table.component.css']
+})
+export class ListTableComponent implements OnInit {
+  @Input() tableConfig: fromModels.TableConfig;
+  @Input() tableList: fromModels.TableList;
+  constructor() {
+    this.tableConfig = fromModels.DEFAULT_TABLE_CONFIG;
+  }
+
+  ngOnInit() {}
+}

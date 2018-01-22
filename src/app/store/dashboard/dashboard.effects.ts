@@ -260,6 +260,7 @@ export class DashboardEffects {
           state.dashboard.currentDashboard,
           state.currentUser
         );
+
         this.store.dispatch(
           new visualization.AddOrUpdateAction({
             visualizationObject: initialVisualization,

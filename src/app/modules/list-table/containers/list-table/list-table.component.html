@@ -1,0 +1,12 @@
+<div class="list-table-container">
+    <table [ngClass]="{
+      'table': true,
+      'table-bordered': tableConfig.bordered
+    }">
+        <tr *ngFor="let listItem of tableList" [id]="listItem.id">
+            <td *ngFor="let item of listItem.items" [ngStyle]="item.style" [attr.colspan]="item.colSpan">
+                {{item.value}}
+            </td>
+        </tr>
+    </table>
+</div>
