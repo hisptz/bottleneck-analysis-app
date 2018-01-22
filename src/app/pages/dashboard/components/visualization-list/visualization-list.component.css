@@ -56,13 +56,18 @@
 }
 
 .visualization-card-container {
-    overflow: auto;
     position: relative;
 }
 
 .visualization-delete-block {
     position: absolute;
-    border: solid thin;
-    right: -5px;
-    top: -5px;
+    z-index: 1200;
+    right: -10px;
+    top: -10px;
+}
+
+.visualization-delete-block img {
+    height: 15px;
+    display: block;
+    margin: auto;
 }

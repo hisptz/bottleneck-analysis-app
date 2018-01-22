@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Visualization} from '../../../../../store/visualization/visualization.state';
-import {Store} from '@ngrx/store';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Visualization } from '../../../../../store/visualization/visualization.state';
+import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import {AppState} from '../../../../../store/app.reducers';
+import { AppState } from '../../../../../store/app.reducers';
 import * as visualization from '../../../../../store/visualization/visualization.actions';
-import {CurrentUserState} from '../../../../../store/current-user/current-user.state';
+import { CurrentUserState } from '../../../../../store/current-user/current-user.state';
 
 @Component({
   selector: 'app-visualization-card',
@@ -12,7 +12,6 @@ import {CurrentUserState} from '../../../../../store/current-user/current-user.s
   styleUrls: ['./visualization-card.component.css']
 })
 export class VisualizationCardComponent implements OnInit {
-
   @Input() visualizationObject: Visualization;
   @Input() customCardHeight: string;
   @Input() customItemHeight: string;
@@ -24,8 +23,7 @@ export class VisualizationCardComponent implements OnInit {
   currentVisualization: string;
   loaded: boolean;
 
-  constructor(private store: Store<AppState>) {
-  }
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.selectedDimensions = this.getSelectedDimensions();
@@ -36,10 +34,12 @@ export class VisualizationCardComponent implements OnInit {
   }
 
   currentVisualizationChange(visualizationType: string) {
-    this.store.dispatch(new visualization.VisualizationChangeAction({
-      type: visualizationType,
-      id: this.visualizationObject.id
-    }));
+    this.store.dispatch(
+      new visualization.VisualizationChangeAction({
+        type: visualizationType,
+        id: this.visualizationObject.id
+      })
+    );
   }
 
   getSelectedItems(filters: any[], dimension: string) {
@@ -61,13 +61,22 @@ export class VisualizationCardComponent implements OnInit {
   }
 
   private _getSelectedOrgUnitModel(orgUnitArray): any {
-    const selectedOrgUnitLevels = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('LEVEL') !== -1);
-    const selectedUserOrgUnits = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('USER') !== -1);
-    const selectedOrgUnitGroups = orgUnitArray.filter((orgunit) => orgunit.id.indexOf('OU_GROUP') !== -1);
+    const selectedOrgUnitLevels = orgUnitArray.filter(
+      orgunit => orgunit.id.indexOf('LEVEL') !== -1
+    );
+    const selectedUserOrgUnits = orgUnitArray.filter(
+      orgunit => orgunit.id.indexOf('USER') !== -1
+    );
+    const selectedOrgUnitGroups = orgUnitArray.filter(
+      orgunit => orgunit.id.indexOf('OU_GROUP') !== -1
+    );
 
     return {
-      selectionMode: selectedOrgUnitLevels.length > 0 ? 'Level' : selectedOrgUnitGroups.length > 0 ? 'Group' : 'orgUnit',
-      selectedLevels: selectedOrgUnitLevels.map((orgunitlevel) => {
+      selectionMode:
+        selectedOrgUnitLevels.length > 0
+          ? 'Level'
+          : selectedOrgUnitGroups.length > 0 ? 'Group' : 'orgUnit',
+      selectedLevels: selectedOrgUnitLevels.map(orgunitlevel => {
         return {
           level: orgunitlevel.id.split('-')[1]
         };
@@ -76,10 +85,12 @@ export class VisualizationCardComponent implements OnInit {
       selectedGroups: selectedOrgUnitGroups,
       orgUnitLevels: [],
       orgUnitGroups: [],
-      selectedOrgUnits: orgUnitArray.filter((orgUnit: any) => orgUnit.type === 'ORGANISATION_UNIT'),
+      selectedOrgUnits: orgUnitArray.filter(
+        (orgUnit: any) => orgUnit.type === 'ORGANISATION_UNIT'
+      ),
       userOrgUnits: [],
       type: 'report',
-      selectedUserOrgUnits: selectedUserOrgUnits.map((userorgunit) => {
+      selectedUserOrgUnits: selectedUserOrgUnits.map(userorgunit => {
         return {
           id: userorgunit.id,
           shown: true
@@ -90,39 +101,53 @@ export class VisualizationCardComponent implements OnInit {
   }
 
   onFilterUpdate(filterValue: any) {
-    this.store.dispatch(new visualization.LocalFilterChangeAction(
-      {visualizationObject: this.visualizationObject, filterValue: filterValue}));
+    this.store.dispatch(
+      new visualization.LocalFilterChangeAction({
+        visualizationObject: this.visualizationObject,
+        filterValue: filterValue
+      })
+    );
   }
 
   onLayoutUpdate(layoutOptions: any) {
-
-    const newVisualizationObjectDetails = {...this.visualizationObject.details};
+    const newVisualizationObjectDetails = {
+      ...this.visualizationObject.details
+    };
 
     // TODO use only single place for saving layout options
-    const visualizationLayouts = _.map(newVisualizationObjectDetails.layouts, (layoutObject: any) => {
-      return {
-        ...layoutObject,
-        layout: layoutOptions
-      };
-    });
+    const visualizationLayouts = _.map(
+      newVisualizationObjectDetails.layouts,
+      (layoutObject: any) => {
+        return {
+          ...layoutObject,
+          layout: layoutOptions
+        };
+      }
+    );
 
-    const visualizationLayers = _.map(this.visualizationObject.layers, (layer: any) => {
-      return {
-        ...layer,
-        layout: layoutOptions
-      };
-    });
+    const visualizationLayers = _.map(
+      this.visualizationObject.layers,
+      (layer: any) => {
+        return {
+          ...layer,
+          layout: layoutOptions
+        };
+      }
+    );
 
-    this.store.dispatch(new visualization.AddOrUpdateAction({
-      visualizationObject: {
-        ...this.visualizationObject,
-        details: {
-          ...newVisualizationObjectDetails,
-          layouts: [...visualizationLayouts]
+    this.store.dispatch(
+      new visualization.AddOrUpdateAction({
+        visualizationObject: {
+          ...this.visualizationObject,
+          details: {
+            ...newVisualizationObjectDetails,
+            layouts: [...visualizationLayouts]
+          },
+          layers: visualizationLayers
         },
-        layers: visualizationLayers
-      }, placementPreference: 'normal'
-    }));
+        placementPreference: 'normal'
+      })
+    );
   }
 
   toggleCardFocusAction(e, isFocused) {
@@ -131,13 +156,26 @@ export class VisualizationCardComponent implements OnInit {
   }
 
   getSelectedDimensions() {
-    return this.visualizationObject.details
-    && this.visualizationObject.details.filters.length > 0 && this.visualizationObject.details.layouts.length > 0 ? {
-      selectedDataItems: this.getSelectedItems(this.visualizationObject.details.filters, 'dx'),
-      selectedPeriods: this.getSelectedItems(this.visualizationObject.details.filters, 'pe'),
-      orgUnitModel: this._getSelectedOrgUnitModel(this.getSelectedItems(this.visualizationObject.details.filters, 'ou')),
-      layoutModel: this.visualizationObject.details.layouts[0].layout
-    } : null;
+    return this.visualizationObject.details &&
+      this.visualizationObject.details.filters.length > 0 &&
+      this.visualizationObject.details.layouts.length > 0
+      ? {
+          selectedDataItems: this.getSelectedItems(
+            this.visualizationObject.details.filters,
+            'dx'
+          ),
+          selectedPeriods: this.getSelectedItems(
+            this.visualizationObject.details.filters,
+            'pe'
+          ),
+          orgUnitModel: this._getSelectedOrgUnitModel(
+            this.getSelectedItems(
+              this.visualizationObject.details.filters,
+              'ou'
+            )
+          ),
+          layoutModel: this.visualizationObject.details.layouts[0].layout
+        }
+      : null;
   }
-
 }
