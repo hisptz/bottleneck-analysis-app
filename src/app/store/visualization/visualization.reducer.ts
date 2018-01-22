@@ -58,15 +58,9 @@ export function visualizationReducer(
           };
 
     case VisualizationActions.SET_CURRENT:
-      return {
-        ...state,
-        currentVisualization: action.payload
-      };
+      return { ...state, currentVisualization: action.payload };
     case VisualizationActions.UNSET_CURRENT:
-      return {
-        ...state,
-        currentVisualization: undefined
-      };
+      return { ...state, currentVisualization: undefined };
     case VisualizationActions.RESIZE: {
       const visualizationObject: Visualization = _.find(
         state.visualizationObjects,
@@ -132,6 +126,103 @@ export function visualizationReducer(
                   showInterpretationBlock: !visualizationObject.details
                     .showInterpretationBlock,
                   shape: visualizationObject.shape
+                }
+              },
+              ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
+            ]
+          }
+        : state;
+    }
+
+    case VisualizationActions.DELETE: {
+      const visualizationObject: Visualization = _.find(
+        state.visualizationObjects,
+        ['id', action.payload.visualizationId]
+      );
+      const visualizationObjectIndex = state.visualizationObjects.indexOf(
+        visualizationObject
+      );
+      return visualizationObjectIndex !== -1
+        ? {
+            ...state,
+            visualizationObjects: [
+              ...state.visualizationObjects.slice(0, visualizationObjectIndex),
+              {
+                ...visualizationObject,
+                details: { ...visualizationObject.details, deleting: true }
+              },
+              ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
+            ]
+          }
+        : state;
+    }
+
+    case VisualizationActions.DELETE_SUCCESS: {
+      const visualizationObject: Visualization = _.find(
+        state.visualizationObjects,
+        ['id', action.payload.visualizationId]
+      );
+      const visualizationObjectIndex = state.visualizationObjects.indexOf(
+        visualizationObject
+      );
+
+      return visualizationObjectIndex !== -1
+        ? {
+            ...state,
+            visualizationObjects: [
+              ...state.visualizationObjects.slice(0, visualizationObjectIndex),
+              ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
+            ]
+          }
+        : state;
+    }
+
+    case VisualizationActions.DELETE_FAIL: {
+      const visualizationObject: Visualization = _.find(
+        state.visualizationObjects,
+        ['id', action.payload]
+      );
+      const visualizationObjectIndex = state.visualizationObjects.indexOf(
+        visualizationObject
+      );
+      return visualizationObjectIndex !== -1
+        ? {
+            ...state,
+            visualizationObjects: [
+              ...state.visualizationObjects.slice(0, visualizationObjectIndex),
+              {
+                ...visualizationObject,
+                details: {
+                  ...visualizationObject.details,
+                  deleting: false,
+                  deleteFail: true
+                }
+              },
+              ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
+            ]
+          }
+        : state;
+    }
+
+    case VisualizationActions.TOGGLE_DELETE_DIALOG: {
+      const visualizationObject: Visualization = _.find(
+        state.visualizationObjects,
+        ['id', action.payload]
+      );
+      const visualizationObjectIndex = state.visualizationObjects.indexOf(
+        visualizationObject
+      );
+      return visualizationObjectIndex !== -1
+        ? {
+            ...state,
+            visualizationObjects: [
+              ...state.visualizationObjects.slice(0, visualizationObjectIndex),
+              {
+                ...visualizationObject,
+                details: {
+                  ...visualizationObject.details,
+                  showDeleteDialog: !visualizationObject.details
+                    .showDeleteDialog
                 }
               },
               ...state.visualizationObjects.slice(visualizationObjectIndex + 1)

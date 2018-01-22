@@ -1,4 +1,9 @@
 <div class="visualization-card" [style.height]="customCardHeight || visualizationObject.details.cardHeight" (mouseenter)="toggleCardFocusAction($event, true)" (mouseleave)="toggleCardFocusAction($event, false)">
+    <!-- visualization delete dialog -->
+    <div class="visualization-delete-dialog dashboard-border" *ngIf="visualizationObject.details.showDeleteDialog">
+        <app-visualization-delete-dialog [dashboardId]="visualizationObject.dashboardId" [visualizationId]="visualizationObject.id" [deleting]="visualizationObject.details.deleting" [deleteFail]="visualizationObject.details.deleteFail"></app-visualization-delete-dialog>
+    </div>
+    <!-- end of visualization delete dialog -->
     <!--Visualization card header content-->
     <div class="visualization-card-header">
         <div class="visualization-card-header-left">

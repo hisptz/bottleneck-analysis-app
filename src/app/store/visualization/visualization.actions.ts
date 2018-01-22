@@ -1,5 +1,5 @@
-import {Action} from '@ngrx/store';
-import {Visualization} from './visualization.state';
+import { Action } from '@ngrx/store';
+import { Visualization } from './visualization.state';
 
 export enum VisualizationActions {
   SET_INITIAL = '[Visualization] Set initial visualizations',
@@ -14,70 +14,70 @@ export enum VisualizationActions {
   UNSET_CURRENT = '[Visualizaton] Unset current visualization Object',
   RESIZE = '[Visualizaton] Resize visualization object',
   RESIZE_SUCCESS = '[Visualizaton] Resize visualization object success',
-  TOGGLE_INTERPRETATION = '[Visualizaton] Toggle interpratation'
+  TOGGLE_INTERPRETATION = '[Visualizaton] Toggle interpratation',
+  TOGGLE_DELETE_DIALOG = '[Visualizaton] Toggle delete dialog',
+  DELETE = '[Visualization] Delete visualization',
+  DELETE_SUCCESS = '[Visualization] Delete visualization success',
+  DELETE_FAIL = '[Visualization] Delete visualization fail'
 }
 
 export class SetInitialAction implements Action {
   readonly type = VisualizationActions.SET_INITIAL;
 
-  constructor(public payload: Visualization[]) {
-  }
+  constructor(public payload: Visualization[]) {}
 }
 
 export class LoadFavoriteAction implements Action {
   readonly type = VisualizationActions.LOAD_FAVORITE;
 
-  constructor(public payload: Visualization) {
-  }
+  constructor(public payload: Visualization) {}
 }
 
 export class LoadAnalyticsAction implements Action {
   readonly type = VisualizationActions.LOAD_ANALYTICS;
 
-  constructor(public payload: Visualization) {
-  }
+  constructor(public payload: Visualization) {}
 }
 
 export class UpdateVisualizationWithMapSettingsAction implements Action {
   readonly type = VisualizationActions.UPDATE_VISUALIZATION_WITH_MAP_SETTINGS;
 
-  constructor(public payload: Visualization) {
-  }
+  constructor(public payload: Visualization) {}
 }
 
 export class AddOrUpdateAction implements Action {
   readonly type = VisualizationActions.ADD_OR_UPDATE;
 
-  constructor(public payload: {visualizationObject: Visualization, placementPreference: string}) {
-  }
+  constructor(
+    public payload: {
+      visualizationObject: Visualization;
+      placementPreference: string;
+    }
+  ) {}
 }
 
 export class VisualizationChangeAction implements Action {
   readonly type = VisualizationActions.VISUALIZATION_CHANGE;
 
-  constructor(public payload: { type: string, id: string }) {
-  }
+  constructor(public payload: { type: string; id: string }) {}
 }
 
 export class LocalFilterChangeAction implements Action {
   readonly type = VisualizationActions.LOCAL_FILTER_CHANGE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class LayoutChangeAction implements Action {
   readonly type = VisualizationActions.LAYOUT_CHANGE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class SetCurrentAction implements Action {
   readonly type = VisualizationActions.SET_CURRENT;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UnSetCurrentAction implements Action {
@@ -86,7 +86,7 @@ export class UnSetCurrentAction implements Action {
 
 export class ResizeAction implements Action {
   readonly type = VisualizationActions.RESIZE;
-  constructor(public payload: {visualizationId: string, shape: string}) {}
+  constructor(public payload: { visualizationId: string; shape: string }) {}
 }
 
 export class ResizeSuccessAction implements Action {
@@ -95,10 +95,48 @@ export class ResizeSuccessAction implements Action {
 
 export class ToggleInterpretationAction implements Action {
   readonly type = VisualizationActions.TOGGLE_INTERPRETATION;
-  constructor (public payload: string) {}
+  constructor(public payload: string) {}
 }
 
-export type VisualizationAction = SetInitialAction |
-  LoadFavoriteAction | LoadAnalyticsAction | UpdateVisualizationWithMapSettingsAction |
-  AddOrUpdateAction | VisualizationChangeAction | LocalFilterChangeAction | LayoutChangeAction |
-  SetCurrentAction | UnSetCurrentAction | ResizeAction | ResizeSuccessAction | ToggleInterpretationAction;
+export class ToggleDeleteDialogAction implements Action {
+  readonly type = VisualizationActions.TOGGLE_DELETE_DIALOG;
+  constructor(public payload: string) {}
+}
+
+export class DeleteAction implements Action {
+  readonly type = VisualizationActions.DELETE;
+  constructor(
+    public payload: { dashboardId: string; visualizationId: string }
+  ) {}
+}
+
+export class DeleteSuccessAction implements Action {
+  readonly type = VisualizationActions.DELETE_SUCCESS;
+  constructor(
+    public payload: { dashboardId: string; visualizationId: string }
+  ) {}
+}
+
+export class DeleteFailAction implements Action {
+  readonly type = VisualizationActions.DELETE_FAIL;
+  constructor(public payload: string) {}
+}
+
+export type VisualizationAction =
+  | SetInitialAction
+  | LoadFavoriteAction
+  | LoadAnalyticsAction
+  | UpdateVisualizationWithMapSettingsAction
+  | AddOrUpdateAction
+  | VisualizationChangeAction
+  | LocalFilterChangeAction
+  | LayoutChangeAction
+  | SetCurrentAction
+  | UnSetCurrentAction
+  | ResizeAction
+  | ResizeSuccessAction
+  | ToggleInterpretationAction
+  | ToggleDeleteDialogAction
+  | DeleteAction
+  | DeleteSuccessAction
+  | DeleteFailAction;

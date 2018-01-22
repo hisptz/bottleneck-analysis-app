@@ -13,7 +13,9 @@ import * as visualizationHelpers from './helpers/index';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/forkJoin';
 import { Router } from '@angular/router';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, switchMap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators/catchError';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class VisualizationEffects {
@@ -265,12 +267,41 @@ export class VisualizationEffects {
     )
     .map(() => new visualization.ResizeSuccessAction());
 
+  @Effect()
+  deleteActions$ = this.actions$
+    .ofType<visualization.DeleteAction>(
+      visualization.VisualizationActions.DELETE
+    )
+    .pipe(
+      map((action: visualization.DeleteAction) => action.payload),
+      switchMap(({ dashboardId, visualizationId }) =>
+        this._delete(dashboardId, visualizationId).pipe(
+          map(
+            () =>
+              new visualization.DeleteSuccessAction({
+                dashboardId,
+                visualizationId
+              })
+          ),
+          catchError(() =>
+            of(new visualization.DeleteFailAction(visualizationId))
+          )
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
     private router: Router,
     private httpClient: HttpClientService
   ) {}
+
+  private _delete(dashboardId: string, visualizationId: string) {
+    return this.httpClient.delete(
+      'dashboards/' + dashboardId + '/items/' + visualizationId
+    );
+  }
 
   private _updateVisualizationWithMapSettings(
     visualizationObject: Visualization

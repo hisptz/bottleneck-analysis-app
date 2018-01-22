@@ -1,0 +1,14 @@
+<div class="visualization-delete-dialog-container">
+    <div *ngIf="!deleting && !deleteFail" class="delete-dialog">
+        <span>Are you sure?</span>
+        <button class="btn btn-xs btn-outline-secondary" (click)="cancelDelete($event)">No</button>
+        <button class="btn btn-xs btn-outline-danger" (click)="onDelete($event)">Yes</button>
+    </div>
+    <div *ngIf="deleting" class="delete-dialog">
+        Deleting...
+    </div>
+    <div *ngIf="deleteFail" class="delete-dialog text-danger">
+        Delete fail
+        <button class="btn btn-xs btn-outline-secondary" (click)="cancelDelete($event)">Close</button>
+    </div>
+</div>

@@ -76,3 +76,17 @@
 .dictionary-container {
     padding: 50px 10px 10px 10px;
 }
+
+.visualization-delete-dialog {
+    position: absolute;
+    background-color: #ffffff;
+    top: 5px;
+    width: auto;
+    right: 5px;
+    z-index: 1100;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+}

@@ -69,6 +69,7 @@ import { VisualizationCardLoaderComponent } from './pages/dashboard/components/v
 import { InterpretationModule } from './modules/interpretation/interpretation.module';
 import { InterpretationContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/interpretation-container/interpretation-container.component';
 import { SharingFilterModule } from './modules/sharing-filter/sharing-filter.module';
+import { VisualizationDeleteDialogComponent } from './pages/dashboard/components/visualization-list/visualization-card/visualization-delete-dialog/visualization-delete-dialog.component';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -113,7 +114,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     KNumberPipe,
     VisualizationCardLoaderComponent,
     InterpretationContainerComponent,
-    UsersContainerComponent
+    UsersContainerComponent,
+    VisualizationDeleteDialogComponent
   ],
   imports: [
     BrowserModule,

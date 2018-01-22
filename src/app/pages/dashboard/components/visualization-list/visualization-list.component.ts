@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Visualization } from '../../../../store/visualization/visualization.state';
 import * as visualizationSelectors from '../../../../store/visualization/visualization.selectors';
+import * as visualizationActions from '../../../../store/visualization/visualization.actions';
 import { CurrentUserState } from '../../../../store/current-user/current-user.state';
 import { getCurrentUser } from '../../../../store/current-user/current-user.selectors';
 
@@ -31,6 +32,15 @@ export class VisualizationListComponent implements OnInit {
       this.focusedVisualization = visualizationId;
     } else {
       this.focusedVisualization = undefined;
+    }
+  }
+
+  onShowDeleteDialog(e, visualizationId) {
+    e.stopPropagation();
+    if (visualizationId) {
+      this.store.dispatch(
+        new visualizationActions.ToggleDeleteDialogAction(visualizationId)
+      );
     }
   }
 }
