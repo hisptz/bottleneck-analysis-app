@@ -5,6 +5,10 @@
     box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
 }
 
+.dashboard-border {
+    /* border-radius: 3px; */
+}
+
 .dashboard-btn {
     border-style: none;
     cursor: pointer;
@@ -778,7 +782,7 @@
     width: 24px;
     margin: 0 auto;
     -ms-filter: 'progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)';
-    filter: progid: DXImageTransform.Microsoft.Matrix( M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+    filter: progid: DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
 }
 
 .leaflet-oldie .leaflet-popup-tip-container {
