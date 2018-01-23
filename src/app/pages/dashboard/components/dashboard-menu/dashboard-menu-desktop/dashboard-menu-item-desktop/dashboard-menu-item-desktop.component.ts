@@ -1,9 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {AppState} from '../../../../../../store/app.reducers';
+import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../../../store/app.reducers';
 import * as dashboardActions from '../../../../../../store/dashboard/dashboard.actions';
-import {Router} from '@angular/router';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Router } from '@angular/router';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
 
 @Component({
   selector: 'app-dashboard-menu-item-desktop',
@@ -11,9 +17,12 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
   styleUrls: ['./dashboard-menu-item-desktop.component.css'],
   animations: [
     trigger('open', [
-      state('in', style({
-        opacity: 1
-      })),
+      state(
+        'in',
+        style({
+          opacity: 1
+        })
+      ),
       transition('void => *', [
         style({
           opacity: 0
@@ -24,35 +33,35 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
         animate(400),
         style({
           opacity: 0
-        }),
+        })
       ])
     ])
   ]
 })
 export class DashboardMenuItemDesktopComponent implements OnInit {
-
   @Input() dashboardMenuItem: any;
   showEditForm: boolean;
   showDashboardItemDropdown: boolean;
   showDeleteBlock: boolean;
-  constructor(
-    private store: Store<AppState>,
-    private router: Router
-  ) {
+  isFocused: boolean;
+  constructor(private store: Store<AppState>, private router: Router) {
     this.showEditForm = false;
     this.showDashboardItemDropdown = false;
     this.showDeleteBlock = false;
+    this.isFocused = false;
   }
 
   get showName() {
-    return this.dashboardMenuItem.details.showName && !this.showEditForm && !this.showDeleteBlock;
+    return (
+      this.dashboardMenuItem.details.showName &&
+      !this.showEditForm &&
+      !this.showDeleteBlock
+    );
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   toggleEditForm(e?) {
-
     if (e) {
       e.stopPropagation();
     }
@@ -68,7 +77,6 @@ export class DashboardMenuItemDesktopComponent implements OnInit {
   }
 
   toggleDeleteForm(e?) {
-
     if (e) {
       e.stopPropagation();
     }
@@ -83,7 +91,36 @@ export class DashboardMenuItemDesktopComponent implements OnInit {
 
   hideDashboardNotificationIcon() {
     if (this.dashboardMenuItem.details.showIcon) {
-      this.store.dispatch(new dashboardActions.HideMenuNotificationIconAction(this.dashboardMenuItem));
+      this.store.dispatch(
+        new dashboardActions.HideMenuNotificationIconAction(
+          this.dashboardMenuItem
+        )
+      );
     }
+  }
+
+  toggleBookmark(e) {
+    e.stopPropagation();
+  }
+
+  onMouseLeave(e) {
+    e.stopPropagation();
+    this.showDashboardItemDropdown = false;
+    this.isFocused = false;
+  }
+  onMouseEnter(e) {
+    e.stopPropagation();
+    this.isFocused = true;
+  }
+
+  bookmarkDashboard(e) {
+    e.stopPropagation();
+
+    this.store.dispatch(
+      new dashboardActions.BookmarkDashboardAction({
+        dashboardId: this.dashboardMenuItem.id,
+        bookmarked: !this.dashboardMenuItem.details.bookmarked
+      })
+    );
   }
 }

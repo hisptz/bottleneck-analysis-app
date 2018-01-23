@@ -30,7 +30,13 @@ export enum DashboardActions {
   LOAD_SHARING_DATA = '[Dashboard] Load dashboard sharing data',
   LOAD_SHARING_DATA_SUCCESS = '[Dashboard] Load dashboard sharing data success',
   UPDATE_SHARING_DATA = '[Dashboard] Update dashboard sharing data',
-  DELETE_ITEM_SUCCESS = '[Dashboard] Delete dashboard item success'
+  DELETE_ITEM_SUCCESS = '[Dashboard] Delete dashboard item success',
+  LOAD_OPTIONS = '[Dashboard] Load dashboard options',
+  LOAD_OPTIONS_SUCCESS = '[Dashboard] Load dashboard options success',
+  LOAD_OPTIONS_FAIL = '[Dashboard] Load dashboard options fail',
+  BOOKMARK_DASHBOARD = '[Dashboard] Bookmark dashboard',
+  BOOKMARK_DASHBOARD_SUCCESS = '[Dashboard] Bookmark dashboard success',
+  BOOKMARK_DASHBOARD_FAIL = '[Dashboard] Bookmark dashboard fail'
 }
 
 export class LoadAction implements Action {
@@ -150,6 +156,34 @@ export class DeleteItemSuccessAction implements Action {
   ) {}
 }
 
+export class LoadOptionsAction implements Action {
+  readonly type = DashboardActions.LOAD_OPTIONS;
+}
+
+export class LoadOptionsSuccessAction implements Action {
+  readonly type = DashboardActions.LOAD_OPTIONS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class LoadOptionsFailAction implements Action {
+  readonly type = DashboardActions.LOAD_OPTIONS_FAIL;
+}
+
+export class BookmarkDashboardAction implements Action {
+  readonly type = DashboardActions.BOOKMARK_DASHBOARD;
+  constructor(public payload: any) {}
+}
+
+export class BookmarkDashboardSuccessAction implements Action {
+  readonly type = DashboardActions.BOOKMARK_DASHBOARD_SUCCESS;
+  // constructor(public payload: any) {}
+}
+
+export class BookmarkDashboardFailAction implements Action {
+  readonly type = DashboardActions.BOOKMARK_DASHBOARD_FAIL;
+  // constructor(public payload: any) {}
+}
+
 export type DashboardAction =
   | LoadAction
   | LoadSuccessAction
@@ -172,4 +206,10 @@ export type DashboardAction =
   | LoadSharingDataAction
   | LoadSharingDataSuccessAction
   | UpdateSharingDataAction
-  | DeleteItemSuccessAction;
+  | DeleteItemSuccessAction
+  | LoadOptionsAction
+  | LoadOptionsSuccessAction
+  | LoadOptionsFailAction
+  | BookmarkDashboardAction
+  | BookmarkDashboardSuccessAction
+  | BookmarkDashboardFailAction;

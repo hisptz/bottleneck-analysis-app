@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AppState } from './../../../../../store/app.reducers';
+import { Dashboard } from './../../../../../store/dashboard/dashboard.state';
+import { Component, OnInit, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
+import * as fromDashboardActions from '../../../../../store/dashboard/dashboard.actions';
 
 @Component({
   selector: 'app-current-dashboard-bookmark-button',
@@ -6,10 +10,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./current-dashboard-bookmark-button.component.css']
 })
 export class CurrentDashboardBookmarkButtonComponent implements OnInit {
+  @Input() currentDashboard: Dashboard;
+  constructor(private store: Store<AppState>) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  bookmarkDashboard(e) {
+    e.stopPropagation();
+
+    this.store.dispatch(
+      new fromDashboardActions.BookmarkDashboardAction({
+        dashboardId: this.currentDashboard.id,
+        bookmarked: !this.currentDashboard.details.bookmarked
+      })
+    );
   }
-
 }

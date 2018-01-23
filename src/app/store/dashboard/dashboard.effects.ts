@@ -22,6 +22,17 @@ import { Router } from '@angular/router';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { Visualization } from '../visualization/visualization.state';
 import { SharingEntity } from '../../modules/sharing-filter/models/sharing-entity';
+import { switchMap } from 'rxjs/operators/switchMap';
+import {
+  map,
+  catchError,
+  mergeMap,
+  take,
+  withLatestFrom
+} from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
+import { from } from 'rxjs/observable/from';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Injectable()
 export class DashboardEffects {
@@ -62,6 +73,8 @@ export class DashboardEffects {
       dashboard.DashboardActions.LOAD_SUCCESS
     )
     .switchMap((action: any) => {
+      // TODO refactor this code
+      this.store.dispatch(new dashboard.LoadOptionsAction());
       const currentDashboardId = this._getCurrentDashboardId(
         action.payload.url,
         action.payload.dashboards,
@@ -298,6 +311,50 @@ export class DashboardEffects {
       return Observable.of(null);
     });
 
+  @Effect()
+  loadOptions$ = this.actions$
+    .ofType<dashboard.LoadOptionsAction>(
+      dashboard.DashboardActions.LOAD_OPTIONS
+    )
+    .take(1)
+    .withLatestFrom(this.store)
+    .pipe(
+      switchMap(([action, state]: [dashboard.LoadOptionsAction, AppState]) =>
+        this._loadOptions().pipe(
+          map(
+            (dashboardOptions: any) =>
+              new dashboard.LoadOptionsSuccessAction({
+                dashboardOptions,
+                currentUser: state.currentUser
+              })
+          ),
+          catchError(() => of(new dashboard.LoadOptionsFailAction()))
+        )
+      )
+    );
+
+  @Effect()
+  bookmarkDashboard$ = this.actions$
+    .ofType<dashboard.BookmarkDashboardAction>(
+      dashboard.DashboardActions.BOOKMARK_DASHBOARD
+    )
+    .withLatestFrom(this.store)
+    .pipe(
+      map(([action, state]: [any, AppState]) => {
+        return {
+          dashboardId: action.payload.dashboardId,
+          bookmarked: action.payload.bookmarked,
+          currentUserId: state.currentUser.id
+        };
+      }),
+      switchMap(({ dashboardId, currentUserId, bookmarked }) =>
+        this._bookmarkDashboard(dashboardId, currentUserId, bookmarked).pipe(
+          map(() => new dashboard.BookmarkDashboardSuccessAction()),
+          catchError(() => of(new dashboard.BookmarkDashboardFailAction()))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
@@ -364,6 +421,85 @@ export class DashboardEffects {
     userGroupAccesses,dashboardItems[id,type,created,shape,appKey,reports[id,displayName],chart[id,displayName],
     map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName],
     resources[id,displayName],users[id,displayName]]`);
+  }
+
+  private _loadOptions() {
+    return new Observable(observer => {
+      this.httpClient.get('dataStore/dashboards').subscribe(
+        (dashboardOptions: any[]) => {
+          forkJoin(
+            _.map(dashboardOptions, (dashboardOption: any) =>
+              this.httpClient.get(`dataStore/dashboards/${dashboardOption}`)
+            )
+          ).subscribe(
+            (dashboardOptionResults: any) => {
+              observer.next(
+                _.map(
+                  dashboardOptionResults,
+                  (
+                    dashboardOptionResult: any,
+                    dashboardOptionIndex: number
+                  ) => {
+                    return {
+                      id: dashboardOptions[dashboardOptionIndex],
+                      ...dashboardOptionResult
+                    };
+                  }
+                )
+              );
+            },
+            error => observer.error(error)
+          );
+        },
+        error => observer.error(error)
+      );
+    });
+  }
+
+  private _bookmarkDashboard(
+    dashboardId: string,
+    currentUserId: string,
+    bookmarked: boolean
+  ) {
+    return new Observable(observer => {
+      this.httpClient.get(`dataStore/dashboards/${dashboardId}`).subscribe(
+        (dashboardOption: any) => {
+          this.httpClient
+            .put(`dataStore/dashboards/${dashboardId}`, {
+              ...dashboardOption,
+              bookmarks: bookmarked
+                ? dashboardOption.bookmarks.indexOf(currentUserId) !== -1
+                  ? [...dashboardOption.bookmarks, currentUserId]
+                  : [...dashboardOption.bookmarks]
+                : _.filters(
+                    dashboardOption.bookmarks,
+                    bookmark => bookmark !== currentUserId
+                  )
+            })
+            .subscribe(
+              () => {
+                observer.next({});
+                observer.complete();
+              },
+              error => observer.error(error)
+            );
+        },
+        () => {
+          this.httpClient
+            .post(`dataStore/dashboards/${dashboardId}`, {
+              id: dashboardId,
+              bookmarks: [currentUserId]
+            })
+            .subscribe(
+              () => {
+                observer.next({});
+                observer.complete();
+              },
+              error => observer.error(error)
+            );
+        }
+      );
+    });
   }
 
   private _create(dashboardName: any): Observable<Dashboard> {

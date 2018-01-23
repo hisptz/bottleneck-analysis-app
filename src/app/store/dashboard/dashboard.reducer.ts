@@ -29,6 +29,34 @@ export function dashboardReducer(
           newDashboards.length / state.dashboardPerPage
         )
       };
+
+    case DashboardActions.LOAD_OPTIONS_SUCCESS: {
+      const newDashboardsWithOptions: Dashboard[] = _.map(
+        _.map(state.dashboards, (dashboardObject: Dashboard) => {
+          const dashboardOption = _.find(action.payload.dashboardOptions, [
+            'id',
+            dashboardObject.id
+          ]);
+
+          return dashboardOption
+            ? {
+                ...dashboardObject,
+                ...dashboardOption
+              }
+            : dashboardObject;
+        }),
+        (dashboardObject: any) =>
+          dashboardHelpers.mapStateToDashboardObject(
+            dashboardObject,
+            null,
+            action.payload.currentUser.id
+          )
+      );
+      return {
+        ...state,
+        dashboards: [...newDashboardsWithOptions]
+      };
+    }
     case DashboardActions.SET_CURRENT:
       return {
         ...state,
@@ -360,6 +388,30 @@ export function dashboardReducer(
               ]
             : [...state.dashboards]
       };
+    }
+
+    case DashboardActions.BOOKMARK_DASHBOARD: {
+      const bookmarkedDashboard: Dashboard = _.find(state.dashboards, [
+        'id',
+        action.payload.dashboardId
+      ]);
+      const dashboardIndex = state.dashboards.indexOf(bookmarkedDashboard);
+      return dashboardIndex !== -1
+        ? {
+            ...state,
+            dashboards: [
+              ...state.dashboards.slice(0, dashboardIndex),
+              {
+                ...bookmarkedDashboard,
+                details: {
+                  ...bookmarkedDashboard.details,
+                  bookmarked: action.payload.bookmarked
+                }
+              },
+              ...state.dashboards.slice(dashboardIndex + 1)
+            ]
+          }
+        : { ...state };
     }
 
     default:

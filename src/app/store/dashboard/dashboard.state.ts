@@ -1,4 +1,4 @@
-import {SharingEntity} from '../../modules/sharing-filter/models/sharing-entity';
+import { SharingEntity } from '../../modules/sharing-filter/models/sharing-entity';
 
 export interface DashboardSharing {
   id: string;
@@ -31,7 +31,7 @@ export interface DashboardState {
   currentDashboard: string;
   dashboardsLoaded: boolean;
   dashboards: Dashboard[];
-  dashboardSharing: {[id: string]: DashboardSharing};
+  dashboardSharing: { [id: string]: DashboardSharing };
   dashboardSearchItem: DashboardSearchItem;
 }
 
@@ -101,7 +101,7 @@ export const INITIAL_DASHBOARD_SEARCH_ITEM: DashboardSearchItem = {
       title: 'Apps',
       selected: false,
       itemCount: 0
-    },
+    }
   ],
   results: [],
   resultCount: 0
@@ -128,5 +128,4 @@ export const DASHBOARD_TYPES: any = {
   eventReports: 'EVENT_REPORT',
   maps: 'MAP',
   reportTables: 'REPORT_TABLE'
-
 };
