@@ -1,7 +1,6 @@
 .custom-table tr td,
 .custom-table tr th {
     padding: 6px;
-    border: solid thin #f1f1f1;
 }
 
 .clickable-cell {

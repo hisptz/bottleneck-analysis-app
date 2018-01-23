@@ -57,6 +57,12 @@
             </div>
             <!-- end of resources block -->
 
+            <!-- app block -->
+            <div class="app-container-block" *ngIf="currentVisualization === 'APP'">
+                <app-app-container [height]="visualizationObject.details.itemHeight" [appUrl]="'../../../api/apps/' + visualizationObject.details.appKey + '/index.html?dashboardItemId=' + visualizationObject.id"></app-app-container>
+            </div>
+            <!-- end of app block -->
+
             <!--dictionary block-->
             <div class="dictionary-container" *ngIf="currentVisualization === 'INFO'">
                 <app-dictionary-list [metadataIdentifiers]="visualizationObject.details.metadataIdentifiers"></app-dictionary-list>

@@ -3,5 +3,5 @@ export interface TableConfig {
 }
 
 export const DEFAULT_TABLE_CONFIG: TableConfig = {
-  bordered: true
+  bordered: false
 };
