@@ -51,6 +51,12 @@
             </div>
             <!-- end of resources block -->
 
+            <!-- resources block -->
+            <div class="resources-container-block" *ngIf="currentVisualization === 'REPORTS'">
+                <app-reports-container [visualizationLayers]="visualizationObject.layers"></app-reports-container>
+            </div>
+            <!-- end of resources block -->
+
             <!--dictionary block-->
             <div class="dictionary-container" *ngIf="currentVisualization === 'INFO'">
                 <app-dictionary-list [metadataIdentifiers]="visualizationObject.details.metadataIdentifiers"></app-dictionary-list>

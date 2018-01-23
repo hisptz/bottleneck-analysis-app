@@ -1,3 +1,4 @@
+import { ReportsModule } from './modules/reports/reports.module';
 import { ResourcesModule } from './modules/resources/resources.module';
 import { UsersContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/users-container/users-container.component';
 import { UsersModule } from './modules/users/users.module';
@@ -140,6 +141,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharingFilterModule,
     UsersModule,
     ResourcesModule,
+    ReportsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
