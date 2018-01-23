@@ -14,4 +14,11 @@ export class ListTableComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  handleClick(e, item: fromModels.TableListItem) {
+    e.stopPropagation();
+    if (item.href) {
+      window.location.href = item.href;
+    }
+  }
 }

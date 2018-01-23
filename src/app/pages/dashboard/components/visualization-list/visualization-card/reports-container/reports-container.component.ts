@@ -16,7 +16,20 @@ export class ReportsContainerComponent implements OnInit {
       this.reportList = _.flatten(
         _.map(
           this.visualizationLayers,
-          (layer: any) => (layer.settings ? layer.settings.reports : [])
+          (layer: any) =>
+            layer.settings
+              ? _.map(layer.settings.reports, (report: any) => {
+                  return {
+                    id: report.id,
+                    displayObject: {
+                      value: report.displayName,
+                      href:
+                        '../../../dhis-web-reporting/getReportParams.action?mode=report&uid=' +
+                        report.id
+                    }
+                  };
+                })
+              : []
         )
       );
     }

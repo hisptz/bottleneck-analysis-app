@@ -16,7 +16,18 @@ export class ResourcesContainerComponent implements OnInit {
       this.resourceList = _.flatten(
         _.map(
           this.visualizationLayers,
-          (layer: any) => (layer.settings ? layer.settings.resources : [])
+          (layer: any) =>
+            layer.settings
+              ? _.map(layer.settings.resources, (resource: any) => {
+                  return {
+                    id: resource.id,
+                    displayObject: {
+                      value: resource.displayName,
+                      href: '../../../api/documents/' + resource.id + '/data'
+                    }
+                  };
+                })
+              : []
         )
       );
     }

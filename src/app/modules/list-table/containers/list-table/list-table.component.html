@@ -1,10 +1,14 @@
 <div class="list-table-container">
     <table [ngClass]="{
       'table': true,
-      'table-bordered': tableConfig.bordered
+      'table-bordered': tableConfig.bordered,
+      'table-hover': true,
+      'custom-table': true
     }">
         <tr *ngFor="let listItem of tableList" [id]="listItem.id">
-            <td *ngFor="let item of listItem.items" [ngStyle]="item.style" [attr.colspan]="item.colSpan">
+            <td *ngFor="let item of listItem.items" [ngStyle]="item.style" [ngClass]="{
+              'clickable-cell': item.href
+            }" [attr.colspan]="item.colSpan" (click)="handleClick($event, item)">
                 {{item.value}}
             </td>
         </tr>

@@ -24,7 +24,7 @@ export class ReportsComponent implements OnInit {
               style: {
                 'font-weight': 'bold',
                 'text-align': 'center',
-                'background-color': '#eee'
+                'background-color': 'rgba(238, 238, 238, 0.29)'
               },
               colSpan: 2
             }
@@ -38,7 +38,7 @@ export class ReportsComponent implements OnInit {
               style: {
                 'font-weight': 'bold',
                 width: '5%',
-                'background-color': '#eee'
+                'background-color': 'rgba(238, 238, 238, 0.29)'
               }
             },
             { value: 'Name', style: { 'font-weight': 'bold' } }
@@ -57,10 +57,15 @@ export class ReportsComponent implements OnInit {
               items: [
                 {
                   value: reportListItemIndex + 1,
-                  style: { width: '5%', 'background-color': '#eee' }
+                  style: {
+                    width: '5%',
+                    'background-color': 'rgba(238, 238, 238, 0.29)'
+                  }
                 },
                 ..._.map(itemKeys, (key: string) => {
-                  return { value: reportListItem[key] };
+                  return _.isPlainObject(reportListItem[key])
+                    ? { ...reportListItem[key] }
+                    : { value: reportListItem[key] };
                 })
               ]
             };
