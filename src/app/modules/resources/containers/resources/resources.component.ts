@@ -2,25 +2,25 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  selector: 'app-resources',
+  templateUrl: './resources.component.html',
+  styleUrls: ['./resources.component.css']
 })
-export class UsersComponent implements OnInit {
-  @Input() userList: any[];
+export class ResourcesComponent implements OnInit {
+  @Input() resourceList: any[];
   tableList: any[];
   constructor() {
     this.tableList = [];
   }
 
   ngOnInit() {
-    if (this.userList) {
+    if (this.resourceList) {
       this.tableList = [
         {
-          id: 'user_title',
+          id: 'resources_title',
           items: [
             {
-              value: 'Users',
+              value: 'Resources',
               style: {
                 'font-weight': 'bold',
                 'text-align': 'center',
@@ -31,7 +31,7 @@ export class UsersComponent implements OnInit {
           ]
         },
         {
-          id: 'user_headers',
+          id: 'resoources_headers',
           items: [
             {
               value: '#',
@@ -45,27 +45,22 @@ export class UsersComponent implements OnInit {
           ]
         },
         ..._.map(
-          this.userList,
-          (userListItem: any, userListItemIndex: number) => {
+          this.resourceList,
+          (resourceListItem: any, resourceListItemIndex: number) => {
             const itemKeys: any[] = _.filter(
-              _.keys(userListItem),
+              _.keys(resourceListItem),
               (key: string) => key !== 'id'
             );
 
             return {
-              id: userListItem.id,
+              id: resourceListItem.id,
               items: [
                 {
-                  value: userListItemIndex + 1,
-                  style: {
-                    width: '5%',
-                    'background-color': '#eee'
-                  }
+                  value: resourceListItemIndex + 1,
+                  style: { width: '5%', 'background-color': '#eee' }
                 },
                 ..._.map(itemKeys, (key: string) => {
-                  return {
-                    value: userListItem[key]
-                  };
+                  return { value: resourceListItem[key] };
                 })
               ]
             };

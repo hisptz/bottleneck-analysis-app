@@ -34,13 +34,4 @@ export class VisualizationListComponent implements OnInit {
       this.focusedVisualization = undefined;
     }
   }
-
-  onShowDeleteDialog(e, visualizationId) {
-    e.stopPropagation();
-    if (visualizationId) {
-      this.store.dispatch(
-        new visualizationActions.ToggleDeleteDialogAction(visualizationId)
-      );
-    }
-  }
 }

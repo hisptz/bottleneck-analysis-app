@@ -1,3 +1,4 @@
+import { ResourcesModule } from './modules/resources/resources.module';
 import { UsersContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/users-container/users-container.component';
 import { UsersModule } from './modules/users/users.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -70,6 +71,8 @@ import { InterpretationModule } from './modules/interpretation/interpretation.mo
 import { InterpretationContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/interpretation-container/interpretation-container.component';
 import { SharingFilterModule } from './modules/sharing-filter/sharing-filter.module';
 import { VisualizationDeleteDialogComponent } from './pages/dashboard/components/visualization-list/visualization-card/visualization-delete-dialog/visualization-delete-dialog.component';
+import { ResourcesContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/resources-container/resources-container.component';
+import { ReportsContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/reports-container/reports-container.component';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -115,7 +118,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     VisualizationCardLoaderComponent,
     InterpretationContainerComponent,
     UsersContainerComponent,
-    VisualizationDeleteDialogComponent
+    VisualizationDeleteDialogComponent,
+    ResourcesContainerComponent,
+    ReportsContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -134,6 +139,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InterpretationModule,
     SharingFilterModule,
     UsersModule,
+    ResourcesModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -57,17 +57,5 @@
 
 .visualization-card-container {
     position: relative;
-}
-
-.visualization-delete-block {
-    position: absolute;
-    z-index: 1200;
-    right: -10px;
-    top: -10px;
-}
-
-.visualization-delete-block img {
-    height: 15px;
-    display: block;
-    margin: auto;
+    overflow: hidden;
 }

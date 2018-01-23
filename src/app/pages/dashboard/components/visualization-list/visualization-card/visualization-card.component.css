@@ -2,7 +2,7 @@
     width: 100%;
     position: relative;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .visualization-card-header {
@@ -23,25 +23,28 @@
 }
 
 .visualization-card-footer {
-    /*display: inline-flex;*/
-    /*justify-content: space-between;*/
     position: absolute;
     left: 0;
     bottom: 0;
     padding: 5px;
     z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
-.visualization-card-footer-right,
 .visualization-card-footer-left {
     display: flex;
+}
+
+.visualization-card-footer-right {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .visualization-filter-section-container {
     margin-right: 5px;
 }
-
-.visualization-interpretation-button-container {}
 
 .visualization-card-body {
     height: 100%;
@@ -64,7 +67,8 @@
 }
 
 .table-container-block,
-.users-container-block {
+.users-container-block,
+.resources-container-block {
     padding: 20px 10px 10px 10px;
     overflow: hidden;
 }
@@ -78,15 +82,17 @@
 }
 
 .visualization-delete-dialog {
-    position: absolute;
-    background-color: #ffffff;
-    top: 5px;
-    width: auto;
-    right: 5px;
-    z-index: 1100;
     padding: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 3px;
+}
+
+.visualization-delete-block {}
+
+.visualization-delete-block img {
+    height: 15px;
+    display: block;
+    margin: auto;
 }

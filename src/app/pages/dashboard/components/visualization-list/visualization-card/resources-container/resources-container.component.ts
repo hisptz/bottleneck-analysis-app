@@ -1,0 +1,24 @@
+import { Component, OnInit, Input } from '@angular/core';
+import * as _ from 'lodash';
+
+@Component({
+  selector: 'app-resources-container',
+  templateUrl: './resources-container.component.html',
+  styleUrls: ['./resources-container.component.css']
+})
+export class ResourcesContainerComponent implements OnInit {
+  @Input() visualizationLayers: any[];
+  resourceList: any[];
+  constructor() {}
+
+  ngOnInit() {
+    if (this.visualizationLayers) {
+      this.resourceList = _.flatten(
+        _.map(
+          this.visualizationLayers,
+          (layer: any) => (layer.settings ? layer.settings.resources : [])
+        )
+      );
+    }
+  }
+}

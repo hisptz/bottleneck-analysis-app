@@ -1,9 +1,4 @@
 <div class="visualization-card" [style.height]="customCardHeight || visualizationObject.details.cardHeight" (mouseenter)="toggleCardFocusAction($event, true)" (mouseleave)="toggleCardFocusAction($event, false)">
-    <!-- visualization delete dialog -->
-    <div class="visualization-delete-dialog dashboard-border" *ngIf="visualizationObject.details.showDeleteDialog">
-        <app-visualization-delete-dialog [dashboardId]="visualizationObject.dashboardId" [visualizationId]="visualizationObject.id" [deleting]="visualizationObject.details.deleting" [deleteFail]="visualizationObject.details.deleteFail"></app-visualization-delete-dialog>
-    </div>
-    <!-- end of visualization delete dialog -->
     <!--Visualization card header content-->
     <div class="visualization-card-header">
         <div class="visualization-card-header-left">
@@ -50,6 +45,12 @@
             </div>
             <!-- end of users block -->
 
+            <!-- resources block -->
+            <div class="resources-container-block" *ngIf="currentVisualization === 'RESOURCES'">
+                <app-resources-container [visualizationLayers]="visualizationObject.layers"></app-resources-container>
+            </div>
+            <!-- end of resources block -->
+
             <!--dictionary block-->
             <div class="dictionary-container" *ngIf="currentVisualization === 'INFO'">
                 <app-dictionary-list [metadataIdentifiers]="visualizationObject.details.metadataIdentifiers"></app-dictionary-list>
@@ -60,10 +61,26 @@
             <app-interpretation-container [visualizationLayers]="visualizationObject.layers" [currentUser]="currentUser" [itemHeight]="customItemHeight || visualizationObject.details.itemHeight"></app-interpretation-container>
         </div>
     </div>
-    <div class="visualization-card-footer animated fadeInLeft" *ngIf="loaded && isCardFocused && !visualizationObject.details.nonVisualizable">
-        <div class="visualization-card-footer-left">
+    <div class="visualization-card-footer" *ngIf="loaded && isCardFocused">
+        <div *ngIf="visualizationObject.details.nonVisualizable">&nbsp;</div>
+        <div class="visualization-card-footer-left animated fadeInLeft" *ngIf="!visualizationObject.details.nonVisualizable">
             <app-visualization-types-section [currentVisualization]="currentVisualization" (onCurrentVisualizationChange)="currentVisualizationChange($event)"></app-visualization-types-section>
             <app-visualization-download-section></app-visualization-download-section>
+        </div>
+        <div class="visualization-card-footer-right animated fadeInRight">
+            <!--visualization delete section-->
+            <div class="visualization-delete-block" *ngIf="loaded && isCardFocused && !visualizationObject.details.showDeleteDialog" (click)="onShowDeleteDialog($event)">
+                <button class="dashboard-btn" title="remove this item">
+              <img src="assets/icons/close.png" alt="">
+            </button>
+            </div>
+            <!-- end of visualization delete section-->
+
+            <!-- visualization delete dialog -->
+            <div class="visualization-delete-dialog dashboard-border" *ngIf="visualizationObject.details.showDeleteDialog">
+                <app-visualization-delete-dialog [dashboardId]="visualizationObject.dashboardId" [visualizationId]="visualizationObject.id" [deleting]="visualizationObject.details.deleting" [deleteFail]="visualizationObject.details.deleteFail"></app-visualization-delete-dialog>
+            </div>
+            <!-- end of visualization delete dialog -->
         </div>
     </div>
 </div>

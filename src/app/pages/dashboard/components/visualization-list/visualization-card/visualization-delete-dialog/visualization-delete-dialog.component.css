@@ -4,6 +4,8 @@
     align-items: center;
 }
 
-.delete-dialog button {
-    margin-left: 3px;
+.delete-dialog a {
+    margin-left: 5px;
+    text-decoration: none;
+    cursor: pointer;
 }

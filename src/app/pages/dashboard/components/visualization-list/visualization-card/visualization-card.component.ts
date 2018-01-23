@@ -178,4 +178,11 @@ export class VisualizationCardComponent implements OnInit {
         }
       : null;
   }
+
+  onShowDeleteDialog(e) {
+    e.stopPropagation();
+    this.store.dispatch(
+      new visualization.ToggleDeleteDialogAction(this.visualizationObject.id)
+    );
+  }
 }
