@@ -127,7 +127,8 @@ function checkIfIsNonVisualizable(dashboardItem: any) {
   return dashboardItem.type === 'USERS' ||
     dashboardItem.type === 'REPORTS' ||
     dashboardItem.type === 'RESOURCES' ||
-    dashboardItem.type === 'APP'
+    dashboardItem.type === 'APP' ||
+    dashboardItem.type === 'MESSAGES'
     ? true
     : false;
 }
