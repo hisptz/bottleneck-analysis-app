@@ -9,14 +9,24 @@ export class DashboardMenuSearchComponent implements OnInit {
 
   showDashboardSearch: boolean;
   @Output() onSearch: EventEmitter<string> = new EventEmitter<string>();
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
-  toggleDashboardMenuSearch(e) {
-    e.stopPropagation();
+  toggleDashboardMenuSearch(e?) {
+
+    if (e) {
+      e.stopPropagation();
+    }
+
     this.showDashboardSearch = !this.showDashboardSearch;
+
+    if (!this.showDashboardSearch) {
+      this.onSearch.emit('');
+    }
   }
 
   onSearchTermChange(e) {

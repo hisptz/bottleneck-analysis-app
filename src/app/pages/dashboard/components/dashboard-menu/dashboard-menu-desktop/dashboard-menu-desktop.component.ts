@@ -4,7 +4,6 @@ import * as dashboardSelectors from '../../../../../store/dashboard/dashboard.se
 import {AppState} from '../../../../../store/app.reducers';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DashboardMenuItem} from '../../../../../store/dashboard/dashboard.state';
 
 @Component({
@@ -18,8 +17,7 @@ export class DashboardMenuDesktopComponent implements OnInit {
   dashboardPages$: Observable<number>;
   dashboardMenuItems$: Observable<DashboardMenuItem[]>;
   showBookmarked$: Observable<boolean>;
-  private _slideCss$: BehaviorSubject<string> = new BehaviorSubject<string>('slideInRight');
-  slideCss$: Observable<string>;
+  searchTerm: string;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -30,7 +28,6 @@ export class DashboardMenuDesktopComponent implements OnInit {
     this.dashboardMenuItems$ = this.store.select(dashboardSelectors.getDashboardMenuItems);
     this.currentDashboardPage$ = store.select(dashboardSelectors.getCurrentDashboardPage);
     this.dashboardPages$ = store.select(dashboardSelectors.getDashboardPages);
-    this.slideCss$ = this._slideCss$.asObservable();
     this.organizeMenu(window.innerWidth);
   }
 
@@ -40,16 +37,15 @@ export class DashboardMenuDesktopComponent implements OnInit {
   getPreviousPage(e) {
     e.stopPropagation();
     this.store.dispatch(new dashboard.ChangeCurrentPageAction(-1));
-    this._slideCss$.next('slideInLeft');
   }
 
   getNextPage(e) {
     e.stopPropagation();
     this.store.dispatch(new dashboard.ChangeCurrentPageAction(1));
-    this._slideCss$.next('slideInRight');
   }
 
   onDashboardSearch(searchQuery) {
+    this.searchTerm = searchQuery;
     this.store.dispatch(new dashboard.SetSearchTermAction(searchQuery));
   }
 

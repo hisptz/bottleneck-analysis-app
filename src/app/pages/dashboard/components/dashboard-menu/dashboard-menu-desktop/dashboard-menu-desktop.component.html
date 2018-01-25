@@ -6,10 +6,14 @@
       </button>
         </div>
       <div id="dashboard-menu-empty-list" *ngIf="(dashboardMenuItems$ | async).length === 0">
+        <img *ngIf="(showBookmarked$ | async) || searchTerm" src="assets/icons/error.png" alt="warning">
         <span *ngIf="showBookmarked$ | async" class="dashboard-menu-empty-title">There are no bookmarked dashboards at the moment</span>
+        <span *ngIf="searchTerm" class="dashboard-menu-empty-title">No dashboards match found</span>
       </div>
         <div id="dashboard-menu-list-desktop" *ngIf="(dashboardMenuItems$ | async).length > 0">
-            <app-dashboard-menu-list-desktop [dashboardMenuItems]="dashboardMenuItems$ | async"></app-dashboard-menu-list-desktop>
+            <app-dashboard-menu-list-desktop
+              [dashboardMenuItems]="dashboardMenuItems$ | async"
+            ></app-dashboard-menu-list-desktop>
         </div>
         <div id="dashboard-menu-create-desktop">
             <app-dashboard-menu-create></app-dashboard-menu-create>
@@ -23,10 +27,14 @@
             ></app-dashboard-menu-bookmark>
         </div>
         <div id="dashboard-menu-search-container-desktop">
-            <app-dashboard-menu-search (onSearch)="onDashboardSearch($event)"></app-dashboard-menu-search>
+            <app-dashboard-menu-search
+              (onSearch)="onDashboardSearch($event)"
+            ></app-dashboard-menu-search>
         </div>
         <div id="dashboard-menu-right-arrow-container-desktop">
-            <button id="dashboard-menu-right-arrow-desktop" [disabled]="(currentDashboardPage$ | async) === (dashboardPages$ | async)" (click)="getNextPage($event)">
+            <button id="dashboard-menu-right-arrow-desktop"
+                    [disabled]="(currentDashboardPage$ | async) === (dashboardPages$ | async)"
+                    (click)="getNextPage($event)">
         <img src="assets/icons/arrow-right.png" alt="">
       </button>
         </div>

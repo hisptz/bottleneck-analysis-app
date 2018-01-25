@@ -14,19 +14,18 @@ export class VisualizationDeleteDialogComponent implements OnInit {
   @Input() deleting: boolean;
   @Input() deleteFail: boolean;
   @Output() onCloseDeleteDialog: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {}
 
   cancelDelete(e) {
     e.stopPropagation();
-    this.store.dispatch(
-      new visualizationActions.ToggleDeleteDialogAction(this.visualizationId)
-    );
+    this.onCloseDeleteDialog.emit(true);
   }
 
-  onDelete(e) {
+  delete(e) {
     e.stopPropagation();
-    this.onCloseDeleteDialog.emit(true);
+    this.onDelete.emit(true);
   }
 }

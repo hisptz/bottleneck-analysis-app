@@ -2,7 +2,7 @@
     <div *ngIf="!deleting && !deleteFail" class="delete-dialog">
         <span>Are you sure?</span>
         <a class="text-primary" (click)="cancelDelete($event)">NO</a>
-        <a class="text-danger" (click)="onDelete($event)">YES</a>
+        <a class="text-danger" (click)="delete($event)">YES</a>
     </div>
     <div *ngIf="deleting" class="delete-dialog">
         Deleting...

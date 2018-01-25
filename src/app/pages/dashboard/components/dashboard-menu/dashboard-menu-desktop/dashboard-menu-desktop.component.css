@@ -21,11 +21,19 @@
 
 #dashboard-menu-empty-list {
   border-right: solid thin #f1f1f1;
+  display: flex;
   padding: 6px;
+}
+
+#dashboard-menu-empty-list img {
+  display: block;
+  margin: auto;
+  height: 17px;
 }
 
 .dashboard-menu-empty-title {
   color: #777777;
+  margin-top: 5px;
   font-size: 13px;
 }
 
@@ -62,6 +70,12 @@
 #dashboard-menu-left-arrow-desktop:hover,
 #dashboard-menu-right-arrow-desktop:hover {
   background: #f1f1f1;
+}
+
+#dashboard-menu-left-arrow-desktop:disabled,
+#dashboard-menu-right-arrow-desktop:disabled {
+  cursor: not-allowed;
+  opacity: .4;
 }
 
 #dashboard-menu-left-arrow-desktop img,

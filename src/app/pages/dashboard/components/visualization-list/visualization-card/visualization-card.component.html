@@ -90,7 +90,13 @@
 
             <!-- visualization delete dialog -->
             <div class="visualization-delete-dialog dashboard-border" *ngIf="showDeleteDialog">
-                <app-visualization-delete-dialog [dashboardId]="visualizationObject.dashboardId" [visualizationId]="visualizationObject.id" [deleting]="visualizationObject.details.deleting" [deleteFail]="visualizationObject.details.deleteFail" (onCloseDeleteDialog)="showDeleteDialog = false"></app-visualization-delete-dialog>
+                <app-visualization-delete-dialog
+                  [dashboardId]="visualizationObject.dashboardId"
+                  [visualizationId]="visualizationObject.id"
+                  [deleting]="visualizationObject.details.deleting"
+                  [deleteFail]="visualizationObject.details.deleteFail"
+                  (onDelete)="onDelete()"
+                  (onCloseDeleteDialog)="showDeleteDialog = false"></app-visualization-delete-dialog>
             </div>
             <!-- end of visualization delete dialog -->
         </div>

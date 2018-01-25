@@ -186,4 +186,10 @@ export class VisualizationCardComponent implements OnInit {
     e.stopPropagation();
     this.showDeleteDialog = true;
   }
+
+  onDelete() {
+    this.store.dispatch(new visualization.DeleteAction({
+      dashboardId: this.visualizationObject.dashboardId,
+      visualizationId: this.visualizationObject.id}));
+  }
 }

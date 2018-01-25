@@ -468,7 +468,7 @@ export class DashboardEffects {
             .put(`dataStore/dashboards/${dashboardId}`, {
               ...dashboardOption,
               bookmarks: bookmarked
-                ? dashboardOption.bookmarks.indexOf(currentUserId) !== -1
+                ? dashboardOption.bookmarks.indexOf(currentUserId) === -1
                   ? [...dashboardOption.bookmarks, currentUserId]
                   : [...dashboardOption.bookmarks]
                 : _.filter(
