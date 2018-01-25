@@ -5,8 +5,11 @@
         <img src="assets/icons/arrow-left.png" alt="">
       </button>
         </div>
-        <div id="dashboard-menu-list-desktop">
-            <app-dashboard-menu-list-desktop [slideCss]="slideCss$ | async"></app-dashboard-menu-list-desktop>
+      <div id="dashboard-menu-empty-list" *ngIf="(dashboardMenuItems$ | async).length === 0">
+        <span *ngIf="showBookmarked$ | async" class="dashboard-menu-empty-title">There are no bookmarked dashboards at the moment</span>
+      </div>
+        <div id="dashboard-menu-list-desktop" *ngIf="(dashboardMenuItems$ | async).length > 0">
+            <app-dashboard-menu-list-desktop [dashboardMenuItems]="dashboardMenuItems$ | async"></app-dashboard-menu-list-desktop>
         </div>
         <div id="dashboard-menu-create-desktop">
             <app-dashboard-menu-create></app-dashboard-menu-create>
@@ -14,7 +17,10 @@
     </div>
     <div id="dashboard-menu-right-container-desktop">
         <div id="dashboard-menu-bookmark-button-desktop">
-            <app-dashboard-menu-bookmark></app-dashboard-menu-bookmark>
+            <app-dashboard-menu-bookmark
+              [showBookmarked]="showBookmarked$ | async"
+              (onToggleBookmark)="onToggleBookmark()"
+            ></app-dashboard-menu-bookmark>
         </div>
         <div id="dashboard-menu-search-container-desktop">
             <app-dashboard-menu-search (onSearch)="onDashboardSearch($event)"></app-dashboard-menu-search>

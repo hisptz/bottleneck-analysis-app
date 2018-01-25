@@ -19,6 +19,16 @@
   height: 100%;
 }
 
+#dashboard-menu-empty-list {
+  border-right: solid thin #f1f1f1;
+  padding: 6px;
+}
+
+.dashboard-menu-empty-title {
+  color: #777777;
+  font-size: 13px;
+}
+
 #dashboard-menu-create-desktop {
   height: 100%;
 }

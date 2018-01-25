@@ -5,6 +5,7 @@ import {AppState} from '../../../../../store/app.reducers';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {DashboardMenuItem} from '../../../../../store/dashboard/dashboard.state';
 
 @Component({
   selector: 'app-dashboard-menu-desktop',
@@ -15,7 +16,8 @@ export class DashboardMenuDesktopComponent implements OnInit {
 
   currentDashboardPage$: Observable<number>;
   dashboardPages$: Observable<number>;
-  private _dashboardSearchQuery$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  dashboardMenuItems$: Observable<DashboardMenuItem[]>;
+  showBookmarked$: Observable<boolean>;
   private _slideCss$: BehaviorSubject<string> = new BehaviorSubject<string>('slideInRight');
   slideCss$: Observable<string>;
 
@@ -24,6 +26,8 @@ export class DashboardMenuDesktopComponent implements OnInit {
     this.organizeMenu(event.target.innerWidth);
   }
   constructor(private store: Store<AppState>) {
+    this.showBookmarked$ = store.select(dashboardSelectors.getShowBookmarkedStatus);
+    this.dashboardMenuItems$ = this.store.select(dashboardSelectors.getDashboardMenuItems);
     this.currentDashboardPage$ = store.select(dashboardSelectors.getCurrentDashboardPage);
     this.dashboardPages$ = store.select(dashboardSelectors.getDashboardPages);
     this.slideCss$ = this._slideCss$.asObservable();
@@ -61,5 +65,9 @@ export class DashboardMenuDesktopComponent implements OnInit {
     }
 
     this.store.dispatch(new dashboard.ChangePageItemsAction(itemsPerPage));
+  }
+
+  onToggleBookmark() {
+    this.store.dispatch(new dashboard.ToggleBookmarkedAction());
   }
 }

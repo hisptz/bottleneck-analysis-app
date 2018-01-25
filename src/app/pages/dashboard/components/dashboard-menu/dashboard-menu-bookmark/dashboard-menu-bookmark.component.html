@@ -1,9 +1,9 @@
 <div class="dashboard-menu-bookmark">
     <a
-      title="{{ (showBookmarked$ | async) ? 'Hide bookmarked dashboards': 'Show bookmarked dashboards'}}"
+      title="{{ showBookmarked ? 'Hide bookmarked dashboards': 'Show bookmarked dashboards'}}"
       (click)="toggleBookmarked($event)"
     >
-        <img *ngIf="showBookmarked$ | async" src="assets/icons/bookmark.png" alt="">
-         <img *ngIf="!(showBookmarked$ | async)" src="assets/icons/empty-bookmark.png" alt="">
+        <img *ngIf="showBookmarked" src="assets/icons/bookmark.png" alt="">
+         <img *ngIf="!showBookmarked" src="assets/icons/empty-bookmark.png" alt="">
     </a>
 </div>

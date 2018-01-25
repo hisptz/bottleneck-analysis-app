@@ -1,9 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {AppState} from '../../../../../store/app.reducers';
-import {Observable} from 'rxjs/Observable';
-import * as fromDashboardSelectors from '../../../../../store/dashboard/dashboard.selectors';
-import * as fromDashboardActions from '../../../../../store/dashboard/dashboard.actions';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-menu-bookmark',
@@ -12,10 +7,11 @@ import * as fromDashboardActions from '../../../../../store/dashboard/dashboard.
 })
 export class DashboardMenuBookmarkComponent implements OnInit {
 
-  showBookmarked$: Observable<boolean>;
+  @Input() showBookmarked: boolean;
 
-  constructor(private store: Store<AppState>) {
-    this.showBookmarked$ = store.select(fromDashboardSelectors.getShowBookmarkedStatus);
+  @Output() onToggleBookmark: EventEmitter<any> = new EventEmitter<any>();
+  constructor() {
+
   }
 
   ngOnInit() {
@@ -23,7 +19,7 @@ export class DashboardMenuBookmarkComponent implements OnInit {
 
   toggleBookmarked(e) {
     e.stopPropagation();
-    this.store.dispatch(new fromDashboardActions.ToggleBookmarkedAction());
+    this.onToggleBookmark.emit(null);
   }
 
 }

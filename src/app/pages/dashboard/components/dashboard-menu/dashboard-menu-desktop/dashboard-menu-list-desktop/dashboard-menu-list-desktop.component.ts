@@ -12,11 +12,9 @@ import * as dashboardSelectors from '../../../../../../store/dashboard/dashboard
 })
 export class DashboardMenuListDesktopComponent implements OnInit {
 
-  @Input() dashboardSearchQuery: string;
   @Input() slideCss = '';
-  dashboardMenuItems$: Observable<DashboardMenuItem[]>;
+  @Input() dashboardMenuItems: DashboardMenuItem[];
   constructor(private store: Store<AppState>) {
-    this.dashboardMenuItems$ = this.store.select(dashboardSelectors.getDashboardMenuItems);
   }
 
   ngOnInit() {

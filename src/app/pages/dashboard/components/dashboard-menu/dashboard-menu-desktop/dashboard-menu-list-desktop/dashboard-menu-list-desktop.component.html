@@ -4,7 +4,7 @@
 >
   <div
     class="dashboard-menu-item-block-desktop"
-    *ngFor="let dashboardMenuItem of dashboardMenuItems$ | async"
+    *ngFor="let dashboardMenuItem of dashboardMenuItems"
   >
     <app-dashboard-menu-item-desktop
       [dashboardMenuItem]="dashboardMenuItem"
