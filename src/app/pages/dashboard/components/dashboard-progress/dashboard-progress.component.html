@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="dashboard-progress-bar">
-    <div class="progress" style="height: 15px;">
+    <div class="progress" style="height: 10px;">
       <div class="progress-bar progress-bar-primary progress-bar-striped {{(visualizationLoadingProgress$ | async).loadedItems < (visualizationLoadingProgress$ | async).totalItems ? 'active' : ''}}" role="progressbar"
            [attr.aria-valuenow]="(visualizationLoadingProgress$ | async).progress" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width' : (visualizationLoadingProgress$ | async).progress + '%'}">
       </div>

@@ -12,6 +12,14 @@
     height: 10px;
 }
 
+.no-borders {
+  box-shadow: none;
+}
+
+.no-borders img {
+  height: 15px;
+}
+
 .period-filter-btn img {
     display: block;
     margin: auto;
@@ -62,7 +70,7 @@
 }
 
 .active-filter {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: #f1f1f1;
 }
 
 @media (max-width: 500px) {

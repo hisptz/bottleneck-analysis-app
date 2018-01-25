@@ -1,22 +1,20 @@
 <div class="global-filter-section">
-  <button
-    class="dashboard-btn dashboard-global-filter-btn"
-    (click)="toggleGlobalFilters($event)"
+  <div
+    [@open]
+    class="dashboard-global-filter-block"
+    appClickOutside (clickOutside)="showGlobalFilters = false"
   >
-    <img src="assets/icons/filter.png" alt="">
-  </button>
-
-  <div *ngIf="showGlobalFilters" class="global-filter-body-container">
-    <div class="global-filter-body">
-      <div class="global-filter-close-block">
-        <button
-          class="dashboard-btn global-filter-close-btn"
-          (click)="toggleGlobalFilters($event)"
-        >
-          <img src="assets/icons/close.png" alt="">
-        </button>
-      </div>
-      <app-visualization-filter-section></app-visualization-filter-section>
+    <div class="dashboard-global-filter-body">
+      <app-visualization-filter-section
+        [loaded]="true"
+        [filterConfig]="{
+        showLayoutFilter: false,
+        showDataFilter: false,
+        hideButtonBorders: true
+      }"
+        [selectedDimensions]="selectedDimensions"
+        (onFilterUpdate)="onGlobalFilterUpdate($event)"
+      ></app-visualization-filter-section>
     </div>
   </div>
 </div>

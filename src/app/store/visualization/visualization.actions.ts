@@ -9,6 +9,7 @@ export enum VisualizationActions {
   ADD_OR_UPDATE = '[Visualization] Add or Update visualization',
   VISUALIZATION_CHANGE = '[Visualization] Update visualization type with currently selected',
   LOCAL_FILTER_CHANGE = '[Visualization] Update visualization object when local filters changes',
+  GLOBAL_FILTER_CHANGE = '[Visualization] Update visualization object when global filters changes',
   LAYOUT_CHANGE = '[Visualization] Update layout for visualization',
   SET_CURRENT = '[Visualizaton] Set current visualization Object',
   UNSET_CURRENT = '[Visualizaton] Unset current visualization Object',
@@ -122,6 +123,11 @@ export class DeleteFailAction implements Action {
   constructor(public payload: string) {}
 }
 
+export class GlobalFilterChangeAction implements Action {
+  readonly type = VisualizationActions.GLOBAL_FILTER_CHANGE;
+  constructor(public payload: any) {}
+}
+
 export type VisualizationAction =
   | SetInitialAction
   | LoadFavoriteAction
@@ -139,4 +145,5 @@ export type VisualizationAction =
   | ToggleDeleteDialogAction
   | DeleteAction
   | DeleteSuccessAction
-  | DeleteFailAction;
+  | DeleteFailAction
+  | GlobalFilterChangeAction;

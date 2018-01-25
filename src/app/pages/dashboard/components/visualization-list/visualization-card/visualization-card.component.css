@@ -73,6 +73,10 @@
   overflow: hidden;
 }
 
+.table-container-block:hover {
+  overflow: auto;
+}
+
 .map-container {
   overflow: hidden;
 }

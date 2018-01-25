@@ -1,6 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
+export const INITIAL_FILTER_CONFIG = {
+  showLayoutFilter: true,
+  showDataFilter: true
+};
+
 @Component({
   selector: 'app-visualization-filter-section',
   templateUrl: './visualization-filter-section.component.html',
@@ -30,13 +35,15 @@ export class VisualizationFilterSectionComponent implements OnInit {
   @Input() selectedDimensions: any;
   @Input() visualizationType: string;
   @Input() loaded: boolean;
+  @Input() filterConfig: any;
+  @Input() showFilters: boolean;
   @Output() onFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() onLayoutUpdate:  EventEmitter<any> = new EventEmitter<any>();
-  showFilters: boolean;
   selectedFilter: string;
 
   constructor() {
     this.showFilters = false;
+    this.filterConfig = INITIAL_FILTER_CONFIG;
   }
 
   ngOnInit() {
@@ -54,6 +61,7 @@ export class VisualizationFilterSectionComponent implements OnInit {
   }
 
   onFilterUpdateAction(filterValue: any, filterType: string) {
+
     this.selectedFilter = undefined;
 
     if (filterType === 'LAYOUT') {

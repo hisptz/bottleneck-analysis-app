@@ -1,25 +1,25 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
-import { HttpClientService } from '../../services/http-client.service';
+import {Injectable} from '@angular/core';
+import {Actions, Effect} from '@ngrx/effects';
+import {HttpClientService} from '../../services/http-client.service';
 import * as _ from 'lodash';
 import * as visualization from './visualization.actions';
 import * as dashboard from '../dashboard/dashboard.actions';
-import { AppState } from '../app.reducers';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Visualization } from './visualization.state';
-import { Dashboard } from '../dashboard/dashboard.state';
+import {AppState} from '../app.reducers';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
+import {Visualization} from './visualization.state';
+import {Dashboard} from '../dashboard/dashboard.state';
 import * as visualizationHelpers from './helpers/index';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/forkJoin';
-import { Router } from '@angular/router';
-import { map, tap, switchMap } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators/catchError';
-import { of } from 'rxjs/observable/of';
+import {Router} from '@angular/router';
+import {map, tap, switchMap} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators/catchError';
+import {of} from 'rxjs/observable/of';
 
 @Injectable()
 export class VisualizationEffects {
-  @Effect({ dispatch: false })
+  @Effect({dispatch: false})
   setInitialVisualizations$ = this.actions$
     .ofType<dashboard.SetCurrentAction>(dashboard.DashboardActions.SET_CURRENT)
     .withLatestFrom(this.store)
@@ -36,10 +36,10 @@ export class VisualizationEffects {
             (dashboardItem: any) =>
               !_.find(visualizationObjects, ['id', dashboardItem.id])
                 ? visualizationHelpers.mapDashboardItemToVisualization(
-                    dashboardItem,
-                    currentDashboard.id,
-                    state.currentUser
-                  )
+                dashboardItem,
+                currentDashboard.id,
+                state.currentUser
+                )
                 : null
           )
           .filter((visualizationObject: Visualization) => visualizationObject);
@@ -96,8 +96,8 @@ export class VisualizationEffects {
       visualization.VisualizationActions.LOAD_ANALYTICS
     )
     .flatMap((action: any) => {
-      const visualizationObject: Visualization = { ...action.payload };
-      const visualizationDetails: any = { ...visualizationObject.details };
+      const visualizationObject: Visualization = {...action.payload};
+      const visualizationDetails: any = {...visualizationObject.details};
       const visualizationLayers: any[] = [...visualizationObject.layers];
       const analyticsPromises = _.map(
         visualizationLayers,
@@ -128,8 +128,8 @@ export class VisualizationEffects {
               ..._.map(
                 visualizationLayers,
                 (visualizationLayer: any, layerIndex: number) => {
-                  const newVisualizationLayer: any = { ...visualizationLayer };
-                  const analytics = { ...analyticsResponse[layerIndex] };
+                  const newVisualizationLayer: any = {...visualizationLayer};
+                  const analytics = {...analyticsResponse[layerIndex]};
 
                   if (analytics.headers) {
                     newVisualizationLayer.analytics = analytics;
@@ -139,7 +139,7 @@ export class VisualizationEffects {
               )
             ];
 
-            visualizationObject.details = { ...visualizationDetails };
+            visualizationObject.details = {...visualizationDetails};
             observer.next(visualizationObject);
             observer.complete();
           },
@@ -147,7 +147,7 @@ export class VisualizationEffects {
             visualizationDetails.loaded = true;
             visualizationDetails.hasError = true;
             visualizationDetails.errorMessage = error;
-            visualizationObject.details = { ...visualizationDetails };
+            visualizationObject.details = {...visualizationDetails};
             observer.next(visualizationObject);
             observer.complete();
           }
@@ -242,7 +242,7 @@ export class VisualizationEffects {
     .ofType<visualization.LocalFilterChangeAction>(
       visualization.VisualizationActions.LOCAL_FILTER_CHANGE
     )
-    .switchMap((action: any) =>
+    .flatMap((action: any) =>
       Observable.of(
         visualizationHelpers.updateVisualizationWithCustomFilters(
           action.payload.visualizationObject,
@@ -257,7 +257,22 @@ export class VisualizationEffects {
         new visualization.LoadAnalyticsAction(visualizationObject)
     );
 
-  @Effect({ dispatch: false })
+  @Effect({dispatch: false})
+  globalFilterChanges$ = this.actions$
+    .ofType<visualization.GlobalFilterChangeAction>(visualization.VisualizationActions.GLOBAL_FILTER_CHANGE)
+    .withLatestFrom(this.store)
+    .pipe(
+      tap(([action, state]: [any, AppState]) => {
+        _.each(state.visualization.visualizationObjects, (visualizationObject: Visualization) => {
+          this.store.dispatch(new visualization.LocalFilterChangeAction({
+            visualizationObject: visualizationObject,
+            filterValue: action.payload
+          }));
+        });
+      })
+    );
+
+  @Effect({dispatch: false})
   resizeAction$ = this.actions$
     .ofType<visualization.ResizeAction>(
       visualization.VisualizationActions.RESIZE
@@ -274,7 +289,7 @@ export class VisualizationEffects {
     )
     .pipe(
       map((action: visualization.DeleteAction) => action.payload),
-      switchMap(({ dashboardId, visualizationId }) =>
+      switchMap(({dashboardId, visualizationId}) =>
         this._delete(dashboardId, visualizationId).pipe(
           map(
             () =>
@@ -298,7 +313,7 @@ export class VisualizationEffects {
     .pipe(
       map((action: visualization.DeleteSuccessAction) => action.payload),
       map(
-        ({ dashboardId, visualizationId }) =>
+        ({dashboardId, visualizationId}) =>
           new dashboard.DeleteItemSuccessAction({
             dashboardId,
             visualizationId
@@ -306,12 +321,11 @@ export class VisualizationEffects {
       )
     );
 
-  constructor(
-    private actions$: Actions,
-    private store: Store<AppState>,
-    private router: Router,
-    private httpClient: HttpClientService
-  ) {}
+  constructor(private actions$: Actions,
+              private store: Store<AppState>,
+              private router: Router,
+              private httpClient: HttpClientService) {
+  }
 
   private _delete(dashboardId: string, visualizationId: string) {
     return this.httpClient.delete(
@@ -319,13 +333,11 @@ export class VisualizationEffects {
     );
   }
 
-  private _updateVisualizationWithMapSettings(
-    visualizationObject: Visualization
-  ) {
+  private _updateVisualizationWithMapSettings(visualizationObject: Visualization) {
     const newVisualizationObject: Visualization =
       visualizationObject.details.type !== 'MAP'
         ? visualizationHelpers.getSplitedVisualization(visualizationObject)
-        : { ...visualizationObject };
+        : {...visualizationObject};
 
     const newVisualizationObjectDetails: any = {
       ...newVisualizationObject.details
@@ -356,10 +368,10 @@ export class VisualizationEffects {
            * Get geo feature
            * @type {string}
            */
-          // TODO find best way to reduce number of geoFeature calls
+            // TODO find best way to reduce number of geoFeature calls
           const geoFeatureUrl = visualizationHelpers.getGeoFeatureUrl(
             orgUnitFilterValue
-          );
+            );
           return geoFeatureUrl !== ''
             ? this.httpClient.get(geoFeatureUrl)
             : Observable.of(null);
@@ -370,11 +382,11 @@ export class VisualizationEffects {
         (geoFeatureResponse: any[]) => {
           newVisualizationObject.layers = newVisualizationObject.layers.map(
             (layer: any, layerIndex: number) => {
-              const newSettings: any = { ...layer.settings };
+              const newSettings: any = {...layer.settings};
               if (geoFeatureResponse[layerIndex] !== null) {
                 newSettings.geoFeature = [...geoFeatureResponse[layerIndex]];
               }
-              return { ...layer, settings: newSettings };
+              return {...layer, settings: newSettings};
             }
           );
           newVisualizationObjectDetails.loaded = true;

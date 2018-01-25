@@ -1,4 +1,8 @@
-<div class="visualization-card" [style.height]="customCardHeight || visualizationObject.details.cardHeight" (mouseenter)="toggleCardFocusAction($event, true)" (mouseleave)="toggleCardFocusAction($event, false)">
+<div
+  class="visualization-card"
+  [style.height]="customCardHeight || visualizationObject.details.cardHeight"
+  (mouseenter)="toggleCardFocusAction($event, true)"
+  (mouseleave)="toggleCardFocusAction($event, false)">
     <!--Visualization card header content-->
     <div class="visualization-card-header">
         <div class="visualization-card-header-left">
