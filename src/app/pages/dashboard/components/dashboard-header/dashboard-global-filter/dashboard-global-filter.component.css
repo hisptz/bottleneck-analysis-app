@@ -18,7 +18,7 @@
   background-color: #ffffff;
   position: absolute;
   top: 0;
-  width: 420px;
+  /*width: 420px;*/
   max-height: 400px;
   height: auto;
   z-index: 1200;

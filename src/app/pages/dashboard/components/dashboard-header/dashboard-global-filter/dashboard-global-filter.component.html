@@ -1,20 +1,14 @@
-<div class="global-filter-section">
-  <div
-    [@open]
-    class="dashboard-global-filter-block"
-    appClickOutside (clickOutside)="showGlobalFilters = false"
-  >
-    <div class="dashboard-global-filter-body">
-      <app-visualization-filter-section
-        [loaded]="true"
-        [filterConfig]="{
+<div class="global-filter-section" [@open] appClickOutside (clickOutside)="showGlobalFilters = false">
+  <div class="dashboard-global-filter-body">
+    <app-visualization-filter-section
+      [loaded]="true"
+      [filterConfig]="{
         showLayoutFilter: false,
         showDataFilter: false,
         hideButtonBorders: true
       }"
-        [selectedDimensions]="selectedDimensions"
-        (onFilterUpdate)="onGlobalFilterUpdate($event)"
-      ></app-visualization-filter-section>
-    </div>
+      [selectedDimensions]="selectedDimensions"
+      (onFilterUpdate)="onGlobalFilterUpdate($event)"
+    ></app-visualization-filter-section>
   </div>
 </div>
