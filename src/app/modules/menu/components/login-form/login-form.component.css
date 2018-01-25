@@ -1,0 +1,39 @@
+#login-form {
+    display: flex;
+    padding: 5px;
+    width: 100%;
+}
+
+#login-form input {
+    padding: 3px 5px 3px 5px;
+    margin-right: 3px;
+    outline: none;
+    border: solid thin #ececec;
+}
+
+#login-form button {
+    background-color: #ffffff;
+    border: solid thin #dddddd;
+    cursor: pointer;
+}
+
+#login-error-block {
+    font-size: 14px;
+    color: red;
+    padding: 1px 6px 0px 6px;
+}
+
+@media (max-width: 500px) {
+    #login-form {
+        display: block;
+    }
+    #login-form input {
+        width: 100%;
+        margin-bottom: 3px;
+        margin-right: 0;
+    }
+    #login-form button {
+        width: 100%;
+        text-align: center;
+    }
+}
