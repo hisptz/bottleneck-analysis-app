@@ -22,8 +22,11 @@ export class VisualizationCardComponent implements OnInit {
   selectedDimensions: any;
   currentVisualization: string;
   loaded: boolean;
+  showDeleteDialog: boolean;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>) {
+    this.showDeleteDialog = false;
+  }
 
   ngOnInit() {
     this.selectedDimensions = this.getSelectedDimensions();
@@ -181,8 +184,6 @@ export class VisualizationCardComponent implements OnInit {
 
   onShowDeleteDialog(e) {
     e.stopPropagation();
-    this.store.dispatch(
-      new visualization.ToggleDeleteDialogAction(this.visualizationObject.id)
-    );
+    this.showDeleteDialog = true;
   }
 }

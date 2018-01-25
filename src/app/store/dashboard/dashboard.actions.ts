@@ -36,7 +36,9 @@ export enum DashboardActions {
   LOAD_OPTIONS_FAIL = '[Dashboard] Load dashboard options fail',
   BOOKMARK_DASHBOARD = '[Dashboard] Bookmark dashboard',
   BOOKMARK_DASHBOARD_SUCCESS = '[Dashboard] Bookmark dashboard success',
-  BOOKMARK_DASHBOARD_FAIL = '[Dashboard] Bookmark dashboard fail'
+  BOOKMARK_DASHBOARD_FAIL = '[Dashboard] Bookmark dashboard fail',
+  TOGGLE_BOOKMARKED = '[Dashboard] Bookmark dashboard fail',
+  SET_SEARCH_TERM = '[Dashboard] Set dashboard search term'
 }
 
 export class LoadAction implements Action {
@@ -184,6 +186,15 @@ export class BookmarkDashboardFailAction implements Action {
   // constructor(public payload: any) {}
 }
 
+export class ToggleBookmarkedAction implements Action {
+  readonly type = DashboardActions.TOGGLE_BOOKMARKED;
+}
+
+export class SetSearchTermAction implements Action {
+  readonly type = DashboardActions.SET_SEARCH_TERM;
+  constructor(public payload: string) {}
+}
+
 export type DashboardAction =
   | LoadAction
   | LoadSuccessAction
@@ -212,4 +223,6 @@ export type DashboardAction =
   | LoadOptionsFailAction
   | BookmarkDashboardAction
   | BookmarkDashboardSuccessAction
-  | BookmarkDashboardFailAction;
+  | BookmarkDashboardFailAction
+  | ToggleBookmarkedAction
+  | SetSearchTermAction;

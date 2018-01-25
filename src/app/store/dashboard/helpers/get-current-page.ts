@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import {Dashboard} from '../dashboard.state';
-export function getCurrentPage(dashboards: Dashboard[], dashboardid: string, itemsPerPage: number) {
-  const currentDashboard: Dashboard = _.find(dashboards, ['id', dashboardid]);
+export function getCurrentPage(dashboards: Dashboard[], dashboardId: string, itemsPerPage: number) {
+  const currentDashboard: Dashboard = _.find(dashboards, ['id', dashboardId]);
   const dashboardIndex: number = _.findIndex(dashboards, currentDashboard) + 1;
   const dashboardCount: number = dashboards.length;
   const pageNumber: number = computePageNumber(dashboardCount, itemsPerPage);

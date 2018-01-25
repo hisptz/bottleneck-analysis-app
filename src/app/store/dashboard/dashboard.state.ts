@@ -31,8 +31,11 @@ export interface DashboardState {
   currentDashboard: string;
   dashboardsLoaded: boolean;
   dashboards: Dashboard[];
+  activeDashboards: Dashboard[];
   dashboardSharing: { [id: string]: DashboardSharing };
+  showBookmarked: boolean;
   dashboardSearchItem: DashboardSearchItem;
+  dashboardSearchTerm: string;
 }
 
 export interface DashboardSearchItem {
@@ -115,7 +118,10 @@ export const INITIAL_DASHBOARD_STATE: DashboardState = {
   dashboardsLoaded: false,
   dashboards: [],
   dashboardSharing: null,
-  dashboardSearchItem: INITIAL_DASHBOARD_SEARCH_ITEM
+  showBookmarked: false,
+  activeDashboards: [],
+  dashboardSearchItem: INITIAL_DASHBOARD_SEARCH_ITEM,
+  dashboardSearchTerm: ''
 };
 
 export const DASHBOARD_TYPES: any = {

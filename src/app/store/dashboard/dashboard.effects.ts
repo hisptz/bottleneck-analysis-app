@@ -471,7 +471,7 @@ export class DashboardEffects {
                 ? dashboardOption.bookmarks.indexOf(currentUserId) !== -1
                   ? [...dashboardOption.bookmarks, currentUserId]
                   : [...dashboardOption.bookmarks]
-                : _.filters(
+                : _.filter(
                     dashboardOption.bookmarks,
                     bookmark => bookmark !== currentUserId
                   )

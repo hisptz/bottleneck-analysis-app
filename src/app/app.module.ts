@@ -76,6 +76,7 @@ import { VisualizationDeleteDialogComponent } from './pages/dashboard/components
 import { ResourcesContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/resources-container/resources-container.component';
 import { ReportsContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/reports-container/reports-container.component';
 import { AppContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/app-container/app-container.component';
+import { DashboardMenuBookmarkComponent } from './pages/dashboard/components/dashboard-menu/dashboard-menu-bookmark/dashboard-menu-bookmark.component';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -125,7 +126,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ResourcesContainerComponent,
     ReportsContainerComponent,
     AppContainerComponent,
-    SafePipe
+    SafePipe,
+    DashboardMenuBookmarkComponent
   ],
   imports: [
     BrowserModule,

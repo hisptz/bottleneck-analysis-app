@@ -1,17 +1,14 @@
 import * as _ from 'lodash';
 import * as dashboard from './dashboard.state';
-import { DashboardAction, DashboardActions } from './dashboard.actions';
+import {DashboardAction, DashboardActions} from './dashboard.actions';
 import * as dashboardHelpers from './helpers/index';
-import { Dashboard, DashboardSharing } from './dashboard.state';
-import { updateWithHeaderSelectionCriterias } from './helpers/map-state-to-dashboard-search-items.helper';
-import * as visualizationActions from '../visualization/visualization.actions';
+import {Dashboard, DashboardSharing} from './dashboard.state';
+import {updateWithHeaderSelectionCriterias} from './helpers/map-state-to-dashboard-search-items.helper';
 
-export function dashboardReducer(
-  state: dashboard.DashboardState = dashboard.INITIAL_DASHBOARD_STATE,
-  action: DashboardAction
-) {
+export function dashboardReducer(state: dashboard.DashboardState = dashboard.INITIAL_DASHBOARD_STATE,
+                                 action: DashboardAction) {
   switch (action.type) {
-    case DashboardActions.LOAD_SUCCESS:
+    case DashboardActions.LOAD_SUCCESS: {
       const newDashboards: Dashboard[] = _.map(
         action.payload.dashboards,
         (dashboardObject: any) =>
@@ -22,13 +19,18 @@ export function dashboardReducer(
           )
       );
 
+      const filteredDashboards = dashboardHelpers.getFilteredDashboards(newDashboards, state.showBookmarked);
+
       return {
         ...state,
         dashboards: [...newDashboards],
+        activeDashboards: [...filteredDashboards],
         dashboardPageNumber: Math.ceil(
-          newDashboards.length / state.dashboardPerPage
+          filteredDashboards.length / state.dashboardPerPage
         )
       };
+
+    }
 
     case DashboardActions.LOAD_OPTIONS_SUCCESS: {
       const newDashboardsWithOptions: Dashboard[] = _.map(
@@ -40,9 +42,9 @@ export function dashboardReducer(
 
           return dashboardOption
             ? {
-                ...dashboardObject,
-                ...dashboardOption
-              }
+              ...dashboardObject,
+              ...dashboardOption
+            }
             : dashboardObject;
         }),
         (dashboardObject: any) =>
@@ -52,21 +54,30 @@ export function dashboardReducer(
             action.payload.currentUser.id
           )
       );
+      const filteredDashboards = dashboardHelpers.getFilteredDashboards(newDashboardsWithOptions, state.showBookmarked);
+
       return {
         ...state,
-        dashboards: [...newDashboardsWithOptions]
-      };
-    }
-    case DashboardActions.SET_CURRENT:
-      return {
-        ...state,
-        currentDashboard: action.payload,
+        dashboards: [...newDashboardsWithOptions],
+        activeDashboards: [...filteredDashboards],
         currentDashboardPage: dashboardHelpers.getCurrentPage(
-          state.dashboards,
+          filteredDashboards,
           action.payload,
           state.dashboardPerPage
         )
       };
+    }
+    case DashboardActions.SET_CURRENT: {
+      return {
+        ...state,
+        currentDashboard: action.payload,
+        currentDashboardPage: dashboardHelpers.getCurrentPage(
+          state.activeDashboards,
+          action.payload,
+          state.dashboardPerPage
+        )
+      };
+    }
 
     case DashboardActions.CHANGE_CURRENT_PAGE:
       return {
@@ -80,18 +91,21 @@ export function dashboardReducer(
           [
             ...state.dashboards,
             dashboardHelpers.mapStateToDashboardObject(
-              { name: action.payload },
+              {name: action.payload},
               'create'
             )
           ],
           ['name']
         )
       ];
+
+      const filteredDashboards = dashboardHelpers.getFilteredDashboards(newDashboardsWithToBeCreated, state.showBookmarked);
       return {
         ...state,
-        dashboards: newDashboardsWithToBeCreated,
+        dashboards: [...newDashboardsWithToBeCreated],
+        activeDashboards: [...filteredDashboards],
         currentDashboardPage: dashboardHelpers.getCurrentPage(
-          newDashboardsWithToBeCreated,
+          filteredDashboards,
           '0',
           state.dashboardPerPage
         )
@@ -107,18 +121,21 @@ export function dashboardReducer(
       const newDashboardsWithCreated =
         createdDashboardIndex !== -1
           ? [
-              ...state.dashboards.slice(0, createdDashboardIndex),
-              dashboardHelpers.mapStateToDashboardObject(
-                action.payload,
-                'created'
-              ),
-              ...state.dashboards.slice(createdDashboardIndex + 1)
-            ]
+            ...state.dashboards.slice(0, createdDashboardIndex),
+            dashboardHelpers.mapStateToDashboardObject(
+              action.payload,
+              'created'
+            ),
+            ...state.dashboards.slice(createdDashboardIndex + 1)
+          ]
           : state.dashboards;
+
+      const filteredDashboards = dashboardHelpers.getFilteredDashboards(newDashboardsWithCreated, state.showBookmarked);
 
       return {
         ...state,
-        dashboards: newDashboardsWithCreated
+        dashboards: [...newDashboardsWithCreated],
+        activeDashboards: [...filteredDashboards]
       };
     }
 
@@ -135,18 +152,21 @@ export function dashboardReducer(
       const newDashboardsWithToBeUpdated =
         createdDashboardIndex !== -1
           ? [
-              ...state.dashboards.slice(0, createdDashboardIndex),
-              dashboardHelpers.mapStateToDashboardObject(
-                availableDashboard,
-                'update'
-              ),
-              ...state.dashboards.slice(createdDashboardIndex + 1)
-            ]
+            ...state.dashboards.slice(0, createdDashboardIndex),
+            dashboardHelpers.mapStateToDashboardObject(
+              availableDashboard,
+              'update'
+            ),
+            ...state.dashboards.slice(createdDashboardIndex + 1)
+          ]
           : state.dashboards;
+
+      const filteredDashboards = dashboardHelpers.getFilteredDashboards(newDashboardsWithToBeUpdated, state.showBookmarked);
 
       return {
         ...state,
-        dashboards: newDashboardsWithToBeUpdated
+        dashboards: [...newDashboardsWithToBeUpdated],
+        activeDashboards: [...filteredDashboards]
       };
     }
 
@@ -159,22 +179,25 @@ export function dashboardReducer(
       const newDashboardsWithUpdated: Dashboard[] =
         renamedDashboardIndex !== -1
           ? _.sortBy(
-              [
-                ...state.dashboards.slice(0, renamedDashboardIndex),
-                dashboardHelpers.mapStateToDashboardObject(
-                  action.payload,
-                  'updated'
-                ),
-                ...state.dashboards.slice(renamedDashboardIndex + 1)
-              ],
-              ['name']
-            )
+          [
+            ...state.dashboards.slice(0, renamedDashboardIndex),
+            dashboardHelpers.mapStateToDashboardObject(
+              action.payload,
+              'updated'
+            ),
+            ...state.dashboards.slice(renamedDashboardIndex + 1)
+          ],
+          ['name']
+          )
           : [...state.dashboards];
+
+      const filteredDashboards = dashboardHelpers.getFilteredDashboards(newDashboardsWithUpdated, state.showBookmarked);
       return {
         ...state,
         dashboards: newDashboardsWithUpdated,
+        activeDashboards: [...filteredDashboards],
         currentDashboardPage: dashboardHelpers.getCurrentPage(
-          newDashboardsWithUpdated,
+          filteredDashboards,
           action.payload.id,
           state.dashboardPerPage
         )
@@ -191,19 +214,21 @@ export function dashboardReducer(
         dashboardToDelete
       );
 
+      const newDashboardWithToDelete = dashboardToDeleteIndex !== -1
+        ? [
+          ...state.dashboards.slice(0, dashboardToDeleteIndex),
+          dashboardHelpers.mapStateToDashboardObject(
+            dashboardToDelete,
+            'delete'
+          ),
+          ...state.dashboards.slice(dashboardToDeleteIndex + 1)
+        ]
+        : [...state.dashboards];
+
       return {
         ...state,
-        dashboards:
-          dashboardToDeleteIndex !== -1
-            ? [
-                ...state.dashboards.slice(0, dashboardToDeleteIndex),
-                dashboardHelpers.mapStateToDashboardObject(
-                  dashboardToDelete,
-                  'delete'
-                ),
-                ...state.dashboards.slice(dashboardToDeleteIndex + 1)
-              ]
-            : [...state.dashboards]
+        dashboards: [...newDashboardWithToDelete],
+        activeDashboards: [...dashboardHelpers.getFilteredDashboards(newDashboardWithToDelete, state.showBookmarked)]
       };
     }
     case DashboardActions.COMMIT_DELETE: {
@@ -211,15 +236,17 @@ export function dashboardReducer(
         state.dashboards,
         _.find(state.dashboards, ['id', action.payload])
       );
+
+      const newDashboardWithDeletedRemoved = dashboardDeletedIndex !== -1
+        ? [
+          ...state.dashboards.slice(0, dashboardDeletedIndex),
+          ...state.dashboards.slice(dashboardDeletedIndex + 1)
+        ]
+        : [...state.dashboards];
       return {
         ...state,
-        dashboards:
-          dashboardDeletedIndex !== -1
-            ? [
-                ...state.dashboards.slice(0, dashboardDeletedIndex),
-                ...state.dashboards.slice(dashboardDeletedIndex + 1)
-              ]
-            : [...state.dashboards]
+        dashboards: [...newDashboardWithDeletedRemoved],
+        activeDashboards: [...dashboardHelpers.getFilteredDashboards(newDashboardWithDeletedRemoved, state.showBookmarked)]
       };
     }
 
@@ -228,11 +255,11 @@ export function dashboardReducer(
         ...state,
         dashboardPerPage: action.payload,
         currentDashboardPage: dashboardHelpers.getCurrentPage(
-          state.dashboards,
+          state.activeDashboards,
           state.currentDashboard,
           action.payload
         ),
-        dashboardPageNumber: Math.ceil(state.dashboards.length / action.payload)
+        dashboardPageNumber: Math.ceil(state.activeDashboards.length / action.payload)
       };
     }
 
@@ -246,24 +273,28 @@ export function dashboardReducer(
         correspondingDashboard
       );
 
+      const newDashboardsWithHiddenNotification = [
+        ...state.dashboards.slice(0, correspondingDashboardIndex),
+        {
+          ...correspondingDashboard,
+          details: {
+            ...correspondingDashboard.details,
+            showIcon: false
+          }
+        },
+        ...state.dashboards.slice(correspondingDashboardIndex + 1)
+      ];
+
       return correspondingDashboardIndex !== -1
         ? {
-            ...state,
-            dashboards: [
-              ...state.dashboards.slice(0, correspondingDashboardIndex),
-              {
-                ...correspondingDashboard,
-                details: {
-                  ...correspondingDashboard.details,
-                  showIcon: false
-                }
-              },
-              ...state.dashboards.slice(correspondingDashboardIndex + 1)
-            ]
-          }
+          ...state,
+          dashboards: [...newDashboardsWithHiddenNotification],
+          activeDashboards: [
+            ...dashboardHelpers.getFilteredDashboards(newDashboardsWithHiddenNotification, state.showBookmarked)]
+        }
         : {
-            ...state
-          };
+          ...state
+        };
     }
 
     case DashboardActions.SEARCH_ITEMS: {
@@ -295,7 +326,7 @@ export function dashboardReducer(
         dashboardSearchItem: updateWithHeaderSelectionCriterias({
           ...state.dashboardSearchItem,
           headers: state.dashboardSearchItem.headers.map(header => {
-            const newHeader: any = { ...header };
+            const newHeader: any = {...header};
             if (newHeader.name === clickedHeader.name) {
               newHeader.selected = clickedHeader.selected;
             }
@@ -359,34 +390,36 @@ export function dashboardReducer(
 
       const dashboardItemIndex = currentDashboard
         ? currentDashboard.dashboardItems.indexOf(
-            _.find(currentDashboard.dashboardItems, [
-              'id',
-              action.payload.visualizationId
-            ])
-          )
+          _.find(currentDashboard.dashboardItems, [
+            'id',
+            action.payload.visualizationId
+          ])
+        )
         : -1;
+
+      const newDashboardWithDeletedItem = dashboardIndex !== -1
+        ? [
+          ...state.dashboards.slice(0, dashboardIndex),
+          {
+            ...currentDashboard,
+            dashboardItems: [
+              ...currentDashboard.dashboardItems.slice(
+                0,
+                dashboardItemIndex
+              ),
+              ...currentDashboard.dashboardItems.slice(
+                dashboardItemIndex + 1
+              )
+            ]
+          },
+          ...state.dashboards.slice(dashboardIndex + 1)
+        ]
+        : [...state.dashboards];
 
       return {
         ...state,
-        dashboards:
-          dashboardIndex !== -1
-            ? [
-                ...state.dashboards.slice(0, dashboardIndex),
-                {
-                  ...currentDashboard,
-                  dashboardItems: [
-                    ...currentDashboard.dashboardItems.slice(
-                      0,
-                      dashboardItemIndex
-                    ),
-                    ...currentDashboard.dashboardItems.slice(
-                      dashboardItemIndex + 1
-                    )
-                  ]
-                },
-                ...state.dashboards.slice(dashboardIndex + 1)
-              ]
-            : [...state.dashboards]
+        dashboards: [...newDashboardWithDeletedItem],
+        activeDashboards: [...newDashboardWithDeletedItem]
       };
     }
 
@@ -396,22 +429,67 @@ export function dashboardReducer(
         action.payload.dashboardId
       ]);
       const dashboardIndex = state.dashboards.indexOf(bookmarkedDashboard);
+      const newDashboardWithBookmarked = [
+        ...state.dashboards.slice(0, dashboardIndex),
+        {
+          ...bookmarkedDashboard,
+          details: {
+            ...bookmarkedDashboard.details,
+            bookmarked: action.payload.bookmarked
+          }
+        },
+        ...state.dashboards.slice(dashboardIndex + 1)
+      ];
+
+      const filteredDashboards = dashboardHelpers.getFilteredDashboards(newDashboardWithBookmarked, state.showBookmarked);
+
       return dashboardIndex !== -1
         ? {
-            ...state,
-            dashboards: [
-              ...state.dashboards.slice(0, dashboardIndex),
-              {
-                ...bookmarkedDashboard,
-                details: {
-                  ...bookmarkedDashboard.details,
-                  bookmarked: action.payload.bookmarked
-                }
-              },
-              ...state.dashboards.slice(dashboardIndex + 1)
-            ]
-          }
-        : { ...state };
+          ...state,
+          dashboards: [...newDashboardWithBookmarked],
+          activeDashboards: [...filteredDashboards],
+          currentDashboardPage: dashboardHelpers.getCurrentPage(
+            filteredDashboards,
+            state.currentDashboard,
+            state.dashboardPerPage
+          )
+        }
+        : {...state};
+    }
+
+    case DashboardActions.TOGGLE_BOOKMARKED: {
+      const showBookmarked = !state.showBookmarked;
+      const filteredDashboards = dashboardHelpers.getFilteredDashboards(state.dashboards, showBookmarked);
+      return {
+        ...state,
+        showBookmarked: showBookmarked,
+        activeDashboards: [...filteredDashboards],
+        currentDashboardPage: dashboardHelpers.getCurrentPage(
+          filteredDashboards,
+          state.currentDashboard,
+          state.dashboardPerPage
+        ),
+        dashboardPageNumber: Math.ceil(
+          filteredDashboards.length / state.dashboardPerPage
+        )
+      };
+    }
+
+    case DashboardActions.SET_SEARCH_TERM: {
+      const filteredDashboards = dashboardHelpers.getFilteredDashboards(state.dashboards, state.showBookmarked, action.payload);
+      return {
+        ...state,
+        dashboardSearchTerm: action.payload,
+        activeDashboards: [...filteredDashboards],
+        currentDashboardPage: dashboardHelpers.getCurrentPage(
+          filteredDashboards,
+          state.currentDashboard,
+          state.dashboardPerPage
+        ),
+        dashboardPageNumber: Math.ceil(
+          filteredDashboards.length / state.dashboardPerPage
+        )
+      };
     }
 
     default:

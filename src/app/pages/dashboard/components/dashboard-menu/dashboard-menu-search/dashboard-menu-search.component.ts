@@ -8,7 +8,6 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 export class DashboardMenuSearchComponent implements OnInit {
 
   showDashboardSearch: boolean;
-  searchTerm: string;
   @Output() onSearch: EventEmitter<string> = new EventEmitter<string>();
   constructor() { }
 
@@ -20,8 +19,9 @@ export class DashboardMenuSearchComponent implements OnInit {
     this.showDashboardSearch = !this.showDashboardSearch;
   }
 
-  onSearchTermChange() {
-    this.onSearch.emit(this.searchTerm);
+  onSearchTermChange(e) {
+    e.stopPropagation();
+    this.onSearch.emit(e.target.value);
   }
 
 }

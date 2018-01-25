@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../../../store/app.reducers';
 import * as visualizationActions from '../../../../../../store/visualization/visualization.actions';
@@ -13,6 +13,7 @@ export class VisualizationDeleteDialogComponent implements OnInit {
   @Input() dashboardId: string;
   @Input() deleting: boolean;
   @Input() deleteFail: boolean;
+  @Output() onCloseDeleteDialog: EventEmitter<any> = new EventEmitter<any>();
   constructor(private store: Store<AppState>) {}
 
   ngOnInit() {}
@@ -26,11 +27,6 @@ export class VisualizationDeleteDialogComponent implements OnInit {
 
   onDelete(e) {
     e.stopPropagation();
-    this.store.dispatch(
-      new visualizationActions.DeleteAction({
-        dashboardId: this.dashboardId,
-        visualizationId: this.visualizationId
-      })
-    );
+    this.onCloseDeleteDialog.emit(true);
   }
 }

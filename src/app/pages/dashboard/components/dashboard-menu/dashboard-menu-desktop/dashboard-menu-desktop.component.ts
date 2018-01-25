@@ -17,7 +17,6 @@ export class DashboardMenuDesktopComponent implements OnInit {
   dashboardPages$: Observable<number>;
   private _dashboardSearchQuery$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   private _slideCss$: BehaviorSubject<string> = new BehaviorSubject<string>('slideInRight');
-  dashboardSearchQuery$: Observable<string>;
   slideCss$: Observable<string>;
 
   @HostListener('window:resize', ['$event'])
@@ -27,7 +26,6 @@ export class DashboardMenuDesktopComponent implements OnInit {
   constructor(private store: Store<AppState>) {
     this.currentDashboardPage$ = store.select(dashboardSelectors.getCurrentDashboardPage);
     this.dashboardPages$ = store.select(dashboardSelectors.getDashboardPages);
-    this.dashboardSearchQuery$ = this._dashboardSearchQuery$.asObservable();
     this.slideCss$ = this._slideCss$.asObservable();
     this.organizeMenu(window.innerWidth);
   }
@@ -48,7 +46,7 @@ export class DashboardMenuDesktopComponent implements OnInit {
   }
 
   onDashboardSearch(searchQuery) {
-    this._dashboardSearchQuery$.next(searchQuery);
+    this.store.dispatch(new dashboard.SetSearchTermAction(searchQuery));
   }
 
   organizeMenu(width: number, forceReduce: boolean = false) {

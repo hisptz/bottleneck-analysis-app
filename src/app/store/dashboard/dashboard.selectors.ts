@@ -24,11 +24,13 @@ export const getCurrentDashboardSharing = createSelector(dashboardState,
   (dashboardObject: DashboardState) => dashboardObject.dashboardSharing[dashboardObject.currentDashboard]);
 
 export const getDashboardMenuItems = createSelector(dashboardState,
-  (dashboardObject: DashboardState) => dashboardObject.dashboards.length > 0 ? dashboardObject.dashboards.slice(
+  (dashboardObject: DashboardState) => dashboardObject.activeDashboards.length > 0 ? dashboardObject.activeDashboards.slice(
     getStartItemIndex(dashboardObject.currentDashboardPage, dashboardObject.dashboardPerPage),
     getEndItemIndex(dashboardObject.currentDashboardPage, dashboardObject.dashboardPerPage) + 1)
     .map((dashboard: Dashboard) => mapStateToDashboardMenu(dashboard)) : []);
 
+export const getShowBookmarkedStatus = createSelector(dashboardState,
+  (dashboardObject: DashboardState) => dashboardObject.showBookmarked);
 
 function getStartItemIndex(pageNumber: number, pageSize: number) {
   return (pageSize * pageNumber) - pageSize;

@@ -79,9 +79,9 @@
             <app-visualization-types-section [currentVisualization]="currentVisualization" (onCurrentVisualizationChange)="currentVisualizationChange($event)"></app-visualization-types-section>
             <app-visualization-download-section></app-visualization-download-section>
         </div>
-        <div class="visualization-card-footer-right animated fadeInRight">
+        <div class="visualization-card-footer-right">
             <!--visualization delete section-->
-            <div class="visualization-delete-block" *ngIf="loaded && isCardFocused && !visualizationObject.details.showDeleteDialog" (click)="onShowDeleteDialog($event)">
+            <div class="visualization-delete-block" *ngIf="loaded && isCardFocused && !showDeleteDialog" (click)="onShowDeleteDialog($event)">
                 <button class="dashboard-btn" title="remove this item">
               <img src="assets/icons/close.png" alt="">
             </button>
@@ -89,8 +89,8 @@
             <!-- end of visualization delete section-->
 
             <!-- visualization delete dialog -->
-            <div class="visualization-delete-dialog dashboard-border" *ngIf="visualizationObject.details.showDeleteDialog">
-                <app-visualization-delete-dialog [dashboardId]="visualizationObject.dashboardId" [visualizationId]="visualizationObject.id" [deleting]="visualizationObject.details.deleting" [deleteFail]="visualizationObject.details.deleteFail"></app-visualization-delete-dialog>
+            <div class="visualization-delete-dialog dashboard-border" *ngIf="showDeleteDialog">
+                <app-visualization-delete-dialog [dashboardId]="visualizationObject.dashboardId" [visualizationId]="visualizationObject.id" [deleting]="visualizationObject.details.deleting" [deleteFail]="visualizationObject.details.deleteFail" (onCloseDeleteDialog)="showDeleteDialog = false"></app-visualization-delete-dialog>
             </div>
             <!-- end of visualization delete dialog -->
         </div>
