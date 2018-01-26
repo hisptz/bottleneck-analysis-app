@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 export const INITIAL_FILTER_CONFIG = {
-  showLayoutFilter: true,
-  showDataFilter: true
+  showLayout: true,
+  showData: true
 };
 
 @Component({
@@ -47,6 +47,7 @@ export class VisualizationFilterSectionComponent implements OnInit {
   }
 
   ngOnInit() {
+
 
   }
 

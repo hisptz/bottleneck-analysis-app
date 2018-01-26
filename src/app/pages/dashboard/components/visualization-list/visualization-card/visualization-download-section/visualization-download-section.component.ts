@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VisualizationDownloadSectionComponent implements OnInit {
 
-  constructor() { }
+  showDownloadOptions: boolean;
+  constructor() {
+    this.showDownloadOptions = false;
+  }
 
   ngOnInit() {
   }
