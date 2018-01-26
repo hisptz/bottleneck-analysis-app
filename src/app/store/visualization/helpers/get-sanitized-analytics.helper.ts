@@ -16,7 +16,7 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
        */
       if (headerWithOptionSet) {
         const headerOptionsObject = _.find(visualizationFilters, ['name', headerWithOptionSet.name]);
-
+        console.log(headerOptionsObject, headerWithOptionSet, visualizationFilters)
 
         if (headerOptionsObject) {
           const headerOptions = _.assign([], headerOptionsObject.options);

@@ -129,7 +129,9 @@ export class VisualizationEffects {
                 visualizationLayers,
                 (visualizationLayer: any, layerIndex: number) => {
                   const newVisualizationLayer: any = {...visualizationLayer};
-                  const analytics = {...analyticsResponse[layerIndex]};
+                  const visualizationFilter = _.find(visualizationDetails.filters, ['id', visualizationLayer.settings.id])
+                  const analytics = visualizationHelpers.getSanitizedAnalytics(
+                    {...analyticsResponse[layerIndex]}, visualizationFilter ? visualizationFilter.filters : []);
 
                   if (analytics.headers) {
                     newVisualizationLayer.analytics = analytics;

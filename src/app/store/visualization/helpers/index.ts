@@ -13,6 +13,7 @@ import {updateVisualizationWithCustomFilters} from './update-visualization-with-
 import {getSanitizedCustomFilterObject} from './get-sanitized-custom-filter-object.helper';
 import {getVisualizationShape} from './get-visualization-shape.helper';
 import {getVisualizationWidthFromShape} from './get-visualization-width-from-shape.helper';
+import {getSanitizedAnalytics} from './get-sanitized-analytics.helper';
 
 export {
   mapDashboardItemToVisualization,
@@ -29,6 +30,7 @@ export {
   updateVisualizationWithCustomFilters,
   getSanitizedCustomFilterObject,
   getVisualizationShape,
-  getVisualizationWidthFromShape
+  getVisualizationWidthFromShape,
+  getSanitizedAnalytics
 };
 
