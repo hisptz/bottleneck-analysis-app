@@ -84,7 +84,6 @@ export class MapComponent implements OnInit, AfterViewInit {
     // });
 
     if (this.vizObject) {
-      console.log('here')
       this.componentId = this.vizObject.id;
       this.itemHeight = this.vizObject.details.itemHeight;
       this.transformVisualizationObject(this.vizObject);
