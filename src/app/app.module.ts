@@ -11,10 +11,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { RoutingModule } from './app.routing';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import {
-  RouterStateSerializer,
-  StoreRouterConnectingModule
-} from '@ngrx/router-store';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CustomSerializer } from './utils/custom-route-serializer.util';
@@ -60,6 +57,7 @@ import { OrgUnitFilterModule } from './modules/org-unit-filter/org-unit-filter.m
 import { PeriodFilterModule } from './modules/period-filter/period-filter.module';
 import { DataFilterModule } from './modules/data-filter/data-filter.module';
 import { LayoutModule } from './modules/layout/layout.module';
+import { MapModule } from './modules/map/map.module';
 import { FullScreenDashboardItemViewComponent } from './pages/full-screen-dashboard-item-view/full-screen-dashboard-item-view.component';
 
 import { DashboardMenuEditComponent } from './pages/dashboard/components/dashboard-menu/dashboard-menu-edit/dashboard-menu-edit.component';
@@ -146,6 +144,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InterpretationModule,
     SharingFilterModule,
     UsersModule,
+    MapModule,
     ResourcesModule,
     ReportsModule,
     TranslateModule.forRoot({
