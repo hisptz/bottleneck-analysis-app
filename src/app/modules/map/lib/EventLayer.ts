@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import uniqBy from 'lodash/fp/uniqBy';
 import isString from 'lodash/fp/isString';

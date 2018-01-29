@@ -39,7 +39,7 @@
 
             <!--map block-->
             <div class="map-container" *ngIf="currentVisualization === 'MAP'">
-                <h1>Map visualization</h1>
+                <app-map [vizObject]="visualizationObject"></app-map>
             </div>
             <!--end of map-block-->
 

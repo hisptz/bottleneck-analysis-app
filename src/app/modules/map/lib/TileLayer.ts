@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import * as L from 'leaflet';
 
 const TileLayer = L.TileLayer.extend({
   options: {

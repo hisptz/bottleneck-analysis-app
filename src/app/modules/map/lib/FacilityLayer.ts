@@ -1,5 +1,5 @@
-import L from 'leaflet';
-import uniqBy from 'lodash/fp/uniqBy';
+import * as L from 'leaflet';
+import * as _ from 'lodash';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
 import { GeoJson } from 'leaflet';
 import { Feature, GeometryObject } from 'geojson';

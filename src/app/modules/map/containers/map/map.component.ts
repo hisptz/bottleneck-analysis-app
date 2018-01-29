@@ -61,14 +61,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this._data$.next(value);
   }
 
-  @Input()
-  set vizObject(value) {
-    this._vizObject$.next(value);
-  }
-
-  get vizObject() {
-    return this._vizObject$.getValue();
-  }
+  @Input() vizObject: any;
 
   get data() {
     // get the latest value from _data$ BehaviorSubject
@@ -85,18 +78,17 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.visualizationObjectEntities$ = this.store.select(
       fromStore.getAllVisualizationObjectsEntities
     );
-    this._data$.subscribe(data => {
-      this.visualizationObject = data;
-      this.transhformFavourites(data);
-    });
+    // this._data$.subscribe(data => {
+    //   this.visualizationObject = data;
+    //   this.transhformFavourites(data);
+    // });
 
-    this._vizObject$.subscribe(vizObj => {
-      if (vizObj) {
-        this.componentId = vizObj.id;
-        this.itemHeight = vizObj.details.itemHeight;
-        this.transformVisualizationObject(vizObj);
-      }
-    });
+    if (this.vizObject) {
+      console.log('here')
+      this.componentId = this.vizObject.id;
+      this.itemHeight = this.vizObject.details.itemHeight;
+      this.transformVisualizationObject(this.vizObject);
+    }
     this.store.dispatch(new fromStore.AddContectPath());
   }
 

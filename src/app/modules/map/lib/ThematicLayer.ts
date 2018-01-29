@@ -1,11 +1,5 @@
-import L from 'leaflet';
-import uniqBy from 'lodash/fp/uniqBy';
-import isString from 'lodash/fp/isString';
-import findIndex from 'lodash/fp/findIndex';
-import sortBy from 'lodash/fp/sortBy';
-import pick from 'lodash/fp/pick';
-import curry from 'lodash/fp/curry';
-import countBy from 'lodash/countBy';
+import * as L from 'leaflet';
+import * as _ from 'lodash';
 import {
   getOrgUnitsFromRows,
   getPeriodFromFilters,
@@ -40,13 +34,13 @@ export const thematic = options => {
     const orderedValues = getOrderedValues(analyticsData);
     const minValue = orderedValues[0];
     const maxValue = orderedValues[orderedValues.length - 1];
-    const valueFrequencyPair = countBy(orderedValues);
+    const valueFrequencyPair = _.countBy(orderedValues);
     const dataItem = getDataItemsFromColumns(columns)[0];
     const name = options.name || dataItem.name;
     legend = legendSet
       ? createLegendFromLegendSet(legendSet)
       : createLegendFromConfig(orderedValues, legendProperties);
-    const getLegendItem = curry(getLegendItemForValue)(legend.items);
+    const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
     legend['period'] =
       (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) ||
       analyticsData.metaData.pe[0];
@@ -95,8 +89,8 @@ export const thematic = options => {
 // Returns an object mapping org. units and values
 const getValueById = data => {
   const { headers, rows } = data;
-  const ouIndex = findIndex(['name', 'ou'], headers);
-  const valueIndex = findIndex(['name', 'value'], headers);
+  const ouIndex = _.findIndex(['name', 'ou'], headers);
+  const valueIndex = _.findIndex(['name', 'value'], headers);
 
   return rows.reduce((obj, row) => {
     obj[row[ouIndex]] = parseFloat(row[valueIndex]);
@@ -107,17 +101,17 @@ const getValueById = data => {
 // Returns an array of ordered values
 const getOrderedValues = data => {
   const { headers, rows } = data;
-  const valueIndex = findIndex(['name', 'value'], headers);
+  const valueIndex = _.findIndex(['name', 'value'], headers);
 
   return rows.map(row => parseFloat(row[valueIndex])).sort((a, b) => a - b);
 };
 
 const createLegendFromLegendSet = legendSet => {
   const { name, legends } = legendSet;
-  const pickSome = pick(['name', 'startValue', 'endValue', 'color']);
+  const pickSome = _.pick(['name', 'startValue', 'endValue', 'color']);
   return {
     title: name,
-    items: sortBy('startValue', legends).map(pickSome)
+    items: _.sortBy('startValue', legends).map(pickSome)
   };
 };
 
@@ -129,7 +123,7 @@ const createLegendFromConfig = (data, config) => {
   // TODO: Unify how we represent a colorScale
   if (Array.isArray(colorScale)) {
     colors = colorScale;
-  } else if (isString(colorScale)) {
+  } else if (_.isString(colorScale)) {
     colors = colorScale.split(',');
   } else {
     colors = getColorsByRgbInterpolation(colorLow, colorHigh, classes);

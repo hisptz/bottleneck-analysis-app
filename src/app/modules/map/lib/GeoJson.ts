@@ -1,7 +1,5 @@
-import compact from 'lodash/fp/compact';
-import sortBy from 'lodash/fp/sortBy';
-import isString from 'lodash/fp/isString';
-import L from 'leaflet';
+import * as _ from 'lodash';
+import * as L from 'leaflet';
 
 export const isValidCoordinate = coord =>
   Array.isArray(coord) &&
@@ -12,7 +10,7 @@ export const isValidCoordinate = coord =>
   coord[1] <= 90;
 
 export const toGeoJson = organisationUnits =>
-  sortBy('le', organisationUnits)
+  _.sortBy(organisationUnits, 'le')
     .map(ou => {
       const coord = JSON.parse(ou.co);
       let gpid = '';
@@ -27,8 +25,8 @@ export const toGeoJson = organisationUnits =>
       }
 
       // Grand parent
-      if (isString(ou.pg) && ou.pg.length) {
-        const ids = compact(ou.pg.split('/'));
+      if (_.isString(ou.pg) && ou.pg.length) {
+        const ids = _.compact(ou.pg.split('/'));
 
         // Grand parent id
         if (ids.length >= 2) {

@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import * as L from 'leaflet';
 import { tileLayer } from './TileLayer';
 
 export const external = options => {
