@@ -81,7 +81,7 @@ export class MenuComponent implements OnInit {
 
             setTimeout(() => {
               this.menuNotification = '';
-            }, 8000);
+            }, 3000);
           }
         } else {
           this.menuNotification = 'You are offline';

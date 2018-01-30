@@ -7,7 +7,7 @@ import 'rxjs/add/observable/timer';
 export class SystemStateService {
   constructor(private httpClient: HttpClient) {}
 
-  checkLoginStatus(startTime: number = 1000, time: number = 5000) {
+  checkLoginStatus(startTime: number = 1000, time: number = 30000) {
     return new Observable(observer => {
       Observable.timer(1000, time).subscribe(() => {
         this.pingServer().subscribe(
