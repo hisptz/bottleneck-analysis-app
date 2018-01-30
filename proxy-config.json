@@ -1,17 +1,16 @@
 {
   "/api": {
-    "target1": "https://play.hisptz.org/26",
-    "target": "http://localhost:8081",
+    "target": "https://play.hisptz.org/26",
+    "target1": "http://localhost:8081",
     "secure": "false",
-    "auth":"system:System123",
+    "auth": "system:System123",
     "changeOrigin": "true"
-
   },
   "/": {
-    "target1": "https://play.hisptz.org/26",
-    "target": "http://localhost:8081",
+    "target": "https://play.hisptz.org/26",
+    "target1": "http://localhost:8081",
     "secure": "false",
-    "auth":"system:System123",
+    "auth": "system:System123",
     "changeOrigin": "true"
   }
 }

@@ -1,23 +1,22 @@
 // Boundary layer
 import * as L from 'leaflet';
-import {toGeoJson, geoJsonOptions} from './GeoJson';
-import {GeoJson} from 'leaflet';
-import {Feature, GeometryObject} from 'geojson';
+import { toGeoJson, geoJsonOptions } from './GeoJson';
 import * as _ from 'lodash';
+import { GeoJson } from 'leaflet';
+import { Feature, GeometryObject } from 'geojson';
 
 const colors = ['black', 'blue', 'red', 'green', 'yellow'];
 const weights = [2, 1, 0.75, 0.5, 0.5];
 
 export function boundary(options) {
-  const {geofeature, layerOptions, displaySettings, opacity, id} = options;
+  const { geofeature, layerOptions, displaySettings, opacity, id } = options;
   const radiusLow = layerOptions.radiusLow;
   const features = toGeoJson(geofeature);
 
   if (!features.length) {
     return;
   }
-
-  const levels = _.uniqBy(features, f => f.properties.level)
+  const levels = _.uniqBy(f => f.properties.level, features)
     .map(f => f.properties.level)
     .sort();
   const levelStyle = levels.reduce(
@@ -94,7 +93,7 @@ export const boundaryEvents = () => {
   const mouseover = evt => {
     const style = evt.layer.feature.properties.style;
     const weight = 3;
-    evt.layer.setStyle({...style, weight});
+    evt.layer.setStyle({ ...style, weight });
     evt.layer.closeTooltip();
     evt.layer
       .bindTooltip(evt.layer.feature.properties.name, {
@@ -110,7 +109,7 @@ export const boundaryEvents = () => {
   const mouseout = evt => {
     const style = evt.layer.feature.properties.style;
     const weight = 1;
-    evt.layer.setStyle({...style, weight});
+    evt.layer.setStyle({ ...style, weight });
   };
 
   return {

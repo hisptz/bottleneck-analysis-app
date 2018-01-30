@@ -114,7 +114,7 @@ export class VisualizationObjectEffects {
         const layers = action.payload.layers;
         const needsLegendSets = layers.filter(layer => layer && layer.dataSelections.legendSet);
         if (needsLegendSets.length) {
-          this.store.dispatch(new legendSetActions.AddLegendSet(action.payload));
+          this.store.dispatch(new legendSetActions.LoadLegendSet(action.payload));
         }
       })
     );

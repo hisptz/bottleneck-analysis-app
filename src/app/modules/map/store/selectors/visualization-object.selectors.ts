@@ -49,3 +49,6 @@ export const isVisualizationObjectsLoaded = createSelector(
   getVisualizationObjectState,
   fromVisualizationObject.getVisualizationObjectsLoaded
 );
+
+export const getCurrentVisualizationObject = id =>
+  createSelector(getAllVisualizationObjectsEntities, entities => entities[id]);

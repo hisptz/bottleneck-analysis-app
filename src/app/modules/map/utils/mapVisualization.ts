@@ -24,10 +24,9 @@ export function prepareMapContainer(mapObjectId, height, width, isFullscreen) {
   div.setAttribute('id', mapObjectId + '-child-view-port');
   if (isFullscreen) {
     width = '100%';
-    // height = '81vh';
   }
   div.style.width = width;
-  div.style.height = '100%';
+  div.style.height = height;
   if (parentElement) {
     parentElement.appendChild(div);
   }

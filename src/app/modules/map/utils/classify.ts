@@ -1,11 +1,11 @@
 // Utils for thematic mapping
-import curryRight from 'lodash/fp/curryRight';
+import * as _ from 'lodash';
 
 export const classify = (features, options) => {
   const { method, classes, colorScale } = options;
   const values = features.map(feature => Number(feature.properties.value)).sort((a, b) => a - b);
   const bins = getClassBins(values, method, classes);
-  const getClassIndex = curryRight(getClass)(bins);
+  const getClassIndex = _.curryRight(getClass)(bins);
 
   // console.log('bins', bins, getClassIndex(20));
 

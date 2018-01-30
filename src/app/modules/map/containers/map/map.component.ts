@@ -73,19 +73,17 @@ export class MapComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.isLoaded$ = this.store.select(fromStore.isVisualizationObjectsLoaded);
     this.isLoading$ = this.store.select(fromStore.isVisualizationObjectsLoading);
-    this.visualizationLegendIsOpen$ = this.store.select(fromStore.isVisualizationLegendOpen);
-    this.visualizationObject$ = this.store.select(fromStore.getCurrentMap);
     this.visualizationObjectEntities$ = this.store.select(
       fromStore.getAllVisualizationObjectsEntities
     );
-    // this._data$.subscribe(data => {
-    //   this.visualizationObject = data;
-    //   this.transhformFavourites(data);
-    // });
 
     if (this.vizObject) {
       this.componentId = this.vizObject.id;
       this.itemHeight = this.vizObject.details.itemHeight;
+      this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.vizObject.id));
+      this.visualizationLegendIsOpen$ = this.store.select(
+        fromStore.isVisualizationLegendOpen(this.vizObject.id)
+      );
       this.transformVisualizationObject(this.vizObject);
     }
     this.store.dispatch(new fromStore.AddContectPath());
@@ -93,7 +91,6 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.initializeMapContainer();
-    this.initializeMapBaseLayer(this.visObject.mapConfiguration);
     this.drawMap();
     // Add scale control
     this.mapAddControl({
@@ -130,7 +127,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     const mapHeight = fromUtils.refineHeight(this.itemHeight);
     const container = fromUtils.prepareMapContainer(
       this.componentId,
-      mapHeight,
+      this.itemHeight,
       this.mapWidth,
       this.isFullScreen
     );
@@ -152,32 +149,41 @@ export class MapComponent implements OnInit, AfterViewInit {
     const mapTileLayer = getTileLayer(mapConfiguration.basemap);
     const baseMapLayer = fromLib.LayerType[mapTileLayer.type](mapTileLayer);
 
-    this.map.setView(center, zoom);
+    this.map.setView(center, zoom, { reset: true });
     // Add baseMap Layer;
     this.map.addLayer(baseMapLayer);
   }
 
   drawMap() {
-    this.visualizationObjectEntities$.subscribe(visualizationEntities => {
-      const visualizationObject = visualizationEntities[this.componentId];
+    this.visualizationObject$ = this.store.select(
+      fromStore.getCurrentVisualizationObject(this.componentId)
+    );
+
+    this.visualizationObject$.subscribe(visualizationObject => {
       if (visualizationObject) {
         const overlayLayers = fromLib.GetOverLayLayers(visualizationObject);
         this.map.eachLayer(layer => this.map.removeLayer(layer));
         this.initializeMapBaseLayer(visualizationObject.mapConfiguration);
         const layersBounds = [];
+        let legendSets = [];
         overlayLayers.map((layer, index) => {
           const { bounds, legendSet } = layer;
           if (bounds) {
             layersBounds.push(bounds);
           }
           if (legendSet && legendSet.legend) {
-            this.store.dispatch(new fromStore.AddLegendSetSuccess(legendSet));
+            legendSets = [...legendSets, legendSet];
           }
           this.createLayer(layer, index);
         });
 
         if (layersBounds.length) {
-          this.layerFitBound(layersBounds);
+          setTimeout(() => {
+            this.layerFitBound(layersBounds);
+          }, 1000);
+        }
+        if (legendSets.length) {
+          this.store.dispatch(new fromStore.AddLegendSet({ [this.componentId]: legendSets }));
         }
       }
     });
@@ -221,6 +227,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   layerFitBound(bounds: LatLngBoundsExpression) {
+    this.map.invalidateSize();
     this.map.fitBounds(bounds);
   }
 
@@ -237,6 +244,6 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   toggleLegendContainerView() {
-    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend());
+    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this.componentId));
   }
 }

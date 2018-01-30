@@ -70,7 +70,6 @@ export function transformVisualizationObject(visualizationObject) {
       'interpretations',
       'program',
       'programStage',
-      'legendSet',
       'columns',
       'rows',
       'filters',
@@ -80,11 +79,14 @@ export function transformVisualizationObject(visualizationObject) {
       'endDate'
     ]);
 
+    const legendSet = settings.legendSet;
+
     const layerObj = {
       ...layer,
       layerOptions,
       legendProperties,
       displaySettings,
+      legendSet,
       dataSelections
     };
 

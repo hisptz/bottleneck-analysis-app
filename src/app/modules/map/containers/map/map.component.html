@@ -24,9 +24,9 @@
       </button>
       <div class="visualization-legend__container" *ngIf="visualizationLegendIsOpen$ | async" [ngStyle]="{'max-height': 'calc(' + mapHeight + ' - 150px)'}"
         (mouseleave)="toggleLegendContainerView()">
-        <app-visualization-legend [mapVsualizationObject]="visObject"></app-visualization-legend>
+        <app-visualization-legend [mapVisualizationObject]="visObject"></app-visualization-legend>
       </div>
     </div>
   </div>
-  <div id="map-view-port-{{componentId}}" style="width:100%; height: 100%;"></div>
+  <div id="map-view-port-{{componentId}}" style="width:100%; height: 100%;" [hidden]="isLoading$ | async"></div>
 </div>

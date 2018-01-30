@@ -1,5 +1,4 @@
 import * as L from 'leaflet';
-import * as _ from 'lodash';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
 import { GeoJson } from 'leaflet';
 import { Feature, GeometryObject } from 'geojson';
@@ -8,7 +7,7 @@ import {
   getPeriodFromFilters,
   getDataItemsFromColumns
 } from '../utils/analytics';
-import isPlainObject from 'lodash/fp/isPlainObject';
+import * as _ from 'lodash';
 
 export const facility = options => {
   const {
@@ -48,6 +47,7 @@ export const facility = options => {
     geoJsonLayer = L.geoJSON(features, otherOptions);
     legend = {
       title: 'Facilities',
+      type: 'facility',
       items: Object.keys(groupSet).map(id => ({
         image: `${contextPath}/images/orgunitgroup/${groupSet[id].symbol}`,
         name: groupSet[id].name
@@ -78,7 +78,7 @@ const parseFacilities = (facilities, groupSetId) =>
   facilities.filter(
     data =>
       data.ty === 1 &&
-      isPlainObject(data.dimensions) &&
+      _.isPlainObject(data.dimensions) &&
       data.dimensions[groupSetId] &&
       isValidCoordinate(JSON.parse(data.co))
   );
@@ -202,7 +202,7 @@ const featureGroupEvents = {
     const attr = evt.target.feature.properties;
     let content = `<div class="leaflet-popup-orgunit">${attr.name}`;
 
-    if (isPlainObject(attr.dimensions)) {
+    if (_.isPlainObject(attr.dimensions)) {
       content += `<br/>Groups: ${Object.keys(attr.dimensions)
         .map(id => attr.dimensions[id])
         .join(', ')}`;

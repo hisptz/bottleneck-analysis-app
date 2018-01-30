@@ -15,7 +15,7 @@ export class LegendSetEffects {
   constructor(private actions$: Actions, private legendSetService: fromServices.LegendSetService) {}
 
   @Effect()
-  addLegendSets$ = this.actions$.ofType(legendSetAction.ADD_LEGEND_SET).pipe(
+  loadLegendSets$ = this.actions$.ofType(legendSetAction.LOAD_LEGEND_SET).pipe(
     switchMap((action: visualizationObjectActions.CreateVisualizationObjectSuccess) => {
       const layers = action.payload.layers;
       const legendSetLayers = {};
@@ -49,4 +49,15 @@ export class LegendSetEffects {
       );
     })
   );
+
+  @Effect()
+  addLegendSets$ = this.actions$
+    .ofType(legendSetAction.ADD_LEGEND_SET)
+    .pipe(
+      map(
+        (action: legendSetAction.AddLegendSetSuccess) =>
+          new legendSetAction.AddLegendSetSuccess(action.payload)
+      ),
+      catchError(error => of(new legendSetAction.AddLegendSetFail(error)))
+    );
 }
