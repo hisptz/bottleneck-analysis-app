@@ -178,7 +178,9 @@ export class MapComponent implements OnInit, AfterViewInit {
         });
 
         if (layersBounds.length) {
-          this.layerFitBound(layersBounds);
+          setTimeout(() => {
+            this.layerFitBound(layersBounds);
+          }, 1000);
         }
         if (legendSets.length) {
           this.store.dispatch(new fromStore.AddLegendSet({ [this.componentId]: legendSets }));
@@ -226,9 +228,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   layerFitBound(bounds: LatLngBoundsExpression) {
     this.map.invalidateSize();
-    setTimeout(() => {
-      this.map.fitBounds(bounds);
-    }, 100);
+    this.map.fitBounds(bounds);
   }
 
   zoomIn(event) {
