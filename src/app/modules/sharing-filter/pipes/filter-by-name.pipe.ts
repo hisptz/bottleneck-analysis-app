@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterByNamePipe implements PipeTransform {
   transform(list: any[], name: any): any {
-    const splittedName = name ? name.split(/[\.\-_]/) : [];
+    const splittedName = name ? name.split(/[\.\-_,; ]/) : [];
     return splittedName.length > 0
       ? list.filter((item: any) =>
           splittedName.some(

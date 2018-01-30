@@ -28,7 +28,7 @@ import {
   catchError,
   mergeMap,
   take,
-  withLatestFrom
+  withLatestFrom, tap
 } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
@@ -295,21 +295,22 @@ export class DashboardEffects {
       dashboard.DashboardActions.LOAD_SHARING_DATA
     )
     .withLatestFrom(this.store)
-    .switchMap(([action, state]: [any, AppState]) => {
-      if (
-        !state.dashboard.dashboardSharing ||
-        !state.dashboard.dashboardSharing[action.payload]
-      ) {
-        this._loadSharingInfo(action.payload).subscribe(
-          (sharingInfo: DashboardSharing) => {
-            this.store.dispatch(
-              new dashboard.LoadSharingDataSuccessAction(sharingInfo)
-            );
-          }
-        );
-      }
-      return Observable.of(null);
-    });
+    .pipe(
+      tap(([action, state]: [any, AppState]) => {
+        if (
+          !state.dashboard.dashboardSharing ||
+          !state.dashboard.dashboardSharing[action.payload]
+        ) {
+          this._loadSharingInfo(action.payload).subscribe(
+            (sharingInfo: DashboardSharing) => {
+              this.store.dispatch(
+                new dashboard.LoadSharingDataSuccessAction(sharingInfo)
+              );
+            }
+          );
+        }
+      })
+    );
 
   @Effect()
   loadOptions$ = this.actions$
@@ -691,7 +692,7 @@ export class DashboardEffects {
             },
             public_access: {
               id: 'public_access',
-              name: 'Public Access',
+              name: sharingObject.publicAccess === '--------' ? 'Only me' : 'Everyone',
               isPublic: true,
               access: sharingObject.publicAccess
             }

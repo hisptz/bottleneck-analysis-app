@@ -19,8 +19,13 @@
     position: absolute;
     top: 40px;
     width: 400px;
-    height: 350px;
+    height: 400px;
     z-index: 1200;
+}
+
+.dashboard-share-body {
+  width: 100%;
+  height: 370px;
 }
 
 .dashboard-share-header {

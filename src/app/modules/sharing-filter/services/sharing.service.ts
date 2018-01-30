@@ -65,4 +65,8 @@ export class SharingService {
         });
       });
   }
+
+  saveSharingResults(sharingObject: any, sharingType: string, sharingId: string) {
+    return this.httpClient.post(`sharing?type=${sharingType}&id=${sharingId}`, {object: sharingObject});
+  }
 }

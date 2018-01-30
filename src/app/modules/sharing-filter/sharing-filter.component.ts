@@ -48,6 +48,9 @@ import * as sharingConstants from './sharing-constants';
 })
 export class SharingFilterComponent implements OnInit {
   @Input() sharingEntity: SharingEntity;
+  @Input() sharingType: string;
+  @Input() sharingId: string;
+  @Input() sharingUser: any;
   @Output()
   onSharingEntityUpdate: EventEmitter<SharingEntity> = new EventEmitter<
     SharingEntity
@@ -80,46 +83,39 @@ export class SharingFilterComponent implements OnInit {
   }
 
   focusInput() {
-    document.getElementById('sharing_filter_input').focus();
+    const sharingInput = document.getElementById('sharing_filter_input');
+
+    if (sharingInput) {
+      sharingInput.focus();
+    }
   }
 
-  addSharingItem(e, sharingItem: any) {
+  changeAccess(e, sharingItem: SharingItem, access?: string) {
     e.stopPropagation();
-
-    this.sharingEntity = {
-      ...this.sharingEntity,
-      [sharingItem.id]: {
-        id: sharingItem.id,
-        name: sharingItem.displayName || sharingItem.name,
-        type: sharingItem.type,
-        access: 'r-------'
-      }
-    };
-
-    this._sharingList$.next(this.mapEntityToSharingList(this.sharingEntity));
-
-    this.searchList = this._updateSearchList(
-      this.searchList,
-      this.sharingEntity
-    );
-
-    this.onSharingEntityUpdate.emit(this.sharingEntity);
-  }
-
-  changeAccess(e, sharingItem: SharingItem) {
-    e.stopPropagation();
+    const newAccess = access ? sharingItem.access === access ?
+      access === 'rw------' ? 'r-------' : access === 'r-------' ?
+        '--------' : '--------' : access === 'r-------' ?
+        sharingItem.access === '' || sharingItem.access === '--------'  ?
+          access : '--------' : access : sharingItem.access;
 
     this.sharingEntity = {
       ...this.sharingEntity,
       [sharingItem.id]: {
         ...sharingItem,
+        name: sharingItem.isPublic ?
+          newAccess === '--------' ?
+            'Only me' : 'Everyone' : sharingItem.name,
         access: sharingItem.isExternal
           ? !sharingItem.access
-          : sharingConstants.ACCESS_LIST[
-              this._getNewAccessIndex(sharingItem.access)
-            ]
+          : newAccess
       }
     };
+
+    if (newAccess === '--------' && !sharingItem.isPublic) {
+      this.sharingEntity = {
+        ..._.omit(this.sharingEntity, [sharingItem.id])
+      };
+    }
 
     this._sharingList$.next(this.mapEntityToSharingList(this.sharingEntity));
 
@@ -128,11 +124,42 @@ export class SharingFilterComponent implements OnInit {
       this.sharingEntity
     );
 
+    /**
+     * Save sharing info
+     */
+
     this.onSharingEntityUpdate.emit(this.sharingEntity);
+
+    this.sharingService.saveSharingResults({
+      id: this.sharingId,
+      publicAccess: this.sharingEntity['public_access'].access,
+      externalAccess: this.sharingEntity['external_access'].access,
+      user: {},
+      userGroupAccesses: this.mapSharingEntitiesToAccessesArray(this.sharingEntity, 'userGroup'),
+      userAccesses: this.mapSharingEntitiesToAccessesArray(this.sharingEntity, 'user'),
+    }, this.sharingType, this.sharingId).subscribe(() => {
+
+    }, error => console.error(error));
   }
 
-  removeSharingItem(e, sharingItem: SharingItem) {
-    e.stopPropagation();
+  mapSharingEntitiesToAccessesArray(sharingEntity: SharingEntity, accessType: string) {
+    return _.filter(
+      _.map(_.keys(sharingEntity), key => {
+        const entity = sharingEntity[key];
+        return {
+          id: entity.id,
+          access: entity.access,
+          type: entity.type
+        };
+      }),
+      sharingObject => sharingObject.type === accessType);
+  }
+
+  removeSharingItem(sharingItem: SharingItem, e?) {
+    if (e) {
+      e.stopPropagation();
+    }
+
     this.sharingEntity = {
       ..._.omit(this.sharingEntity, [sharingItem.id])
     };
@@ -147,20 +174,21 @@ export class SharingFilterComponent implements OnInit {
     this.onSharingEntityUpdate.emit(this.sharingEntity);
   }
 
-  private _getNewAccessIndex(currentAccess): number {
-    return sharingConstants.ACCESS_LIST.indexOf(currentAccess) === 2
-      ? 0
-      : sharingConstants.ACCESS_LIST.indexOf(currentAccess) + 1;
-  }
-
   private _updateSearchList(searchList, sharingEntity) {
-    return _.map(searchList, (searchItem: any) => {
-      const availabelEntity = sharingEntity[searchItem.id];
+    const newSearchList = _.map(searchList, (searchItem: any) => {
+      const availableEntity = sharingEntity[searchItem.id];
       return {
         ...searchItem,
-        available: availabelEntity ? true : false,
-        access: availabelEntity ? availabelEntity.access : ''
+        available: availableEntity ? true : false,
+        name: availableEntity ? availableEntity.name : searchItem.name,
+        access: availableEntity ? availableEntity.access : ''
       };
     });
+    return !_.find(searchList, ['id', 'public_access']) ? [
+      {
+        ...this.sharingEntity['public_access'],
+      },
+      ...newSearchList
+    ] : newSearchList;
   }
 }
