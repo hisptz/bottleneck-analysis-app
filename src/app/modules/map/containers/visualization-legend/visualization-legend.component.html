@@ -6,7 +6,7 @@
           <div class="map-legend-header" (click)="setActiveItem(i, $event)">
             <div class="map-legend-title-block">
               <img src="assets/icons/map.png" alt="">
-              <span class="map-legend-title">{{legend.displayName || legend.name}}</span>
+              <span class="map-legend-title">{{legend.legend.title}}</span>
             </div>
             <div class="map-legend-title-options">
               <a (click)="toggleLayerView(legend,'normal',$event)">
@@ -22,7 +22,7 @@
           </div>
           <div class="map-legend-body" *ngIf="activeLayer === i" [ngStyle]="{'max-height': 'calc(' + mapHeight + ' - ' + (visualizationLegends.length + 4)*50 + 'px)'}">
             <span class="period-legend">{{legend.legend.period}}</span>
-            <div class="tile-layers-list" *ngIf="legend.type === 'thematic'">
+            <div class="tile-layers-list" *ngIf="legend.legend.type === 'thematic'">
               <div *ngFor="let item of legend.legend.items" class="map-legend-table">
                 <div [ngStyle]="{backgroundColor:item.color,width:'60px'}"></div>
                 <ul class="map-legend-table-list">
@@ -31,7 +31,7 @@
                 </ul>
               </div>
             </div>
-            <div class="tile-layers-list" *ngIf="legend.type === 'facility'">
+            <div class="tile-layers-list" *ngIf="legend.legend.type === 'facility'">
               <div *ngFor="let item of legend.legend.items" class="map-legend-table">
                 <div>
                   <img [src]="item.image">
@@ -84,8 +84,5 @@
         </a>
       </div>
     </div>
-  </div>
-  <div class="legend-filter__container" *ngIf="isNotDashboard && (isFilterSectionOpen$ | async)">
-    <!--<app-visualization-filter-section></app-visualization-filter-section>-->
   </div>
 </div>

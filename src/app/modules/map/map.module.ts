@@ -12,12 +12,9 @@ import * as fromComponents from './components';
 
 import * as fromServices from './services';
 
-import * as fromModules from './modules';
-
 @NgModule({
   imports: [
     CommonModule,
-    ...fromModules.modules,
     StoreModule.forFeature('map', reducers),
     EffectsModule.forFeature(effects)
   ],

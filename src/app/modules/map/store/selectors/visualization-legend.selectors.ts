@@ -8,17 +8,16 @@ export const getVisualizationLegendState = createSelector(
   (state: fromFeature.MapState) => state.visualizationLegend
 );
 
-export const isVisualizationLegendOpen = createSelector(
+export const getAllVisualizationLegendEntities = createSelector(
   getVisualizationLegendState,
-  fromVisualizationLegend.getVisualizationLegendOpen
+  fromVisualizationLegend.getVisualizationLegendEntities
 );
 
-export const isVisualizationLegendPinned = createSelector(
-  getVisualizationLegendState,
-  fromVisualizationLegend.getVisualizationLegendPinned
-);
+export const isVisualizationLegendOpen = id =>
+  createSelector(getAllVisualizationLegendEntities, entities => entities[id].open);
 
-export const isVisualizationLegendFilterSectionOpen = createSelector(
-  getVisualizationLegendState,
-  fromVisualizationLegend.getVisualizationLegendFilterSectionOpen
-);
+export const isVisualizationLegendPinned = id =>
+  createSelector(getAllVisualizationLegendEntities, entities => entities[id].pinned);
+
+export const isVisualizationLegendFilterSectionOpen = id =>
+  createSelector(getAllVisualizationLegendEntities, entities => entities[id].filterSectionOpen);

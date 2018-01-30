@@ -28,7 +28,7 @@ export const thematic = options => {
   const otherOptions = thematicLayerOptions(options.id, opacity);
   let geoJsonLayer = L.geoJSON(features, otherOptions);
   let legend = null;
-  if (analyticsData && readyToRender && analyticsData.rows.length) {
+  if (analyticsData && analyticsData.rows.length) {
     const valueById = getValueById(analyticsData);
     const valueFeatures = features.filter(({ id }) => valueById[id] !== undefined);
     const orderedValues = getOrderedValues(analyticsData);
@@ -38,8 +38,8 @@ export const thematic = options => {
     const dataItem = getDataItemsFromColumns(columns)[0];
     const name = options.name || dataItem.name;
     legend = legendSet
-      ? createLegendFromLegendSet(legendSet)
-      : createLegendFromConfig(orderedValues, legendProperties);
+      ? createLegendFromLegendSet(legendSet, options.displayName, options.type)
+      : createLegendFromConfig(orderedValues, legendProperties, options.displayName, options.type);
     const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
     legend['period'] =
       (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) ||
@@ -89,8 +89,8 @@ export const thematic = options => {
 // Returns an object mapping org. units and values
 const getValueById = data => {
   const { headers, rows } = data;
-  const ouIndex = _.findIndex(['name', 'ou'], headers);
-  const valueIndex = _.findIndex(['name', 'value'], headers);
+  const ouIndex = _.findIndex(headers, ['name', 'ou']);
+  const valueIndex = _.findIndex(headers, ['name', 'value']);
 
   return rows.reduce((obj, row) => {
     obj[row[ouIndex]] = parseFloat(row[valueIndex]);
@@ -101,23 +101,27 @@ const getValueById = data => {
 // Returns an array of ordered values
 const getOrderedValues = data => {
   const { headers, rows } = data;
-  const valueIndex = _.findIndex(['name', 'value'], headers);
+  const valueIndex = _.findIndex(headers, ['name', 'value']);
 
   return rows.map(row => parseFloat(row[valueIndex])).sort((a, b) => a - b);
 };
 
-const createLegendFromLegendSet = legendSet => {
+const createLegendFromLegendSet = (legendSet, displayName, type) => {
   const { name, legends } = legendSet;
-  const pickSome = _.pick(['name', 'startValue', 'endValue', 'color']);
+  const pickSome = ['name', 'startValue', 'endValue', 'color'];
+  const items = _.sortBy(legends, 'startValues').map(legend => _.pick(legend, pickSome));
   return {
-    title: name,
-    items: _.sortBy('startValue', legends).map(pickSome)
+    title: name || displayName,
+    type,
+    items
   };
 };
 
-const createLegendFromConfig = (data, config) => {
+const createLegendFromConfig = (data, config, displayName, type) => {
   const { method, classes, colorScale, colorLow, colorHigh } = config;
   const items = getLegendItems(data, method, classes);
+
+  console.log('Items::', items);
   let colors;
 
   // TODO: Unify how we represent a colorScale
@@ -130,6 +134,8 @@ const createLegendFromConfig = (data, config) => {
   }
 
   return {
+    title: displayName,
+    type,
     items: items.map((item, index) => ({
       ...item,
       color: colors[index]

@@ -1,8 +1,6 @@
-import * as L from 'leaflet';
+import L from 'leaflet';
 import 'leaflet.markercluster';
-import uniqBy from 'lodash/fp/uniqBy';
-import isString from 'lodash/fp/isString';
-import isEmpty from 'lodash/fp/isEmpty';
+import * as _ from 'lodash';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
 import { GeoJson } from 'leaflet';
 import { Feature, GeometryObject } from 'geojson';
@@ -136,7 +134,7 @@ const createEventFeature = (headers, names, layerEvent, eventCoordinateField?) =
 
     if (Array.isArray(eventCoord)) {
       coordinates = eventCoord;
-    } else if (isString(eventCoord) && !isEmpty(eventCoord)) {
+    } else if (_.isString(eventCoord) && !_.isEmpty(eventCoord)) {
       coordinates = JSON.parse(eventCoord);
     } else {
       coordinates = [];

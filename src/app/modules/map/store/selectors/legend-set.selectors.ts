@@ -14,6 +14,9 @@ export const getAllLegendSetObjectsEntities = createSelector(
   fromLegendSetReducers.getLegendSetEntities
 );
 
+export const getCurrentLegendSets = id =>
+  createSelector(getAllLegendSetObjectsEntities, entities => entities[id]);
+
 export const getAllLegendSetObjects = createSelector(getAllLegendSetObjectsEntities, entities => {
   return Object.keys(entities).map(id => entities[id]);
 });

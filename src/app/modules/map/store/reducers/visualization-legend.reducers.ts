@@ -1,15 +1,12 @@
 import * as fromVisualizationLegend from './../actions/visualization-legend.action';
+import { VisualizationLegend } from '../../models/visualization-legend.model';
 
 export interface VisualizationLegendState {
-  open: boolean;
-  pinned: boolean;
-  filterSectionOpen: boolean;
+  entities: { [id: string]: VisualizationLegend };
 }
 
 export const initialState: VisualizationLegendState = {
-  pinned: false,
-  open: false,
-  filterSectionOpen: false
+  entities: {}
 };
 
 export function reducer(
@@ -17,61 +14,114 @@ export function reducer(
   action: fromVisualizationLegend.VisualizationLegendAction
 ): VisualizationLegendState {
   switch (action.type) {
-    case fromVisualizationLegend.TOGGLE_PIN_VISUALIZATION_LEGEND: {
-      const pinned = !state.pinned;
+    case fromVisualizationLegend.INITIALIZE_VISUALIZATION_LEGEND: {
+      const visualizationObjectId = action.payload;
+      const initialVisualizationLegendState: VisualizationLegend = {
+        open: false,
+        pinned: false,
+        filterSectionOpen: false
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: initialVisualizationLegendState
+      };
       return {
         ...state,
+        entities
+      };
+    }
+
+    case fromVisualizationLegend.TOGGLE_PIN_VISUALIZATION_LEGEND: {
+      const visualizationObjectId = action.payload;
+      const pinned = !state.entities[visualizationObjectId].pinned;
+      const visualizationLegend = {
+        ...state.entities[visualizationObjectId],
         pinned
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: visualizationLegend
+      };
+      return {
+        ...state,
+        entities
       };
     }
     case fromVisualizationLegend.TOGGLE_OPEN_VISUALIZATION_LEGEND: {
-      const pinned = state.pinned;
-      const open = !state.open;
+      const visualizationObjectId = action.payload;
+      const pinned = state.entities[visualizationObjectId].pinned;
+      const open = !state.entities[visualizationObjectId].open;
       if (pinned) {
         return state;
       }
+      const visualizationLegend = {
+        ...state.entities[visualizationObjectId],
+        open
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: visualizationLegend
+      };
       return {
         ...state,
-        open
+        entities
       };
     }
 
     case fromVisualizationLegend.TOGGLE_VISUALIZATION_FILTER_SECTION: {
-      const filterSectionOpen = !state.filterSectionOpen;
+      const visualizationObjectId = action.payload;
+      const filterSectionOpen = !state.entities[visualizationObjectId].filterSectionOpen;
+      const visualizationLegend = {
+        ...state.entities[visualizationObjectId],
+        filterSectionOpen
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: visualizationLegend
+      };
       return {
         ...state,
-        filterSectionOpen
+        entities
       };
     }
 
     case fromVisualizationLegend.CLOSE_VISUALIZATION_FILTER_SECTION: {
+      const visualizationObjectId = action.payload;
       const filterSectionOpen = false;
+      const visualizationLegend = {
+        ...state.entities[visualizationObjectId],
+        filterSectionOpen
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: visualizationLegend
+      };
       return {
         ...state,
-        filterSectionOpen
+        entities
       };
     }
 
     case fromVisualizationLegend.CLOSE_PIN_VISUALIZATION_LEGEND: {
-      const pinned = state.pinned;
-      const open = !state.open;
-      if (pinned) {
-        return {
-          ...state,
-          pinned: !pinned,
-          open
-        };
-      }
+      const visualizationObjectId = action.payload;
+      const pinned = false;
+      const open = !state.entities[visualizationObjectId].open;
+      const visualizationLegend = {
+        ...state.entities[visualizationObjectId],
+        open,
+        pinned
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: visualizationLegend
+      };
       return {
         ...state,
-        open
+        entities
       };
     }
   }
   return state;
 }
 
-export const getVisualizationLegendOpen = (state: VisualizationLegendState) => state.open;
-export const getVisualizationLegendPinned = (state: VisualizationLegendState) => state.pinned;
-export const getVisualizationLegendFilterSectionOpen = (state: VisualizationLegendState) =>
-  state.filterSectionOpen;
+export const getVisualizationLegendEntities = (state: VisualizationLegendState) => state.entities;

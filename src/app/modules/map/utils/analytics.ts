@@ -1,5 +1,3 @@
-import sortBy from 'lodash/fp/sortBy';
-import negate from 'lodash/fp/negate';
 import { relativePeriods } from '../constants/periods.contant';
 /* DIMENSIONS */
 
@@ -9,8 +7,7 @@ const createDimension = (dimension, items, props) => ({
   ...props
 });
 
-const getDimension = (dimension, arr) =>
-  arr.filter(item => item.dimension === dimension)[0];
+const getDimension = (dimension, arr) => arr.filter(item => item.dimension === dimension)[0];
 
 const getDimensionItems = (dimension, arr) => {
   const dataItems = getDimension(dimension, arr);
@@ -19,20 +16,17 @@ const getDimensionItems = (dimension, arr) => {
 
 /* DATA ITEMS */
 
-export const getDataItemsFromColumns = (columns = []) =>
-  getDimensionItems('dx', columns);
+export const getDataItemsFromColumns = (columns = []) => getDimensionItems('dx', columns);
 
 // PERIOD
-export const getPeriodFromFilters = (filters = []) =>
-  getDimensionItems('pe', filters)[0];
+export const getPeriodFromFilters = (filters = []) => getDimensionItems('pe', filters)[0];
 export const getPeriodNameFromId = id => {
   const period = relativePeriods.filter(pe => pe.id === id)[0];
   return period ? period.name : null;
 };
 
 //
-export const getOrgUnitsFromRows = (rows = []) =>
-  getDimensionItems('ou', rows) || [];
+export const getOrgUnitsFromRows = (rows = []) => getDimensionItems('ou', rows) || [];
 
 export const getFiltersFromColumns = (columns = []) => {
   const filters = columns.filter(item => item.filter);
