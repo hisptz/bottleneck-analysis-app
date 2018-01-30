@@ -13,6 +13,7 @@ import * as fromLib from '../../lib';
 import { Map, LatLngExpression, control, LatLngBoundsExpression } from 'leaflet';
 
 import { of } from 'rxjs/observable/of';
+import { interval } from 'rxjs/observable/interval';
 import { map, filter, tap, flatMap } from 'rxjs/operators';
 
 @Component({
@@ -91,7 +92,10 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.initializeMapContainer();
-    this.drawMap();
+    // this is a hack to make sure map update zoom and fitbounds
+    interval(400)
+      .take(1)
+      .subscribe(() => this.drawMap());
     // Add scale control
     this.mapAddControl({
       type: 'scale',
@@ -163,6 +167,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       if (visualizationObject) {
         const overlayLayers = fromLib.GetOverLayLayers(visualizationObject);
         this.map.eachLayer(layer => this.map.removeLayer(layer));
+        this.map.invalidateSize();
         this.initializeMapBaseLayer(visualizationObject.mapConfiguration);
         const layersBounds = [];
         let legendSets = [];
@@ -178,9 +183,7 @@ export class MapComponent implements OnInit, AfterViewInit {
         });
 
         if (layersBounds.length) {
-          setTimeout(() => {
-            this.layerFitBound(layersBounds);
-          }, 1000);
+          this.layerFitBound(layersBounds);
         }
         if (legendSets.length) {
           this.store.dispatch(new fromStore.AddLegendSet({ [this.componentId]: legendSets }));

@@ -16,7 +16,7 @@ export function boundary(options) {
   if (!features.length) {
     return;
   }
-  const levels = _.uniqBy(f => f.properties.level, features)
+  const levels = _.uniqBy(features, f => f.properties.level)
     .map(f => f.properties.level)
     .sort();
   const levelStyle = levels.reduce(

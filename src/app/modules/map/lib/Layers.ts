@@ -53,6 +53,7 @@ export const Layers = (layers, geofeatures, analytics, organizationGroupSet, leg
         legendSet
       };
     }
+    console.log(newLayer);
     return LayerType[newLayer.type](newLayer);
   });
   return optionLayers;

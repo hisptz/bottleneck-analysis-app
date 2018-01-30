@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import * as _ from 'lodash';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
