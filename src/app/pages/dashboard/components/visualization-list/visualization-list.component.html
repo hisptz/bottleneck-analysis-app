@@ -1,6 +1,20 @@
 <div id="dashboard-visualization-list">
-    <div class="visualization-card-container dashboard-border" *ngFor="let visualizationObject of visualizationObjects$ | async" (mouseenter)="toggleDeleteBlock($event, visualizationObject.id, true)" (mouseleave)="toggleDeleteBlock($event, visualizationObject.id, false)"
-        [style.grid-column]="visualizationObject.details.width" [style.grid-row]="'span 1'">
-        <app-visualization-card [visualizationObject]="visualizationObject" [currentUser]="currentUser$ | async"></app-visualization-card>
+    <div
+      *ngFor="let visualizationObject of visualizationObjects$ | async"
+      (mouseenter)="toggleDeleteBlock($event, visualizationObject.id, true)"
+      (mouseleave)="toggleDeleteBlock($event, visualizationObject.id, false)"
+      [ngClass]="{
+      'visualization-card-container': true,
+      'dashboard-border': true,
+      'full-screen-dashboard-item-view': visualizationObject.details.showFullScreen
+      }"
+      [style.grid-column]="visualizationObject.details.width" [style.grid-row]="'span 1'">
+        <app-visualization-card
+          [visualizationObject]="visualizationObject"
+          [customCardHeight]="(visualizationObject.details.showFullScreen ? '100vh' : undefined)"
+          [customItemHeight]="(visualizationObject.details.showFullScreen ? '96vh' : undefined)"
+          [hideResizeBlock]="visualizationObject.details.showFullScreen"
+          [currentUser]="currentUser$ | async"
+        ></app-visualization-card>
     </div>
 </div>

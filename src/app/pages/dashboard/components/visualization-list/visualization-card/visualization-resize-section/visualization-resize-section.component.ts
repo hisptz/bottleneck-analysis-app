@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
 import {AppState} from '../../../../../../store/app.reducers';
 import {Store} from '@ngrx/store';
 import * as visualizationActions from '../../../../../../store/visualization/visualization.actions';
@@ -17,18 +16,16 @@ export class VisualizationResizeSectionComponent implements OnInit {
   @Input() loaded: boolean;
   @Input() showResizeButton: boolean;
   @Input() visualizationShape: string;
-  constructor(
-    private router: Router,
-    private store: Store<AppState>
-  ) { }
+
+  constructor(private store: Store<AppState>) {
+  }
 
   ngOnInit() {
   }
 
   toggleFullScreen(e) {
     e.stopPropagation();
-    this.store.dispatch(new visualizationActions.SetCurrentAction(this.visualizationId));
-    this.router.navigate([`/dashboards/${this.dashboardId}/item/${this.visualizationId}`]);
+    this.store.dispatch(new visualizationActions.ToggleFullScreenAction(this.visualizationId));
   }
 
   resizeCard(e?) {
@@ -37,7 +34,8 @@ export class VisualizationResizeSectionComponent implements OnInit {
     }
     this.store.dispatch(new visualizationActions.ResizeAction({
       visualizationId: this.visualizationId,
-      shape: visualizationHelpers.getVisualizationShape(this.visualizationShape)}));
+      shape: visualizationHelpers.getVisualizationShape(this.visualizationShape)
+    }));
   }
 
 }

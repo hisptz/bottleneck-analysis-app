@@ -14,7 +14,13 @@
             </div>
         </div>
         <div class="visualization-card-header-right">
-            <app-visualization-resize-section *ngIf="!hideResizeBlock" [dashboardId]="visualizationObject.dashboardId" [visualizationId]="visualizationObject.id" [loaded]="loaded" [visualizationShape]="visualizationObject.shape" [showResizeButton]="isCardFocused"></app-visualization-resize-section>
+            <app-visualization-resize-section
+              [dashboardId]="visualizationObject.dashboardId"
+              [visualizationId]="visualizationObject.id"
+              [loaded]="loaded"
+              [visualizationShape]="visualizationObject.shape"
+              [showResizeButton]="isCardFocused"
+            ></app-visualization-resize-section>
         </div>
     </div>
     <!--End of Visualization card header content-->
