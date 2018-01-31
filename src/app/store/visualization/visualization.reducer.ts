@@ -264,7 +264,6 @@ export function visualizationReducer(state: visualization.VisualizationState = v
       const visualizationObject = _.find(state.visualizationObjects, ['id', action.payload.id]);
 
       const visualizationObjectIndex = state.visualizationObjects.indexOf(visualizationObject);
-      console.log(visualizationObject)
 
       return visualizationObjectIndex !== -1
         ? {
@@ -276,6 +275,30 @@ export function visualizationReducer(state: visualization.VisualizationState = v
               details: {
                 ...visualizationObject.details,
                 currentVisualization: action.payload.type
+              }
+            },
+            ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
+          ]
+        } : state;
+    }
+
+    case VisualizationActions.LOCAL_FILTER_CHANGE: {
+      const visualizationObject = _.find(state.visualizationObjects, ['id', action.payload.visualizationObject.id]);
+
+      const visualizationObjectIndex = state.visualizationObjects.indexOf(visualizationObject);
+
+      return visualizationObjectIndex !== -1
+        ? {
+          ...state,
+          visualizationObjects: [
+            ...state.visualizationObjects.slice(0, visualizationObjectIndex),
+            {
+              ...visualizationObject,
+              details: {
+                ...visualizationObject.details,
+                loading: true,
+                loaded: false,
+                errorMessage: ''
               }
             },
             ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
