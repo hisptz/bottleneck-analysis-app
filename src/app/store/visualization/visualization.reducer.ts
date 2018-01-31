@@ -305,6 +305,23 @@ export function visualizationReducer(state: visualization.VisualizationState = v
           ]
         } : state;
     }
+
+    case VisualizationActions.GLOBAL_FILTER_CHANGE: {
+      return {
+        ...state,
+        visualizationObjects: _.map(state.visualizationObjects, (visualizationObject: Visualization) => {
+          return {
+            ...visualizationObject,
+            details: {
+              ...visualizationObject.details,
+              loading: true,
+              loaded: false,
+              errorMessage: ''
+            }
+          };
+        })
+      };
+    }
   }
 
   return state;
