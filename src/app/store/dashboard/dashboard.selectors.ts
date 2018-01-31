@@ -29,6 +29,8 @@ export const getDashboardMenuItems = createSelector(dashboardState,
     getEndItemIndex(dashboardObject.currentDashboardPage, dashboardObject.dashboardPerPage) + 1)
     .map((dashboard: Dashboard) => mapStateToDashboardMenu(dashboard)) : []);
 
+export const getAllDashboardMenuItems = createSelector(dashboardState, (state: DashboardState) => state.activeDashboards);
+
 export const getShowBookmarkedStatus = createSelector(dashboardState,
   (dashboardObject: DashboardState) => dashboardObject.showBookmarked);
 
