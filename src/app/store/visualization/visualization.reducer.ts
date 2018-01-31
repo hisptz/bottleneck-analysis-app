@@ -152,7 +152,9 @@ export function visualizationReducer(state: visualization.VisualizationState = v
               ...visualizationObject,
               details: {
                 ...visualizationObject.details,
-                showFullScreen: !visualizationObject.details.showFullScreen
+                showFullScreen: !visualizationObject.details.showFullScreen,
+                cardHeight: visualizationObject.details.showFullScreen ? '450px' : '100vh',
+                itemHeight: visualizationObject.details.showFullScreen ? '430px' : '96vh'
               }
             },
             ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
@@ -257,7 +259,30 @@ export function visualizationReducer(state: visualization.VisualizationState = v
         }
         : state;
     }
-    default:
-      return state;
+
+    case VisualizationActions.VISUALIZATION_CHANGE: {
+      const visualizationObject = _.find(state.visualizationObjects, ['id', action.payload.id]);
+
+      const visualizationObjectIndex = state.visualizationObjects.indexOf(visualizationObject);
+      console.log(visualizationObject)
+
+      return visualizationObjectIndex !== -1
+        ? {
+          ...state,
+          visualizationObjects: [
+            ...state.visualizationObjects.slice(0, visualizationObjectIndex),
+            {
+              ...visualizationObject,
+              details: {
+                ...visualizationObject.details,
+                currentVisualization: action.payload.type
+              }
+            },
+            ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
+          ]
+        } : state;
+    }
   }
+
+  return state;
 }

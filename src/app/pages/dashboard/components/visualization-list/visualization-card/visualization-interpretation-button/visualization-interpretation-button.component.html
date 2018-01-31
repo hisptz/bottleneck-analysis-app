@@ -1,5 +1,8 @@
 <div class="visualization-interpretation-button-block">
-    <button class="dashboard-btn interpretation-btn" [disabled]="!loaded" title="{{ interpretationTitle }}" (click)="toggleInterpretation($event)">
+    <button class="dashboard-btn interpretation-btn"
+            [disabled]="!loaded"
+            title="{{ interpretationTitle }}"
+            (click)="toggleInterpretation($event)">
     <div
       class="interpretation-value"
       *ngIf="interpretationCount > 0"

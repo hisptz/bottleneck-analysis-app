@@ -13,9 +13,10 @@ import * as visualizationHelpers from './helpers/index';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/forkJoin';
 import {Router} from '@angular/router';
-import {map, tap, switchMap} from 'rxjs/operators';
+import {map, tap, switchMap, flatMap} from 'rxjs/operators';
 import {catchError} from 'rxjs/operators/catchError';
 import {of} from 'rxjs/observable/of';
+import {forkJoin} from 'rxjs/observable/forkJoin';
 
 @Injectable()
 export class VisualizationEffects {
@@ -94,86 +95,78 @@ export class VisualizationEffects {
   loadAnalytics$ = this.actions$
     .ofType<visualization.LoadAnalyticsAction>(
       visualization.VisualizationActions.LOAD_ANALYTICS
-    )
-    .flatMap((action: any) => {
-      const visualizationObject: Visualization = {...action.payload};
-      const visualizationDetails: any = {...visualizationObject.details};
-      const visualizationLayers: any[] = [...visualizationObject.layers];
-      const analyticsPromises = _.map(
-        visualizationLayers,
-        (visualizationLayer: any) => {
-          const visualizationFilter = _.find(visualizationDetails.filters, [
-            'id',
-            visualizationLayer.settings.id
-          ]);
-          const analyticsUrl = visualizationHelpers.constructAnalyticsUrl(
-            visualizationObject.type,
-            visualizationLayer.settings,
-            visualizationFilter ? visualizationFilter.filters : []
-          );
-          return analyticsUrl !== ''
-            ? this.httpClient.get(analyticsUrl)
-            : Observable.of(null);
-        }
-      );
-
-      return new Observable(observer => {
-        Observable.forkJoin(analyticsPromises).subscribe(
-          (analyticsResponse: any[]) => {
-            visualizationDetails.loaded =
-              visualizationObject.details.currentVisualization === 'MAP'
-                ? false
-                : true;
-            visualizationObject.layers = [
-              ..._.map(
-                visualizationLayers,
-                (visualizationLayer: any, layerIndex: number) => {
-                  const newVisualizationLayer: any = {...visualizationLayer};
-                  const visualizationFilter = _.find(visualizationDetails.filters, ['id', visualizationLayer.settings.id])
-                  const analytics = visualizationHelpers.getSanitizedAnalytics(
-                    {...analyticsResponse[layerIndex]}, visualizationFilter ? visualizationFilter.filters : []);
-
-                  if (analytics.headers) {
-                    newVisualizationLayer.analytics = analytics;
-                  }
-                  return newVisualizationLayer;
-                }
-              )
-            ];
-
-            visualizationObject.details = {...visualizationDetails};
-            observer.next(visualizationObject);
-            observer.complete();
-          },
-          error => {
-            visualizationDetails.loaded = true;
-            visualizationDetails.hasError = true;
-            visualizationDetails.errorMessage = error;
-            visualizationObject.details = {...visualizationDetails};
-            observer.next(visualizationObject);
-            observer.complete();
+    ).pipe(
+      flatMap((action: any) => {
+        const visualizationObject: Visualization = {...action.payload};
+        const visualizationDetails: any = {...visualizationObject.details};
+        const visualizationLayers: any[] = [...visualizationObject.layers];
+        const analyticsPromises = _.map(
+          visualizationLayers,
+          (visualizationLayer: any) => {
+            const visualizationFilter = _.find(visualizationDetails.filters, [
+              'id',
+              visualizationLayer.settings.id
+            ]);
+            const analyticsUrl = visualizationHelpers.constructAnalyticsUrl(
+              visualizationObject.type,
+              visualizationLayer.settings,
+              visualizationFilter ? visualizationFilter.filters : []
+            );
+            return analyticsUrl !== ''
+              ? this.httpClient.get(analyticsUrl)
+              : Observable.of(null);
           }
         );
-      });
-    })
-    .map((visualizationObject: Visualization) => {
-      visualizationObject.operatingLayers = [...visualizationObject.layers];
-      if (visualizationObject.details.currentVisualization === 'MAP') {
-        return new visualization.UpdateVisualizationWithMapSettingsAction(
-          visualizationObject
+
+        return forkJoin(analyticsPromises).pipe(
+          map((analyticsResponse: any[]) => {
+            const layers = _.map(
+              action.payload.layers,
+              (visualizationLayer: any, layerIndex: number) => {
+
+                const visualizationFilter = _.find(visualizationDetails.filters, ['id', visualizationLayer.settings.id]);
+                const analytics = visualizationHelpers.getSanitizedAnalytics(
+                  {...analyticsResponse[layerIndex]},
+                  visualizationFilter ? visualizationFilter.filters : []);
+
+                return {
+                  ...visualizationLayer,
+                  analytics: analytics.headers ? analytics : null
+                };
+              }
+            );
+            return {
+              ...action.payload,
+              details: {
+                ...action.payload.details,
+                loaded: true
+              },
+              layers: layers,
+              operatingLayers: layers
+            };
+          }),
+          map((visualizationObjectResult: Visualization) =>
+            new visualization.AddOrUpdateAction({
+              visualizationObject: visualizationObjectResult,
+              placementPreference: 'normal'
+            })),
+          catchError((error) => of(
+              new visualization.AddOrUpdateAction({
+                visualizationObject: {
+                  ...action.payload,
+                  details: {
+                    ...action.payload.details,
+                    loaded: true,
+                    hasError: true,
+                    errorMessage: error
+                  }
+                },
+                placementPreference: 'normal'
+              })
+            ))
         );
-      } else if (
-        visualizationObject.details.type === 'MAP' &&
-        visualizationObject.details.currentVisualization !== 'MAP'
-      ) {
-        // TODO find best way to merge visualization object
-        // visualizationObject = this.visualizationObjectService.mergeVisualizationObject(visualization);
-      }
-      return new visualization.AddOrUpdateAction({
-        visualizationObject: visualizationObject,
-        placementPreference: 'normal'
-      });
-    });
+      })
+    );
 
   @Effect()
   visualizationWithMapSettings$ = this.actions$
@@ -190,73 +183,18 @@ export class VisualizationEffects {
     );
 
   @Effect()
-  visualizationChange$ = this.actions$
-    .ofType<visualization.VisualizationChangeAction>(
-      visualization.VisualizationActions.VISUALIZATION_CHANGE
-    )
-    .withLatestFrom(this.store)
-    .switchMap(([action, state]: [any, AppState]) => {
-      const correspondingVisualizationObject: Visualization = _.find(
-        state.visualization.visualizationObjects,
-        ['id', action.payload.id]
-      );
-
-      return new Observable(observer => {
-        if (correspondingVisualizationObject) {
-          if (action.payload.type === 'MAP') {
-            // TODO perform map related actions
-            observer.next({
-              ...correspondingVisualizationObject,
-              details: {
-                ...correspondingVisualizationObject.details,
-                currentVisualization: action.payload.type
-              },
-              layers: [...correspondingVisualizationObject.operatingLayers]
-            });
-            observer.complete();
-          } else {
-            observer.next({
-              ...correspondingVisualizationObject,
-              details: {
-                ...correspondingVisualizationObject.details,
-                currentVisualization: action.payload.type
-              },
-              layers: [...correspondingVisualizationObject.operatingLayers]
-            });
-            observer.complete();
-          }
-        } else {
-          observer.next(null);
-          observer.complete();
-        }
-      });
-    })
-    .map(
-      (visualizationObject: Visualization) =>
-        new visualization.AddOrUpdateAction({
-          visualizationObject: visualizationObject,
-          placementPreference: 'normal'
-        })
-    );
-
-  @Effect()
   localFilterChange$ = this.actions$
     .ofType<visualization.LocalFilterChangeAction>(
       visualization.VisualizationActions.LOCAL_FILTER_CHANGE
-    )
-    .flatMap((action: any) =>
-      Observable.of(
+    ).pipe(
+      map((action: any) =>
         visualizationHelpers.updateVisualizationWithCustomFilters(
           action.payload.visualizationObject,
           visualizationHelpers.getSanitizedCustomFilterObject(
             action.payload.filterValue
-          )
-        )
-      )
-    )
-    .map(
-      (visualizationObject: Visualization) =>
-        new visualization.LoadAnalyticsAction(visualizationObject)
+          ))
+      ), map((visualizationObject: Visualization) =>
+        new visualization.LoadAnalyticsAction(visualizationObject))
     );
 
   @Effect({dispatch: false})

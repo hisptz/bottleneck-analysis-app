@@ -1,16 +1,29 @@
 <div
   class="visualization-card"
-  [style.height]="customCardHeight || visualizationObject.details.cardHeight"
+  [style.height]="visualizationObject.details.cardHeight"
   (mouseenter)="toggleCardFocusAction($event, true)"
   (mouseleave)="toggleCardFocusAction($event, false)">
     <!--Visualization card header content-->
     <div class="visualization-card-header">
         <div class="visualization-card-header-left">
-            <div class="visualization-filter-section-container" *ngIf="!visualizationObject.details.nonVisualizable">
-                <app-visualization-filter-section [selectedDimensions]="selectedDimensions" [visualizationType]="currentVisualization" [loaded]="loaded" (onFilterUpdate)="onFilterUpdate($event)" (onLayoutUpdate)="onLayoutUpdate($event)"></app-visualization-filter-section>
+            <div
+              class="visualization-filter-section-container"
+              *ngIf="!visualizationObject.details.nonVisualizable">
+                <app-visualization-filter-section
+                  [selectedDimensions]="selectedDimensions"
+                  [visualizationType]="currentVisualization"
+                  [loaded]="loaded"
+                  (onFilterUpdate)="onFilterUpdate($event)"
+                  (onLayoutUpdate)="onLayoutUpdate($event)"
+                ></app-visualization-filter-section>
             </div>
-            <div class="visualization-interpretation-button-container" *ngIf="!visualizationObject.details.nonVisualizable">
-                <app-visualization-interpretation-button [loaded]="loaded" [visualizationId]="visualizationObject.id" [visualizationLayers]="visualizationObject.layers"></app-visualization-interpretation-button>
+            <div class="visualization-interpretation-button-container"
+                 *ngIf="!visualizationObject.details.nonVisualizable">
+                <app-visualization-interpretation-button
+                  [loaded]="loaded"
+                  [visualizationId]="visualizationObject.id"
+                  [visualizationLayers]="visualizationObject.layers"
+                ></app-visualization-interpretation-button>
             </div>
         </div>
         <div class="visualization-card-header-right">
@@ -33,7 +46,7 @@
         <div class="visualization-block" [style.flex]="'2'">
             <!--chart block-->
             <div class="chart-container" *ngIf="currentVisualization === 'CHART'">
-                <app-chart-list [visualizationLayers]="visualizationObject.layers" [visualizationId]="visualizationObject.id" [chartHeight]="customItemHeight || visualizationObject.details.itemHeight"></app-chart-list>
+                <app-chart-list [visualizationLayers]="visualizationObject.layers" [visualizationId]="visualizationObject.id" [chartHeight]="visualizationObject.details.itemHeight"></app-chart-list>
             </div>
             <!--end of chart block-->
 
@@ -80,7 +93,7 @@
             <!--end of dictionary block-->
         </div>
         <div class="visualization-interpretation" [style.flex]="'1'" *ngIf="visualizationObject.details.showInterpretationBlock">
-            <app-interpretation-container [visualizationLayers]="visualizationObject.layers" [currentUser]="currentUser" [itemHeight]="customItemHeight || visualizationObject.details.itemHeight"></app-interpretation-container>
+            <app-interpretation-container [visualizationLayers]="visualizationObject.layers" [currentUser]="currentUser" [itemHeight]="visualizationObject.details.itemHeight"></app-interpretation-container>
         </div>
     </div>
     <div class="visualization-card-footer" *ngIf="loaded && isCardFocused">

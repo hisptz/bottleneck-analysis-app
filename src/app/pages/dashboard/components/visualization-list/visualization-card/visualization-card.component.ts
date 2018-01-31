@@ -14,9 +14,6 @@ import {ChartListComponent} from '../../../../../modules/chart/components/chart-
 })
 export class VisualizationCardComponent implements OnInit {
   @Input() visualizationObject: Visualization;
-  @Input() customCardHeight: string;
-  @Input() customItemHeight: string;
-  @Input() hideResizeBlock: boolean;
   @Input() currentUser: CurrentUserState;
 
   isCardFocused: boolean;
