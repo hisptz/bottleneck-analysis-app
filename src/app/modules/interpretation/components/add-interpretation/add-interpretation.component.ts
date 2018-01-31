@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {InterpretationService} from '../../services/interpretation.service';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { InterpretationService } from '../../services/interpretation.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-add-interpretation',
@@ -9,16 +9,14 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['./add-interpretation.component.css']
 })
 export class AddInterpretationComponent implements OnInit {
-
   @Input() visualizationTypeObject: any;
   @Input() rootUrl: string;
   @Output() onInterpretationCreate: EventEmitter<any> = new EventEmitter<any>();
   interpretation: any;
   creating: boolean;
   subscription: Subscription;
-  constructor(
-    private interpretationService: InterpretationService
-  ) {
+
+  constructor(private interpretationService: InterpretationService) {
     this.creating = false;
   }
 
@@ -28,29 +26,32 @@ export class AddInterpretationComponent implements OnInit {
         id: this.visualizationTypeObject.id,
         type: this.visualizationTypeObject.type,
         message: ''
-      }
+      };
     }
   }
 
-
   postInterpretation(e) {
+    console.log('posting');
     e.stopPropagation();
     this.creating = true;
-    this.subscription = this.interpretationService.create(this.interpretation, this.rootUrl)
-      .subscribe((interpretations: any[]) => {
-      this.creating = false;
-      this.interpretation.message = '';
-      this.onInterpretationCreate.emit(interpretations);
-      }, error => console.log(error))
+    this.subscription = this.interpretationService
+      .create(this.interpretation, this.rootUrl)
+      .subscribe(
+        (interpretations: any[]) => {
+          this.creating = false;
+          this.interpretation.message = '';
+          this.onInterpretationCreate.emit(interpretations);
+        },
+        error => console.log(error)
+      );
   }
 
   cancel(e) {
     e.stopPropagation();
-     if (this.subscription) {
-       this.subscription.unsubscribe();
-       this.creating = false;
-     }
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.creating = false;
+    }
     this.interpretation.message = '';
   }
 }
-

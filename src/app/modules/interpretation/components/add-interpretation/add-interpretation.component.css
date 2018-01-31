@@ -1,24 +1,24 @@
 .interpretation-write-input {
   border-style: none;
-  display: inline-block;
-  /*border-bottom: solid 1px #eeeeee;*/
-  margin-top: 7px;
-  min-height: 35px;
+  -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   width: 100%;
-  -webkit-transition: all .2s ease-in-out;
-  -moz-transition: all .2s ease-in-out;
-  -o-transition: all .2s ease-in-out;
-  -ms-transition: all .2s ease-in-out;
-  transition: all .2s ease-in-out;
+  padding: 10px;
+  font-size: 13px;
 }
 
 .interpretation-write-input:focus {
   outline: none;
-  /*border-color: #0078A8;*/
 }
 
 .interpretation-write-input {
-  background-color: transparent;
+  /*background-color: transparent;*/
 }
 
 

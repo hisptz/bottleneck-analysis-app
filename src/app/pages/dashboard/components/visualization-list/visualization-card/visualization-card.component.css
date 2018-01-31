@@ -106,3 +106,9 @@
   flex: 1;
   overflow: hidden;
 }
+
+@media (max-width: 900px) {
+  .visualization-card-body {
+    display: block;
+  }
+}

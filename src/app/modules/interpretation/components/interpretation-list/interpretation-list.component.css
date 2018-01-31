@@ -1,9 +1,12 @@
-.interpretation-block {
-  position: relative;
-  padding-bottom: 60px;
+.interpretation-container {
   overflow: auto;
 }
 
+.interpretation-block {
+  position: relative;
+  padding: 10px 10px 60px 10px;
+  overflow: auto;
+}
 
 .interpretation-item {
   display: flex;
@@ -98,7 +101,7 @@
   text-decoration: none;
 }
 
-.interpretation-more-options-dropdown > li > a:hover  {
+.interpretation-more-options-dropdown > li > a:hover {
   background-color: #eeeeee;
 }
 
@@ -133,23 +136,22 @@
 }
 
 .interpretation-write-form {
-  display: flex;
-  padding-top: 5px;
-  padding-left: 5px;
-  background-color: rgba(255,255,255,.9);
   position: absolute;
-  z-index: 1000;
+  display: flex;
+  padding: 5px 10px;
+  background-color: rgba(255, 255, 255, .9);
+  z-index: 1200;
   bottom: 2px;
-  left: 10px;
-  right: 10px;
+  left: 0;
+  right: 0;
 }
 
 .interpretation-comment-container {
   border-left: solid 2px rgba(238, 238, 238, 0.44);
 }
 
-
 .interpretation-input-block {
+  display: block;
   padding-left: 10px;
   width: 100%;
 }
@@ -160,5 +162,5 @@
 }
 
 .interpretation-comment-input-area {
-  background-color: rgba(255,255,255,.9);
+  background-color: rgba(255, 255, 255, .9);
 }
