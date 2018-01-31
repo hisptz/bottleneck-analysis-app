@@ -52,7 +52,7 @@
       <!--end of chart block-->
 
       <!--table block-->
-      <div class="table-container-block" *ngIf="currentVisualization === 'TABLE'">
+      <div class="table-container-block" [style.height]="visualizationObject.details.cardHeight" *ngIf="currentVisualization === 'TABLE'">
         <app-table-list [visualizationType]="visualizationObject.type"
                         [visualizationLayers]="visualizationObject.layers"></app-table-list>
       </div>
@@ -90,7 +90,7 @@
       <!-- end of app block -->
 
       <!--dictionary block-->
-      <div class="dictionary-container" *ngIf="currentVisualization === 'INFO'">
+      <div class="dictionary-container" [style.height]="visualizationObject.details.cardHeight" *ngIf="currentVisualization === 'INFO'">
         <app-dictionary-list
           [metadataIdentifiers]="visualizationObject.details.metadataIdentifiers"></app-dictionary-list>
       </div>

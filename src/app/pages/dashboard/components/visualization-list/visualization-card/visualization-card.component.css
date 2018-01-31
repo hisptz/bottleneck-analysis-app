@@ -70,10 +70,6 @@
 .users-container-block,
 .resources-container-block {
   padding: 20px 10px 10px 10px;
-  overflow: hidden;
-}
-
-.table-container-block:hover {
   overflow: auto;
 }
 
@@ -82,6 +78,7 @@
 }
 
 .dictionary-container {
+  overflow: auto;
   padding: 50px 10px 10px 10px;
 }
 
