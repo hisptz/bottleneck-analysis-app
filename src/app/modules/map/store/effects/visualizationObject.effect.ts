@@ -11,6 +11,7 @@ import * as legendSetActions from '../actions/legend-set.action';
 import * as fromServices from '../../services';
 import * as fromStore from '../../store';
 import { tap } from 'rxjs/operators/tap';
+import { Layer } from '../../models/layer.model';
 
 @Injectable()
 export class VisualizationObjectEffects {
@@ -23,71 +24,24 @@ export class VisualizationObjectEffects {
   createVisualizationObjet$ = this.actions$
     .ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT)
     .pipe(
-      switchMap((action: visualizationObjectActions.CreateVisualizationObject) => {
-        const parameters = action.payload.layers.map(layer => {
-          const isFacility = layer.type === 'facility';
-          if (layer.type === 'external') {
-            return;
-          }
-          const requestParams = [...layer.dataSelections.rows, ...layer.dataSelections.columns];
-          const data = requestParams.filter(dimension => dimension.dimension === 'ou');
-          const parameter = data
-            .map((param, paramIndex) => {
-              return `ou=${param.dimension}:${param.items.map(item => item.id).join(';')}`;
-            })
-            .join('&');
-          return isFacility
-            ? `${parameter}&displayProperty=SHORTNAME&includeGroupSets=true`
-            : `${parameter}&displayProperty=NAME`;
-        });
-        const sources = [];
-        parameters.map(param => {
-          if (param) {
-            sources.push(this.geofeatureService.getGeoFeatures(param));
-          }
-        });
-        const newSource = sources[0] ? sources : Observable.create([]);
-        return Observable.combineLatest(sources).pipe(
-          map(geofeature => {
-            let entity = {};
-            action.payload.layers.forEach((layer, index) => {
-              entity = {
-                ...entity,
-                [layer.id]: geofeature[index]
-              };
-            });
-            const geofeatures = {
-              ...action.payload.geofeatures,
-              ...entity
-            };
-            const vizObject = {
-              ...action.payload,
-              geofeatures
-            };
-            return new visualizationObjectActions.CreateVisualizationObjectSuccess(vizObject);
-          }),
-          catchError(error =>
-            of(new visualizationObjectActions.CreateVisualizationObjectFail(error))
-          )
-        );
-      })
+      map(
+        (action: visualizationObjectActions.CreateVisualizationObject) =>
+          new visualizationObjectActions.CreateVisualizationObjectSuccess(action.payload)
+      ),
+      catchError(error => of(new visualizationObjectActions.CreateVisualizationObjectFail(error)))
     );
 
   @Effect({ dispatch: false })
-  dispatchCreateAnalytics$ = this.actions$
-    .ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT_SUCCESS)
-    .pipe(
-      map((action: visualizationObjectActions.CreateVisualizationObjectSuccess) => {
-        const layers = action.payload.layers;
-        const needsAnalytics = layers.filter(
-          layer => layer && (layer.type === 'event' || layer.type === 'thematic')
-        );
+  dispatchCreateAnalytics$ = this.actions$.ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT_SUCCESS).pipe(
+    map((action: visualizationObjectActions.CreateVisualizationObjectSuccess) => {
+      const layers = action.payload.layers;
+      const needsAnalytics = layers.filter(layer => layer && (layer.type === 'event' || layer.type === 'thematic'));
 
-        if (needsAnalytics.length) {
-          this.store.dispatch(new visualizationObjectActions.LoadAnalyticsVizObj(action.payload));
-        }
-      })
-    );
+      if (needsAnalytics.length) {
+        this.store.dispatch(new visualizationObjectActions.LoadAnalyticsVizObj(action.payload));
+      }
+    })
+  );
 
   @Effect({ dispatch: false })
   dispatchAddOrgUnitGroupSet$ = this.actions$
@@ -95,50 +49,106 @@ export class VisualizationObjectEffects {
     .pipe(
       tap((action: visualizationObjectActions.CreateVisualizationObjectSuccess) => {
         const layers = action.payload.layers;
-        const needsOrgUnitGroupSet = layers.filter(
-          layer => layer && layer.dataSelections.organisationUnitGroupSet
-        );
+        const needsOrgUnitGroupSet = layers.filter(layer => layer && layer.dataSelections.organisationUnitGroupSet);
         if (needsOrgUnitGroupSet.length) {
-          this.store.dispatch(
-            new visualizationObjectActions.AddOrgUnitGroupSetVizObj(action.payload)
-          );
+          this.store.dispatch(new visualizationObjectActions.AddOrgUnitGroupSetVizObj(action.payload));
         }
       })
     );
 
   @Effect({ dispatch: false })
-  dispatchAddLegendSetSet$ = this.actions$
+  dispatchAddLegendSetSet$ = this.actions$.ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT_SUCCESS).pipe(
+    tap((action: visualizationObjectActions.CreateVisualizationObjectSuccess) => {
+      const layers = action.payload.layers;
+      const needsLegendSets = layers.filter(layer => layer && layer.dataSelections.legendSet);
+      if (needsLegendSets.length) {
+        this.store.dispatch(new legendSetActions.LoadLegendSet(action.payload));
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  dispatchCreateGeoFeatures$ = this.actions$
     .ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT_SUCCESS)
     .pipe(
       tap((action: visualizationObjectActions.CreateVisualizationObjectSuccess) => {
-        const layers = action.payload.layers;
-        const needsLegendSets = layers.filter(layer => layer && layer.dataSelections.legendSet);
-        if (needsLegendSets.length) {
-          this.store.dispatch(new legendSetActions.LoadLegendSet(action.payload));
-        }
+        const { layers } = action.payload;
+        const entities = this.getParameterEntities(layers);
+        const values = Object.keys(entities).map(key => entities[key]);
+        this.geofeatureService.getGeoFeaturesArray(values).pipe(map(geofeature => console.log(geofeature)));
       })
     );
 
+  @Effect()
+  dispatchAddGeoFeatures$ = this.actions$.ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT).pipe(
+    map((action: visualizationObjectActions.CreateVisualizationObjectSuccess) => action.payload),
+    switchMap(vizObject => {
+      const { layers } = vizObject;
+      const entities = this.getParameterEntities(layers);
+      const values = Object.keys(entities).map(key => entities[key]);
+      return this.geofeatureService.getGeoFeaturesArray(values).pipe(
+        map(geofeature => {
+          const geofeatures = Object.keys(entities).reduce((arr = {}, key, index) => {
+            return { ...arr, [key]: geofeature[index] };
+          }, {});
+          return new visualizationObjectActions.AddGeoFeaturesVizObj({ ...vizObject, geofeatures });
+        }),
+        catchError(error => of(new visualizationObjectActions.AddVisualizationObjectCompleteFail(error)))
+      );
+    })
+  );
+
   // @Effect({ dispatch: false })
-  // dispatchCreateGeoFeatures$ = this.actions$
-  //   .ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT_SUCCESS)
+  // dispatchCreateVizObjectComplete$ = this.actions$
+  //   .ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE)
   //   .pipe(
-  //     tap((action: visualizationObjectActions.CreateVisualizationObject) => {
-  //       const layers = action.payload.layers;
-  //       // console.log('Is actually Listening:::', layers);
+  //     tap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
+  //       const visualizationObject = action.payload;
+  //       // console.log('Is actually Listening:::', visualizationObject);
+  //       this.store.dispatch(new visualizationObjectActions.AddVisualizationObjectCompleteSuccess(visualizationObject));
   //     })
   //   );
 
-  @Effect({ dispatch: false })
-  dispatchCreateVizObjectComplete$ = this.actions$
+  @Effect()
+  dispatchAddGeoFeaturescomplete$ = this.actions$
     .ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE)
     .pipe(
-      tap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
-        const visualizationObject = action.payload;
-        // console.log('Is actually Listening:::', visualizationObject);
-        this.store.dispatch(
-          new visualizationObjectActions.AddVisualizationObjectCompleteSuccess(visualizationObject)
+      map((action: visualizationObjectActions.AddVisualizationObjectComplete) => action.payload),
+      switchMap(vizObject => {
+        const { layers } = vizObject;
+        const entities = this.getParameterEntities(layers);
+        const values = Object.keys(entities).map(key => entities[key]);
+        return this.geofeatureService.getGeoFeaturesArray(values).pipe(
+          map(geofeature => {
+            const geofeatures = Object.keys(entities).reduce((arr = {}, key, index) => {
+              return { ...arr, [key]: geofeature[index] };
+            }, {});
+            return new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({ ...vizObject, geofeatures });
+          }),
+          catchError(error => of(new visualizationObjectActions.AddVisualizationObjectCompleteFail(error)))
         );
       })
     );
+
+  getParameterEntities(layers: Layer[]) {
+    return layers.reduce((entities = {}, layer, index) => {
+      const { rows, columns, filters } = layer.dataSelections;
+      const isFacility = layer.type === 'facility';
+      if (layer.type === 'external') {
+        return;
+      }
+      const requestParams = [...rows, ...columns, ...filters];
+      const data = requestParams.filter(dimension => dimension.dimension === 'ou');
+      const parameter = data
+        .map((param, paramIndex) => {
+          return `ou=${param.dimension}:${param.items.map(item => item.id || item.dimensionItem).join(';')}`;
+        })
+        .join('&');
+      const url = isFacility
+        ? `${parameter}&displayProperty=SHORTNAME&includeGroupSets=true`
+        : `${parameter}&displayProperty=NAME`;
+      const entity = { [layer.id]: url };
+      return { ...entities, ...entity };
+    }, {});
+  }
 }

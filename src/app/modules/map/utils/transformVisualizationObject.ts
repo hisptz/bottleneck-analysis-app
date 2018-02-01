@@ -7,7 +7,7 @@ export function transformVisualizationObject(visualizationObject) {
   let visObject = {};
   let geofeatures = {};
   let analytics = {};
-  const mapconfig = visualizationObject.details.mapConfiguration;
+  const mapconfig = visualizationObject.details;
   const mapConfiguration: MapConfiguration = _.pick(mapconfig, [
     'id',
     'name',
@@ -44,13 +44,7 @@ export function transformVisualizationObject(visualizationObject) {
       'radiusLow'
     ]);
 
-    const legendProperties = _.pick(settings, [
-      'colorLow',
-      'colorHigh',
-      'colorScale',
-      'classes',
-      'method'
-    ]);
+    const legendProperties = _.pick(settings, ['colorLow', 'colorHigh', 'colorScale', 'classes', 'method']);
 
     const displaySettings = _.pick(settings, [
       'labelFontColor',

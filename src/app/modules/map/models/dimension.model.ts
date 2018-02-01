@@ -8,4 +8,5 @@ export interface DimensionItem {
   id: string;
   name?: string;
   dimensionItemType?: string;
+  dimensionItem?: string;
 }
