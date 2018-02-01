@@ -15,6 +15,7 @@ export function reducer(
 ): VisualizationLegendState {
   switch (action.type) {
     case fromVisualizationLegend.INITIALIZE_VISUALIZATION_LEGEND: {
+      console.log(action.payload)
       const visualizationObjectId = action.payload;
       const initialVisualizationLegendState: VisualizationLegend = {
         open: false,

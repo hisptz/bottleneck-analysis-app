@@ -1,20 +1,28 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {Component, OnInit, Input, AfterViewInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import * as fromStore from '../../store';
-import { Layer } from '../../models/layer.model';
+import {Layer} from '../../models/layer.model';
 import * as fromUtils from '../../utils';
-import { getTileLayer } from '../../constants/tile-layer.constant';
-import { VisualizationObject } from '../../models/visualization-object.model';
-import { MapConfiguration } from '../../models/map-configuration.model';
-import { GeoFeature } from '../../models/geo-feature.model';
+import {getTileLayer} from '../../constants/tile-layer.constant';
+import {VisualizationObject} from '../../models/visualization-object.model';
+import {MapConfiguration} from '../../models/map-configuration.model';
+import {GeoFeature} from '../../models/geo-feature.model';
 import * as fromLib from '../../lib';
-import { Map, LatLngExpression, control, LatLngBoundsExpression } from 'leaflet';
+import {Map, LatLngExpression, control, LatLngBoundsExpression} from 'leaflet';
 
-import { of } from 'rxjs/observable/of';
-import { interval } from 'rxjs/observable/interval';
-import { map, filter, tap, flatMap } from 'rxjs/operators';
+import {of} from 'rxjs/observable/of';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/first';
+import {interval} from 'rxjs/observable/interval';
+import {map, filter, tap, flatMap} from 'rxjs/operators';
+import {getSplitedVisualization} from '../../../../store/visualization/helpers/get-splited-visualization.helper';
+import {getDimensionValues} from '../../../../store/visualization/helpers/get-dimension-values.helpers';
+import {getMapConfiguration} from '../../../../store/visualization/helpers/get-map-configuration.helper';
+import * as _ from 'lodash';
+import {getGeoFeatureUrl} from '../../../../store/visualization/helpers/get-geo-feature-url.helper';
+import {HttpClientService} from '../../../../services/http-client.service';
 
 @Component({
   selector: 'app-map',
@@ -56,31 +64,30 @@ export class MapComponent implements OnInit, AfterViewInit {
   private _data$ = new BehaviorSubject<any>({});
   private _vizObject$ = new BehaviorSubject<any>({});
 
-  @Input()
-  set data(value) {
-    // set the latest value for _data$ BehaviorSubject
-    this._data$.next(value);
-  }
-
   @Input() vizObject: any;
+  // @Input()
+  // set data(value) {
+  //   // set the latest value for _data$ BehaviorSubject
+  //   this._data$.next(value);
+  // }
+  //
+  // get data() {
+  //   // get the latest value from _data$ BehaviorSubject
+  //   return this._data$.getValue();
+  // }
 
-  get data() {
-    // get the latest value from _data$ BehaviorSubject
-    return this._data$.getValue();
-  }
-
-  constructor(private store: Store<fromStore.MapState>) {}
-
-  ngOnInit() {
+  constructor(private store: Store<fromStore.MapState>, private http: HttpClientService) {
     this.isLoaded$ = this.store.select(fromStore.isVisualizationObjectsLoaded);
     this.isLoading$ = this.store.select(fromStore.isVisualizationObjectsLoading);
-    this.visualizationObjectEntities$ = this.store.select(
-      fromStore.getAllVisualizationObjectsEntities
-    );
+  }
+
+  ngOnInit() {
+
+    this.visualizationObjectEntities$ = this.store.select(fromStore.getAllVisualizationObjectsEntities);
 
     if (this.vizObject) {
       this.componentId = this.vizObject.id;
-      this.itemHeight = this.vizObject.details.itemHeight;
+      this.itemHeight = this.vizObject.details.cardHeight;
       this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.vizObject.id));
       this.visualizationLegendIsOpen$ = this.store.select(
         fromStore.isVisualizationLegendOpen(this.vizObject.id)
@@ -88,14 +95,16 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.transformVisualizationObject(this.vizObject);
     }
     this.store.dispatch(new fromStore.AddContectPath());
+
   }
 
   ngAfterViewInit() {
     this.initializeMapContainer();
     // this is a hack to make sure map update zoom and fitbounds
-    interval(400)
-      .take(1)
-      .subscribe(() => this.drawMap());
+    // interval(400)
+    //   .take(1)
+    //   .subscribe(() => this.drawMap());
+    this.drawMap()
     // Add scale control
     this.mapAddControl({
       type: 'scale',
@@ -104,7 +113,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   transhformFavourites(data) {
-    const { visObject, Layers } = fromUtils.transformFavourites(data);
+    const {visObject, Layers} = fromUtils.transformFavourites(data);
     this.visObject = {
       ...this.visObject,
       componentId: this.componentId,
@@ -118,13 +127,110 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   transformVisualizationObject(data) {
-    const { visObject } = fromUtils.transformVisualizationObject(data);
-    this.visObject = {
-      ...this.visObject,
-      componentId: this.componentId,
-      ...visObject
+    // TODO FIND A WAY TO GET GEO FEATURES HERE
+
+    this._updateVisualizationWithMapSettings(data)
+      .subscribe((visualizationObject: any) => {
+        const {visObject} = fromUtils.transformVisualizationObject(visualizationObject);
+        console.log(visObject)
+        this.visObject = {
+          ...this.visObject,
+          componentId: this.componentId,
+          ...visObject
+        };
+        this.store.dispatch(new fromStore.AddVisualizationObjectComplete(this.visObject));
+      });
+  }
+
+  _updateVisualizationWithMapSettings(visualizationObject: any) {
+    const newVisualizationObject: any =
+      visualizationObject.details.type !== 'MAP'
+        ? getSplitedVisualization(visualizationObject)
+        : {...visualizationObject};
+
+    const newVisualizationObjectDetails: any = {
+      ...newVisualizationObject.details
     };
-    this.store.dispatch(new fromStore.AddVisualizationObjectComplete(this.visObject));
+
+    const dimensionArea = this._findOrgUnitDimension(
+      newVisualizationObject.details.layouts[0].layout
+    );
+    return new Observable(observer => {
+      newVisualizationObjectDetails.mapConfiguration = getMapConfiguration(
+        visualizationObject
+      );
+      const geoFeaturePromises = _.map(
+        newVisualizationObject.layers,
+        (layer: any) => {
+          const visualizationFilters = getDimensionValues(
+            layer.settings[dimensionArea],
+            []
+          );
+          const orgUnitFilterObject = _.find(
+            visualizationFilters ? visualizationFilters : [],
+            ['name', 'ou']
+          );
+          const orgUnitFilterValue = orgUnitFilterObject
+            ? orgUnitFilterObject.value
+            : '';
+          /**
+           * Get geo feature
+           * @type {string}
+           */
+            // TODO find best way to reduce number of geoFeature calls
+          const geoFeatureUrl = getGeoFeatureUrl(
+            orgUnitFilterValue
+            );
+          return geoFeatureUrl !== ''
+            ? this.http.get(geoFeatureUrl)
+            : Observable.of(null);
+        }
+      );
+
+      Observable.forkJoin(geoFeaturePromises).subscribe(
+        (geoFeatureResponse: any[]) => {
+          newVisualizationObject.layers = newVisualizationObject.layers.map(
+            (layer: any, layerIndex: number) => {
+              const newSettings: any = {...layer.settings};
+              if (geoFeatureResponse[layerIndex] !== null) {
+                newSettings.geoFeature = [...geoFeatureResponse[layerIndex]];
+              }
+              return {...layer, settings: newSettings};
+            }
+          );
+          newVisualizationObjectDetails.loaded = true;
+          observer.next({
+            ...newVisualizationObject,
+            details: newVisualizationObjectDetails
+          });
+          observer.complete();
+        },
+        error => {
+          newVisualizationObjectDetails.hasError = true;
+          newVisualizationObjectDetails.errorMessage = error;
+          newVisualizationObjectDetails.loaded = true;
+          observer.next({
+            ...newVisualizationObject,
+            details: newVisualizationObjectDetails
+          });
+          observer.complete();
+        }
+      );
+    });
+  }
+
+  private _findOrgUnitDimension(visualizationLayout: any) {
+    let dimensionArea = '';
+
+    if (_.find(visualizationLayout.columns, ['value', 'ou'])) {
+      dimensionArea = 'columns';
+    } else if (_.find(visualizationLayout.rows, ['value', 'ou'])) {
+      dimensionArea = 'rows';
+    } else {
+      dimensionArea = 'filters';
+    }
+
+    return dimensionArea;
   }
 
   initializeMapContainer() {
@@ -153,43 +259,42 @@ export class MapComponent implements OnInit, AfterViewInit {
     const mapTileLayer = getTileLayer(mapConfiguration.basemap);
     const baseMapLayer = fromLib.LayerType[mapTileLayer.type](mapTileLayer);
 
-    this.map.setView(center, zoom, { reset: true });
+    this.map.setView(center, zoom, {reset: true});
     // Add baseMap Layer;
     this.map.addLayer(baseMapLayer);
   }
 
   drawMap() {
-    this.visualizationObject$ = this.store.select(
+    this.store.select(
       fromStore.getCurrentVisualizationObject(this.componentId)
-    );
+    ).subscribe(visualizationObject => {
+        if (visualizationObject) {
+          console.log(visualizationObject);
+          const overlayLayers = fromLib.GetOverLayLayers(visualizationObject);
+          this.map.eachLayer(layer => this.map.removeLayer(layer));
+          this.map.invalidateSize();
+          this.initializeMapBaseLayer(visualizationObject.mapConfiguration);
+          const layersBounds = [];
+          let legendSets = [];
+          overlayLayers.map((layer, index) => {
+            const {bounds, legendSet} = layer;
+            if (bounds) {
+              layersBounds.push(bounds);
+            }
+            if (legendSet && legendSet.legend) {
+              legendSets = [...legendSets, legendSet];
+            }
+            this.createLayer(layer, index);
+          });
 
-    this.visualizationObject$.subscribe(visualizationObject => {
-      if (visualizationObject) {
-        const overlayLayers = fromLib.GetOverLayLayers(visualizationObject);
-        this.map.eachLayer(layer => this.map.removeLayer(layer));
-        this.map.invalidateSize();
-        this.initializeMapBaseLayer(visualizationObject.mapConfiguration);
-        const layersBounds = [];
-        let legendSets = [];
-        overlayLayers.map((layer, index) => {
-          const { bounds, legendSet } = layer;
-          if (bounds) {
-            layersBounds.push(bounds);
+          if (layersBounds.length) {
+            this.layerFitBound(layersBounds);
           }
-          if (legendSet && legendSet.legend) {
-            legendSets = [...legendSets, legendSet];
+          if (legendSets.length) {
+            this.store.dispatch(new fromStore.AddLegendSet({[this.componentId]: legendSets}));
           }
-          this.createLayer(layer, index);
-        });
-
-        if (layersBounds.length) {
-          this.layerFitBound(layersBounds);
         }
-        if (legendSets.length) {
-          this.store.dispatch(new fromStore.AddLegendSet({ [this.componentId]: legendSets }));
-        }
-      }
-    });
+      });
   }
 
   mapAddControl(mapControl) {
@@ -202,7 +307,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   createLayer(optionsLayer, index) {
-    const { displaySettings, id, geoJsonLayer, visible } = optionsLayer;
+    const {displaySettings, id, geoJsonLayer, visible} = optionsLayer;
     this.createPane(displaySettings.labels, id, index);
     this.setLayerVisibility(visible, geoJsonLayer);
   }
@@ -219,7 +324,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onLayerAdd(index, optionsLayer) {}
+  onLayerAdd(index, optionsLayer) {
+  }
 
   setLayerVisibility(isVisible, layer) {
     if (isVisible && this.map.hasLayer(layer) === false) {
