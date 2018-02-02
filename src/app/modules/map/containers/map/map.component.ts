@@ -17,12 +17,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
 import { interval } from 'rxjs/observable/interval';
 import { map, filter, tap, flatMap } from 'rxjs/operators';
-import { getSplitedVisualization } from '../../../../store/visualization/helpers/get-splited-visualization.helper';
-import { getDimensionValues } from '../../../../store/visualization/helpers/get-dimension-values.helpers';
-import { getMapConfiguration } from '../../../../store/visualization/helpers/get-map-configuration.helper';
 import * as _ from 'lodash';
-import { getGeoFeatureUrl } from '../../../../store/visualization/helpers/get-geo-feature-url.helper';
-import { HttpClientService } from '../../../../services/http-client.service';
 
 @Component({
   selector: 'app-map',
@@ -61,6 +56,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   public visualizationObject: any;
   public componentId = 'RBoGyrUJDOu';
   public mapHeight: string;
+  public displayConfigurations: any = {};
   private _data$ = new BehaviorSubject<any>({});
   private _vizObject$ = new BehaviorSubject<any>({});
 
@@ -76,33 +72,29 @@ export class MapComponent implements OnInit, AfterViewInit {
   //   return this._data$.getValue();
   // }
 
-  constructor(private store: Store<fromStore.MapState>, private http: HttpClientService) {
+  constructor(private store: Store<fromStore.MapState>) {
     this.isLoaded$ = this.store.select(fromStore.isVisualizationObjectsLoaded);
     this.isLoading$ = this.store.select(fromStore.isVisualizationObjectsLoading);
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromStore.AddContectPath());
     if (this.vizObject) {
       this.componentId = this.vizObject.id;
       this.itemHeight = this.vizObject.details.cardHeight;
+      this.displayConfigurations = {
+        itemHeight: this.vizObject.details.cardHeight,
+        mapWidth: '100%'
+      };
       this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.vizObject.id));
       this.visualizationLegendIsOpen$ = this.store.select(fromStore.isVisualizationLegendOpen(this.vizObject.id));
       this.transformVisualizationObject(this.vizObject);
     }
-    this.store.dispatch(new fromStore.AddContectPath());
   }
 
   ngAfterViewInit() {
-    this.initializeMapContainer();
     // this is a hack to make sure map update zoom and fitbounds
-    interval(400)
-      .take(1)
-      .subscribe(() => this.drawMap());
     // Add scale control
-    this.mapAddControl({
-      type: 'scale',
-      imperial: false
-    });
   }
 
   transhformFavourites(data) {
@@ -162,7 +154,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   drawMap() {
-    this.store.select(fromStore.getCurrentVisualizationObject(this.componentId)).subscribe(visualizationObject => {
+    this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.componentId));
+    this.visualizationObject$.subscribe(visualizationObject => {
       if (visualizationObject) {
         const overlayLayers = fromLib.GetOverLayLayers(visualizationObject);
         this.map.eachLayer(layer => this.map.removeLayer(layer));

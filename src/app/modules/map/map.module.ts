@@ -13,11 +13,7 @@ import * as fromComponents from './components';
 import * as fromServices from './services';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    StoreModule.forFeature('map', reducers),
-    EffectsModule.forFeature(effects)
-  ],
+  imports: [CommonModule, StoreModule.forFeature('map', reducers), EffectsModule.forFeature(effects)],
   providers: [...fromServices.services],
   declarations: [...fromContainers.containers, ...fromComponents.components],
   exports: [...fromContainers.containers, ...fromComponents.components]
