@@ -13,21 +13,21 @@ import * as fromLib from '../../lib';
 import { Map, LatLngExpression, control, LatLngBoundsExpression } from 'leaflet';
 
 import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/first';
 import { interval } from 'rxjs/observable/interval';
 import { map, filter, tap, flatMap } from 'rxjs/operators';
-import { getSplitedVisualization } from '../../../../store/visualization/helpers/get-splited-visualization.helper';
-import { getDimensionValues } from '../../../../store/visualization/helpers/get-dimension-values.helpers';
-import { getMapConfiguration } from '../../../../store/visualization/helpers/get-map-configuration.helper';
-import * as _ from 'lodash';
-import { getGeoFeatureUrl } from '../../../../store/visualization/helpers/get-geo-feature-url.helper';
-import { HttpClientService } from '../../../../services/http-client.service';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.css'],
+  styles: [
+    `:host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }`
+  ]
 })
 export class MapComponent implements OnInit, AfterViewInit {
   public currentMapLayers$: Observable<Layer[]>;
@@ -61,6 +61,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   public visualizationObject: any;
   public componentId = 'RBoGyrUJDOu';
   public mapHeight: string;
+  public displayConfigurations: any = {};
   private _data$ = new BehaviorSubject<any>({});
   private _vizObject$ = new BehaviorSubject<any>({});
 
@@ -76,7 +77,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   //   return this._data$.getValue();
   // }
 
-  constructor(private store: Store<fromStore.MapState>, private http: HttpClientService) {
+  constructor(private store: Store<fromStore.MapState>) {
     this.isLoaded$ = this.store.select(fromStore.isVisualizationObjectsLoaded);
     this.isLoading$ = this.store.select(fromStore.isVisualizationObjectsLoading);
   }
@@ -85,24 +86,33 @@ export class MapComponent implements OnInit, AfterViewInit {
     if (this.vizObject) {
       this.componentId = this.vizObject.id;
       this.itemHeight = this.vizObject.details.cardHeight;
+      this.displayConfigurations = {
+        itemHeight: this.vizObject.details.cardHeight,
+        mapWidth: '100%'
+      };
       this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.vizObject.id));
-      this.visualizationLegendIsOpen$ = this.store.select(fromStore.isVisualizationLegendOpen(this.vizObject.id));
+      this.visualizationLegendIsOpen$ = this.store.select(
+        fromStore.isVisualizationLegendOpen(this.vizObject.id)
+      );
       this.transformVisualizationObject(this.vizObject);
+      this.visualizationObject$ = this.store.select(
+        fromStore.getCurrentVisualizationObject(this.vizObject.id)
+      );
     }
     this.store.dispatch(new fromStore.AddContectPath());
   }
 
   ngAfterViewInit() {
-    this.initializeMapContainer();
+    // this.initializeMapContainer();
     // this is a hack to make sure map update zoom and fitbounds
-    interval(400)
-      .take(1)
-      .subscribe(() => this.drawMap());
+    // interval(400)
+    //   .take(1)
+    //   .subscribe(() => this.drawMap());
     // Add scale control
-    this.mapAddControl({
-      type: 'scale',
-      imperial: false
-    });
+    // this.mapAddControl({
+    //   type: 'scale',
+    //   imperial: false
+    // });
   }
 
   transhformFavourites(data) {
@@ -159,36 +169,6 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.map.setView(center, zoom, { reset: true });
     // Add baseMap Layer;
     this.map.addLayer(baseMapLayer);
-  }
-
-  drawMap() {
-    this.store.select(fromStore.getCurrentVisualizationObject(this.componentId)).subscribe(visualizationObject => {
-      if (visualizationObject) {
-        const overlayLayers = fromLib.GetOverLayLayers(visualizationObject);
-        this.map.eachLayer(layer => this.map.removeLayer(layer));
-        this.map.invalidateSize();
-        this.initializeMapBaseLayer(visualizationObject.mapConfiguration);
-        const layersBounds = [];
-        let legendSets = [];
-        overlayLayers.map((layer, index) => {
-          const { bounds, legendSet } = layer;
-          if (bounds) {
-            layersBounds.push(bounds);
-          }
-          if (legendSet && legendSet.legend) {
-            legendSets = [...legendSets, legendSet];
-          }
-          this.createLayer(layer, index);
-        });
-
-        if (layersBounds.length) {
-          this.layerFitBound(layersBounds);
-        }
-        if (legendSets.length) {
-          this.store.dispatch(new fromStore.AddLegendSet({ [this.componentId]: legendSets }));
-        }
-      }
-    });
   }
 
   mapAddControl(mapControl) {
