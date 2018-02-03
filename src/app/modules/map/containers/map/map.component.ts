@@ -29,7 +29,7 @@ import { map, filter, tap, flatMap } from 'rxjs/operators';
   }`
   ]
 })
-export class MapComponent implements OnInit, AfterViewInit {
+export class MapComponent implements OnInit {
   public currentMapLayers$: Observable<Layer[]>;
   public isLoaded$: Observable<boolean>;
   public isLoading$: Observable<boolean>;
@@ -83,6 +83,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromStore.AddContectPath());
     if (this.vizObject) {
       this.componentId = this.vizObject.id;
       this.itemHeight = this.vizObject.details.cardHeight;
@@ -99,20 +100,6 @@ export class MapComponent implements OnInit, AfterViewInit {
         fromStore.getCurrentVisualizationObject(this.vizObject.id)
       );
     }
-    this.store.dispatch(new fromStore.AddContectPath());
-  }
-
-  ngAfterViewInit() {
-    // this.initializeMapContainer();
-    // this is a hack to make sure map update zoom and fitbounds
-    // interval(400)
-    //   .take(1)
-    //   .subscribe(() => this.drawMap());
-    // Add scale control
-    // this.mapAddControl({
-    //   type: 'scale',
-    //   imperial: false
-    // });
   }
 
   transhformFavourites(data) {
