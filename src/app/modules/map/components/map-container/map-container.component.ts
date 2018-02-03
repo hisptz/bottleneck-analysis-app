@@ -40,7 +40,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
   constructor(private store: Store<fromStore.MapState>) {}
 
   ngOnInit() {
-    console.log(this.visualizationObject);
+    console.log('visualization Object:::', this.visualizationObject);
     console.log(this.displayConfigurations);
     this.visualizationLegendIsOpen$ = this.store.select(
       fromStore.isVisualizationLegendOpen(this.visualizationObject.componentId)
@@ -49,9 +49,9 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.initializeMapContainer();
-    setTimeout(() => {
-      this.drawMap(this.visualizationObject);
-    }, 4);
+    interval(4)
+      .take(1)
+      .subscribe(() => this.drawMap(this.visualizationObject));
   }
 
   initializeMapContainer() {

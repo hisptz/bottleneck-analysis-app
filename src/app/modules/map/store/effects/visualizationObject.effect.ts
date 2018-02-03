@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { map, switchMap, catchError, combineLatest, flatMap, mergeMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/observable/zip';
 
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as legendSetActions from '../actions/legend-set.action';
@@ -135,31 +136,30 @@ export class VisualizationObjectEffects {
     .pipe(
       switchMap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
         const vizObject = action.payload;
+        console.log(vizObject);
         const { layers } = vizObject;
         const entities = this.getParameterEntities(layers);
         const parameters = Object.keys(entities).map(key => entities[key]);
         const sources = parameters.map(param => {
           return this.geofeatureService.getGeoFeatures(param);
         });
-        return Observable.combineLatest(sources).pipe(
-          map(geofeature => {
-            if (geofeature) {
-              console.log(geofeature);
-              const geofeatures = Object.keys(entities).reduce((arr = {}, key, index) => {
-                return { ...arr, [key]: geofeature[index] };
-              }, {});
-              this.store.dispatch(
-                new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
-                  ...vizObject,
-                  geofeatures
-                })
-              );
-            }
-          }),
-          catchError(error =>
-            of(new visualizationObjectActions.AddVisualizationObjectCompleteFail(error))
-          )
-        );
+
+        // This is a hack find a way not to subscribe please!
+        // TODO: remove this hack;
+        Observable.combineLatest(sources).subscribe(geofeature => {
+          if (geofeature) {
+            const geofeatures = Object.keys(entities).reduce((arr = {}, key, index) => {
+              return { ...arr, [key]: geofeature[index] };
+            }, {});
+            this.store.dispatch(
+              new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
+                ...vizObject,
+                geofeatures
+              })
+            );
+          }
+        });
+        return Observable.zip(sources);
       })
     );
 
@@ -173,7 +173,6 @@ export class VisualizationObjectEffects {
       }
       const requestParams = [...rows, ...columns, ...filters];
       const data = requestParams.filter(dimension => dimension.dimension === 'ou');
-      console.log('data:::', data);
       const parameter = data
         .map((param, paramIndex) => {
           return `ou=${param.dimension}:${param.items
@@ -184,7 +183,6 @@ export class VisualizationObjectEffects {
       const url = isFacility
         ? `${parameter}&displayProperty=SHORTNAME&includeGroupSets=true`
         : `${parameter}&displayProperty=NAME`;
-      console.log('url', url);
       const entity = { [layer.id]: url };
 
       globalEntities = { ...globalEntities, ...entity };
