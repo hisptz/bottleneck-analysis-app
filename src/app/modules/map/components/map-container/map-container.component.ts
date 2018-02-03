@@ -40,8 +40,6 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
   constructor(private store: Store<fromStore.MapState>) {}
 
   ngOnInit() {
-    console.log('visualization Object:::', this.visualizationObject);
-    console.log(this.displayConfigurations);
     this.visualizationLegendIsOpen$ = this.store.select(
       fromStore.isVisualizationLegendOpen(this.visualizationObject.componentId)
     );

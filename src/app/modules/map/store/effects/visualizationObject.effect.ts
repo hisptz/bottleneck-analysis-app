@@ -136,7 +136,6 @@ export class VisualizationObjectEffects {
     .pipe(
       switchMap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
         const vizObject = action.payload;
-        console.log(vizObject);
         const { layers } = vizObject;
         const entities = this.getParameterEntities(layers);
         const parameters = Object.keys(entities).map(key => entities[key]);
