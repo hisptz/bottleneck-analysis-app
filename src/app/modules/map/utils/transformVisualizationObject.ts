@@ -33,7 +33,7 @@ export function transformVisualizationObject(visualizationObject) {
       displayName: settings.displayName,
       opacity: settings.opacity,
       hidden: settings.hidden,
-      type: settings.layer.replace(/\d$/, '') // Replace number in thematic layers
+      type: settings.layer ? settings.layer.replace(/\d$/, '') : 'thematic' // Replace number in thematic layers
     };
 
     const layerOptions = _.pick(settings, [

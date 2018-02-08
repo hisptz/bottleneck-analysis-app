@@ -54,12 +54,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
 
   initializeMapContainer() {
     const { itemHeight, mapWidth } = this.displayConfigurations;
-    const container = fromUtils.prepareMapContainer(
-      this.visualizationObject.componentId,
-      itemHeight,
-      mapWidth,
-      false
-    );
+    const container = fromUtils.prepareMapContainer(this.visualizationObject.componentId, itemHeight, mapWidth, false);
     const otherOptions = {
       zoomControl: false,
       scrollWheelZoom: false,
@@ -109,13 +104,11 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
   }
 
   recenterMap(event) {
-    this.map.eachLayer(layer => console.log(layer.getBounds()));
+    this.map.eachLayer(layer => {});
   }
 
   toggleLegendContainerView() {
-    this.store.dispatch(
-      new fromStore.ToggleOpenVisualizationLegend(this.visualizationObject.componentId)
-    );
+    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this.visualizationObject.componentId));
   }
   initializeMapBaseLayer(mapConfiguration: MapConfiguration) {
     const center: L.LatLngExpression = [
@@ -152,9 +145,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
       this.layerFitBound(layersBounds);
     }
     if (legendSets.length) {
-      this.store.dispatch(
-        new fromStore.AddLegendSet({ [this.visualizationObject.componentId]: legendSets })
-      );
+      this.store.dispatch(new fromStore.AddLegendSet({ [this.visualizationObject.componentId]: legendSets }));
     }
   }
 }
