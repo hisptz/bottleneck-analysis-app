@@ -47,13 +47,12 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
     );
     const { geofeatures, analytics } = this.visualizationObject;
     const allGeofeatures = Object.keys(geofeatures).map(key => geofeatures[key]);
-    const allDataAnalytics = Object.keys(analytics).filter(key => analytics[key] && analytics[key].length > 0);
-    console.log(allDataAnalytics);
+    const allDataAnalytics = Object.keys(analytics).filter(key => analytics[key] && analytics[key].rows.length > 0);
     if (![].concat.apply([], allGeofeatures).length) {
       this.mapHasGeofeatures = false;
     }
-    console.log(allDataAnalytics);
-    if (![].concat.apply([], allDataAnalytics).length) {
+
+    if (!allDataAnalytics.length) {
       this.mapHasDataAnalytics = false;
     }
   }
@@ -67,7 +66,6 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
 
   initializeMapContainer() {
     const { itemHeight, mapWidth } = this.displayConfigurations;
-    console.log(itemHeight);
     const fullScreen = this.visualizationObject.mapConfiguration.fullScreen || itemHeight === '100vh';
     const container = fromUtils.prepareMapContainer(this.visualizationObject.componentId, itemHeight, mapWidth, false);
     const otherOptions = {
@@ -75,7 +73,6 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
       scrollWheelZoom: fullScreen ? true : false,
       worldCopyJump: true
     };
-    console.log(otherOptions);
     this.map = L.map(container, otherOptions);
   }
 

@@ -1,4 +1,4 @@
-<div class="map-container" [hidden]="!mapHasGeofeatures">
+<div class="map-container" [hidden]="!mapHasGeofeatures || !mapHasDataAnalytics">
   <div class="map-block__left">
     <ul class="map-controls__list">
       <li>
@@ -29,9 +29,9 @@
   </div>
   <div id="map-view-port-{{visualizationObject.componentId}}" style="width:100%; height: 100%;"></div>
 </div>
-<div class="warning-map" *ngIf="!mapHasGeofeatures" [ngStyle]="{'height': displayConfigurations.itemHeight}">
+<div class="warning-map" *ngIf="!mapHasGeofeatures && mapHasDataAnalytics" [ngStyle]="{'height': displayConfigurations.itemHeight}">
   <h6>Sorry, this map has no associated geofeatures</h6>
 </div>
-<div class="warning-map" *ngIf="!mapHasGeofeatures" [ngStyle]="{'height': displayConfigurations.itemHeight}">
-  <h6>Sorry, this map has no associated geofeatures</h6>
+<div class="warning-map" *ngIf="!mapHasDataAnalytics" [ngStyle]="{'height': displayConfigurations.itemHeight}">
+  <h6>Sorry, this map has no data to visualize</h6>
 </div>
