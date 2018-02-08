@@ -109,9 +109,17 @@ export class VisualizationObjectEffects {
     tap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
       const visualizationObject = action.payload;
       const { layers } = visualizationObject;
-      const needsTokenGoogleEarth = layers.filter(layer => layer && layer.type === 'googleEarth');
+      const needsTokenGoogleEarth = layers.filter(layer => layer && layer.type === 'earthEngine');
+
       if (needsTokenGoogleEarth.length) {
-        this.systemService.getGoogleEarthToken().subscribe(value => console.log(value));
+        this.systemService.getGoogleEarthToken().subscribe(resp => {
+          Object.keys(resp).map(key => localStorage.setItem(key, resp[key]));
+          this.store.dispatch(
+            new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
+              ...visualizationObject
+            })
+          );
+        });
       }
     })
   );

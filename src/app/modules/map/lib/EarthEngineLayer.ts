@@ -1,4 +1,6 @@
 import { datasets } from '../constants/earthengine.constant';
+import { tileLayer } from './TileLayer';
+
 export const earthEngine = options => {
   const {
     geofeature,
@@ -45,7 +47,28 @@ export const earthEngine = options => {
     layer.legendSet = legendSet;
   }
 
-  return layer;
+  // temporary while figuring  how to get earth engine to work.
+  const _options = {
+    name: 'osmLight',
+    type: 'tileLayer',
+    label: 'OSM Light',
+    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    maxZoom: 18,
+    attribution: '&copy;<a href="https://carto.com/attribution">cartoDB</a>',
+    image: 'assets/img/map-tiles/esri_osm_light.png',
+    baseLayer: true,
+    visible: true
+  };
+
+  const geoJsonLayer = tileLayer(_options);
+
+  const optionsToReturn = {
+    ...options,
+    ...layer,
+    geoJsonLayer
+  };
+
+  return optionsToReturn;
 };
 
 export const createLegend = params => {

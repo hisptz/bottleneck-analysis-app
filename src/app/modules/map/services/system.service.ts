@@ -13,4 +13,8 @@ export class SystemService {
   getGoogleEarthToken() {
     return this.httpClient.get('../../../api/tokens/google');
   }
+
+  getMapID() {
+    return this.httpClient.get('../../../api/tokens/google');
+  }
 }
