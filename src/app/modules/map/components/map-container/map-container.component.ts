@@ -54,12 +54,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
 
   initializeMapContainer() {
     const { itemHeight, mapWidth } = this.displayConfigurations;
-    const container = fromUtils.prepareMapContainer(
-      this.visualizationObject.componentId,
-      itemHeight,
-      mapWidth,
-      false
-    );
+    const container = fromUtils.prepareMapContainer(this.visualizationObject.componentId, itemHeight, mapWidth, false);
     const otherOptions = {
       zoomControl: false,
       scrollWheelZoom: false,
@@ -109,20 +104,21 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
   }
 
   recenterMap(event) {
-    this.map.eachLayer(layer => console.log(layer.getBounds()));
+    this.map.eachLayer(layer => {});
   }
 
   toggleLegendContainerView() {
-    this.store.dispatch(
-      new fromStore.ToggleOpenVisualizationLegend(this.visualizationObject.componentId)
-    );
+    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this.visualizationObject.componentId));
   }
   initializeMapBaseLayer(mapConfiguration: MapConfiguration) {
-    const center: L.LatLngExpression = [
+    let center: L.LatLngExpression = [
       Number(fromLib._convertLatitudeLongitude(mapConfiguration.latitude)),
       Number(fromLib._convertLatitudeLongitude(mapConfiguration.longitude))
     ];
-    const zoom = mapConfiguration.zoom;
+    if (!mapConfiguration.latitude && !mapConfiguration.longitude) {
+      center = [6.489, 21.885];
+    }
+    const zoom = mapConfiguration.zoom ? mapConfiguration.zoom : 6;
 
     const mapTileLayer = getTileLayer(mapConfiguration.basemap);
     const baseMapLayer = fromLib.LayerType[mapTileLayer.type](mapTileLayer);
@@ -152,9 +148,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
       this.layerFitBound(layersBounds);
     }
     if (legendSets.length) {
-      this.store.dispatch(
-        new fromStore.AddLegendSet({ [this.visualizationObject.componentId]: legendSets })
-      );
+      this.store.dispatch(new fromStore.AddLegendSet({ [this.visualizationObject.componentId]: legendSets }));
     }
   }
 }
