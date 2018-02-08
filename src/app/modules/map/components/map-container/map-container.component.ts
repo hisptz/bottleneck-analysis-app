@@ -36,6 +36,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
 
   public visualizationLegendIsOpen$: Observable<boolean>;
   public mapHasGeofeatures: boolean = true;
+  public mapHasDataAnalytics: boolean = true;
   public map: any;
 
   constructor(private store: Store<fromStore.MapState>) {}
@@ -44,10 +45,16 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
     this.visualizationLegendIsOpen$ = this.store.select(
       fromStore.isVisualizationLegendOpen(this.visualizationObject.componentId)
     );
-    const { geofeatures } = this.visualizationObject;
+    const { geofeatures, analytics } = this.visualizationObject;
     const allGeofeatures = Object.keys(geofeatures).map(key => geofeatures[key]);
+    const allDataAnalytics = Object.keys(analytics).filter(key => analytics[key] && analytics[key].length > 0);
+    console.log(allDataAnalytics);
     if (![].concat.apply([], allGeofeatures).length) {
       this.mapHasGeofeatures = false;
+    }
+    console.log(allDataAnalytics);
+    if (![].concat.apply([], allDataAnalytics).length) {
+      this.mapHasDataAnalytics = false;
     }
   }
 
@@ -60,12 +67,15 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
 
   initializeMapContainer() {
     const { itemHeight, mapWidth } = this.displayConfigurations;
+    console.log(itemHeight);
+    const fullScreen = this.visualizationObject.mapConfiguration.fullScreen || itemHeight === '100vh';
     const container = fromUtils.prepareMapContainer(this.visualizationObject.componentId, itemHeight, mapWidth, false);
     const otherOptions = {
       zoomControl: false,
-      scrollWheelZoom: false,
+      scrollWheelZoom: fullScreen ? true : false,
       worldCopyJump: true
     };
+    console.log(otherOptions);
     this.map = L.map(container, otherOptions);
   }
 
