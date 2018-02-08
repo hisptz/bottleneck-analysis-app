@@ -111,11 +111,14 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this.visualizationObject.componentId));
   }
   initializeMapBaseLayer(mapConfiguration: MapConfiguration) {
-    const center: L.LatLngExpression = [
+    let center: L.LatLngExpression = [
       Number(fromLib._convertLatitudeLongitude(mapConfiguration.latitude)),
       Number(fromLib._convertLatitudeLongitude(mapConfiguration.longitude))
     ];
-    const zoom = mapConfiguration.zoom;
+    if (!mapConfiguration.latitude && !mapConfiguration.longitude) {
+      center = [6.489, 21.885];
+    }
+    const zoom = mapConfiguration.zoom ? mapConfiguration.zoom : 6;
 
     const mapTileLayer = getTileLayer(mapConfiguration.basemap);
     const baseMapLayer = fromLib.LayerType[mapTileLayer.type](mapTileLayer);

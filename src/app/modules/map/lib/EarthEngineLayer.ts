@@ -35,10 +35,17 @@ export const earthEngine = options => {
 
   // Create legend items from params
   if (layer.legend && !layer.legend.items && layer.params) {
-    layer.legend.items = createLegend(layer.params);
+    const legendSet = {
+      name: options.name,
+      legend: {
+        item: createLegend(layer.params)
+      }
+    };
+
+    layer.legendSet = legendSet;
   }
 
-  console.log(layer);
+  return layer;
 };
 
 export const createLegend = params => {

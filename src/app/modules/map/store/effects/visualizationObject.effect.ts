@@ -20,7 +20,8 @@ export class VisualizationObjectEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromStore.MapState>,
-    private geofeatureService: fromServices.GeoFeatureService
+    private geofeatureService: fromServices.GeoFeatureService,
+    private systemService: fromServices.SystemService
   ) {}
   @Effect()
   createVisualizationObjet$ = this.actions$
@@ -103,16 +104,17 @@ export class VisualizationObjectEffects {
     })
   );
 
-  // @Effect({ dispatch: false })
-  // dispatchCreateVizObjectComplete$ = this.actions$
-  //   .ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE)
-  //   .pipe(
-  //     tap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
-  //       const visualizationObject = action.payload;
-  //       // console.log('Is actually Listening:::', visualizationObject);
-  //       this.store.dispatch(new visualizationObjectActions.AddVisualizationObjectCompleteSuccess(visualizationObject));
-  //     })
-  //   );
+  @Effect({ dispatch: false })
+  dispatchAddGoogleToken$ = this.actions$.ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE).pipe(
+    tap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
+      const visualizationObject = action.payload;
+      const { layers } = visualizationObject;
+      const needsTokenGoogleEarth = layers.filter(layer => layer && layer.type === 'googleEarth');
+      if (needsTokenGoogleEarth.length) {
+        this.systemService.getGoogleEarthToken().subscribe(value => console.log(value));
+      }
+    })
+  );
 
   @Effect({ dispatch: false })
   dispatchAddGeoFeaturescomplete$ = this.actions$
