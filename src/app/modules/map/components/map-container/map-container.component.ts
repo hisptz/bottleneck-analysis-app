@@ -35,6 +35,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
   @Input() displayConfigurations: any;
 
   public visualizationLegendIsOpen$: Observable<boolean>;
+  public mapHasGeofeatures: boolean = true;
   public map: any;
 
   constructor(private store: Store<fromStore.MapState>) {}
@@ -43,6 +44,11 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
     this.visualizationLegendIsOpen$ = this.store.select(
       fromStore.isVisualizationLegendOpen(this.visualizationObject.componentId)
     );
+    const { geofeatures } = this.visualizationObject;
+    const allGeofeatures = Object.keys(geofeatures).map(key => geofeatures[key]);
+    if (![].concat.apply([], allGeofeatures).length) {
+      this.mapHasGeofeatures = false;
+    }
   }
 
   ngAfterViewInit() {
