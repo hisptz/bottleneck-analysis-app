@@ -35,6 +35,8 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
   @Input() displayConfigurations: any;
 
   public visualizationLegendIsOpen$: Observable<boolean>;
+  public mapHasGeofeatures: boolean = true;
+  public mapHasDataAnalytics: boolean = true;
   public map: any;
 
   constructor(private store: Store<fromStore.MapState>) {}
@@ -43,6 +45,17 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
     this.visualizationLegendIsOpen$ = this.store.select(
       fromStore.isVisualizationLegendOpen(this.visualizationObject.componentId)
     );
+    const { geofeatures, analytics } = this.visualizationObject;
+    const allGeofeatures = Object.keys(geofeatures).map(key => geofeatures[key]);
+    const allDataAnalytics = Object.keys(analytics).filter(key => analytics[key] && analytics[key].length > 0);
+    console.log(allDataAnalytics);
+    if (![].concat.apply([], allGeofeatures).length) {
+      this.mapHasGeofeatures = false;
+    }
+    console.log(allDataAnalytics);
+    if (![].concat.apply([], allDataAnalytics).length) {
+      this.mapHasDataAnalytics = false;
+    }
   }
 
   ngAfterViewInit() {
@@ -54,17 +67,15 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
 
   initializeMapContainer() {
     const { itemHeight, mapWidth } = this.displayConfigurations;
-    const container = fromUtils.prepareMapContainer(
-      this.visualizationObject.componentId,
-      itemHeight,
-      mapWidth,
-      false
-    );
+    console.log(itemHeight);
+    const fullScreen = this.visualizationObject.mapConfiguration.fullScreen || itemHeight === '100vh';
+    const container = fromUtils.prepareMapContainer(this.visualizationObject.componentId, itemHeight, mapWidth, false);
     const otherOptions = {
       zoomControl: false,
-      scrollWheelZoom: false,
+      scrollWheelZoom: fullScreen ? true : false,
       worldCopyJump: true
     };
+    console.log(otherOptions);
     this.map = L.map(container, otherOptions);
   }
 
@@ -109,20 +120,21 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
   }
 
   recenterMap(event) {
-    this.map.eachLayer(layer => console.log(layer.getBounds()));
+    this.map.eachLayer(layer => {});
   }
 
   toggleLegendContainerView() {
-    this.store.dispatch(
-      new fromStore.ToggleOpenVisualizationLegend(this.visualizationObject.componentId)
-    );
+    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this.visualizationObject.componentId));
   }
   initializeMapBaseLayer(mapConfiguration: MapConfiguration) {
-    const center: L.LatLngExpression = [
+    let center: L.LatLngExpression = [
       Number(fromLib._convertLatitudeLongitude(mapConfiguration.latitude)),
       Number(fromLib._convertLatitudeLongitude(mapConfiguration.longitude))
     ];
-    const zoom = mapConfiguration.zoom;
+    if (!mapConfiguration.latitude && !mapConfiguration.longitude) {
+      center = [6.489, 21.885];
+    }
+    const zoom = mapConfiguration.zoom ? mapConfiguration.zoom : 6;
 
     const mapTileLayer = getTileLayer(mapConfiguration.basemap);
     const baseMapLayer = fromLib.LayerType[mapTileLayer.type](mapTileLayer);
@@ -152,9 +164,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
       this.layerFitBound(layersBounds);
     }
     if (legendSets.length) {
-      this.store.dispatch(
-        new fromStore.AddLegendSet({ [this.visualizationObject.componentId]: legendSets })
-      );
+      this.store.dispatch(new fromStore.AddLegendSet({ [this.visualizationObject.componentId]: legendSets }));
     }
   }
 }
