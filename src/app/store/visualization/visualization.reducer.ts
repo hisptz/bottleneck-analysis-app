@@ -10,6 +10,12 @@ import * as visualizationHelpers from './helpers/index';
 export function visualizationReducer(state: visualization.VisualizationState = visualization.INITIAL_VISUALIZATION_STATE,
                                      action: VisualizationAction) {
   switch (action.type) {
+    case VisualizationActions.LOAD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true
+      };
     case VisualizationActions.SET_INITIAL:
       return {
         ...state,

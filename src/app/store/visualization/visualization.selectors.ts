@@ -7,6 +7,8 @@ import {Dashboard} from '../dashboard/dashboard.state';
 
 const visualizationState = (state: AppState) => state.visualization;
 
+export const getVisualizationLoadingState = createSelector(visualizationState, (state) => state.loading);
+
 export const getCurrentDashboardVisualizationObjects = createSelector(visualizationState, getCurrentDashboard,
   (visualization: VisualizationState, currentDashboard: Dashboard) =>
     visualization.currentVisualization || !currentDashboard ? [] : _.filter(visualization.visualizationObjects,

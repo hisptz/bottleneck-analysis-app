@@ -3,7 +3,8 @@ import {CurrentUserState} from './current-user.state';
 
 export enum CurrentUserActions {
   LOAD = '[Current User] Load current user',
-  LOAD_SUCCESS = '[Current User] Load current user success'
+  LOAD_SUCCESS = '[Current User] Load current user success',
+  LOAD_FAIL = '[Current User] Load current user fail'
 }
 
 export class LoadAction implements Action {
@@ -17,4 +18,9 @@ export class LoadSuccessAction implements Action {
   }
 }
 
-export type CurrentUserAction = LoadAction | LoadSuccessAction;
+export class LoadFailAction implements Action {
+  readonly type = CurrentUserActions.LOAD_FAIL;
+  constructor(public payload: any) {}
+}
+
+export type CurrentUserAction = LoadAction | LoadSuccessAction | LoadFailAction;

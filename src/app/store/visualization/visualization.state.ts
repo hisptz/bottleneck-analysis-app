@@ -26,11 +26,15 @@ export interface Visualization {
 
 
 export interface VisualizationState {
+  loading: boolean;
+  loaded: boolean;
   currentVisualization: string;
   visualizationObjects: Visualization[];
 }
 
 export const INITIAL_VISUALIZATION_STATE: VisualizationState = {
+  loading: true,
+  loaded: false,
   currentVisualization: undefined,
   visualizationObjects: []
 }

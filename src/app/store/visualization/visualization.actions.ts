@@ -2,6 +2,7 @@ import {Action} from '@ngrx/store';
 import {Visualization} from './visualization.state';
 
 export enum VisualizationActions {
+  LOAD_SUCCESS = '[Visualization] Load success',
   SET_INITIAL = '[Visualization] Set initial visualizations',
   LOAD_FAVORITE = '[Visualization] Load favorite details for visualization',
   LOAD_ANALYTICS = '[Visualization] Load analytics for visualization',
@@ -17,10 +18,14 @@ export enum VisualizationActions {
   RESIZE_SUCCESS = '[Visualizaton] Resize visualization object success',
   TOGGLE_INTERPRETATION = '[Visualizaton] Toggle interpratation',
   TOGGLE_DELETE_DIALOG = '[Visualizaton] Toggle delete dialog',
-  TOGGLE_FULLSCREEN = '[Visualizaton] Toggle delete dialog',
+  TOGGLE_FULLSCREEN = '[Visualizaton] Toggle full screen',
   DELETE = '[Visualization] Delete visualization',
   DELETE_SUCCESS = '[Visualization] Delete visualization success',
   DELETE_FAIL = '[Visualization] Delete visualization fail'
+}
+
+export class LoadSuccessAction implements Action {
+  readonly type = VisualizationActions.LOAD_SUCCESS;
 }
 
 export class SetInitialAction implements Action {
@@ -172,4 +177,6 @@ export type VisualizationAction =
   | DeleteAction
   | DeleteSuccessAction
   | DeleteFailAction
-  | GlobalFilterChangeAction;
+  | GlobalFilterChangeAction
+  | LoadSuccessAction;
+
