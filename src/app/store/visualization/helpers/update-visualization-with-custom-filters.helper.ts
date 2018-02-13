@@ -1,8 +1,9 @@
-import {Visualization} from '../visualization.state';
+import { Visualization } from '../visualization.state';
 import * as _ from 'lodash';
-import {mapSettingsToVisualizationFilters} from './map-settings-to-visualization-filters';
+import { mapSettingsToVisualizationFilters } from './map-settings-to-visualization-filters';
 
-export function updateVisualizationWithCustomFilters(visualization: Visualization, customFilterObject: any): Visualization {
+export function updateVisualizationWithCustomFilters(visualization: Visualization,
+  customFilterObject: any): Visualization {
   const filterArray: any[] = [...visualization.details.filters];
 
   const newFilterArray: any[] = filterArray.map((filterObject: any) => {
@@ -28,13 +29,9 @@ export function updateVisualizationWithCustomFilters(visualization: Visualizatio
   const layers = [...updateLayersWithCustomFilters(visualization.operatingLayers, newFilterArray)];
 
   const metadataIdentifiers = layers.map(visualizationLayer =>
-    _.find(visualizationLayer.filters, ['name', 'dx']))
-    .filter(dxObject => dxObject)
-    .map(dxObject => dxObject.value.split('.')[0])
-    .filter(dxValue => dxValue !== '')
-    .join(';')
-    .split(';')
-    .filter(value => value !== '');
+    _.find(visualizationLayer.filters, ['name', 'dx'])).filter(dxObject => dxObject).
+    map(dxObject => dxObject.value.split('.')[0]).filter(dxValue => dxValue !== '').join(';').split(';').
+    filter(value => value !== '');
 
   return {
     ...visualization,
@@ -66,14 +63,15 @@ function mapFilterItemsToFavoriteFormat(filterItems, dimensionType) {
         startingName: filterItem.startingName,
         displayName: filterItem.name,
         dimensionItemType: filterItem.id.indexOf('LEVEL') !== -1 ? 'LEVEL' :
-          filterItem.id.indexOf('OU_GROUP') !== -1 ? 'GROUP' : 'ORGANISATION_UNIT'
+                           filterItem.id.indexOf('OU_GROUP') !== -1 ? 'GROUP' : 'ORGANISATION_UNIT'
       });
     } else if (dimensionType === 'dx') {
       newFilterItems.push({
         id: filterItem.id,
         dimensionItem: filterItem.id,
         displayName: filterItem.name,
-        dimensionItemType: filterItem.dataElementId ? 'DATA_ELEMENT' : 'INDICATOR'
+        dimensionItemType: filterItem.type,
+        config: filterItem.type === 'FUNCTION_RULE' ? filterItem.functionObject : null
       });
     }
   });

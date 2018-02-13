@@ -141,8 +141,13 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       pi: this.dataItems.programIndicators,
       rl: _.flatten(_.map(this.dataItems.functions, functionObject => _.map(functionObject.rules || [], (rule: any) => {
         return {
-          ...rule,
-          functionString: functionObject.function
+          id: rule.id,
+          name: rule.name,
+          functionObject: {
+            functionString: functionObject.function,
+            ruleDefinition: rule
+          },
+          type: 'FUNCTION_RULE'
         };
       })))
     };
@@ -331,7 +336,6 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   // this will add a selected item in a list function
   addSelected(item, event) {
-    console.log(item);
     event.stopPropagation();
     const itemIndex = _.findIndex(this.availableItems, item);
 
