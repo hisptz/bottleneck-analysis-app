@@ -37,9 +37,7 @@ export class VisualizationLegendComponent implements OnInit {
   constructor(private store: Store<fromStore.MapState>) {}
 
   ngOnInit() {
-    this.sticky$ = this.store.select(
-      fromStore.isVisualizationLegendPinned(this.mapVisualizationObject.componentId)
-    );
+    this.sticky$ = this.store.select(fromStore.isVisualizationLegendPinned(this.mapVisualizationObject.componentId));
     this.isFilterSectionOpen$ = this.store.select(
       fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
     );
@@ -81,25 +79,29 @@ export class VisualizationLegendComponent implements OnInit {
 
   stickLegendContainer(e) {
     e.stopPropagation();
-    this.store.dispatch(
-      new fromStore.TogglePinVisualizationLegend(this.mapVisualizationObject.componentId)
-    );
+    this.store.dispatch(new fromStore.TogglePinVisualizationLegend(this.mapVisualizationObject.componentId));
   }
 
   closeLegendContainer(e) {
     e.stopPropagation();
-    this.store.dispatch(
-      new fromStore.CloseVisualizationLegend(this.mapVisualizationObject.componentId)
-    );
+    this.store.dispatch(new fromStore.CloseVisualizationLegend(this.mapVisualizationObject.componentId));
   }
 
   openFilters(e) {
     e.stopPropagation();
     this.showFilterContainer = true;
-    this.store.dispatch(
-      new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId)
-    );
+    this.store.dispatch(new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 
   toggleLayerView(e) {}
+
+  changeTileLayer(tileLayer) {
+    const mapConfiguration = {
+      ...this.mapVisualizationObject.mapConfiguration,
+      basemap: tileLayer.name
+    };
+    this.store.dispatch(
+      new fromStore.UpdateVisualizationObjectSuccess({ ...this.mapVisualizationObject, mapConfiguration })
+    );
+  }
 }

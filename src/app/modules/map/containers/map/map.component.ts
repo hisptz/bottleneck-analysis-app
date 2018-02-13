@@ -66,16 +66,6 @@ export class MapComponent implements OnInit {
   private _vizObject$ = new BehaviorSubject<any>({});
 
   @Input() vizObject: any;
-  // @Input()
-  // set data(value) {
-  //   // set the latest value for _data$ BehaviorSubject
-  //   this._data$.next(value);
-  // }
-  //
-  // get data() {
-  //   // get the latest value from _data$ BehaviorSubject
-  //   return this._data$.getValue();
-  // }
 
   constructor(private store: Store<fromStore.MapState>) {
     this.isLoaded$ = this.store.select(fromStore.isVisualizationObjectsLoaded);
@@ -92,13 +82,9 @@ export class MapComponent implements OnInit {
         mapWidth: '100%'
       };
       this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.vizObject.id));
-      this.visualizationLegendIsOpen$ = this.store.select(
-        fromStore.isVisualizationLegendOpen(this.vizObject.id)
-      );
+      this.visualizationLegendIsOpen$ = this.store.select(fromStore.isVisualizationLegendOpen(this.vizObject.id));
       this.transformVisualizationObject(this.vizObject);
-      this.visualizationObject$ = this.store.select(
-        fromStore.getCurrentVisualizationObject(this.vizObject.id)
-      );
+      this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.vizObject.id));
     }
   }
 
@@ -125,91 +111,6 @@ export class MapComponent implements OnInit {
       ...visObject
     };
     this.store.dispatch(new fromStore.AddVisualizationObjectComplete(this.visObject));
-  }
-
-  initializeMapContainer() {
-    const mapHeight = fromUtils.refineHeight(this.itemHeight);
-    const container = fromUtils.prepareMapContainer(
-      this.componentId,
-      this.itemHeight,
-      this.mapWidth,
-      this.isFullScreen
-    );
-    const otherOptions = {
-      zoomControl: false,
-      scrollWheelZoom: false,
-      worldCopyJump: true
-    };
-    this.map = new Map(container, otherOptions);
-  }
-
-  initializeMapBaseLayer(mapConfiguration: MapConfiguration) {
-    const center: LatLngExpression = [
-      Number(fromLib._convertLatitudeLongitude(mapConfiguration.latitude)),
-      Number(fromLib._convertLatitudeLongitude(mapConfiguration.longitude))
-    ];
-    const zoom = mapConfiguration.zoom;
-
-    const mapTileLayer = getTileLayer(mapConfiguration.basemap);
-    const baseMapLayer = fromLib.LayerType[mapTileLayer.type](mapTileLayer);
-
-    this.map.setView(center, zoom, { reset: true });
-    // Add baseMap Layer;
-    this.map.addLayer(baseMapLayer);
-  }
-
-  mapAddControl(mapControl) {
-    let newControl = mapControl;
-
-    if (mapControl.type && control[mapControl.type]) {
-      newControl = control[mapControl.type](mapControl);
-    }
-    this.map.addControl(newControl);
-  }
-
-  createLayer(optionsLayer, index) {
-    const { displaySettings, id, geoJsonLayer, visible } = optionsLayer;
-    this.createPane(displaySettings.labels, id, index);
-    this.setLayerVisibility(visible, geoJsonLayer);
-  }
-
-  createPane(labels, id, index) {
-    const zIndex = 600 - index * 10;
-    this.map.createPane(id);
-    this.map.getPane(id).style.zIndex = zIndex.toString();
-
-    if (labels) {
-      const paneLabelId = `${id}-labels`;
-      const labelPane = this.map.createPane(paneLabelId);
-      this.map.getPane(paneLabelId).style.zIndex = (zIndex + 1).toString();
-    }
-  }
-
-  onLayerAdd(index, optionsLayer) {}
-
-  setLayerVisibility(isVisible, layer) {
-    if (isVisible && this.map.hasLayer(layer) === false) {
-      this.map.addLayer(layer);
-    } else if (!isVisible && this.map.hasLayer(layer) === true) {
-      this.map.removeLayer(layer);
-    }
-  }
-
-  layerFitBound(bounds: LatLngBoundsExpression) {
-    this.map.invalidateSize();
-    this.map.fitBounds(bounds);
-  }
-
-  zoomIn(event) {
-    this.map.zoomIn();
-  }
-
-  zoomOut(event) {
-    this.map.zoomOut();
-  }
-
-  recenterMap(event) {
-    this.map.eachLayer(layer => console.log(layer.getBounds()));
   }
 
   toggleLegendContainerView() {

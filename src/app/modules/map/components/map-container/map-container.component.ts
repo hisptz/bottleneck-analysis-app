@@ -1,4 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  SimpleChange,
+  Input,
+  AfterViewInit
+} from '@angular/core';
 import { VisualizationObject } from '../../models/visualization-object.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -30,22 +39,39 @@ import { map, filter, tap, flatMap } from 'rxjs/operators';
   }`
   ]
 })
-export class MapContainerComponent implements OnInit, AfterViewInit {
+export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() visualizationObject: VisualizationObject;
   @Input() displayConfigurations: any;
 
   public visualizationLegendIsOpen$: Observable<boolean>;
   public mapHasGeofeatures: boolean = true;
   public mapHasDataAnalytics: boolean = true;
+  private _visualizationObject: VisualizationObject;
+  private _displayConfigurations: any;
+
   public map: any;
 
   constructor(private store: Store<fromStore.MapState>) {}
 
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+    const { visualizationObject, displayConfigurations } = changes;
+    this._visualizationObject = visualizationObject.currentValue;
+    this.createMap();
+    // detect changes and redraw only after ngInit has done that.
+    if (!visualizationObject.isFirstChange()) {
+      this.drawMap(this._visualizationObject);
+    }
+  }
+
   ngOnInit() {
     this.visualizationLegendIsOpen$ = this.store.select(
-      fromStore.isVisualizationLegendOpen(this.visualizationObject.componentId)
+      fromStore.isVisualizationLegendOpen(this._visualizationObject.componentId)
     );
-    const { geofeatures, analytics } = this.visualizationObject;
+  }
+
+  createMap() {
+    const { geofeatures, analytics } = this._visualizationObject;
     const allGeofeatures = Object.keys(geofeatures).map(key => geofeatures[key]);
     const allDataAnalytics = Object.keys(analytics).filter(key => analytics[key] && analytics[key].rows.length > 0);
     if (![].concat.apply([], allGeofeatures).length) {
@@ -61,13 +87,13 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
     this.initializeMapContainer();
     interval(4)
       .take(1)
-      .subscribe(() => this.drawMap(this.visualizationObject));
+      .subscribe(() => this.drawMap(this._visualizationObject));
   }
 
   initializeMapContainer() {
     const { itemHeight, mapWidth } = this.displayConfigurations;
-    const fullScreen = this.visualizationObject.mapConfiguration.fullScreen || itemHeight === '100vh';
-    const container = fromUtils.prepareMapContainer(this.visualizationObject.componentId, itemHeight, mapWidth, false);
+    const fullScreen = this._visualizationObject.mapConfiguration.fullScreen || itemHeight === '100vh';
+    const container = fromUtils.prepareMapContainer(this._visualizationObject.componentId, itemHeight, mapWidth, false);
     const otherOptions = {
       zoomControl: false,
       scrollWheelZoom: fullScreen ? true : false,
@@ -121,7 +147,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
   }
 
   toggleLegendContainerView() {
-    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this.visualizationObject.componentId));
+    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this._visualizationObject.componentId));
   }
   initializeMapBaseLayer(mapConfiguration: MapConfiguration) {
     let center: L.LatLngExpression = [
@@ -161,7 +187,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit {
       this.layerFitBound(layersBounds);
     }
     if (legendSets.length) {
-      this.store.dispatch(new fromStore.AddLegendSet({ [this.visualizationObject.componentId]: legendSets }));
+      this.store.dispatch(new fromStore.AddLegendSet({ [this._visualizationObject.componentId]: legendSets }));
     }
   }
 }

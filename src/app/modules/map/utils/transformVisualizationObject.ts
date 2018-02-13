@@ -8,16 +8,16 @@ export function transformVisualizationObject(visualizationObject) {
   let geofeatures = {};
   let analytics = {};
   const mapconfig = visualizationObject.details;
-  const mapConfiguration: MapConfiguration = _.pick(mapconfig, [
-    'id',
-    'name',
-    'subtitle',
-    'latitude',
-    'longitude',
-    'basemap',
-    'zoom',
-    'fullScreen'
-  ]);
+  const mapConfiguration: MapConfiguration = {
+    id: mapconfig.id,
+    name: mapconfig.name || visualizationObject.name,
+    subtitle: mapconfig.subtitle,
+    latitude: mapconfig.latitude,
+    longitude: mapconfig.longitude,
+    basemap: mapconfig.basemap,
+    zoom: mapconfig.zoom,
+    fullScreen: mapconfig.fullScreen
+  };
 
   let layers: Layer[] = [];
 
