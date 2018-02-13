@@ -135,7 +135,13 @@ export class VisualizationEffects {
            */
           return forkJoin(this.getNormalAnalyticsPromise(visualizationObject.type, visualizationLayer.settings,
             newFiltersWithNormalDx), this.getFunctionAnalyticsPromise(newFiltersWithFunction)).pipe(
-            map((analyticsResponse: any[]) => visualizationHelpers.getMergedAnalytics(analyticsResponse))
+            map((analyticsResponse: any[]) => {
+              const sanitizedAnalyticsArray: any[] = _.filter(analyticsResponse, analyticsObject => analyticsObject);
+
+              return sanitizedAnalyticsArray.length > 1 ?
+                     visualizationHelpers.getMergedAnalytics(sanitizedAnalyticsArray) :
+                     sanitizedAnalyticsArray[0];
+            })
           );
         }
       );
@@ -315,7 +321,7 @@ export class VisualizationEffects {
         });
 
         forkJoin(functionAnalyticsPromises).subscribe((analyticsResponse: any[]) => {
-          observer.next(visualizationHelpers.getMergedAnalytics(analyticsResponse));
+          observer.next(analyticsResponse.length > 1 ? visualizationHelpers.getMergedAnalytics(analyticsResponse) : analyticsResponse[0]);
           observer.complete();
         });
       }
