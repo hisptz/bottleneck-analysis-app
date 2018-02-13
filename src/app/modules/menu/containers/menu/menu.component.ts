@@ -46,6 +46,7 @@ export class MenuComponent implements OnInit {
   online: boolean;
   menuNotification: string;
   wasOffline: boolean;
+  showSidebar: boolean;
   constructor(
     private menuService: fromServices.MenuService,
     private systemStatusService: fromServices.SystemStateService
@@ -58,6 +59,7 @@ export class MenuComponent implements OnInit {
     this.menuNotification = '';
     this.wasOffline = true;
     this.backgroundColor = '#ECECEC';
+    this.showSidebar = false;
   }
 
   ngOnInit() {
@@ -88,6 +90,11 @@ export class MenuComponent implements OnInit {
           this.wasOffline = true;
         }
       });
+  }
+
+  toggleSideBar(e) {
+    e.stopPropagation();
+    this.showSidebar = !this.showSidebar;
   }
 
   getSystemSettings() {

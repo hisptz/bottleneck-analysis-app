@@ -357,9 +357,9 @@ export class DashboardEffects {
     );
 
   constructor(private actions$: Actions,
-              private store: Store<AppState>,
-              private router: Router,
-              private httpClient: HttpClientService) {
+    private store: Store<AppState>,
+    private router: Router,
+    private httpClient: HttpClientService) {
   }
 
   private _loadAll(): Observable<Dashboard[]> {
@@ -373,8 +373,24 @@ export class DashboardEffects {
         )
         .subscribe(
           (dashboardResponse: any) => {
-            observer.next(dashboardResponse.dashboards);
-            observer.complete();
+            const dashboards: any[] = dashboardResponse.dashboards;
+            if (dashboards.length > 0) {
+              observer.next(dashboards);
+              observer.complete();
+            } else {
+              this._create('Untitled').subscribe((dashboardObject: any) => {
+                observer.next([{
+                  ...dashboardObject,
+                  details: {
+                    isFixture: true
+                  }
+                }]);
+                observer.complete();
+              }, () => {
+                observer.next([]);
+                observer.complete();
+              });
+            }
           },
           dashboardError => {
             console.warn(dashboardError);
@@ -386,8 +402,8 @@ export class DashboardEffects {
   }
 
   private _getCurrentDashboardId(routeUrl: string,
-                                 dashboards: Dashboard[],
-                                 currentUserInfo: CurrentUserState) {
+    dashboards: Dashboard[],
+    currentUserInfo: CurrentUserState) {
     let currentDashboard = routeUrl.split('/')[2];
 
     if (_.find(dashboards, ['id', currentDashboard])) {
@@ -435,7 +451,7 @@ export class DashboardEffects {
                 _.map(
                   dashboardOptionResults,
                   (dashboardOptionResult: any,
-                   dashboardOptionIndex: number) => {
+                    dashboardOptionIndex: number) => {
                     return {
                       id: dashboardOptions[dashboardOptionIndex],
                       ...dashboardOptionResult
@@ -453,8 +469,8 @@ export class DashboardEffects {
   }
 
   private _bookmarkDashboard(dashboardId: string,
-                             currentUserId: string,
-                             bookmarked: boolean) {
+    currentUserId: string,
+    bookmarked: boolean) {
     return new Observable(observer => {
       this.httpClient.get(`dataStore/dashboards/${dashboardId}`).subscribe(
         (dashboardOption: any) => {
@@ -463,8 +479,8 @@ export class DashboardEffects {
               ...dashboardOption,
               bookmarks: bookmarked
                 ? dashboardOption.bookmarks.indexOf(currentUserId) === -1
-                  ? [...dashboardOption.bookmarks, currentUserId]
-                  : [...dashboardOption.bookmarks]
+                           ? [...dashboardOption.bookmarks, currentUserId]
+                           : [...dashboardOption.bookmarks]
                 : _.filter(
                   dashboardOption.bookmarks,
                   bookmark => bookmark !== currentUserId
@@ -707,7 +723,7 @@ export class DashboardEffects {
 
   private _getEntities(itemArray, initialValues: SharingEntity) {
     return itemArray.reduce(
-      (items: { [id: string]: any }, item: any) => {
+      (items: {[id: string]: any}, item: any) => {
         return {
           ...items,
           [item.id]: {

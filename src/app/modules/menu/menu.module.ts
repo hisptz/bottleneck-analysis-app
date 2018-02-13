@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
     ...fromContainers.containers,
     ...fromComponents.components,
     ...fromDirectives.directives,
-    ...fromPipes.pipes
+    ...fromPipes.pipes,
   ],
   exports: [...fromContainers.containers],
   providers: [fromServices.services]

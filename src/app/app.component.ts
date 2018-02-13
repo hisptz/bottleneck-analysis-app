@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {AppState} from './store/app.reducers';
 import {Store} from '@ngrx/store';
@@ -10,6 +10,7 @@ import * as currentUser from './store/current-user/current-user.actions';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
   constructor(
     private titleService: Title,
     private store: Store<AppState>
