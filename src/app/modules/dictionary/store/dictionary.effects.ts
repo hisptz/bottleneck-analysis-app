@@ -1,39 +1,50 @@
-import {Injectable} from '@angular/core';
-import {Actions, Effect} from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
 import * as _ from 'lodash';
 import * as DictionaryActions from './dictionary.actions';
-import {mergeMap, map, tap} from 'rxjs/operators';
-import {from} from 'rxjs/observable/from';
-import {HttpClientService} from '../../../services/http-client.service';
-import {Store} from '@ngrx/store';
-import {AppState} from '../../../store/app.reducers';
-import {Observable} from 'rxjs/Observable';
-import {DatePipe} from '@angular/common';
+import { mergeMap, map, tap, catchError } from 'rxjs/operators';
+import { from } from 'rxjs/observable/from';
+import { HttpClientService } from '../../../services/http-client.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.reducers';
+import { Observable } from 'rxjs/Observable';
+import { DatePipe } from '@angular/common';
+import { of } from 'rxjs/observable/of';
 
 
 @Injectable()
 export class DictionaryEffects {
 
   @Effect({dispatch: false})
-  initializeDictionary$ = this.actions$
-    .ofType<DictionaryActions.InitializeAction>(DictionaryActions.DictionaryActions.INITIALIZE)
-    .withLatestFrom(this.store)
-    .pipe(
-      map(([action, state]: [any, AppState]) =>
-        _.filter(action.payload, (identifier) => !_.find(state.metadataDictionary, ['id', identifier]))),
-      tap((identifiers) => {
-        /**
-         * Add incoming items to the dictionary list
-         */
-        this.store.dispatch(new DictionaryActions.AddAction(identifiers));
+  initializeDictionary$ = this.actions$.ofType<DictionaryActions.InitializeAction>(
+    DictionaryActions.DictionaryActions.INITIALIZE).withLatestFrom(this.store).pipe(
+    map(([action, state]: [any, AppState]) =>
+      _.filter(action.payload, (identifier) => !_.find(state.metadataDictionary, ['id', identifier]))),
+    tap((identifiers) => {
+      /**
+       * Add incoming items to the dictionary list
+       */
+      this.store.dispatch(new DictionaryActions.AddAction(identifiers));
 
-        /**
-         * Identify corresponding dictionary items
-         */
-        from(identifiers).pipe(
-          mergeMap(identifier => this.httpClient.get(`identifiableObjects/${identifier}.json`))
-        ).subscribe((metadata: any) => {
+      /**
+       * Identify corresponding dictionary items
+       */
+      from(identifiers).pipe(
+        mergeMap(
+          identifier => this.httpClient.get(`identifiableObjects/${identifier}.json`).pipe(catchError((error) => of({
+            id: identifier,
+            progress: {
+              loading: false,
+              loadingSucceeded: false,
+              loadingFailed: true,
+              loadingErrorMessage: error
+            }
+          }))))
+      ).subscribe((metadata: any) => {
 
+        if (!metadata.name) {
+          this.store.dispatch(new DictionaryActions.UpdateAction(metadata));
+        } else {
           this.store.dispatch(new DictionaryActions.UpdateAction({
             id: metadata.id,
             name: metadata.name,
@@ -59,15 +70,15 @@ export class DictionaryEffects {
               'categoryCombo[id,name,categories[id,name,categoryOptions[id,name]]]';
             this.getDataSetInfo(dataSetUrl, metadata.id);
           }
-
-        });
-      })
-    );
+        }
+      });
+    })
+  );
 
   constructor(private actions$: Actions,
-              private store: Store<AppState>,
-              private httpClient: HttpClientService,
-              private datePipe: DatePipe) {
+    private store: Store<AppState>,
+    private httpClient: HttpClientService,
+    private datePipe: DatePipe) {
   }
 
   getDataSetInfo(dataSetUrl: string, dataSetId: string) {
@@ -76,7 +87,8 @@ export class DictionaryEffects {
         'at <strong>' + this.datePipe.transform(dataSet.created) + ' by ' + dataSet.user.name + '</strong>';
 
       if (dataSet.categoryCombo && dataSet.categoryCombo.name !== 'default') {
-        dataSetDescription += '<span> With <strong>' + dataSet.categoryCombo.name + '</strong> Dimension which is divided' +
+        dataSetDescription +=
+          '<span> With <strong>' + dataSet.categoryCombo.name + '</strong> Dimension which is divided' +
           ' into ';
 
         dataSet.categoryCombo.categories.forEach((category, categoryIndex) => {
@@ -132,7 +144,8 @@ export class DictionaryEffects {
         'from the user input</p>';
 
       if (dataElement.categoryCombo.name !== 'default') {
-        dataElementDescription += '<p><strong>' + dataElement.name + '</strong> consists of <strong>' + dataElement.categoryCombo.name +
+        dataElementDescription +=
+          '<p><strong>' + dataElement.name + '</strong> consists of <strong>' + dataElement.categoryCombo.name +
           '</strong> category combinations of ';
 
         dataElement.categoryCombo.categories.forEach((category, index) => {
@@ -252,7 +265,8 @@ export class DictionaryEffects {
       Observable.forkJoin(
         this.httpClient.get('expressions/description?expression=' + encodeURIComponent(indicator.numerator)),
         this.httpClient.get('dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
-          'filter=dataSetElements.dataElement.id:in:[' + this.getAvailableDataElements(indicator.numerator) + ']&paging=false')
+          'filter=dataSetElements.dataElement.id:in:[' + this.getAvailableDataElements(
+            indicator.numerator) + ']&paging=false')
       ).subscribe((numeratorResults: any[]) => {
 
         if (numeratorResults[0]) {
@@ -301,7 +315,8 @@ export class DictionaryEffects {
         Observable.forkJoin(
           this.httpClient.get('expressions/description?expression=' + encodeURIComponent(indicator.denominator)),
           this.httpClient.get('dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
-            'filter=dataSetElements.dataElement.id:in:[' + this.getAvailableDataElements(indicator.denominator) + ']&paging=false')
+            'filter=dataSetElements.dataElement.id:in:[' + this.getAvailableDataElements(
+              indicator.denominator) + ']&paging=false')
         ).subscribe((denominatorResults: any[]) => {
 
           if (denominatorResults[0]) {
@@ -350,7 +365,8 @@ export class DictionaryEffects {
                 indicatorDescription += ' and ';
               }
 
-              indicatorDescription += '<span><strong>' + indicatorGroup.name + '</strong> with <strong>' + indicatorGroup.indicators +
+              indicatorDescription +=
+                '<span><strong>' + indicatorGroup.name + '</strong> with <strong>' + indicatorGroup.indicators +
                 '</strong> other related indicators</span>';
             });
 
@@ -374,7 +390,8 @@ export class DictionaryEffects {
            * Legend set
            */
           if (indicator.legendSet) {
-            indicatorDescription += '<div><p> It makes use of: <strong>' + indicator.legendSet.name + '</strong> legend' +
+            indicatorDescription +=
+              '<div><p> It makes use of: <strong>' + indicator.legendSet.name + '</strong> legend' +
               ' set for analysis with <strong>' + indicator.legendSet.legends + ' Classes </strong>using <strong>' +
               indicator.legendSet.symbolizer + ' for analysis</strong></p></div>';
           }
@@ -383,8 +400,10 @@ export class DictionaryEffects {
            * User info
            */
           if (indicator.user) {
-            indicatorDescription += '<div><p>This indicator was <strong> first created </strong> in the system on <strong>' +
-              this.datePipe.transform(indicator.created) + '</strong> by <strong>' + indicator.user.name + '</strong></p></div>';
+            indicatorDescription +=
+              '<div><p>This indicator was <strong> first created </strong> in the system on <strong>' +
+              this.datePipe.transform(
+                indicator.created) + '</strong> by <strong>' + indicator.user.name + '</strong></p></div>';
           }
 
           this.store.dispatch(new DictionaryActions.UpdateAction({
