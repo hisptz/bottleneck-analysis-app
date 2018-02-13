@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import * as _ from 'lodash';
 
 import { TILE_LAYERS } from '../../constants/tile-layer.constant';
 import * as fromStore from '../../store';
@@ -93,7 +94,24 @@ export class VisualizationLegendComponent implements OnInit {
     this.store.dispatch(new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 
-  toggleLayerView(e) {}
+  toggleLayerView(index, e) {
+    e.stopPropagation();
+    const legend = this.visualizationLegends[index];
+    const newLegends = this.visualizationLegends.map((legend, i) => {
+      if (i === index) {
+        console.log(legend);
+        const hidden = !legend.hidden;
+        return { ...legend, hidden };
+      }
+      return legend;
+    });
+    const payload = {
+      componentId: this.mapVisualizationObject.componentId,
+      layerId: legend.layer
+    };
+    this.store.dispatch(new fromStore.ToggleLayerVisibility(payload));
+    this.store.dispatch(new fromStore.UpdateLegendSet({ [this.mapVisualizationObject.componentId]: newLegends }));
+  }
 
   changeTileLayer(tileLayer) {
     const mapConfiguration = {

@@ -9,7 +9,7 @@
               <span class="map-legend-title">{{legend.legend.title}}</span>
             </div>
             <div class="map-legend-title-options">
-              <a (click)="toggleLayerView(legend,'normal',$event)">
+              <a (click)="toggleLayerView(i,$event)">
                 <img *ngIf="!legend.hidden" src="assets/icons/eye.png" alt="">
                 <img *ngIf="legend.hidden" src="assets/icons/eye-cross.png" alt="">
               </a>

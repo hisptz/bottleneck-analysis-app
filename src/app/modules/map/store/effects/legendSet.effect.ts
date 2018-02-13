@@ -54,10 +54,15 @@ export class LegendSetEffects {
   addLegendSets$ = this.actions$
     .ofType(legendSetAction.ADD_LEGEND_SET)
     .pipe(
-      map(
-        (action: legendSetAction.AddLegendSetSuccess) =>
-          new legendSetAction.AddLegendSetSuccess(action.payload)
-      ),
+      map((action: legendSetAction.AddLegendSetSuccess) => new legendSetAction.AddLegendSetSuccess(action.payload)),
       catchError(error => of(new legendSetAction.AddLegendSetFail(error)))
+    );
+
+  @Effect()
+  updateLegendSets$ = this.actions$
+    .ofType(legendSetAction.UPDATE_LEGEND_SET)
+    .pipe(
+      map((action: legendSetAction.UpdateLegendSet) => new legendSetAction.UpdateLegendSetSuccess(action.payload)),
+      catchError(error => of(new legendSetAction.UpdateLegendSetFail(error)))
     );
 }

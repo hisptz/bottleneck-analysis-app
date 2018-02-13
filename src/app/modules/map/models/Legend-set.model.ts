@@ -3,4 +3,5 @@ export interface LegendSet {
   legend: any;
   name?: string;
   layer: string;
+  hidden: boolean;
 }

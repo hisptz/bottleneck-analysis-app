@@ -54,7 +54,6 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   constructor(private store: Store<fromStore.MapState>) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     const { visualizationObject, displayConfigurations } = changes;
     this._visualizationObject = visualizationObject.currentValue;
     this.createMap();
@@ -178,6 +177,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
         layersBounds.push(bounds);
       }
       if (legendSet && legendSet.legend) {
+        legendSet.hidden = false;
         legendSets = [...legendSets, legendSet];
       }
       this.createLayer(layer, index);

@@ -8,9 +8,9 @@ export const ADD_LEGEND_SET_SUCCESS = '[MAP] Add Legend Set Success';
 export const LOAD_LEGEND_SET = '[MAP] Load Legend Set';
 export const LOAD_LEGEND_SET_SUCCESS = '[MAP] Load Legend Set Success';
 export const LOAD_LEGEND_SET_FAIL = '[MAP] Load Legend Set Fail';
-export const UPDATE_LEGEND_SET = '[MAP] Add Legend Set';
-export const UPDATE_LEGEND_SET_FAIL = '[MAP] Add Legend Set Fail';
-export const UPDATE_LEGEND_SET_SUCCESS = '[MAP] Add Legend Set Success';
+export const UPDATE_LEGEND_SET = '[MAP] Update Legend Set';
+export const UPDATE_LEGEND_SET_FAIL = '[MAP] Update Legend Set Fail';
+export const UPDATE_LEGEND_SET_SUCCESS = '[MAP] Update Legend Set Success';
 
 export class AddLegendSet implements Action {
   readonly type = ADD_LEGEND_SET;
@@ -49,19 +49,19 @@ export class LoadLegendSetSuccess implements Action {
 }
 
 export class UpdateLegendSet implements Action {
-  readonly type = ADD_LEGEND_SET;
+  readonly type = UPDATE_LEGEND_SET;
   // TODO: add Legend Set data casting;
   constructor(public payload: any) {}
 }
 
 export class UpdateLegendSetFail implements Action {
-  readonly type = ADD_LEGEND_SET_FAIL;
+  readonly type = UPDATE_LEGEND_SET_FAIL;
   // TODO: add Legend Set data casting;
   constructor(public payload: any) {}
 }
 
 export class UpdateLegendSetSuccess implements Action {
-  readonly type = ADD_LEGEND_SET_SUCCESS;
+  readonly type = UPDATE_LEGEND_SET_SUCCESS;
   // TODO: add Legend Set data casting;
   constructor(public payload: { [id: string]: LegendSet[] }) {}
 }
