@@ -15,7 +15,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   availableItems: any[] = [];
   dataGroups: any[] = [];
-  selectedGroup: any = {id: 'ALL', name: 'All'};
+  selectedGroup: any = {id: 'ALL', name: '[ All ]'};
 
   @Output() onDataUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() onDataFilterClose: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -291,7 +291,6 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     const options = this.getSelectedOption();
     const data = this.getData();
 
-    // currentGroupList.push(...[{id:'ALL',name:'All Tables'}]);
     if (_.includes(options, 'ALL') || _.includes(options, 'de')) {
 
       currentGroupList.push(...data.dx);
@@ -327,7 +326,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       this.need_groups = false;
     }
 
-    return _.sortBy(currentGroupList, ['name']);
+    return [{id: 'ALL', name: '[ All ]'}, ..._.sortBy(currentGroupList, ['name'])];
   }
 
   // this will add a selected item in a list function
@@ -574,7 +573,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       return newOption;
     });
 
-    this.selectedGroup = {id: 'ALL', name: 'All'};
+    this.selectedGroup = {id: 'ALL', name: '[ All ]'};
     this.dataGroups = this.groupList();
 
     this.availableItems = this.dataItemList(this._selectedItems, this.selectedGroup);
