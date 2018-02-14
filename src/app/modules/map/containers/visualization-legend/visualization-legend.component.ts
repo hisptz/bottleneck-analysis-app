@@ -38,7 +38,9 @@ export class VisualizationLegendComponent implements OnInit {
   constructor(private store: Store<fromStore.MapState>) {}
 
   ngOnInit() {
-    this.sticky$ = this.store.select(fromStore.isVisualizationLegendPinned(this.mapVisualizationObject.componentId));
+    this.sticky$ = this.store.select(
+      fromStore.isVisualizationLegendPinned(this.mapVisualizationObject.componentId)
+    );
     this.isFilterSectionOpen$ = this.store.select(
       fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
     );
@@ -80,18 +82,24 @@ export class VisualizationLegendComponent implements OnInit {
 
   stickLegendContainer(e) {
     e.stopPropagation();
-    this.store.dispatch(new fromStore.TogglePinVisualizationLegend(this.mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.TogglePinVisualizationLegend(this.mapVisualizationObject.componentId)
+    );
   }
 
   closeLegendContainer(e) {
     e.stopPropagation();
-    this.store.dispatch(new fromStore.CloseVisualizationLegend(this.mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.CloseVisualizationLegend(this.mapVisualizationObject.componentId)
+    );
   }
 
   openFilters(e) {
     e.stopPropagation();
     this.showFilterContainer = true;
-    this.store.dispatch(new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId)
+    );
   }
 
   toggleLayerView(index, e) {
@@ -99,7 +107,6 @@ export class VisualizationLegendComponent implements OnInit {
     const legend = this.visualizationLegends[index];
     const newLegends = this.visualizationLegends.map((legend, i) => {
       if (i === index) {
-        console.log(legend);
         const hidden = !legend.hidden;
         return { ...legend, hidden };
       }
@@ -110,7 +117,9 @@ export class VisualizationLegendComponent implements OnInit {
       layerId: legend.layer
     };
     this.store.dispatch(new fromStore.ToggleLayerVisibility(payload));
-    this.store.dispatch(new fromStore.UpdateLegendSet({ [this.mapVisualizationObject.componentId]: newLegends }));
+    this.store.dispatch(
+      new fromStore.UpdateLegendSet({ [this.mapVisualizationObject.componentId]: newLegends })
+    );
   }
 
   changeTileLayer(tileLayer) {
@@ -119,7 +128,10 @@ export class VisualizationLegendComponent implements OnInit {
       basemap: tileLayer.name
     };
     this.store.dispatch(
-      new fromStore.UpdateVisualizationObjectSuccess({ ...this.mapVisualizationObject, mapConfiguration })
+      new fromStore.UpdateVisualizationObjectSuccess({
+        ...this.mapVisualizationObject,
+        mapConfiguration
+      })
     );
   }
 }
