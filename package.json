@@ -31,7 +31,7 @@
     "@types/geojson": "^7946.0.0",
     "angular-tree-component": "^7.0.1",
     "animate.css": "^3.5.2",
-    "bootstrap": "4.0.0-beta.2",
+    "bootstrap": "4.0.0",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.4.1",
     "d2-utilizr": "^0.2.15",
