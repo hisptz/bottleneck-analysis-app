@@ -41,6 +41,17 @@
                 </ul>
               </div>
             </div>
+            <div class="map-legend-footer">
+              <div class="map-legend-left-footer">
+                <small>Opacity</small>
+              </div>
+              <div class="range">
+                <input type="range" min="0" max="1" step="0.1" [value]="legend.opacity" (input)="opacityChanged($event, legend)">
+              </div>
+              <div class="map-legend-right-footer">
+                <small>{{legend.opacity}}</small>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -59,6 +70,17 @@
 
                   <img [src]="tileLayer.image" [ngClass]="{'rowActive':tileLayer.active}" />
                 </a>
+              </div>
+            </div>
+            <div class="map-legend-footer">
+              <div class="map-legend-left-footer">
+                <small>Opacity</small>
+              </div>
+              <div class="range">
+                <input type="range" min="0" max="1" step="0.1" [value]="1">
+              </div>
+              <div class="map-legend-right-footer">
+                <small>1</small>
               </div>
             </div>
           </div>

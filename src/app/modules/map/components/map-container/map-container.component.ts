@@ -48,6 +48,8 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   public mapHasDataAnalytics: boolean = true;
   private _visualizationObject: VisualizationObject;
   private _displayConfigurations: any;
+  private leafletLayers: any = {};
+  private basemap: any;
 
   public map: any;
 
@@ -71,6 +73,24 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     this.visualizationLegendIsOpen$ = this.store.select(
       fromStore.isVisualizationLegendOpen(this._visualizationObject.componentId)
     );
+
+    this.store
+      .select(fromStore.getCurrentLegendSets(this._visualizationObject.componentId))
+      .subscribe(visualizationLengends => {
+        if (visualizationLengends && visualizationLengends.length) {
+          visualizationLengends.map(legend => {
+            const { opacity, layer, hidden } = legend;
+            const leafletlayer = this.leafletLayers[layer];
+            leafletlayer.setStyle({
+              opacity,
+              fillOpacity: opacity
+            });
+
+            const visible = !hidden;
+            this.setLayerVisibility(visible, leafletlayer);
+          });
+        }
+      });
   }
 
   createMap() {
@@ -175,6 +195,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
 
     const mapTileLayer = getTileLayer(mapConfiguration.basemap);
     const baseMapLayer = fromLib.LayerType[mapTileLayer.type](mapTileLayer);
+    this.basemap = baseMapLayer;
 
     this.map.setView(center, zoom, { reset: true });
     // Add baseMap Layer;
@@ -213,14 +234,16 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     const layersBounds = [];
     let legendSets = [];
     overlayLayers.map((layer, index) => {
-      const { bounds, legendSet } = layer;
+      const { bounds, legendSet, geoJsonLayer, id } = layer;
+      console.log(layer);
       if (bounds) {
         layersBounds.push(bounds);
       }
       if (legendSet && legendSet.legend) {
-        legendSet.hidden = false;
         legendSets = [...legendSets, legendSet];
       }
+      const layermap = { [id]: geoJsonLayer };
+      this.leafletLayers = { ...this.leafletLayers, ...layermap };
     });
 
     return {

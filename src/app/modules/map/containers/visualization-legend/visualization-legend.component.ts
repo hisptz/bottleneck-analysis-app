@@ -112,11 +112,7 @@ export class VisualizationLegendComponent implements OnInit {
       }
       return legend;
     });
-    const payload = {
-      componentId: this.mapVisualizationObject.componentId,
-      layerId: legend.layer
-    };
-    this.store.dispatch(new fromStore.ToggleLayerVisibility(payload));
+
     this.store.dispatch(
       new fromStore.UpdateLegendSet({ [this.mapVisualizationObject.componentId]: newLegends })
     );
@@ -132,6 +128,28 @@ export class VisualizationLegendComponent implements OnInit {
         ...this.mapVisualizationObject,
         mapConfiguration
       })
+    );
+  }
+
+  opacityChanged(event, legend) {
+    const opacity = event.target.value;
+    const newLegends = this.visualizationLegends.map(lg => {
+      if (lg === legend) {
+        return { ...lg, opacity };
+      }
+      return lg;
+    });
+
+    const { layers } = this.mapVisualizationObject;
+    const newLayers = layers.map(layer => {
+      if (layer.id === legend.id) {
+        return { ...layer, opacity };
+      }
+      return { ...layer };
+    });
+
+    this.store.dispatch(
+      new fromStore.UpdateLegendSet({ [this.mapVisualizationObject.componentId]: newLegends })
     );
   }
 }

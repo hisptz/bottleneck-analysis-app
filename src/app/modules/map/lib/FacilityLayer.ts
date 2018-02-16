@@ -57,6 +57,8 @@ export const facility = options => {
   const bounds = geoJsonLayer.getBounds();
   const _legendSet = {
     layer: options.id,
+    opacity,
+    hidden: false,
     legend
   };
   const optionsToReturn = {
