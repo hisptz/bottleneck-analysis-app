@@ -205,7 +205,6 @@ export const thematicLayerOptions = (id, opacity) => {
 export const thematicLayerEvents = (columns, legend) => {
   const onClick = evt => {
     const { name, value, percentage } = evt.layer.feature.properties;
-    console.log(evt.layer.feature.properties);
     const indicator = columns[0].items[0].name;
     const period = legend ? legend.period : undefined;
     const content = `<div class="leaflet-popup-orgunit">${name}<br>
