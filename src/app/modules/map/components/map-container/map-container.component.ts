@@ -49,6 +49,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   private _visualizationObject: VisualizationObject;
   private _displayConfigurations: any;
   private leafletLayers: any = {};
+  private layersBounds;
   private basemap: any;
 
   public map: any;
@@ -59,14 +60,6 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     const { visualizationObject, displayConfigurations } = changes;
     this._visualizationObject = visualizationObject.currentValue;
     this.createMap();
-    // detect changes and redraw only after ngInit has done that.
-    if (!visualizationObject.isFirstChange()) {
-      const { mapConfiguration } = this._visualizationObject;
-      const { overlayLayers, layersBounds } = this.prepareLegendAndLayers(
-        this._visualizationObject
-      );
-      this.drawBaseAndOverLayLayers(mapConfiguration, overlayLayers, layersBounds);
-    }
   }
 
   ngOnInit() {
@@ -75,19 +68,40 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     );
 
     this.store
+      .select(fromStore.getCurrentBaseLayer(this._visualizationObject.componentId))
+      .subscribe(baselayerLegend => {
+        if (baselayerLegend && this.basemap) {
+          const { name, opacity, changedBaseLayer, hidden } = baselayerLegend;
+          if (changedBaseLayer) {
+            const baseMapLayer = this.createBaseLayer(name);
+            this.setLayerVisibility(false, this.basemap);
+            this.basemap = baseMapLayer;
+          }
+          const visible = !hidden;
+          this.setLayerVisibility(visible, this.basemap);
+          this.basemap.setOpacity(opacity);
+        }
+      });
+
+    this.store
       .select(fromStore.getCurrentLegendSets(this._visualizationObject.componentId))
       .subscribe(visualizationLengends => {
-        if (visualizationLengends && visualizationLengends.length) {
-          visualizationLengends.map(legend => {
+        if (visualizationLengends && Object.keys(visualizationLengends).length) {
+          Object.keys(visualizationLengends).map(key => {
+            const legend = visualizationLengends[key];
             const { opacity, layer, hidden } = legend;
             const leafletlayer = this.leafletLayers[layer];
-            leafletlayer.setStyle({
-              opacity,
-              fillOpacity: opacity
-            });
 
-            const visible = !hidden;
-            this.setLayerVisibility(visible, leafletlayer);
+            // Check if there is that layer otherwise errors when resizing;
+            if (leafletlayer) {
+              leafletlayer.setStyle({
+                opacity,
+                fillOpacity: opacity
+              });
+
+              const visible = !hidden;
+              this.setLayerVisibility(visible, leafletlayer);
+            }
           });
         }
       });
@@ -174,7 +188,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   recenterMap(event) {
-    this.map.eachLayer(layer => {});
+    this.map.fitBounds(this.layersBounds);
   }
 
   toggleLegendContainerView() {
@@ -183,7 +197,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     );
   }
 
-  initializeMapBaseLayer(mapConfiguration: MapConfiguration) {
+  initializeMapConfiguration(mapConfiguration: MapConfiguration) {
     let center: L.LatLngExpression = [
       Number(fromLib._convertLatitudeLongitude(mapConfiguration.latitude)),
       Number(fromLib._convertLatitudeLongitude(mapConfiguration.longitude))
@@ -193,13 +207,13 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     }
     const zoom = mapConfiguration.zoom ? mapConfiguration.zoom : 6;
 
-    const mapTileLayer = getTileLayer(mapConfiguration.basemap);
-    const baseMapLayer = fromLib.LayerType[mapTileLayer.type](mapTileLayer);
-    this.basemap = baseMapLayer;
-
     this.map.setView(center, zoom, { reset: true });
-    // Add baseMap Layer;
-    this.map.addLayer(baseMapLayer);
+  }
+
+  createBaseLayer(basemap?: string) {
+    const mapTileLayer = getTileLayer(basemap);
+    const baseMapLayer = fromLib.LayerType[mapTileLayer.type](mapTileLayer);
+    return baseMapLayer;
   }
 
   initialMapDraw(visualizationObject: VisualizationObject) {
@@ -208,7 +222,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
       visualizationObject
     );
     this.drawBaseAndOverLayLayers(mapConfiguration, overlayLayers, layersBounds);
-    if (legendSets.length) {
+    if (Object.keys(legendSets).length) {
       this.store.dispatch(
         new fromStore.AddLegendSet({ [this._visualizationObject.componentId]: legendSets })
       );
@@ -216,15 +230,25 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   drawBaseAndOverLayLayers(mapConfiguration, overlayLayers, layersBounds) {
-    // TODO: create reducer to store leaflet layers and remove on the fly
-    // of repainting.
-    this.map.eachLayer(layer => this.map.removeLayer(layer));
-    this.initializeMapBaseLayer(mapConfiguration);
+    this.initializeMapConfiguration(mapConfiguration);
+
+    this.basemap = this.createBaseLayer(mapConfiguration.basemap);
+
+    const name = mapConfiguration.basemap || 'osmLight';
+    const opacity = 1;
+    const changedBaseLayer = false;
+    const hidden = false;
+    const { componentId } = this.visualizationObject;
+    const payload = { [componentId]: { name, opacity, changedBaseLayer, hidden } };
+
+    this.store.dispatch(new fromStore.AddBaseLayer(payload));
+
     overlayLayers.map((layer, index) => {
       this.createLayer(layer, index);
     });
 
     if (layersBounds.length) {
+      this.layersBounds = layersBounds;
       this.layerFitBound(layersBounds);
     }
   }
@@ -232,18 +256,20 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   prepareLegendAndLayers(visualizationObject: VisualizationObject) {
     const overlayLayers = fromLib.GetOverLayLayers(visualizationObject);
     const layersBounds = [];
-    let legendSets = [];
+    let legendSets = {};
     overlayLayers.map((layer, index) => {
-      const { bounds, legendSet, geoJsonLayer, id } = layer;
-      console.log(layer);
-      if (bounds) {
-        layersBounds.push(bounds);
+      if (layer) {
+        const { bounds, legendSet, geoJsonLayer, id } = layer;
+        if (bounds) {
+          layersBounds.push(bounds);
+        }
+        if (legendSet && legendSet.legend) {
+          const legendEntity = { [id]: legendSet };
+          legendSets = { ...legendSets, ...legendEntity };
+        }
+        const layermap = { [id]: geoJsonLayer };
+        this.leafletLayers = { ...this.leafletLayers, ...layermap };
       }
-      if (legendSet && legendSet.legend) {
-        legendSets = [...legendSets, legendSet];
-      }
-      const layermap = { [id]: geoJsonLayer };
-      this.leafletLayers = { ...this.leafletLayers, ...layermap };
     });
 
     return {

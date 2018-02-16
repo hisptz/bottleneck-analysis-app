@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -7,13 +7,14 @@ import * as _ from 'lodash';
 import { TILE_LAYERS } from '../../constants/tile-layer.constant';
 import * as fromStore from '../../store';
 import { LegendSet } from '../../models/Legend-set.model';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-visualization-legend',
   templateUrl: './visualization-legend.component.html',
   styleUrls: ['./visualization-legend.component.css']
 })
-export class VisualizationLegendComponent implements OnInit {
+export class VisualizationLegendComponent implements OnInit, OnDestroy {
   @Input() mapVisualizationObject: any;
   public LegendsTileLayer: any;
   public showButtonIncons: boolean = false;
@@ -22,6 +23,9 @@ export class VisualizationLegendComponent implements OnInit {
   public legendSetEntities: { [id: string]: LegendSet };
   public sticky$: Observable<boolean>;
   public isFilterSectionOpen$: Observable<boolean>;
+  public visualizationLegends$: ISubscription;
+  public baseLayerLegend$: ISubscription;
+  public baseLayerLegend;
   public showFilterContainer: boolean = false;
   public buttonTop: string;
   public buttonHeight: string;
@@ -45,11 +49,22 @@ export class VisualizationLegendComponent implements OnInit {
       fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
     );
     const layers = this.mapVisualizationObject.layers;
-    this.store
+
+    this.visualizationLegends$ = this.store
       .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
-          this.visualizationLegends = visualizationLengends;
+          this.visualizationLegends = Object.keys(visualizationLengends).map(
+            key => visualizationLengends[key]
+          );
+        }
+      });
+
+    this.baseLayerLegend$ = this.store
+      .select(fromStore.getCurrentBaseLayer(this.mapVisualizationObject.componentId))
+      .subscribe(baselayerLegend => {
+        if (baselayerLegend) {
+          this.baseLayerLegend = { ...baselayerLegend };
         }
       });
   }
@@ -104,52 +119,69 @@ export class VisualizationLegendComponent implements OnInit {
 
   toggleLayerView(index, e) {
     e.stopPropagation();
-    const legend = this.visualizationLegends[index];
-    const newLegends = this.visualizationLegends.map((legend, i) => {
-      if (i === index) {
-        const hidden = !legend.hidden;
-        return { ...legend, hidden };
-      }
-      return legend;
-    });
+    const _legend = this.visualizationLegends[index];
+    const { componentId } = this.mapVisualizationObject;
+    const hidden = !_legend.hidden;
+    const newLegend = { ..._legend, hidden };
+    const legend = { [newLegend.layer]: { ...newLegend } };
 
-    this.store.dispatch(
-      new fromStore.UpdateLegendSet({ [this.mapVisualizationObject.componentId]: newLegends })
-    );
+    this.store.dispatch(new fromStore.UpdateLegendSet({ componentId, legend }));
+  }
+
+  toggleBaseLayer(event) {
+    event.stopPropagation();
+    const { hidden } = this.baseLayerLegend;
+    const isHidden = !hidden;
+    const changedBaseLayer = false;
+    const payload = {
+      [this.mapVisualizationObject.componentId]: {
+        ...this.baseLayerLegend,
+        hidden: isHidden,
+        changedBaseLayer
+      }
+    };
+    this.store.dispatch(new fromStore.UpdateBaseLayer(payload));
+  }
+
+  changeBaseLayerOpacity(event) {
+    event.stopPropagation();
+    const opacity = event.target.value;
+    const changedBaseLayer = false;
+    const payload = {
+      [this.mapVisualizationObject.componentId]: {
+        ...this.baseLayerLegend,
+        opacity,
+        changedBaseLayer
+      }
+    };
+    this.store.dispatch(new fromStore.UpdateBaseLayer(payload));
   }
 
   changeTileLayer(tileLayer) {
-    const mapConfiguration = {
-      ...this.mapVisualizationObject.mapConfiguration,
-      basemap: tileLayer.name
+    const { name } = tileLayer;
+    const changedBaseLayer = true;
+    const payload = {
+      [this.mapVisualizationObject.componentId]: { ...this.baseLayerLegend, name, changedBaseLayer }
     };
+    this.store.dispatch(new fromStore.UpdateBaseLayer(payload));
+  }
+
+  opacityChanged(event, legend) {
+    event.stopPropagation();
+    const opacity = event.target.value;
+    const { componentId } = this.mapVisualizationObject;
+    const newLegend = { [legend.layer]: { ...legend, opacity } };
+
     this.store.dispatch(
-      new fromStore.UpdateVisualizationObjectSuccess({
-        ...this.mapVisualizationObject,
-        mapConfiguration
+      new fromStore.ChangeLegendSetLayerOpacity({
+        componentId,
+        legend: newLegend
       })
     );
   }
 
-  opacityChanged(event, legend) {
-    const opacity = event.target.value;
-    const newLegends = this.visualizationLegends.map(lg => {
-      if (lg === legend) {
-        return { ...lg, opacity };
-      }
-      return lg;
-    });
-
-    const { layers } = this.mapVisualizationObject;
-    const newLayers = layers.map(layer => {
-      if (layer.id === legend.id) {
-        return { ...layer, opacity };
-      }
-      return { ...layer };
-    });
-
-    this.store.dispatch(
-      new fromStore.UpdateLegendSet({ [this.mapVisualizationObject.componentId]: newLegends })
-    );
+  ngOnDestroy() {
+    this.baseLayerLegend$.unsubscribe();
+    this.visualizationLegends$.unsubscribe();
   }
 }
