@@ -112,7 +112,7 @@ export class VisualizationEffects {
             return filter.name === 'dx' ? {
               ...filter,
               items: normalDxItems,
-              value: _.map(normalDxItems, item => item.id).join(';')
+              value: _.map(normalDxItems, item => item.dimensionItem).join(';')
             } : filter;
           });
 
