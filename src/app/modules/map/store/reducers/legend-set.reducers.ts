@@ -3,7 +3,7 @@ import { LegendSet } from '../../models/Legend-set.model';
 import * as fromLegendSets from '../actions/legend-set.action';
 
 export interface LegendSetState {
-  entities: { [id: string]: LegendSet[] };
+  entities: { [id: string]: { [id: string]: LegendSet } };
   loading: boolean;
   loaded: boolean;
 }
@@ -19,12 +19,29 @@ export function reducer(
   action: fromLegendSets.LegendSetAction
 ): LegendSetState {
   switch (action.type) {
-    case fromLegendSets.ADD_LEGEND_SET_SUCCESS:
-    case fromLegendSets.UPDATE_LEGEND_SET_SUCCESS: {
+    case fromLegendSets.ADD_LEGEND_SET_SUCCESS: {
       const legendSet = action.payload;
       const entities = {
         ...state.entities,
         ...legendSet
+      };
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        entities
+      };
+    }
+    case fromLegendSets.UPDATE_LEGEND_SET_SUCCESS: {
+      const { componentId, legend } = action.payload;
+      const legends = {
+        ...state.entities[componentId],
+        ...legend
+      };
+      const entity = { [componentId]: { ...legends } };
+      const entities = {
+        ...state.entities,
+        ...entity
       };
       return {
         ...state,

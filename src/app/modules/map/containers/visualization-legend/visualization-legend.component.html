@@ -9,7 +9,7 @@
               <span class="map-legend-title">{{legend.legend.title}}</span>
             </div>
             <div class="map-legend-title-options">
-              <a (click)="toggleLayerView(legend,'normal',$event)">
+              <a (click)="toggleLayerView(i,$event)">
                 <img *ngIf="!legend.hidden" src="assets/icons/eye.png" alt="">
                 <img *ngIf="legend.hidden" src="assets/icons/eye-cross.png" alt="">
               </a>
@@ -27,7 +27,7 @@
                 <div [ngStyle]="{backgroundColor:item.color,width:'60px'}"></div>
                 <ul class="map-legend-table-list">
                   <li class="font-weight-bold">{{item.name}}</li>
-                  <li>{{item.startValue}} - {{item.endValue}} ({{item.count}})</li>
+                  <li>{{item.startValue}} - {{item.endValue}} ({{item.count || 0}})</li>
                 </ul>
               </div>
             </div>
@@ -41,6 +41,17 @@
                 </ul>
               </div>
             </div>
+            <div class="map-legend-footer">
+              <div class="map-legend-left-footer">
+                <small>Opacity</small>
+              </div>
+              <div class="range">
+                <input type="range" min="0" max="1" step="0.1" [value]="legend.opacity" (input)="opacityChanged($event, legend)">
+              </div>
+              <div class="map-legend-right-footer">
+                <small>{{legend.opacity * 100}}%</small>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -51,14 +62,31 @@
               <img src="assets/icons/map.png" alt="">
               <span class="map-legend-title">Base Maps</span>
             </div>
+            <div class="map-legend-title-options">
+              <a (click)="toggleBaseLayer($event)">
+                <img *ngIf="!baseLayerLegend.hidden" src="assets/icons/eye.png" alt="">
+                <img *ngIf="baseLayerLegend.hidden" src="assets/icons/eye-cross.png" alt="">
+              </a>
+            </div>
           </div>
           <div class="map-legend-body" *ngIf="activeLayer === -1" [ngStyle]="{'max-height': 'calc(' + mapHeight + ' - ' + (visualizationLegends.length + 4)*50 + 'px)'}">
             <div class="tile-layers-list">
               <div *ngFor="let tileLayer of LegendsTileLayer" class="tile-layer-item">
                 <a class="map-tile-layer-icon" (click)="changeTileLayer(tileLayer)">
 
-                  <img [src]="tileLayer.image" [ngClass]="{'rowActive':tileLayer.active}" />
+                  <img [src]="tileLayer.image" [ngClass]="{'rowActive': tileLayer.name === baseLayerLegend.name }" />
                 </a>
+              </div>
+            </div>
+            <div class="map-legend-footer">
+              <div class="map-legend-left-footer">
+                <small>Opacity</small>
+              </div>
+              <div class="range">
+                <input type="range" min="0" max="1" step="0.1" [value]="baseLayerLegend.opacity" (input)="changeBaseLayerOpacity($event)">
+              </div>
+              <div class="map-legend-right-footer">
+                <small>{{baseLayerLegend.opacity*10}}%</small>
               </div>
             </div>
           </div>

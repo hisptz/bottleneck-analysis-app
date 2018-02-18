@@ -8,3 +8,4 @@ export * from './geo-features.action';
 export * from './system-info.action';
 export * from './legend-set.action';
 export * from './visualization-legend.action';
+export * from './base-layer.action';

@@ -1,6 +1,10 @@
 import * as L from 'leaflet';
 import * as _ from 'lodash';
-import { getOrgUnitsFromRows, getPeriodFromFilters, getDataItemsFromColumns } from '../utils/analytics';
+import {
+  getOrgUnitsFromRows,
+  getPeriodFromFilters,
+  getDataItemsFromColumns
+} from '../utils/analytics';
 import { getLegendItems, getColorsByRgbInterpolation } from '../utils/classify';
 import { toGeoJson } from './GeoJson';
 import { GeoJson } from 'leaflet';
@@ -37,9 +41,11 @@ export const thematic = options => {
     legend = legendSet
       ? createLegendFromLegendSet(legendSet, options.displayName, options.type)
       : createLegendFromConfig(orderedValues, legendProperties, options.displayName, options.type);
+
     const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
     legend['period'] =
-      (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) || analyticsData.metaData.pe[0];
+      (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) ||
+      analyticsData.metaData.pe[0];
 
     valueFeatures.forEach(({ id, properties }) => {
       const value = valueById[id];
@@ -50,8 +56,14 @@ export const thematic = options => {
       properties.value = value;
       properties.label = name;
       properties.color = item && item.color;
-      properties.percentage = (valueFrequencyPair[value] / orderedValues.length * 100).toFixed(1);
-      properties.radius = (value - minValue) / (maxValue - minValue) * (radiusHigh - radiusLow) + radiusLow;
+      properties.radius =
+        (value - minValue) / (maxValue - minValue) * (radiusHigh - radiusLow) + radiusLow;
+    });
+    // TODO: Refactor make item.count in legend creations;
+    valueFeatures.forEach(({ id, properties }) => {
+      const value = valueById[id];
+      const item = getLegendItem(value);
+      properties.percentage = (item.count / orderedValues.length * 100).toFixed(1);
     });
     geoJsonLayer = L.geoJSON(valueFeatures, otherOptions);
     const thematicEvents = thematicLayerEvents(columns, legend);
@@ -64,6 +76,8 @@ export const thematic = options => {
   const bounds = geoJsonLayer.getBounds();
   const _legendSet = {
     layer: options.id,
+    opacity,
+    hidden: false,
     legend
   };
   const optionsToReturn = {
@@ -104,7 +118,8 @@ const getOrderedValues = data => {
 const createLegendFromLegendSet = (legendSet, displayName, type) => {
   const { name, legends } = legendSet;
   const pickSome = ['name', 'startValue', 'endValue', 'color'];
-  const items = _.sortBy(legends, 'startValues').map(legend => _.pick(legend, pickSome));
+  const sortedLegends = _.sortBy(legends, 'startValue');
+  const items = sortedLegends.map(legend => _.pick(legend, pickSome));
   return {
     title: name || displayName,
     type,
@@ -114,6 +129,7 @@ const createLegendFromLegendSet = (legendSet, displayName, type) => {
 
 const createLegendFromConfig = (data, config, displayName, type) => {
   const { method, classes, colorScale, colorLow, colorHigh } = config;
+
   const items = getLegendItems(data, method, classes);
 
   let colors;
@@ -123,7 +139,9 @@ const createLegendFromConfig = (data, config, displayName, type) => {
     colors = colorScale;
   } else if (_.isString(colorScale)) {
     colors = colorScale.split(',');
-  } else {
+  }
+
+  if (!colorScale || colors.length !== classes) {
     colors = getColorsByRgbInterpolation(colorLow, colorHigh, classes);
   }
 
@@ -141,7 +159,9 @@ const createLegendFromConfig = (data, config, displayName, type) => {
 const getLegendItemForValue = (legendItems, value) => {
   const isLast = index => index === legendItems.length - 1;
   return legendItems.find(
-    (item, index) => value >= item.startValue && (value < item.endValue || (isLast(index) && value === item.endValue))
+    (item, index) =>
+      value >= item.startValue &&
+      (value < item.endValue || (isLast(index) && value === item.endValue))
   );
 };
 
@@ -189,7 +209,6 @@ export const thematicLayerEvents = (columns, legend) => {
     const indicator = columns[0].items[0].name;
     const period = legend ? legend.period : undefined;
     const content = `<div class="leaflet-popup-orgunit">${name}<br>
-                    ${indicator}<br>
                     ${period}: ${value}</div>`;
     // Close any popup if there is one
     evt.layer.closePopup();

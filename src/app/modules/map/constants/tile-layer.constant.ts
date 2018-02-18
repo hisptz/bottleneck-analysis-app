@@ -88,7 +88,7 @@ export const TILE_LAYERS = {
     type: 'tileLayer',
     label: 'OSM Black & White',
     maxZoom: 18,
-    url: 'https://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',
+    url: 'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',
     attribution: '&copy; OSM',
     image: 'assets/img/map-tiles/black_and_white.png',
     baseLayer: true,

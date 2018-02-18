@@ -1,5 +1,6 @@
 // Utils for thematic mapping
 import * as _ from 'lodash';
+import { format, precisionRound } from 'd3-format';
 
 export const classify = (features, options) => {
   const { method, classes, colorScale } = options;
@@ -74,14 +75,17 @@ export const getClassBins = (values, method, numClasses) => {
 export const getEqualIntervals = (minValue, maxValue, numClasses) => {
   const bins = [];
   const binSize = (maxValue - minValue) / numClasses;
+  const precision = precisionRound(binSize, maxValue);
+
+  const valueFormat = format(`.${precision}f`);
 
   for (let i = 0; i < numClasses; i++) {
     const startValue = minValue + i * binSize;
     const endValue = i < numClasses - 1 ? startValue + binSize : maxValue;
 
     bins.push({
-      startValue: Number(startValue).toFixed(2),
-      endValue: Number(endValue).toFixed(2)
+      startValue: Number(valueFormat(startValue)),
+      endValue: Number(valueFormat(endValue))
     });
   }
 
@@ -96,6 +100,9 @@ export const getQuantiles = (values, numClasses) => {
   const binCount = Math.round(values.length / numClasses);
   let binLastValPos = binCount === 0 ? 0 : binCount;
 
+  const precision = precisionRound((maxValue - minValue) / numClasses, maxValue);
+  const valueFormat = format(`.${precision}f`);
+
   if (values.length > 0) {
     bins[0] = minValue;
     for (let i = 1; i < numClasses; i++) {
@@ -105,8 +112,8 @@ export const getQuantiles = (values, numClasses) => {
   }
 
   return bins.map((value, index) => ({
-    startValue: Number(value).toFixed(2),
-    endValue: Number(bins[index + 1] || maxValue).toFixed(2)
+    startValue: Number(valueFormat(value)),
+    endValue: Number(valueFormat(bins[index + 1] || maxValue))
   }));
 };
 
@@ -133,7 +140,11 @@ export function classify_old(features, values, options, legend) {
 
     if (!options.colors.length) {
       // Backward compability
-      options.colors = getColorsByRgbInterpolation(options.colorLow, options.colorHigh, options.numClasses);
+      options.colors = getColorsByRgbInterpolation(
+        options.colorLow,
+        options.colorHigh,
+        options.numClasses
+      );
     }
   } else if (method === 3) {
     // quantiles
@@ -161,7 +172,11 @@ export function classify_old(features, values, options, legend) {
 
     if (!options.colors.length) {
       // Backward compability
-      options.colors = getColorsByRgbInterpolation(options.colorLow, options.colorHigh, options.numClasses);
+      options.colors = getColorsByRgbInterpolation(
+        options.colorLow,
+        options.colorHigh,
+        options.numClasses
+      );
     }
   }
 
@@ -174,7 +189,9 @@ export function classify_old(features, values, options, legend) {
 
       prop.color = options.colors[classNumber - 1];
       prop.radius =
-        (value - options.minValue) / (options.maxValue - options.minValue) * (options.maxSize - options.minSize) +
+        (value - options.minValue) /
+          (options.maxValue - options.minValue) *
+          (options.maxSize - options.minSize) +
         options.minSize;
       prop.legend = legendItem.name;
       prop.range = legendItem.range.replace(/ *\([^)]*\) */g, ''); // Remove count in brackets

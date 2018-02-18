@@ -150,6 +150,32 @@ export function reducer(
         entities
       };
     }
+
+    case fromVisualizationObject.TOGGLE_LAYER_VISIBILITY: {
+      const { componentId, layerId } = action.payload;
+      const { layers } = state.entities[componentId];
+      const newLayers = layers.map(layer => {
+        if (layer.id == layerId) {
+          const visible = !layer.visible;
+          return { ...layer, visible };
+        }
+        return layer;
+      });
+      const visualizationObject = {
+        ...state.entities[componentId],
+        layers: newLayers
+      };
+      const entities = {
+        ...state.entities,
+        [componentId]: visualizationObject
+      };
+      return {
+        ...state,
+        loaded: true,
+        loading: false,
+        entities
+      };
+    }
   }
   return state;
 }
