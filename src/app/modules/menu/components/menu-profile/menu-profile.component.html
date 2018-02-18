@@ -1,7 +1,7 @@
 <div id="menu-profile-container" appClickOutside (clickOutside)="hideMenuProfile()">
     <div id="menu-profile-btn">
         <a class="menu-profile-icon" (mouseenter)="showMenuProfile($event)">
-            {{currentUser?.AbbreviatedName}}
+            {{currentUser?.name | abbreviate}}
         </a>
     </div>
     <div id="profile-menu-list-block" *ngIf="showProfile && !loadingUser" (mouseleave)="hideMenuProfile($event)">
@@ -14,7 +14,7 @@
             </a>
         </div>
         <div id="user-profile-block">
-            <div class="user-profile-logo" *ngIf="!loadingUser">{{currentUser?.AbbreviatedName}}</div>
+            <div class="user-profile-logo" *ngIf="!loadingUser">{{currentUser?.name | abbreviate}}</div>
             <div id="user-profile-name">
                 <span *ngIf="!loadingUser"><b>{{currentUser?.name}}</b></span>
             </div>

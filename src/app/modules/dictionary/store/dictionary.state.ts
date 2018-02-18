@@ -6,5 +6,6 @@ export interface DictionaryState {
     loading: boolean;
     loadingSucceeded: boolean;
     loadingFailed: boolean;
+    loadingErrorMessage: any;
   };
 }

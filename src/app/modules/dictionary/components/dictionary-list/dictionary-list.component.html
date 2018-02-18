@@ -8,8 +8,11 @@
       (click)="setActiveItem(i, $event)"
     >
       <span>{{ dictionaryItem.name }}</span>
-      <div *ngIf="!dictionaryItem.name">
+      <div *ngIf="dictionaryItem.progress.loading && !dictionaryItem.name">
         <app-dictionary-progress></app-dictionary-progress>
+      </div>
+      <div *ngIf="dictionaryItem.progress.loadingFailed" class="dictionary-error text-danger">
+        {{dictionaryItem.progress.loadingErrorMessage.message}}
       </div>
     </div>
     <div

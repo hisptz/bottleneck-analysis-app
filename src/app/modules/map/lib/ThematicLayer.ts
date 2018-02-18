@@ -29,7 +29,7 @@ export const thematic = options => {
   let geoJsonLayer = L.geoJSON(features, otherOptions);
   let legend = null;
 
-  if (analyticsData && analyticsData.rows.length) {
+  if (analyticsData && analyticsData.rows.length > 0) {
     const valueById = getValueById(analyticsData);
     const valueFeatures = features.filter(({ id }) => valueById[id] !== undefined);
     const orderedValues = getOrderedValues(analyticsData);
@@ -51,7 +51,7 @@ export const thematic = options => {
       const value = valueById[id];
       const item = getLegendItem(value);
 
-      item.count === undefined ? (item.count = 1) : item.count++;
+      item && !item.count ? (item.count = 1) : item.count++;
 
       properties.value = value;
       properties.label = name;

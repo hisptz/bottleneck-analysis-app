@@ -1,8 +1,6 @@
 <div id="dashboard-visualization-list">
     <div
-      *ngFor="let visualizationObject of visualizationObjects$ | async"
-      (mouseenter)="toggleDeleteBlock($event, visualizationObject.id, true)"
-      (mouseleave)="toggleDeleteBlock($event, visualizationObject.id, false)"
+      *ngFor="let visualizationObject of visualizationObjects"
       [ngClass]="{
       'visualization-card-container': true,
       'dashboard-border': true,
@@ -11,7 +9,7 @@
       [style.grid-column]="visualizationObject.details.width" [style.grid-row]="'span 1'">
         <app-visualization-card
           [visualizationObject]="visualizationObject"
-          [currentUser]="currentUser$ | async"
+          [currentUser]="currentUser"
         ></app-visualization-card>
     </div>
 </div>

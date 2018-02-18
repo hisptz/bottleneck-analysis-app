@@ -30,25 +30,25 @@
   </div>
   <div class="visualization-filter-body dashboard-border" [@open] *ngIf="selectedFilter">
     <!--org unit filter-->
-    <app-org-unit-filter *ngIf="selectedFilter === 'ORG_UNIT'" [orgUnitModel]="selectedDimensions.orgUnitModel"
+    <app-org-unit-filter *ngIf="selectedFilter === 'ORG_UNIT'" [orgUnitModel]="selectedDimensions?.orgUnitModel"
                          (onOrgUnitClose)="selectedFilter = undefined"
                          (onOrgUnitUpdate)="onFilterUpdateAction($event, 'ORG_UNIT')"></app-org-unit-filter>
     <!--end of org unit filter-->
 
     <!--period filter-->
-    <app-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedDimensions.selectedPeriods"
+    <app-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedDimensions?.selectedPeriods"
                        (onPeriodFilterClose)="selectedFilter = undefined"
                        (onPeriodUpdate)="onFilterUpdateAction($event, 'PERIOD')"></app-period-filter>
     <!--end of period filter-->
 
     <!--data filter-->
-    <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedDimensions.selectedDataItems"
+    <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedDimensions?.selectedDataItems"
                      (onDataFilterClose)="selectedFilter = undefined"
                      (onDataUpdate)="onFilterUpdateAction($event, 'DATA')"></app-data-filter>
     <!--end of data filter-->
 
     <!--layout filter-->
-    <app-layout *ngIf="selectedFilter === 'LAYOUT'" [layoutModel]="selectedDimensions.layoutModel"
+    <app-layout *ngIf="selectedFilter === 'LAYOUT'" [layoutModel]="selectedDimensions?.layoutModel"
                 [visualizationType]="visualizationType" (onLayoutClose)="selectedFilter = undefined"
                 (onLayoutUpdate)="onFilterUpdateAction($event, 'LAYOUT')"></app-layout>
     <!--end of layout filter-->

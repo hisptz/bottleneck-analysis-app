@@ -14,6 +14,7 @@ import {getSanitizedCustomFilterObject} from './get-sanitized-custom-filter-obje
 import {getVisualizationShape} from './get-visualization-shape.helper';
 import {getVisualizationWidthFromShape} from './get-visualization-width-from-shape.helper';
 import {getSanitizedAnalytics} from './get-sanitized-analytics.helper';
+import { getMergedAnalytics } from './get-merged-analytics.helper';
 
 export {
   mapDashboardItemToVisualization,
@@ -31,6 +32,7 @@ export {
   getSanitizedCustomFilterObject,
   getVisualizationShape,
   getVisualizationWidthFromShape,
-  getSanitizedAnalytics
+  getSanitizedAnalytics,
+  getMergedAnalytics
 };
 

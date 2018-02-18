@@ -6,6 +6,8 @@ import 'rxjs/add/operator/switchMap';
 import {Observable} from 'rxjs/Observable';
 import {CurrentUserState} from './current-user.state';
 import 'rxjs/add/operator/map';
+import {catchError, map, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs/observable/of';
 
 @Injectable()
 export class CurrentUserEffects {
@@ -13,8 +15,13 @@ export class CurrentUserEffects {
   @Effect()
   loadCurrentUser$ = this.actions$
     .ofType<currentUser.LoadAction>(currentUser.CurrentUserActions.LOAD)
-    .switchMap(() => this._load())
-    .map((currentUserObject: CurrentUserState) => new currentUser.LoadSuccessAction(currentUserObject));
+    .pipe(
+      switchMap(() => this._load().pipe(
+        map((currentUserObject: CurrentUserState) =>
+          new currentUser.LoadSuccessAction(currentUserObject)),
+        catchError((error) => of(new currentUser.LoadFailAction(error)))
+      ))
+    );
 
   constructor(private actions$: Actions,
               private httpClient: HttpClientService) {

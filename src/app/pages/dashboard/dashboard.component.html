@@ -19,7 +19,24 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <app-visualization-list></app-visualization-list>
+      <app-visualization-list
+        [visualizationObjects]="visualizationObjects$ | async"
+        [currentUser]="currentUser$ | async"
+      ></app-visualization-list>
+    </div>
+  </div>
+  <div class="row welcoming-block" *ngIf="(visualizationObjects$ | async).length === 0">
+    <div class="col-md-4 offset-md-4 col-sm-8 offset-sm-2">
+      <img src="assets/img/welcome.png" class="img-fluid" alt="">
+    </div>
+    <div class="col-md-6 offset-md-3" *ngIf="visualizationLoading$ | async">
+      <div style="height: 10px;">
+        <app-progress-loader></app-progress-loader>
+      </div>
+    </div>
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center"><b>{{welcomingTitle}}</b></h2>
+      <h3 class="text-center" [innerHtml]="welcomingDescription"></h3>
     </div>
   </div>
 </div>

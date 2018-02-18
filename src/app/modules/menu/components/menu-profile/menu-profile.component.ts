@@ -26,29 +26,10 @@ export class MenuProfileComponent implements OnInit {
         this.currentUser = {
           name: profile.displayName,
           email: profile.email,
-          AbbreviatedName: this.getAbbreviatedName(profile.displayName)
         };
       }
-
       this.loadingUser = false;
     });
-  }
-
-  private getAbbreviatedName(name): string {
-    const abbreviatedName: any[] = [];
-    let count = 0;
-    for (let i = 0; i <= name.length - 1; i++) {
-      if (i === 0) {
-        abbreviatedName.push(name[i].toUpperCase());
-      } else {
-        if (name[i] === ' ') {
-          count = i;
-          abbreviatedName.push(name[count + 1].toUpperCase());
-        }
-      }
-    }
-
-    return abbreviatedName.join('');
   }
 
   showMenuProfile(e) {
