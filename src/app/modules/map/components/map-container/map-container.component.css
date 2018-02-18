@@ -8,13 +8,14 @@ img[title] {
 
 .map-container {
   position: relative;
+  background: transparent;
   height: 100%;
 }
 
 .map-block__left {
   position: absolute;
   left: 5px;
-  top: 50px;
+  top: 60px;
   z-index: 1200;
 }
 
@@ -82,4 +83,14 @@ img[title] {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.map-title {
+  background: transparent;
+  top: 3%;
+  position: absolute;
+  z-index: 800;
+  align-items: center;
+  width: 100%;
+  font-weight: 500;
 }

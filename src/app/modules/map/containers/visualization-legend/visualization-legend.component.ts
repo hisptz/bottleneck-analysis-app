@@ -18,7 +18,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   @Input() mapVisualizationObject: any;
   public LegendsTileLayer: any;
   public showButtonIncons: boolean = false;
-  public activeLayer: number;
+  public activeLayer: number = -1;
   public visualizationLegends: any = [];
   public legendSetEntities: { [id: string]: LegendSet };
   public sticky$: Observable<boolean>;
@@ -57,6 +57,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
           this.visualizationLegends = Object.keys(visualizationLengends).map(
             key => visualizationLengends[key]
           );
+          this.activeLayer = 0;
         }
       });
 

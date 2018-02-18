@@ -118,7 +118,8 @@ const getOrderedValues = data => {
 const createLegendFromLegendSet = (legendSet, displayName, type) => {
   const { name, legends } = legendSet;
   const pickSome = ['name', 'startValue', 'endValue', 'color'];
-  const items = _.sortBy(legends, 'startValues').map(legend => _.pick(legend, pickSome));
+  const sortedLegends = _.sortBy(legends, 'startValue');
+  const items = sortedLegends.map(legend => _.pick(legend, pickSome));
   return {
     title: name || displayName,
     type,
