@@ -12,8 +12,15 @@ import * as fromComponents from './components';
 
 import * as fromServices from './services';
 
+import { DragulaModule } from 'ng2-dragula';
+
 @NgModule({
-  imports: [CommonModule, StoreModule.forFeature('map', reducers), EffectsModule.forFeature(effects)],
+  imports: [
+    CommonModule,
+    DragulaModule,
+    StoreModule.forFeature('map', reducers),
+    EffectsModule.forFeature(effects)
+  ],
   providers: [...fromServices.services],
   declarations: [...fromContainers.containers, ...fromComponents.components],
   exports: [...fromContainers.containers, ...fromComponents.components]

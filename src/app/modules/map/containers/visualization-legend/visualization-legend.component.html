@@ -1,7 +1,7 @@
 <div class="legendFilter__container" (mouseover)="showButtonIcons()" (mouseout)="hideButtonIcons()">
   <div class="map-legend__container">
     <div class="layers-list">
-      <div class="map-legend-list" *ngIf="visualizationLegends.length">
+      <div class="map-legend-list" *ngIf="visualizationLegends.length" [dragula]="'bag-one'" [dragulaModel]="visualizationLegends">
         <div class="map-legend-item" *ngFor="let legend of visualizationLegends; let i = index;">
           <div class="map-legend-header" (click)="setActiveItem(i, $event)">
             <div class="map-legend-title-block">

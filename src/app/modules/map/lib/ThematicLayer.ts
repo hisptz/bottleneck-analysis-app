@@ -31,6 +31,7 @@ export const thematic = options => {
 
   if (analyticsData && analyticsData.rows.length > 0) {
     const valueById = getValueById(analyticsData);
+    const layerDx = getDx(analyticsData);
     const valueFeatures = features.filter(({ id }) => valueById[id] !== undefined);
     const orderedValues = getOrderedValues(analyticsData);
     const minValue = orderedValues[0];
@@ -55,10 +56,12 @@ export const thematic = options => {
 
       properties.value = value;
       properties.label = name;
+      properties.dx = layerDx;
       properties.color = item && item.color;
       properties.radius =
         (value - minValue) / (maxValue - minValue) * (radiusHigh - radiusLow) + radiusLow;
     });
+
     // TODO: Refactor make item.count in legend creations;
     valueFeatures.forEach(({ id, properties }) => {
       const value = valueById[id];
@@ -105,6 +108,13 @@ const getValueById = data => {
     obj[row[ouIndex]] = parseFloat(row[valueIndex]);
     return obj;
   }, {});
+};
+
+export const getDx = data => {
+  const { headers, metaData, rows } = data;
+  const { names, pe, dx } = metaData;
+  const dxID = dx[0];
+  return names[dxID];
 };
 
 // Returns an array of ordered values
@@ -205,10 +215,12 @@ export const thematicLayerOptions = (id, opacity) => {
 
 export const thematicLayerEvents = (columns, legend) => {
   const onClick = evt => {
-    const { name, value, percentage } = evt.layer.feature.properties;
+    const { name, value, percentage, dx } = evt.layer.feature.properties;
     const indicator = columns[0].items[0].name;
     const period = legend ? legend.period : undefined;
-    const content = `<div class="leaflet-popup-orgunit">${name}<br>
+    const content = `<div class="leaflet-popup-orgunit">
+                    ${name}<br>
+                    ${dx}<br>
                     ${period}: ${value}</div>`;
     // Close any popup if there is one
     evt.layer.closePopup();
