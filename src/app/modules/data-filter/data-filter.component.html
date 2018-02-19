@@ -112,6 +112,9 @@
 <div class="data-filter-btns">
   <div>
     <button class="btn btn-outline-secondary btn-sm" (click)="close($event)">Close</button>
-    <button class="btn btn-outline-secondary btn-sm" (click)="emit($event)">Update</button>
+    <button
+      class="btn btn-outline-secondary btn-sm"
+      [disabled]="(selectedItems$ | async).length === 0"
+      (click)="emit($event)">Update</button>
   </div>
 </div>

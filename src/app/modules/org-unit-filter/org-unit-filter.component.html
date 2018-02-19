@@ -96,6 +96,11 @@
 
     <div class="org-unit-actions float-right">
         <button (click)="close($event)" class="btn btn-sm btn-outline-secondary">Cancel</button>
-        <button (click)="emit($event)" class="btn btn-sm btn-outline-secondary">Update</button>
+        <button
+          (click)="emit($event)"
+          [disabled]="orgUnitModel.selectedOrgUnits.length === 0 &&
+          orgUnitModel.selectedUserOrgUnits.length === 0"
+          class="btn btn-sm btn-outline-secondary"
+        >Update</button>
     </div>
 </div>
