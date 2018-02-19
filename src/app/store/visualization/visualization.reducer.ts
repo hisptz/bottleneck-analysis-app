@@ -4,11 +4,11 @@ import {
   VisualizationAction,
   VisualizationActions
 } from './visualization.actions';
-import {Visualization} from './visualization.state';
+import { Visualization } from './visualization.state';
 import * as visualizationHelpers from './helpers/index';
 
 export function visualizationReducer(state: visualization.VisualizationState = visualization.INITIAL_VISUALIZATION_STATE,
-                                     action: VisualizationAction) {
+  action: VisualizationAction) {
   switch (action.type) {
     case VisualizationActions.LOAD_SUCCESS:
       return {
@@ -109,8 +109,8 @@ export function visualizationReducer(state: visualization.VisualizationState = v
 
       const newShape = visualizationObject
         ? visualizationObject.details.showInterpretationBlock
-          ? visualizationObject.details.shape
-          : visualizationObject.shape === 'NORMAL'
+                         ? visualizationObject.details.shape
+                         : visualizationObject.shape === 'NORMAL'
             ? 'DOUBLE_WIDTH'
             : 'FULL_WIDTH'
         : '';
@@ -128,8 +128,7 @@ export function visualizationReducer(state: visualization.VisualizationState = v
                 width: visualizationHelpers.getVisualizationWidthFromShape(
                   newShape
                 ),
-                showInterpretationBlock: !visualizationObject.details
-                  .showInterpretationBlock,
+                showInterpretationBlock: !visualizationObject.details.showInterpretationBlock,
                 shape: visualizationObject.shape
               }
             },
@@ -256,8 +255,7 @@ export function visualizationReducer(state: visualization.VisualizationState = v
               ...visualizationObject,
               details: {
                 ...visualizationObject.details,
-                showDeleteDialog: !visualizationObject.details
-                  .showDeleteDialog
+                showDeleteDialog: !visualizationObject.details.showDeleteDialog
               }
             },
             ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
@@ -313,19 +311,28 @@ export function visualizationReducer(state: visualization.VisualizationState = v
     }
 
     case VisualizationActions.GLOBAL_FILTER_CHANGE: {
+      const visualizationToUpdate: Visualization[] = _.map(_.filter(state.visualizationObjects,
+        visualizationObject => visualizationObject.dashboardId === action.payload.currentDashboardId &&
+          !visualizationObject.details.nonVisualizable), (visualizationObject: Visualization) => {
+        return {
+          ...visualizationObject,
+          details: {
+            ...visualizationObject.details,
+            loading: true,
+            loaded: false,
+            errorMessage: ''
+          }
+        };
+      });
+
       return {
         ...state,
-        visualizationObjects: _.map(state.visualizationObjects, (visualizationObject: Visualization) => {
-          return {
-            ...visualizationObject,
-            details: {
-              ...visualizationObject.details,
-              loading: true,
-              loaded: false,
-              errorMessage: ''
-            }
-          };
-        })
+        visualizationObjects: [
+          ..._.map(state.visualizationObjects, (visualizationObject: Visualization) => {
+            const availableVisualization: Visualization = _.find(visualizationToUpdate, ['id', visualizationObject.id]);
+            return availableVisualization || visualizationObject;
+          })
+        ]
       };
     }
   }

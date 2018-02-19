@@ -154,7 +154,7 @@ export class DeleteFailAction implements Action {
 export class GlobalFilterChangeAction implements Action {
   readonly type = VisualizationActions.GLOBAL_FILTER_CHANGE;
 
-  constructor(public payload: any) {
+  constructor(public payload: { currentDashboardId: string, filterValue: any}) {
   }
 }
 

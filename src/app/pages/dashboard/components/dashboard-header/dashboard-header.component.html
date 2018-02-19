@@ -16,7 +16,7 @@
                 <app-current-dashboard-bookmark-button [currentDashboard]="(currentDashboard$ | async)"></app-current-dashboard-bookmark-button>
             </div>
             <div class="current-dashboard-global-filter">
-                <app-dashboard-global-filter></app-dashboard-global-filter>
+                <app-dashboard-global-filter [currentDashboardId]="(currentDashboard$ | async)?.id"></app-dashboard-global-filter>
             </div>
         </div>
     </div>

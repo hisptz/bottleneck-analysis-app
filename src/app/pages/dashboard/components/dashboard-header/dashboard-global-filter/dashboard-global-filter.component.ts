@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../../../store/app.reducers';
@@ -33,6 +33,7 @@ import * as fromVisualizationActions from '../../../../../store/visualization/vi
 })
 export class DashboardGlobalFilterComponent implements OnInit {
 
+  @Input() currentDashboardId: string;
   showGlobalFilters: boolean;
   selectedDimensions: any;
   constructor(private store: Store<AppState>) {
@@ -58,7 +59,9 @@ export class DashboardGlobalFilterComponent implements OnInit {
   }
 
   onGlobalFilterUpdate(filterValue: any) {
-    this.store.dispatch(new fromVisualizationActions.GlobalFilterChangeAction(filterValue));
+    this.store.dispatch(new fromVisualizationActions.GlobalFilterChangeAction({
+      currentDashboardId: this.currentDashboardId, filterValue: filterValue
+    }));
   }
 
 }
