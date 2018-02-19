@@ -88,3 +88,13 @@
 .dashboard-menu-bookmark-icon {
     cursor: pointer;
 }
+
+.dashboard-create-progress-block {
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard-create-progress-block img {
+  height: 25px;
+  width: 25px;
+}

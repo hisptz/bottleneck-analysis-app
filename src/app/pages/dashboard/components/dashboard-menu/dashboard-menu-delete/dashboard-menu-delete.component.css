@@ -15,7 +15,7 @@
 
 .deleting-dialog {
   display: flex;
-  padding-top: 5px;
+  justify-content: center;
 }
 
 .dashboard-delete-btn img {

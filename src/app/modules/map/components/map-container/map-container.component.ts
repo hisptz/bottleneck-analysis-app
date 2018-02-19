@@ -148,9 +148,11 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   createLayer(optionsLayer, index) {
-    const { displaySettings, id, geoJsonLayer, visible } = optionsLayer;
-    this.createPane(displaySettings.labels, id, index);
-    this.setLayerVisibility(visible, geoJsonLayer);
+    if (optionsLayer) {
+      const { displaySettings, id, geoJsonLayer, visible } = optionsLayer;
+      this.createPane(displaySettings.labels, id, index);
+      this.setLayerVisibility(visible, geoJsonLayer);
+    }
   }
 
   createPane(labels, id, index) {
