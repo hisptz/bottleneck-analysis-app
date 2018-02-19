@@ -16,7 +16,7 @@ img[title] {
   position: absolute;
   left: 5px;
   top: 60px;
-  z-index: 1200;
+  z-index: 800;
 }
 
 .map-controls__list {
