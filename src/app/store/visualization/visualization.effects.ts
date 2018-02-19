@@ -225,10 +225,14 @@ export class VisualizationEffects {
   globalFilterChanges$ = this.actions$.ofType<visualization.GlobalFilterChangeAction>(
     visualization.VisualizationActions.GLOBAL_FILTER_CHANGE).withLatestFrom(this.store).pipe(
     tap(([action, state]: [any, AppState]) => {
-      _.each(state.visualization.visualizationObjects, (visualizationObject: Visualization) => {
+      const visualizationToUpdate: Visualization[] = _.filter(state.visualization.visualizationObjects,
+        visualizationObject => visualizationObject.dashboardId === action.payload.currentDashboardId &&
+          !visualizationObject.details.nonVisualizable);
+
+      _.each(visualizationToUpdate, (visualizationObject: Visualization) => {
         this.store.dispatch(new visualization.LocalFilterChangeAction({
           visualizationObject: visualizationObject,
-          filterValue: action.payload
+          filterValue: action.payload.filterValue
         }));
       });
     })
@@ -321,7 +325,9 @@ export class VisualizationEffects {
         });
 
         forkJoin(functionAnalyticsPromises).subscribe((analyticsResponse: any[]) => {
-          observer.next(analyticsResponse.length > 1 ? visualizationHelpers.getMergedAnalytics(analyticsResponse) : analyticsResponse[0]);
+          observer.next(analyticsResponse.length > 1 ?
+                        visualizationHelpers.getMergedAnalytics(analyticsResponse) :
+                        analyticsResponse[0]);
           observer.complete();
         });
       }
