@@ -32,7 +32,7 @@ export function transformVisualizationObject(visualizationObject) {
       visible: true,
       areaRadius: settings.areaRadius,
       displayName: settings.displayName,
-      opacity: settings.opacity,
+      opacity: settings.opacity || 1,
       hidden: settings.hidden,
       type: settings.layer ? settings.layer.replace(/\d$/, '') : 'thematic' // Replace number in thematic layers
     };

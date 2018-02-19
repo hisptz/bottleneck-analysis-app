@@ -28,14 +28,16 @@ export function getSplitedFavorite(favorite: any, splitCriterias: any[]) {
         favoriteObject.id = favoriteObject.id + '_' + favoriteIndex;
         favoriteObject.name = getFavoriteName([row, column, filter]);
         favoriteObject.displayName = favoriteObject.name;
-        favoriteObject.analyticsIdentifier = getAnalyticsIdentifier([row, column, filter], splitCriterias);
-        favoriteObject.layer = 'thematic' + (favoriteIndex + 1);
+        favoriteObject.analyticsIdentifier = getAnalyticsIdentifier(
+          [row, column, filter],
+          splitCriterias
+        );
+        favoriteObject.layer = 'thematic';
         favoriteArray.push(favoriteObject);
         favoriteIndex++;
       });
     });
   });
-
 
   return favoriteArray;
 }
@@ -50,10 +52,12 @@ function splitDimensionLayout(layoutDetailsArray, criteria) {
           const items: any[] = _.clone(detail.items);
           if (items) {
             items.forEach(item => {
-              criteriaArray.push([{
-                dimension: detail.dimension,
-                items: [item]
-              }]);
+              criteriaArray.push([
+                {
+                  dimension: detail.dimension,
+                  items: [item]
+                }
+              ]);
             });
           }
         }
@@ -71,9 +75,7 @@ function splitDimensionLayout(layoutDetailsArray, criteria) {
           const concatArray = _.concat(newArray, criteriaObject);
           splitedArray.push(concatArray);
         });
-
       });
-
     });
   }
   return splitedArray.length > 0 ? splitedArray : layoutDetailsArray;
@@ -90,7 +92,6 @@ function getFavoriteName(dimensions: any[]) {
           favoriteName += item.displayName;
         });
       }
-
     });
 
     dimensions.forEach(dimensionItem => {
@@ -101,7 +102,6 @@ function getFavoriteName(dimensions: any[]) {
           favoriteName += favoriteName !== '' ? ' - ' + item.displayName : item.displayName;
         });
       }
-
     });
   }
 

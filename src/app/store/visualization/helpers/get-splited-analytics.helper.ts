@@ -26,7 +26,7 @@ export function getSplitedAnalytics(analytics: any, splitCriteria: any[]) {
         splitCriteria.forEach(criteria => {
           const rowIndex = _.findIndex(analyticHeaders, ['name', criteria]);
           const id = metadata[criteria][0];
-          rows = this.splitAnalyticsRows(rows, id, rowIndex);
+          rows = splitAnalyticsRows(rows, id, rowIndex);
 
           /**
            * Get names
@@ -60,7 +60,6 @@ export function getSplitedAnalytics(analytics: any, splitCriteria: any[]) {
     });
   }
 
-
   return analyticsArray;
 }
 
@@ -79,4 +78,17 @@ function splitAnalyticsMetadata(analyticsMetadataArray, splitDimension): any {
   }
 
   return metadataArray;
+}
+
+function splitAnalyticsRows(analyticsRows, splitDimensionId, dimensionIndex) {
+  const newRowsArray: any[] = [];
+  if (analyticsRows) {
+    analyticsRows.forEach(row => {
+      if (row[dimensionIndex] === splitDimensionId) {
+        newRowsArray.push(row);
+      }
+    });
+  }
+
+  return newRowsArray;
 }

@@ -55,13 +55,21 @@ export const Layers = (layers, geofeatures, analytics, organizationGroupSet, leg
         legendSet
       };
     }
+
     return LayerType[newLayer.type](newLayer);
   });
   return optionLayers;
 };
 
 export const GetOverLayLayers = (visualizationObject: VisualizationObject) => {
-  const { mapConfiguration, layers, geofeatures, analytics, orgUnitGroupSet, legendSets } = visualizationObject;
+  const {
+    mapConfiguration,
+    layers,
+    geofeatures,
+    analytics,
+    orgUnitGroupSet,
+    legendSets
+  } = visualizationObject;
 
   // Work with Layers separately;
   return Layers(layers, geofeatures, analytics, orgUnitGroupSet, legendSets);

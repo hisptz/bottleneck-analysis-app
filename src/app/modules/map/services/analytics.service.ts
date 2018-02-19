@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
+import * as _ from 'lodash';
 import 'rxjs/add/observable/throw';
 
 @Injectable()

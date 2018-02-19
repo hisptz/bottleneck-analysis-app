@@ -1,11 +1,11 @@
 import * as _ from 'lodash';
 
-export function getISOFormatFromRelativePeriod(favourite): Array<string> {
+export function getISOFormatFromRelativePeriod(favourite) {
   const isoFormat = [];
   let periodDimension: any;
-  const newPeriodDimension = {dimension: 'pe', items: []};
   let periodIndex = null;
   let parentdimension = null;
+  let newFavourite = { ...favourite };
 
   if (periodDimensionExist(favourite.rows)) {
     periodIndex = _.findIndex(favourite.rows, ['dimension', 'pe']);
@@ -26,11 +26,19 @@ export function getISOFormatFromRelativePeriod(favourite): Array<string> {
   }
 
   if (periodDimension && favourite[parentdimension]) {
-    newPeriodDimension.items = generateCorrespondingFixedPeriodArray(periodDimension.items);
-    favourite[parentdimension].splice(periodIndex, 1);
-    favourite[parentdimension].push(newPeriodDimension);
+    const items = generateCorrespondingFixedPeriodArray(periodDimension.items);
+    const newPeriodDimension = { dimension: 'pe', items };
+
+    const dimensions = favourite[parentdimension].map((dimension, index) => {
+      if (index === periodIndex) {
+        return newPeriodDimension;
+      }
+      return dimension;
+    });
+    const data = { [parentdimension]: dimensions };
+    newFavourite = { ...newFavourite, ...data };
   }
-  favourite.hideTitle = false;
+  newFavourite = { ...newFavourite, hideTitle: false };
   return favourite;
 }
 
@@ -46,7 +54,7 @@ function periodDimensionExist(dimensionArray) {
 function generateCorrespondingFixedPeriodArray(relativePeriodArray) {
   let fixedPeriods = [];
   if (relativePeriodArray) {
-    relativePeriodArray.forEach((relativePeriod) => {
+    relativePeriodArray.forEach(relativePeriod => {
       const newPeriods = getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod);
       fixedPeriods = [...fixedPeriods, ...newPeriods];
     });
@@ -61,7 +69,16 @@ function generateCorrespondingFixedPeriodArray(relativePeriodArray) {
  This function return array of fixed periods from one relative period
  */
 function getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod): Array<Object> {
-  const periodCategory = ['_MONTH', '_BIMONTH', '_QUARTER', '_SIXMONTHS', '_SIX_MONTH', '_YEAR', '_WEEK', '_FINANCIAL_YEAR'];
+  const periodCategory = [
+    '_MONTH',
+    '_BIMONTH',
+    '_QUARTER',
+    '_SIXMONTHS',
+    '_SIX_MONTH',
+    '_YEAR',
+    '_WEEK',
+    '_FINANCIAL_YEAR'
+  ];
   const periodTenses = ['THIS', 'LAST'];
   let fixedPeriods = [];
   const template = {
@@ -73,8 +90,9 @@ function getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod): Array<Obje
   const periodFunctions = getExecutingPeriodFunctions();
   if (relativePeriod) {
     let functionName = null;
-    periodCategory.forEach((category) => {
-      if (relativePeriod.id.indexOf(category) > -1) {
+    periodCategory.forEach(category => {
+      const dimensionItem = relativePeriod.id || relativePeriod.dimensionItem;
+      if (dimensionItem && dimensionItem.indexOf(category) > -1) {
         functionName = category;
       }
     });
@@ -86,9 +104,10 @@ function getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod): Array<Obje
       fixedPeriods = periodFunctions[functionName](
         template,
         getPeriodCounts(periodTenses, relativePeriod),
-        getPeriodTense(periodTenses, relativePeriod));
+        getPeriodTense(periodTenses, relativePeriod)
+      );
+      console.log(fixedPeriods);
     }
-
   }
   return fixedPeriods;
 }
@@ -99,16 +118,16 @@ function getFixedPeriodArrayFromSingleRelativePeriod(relativePeriod): Array<Obje
 function getExecutingPeriodFunctions() {
   const currentDate = new Date();
   return {
-    '_MONTH': (template, counts, tense) => {
+    _MONTH: (template, counts, tense) => {
       const currentMonth = currentDate.getMonth();
       const lastNMonths = getLastPeriods(currentMonth, counts, 12, tense);
       let currentYear = currentDate.getFullYear();
       const months = [];
       let endOfTheYear = false;
 
-      lastNMonths.forEach((month) => {
+      lastNMonths.forEach(month => {
         const theTemplate = template;
-        month === 12 ? endOfTheYear = true : endOfTheYear = false;
+        month === 12 ? (endOfTheYear = true) : (endOfTheYear = false);
         if (month < 10) {
           months.push({
             id: currentYear + '0' + month,
@@ -132,15 +151,15 @@ function getExecutingPeriodFunctions() {
 
       return _.reverse(months);
     },
-    '_QUARTER': (template, counts, tense) => {
+    _QUARTER: (template, counts, tense) => {
       const currentQuarter = getThisQuarter();
       const lastNQuarters = getPeriods(currentQuarter, tense, counts, 4);
+      console.log('currentQuarter', currentQuarter);
       let currentYear = currentDate.getFullYear();
       const quarters = [];
       let endOfTheYear = false;
-      lastNQuarters.forEach((nthQuarter) => {
-
-        nthQuarter === 4 ? endOfTheYear = true : endOfTheYear = false;
+      lastNQuarters.forEach(nthQuarter => {
+        nthQuarter === 4 ? (endOfTheYear = true) : (endOfTheYear = false);
         if (endOfTheYear && tense === 'LAST') {
           currentYear = currentYear - 1;
           endOfTheYear = false;
@@ -151,31 +170,32 @@ function getExecutingPeriodFunctions() {
           displayName: currentYear + 'Q' + nthQuarter,
           dimensionItemType: 'PERIOD'
         });
-
       });
       return _.reverse(quarters);
     },
-    '_YEAR': (template, counts, tense) => {
+    _YEAR: (template, counts, tense) => {
       const currentYear = currentDate.getFullYear();
       const lastNYears = getPeriods(currentYear, tense, counts, 12);
 
-      return _.reverse(lastNYears.map((nthYear) => {
-        return {
-          id: nthYear + '',
-          dimensionItem: nthYear + '',
-          displayName: nthYear + '',
-          dimensionItemType: 'PERIOD'
-        };
-      }));
+      return _.reverse(
+        lastNYears.map(nthYear => {
+          return {
+            id: nthYear + '',
+            dimensionItem: nthYear + '',
+            displayName: nthYear + '',
+            dimensionItemType: 'PERIOD'
+          };
+        })
+      );
     },
-    '_BIMONTH': (template, counts, tense) => {
+    _BIMONTH: (template, counts, tense) => {
       const currentBimonth = getThisBimonth();
       const lastNBimonths = getPeriods(currentBimonth, tense, counts, 6);
       let currentYear = currentDate.getFullYear();
       const bimonths = [];
       let endOfTheYear = false;
-      lastNBimonths.forEach((nthBimonth) => {
-        nthBimonth === 6 ? endOfTheYear = true : endOfTheYear = false;
+      lastNBimonths.forEach(nthBimonth => {
+        nthBimonth === 6 ? (endOfTheYear = true) : (endOfTheYear = false);
         if (endOfTheYear) {
           currentYear = currentYear - 1;
           endOfTheYear = false;
@@ -186,19 +206,18 @@ function getExecutingPeriodFunctions() {
           displayName: currentYear + '0' + nthBimonth + 'B',
           dimensionItemType: 'PERIOD'
         });
-
       });
 
       return _.reverse(bimonths);
     },
-    '_SIXMONTHS': (template, counts, tense) => {
+    _SIXMONTHS: (template, counts, tense) => {
       const currentSixmonth = getThisSixmonth();
       const lastSixmonths = getLastPeriods(currentSixmonth, counts, 2, tense);
       let currentYear = currentDate.getFullYear();
       const sixmonths = [];
       let endOfTheYear = false;
-      lastSixmonths.forEach((nthSixmonth) => {
-        nthSixmonth === 2 ? endOfTheYear = true : endOfTheYear = false;
+      lastSixmonths.forEach(nthSixmonth => {
+        nthSixmonth === 2 ? (endOfTheYear = true) : (endOfTheYear = false);
         if (endOfTheYear) {
           currentYear = currentYear - 1;
           endOfTheYear = false;
@@ -212,14 +231,14 @@ function getExecutingPeriodFunctions() {
       });
       return sixmonths;
     },
-    '_SIX_MONTH': (template, counts, tense) => {
+    _SIX_MONTH: (template, counts, tense) => {
       const currentSixmonth = getThisSixmonth();
       const lastSixmonths = getLastPeriods(currentSixmonth, counts, 2, tense);
       let currentYear = currentDate.getFullYear();
       const sixmonths = [];
       let endOfTheYear = false;
-      lastSixmonths.forEach((nthSixmonth) => {
-        nthSixmonth === 2 ? endOfTheYear = true : endOfTheYear = false;
+      lastSixmonths.forEach(nthSixmonth => {
+        nthSixmonth === 2 ? (endOfTheYear = true) : (endOfTheYear = false);
         if (endOfTheYear) {
           currentYear = currentYear - 1;
           endOfTheYear = false;
@@ -233,14 +252,14 @@ function getExecutingPeriodFunctions() {
       });
       return sixmonths;
     },
-    '_WEEK': (template, counts, tense) => {
+    _WEEK: (template, counts, tense) => {
       const currentWeek = getThisWeek();
       const lastNWeeks = getPeriods(currentWeek, tense, counts, 52);
       let currentYear = currentDate.getFullYear();
       const lastWeeks = [];
       let endOfTheYear = false;
-      lastNWeeks.forEach((nthLastWeek) => {
-        nthLastWeek === 52 ? endOfTheYear = true : endOfTheYear = false;
+      lastNWeeks.forEach(nthLastWeek => {
+        nthLastWeek === 52 ? (endOfTheYear = true) : (endOfTheYear = false);
         if (endOfTheYear) {
           currentYear = currentYear - 1;
           endOfTheYear = false;
@@ -251,11 +270,10 @@ function getExecutingPeriodFunctions() {
           displayName: currentYear + 'W' + nthLastWeek,
           dimensionItemType: 'PERIOD'
         });
-
       });
       return _.reverse(lastWeeks);
     },
-    '_FINANCIAL_YEAR': (template, counts, tense) => {
+    _FINANCIAL_YEAR: (template, counts, tense) => {
       const hypotheticalFinancialYearMonth = 10;
       const currentFinancialYear = getThisFinancialYear();
       let currentYear = currentDate.getFullYear();
@@ -270,7 +288,6 @@ function getExecutingPeriodFunctions() {
             dimensionItemType: 'PERIOD'
           });
         }
-
       }
       if (nthFinancialYears.length < 1) {
         nthFinancialYears.push({
@@ -290,8 +307,9 @@ function getExecutingPeriodFunctions() {
  */
 function getPeriodTense(periodTenses, relativePeriod) {
   let selectedTense = null;
-  periodTenses.forEach(function (tense) {
-    if (relativePeriod.id.indexOf(tense) > -1) {
+  periodTenses.forEach(function(tense) {
+    const dimensionItem = relativePeriod.id || relativePeriod.dimensionItem;
+    if (dimensionItem && dimensionItem.indexOf(tense) > -1) {
       selectedTense = tense;
     }
   });
@@ -303,9 +321,10 @@ function getPeriodTense(periodTenses, relativePeriod) {
  */
 function getPeriodCounts(periodTenses, relativePeriod) {
   let selectedCount = 0;
-  periodTenses.forEach(function (tense) {
-    if (relativePeriod.id.indexOf(tense) > -1) {
-      const tenseArray = relativePeriod.id.split('_');
+  periodTenses.forEach(function(tense) {
+    const dimensionItem = relativePeriod.id || relativePeriod.dimensionItem;
+    if (dimensionItem && dimensionItem.indexOf(tense) > -1) {
+      const tenseArray = dimensionItem.split('_');
       if (tenseArray.length > 2) {
         selectedCount = isNaN(tenseArray[1]) ? 1 : tenseArray[1];
       } else {
@@ -330,7 +349,6 @@ function getPeriods(current, tense, counts, endingValue) {
         iterator--;
         periods.push(iterator);
       }
-
     }
   } else {
     periods.push(current);
@@ -352,7 +370,6 @@ function getLastQuarters(current, tense, counts) {
         iterator--;
         lastQuarters.push(iterator);
       }
-
     }
   } else {
     lastQuarters.push(current);
@@ -374,7 +391,6 @@ function getLastWeeks(current, tense, counts) {
         iterator--;
         lastWeeks.push(iterator);
       }
-
     }
   } else {
     lastWeeks.push(current);
@@ -396,7 +412,6 @@ function getLastYears(current, tense, counts) {
         iterator--;
         lastYears.push(iterator);
       }
-
     }
   } else {
     lastYears.push(current);
@@ -417,26 +432,25 @@ function getLastPeriods(current, counts, typeLimit, tense) {
         iterator--;
         lastPeriods.push(iterator);
       }
-
     }
   }
 
   return lastPeriods;
 }
 
-function getThisQuarter(d ?) {
+function getThisQuarter(d?) {
   d = d || new Date(); // If no date supplied, use today
   const q = [1, 2, 3, 4];
   return q[Math.floor(d.getMonth() / 3)];
 }
 
-function getThisBimonth(d ?) {
+function getThisBimonth(d?) {
   d = d || new Date();
   const q = [1, 2, 3, 4, 5, 6];
   return q[Math.floor(d.getMonth() / 2)];
 }
 
-function getThisSixmonth(d ?) {
+function getThisSixmonth(d?) {
   d = d || new Date();
   const q = [1, 2];
   return q[Math.floor(d.getMonth() / 6)];
@@ -449,8 +463,8 @@ function getThisWeek(d?) {
   d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
 
   const week = new Date(d.getFullYear(), 0, 4);
-  const thisWeek = 1 + Math.round(((d.getTime() - week.getTime()) / 86400000
-    - 3 + (week.getDay() + 6) % 7) / 7);
+  const thisWeek =
+    1 + Math.round(((d.getTime() - week.getTime()) / 86400000 - 3 + (week.getDay() + 6) % 7) / 7);
 
   return thisWeek;
 }

@@ -38,6 +38,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   layerSelectionForm: boolean = false;
   showTransparent: boolean = false;
   displayNone: boolean = false;
+  p: number = 1;
 
   constructor(private store: Store<fromStore.MapState>) {}
 
@@ -179,6 +180,10 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
         legend: newLegend
       })
     );
+  }
+
+  handlePageChange(event) {
+    this.p = event;
   }
 
   ngOnDestroy() {

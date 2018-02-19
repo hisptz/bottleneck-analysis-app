@@ -14,10 +14,13 @@ import * as fromServices from './services';
 
 import { DragulaModule } from 'ng2-dragula';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @NgModule({
   imports: [
     CommonModule,
     DragulaModule,
+    NgxPaginationModule,
     StoreModule.forFeature('map', reducers),
     EffectsModule.forFeature(effects)
   ],

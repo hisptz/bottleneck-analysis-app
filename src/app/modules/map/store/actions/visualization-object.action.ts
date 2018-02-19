@@ -21,12 +21,15 @@ export const ADD_GEOFEATURES_VIZ = '[Map] Add Geofeatures to visualization objec
 export const REMOVE_LAYER = '[Map] Remove Layer from visualization object';
 export const HIDE_LAYER = '[Map] Hide Layer';
 export const ADD_VISUALIZATION_OBJECT_COMPLETE = '[Map] Add complete visualization object';
-export const ADD_VISUALIZATION_OBJECT_COMPLETE_SUCCESS = '[Map] Add complete visualization object success';
-export const ADD_VISUALIZATION_OBJECT_COMPLETE_FAIL = '[Map] Add complete visualization object fail';
+export const ADD_VISUALIZATION_OBJECT_COMPLETE_SUCCESS =
+  '[Map] Add complete visualization object success';
+export const ADD_VISUALIZATION_OBJECT_COMPLETE_FAIL =
+  '[Map] Add complete visualization object fail';
 export const LOAD_VISUALIZATION_OBJECT = '[Map] Load visualization object';
 export const LOAD_VISUALIZATION_OBJECT_SUCCESS = '[Map] Load visualization object success';
 export const LOAD_VISUALIZATION_OBJECT_FAIL = '[Map] Load visualization object Fail';
 export const TOGGLE_LAYER_VISIBILITY = '[Map] Toggle Layer visibility';
+export const TRANSFORM_VISUALIZATION_OBJECT = '[Map] Transform visualization object';
 
 export class CreateVisualizationObject implements Action {
   readonly type = CREATE_VISUALIZATION_OBJECT;
@@ -147,6 +150,11 @@ export class ToggleLayerVisibility implements Action {
   constructor(public payload: any) {}
 }
 
+export class TransformVisualizationObject implements Action {
+  readonly type = TRANSFORM_VISUALIZATION_OBJECT;
+  constructor(public payload: any) {}
+}
+
 export type VisualizationObjectAction =
   | CreateVisualizationObject
   | CreateVisualizationObjectSuccess
@@ -171,4 +179,5 @@ export type VisualizationObjectAction =
   | AddVisualizationObjectComplete
   | AddVisualizationObjectCompleteSuccess
   | AddVisualizationObjectCompleteFail
-  | ToggleLayerVisibility;
+  | ToggleLayerVisibility
+  | TransformVisualizationObject;

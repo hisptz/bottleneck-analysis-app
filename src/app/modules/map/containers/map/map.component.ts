@@ -11,6 +11,7 @@ import { MapConfiguration } from '../../models/map-configuration.model';
 import { GeoFeature } from '../../models/geo-feature.model';
 import * as fromLib from '../../lib';
 import { Map, LatLngExpression, control, LatLngBoundsExpression } from 'leaflet';
+import { getSplitedVisualization } from '../../../../store/visualization/helpers';
 
 import { of } from 'rxjs/observable/of';
 import { interval } from 'rxjs/observable/interval';
@@ -82,9 +83,13 @@ export class MapComponent implements OnInit {
         mapWidth: '100%'
       };
       this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.vizObject.id));
-      this.visualizationLegendIsOpen$ = this.store.select(fromStore.isVisualizationLegendOpen(this.vizObject.id));
+      this.visualizationLegendIsOpen$ = this.store.select(
+        fromStore.isVisualizationLegendOpen(this.vizObject.id)
+      );
       this.transformVisualizationObject(this.vizObject);
-      this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.vizObject.id));
+      this.visualizationObject$ = this.store.select(
+        fromStore.getCurrentVisualizationObject(this.vizObject.id)
+      );
     }
   }
 
@@ -104,7 +109,8 @@ export class MapComponent implements OnInit {
 
   transformVisualizationObject(data) {
     // TODO FIND A WAY TO GET GEO FEATURES HERE
-    const { visObject } = fromUtils.transformVisualizationObject(data);
+    const newData = getSplitedVisualization(data);
+    const { visObject } = fromUtils.transformVisualizationObject(newData);
     this.visObject = {
       ...this.visObject,
       componentId: this.componentId,
