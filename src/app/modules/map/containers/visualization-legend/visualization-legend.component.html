@@ -54,7 +54,7 @@
             </div>
           </div>
         </div>
-        <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
+        <pagination-controls (pageChange)="handlePageChange($event)" *ngIf="visualizationLegends.length > 3"></pagination-controls>
       </div>
       <div class="map-legend-list">
         <div class="map-legend-item">
