@@ -12,6 +12,8 @@ import {
   getPeriodFromFilters,
   getPeriodNameFromId
 } from '../utils/analytics';
+import { createEventFeature } from '../utils/layers';
+import { timeFormat } from 'd3-time-format';
 
 export const event = options => {
   const {
@@ -28,10 +30,13 @@ export const event = options => {
   const { startDate, endDate } = dataSelections;
   const { eventPointColor, eventPointRadius, radiusLow, eventClustering } = layerOptions;
   const { labelFontSize, labelFontStyle } = displaySettings;
+  const spatialSupport = localStorage.getItem('spatialSupport');
 
   const orgUnits = getOrgUnitsFromRows(dataSelections.rows);
   const period = getPeriodFromFilters(dataSelections.filters);
   const dataFilters = getFiltersFromColumns(dataSelections.columns);
+
+  const formatTime = date => timeFormat('%Y-%m-%d')(new Date(date));
 
   let legend = {
     period: period ? getPeriodNameFromId(period.id) : `${startDate} - ${endDate}`,
@@ -107,52 +112,6 @@ export const event = options => {
     };
   }
   return optionsToReturn;
-};
-
-const createEventFeature = (headers, names, layerEvent, eventCoordinateField?) => {
-  const properties = layerEvent.reduce(
-    (props, value, i) => ({
-      ...props,
-      [headers[i].name]: names[value] || value
-    }),
-    {}
-  );
-
-  // properties style
-  properties.style = {
-    color: '#fff',
-    weight: 1,
-    stroke: true,
-    fill: true
-  };
-
-  let coordinates;
-
-  if (eventCoordinateField) {
-    // If coordinate field other than event location
-    const eventCoord = properties[eventCoordinateField];
-
-    if (Array.isArray(eventCoord)) {
-      coordinates = eventCoord;
-    } else if (_.isString(eventCoord) && !_.isEmpty(eventCoord)) {
-      coordinates = JSON.parse(eventCoord);
-    } else {
-      coordinates = [];
-    }
-  } else {
-    // Use event location
-    coordinates = [properties.longitude, properties.latitude]; // Event location
-  }
-
-  return {
-    type: 'Feature',
-    id: properties.psi,
-    properties,
-    geometry: {
-      type: 'Point',
-      coordinates: coordinates.map(parseFloat)
-    }
-  };
 };
 
 const eventLayerEvents = () => {

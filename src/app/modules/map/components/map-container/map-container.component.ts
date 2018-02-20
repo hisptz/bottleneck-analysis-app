@@ -20,6 +20,7 @@ import { MapConfiguration } from '../../models/map-configuration.model';
 import { GeoFeature } from '../../models/geo-feature.model';
 import * as fromLib from '../../lib';
 import * as L from 'leaflet';
+import * as _ from 'lodash';
 
 import { of } from 'rxjs/observable/of';
 import { interval } from 'rxjs/observable/interval';
@@ -108,14 +109,25 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   createMap() {
-    const { geofeatures, analytics } = this._visualizationObject;
-    const allGeofeatures = Object.keys(geofeatures).map(key => geofeatures[key]);
+    const { geofeatures, analytics, layers } = this._visualizationObject;
+    const allGeofeatures = Object.keys(geofeatures).map(key => {
+      return geofeatures[key];
+    });
     const allDataAnalytics = Object.keys(analytics).filter(
       key => analytics[key] && analytics[key].rows.length > 0
     );
     if (![].concat.apply([], allGeofeatures).length) {
       this.mapHasGeofeatures = false;
     }
+
+    layers.map(layer => {
+      if (layer.type === 'event') {
+        const headers = analytics[layer.id].headers;
+        if (_.find(headers, { name: 'latitude' })) {
+          this.mapHasGeofeatures = true;
+        }
+      }
+    });
 
     if (!allDataAnalytics.length) {
       this.mapHasDataAnalytics = false;
