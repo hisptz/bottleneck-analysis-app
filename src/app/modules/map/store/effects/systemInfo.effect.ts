@@ -16,6 +16,7 @@ export class SystemInfoEffects {
     tap((action: systemInfoActions.AddContectPath) => {
       this.systemInfoService.getSystemInfo().subscribe(info => {
         localStorage.setItem('contextPath', info['contextPath']);
+        localStorage.setItem('spatialSupport', info['databaseInfo']['spatialSupport']);
       });
     })
   );

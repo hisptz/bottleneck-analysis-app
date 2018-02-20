@@ -30,6 +30,7 @@ export const event = options => {
   const { startDate, endDate } = dataSelections;
   const { eventPointColor, eventPointRadius, radiusLow, eventClustering } = layerOptions;
   const { labelFontSize, labelFontStyle } = displaySettings;
+  const spatialSupport = localStorage.getItem('spatialSupport');
 
   const orgUnits = getOrgUnitsFromRows(dataSelections.rows);
   const period = getPeriodFromFilters(dataSelections.filters);
