@@ -39,14 +39,14 @@ export class DataSelectionEffects {
   updateOu$ = this.actions$.ofType(dataSelectionAction.UPDATE_OU_SELECTION).pipe(
     map((action: dataSelectionAction.UpdateDXSelection) => action.payload),
     switchMap(payload => {
-      const { componentId, layerId, params } = payload;
+      const { componentId, layer, params } = payload;
       const requestParam = `ou=ou:${params}&displayProperty=NAME`;
       return this.geofeatureService.getGeoFeatures(requestParam).pipe(
         map(
           value =>
             new visualizationObjectActions.UpdateGeoFeatureVizObj({
               componentId,
-              geofeature: { [layerId]: value }
+              geofeature: { [layer.id]: value }
             })
         ),
         catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))

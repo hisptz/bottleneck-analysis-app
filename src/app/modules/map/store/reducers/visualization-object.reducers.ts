@@ -137,6 +137,32 @@ export function reducer(
       };
     }
 
+    case fromVisualizationObject.UPDATE_FILTER_ANALYTICS: {
+      const { componentId, analytics, layer } = action.payload;
+      const _analytics = {
+        ...state.entities[componentId].analytics,
+        ...analytics
+      };
+      const newLayers = state.entities[componentId].layers.map(
+        _layer => (_layer.id === layer.id ? layer : _layer)
+      );
+      const visualizationObject = {
+        ...state.entities[componentId],
+        analytics,
+        layers: newLayers
+      };
+      const entities = {
+        ...state.entities,
+        [componentId]: visualizationObject
+      };
+      return {
+        ...state,
+        loaded: true,
+        loading: false,
+        entities
+      };
+    }
+
     case fromVisualizationObject.ADD_LEGEND_SET_VIZ: {
       const { componentId, mapConfiguration, legendSets } = action.payload;
       const visualizationObject = {
@@ -177,7 +203,7 @@ export function reducer(
       const { componentId, layerId } = action.payload;
       const { layers } = state.entities[componentId];
       const newLayers = layers.map(layer => {
-        if (layer.id == layerId) {
+        if (layer.id === layerId) {
           const visible = !layer.visible;
           return { ...layer, visible };
         }

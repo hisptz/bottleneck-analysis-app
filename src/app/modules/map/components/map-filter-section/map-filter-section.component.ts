@@ -81,12 +81,20 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     const activeLayerIndex = this.activeLayer;
     const { layers, componentId } = this.mapVisualizationObject;
     const layer = layers[activeLayerIndex];
+    console.log(filterValue);
     switch (filterType) {
       case 'ORG_UNIT':
-        const { value } = filterValue;
+        const { value, items } = filterValue;
+        const _items = items.map(item => ({ displayName: item.name, dimesionItem: item.id }));
+        const newdimension = {
+          dimension: 'ou',
+          items: _items
+        };
         const payload = {
           componentId,
-          layerId: layer['id'],
+          filterType: 'ou',
+          layer,
+          newdimension,
           params: value
         };
         this.store.dispatch(new fromStore.UpdateOUSelection(payload));

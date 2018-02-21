@@ -10,6 +10,7 @@ export const CREATE_VISUALIZATION_OBJECT = '[Map] Create visualization object';
 export const LOAD_ANALYTICS = '[Map] Load analytics object';
 export const ADD_LEGEND_SET_VIZ = '[Map] Add Legend to Visualization object';
 export const ADD_ANALYTICS_VIZ = '[Map] Add Analytics to Visualization object';
+export const UPDATE_FILTER_ANALYTICS = '[Map] Update Analytics to Visualization Object';
 export const ADD_ORGANIZATIONUNITGROUPSET = '[Map] Add Organization Group set object';
 export const CREATE_VISUALIZATION_OBJECT_FAIL = '[Map] Create visualization object Fail';
 export const CREATE_VISUALIZATION_OBJECT_SUCCESS = '[Map] Create visualization object Success';
@@ -17,6 +18,7 @@ export const UPDATE_VISUALIZATION_OBJECT = '[Map] Update visualization object';
 export const UPDATE_VISUALIZATION_OBJECT_FAIL = '[Map] Update visualization object Fail';
 export const UPDATE_VISUALIZATION_OBJECT_SUCCESS = '[Map] Update visualization object Success';
 export const ADD_LAYER = '[Map] Add Layer to visualization object';
+export const UPDATE_LAYER = '[Map] Update Layer to visualization object';
 export const ADD_GEOFEATURES_VIZ = '[Map] Add Geofeatures to visualization object';
 export const UPDATE_GEOFEATURE_VIZ = '[Map] Update Geofeature to visualization object';
 export const REMOVE_LAYER = '[Map] Remove Layer from visualization object';
@@ -81,7 +83,10 @@ export class AddLayerVizObj implements Action {
   readonly type = ADD_LAYER;
   constructor(public payload: any) {}
 }
-
+export class UpdateLayerVizObj implements Action {
+  readonly type = UPDATE_LAYER;
+  constructor(public payload: any) {}
+}
 export class AddLegendVizObj implements Action {
   readonly type = ADD_LEGEND_SET_VIZ;
   constructor(public payload: VisualizationObject) {}
@@ -90,6 +95,11 @@ export class AddLegendVizObj implements Action {
 export class UpdateVizAnalytics implements Action {
   readonly type = ADD_ANALYTICS_VIZ;
   constructor(public payload: VisualizationObject) {}
+}
+
+export class UpdateFilterAnalytics implements Action {
+  readonly type = UPDATE_FILTER_ANALYTICS;
+  constructor(public payload: any) {}
 }
 
 export class LoadAnalyticsVizObj implements Action {
@@ -168,6 +178,7 @@ export type VisualizationObjectAction =
   | UpdateVisualizationObjectFail
   | UpdateVisualizationObjectSuccess
   | AddLayerVizObj
+  | UpdateLayerVizObj
   | AddGeoFeaturesVizObj
   | UpdateGeoFeatureVizObj
   | RemoveLayerVizObj
@@ -186,4 +197,5 @@ export type VisualizationObjectAction =
   | AddVisualizationObjectCompleteSuccess
   | AddVisualizationObjectCompleteFail
   | ToggleLayerVisibility
-  | TransformVisualizationObject;
+  | TransformVisualizationObject
+  | UpdateFilterAnalytics;

@@ -20,7 +20,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { OrgUnitFilterModule } from '../org-unit-filter/org-unit-filter.module';
 import { PeriodFilterModule } from '../period-filter/period-filter.module';
 import { DataFilterModule } from '../data-filter/data-filter.module';
-import { MapFilterSectionComponent } from './components/map-filter-section/map-filter-section.component';
 
 @NgModule({
   imports: [
@@ -34,7 +33,7 @@ import { MapFilterSectionComponent } from './components/map-filter-section/map-f
     EffectsModule.forFeature(effects)
   ],
   providers: [...fromServices.services],
-  declarations: [...fromContainers.containers, ...fromComponents.components, MapFilterSectionComponent],
+  declarations: [...fromContainers.containers, ...fromComponents.components],
   exports: [...fromContainers.containers, ...fromComponents.components]
 })
 export class MapModule {}
