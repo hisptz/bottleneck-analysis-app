@@ -19,5 +19,8 @@ export const isVisualizationLegendOpen = id =>
 export const isVisualizationLegendPinned = id =>
   createSelector(getAllVisualizationLegendEntities, entities => entities[id].pinned);
 
+export const isDataTableOpen = id =>
+  createSelector(getAllVisualizationLegendEntities, entities => entities[id].datatableIsOpen);
+
 export const isVisualizationLegendFilterSectionOpen = id =>
   createSelector(getAllVisualizationLegendEntities, entities => entities[id].filterSectionOpen);

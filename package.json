@@ -30,6 +30,7 @@
     "@ngx-translate/http-loader": "^2.0.1",
     "@types/geojson": "^7946.0.0",
     "angular-tree-component": "^7.0.1",
+    "angular2-virtual-scroll": "^0.3.2",
     "animate.css": "^3.5.2",
     "bootstrap": "4.0.0-beta.2",
     "classlist.js": "^1.1.20150312",

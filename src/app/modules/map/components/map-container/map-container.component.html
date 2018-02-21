@@ -38,3 +38,4 @@
 <div class="warning-map" *ngIf="!mapHasDataAnalytics" [ngStyle]="{'height': displayConfigurations.itemHeight}">
   <h6>Sorry, this map has no data to visualize</h6>
 </div>
+<app-data-table class="map-data-table" *ngIf="isDataTableOpen$ | async" [mapVisualizationObject]="visualizationObject"></app-data-table>

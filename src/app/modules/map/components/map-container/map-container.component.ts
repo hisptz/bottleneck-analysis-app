@@ -45,6 +45,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() displayConfigurations: any;
 
   public visualizationLegendIsOpen$: Observable<boolean>;
+  public isDataTableOpen$: Observable<boolean>;
   public mapHasGeofeatures: boolean = true;
   public mapHasDataAnalytics: boolean = true;
   private _visualizationObject: VisualizationObject;
@@ -69,6 +70,10 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   ngOnInit() {
     this.visualizationLegendIsOpen$ = this.store.select(
       fromStore.isVisualizationLegendOpen(this._visualizationObject.componentId)
+    );
+
+    this.isDataTableOpen$ = this.store.select(
+      fromStore.isDataTableOpen(this._visualizationObject.componentId)
     );
 
     this.store

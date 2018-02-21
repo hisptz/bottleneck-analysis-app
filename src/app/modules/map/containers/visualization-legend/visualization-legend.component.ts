@@ -203,6 +203,11 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.showDownload = !this.showDownload;
   }
 
+  toggleDataTableView(event) {
+    event.stopPropagation();
+    this.store.dispatch(new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId));
+  }
+
   ngOnDestroy() {
     this.baseLayerLegend$.unsubscribe();
     this.visualizationLegends$.unsubscribe();
