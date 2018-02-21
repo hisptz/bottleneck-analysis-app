@@ -85,16 +85,14 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       this.LegendsTileLayer = Object.keys(TILE_LAYERS).map(layerKey => TILE_LAYERS[layerKey]);
     }
 
+    if (this.showFilterContainer) {
+      this.closeFilters();
+    }
+
     this.buttonTop = e.currentTarget.offsetTop;
     this.buttonHeight = e.currentTarget.offsetHeight;
 
-    if (this.activeLayer === index) {
-      this.activeLayer = -2;
-      this.showFilterContainer = false;
-    } else {
-      this.activeLayer = index;
-      this.showFilterContainer = false;
-    }
+    this.activeLayer = this.activeLayer === index ? -2 : index;
   }
 
   stickLegendContainer(e) {
@@ -113,9 +111,17 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   openFilters(e) {
     e.stopPropagation();
+    this.stickLegendContainer(e);
     this.showFilterContainer = true;
     this.store.dispatch(
       new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId)
+    );
+  }
+
+  closeFilters() {
+    this.showFilterContainer = false;
+    this.store.dispatch(
+      new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId)
     );
   }
 

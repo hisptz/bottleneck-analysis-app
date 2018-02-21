@@ -61,6 +61,10 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     const { visualizationObject, displayConfigurations } = changes;
     this._visualizationObject = visualizationObject.currentValue;
     this.createMap();
+    if (visualizationObject && !visualizationObject.isFirstChange()) {
+      // TODO: Create Separate method to handle redraw; refactoring the below changes.
+      this.initialMapDraw(visualizationObject.currentValue);
+    }
   }
 
   ngOnInit() {

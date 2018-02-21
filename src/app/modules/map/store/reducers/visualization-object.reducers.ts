@@ -115,6 +115,28 @@ export function reducer(
       };
     }
 
+    case fromVisualizationObject.UPDATE_GEOFEATURE_VIZ: {
+      const { componentId, geofeature } = action.payload;
+      const geofeatures = {
+        ...state.entities[componentId].geofeatures,
+        ...geofeature
+      };
+      const visualizationObject = {
+        ...state.entities[componentId],
+        geofeatures
+      };
+      const entities = {
+        ...state.entities,
+        [componentId]: visualizationObject
+      };
+      return {
+        ...state,
+        loaded: true,
+        loading: false,
+        entities
+      };
+    }
+
     case fromVisualizationObject.ADD_LEGEND_SET_VIZ: {
       const { componentId, mapConfiguration, legendSets } = action.payload;
       const visualizationObject = {

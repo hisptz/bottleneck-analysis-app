@@ -18,6 +18,7 @@ export const UPDATE_VISUALIZATION_OBJECT_FAIL = '[Map] Update visualization obje
 export const UPDATE_VISUALIZATION_OBJECT_SUCCESS = '[Map] Update visualization object Success';
 export const ADD_LAYER = '[Map] Add Layer to visualization object';
 export const ADD_GEOFEATURES_VIZ = '[Map] Add Geofeatures to visualization object';
+export const UPDATE_GEOFEATURE_VIZ = '[Map] Update Geofeature to visualization object';
 export const REMOVE_LAYER = '[Map] Remove Layer from visualization object';
 export const HIDE_LAYER = '[Map] Hide Layer';
 export const ADD_VISUALIZATION_OBJECT_COMPLETE = '[Map] Add complete visualization object';
@@ -110,6 +111,10 @@ export class AddGeoFeaturesVizObj implements Action {
   readonly type = ADD_GEOFEATURES_VIZ;
   constructor(public payload: VisualizationObject) {}
 }
+export class UpdateGeoFeatureVizObj implements Action {
+  readonly type = UPDATE_GEOFEATURE_VIZ;
+  constructor(public payload: any) {}
+}
 
 export class HideLayerVizObj implements Action {
   readonly type = HIDE_LAYER;
@@ -164,6 +169,7 @@ export type VisualizationObjectAction =
   | UpdateVisualizationObjectSuccess
   | AddLayerVizObj
   | AddGeoFeaturesVizObj
+  | UpdateGeoFeatureVizObj
   | RemoveLayerVizObj
   | HideLayerVizObj
   | LoadVisualizationObject
