@@ -36,11 +36,17 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   showDownload: boolean = false;
   showUpload: boolean = false;
   layerSelectionForm: boolean = false;
-  showTransparent: boolean = false;
-  displayNone: boolean = false;
+  showTransparent: boolean;
+  displayNone: boolean;
   p: number = 1;
 
-  constructor(private store: Store<fromStore.MapState>) {}
+  constructor(private store: Store<fromStore.MapState>) {
+    this.displayNone = false;
+    this.showTransparent = false;
+    this.openTileLegend = false;
+    this.isRemovable = false;
+    this.toggleBoundary = false;
+  }
 
   ngOnInit() {
     this.sticky$ = this.store.select(
@@ -190,6 +196,11 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   handlePageChange(event) {
     this.p = event;
+  }
+
+  toggleDownload(event) {
+    event.stopPropagation();
+    this.showDownload = !this.showDownload;
   }
 
   ngOnDestroy() {

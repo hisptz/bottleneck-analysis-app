@@ -101,6 +101,22 @@
         </a>
       </div>
       <div class="map-legend-right-footer">
+        <a *ngIf="showDownload">
+          <img src="assets/icons/csv.png" alt="download" title="Download file kml">
+        </a>
+        <a *ngIf="showDownload">
+          <img src="assets/icons/kml.png" alt="download" title="Download file kml">
+        </a>
+        <a *ngIf="showDownload">
+          <img src="assets/icons/csv.png" alt="download" title="placeholder for file Shapefile">
+        </a>
+        <a *ngIf="showDownload">
+          <img src="assets/icons/csv.png" alt="download" title="placeholder for geojson file">
+        </a>
+        <a>
+          <img *ngIf="!showDownload" src="assets/icons/download.png" alt="download" title="Download file" (click)="toggleDownload($event)">
+          <img *ngIf="showDownload" src="assets/icons/arrow-left.png" alt="back" title="Back" (click)="toggleDownload($event)">
+        </a>
         <a title="Upload GeoJson file">
           <img src="assets/icons/upload.png" alt="">
         </a>

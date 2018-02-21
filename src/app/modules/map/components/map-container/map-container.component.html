@@ -3,20 +3,20 @@
     <span class="title-span">{{visualizationObject.mapConfiguration.name}}</span>
   </h6>
   <div class="map-block__left">
-    <ul class="map-controls__list">
-      <li>
-        <button class="map-controls__btn" title="Zoom in" (click)="zoomIn($event)">
-          <img src="assets/icons/plus.png">
+    <ul class="map-controls__list list-inline">
+      <li class="list-inline-item">
+        <button class="map-controls__btn" title="Zoom Out" (click)="zoomOut($event)">
+          <img src="assets/icons/minus.png">
         </button>
       </li>
-      <li>
+      <li class="list-inline-item">
         <button class="map-controls__btn" title="Home" (click)="recenterMap($event)">
           <img src="assets/icons/home.png">
         </button>
       </li>
-      <li>
-        <button class="map-controls__btn" title="Zoom out" (click)="zoomOut($event)">
-          <img src="assets/icons/minus.png">
+      <li class="list-inline-item">
+        <button class="map-controls__btn" title="Zoom In" (click)="zoomIn($event)">
+          <img src="assets/icons/plus.png">
         </button>
       </li>
     </ul>
