@@ -123,6 +123,9 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     if (![].concat.apply([], allGeofeatures).length) {
       this.mapHasGeofeatures = false;
     }
+    if (!allDataAnalytics.length) {
+      this.mapHasDataAnalytics = false;
+    }
 
     layers.map(layer => {
       if (layer.type === 'event') {
@@ -130,12 +133,14 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
         if (_.find(headers, { name: 'latitude' })) {
           this.mapHasGeofeatures = true;
         }
+      } else if (layer.type === 'facility') {
+        const { dataSelections } = layer;
+        const { organisationUnitGroupSet } = dataSelections;
+        if (Object.keys(organisationUnitGroupSet)) {
+          this.mapHasDataAnalytics = true;
+        }
       }
     });
-
-    if (!allDataAnalytics.length) {
-      this.mapHasDataAnalytics = false;
-    }
   }
 
   ngAfterViewInit() {
@@ -165,13 +170,13 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
 
   createLayer(optionsLayer, index) {
     if (optionsLayer) {
-      const { displaySettings, id, geoJsonLayer, visible } = optionsLayer;
-      this.createPane(displaySettings.labels, id, index);
+      const { displaySettings, id, geoJsonLayer, visible, areaRadius } = optionsLayer;
+      this.createPane(displaySettings.labels, id, index, areaRadius);
       this.setLayerVisibility(visible, geoJsonLayer);
     }
   }
 
-  createPane(labels, id, index) {
+  createPane(labels, id, index, areaRadius) {
     const zIndex = 600 - index * 10;
     this.map.createPane(id);
     this.map.getPane(id).style.zIndex = zIndex.toString();
@@ -180,6 +185,11 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
       const paneLabelId = `${id}-labels`;
       const labelPane = this.map.createPane(paneLabelId);
       this.map.getPane(paneLabelId).style.zIndex = (zIndex + 1).toString();
+    }
+    if (areaRadius) {
+      const areaID = `${id}-area`;
+      const areaPane = this.map.createPane(areaID);
+      this.map.getPane(areaID).style.zIndex = (zIndex - 1).toString();
     }
   }
 
