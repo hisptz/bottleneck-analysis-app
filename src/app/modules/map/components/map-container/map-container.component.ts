@@ -62,8 +62,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     this._visualizationObject = visualizationObject.currentValue;
     this.createMap();
     if (visualizationObject && !visualizationObject.isFirstChange()) {
-      // TODO: Create Separate method to handle redraw; refactoring the below changes.
-      // this.initialMapDraw(visualizationObject.currentValue);
+      this.redrawMapOndataChange(visualizationObject.currentValue);
     }
   }
 
@@ -254,6 +253,29 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
       this.store.dispatch(
         new fromStore.AddLegendSet({ [this._visualizationObject.componentId]: legendSets })
       );
+    }
+  }
+
+  redrawMapOndataChange(visualizationObject: VisualizationObject) {
+    Object.keys(this.leafletLayers).map(key => this.map.removeLayer(this.leafletLayers[key]));
+    const { mapConfiguration } = visualizationObject;
+    const { overlayLayers, layersBounds, legendSets } = this.prepareLegendAndLayers(
+      visualizationObject
+    );
+
+    overlayLayers.map((layer, index) => {
+      this.createLayer(layer, index);
+    });
+
+    if (Object.keys(legendSets).length) {
+      this.store.dispatch(
+        new fromStore.AddLegendSet({ [visualizationObject.componentId]: legendSets })
+      );
+    }
+
+    if (layersBounds.length) {
+      this.layersBounds = layersBounds;
+      this.layerFitBound(layersBounds);
     }
   }
 

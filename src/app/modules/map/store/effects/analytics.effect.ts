@@ -151,8 +151,8 @@ export class AnalyticsEffects {
           return { ...newdimension };
         }
         return item;
-      })[0];
-      const keyValue = { [key]: { ...oldObj } };
+      });
+      const keyValue = { [key]: [...oldObj] };
       newDatas = { ...newDatas, ...keyValue };
     });
 

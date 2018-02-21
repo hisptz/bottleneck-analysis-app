@@ -81,10 +81,12 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     const activeLayerIndex = this.activeLayer;
     const { layers, componentId } = this.mapVisualizationObject;
     const layer = layers[activeLayerIndex];
-    console.log(filterValue);
+    const { value, items } = filterValue;
+
+    // TODO: Refactor all these switch statements.
+
     switch (filterType) {
       case 'ORG_UNIT':
-        const { value, items } = filterValue;
         const _items = items.map(item => ({ displayName: item.name, dimesionItem: item.id }));
         const newdimension = {
           dimension: 'ou',
@@ -100,13 +102,47 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromStore.UpdateOUSelection(payload));
         break;
       case 'PERIOD':
+        const peItems = items.map(item => ({
+          displayName: item.name,
+          dimesionItem: item.id,
+          dimensionItemType: 'PERIOD'
+        }));
+        const newPeDimension = {
+          dimension: 'pe',
+          items: peItems
+        };
+        this.store.dispatch(
+          new fromStore.UpdatePESelection({
+            componentId,
+            filterType: 'pe',
+            layer,
+            newdimension: newPeDimension,
+            params: value
+          })
+        );
         break;
       case 'DATA':
-
+        const dxItems = filterValue.itemList.map(item => ({
+          displayName: item.name,
+          dimesionItem: item.id
+        }));
+        const newDxDimension = {
+          dimension: 'dx',
+          items: dxItems
+        };
+        this.store.dispatch(
+          new fromStore.UpdateDXSelection({
+            componentId,
+            filterType: 'dx',
+            layer,
+            newdimension: newDxDimension,
+            params: filterValue.selectedData.value
+          })
+        );
+        break;
       default:
         break;
     }
-    // this.onFilterUpdate.emit(filterValue);
   }
 
   onFilterClose(event) {
