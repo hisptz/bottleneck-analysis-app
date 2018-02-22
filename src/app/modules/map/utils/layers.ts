@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-export const createEventFeature = (headers, names, layerEvent, eventCoordinateField?) => {
+export const createEventFeature = (headers, names, layerEvent, metaData, eventCoordinateField?) => {
   const properties = layerEvent.reduce(
     (props, value, i) => ({
       ...props,
@@ -38,6 +38,7 @@ export const createEventFeature = (headers, names, layerEvent, eventCoordinateFi
   return {
     type: 'Feature',
     id: properties.psi,
+    name: metaData.names[properties.ps],
     properties,
     geometry: {
       type: 'Point',

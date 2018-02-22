@@ -70,6 +70,7 @@
   list-style-type: none;
   margin: 0;
   display: flex;
+  align-items: center;
   padding-left: 5px;
 }
 
@@ -637,4 +638,11 @@ input[type='range']::-webkit-slider-thumb {
 }
 input[type='range']::-webkit-slider-thumb:active {
   transform: scale(1.2);
+}
+
+.event-item {
+  background: #333;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
 }
