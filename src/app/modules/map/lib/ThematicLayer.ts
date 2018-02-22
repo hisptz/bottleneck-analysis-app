@@ -1,5 +1,6 @@
 import * as L from 'leaflet';
 import * as _ from 'lodash';
+import { label } from './Label';
 import {
   getOrgUnitsFromRows,
   getPeriodFromFilters,
@@ -9,6 +10,8 @@ import { getLegendItems, getColorsByRgbInterpolation } from '../utils/classify';
 import { toGeoJson } from './GeoJson';
 import { GeoJson } from 'leaflet';
 import { Feature, GeometryObject } from 'geojson';
+import { geoJsonExtended } from './geoJsonExtended';
+import { getLabelLatlng } from '../utils/layers';
 
 export const thematic = options => {
   const {
@@ -23,9 +26,16 @@ export const thematic = options => {
   } = options;
   const { rows, columns, filters } = dataSelections;
   const { radiusLow, radiusHigh } = layerOptions;
+  const {
+    labelFontStyle,
+    labelFontSize,
+    labelFontColor,
+    labelFontWeight,
+    labels
+  } = displaySettings;
   const features = toGeoJson(geofeature);
   const readyToRender = dataSelections.legendSet ? legendSet : true;
-  const otherOptions = thematicLayerOptions(options.id, opacity);
+  const otherOptions = thematicLayerOptions(options.id, opacity, displaySettings);
   let geoJsonLayer = L.geoJSON(features, otherOptions);
   let legend = null;
 
@@ -58,17 +68,30 @@ export const thematic = options => {
       properties.label = name;
       properties.dx = layerDx;
       properties.color = item && item.color;
+      properties.labelStyle = {
+        fontSize: labelFontSize,
+        fontStyle: labelFontStyle,
+        fontColor: labelFontColor,
+        fontWeight: labelFontWeight
+      };
       properties.radius =
         (value - minValue) / (maxValue - minValue) * (radiusHigh - radiusLow) + radiusLow;
     });
 
-    // TODO: Refactor make item.count in legend creations;
     valueFeatures.forEach(({ id, properties }) => {
       const value = valueById[id];
       const item = getLegendItem(value);
       properties.percentage = (item.count / orderedValues.length * 100).toFixed(1);
     });
-    geoJsonLayer = L.geoJSON(valueFeatures, otherOptions);
+    const _options = {
+      ...otherOptions,
+      label: '{label}',
+      hoverLabel: '{label} ({value})',
+      labelPane: `${options.id}-labels`,
+      data: valueFeatures
+    };
+    geoJsonLayer = geoJsonExtended(_options);
+
     const thematicEvents = thematicLayerEvents(columns, legend);
     geoJsonLayer.on({
       click: thematicEvents.onClick,
@@ -175,7 +198,19 @@ const getLegendItemForValue = (legendItems, value) => {
   );
 };
 
-export const thematicLayerOptions = (id, opacity) => {
+export const thematicLayerOptions = (id, opacity, displaySettings) => {
+  const {
+    labelFontStyle,
+    labelFontSize,
+    labelFontColor,
+    labelFontWeight,
+    labels
+  } = displaySettings;
+
+  const initialize = (options = {}) => {
+    console.log('Options', options);
+  };
+
   const style = feature => {
     const pop = feature.properties;
     return {
@@ -188,11 +223,13 @@ export const thematicLayerOptions = (id, opacity) => {
       stroke: true
     };
   };
+
   const onEachFeature = (feature, layer) => {};
 
   const pane = id;
 
   const pointToLayer = (feature, latlng) => {
+    console.log(feature);
     const geojsonMarkerOptions = {
       pane,
       radius: feature.properties.radius || 6,
@@ -208,6 +245,7 @@ export const thematicLayerOptions = (id, opacity) => {
   return {
     pane,
     style,
+    initialize,
     onEachFeature,
     pointToLayer
   };
