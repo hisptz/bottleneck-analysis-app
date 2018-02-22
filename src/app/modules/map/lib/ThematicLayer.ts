@@ -79,14 +79,15 @@ export const thematic = options => {
     });
 
     valueFeatures.forEach(({ id, properties }) => {
+      console.log(properties);
       const value = valueById[id];
       const item = getLegendItem(value);
       properties.percentage = (item.count / orderedValues.length * 100).toFixed(1);
     });
     const _options = {
       ...otherOptions,
-      label: '{label}',
-      hoverLabel: '{label} ({value})',
+      label: labels ? '{name}' : undefined,
+      hoverLabel: labels ? '{name} ({value})' : undefined,
       labelPane: `${options.id}-labels`,
       data: valueFeatures
     };
