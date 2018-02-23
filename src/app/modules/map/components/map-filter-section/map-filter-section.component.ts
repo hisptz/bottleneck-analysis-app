@@ -44,6 +44,10 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   selectedFilter: string = 'ORG_UNIT';
   selectedDataItems: any = [];
   selectedPeriods: any = [];
+  public singleSelection: boolean = true;
+  public periodConfig: any = {
+    singleSelection: true
+  };
   orgUnitModel: any = {
     selectionMode: 'orgUnit',
     selectedLevels: [],

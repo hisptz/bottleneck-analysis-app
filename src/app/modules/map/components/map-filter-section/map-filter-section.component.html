@@ -30,13 +30,13 @@
     <!--end of org unit filter-->
 
     <!--data filter-->
-    <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedDataItems" (onDataFilterClose)="onFilterClose($event)"
-      (onDataUpdate)="onFilterUpdateAction($event, 'DATA')"></app-data-filter>
+    <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedDataItems" [singleSelection]="singleSelection"
+      (onDataFilterClose)="onFilterClose($event)" (onDataUpdate)="onFilterUpdateAction($event, 'DATA')"></app-data-filter>
     <!--end of data filter-->
 
     <!--period filter-->
-    <app-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods" (onPeriodFilterClose)="onFilterClose($event)"
-      (onPeriodUpdate)="onFilterUpdateAction($event, 'PERIOD')"></app-period-filter>
+    <app-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods" [periodConfig]="periodConfig"
+      (onPeriodFilterClose)="onFilterClose($event)" (onPeriodUpdate)="onFilterUpdateAction($event, 'PERIOD')"></app-period-filter>
     <!--end of period filter-->
   </div>
 </div>
