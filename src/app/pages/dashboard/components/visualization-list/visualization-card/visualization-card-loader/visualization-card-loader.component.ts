@@ -13,7 +13,5 @@ export class VisualizationCardLoaderComponent implements OnInit {
     this.tableCellCounts = _.range(56);
   }
 
-  ngOnInit() {
-    console.log(this.visualizationType);
-  }
+  ngOnInit() {}
 }
