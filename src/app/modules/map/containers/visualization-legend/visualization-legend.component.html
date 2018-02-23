@@ -52,8 +52,8 @@
             <div class="tile-layers-list" *ngIf="legend.legend.type === 'external'">
               <div *ngFor="let item of legend.legend.items" class="map-legend-table">
                 <ul class="map-legend-table-list list-inline">
-                  <li class="list-inline-item" id={{legend.layer}}>
-                    <img [src]="item.url">
+                  <li class="list-inline-item">
+                    <img [src]="item.image" style="width: 30px; height: 30px;">
                   </li>
                   <li class="font-weight-bold list-inline-item">{{item.name}}</li>
                 </ul>
@@ -91,7 +91,7 @@
           <div class="map-legend-body" *ngIf="activeLayer === -1" [ngStyle]="{'max-height': 'calc(' + mapHeight + ' - ' + (visualizationLegends.length + 4)*50 + 'px)'}">
             <div class="tile-layers-list">
               <div *ngFor="let tileLayer of LegendsTileLayer" class="tile-layer-item">
-                <a class="map-tile-layer-icon" (click)="changeTileLayer(tileLayer)">
+                <a class="map-tile-layer-icon" (click)="changeTileLayer(tileLayer)" title="{{tileLayer.name}}">
 
                   <img [src]="tileLayer.image" [ngClass]="{'rowActive': tileLayer.name === baseLayerLegend.name }" />
                 </a>

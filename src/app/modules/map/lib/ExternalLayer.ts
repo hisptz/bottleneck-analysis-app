@@ -1,5 +1,6 @@
 import * as L from 'leaflet';
 import { tileLayer } from './TileLayer';
+import { TILE_LAYERS } from '../constants/tile-layer.constant';
 
 export const external = options => {
   const {
@@ -19,10 +20,15 @@ export const external = options => {
   const { name, url, attribution } = layerConfiguration;
   const tileOptions = { name, url, label: name, attribution };
   const geoJsonLayer = tileLayer(tileOptions);
+  const namesMapping = {
+    'Dark basemap': 'DarkMatter'
+  };
+  const tilelayer = namesMapping[name.trim()] || 'DarkMatter';
+  const image = TILE_LAYERS[tilelayer].image;
   const legend = {
-    title: layerConfiguration.name,
+    title: name.trim(),
     type: 'external',
-    items: [{ name, url, geoJsonLayer }]
+    items: [{ name, url, image }]
   };
 
   const legendSet = {

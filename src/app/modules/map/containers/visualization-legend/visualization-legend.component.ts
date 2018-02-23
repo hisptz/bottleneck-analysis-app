@@ -29,6 +29,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   public showFilterContainer: boolean = false;
   public buttonTop: string;
   public buttonHeight: string;
+  public tileLayers: any;
   openTileLegend: boolean = false;
   isRemovable: boolean = false;
   toggleBoundary: boolean = true;
@@ -46,6 +47,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.openTileLegend = false;
     this.isRemovable = false;
     this.toggleBoundary = false;
+    this.tileLayers = TILE_LAYERS;
   }
 
   ngOnInit() {
