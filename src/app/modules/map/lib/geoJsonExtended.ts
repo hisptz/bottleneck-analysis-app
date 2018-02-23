@@ -1,10 +1,8 @@
-// import L from 'leaflet';
 import { label } from './Label';
 import * as L from 'leaflet';
 import polylabel from 'polylabel';
 import * as geojsonArea from '@mapbox/geojson-area';
 
-// Base class for most vector layers
 export const GeoJson = L.GeoJSON.extend({
   options: {
     highlightStyle: {
@@ -16,7 +14,6 @@ export const GeoJson = L.GeoJSON.extend({
   },
 
   initialize(options) {
-    console.log(options);
     if (options.label) {
       this._labels = L.layerGroup({ margin: 2 });
     }
@@ -25,7 +22,6 @@ export const GeoJson = L.GeoJSON.extend({
   },
 
   addLayer(layer) {
-    // eslint-disable-line
     const options = this.options;
     const feature = layer.feature;
 

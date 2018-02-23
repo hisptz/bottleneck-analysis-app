@@ -79,7 +79,6 @@ export const thematic = options => {
     });
 
     valueFeatures.forEach(({ id, properties }) => {
-      console.log(properties);
       const value = valueById[id];
       const item = getLegendItem(value);
       properties.percentage = (item.count / orderedValues.length * 100).toFixed(1);
@@ -207,11 +206,6 @@ export const thematicLayerOptions = (id, opacity, displaySettings) => {
     labelFontWeight,
     labels
   } = displaySettings;
-
-  const initialize = (options = {}) => {
-    console.log('Options', options);
-  };
-
   const style = feature => {
     const pop = feature.properties;
     return {
@@ -230,7 +224,6 @@ export const thematicLayerOptions = (id, opacity, displaySettings) => {
   const pane = id;
 
   const pointToLayer = (feature, latlng) => {
-    console.log(feature);
     const geojsonMarkerOptions = {
       pane,
       radius: feature.properties.radius || 6,
@@ -246,7 +239,6 @@ export const thematicLayerOptions = (id, opacity, displaySettings) => {
   return {
     pane,
     style,
-    initialize,
     onEachFeature,
     pointToLayer
   };

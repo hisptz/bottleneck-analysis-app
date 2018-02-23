@@ -49,6 +49,16 @@
                 </ul>
               </div>
             </div>
+            <div class="tile-layers-list" *ngIf="legend.legend.type === 'external'">
+              <div *ngFor="let item of legend.legend.items" class="map-legend-table">
+                <ul class="map-legend-table-list list-inline">
+                  <li class="list-inline-item" id={{legend.layer}}>
+                    <img [src]="item.url">
+                  </li>
+                  <li class="font-weight-bold list-inline-item">{{item.name}}</li>
+                </ul>
+              </div>
+            </div>
             <div class="map-legend-footer">
               <div class="map-legend-left-footer">
                 <small>Opacity</small>

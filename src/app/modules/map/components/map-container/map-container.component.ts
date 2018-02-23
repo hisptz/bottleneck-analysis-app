@@ -97,16 +97,21 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
       .subscribe(visualizationLengends => {
         if (visualizationLengends && Object.keys(visualizationLengends).length) {
           Object.keys(visualizationLengends).map(key => {
-            const legend = visualizationLengends[key];
-            const { opacity, layer, hidden } = legend;
+            const legendSet = visualizationLengends[key];
+            const { opacity, layer, hidden, legend } = legendSet;
+            const tileLayer = legend.type === 'external';
             const leafletlayer = this.leafletLayers[layer];
 
             // Check if there is that layer otherwise errors when resizing;
-            if (leafletlayer) {
+            if (leafletlayer && !tileLayer) {
               leafletlayer.setStyle({
                 opacity,
                 fillOpacity: opacity
               });
+
+              if (tileLayer) {
+                leafletlayer.setOpacity(opacity);
+              }
 
               const visible = !hidden;
               this.setLayerVisibility(visible, leafletlayer);
