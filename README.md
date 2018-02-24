@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/hisptz/idashboard.svg?branch=2.1)](https://travis-ci.org/hisptz/idashboard)
+[![Build Status](https://travis-ci.org/hisptz/idashboard.svg?branch=2.1)](https://travis-ci.org/hisptz/idashboard) 
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![dependencies Status](https://david-dm.org/hisptz/idashboard/status.svg)](https://david-dm.org/hisptz/idashboard)
+[![devDependencies Status](https://david-dm.org/hisptz/idashboard/dev-status.svg)](https://david-dm.org/hisptz/idashboard?type=dev)
 
 # Interactive dashboard 2.1
 
