@@ -1,0 +1,31 @@
+.interpretation-btn {
+    position: relative;
+    padding: 0;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.interpretation-btn img {
+    display: block;
+    margin: auto;
+    height: 30px;
+}
+
+.interpretation-btn:hover {
+    background-color: transparent;
+}
+
+.interpretation-value {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    color: #0078a8;
+    font-weight: 700;
+    font-size: 12px;
+}

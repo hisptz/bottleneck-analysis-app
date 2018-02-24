@@ -1,0 +1,19 @@
+.visualization-download-section-container {
+  display: flex;
+}
+
+.visualization-download-btn-list-item {
+  margin-left: 2px;
+}
+
+.visualization-download-btn-list-item img {
+  display: block;
+  margin: auto;
+  height: 20px;
+}
+
+.visualization-download-btn img {
+  display: block;
+  margin: auto;
+  height: 15px;
+}

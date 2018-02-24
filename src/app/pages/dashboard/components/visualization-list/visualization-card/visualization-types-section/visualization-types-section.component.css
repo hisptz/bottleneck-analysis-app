@@ -1,0 +1,17 @@
+.visualization-types-section {
+  display: flex;
+}
+
+.visualization-type-btn {
+  margin-right: 5px;
+}
+
+.visualization-type-btn img {
+  display: block;
+  margin: auto;
+  height: 15px;
+}
+
+.active-visualization {
+  background-color: #ddd;
+}

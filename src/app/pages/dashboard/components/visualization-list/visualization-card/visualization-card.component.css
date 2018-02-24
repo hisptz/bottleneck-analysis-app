@@ -1,0 +1,111 @@
+.visualization-card {
+  width: 100%;
+  position: relative;
+  height: 100%;
+  overflow: auto;
+}
+
+.visualization-card-header {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 5px;
+  z-index: 1000;
+}
+
+.visualization-card-header-right,
+.visualization-card-header-left {
+  display: flex;
+}
+
+.visualization-card-footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 5px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.visualization-card-footer-left {
+  display: flex;
+}
+
+.visualization-card-footer-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.visualization-filter-section-container {
+  margin-right: 5px;
+}
+
+.visualization-card-body {
+  height: 100%;
+  display: flex;
+}
+
+.visualization-block {
+  overflow: hidden;
+}
+
+.visualization-block:hover {
+  overflow: auto;
+}
+
+.chart-container {
+  height: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow: hidden;
+}
+
+.table-container-block,
+.users-container-block,
+.resources-container-block {
+  padding: 20px 10px 10px 10px;
+  overflow: auto;
+}
+
+.map-container {
+  overflow: hidden;
+}
+
+.dictionary-container {
+  overflow: auto;
+  padding: 50px 10px 10px 10px;
+}
+
+.visualization-delete-dialog {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+}
+
+.visualization-delete-block {
+}
+
+.visualization-delete-block img {
+  height: 15px;
+  display: block;
+  margin: auto;
+}
+
+.visualization-interpretation {
+  flex: 1;
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .visualization-card-body {
+    display: block;
+  }
+}

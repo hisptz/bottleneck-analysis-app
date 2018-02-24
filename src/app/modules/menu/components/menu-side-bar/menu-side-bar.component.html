@@ -1,0 +1,50 @@
+<div >
+  <div id="sidebar-user-profile-block">
+    <div id="sidebar-user-profile-logo" *ngIf="!loadingUser">{{currentUser?.name | abbreviate}}</div>
+    <div id="sidebar-user-profile-info">
+      <h4 *ngIf="!loadingUser">{{currentUser?.name}}</h4>
+      <h6 *ngIf="!loadingUser">{{currentUser?.email}}</h6>
+    </div>
+  </div>
+  <ul id="sidebar-list-block">
+    <li>
+      <a (click)="toggleSidebarMenus($event)">Apps</a>
+    </li>
+    <li
+      [ngClass]="{
+          'sidebar-app-hidden': !showSidebarApps
+        }"
+    >
+      <input
+        type="text"
+        id="sidebar-app-input"
+        placeholder="Search Apps"
+        [(ngModel)]="filteredApp"
+        (ngModelChange)="updateMenuModules()"
+      >
+    </li>
+    <li
+      id="sidebar-app-list"
+      [ngClass]="{
+          'sidebar-app-hidden': !showSidebarApps
+        }"
+    >
+      <a
+        *ngFor="let app of  apps | filterByName: filteredApp"
+        [href]="app.defaultAction"
+        class="app-menu-btn sidebar-app-menu-btn">
+        <img alt="" [src]="app.icon" title="{{app.displayName}}">
+        <div class="app-menu-name">{{app.displayName}}</div>
+      </a>
+    </li>
+    <li *ngFor="let profileMenu of profileMenus">
+      <a [href]="rootUrl + profileMenu.defaultAction">
+        <img alt="" [src]="profileMenu.icon">
+        {{profileMenu.name}}
+      </a>
+    </li>
+    <li>
+      <a [href]="rootUrl + 'dhis-web-commons-security/logout.action'">Log Out</a>
+    </li>
+  </ul>
+</div>

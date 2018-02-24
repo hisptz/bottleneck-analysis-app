@@ -1,0 +1,260 @@
+import * as L from 'leaflet';
+import 'leaflet.markercluster';
+import * as _ from 'lodash';
+import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
+import { GeoJson } from 'leaflet';
+import { Feature, GeometryObject } from 'geojson';
+import { EVENT_COLOR, EVENT_RADIUS } from '../constants/layer.constant';
+import {
+  getOrgUnitsFromRows,
+  getFiltersFromColumns,
+  getFiltersAsText,
+  getPeriodFromFilters,
+  getPeriodNameFromId
+} from '../utils/analytics';
+import { createEventFeature } from '../utils/layers';
+import { timeFormat } from 'd3-time-format';
+
+export const event = options => {
+  const {
+    geofeature,
+    layerOptions,
+    displaySettings,
+    opacity,
+    id,
+    dataSelections,
+    legendProperties,
+    analyticsData
+  } = options;
+
+  const { startDate, endDate } = dataSelections;
+  const { eventPointColor, eventPointRadius, radiusLow, eventClustering } = layerOptions;
+  const { labelFontSize, labelFontStyle } = displaySettings;
+
+  const spatialSupport = localStorage.getItem('spatialSupport');
+
+  const orgUnits = getOrgUnitsFromRows(dataSelections.rows);
+  const period = getPeriodFromFilters(dataSelections.filters);
+  const dataFilters = getFiltersFromColumns(dataSelections.columns);
+
+  const formatTime = date => timeFormat('%Y-%m-%d')(new Date(date));
+  let legend = {
+    period: period
+      ? getPeriodNameFromId(period.dimensionItem)
+      : `${formatTime(startDate)} - ${formatTime(endDate)}`,
+    filters: dataFilters && getFiltersAsText(dataFilters),
+    title: null,
+    type: 'event',
+    items: null
+  };
+
+  const features = toGeoJson(geofeature);
+  let geoJsonLayer = L.geoJSON(features);
+
+  if (analyticsData) {
+    const names = {
+      true: 'Yes',
+      false: 'No'
+    };
+    const { rows, headers, height, metaData, width } = analyticsData;
+    headers.forEach(header => (names[header.name] = header.column));
+    const data = rows
+      .map(row => createEventFeature(headers, names, row, metaData))
+      .filter(feature => isValidCoordinate(feature.geometry.coordinates));
+
+    if (Array.isArray(data) && data.length) {
+      const title = data[0].name;
+      const items = [
+        {
+          name: 'Event',
+          color: eventPointColor || EVENT_COLOR,
+          radius: eventPointRadius || EVENT_RADIUS
+        }
+      ];
+      legend = {
+        ...legend,
+        title,
+        items
+      };
+      const clusterOptions = {
+        spiderfyOnMaxZoom: false,
+        showCoverageOnHover: false,
+        iconCreateFunction: cluster => {
+          return _iconCreateFunction(
+            cluster,
+            eventPointColor,
+            opacity,
+            labelFontStyle,
+            labelFontSize
+          );
+        }
+      };
+      const geoJSonOptions = geoJsonOptions(id, eventPointRadius, opacity, eventPointColor);
+
+      geoJsonLayer = L.geoJSON(data, geoJSonOptions);
+      // All Clustering is done here;
+      if (eventClustering) {
+        const markers = new L.markerClusterGroup(clusterOptions);
+        geoJsonLayer = markers.addLayers(geoJsonLayer);
+      }
+      geoJsonLayer.on({
+        click: eventLayerEvents().onClick,
+        mouseover: eventLayerEvents().mouseover,
+        rightClick: eventLayerEvents().onRightClick,
+        mouseout: eventLayerEvents().mouseout
+      });
+    }
+  }
+
+  const bounds = geoJsonLayer.getBounds();
+
+  const legendSet = {
+    legend,
+    layer: id,
+    hidden: false,
+    opacity
+  };
+
+  const optionsToReturn = {
+    ...options,
+    features,
+    geoJsonLayer,
+    legendSet
+  };
+  if (bounds.isValid()) {
+    return {
+      ...optionsToReturn,
+      bounds
+    };
+  }
+  return optionsToReturn;
+};
+
+const eventLayerEvents = () => {
+  const onClick = evt => {
+    const attr = evt.layer.feature.properties;
+    const name = evt.layer.feature.name;
+    const content = `<table><tbody> <tr>
+                      <th>Organisation unit: </th><td>${attr.ouname}</td></tr>
+                    <tr><th>Event time: </th>
+                      <td>${timeFormat('%Y-%m-%d')(new Date(attr.eventdate))}</td>
+                    </tr>
+                    <tr><th>Program Stage: </th>
+                      <td>${name}</td>
+                    </tr>
+                    <tr>
+                      <th>Event location: </th>
+                      <td>${attr.latitude}, ${attr.longitude}</td>
+                    </tr></tbody></table>`;
+    // Close any popup if there is one
+    evt.layer.closePopup();
+    // Bind new popup to the layer
+    evt.layer.bindPopup(content);
+    // Open the binded popup
+    evt.layer.openPopup();
+  };
+
+  const onRightClick = evt => {
+    L.DomEvent.stopPropagation(evt); // Don't propagate to map right-click
+  };
+
+  const mouseover = evt => {
+    const style = evt.layer.feature.properties.style;
+    const weight = 3;
+    evt.layer.setStyle({ ...style, weight });
+  };
+
+  const mouseout = evt => {
+    const style = evt.layer.feature.properties.style;
+    const weight = 1;
+    evt.layer.setStyle({ ...style, weight });
+  };
+
+  return {
+    onClick,
+    onRightClick,
+    mouseover,
+    mouseout
+  };
+};
+
+const _iconCreateFunction = (cluster, eventPointColor, opacity, labelFontStyle, labelFontSize) => {
+  const count = cluster.getChildCount();
+  const iconSize = _calculateClusterSize(count);
+  const htmlContent = _createClusterIcon(
+    iconSize,
+    cluster,
+    eventPointColor,
+    opacity,
+    labelFontStyle,
+    labelFontSize
+  );
+  return L.divIcon({
+    html: htmlContent,
+    className: 'leaflet-cluster-icon',
+    iconSize: new L.Point(iconSize[0], iconSize[1])
+  });
+};
+
+const _calculateClusterSize = count => {
+  return count < 10
+    ? [16, 16]
+    : count >= 10 && count <= 40 ? [20, 20] : count > 40 && count < 100 ? [30, 30] : [40, 40];
+};
+
+function _calculateMarginTop(iconSize: any) {
+  const size = iconSize[0];
+  return size === 30 ? 5 : size === 20 ? 2 : 10;
+}
+
+function _writeInKNumberSystem(childCount: any): any {
+  return childCount >= 1000 ? (childCount = (childCount / 1000).toFixed(1) + 'k') : childCount;
+}
+
+function _createClusterIcon(
+  iconSize,
+  cluster,
+  eventPointColor,
+  opacity,
+  labelFontStyle,
+  labelFontSize
+) {
+  const marginTop = _calculateMarginTop(iconSize);
+  const height = iconSize[0];
+  const width = iconSize[1];
+  const htmlContent =
+    '<div style="' +
+    'color:#ffffff;text-align:center;' +
+    'box-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);' +
+    'opacity:' +
+    opacity +
+    ';' +
+    'background-color:' +
+    _eventColor(eventPointColor) +
+    ';' +
+    'height:' +
+    height +
+    'px;width:' +
+    width +
+    'px;' +
+    'font-style:' +
+    labelFontStyle +
+    ';' +
+    'font-size:' +
+    labelFontSize +
+    ';' +
+    'border-radius:' +
+    iconSize[0] +
+    'px;">' +
+    '<span style="line-height:' +
+    width +
+    'px;">' +
+    _writeInKNumberSystem(parseInt(cluster.getChildCount(), 10)) +
+    '</span>' +
+    '</div>';
+  return htmlContent;
+}
+
+function _eventColor(color) {
+  return '#' + color;
+}

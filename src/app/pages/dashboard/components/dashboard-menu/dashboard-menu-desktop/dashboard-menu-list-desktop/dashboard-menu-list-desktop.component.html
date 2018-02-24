@@ -1,0 +1,14 @@
+<div
+  id="dashboard-menu-list-container-desktop"
+  class="animated"
+>
+  <div
+    class="dashboard-menu-item-block-desktop"
+    *ngFor="let dashboardMenuItem of dashboardMenuItems"
+  >
+    <app-dashboard-menu-item-desktop
+      [dashboardMenuItem]="dashboardMenuItem"
+    >
+    </app-dashboard-menu-item-desktop>
+  </div>
+</div>

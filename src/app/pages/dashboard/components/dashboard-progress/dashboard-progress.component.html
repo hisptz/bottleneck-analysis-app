@@ -1,0 +1,21 @@
+<div
+  class="dashboard-progress-container"
+  [@open]
+  *ngIf="(visualizationLoadingProgress$ | async).totalItems !== (visualizationLoadingProgress$ | async).loadedItems"
+>
+  <div class="dashboard-progress-text-block">
+    <div class="dashboard-progress-text">
+      {{(visualizationLoadingProgress$ | async).progressMessage}}
+    </div>
+    <div class="dashboard-progress-count">
+      {{(visualizationLoadingProgress$ | async).loadedItems}}/{{(visualizationLoadingProgress$ | async).totalItems}} ({{(visualizationLoadingProgress$ | async).progress}}%)
+    </div>
+  </div>
+  <div class="dashboard-progress-bar">
+    <div class="progress" style="height: 10px;">
+      <div class="progress-bar progress-bar-primary progress-bar-striped {{(visualizationLoadingProgress$ | async).loadedItems < (visualizationLoadingProgress$ | async).totalItems ? 'active' : ''}}" role="progressbar"
+           [attr.aria-valuenow]="(visualizationLoadingProgress$ | async).progress" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width' : (visualizationLoadingProgress$ | async).progress + '%'}">
+      </div>
+    </div>
+  </div>
+</div>

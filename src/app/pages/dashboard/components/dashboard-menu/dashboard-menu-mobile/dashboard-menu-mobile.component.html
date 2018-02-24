@@ -1,0 +1,37 @@
+<div
+  id="dashboard-menu-mobile"
+  appClickOutside (clickOutside)="showSelectionList = false"
+>
+  <div
+    id="selected-dashboard-menu-item-mobile"
+    class="dashboard-border"
+    (click)="toggleSelectionList($event)"
+  >
+    <div id="selected-dashboard-menu-item-title">
+      {{ (currentDashboard$ | async)?.name }}
+    </div>
+    <a
+      id="dashboard-menu-mobile-list-btn"
+    >
+      <img src="assets/icons/list.png" alt="">
+    </a>
+  </div>
+  <ul
+    id="dashboard-menu-list-mobile"
+      class="dashboard-border"
+    *ngIf="showSelectionList"
+  >
+    <li
+      *ngFor="let dashboardMenuItem of dashboardMenuList$ | async"
+    >
+      <a
+        (click)="onSetCurrent($event, dashboardMenuItem.id)"
+        [ngClass]="{
+        'current-dashboard': (currentDashboard$ | async).id == dashboardMenuItem.id
+        }"
+      >
+        {{ dashboardMenuItem.name }}
+      </a>
+    </li>
+  </ul>
+</div>

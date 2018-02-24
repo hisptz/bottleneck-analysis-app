@@ -1,0 +1,37 @@
+.dashboard-header-container {
+  margin-top: 7px;
+  display: flex;
+}
+
+.dashboard-title-block {
+  flex: 3;
+  display: flex;
+}
+
+.dashboard-search-block {
+  flex: 2;
+}
+.dashboard-title {
+
+}
+
+.dashboard-options {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dashboard-global-filter {
+  margin-left: 3px;
+}
+
+.dashboard-description {
+  margin-left: 4px;
+  text-align: justify;
+}
+
+@media (max-width: 999px) {
+  .dashboard-header-container {
+    display: block;
+  }
+
+}

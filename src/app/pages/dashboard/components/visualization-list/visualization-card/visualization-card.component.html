@@ -1,0 +1,105 @@
+<div class="visualization-card" [style.height]="visualizationObject.details.cardHeight" (mouseenter)="toggleCardFocusAction($event, true)"
+  (mouseleave)="toggleCardFocusAction($event, false)">
+  <!--Visualization card header content-->
+  <div class="visualization-card-header">
+    <div class="visualization-card-header-left">
+      <div class="visualization-filter-section-container" *ngIf="!visualizationObject.details.nonVisualizable">
+        <app-visualization-filter-section [selectedDimensions]="selectedDimensions" [visualizationType]="currentVisualization" [loaded]="loaded"
+          (onFilterUpdate)="onFilterUpdate($event)" (onLayoutUpdate)="onLayoutUpdate($event)"></app-visualization-filter-section>
+      </div>
+      <div class="visualization-interpretation-button-container" *ngIf="!visualizationObject.details.nonVisualizable">
+        <app-visualization-interpretation-button [loaded]="loaded" [visualizationId]="visualizationObject.id" [visualizationLayers]="visualizationObject.layers"></app-visualization-interpretation-button>
+      </div>
+    </div>
+    <div class="visualization-card-header-right">
+      <app-visualization-resize-section [dashboardId]="visualizationObject.dashboardId" [visualizationId]="visualizationObject.id"
+        [loaded]="loaded" [visualizationShape]="visualizationObject.shape" [showResizeButton]="isCardFocused"></app-visualization-resize-section>
+    </div>
+  </div>
+  <!--End of Visualization card header content-->
+
+  <div class="visualization-card-loading-block" *ngIf="!loaded">
+    <app-visualization-card-loader [visualizationType]="currentVisualization"></app-visualization-card-loader>
+  </div>
+
+  <div class="visualization-card-body" *ngIf="loaded">
+    <div class="visualization-block" [style.flex]="'2'">
+      <!--chart block-->
+      <div class="chart-container" *ngIf="currentVisualization === 'CHART'">
+        <app-chart-list [visualizationLayers]="visualizationObject.layers" [visualizationId]="visualizationObject.id" [chartHeight]="visualizationObject.details.itemHeight"></app-chart-list>
+      </div>
+      <!--end of chart block-->
+
+      <!--table block-->
+      <div class="table-container-block" [style.height]="visualizationObject.details.cardHeight" *ngIf="currentVisualization === 'TABLE'">
+        <app-table-list [visualizationType]="visualizationObject.type" [visualizationLayers]="visualizationObject.layers"></app-table-list>
+      </div>
+      <!--end of table block-->
+
+      <!--map block-->
+      <div class="map-container" *ngIf="currentVisualization === 'MAP'">
+        <app-map [vizObject]="visualizationObject"></app-map>
+      </div>
+      <!--end of map-block-->
+
+      <!-- users block -->
+      <div class="users-container-block" *ngIf="currentVisualization === 'USERS'">
+        <app-users-container [visualizationLayers]="visualizationObject.layers"></app-users-container>
+      </div>
+      <!-- end of users block -->
+
+      <!-- resources block -->
+      <div class="resources-container-block" *ngIf="currentVisualization === 'RESOURCES'">
+        <app-resources-container [visualizationLayers]="visualizationObject.layers"></app-resources-container>
+      </div>
+      <!-- end of resources block -->
+
+      <!-- resources block -->
+      <div class="resources-container-block" *ngIf="currentVisualization === 'REPORTS'">
+        <app-reports-container [visualizationLayers]="visualizationObject.layers"></app-reports-container>
+      </div>
+      <!-- end of resources block -->
+
+      <!-- app block -->
+      <div class="app-container-block" *ngIf="currentVisualization === 'APP'">
+        <app-app-container [height]="visualizationObject.details.itemHeight" [appUrl]="'../../../api/apps/' + visualizationObject.details.appKey + '/index.html?dashboardItemId=' + visualizationObject.id"></app-app-container>
+      </div>
+      <!-- end of app block -->
+
+      <!--dictionary block-->
+      <div class="dictionary-container" [style.height]="visualizationObject.details.cardHeight" *ngIf="currentVisualization === 'INFO'">
+        <app-dictionary-list [metadataIdentifiers]="visualizationObject.details.metadataIdentifiers"></app-dictionary-list>
+      </div>
+      <!--end of dictionary block-->
+    </div>
+    <!--interpretation section-->
+    <div class="visualization-interpretation" *ngIf="visualizationObject.details.showInterpretationBlock">
+      <app-interpretation-container [visualizationLayers]="visualizationObject.layers" [currentUser]="currentUser" [itemHeight]="visualizationObject.details.cardHeight"></app-interpretation-container>
+    </div>
+    <!--end of interpretation section-->
+  </div>
+  <div class="visualization-card-footer" *ngIf="loaded && isCardFocused">
+    <div *ngIf="visualizationObject.details.nonVisualizable">&nbsp;</div>
+    <div class="visualization-card-footer-left animated fadeInLeft" *ngIf="!visualizationObject.details.nonVisualizable">
+      <app-visualization-types-section [currentVisualization]="currentVisualization" (onCurrentVisualizationChange)="currentVisualizationChange($event)"></app-visualization-types-section>
+      <app-visualization-download-section></app-visualization-download-section>
+    </div>
+    <div class="visualization-card-footer-right">
+      <!--visualization delete section-->
+      <div class="visualization-delete-block" *ngIf="loaded && isCardFocused && !showDeleteDialog" (click)="onShowDeleteDialog($event)">
+        <button class="dashboard-btn" title="remove this item">
+          <img src="assets/icons/trash.png" alt="">
+        </button>
+      </div>
+      <!-- end of visualization delete section-->
+
+      <!-- visualization delete dialog -->
+      <div class="visualization-delete-dialog dashboard-border" *ngIf="showDeleteDialog">
+        <app-visualization-delete-dialog [dashboardId]="visualizationObject.dashboardId" [visualizationId]="visualizationObject.id"
+          [deleting]="visualizationObject.details.deleting" [deleteFail]="visualizationObject.details.deleteFail" (onDelete)="onDelete()"
+          (onCloseDeleteDialog)="showDeleteDialog = false"></app-visualization-delete-dialog>
+      </div>
+      <!-- end of visualization delete dialog -->
+    </div>
+  </div>
+</div>

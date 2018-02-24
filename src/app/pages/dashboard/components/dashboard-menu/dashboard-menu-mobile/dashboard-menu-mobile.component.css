@@ -1,0 +1,43 @@
+#dashboard-menu-mobile {
+  position: relative;
+}
+#selected-dashboard-menu-item-mobile {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+#dashboard-menu-mobile-list-btn {
+  display: flex;
+  cursor: pointer;
+}
+
+#dashboard-menu-mobile-list-btn img {
+  display: block;
+  margin: auto;
+  height: 20px;
+}
+
+#dashboard-menu-list-mobile {
+  position: absolute;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  z-index: 1200;
+  width: 100%;
+  background-color: #ffffff;
+  max-height: 400px;
+  overflow: auto;
+}
+
+#dashboard-menu-list-mobile > li > a {
+  padding: 10px;
+  border-bottom: solid thin #f1f1f1;
+  display: block;
+  width: 100%;
+}
+
+.current-dashboard,
+#dashboard-menu-list-mobile > li > a:hover {
+  background-color: #f1f1f1;
+}

@@ -1,0 +1,64 @@
+<div class="dashboard-menu-item-desktop" (mouseenter)="onMouseEnter($event)" (mouseleave)="onMouseLeave($event)" appClickOutside (clickOutside)="hideDashboardNotificationIcon()">
+    <!--name block-->
+    <a *ngIf="showName" class="dashboard-menu-name-desktop" routerLinkActive="active-dashboard" [routerLink]="['/dashboards', dashboardMenuItem.id]" (dblclick)="toggleEditForm($event)" (contextmenu)="showDropdown($event)">
+    {{ dashboardMenuItem.name}}
+  </a>
+    <!--end of name block-->
+
+    <!--create block-->
+    <div class="dashboard-create-progress-block" *ngIf="dashboardMenuItem.details.isNew && !dashboardMenuItem.details.creationComplete">
+        <img [src]="'assets/icons/balls-3.svg'" alt="">
+        <span>Creating dashboard..</span>
+    </div>
+    <!--end of create block-->
+
+    <!--edit block-->
+    <div class="dashboard-edit-block animated fadeIn" *ngIf="showEditForm">
+        <app-dashboard-menu-edit [dashboardMenuItem]="dashboardMenuItem" (onEditFormClose)="toggleEditForm()"></app-dashboard-menu-edit>
+    </div>
+
+    <!--end of edit block-->
+
+    <!--delete block-->
+    <div *ngIf="showDeleteBlock || dashboardMenuItem.details.toDelete" class="animated fadeIn">
+        <app-dashboard-menu-delete [dashboardId]="dashboardMenuItem.id" [deleting]="dashboardMenuItem.details.toDelete" (onCancelDelete)="toggleDeleteForm()"></app-dashboard-menu-delete>
+    </div>
+    <!--end of delete block-->
+
+    <!-- dashboard borkmark area -->
+    <a class="dashboard-menu-bookmark-icon" (click)="bookmarkDashboard($event)">
+        <img *ngIf="!dashboardMenuItem.details.bookmarked && isFocused" src="assets/icons/empty-bookmark.png" alt="">
+        <img *ngIf="dashboardMenuItem.details.bookmarked" src="assets/icons/bookmark.png" alt="">
+    </a>
+    <!-- end of dashboard bookmark area -->
+
+    <!-- dashboard menu item notification-->
+    <a class="dashboard-menu-notification-icon" *ngIf="dashboardMenuItem.details.showIcon" [@open]>
+        <img *ngIf="dashboardMenuItem.details.editComplete || dashboardMenuItem.details.creationComplete" [src]="'assets/icons/tick.png'" alt="">
+        <img *ngIf="dashboardMenuItem.details.error" [src]="'assets/icons/error.png'" alt="">
+    </a>
+    <!--end of dashboard menu item notification-->
+
+    <!--dashboard item dropdown-->
+    <ul class="dashboard-item-dropdown dashboard-border" [@open] *ngIf="showDashboardItemDropdown" appClickOutside (clickOutside)="showDashboardItemDropdown = false">
+        <li>
+            <a (click)="toggleEditForm($event)">
+                <img [src]="'assets/icons/edit.png'" alt="">
+                <span>Rename</span>
+            </a>
+        </li>
+        <!--<li>-->
+            <!--<a (click)="openShareBlock($event)">-->
+                <!--<img [src]="'assets/icons/share.png'" alt="">-->
+                <!--<span>Share</span>-->
+            <!--</a>-->
+        <!--</li>-->
+        <li>
+            <a (click)="toggleDeleteForm($event)">
+                <img [src]="'assets/icons/trash.png'" alt="">
+                <span>Delete</span>
+            </a>
+        </li>
+    </ul>
+    <!-- end of dashboard item dropdown-->
+</div>

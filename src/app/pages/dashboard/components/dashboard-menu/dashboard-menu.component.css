@@ -1,0 +1,12 @@
+@media (max-width: 999px) {
+  #dashboard-menu-desktop-container {
+    display: none;
+  }
+
+}
+
+@media (min-width: 1010px) {
+  #dashboard-menu-mobile-container {
+    display: none;
+  }
+}

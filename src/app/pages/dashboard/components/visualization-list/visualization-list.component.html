@@ -1,0 +1,15 @@
+<div id="dashboard-visualization-list">
+    <div
+      *ngFor="let visualizationObject of visualizationObjects"
+      [ngClass]="{
+      'visualization-card-container': true,
+      'dashboard-border': true,
+      'full-screen-dashboard-item-view': visualizationObject.details.showFullScreen
+      }"
+      [style.grid-column]="visualizationObject.details.width" [style.grid-row]="'span 1'">
+        <app-visualization-card
+          [visualizationObject]="visualizationObject"
+          [currentUser]="currentUser"
+        ></app-visualization-card>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="sharing-filter-container">
+  <!--<div class="sharing-error text-danger">Something went wrong while saving</div>-->
+  <ul class="sharing-list">
+    <li *ngFor="let sharingItem of sharingList$ | async | limit:3" class="sharing-item"
+        (click)="changeAccess($event, sharingItem)">
+      <img *ngIf="sharingItem.isExternal && sharingItem.access" src="assets/icons/tick.png" alt="">
+      <img *ngIf="!sharingItem.isExternal && sharingItem.access === 'r-------'" src="assets/icons/eye.png" alt="">
+      <img *ngIf="!sharingItem.isExternal && sharingItem.access === 'rw------'" src="assets/icons/edit.png" alt="">
+      {{ sharingItem.name }} &nbsp;
+      <img class="sharing-close-btn" *ngIf="!sharingItem.isExternal && !sharingItem.isPublic"
+           src="assets/icons/close.png" alt="" (click)="removeSharingItem($event, sharingItem)">
+    </li>
+    <li *ngIf="(sharingList$ | async).length > 3" class="sharing-item">
+      and {{ (sharingList$ | async).length - 3 }}
+      more
+    </li>
+  </ul>
+  <ul class="sharing-input-list" *ngIf="!loadingSearchList">
+    <li class="share-input-block">
+      <input type="text" class="share-input" id="sharing_filter_input" [(ngModel)]="searchTerm"
+             placeholder="Search users and user Groups to share the dashboard" autofocus>
+      <div class="share-search-not-found" *ngIf="(searchList | filterByName:searchTerm).length === 0 && searchTerm.length > 0">Not found</div>
+      <ul class="share-search-result-list" [@open]>
+        <li *ngFor="let searchItem of searchList | filterByName:searchTerm">
+          <div class="share-search-result-left">
+            <a (click)="changeAccess($event, searchItem, 'r-------')" class="btn {{ searchItem.access === 'r-------' || searchItem.access === 'rw------' ? 'btn-primary' : 'btn-outline-secondary' }} sharing-add-btn"
+               title="Can view">
+              <img src="assets/icons/eye.png" alt="">
+            </a>
+            <a (click)="changeAccess($event, searchItem, 'rw------')" class="btn {{ searchItem.access === 'rw------' ? 'btn-primary' : 'btn-outline-secondary' }} sharing-add-btn"
+               title="Can edit">
+              <img src="assets/icons/edit.png" alt="">
+            </a>
+            <div> {{ searchItem.name }}</div>
+          </div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
