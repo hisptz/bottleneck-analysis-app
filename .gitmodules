@@ -1,9 +1,0 @@
-[submodule "src/app/menu"]
-	path = src/app/menu
-	url = git@github.com:hisptz/ng2-dhis-menu-module.git
-[submodule "src/app/period-filter"]
-	path = src/app/period-filter
-	url = git@github.com:hisptz/period-filter-module.git
-[submodule "src/app/map"]
-	path = src/app/map
-	url = git@github.com:hisptz/map-module.git
