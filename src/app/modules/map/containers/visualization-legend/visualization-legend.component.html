@@ -101,7 +101,7 @@
         </a>
       </div>
       <div class="map-legend-right-footer">
-        <a title="Upload GeoJson file">
+        <a title="Upload GeoJson file" (click)="mapDownload($event, 'csv', visualizationLegends)">
           <img src="assets/icons/upload.png" alt="">
         </a>
         <a title="Stick Legend" (click)="stickLegendContainer($event)">

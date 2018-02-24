@@ -7,6 +7,7 @@ import { SystemService } from "./system.service";
 import { LegendSetService } from "./legend-set.service";
 import { HttpClientService } from "./http-client.service";
 import { ManifestService } from "./manifest.service";
+import {MapFilesService} from "./map-files.service";
 
 export const services: any[] = [
   OrgUnitService,
@@ -17,7 +18,8 @@ export const services: any[] = [
   LegendSetService,
   ManifestService,
   SystemService,
-  HttpClientService
+  HttpClientService,
+  MapFilesService
 ];
 
 export * from "./org-unit.service";
@@ -29,3 +31,4 @@ export * from "./system.service";
 export * from "./legend-set.service";
 export * from "./http-client.service";
 export * from "./manifest.service";
+export * from "./map-files.service";

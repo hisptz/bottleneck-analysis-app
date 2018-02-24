@@ -5,6 +5,7 @@ import { OrganizationUnitGroupSetEffects } from './orgUnitGroupSet.effect';
 import { SystemInfoEffects } from './systemInfo.effect';
 import { LegendSetEffects } from './legendSet.effect';
 import { BaseLayerEffects } from './baseLayer.effect';
+import { FilesEffects } from './files.effects';
 
 export const effects: any[] = [
   VisualizationObjectEffects,
@@ -12,7 +13,8 @@ export const effects: any[] = [
   OrganizationUnitGroupSetEffects,
   SystemInfoEffects,
   LegendSetEffects,
-  BaseLayerEffects
+  BaseLayerEffects,
+  FilesEffects
 ];
 
 export * from './layers.effect';
@@ -22,3 +24,4 @@ export * from './orgUnitGroupSet.effect';
 export * from './systemInfo.effect';
 export * from './legendSet.effect';
 export * from './baseLayer.effect';
+export * from './files.effects';
