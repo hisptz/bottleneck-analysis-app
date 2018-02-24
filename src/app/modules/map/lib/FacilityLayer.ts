@@ -55,6 +55,10 @@ export const facility = options => {
     };
   }
   const bounds = geoJsonLayer.getBounds();
+  geoJsonLayer.setStyle({
+    opacity: 0.2,
+    fillOpacity: 0.2
+  });
   const _legendSet = {
     layer: options.id,
     opacity,
@@ -139,7 +143,7 @@ export const facilityGeoJsonOptions = (id, displaySettings, areaRadius, opacity)
   const pane = id;
   const pointToLayer = (feature, latlng) => {
     const iconProperty = 'icon';
-    const markerOptions = L.extend({}, { riseOnHover: true });
+    const markerOptions = L.extend({}, { riseOnHover: true, strokeColor: '#fff' });
     const { labelStyle } = feature.properties;
     const title = L.Util.template('{name}', feature.properties);
     const icon = L.icon({
@@ -158,10 +162,11 @@ export const facilityGeoJsonOptions = (id, displaySettings, areaRadius, opacity)
 
     if (areaRadius) {
       const geojsonMarkerOptions = {
-        radius: 6,
+        radius: areaRadius,
         weight: 0.5,
-        strokeColor: '#fff',
-        pane
+        opacity: opacity || 0.8,
+        fillOpacity: opacity || 0.8,
+        pane: `${id}-area`
       };
       const circle = new L.CircleMarker(latlng, geojsonMarkerOptions);
       const featureGroup = new L.featureGroup([circle, marker], { pane });

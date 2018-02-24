@@ -6,6 +6,7 @@ export const TOGGLE_VISUALIZATION_FILTER_SECTION = '[Map UI] Toggle filter secti
 export const CLOSE_PIN_VISUALIZATION_LEGEND = '[Map UI] Close pinned legend';
 export const CLOSE_VISUALIZATION_FILTER_SECTION = '[Map UI] Close filter section legend';
 export const INITIALIZE_VISUALIZATION_LEGEND = '[Map UI] Initialize the visualization legend';
+export const TOGGLE_DATA_TABLE = '[Map UI] Toggle Datatable visability';
 
 export class ToggleOpenVisualizationLegend implements Action {
   readonly type = TOGGLE_OPEN_VISUALIZATION_LEGEND;
@@ -37,6 +38,12 @@ export class InitiealizeVisualizationLegend implements Action {
   constructor(public payload: string) {}
 }
 
+export class ToggleDataTable implements Action {
+  readonly type = TOGGLE_DATA_TABLE;
+  // TODO: add Legend Set data casting;
+  constructor(public payload: any) {}
+}
+
 // action types
 export type VisualizationLegendAction =
   | ToggleOpenVisualizationLegend
@@ -44,4 +51,5 @@ export type VisualizationLegendAction =
   | CloseVisualizationLegend
   | ToggleVisualizationLegendFilterSection
   | CloseVisualizationLegendFilterSection
-  | InitiealizeVisualizationLegend;
+  | InitiealizeVisualizationLegend
+  | ToggleDataTable;

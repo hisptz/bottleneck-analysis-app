@@ -1,7 +1,7 @@
 <div class="legendFilter__container" (mouseover)="showButtonIcons()" (mouseout)="hideButtonIcons()">
   <div class="map-legend__container">
     <div class="layers-list">
-      <div class="map-legend-list" *ngIf="visualizationLegends.length" [dragula]="'bag-one'" [dragulaModel]="visualizationLegends">
+      <div class="map-legend-list" *ngIf="visualizationLegends.length">
         <div class="map-legend-item" *ngFor="let legend of visualizationLegends | paginate: { itemsPerPage: 3, currentPage: p }; let i = index;">
           <div class="map-legend-header" (click)="setActiveItem(i, $event)">
             <div class="map-legend-title-block">
@@ -41,6 +41,24 @@
                 </ul>
               </div>
             </div>
+            <div class="tile-layers-list" *ngIf="legend.legend.type === 'event'">
+              <div *ngFor="let item of legend.legend.items" class="map-legend-table">
+                <ul class="map-legend-table-list list-inline">
+                  <li class="list-inline-item event-item"></li>
+                  <li class="font-weight-bold list-inline-item">{{item.name}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="tile-layers-list" *ngIf="legend.legend.type === 'external'">
+              <div *ngFor="let item of legend.legend.items" class="map-legend-table">
+                <ul class="map-legend-table-list list-inline">
+                  <li class="list-inline-item">
+                    <img [src]="item.image" style="width: 30px; height: 30px;">
+                  </li>
+                  <li class="font-weight-bold list-inline-item">{{item.name}}</li>
+                </ul>
+              </div>
+            </div>
             <div class="map-legend-footer">
               <div class="map-legend-left-footer">
                 <small>Opacity</small>
@@ -73,7 +91,7 @@
           <div class="map-legend-body" *ngIf="activeLayer === -1" [ngStyle]="{'max-height': 'calc(' + mapHeight + ' - ' + (visualizationLegends.length + 4)*50 + 'px)'}">
             <div class="tile-layers-list">
               <div *ngFor="let tileLayer of LegendsTileLayer" class="tile-layer-item">
-                <a class="map-tile-layer-icon" (click)="changeTileLayer(tileLayer)">
+                <a class="map-tile-layer-icon" (click)="changeTileLayer(tileLayer)" title="{{tileLayer.name}}">
 
                   <img [src]="tileLayer.image" [ngClass]="{'rowActive': tileLayer.name === baseLayerLegend.name }" />
                 </a>
@@ -97,11 +115,27 @@
     <div class="map-legend-footer">
       <div class="map-legend-left-footer">
         <a title="Show map data table">
-          <img src="assets/icons/table.png" alt="">
+          <img src="assets/icons/table.png" alt="" (click)="toggleDataTableView($event)">
         </a>
       </div>
       <div class="map-legend-right-footer">
-        <a title="Upload GeoJson file" (click)="mapDownload($event, 'csv', visualizationLegends)">
+        <a *ngIf="showDownload">
+          <img src="assets/icons/csv.png" alt="download" title="Download file kml">
+        </a>
+        <a *ngIf="showDownload">
+          <img src="assets/icons/kml.png" alt="download" title="Download file kml">
+        </a>
+        <a *ngIf="showDownload">
+          <img src="assets/icons/csv.png" alt="download" title="placeholder for file Shapefile">
+        </a>
+        <a *ngIf="showDownload">
+          <img src="assets/icons/csv.png" alt="download" title="placeholder for geojson file">
+        </a>
+        <a>
+          <img *ngIf="!showDownload" src="assets/icons/download.png" alt="download" title="Download file" (click)="toggleDownload($event)">
+          <img *ngIf="showDownload" src="assets/icons/arrow-left.png" alt="back" title="Back" (click)="toggleDownload($event)">
+        </a>
+        <a title="Upload GeoJson file">
           <img src="assets/icons/upload.png" alt="">
         </a>
         <a title="Stick Legend" (click)="stickLegendContainer($event)">
@@ -113,5 +147,8 @@
         </a>
       </div>
     </div>
+  </div>
+  <div class="legend-filter__container" *ngIf="isFilterSectionOpen$ | async">
+    <app-map-filter-section [mapVisualizationObject]='mapVisualizationObject' [activeLayer]='activeLayer'></app-map-filter-section>
   </div>
 </div>

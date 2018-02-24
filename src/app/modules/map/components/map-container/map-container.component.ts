@@ -45,6 +45,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() displayConfigurations: any;
 
   public visualizationLegendIsOpen$: Observable<boolean>;
+  public isDataTableOpen$: Observable<boolean>;
   public mapHasGeofeatures: boolean = true;
   public mapHasDataAnalytics: boolean = true;
   private _visualizationObject: VisualizationObject;
@@ -61,11 +62,18 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     const { visualizationObject, displayConfigurations } = changes;
     this._visualizationObject = visualizationObject.currentValue;
     this.createMap();
+    if (visualizationObject && !visualizationObject.isFirstChange()) {
+      this.redrawMapOndataChange(visualizationObject.currentValue);
+    }
   }
 
   ngOnInit() {
     this.visualizationLegendIsOpen$ = this.store.select(
       fromStore.isVisualizationLegendOpen(this._visualizationObject.componentId)
+    );
+
+    this.isDataTableOpen$ = this.store.select(
+      fromStore.isDataTableOpen(this._visualizationObject.componentId)
     );
 
     this.store
@@ -89,16 +97,21 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
       .subscribe(visualizationLengends => {
         if (visualizationLengends && Object.keys(visualizationLengends).length) {
           Object.keys(visualizationLengends).map(key => {
-            const legend = visualizationLengends[key];
-            const { opacity, layer, hidden } = legend;
+            const legendSet = visualizationLengends[key];
+            const { opacity, layer, hidden, legend } = legendSet;
+            const tileLayer = legend.type === 'external';
             const leafletlayer = this.leafletLayers[layer];
 
             // Check if there is that layer otherwise errors when resizing;
-            if (leafletlayer) {
+            if (leafletlayer && !tileLayer) {
               leafletlayer.setStyle({
                 opacity,
                 fillOpacity: opacity
               });
+
+              if (tileLayer) {
+                leafletlayer.setOpacity(opacity);
+              }
 
               const visible = !hidden;
               this.setLayerVisibility(visible, leafletlayer);
@@ -119,6 +132,9 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     if (![].concat.apply([], allGeofeatures).length) {
       this.mapHasGeofeatures = false;
     }
+    if (!allDataAnalytics.length) {
+      this.mapHasDataAnalytics = false;
+    }
 
     layers.map(layer => {
       if (layer.type === 'event') {
@@ -126,12 +142,14 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
         if (_.find(headers, { name: 'latitude' })) {
           this.mapHasGeofeatures = true;
         }
+      } else if (layer.type === 'facility') {
+        const { dataSelections } = layer;
+        const { organisationUnitGroupSet } = dataSelections;
+        if (Object.keys(organisationUnitGroupSet)) {
+          this.mapHasDataAnalytics = true;
+        }
       }
     });
-
-    if (!allDataAnalytics.length) {
-      this.mapHasDataAnalytics = false;
-    }
   }
 
   ngAfterViewInit() {
@@ -161,13 +179,13 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
 
   createLayer(optionsLayer, index) {
     if (optionsLayer) {
-      const { displaySettings, id, geoJsonLayer, visible } = optionsLayer;
-      this.createPane(displaySettings.labels, id, index);
+      const { displaySettings, id, geoJsonLayer, visible, areaRadius } = optionsLayer;
+      this.createPane(displaySettings.labels, id, index, areaRadius);
       this.setLayerVisibility(visible, geoJsonLayer);
     }
   }
 
-  createPane(labels, id, index) {
+  createPane(labels, id, index, areaRadius) {
     const zIndex = 600 - index * 10;
     this.map.createPane(id);
     this.map.getPane(id).style.zIndex = zIndex.toString();
@@ -176,6 +194,11 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
       const paneLabelId = `${id}-labels`;
       const labelPane = this.map.createPane(paneLabelId);
       this.map.getPane(paneLabelId).style.zIndex = (zIndex + 1).toString();
+    }
+    if (areaRadius) {
+      const areaID = `${id}-area`;
+      const areaPane = this.map.createPane(areaID);
+      this.map.getPane(areaID).style.zIndex = (zIndex - 1).toString();
     }
   }
 
@@ -240,6 +263,29 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
       this.store.dispatch(
         new fromStore.AddLegendSet({ [this._visualizationObject.componentId]: legendSets })
       );
+    }
+  }
+
+  redrawMapOndataChange(visualizationObject: VisualizationObject) {
+    Object.keys(this.leafletLayers).map(key => this.map.removeLayer(this.leafletLayers[key]));
+    const { mapConfiguration } = visualizationObject;
+    const { overlayLayers, layersBounds, legendSets } = this.prepareLegendAndLayers(
+      visualizationObject
+    );
+
+    overlayLayers.map((layer, index) => {
+      this.createLayer(layer, index);
+    });
+
+    if (Object.keys(legendSets).length) {
+      this.store.dispatch(
+        new fromStore.AddLegendSet({ [visualizationObject.componentId]: legendSets })
+      );
+    }
+
+    if (layersBounds.length) {
+      this.layersBounds = layersBounds;
+      this.layerFitBound(layersBounds);
     }
   }
 

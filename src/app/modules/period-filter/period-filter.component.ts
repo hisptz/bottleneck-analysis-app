@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as fromPeriodFilterModel from './period-filter.model';
 import * as _ from 'lodash';
-import {PeriodService} from './period.service';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+import { PeriodService } from './period.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-period-filter',
@@ -11,13 +11,14 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./period-filter.component.css']
 })
 export class PeriodFilterComponent implements OnInit {
-
   periodTypes: any[];
   @Input() selectedPeriodType = '';
   @Input() selectedPeriods: any[] = [];
-  @Input() periodConfig: any = {
+  @Input()
+  periodConfig: any = {
     resetOnPeriodTypeChange: false,
-    emitOnSelection: false
+    emitOnSelection: false,
+    singleSelection: false
   };
   @Output() onPeriodUpdate = new EventEmitter();
   @Output() onPeriodFilterClose = new EventEmitter();
@@ -42,18 +43,22 @@ export class PeriodFilterComponent implements OnInit {
   }
 
   ngOnInit() {
-
     if (this.selectedPeriodType === '') {
       this.selectedPeriodType = 'Monthly';
     }
-    this._periods = this.getPeriods(this.selectedPeriodType, this.selectedYear, this.selectedPeriods);
+    this._periods = this.getPeriods(
+      this.selectedPeriodType,
+      this.selectedYear,
+      this.selectedPeriods
+    );
     this.periods$.next(this._periods);
   }
 
   getPeriods(selectedPeriodType: string, year: number, selectedPeriods: any[]) {
     return this.updatePeriodsWithSelected(
-      this.periodService.getPeriodsBasedOnType(
-        selectedPeriodType, year), selectedPeriods);
+      this.periodService.getPeriodsBasedOnType(selectedPeriodType, year),
+      selectedPeriods
+    );
   }
 
   updatePeriodsWithSelected(periods: any[], selectedPeriods: any[]) {
@@ -73,6 +78,9 @@ export class PeriodFilterComponent implements OnInit {
   }
 
   togglePeriod(period, e) {
+    if (this.periodConfig.singleSelection) {
+      this.deselectAllPeriods(e);
+    }
     e.stopPropagation();
     const periodIndex = _.findIndex(this._periods, _.find(this._periods, ['id', period.id]));
 
@@ -113,13 +121,11 @@ export class PeriodFilterComponent implements OnInit {
 
   updatePeriodType(periodType: string, e) {
     e.stopPropagation();
-    const selectedPeriods = this.periodConfig.resetOnPeriodTypeChange ? [] :
-      this._periods.filter((period) => period.selected);
+    const selectedPeriods = this.periodConfig.resetOnPeriodTypeChange
+      ? []
+      : this._periods.filter(period => period.selected);
 
-    this._periods = this.getPeriods(
-      periodType,
-      this.selectedYear,
-      selectedPeriods);
+    this._periods = this.getPeriods(periodType, this.selectedYear, selectedPeriods);
     this.periods$.next(this._periods);
   }
 
@@ -129,7 +135,8 @@ export class PeriodFilterComponent implements OnInit {
     this._periods = this.getPeriods(
       this.selectedPeriodType,
       this.selectedYear,
-      this._periods.filter((period) => period.selected));
+      this._periods.filter(period => period.selected)
+    );
     this.periods$.next(this._periods);
   }
 
@@ -139,14 +146,15 @@ export class PeriodFilterComponent implements OnInit {
     this._periods = this.getPeriods(
       this.selectedPeriodType,
       this.selectedYear,
-      this._periods.filter((period) => period.selected));
+      this._periods.filter(period => period.selected)
+    );
     this.periods$.next(this._periods);
   }
 
   selectAllPeriods(e) {
     e.stopPropagation();
     this._periods = this._periods.map((period: any) => {
-      const newPeriod = {...period};
+      const newPeriod = { ...period };
       newPeriod.selected = true;
       return newPeriod;
     });
@@ -159,11 +167,13 @@ export class PeriodFilterComponent implements OnInit {
 
   deselectAllPeriods(e) {
     e.stopPropagation();
-    this._periods = this._periods.map((period: any) => {
-      const newPeriod = {...period};
-      newPeriod.selected = false;
-      return newPeriod;
-    }).filter((period: any) => period.type === this.selectedPeriodType);
+    this._periods = this._periods
+      .map((period: any) => {
+        const newPeriod = { ...period };
+        newPeriod.selected = false;
+        return newPeriod;
+      })
+      .filter((period: any) => period.type === this.selectedPeriodType);
     this.periods$.next(this._periods);
 
     if (this.periodConfig.emitOnSelection) {
@@ -181,7 +191,7 @@ export class PeriodFilterComponent implements OnInit {
     this.onPeriodUpdate.emit({
       items: selectedPeriods,
       name: 'pe',
-      value: selectedPeriods.map((period) => period.id).join(';')
+      value: selectedPeriods.map(period => period.id).join(';')
     });
   }
 
@@ -189,5 +199,4 @@ export class PeriodFilterComponent implements OnInit {
     e.stopPropagation();
     this.onPeriodFilterClose.emit(true);
   }
-
 }

@@ -19,7 +19,8 @@ export function reducer(
       const initialVisualizationLegendState: VisualizationLegend = {
         open: false,
         pinned: false,
-        filterSectionOpen: false
+        filterSectionOpen: false,
+        datatableIsOpen: false
       };
       const entities = {
         ...state.entities,
@@ -74,6 +75,23 @@ export function reducer(
       const visualizationLegend = {
         ...state.entities[visualizationObjectId],
         filterSectionOpen
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: visualizationLegend
+      };
+      return {
+        ...state,
+        entities
+      };
+    }
+
+    case fromVisualizationLegend.TOGGLE_DATA_TABLE: {
+      const visualizationObjectId = action.payload;
+      const datatableIsOpen = !state.entities[visualizationObjectId].datatableIsOpen;
+      const visualizationLegend = {
+        ...state.entities[visualizationObjectId],
+        datatableIsOpen
       };
       const entities = {
         ...state.entities,

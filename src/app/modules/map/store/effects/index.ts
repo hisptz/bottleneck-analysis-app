@@ -6,6 +6,7 @@ import { SystemInfoEffects } from './systemInfo.effect';
 import { LegendSetEffects } from './legendSet.effect';
 import { BaseLayerEffects } from './baseLayer.effect';
 import { FilesEffects } from './files.effects';
+import { DataSelectionEffects } from './dataSelection.effect';
 
 export const effects: any[] = [
   VisualizationObjectEffects,
@@ -13,6 +14,8 @@ export const effects: any[] = [
   OrganizationUnitGroupSetEffects,
   SystemInfoEffects,
   LegendSetEffects,
+  BaseLayerEffects,
+  DataSelectionEffects
   BaseLayerEffects,
   FilesEffects
 ];
@@ -25,3 +28,4 @@ export * from './systemInfo.effect';
 export * from './legendSet.effect';
 export * from './baseLayer.effect';
 export * from './files.effects';
+export * from './dataSelection.effect';

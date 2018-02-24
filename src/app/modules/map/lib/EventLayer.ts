@@ -30,6 +30,7 @@ export const event = options => {
   const { startDate, endDate } = dataSelections;
   const { eventPointColor, eventPointRadius, radiusLow, eventClustering } = layerOptions;
   const { labelFontSize, labelFontStyle } = displaySettings;
+
   const spatialSupport = localStorage.getItem('spatialSupport');
 
   const orgUnits = getOrgUnitsFromRows(dataSelections.rows);
@@ -37,12 +38,16 @@ export const event = options => {
   const dataFilters = getFiltersFromColumns(dataSelections.columns);
 
   const formatTime = date => timeFormat('%Y-%m-%d')(new Date(date));
-
   let legend = {
-    period: period ? getPeriodNameFromId(period.id) : `${startDate} - ${endDate}`,
+    period: period
+      ? getPeriodNameFromId(period.dimensionItem)
+      : `${formatTime(startDate)} - ${formatTime(endDate)}`,
     filters: dataFilters && getFiltersAsText(dataFilters),
+    title: null,
+    type: 'event',
     items: null
   };
+
   const features = toGeoJson(geofeature);
   let geoJsonLayer = L.geoJSON(features);
 
@@ -54,10 +59,11 @@ export const event = options => {
     const { rows, headers, height, metaData, width } = analyticsData;
     headers.forEach(header => (names[header.name] = header.column));
     const data = rows
-      .map(row => createEventFeature(headers, names, row))
+      .map(row => createEventFeature(headers, names, row, metaData))
       .filter(feature => isValidCoordinate(feature.geometry.coordinates));
 
     if (Array.isArray(data) && data.length) {
+      const title = data[0].name;
       const items = [
         {
           name: 'Event',
@@ -67,6 +73,7 @@ export const event = options => {
       ];
       legend = {
         ...legend,
+        title,
         items
       };
       const clusterOptions = {
@@ -100,10 +107,19 @@ export const event = options => {
   }
 
   const bounds = geoJsonLayer.getBounds();
+
+  const legendSet = {
+    legend,
+    layer: id,
+    hidden: false,
+    opacity
+  };
+
   const optionsToReturn = {
     ...options,
     features,
-    geoJsonLayer
+    geoJsonLayer,
+    legendSet
   };
   if (bounds.isValid()) {
     return {
@@ -117,9 +133,15 @@ export const event = options => {
 const eventLayerEvents = () => {
   const onClick = evt => {
     const attr = evt.layer.feature.properties;
+    const name = evt.layer.feature.name;
     const content = `<table><tbody> <tr>
-                    <th>Organisation unit: </th><td>${attr.ouname}</td></tr>
-                    <tr><th>Event time: </th><td>${attr.eventdate}</td></tr>
+                      <th>Organisation unit: </th><td>${attr.ouname}</td></tr>
+                    <tr><th>Event time: </th>
+                      <td>${timeFormat('%Y-%m-%d')(new Date(attr.eventdate))}</td>
+                    </tr>
+                    <tr><th>Program Stage: </th>
+                      <td>${name}</td>
+                    </tr>
                     <tr>
                       <th>Event location: </th>
                       <td>${attr.latitude}, ${attr.longitude}</td>
