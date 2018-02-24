@@ -1,8 +1,10 @@
 [![Build Status](https://travis-ci.org/hisptz/idashboard.svg?branch=2.1)](https://travis-ci.org/hisptz/idashboard)
 
-# IdashboardUpgrade
+# Interactive dashboard 2.1
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
+Interactive dashboard App for DHIS2 with simple design and improved performance
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6
 
 ## Development server
 
