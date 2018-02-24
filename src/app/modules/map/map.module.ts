@@ -16,11 +16,22 @@ import { DragulaModule } from 'ng2-dragula';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 
+import { VirtualScrollModule } from 'angular2-virtual-scroll';
+
+// Filters Modules
+import { OrgUnitFilterModule } from '../org-unit-filter/org-unit-filter.module';
+import { PeriodFilterModule } from '../period-filter/period-filter.module';
+import { DataFilterModule } from '../data-filter/data-filter.module';
+
 @NgModule({
   imports: [
     CommonModule,
     DragulaModule,
     NgxPaginationModule,
+    OrgUnitFilterModule,
+    PeriodFilterModule,
+    DataFilterModule,
+    VirtualScrollModule,
     StoreModule.forFeature('map', reducers),
     EffectsModule.forFeature(effects)
   ],

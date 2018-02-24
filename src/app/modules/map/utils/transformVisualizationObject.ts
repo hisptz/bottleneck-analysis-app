@@ -7,6 +7,7 @@ export function transformVisualizationObject(visualizationObject) {
   let visObject = {};
   let geofeatures = {};
   let analytics = {};
+  let orgUnitGroupSet = {};
   const mapconfig = visualizationObject.details;
   const mapConfiguration: MapConfiguration = {
     id: mapconfig.id,
@@ -93,14 +94,17 @@ export function transformVisualizationObject(visualizationObject) {
 
     const geoFeature = { [settings.id]: settings.geoFeature };
     const analytic = { [settings.id]: mapview.analytics };
+    const orgGroupSet = { [settings.id]: settings.organisationUnitGroupSet };
     geofeatures = { ...geofeatures, ...geoFeature };
     analytics = { ...analytics, ...analytic };
+    orgUnitGroupSet = { ...orgUnitGroupSet, ...orgGroupSet };
     layers = [...layers, layerObj];
   });
 
   visObject = {
     ...visObject,
     mapConfiguration,
+    orgUnitGroupSet,
     layers,
     geofeatures,
     analytics

@@ -15,31 +15,31 @@ img[title] {
 .map-block__left {
   position: absolute;
   left: 5px;
-  top: 60px;
+  top: 45px;
   z-index: 800;
 }
 
 .map-controls__list {
   list-style-type: none;
+  display: flex;
   padding: 0;
-  margin: 0;
+  margin: 0 0 5px 0;
 }
 
 .map-controls__list > li {
   padding: 0;
   margin: 0;
   height: 30px;
-  border-bottom: solid thin #eee;
 }
 
 .map-layers__btn,
 .map-controls__btn {
   border-style: none;
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 0.5);
   height: 30px;
   width: 30px;
-  /*border-radius: 50%;*/
+  /* border-radius: 50%; */
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -68,7 +68,6 @@ img[title] {
 }
 
 .map-layers__block {
-  margin-top: 5px;
   position: relative;
 }
 
@@ -80,11 +79,19 @@ img[title] {
 }
 
 .warning-map {
+  position: absolute;
+  top: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  z-index: 650;
 }
 
+.warning-map h4 {
+  background-color: rgba(255, 255, 255, 0.3);
+}
 .map-title {
   background: transparent;
   top: 3%;
@@ -93,4 +100,16 @@ img[title] {
   align-items: center;
   width: 100%;
   font-weight: 500;
+}
+.map-title .title-span {
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.map-data-table {
+  position: absolute;
+  bottom: 0;
+  height: 50%;
+  background: #fff;
+  z-index: 701;
 }

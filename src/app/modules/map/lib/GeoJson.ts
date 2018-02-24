@@ -75,8 +75,8 @@ export const geoJsonOptions = (id, radiusLow, opacity, color?) => {
   const pointToLayer = (feature, latlng) => {
     const geojsonMarkerOptions = {
       radius: radiusLow ? radiusLow : 5,
-      opacity: opacity ? opacity : 0.8,
-      fillOpacity: opacity ? opacity : 0.8,
+      opacity: opacity ? opacity : 0,
+      fillOpacity: opacity ? opacity : 0,
       fillColor: color ? color : '#333'
     };
     return new L.CircleMarker(latlng, geojsonMarkerOptions);

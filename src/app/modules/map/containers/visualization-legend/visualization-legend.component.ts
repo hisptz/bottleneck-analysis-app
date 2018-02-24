@@ -29,6 +29,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   public showFilterContainer: boolean = false;
   public buttonTop: string;
   public buttonHeight: string;
+  public tileLayers: any;
   openTileLegend: boolean = false;
   isRemovable: boolean = false;
   toggleBoundary: boolean = true;
@@ -36,11 +37,18 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   showDownload: boolean = false;
   showUpload: boolean = false;
   layerSelectionForm: boolean = false;
-  showTransparent: boolean = false;
-  displayNone: boolean = false;
+  showTransparent: boolean;
+  displayNone: boolean;
   p: number = 1;
 
-  constructor(private store: Store<fromStore.MapState>) {}
+  constructor(private store: Store<fromStore.MapState>) {
+    this.displayNone = false;
+    this.showTransparent = false;
+    this.openTileLegend = false;
+    this.isRemovable = false;
+    this.toggleBoundary = false;
+    this.tileLayers = TILE_LAYERS;
+  }
 
   ngOnInit() {
     this.sticky$ = this.store.select(
@@ -85,16 +93,14 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       this.LegendsTileLayer = Object.keys(TILE_LAYERS).map(layerKey => TILE_LAYERS[layerKey]);
     }
 
+    if (this.showFilterContainer) {
+      this.closeFilters();
+    }
+
     this.buttonTop = e.currentTarget.offsetTop;
     this.buttonHeight = e.currentTarget.offsetHeight;
 
-    if (this.activeLayer === index) {
-      this.activeLayer = -2;
-      this.showFilterContainer = false;
-    } else {
-      this.activeLayer = index;
-      this.showFilterContainer = false;
-    }
+    this.activeLayer = this.activeLayer === index ? -2 : index;
   }
 
   stickLegendContainer(e) {
@@ -113,9 +119,17 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   openFilters(e) {
     e.stopPropagation();
+    this.stickLegendContainer(e);
     this.showFilterContainer = true;
     this.store.dispatch(
       new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId)
+    );
+  }
+
+  closeFilters() {
+    this.showFilterContainer = false;
+    this.store.dispatch(
+      new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId)
     );
   }
 
@@ -184,6 +198,16 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   handlePageChange(event) {
     this.p = event;
+  }
+
+  toggleDownload(event) {
+    event.stopPropagation();
+    this.showDownload = !this.showDownload;
+  }
+
+  toggleDataTableView(event) {
+    event.stopPropagation();
+    this.store.dispatch(new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId));
   }
 
   ngOnDestroy() {

@@ -12,19 +12,19 @@ export class AnalyticsService {
   getMapAnalytics(dimension: string[], filters: string[]): Observable<any> {
     const url = [].concat.apply([], [dimension, filters]).join('&');
     return this.httpClient
-      .get(`../../../api/analytics.json?${url}&displayProperty=NAME`)
+      .get(`../../../api/25/analytics.json?${url}&displayProperty=NAME`)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
   getAnalytics(dimensions: string): Observable<any> {
     return this.httpClient
-      .get(`../../../api/analytics.json?${dimensions}&displayProperty=NAME`)
+      .get(`../../../api/25/analytics.json?${dimensions}&displayProperty=NAME`)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
   getEventsAnalytics(dimensions: string): Observable<any> {
     return this.httpClient
-      .get(`../../../api/analytics${dimensions}&coordinatesOnly=true`)
+      .get(`../../../api/25/analytics${dimensions}&coordinatesOnly=true`)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 }
