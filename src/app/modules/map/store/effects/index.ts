@@ -15,7 +15,7 @@ export const effects: any[] = [
   SystemInfoEffects,
   LegendSetEffects,
   BaseLayerEffects,
-  DataSelectionEffects
+  DataSelectionEffects,
   BaseLayerEffects,
   FilesEffects
 ];

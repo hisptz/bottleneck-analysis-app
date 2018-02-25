@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
+import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class MapFilesService {
 
@@ -7,10 +8,48 @@ export class MapFilesService {
   }
 
   downloadMapVisualizationAsCSV(mapVisualization) {
-    console.log(mapVisualization);
+    const payload = mapVisualization.payload && mapVisualization.payload !== '' ? mapVisualization.payload : {};
+    const legends = payload.mapLegends;
+    const visualization = payload.visualization;
+
+    const layers = visualization.layers;
+    const analytics = visualization.analytics;
+    const geofeatures = visualization.geofeatures;
+
+    layers.forEach(layer => {
+      const legend = _.find(legends, ['layer', layer.id]).legend;
+      const data = this._prepareCSVDataForDownload(analytics[layer.id], layer, legend, geofeatures[layer.id]);
+
+      const hiddenElement = document.createElement('a');
+      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(data);
+      hiddenElement.target = '_blank';
+      hiddenElement.download = data.name + '.csv';
+      hiddenElement.click();
+    })
+
+
+    return null;
   }
 
-  private _prepareCSVDataForDownload(data, settings, geoFeatures) {
+  downloadMapVisualizationAsKML(mapVisualization) {
+    return null;
+  }
+
+  downloadMapVisualizationAsGML(mapVisualization) {
+    return null;
+  }
+
+  downloadMapVisualizationAsSHAPEFILE(mapVisualization) {
+    return null;
+  }
+
+
+  downloadMapVisualizationAsGeoJSON(mapVisualization) {
+    return null;
+  }
+
+
+  private _prepareCSVDataForDownload(data, settings, legend, geoFeatures) {
 
     if (data === null) {
       return null;
@@ -25,16 +64,16 @@ export class MapFilesService {
 
       columnDelimiter = ',';
       lineDelimiter = '\n';
-      keys = ['Organisation Unit'];
+      keys = ['CODE', 'ID', 'LEVEL', 'NAME', 'PARENT', 'PARENT ID'];
       data.metaData.dx.forEach((dataElement, dataElementIndex) => {
 
         keys.push(data.metaData.names[dataElement]);
         uids.push(dataElement);
         if (dataElementIndex === data.metaData.dx.length - 1) {
-          keys.push('Class Interval');
-          keys.push('Frequency');
-          keys.push('Color');
-          keys.push('Coordinate');
+          keys.push('RANGE');
+          keys.push('FREQUENCY');
+          keys.push('COLOR');
+          keys.push('COORDINATE');
         }
 
       });
@@ -43,24 +82,37 @@ export class MapFilesService {
       result += lineDelimiter;
 
       data.rows.forEach((item) => {
+        const orgUnitCoordinateObject = this._getOrgUnitCoordinateObject(data.headers, item, geoFeatures);
         ctr = 0;
+        result += orgUnitCoordinateObject.code;
+        result += columnDelimiter;
+
+        result += orgUnitCoordinateObject.id;
+        result += columnDelimiter;
+
+
+        result += orgUnitCoordinateObject.le;
+        result += columnDelimiter;
+
+        result += data.metaData.names[item[orgIndex]];
+        result += columnDelimiter;
+        result += orgUnitCoordinateObject.pn;
+        result += columnDelimiter;
+        result += orgUnitCoordinateObject.pi;
+        result += columnDelimiter;
         uids.forEach((key, keyIndex) => {
-          result += data.metaData.names[item[orgIndex]];
-          result += columnDelimiter;
           result += item[valueIndex];
           ctr++;
         });
-
-        const classBelonged: any = {};
-
         result += columnDelimiter;
-        result += classBelonged ? classBelonged.min + ' - ' + classBelonged.max : '';
+        const classBelonged: any = this._getClass(data.headers, item, legend);
+        result += classBelonged ? classBelonged.startValue + ' - ' + classBelonged.endValue : '';
         result += columnDelimiter;
         result += classBelonged ? classBelonged.count : '';
         result += columnDelimiter;
         result += classBelonged ? classBelonged.color : '';
         result += columnDelimiter;
-        result += 'Sample Coordinate';
+        result += this._refineCoordinate(orgUnitCoordinateObject.co);
         result += lineDelimiter;
       });
     } else {
@@ -71,4 +123,38 @@ export class MapFilesService {
     return result;
   }
 
+  private _refineCoordinate(coordinate) {
+    return '\"' + coordinate + '\"';
+  }
+
+  private _getClass(headers, item, legend) {
+    let indexOfValue = 0;
+    headers.forEach((header, headerIndex) => {
+      if (header.name === 'value') {
+        indexOfValue = headerIndex;
+      }
+
+    });
+
+    const data = item[indexOfValue];
+    let classInterval = {};
+    legend.items.forEach((legendItem, itemIndex) => {
+      if (legendItem.startValue <= data && legendItem.endValue >= data) {
+        classInterval = legendItem;
+      }
+    })
+    return classInterval;
+  }
+
+  private _getOrgUnitCoordinateObject(headers, item, geoFeatures) {
+    let indexOfOu = 0;
+    headers.forEach((header, headerIndex) => {
+      if (header.name === 'ou') {
+        indexOfOu = headerIndex;
+      }
+    });
+
+    const OrgUnit = item[indexOfOu];
+    return _.find(geoFeatures, ['id', OrgUnit]);
+  }
 }
