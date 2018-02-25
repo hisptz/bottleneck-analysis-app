@@ -120,16 +120,16 @@
       </div>
       <div class="map-legend-right-footer">
         <a *ngIf="showDownload">
-          <img src="assets/icons/csv.png" alt="download" title="Download file kml">
+          <img src="assets/icons/csv.png"  (click)="mapDownload($event, 'csv', visualizationLegends)" alt="download" title="Download layers into csv">
         </a>
         <a *ngIf="showDownload">
-          <img src="assets/icons/kml.png" alt="download" title="Download file kml">
+          <img src="assets/icons/kml.png"  (click)="mapDownload($event, 'kml', visualizationLegends)" alt="download" title="Download map to kml">
         </a>
         <a *ngIf="showDownload">
-          <img src="assets/icons/csv.png" alt="download" title="placeholder for file Shapefile">
+          <img src="assets/icons/csv.png"  (click)="mapDownload($event, 'shapefile', visualizationLegends)" alt="download" title="Download map as shapefile">
         </a>
         <a *ngIf="showDownload">
-          <img src="assets/icons/csv.png" alt="download" title="placeholder for geojson file">
+          <img src="assets/icons/csv.png"  (click)="mapDownload($event, 'geojson', visualizationLegends)" alt="download" title="Download map as geojson">
         </a>
         <a>
           <img *ngIf="!showDownload" src="assets/icons/download.png" alt="download" title="Download file" (click)="toggleDownload($event)">
