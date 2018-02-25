@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
-import {saveAs} from 'file-saver';
-import {Observable} from 'rxjs/Observable';
+import { saveAs } from 'file-saver';
+import { Observable } from 'rxjs/Observable';
+
 @Injectable()
 export class MapFilesService {
 
@@ -33,7 +34,7 @@ export class MapFilesService {
 
       }
 
-    })
+    });
 
 
     return null;
@@ -250,9 +251,11 @@ export class MapFilesService {
 
         if (legend) {
 
-          const featureLegendClass: any = this._getClass(analyticObject.headers, sampleGeometry.properties['dataElement.value'], legend);
+          const featureLegendClass: any = this._getClass(analyticObject.headers,
+            sampleGeometry.properties['dataElement.value'], legend);
           sampleGeometry.properties['fill'] = featureLegendClass.color;
-          sampleGeometry.properties['classInterval'] = featureLegendClass.startValue + ' - ' + featureLegendClass.endValue + ' (' + featureLegendClass.count + ')';
+          sampleGeometry.properties['classInterval'] =
+            featureLegendClass.startValue + ' - ' + featureLegendClass.endValue + ' (' + featureLegendClass.count + ')';
           sampleGeometry.properties['frequency'] = featureLegendClass.count;
 
         }
@@ -329,7 +332,7 @@ export class MapFilesService {
       if (legendItem.startValue <= data && legendItem.endValue >= data) {
         classInterval = legendItem;
       }
-    })
+    });
     return classInterval;
   }
 
@@ -348,13 +351,13 @@ export class MapFilesService {
 
   private dataObjectToKML(fileDataObject: Object, options?: Object) {
     options = options || {
-        documentName: undefined,
-        documentDescription: undefined,
-        name: 'name',
-        description: 'description',
-        simplestyle: true,
-        timestamp: 'timestamp'
-      };
+      documentName: undefined,
+      documentDescription: undefined,
+      name: 'name',
+      description: 'description',
+      simplestyle: true,
+      timestamp: 'timestamp'
+    };
 
     return '<?xml version=\'1.0\' encoding=\'utf-8\' ?>' +
       this._tag('kml',
@@ -370,14 +373,14 @@ export class MapFilesService {
   private _root(_, options) {
 
     if (!_.type) {
-      return ''
+      return '';
     }
     const styleHashesArray = [];
 
     switch (_.type) {
       case 'FeatureCollection':
         if (!_.features) {
-          return ''
+          return '';
         }
         ;
         return _.features.map(this._feature(options, styleHashesArray)).join('');
@@ -395,9 +398,13 @@ export class MapFilesService {
 
   private _feature(options, styleHashesArray) {
     return (_) => {
-      if (!_.properties || !this.geometry.valid(_.geometry)) return '';
+      if (!_.properties || !this.geometry.valid(_.geometry)) {
+        return '';
+      }
       const geometryString = this.geometry.any(_.geometry);
-      if (!geometryString) return '';
+      if (!geometryString) {
+        return '';
+      }
 
       let styleDefinition = '',
         styleReference = '';
@@ -422,12 +429,12 @@ export class MapFilesService {
         }
       }
       return styleDefinition + this._tag('Placemark',
-          this._name(_.properties, options) +
-          this._description(_.properties, options) +
-          // this._extendeddata(_.properties) +
-          this._timestamp(_.properties, options) +
-          geometryString +
-          styleReference);
+        this._name(_.properties, options) +
+        this._description(_.properties, options) +
+        // this._extendeddata(_.properties) +
+        this._timestamp(_.properties, options) +
+        geometryString +
+        styleReference);
     };
   }
 
@@ -464,7 +471,7 @@ export class MapFilesService {
       },
       Polygon: (_) => {
         if (!_.coordinates.length) {
-          return ''
+          return '';
         }
         ;
         const outer = _.coordinates[0],
@@ -479,7 +486,7 @@ export class MapFilesService {
       },
       MultiPoint: (_) => {
         if (!_.coordinates.length) {
-          return ''
+          return '';
         }
         ;
         return this._tag('MultiGeometry', _.coordinates.map((c) => {
@@ -488,7 +495,7 @@ export class MapFilesService {
       },
       MultiPolygon: (_) => {
         if (!_.coordinates.length) {
-          return ''
+          return '';
         }
         ;
         return this._tag('MultiGeometry', _.coordinates.map((c) => {
@@ -497,7 +504,7 @@ export class MapFilesService {
       },
       MultiLineString: (_) => {
         if (!_.coordinates.length) {
-          return ''
+          return '';
         }
         ;
         return this._tag('MultiGeometry', _.coordinates.map((c) => {
@@ -599,7 +606,7 @@ export class MapFilesService {
           'fill': true,
           'fill-opacity': true
         }[key]) {
-        return true
+        return true;
       }
       ;
     }
@@ -624,7 +631,9 @@ export class MapFilesService {
 
 
   private _hexToKmlColor(hexColor, opacity) {
-    if (typeof hexColor !== 'string') return '';
+    if (typeof hexColor !== 'string') {
+      return '';
+    }
 
     hexColor = hexColor.replace('#', '').toLowerCase();
 
@@ -643,8 +652,12 @@ export class MapFilesService {
     let o = 'ff';
     if (typeof opacity === 'number' && opacity >= 0.0 && opacity <= 1.0) {
       o = (opacity * 255).toString(16);
-      if (o.indexOf('.') > -1) o = o.substr(0, o.indexOf('.'));
-      if (o.length < 2) o = '0' + o;
+      if (o.indexOf('.') > -1) {
+        o = o.substr(0, o.indexOf('.'));
+      }
+      if (o.length < 2) {
+        o = '0' + o;
+      }
     }
 
     return o + b + g + r;
@@ -656,35 +669,35 @@ export class MapFilesService {
     let hash = '';
 
     if (_['marker-symbol']) {
-      hash = hash + 'ms' + _['marker-symbol']
+      hash = hash + 'ms' + _['marker-symbol'];
     }
     ;
     if (_['marker-color']) {
-      hash = hash + 'mc' + _['marker-color'].replace('#', '')
+      hash = hash + 'mc' + _['marker-color'].replace('#', '');
     }
     ;
     if (_['marker-size']) {
-      hash = hash + 'ms' + _['marker-size']
+      hash = hash + 'ms' + _['marker-size'];
     }
     ;
     if (_['stroke']) {
-      hash = hash + 's' + _['stroke'].replace('#', '')
+      hash = hash + 's' + _['stroke'].replace('#', '');
     }
     ;
     if (_['stroke-width']) {
-      hash = hash + 'sw' + _['stroke-width'].toString().replace('.', '')
+      hash = hash + 'sw' + _['stroke-width'].toString().replace('.', '');
     }
     ;
     if (_['stroke-opacity']) {
-      hash = hash + 'mo' + _['stroke-opacity'].toString().replace('.', '')
+      hash = hash + 'mo' + _['stroke-opacity'].toString().replace('.', '');
     }
     ;
     if (_['fill']) {
-      hash = hash + '#' + _['fill'].replace('#', '')
+      hash = hash + '#' + _['fill'].replace('#', '');
     }
     ;
     if (_['fill-opacity']) {
-      hash = hash + 'fo' + _['fill-opacity'].toString().replace('.', '')
+      hash = hash + 'fo' + _['fill-opacity'].toString().replace('.', '');
     }
     ;
 
@@ -698,11 +711,7 @@ export class MapFilesService {
    * @returns {string}
    */
   private _attr(_) {
-    return (_ && _.length) ? (' ' + _.map(function (a) {
-      return a[0] + '='
-      ' + a[1] + '
-      '';
-    }).join(' ')) : '';
+    return (_ && _.length) ? (' ' + _.map((a) => a[0] + '=' + a[1] + '').join(' ')) : '';
   }
 
   /**
@@ -730,10 +739,8 @@ export class MapFilesService {
    * @returns {string}
    */
   private _encode(_) {
-    return (_ === null ? '' : _.toString()).replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/'/g, '&quot;');
+    return (_ === null ? '' : _.toString()).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').
+      replace(/'/g, '&quot;');
   }
 
 
