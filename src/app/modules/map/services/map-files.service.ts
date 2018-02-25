@@ -48,13 +48,12 @@ export class MapFilesService {
     const analytics = visualization.analytics;
     const geofeatures = visualization.geofeatures;
 
-    const fileName: any = 'test.kml';
     layers.forEach((layer, layerIndex) => {
       const legend = _.find(legends, ['layer', layer.id]).legend;
       const geoJsonObject = this._prepareGeoJsonDataForDownload(geofeatures[layer.id], analytics[layer.id], legend);
       const kml: any = this._prepareKMLDataForDownload(geoJsonObject, layer);
       const modifiedMapData = this._convertToBinaryData(kml, 'kml');
-      if (modifiedMapData && fileName) {
+      if (modifiedMapData) {
         setTimeout(() => {
           saveAs(modifiedMapData, layer.name + '.kml');
         }, 10);
@@ -63,20 +62,6 @@ export class MapFilesService {
       }
 
     });
-
-
-    //
-    // layers.forEach(layer => {
-    //   const legend = _.find(legends, ['layer', layer.id]).legend;
-    //   const data = this._prepareCSVDataForDownload(analytics[layer.id], layer, legend, geofeatures[layer.id]);
-    //
-    //   const hiddenElement = document.createElement('a');
-    //   hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(data);
-    //   hiddenElement.target = '_blank';
-    //   hiddenElement.download = data.name + '.kml';
-    //   hiddenElement.click();
-    // })
-
 
     return null;
   }
@@ -91,6 +76,28 @@ export class MapFilesService {
 
 
   downloadMapVisualizationAsGeoJSON(mapVisualization) {
+    const payload = mapVisualization.payload && mapVisualization.payload !== '' ? mapVisualization.payload : {};
+    const legends = payload.mapLegends;
+    const visualization = payload.visualization;
+
+    const layers = visualization.layers;
+
+    layers.forEach((layer, layerIndex) => {
+      const legend = _.find(legends, ['layer', layer.id]).legend;
+      const geofeatures = visualization.geofeatures[layer.id];
+      const analytics = visualization.analytics[layer.id];
+      const geoJsonObject = this._prepareGeoJsonDataForDownload(geofeatures, analytics, legend);
+      const modifiedMapData = this._convertToBinaryData(JSON.stringify(geoJsonObject), 'json');
+      if (modifiedMapData) {
+        setTimeout(() => {
+          saveAs(modifiedMapData, layer.name + '.json');
+        }, 10);
+      } else {
+
+      }
+
+    });
+
     return null;
   }
 
