@@ -30,9 +30,22 @@ install:
 
 script:
   - npm run build
-  
+
+after_success:
+  # Here is where all things you want to do after build success is done
+
+cache:
+  # improve build time cache stuffs that do not change occasionally eg. node_modules
+  directories:
+    - node_modules/
 
 notifications:
   email:
-    on_failure: rajeyw@gmail.com
-    on_success: rajeyw@gmail.com
+    recipients:
+    - rajeyw@gmail.com
+    on_failure: always
+    on_success: always
+    
+  slack:
+    on_failure: always
+    on_success: always
