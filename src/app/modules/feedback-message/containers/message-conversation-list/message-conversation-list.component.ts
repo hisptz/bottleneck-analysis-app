@@ -15,10 +15,10 @@ export class MessageConversationListComponent implements OnInit {
   messageConversations$: Observable<MessageConversation[]>;
   constructor(private store: Store<fromStore.State>) {
     store.dispatch(new fromStore.InitializeMessageConversationAction());
-    this.messageConversations$ = store.select(fromStore.getMessageConversations(this.readStatus));
   }
 
   ngOnInit() {
+    this.messageConversations$ = this.store.select(fromStore.getMessageConversations(this.readStatus));
   }
 
 }

@@ -19,17 +19,17 @@ export const getMessageConversations = readStatus => createSelector(fromRoot.get
         messages: [...sortedMessages]
       };
     });
-
     if (!readStatus) {
-      return messageConversations;
+      return _.sortBy(messageConversations, 'read');
     }
     const readStatusDictionary = {
       read: true,
       unread: false
     };
     const readStatusResult = readStatusDictionary[readStatus];
-    return _.isBoolean(readStatusResult) ?
-           _.filter(messageConversations,
-             (messageConversation: MessageConversation) => messageConversation.read === readStatusResult) :
-           messageConversations;
+
+    return _.sortBy(_.isBoolean(readStatusResult) ?
+                    _.filter(messageConversations,
+                      (messageConversation: MessageConversation) => messageConversation.read === readStatusResult) :
+                    messageConversations, 'read');
   });
