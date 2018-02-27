@@ -1,7 +1,8 @@
-<div class="dashboard-notification">
+<div class="dashboard-notification" appClickOutside (clickOutside)="showNotificationDetails = false">
   <button
     *ngIf="(dashboardNotification$ | async).unreadInterpretations > 0"
     class="dashboard-btn notification-btn"
+    (click)="toggleNotificationDetails($event, 'INTERPRETATION')"
     title="You have {{ (dashboardNotification$ | async).unreadInterpretations }} unread interpretations"
   >
     <img src="assets/icons/chat.png" alt="">
@@ -11,12 +12,16 @@
   </button>
   <button
     class="dashboard-btn notification-btn"
+    (click)="toggleNotificationDetails($event, 'MESSAGE')"
     *ngIf="(dashboardNotification$ | async).unreadMessageConversations > 0"
     title="You have {{ (dashboardNotification$ | async).unreadMessageConversations }} unread message conversations"
   >
-  <img src="assets/icons/envelope.png" alt="">
+    <img src="assets/icons/envelope.png" alt="">
     <span class="notification-count">
       {{(dashboardNotification$ | async).unreadMessageConversations}}
     </span>
-</button>
+  </button>
+  <div [@open] class="dashboard-border dashboard-notification-details-block" *ngIf="showNotificationDetails">
+    <app-message-conversation-list *ngIf="currentNotification === 'MESSAGE'"></app-message-conversation-list>
+  </div>
 </div>
