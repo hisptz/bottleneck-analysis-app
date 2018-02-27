@@ -22,6 +22,6 @@
     </span>
   </button>
   <div [@open] appClickOutside (clickOutside)="showNotificationDetails = false" class="dashboard-border dashboard-notification-details-block" *ngIf="showNotificationDetails">
-    <app-message-conversation-list *ngIf="currentNotification === 'MESSAGE'"></app-message-conversation-list>
+    <app-message-conversation-list *ngIf="currentNotification === 'MESSAGE'" [readStatus]="'unread'"></app-message-conversation-list>
   </div>
 </div>
