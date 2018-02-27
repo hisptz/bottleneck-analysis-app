@@ -199,13 +199,14 @@ export function mergeRelatedItems(dashboardItems) {
               newItem.id = itemObject.id;
             }
 
-            newItem[_.camelCase(newItem.type)] = _.assign(
-              [],
-              mergeTypeItems(
-                itemObject[_.camelCase(itemObject.type)],
+            const currentItemObject =  itemObject[_.camelCase(itemObject.type)];
+
+            if (currentItemObject) {
+              newItem[_.camelCase(newItem.type)] = mergeTypeItems(
+                currentItemObject,
                 newItem[_.camelCase(newItem.type)]
-              )
-            );
+              );
+            }
           }
         });
 
@@ -222,6 +223,7 @@ export function mergeRelatedItems(dashboardItems) {
 }
 
 function mergeTypeItems(currentItemArray, newItemArray) {
+  console.log(currentItemArray)
   const mergedTypeItems: any[] = [];
 
   /**
