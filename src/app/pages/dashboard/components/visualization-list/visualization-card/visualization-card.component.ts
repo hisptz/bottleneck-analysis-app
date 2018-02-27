@@ -1,11 +1,11 @@
-import {Component, Input, OnInit, Output, EventEmitter, ViewChild} from '@angular/core';
-import {Visualization} from '../../../../../store/visualization/visualization.state';
-import {Store} from '@ngrx/store';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Visualization } from '../../../../../store/visualization/visualization.state';
+import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import {AppState} from '../../../../../store/app.reducers';
+import { AppState } from '../../../../../store/app.reducers';
 import * as visualization from '../../../../../store/visualization/visualization.actions';
-import {CurrentUserState} from '../../../../../store/current-user/current-user.state';
-import {ChartListComponent} from '../../../../../modules/chart/components/chart-list/chart-list.component';
+import { CurrentUserState } from '../../../../../store/current-user/current-user.state';
+import { ChartListComponent } from '../../../../../modules/chart/components/chart-list/chart-list.component';
 
 @Component({
   selector: 'app-visualization-card',
@@ -22,8 +22,7 @@ export class VisualizationCardComponent implements OnInit {
   loaded: boolean;
   showDeleteDialog: boolean;
 
-  @ViewChild(ChartListComponent)
-  chartList: ChartListComponent;
+  @ViewChild(ChartListComponent) chartList: ChartListComponent;
 
   constructor(private store: Store<AppState>) {
     this.showDeleteDialog = false;
@@ -31,6 +30,8 @@ export class VisualizationCardComponent implements OnInit {
 
   ngOnInit() {
     this.selectedDimensions = this.getSelectedDimensions();
+
+    console.log(this.selectedDimensions);
 
     this.currentVisualization = this.visualizationObject.details.currentVisualization;
 
@@ -68,9 +69,7 @@ export class VisualizationCardComponent implements OnInit {
     const selectedOrgUnitLevels = orgUnitArray.filter(
       orgunit => orgunit.id.indexOf('LEVEL') !== -1
     );
-    const selectedUserOrgUnits = orgUnitArray.filter(
-      orgunit => orgunit.id.indexOf('USER') !== -1
-    );
+    const selectedUserOrgUnits = orgUnitArray.filter(orgunit => orgunit.id.indexOf('USER') !== -1);
     const selectedOrgUnitGroups = orgUnitArray.filter(
       orgunit => orgunit.id.indexOf('OU_GROUP') !== -1
     );
@@ -89,9 +88,7 @@ export class VisualizationCardComponent implements OnInit {
       selectedGroups: selectedOrgUnitGroups,
       orgUnitLevels: [],
       orgUnitGroups: [],
-      selectedOrgUnits: orgUnitArray.filter(
-        (orgUnit: any) => orgUnit.type === 'ORGANISATION_UNIT'
-      ),
+      selectedOrgUnits: orgUnitArray.filter((orgUnit: any) => orgUnit.type === 'ORGANISATION_UNIT'),
       userOrgUnits: [],
       type: 'report',
       selectedUserOrgUnits: selectedUserOrgUnits.map(userorgunit => {
@@ -129,15 +126,12 @@ export class VisualizationCardComponent implements OnInit {
       }
     );
 
-    const visualizationLayers = _.map(
-      this.visualizationObject.layers,
-      (layer: any) => {
-        return {
-          ...layer,
-          layout: layoutOptions
-        };
-      }
-    );
+    const visualizationLayers = _.map(this.visualizationObject.layers, (layer: any) => {
+      return {
+        ...layer,
+        layout: layoutOptions
+      };
+    });
 
     this.store.dispatch(
       new visualization.AddOrUpdateAction({
@@ -170,25 +164,16 @@ export class VisualizationCardComponent implements OnInit {
 
   getSelectedDimensions() {
     return this.visualizationObject.details &&
-    this.visualizationObject.details.filters.length > 0 &&
-    this.visualizationObject.details.layouts.length > 0
+      this.visualizationObject.details.filters.length > 0 &&
+      this.visualizationObject.details.layouts.length > 0
       ? {
-        selectedDataItems: this.getSelectedItems(
-          this.visualizationObject.details.filters,
-          'dx'
-        ),
-        selectedPeriods: this.getSelectedItems(
-          this.visualizationObject.details.filters,
-          'pe'
-        ),
-        orgUnitModel: this._getSelectedOrgUnitModel(
-          this.getSelectedItems(
-            this.visualizationObject.details.filters,
-            'ou'
-          )
-        ),
-        layoutModel: this.visualizationObject.details.layouts[0].layout
-      }
+          selectedDataItems: this.getSelectedItems(this.visualizationObject.details.filters, 'dx'),
+          selectedPeriods: this.getSelectedItems(this.visualizationObject.details.filters, 'pe'),
+          orgUnitModel: this._getSelectedOrgUnitModel(
+            this.getSelectedItems(this.visualizationObject.details.filters, 'ou')
+          ),
+          layoutModel: this.visualizationObject.details.layouts[0].layout
+        }
       : null;
   }
 
@@ -198,9 +183,11 @@ export class VisualizationCardComponent implements OnInit {
   }
 
   onDelete() {
-    this.store.dispatch(new visualization.DeleteAction({
-      dashboardId: this.visualizationObject.dashboardId,
-      visualizationId: this.visualizationObject.id
-    }));
+    this.store.dispatch(
+      new visualization.DeleteAction({
+        dashboardId: this.visualizationObject.dashboardId,
+        visualizationId: this.visualizationObject.id
+      })
+    );
   }
 }

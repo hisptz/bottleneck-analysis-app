@@ -2,6 +2,7 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import * as _ from 'lodash';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
+import { eventIconCreateFunction } from './cluster/clientCluster';
 import { GeoJson } from 'leaflet';
 import { Feature, GeometryObject } from 'geojson';
 import { EVENT_COLOR, EVENT_RADIUS } from '../constants/layer.constant';
@@ -80,7 +81,7 @@ export const event = options => {
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
         iconCreateFunction: cluster => {
-          return _iconCreateFunction(
+          return eventIconCreateFunction(
             cluster,
             eventPointColor,
             opacity,
@@ -177,84 +178,3 @@ const eventLayerEvents = () => {
     mouseout
   };
 };
-
-const _iconCreateFunction = (cluster, eventPointColor, opacity, labelFontStyle, labelFontSize) => {
-  const count = cluster.getChildCount();
-  const iconSize = _calculateClusterSize(count);
-  const htmlContent = _createClusterIcon(
-    iconSize,
-    cluster,
-    eventPointColor,
-    opacity,
-    labelFontStyle,
-    labelFontSize
-  );
-  return L.divIcon({
-    html: htmlContent,
-    className: 'leaflet-cluster-icon',
-    iconSize: new L.Point(iconSize[0], iconSize[1])
-  });
-};
-
-const _calculateClusterSize = count => {
-  return count < 10
-    ? [16, 16]
-    : count >= 10 && count <= 40 ? [20, 20] : count > 40 && count < 100 ? [30, 30] : [40, 40];
-};
-
-function _calculateMarginTop(iconSize: any) {
-  const size = iconSize[0];
-  return size === 30 ? 5 : size === 20 ? 2 : 10;
-}
-
-function _writeInKNumberSystem(childCount: any): any {
-  return childCount >= 1000 ? (childCount = (childCount / 1000).toFixed(1) + 'k') : childCount;
-}
-
-function _createClusterIcon(
-  iconSize,
-  cluster,
-  eventPointColor,
-  opacity,
-  labelFontStyle,
-  labelFontSize
-) {
-  const marginTop = _calculateMarginTop(iconSize);
-  const height = iconSize[0];
-  const width = iconSize[1];
-  const htmlContent =
-    '<div style="' +
-    'color:#ffffff;text-align:center;' +
-    'box-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);' +
-    'opacity:' +
-    opacity +
-    ';' +
-    'background-color:' +
-    _eventColor(eventPointColor) +
-    ';' +
-    'height:' +
-    height +
-    'px;width:' +
-    width +
-    'px;' +
-    'font-style:' +
-    labelFontStyle +
-    ';' +
-    'font-size:' +
-    labelFontSize +
-    ';' +
-    'border-radius:' +
-    iconSize[0] +
-    'px;">' +
-    '<span style="line-height:' +
-    width +
-    'px;">' +
-    _writeInKNumberSystem(parseInt(cluster.getChildCount(), 10)) +
-    '</span>' +
-    '</div>';
-  return htmlContent;
-}
-
-function _eventColor(color) {
-  return '#' + color;
-}

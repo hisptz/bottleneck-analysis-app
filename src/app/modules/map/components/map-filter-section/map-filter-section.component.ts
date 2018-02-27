@@ -3,6 +3,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { getDimensionItems } from '../../utils/analytics';
 import * as fromStore from '../../store';
 
 @Component({
@@ -65,7 +66,10 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.showFilters = true;
-    // console.log(this.mapVisualizationObject);
+    const { layers } = this.mapVisualizationObject;
+    const layer = layers[this.activeLayer];
+    const { dataSelections } = layer;
+    this.getSelectedFilters(dataSelections);
   }
 
   toggleFilters(e) {
@@ -153,6 +157,74 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId)
     );
+  }
+
+  getSelectedFilters(dataSelections) {
+    const { columns, rows, filters } = dataSelections;
+    const data = [...columns, ...filters, ...rows];
+    const selectedPeriods = getDimensionItems('pe', data);
+    const selectedDataItems = getDimensionItems('dx', data);
+    this.selectedDataItems = selectedDataItems.map(dataItem => ({
+      id: dataItem.dimensionItem,
+      name: dataItem.displayName,
+      type: dataItem.dimensionItemType
+    }));
+
+    this.selectedPeriods = selectedPeriods.map(periodItem => ({
+      id: periodItem.dimensionItem,
+      name: periodItem.displayName,
+      type: periodItem.dimensionItemType
+    }));
+    const orgUnitArray = getDimensionItems('ou', data);
+
+    let selectedOrgUnits = [];
+    let selectedLevels = [];
+    let selectedGroups = [];
+    let selectedUserOrgUnits = [];
+    orgUnitArray.map(orgunit => {
+      if (orgunit.dimensionItemType && orgunit.dimensionItemType === 'ORGANISATION_UNIT') {
+        const orgUnit = {
+          id: orgunit.dimensionItem,
+          name: orgunit.displayName,
+          type: orgunit.dimensionItemType
+        };
+        selectedOrgUnits = [...selectedOrgUnits, orgUnit];
+      }
+      if (orgunit.dimensionItem.indexOf('LEVEL') !== -1) {
+        const level = {
+          level: orgunit.dimensionItem.split('-')[1]
+        };
+        selectedLevels = [...selectedLevels, level];
+      }
+
+      if (orgunit.dimensionItem.indexOf('OU_GROUP') !== -1) {
+        selectedGroups = [
+          ...selectedGroups,
+          {
+            id: orgunit.dimesionItem,
+            name: orgunit.displayName
+          }
+        ];
+      }
+      if (orgunit.dimensionItem.indexOf('USER') !== -1) {
+        selectedUserOrgUnits = [
+          ...selectedUserOrgUnits,
+          {
+            id: orgunit.dimensionItem,
+            name: orgunit.displayName
+          }
+        ];
+      }
+    });
+
+    this.orgUnitModel = {
+      ...this.orgUnitModel,
+      selectedLevels: selectedLevels || [],
+      selectedOrgUnits: selectedOrgUnits || [],
+      selectedUserOrgUnits: selectedUserOrgUnits || [],
+      selectedGroups: selectedGroups || []
+    };
+    console.log(this.orgUnitModel);
   }
 
   ngOnDestroy() {
