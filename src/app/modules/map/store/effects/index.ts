@@ -7,6 +7,7 @@ import { LegendSetEffects } from './legendSet.effect';
 import { BaseLayerEffects } from './baseLayer.effect';
 import { FilesEffects } from './files.effects';
 import { DataSelectionEffects } from './dataSelection.effect';
+import { EventAnalyticsEffects } from './eventAnalytics.effect';
 
 export const effects: any[] = [
   VisualizationObjectEffects,
@@ -17,7 +18,8 @@ export const effects: any[] = [
   BaseLayerEffects,
   DataSelectionEffects,
   BaseLayerEffects,
-  FilesEffects
+  FilesEffects,
+  EventAnalyticsEffects
 ];
 
 export * from './layers.effect';
@@ -29,3 +31,4 @@ export * from './legendSet.effect';
 export * from './baseLayer.effect';
 export * from './files.effects';
 export * from './dataSelection.effect';
+export * from './eventAnalytics.effect';

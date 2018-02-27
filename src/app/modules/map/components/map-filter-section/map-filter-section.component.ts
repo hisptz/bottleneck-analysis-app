@@ -224,7 +224,6 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
       selectedUserOrgUnits: selectedUserOrgUnits || [],
       selectedGroups: selectedGroups || []
     };
-    console.log(this.orgUnitModel);
   }
 
   ngOnDestroy() {

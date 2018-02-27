@@ -10,6 +10,7 @@ export const CREATE_VISUALIZATION_OBJECT = '[Map] Create visualization object';
 export const LOAD_ANALYTICS = '[Map] Load analytics object';
 export const ADD_LEGEND_SET_VIZ = '[Map] Add Legend to Visualization object';
 export const ADD_ANALYTICS_VIZ = '[Map] Add Analytics to Visualization object';
+export const CHECK_EVENT_COUNTS = '[Map] Check event counts in Visualization object';
 export const UPDATE_FILTER_ANALYTICS = '[Map] Update Analytics to Visualization Object';
 export const ADD_ORGANIZATIONUNITGROUPSET = '[Map] Add Organization Group set object';
 export const CREATE_VISUALIZATION_OBJECT_FAIL = '[Map] Create visualization object Fail';
@@ -167,6 +168,11 @@ export class ToggleLayerVisibility implements Action {
 
 export class TransformVisualizationObject implements Action {
   readonly type = TRANSFORM_VISUALIZATION_OBJECT;
+  constructor(public payload: any) {}
+}
+
+export class CheckEventCounts implements Action {
+  readonly type = CHECK_EVENT_COUNTS;
   constructor(public payload: any) {}
 }
 

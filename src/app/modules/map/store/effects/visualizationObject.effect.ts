@@ -95,6 +95,24 @@ export class VisualizationObjectEffects {
       })
     );
 
+  @Effect({ dispatch: false })
+  dispatchServerSideClustering$ = this.actions$
+    .ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE)
+    .pipe(
+      tap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
+        const { layers, componentId } = action.payload;
+        const eventLayers = layers.filter(layer => layer.type === 'event');
+        const nonEventLayers = layers.filter(layer => layer.type !== 'event');
+        if (eventLayers.length) {
+          this.store.dispatch(
+            new visualizationObjectActions.CheckEventCounts({ componentId, layers: eventLayers })
+          );
+        }
+        if (nonEventLayers.length) {
+        }
+      })
+    );
+
   @Effect()
   dispatchAddGeoFeatures$ = this.actions$
     .ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT)
@@ -180,7 +198,7 @@ export class VisualizationObjectEffects {
     layers.reduce((entities = {}, layer, index) => {
       const { rows, columns, filters } = layer.dataSelections;
       const isFacility = layer.type === 'facility';
-      if (layer.type === 'external' || layer.type == 'earthEngine') {
+      if (layer.type === 'external' || layer.type === 'earthEngine') {
         return;
       }
       const requestParams = [...rows, ...columns, ...filters];
