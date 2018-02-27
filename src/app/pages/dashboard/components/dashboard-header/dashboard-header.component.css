@@ -8,6 +8,9 @@
   display: flex;
 }
 
+.dashboard-notification {
+  flex: 1;
+}
 .dashboard-search-block {
   flex: 2;
 }

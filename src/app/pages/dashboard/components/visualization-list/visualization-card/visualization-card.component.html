@@ -60,6 +60,12 @@
       </div>
       <!-- end of resources block -->
 
+      <!--message container-->
+      <div class="message-container-block" *ngIf="currentVisualization === 'MESSAGES'">
+        <app-message-conversation-list></app-message-conversation-list>
+      </div>
+      <!--end of message container-->
+
       <!-- app block -->
       <div class="app-container-block" *ngIf="currentVisualization === 'APP'">
         <app-app-container [height]="visualizationObject.details.itemHeight" [appUrl]="'../../../api/apps/' + visualizationObject.details.appKey + '/index.html?dashboardItemId=' + visualizationObject.id"></app-app-container>

@@ -1,6 +1,6 @@
-import {AppState} from '../app.reducers';
-import {createSelector} from '@ngrx/store';
-import {Dashboard, DashboardMenuItem, DashboardState} from './dashboard.state';
+import { AppState } from '../app.reducers';
+import { createSelector } from '@ngrx/store';
+import { Dashboard, DashboardMenuItem, DashboardState } from './dashboard.state';
 import * as _ from 'lodash';
 
 const dashboardState = (state: AppState) => state.dashboard;
@@ -24,15 +24,23 @@ export const getCurrentDashboardSharing = createSelector(dashboardState,
   (dashboardObject: DashboardState) => dashboardObject.dashboardSharing[dashboardObject.currentDashboard]);
 
 export const getDashboardMenuItems = createSelector(dashboardState,
-  (dashboardObject: DashboardState) => dashboardObject.activeDashboards.length > 0 ? dashboardObject.activeDashboards.slice(
-    getStartItemIndex(dashboardObject.currentDashboardPage, dashboardObject.dashboardPerPage),
-    getEndItemIndex(dashboardObject.currentDashboardPage, dashboardObject.dashboardPerPage) + 1)
-    .map((dashboard: Dashboard) => mapStateToDashboardMenu(dashboard)) : []);
+  (dashboardObject: DashboardState) => dashboardObject.activeDashboards.length > 0 ?
+                                       dashboardObject.activeDashboards.slice(
+                                         getStartItemIndex(dashboardObject.currentDashboardPage,
+                                           dashboardObject.dashboardPerPage),
+                                         getEndItemIndex(dashboardObject.currentDashboardPage,
+                                           dashboardObject.dashboardPerPage) + 1).
+                                         map((dashboard: Dashboard) => mapStateToDashboardMenu(dashboard)) :
+    []);
 
-export const getAllDashboardMenuItems = createSelector(dashboardState, (state: DashboardState) => state.activeDashboards);
+export const getAllDashboardMenuItems = createSelector(dashboardState,
+  (state: DashboardState) => state.activeDashboards);
 
 export const getShowBookmarkedStatus = createSelector(dashboardState,
   (dashboardObject: DashboardState) => dashboardObject.showBookmarked);
+
+export const getDashboardNotification = createSelector(dashboardState,
+  (dashboardObject: DashboardState) => dashboardObject.dashboardNotification);
 
 function getStartItemIndex(pageNumber: number, pageSize: number) {
   return (pageSize * pageNumber) - pageSize;
