@@ -1,4 +1,4 @@
-<div class="dashboard-notification" appClickOutside (clickOutside)="showNotificationDetails = false">
+<div class="dashboard-notification">
   <button
     *ngIf="(dashboardNotification$ | async).unreadInterpretations > 0"
     class="dashboard-btn notification-btn"
@@ -21,7 +21,7 @@
       {{(dashboardNotification$ | async).unreadMessageConversations}}
     </span>
   </button>
-  <div [@open] class="dashboard-border dashboard-notification-details-block" *ngIf="showNotificationDetails">
+  <div [@open] appClickOutside (clickOutside)="showNotificationDetails = false" class="dashboard-border dashboard-notification-details-block" *ngIf="showNotificationDetails">
     <app-message-conversation-list *ngIf="currentNotification === 'MESSAGE'"></app-message-conversation-list>
   </div>
 </div>

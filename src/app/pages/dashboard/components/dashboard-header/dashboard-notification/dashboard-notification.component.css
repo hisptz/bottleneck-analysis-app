@@ -28,8 +28,17 @@
   position: absolute;
   height: 400px;
   width: 500px;
-  z-index: 1000;
+  z-index: 1100;
   top: 40px;
   background-color: #ffffff;
   overflow: auto;
+}
+
+@media (max-width: 900px) {
+  .dashboard-notification {
+    padding: 0;
+  }
+  .dashboard-notification-details-block {
+    width: 100%;
+  }
 }
