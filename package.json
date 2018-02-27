@@ -59,6 +59,7 @@
     "ngx-pagination": "^3.0.3",
     "polylabel": "^1.0.2",
     "rxjs": "^5.5.2",
+    "shp-write": "^0.3.2",
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.14"
   },

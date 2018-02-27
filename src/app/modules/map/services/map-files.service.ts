@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
 import {saveAs} from 'file-saver';
+import * as shapeWrite from 'shp-write';
 import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class MapFilesService {
@@ -33,7 +34,7 @@ export class MapFilesService {
 
       }
 
-    })
+    });
 
 
     return null;
@@ -71,6 +72,38 @@ export class MapFilesService {
   }
 
   downloadMapVisualizationAsSHAPEFILE(mapVisualization) {
+
+    const payload = mapVisualization.payload && mapVisualization.payload !== '' ? mapVisualization.payload : {};
+    const legends = payload.mapLegends;
+    const visualization = payload.visualization;
+
+    const layers = visualization.layers;
+    const analytics = visualization.analytics;
+    const geofeatures = visualization.geofeatures;
+
+    const options = {
+      folder: 'myshapes',
+      types: {
+        point: 'mypoints',
+        polygon: 'mypolygons',
+        line: 'mylines'
+      }
+    };
+
+    layers.forEach((layer, layerIndex) => {
+      const legend = _.find(legends, ['layer', layer.id]).legend;
+      const geoJsonObject = this._prepareGeoJsonDataForDownload(geofeatures[layer.id], analytics[layer.id], legend);
+
+      if (geoJsonObject) {
+        // a GeoJSON bridge for features
+        shapeWrite.download(geoJsonObject, options);
+      } else {
+
+      }
+
+    });
+
+
     return null;
   }
 
@@ -252,7 +285,9 @@ export class MapFilesService {
 
           const featureLegendClass: any = this._getClass(analyticObject.headers, sampleGeometry.properties['dataElement.value'], legend);
           sampleGeometry.properties['fill'] = featureLegendClass.color;
-          sampleGeometry.properties['classInterval'] = featureLegendClass.startValue + ' - ' + featureLegendClass.endValue + ' (' + featureLegendClass.count + ')';
+          sampleGeometry.properties['classInterval'] = featureLegendClass.startValue +
+            ' - ' + featureLegendClass.endValue +
+            ' (' + featureLegendClass.count + ')';
           sampleGeometry.properties['frequency'] = featureLegendClass.count;
 
         }
@@ -329,7 +364,7 @@ export class MapFilesService {
       if (legendItem.startValue <= data && legendItem.endValue >= data) {
         classInterval = legendItem;
       }
-    })
+    });
     return classInterval;
   }
 
@@ -370,16 +405,16 @@ export class MapFilesService {
   private _root(_, options) {
 
     if (!_.type) {
-      return ''
+      return '';
     }
     const styleHashesArray = [];
 
     switch (_.type) {
       case 'FeatureCollection':
         if (!_.features) {
-          return ''
+          return '';
         }
-        ;
+
         return _.features.map(this._feature(options, styleHashesArray)).join('');
       case 'Feature':
         return this._feature(options, styleHashesArray)(_);
@@ -395,9 +430,13 @@ export class MapFilesService {
 
   private _feature(options, styleHashesArray) {
     return (_) => {
-      if (!_.properties || !this.geometry.valid(_.geometry)) return '';
+      if (!_.properties || !this.geometry.valid(_.geometry)) {
+        return '';
+      }
       const geometryString = this.geometry.any(_.geometry);
-      if (!geometryString) return '';
+      if (!geometryString) {
+        return '';
+      }
 
       let styleDefinition = '',
         styleReference = '';
@@ -464,7 +503,7 @@ export class MapFilesService {
       },
       Polygon: (_) => {
         if (!_.coordinates.length) {
-          return ''
+          return '';
         }
         ;
         const outer = _.coordinates[0],
@@ -479,7 +518,7 @@ export class MapFilesService {
       },
       MultiPoint: (_) => {
         if (!_.coordinates.length) {
-          return ''
+          return '';
         }
         ;
         return this._tag('MultiGeometry', _.coordinates.map((c) => {
@@ -488,7 +527,7 @@ export class MapFilesService {
       },
       MultiPolygon: (_) => {
         if (!_.coordinates.length) {
-          return ''
+          return '';
         }
         ;
         return this._tag('MultiGeometry', _.coordinates.map((c) => {
@@ -497,7 +536,7 @@ export class MapFilesService {
       },
       MultiLineString: (_) => {
         if (!_.coordinates.length) {
-          return ''
+          return '';
         }
         ;
         return this._tag('MultiGeometry', _.coordinates.map((c) => {
@@ -553,7 +592,7 @@ export class MapFilesService {
 // ## General helpers
   private _pairs(_) {
     const o = [];
-    for (const i in _) o.push([i, _[i]]);
+    for (const i in _)  o.push([i, _[i]]);
     return o;
   }
 
@@ -599,7 +638,7 @@ export class MapFilesService {
           'fill': true,
           'fill-opacity': true
         }[key]) {
-        return true
+        return true;
       }
       ;
     }
@@ -624,7 +663,9 @@ export class MapFilesService {
 
 
   private _hexToKmlColor(hexColor, opacity) {
-    if (typeof hexColor !== 'string') return '';
+    if (typeof hexColor !== 'string') {
+      return '';
+    }
 
     hexColor = hexColor.replace('#', '').toLowerCase();
 
@@ -643,8 +684,12 @@ export class MapFilesService {
     let o = 'ff';
     if (typeof opacity === 'number' && opacity >= 0.0 && opacity <= 1.0) {
       o = (opacity * 255).toString(16);
-      if (o.indexOf('.') > -1) o = o.substr(0, o.indexOf('.'));
-      if (o.length < 2) o = '0' + o;
+      if (o.indexOf('.') > -1) {
+        o = o.substr(0, o.indexOf('.'));
+      }
+      if (o.length < 2) {
+        o = '0' + o;
+      }
     }
 
     return o + b + g + r;
@@ -656,37 +701,37 @@ export class MapFilesService {
     let hash = '';
 
     if (_['marker-symbol']) {
-      hash = hash + 'ms' + _['marker-symbol']
+      hash = hash + 'ms' + _['marker-symbol'];
     }
-    ;
+
     if (_['marker-color']) {
-      hash = hash + 'mc' + _['marker-color'].replace('#', '')
+      hash = hash + 'mc' + _['marker-color'].replace('#', '');
     }
-    ;
+
     if (_['marker-size']) {
-      hash = hash + 'ms' + _['marker-size']
+      hash = hash + 'ms' + _['marker-size'];
     }
-    ;
+
     if (_['stroke']) {
-      hash = hash + 's' + _['stroke'].replace('#', '')
+      hash = hash + 's' + _['stroke'].replace('#', '');
     }
-    ;
+
     if (_['stroke-width']) {
-      hash = hash + 'sw' + _['stroke-width'].toString().replace('.', '')
+      hash = hash + 'sw' + _['stroke-width'].toString().replace('.', '');
     }
-    ;
+
     if (_['stroke-opacity']) {
-      hash = hash + 'mo' + _['stroke-opacity'].toString().replace('.', '')
+      hash = hash + 'mo' + _['stroke-opacity'].toString().replace('.', '');
     }
-    ;
+
     if (_['fill']) {
-      hash = hash + '#' + _['fill'].replace('#', '')
+      hash = hash + '#' + _['fill'].replace('#', '');
     }
-    ;
+
     if (_['fill-opacity']) {
-      hash = hash + 'fo' + _['fill-opacity'].toString().replace('.', '')
+      hash = hash + 'fo' + _['fill-opacity'].toString().replace('.', '');
     }
-    ;
+
 
     return hash;
   }
@@ -699,9 +744,7 @@ export class MapFilesService {
    */
   private _attr(_) {
     return (_ && _.length) ? (' ' + _.map(function (a) {
-      return a[0] + '='
-      ' + a[1] + '
-      '';
+      return a[0] + '=' + a[1];
     }).join(' ')) : '';
   }
 
