@@ -11,10 +11,7 @@ import { Visualization } from './visualization.state';
 import { Dashboard } from '../dashboard/dashboard.state';
 import * as visualizationHelpers from './helpers/index';
 import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/forkJoin';
-import { Router } from '@angular/router';
-import { map, tap, switchMap, flatMap } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators/catchError';
+import { map, tap, switchMap, flatMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 
@@ -122,13 +119,13 @@ export class VisualizationEffects {
           const functionItems = _.filter(dxFilterObject ? dxFilterObject.items : [],
             normalDx => normalDx.dimensionItemType === 'FUNCTION_RULE');
 
-          const newFiltersWithFunction = _.map(visualizationFilter ? visualizationFilter.filters : [], filter => {
+          const newFiltersWithFunction = functionItems.length > 0 ? _.map(visualizationFilter ? visualizationFilter.filters : [], filter => {
             return filter.name === 'dx' ? {
               ...filter,
               items: functionItems,
               value: _.map(functionItems, item => item.id).join(';')
             } : filter;
-          });
+          }) : [];
 
           /**
            * Construct analytics promise
@@ -292,15 +289,15 @@ export class VisualizationEffects {
       visualizationSettings,
       visualizationFilters
     );
+
     return analyticsUrl !== ''
       ? this.httpClient.get(analyticsUrl)
-      : Observable.of(null);
+      : of(null);
   }
 
   private getFunctionAnalyticsPromise(visualizationFilters: any[]): Observable<any> {
-
     return new Observable(observer => {
-      if (_.some(visualizationFilters, filter => filter.items.length === 0)) {
+      if (visualizationFilters.length === 0 || _.some(visualizationFilters, filter => filter.items.length === 0)) {
         observer.next(null);
         observer.complete();
       } else {
@@ -430,7 +427,7 @@ export class VisualizationEffects {
         }
       );
 
-      Observable.forkJoin(geoFeaturePromises).subscribe(
+      forkJoin(geoFeaturePromises).subscribe(
         (geoFeatureResponse: any[]) => {
           newVisualizationObject.layers = newVisualizationObject.layers.map(
             (layer: any, layerIndex: number) => {
