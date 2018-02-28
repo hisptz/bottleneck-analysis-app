@@ -145,7 +145,6 @@ export class VisualizationEffects {
 
       return forkJoin(analyticsPromises).pipe(
         map((analyticsResponse: any[]) => {
-          console.log('here')
           const layers = _.map(
             action.payload.layers,
             (visualizationLayer: any, layerIndex: number) => {
@@ -428,7 +427,7 @@ export class VisualizationEffects {
         }
       );
 
-      Observable.forkJoin(geoFeaturePromises).subscribe(
+      forkJoin(geoFeaturePromises).subscribe(
         (geoFeatureResponse: any[]) => {
           newVisualizationObject.layers = newVisualizationObject.layers.map(
             (layer: any, layerIndex: number) => {

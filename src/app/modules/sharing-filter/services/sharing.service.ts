@@ -2,6 +2,7 @@ import { mergeMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClientService } from '../../../services/http-client.service';
 import { Observable } from 'rxjs/Observable';
+import { forkJoin} from 'rxjs/observable/forkJoin';
 import * as _ from 'lodash';
 
 @Injectable()
@@ -19,7 +20,7 @@ export class SharingService {
         observer.next(this._searchList);
         observer.complete();
       } else {
-        Observable.forkJoin(
+        forkJoin(
           this.getUserList(),
           this.getUserGroupList()
         ).subscribe(
