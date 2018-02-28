@@ -2,7 +2,8 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import * as _ from 'lodash';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
-import { eventIconCreateFunction } from './cluster/clientCluster';
+import { clientCluster } from './cluster/clientCluster';
+import { serverCluster } from './cluster/serverCluster';
 import { GeoJson } from 'leaflet';
 import { Feature, GeometryObject } from 'geojson';
 import { EVENT_COLOR, EVENT_RADIUS } from '../constants/layer.constant';
@@ -29,10 +30,15 @@ export const event = options => {
   } = options;
 
   const { startDate, endDate } = dataSelections;
-  const { eventPointColor, eventPointRadius, radiusLow, eventClustering } = layerOptions;
+  const {
+    eventPointColor,
+    eventPointRadius,
+    radiusLow,
+    eventClustering,
+    serverClustering,
+    serverSideConfig
+  } = layerOptions;
   const { labelFontSize, labelFontStyle } = displaySettings;
-
-  const spatialSupport = localStorage.getItem('spatialSupport');
 
   const orgUnits = getOrgUnitsFromRows(dataSelections.rows);
   const period = getPeriodFromFilters(dataSelections.filters);
@@ -53,50 +59,60 @@ export const event = options => {
   let geoJsonLayer = L.geoJSON(features);
 
   if (analyticsData) {
-    const names = {
-      true: 'Yes',
-      false: 'No'
-    };
-    const { rows, headers, height, metaData, width } = analyticsData;
-    headers.forEach(header => (names[header.name] = header.column));
-    const data = rows
-      .map(row => createEventFeature(headers, names, row, metaData))
-      .filter(feature => isValidCoordinate(feature.geometry.coordinates));
-
-    if (Array.isArray(data) && data.length) {
-      const title = data[0].name;
-      const items = [
-        {
-          name: 'Event',
-          color: eventPointColor || EVENT_COLOR,
-          radius: eventPointRadius || EVENT_RADIUS
-        }
-      ];
-      legend = {
-        ...legend,
-        title,
-        items
+    const color =
+      eventPointColor && eventPointColor.charAt(0) !== '#'
+        ? '#' + eventPointColor
+        : eventPointColor;
+    if (serverClustering) {
+      const serverSideOpts = {
+        pane: id,
+        load: serverSideConfig.load,
+        bounds: serverSideConfig.bounds,
+        color: color || EVENT_COLOR,
+        radius: eventPointRadius || EVENT_RADIUS
       };
-      const clusterOptions = {
-        spiderfyOnMaxZoom: false,
-        showCoverageOnHover: false,
-        iconCreateFunction: cluster => {
-          return eventIconCreateFunction(
-            cluster,
-            eventPointColor,
-            opacity,
-            labelFontStyle,
-            labelFontSize
-          );
-        }
+      geoJsonLayer = serverCluster(serverSideOpts);
+    } else {
+      const names = {
+        true: 'Yes',
+        false: 'No'
       };
-      const geoJSonOptions = geoJsonOptions(id, eventPointRadius, opacity, eventPointColor);
+      const { rows, headers, height, metaData, width } = analyticsData;
+      headers.forEach(header => (names[header.name] = header.column));
+      const data = rows
+        .map(row => createEventFeature(headers, names, row, metaData))
+        .filter(feature => isValidCoordinate(feature.geometry.coordinates));
 
-      geoJsonLayer = L.geoJSON(data, geoJSonOptions);
-      // All Clustering is done here;
-      if (eventClustering) {
-        const markers = new L.markerClusterGroup(clusterOptions);
-        geoJsonLayer = markers.addLayers(geoJsonLayer);
+      if (Array.isArray(data) && data.length) {
+        const title = data[0].name;
+        const items = [
+          {
+            name: 'Event',
+            color: eventPointColor || EVENT_COLOR,
+            radius: eventPointRadius || EVENT_RADIUS
+          }
+        ];
+        legend = {
+          ...legend,
+          title,
+          items
+        };
+        const geoJSonOptions = geoJsonOptions(id, eventPointRadius, opacity, eventPointColor);
+
+        geoJsonLayer = L.geoJSON(data, geoJSonOptions);
+        // All Clustering is done here;
+        if (eventClustering) {
+          const clusterOpt = {
+            data,
+            color: color || EVENT_COLOR,
+            radius: eventPointRadius || EVENT_RADIUS,
+            pane: id,
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false
+          };
+          const clusterMarker = clientCluster(clusterOpt);
+          geoJsonLayer = clusterMarker.addLayers(geoJsonLayer);
+        }
       }
       geoJsonLayer.on({
         click: eventLayerEvents().onClick,

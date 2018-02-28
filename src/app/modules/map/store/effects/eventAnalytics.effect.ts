@@ -11,7 +11,7 @@ import * as dataSelectionAction from '../actions/data-selection.action';
 import * as layersActions from '../actions/layers.action';
 import * as fromServices from '../../services';
 import * as fromStore from '../../store';
-import { getDimensionItems } from '../../utils/analytics';
+import { getBboxBounds } from '../../utils/layers';
 
 @Injectable()
 export class EventAnalyticsEffects {
@@ -23,7 +23,7 @@ export class EventAnalyticsEffects {
 
   @Effect({ dispatch: false })
   checkEventCounts$ = this.actions$.ofType(visualizationObjectActions.CHECK_EVENT_COUNTS).pipe(
-    tap((action: visualizationObjectActions.CheckEventCounts) => {
+    map((action: visualizationObjectActions.CheckEventCounts) => {
       const layerIds = [];
       const { layers } = action.payload;
       const layersParams = layers.map(layer => {
@@ -33,22 +33,46 @@ export class EventAnalyticsEffects {
           ...layer.dataSelections.filters
         ];
         layerIds.push(layer.id);
-        const ous = getDimensionItems('ou', requestParams);
-        const ousUrl = `ou:${ous.map(item => item.dimensionItem).join(';')}`;
-        let url = `/events/count/${layer.dataSelections.program.id}.json?stage=${
+        const dimensions = requestParams.map(param => {
+          const dimension = `dimension=${param.dimension}`;
+          if (param.items.length) {
+            return `${dimension}:${param.items.map(item => item.dimensionItem).join(';')}`;
+          }
+          return dimension;
+        });
+        let url = `${layer.dataSelections.program.id}.json?stage=${
           layer.dataSelections.programStage.id
-        }&${ousUrl}`;
+        }&${dimensions.join('&')}`;
         if (layer.dataSelections.endDate) {
           url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
         }
         if (layer.dataSelections.startDate) {
           url += `&startDate=${layer.dataSelections.startDate.split('T')[0]}`;
         }
-        return url;
+        return { countUrl: `/events/count/${url}`, url };
       });
-      console.log(layersParams);
-      const sources = layersParams.map(param => this.analyticsService.getEventsAnalytics(param));
-      // Observable.combineLatest(sources).subscribe(values => console.log(values));
+      const sources = layersParams.map(param =>
+        this.analyticsService.getEventsAnalytics(param.countUrl)
+      );
+      Observable.combineLatest(sources).subscribe(layercounts => {
+        layercounts.map((layercount, index) => {
+          const layer = layers[index];
+          const count = layercount['count'];
+          const spatialSupport = localStorage.getItem('spatialSupport');
+          if (layer.layerOptions.eventClustering && count > 2000 && spatialSupport) {
+            const payload = {
+              layer: layer,
+              count,
+              bounds: getBboxBounds(layercount['extent']),
+              url: layersParams[index].url,
+              visualizationObject: action.payload
+            };
+            this.store.dispatch(new visualizationObjectActions.AddServerSideClustering(payload));
+          } else {
+            // clientSide clustering
+          }
+        });
+      });
     })
   );
 }

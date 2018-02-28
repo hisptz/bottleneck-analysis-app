@@ -11,6 +11,8 @@ export const LOAD_ANALYTICS = '[Map] Load analytics object';
 export const ADD_LEGEND_SET_VIZ = '[Map] Add Legend to Visualization object';
 export const ADD_ANALYTICS_VIZ = '[Map] Add Analytics to Visualization object';
 export const CHECK_EVENT_COUNTS = '[Map] Check event counts in Visualization object';
+export const ADD_CLIENT_SIDE_CLUSTERING = '[Map] Add events and client side clustering';
+export const ADD_SERVER_SIDE_CLUSTERING = '[Map] Add events and server side clustering';
 export const UPDATE_FILTER_ANALYTICS = '[Map] Update Analytics to Visualization Object';
 export const ADD_ORGANIZATIONUNITGROUPSET = '[Map] Add Organization Group set object';
 export const CREATE_VISUALIZATION_OBJECT_FAIL = '[Map] Create visualization object Fail';
@@ -176,6 +178,16 @@ export class CheckEventCounts implements Action {
   constructor(public payload: any) {}
 }
 
+export class AddServerSideClustering implements Action {
+  readonly type = ADD_SERVER_SIDE_CLUSTERING;
+  constructor(public payload: any) {}
+}
+
+export class AddClientSideClustering implements Action {
+  readonly type = ADD_CLIENT_SIDE_CLUSTERING;
+  constructor(public payload: any) {}
+}
+
 export type VisualizationObjectAction =
   | CreateVisualizationObject
   | CreateVisualizationObjectSuccess
@@ -204,4 +216,6 @@ export type VisualizationObjectAction =
   | AddVisualizationObjectCompleteFail
   | ToggleLayerVisibility
   | TransformVisualizationObject
-  | UpdateFilterAnalytics;
+  | UpdateFilterAnalytics
+  | AddClientSideClustering
+  | AddServerSideClustering;

@@ -97,15 +97,18 @@ export class VisualizationObjectEffects {
 
   @Effect({ dispatch: false })
   dispatchServerSideClustering$ = this.actions$
-    .ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE)
+    .ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE_SUCCESS)
     .pipe(
-      tap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
+      tap((action: visualizationObjectActions.AddVisualizationObjectCompleteSuccess) => {
         const { layers, componentId } = action.payload;
         const eventLayers = layers.filter(layer => layer.type === 'event');
         const nonEventLayers = layers.filter(layer => layer.type !== 'event');
         if (eventLayers.length) {
           this.store.dispatch(
-            new visualizationObjectActions.CheckEventCounts({ componentId, layers: eventLayers })
+            new visualizationObjectActions.CheckEventCounts({
+              ...action.payload,
+              layers: eventLayers
+            })
           );
         }
         if (nonEventLayers.length) {

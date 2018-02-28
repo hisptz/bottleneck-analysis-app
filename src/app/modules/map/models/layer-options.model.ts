@@ -4,4 +4,6 @@ export interface LayerOptions {
   radiusHigh?: number;
   eventPointRadius?: number;
   eventPointColor?: string;
+  serverClustering?: boolean;
+  serverSideConfig?: any;
 }

@@ -11,7 +11,8 @@ import * as dataSelectionAction from '../actions/data-selection.action';
 import * as layersActions from '../actions/layers.action';
 import * as fromServices from '../../services';
 import * as fromStore from '../../store';
-
+import { getDimensionItems } from '../../utils/analytics';
+import { toGeoJson } from '../../utils/layers';
 @Injectable()
 export class AnalyticsEffects {
   constructor(
@@ -129,6 +130,70 @@ export class AnalyticsEffects {
             )
           );
         }
+      }),
+      catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+    );
+
+  addClientSideEventAnalytics$ = this.actions$
+    .ofType(visualizationObjectActions.ADD_CLIENT_SIDE_CLUSTERING)
+    .pipe(
+      switchMap((action: visualizationObjectActions.AddClientSideClustering) => {
+        const { layer, visualizationObject, url } = action.payload;
+
+        const clientSide = `/events/query/${url}`;
+        return this.analyticsService.getEventsAnalytics(clientSide).pipe(
+          map(data => {
+            let analytics = {};
+            if (data.length) {
+              const analyticObj = { [layer.id]: data };
+              analytics = {
+                ...visualizationObject.analytics,
+                ...analyticObj
+              };
+            }
+            const vizObject = {
+              ...visualizationObject,
+              analytics
+            };
+            return new visualizationObjectActions.UpdateVizAnalytics(vizObject);
+          }),
+          catchError(error =>
+            of(new visualizationObjectActions.UpdateVisualizationObjectFail(error))
+          )
+        );
+      })
+    );
+
+  @Effect()
+  addServerSideEventAnalytics$ = this.actions$
+    .ofType(visualizationObjectActions.ADD_SERVER_SIDE_CLUSTERING)
+    .pipe(
+      map((action: visualizationObjectActions.AddServerSideClustering) => {
+        const { layer, visualizationObject, url, bounds } = action.payload;
+
+        const load = (params, callback) => {
+          const serverSide = `/events/cluster/${url}&clusterSize=${params.clusterSize}&bbox=${
+            params.bbox
+          }&coordinatesOnly=true&includeClusterPoints=${params.includeClusterPoints}`;
+          this.analyticsService
+            .getEventsAnalytics(serverSide)
+            .subscribe(data => callback(params.tileId, toGeoJson(data)));
+        };
+        const serverClustering = true;
+        const serverSideConfig = {
+          load,
+          bounds
+        };
+        const layerOptions = {
+          ...layer.layerOptions,
+          serverClustering,
+          serverSideConfig
+        };
+        const layers = visualizationObject.layers.map(
+          ly => (ly.id === layer.id ? { ...ly, layerOptions } : ly)
+        );
+        const vizObject = { ...visualizationObject, layers };
+        return new visualizationObjectActions.UpdateVisualizationObjectSuccess(vizObject);
       }),
       catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
     );
