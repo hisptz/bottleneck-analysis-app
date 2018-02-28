@@ -35,6 +35,7 @@ export class VisualizationCardComponent implements OnInit {
     this.currentVisualization = this.visualizationObject.details.currentVisualization;
 
     this.loaded = this.visualizationObject.details.loaded;
+
   }
 
   currentVisualizationChange(visualizationType: string) {
