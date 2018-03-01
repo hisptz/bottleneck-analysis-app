@@ -15,6 +15,7 @@ import * as fromUtils from '../../utils';
 import { tap } from 'rxjs/operators/tap';
 import { Layer } from '../../models/layer.model';
 import { mergeAll } from 'rxjs/operators/mergeAll';
+import { toGeoJson } from '../../utils/layers';
 
 @Injectable()
 export class VisualizationObjectEffects {
@@ -22,6 +23,7 @@ export class VisualizationObjectEffects {
     private actions$: Actions,
     private store: Store<fromStore.MapState>,
     private geofeatureService: fromServices.GeoFeatureService,
+    private analyticsService: fromServices.AnalyticsService,
     private systemService: fromServices.SystemService
   ) {}
   @Effect()
@@ -95,27 +97,6 @@ export class VisualizationObjectEffects {
       })
     );
 
-  @Effect({ dispatch: false })
-  dispatchServerSideClustering$ = this.actions$
-    .ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE_SUCCESS)
-    .pipe(
-      tap((action: visualizationObjectActions.AddVisualizationObjectCompleteSuccess) => {
-        const { layers, componentId } = action.payload;
-        const eventLayers = layers.filter(layer => layer.type === 'event');
-        const nonEventLayers = layers.filter(layer => layer.type !== 'event');
-        if (eventLayers.length) {
-          this.store.dispatch(
-            new visualizationObjectActions.CheckEventCounts({
-              ...action.payload,
-              layers: eventLayers
-            })
-          );
-        }
-        if (nonEventLayers.length) {
-        }
-      })
-    );
-
   @Effect()
   dispatchAddGeoFeatures$ = this.actions$
     .ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT)
@@ -171,6 +152,25 @@ export class VisualizationObjectEffects {
       switchMap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
         const vizObject = action.payload;
         const { layers } = vizObject;
+        const _layers = layers.map(layer => {
+          const { layerOptions } = layer;
+          if (layerOptions.serverClustering) {
+            const url = this.getEventLayerUrl(layer);
+            const load = (params, callback) => {
+              const serverSide = `/events/cluster/${url}&clusterSize=${params.clusterSize}&bbox=${
+                params.bbox
+              }&coordinatesOnly=true&includeClusterPoints=${params.includeClusterPoints}`;
+              this.analyticsService
+                .getEventsAnalytics(serverSide)
+                .subscribe(data => callback(params.tileId, toGeoJson(data)));
+            };
+            const serverSideConfig = { ...layerOptions.serverSideConfig, load };
+            const _layerOptions = { ...layerOptions, serverSideConfig };
+            return { ...layer, layerOptions: _layerOptions };
+          }
+          return layer;
+        });
+
         const entities = this.getParameterEntities(layers);
         const parameters = Object.keys(entities).map(key => entities[key]);
         const sources = parameters.map(param => {
@@ -187,6 +187,7 @@ export class VisualizationObjectEffects {
             this.store.dispatch(
               new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
                 ...vizObject,
+                layers: _layers,
                 geofeatures
               })
             );
@@ -222,5 +223,35 @@ export class VisualizationObjectEffects {
       return { ...entities, ...entity };
     }, {});
     return globalEntities;
+  }
+
+  private getEventLayerUrl(layer) {
+    const requestParams = [
+      ...layer.dataSelections.rows,
+      ...layer.dataSelections.columns,
+      ...layer.dataSelections.filters
+    ];
+    const dimensions = [];
+
+    requestParams.map(param => {
+      const dimension = `dimension=${param.dimension}`;
+      if (param.items.length) {
+        dimensions.push(`${dimension}:${param.items.map(item => item.dimensionItem).join(';')}`);
+      } else {
+        if (param.dimension !== 'dx' && param.dimension !== 'pe') {
+          dimensions.push(dimension);
+        }
+      }
+    });
+    let url = `${layer.dataSelections.program.id}.json?stage=${
+      layer.dataSelections.programStage.id
+    }&${dimensions.join('&')}`;
+    if (layer.dataSelections.endDate) {
+      url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
+    }
+    if (layer.dataSelections.startDate) {
+      url += `&startDate=${layer.dataSelections.startDate.split('T')[0]}`;
+    }
+    return url;
   }
 }

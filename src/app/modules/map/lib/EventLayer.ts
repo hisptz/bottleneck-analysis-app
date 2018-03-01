@@ -114,13 +114,13 @@ export const event = options => {
           geoJsonLayer = clusterMarker.addLayers(geoJsonLayer);
         }
       }
-      geoJsonLayer.on({
-        click: eventLayerEvents().onClick,
-        mouseover: eventLayerEvents().mouseover,
-        rightClick: eventLayerEvents().onRightClick,
-        mouseout: eventLayerEvents().mouseout
-      });
     }
+    geoJsonLayer.on({
+      click: eventLayerEvents().onClick,
+      mouseover: eventLayerEvents().mouseover,
+      rightClick: eventLayerEvents().onRightClick,
+      mouseout: eventLayerEvents().mouseout
+    });
   }
 
   const bounds = geoJsonLayer.getBounds();

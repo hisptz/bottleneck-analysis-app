@@ -127,7 +127,9 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
       return geofeatures[key];
     });
     const allDataAnalytics = Object.keys(analytics).filter(
-      key => analytics[key] && analytics[key].rows.length > 0
+      key =>
+        (analytics[key] && analytics[key].rows && analytics[key].rows.length > 0) ||
+        (analytics[key] && analytics[key].count)
     );
     if (![].concat.apply([], allGeofeatures).length) {
       this.mapHasGeofeatures = false;
@@ -140,6 +142,9 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
       if (layer.type === 'event') {
         const headers = analytics[layer.id].headers;
         if (_.find(headers, { name: 'latitude' })) {
+          this.mapHasGeofeatures = true;
+        }
+        if (layer.layerOptions.serverClustering) {
           this.mapHasGeofeatures = true;
         }
       } else if (layer.type === 'facility') {

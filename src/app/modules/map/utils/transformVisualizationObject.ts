@@ -2,12 +2,14 @@ import * as _ from 'lodash';
 import { VisualizationObject } from '../models/visualization-object.model';
 import { MapConfiguration } from '../models/map-configuration.model';
 import { Layer } from '../models/layer.model';
+import { getBboxBounds } from './layers';
 
 export function transformVisualizationObject(visualizationObject) {
   let visObject = {};
   let geofeatures = {};
   let analytics = {};
   let orgUnitGroupSet = {};
+  let serverSideConfig = {};
   const mapconfig = visualizationObject.details;
   const mapConfiguration: MapConfiguration = {
     id: mapconfig.id,
@@ -38,13 +40,20 @@ export function transformVisualizationObject(visualizationObject) {
       type: settings.layer ? settings.layer.replace(/\d$/, '') : 'thematic' // Replace number in thematic layers
     };
 
-    const layerOptions = _.pick(settings, [
+    const _layerOptions = _.pick(settings, [
       'eventClustering',
       'eventPointRadius',
       'eventPointColor',
       'radiusHigh',
       'radiusLow'
     ]);
+
+    const serverClustering = mapview.analytics && mapview.analytics.hasOwnProperty('count');
+    if (serverClustering) {
+      const bounds = getBboxBounds(mapview.analytics['extent']);
+      serverSideConfig = { ...serverSideConfig, bounds };
+    }
+    const layerOptions = { ..._layerOptions, serverClustering, serverSideConfig };
 
     const legendProperties = {
       colorLow: settings.colorLow ? settings.colorLow : '#e5f5e0',
