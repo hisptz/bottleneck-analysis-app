@@ -33,12 +33,19 @@ export class EventAnalyticsEffects {
           ...layer.dataSelections.filters
         ];
         layerIds.push(layer.id);
-        const dimensions = requestParams.map(param => {
+        const dimensions = [];
+
+        requestParams.map(param => {
           const dimension = `dimension=${param.dimension}`;
           if (param.items.length) {
-            return `${dimension}:${param.items.map(item => item.dimensionItem).join(';')}`;
+            dimensions.push(
+              `${dimension}:${param.items.map(item => item.dimensionItem).join(';')}`
+            );
+          } else {
+            if (param.dimension !== 'dx' && param.dimension !== 'pe') {
+              dimensions.push(dimension);
+            }
           }
-          return dimension;
         });
         let url = `${layer.dataSelections.program.id}.json?stage=${
           layer.dataSelections.programStage.id
