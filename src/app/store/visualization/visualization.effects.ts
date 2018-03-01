@@ -11,10 +11,7 @@ import { Visualization } from './visualization.state';
 import { Dashboard } from '../dashboard/dashboard.state';
 import * as visualizationHelpers from './helpers/index';
 import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/forkJoin';
-import { Router } from '@angular/router';
-import { map, tap, switchMap, flatMap } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators/catchError';
+import { map, tap, switchMap, flatMap, catchError, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 
@@ -122,13 +119,15 @@ export class VisualizationEffects {
           const functionItems = _.filter(dxFilterObject ? dxFilterObject.items : [],
             normalDx => normalDx.dimensionItemType === 'FUNCTION_RULE');
 
-          const newFiltersWithFunction = _.map(visualizationFilter ? visualizationFilter.filters : [], filter => {
-            return filter.name === 'dx' ? {
-              ...filter,
-              items: functionItems,
-              value: _.map(functionItems, item => item.id).join(';')
-            } : filter;
-          });
+          const newFiltersWithFunction = functionItems.length > 0 ?
+                                         _.map(visualizationFilter ? visualizationFilter.filters : [], filter => {
+                                           return filter.name === 'dx' ? {
+                                             ...filter,
+                                             items: functionItems,
+                                             value: _.map(functionItems, item => item.id).join(';')
+                                           } : filter;
+                                         }) :
+            [];
 
           /**
            * Construct analytics promise
@@ -137,7 +136,6 @@ export class VisualizationEffects {
             newFiltersWithNormalDx), this.getFunctionAnalyticsPromise(newFiltersWithFunction)).pipe(
             map((analyticsResponse: any[]) => {
               const sanitizedAnalyticsArray: any[] = _.filter(analyticsResponse, analyticsObject => analyticsObject);
-
               return sanitizedAnalyticsArray.length > 1 ?
                      visualizationHelpers.getMergedAnalytics(sanitizedAnalyticsArray) :
                      sanitizedAnalyticsArray[0];
@@ -159,7 +157,7 @@ export class VisualizationEffects {
 
               return {
                 ...visualizationLayer,
-                analytics: analytics.headers ? analytics : null
+                analytics: analytics.headers || analytics.count ? analytics : null
               };
             }
           );
@@ -292,15 +290,27 @@ export class VisualizationEffects {
       visualizationSettings,
       visualizationFilters
     );
+
     return analyticsUrl !== ''
-      ? this.httpClient.get(analyticsUrl)
-      : Observable.of(null);
+      ? this.httpClient.get(analyticsUrl).pipe(
+        mergeMap((analyticsResult: any) => {
+          return analyticsResult.count && analyticsResult.count < 2000 ?
+                 this.httpClient.get(visualizationHelpers.constructAnalyticsUrl(
+                   visualizationType,
+                   {
+                     ...visualizationSettings,
+                     eventClustering: false
+                   },
+                   visualizationFilters
+                 )) : of(analyticsResult);
+        })
+      )
+      : of(null);
   }
 
   private getFunctionAnalyticsPromise(visualizationFilters: any[]): Observable<any> {
-
     return new Observable(observer => {
-      if (_.some(visualizationFilters, filter => filter.items.length === 0)) {
+      if (visualizationFilters.length === 0 || _.some(visualizationFilters, filter => filter.items.length === 0)) {
         observer.next(null);
         observer.complete();
       } else {
@@ -430,7 +440,7 @@ export class VisualizationEffects {
         }
       );
 
-      Observable.forkJoin(geoFeaturePromises).subscribe(
+      forkJoin(geoFeaturePromises).subscribe(
         (geoFeatureResponse: any[]) => {
           newVisualizationObject.layers = newVisualizationObject.layers.map(
             (layer: any, layerIndex: number) => {

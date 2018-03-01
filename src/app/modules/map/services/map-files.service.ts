@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
-import { saveAs } from 'file-saver';
-import { Observable } from 'rxjs/Observable';
-
+import {saveAs} from 'file-saver';
+import * as shapeWrite from 'shp-write';
+import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class MapFilesService {
 
@@ -72,6 +72,38 @@ export class MapFilesService {
   }
 
   downloadMapVisualizationAsSHAPEFILE(mapVisualization) {
+
+    const payload = mapVisualization.payload && mapVisualization.payload !== '' ? mapVisualization.payload : {};
+    const legends = payload.mapLegends;
+    const visualization = payload.visualization;
+
+    const layers = visualization.layers;
+    const analytics = visualization.analytics;
+    const geofeatures = visualization.geofeatures;
+
+    const options = {
+      folder: 'myshapes',
+      types: {
+        point: 'mypoints',
+        polygon: 'mypolygons',
+        line: 'mylines'
+      }
+    };
+
+    layers.forEach((layer, layerIndex) => {
+      const legend = _.find(legends, ['layer', layer.id]).legend;
+      const geoJsonObject = this._prepareGeoJsonDataForDownload(geofeatures[layer.id], analytics[layer.id], legend);
+
+      if (geoJsonObject) {
+        // a GeoJSON bridge for features
+        shapeWrite.download(geoJsonObject, options);
+      } else {
+
+      }
+
+    });
+
+
     return null;
   }
 
@@ -251,11 +283,11 @@ export class MapFilesService {
 
         if (legend) {
 
-          const featureLegendClass: any = this._getClass(analyticObject.headers,
-            sampleGeometry.properties['dataElement.value'], legend);
+          const featureLegendClass: any = this._getClass(analyticObject.headers, sampleGeometry.properties['dataElement.value'], legend);
           sampleGeometry.properties['fill'] = featureLegendClass.color;
-          sampleGeometry.properties['classInterval'] =
-            featureLegendClass.startValue + ' - ' + featureLegendClass.endValue + ' (' + featureLegendClass.count + ')';
+          sampleGeometry.properties['classInterval'] = featureLegendClass.startValue +
+            ' - ' + featureLegendClass.endValue +
+            ' (' + featureLegendClass.count + ')';
           sampleGeometry.properties['frequency'] = featureLegendClass.count;
 
         }
@@ -351,13 +383,13 @@ export class MapFilesService {
 
   private dataObjectToKML(fileDataObject: Object, options?: Object) {
     options = options || {
-      documentName: undefined,
-      documentDescription: undefined,
-      name: 'name',
-      description: 'description',
-      simplestyle: true,
-      timestamp: 'timestamp'
-    };
+        documentName: undefined,
+        documentDescription: undefined,
+        name: 'name',
+        description: 'description',
+        simplestyle: true,
+        timestamp: 'timestamp'
+      };
 
     return '<?xml version=\'1.0\' encoding=\'utf-8\' ?>' +
       this._tag('kml',
@@ -382,7 +414,7 @@ export class MapFilesService {
         if (!_.features) {
           return '';
         }
-        ;
+
         return _.features.map(this._feature(options, styleHashesArray)).join('');
       case 'Feature':
         return this._feature(options, styleHashesArray)(_);
@@ -429,12 +461,12 @@ export class MapFilesService {
         }
       }
       return styleDefinition + this._tag('Placemark',
-        this._name(_.properties, options) +
-        this._description(_.properties, options) +
-        // this._extendeddata(_.properties) +
-        this._timestamp(_.properties, options) +
-        geometryString +
-        styleReference);
+          this._name(_.properties, options) +
+          this._description(_.properties, options) +
+          // this._extendeddata(_.properties) +
+          this._timestamp(_.properties, options) +
+          geometryString +
+          styleReference);
     };
   }
 
@@ -560,7 +592,7 @@ export class MapFilesService {
 // ## General helpers
   private _pairs(_) {
     const o = [];
-    for (const i in _) o.push([i, _[i]]);
+    for (const i in _)  o.push([i, _[i]]);
     return o;
   }
 
@@ -671,35 +703,35 @@ export class MapFilesService {
     if (_['marker-symbol']) {
       hash = hash + 'ms' + _['marker-symbol'];
     }
-    ;
+
     if (_['marker-color']) {
       hash = hash + 'mc' + _['marker-color'].replace('#', '');
     }
-    ;
+
     if (_['marker-size']) {
       hash = hash + 'ms' + _['marker-size'];
     }
-    ;
+
     if (_['stroke']) {
       hash = hash + 's' + _['stroke'].replace('#', '');
     }
-    ;
+
     if (_['stroke-width']) {
       hash = hash + 'sw' + _['stroke-width'].toString().replace('.', '');
     }
-    ;
+
     if (_['stroke-opacity']) {
       hash = hash + 'mo' + _['stroke-opacity'].toString().replace('.', '');
     }
-    ;
+
     if (_['fill']) {
       hash = hash + '#' + _['fill'].replace('#', '');
     }
-    ;
+
     if (_['fill-opacity']) {
       hash = hash + 'fo' + _['fill-opacity'].toString().replace('.', '');
     }
-    ;
+
 
     return hash;
   }
@@ -711,7 +743,9 @@ export class MapFilesService {
    * @returns {string}
    */
   private _attr(_) {
-    return (_ && _.length) ? (' ' + _.map((a) => a[0] + '=' + a[1] + '').join(' ')) : '';
+    return (_ && _.length) ? (' ' + _.map(function (a) {
+      return a[0] + '=' + a[1];
+    }).join(' ')) : '';
   }
 
   /**
@@ -739,8 +773,10 @@ export class MapFilesService {
    * @returns {string}
    */
   private _encode(_) {
-    return (_ === null ? '' : _.toString()).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').
-      replace(/'/g, '&quot;');
+    return (_ === null ? '' : _.toString()).replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/'/g, '&quot;');
   }
 
 

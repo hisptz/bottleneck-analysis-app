@@ -1,0 +1,44 @@
+.dashboard-notification {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  position: relative;
+}
+
+.notification-btn {
+  width: auto;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  border-radius: 15px;
+  align-items: center;
+  margin-right: 7px;
+}
+
+.notification-count {
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.notification-btn img {
+  height: 20px;
+}
+
+.dashboard-notification-details-block {
+  position: absolute;
+  height: 400px;
+  width: 500px;
+  z-index: 1100;
+  top: 40px;
+  background-color: #ffffff;
+  overflow: auto;
+}
+
+@media (max-width: 900px) {
+  .dashboard-notification {
+    padding: 0;
+  }
+  .dashboard-notification-details-block {
+    width: 100%;
+  }
+}

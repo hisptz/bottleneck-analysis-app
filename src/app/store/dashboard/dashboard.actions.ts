@@ -39,7 +39,10 @@ export enum DashboardActions {
   BOOKMARK_DASHBOARD_SUCCESS = '[Dashboard] Bookmark dashboard success',
   BOOKMARK_DASHBOARD_FAIL = '[Dashboard] Bookmark dashboard fail',
   TOGGLE_BOOKMARKED = '[Dashboard] Bookmark dashboard fail',
-  SET_SEARCH_TERM = '[Dashboard] Set dashboard search term'
+  SET_SEARCH_TERM = '[Dashboard] Set dashboard search term',
+  LOAD_NOTIFACATION = '[Dashboard] Load dashboard notification',
+  LOAD_NOTIFACATION_SUCCESS = '[Dashboard] Load dashboard notification success',
+  LOAD_NOTIFACATION_FAIL = '[Dashboard] Load dashboard notification fail',
 }
 
 export class LoadAction implements Action {
@@ -246,6 +249,19 @@ export class SetSearchTermAction implements Action {
   constructor(public payload: string) {
   }
 }
+export class LoadDashboardNotificationAction implements Action {
+  readonly type = DashboardActions.LOAD_NOTIFACATION;
+}
+
+export class LoadDashboardNotificationSuccessAction implements Action {
+  readonly type = DashboardActions.LOAD_NOTIFACATION_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class LoadDashboardNotificationFailAction implements Action {
+  readonly type = DashboardActions.LOAD_NOTIFACATION_FAIL;
+  constructor(public payload: any) {}
+}
 
 export type DashboardAction =
   | LoadAction
@@ -278,4 +294,7 @@ export type DashboardAction =
   | BookmarkDashboardSuccessAction
   | BookmarkDashboardFailAction
   | ToggleBookmarkedAction
-  | SetSearchTermAction;
+  | SetSearchTermAction
+  | LoadDashboardNotificationAction
+  | LoadDashboardNotificationSuccessAction
+  | LoadDashboardNotificationFailAction;

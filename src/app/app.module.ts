@@ -75,6 +75,8 @@ import { ResourcesContainerComponent } from './pages/dashboard/components/visual
 import { ReportsContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/reports-container/reports-container.component';
 import { AppContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/app-container/app-container.component';
 import { DashboardMenuBookmarkComponent } from './pages/dashboard/components/dashboard-menu/dashboard-menu-bookmark/dashboard-menu-bookmark.component';
+import { DashboardNotificationComponent } from './pages/dashboard/components/dashboard-header/dashboard-notification/dashboard-notification.component';
+import { FeedbackMessageModule } from './modules/feedback-message/feedback-message.module';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -125,7 +127,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReportsContainerComponent,
     AppContainerComponent,
     SafePipe,
-    DashboardMenuBookmarkComponent
+    DashboardMenuBookmarkComponent,
+    DashboardNotificationComponent
   ],
   imports: [
     BrowserModule,
@@ -147,6 +150,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MapModule,
     ResourcesModule,
     ReportsModule,
+    FeedbackMessageModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
