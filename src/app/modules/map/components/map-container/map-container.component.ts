@@ -99,7 +99,8 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
           Object.keys(visualizationLengends).map(key => {
             const legendSet = visualizationLengends[key];
             const { opacity, layer, hidden, legend, cluster } = legendSet;
-            const tileLayer = legend.type === 'external' || cluster;
+            const tileLayer =
+              legend.type === 'external' || cluster || legend.type === 'earthEngine';
             const leafletlayer = this.leafletLayers[layer];
 
             // Check if there is that layer otherwise errors when resizing;
@@ -153,6 +154,8 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
         if (Object.keys(organisationUnitGroupSet)) {
           this.mapHasDataAnalytics = true;
         }
+      } else if (layer.type === 'earthEngine') {
+        this.mapHasDataAnalytics = true;
       }
     });
   }
@@ -184,7 +187,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
 
   createLayer(optionsLayer, index) {
     if (optionsLayer) {
-      const { displaySettings, id, geoJsonLayer, visible, areaRadius } = optionsLayer;
+      const { displaySettings, id, geoJsonLayer, visible, type, areaRadius } = optionsLayer;
       this.createPane(displaySettings.labels, id, index, areaRadius);
       this.setLayerVisibility(visible, geoJsonLayer);
     }

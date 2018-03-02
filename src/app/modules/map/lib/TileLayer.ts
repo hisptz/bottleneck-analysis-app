@@ -2,7 +2,7 @@ import * as L from 'leaflet';
 
 const TileLayer = L.TileLayer.extend({
   options: {
-    errorTileUrl: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=` // eslint-disable-line
+    errorTileUrl: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=` // tslint:disable-line
   },
 
   initialize(opts = {}) {

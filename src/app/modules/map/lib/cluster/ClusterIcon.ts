@@ -8,7 +8,7 @@ export const ClusterIcon = L.Icon.extend({
 
   createIcon(oldIcon) {
     const options = this.options;
-    this._div = oldIcon && oldIcon.tagName === 'DIV' ? oldIcon : document.createElement('div'); // eslint-disable-line
+    this._div = oldIcon && oldIcon.tagName === 'DIV' ? oldIcon : document.createElement('div'); // tslint:disable-line
 
     this.setSize(options.size);
     this.setCount(options.count);
@@ -24,7 +24,7 @@ export const ClusterIcon = L.Icon.extend({
   },
 
   setCount(count) {
-    // eslint-disable-line
+    // tslint:disable-line
     let num;
 
     if (count >= 1000 && count < 9500) {

@@ -128,28 +128,6 @@ export class VisualizationObjectEffects {
     );
 
   @Effect({ dispatch: false })
-  dispatchAddGoogleToken$ = this.actions$
-    .ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE)
-    .pipe(
-      tap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
-        const visualizationObject = action.payload;
-        const { layers } = visualizationObject;
-        const needsTokenGoogleEarth = layers.filter(layer => layer && layer.type === 'earthEngine');
-
-        if (needsTokenGoogleEarth.length) {
-          this.systemService.getGoogleEarthToken().subscribe(resp => {
-            Object.keys(resp).map(key => localStorage.setItem(key, resp[key]));
-            this.store.dispatch(
-              new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
-                ...visualizationObject
-              })
-            );
-          });
-        }
-      })
-    );
-
-  @Effect({ dispatch: false })
   dispatchAddGeoFeaturescomplete$ = this.actions$
     .ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE)
     .pipe(
@@ -175,6 +153,13 @@ export class VisualizationObjectEffects {
             const popup = this.onEventClick.bind(this);
             const serverSideConfig = { ...layerOptions.serverSideConfig, load, popup };
             const _layerOptions = { ...layerOptions, serverSideConfig };
+            return { ...layer, layerOptions: _layerOptions };
+          }
+          if (layer.type === 'earthEngine') {
+            const accessToken = callback =>
+              this.systemService.getGoogleEarthToken().subscribe(json => callback(json));
+            const earthEngineConfig = { ...layerOptions.earthEngineConfig, accessToken };
+            const _layerOptions = { ...layerOptions, earthEngineConfig };
             return { ...layer, layerOptions: _layerOptions };
           }
           return layer;
