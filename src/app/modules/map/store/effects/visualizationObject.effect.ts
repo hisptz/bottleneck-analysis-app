@@ -171,6 +171,15 @@ export class VisualizationObjectEffects {
           return this.geofeatureService.getGeoFeatures(param);
         });
 
+        if (sources.length === 0) {
+          this.store.dispatch(
+            new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
+              ...vizObject,
+              layers: _layers
+            })
+          );
+        }
+
         // This is a hack find a way not to subscribe please!
         // TODO: remove this hack;
         Observable.combineLatest(sources).subscribe(geofeature => {
