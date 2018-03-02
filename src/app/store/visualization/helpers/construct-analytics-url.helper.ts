@@ -31,7 +31,8 @@ export function constructAnalyticsUrl(visualizationType: string, visualizationSe
     if (visualizationSettings.aggregate) {
       url += '/events/aggregate/' + getProgramParameters(visualizationSettings);
     } else {
-      url += '/events/query/' + getProgramParameters(visualizationSettings);
+      url += visualizationSettings.eventClustering ? '/events/count/' : '/events/query/';
+      url += getProgramParameters(visualizationSettings);
     }
 
     /**

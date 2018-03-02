@@ -27,4 +27,10 @@ export class AnalyticsService {
       .get(`../../../api/25/analytics${dimensions}&coordinatesOnly=true`)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
+
+  getEventInformation(eventId): Observable<any> {
+    return this.httpClient
+      .get(`../../../api/25/events/${eventId}.json'`)
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
 }

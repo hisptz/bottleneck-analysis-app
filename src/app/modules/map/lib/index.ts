@@ -5,3 +5,4 @@ export * from './FacilityLayer';
 export * from './ThematicLayer';
 export * from './Layers';
 export * from './ExternalLayer';
+export * from './cluster/ClusterMarker';

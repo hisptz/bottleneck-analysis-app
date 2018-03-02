@@ -9,11 +9,13 @@ export interface DataSelections {
   attributeValues?: any[];
   program?: {
     id: string;
-    name: string;
+    name?: string;
+    displayName?: string;
   };
   programStage?: {
     id: string;
-    name: string;
+    name?: string;
+    displayName?: string;
   };
   legendSet?: any;
   columns: Dimension[];

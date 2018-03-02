@@ -70,3 +70,17 @@
 ::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+.leaflet-cluster-icon {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  background-clip: padding-box;
+}
+
+.leaflet-cluster-icon span {
+  align-self: center;
+}

@@ -15,13 +15,19 @@ import * as fromUtils from '../../utils';
 import { tap } from 'rxjs/operators/tap';
 import { Layer } from '../../models/layer.model';
 import { mergeAll } from 'rxjs/operators/mergeAll';
+import { toGeoJson } from '../../utils/layers';
+import { timeFormat } from 'd3-time-format';
 
 @Injectable()
 export class VisualizationObjectEffects {
+  private program: string;
+  private programStage: string;
+
   constructor(
     private actions$: Actions,
     private store: Store<fromStore.MapState>,
     private geofeatureService: fromServices.GeoFeatureService,
+    private analyticsService: fromServices.AnalyticsService,
     private systemService: fromServices.SystemService
   ) {}
   @Effect()
@@ -150,6 +156,30 @@ export class VisualizationObjectEffects {
       switchMap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
         const vizObject = action.payload;
         const { layers } = vizObject;
+        const _layers = layers.map(layer => {
+          const { layerOptions } = layer;
+          if (layerOptions.serverClustering) {
+            const url = this.getEventLayerUrl(layer);
+            const { dataSelections } = layer;
+            this.program = dataSelections.program && dataSelections.program.displayName;
+            this.programStage =
+              dataSelections.programStage && dataSelections.programStage.displayName;
+            const load = (params, callback) => {
+              const serverSide = `/events/cluster/${url}&clusterSize=${params.clusterSize}&bbox=${
+                params.bbox
+              }&coordinatesOnly=true&includeClusterPoints=${params.includeClusterPoints}`;
+              this.analyticsService
+                .getEventsAnalytics(serverSide)
+                .subscribe(data => callback(params.tileId, toGeoJson(data)));
+            };
+            const popup = this.onEventClick.bind(this);
+            const serverSideConfig = { ...layerOptions.serverSideConfig, load, popup };
+            const _layerOptions = { ...layerOptions, serverSideConfig };
+            return { ...layer, layerOptions: _layerOptions };
+          }
+          return layer;
+        });
+
         const entities = this.getParameterEntities(layers);
         const parameters = Object.keys(entities).map(key => entities[key]);
         const sources = parameters.map(param => {
@@ -166,6 +196,7 @@ export class VisualizationObjectEffects {
             this.store.dispatch(
               new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
                 ...vizObject,
+                layers: _layers,
                 geofeatures
               })
             );
@@ -180,7 +211,7 @@ export class VisualizationObjectEffects {
     layers.reduce((entities = {}, layer, index) => {
       const { rows, columns, filters } = layer.dataSelections;
       const isFacility = layer.type === 'facility';
-      if (layer.type === 'external' || layer.type == 'earthEngine') {
+      if (layer.type === 'external' || layer.type === 'earthEngine') {
         return;
       }
       const requestParams = [...rows, ...columns, ...filters];
@@ -201,5 +232,64 @@ export class VisualizationObjectEffects {
       return { ...entities, ...entity };
     }, {});
     return globalEntities;
+  }
+
+  private onEventClick(event) {
+    const layer = event.layer;
+    const feature = layer._feature;
+    const coord = feature.geometry.coordinates;
+    this.analyticsService.getEventInformation(feature.id).subscribe(data => {
+      const { orgUnitName, dataValues, eventDate, coordinate } = data;
+      const content = `<table><tbody> <tr>
+                      <th>Organisation unit: </th><td>${orgUnitName}</td></tr>
+                    <tr><th>Event time: </th>
+                      <td>${timeFormat('%Y-%m-%d')(new Date(eventDate))}</td>
+                    </tr>
+                    <tr><th>Program Stage: </th>
+                      <td>${this.programStage}</td>
+                    </tr>
+                    <tr>
+                      <th>Event location: </th>
+                      <td>${Number(coordinate.latitude).toFixed(6)}, ${Number(
+        coordinate.longitude
+      ).toFixed(6)}</td>
+                    </tr></tbody></table>`;
+      // Close any popup if there is one
+      layer.closePopup();
+      // Bind new popup to the layer
+      layer.bindPopup(content);
+      // Open the binded popup
+      layer.openPopup();
+    });
+  }
+
+  private getEventLayerUrl(layer) {
+    const requestParams = [
+      ...layer.dataSelections.rows,
+      ...layer.dataSelections.columns,
+      ...layer.dataSelections.filters
+    ];
+    const dimensions = [];
+
+    requestParams.map(param => {
+      const dimension = `dimension=${param.dimension}`;
+      if (param.items.length) {
+        dimensions.push(`${dimension}:${param.items.map(item => item.dimensionItem).join(';')}`);
+      } else {
+        if (param.dimension !== 'dx' && param.dimension !== 'pe') {
+          dimensions.push(dimension);
+        }
+      }
+    });
+    let url = `${layer.dataSelections.program.id}.json?stage=${
+      layer.dataSelections.programStage.id
+    }&${dimensions.join('&')}`;
+    if (layer.dataSelections.endDate) {
+      url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
+    }
+    if (layer.dataSelections.startDate) {
+      url += `&startDate=${layer.dataSelections.startDate.split('T')[0]}`;
+    }
+    return url;
   }
 }
