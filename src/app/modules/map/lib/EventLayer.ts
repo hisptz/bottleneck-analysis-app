@@ -67,6 +67,7 @@ export const event = options => {
       const serverSideOpts = {
         pane: id,
         load: serverSideConfig.load,
+        popup: serverSideConfig.popup,
         bounds: serverSideConfig.bounds,
         color: color || EVENT_COLOR,
         radius: eventPointRadius || EVENT_RADIUS

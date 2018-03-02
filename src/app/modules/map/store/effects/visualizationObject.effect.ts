@@ -16,9 +16,13 @@ import { tap } from 'rxjs/operators/tap';
 import { Layer } from '../../models/layer.model';
 import { mergeAll } from 'rxjs/operators/mergeAll';
 import { toGeoJson } from '../../utils/layers';
+import { timeFormat } from 'd3-time-format';
 
 @Injectable()
 export class VisualizationObjectEffects {
+  private program: string;
+  private programStage: string;
+
   constructor(
     private actions$: Actions,
     private store: Store<fromStore.MapState>,
@@ -156,6 +160,10 @@ export class VisualizationObjectEffects {
           const { layerOptions } = layer;
           if (layerOptions.serverClustering) {
             const url = this.getEventLayerUrl(layer);
+            const { dataSelections } = layer;
+            this.program = dataSelections.program && dataSelections.program.displayName;
+            this.programStage =
+              dataSelections.programStage && dataSelections.programStage.displayName;
             const load = (params, callback) => {
               const serverSide = `/events/cluster/${url}&clusterSize=${params.clusterSize}&bbox=${
                 params.bbox
@@ -164,7 +172,8 @@ export class VisualizationObjectEffects {
                 .getEventsAnalytics(serverSide)
                 .subscribe(data => callback(params.tileId, toGeoJson(data)));
             };
-            const serverSideConfig = { ...layerOptions.serverSideConfig, load };
+            const popup = this.onEventClick.bind(this);
+            const serverSideConfig = { ...layerOptions.serverSideConfig, load, popup };
             const _layerOptions = { ...layerOptions, serverSideConfig };
             return { ...layer, layerOptions: _layerOptions };
           }
@@ -223,6 +232,35 @@ export class VisualizationObjectEffects {
       return { ...entities, ...entity };
     }, {});
     return globalEntities;
+  }
+
+  private onEventClick(event) {
+    const layer = event.layer;
+    const feature = layer._feature;
+    const coord = feature.geometry.coordinates;
+    this.analyticsService.getEventInformation(feature.id).subscribe(data => {
+      const { orgUnitName, dataValues, eventDate, coordinate } = data;
+      const content = `<table><tbody> <tr>
+                      <th>Organisation unit: </th><td>${orgUnitName}</td></tr>
+                    <tr><th>Event time: </th>
+                      <td>${timeFormat('%Y-%m-%d')(new Date(eventDate))}</td>
+                    </tr>
+                    <tr><th>Program Stage: </th>
+                      <td>${this.programStage}</td>
+                    </tr>
+                    <tr>
+                      <th>Event location: </th>
+                      <td>${Number(coordinate.latitude).toFixed(6)}, ${Number(
+        coordinate.longitude
+      ).toFixed(6)}</td>
+                    </tr></tbody></table>`;
+      // Close any popup if there is one
+      layer.closePopup();
+      // Bind new popup to the layer
+      layer.bindPopup(content);
+      // Open the binded popup
+      layer.openPopup();
+    });
   }
 
   private getEventLayerUrl(layer) {

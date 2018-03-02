@@ -106,7 +106,7 @@ export const ServerCluster = L.GridLayer.extend({
       }
     } else if (this.options.popup) {
       // Is single marker
-      marker.showPopup();
+      this.options.popup(evt);
     }
   },
 
