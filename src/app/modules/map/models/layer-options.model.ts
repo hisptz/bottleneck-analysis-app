@@ -6,4 +6,5 @@ export interface LayerOptions {
   eventPointColor?: string;
   serverClustering?: boolean;
   serverSideConfig?: any;
+  earthEngineConfig?: any;
 }

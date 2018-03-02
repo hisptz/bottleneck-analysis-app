@@ -24,9 +24,10 @@ export function transformVisualizationObject(visualizationObject) {
 
   let layers: Layer[] = [];
 
-  const vizObjLayers = visualizationObject.layers.filter(
-    layer => layer.settings.layer !== 'earthEngine'
-  );
+  const vizObjLayers = visualizationObject.layers;
+  // visualizationObject.layers.filter(
+  //   layer => layer.settings.layer !== 'earthEngine'
+  // );
 
   vizObjLayers.forEach(mapview => {
     const settings = mapview.settings;

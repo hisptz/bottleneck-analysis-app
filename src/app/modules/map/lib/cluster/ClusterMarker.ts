@@ -51,7 +51,7 @@ export const ClusterMarker = L.Marker.extend({
         point = L.point(
           center.x + legLength * Math.cos(angle),
           center.y + legLength * Math.sin(angle)
-        )._round(); // eslint-disable-line
+        )._round(); // tslint:disable-line
         id = ids[i];
         newPos = map.layerPointToLatLng(point);
 

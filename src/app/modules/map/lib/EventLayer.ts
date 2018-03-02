@@ -63,6 +63,13 @@ export const event = options => {
       eventPointColor && eventPointColor.charAt(0) !== '#'
         ? '#' + eventPointColor
         : eventPointColor;
+    const items = [
+      {
+        name: 'Event',
+        color: eventPointColor || EVENT_COLOR,
+        radius: eventPointRadius || EVENT_RADIUS
+      }
+    ];
     if (serverClustering) {
       const serverSideOpts = {
         pane: id,
@@ -71,6 +78,12 @@ export const event = options => {
         bounds: serverSideConfig.bounds,
         color: color || EVENT_COLOR,
         radius: eventPointRadius || EVENT_RADIUS
+      };
+      const title = options.displayName;
+      legend = {
+        ...legend,
+        title,
+        items
       };
       geoJsonLayer = serverCluster(serverSideOpts);
     } else {
@@ -86,13 +99,6 @@ export const event = options => {
 
       if (Array.isArray(data) && data.length) {
         const title = data[0].name;
-        const items = [
-          {
-            name: 'Event',
-            color: eventPointColor || EVENT_COLOR,
-            radius: eventPointRadius || EVENT_RADIUS
-          }
-        ];
         legend = {
           ...legend,
           title,
@@ -130,6 +136,7 @@ export const event = options => {
     legend,
     layer: id,
     hidden: false,
+    cluster: eventClustering,
     opacity
   };
 

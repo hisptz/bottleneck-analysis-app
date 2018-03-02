@@ -157,7 +157,7 @@ export const ServerCluster = L.GridLayer.extend({
     let layer;
 
     for (tileId in tileClusters) {
-      // eslint-disable-line
+      // tslint:disable-line
       if (tileClusters.hasOwnProperty(tileId)) {
         for (layer of tileClusters[tileId]) {
           layer.setOpacity(opacity);

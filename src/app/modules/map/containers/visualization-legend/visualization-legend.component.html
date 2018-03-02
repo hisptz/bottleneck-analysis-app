@@ -6,7 +6,7 @@
           <div class="map-legend-header" (click)="setActiveItem(i, $event)">
             <div class="map-legend-title-block">
               <img src="assets/icons/map.png" alt="">
-              <span class="map-legend-title">{{legend.legend.title}}</span>
+              <span class="map-legend-title">{{legend.title || legend.legend.title }}</span>
             </div>
             <div class="map-legend-title-options">
               <a (click)="toggleLayerView(i,$event)">
@@ -28,6 +28,14 @@
                 <ul class="map-legend-table-list">
                   <li class="font-weight-bold">{{item.name}}</li>
                   <li>{{item.startValue}} - {{item.endValue}} ({{item.count || 0}})</li>
+                </ul>
+              </div>
+            </div>
+            <div class="tile-layers-list" *ngIf="legend.legend.type === 'earthEngine'">
+              <div *ngFor="let item of legend.legend.items" class="map-legend-table">
+                <div [ngStyle]="{backgroundColor:item.color,width:'60px'}"></div>
+                <ul class="map-legend-table-list">
+                  <li class="font-weight-bold">{{item.name}}</li>
                 </ul>
               </div>
             </div>
@@ -120,16 +128,16 @@
       </div>
       <div class="map-legend-right-footer">
         <a *ngIf="showDownload">
-          <img src="assets/icons/csv.png"  (click)="mapDownload($event, 'csv', visualizationLegends)" alt="download" title="Download layers into csv">
+          <img src="assets/icons/csv.png" (click)="mapDownload($event, 'csv', visualizationLegends)" alt="download" title="Download layers into csv">
         </a>
         <a *ngIf="showDownload">
-          <img src="assets/icons/kml.png"  (click)="mapDownload($event, 'kml', visualizationLegends)" alt="download" title="Download map to kml">
+          <img src="assets/icons/kml.png" (click)="mapDownload($event, 'kml', visualizationLegends)" alt="download" title="Download map to kml">
         </a>
         <a *ngIf="showDownload">
-          <img src="assets/icons/csv.png"  (click)="mapDownload($event, 'shapefile', visualizationLegends)" alt="download" title="Download map as shapefile">
+          <img src="assets/icons/csv.png" (click)="mapDownload($event, 'shapefile', visualizationLegends)" alt="download" title="Download map as shapefile">
         </a>
         <a *ngIf="showDownload">
-          <img src="assets/icons/csv.png"  (click)="mapDownload($event, 'geojson', visualizationLegends)" alt="download" title="Download map as geojson">
+          <img src="assets/icons/csv.png" (click)="mapDownload($event, 'geojson', visualizationLegends)" alt="download" title="Download map as geojson">
         </a>
         <a>
           <img *ngIf="!showDownload" src="assets/icons/download.png" alt="download" title="Download file" (click)="toggleDownload($event)">

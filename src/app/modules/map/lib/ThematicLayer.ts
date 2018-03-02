@@ -167,7 +167,6 @@ const createLegendFromConfig = (data, config, displayName, type) => {
 
   let colors;
 
-  // TODO: Unify how we represent a colorScale
   if (Array.isArray(colorScale)) {
     colors = colorScale;
   } else if (_.isString(colorScale)) {

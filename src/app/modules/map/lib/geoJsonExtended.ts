@@ -74,7 +74,7 @@ export const GeoJson = L.GeoJSON.extend({
 
   findById(id) {
     for (const i in this._layers) {
-      // eslint-disable-line
+      // tslint:disable-line
       if (this._layers[i].feature.id === id) {
         return this._layers[i];
       }
