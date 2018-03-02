@@ -33,6 +33,7 @@ script:
 
 after_success:
   # Here is where all things you want to do after build success is done
+  - source scripts/deploy.sh || exit 1
 
 cache:
   # improve build time cache stuffs that do not change occasionally eg. node_modules
