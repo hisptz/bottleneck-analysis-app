@@ -136,6 +136,7 @@ export const event = options => {
     legend,
     layer: id,
     hidden: false,
+    cluster: eventClustering,
     opacity
   };
 
