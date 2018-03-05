@@ -86,3 +86,45 @@ export const getLabelLatlng = geometry => {
   // Returns pole of inaccessibility, the most distant internal point from the polygon outline
   return polylabel(biggestRing, 2).reverse();
 };
+
+export const getBboxBounds = bbox => {
+  if (!bbox) {
+    return null;
+  }
+  const extent = bbox.match(/([-\d\.]+)/g);
+  return [[extent[1], extent[0]], [extent[3], extent[2]]];
+};
+
+export const toGeoJson = data => {
+  const header = {};
+  const features = [];
+
+  // Convert headers to object for easier lookup
+  data.headers.forEach((h, i) => (header[h.name] = i));
+
+  if (Array.isArray(data.rows)) {
+    data.rows.forEach(row => {
+      const extent = row[header['extent']].match(/([-\d\.]+)/g);
+      const coords = row[header['center']].match(/([-\d\.]+)/g);
+
+      // Round to 6 decimals - http://www.jacklmoore.com/notes/rounding-in-javascript/
+      coords[0] = Math.round(Number(coords[0] + 'e6')) + 'e-6';
+      coords[1] = Math.round(Number(coords[1] + 'e6')) + 'e-6';
+
+      features.push({
+        type: 'Feature',
+        id: row[header['points']],
+        geometry: {
+          type: 'Point',
+          coordinates: coords
+        },
+        properties: {
+          count: parseInt(row[header['count']], 10),
+          bounds: [[extent[1], extent[0]], [extent[3], extent[2]]]
+        }
+      });
+    });
+  }
+
+  return features;
+};

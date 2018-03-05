@@ -27,7 +27,7 @@ export function boundary(options) {
         fillOpacity: 0,
         weight: levels.length === 1 ? 1 : weights[index],
         stroke: true,
-        fill: true
+        fill: false
       }
     }),
     {}

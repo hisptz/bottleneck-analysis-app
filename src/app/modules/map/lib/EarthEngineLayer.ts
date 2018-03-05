@@ -1,5 +1,6 @@
 import { datasets } from '../constants/earthengine.constant';
 import { tileLayer } from './TileLayer';
+import { earthEngineHelper } from './earthEngine/EarthEngineHelper';
 
 export const earthEngine = options => {
   const {
@@ -12,63 +13,51 @@ export const earthEngine = options => {
     legendProperties,
     analyticsData
   } = options;
+
   const { config } = dataSelections;
-  let layerConfig = {};
-  let dataset;
 
-  if (typeof config === 'string') {
-    // From database as favorite
-    layerConfig = JSON.parse(config);
+  const layerConfig = JSON.parse(config);
+  const dataSet = datasets[layerConfig.id];
 
-    dataset = datasets[layerConfig['id']];
+  const { accessToken } = layerOptions.earthEngineConfig;
 
-    if (dataset) {
-      dataset.datasetId = layerConfig['id'];
-      delete layerConfig['id'];
-    }
-  } else {
-    dataset = datasets[options.datasetId];
-  }
-
-  const layer = {
+  let earthLayer = {
     ...layerConfig,
-    ...dataset
+    ...dataSet,
+    accessToken
   };
 
   // Create legend items from params
-  if (layer.legend && !layer.legend.items && layer.params) {
-    const legendSet = {
-      name: options.name,
-      legend: {
-        item: createLegend(layer.params)
-      }
+  if (earthLayer.legend && !earthLayer.legend.items && earthLayer.params) {
+    const items = createLegend(earthLayer.params);
+    const legend = {
+      ...earthLayer.legend,
+      type: 'earthEngine',
+      items
     };
-
-    layer.legendSet = legendSet;
+    earthLayer = {
+      ...earthLayer,
+      legend,
+      methods: 2,
+      opacity,
+      unit: legend.unit
+    };
   }
 
-  // temporary while figuring  how to get earth engine to work.
-  const _options = {
-    name: 'osmLight',
-    type: 'tileLayer',
-    label: 'OSM Light',
-    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-    maxZoom: 18,
-    attribution: '&copy;<a href="https://carto.com/attribution">cartoDB</a>',
-    image: 'assets/img/map-tiles/esri_osm_light.png',
-    baseLayer: true,
-    visible: true
+  const geoJsonLayer = earthEngineHelper(earthLayer);
+  const legendSet = {
+    layer: options.id,
+    title: dataSet.title,
+    opacity,
+    hidden: false,
+    legend: earthLayer.legend
   };
 
-  const geoJsonLayer = tileLayer(_options);
-
-  const optionsToReturn = {
+  return {
     ...options,
-    ...layer,
+    legendSet,
     geoJsonLayer
   };
-
-  return optionsToReturn;
 };
 
 export const createLegend = params => {

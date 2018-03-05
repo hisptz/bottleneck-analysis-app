@@ -24,6 +24,11 @@ export const Layers = (layers, geofeatures, analytics, organizationGroupSet, leg
   const optionLayers = layers.map(layer => {
     let newLayer: Layer;
 
+    newLayer = {
+      ...newLayer,
+      ...layer
+    };
+
     if (geofeatures) {
       const geofeature = geofeatures[layer.id];
       const pane = layer.id;
@@ -55,7 +60,6 @@ export const Layers = (layers, geofeatures, analytics, organizationGroupSet, leg
         legendSet
       };
     }
-
     return LayerType[newLayer.type](newLayer);
   });
   return optionLayers;

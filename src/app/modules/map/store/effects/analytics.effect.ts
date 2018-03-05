@@ -11,7 +11,8 @@ import * as dataSelectionAction from '../actions/data-selection.action';
 import * as layersActions from '../actions/layers.action';
 import * as fromServices from '../../services';
 import * as fromStore from '../../store';
-
+import { getDimensionItems } from '../../utils/analytics';
+import { toGeoJson } from '../../utils/layers';
 @Injectable()
 export class AnalyticsEffects {
   constructor(
