@@ -344,7 +344,23 @@ export class MapFilesService {
   }
 
   private _refineCoordinate(coordinate) {
-    return '\"' + coordinate + '\"';
+    const rawCoordinates = new Function('return (' + coordinate + ')')();
+    let coordinates = '';
+    let wktCoordinate = '';
+    if (rawCoordinates.length === 1) {
+      coordinates = JSON.stringify(rawCoordinates[0][0]).replace(/\]\,\[/g, ':').replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
+      wktCoordinate = '"POLYGON((' + coordinates + '))' + '"';
+    } else if (rawCoordinates.length > 1) {
+      wktCoordinate = '"POLYGON(';
+      rawCoordinates[0].forEach(featureCoordinate => {
+        wktCoordinate += '(';
+        wktCoordinate += JSON.stringify(featureCoordinate).replace(/\]\,\[/g, ':').replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
+        wktCoordinate += '),';
+      });
+      wktCoordinate = wktCoordinate.substr(0, wktCoordinate.length - 2);
+      wktCoordinate += ')"';
+    }
+    return wktCoordinate;
   }
 
   private _getClass(headers, item, legend) {
