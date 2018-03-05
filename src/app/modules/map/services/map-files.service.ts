@@ -86,16 +86,16 @@ export class MapFilesService {
       types: {
         point: 'mypoints',
         polygon: 'mypolygons',
-        line: 'mylines'
+        line: 'mylines',
+        multipolygon: 'multipolygon'
       }
     };
 
     layers.forEach((layer, layerIndex) => {
       const legend = _.find(legends, ['layer', layer.id]).legend;
       const geoJsonObject = this._prepareGeoJsonDataForDownload(geofeatures[layer.id], analytics[layer.id], legend);
-
+      console.log(geoJsonObject);
       if (geoJsonObject) {
-        // a GeoJSON bridge for features
         shapeWrite.download(geoJsonObject, options);
       } else {
 
@@ -344,7 +344,7 @@ export class MapFilesService {
   }
 
   private _refineCoordinate(coordinate) {
-    return '\'' + coordinate + '\'';
+    return '\"' + coordinate + '\"';
   }
 
   private _getClass(headers, item, legend) {
@@ -744,7 +744,7 @@ export class MapFilesService {
    */
   private _attr(_) {
     return (_ && _.length) ? (' ' + _.map(function (a) {
-      return a[0] + '=' + a[1];
+      return a[0] + '=\'' + a[1] + '\'';
     }).join(' ')) : '';
   }
 
