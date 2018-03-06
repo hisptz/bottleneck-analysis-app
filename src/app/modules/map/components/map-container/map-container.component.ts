@@ -72,9 +72,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
       fromStore.isVisualizationLegendOpen(this._visualizationObject.componentId)
     );
 
-    this.isDataTableOpen$ = this.store.select(
-      fromStore.isDataTableOpen(this._visualizationObject.componentId)
-    );
+    this.isDataTableOpen$ = this.store.select(fromStore.isDataTableOpen(this._visualizationObject.componentId));
 
     this.store
       .select(fromStore.getCurrentBaseLayer(this._visualizationObject.componentId))
@@ -99,8 +97,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
           Object.keys(visualizationLengends).map(key => {
             const legendSet = visualizationLengends[key];
             const { opacity, layer, hidden, legend, cluster } = legendSet;
-            const tileLayer =
-              legend.type === 'external' || cluster || legend.type === 'earthEngine';
+            const tileLayer = legend.type === 'external' || cluster || legend.type === 'earthEngine';
             const leafletlayer = this.leafletLayers[layer];
 
             // Check if there is that layer otherwise errors when resizing;
@@ -141,7 +138,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
 
     layers.map(layer => {
       if (layer.type === 'event') {
-        const headers = analytics[layer.id].headers;
+        const headers = analytics[layer.id] && analytics[layer.id].headers;
         if (_.find(headers, { name: 'latitude' })) {
           this.mapHasGeofeatures = true;
         }
@@ -169,14 +166,8 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
 
   initializeMapContainer() {
     const { itemHeight, mapWidth } = this.displayConfigurations;
-    const fullScreen =
-      this._visualizationObject.mapConfiguration.fullScreen || itemHeight === '100vh';
-    const container = fromUtils.prepareMapContainer(
-      this._visualizationObject.componentId,
-      itemHeight,
-      mapWidth,
-      false
-    );
+    const fullScreen = this._visualizationObject.mapConfiguration.fullScreen || itemHeight === '100vh';
+    const container = fromUtils.prepareMapContainer(this._visualizationObject.componentId, itemHeight, mapWidth, false);
     const otherOptions = {
       zoomControl: false,
       scrollWheelZoom: fullScreen ? true : false,
@@ -237,9 +228,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   toggleLegendContainerView() {
-    this.store.dispatch(
-      new fromStore.ToggleOpenVisualizationLegend(this._visualizationObject.componentId)
-    );
+    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this._visualizationObject.componentId));
   }
 
   initializeMapConfiguration(mapConfiguration: MapConfiguration) {
@@ -263,32 +252,24 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
 
   initialMapDraw(visualizationObject: VisualizationObject) {
     const { mapConfiguration } = visualizationObject;
-    const { overlayLayers, layersBounds, legendSets } = this.prepareLegendAndLayers(
-      visualizationObject
-    );
+    const { overlayLayers, layersBounds, legendSets } = this.prepareLegendAndLayers(visualizationObject);
     this.drawBaseAndOverLayLayers(mapConfiguration, overlayLayers, layersBounds);
     if (Object.keys(legendSets).length) {
-      this.store.dispatch(
-        new fromStore.AddLegendSet({ [this._visualizationObject.componentId]: legendSets })
-      );
+      this.store.dispatch(new fromStore.AddLegendSet({ [this._visualizationObject.componentId]: legendSets }));
     }
   }
 
   redrawMapOndataChange(visualizationObject: VisualizationObject) {
     Object.keys(this.leafletLayers).map(key => this.map.removeLayer(this.leafletLayers[key]));
     const { mapConfiguration } = visualizationObject;
-    const { overlayLayers, layersBounds, legendSets } = this.prepareLegendAndLayers(
-      visualizationObject
-    );
+    const { overlayLayers, layersBounds, legendSets } = this.prepareLegendAndLayers(visualizationObject);
 
     overlayLayers.map((layer, index) => {
       this.createLayer(layer, index);
     });
 
     if (Object.keys(legendSets).length) {
-      this.store.dispatch(
-        new fromStore.AddLegendSet({ [visualizationObject.componentId]: legendSets })
-      );
+      this.store.dispatch(new fromStore.AddLegendSet({ [visualizationObject.componentId]: legendSets }));
     }
 
     if (layersBounds.length) {

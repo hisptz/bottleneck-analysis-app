@@ -1,12 +1,11 @@
 import * as _ from 'lodash';
-
+import { getSanitizedAnalyticsMetadata } from './standardize-incoming-analytics.helper';
 export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters: any[]) {
-
   // TODO deal with analytics with more than one dynamic dimensions
-  const newAnalyticsObject: any = _.clone(analyticsObject);
+  let newAnalyticsObject: any = { ...analyticsObject };
 
   if (analyticsObject !== null) {
-    const newMetadata: any = _.clone(analyticsObject.metaData);
+    const newMetadata: any = { ...getSanitizedAnalyticsMetadata(analyticsObject.metaData, true) };
 
     if (analyticsObject.headers) {
       const headerWithOptionSet = _.filter(analyticsObject.headers, analyticsHeader => analyticsHeader.optionSet)[0];
@@ -25,7 +24,9 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
              */
             if (newMetadata[headerWithOptionSet.name]) {
               newMetadata[headerWithOptionSet.name] = _.assign(
-                [], _.map(headerOptions, (option: any) => option.code ? option.code : option.id));
+                [],
+                _.map(headerOptions, (option: any) => (option.code ? option.code : option.id))
+              );
             }
 
             /**
@@ -46,20 +47,26 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
         }
       }
 
-      const headersWithDynamicDimensionButNotOptionSet = _.filter(analyticsObject.headers,
-        (analyticsHeader: any) => {
-          return (analyticsHeader.name !== 'dx' && analyticsHeader.name !== 'pe'
-            && analyticsHeader.name !== 'ou' && analyticsHeader.name !== 'value') && !analyticsHeader.optionSet;
+      const headersWithDynamicDimensionButNotOptionSet = _.filter(analyticsObject.headers, (analyticsHeader: any) => {
+        return (
+          analyticsHeader.name !== 'dx' &&
+          analyticsHeader.name !== 'pe' &&
+          analyticsHeader.name !== 'ou' &&
+          analyticsHeader.name !== 'value' &&
+          !analyticsHeader.optionSet
+        );
       })[0];
 
       if (headersWithDynamicDimensionButNotOptionSet) {
-        const headerOptionsWithoutOptionSetObject = _.find(visualizationFilters, ['name', headersWithDynamicDimensionButNotOptionSet.name]);
+        const headerOptionsWithoutOptionSetObject = _.find(visualizationFilters, [
+          'name',
+          headersWithDynamicDimensionButNotOptionSet.name
+        ]);
 
         if (headerOptionsWithoutOptionSetObject) {
           const headerFilter = headerOptionsWithoutOptionSetObject.value;
 
           if (headerFilter) {
-
             let headerOptions = [];
             if (headerFilter.split(':').length > 1) {
               headerOptions = getFilterNumberRange(headerFilter);
@@ -80,7 +87,9 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
                */
               if (newMetadata[headersWithDynamicDimensionButNotOptionSet.name]) {
                 newMetadata[headersWithDynamicDimensionButNotOptionSet.name] = _.assign(
-                  [], _.map(headerOptions, (option: any) => option.code ? option.code : option.id));
+                  [],
+                  _.map(headerOptions, (option: any) => (option.code ? option.code : option.id))
+                );
               }
 
               /**
@@ -115,36 +124,39 @@ function getFilterNumberRange(filterString) {
   if (splitedFilter[0] === 'LE') {
     const maxValue: number = parseInt(splitedFilter[1], 10);
     if (!isNaN(maxValue)) {
-      newNumberRange = _.assign([], _.times(maxValue + 1, (value: number) => {
-        return {
-          code: (value).toString(),
-          name: (value).toString()
-        };
-      }));
+      newNumberRange = _.assign(
+        [],
+        _.times(maxValue + 1, (value: number) => {
+          return {
+            code: value.toString(),
+            name: value.toString()
+          };
+        })
+      );
     }
-
   } else if (splitedFilter[0] === 'LT') {
     const maxValue: number = parseInt(splitedFilter[1], 10);
     if (!isNaN(maxValue)) {
-      newNumberRange = _.assign([], _.times(maxValue, (value: number) => {
-        return {
-          code: (value).toString(),
-          name: (value).toString()
-        };
-      }));
+      newNumberRange = _.assign(
+        [],
+        _.times(maxValue, (value: number) => {
+          return {
+            code: value.toString(),
+            name: value.toString()
+          };
+        })
+      );
     }
-
   } else if (splitedFilter[0] === 'EQ') {
-    newNumberRange = [{
-      code: splitedFilter[1],
-      name: splitedFilter[1]
-    }];
+    newNumberRange = [
+      {
+        code: splitedFilter[1],
+        name: splitedFilter[1]
+      }
+    ];
   } else if (splitedFilter[0] === 'GE') {
-
   } else if (splitedFilter[0] === 'GT') {
-
   } else if (splitedFilter[0] === 'NE') {
-
   }
   return newNumberRange;
 }
