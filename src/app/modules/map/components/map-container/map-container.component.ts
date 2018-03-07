@@ -113,7 +113,9 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
             }
 
             const visible = !hidden;
-            this.setLayerVisibility(visible, leafletlayer);
+            if (leafletlayer) {
+              this.setLayerVisibility(visible, leafletlayer);
+            }
           });
         }
       });
