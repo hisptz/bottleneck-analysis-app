@@ -75,6 +75,7 @@
 
 .map-container {
   overflow: hidden;
+  height: 100%;
 }
 
 .dictionary-container {
