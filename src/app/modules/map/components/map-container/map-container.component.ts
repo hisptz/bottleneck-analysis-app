@@ -153,6 +153,9 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
         }
       } else if (layer.type === 'earthEngine') {
         this.mapHasDataAnalytics = true;
+        // Boundary layer do not have data.
+      } else if (layer.type === 'boundary') {
+        this.mapHasDataAnalytics = true;
       }
     });
   }
