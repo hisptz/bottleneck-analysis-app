@@ -113,7 +113,9 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
             }
 
             const visible = !hidden;
-            this.setLayerVisibility(visible, leafletlayer);
+            if (leafletlayer) {
+              this.setLayerVisibility(visible, leafletlayer);
+            }
           });
         }
       });
@@ -152,6 +154,9 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
           this.mapHasDataAnalytics = true;
         }
       } else if (layer.type === 'earthEngine') {
+        this.mapHasDataAnalytics = true;
+        // Boundary layer do not have data.
+      } else if (layer.type === 'boundary') {
         this.mapHasDataAnalytics = true;
       }
     });

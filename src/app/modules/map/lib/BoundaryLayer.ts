@@ -33,6 +33,20 @@ export function boundary(options) {
     {}
   );
 
+  const items = Object.keys(levelStyle).map(key => ({ ...levelStyle[key], name: `level ${key}` }));
+  const legend = {
+    title: 'Boundary Layer',
+    type: 'boundary',
+    items
+  };
+
+  const legendSet = {
+    legend,
+    layer: id,
+    hidden: false,
+    opacity
+  };
+
   features.forEach(feature => {
     feature.properties.style = levelStyle[feature.properties.level];
     feature.properties.labelStyle = {
@@ -55,7 +69,8 @@ export function boundary(options) {
   const optionsToReturn = {
     ...options,
     features,
-    geoJsonLayer
+    geoJsonLayer,
+    legendSet
   };
   if (bounds.isValid()) {
     return {
