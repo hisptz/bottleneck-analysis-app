@@ -95,7 +95,6 @@ export class MapFilesService {
     layers.forEach((layer, layerIndex) => {
       const legend = _.find(legends, ['layer', layer.id]).legend;
       const geoJsonObject = this._prepareGeoJsonDataForDownload(geofeatures[layer.id], analytics[layer.id], legend);
-      console.log(geoJsonObject);
       if (geoJsonObject) {
         shapeWrite.download(geoJsonObject, options);
       } else {
@@ -173,7 +172,18 @@ export class MapFilesService {
       if (settings.tyope === 'event') {
 
       } else {
+        data.metaData.dx.forEach((dataElement, dataElementIndex) => {
 
+          keys.push(data.metaData.names[dataElement]);
+          uids.push(dataElement);
+          if (dataElementIndex === data.metaData.dx.length - 1) {
+            keys.push('RANGE');
+            keys.push('FREQUENCY');
+            keys.push('COLOR');
+            keys.push('COORDINATE');
+          }
+
+        });
         result = '';
         result += keys.join(columnDelimiter);
         result += lineDelimiter;
@@ -210,8 +220,7 @@ export class MapFilesService {
             result += columnDelimiter;
             result += classBelonged ? classBelonged.color : '';
             result += columnDelimiter;
-            result += this._refineCoordinate(orgUnitCoordinateObject.co);
-            console.log(orgUnitCoordinateObject.name)
+            result += this._refineCoordinate(orgUnitCoordinateObject, orgUnitCoordinateObject.co);
             result += lineDelimiter;
           }
 
@@ -344,25 +353,55 @@ export class MapFilesService {
     return data;
   }
 
-  private _refineCoordinate(coordinate) {
+  private _refineCoordinate(organisantionUnit, coordinate) {
     const rawCoordinates = new Function('return (' + coordinate + ')')();
     let coordinates = '';
     let wktCoordinate = '';
-    console.log(rawCoordinates.length);
-    if (rawCoordinates.length === 1) {
-      coordinates = JSON.stringify(rawCoordinates[0][0]).replace(/\]\,\[/g, ':').replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
-      wktCoordinate = '"POLYGON((' + coordinates + '))' + '"';
-    } else if (rawCoordinates.length > 1) {
-      wktCoordinate = '"POLYGON(';
-      rawCoordinates[0].forEach(featureCoordinate => {
-        wktCoordinate += '(';
-        wktCoordinate += JSON.stringify(featureCoordinate).replace(/\]\,\[/g, ':').replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
-        wktCoordinate += '),';
-      });
-      wktCoordinate = wktCoordinate.substr(0, wktCoordinate.length - 2);
-      wktCoordinate += ')"';
+
+
+    switch (organisantionUnit.ty) {
+      case 1: {
+        coordinates = JSON.stringify(rawCoordinates).replace(/\]\,\[/g, ':')
+          .replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
+        wktCoordinate = '"POINT(' + coordinates + ')' + '"';
+        return wktCoordinate;
+      }
+      case 2: {
+        if (this.isMultiPolygon(organisantionUnit, rawCoordinates)) {
+          wktCoordinate = '"MULTIPOLYGON((' + this.getMultiPolygonWKT(rawCoordinates) + '))' + '"';
+        } else {
+          coordinates = JSON.stringify(rawCoordinates[0][0]).replace(/\]\,\[/g, ':')
+            .replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
+          wktCoordinate = '"POLYGON((' + coordinates + '))' + '"';
+        }
+
+        return wktCoordinate;
+      }
     }
-    return wktCoordinate;
+  }
+
+  private getMultiPolygonWKT(rawCoordinates): string {
+    const wkt_str = '' +
+      rawCoordinates.map(function (ring) {
+        return '(' +
+          ring[0].map(function (p) {
+            return p[0] + ' ' + p[1];
+          }).join(', ')
+          + ')';
+      }).join(', ');
+    return wkt_str;
+
+  }
+
+  private isMultiPolygon(organisantionUnit, coordinates): boolean {
+
+    if (coordinates.length > 1) {
+      console.log(organisantionUnit.na);
+      console.log(coordinates, coordinates.length);
+      return true;
+    } else{
+      return false;
+    }
   }
 
   private _getClass(headers, item, legend) {
