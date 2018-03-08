@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import {saveAs} from 'file-saver';
 import * as shapeWrite from 'shp-write';
 import {Observable} from 'rxjs/Observable';
+import {hasOwnProperty} from "tslint/lib/utils";
 @Injectable()
 export class MapFilesService {
 
@@ -168,56 +169,56 @@ export class MapFilesService {
       columnDelimiter = ',';
       lineDelimiter = '\n';
       keys = ['CODE', 'ID', 'LEVEL', 'NAME', 'PARENT', 'PARENT ID'];
-      data.metaData.dx.forEach((dataElement, dataElementIndex) => {
 
-        keys.push(data.metaData.names[dataElement]);
-        uids.push(dataElement);
-        if (dataElementIndex === data.metaData.dx.length - 1) {
-          keys.push('RANGE');
-          keys.push('FREQUENCY');
-          keys.push('COLOR');
-          keys.push('COORDINATE');
-        }
+      if (settings.tyope === 'event') {
 
-      });
-      result = '';
-      result += keys.join(columnDelimiter);
-      result += lineDelimiter;
+      } else {
 
-      data.rows.forEach((item) => {
-        const orgUnitCoordinateObject = this._getOrgUnitCoordinateObject(data.headers, item, geoFeatures);
-        ctr = 0;
-        result += orgUnitCoordinateObject.code;
-        result += columnDelimiter;
-
-        result += orgUnitCoordinateObject.id;
-        result += columnDelimiter;
-
-
-        result += orgUnitCoordinateObject.le;
-        result += columnDelimiter;
-
-        result += data.metaData.names[item[orgIndex]];
-        result += columnDelimiter;
-        result += orgUnitCoordinateObject.pn;
-        result += columnDelimiter;
-        result += orgUnitCoordinateObject.pi;
-        result += columnDelimiter;
-        uids.forEach((key, keyIndex) => {
-          result += item[valueIndex];
-          ctr++;
-        });
-        result += columnDelimiter;
-        const classBelonged: any = this._getClass(data.headers, item, legend);
-        result += classBelonged ? classBelonged.startValue + ' - ' + classBelonged.endValue : '';
-        result += columnDelimiter;
-        result += classBelonged ? classBelonged.count : '';
-        result += columnDelimiter;
-        result += classBelonged ? classBelonged.color : '';
-        result += columnDelimiter;
-        result += this._refineCoordinate(orgUnitCoordinateObject.co);
+        result = '';
+        result += keys.join(columnDelimiter);
         result += lineDelimiter;
-      });
+
+        data.rows.forEach((item) => {
+          const orgUnitCoordinateObject = this._getOrgUnitCoordinateObject(data.headers, item, geoFeatures);
+          if (orgUnitCoordinateObject) {
+            ctr = 0;
+            result += orgUnitCoordinateObject.code ? orgUnitCoordinateObject.code : '';
+            result += columnDelimiter;
+
+            result += orgUnitCoordinateObject.id;
+            result += columnDelimiter;
+
+
+            result += orgUnitCoordinateObject.le;
+            result += columnDelimiter;
+
+            result += data.metaData.names[item[orgIndex]];
+            result += columnDelimiter;
+            result += orgUnitCoordinateObject.pn;
+            result += columnDelimiter;
+            result += orgUnitCoordinateObject.pi;
+            result += columnDelimiter;
+            uids.forEach((key, keyIndex) => {
+              result += item[valueIndex];
+              ctr++;
+            });
+            result += columnDelimiter;
+            const classBelonged: any = this._getClass(data.headers, item, legend);
+            result += classBelonged ? classBelonged.startValue + ' - ' + classBelonged.endValue : '';
+            result += columnDelimiter;
+            result += classBelonged ? classBelonged.count : '';
+            result += columnDelimiter;
+            result += classBelonged ? classBelonged.color : '';
+            result += columnDelimiter;
+            result += this._refineCoordinate(orgUnitCoordinateObject.co);
+            console.log(orgUnitCoordinateObject.name)
+            result += lineDelimiter;
+          }
+
+        });
+
+      }
+
     } else {
       return '';
     }
@@ -347,6 +348,7 @@ export class MapFilesService {
     const rawCoordinates = new Function('return (' + coordinate + ')')();
     let coordinates = '';
     let wktCoordinate = '';
+    console.log(rawCoordinates.length);
     if (rawCoordinates.length === 1) {
       coordinates = JSON.stringify(rawCoordinates[0][0]).replace(/\]\,\[/g, ':').replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
       wktCoordinate = '"POLYGON((' + coordinates + '))' + '"';
