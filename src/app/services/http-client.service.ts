@@ -137,12 +137,9 @@ export class HttpClientService {
         observer.complete();
       } else {
         this._getRootUrl().subscribe((rootUrl: string) => {
-          this._getApiUrlSection()
-            .subscribe((apiSection: string) => {
-              this._apiRootUrl = rootUrl + apiSection;
-              observer.next(this._apiRootUrl);
-              observer.complete();
-            });
+          this._apiRootUrl = rootUrl + 'api/';
+          observer.next(this._apiRootUrl);
+          observer.complete();
         });
       }
     });
