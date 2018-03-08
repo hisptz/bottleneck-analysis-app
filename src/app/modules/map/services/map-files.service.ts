@@ -168,12 +168,23 @@ export class MapFilesService {
 
       columnDelimiter = ',';
       lineDelimiter = '\n';
-      keys = ['CODE', 'ID', 'LEVEL', 'NAME', 'PARENT', 'PARENT ID', 'RANGE', 'FREQUENCY', 'COLOR', 'COORDINATE'];
+      keys = ['CODE', 'ID', 'LEVEL', 'NAME', 'PARENT', 'PARENT ID'];
 
-      if (settings.type === 'event') {
+      if (settings.tyope === 'event') {
 
       } else {
+        data.metaData.dx.forEach((dataElement, dataElementIndex) => {
 
+          keys.push(data.metaData.names[dataElement]);
+          uids.push(dataElement);
+          if (dataElementIndex === data.metaData.dx.length - 1) {
+            keys.push('RANGE');
+            keys.push('FREQUENCY');
+            keys.push('COLOR');
+            keys.push('COORDINATE');
+          }
+
+        });
         result = '';
         result += keys.join(columnDelimiter);
         result += lineDelimiter;
@@ -350,80 +361,48 @@ export class MapFilesService {
 
 
     switch (organisantionUnit.ty) {
-      case 7: {
+      case 1: {
         coordinates = JSON.stringify(rawCoordinates).replace(/\]\,\[/g, ':')
           .replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
         wktCoordinate = '"POINT(' + coordinates + ')' + '"';
         return wktCoordinate;
       }
       case 2: {
-        if (this.isMultiPolygon(rawCoordinates)) {
-          if (organisantionUnit.na === 'Sittia') {
-            wktCoordinate = '"MULTIPOLYGON((' + this.recursivelyGetMultPolygonObjects(rawCoordinates) + '))' + '"';
-
-          }
-
+        if (this.isMultiPolygon(organisantionUnit, rawCoordinates)) {
+          wktCoordinate = '"MULTIPOLYGON((' + this.getMultiPolygonWKT(rawCoordinates) + '))' + '"';
+        } else {
+          coordinates = JSON.stringify(rawCoordinates[0][0]).replace(/\]\,\[/g, ':')
+            .replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
+          wktCoordinate = '"POLYGON((' + coordinates + '))' + '"';
         }
-        // else {
-        //   coordinates = JSON.stringify(rawCoordinates[0][0]).replace(/\]\,\[/g, ':')
-        //     .replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
-        //   wktCoordinate = '"POLYGON((' + coordinates + '))' + '"';
-        // }
 
         return wktCoordinate;
       }
     }
-    // if (rawCoordinates.length === 1) {
-    //   coordinates = JSON.stringify(rawCoordinates[0][0]).replace(/\]\,\[/g, ':').replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
-    //   wktCoordinate = '"POLYGON((' + coordinates + '))' + '"';
-    // } else if (rawCoordinates.length > 1) {
-    //   wktCoordinate = '"POLYGON(';
-    //   rawCoordinates[0].forEach(featureCoordinate => {
-    //     wktCoordinate += '(';
-    //     wktCoordinate += JSON.stringify(featureCoordinate).replace(/\]\,\[/g, ':').replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
-    //     wktCoordinate += '),';
-    //   });
-    //   wktCoordinate = wktCoordinate.substr(0, wktCoordinate.length - 2);
-    //   wktCoordinate += ')"';
-    // }
-    // return wktCoordinate;
   }
 
-  private recursivelyGetMultPolygonObjects(coordinates): string {
-    let multPolygonString = '';
-    coordinates.forEach(multPolygonCoordinate => {
-      multPolygonString += '(';
-      console.log(multPolygonCoordinate);
-      // if (multPolygonCoordinate.length > 1) {
-      //   multPolygonString += '(';
-      //   multPolygonString += this.recursivelyGetMultPolygonObjects(multPolygonCoordinate);
-      //   multPolygonString += '),';
-      // } else if (multPolygonCoordinate.length === 1) {
-      //   multPolygonString += '(';
-      //   console.log(multPolygonCoordinate[0]);
-      if (multPolygonCoordinate[0][0].length === 2) {
-        multPolygonString += JSON.stringify(multPolygonCoordinate[0]).replace(/\]\,\[/g, ':')
-          .replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
-      } else {
-        multPolygonString += this.recursivelyGetMultPolygonObjects(multPolygonCoordinate);
-      }
-      //   multPolygonString += '),';
-      // }
-      multPolygonString += '),';
+  private getMultiPolygonWKT(rawCoordinates): string {
+    const wkt_str = '' +
+      rawCoordinates.map(function (ring) {
+        return '(' +
+          ring[0].map(function (p) {
+            return p[0] + ' ' + p[1];
+          }).join(', ')
+          + ')';
+      }).join(', ');
+    return wkt_str;
 
-    });
-    // coordinates = multPolygonString.substr(0, multPolygonString.length - 1);
-    return multPolygonString;
   }
 
-  private isMultiPolygon(coordinates): boolean {
+  private isMultiPolygon(organisantionUnit, coordinates): boolean {
 
-    let valid = false;
     if (coordinates.length > 1) {
-      valid = true;
+      console.log(organisantionUnit.na);
+      console.log(coordinates, coordinates.length);
       return true;
+    } else{
+      return false;
     }
-    return valid;
   }
 
   private _getClass(headers, item, legend) {
