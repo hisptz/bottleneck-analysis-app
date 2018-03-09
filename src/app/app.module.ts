@@ -77,7 +77,6 @@ import { AppContainerComponent } from './pages/dashboard/components/visualizatio
 import { DashboardMenuBookmarkComponent } from './pages/dashboard/components/dashboard-menu/dashboard-menu-bookmark/dashboard-menu-bookmark.component';
 import { DashboardNotificationComponent } from './pages/dashboard/components/dashboard-header/dashboard-notification/dashboard-notification.component';
 import { FeedbackMessageModule } from './modules/feedback-message/feedback-message.module';
-
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

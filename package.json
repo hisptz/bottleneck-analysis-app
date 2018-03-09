@@ -49,6 +49,7 @@
     "highcharts": "^6.0.4",
     "highcharts-grouped-categories": "^1.1.2",
     "jquery": "^3.3.1",
+    "jszip": "^3.1.5",
     "leaflet": "^1.2.0",
     "leaflet.layergroup.collision": "^0.3.1",
     "leaflet.markercluster": "^1.2.0",

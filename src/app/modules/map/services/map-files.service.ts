@@ -3,13 +3,14 @@ import * as _ from 'lodash';
 import {saveAs} from 'file-saver';
 import * as shapeWrite from 'shp-write';
 import {Observable} from 'rxjs/Observable';
-import {hasOwnProperty} from "tslint/lib/utils";
+import {hasOwnProperty} from 'tslint/lib/utils';
+import {ShapeFileService} from './shapefile-services/shape-file.service';
 @Injectable()
 export class MapFilesService {
 
   geometry: any;
 
-  constructor() {
+  constructor(private shapefile: ShapeFileService) {
     this.geometry = this._getGeometry();
   }
 
@@ -95,13 +96,7 @@ export class MapFilesService {
     layers.forEach((layer, layerIndex) => {
       const legend = _.find(legends, ['layer', layer.id]).legend;
       const geoJsonObject = this._prepareGeoJsonDataForDownload(geofeatures[layer.id], analytics[layer.id], legend);
-      console.log(geoJsonObject);
-      if (geoJsonObject) {
-        shapeWrite.download(geoJsonObject, options);
-      } else {
-
-      }
-
+      this.shapefile.download(geoJsonObject, layer.name);
     });
 
 
