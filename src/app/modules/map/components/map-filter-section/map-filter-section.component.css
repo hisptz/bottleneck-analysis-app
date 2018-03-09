@@ -30,7 +30,8 @@
 .data-filter-btn,
 .period-filter-btn,
 .org-unit-filter-btn,
-.layout-filter-btn {
+.layout-filter-btn,
+.style-filter-btn {
   margin-right: 5px;
   display: flex;
   width: auto;
@@ -51,6 +52,12 @@
 }
 
 .layout-filter-btn img {
+  display: block;
+  margin: auto;
+  height: 15px;
+}
+
+.style-filter-btn img {
   display: block;
   margin: auto;
   height: 15px;
