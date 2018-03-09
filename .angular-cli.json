@@ -23,7 +23,7 @@
         "../node_modules/animate.css/animate.css",
         "styles.css"
       ],
-      "scripts": ["../node_modules/jquery/dist/jquery.js", "ee_api_js.js"],
+      "scripts": ["../node_modules/jquery/dist/jquery.js", "ee_api_js.js", "../node_modules/jszip/dist/jszip.min.js"],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
