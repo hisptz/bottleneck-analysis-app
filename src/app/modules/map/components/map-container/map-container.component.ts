@@ -113,7 +113,9 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
             }
 
             const visible = !hidden;
-            this.setLayerVisibility(visible, leafletlayer);
+            if (leafletlayer) {
+              this.setLayerVisibility(visible, leafletlayer);
+            }
           });
         }
       });
@@ -153,6 +155,9 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
         }
       } else if (layer.type === 'earthEngine') {
         this.mapHasDataAnalytics = true;
+        // Boundary layer do not have data.
+      } else if (layer.type === 'boundary') {
+        this.mapHasDataAnalytics = true;
       }
     });
   }
@@ -170,6 +175,7 @@ export class MapContainerComponent implements OnChanges, OnInit, AfterViewInit {
     const container = fromUtils.prepareMapContainer(this._visualizationObject.componentId, itemHeight, mapWidth, false);
     const otherOptions = {
       zoomControl: false,
+      fadeAnimation: false,
       scrollWheelZoom: fullScreen ? true : false,
       worldCopyJump: true
     };

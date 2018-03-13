@@ -153,6 +153,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MapModule,
     ResourcesModule,
     ReportsModule,
+    // TODO: We need to look and revisit to see. what is causing service worker not to be registered.
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     FeedbackMessageModule,
     TranslateModule.forRoot({

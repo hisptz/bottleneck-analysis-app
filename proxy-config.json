@@ -1,13 +1,13 @@
 {
   "/api": {
-    "target": "https://play.dhis2.org/dev/",
+    "target": "https://play.dhis2.org/2.28/",
     "target1": "http://localhost:8081",
     "secure": "false",
     "auth": "system:System123",
     "changeOrigin": "true"
   },
   "/": {
-    "target": "https://play.dhis2.org/dev/",
+    "target": "https://play.dhis2.org/2.28/",
     "target1": "http://localhost:8081",
     "secure": "false",
     "auth": "system:System123",

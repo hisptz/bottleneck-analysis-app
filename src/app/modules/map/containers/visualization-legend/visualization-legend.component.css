@@ -66,6 +66,10 @@
   padding: 0;
 }
 
+.align-center {
+  align-items: center;
+}
+
 .map-legend-table-list {
   list-style-type: none;
   margin: 0;
