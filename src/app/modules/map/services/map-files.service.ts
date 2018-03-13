@@ -301,7 +301,7 @@ export class MapFilesService {
         if (geoFeature.le >= 4) {
           sampleGeometry.geometry.type = 'Point';
         } else if (geoFeature.le >= 1) {
-          sampleGeometry.geometry.type = 'MultiPolygon';
+          sampleGeometry.geometry.type = 'Polygon';
         }
 
         geoJSONObject.push(sampleGeometry);

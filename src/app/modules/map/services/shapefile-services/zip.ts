@@ -22,7 +22,7 @@ export class Zip {
 
 
       // const layers = this.zipIt.folder(options.folder);
-      [this.geoJson.point()(gj), this.geoJson.line()(gj), this.geoJson.polygon()(gj), this.geoJson.multipolygon()(gj)]
+      [this.geoJson.point()(gj), this.geoJson.line()(gj), this.geoJson.polygon()(gj)]
         .forEach((feature) => {
           if (feature.geometries.length && feature.geometries[0].length) {
             this.writer.write(

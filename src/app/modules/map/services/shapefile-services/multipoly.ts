@@ -81,7 +81,6 @@ export class MultiPoly {
 
   extent(coordinates) {
     return this._justCoords < (coordinates).reduce((extent, c) => {
-      console.log(this.ext);
       return this.ext.enlarge(extent, c);
     }, this.ext.blank());
   }

@@ -3,9 +3,10 @@
  */
 import {Injectable} from '@angular/core';
 import {types} from './constants';
+import {Extent} from './extent';
 @Injectable()
 export class Poly {
-  constructor() {
+  constructor(private ext: Extent) {
 
   }
 
@@ -19,9 +20,9 @@ export class Poly {
         noParts = this.parts([coordinates], TYPE),
         contentLength = (flattened.length * 16) + 48 + (noParts - 1) * 4;
 
-      const featureExtent = flattened.reduce(function(extent, c) {
-        return theExent.enlarge(extent, c);
-      }, theExent.blank());
+      const featureExtent = flattened.reduce((extent, c) => {
+        return this.ext.enlarge(extent, c);
+      }, this.ext.blank());
 
       // INDEX
       shxView.setInt32(shxI, shxOffset / 2); // offset
@@ -41,7 +42,7 @@ export class Poly {
       shpView.setInt32(shpI + 48, flattened.length, true); // POINTS
       shpView.setInt32(shpI + 52, 0, true); // The first part - index zero
 
-      const onlyParts = coordinates.reduce(function (arr, coords) {
+      const onlyParts = coordinates.reduce((arr, coords) => {
         if (Array.isArray(coords[0][0])) {
           arr = arr.concat(coords);
         } else {
@@ -52,14 +53,14 @@ export class Poly {
       for (let p = 1; p < noParts; p++) {
         shpView.setInt32( // set part index
           shpI + 52 + (p * 4),
-          onlyParts.reduce(function (a, b, idx) {
+          onlyParts.reduce((a, b, idx) => {
             return idx < p ? a + b.length : a;
           }, 0),
           true
         );
       }
 
-      flattened.forEach(function writeLine(coords, i) {
+      flattened.forEach((coords, i) => {
         shpView.setFloat64(shpI + 56 + (i * 16) + (noParts - 1) * 4, coords[0], true); // X
         shpView.setFloat64(shpI + 56 + (i * 16) + (noParts - 1) * 4 + 8, coords[1], true); // Y
       });
@@ -69,10 +70,20 @@ export class Poly {
   }
 
   shpLength(geometries) {
-  return (geometries.length * 56) +
-    // points
-    (this._justCoords(geometries).length * 16);
-}
+    return (geometries.length * 56) +
+      // points
+      (this._justCoords(geometries).length * 16);
+  }
+
+  shxLength(geometries) {
+    return geometries.length * 8;
+  }
+
+  extent(coordinates) {
+    return this._justCoords < (coordinates).reduce((extent, c) => {
+        return this.ext.enlarge(extent, c);
+      }, this.ext.blank());
+  }
 
 
   parts(geometries, TYPE) {
@@ -82,7 +93,7 @@ export class Poly {
       no = geometries.reduce((counts, coords) => {
         counts += coords.length;
         if (Array.isArray(coords[0][0][0])) { // multi
-          counts += coords.reduce(function (countsTwo, rings) {
+          counts += coords.reduce((countsTwo, rings) => {
             return countsTwo + rings.length - 1; // minus outer
           }, 0);
         }
@@ -94,7 +105,7 @@ export class Poly {
 
   private _totalPoints(geometries) {
     let sum = 0;
-    geometries.forEach(function (g) {
+    geometries.forEach((g) => {
       sum += g.length;
     });
     return sum;
@@ -106,7 +117,7 @@ export class Poly {
     }
 
     if (typeof coords[0][0] === 'object') {
-      return coords.reduce(function (memo, c) {
+      return coords.reduce((memo, c) => {
         return memo.concat(this._justCoords(c));
       }, l);
     } else {

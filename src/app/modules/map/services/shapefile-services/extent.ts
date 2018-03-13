@@ -1,6 +1,8 @@
+import {Injectable} from "@angular/core";
 /**
  * Created by mpande on 3/8/18.
  */
+@Injectable()
 export class Extent {
   constructor() {
   }
