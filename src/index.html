@@ -13,9 +13,19 @@
     body *{
       font-family: Scorecard-Averta, sans-serif, appleLogo;
     }
+
+    .body-wrapper {
+      background-color: #FAFAFA;
+    }
+
+    @media print {
+      .body-wrapper {
+        background-color: #ffffff;
+      }
+    }
   </style>
 </head>
-<body style="background-color: #fefefe">
+<body class="body-wrapper">
 <app-root>
   <div style="padding-top: 15%; text-align: center;">
     <img src="src/assets/icons/balls-5.svg" alt="">
