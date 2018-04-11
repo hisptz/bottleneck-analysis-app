@@ -188,4 +188,10 @@ export class VisualizationCardComponent implements OnInit {
       })
     );
   }
+
+  onDownload(downloadFormat) {
+    if (this.currentVisualization === 'CHART' && this.chartList) {
+      this.chartList.onDownloadEvent(this.visualizationObject.name, downloadFormat);
+    }
+  }
 }

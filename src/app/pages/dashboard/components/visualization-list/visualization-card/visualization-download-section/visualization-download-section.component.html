@@ -2,6 +2,7 @@
   <button
     class="dashboard-btn visualization-download-btn"
     title="View download options"
+    (click)="toggleDownloadOptions($event)"
   >
     <img src="assets/icons/download.png" alt="">
   </button>
@@ -9,36 +10,48 @@
     <button
       class="dashboard-btn visualization-download-btn-list-item"
       title="Download png"
+      *ngIf="visualizationType === 'CHART' || visualizationType === 'MAP'"
+      (click)="download($event, 'PNG')"
     >
       <img src="assets/icons/png.png" alt="">
     </button>
     <button
       class="dashboard-btn visualization-download-btn-list-item"
-      title="Download gif"
+      title="Download jpg"
+      *ngIf="visualizationType === 'CHART'"
+      (click)="download($event, 'JPEG')"
     >
-      <img src="assets/icons/gif.png" alt="">
+      <img src="assets/icons/jpg.png" alt="">
     </button>
     <button
       class="dashboard-btn visualization-download-btn-list-item"
       title="Download svg"
+      *ngIf="visualizationType === 'CHART'"
+      (click)="download($event, 'SVG')"
     >
       <img src="assets/icons/image.png" alt="">
     </button>
     <button
       class="dashboard-btn visualization-download-btn-list-item"
       title="Download csv"
+      *ngIf="visualizationType === 'CHART' || visualizationType === 'MAP' || visualizationType === 'TABLE'"
+      (click)="download($event, 'CSV')"
     >
       <img src="assets/icons/csv.png" alt="">
     </button>
     <button
       class="dashboard-btn visualization-download-btn-list-item"
       title="Download pdf"
+      *ngIf="visualizationType === 'CHART' || visualizationType === 'MAP' || visualizationType === 'TABLE'"
+      (click)="download($event, 'PDF')"
     >
       <img src="assets/icons/pdf.png" alt="">
     </button>
     <button
       class="dashboard-btn visualization-download-btn-list-item"
-      title="Download pdf"
+      title="Download kml"
+      *ngIf="visualizationType === 'MAP'"
+      (click)="download($event, 'KML')"
     >
       <img src="assets/icons/kml.png" alt="">
     </button>
