@@ -6,6 +6,7 @@ import { AppState } from '../../../../../store/app.reducers';
 import * as visualization from '../../../../../store/visualization/visualization.actions';
 import { CurrentUserState } from '../../../../../store/current-user/current-user.state';
 import { ChartListComponent } from '../../../../../modules/chart/components/chart-list/chart-list.component';
+import { TableListComponent } from '../../../../../modules/table/components/table-list/table-list.component';
 
 @Component({
   selector: 'app-visualization-card',
@@ -23,6 +24,7 @@ export class VisualizationCardComponent implements OnInit {
   showDeleteDialog: boolean;
 
   @ViewChild(ChartListComponent) chartList: ChartListComponent;
+  @ViewChild(TableListComponent) tableList: TableListComponent;
 
   constructor(private store: Store<AppState>) {
     this.showDeleteDialog = false;
@@ -187,5 +189,13 @@ export class VisualizationCardComponent implements OnInit {
         visualizationId: this.visualizationObject.id
       })
     );
+  }
+
+  onDownload(downloadFormat) {
+    if (this.currentVisualization === 'CHART' && this.chartList) {
+      this.chartList.onDownloadEvent(this.visualizationObject.name, downloadFormat);
+    } else if (this.currentVisualization === 'TABLE' && this.tableList) {
+      this.tableList.onDownloadEvent(this.visualizationObject.name, downloadFormat);
+    }
   }
 }

@@ -88,7 +88,7 @@
     <div *ngIf="visualizationObject.details.nonVisualizable">&nbsp;</div>
     <div class="visualization-card-footer-left animated fadeInLeft" *ngIf="!visualizationObject.details.nonVisualizable">
       <app-visualization-types-section [currentVisualization]="currentVisualization" (onCurrentVisualizationChange)="currentVisualizationChange($event)"></app-visualization-types-section>
-      <app-visualization-download-section></app-visualization-download-section>
+      <app-visualization-download-section [visualizationType]="currentVisualization" (downloadVisualization)="onDownload($event)"></app-visualization-download-section>
     </div>
     <div class="visualization-card-footer-right">
       <!--visualization delete section-->
