@@ -5,50 +5,44 @@ declare var unescape: any;
 @Injectable()
 export class VisualizationExportService {
 
-  exportXLS(filename: string, htmlTable: any, exportAsTable: boolean = false) {
+  exportXLS(filename: string, htmlTable: any) {
     if (this._getMsieVersion() || this._isFirefox()) {
       console.error('Not supported browser');
     }
     // Other Browser can download xls
     if (htmlTable) {
-      if (exportAsTable) {
-        const uri = 'data:application/vnd.ms-excel;base64,',
-          template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:' +
-            'office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook>' +
-            '<x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
-            '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->' +
-            '</head><body><table border="1">{table}</table><br /><table border="1">{table}</table></body></html>',
-          base64 = (s) => window.btoa(unescape(encodeURIComponent(s))),
-          format = (s, c) => s.replace(/{(\w+)}/g, (m, p) => c[p]);
-
-        const ctx = {worksheet: 'Sheet 1'};
-        let str = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office' +
-          ':excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook>' +
+      const uri = 'data:application/vnd.ms-excel;base64,',
+        template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:' +
+          'office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook>' +
           '<x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
-          '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>';
+          '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->' +
+          '</head><body><table border="1">{table}</table><br /><table border="1">{table}</table></body></html>',
+        base64 = (s) => window.btoa(unescape(encodeURIComponent(s))),
+        format = (s, c) => s.replace(/{(\w+)}/g, (m, p) => c[p]);
 
-        const matchedTableContent = htmlTable.match(/<table[^>]*>([\w|\W]*)<\/table>/im);
-        ctx['table1'] = matchedTableContent && matchedTableContent.length > 1 ?
-                        matchedTableContent[1] :
-                        '';
+      const ctx = {worksheet: 'Sheet 1', filename: filename};
+      let str = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office' +
+        ':excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook>' +
+        '<x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
+        '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>';
 
-        str += '<table border="1">{table1}</table></body></html>';
+      const matchedTableContent = htmlTable.match(/<table[^>]*>([\w|\W]*)<\/table>/im);
+      ctx['table1'] = matchedTableContent && matchedTableContent.length > 1 ?
+                      matchedTableContent[1] :
+                      '';
 
-        setTimeout(() => {
-          const link = document.createElement('a');
-          link.download = filename + '.xls';
-          link.href = uri + base64(format(str, ctx));
-          link.click();
-        }, 100);
-      } else {
-        const html = htmlTable.outerHTML;
+      str += '<b>{filename}</b><br/><table border="1">{table1}</table></body></html>';
 
-        this._downloadAnchor('data:application/vnd.ms-excel' + encodeURIComponent(html), 'xls', filename);
-      }
+      setTimeout(() => {
+        const link = document.createElement('a');
+        link.download = filename + '.xls';
+        link.href = uri + base64(format(str, ctx));
+        link.click();
+      }, 100);
     }
   }
 
-  exportCSV(filename: string, htmlTable: string, csv: any) {
+  exportCSV(filename: string, htmlTable: any, csv?: any) {
 
     // Generate our CSV string from out HTML Table
     const csvString = csv ? csv : this._tableToCSV(htmlTable);

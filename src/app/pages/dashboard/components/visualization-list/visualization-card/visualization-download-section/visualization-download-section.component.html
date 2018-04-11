@@ -9,7 +9,7 @@
   <div class="visualization-download-list" *ngIf="showDownloadOptions">
     <button
       class="dashboard-btn visualization-download-btn-list-item"
-      title="Download png"
+      title="Download as image in png"
       *ngIf="visualizationType === 'CHART' || visualizationType === 'MAP'"
       (click)="download($event, 'PNG')"
     >
@@ -17,7 +17,7 @@
     </button>
     <button
       class="dashboard-btn visualization-download-btn-list-item"
-      title="Download jpg"
+      title="Download as image in jpeg"
       *ngIf="visualizationType === 'CHART'"
       (click)="download($event, 'JPEG')"
     >
@@ -25,7 +25,7 @@
     </button>
     <button
       class="dashboard-btn visualization-download-btn-list-item"
-      title="Download svg"
+      title="Download as image in svg"
       *ngIf="visualizationType === 'CHART'"
       (click)="download($event, 'SVG')"
     >
@@ -50,7 +50,7 @@
     <button
       class="dashboard-btn visualization-download-btn-list-item"
       title="Download pdf"
-      *ngIf="visualizationType === 'CHART' || visualizationType === 'MAP' || visualizationType === 'TABLE'"
+      *ngIf="visualizationType === 'CHART' || visualizationType === 'MAP'"
       (click)="download($event, 'PDF')"
     >
       <img src="assets/icons/pdf.png" alt="">

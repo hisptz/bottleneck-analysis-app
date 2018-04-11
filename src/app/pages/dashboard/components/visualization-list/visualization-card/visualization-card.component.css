@@ -88,6 +88,11 @@
   overflow: auto;
 }
 
+.message-container-block {
+  height: 100%;
+  overflow: auto;
+}
+
 .map-container {
   overflow: hidden;
   height: 100%;
