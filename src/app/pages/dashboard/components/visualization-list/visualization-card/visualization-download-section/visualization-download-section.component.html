@@ -33,11 +33,19 @@
     </button>
     <button
       class="dashboard-btn visualization-download-btn-list-item"
-      title="Download csv"
+      title="Download csv document"
       *ngIf="visualizationType === 'CHART' || visualizationType === 'MAP' || visualizationType === 'TABLE'"
       (click)="download($event, 'CSV')"
     >
       <img src="assets/icons/csv.png" alt="">
+    </button>
+    <button
+      class="dashboard-btn visualization-download-btn-list-item"
+      title="Download excel document"
+      *ngIf="visualizationType === 'CHART' || visualizationType === 'MAP' || visualizationType === 'TABLE'"
+      (click)="download($event, 'XLS')"
+    >
+      <img src="assets/icons/xls.png" alt="">
     </button>
     <button
       class="dashboard-btn visualization-download-btn-list-item"

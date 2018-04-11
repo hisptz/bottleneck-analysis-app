@@ -80,6 +80,7 @@ import { FeedbackMessageModule } from './modules/feedback-message/feedback-messa
 
 // service worker module
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { VisualizationExportService } from './services/visualization-export.service';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -189,7 +190,7 @@ export function HttpLoaderFactory(http: HttpClient) {
      */
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }, ManifestService, HttpClientService],
+  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }, ManifestService, HttpClientService, VisualizationExportService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
