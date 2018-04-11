@@ -13,24 +13,31 @@
   <div class="classification">
     <span>Classfications</span>
     <select (change)="onChange($event.target.value)" class="custom-select">
-      <option *ngFor="let classification of classifications">{{classification}}</option>
+      <option *ngFor="let classification of classifications">{{classification.name}}</option>
     </select>
   </div>
   <div class="color-classes">
     <div class="classes">
       <span>Classes</span>
-      <select (change)="onChange($event.target.value)" class="custom-select">
+      <select (change)="onChangeClass($event.target.value)" class="custom-select">
         <option *ngFor="let class of classes">{{class}}</option>
       </select>
     </div>
     <div class="colours">
-      <select (change)="onChange($event.target.value)" class="custom-select">
-        <option *ngFor="let color of colors">
-          <ul class="colours-ul">
-            <li *ngFor="let code of getColors(color, default_class)" [ngStyle]="{'background-color': code, 'color':code }">{{code}}</li>
+      <div class="dropdown-container">
+        <button type="button" class="form-control text-left nominal" (click)="toggleDropDown()">
+          <ul class="button-ul">
+            <li *ngFor="let code of getColors(default_color, default_class)" [ngStyle]="{'background-color': code}"></li>
           </ul>
-        </option>
-      </select>
+        </button>
+        <ul class="instead-option list-unstyled" *ngIf="dropDownIsOpen">
+          <li *ngFor="let color of colors">
+            <ul class="colours-ul">
+              <li *ngFor="let code of getColors(color, default_class)" [ngStyle]="{'background-color': code}" (click)="onChangeColor(color)"></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

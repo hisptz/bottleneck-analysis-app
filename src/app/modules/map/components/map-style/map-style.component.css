@@ -94,20 +94,81 @@
   width: 200px;
 }
 .colours-ul {
-  margin-right: 30px;
-  padding-left: 0px;
-  height: 36px;
   cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-  display: inline-block;
-  margin-top: 19px;
+  display: flex;
+  margin: 2px 0;
+  height: 100%;
+  padding: 0;
   overflow: visible;
   white-space: nowrap;
 }
 .colours-ul li {
   margin-left: 0px;
-  display: inline-block;
+  display: flex;
+  flex: 1;
   background-color: rgb(255, 255, 212);
-  width: 36px;
   height: 100%;
+}
+
+.button-ul {
+  cursor: pointer;
+  display: flex;
+  height: 25px;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  white-space: nowrap;
+}
+.button-ul li {
+  margin-left: 0px;
+  display: flex;
+  flex: 1;
+  background-color: rgb(255, 255, 212);
+  height: 100%;
+}
+
+.instead-option {
+  z-index: 999;
+  position: relative;
+  margin: 0;
+  border-radius: 4px;
+  border: 1px solid #dddddd;
+  overflow: auto;
+  display: inline-block;
+  width: 100%;
+  line-height: 1.5;
+  max-height: 150px;
+  color: #495057;
+  vertical-align: middle;
+  background: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns=http://www.w3.org/2000/svg v…0 0 4 5%3E%3Cpath fill=%23333 d=M2 0L0 2h4zm0 5L0 3h4z/%3E%3C/svg%3E');
+  background-size: 8px 10px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  -webkit-appearance: none;
+}
+.instead-option > li {
+  width: 100%;
+  background: #eee;
+  height: 25px;
+  line-height: 25px;
+  font-size: 14px;
+  padding: 0 10px;
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.dropdown-container {
+  position: relative;
+}
+.dropdown-container .caret {
+  position: absolute;
+
+  /* Have the same padding to right as in the button*/
+  right: 12px;
+
+  /* Position the element from top by 50% of the parent element's height */
+  top: 50%;
+
+  /* Moves the element from its current position by -50% on Y axis to position the element vertically middle*/
+  transform: translateY(-50%);
 }

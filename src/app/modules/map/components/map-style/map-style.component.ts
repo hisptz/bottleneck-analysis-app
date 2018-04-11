@@ -7,17 +7,30 @@ import { colorBrewer } from '../../utils/colorBrewer';
   styleUrls: ['./map-style.component.css']
 })
 export class MapStyleComponent implements OnInit {
-  classifications = ['Equal interval', 'Equal counts'];
+  classifications = [{ method: 2, name: 'Equal interval' }, { method: 2, name: 'Equal counts' }];
   classes = [3, 4, 5, 6, 7, 8, 9];
   default_color = 'PuBu';
+  dropDownIsOpen = false;
   default_class = 3;
   colors = Object.keys(colorBrewer);
   constructor() {}
 
   ngOnInit() {}
 
-  onChange(deviceValue) {
-    console.log(deviceValue);
+  onChange(classfication) {
+    console.log(classfication);
+  }
+
+  onChangeClass(classSize) {
+    this.default_class = classSize;
+  }
+
+  onChangeColor(colorDefault) {
+    this.default_color = colorDefault;
+  }
+
+  toggleDropDown() {
+    this.dropDownIsOpen = !this.dropDownIsOpen;
   }
 
   getColors(key, classSize) {
