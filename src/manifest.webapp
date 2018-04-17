@@ -1,6 +1,6 @@
 {
-    "version": "2.1.0-beta.3",
-    "name": "Interactive Dashboard 2",
+    "version": "2.1.0-beta.4",
+    "name": "Interactive Dashboard 2 - Beta 4",
     "description": "Interactive dashboard 2",
     "launch_path": "index.html",
     "icons": {
