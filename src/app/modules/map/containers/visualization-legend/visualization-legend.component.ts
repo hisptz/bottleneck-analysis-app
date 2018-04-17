@@ -123,6 +123,15 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       );
     }
 
+    if (fileType === 'gml') {
+      this.store.dispatch(
+        new fromStore.DownloadGML({
+          visualization: this.mapVisualizationObject,
+          mapLegends: mapLegends
+        })
+      );
+    }
+
     if (fileType === 'shapefile') {
       this.store.dispatch(
         new fromStore.DownloadShapeFile({

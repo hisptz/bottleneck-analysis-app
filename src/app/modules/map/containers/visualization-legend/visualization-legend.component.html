@@ -147,6 +147,9 @@
         <a *ngIf="showDownload">
           <img src="assets/icons/csv.png" (click)="mapDownload($event, 'geojson', visualizationLegends)" alt="download" title="Download map as geojson">
         </a>
+        <a *ngIf="showDownload">
+          <img src="assets/icons/csv.png" (click)="mapDownload($event, 'gml', visualizationLegends)" alt="download" title="Download map as gml">
+        </a>
         <a>
           <img *ngIf="!showDownload" src="assets/icons/download.png" alt="download" title="Download file" (click)="toggleDownload($event)">
           <img *ngIf="showDownload" src="assets/icons/arrow-left.png" alt="back" title="Back" (click)="toggleDownload($event)">
