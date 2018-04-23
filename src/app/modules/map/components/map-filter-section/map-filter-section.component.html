@@ -45,7 +45,8 @@
     <!--end of period filter-->
 
     <!-- style filter -->
-    <app-map-style *ngIf="selectedFilter === 'STYLE'"></app-map-style>
+    <app-map-style *ngIf="selectedFilter === 'STYLE'" [selectedLayer]="selectedLayer" (onStyleFilterClose)="onFilterClose($event)"
+      (onStyleUpdate)="onStyleFilterUpdate($event)"></app-map-style>
     <!-- end of style filter -->
   </div>
 </div>

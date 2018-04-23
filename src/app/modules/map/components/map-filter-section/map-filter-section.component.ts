@@ -45,6 +45,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   selectedFilter: string = 'ORG_UNIT';
   selectedDataItems: any = [];
   selectedPeriods: any = [];
+  selectedLayer;
   public singleSelection: boolean = true;
   public periodConfig: any = {
     singleSelection: true
@@ -67,8 +68,8 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.showFilters = true;
     const { layers } = this.mapVisualizationObject;
-    const layer = layers[this.activeLayer];
-    const { dataSelections } = layer;
+    this.selectedLayer = layers[this.activeLayer];
+    const { dataSelections } = this.selectedLayer;
     this.getSelectedFilters(dataSelections);
   }
 
@@ -151,6 +152,17 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
       default:
         break;
     }
+  }
+
+  onStyleFilterUpdate({ layer }) {
+    const activeLayerIndex = this.activeLayer;
+    const { layers, componentId } = this.mapVisualizationObject;
+    const updatedLayers = layers.map(
+      (_layer, index) => (index === activeLayerIndex ? layer : _layer)
+    );
+    this.store.dispatch(
+      new fromStore.UpdateLayerStyle({ ...this.mapVisualizationObject, layers: updatedLayers })
+    );
   }
 
   onFilterClose(event) {

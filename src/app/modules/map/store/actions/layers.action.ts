@@ -15,6 +15,8 @@ export const ADD_LAYERS_SUCCESS = '[Map] Add Layer Success';
 export const REMOVE_LAYERS = '[Map] Remove Layer';
 export const REMOVE_LAYERS_FAIL = '[Map] Remove Layer Fail';
 export const REMOVE_LAYERS_SUCCESS = '[Map] Remove Layer Success';
+export const UPDATE_LAYER_STYLE = '[Layer] Update layer Style';
+export const UPDATE_LAYER_STYLE_SUCCESS = '[Layer] Update layer Style Success';
 
 export class LoadLayers implements Action {
   readonly type = LOAD_LAYERS;
@@ -75,6 +77,16 @@ export class RemoveLayersSuccess implements Action {
   constructor(public payload: Layer) {}
 }
 
+export class UpdateLayerStyle implements Action {
+  readonly type = UPDATE_LAYER_STYLE;
+  constructor(public payload: any) {}
+}
+
+export class UpdateLayerStyleSuccess implements Action {
+  readonly type = UPDATE_LAYER_STYLE_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 // action types
 export type LayersAction =
   | LoadLayers
@@ -85,4 +97,6 @@ export type LayersAction =
   | CreateLayersSuccess
   | RemoveLayers
   | RemoveLayersFail
-  | RemoveLayersSuccess;
+  | RemoveLayersSuccess
+  | UpdateLayerStyle
+  | UpdateLayerStyleSuccess;
