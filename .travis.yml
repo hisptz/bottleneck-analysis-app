@@ -2,38 +2,50 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-- 8.9.4
+  - "8.9.4"
+
 branches:
   only:
-  - master
-  - 2.1
+    - master
+    - 2.1
+
 addons:
   firefox: latest
   apt:
     sources:
-    - google-chrome
+      - google-chrome
     packages:
-    - google-chrome-stable
-    - google-chrome-beta
+      - google-chrome-stable
+      - google-chrome-beta
+
 before_install:
-- export CHROME_BIN=chromium-browser
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
 install:
-- pushd $TRAVIS_BUILD_DIR
-- source scripts/setup.sh || exit 1
+  - pushd $TRAVIS_BUILD_DIR
+  - source scripts/setup.sh || exit 1
+
+
 script:
-- npm run build
+  - npm run build
+
 after_success:
-- source scripts/deploy.sh || exit 1
+  # Here is where all things you want to do after build success is done
+  - source scripts/deploy.sh || exit 1
+
 cache:
+  # improve build time cache stuffs that do not change occasionally eg. node_modules
   directories:
-  - node_modules/
+    - node_modules/
+
 notifications:
   email:
     recipients:
     - rajeyw@gmail.com
     on_failure: always
     on_success: always
+    
   slack:
     secure: ayOCicazeLU9EWJpfoHDzT9YyLpcmMKTIFwCrB9lcmYhGkAfCxewSimShjf/qg7G3e1Df8+cBFD+KoOkyVyY9ovd/h11Uq3MFPv5xScG6nKEfMqt8fAOGe0RSRdjkh9MVlf0h/Ng+oG0ez1Wmz4JZLJDuBE+XkSLBITC5WJl+lpKDM7KvCNpFjdaWfzW7Lj2NAHDMJEvHhklhhMl2LDNwTJMYgojBZvAgL2Sn6qeh63JzmLFkzp3mNcIRTB7D6vxe899X63dMtfIj3JJqkEe4WqmyilxMRjai9c8dqHhvD+uo6PvcuWAKXZgQcvdiUXVzbZ+03ERU2jBQFNOkJolH2zgWmqb8sF06C3+erzEhbM0F73r1sjNqeXDkecrd4hF4A67JuGjy8JV1M2NkD9kIFXjgTGvMTaxKMCg0TupT+fbrh6jU2IYn/NHbM8uDZsnndckwzATwRsYOv01dgweDG00QHPQ7KdU/K9z7chVOlc5uBdbzx6Wbr0wssJx8ZnT9Qg9roU5G2DJRaQRr57f9i/DbwWDByj5e64QCovJJ4+YK5MUB9pApqwVEGedb82unWHepunNwn8Kp7RErSCFZleVLwsSl++lefaYmd3mZxjDKJF9+r7lpruzRbhjwr09m0E5evIClyHMiHhNgeWX25ilmf0yQnP4Mk5vK/2o4Uw=
