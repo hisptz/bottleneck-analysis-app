@@ -19,6 +19,8 @@ export class Writer {
   }
 
   write(rows, geometry_type, geometries, callback) {
+    console.log(geometry_type);
+    console.log(this.writers[geometry_type]);
     const writer = this.writers[geometry_type],
       TYPE = types.geometries[geometry_type],
       parts = writer.parts(geometries),

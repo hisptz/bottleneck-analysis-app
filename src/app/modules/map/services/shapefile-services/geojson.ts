@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 /**
  * Created by mpande on 3/8/18.
  */
@@ -18,16 +18,12 @@ export class GeoJson {
   }
 
 
-  multipolygon() {
-    return this.justType('MultiPolygon', 'MULTIPOLYGON');
-  }
-
   private justType(type, TYPE) {
     return (geoJson) => {
       const ofType = geoJson.features.filter(this.isType(type));
 
       return {
-        geometries: (TYPE === 'MULTIPOLYGON' || TYPE === 'POLYGON' || TYPE === 'POLYLINE') ? [ofType.map(this.justCoordinates)] : ofType.map(this.justCoordinates),
+        geometries: (TYPE === 'POLYGON' || TYPE === 'POLYLINE') ? [ofType.map(this.justCoordinates)] : ofType.map(this.justCoordinates),
         properties: ofType.map(this.justProps),
         type: TYPE
       };
@@ -35,8 +31,6 @@ export class GeoJson {
   }
 
   private justCoordinates(feature) {
-    console.log("JUST COORDIBNATE")
-    console.log(feature);
     if (feature.geometry.coordinates[0] !== undefined && feature.geometry.coordinates[0][0] !== undefined && feature.geometry.coordinates[0][0][0] !== undefined) {
       return feature.geometry.coordinates[0];
     } else {

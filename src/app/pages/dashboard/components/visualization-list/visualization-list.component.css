@@ -8,6 +8,16 @@
     grid-auto-rows: minmax(400px, auto);
 }
 
+.visualization-card-container {
+  background-color: #ffffff;
+}
+
+@media print {
+  #dashboard-visualization-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media screen and (min-width: 2500px) {
     #dashboard-visualization-list {
         /*grid-template-columns: repeat(3, 1fr);*/

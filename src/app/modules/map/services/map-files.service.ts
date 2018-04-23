@@ -70,6 +70,30 @@ export class MapFilesService {
   }
 
   downloadMapVisualizationAsGML(mapVisualization) {
+    const payload = mapVisualization.payload && mapVisualization.payload !== '' ? mapVisualization.payload : {};
+    const legends = payload.mapLegends;
+    const visualization = payload.visualization;
+
+    const layers = visualization.layers;
+    const analytics = visualization.analytics;
+    const geofeatures = visualization.geofeatures;
+
+    layers.forEach((layer, layerIndex) => {
+      const legend = _.find(legends, ['layer', layer.id]).legend;
+      const geoJsonObject = this._prepareGeoJsonDataForDownload(geofeatures[layer.id], analytics[layer.id], legend);
+      const kml: any = this.toGML(geoJsonObject, layer);
+      const modifiedMapData = this._convertToBinaryData(kml, 'gml');
+      if (modifiedMapData) {
+        setTimeout(() => {
+          saveAs(modifiedMapData, layer.name + '.gml');
+        }, 10);
+      } else {
+
+      }
+
+    });
+
+
     return null;
   }
 
@@ -301,7 +325,7 @@ export class MapFilesService {
         if (geoFeature.le >= 4) {
           sampleGeometry.geometry.type = 'Point';
         } else if (geoFeature.le >= 1) {
-          sampleGeometry.geometry.type = 'MultiPolygon';
+          sampleGeometry.geometry.type = 'Polygon';
         }
 
         geoJSONObject.push(sampleGeometry);
@@ -831,6 +855,213 @@ export class MapFilesService {
       .replace(/>/g, '&gt;')
       .replace(/'/g, '&quot;');
   }
+
+
+
+  /***
+   * *  KML FILE GENERATION FUNCTIONS FROM
+   * *
+   * *
+   * */
+
+  toGML(fileDataObject: Object, options?: Object) {
+    options = options || {
+        documentName: undefined,
+        documentDescription: undefined,
+        name: 'name',
+        description: 'description',
+        simplestyle: true,
+        timestamp: 'timestamp'
+      };
+
+    return '<?xml version="1.0" encoding="utf-8" ?>' +
+      this._tag('ogr:FeatureCollection',
+        this._gml(fileDataObject, options)
+        , [
+          ['xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance'],
+          ['xsi:schemaLocation', ''],
+          ['xmlns:ogr', 'http://ogr.maptools.org/'],
+          ['xmlns:gml', 'http://www.opengis.net/gml']
+        ]);
+  }
+
+  private _gml(_, options) {
+    if (!_.type) {
+      return ''
+    }
+
+    switch (_.type) {
+      case 'FeatureCollection':
+        if (!_.features) {
+          return ''
+        }
+        ;
+        return _.features.map(this._gmlFeature(options)).join('');
+      case 'Feature':
+        return this._gmlFeature(options)(_);
+      default:
+        return this._gmlFeature(options)({
+          type: 'Feature',
+          geometry: _,
+          properties: {}
+        });
+    }
+  }
+
+  private _gmlFeature(options) {
+    return (_) => {
+      if (!_.properties || !this.geometry.valid(_.geometry)) return '';
+      const geometryString = this.geometry.any(_.geometry);
+      if (!geometryString) return '';
+
+
+      return this._tag('gml:featureMember', this._gmlFeatureAttributes(_, options));
+    };
+  }
+
+  private _gmlFeatureAttributes(_, options) {
+    const name = this._underScoreCharacter(options.documentName);
+    return this._tag('ogr:' + name,
+      this._tag('ogr:geometryProperty',
+        this._getFeatureTagsAccordingToType(_.geometry.type, _)
+      ) +
+      this._preparePropertiesForGmlFormat(_.properties)
+      , [['fid', name + "." + _.properties.id]]);
+  }
+
+  private _underScoreCharacter(characterString){
+    characterString = characterString.replace(/[- &\/\\#,+()$~%.'":*?<>{}]/g, '_');
+    return characterString;
+  }
+
+  private _getFeatureTagsAccordingToType(featureType, _): string {
+    let format = "";
+    if (featureType == "Point") {
+      format = this._preparePointMembers(_.geometry.coordinates);
+    }
+
+    if (featureType == "LineString" || featureType == "MultiLineString") {
+
+    }
+
+    if (featureType == "Polygon" || featureType == "MultiPolygon") {
+      format = this._tag('gml:' + featureType, this._preparePolygonMembers(_.geometry.coordinates), [['srsName', 'EPSG:4326']])
+    }
+    return format;
+
+  }
+
+  private _preparePointMembers(coordinates): string {
+    const featureBlocks = this._prepareFeatureBlocks(coordinates);
+    let blockTag = "";
+    featureBlocks.forEach(featureBlock => {
+      blockTag += this._getPointOuterBoundTypeGmlFormat(featureBlock);
+    });
+    return blockTag;
+  }
+
+  private _preparePolygonMembers(coordinates): string {
+    const featureBlocks = this._prepareFeatureBlocks(coordinates);
+    let blockTag = "";
+    featureBlocks.forEach(featureBlock => {
+      blockTag += this._tag('gml:polygonMember', this._getPolygonOuterBoundTypeGmlFormat(featureBlock));
+    });
+
+    return blockTag;
+  }
+
+  private sanitizeStringForXML(stringElement:string): string{
+
+    if ( typeof stringElement == 'string' )
+    {
+      if (stringElement.indexOf('&')>=0){
+        stringElement = stringElement.replace("&","&amp;");
+      }
+
+      if (stringElement.indexOf('<')>=0){
+        stringElement = stringElement.replace("<","&lt;");
+      }
+
+      if (stringElement.indexOf('>')>=0){
+        stringElement = stringElement.replace("<","&gt;");
+      }
+    }
+
+    return stringElement;
+  }
+
+  private _getPointOuterBoundTypeGmlFormat(featureBlock): string {
+    let format = "";
+
+    if (this._isFinalBlock(featureBlock)) {
+      format = this._tag('gml:Point', this._tag('gml:coordinates', this._convertfeatureCoordinateToGmlFormat(featureBlock)), [['srsName', 'EPSG:4326']])
+    }
+    return format;
+  }
+
+  private _getPolygonOuterBoundTypeGmlFormat(featureBlock): string {
+    let format = "";
+    if (!this._isFinalBlock(featureBlock)) {
+      format = this._tag('gml:Polygon',
+        this._tag('gml:outerBoundaryIs',
+          this._tag('gml:LinearRing',
+            this._tag('gml:coordinates', this._convertfeatureCoordinateToGmlFormat(featureBlock)))));
+    }
+    return format
+  }
+
+  private _prepareFeatureBlocks(coordinates): any[] {
+    let blocks = [];
+    if (this._isFinalBlock(coordinates)) {
+      blocks.push(coordinates);
+    } else {
+      coordinates.forEach((coordinate, index) => {
+        blocks.push(coordinate)
+      });
+    }
+    return blocks;
+  }
+
+  private _isFinalBlock(block) {
+    if (!isNaN(block[0])) {
+      return true;
+    }
+    return false;
+  }
+
+  private _convertfeatureCoordinateToGmlFormat(coordinates) {
+    let gmlCoordinates = this._getCoordinate(coordinates);
+    return gmlCoordinates;
+  }
+
+  private _getCoordinate(coordinates) {
+    let coord = "";
+    coordinates.forEach((coordinate, index) => {
+      if (!isNaN(coordinate)) {
+        coord += coordinate;
+        if (index == 0) {
+          coord += ","
+        } else {
+          coord += " ";
+        }
+      } else {
+        coord += this._getCoordinate(coordinate);
+      }
+    })
+
+    return coord;
+  }
+
+
+  private _preparePropertiesForGmlFormat(properties): string {
+    let propertyGml = "";
+    const propertNames = Object.getOwnPropertyNames(properties);
+    propertNames.forEach(property => [
+      propertyGml += this._tag('ogr:' + this._underScoreCharacter(property),this.sanitizeStringForXML(properties[property]))
+    ])
+    return propertyGml;
+  }
+
 
 
 }

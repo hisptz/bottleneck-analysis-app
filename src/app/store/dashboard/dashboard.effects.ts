@@ -25,13 +25,9 @@ import { SharingEntity } from '../../modules/sharing-filter/models/sharing-entit
 import { switchMap } from 'rxjs/operators/switchMap';
 import {
   map,
-  catchError,
-  mergeMap,
-  take,
-  withLatestFrom, tap
+  catchError,tap
 } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
-import { from } from 'rxjs/observable/from';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Injectable()
