@@ -16,6 +16,7 @@ import { colorBrewer } from '../../utils/colorBrewer';
 })
 export class MapStyleComponent implements OnInit {
   @Input() selectedLayer;
+  @Input() legendSets;
   @Output() onStyleUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() onStyleFilterClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   classifications = [{ method: 2, name: 'Equal interval' }, { method: 3, name: 'Equal counts' }];
@@ -24,6 +25,7 @@ export class MapStyleComponent implements OnInit {
   dropDownIsOpen = false;
   fontStyleActive: boolean;
   fontWeightActive: boolean;
+  isAutomatic: boolean;
   legendProperties;
   displaySettings;
 
@@ -31,10 +33,11 @@ export class MapStyleComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    const { displaySettings, legendProperties } = this.selectedLayer;
-    console.log(this.selectedLayer);
+    const { displaySettings, legendProperties, legendSet } = this.selectedLayer;
     this.displaySettings = { ...displaySettings };
     this.legendProperties = { ...legendProperties };
+    this.isAutomatic = legendSet ? false : true;
+    console.log(this.legendSets);
     this.fontStyleActive = !(this.displaySettings.labelFontStyle === 'normal');
     this.fontWeightActive = !(this.displaySettings.labelFontWeight === 'normal');
     if (this.legendProperties.classes) {
@@ -85,7 +88,6 @@ export class MapStyleComponent implements OnInit {
   }
 
   getNumberFromFontSize(fontSize) {
-    console.log(fontSize);
     return fontSize.split('px')[0];
   }
 
@@ -97,10 +99,9 @@ export class MapStyleComponent implements OnInit {
     const colorLow = colorArray[0];
     const colorHigh = colorArray[colorArray.length - 1];
     this.legendProperties = { ...this.legendProperties, colorScale, colorLow, colorHigh };
-    console.log(this.legendProperties);
     const layer = {
       ...this.selectedLayer,
-      legendProperties: this.displaySettings,
+      legendProperties: this.legendProperties,
       displaySettings: this.displaySettings
     };
     this.onStyleUpdate.emit({ layer });
@@ -108,5 +109,13 @@ export class MapStyleComponent implements OnInit {
   onCanceling(e) {
     e.stopPropagation();
     this.onStyleFilterClose.emit(true);
+  }
+
+  toggleAtomatic(isAutomatic) {
+    this.isAutomatic = !this.isAutomatic;
+  }
+
+  onChangeLegend(id) {
+    console.log(id);
   }
 }

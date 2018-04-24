@@ -56,8 +56,6 @@ export class MapVisualizerComponent implements OnInit, OnChanges, AfterViewInit 
     const {
       visualizationObject,
       displayConfigurations,
-      visualizationLegendIsOpen,
-      isDataTableOpen,
       baselayerLegend,
       currentLegendSets
     } = changes;
@@ -71,6 +69,7 @@ export class MapVisualizerComponent implements OnInit, OnChanges, AfterViewInit 
 
     if (visualizationObject && !visualizationObject.isFirstChange()) {
       this.redrawMapOndataChange(visualizationObject.currentValue);
+      console.log(visualizationObject.currentValue);
       this.legendsAndBaseLayer();
     }
 
@@ -322,13 +321,11 @@ export class MapVisualizerComponent implements OnInit, OnChanges, AfterViewInit 
   }
 
   redrawMapOndataChange(visualizationObject: VisualizationObject) {
-    // Object.keys(this.leafletLayers).map(key => this.map.removeLayer(this.leafletLayers[key]));
-    console.log(this.map);
+    Object.keys(this.leafletLayers).map(key => this.map.removeLayer(this.leafletLayers[key]));
     const { mapConfiguration } = visualizationObject;
     const { overlayLayers, layersBounds, legendSets } = this.prepareLegendAndLayers(
       visualizationObject
     );
-    console.log(overlayLayers);
     overlayLayers.map((layer, index) => {
       this.createLayer(layer, index);
     });

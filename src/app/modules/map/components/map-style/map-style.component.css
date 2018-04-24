@@ -74,10 +74,12 @@
   z-index: -1;
 }
 
+.legendSets,
 .classification {
   display: flex;
 }
 
+.legendSets span,
 .classification span {
   margin: 0 5px;
   display: flex;

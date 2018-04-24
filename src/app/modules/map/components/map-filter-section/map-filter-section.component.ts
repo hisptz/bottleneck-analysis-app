@@ -46,6 +46,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   selectedDataItems: any = [];
   selectedPeriods: any = [];
   selectedLayer;
+  public legendSets$;
   public singleSelection: boolean = true;
   public periodConfig: any = {
     singleSelection: true
@@ -71,6 +72,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     this.selectedLayer = layers[this.activeLayer];
     const { dataSelections } = this.selectedLayer;
     this.getSelectedFilters(dataSelections);
+    this.legendSets$ = this.store.select(fromStore.getAllLegendSetObjects);
   }
 
   toggleFilters(e) {
