@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { getTileLayer } from '../../constants/tile-layer.constant';
 import { MapConfiguration } from '../../models/map-configuration.model';
 import { GeoFeature } from '../../models/geo-feature.model';
+import { interval } from 'rxjs/observable/interval';
 import * as fromStore from '../../store';
 import * as fromLib from '../../lib';
 import * as fromUtils from '../../utils';
@@ -67,18 +68,27 @@ export class MapVisualizerComponent implements OnInit, OnChanges, AfterViewInit 
     if (baselayerLegend && baselayerLegend.currentValue) {
       this._baseLayerLegend = baselayerLegend.currentValue;
     }
+
     if (visualizationObject && !visualizationObject.isFirstChange()) {
       this.redrawMapOndataChange(visualizationObject.currentValue);
+      this.legendsAndBaseLayer();
     }
-    this.legendsAndBaseLayer();
+
+    if ((currentLegendSets || baselayerLegend) && this.map) {
+      this.legendsAndBaseLayer();
+    }
   }
 
   ngOnInit() {}
 
   ngAfterViewInit() {
     this.initializeMapContainer();
-    this.initialMapDraw(this.visualizationObject);
-    this.legendsAndBaseLayer();
+    interval(2)
+      .take(1)
+      .subscribe(() => {
+        this.initialMapDraw(this.visualizationObject);
+        this.legendsAndBaseLayer();
+      });
   }
 
   zoomIn(event) {
@@ -313,11 +323,12 @@ export class MapVisualizerComponent implements OnInit, OnChanges, AfterViewInit 
 
   redrawMapOndataChange(visualizationObject: VisualizationObject) {
     // Object.keys(this.leafletLayers).map(key => this.map.removeLayer(this.leafletLayers[key]));
+    console.log(this.map);
     const { mapConfiguration } = visualizationObject;
     const { overlayLayers, layersBounds, legendSets } = this.prepareLegendAndLayers(
       visualizationObject
     );
-
+    console.log(overlayLayers);
     overlayLayers.map((layer, index) => {
       this.createLayer(layer, index);
     });
