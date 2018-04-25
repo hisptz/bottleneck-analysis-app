@@ -55,7 +55,7 @@ export class MapStyleComponent implements OnInit {
   }
 
   onChangeClass(classes) {
-    this.legendProperties = { ...this.legendProperties, classes };
+    this.legendProperties = { ...this.legendProperties, classes: Number(classes) };
   }
 
   onChangeColor(colorDefault) {
@@ -109,6 +109,7 @@ export class MapStyleComponent implements OnInit {
     if (this.isAutomatic) {
       delete layer.legendSet;
     }
+    console.log(layer);
     this.onStyleUpdate.emit({ layer });
   }
 
