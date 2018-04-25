@@ -4,12 +4,14 @@ import * as fromLegendSets from '../actions/legend-set.action';
 
 export interface LegendSetState {
   entities: { [id: string]: { [id: string]: LegendSet } };
+  legendSets: any;
   loading: boolean;
   loaded: boolean;
 }
 
 export const initialState: LegendSetState = {
   entities: {},
+  legendSets: [],
   loaded: false,
   loading: false
 };
@@ -51,6 +53,11 @@ export function reducer(
       };
     }
 
+    case fromLegendSets.LOAD_LEGEND_SET_ALL_SUCCESS: {
+      const { legendSets } = action.payload;
+      return { ...state, legendSets };
+    }
+
     case fromLegendSets.ADD_LEGEND_SET_FAIL: {
       return {
         ...state,
@@ -65,3 +72,4 @@ export function reducer(
 export const getLegendSetLoading = (state: LegendSetState) => state.loading;
 export const getLegendSetLoaded = (state: LegendSetState) => state.loaded;
 export const getLegendSetEntities = (state: LegendSetState) => state.entities;
+export const getAlllegendSets = (state: LegendSetState) => state.legendSets;

@@ -9,6 +9,7 @@ import 'rxjs/add/observable/zip';
 
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as legendSetActions from '../actions/legend-set.action';
+import * as layerActions from '../actions/layers.action';
 import * as fromServices from '../../services';
 import * as fromStore from '../../store';
 import * as fromUtils from '../../utils';
@@ -39,6 +40,17 @@ export class VisualizationObjectEffects {
           new visualizationObjectActions.CreateVisualizationObjectSuccess(action.payload)
       ),
       catchError(error => of(new visualizationObjectActions.CreateVisualizationObjectFail(error)))
+    );
+
+  @Effect()
+  updateStyleVisualizationObjet$ = this.actions$
+    .ofType(layerActions.UPDATE_LAYER_STYLE)
+    .pipe(
+      map(
+        (action: visualizationObjectActions.UpdateVisualizationObject) =>
+          new visualizationObjectActions.UpdateVisualizationObjectSuccess(action.payload)
+      ),
+      catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
     );
 
   @Effect({ dispatch: false })

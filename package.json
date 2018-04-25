@@ -60,6 +60,7 @@
     "ng2-dragula": "^1.5.0",
     "ngrx-store-freeze": "^0.2.0",
     "ngx-pagination": "^3.0.3",
+    "npm": "^5.8.0",
     "polylabel": "^1.0.2",
     "rxjs": "^5.5.2",
     "shp-write": "^0.3.2",
