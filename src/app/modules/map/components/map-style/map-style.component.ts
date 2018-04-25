@@ -51,7 +51,7 @@ export class MapStyleComponent implements OnInit {
   }
 
   onChange(method) {
-    this.legendProperties = { ...this.legendProperties, method };
+    this.legendProperties = { ...this.legendProperties, method: Number(method) };
   }
 
   onChangeClass(classes) {
