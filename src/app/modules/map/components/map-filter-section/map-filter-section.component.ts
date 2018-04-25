@@ -72,7 +72,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     this.selectedLayer = layers[this.activeLayer];
     const { dataSelections } = this.selectedLayer;
     this.getSelectedFilters(dataSelections);
-    this.legendSets$ = this.store.select(fromStore.getAllLegendSetObjects);
+    this.legendSets$ = this.store.select(fromStore.getAllLegendSets);
   }
 
   toggleFilters(e) {

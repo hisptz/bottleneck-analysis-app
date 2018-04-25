@@ -5,6 +5,9 @@ import { LegendSet } from '../../models/Legend-set.model';
 export const ADD_LEGEND_SET = '[MAP] Add Legend Set';
 export const ADD_LEGEND_SET_FAIL = '[MAP] Add Legend Set Fail';
 export const ADD_LEGEND_SET_SUCCESS = '[MAP] Add Legend Set Success';
+export const LOAD_LEGEND_SET_ALL = '[MAP] Load All Legend Set';
+export const LOAD_LEGEND_SET_ALL_SUCCESS = '[MAP] Load All Legend Set Success';
+export const LOAD_LEGEND_SET_ALL_FAIL = '[MAP] Load All Legend Set Fail';
 export const LOAD_LEGEND_SET = '[MAP] Load Legend Set';
 export const LOAD_LEGEND_SET_SUCCESS = '[MAP] Load Legend Set Success';
 export const LOAD_LEGEND_SET_FAIL = '[MAP] Load Legend Set Fail';
@@ -37,6 +40,23 @@ export class LoadLegendSet implements Action {
   // TODO: add Legend Set data casting;
   constructor(public payload: any) {}
 }
+
+export class LoadAllLegendSet implements Action {
+  readonly type = LOAD_LEGEND_SET_ALL;
+}
+
+export class LoadAllLegendSetSuccess implements Action {
+  readonly type = LOAD_LEGEND_SET_ALL_SUCCESS;
+  // TODO: add Legend Set data casting;
+  constructor(public payload: any) {}
+}
+
+export class LoadAllLegendSetFail implements Action {
+  readonly type = LOAD_LEGEND_SET_ALL_FAIL;
+  // TODO: add Legend Set data casting;
+  constructor(public payload: any) {}
+}
+
 export class ChangeLegendSetLayerOpacity implements Action {
   readonly type = CHANGE_LEGEND_SET_LAYER_OPACITY;
   // TODO: add Legend Set data casting;
@@ -81,6 +101,10 @@ export type LegendSetAction =
   | AddLegendSet
   | AddLegendSetFail
   | AddLegendSetSuccess
+  | LoadAllLegendSet
+  | LoadAllLegendSetFail
+  | LoadAllLegendSetSuccess
+  | LoadLegendSet
   | UpdateLegendSet
   | UpdateLegendSetFail
   | UpdateLegendSetSuccess

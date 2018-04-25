@@ -25,6 +25,7 @@ export class MapStyleComponent implements OnInit {
   dropDownIsOpen = false;
   fontStyleActive: boolean;
   fontWeightActive: boolean;
+  currentLegendSet: any;
   isAutomatic: boolean;
   legendProperties;
   displaySettings;
@@ -37,7 +38,7 @@ export class MapStyleComponent implements OnInit {
     this.displaySettings = { ...displaySettings };
     this.legendProperties = { ...legendProperties };
     this.isAutomatic = legendSet ? false : true;
-    console.log(this.legendSets);
+    this.currentLegendSet = legendSet;
     this.fontStyleActive = !(this.displaySettings.labelFontStyle === 'normal');
     this.fontWeightActive = !(this.displaySettings.labelFontWeight === 'normal');
     if (this.legendProperties.classes) {
@@ -101,11 +102,16 @@ export class MapStyleComponent implements OnInit {
     this.legendProperties = { ...this.legendProperties, colorScale, colorLow, colorHigh };
     const layer = {
       ...this.selectedLayer,
+      legendSet: this.currentLegendSet,
       legendProperties: this.legendProperties,
       displaySettings: this.displaySettings
     };
+    if (this.isAutomatic) {
+      delete layer.legendSet;
+    }
     this.onStyleUpdate.emit({ layer });
   }
+
   onCanceling(e) {
     e.stopPropagation();
     this.onStyleFilterClose.emit(true);
@@ -116,6 +122,6 @@ export class MapStyleComponent implements OnInit {
   }
 
   onChangeLegend(id) {
-    console.log(id);
+    this.currentLegendSet = this.legendSets.filter(lg => lg.id === id)[0];
   }
 }

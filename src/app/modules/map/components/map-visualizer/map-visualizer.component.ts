@@ -67,9 +67,12 @@ export class MapVisualizerComponent implements OnInit, OnChanges, AfterViewInit 
       this._baseLayerLegend = baselayerLegend.currentValue;
     }
 
-    if (visualizationObject && !visualizationObject.isFirstChange()) {
+    if (
+      visualizationObject &&
+      !visualizationObject.isFirstChange() &&
+      visualizationObject.previousValue !== visualizationObject.currentValue
+    ) {
       this.redrawMapOndataChange(visualizationObject.currentValue);
-      console.log(visualizationObject.currentValue);
       this.legendsAndBaseLayer();
     }
 

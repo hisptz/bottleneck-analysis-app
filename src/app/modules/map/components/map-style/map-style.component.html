@@ -1,19 +1,19 @@
 <div class="style__container">
   <div class="choice">
     <div class="radio">
-      <input id="radio-1" (click)="toggleAtomatic('true')" name="radio" type="radio" [checked]="isAutomatic">
+      <input id="radio-1" (change)="toggleAtomatic('true')" name="radio" type="radio" [checked]="isAutomatic">
       <label for="radio-1" class="radio-label">Automatic</label>
     </div>
 
     <div class="radio">
-      <input id="radio-2" (click)="toggleAtomatic('false')" name="radio" type="radio" [checked]="!isAutomatic">
+      <input id="radio-2" (change)="toggleAtomatic('false')" name="radio" type="radio" [checked]="!isAutomatic">
       <label for="radio-2" class="radio-label">Predifined</label>
     </div>
   </div>
   <div class="legendSets" *ngIf="!isAutomatic">
     <span>Legends</span>
-    <select (change)="onChangeLegend($event.target.value)" class="custom-select">
-      <option *ngFor="let legendSet of legendSets" [value]="legendSet.id">{{legendSet.name}}</option>
+    <select (change)="onChangeLegend($event.target.value)" class="custom-select width-100">
+      <option *ngFor="let legendSet of legendSets" [value]="legendSet.id" [selected]="(currentLegendSet && legendSet.id === currentLegendSet.id)">{{legendSet.name}}</option>
     </select>
   </div>
   <div class="classification" *ngIf="isAutomatic">

@@ -25,4 +25,21 @@ export class LegendSetService {
       .get(url)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
+
+  getAllLegendSets() {
+    const fields = [
+      'id',
+      'displayName~rename(name)',
+      'legends[*,!created',
+      '!lastUpdated',
+      '!displayName',
+      '!externalAccess',
+      '!access',
+      '!userGroupAccesses'
+    ];
+    const url = `../../../api/legendSets.json?fields=${fields.join(',')}&paging=false`;
+    return this.httpClient
+      .get(url)
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
 }

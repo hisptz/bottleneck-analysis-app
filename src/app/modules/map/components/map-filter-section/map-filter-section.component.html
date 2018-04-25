@@ -45,7 +45,7 @@
     <!--end of period filter-->
 
     <!-- style filter -->
-    <app-map-style *ngIf="selectedFilter === 'STYLE'" [selectedLayer]="selectedLayer" (onStyleFilterClose)="onFilterClose($event)"
+    <app-map-style *ngIf="selectedFilter === 'STYLE'" [selectedLayer]="selectedLayer" [legendSets]="legendSets$ | async" (onStyleFilterClose)="onFilterClose($event)"
       (onStyleUpdate)="onStyleFilterUpdate($event)"></app-map-style>
     <!-- end of style filter -->
   </div>

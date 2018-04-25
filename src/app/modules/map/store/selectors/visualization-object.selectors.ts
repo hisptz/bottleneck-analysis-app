@@ -45,6 +45,7 @@ export const isVisualizationObjectsLoading = createSelector(
   getVisualizationObjectState,
   fromVisualizationObject.getVisualizationObjectsLoading
 );
+
 export const isVisualizationObjectsLoaded = createSelector(
   getVisualizationObjectState,
   fromVisualizationObject.getVisualizationObjectsLoaded
