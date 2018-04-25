@@ -109,7 +109,6 @@ export class MapStyleComponent implements OnInit {
     if (this.isAutomatic) {
       delete layer.legendSet;
     }
-    console.log(layer);
     this.onStyleUpdate.emit({ layer });
   }
 
