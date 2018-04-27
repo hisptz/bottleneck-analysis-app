@@ -24,7 +24,13 @@ export class AnalyticsService {
 
   getEventsAnalytics(dimensions: string): Observable<any> {
     return this.httpClient
-      .get(`../../../api/25/analytics${dimensions}&coordinatesOnly=true`)
+      .get(`../../../api/analytics${dimensions}&coordinatesOnly=true`)
+      .pipe(catchError((error: any) => Observable.throw(error.json())));
+  }
+
+  getEventInformation(eventId): Observable<any> {
+    return this.httpClient
+      .get(`../../../api/events/${eventId}.json'`)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 }

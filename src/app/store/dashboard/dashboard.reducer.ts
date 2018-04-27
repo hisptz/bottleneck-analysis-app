@@ -492,6 +492,9 @@ export function dashboardReducer(state: dashboard.DashboardState = dashboard.INI
       };
     }
 
+    case DashboardActions.LOAD_NOTIFACATION_SUCCESS:
+      return {...state, dashboardNotification: action.payload};
+
     default:
       return state;
   }

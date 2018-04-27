@@ -9,7 +9,7 @@ const createDimension = (dimension, items, props) => ({
 
 const getDimension = (dimension, arr) => arr.filter(item => item.dimension === dimension)[0];
 
-const getDimensionItems = (dimension, arr) => {
+export const getDimensionItems = (dimension, arr) => {
   const dataItems = getDimension(dimension, arr);
   return dataItems && dataItems.items ? dataItems.items : [];
 };
@@ -51,5 +51,5 @@ export const getFilterOperatorAsText = id =>
     IN: 'one of',
     '!IN': 'not one of',
     LIKE: 'contains',
-    '!LIKE': "doesn't contains"
+    '!LIKE': "doesn't contains" // tslint:disable-line
   }[id]);

@@ -13,12 +13,22 @@
     body *{
       font-family: Scorecard-Averta, sans-serif, appleLogo;
     }
+
+    .body-wrapper {
+      background-color: #FAFAFA;
+    }
+
+    @media print {
+      .body-wrapper {
+        background-color: #ffffff;
+      }
+    }
   </style>
 </head>
-<body>
+<body class="body-wrapper">
 <app-root>
   <div style="padding-top: 15%; text-align: center;">
-    <img src="src/assets/icons/balls-5.svg" alt="">
+    <img src="assets/icons/balls-5.svg" alt="">
     <h4 style="margin-top: 50px;">Discovering Interactive Dashboard Awesomeness</h4>
   </div>
 </app-root>

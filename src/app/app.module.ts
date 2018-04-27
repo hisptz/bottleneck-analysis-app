@@ -75,6 +75,14 @@ import { ResourcesContainerComponent } from './pages/dashboard/components/visual
 import { ReportsContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/reports-container/reports-container.component';
 import { AppContainerComponent } from './pages/dashboard/components/visualization-list/visualization-card/app-container/app-container.component';
 import { DashboardMenuBookmarkComponent } from './pages/dashboard/components/dashboard-menu/dashboard-menu-bookmark/dashboard-menu-bookmark.component';
+import { DashboardNotificationComponent } from './pages/dashboard/components/dashboard-header/dashboard-notification/dashboard-notification.component';
+import { FeedbackMessageModule } from './modules/feedback-message/feedback-message.module';
+
+// service worker module
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { VisualizationExportService } from './services/visualization-export.service';
+import { VisualizationErrorNotifierComponent } from './pages/dashboard/components/visualization-list/visualization-card/visualization-error-notifier/visualization-error-notifier.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -125,7 +133,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReportsContainerComponent,
     AppContainerComponent,
     SafePipe,
-    DashboardMenuBookmarkComponent
+    DashboardMenuBookmarkComponent,
+    DashboardNotificationComponent,
+    VisualizationErrorNotifierComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,
@@ -147,6 +158,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MapModule,
     ResourcesModule,
     ReportsModule,
+    // TODO: We need to look and revisit to see. what is causing service worker not to be registered.
+    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
+    FeedbackMessageModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -163,7 +177,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     /**
      * Reducers
      */
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {metaReducers}),
 
     /**
      * Effects
@@ -181,10 +195,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
-    { provide: RouterStateSerializer, useClass: CustomSerializer },
-    ManifestService,
-    HttpClientService
+    {provide: RouterStateSerializer, useClass: CustomSerializer}, ManifestService, HttpClientService,
+                                                                  VisualizationExportService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

@@ -1,7 +1,7 @@
 <div class="visualization-card" [style.height]="visualizationObject.details.cardHeight" (mouseenter)="toggleCardFocusAction($event, true)"
   (mouseleave)="toggleCardFocusAction($event, false)">
   <!--Visualization card header content-->
-  <div class="visualization-card-header">
+  <div class="visualization-card-header" *ngIf="!visualizationObject.details.hasError">
     <div class="visualization-card-header-left">
       <div class="visualization-filter-section-container" *ngIf="!visualizationObject.details.nonVisualizable">
         <app-visualization-filter-section [selectedDimensions]="selectedDimensions" [visualizationType]="currentVisualization" [loaded]="loaded"
@@ -22,7 +22,11 @@
     <app-visualization-card-loader [visualizationType]="currentVisualization"></app-visualization-card-loader>
   </div>
 
-  <div class="visualization-card-body" *ngIf="loaded">
+  <div class="visualization-card-error-block" *ngIf="visualizationObject.details.hasError">
+    <app-visualization-error-notifier [errorMessage]="visualizationObject.details.errorMessage"></app-visualization-error-notifier>
+  </div>
+
+  <div class="visualization-card-body" *ngIf="loaded && !visualizationObject.details.hasError">
     <div class="visualization-block" [style.flex]="'2'">
       <!--chart block-->
       <div class="chart-container" *ngIf="currentVisualization === 'CHART'">
@@ -60,6 +64,12 @@
       </div>
       <!-- end of resources block -->
 
+      <!--message container-->
+      <div class="message-container-block" *ngIf="currentVisualization === 'MESSAGES'">
+        <app-message-conversation-list></app-message-conversation-list>
+      </div>
+      <!--end of message container-->
+
       <!-- app block -->
       <div class="app-container-block" *ngIf="currentVisualization === 'APP'">
         <app-app-container [height]="visualizationObject.details.itemHeight" [appUrl]="'../../../api/apps/' + visualizationObject.details.appKey + '/index.html?dashboardItemId=' + visualizationObject.id"></app-app-container>
@@ -78,11 +88,11 @@
     </div>
     <!--end of interpretation section-->
   </div>
-  <div class="visualization-card-footer" *ngIf="loaded && isCardFocused">
+  <div class="visualization-card-footer" *ngIf="loaded && isCardFocused && !visualizationObject.details.hasError">
     <div *ngIf="visualizationObject.details.nonVisualizable">&nbsp;</div>
     <div class="visualization-card-footer-left animated fadeInLeft" *ngIf="!visualizationObject.details.nonVisualizable">
       <app-visualization-types-section [currentVisualization]="currentVisualization" (onCurrentVisualizationChange)="currentVisualizationChange($event)"></app-visualization-types-section>
-      <app-visualization-download-section></app-visualization-download-section>
+      <app-visualization-download-section [visualizationType]="currentVisualization" (downloadVisualization)="onDownload($event)"></app-visualization-download-section>
     </div>
     <div class="visualization-card-footer-right">
       <!--visualization delete section-->

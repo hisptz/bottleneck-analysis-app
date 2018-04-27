@@ -5,6 +5,7 @@ export interface LegendSet {
   layer?: string;
   opacity?: string;
   hidden: boolean;
+  cluster: boolean;
   isfirstChange: boolean;
   changedBaseLayer?: boolean;
 }

@@ -71,6 +71,7 @@ export class MapComponent implements OnInit {
   constructor(private store: Store<fromStore.MapState>) {
     this.isLoaded$ = this.store.select(fromStore.isVisualizationObjectsLoaded);
     this.isLoading$ = this.store.select(fromStore.isVisualizationObjectsLoading);
+    this.store.dispatch(new fromStore.LoadAllLegendSet());
   }
 
   ngOnInit() {

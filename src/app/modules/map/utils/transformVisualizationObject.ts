@@ -2,12 +2,15 @@ import * as _ from 'lodash';
 import { VisualizationObject } from '../models/visualization-object.model';
 import { MapConfiguration } from '../models/map-configuration.model';
 import { Layer } from '../models/layer.model';
+import { getBboxBounds } from './layers';
+import { colorBrewer, getColorScale } from './colorBrewer';
 
 export function transformVisualizationObject(visualizationObject) {
   let visObject = {};
   let geofeatures = {};
   let analytics = {};
   let orgUnitGroupSet = {};
+  let serverSideConfig = {};
   const mapconfig = visualizationObject.details;
   const mapConfiguration: MapConfiguration = {
     id: mapconfig.id,
@@ -23,6 +26,9 @@ export function transformVisualizationObject(visualizationObject) {
   let layers: Layer[] = [];
 
   const vizObjLayers = visualizationObject.layers;
+  // visualizationObject.layers.filter(
+  //   layer => layer.settings.layer !== 'earthEngine'
+  // );
 
   vizObjLayers.forEach(mapview => {
     const settings = mapview.settings;
@@ -38,7 +44,7 @@ export function transformVisualizationObject(visualizationObject) {
       type: settings.layer ? settings.layer.replace(/\d$/, '') : 'thematic' // Replace number in thematic layers
     };
 
-    const layerOptions = _.pick(settings, [
+    const _layerOptions = _.pick(settings, [
       'eventClustering',
       'eventPointRadius',
       'eventPointColor',
@@ -46,11 +52,18 @@ export function transformVisualizationObject(visualizationObject) {
       'radiusLow'
     ]);
 
+    const serverClustering = mapview.analytics && mapview.analytics.hasOwnProperty('count');
+    if (serverClustering) {
+      const bounds = getBboxBounds(mapview.analytics['extent']);
+      serverSideConfig = { ...serverSideConfig, bounds };
+    }
+    const layerOptions = { ..._layerOptions, serverClustering, serverSideConfig };
+
     const legendProperties = {
-      colorLow: settings.colorLow ? settings.colorLow : '#e5f5e0',
-      colorHigh: settings.colorHigh ? settings.colorHigh : '#31a354',
-      colorScale: settings.colorScale ? settings.colorScale : '#e5f5e0,#a1d99b,#31a354',
-      classes: settings.classes ? settings.classes : 3,
+      colorLow: settings.colorLow,
+      colorHigh: settings.colorHigh,
+      colorScale: settings.colorScale || defaultColorScale,
+      classes: settings.classes,
       method: settings.method ? settings.method : 2
     };
 
@@ -114,3 +127,8 @@ export function transformVisualizationObject(visualizationObject) {
     visObject
   };
 }
+
+const defaultScaleKey = 'YlOrBr';
+const defaultClasses = 5;
+const isVersionGreater = Number(localStorage.getItem('version')) >= 2.28;
+const defaultColorScale = isVersionGreater ? getColorScale(defaultScaleKey, defaultClasses) : undefined;

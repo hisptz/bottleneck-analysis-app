@@ -135,9 +135,9 @@ const getValueById = data => {
 
 export const getDx = data => {
   const { headers, metaData, rows } = data;
-  const { names, pe, dx } = metaData;
-  const dxID = dx[0];
-  return names[dxID];
+  const { names, pe, dx, dimensions, items } = metaData;
+  const dxID = (dx && dx[0]) || (dimensions && dimensions.dx[0]);
+  return (names && names[dxID]) || items[dxID].name;
 };
 
 // Returns an array of ordered values
@@ -167,7 +167,6 @@ const createLegendFromConfig = (data, config, displayName, type) => {
 
   let colors;
 
-  // TODO: Unify how we represent a colorScale
   if (Array.isArray(colorScale)) {
     colors = colorScale;
   } else if (_.isString(colorScale)) {

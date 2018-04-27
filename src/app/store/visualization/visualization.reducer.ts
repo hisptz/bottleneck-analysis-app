@@ -335,6 +335,31 @@ export function visualizationReducer(state: visualization.VisualizationState = v
         ]
       };
     }
+
+    case VisualizationActions.VISUALIZATION_ERROR_OCCURED: {
+      const visualizationObject = _.find(state.visualizationObjects, ['id', action.id]);
+
+      const visualizationObjectIndex = state.visualizationObjects.indexOf(visualizationObject);
+
+      return visualizationObjectIndex !== -1
+        ? {
+          ...state,
+          visualizationObjects: [
+            ...state.visualizationObjects.slice(0, visualizationObjectIndex),
+            {
+              ...visualizationObject,
+              details: {
+                ...visualizationObject.details,
+                loaded: true,
+                loading: false,
+                hasError: true,
+                errorMessage: action.errorMessage
+              }
+            },
+            ...state.visualizationObjects.slice(visualizationObjectIndex + 1)
+          ]
+        } : state;
+    }
   }
 
   return state;

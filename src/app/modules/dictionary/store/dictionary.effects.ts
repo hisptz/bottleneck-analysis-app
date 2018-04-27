@@ -10,6 +10,7 @@ import { AppState } from '../../../store/app.reducers';
 import { Observable } from 'rxjs/Observable';
 import { DatePipe } from '@angular/common';
 import { of } from 'rxjs/observable/of';
+import { forkJoin} from 'rxjs/observable/forkJoin';
 
 
 @Injectable()
@@ -262,7 +263,7 @@ export class DictionaryEffects {
       /**
        * Get numerator expression
        */
-      Observable.forkJoin(
+      forkJoin(
         this.httpClient.get('expressions/description?expression=' + encodeURIComponent(indicator.numerator)),
         this.httpClient.get('dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
           'filter=dataSetElements.dataElement.id:in:[' + this.getAvailableDataElements(
@@ -312,7 +313,7 @@ export class DictionaryEffects {
         /**
          * Get denominator expression
          */
-        Observable.forkJoin(
+        forkJoin(
           this.httpClient.get('expressions/description?expression=' + encodeURIComponent(indicator.denominator)),
           this.httpClient.get('dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
             'filter=dataSetElements.dataElement.id:in:[' + this.getAvailableDataElements(

@@ -3,6 +3,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { getDimensionItems } from '../../utils/analytics';
 import * as fromStore from '../../store';
 
 @Component({
@@ -44,6 +45,8 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   selectedFilter: string = 'ORG_UNIT';
   selectedDataItems: any = [];
   selectedPeriods: any = [];
+  selectedLayer;
+  public legendSets$;
   public singleSelection: boolean = true;
   public periodConfig: any = {
     singleSelection: true
@@ -65,7 +68,11 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.showFilters = true;
-    // console.log(this.mapVisualizationObject);
+    const { layers } = this.mapVisualizationObject;
+    this.selectedLayer = layers[this.activeLayer];
+    const { dataSelections } = this.selectedLayer;
+    this.getSelectedFilters(dataSelections);
+    this.legendSets$ = this.store.select(fromStore.getAllLegendSets);
   }
 
   toggleFilters(e) {
@@ -149,10 +156,88 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     }
   }
 
+  onStyleFilterUpdate({ layer }) {
+    const activeLayerIndex = this.activeLayer;
+    const { layers, componentId } = this.mapVisualizationObject;
+    const updatedLayers = layers.map(
+      (_layer, index) => (index === activeLayerIndex ? layer : _layer)
+    );
+    this.store.dispatch(
+      new fromStore.UpdateLayerStyle({ ...this.mapVisualizationObject, layers: updatedLayers })
+    );
+  }
+
   onFilterClose(event) {
     this.store.dispatch(
       new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId)
     );
+  }
+
+  getSelectedFilters(dataSelections) {
+    const { columns, rows, filters } = dataSelections;
+    const data = [...columns, ...filters, ...rows];
+    const selectedPeriods = getDimensionItems('pe', data);
+    const selectedDataItems = getDimensionItems('dx', data);
+    this.selectedDataItems = selectedDataItems.map(dataItem => ({
+      id: dataItem.dimensionItem,
+      name: dataItem.displayName,
+      type: dataItem.dimensionItemType
+    }));
+
+    this.selectedPeriods = selectedPeriods.map(periodItem => ({
+      id: periodItem.dimensionItem,
+      name: periodItem.displayName,
+      type: periodItem.dimensionItemType
+    }));
+    const orgUnitArray = getDimensionItems('ou', data);
+
+    let selectedOrgUnits = [];
+    let selectedLevels = [];
+    let selectedGroups = [];
+    let selectedUserOrgUnits = [];
+    orgUnitArray.map(orgunit => {
+      if (orgunit.dimensionItemType && orgunit.dimensionItemType === 'ORGANISATION_UNIT') {
+        const orgUnit = {
+          id: orgunit.dimensionItem,
+          name: orgunit.displayName,
+          type: orgunit.dimensionItemType
+        };
+        selectedOrgUnits = [...selectedOrgUnits, orgUnit];
+      }
+      if (orgunit.dimensionItem.indexOf('LEVEL') !== -1) {
+        const level = {
+          level: orgunit.dimensionItem.split('-')[1]
+        };
+        selectedLevels = [...selectedLevels, level];
+      }
+
+      if (orgunit.dimensionItem.indexOf('OU_GROUP') !== -1) {
+        selectedGroups = [
+          ...selectedGroups,
+          {
+            id: orgunit.dimesionItem,
+            name: orgunit.displayName
+          }
+        ];
+      }
+      if (orgunit.dimensionItem.indexOf('USER') !== -1) {
+        selectedUserOrgUnits = [
+          ...selectedUserOrgUnits,
+          {
+            id: orgunit.dimensionItem,
+            name: orgunit.displayName
+          }
+        ];
+      }
+    });
+
+    this.orgUnitModel = {
+      ...this.orgUnitModel,
+      selectedLevels: selectedLevels || [],
+      selectedOrgUnits: selectedOrgUnits || [],
+      selectedUserOrgUnits: selectedUserOrgUnits || [],
+      selectedGroups: selectedGroups || []
+    };
   }
 
   ngOnDestroy() {

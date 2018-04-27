@@ -57,6 +57,18 @@ export class LegendSetEffects {
   );
 
   @Effect()
+  loadAllLegendSets$ = this.actions$.ofType(legendSetAction.LOAD_LEGEND_SET_ALL).pipe(
+    switchMap((action: legendSetAction.LoadAllLegendSet) => {
+      return this.legendSetService.getAllLegendSets().pipe(
+        map(legendSets => {
+          return new legendSetAction.LoadAllLegendSetSuccess(legendSets);
+        }),
+        catchError(error => of(new legendSetAction.LoadAllLegendSetFail(error)))
+      );
+    })
+  );
+
+  @Effect()
   addLegendSets$ = this.actions$
     .ofType(legendSetAction.ADD_LEGEND_SET)
     .pipe(

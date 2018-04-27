@@ -15,6 +15,7 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
+      "serviceWorker": true,
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "../node_modules/angular-tree-component/dist/angular-tree-component.css",
@@ -23,9 +24,7 @@
         "../node_modules/animate.css/animate.css",
         "styles.css"
       ],
-      "scripts": [
-        "../node_modules/jquery/dist/jquery.js"
-      ],
+      "scripts": ["../node_modules/jquery/dist/jquery.js", "ee_api_js.js", "../node_modules/jszip/dist/jszip.min.js"],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

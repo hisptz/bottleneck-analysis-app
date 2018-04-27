@@ -20,3 +20,8 @@ export const getCurrentLegendSets = id =>
 export const getAllLegendSetObjects = createSelector(getAllLegendSetObjectsEntities, entities => {
   return Object.keys(entities).map(id => entities[id]);
 });
+
+export const getAllLegendSets = createSelector(
+  getLegendSetObjectState,
+  fromLegendSetReducers.getAlllegendSets
+);

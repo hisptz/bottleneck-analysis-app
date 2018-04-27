@@ -108,7 +108,7 @@ export class DataFilterService {
         observer.next(this._dataItems);
         observer.complete();
       } else {
-        Observable.forkJoin(
+        forkJoin(
           this.getDataFromLocalDatabase(DATAELEMENT_KEY),
           this.getDataFromLocalDatabase(INDICATOR_KEY),
           this.getDataFromLocalDatabase(INDICATOR_GROUP_KEY),

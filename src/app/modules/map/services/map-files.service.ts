@@ -1,14 +1,16 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
-import { saveAs } from 'file-saver';
-import { Observable } from 'rxjs/Observable';
-
+import {saveAs} from 'file-saver';
+import * as shapeWrite from 'shp-write';
+import {Observable} from 'rxjs/Observable';
+import {hasOwnProperty} from 'tslint/lib/utils';
+import {ShapeFileService} from './shapefile-services/shape-file.service';
 @Injectable()
 export class MapFilesService {
 
   geometry: any;
 
-  constructor() {
+  constructor(private shapefile: ShapeFileService) {
     this.geometry = this._getGeometry();
   }
 
@@ -68,10 +70,60 @@ export class MapFilesService {
   }
 
   downloadMapVisualizationAsGML(mapVisualization) {
+    const payload = mapVisualization.payload && mapVisualization.payload !== '' ? mapVisualization.payload : {};
+    const legends = payload.mapLegends;
+    const visualization = payload.visualization;
+
+    const layers = visualization.layers;
+    const analytics = visualization.analytics;
+    const geofeatures = visualization.geofeatures;
+
+    layers.forEach((layer, layerIndex) => {
+      const legend = _.find(legends, ['layer', layer.id]).legend;
+      const geoJsonObject = this._prepareGeoJsonDataForDownload(geofeatures[layer.id], analytics[layer.id], legend);
+      const kml: any = this.toGML(geoJsonObject, layer);
+      const modifiedMapData = this._convertToBinaryData(kml, 'gml');
+      if (modifiedMapData) {
+        setTimeout(() => {
+          saveAs(modifiedMapData, layer.name + '.gml');
+        }, 10);
+      } else {
+
+      }
+
+    });
+
+
     return null;
   }
 
   downloadMapVisualizationAsSHAPEFILE(mapVisualization) {
+
+    const payload = mapVisualization.payload && mapVisualization.payload !== '' ? mapVisualization.payload : {};
+    const legends = payload.mapLegends;
+    const visualization = payload.visualization;
+
+    const layers = visualization.layers;
+    const analytics = visualization.analytics;
+    const geofeatures = visualization.geofeatures;
+
+    const options = {
+      folder: 'myshapes',
+      types: {
+        point: 'mypoints',
+        polygon: 'mypolygons',
+        line: 'mylines',
+        multipolygon: 'multipolygon'
+      }
+    };
+
+    layers.forEach((layer, layerIndex) => {
+      const legend = _.find(legends, ['layer', layer.id]).legend;
+      const geoJsonObject = this._prepareGeoJsonDataForDownload(geofeatures[layer.id], analytics[layer.id], legend);
+      this.shapefile.download(geoJsonObject, layer.name);
+    });
+
+
     return null;
   }
 
@@ -136,56 +188,66 @@ export class MapFilesService {
       columnDelimiter = ',';
       lineDelimiter = '\n';
       keys = ['CODE', 'ID', 'LEVEL', 'NAME', 'PARENT', 'PARENT ID'];
-      data.metaData.dx.forEach((dataElement, dataElementIndex) => {
 
-        keys.push(data.metaData.names[dataElement]);
-        uids.push(dataElement);
-        if (dataElementIndex === data.metaData.dx.length - 1) {
-          keys.push('RANGE');
-          keys.push('FREQUENCY');
-          keys.push('COLOR');
-          keys.push('COORDINATE');
-        }
+      if (settings.tyope === 'event') {
 
-      });
-      result = '';
-      result += keys.join(columnDelimiter);
-      result += lineDelimiter;
+      } else {
+        data.metaData.dx.forEach((dataElement, dataElementIndex) => {
 
-      data.rows.forEach((item) => {
-        const orgUnitCoordinateObject = this._getOrgUnitCoordinateObject(data.headers, item, geoFeatures);
-        ctr = 0;
-        result += orgUnitCoordinateObject.code;
-        result += columnDelimiter;
+          keys.push(data.metaData.names[dataElement]);
+          uids.push(dataElement);
+          if (dataElementIndex === data.metaData.dx.length - 1) {
+            keys.push('RANGE');
+            keys.push('FREQUENCY');
+            keys.push('COLOR');
+            keys.push('COORDINATE');
+          }
 
-        result += orgUnitCoordinateObject.id;
-        result += columnDelimiter;
-
-
-        result += orgUnitCoordinateObject.le;
-        result += columnDelimiter;
-
-        result += data.metaData.names[item[orgIndex]];
-        result += columnDelimiter;
-        result += orgUnitCoordinateObject.pn;
-        result += columnDelimiter;
-        result += orgUnitCoordinateObject.pi;
-        result += columnDelimiter;
-        uids.forEach((key, keyIndex) => {
-          result += item[valueIndex];
-          ctr++;
         });
-        result += columnDelimiter;
-        const classBelonged: any = this._getClass(data.headers, item, legend);
-        result += classBelonged ? classBelonged.startValue + ' - ' + classBelonged.endValue : '';
-        result += columnDelimiter;
-        result += classBelonged ? classBelonged.count : '';
-        result += columnDelimiter;
-        result += classBelonged ? classBelonged.color : '';
-        result += columnDelimiter;
-        result += this._refineCoordinate(orgUnitCoordinateObject.co);
+        result = '';
+        result += keys.join(columnDelimiter);
         result += lineDelimiter;
-      });
+
+        data.rows.forEach((item) => {
+          const orgUnitCoordinateObject = this._getOrgUnitCoordinateObject(data.headers, item, geoFeatures);
+          if (orgUnitCoordinateObject) {
+            ctr = 0;
+            result += orgUnitCoordinateObject.code ? orgUnitCoordinateObject.code : '';
+            result += columnDelimiter;
+
+            result += orgUnitCoordinateObject.id;
+            result += columnDelimiter;
+
+
+            result += orgUnitCoordinateObject.le;
+            result += columnDelimiter;
+
+            result += data.metaData.names[item[orgIndex]];
+            result += columnDelimiter;
+            result += orgUnitCoordinateObject.pn;
+            result += columnDelimiter;
+            result += orgUnitCoordinateObject.pi;
+            result += columnDelimiter;
+            uids.forEach((key, keyIndex) => {
+              result += item[valueIndex];
+              ctr++;
+            });
+            result += columnDelimiter;
+            const classBelonged: any = this._getClass(data.headers, item, legend);
+            result += classBelonged ? classBelonged.startValue + ' - ' + classBelonged.endValue : '';
+            result += columnDelimiter;
+            result += classBelonged ? classBelonged.count : '';
+            result += columnDelimiter;
+            result += classBelonged ? classBelonged.color : '';
+            result += columnDelimiter;
+            result += this._refineCoordinate(orgUnitCoordinateObject, orgUnitCoordinateObject.co);
+            result += lineDelimiter;
+          }
+
+        });
+
+      }
+
     } else {
       return '';
     }
@@ -251,11 +313,11 @@ export class MapFilesService {
 
         if (legend) {
 
-          const featureLegendClass: any = this._getClass(analyticObject.headers,
-            sampleGeometry.properties['dataElement.value'], legend);
+          const featureLegendClass: any = this._getClass(analyticObject.headers, sampleGeometry.properties['dataElement.value'], legend);
           sampleGeometry.properties['fill'] = featureLegendClass.color;
-          sampleGeometry.properties['classInterval'] =
-            featureLegendClass.startValue + ' - ' + featureLegendClass.endValue + ' (' + featureLegendClass.count + ')';
+          sampleGeometry.properties['classInterval'] = featureLegendClass.startValue +
+            ' - ' + featureLegendClass.endValue +
+            ' (' + featureLegendClass.count + ')';
           sampleGeometry.properties['frequency'] = featureLegendClass.count;
 
         }
@@ -263,7 +325,7 @@ export class MapFilesService {
         if (geoFeature.le >= 4) {
           sampleGeometry.geometry.type = 'Point';
         } else if (geoFeature.le >= 1) {
-          sampleGeometry.geometry.type = 'MultiPolygon';
+          sampleGeometry.geometry.type = 'Polygon';
         }
 
         geoJSONObject.push(sampleGeometry);
@@ -311,8 +373,55 @@ export class MapFilesService {
     return data;
   }
 
-  private _refineCoordinate(coordinate) {
-    return '\'' + coordinate + '\'';
+  private _refineCoordinate(organisantionUnit, coordinate) {
+    const rawCoordinates = new Function('return (' + coordinate + ')')();
+    let coordinates = '';
+    let wktCoordinate = '';
+
+
+    switch (organisantionUnit.ty) {
+      case 1: {
+        coordinates = JSON.stringify(rawCoordinates).replace(/\]\,\[/g, ':')
+          .replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
+        wktCoordinate = '"POINT(' + coordinates + ')' + '"';
+        return wktCoordinate;
+      }
+      case 2: {
+        if (this.isMultiPolygon(organisantionUnit, rawCoordinates)) {
+          wktCoordinate = '"MULTIPOLYGON((' + this.getMultiPolygonWKT(rawCoordinates) + '))' + '"';
+        } else {
+          coordinates = JSON.stringify(rawCoordinates[0][0]).replace(/\]\,\[/g, ':')
+            .replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
+          wktCoordinate = '"POLYGON((' + coordinates + '))' + '"';
+        }
+
+        return wktCoordinate;
+      }
+    }
+  }
+
+  private getMultiPolygonWKT(rawCoordinates): string {
+    const wkt_str = '' +
+      rawCoordinates.map(function (ring) {
+        return '(' +
+          ring[0].map(function (p) {
+            return p[0] + ' ' + p[1];
+          }).join(', ')
+          + ')';
+      }).join(', ');
+    return wkt_str;
+
+  }
+
+  private isMultiPolygon(organisantionUnit, coordinates): boolean {
+
+    if (coordinates.length > 1) {
+      console.log(organisantionUnit.na);
+      console.log(coordinates, coordinates.length);
+      return true;
+    } else{
+      return false;
+    }
   }
 
   private _getClass(headers, item, legend) {
@@ -351,13 +460,13 @@ export class MapFilesService {
 
   private dataObjectToKML(fileDataObject: Object, options?: Object) {
     options = options || {
-      documentName: undefined,
-      documentDescription: undefined,
-      name: 'name',
-      description: 'description',
-      simplestyle: true,
-      timestamp: 'timestamp'
-    };
+        documentName: undefined,
+        documentDescription: undefined,
+        name: 'name',
+        description: 'description',
+        simplestyle: true,
+        timestamp: 'timestamp'
+      };
 
     return '<?xml version=\'1.0\' encoding=\'utf-8\' ?>' +
       this._tag('kml',
@@ -382,7 +491,7 @@ export class MapFilesService {
         if (!_.features) {
           return '';
         }
-        ;
+
         return _.features.map(this._feature(options, styleHashesArray)).join('');
       case 'Feature':
         return this._feature(options, styleHashesArray)(_);
@@ -429,12 +538,12 @@ export class MapFilesService {
         }
       }
       return styleDefinition + this._tag('Placemark',
-        this._name(_.properties, options) +
-        this._description(_.properties, options) +
-        // this._extendeddata(_.properties) +
-        this._timestamp(_.properties, options) +
-        geometryString +
-        styleReference);
+          this._name(_.properties, options) +
+          this._description(_.properties, options) +
+          // this._extendeddata(_.properties) +
+          this._timestamp(_.properties, options) +
+          geometryString +
+          styleReference);
     };
   }
 
@@ -560,7 +669,7 @@ export class MapFilesService {
 // ## General helpers
   private _pairs(_) {
     const o = [];
-    for (const i in _) o.push([i, _[i]]);
+    for (const i in _)  o.push([i, _[i]]);
     return o;
   }
 
@@ -671,35 +780,35 @@ export class MapFilesService {
     if (_['marker-symbol']) {
       hash = hash + 'ms' + _['marker-symbol'];
     }
-    ;
+
     if (_['marker-color']) {
       hash = hash + 'mc' + _['marker-color'].replace('#', '');
     }
-    ;
+
     if (_['marker-size']) {
       hash = hash + 'ms' + _['marker-size'];
     }
-    ;
+
     if (_['stroke']) {
       hash = hash + 's' + _['stroke'].replace('#', '');
     }
-    ;
+
     if (_['stroke-width']) {
       hash = hash + 'sw' + _['stroke-width'].toString().replace('.', '');
     }
-    ;
+
     if (_['stroke-opacity']) {
       hash = hash + 'mo' + _['stroke-opacity'].toString().replace('.', '');
     }
-    ;
+
     if (_['fill']) {
       hash = hash + '#' + _['fill'].replace('#', '');
     }
-    ;
+
     if (_['fill-opacity']) {
       hash = hash + 'fo' + _['fill-opacity'].toString().replace('.', '');
     }
-    ;
+
 
     return hash;
   }
@@ -711,7 +820,9 @@ export class MapFilesService {
    * @returns {string}
    */
   private _attr(_) {
-    return (_ && _.length) ? (' ' + _.map((a) => a[0] + '=' + a[1] + '').join(' ')) : '';
+    return (_ && _.length) ? (' ' + _.map(function (a) {
+      return a[0] + '=\'' + a[1] + '\'';
+    }).join(' ')) : '';
   }
 
   /**
@@ -739,9 +850,218 @@ export class MapFilesService {
    * @returns {string}
    */
   private _encode(_) {
-    return (_ === null ? '' : _.toString()).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').
-      replace(/'/g, '&quot;');
+    return (_ === null ? '' : _.toString()).replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/'/g, '&quot;');
   }
+
+
+
+  /***
+   * *  KML FILE GENERATION FUNCTIONS FROM
+   * *
+   * *
+   * */
+
+  toGML(fileDataObject: Object, options?: Object) {
+    options = options || {
+        documentName: undefined,
+        documentDescription: undefined,
+        name: 'name',
+        description: 'description',
+        simplestyle: true,
+        timestamp: 'timestamp'
+      };
+
+    return '<?xml version="1.0" encoding="utf-8" ?>' +
+      this._tag('ogr:FeatureCollection',
+        this._gml(fileDataObject, options)
+        , [
+          ['xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance'],
+          ['xsi:schemaLocation', ''],
+          ['xmlns:ogr', 'http://ogr.maptools.org/'],
+          ['xmlns:gml', 'http://www.opengis.net/gml']
+        ]);
+  }
+
+  private _gml(_, options) {
+    if (!_.type) {
+      return ''
+    }
+
+    switch (_.type) {
+      case 'FeatureCollection':
+        if (!_.features) {
+          return ''
+        }
+        ;
+        return _.features.map(this._gmlFeature(options)).join('');
+      case 'Feature':
+        return this._gmlFeature(options)(_);
+      default:
+        return this._gmlFeature(options)({
+          type: 'Feature',
+          geometry: _,
+          properties: {}
+        });
+    }
+  }
+
+  private _gmlFeature(options) {
+    return (_) => {
+      if (!_.properties || !this.geometry.valid(_.geometry)) return '';
+      const geometryString = this.geometry.any(_.geometry);
+      if (!geometryString) return '';
+
+
+      return this._tag('gml:featureMember', this._gmlFeatureAttributes(_, options));
+    };
+  }
+
+  private _gmlFeatureAttributes(_, options) {
+    const name = this._underScoreCharacter(options.documentName);
+    return this._tag('ogr:' + name,
+      this._tag('ogr:geometryProperty',
+        this._getFeatureTagsAccordingToType(_.geometry.type, _)
+      ) +
+      this._preparePropertiesForGmlFormat(_.properties)
+      , [['fid', name + "." + _.properties.id]]);
+  }
+
+  private _underScoreCharacter(characterString){
+    characterString = characterString.replace(/[- &\/\\#,+()$~%.'":*?<>{}]/g, '_');
+    return characterString;
+  }
+
+  private _getFeatureTagsAccordingToType(featureType, _): string {
+    let format = "";
+    if (featureType == "Point") {
+      format = this._preparePointMembers(_.geometry.coordinates);
+    }
+
+    if (featureType == "LineString" || featureType == "MultiLineString") {
+
+    }
+
+    if (featureType == "Polygon" || featureType == "MultiPolygon") {
+      format = this._tag('gml:' + featureType, this._preparePolygonMembers(_.geometry.coordinates), [['srsName', 'EPSG:4326']])
+    }
+    return format;
+
+  }
+
+  private _preparePointMembers(coordinates): string {
+    const featureBlocks = this._prepareFeatureBlocks(coordinates);
+    let blockTag = "";
+    featureBlocks.forEach(featureBlock => {
+      blockTag += this._getPointOuterBoundTypeGmlFormat(featureBlock);
+    });
+    return blockTag;
+  }
+
+  private _preparePolygonMembers(coordinates): string {
+    const featureBlocks = this._prepareFeatureBlocks(coordinates);
+    let blockTag = "";
+    featureBlocks.forEach(featureBlock => {
+      blockTag += this._tag('gml:polygonMember', this._getPolygonOuterBoundTypeGmlFormat(featureBlock));
+    });
+
+    return blockTag;
+  }
+
+  private sanitizeStringForXML(stringElement:string): string{
+
+    if ( typeof stringElement == 'string' )
+    {
+      if (stringElement.indexOf('&')>=0){
+        stringElement = stringElement.replace("&","&amp;");
+      }
+
+      if (stringElement.indexOf('<')>=0){
+        stringElement = stringElement.replace("<","&lt;");
+      }
+
+      if (stringElement.indexOf('>')>=0){
+        stringElement = stringElement.replace("<","&gt;");
+      }
+    }
+
+    return stringElement;
+  }
+
+  private _getPointOuterBoundTypeGmlFormat(featureBlock): string {
+    let format = "";
+
+    if (this._isFinalBlock(featureBlock)) {
+      format = this._tag('gml:Point', this._tag('gml:coordinates', this._convertfeatureCoordinateToGmlFormat(featureBlock)), [['srsName', 'EPSG:4326']])
+    }
+    return format;
+  }
+
+  private _getPolygonOuterBoundTypeGmlFormat(featureBlock): string {
+    let format = "";
+    if (!this._isFinalBlock(featureBlock)) {
+      format = this._tag('gml:Polygon',
+        this._tag('gml:outerBoundaryIs',
+          this._tag('gml:LinearRing',
+            this._tag('gml:coordinates', this._convertfeatureCoordinateToGmlFormat(featureBlock)))));
+    }
+    return format
+  }
+
+  private _prepareFeatureBlocks(coordinates): any[] {
+    let blocks = [];
+    if (this._isFinalBlock(coordinates)) {
+      blocks.push(coordinates);
+    } else {
+      coordinates.forEach((coordinate, index) => {
+        blocks.push(coordinate)
+      });
+    }
+    return blocks;
+  }
+
+  private _isFinalBlock(block) {
+    if (!isNaN(block[0])) {
+      return true;
+    }
+    return false;
+  }
+
+  private _convertfeatureCoordinateToGmlFormat(coordinates) {
+    let gmlCoordinates = this._getCoordinate(coordinates);
+    return gmlCoordinates;
+  }
+
+  private _getCoordinate(coordinates) {
+    let coord = "";
+    coordinates.forEach((coordinate, index) => {
+      if (!isNaN(coordinate)) {
+        coord += coordinate;
+        if (index == 0) {
+          coord += ","
+        } else {
+          coord += " ";
+        }
+      } else {
+        coord += this._getCoordinate(coordinate);
+      }
+    })
+
+    return coord;
+  }
+
+
+  private _preparePropertiesForGmlFormat(properties): string {
+    let propertyGml = "";
+    const propertNames = Object.getOwnPropertyNames(properties);
+    propertNames.forEach(property => [
+      propertyGml += this._tag('ogr:' + this._underScoreCharacter(property),this.sanitizeStringForXML(properties[property]))
+    ])
+    return propertyGml;
+  }
+
 
 
 }

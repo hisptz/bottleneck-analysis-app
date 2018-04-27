@@ -21,6 +21,11 @@
         <img src="assets/icons/period.png" alt="">
         <span>Period</span>
       </button>
+      <button class="dashboard-btn style-filter-btn border-round" [ngClass]="{'active-filter': selectedFilter === 'STYLE'}" title="Filter by period"
+        (click)="toggleCurrentFilter($event, 'STYLE')">
+        <img src="assets/icons/period.png" alt="">
+        <span>Style</span>
+      </button>
     </div>
   </div>
   <div class="visualization-filter-body dashboard-border" *ngIf="selectedFilter">
@@ -38,5 +43,10 @@
     <app-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods" [periodConfig]="periodConfig"
       (onPeriodFilterClose)="onFilterClose($event)" (onPeriodUpdate)="onFilterUpdateAction($event, 'PERIOD')"></app-period-filter>
     <!--end of period filter-->
+
+    <!-- style filter -->
+    <app-map-style *ngIf="selectedFilter === 'STYLE'" [selectedLayer]="selectedLayer" [legendSets]="legendSets$ | async" (onStyleFilterClose)="onFilterClose($event)"
+      (onStyleUpdate)="onStyleFilterUpdate($event)"></app-map-style>
+    <!-- end of style filter -->
   </div>
 </div>
