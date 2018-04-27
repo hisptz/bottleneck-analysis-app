@@ -1,6 +1,0 @@
-<div id="login-error-block">{{loginError}}</div>
-<form action="" id="login-form">
-    <input type="text" required [(ngModel)]="credentials.username" name="username" #username="ngModel" id="" placeholder="Enter username">
-    <input type="password" required [(ngModel)]="credentials.password" name="password" #password="ngModel" placeholder="Enter password">
-    <button type="submit" [disabled]="!password.valid && !username.valid" (click)="onSubmit($event)">LOGIN</button>
-</form>
