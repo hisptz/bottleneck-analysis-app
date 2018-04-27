@@ -4,3 +4,6 @@
 [submodule "src/app/modules/table"]
 	path = src/app/modules/table
 	url = https://github.com/hisptz/table-module.git
+[submodule "src/app/modules/menu"]
+	path = src/app/modules/menu
+	url = git@github.com:hisptz/ng2-dhis-menu-module.git
