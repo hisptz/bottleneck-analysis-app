@@ -7,6 +7,7 @@ export enum VisualizationActions {
   LOAD_FAVORITE = '[Visualization] Load favorite details for visualization',
   LOAD_ANALYTICS = '[Visualization] Load analytics for visualization',
   UPDATE_VISUALIZATION_WITH_MAP_SETTINGS = '[Visualization] Update visualization with map settings',
+  VISUALIZATION_ERROR_OCCURED = '[Visualization] Visualization Error Occurred',
   ADD_OR_UPDATE = '[Visualization] Add or Update visualization',
   VISUALIZATION_CHANGE = '[Visualization] Update visualization type with currently selected',
   LOCAL_FILTER_CHANGE = '[Visualization] Update visualization object when local filters changes',
@@ -158,8 +159,13 @@ export class GlobalFilterChangeAction implements Action {
   }
 }
 
+export class VisualizationErrorOccurredAction implements Action {
+  readonly type = VisualizationActions.VISUALIZATION_ERROR_OCCURED;
+  constructor(public id: string, public errorMessage: any) {}
+}
+
 export type VisualizationAction =
-  | SetInitialAction
+  SetInitialAction
   | LoadFavoriteAction
   | LoadAnalyticsAction
   | UpdateVisualizationWithMapSettingsAction
@@ -178,5 +184,6 @@ export type VisualizationAction =
   | DeleteSuccessAction
   | DeleteFailAction
   | GlobalFilterChangeAction
-  | LoadSuccessAction;
+  | LoadSuccessAction
+  | VisualizationErrorOccurredAction;
 

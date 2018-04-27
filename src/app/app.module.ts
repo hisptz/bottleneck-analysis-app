@@ -81,6 +81,8 @@ import { FeedbackMessageModule } from './modules/feedback-message/feedback-messa
 // service worker module
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { VisualizationExportService } from './services/visualization-export.service';
+import { VisualizationErrorNotifierComponent } from './pages/dashboard/components/visualization-list/visualization-card/visualization-error-notifier/visualization-error-notifier.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
 // Add a function, that returns a “TranslateHttpLoader” and export it (needed by AoT)
 export function HttpLoaderFactory(http: HttpClient) {
@@ -132,7 +134,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppContainerComponent,
     SafePipe,
     DashboardMenuBookmarkComponent,
-    DashboardNotificationComponent
+    DashboardNotificationComponent,
+    VisualizationErrorNotifierComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,
@@ -155,7 +159,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ResourcesModule,
     ReportsModule,
     // TODO: We need to look and revisit to see. what is causing service worker not to be registered.
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
     FeedbackMessageModule,
     TranslateModule.forRoot({
       loader: {
@@ -173,7 +177,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     /**
      * Reducers
      */
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {metaReducers}),
 
     /**
      * Effects
@@ -190,7 +194,11 @@ export function HttpLoaderFactory(http: HttpClient) {
      */
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }, ManifestService, HttpClientService, VisualizationExportService],
+  providers: [
+    {provide: RouterStateSerializer, useClass: CustomSerializer}, ManifestService, HttpClientService,
+                                                                  VisualizationExportService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}
