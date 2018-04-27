@@ -130,3 +130,11 @@
     display: block;
   }
 }
+
+.visualization-card-error-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 10px;
+}

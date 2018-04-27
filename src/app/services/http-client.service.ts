@@ -1,7 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import {ManifestService} from './manifest.service';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { ManifestService } from './manifest.service';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class HttpClientService {
@@ -10,75 +12,35 @@ export class HttpClientService {
   private _apiRootUrl: string;
 
   constructor(private httpClient: HttpClient,
-              private manifestService: ManifestService) {
+    private manifestService: ManifestService) {
   }
 
   get(url: string, useRootUrl: boolean = false): Observable<any> {
-    return new Observable(observer => {
-      const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
 
-      rootUrlPromise.subscribe((rootUrl: string) => {
-        this.httpClient.get(rootUrl + url)
-          .subscribe((response: any) => {
-            observer.next(response);
-            observer.complete();
-          }, (error) => {
-            observer.error(this._handleError(error));
-          });
-      });
-    });
+    return rootUrlPromise.pipe(
+      mergeMap((rootUrl) => this.httpClient.get(rootUrl + url).pipe(catchError(this._handleError))));
   }
 
   post(url: string, data: any, useRootUrl: boolean = false) {
-    return new Observable(observer => {
-      const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
 
-      rootUrlPromise.subscribe((rootUrl: string) => {
-        this.httpClient.post(rootUrl + url, data)
-          .subscribe((response: any) => {
-            observer.next(response);
-            observer.complete();
-          }, (error) => {
-
-            console.log(this._handleError(error));
-            observer.error(this._handleError(error));
-          });
-      });
-    });
+    return rootUrlPromise.pipe(
+      mergeMap((rootUrl) => this.httpClient.post(rootUrl + url, data).pipe(catchError(this._handleError))));
   }
 
   put(url: string, data: any, useRootUrl: boolean = false) {
-    return new Observable(observer => {
-      const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
 
-      rootUrlPromise.subscribe((rootUrl: string) => {
-        this.httpClient.put(rootUrl + url, data)
-          .subscribe((response: any) => {
-            observer.next(response);
-            observer.complete();
-          }, (error) => {
-            observer.error(this._handleError(error));
-          });
-      });
-    });
+    return rootUrlPromise.pipe(
+      mergeMap((rootUrl) => this.httpClient.put(rootUrl + url, data).pipe(catchError(this._handleError))));
   }
 
   delete(url: string, useRootUrl: boolean = false) {
-    return new Observable(observer => {
-      const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
 
-      rootUrlPromise.subscribe((rootUrl: string) => {
-        this.httpClient.delete(rootUrl + url)
-          .subscribe((response: any) => {
-            observer.next(response);
-            observer.complete();
-          }, (error) => {
-
-            console.log(this._handleError(error));
-            observer.error(this._handleError(error));
-          });
-      });
-    });
+    return rootUrlPromise.pipe(
+      mergeMap((rootUrl) => this.httpClient.delete(rootUrl + url).pipe(catchError(this._handleError))));
   }
 
   // Private methods
@@ -101,8 +63,7 @@ export class HttpClientService {
         statusText: err.statusText
       };
     }
-
-    return error;
+    return new ErrorObservable(error);
   }
 
   /**
@@ -116,12 +77,11 @@ export class HttpClientService {
         observer.next(this._apiRootUrl);
         observer.complete();
       } else {
-        this.manifestService.getRootUrl()
-          .subscribe((rootUrl: string) => {
-            this._rootUrl = rootUrl;
-            observer.next(rootUrl);
-            observer.complete();
-          });
+        this.manifestService.getRootUrl().subscribe((rootUrl: string) => {
+          this._rootUrl = rootUrl;
+          observer.next(rootUrl);
+          observer.complete();
+        });
       }
     });
   }
@@ -139,45 +99,6 @@ export class HttpClientService {
         });
       }
     });
-  }
-
-  private _getSystemInfo(): Observable<any> {
-    return Observable.create(observer => {
-      this.get('api/system/info', true)
-        .subscribe((systemInfo: any) => {
-          observer.next(systemInfo);
-          observer.complete();
-        }, systemInfoError => {
-          console.warn(systemInfoError);
-          observer.next(null);
-          observer.complete();
-        });
-    });
-  }
-
-  /**
-   * Get api part of url
-   * @returns {Observable<string>}
-   */
-  private _getApiUrlSection(): Observable<string> {
-    return new Observable(observer => {
-      this._getSystemInfo().subscribe((systemInfo: any) => {
-        let apiUrlSection = 'api/';
-        const maxSupportedVersion = 2.25;
-        const currentVersion = systemInfo ? systemInfo.version : maxSupportedVersion;
-        if (currentVersion > 2.24) {
-          apiUrlSection += currentVersion > maxSupportedVersion ?
-            this._getVersionDecimalPart(maxSupportedVersion) + '/' : this._getVersionDecimalPart(currentVersion) + '/';
-        }
-
-        observer.next(apiUrlSection);
-        observer.complete();
-      });
-    });
-  }
-
-  private _getVersionDecimalPart(version: number) {
-    return version.toString().split('.')[1];
   }
 
 }
