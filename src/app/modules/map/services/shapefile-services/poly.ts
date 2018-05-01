@@ -3,7 +3,7 @@
  */
 import {Injectable} from '@angular/core';
 import {types} from './constants';
-import {Extent} from './extent';
+import {Extent} from "./extent";
 @Injectable()
 export class Poly {
   constructor(private ext: Extent) {
@@ -42,7 +42,7 @@ export class Poly {
       shpView.setInt32(shpI + 48, flattened.length, true); // POINTS
       shpView.setInt32(shpI + 52, 0, true); // The first part - index zero
 
-      const onlyParts = coordinates.reduce((arr, coords) => {
+      const onlyParts = coordinates.reduce(function (arr, coords) {
         if (Array.isArray(coords[0][0])) {
           arr = arr.concat(coords);
         } else {
@@ -61,8 +61,8 @@ export class Poly {
       }
 
       flattened.forEach((coords, i) => {
-        shpView.setFloat64(shpI + 56 + (i * 16) + (noParts - 1) * 4, coords[0], true); // X
-        shpView.setFloat64(shpI + 56 + (i * 16) + (noParts - 1) * 4 + 8, coords[1], true); // Y
+        shpView.setFloat64(shpI + 28 + (i * 8) + (noParts - 1) * 2, coords[0], true); // X
+        shpView.setFloat64(shpI + 28 + (i * 8) + (noParts - 1) * 2 + 4, coords[1], true); // Y
       });
 
       shpI += contentLength + 8;
@@ -88,12 +88,11 @@ export class Poly {
 
   parts(geometries, TYPE) {
     let no = 1;
-
     if (TYPE === types.geometries.POLYGON || TYPE === types.geometries.POLYLINE) {
       no = geometries.reduce((counts, coords) => {
         counts += coords.length;
         if (Array.isArray(coords[0][0][0])) { // multi
-          counts += coords.reduce((countsTwo, rings) => {
+          counts += coords.reduce(function (countsTwo, rings) {
             return countsTwo + rings.length - 1; // minus outer
           }, 0);
         }
@@ -105,7 +104,7 @@ export class Poly {
 
   private _totalPoints(geometries) {
     let sum = 0;
-    geometries.forEach((g) => {
+    geometries.forEach(function (g) {
       sum += g.length;
     });
     return sum;

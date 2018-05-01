@@ -1,12 +1,14 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
-import { Visualization } from '../../../../../store/visualization/visualization.state';
-import { Store } from '@ngrx/store';
+import {Component, Input, OnInit, Output, EventEmitter, ViewChild} from '@angular/core';
+import {Visualization} from '../../../../../store/visualization/visualization.state';
+import {Store} from '@ngrx/store';
 import * as _ from 'lodash';
-import { AppState } from '../../../../../store/app.reducers';
+import {AppState} from '../../../../../store/app.reducers';
 import * as visualization from '../../../../../store/visualization/visualization.actions';
-import { CurrentUserState } from '../../../../../store/current-user/current-user.state';
-import { ChartListComponent } from '../../../../../modules/chart/components/chart-list/chart-list.component';
-import { TableListComponent } from '../../../../../modules/table/components/table-list/table-list.component';
+import {CurrentUserState} from '../../../../../store/current-user/current-user.state';
+import {ChartListComponent} from '../../../../../modules/chart/components/chart-list/chart-list.component';
+import {TableListComponent} from '../../../../../modules/table/components/table-list/table-list.component';
+import * as fromMapStore from '../../../../../modules/map/store';
+import {VisualizationObject} from '../../../../../modules/map/models/visualization-object.model';
 
 @Component({
   selector: 'app-visualization-card',
@@ -16,6 +18,7 @@ import { TableListComponent } from '../../../../../modules/table/components/tabl
 export class VisualizationCardComponent implements OnInit {
   @Input() visualizationObject: Visualization;
   @Input() currentUser: CurrentUserState;
+  @Input() mapVisualizationObject: VisualizationObject;
 
   isCardFocused: boolean;
   selectedDimensions: any;
@@ -75,10 +78,9 @@ export class VisualizationCardComponent implements OnInit {
     );
 
     return {
-      selectionMode:
-        selectedOrgUnitLevels.length > 0
-          ? 'Level'
-          : selectedOrgUnitGroups.length > 0 ? 'Group' : 'orgUnit',
+      selectionMode: selectedOrgUnitLevels.length > 0
+        ? 'Level'
+        : selectedOrgUnitGroups.length > 0 ? 'Group' : 'orgUnit',
       selectedLevels: selectedOrgUnitLevels.map(orgunitlevel => {
         return {
           level: orgunitlevel.id.split('-')[1]
@@ -164,16 +166,16 @@ export class VisualizationCardComponent implements OnInit {
 
   getSelectedDimensions() {
     return this.visualizationObject.details &&
-      this.visualizationObject.details.filters.length > 0 &&
-      this.visualizationObject.details.layouts.length > 0
+    this.visualizationObject.details.filters.length > 0 &&
+    this.visualizationObject.details.layouts.length > 0
       ? {
-          selectedDataItems: this.getSelectedItems(this.visualizationObject.details.filters, 'dx'),
-          selectedPeriods: this.getSelectedItems(this.visualizationObject.details.filters, 'pe'),
-          orgUnitModel: this._getSelectedOrgUnitModel(
-            this.getSelectedItems(this.visualizationObject.details.filters, 'ou')
-          ),
-          layoutModel: this.visualizationObject.details.layouts[0].layout
-        }
+        selectedDataItems: this.getSelectedItems(this.visualizationObject.details.filters, 'dx'),
+        selectedPeriods: this.getSelectedItems(this.visualizationObject.details.filters, 'pe'),
+        orgUnitModel: this._getSelectedOrgUnitModel(
+          this.getSelectedItems(this.visualizationObject.details.filters, 'ou')
+        ),
+        layoutModel: this.visualizationObject.details.layouts[0].layout
+      }
       : null;
   }
 
@@ -196,6 +198,73 @@ export class VisualizationCardComponent implements OnInit {
       this.chartList.onDownloadEvent(this.visualizationObject.name, downloadFormat);
     } else if (this.currentVisualization === 'TABLE' && this.tableList) {
       this.tableList.onDownloadEvent(this.visualizationObject.name, downloadFormat);
+    } else if (this.currentVisualization === 'MAP') {
+
+      // console.log(this.mapVisualizationObject);
+      // this.store.select(fromMapStore.getAllVisualizationObjects).subscribe((visualizationObjects) => {
+      //   console.log(visualizationObjects);
+      // });
+
+      this.store.select(
+        fromMapStore.getCurrentVisualizationObject(this.visualizationObject.id)
+      ).subscribe((visualizationObject) => {
+        let mapLegends = null;
+        this.mapVisualizationObject = visualizationObject;
+        this.store
+          .select(fromMapStore.getCurrentLegendSets(visualizationObject.componentId))
+          .subscribe(visualizationLengends => {
+            if (visualizationLengends) {
+              mapLegends = Object.keys(visualizationLengends).map(
+                key => visualizationLengends[key]
+              );
+              this.mapDownload(downloadFormat.toLowerCase(), mapLegends);
+            }
+          });
+
+      });
+
+
     }
   }
+
+  mapDownload(fileType, mapLegends) {
+
+    if (fileType === 'csv') {
+      this.store.dispatch(
+        new fromMapStore.DownloadCSV({
+          visualization: this.mapVisualizationObject,
+          mapLegends: mapLegends
+        })
+      );
+    }
+
+    if (fileType === 'kml') {
+      this.store.dispatch(
+        new fromMapStore.DownloadKML({
+          visualization: this.mapVisualizationObject,
+          mapLegends: mapLegends
+        })
+      );
+    }
+
+    if (fileType === 'shapefile') {
+      this.store.dispatch(
+        new fromMapStore.DownloadShapeFile({
+          visualization: this.mapVisualizationObject,
+          mapLegends: mapLegends
+        })
+      );
+    }
+
+    if (fileType === 'geojson') {
+      this.store.dispatch(
+        new fromMapStore.DownloadJSON({
+          visualization: this.mapVisualizationObject,
+          mapLegends: mapLegends
+        })
+      );
+    }
+  }
+
+
 }

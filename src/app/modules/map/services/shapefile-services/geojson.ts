@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 /**
  * Created by mpande on 3/8/18.
  */
@@ -17,6 +17,10 @@ export class GeoJson {
     return this.justType('Polygon', 'POLYGON');
   }
 
+
+  multipolygon() {
+    return this.justType('MultiPolygon', 'POLYGONZ');
+  }
 
   private justType(type, TYPE) {
     return (geoJson) => {
@@ -40,8 +44,7 @@ export class GeoJson {
 
   isType(type) {
     return (feature) => {
-      console.log(feature.geometry.type, type);
-      return feature.geometry.type === type;
+      return feature.geometry.type;
     };
   }
 

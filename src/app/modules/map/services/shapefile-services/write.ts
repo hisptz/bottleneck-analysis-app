@@ -10,17 +10,15 @@ import * as dbf from 'dbf';
 import {MultiPoly} from './multipoly';
 @Injectable()
 export class Writer {
-  writers = {POINT: null, POLYGON: null, MULTIPOLYGON: null}; //:TODO sophisticate this way of doing things
+  writers = {POINT: null, POLYGON: null, POLYGONZ: null}; //:TODO sophisticate this way of doing things
 
   constructor(private multiPoly: MultiPoly, private poly: Poly, private points: Point) {
     this.writers.POINT = this.points;
     this.writers.POLYGON = this.poly;
-    this.writers.MULTIPOLYGON = this.multiPoly;
+    this.writers.POLYGONZ = this.poly;
   }
 
   write(rows, geometry_type, geometries, callback) {
-    console.log(geometry_type);
-    console.log(this.writers[geometry_type]);
     const writer = this.writers[geometry_type],
       TYPE = types.geometries[geometry_type],
       parts = writer.parts(geometries),

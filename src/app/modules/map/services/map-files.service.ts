@@ -416,10 +416,8 @@ export class MapFilesService {
   private isMultiPolygon(organisantionUnit, coordinates): boolean {
 
     if (coordinates.length > 1) {
-      console.log(organisantionUnit.na);
-      console.log(coordinates, coordinates.length);
       return true;
-    } else{
+    } else {
       return false;
     }
   }
@@ -857,9 +855,8 @@ export class MapFilesService {
   }
 
 
-
   /***
-   * *  KML FILE GENERATION FUNCTIONS FROM
+   * *  GML FILE GENERATION FUNCTIONS FROM
    * *
    * *
    * */
@@ -929,8 +926,8 @@ export class MapFilesService {
       , [['fid', name + "." + _.properties.id]]);
   }
 
-  private _underScoreCharacter(characterString){
-    characterString = characterString.replace(/[- &\/\\#,+()$~%.'":*?<>{}]/g, '_');
+  private _underScoreCharacter(characterString) {
+    characterString = characterString ? characterString.replace(/[- &\/\\#,+()$~%.'":*?<>{}]/g, '_') : characterString;
     return characterString;
   }
 
@@ -970,20 +967,19 @@ export class MapFilesService {
     return blockTag;
   }
 
-  private sanitizeStringForXML(stringElement:string): string{
+  private sanitizeStringForXML(stringElement: string): string {
 
-    if ( typeof stringElement == 'string' )
-    {
-      if (stringElement.indexOf('&')>=0){
-        stringElement = stringElement.replace("&","&amp;");
+    if (typeof stringElement == 'string') {
+      if (stringElement.indexOf('&') >= 0) {
+        stringElement = stringElement.replace("&", "&amp;");
       }
 
-      if (stringElement.indexOf('<')>=0){
-        stringElement = stringElement.replace("<","&lt;");
+      if (stringElement.indexOf('<') >= 0) {
+        stringElement = stringElement.replace("<", "&lt;");
       }
 
-      if (stringElement.indexOf('>')>=0){
-        stringElement = stringElement.replace("<","&gt;");
+      if (stringElement.indexOf('>') >= 0) {
+        stringElement = stringElement.replace("<", "&gt;");
       }
     }
 
@@ -1057,11 +1053,10 @@ export class MapFilesService {
     let propertyGml = "";
     const propertNames = Object.getOwnPropertyNames(properties);
     propertNames.forEach(property => [
-      propertyGml += this._tag('ogr:' + this._underScoreCharacter(property),this.sanitizeStringForXML(properties[property]))
+      propertyGml += this._tag('ogr:' + this._underScoreCharacter(property), this.sanitizeStringForXML(properties[property]))
     ])
     return propertyGml;
   }
-
 
 
 }

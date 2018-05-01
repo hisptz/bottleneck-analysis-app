@@ -61,8 +61,8 @@ export class MultiPoly {
       }
 
       flattened.forEach((coords, i) => {
-        shpView.setFloat64(shpI + 56 + (i * 16) + (noParts - 1) * 4, coords[0], true); // X
-        shpView.setFloat64(shpI + 56 + (i * 16) + (noParts - 1) * 4 + 8, coords[1], true); // Y
+        shpView.setFloat64(shpI + 56 + (i * 224) + (noParts - 1) * 64, coords[0], true); // X
+        shpView.setFloat64(shpI + 56 + (i * 224) + (noParts - 1) * 64 + 8, coords[1], true); // Y
       });
 
       shpI += contentLength + 8;
@@ -81,6 +81,7 @@ export class MultiPoly {
 
   extent(coordinates) {
     return this._justCoords < (coordinates).reduce((extent, c) => {
+      console.log(this.ext);
       return this.ext.enlarge(extent, c);
     }, this.ext.blank());
   }
