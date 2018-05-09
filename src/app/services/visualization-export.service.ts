@@ -4,7 +4,6 @@ declare var unescape: any;
 
 @Injectable()
 export class VisualizationExportService {
-
   exportXLS(filename: string, htmlTable: any) {
     if (this._getMsieVersion() || this._isFirefox()) {
       console.error('Not supported browser');
@@ -12,24 +11,25 @@ export class VisualizationExportService {
     // Other Browser can download xls
     if (htmlTable) {
       const uri = 'data:application/vnd.ms-excel;base64,',
-        template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:' +
+        template =
+          '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:' +
           'office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook>' +
           '<x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
           '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->' +
           '</head><body><table border="1">{table}</table><br /><table border="1">{table}</table></body></html>',
-        base64 = (s) => window.btoa(unescape(encodeURIComponent(s))),
+        base64 = s => window.btoa(unescape(encodeURIComponent(s))),
         format = (s, c) => s.replace(/{(\w+)}/g, (m, p) => c[p]);
 
-      const ctx = {worksheet: 'Sheet 1', filename: filename};
-      let str = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office' +
+      const ctx = { worksheet: 'Sheet 1', filename: filename };
+      let str =
+        '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office' +
         ':excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook>' +
         '<x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
         '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>';
 
       const matchedTableContent = htmlTable.match(/<table[^>]*>([\w|\W]*)<\/table>/im);
-      ctx['table1'] = matchedTableContent && matchedTableContent.length > 1 ?
-                      matchedTableContent[1] :
-                      '';
+      ctx['table1'] =
+        matchedTableContent && matchedTableContent.length > 1 ? matchedTableContent[1] : '';
 
       str += '<b>{filename}</b><br/><table border="1">{table1}</table></body></html>';
 
@@ -43,11 +43,10 @@ export class VisualizationExportService {
   }
 
   exportCSV(filename: string, htmlTable: any, csv?: any) {
-
     // Generate our CSV string from out HTML Table
     const csvString = csv ? csv : this._tableToCSV(htmlTable);
     // Create a CSV Blob
-    const blob = new Blob([csvString], {type: 'text/csv'});
+    const blob = new Blob([csvString], { type: 'text/csv' });
 
     // Determine which approach to take for the download
     if (navigator.msSaveOrOpenBlob) {
@@ -94,7 +93,7 @@ export class VisualizationExportService {
   }
 
   private _downloadAnchor(content, ext, filename) {
-    let anchor = document.createElement('a');
+    const anchor = document.createElement('a');
     anchor.style.display = '!important';
     anchor.id = 'downloadanchor';
     document.body.appendChild(anchor);
@@ -113,10 +112,16 @@ export class VisualizationExportService {
     // We'll be co-opting `slice` to create arrays
     const slice = Array.prototype.slice;
 
-    return slice.call(table.rows).map(function (row) {
-      return slice.call(row.cells).map(function (cell) {
-        return '"t"'.replace('t', cell.textContent);
-      }).join(',');
-    }).join('\r\n');
+    return slice
+      .call(table.rows)
+      .map(function(row) {
+        return slice
+          .call(row.cells)
+          .map(function(cell) {
+            return '"t"'.replace('t', cell.textContent);
+          })
+          .join(',');
+      })
+      .join('\r\n');
   }
 }

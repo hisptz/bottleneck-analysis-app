@@ -1,14 +1,14 @@
 {
   "/api": {
-    "target": "https://dhis.hisptz.org/dhis/",
+    "target": "https://play.dhis2.org/2.29/",
     "target1": "http://localhost:8081",
     "secure": "false",
-    "auth": "bmakonda:Barnie@1234",
+    "auth": "admin:district",
     "changeOrigin": "true"
   },
   "/": {
-    "target": "https://dhis.hisptz.org/dhis/",
-    "target1": "bmakonda:Barnie@1234",
+    "target": "https://play.dhis2.org/2.29/",
+    "target1": "http://localhost:8081",
     "secure": "false",
     "auth": "admin:district",
     "changeOrigin": "true"

@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 interface Manifest {
   name: string;
@@ -41,12 +41,14 @@ export class ManifestService {
       this._getAppManifest().subscribe((manifestObject: Manifest) => {
         if (manifestObject) {
           const rootUrl = manifestObject.activities
-            ? manifestObject.activities.dhis ? manifestObject.activities.dhis.href || "../../../" : "../../../"
-            : "../../../";
+            ? manifestObject.activities.dhis
+              ? manifestObject.activities.dhis.href || '../../../'
+              : '../../../'
+            : '../../../';
           observer.next(rootUrl);
           observer.complete();
         } else {
-          observer.next("../../../");
+          observer.next('../../../');
           observer.complete();
         }
       });
@@ -64,7 +66,7 @@ export class ManifestService {
         observer.next(this._manifestObject);
         observer.complete();
       } else {
-        this.httpClient.get<Manifest>("manifest.webapp").subscribe(
+        this.httpClient.get<Manifest>('manifest.webapp').subscribe(
           manifestObject => {
             this._manifestObject = { ...manifestObject };
             observer.next(manifestObject);
