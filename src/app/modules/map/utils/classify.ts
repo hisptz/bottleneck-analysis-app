@@ -1,6 +1,10 @@
 // Utils for thematic mapping
-import * as _ from 'lodash';
 import { format, precisionRound } from 'd3-format';
+import * as _ from 'lodash';
+import {
+  CLASSIFICATION_EQUAL_INTERVALS,
+  CLASSIFICATION_EQUAL_COUNTS
+} from '../constants/layer.constant';
 
 export const classify = (features, options) => {
   const { method, classes, colorScale } = options;
@@ -8,36 +12,21 @@ export const classify = (features, options) => {
   const bins = getClassBins(values, method, classes);
   const getClassIndex = _.curryRight(getClass)(bins);
 
-  // console.log('bins', bins, getClassIndex(20));
-
   if (bins.length) {
     features.forEach(feature => {
       feature.properties.color = colorScale[getClassIndex(feature.properties.value) - 1];
-      // console.log(feature.properties.value, getClassIndex(feature.properties.value), feature.properties.color);
     });
   }
-
-  console.log(bins);
 };
 
-// export function getClass()
-
-// Returns class number
-export const getClass = (value, bins) => {
-  if (value >= bins[0]) {
-    for (let i = 1; i < bins.length; i++) {
-      if (value < bins[i]) {
-        return i;
-      }
-    }
-
-    // If value is the highest number, use the last bin index
-    if (value === bins[bins.length - 1]) {
-      return bins.length - 1;
-    }
-  }
-
-  return null;
+// Returns legend item where a value belongs
+export const getLegendItemForValue = (legendItems, value) => {
+  const isLast = index => index === legendItems.length - 1;
+  return legendItems.find(
+    (item, index) =>
+      value >= item.startValue &&
+      (value < item.endValue || (isLast(index) && value === item.endValue))
+  );
 };
 
 export const getLegendItems = (values, method, numClasses) => {
@@ -45,11 +34,9 @@ export const getLegendItems = (values, method, numClasses) => {
   const maxValue = values[values.length - 1];
   let bins;
 
-  if (method === 2) {
-    // Equal intervals - TODO: Use constant
+  if (method === CLASSIFICATION_EQUAL_INTERVALS) {
     bins = getEqualIntervals(minValue, maxValue, numClasses);
-  } else if (method === 3) {
-    // Quantiles - TODO: Use constant
+  } else if (method === CLASSIFICATION_EQUAL_COUNTS) {
     bins = getQuantiles(values, numClasses);
   }
 
@@ -61,11 +48,9 @@ export const getClassBins = (values, method, numClasses) => {
   const maxValue = values[values.length - 1];
   let bins;
 
-  if (method === 2) {
-    // Equal intervals - TODO: Use constant
+  if (method === CLASSIFICATION_EQUAL_INTERVALS) {
     bins = getEqualIntervals(minValue, maxValue, numClasses);
-  } else if (method === 3) {
-    // Quantiles - TODO: Use constant
+  } else if (method === CLASSIFICATION_EQUAL_COUNTS) {
     bins = getQuantiles(values, numClasses);
   }
 
@@ -92,119 +77,48 @@ export const getEqualIntervals = (minValue, maxValue, numClasses) => {
   return bins;
 };
 
-// TODO: Refactor
 export const getQuantiles = (values, numClasses) => {
   const minValue = values[0];
   const maxValue = values[values.length - 1];
   const bins = [];
-  const binCount = Math.round(values.length / numClasses);
-  let binLastValPos = binCount === 0 ? 0 : binCount;
-
+  const binCount = values.length / numClasses;
   const precision = precisionRound((maxValue - minValue) / numClasses, maxValue);
   const valueFormat = format(`.${precision}f`);
+
+  let binLastValPos = binCount === 0 ? 0 : binCount;
 
   if (values.length > 0) {
     bins[0] = minValue;
     for (let i = 1; i < numClasses; i++) {
-      bins[i] = values[binLastValPos];
+      bins[i] = values[Math.round(binLastValPos)];
       binLastValPos += binCount;
     }
   }
 
-  return bins.map((value, index) => ({
+  // bin can be undefined if few values
+  return bins.filter(bin => bin !== undefined).map((value, index) => ({
     startValue: Number(valueFormat(value)),
     endValue: Number(valueFormat(bins[index + 1] || maxValue))
   }));
 };
 
-// Classify data
-export function classify_old(features, values, options, legend) {
-  const method = options.method;
-  let bounds = [];
-  let colors = [];
-
-  if (method === 1) {
-    // predefined bounds
-    bounds = options.bounds;
-    colors = options.colors;
-  } else if (method === 2) {
-    // equal intervals
-    for (let i = 0; i <= options.numClasses; i++) {
-      bounds[i] = options.minValue + i * (options.maxValue - options.minValue) / options.numClasses;
-    }
-
-    // Make sure that last bounds is exactly max value.
-    bounds[bounds.length - 1] = options.maxValue;
-
-    options.bounds = bounds;
-
-    if (!options.colors.length) {
-      // Backward compability
-      options.colors = getColorsByRgbInterpolation(
-        options.colorLow,
-        options.colorHigh,
-        options.numClasses
-      );
-    }
-  } else if (method === 3) {
-    // quantiles
-    const binSize = Math.round(values.length / options.numClasses);
-    let binLastValPos = binSize === 0 ? 0 : binSize;
-
-    if (values.length > 0) {
-      bounds[0] = values[0];
-      for (let i = 1; i < options.numClasses; i++) {
-        bounds[i] = values[binLastValPos];
-        binLastValPos += binSize;
-
-        if (binLastValPos > values.length - 1) {
-          binLastValPos = values.length - 1;
-        }
+// Returns class number
+export const getClass = (value, bins) => {
+  if (value >= bins[0]) {
+    for (let i = 1; i < bins.length; i++) {
+      if (value < bins[i]) {
+        return i;
       }
-      bounds.push(values[values.length - 1]);
     }
 
-    for (let j = 0; j < bounds.length; j++) {
-      bounds[j] = parseFloat(bounds[j]);
-    }
-
-    options.bounds = bounds;
-
-    if (!options.colors.length) {
-      // Backward compability
-      options.colors = getColorsByRgbInterpolation(
-        options.colorLow,
-        options.colorHigh,
-        options.numClasses
-      );
+    // If value is the highest number, use the last bin index
+    if (value === bins[bins.length - 1]) {
+      return bins.length - 1;
     }
   }
 
-  if (bounds.length) {
-    for (let i = 0, prop, value, classNumber, legendItem; i < features.length; i++) {
-      prop = features[i].properties;
-      value = prop[options.indicator];
-      classNumber = getClass(value, bounds);
-      legendItem = legend.items[classNumber - 1];
-
-      prop.color = options.colors[classNumber - 1];
-      prop.radius =
-        (value - options.minValue) /
-          (options.maxValue - options.minValue) *
-          (options.maxSize - options.minSize) +
-        options.minSize;
-      prop.legend = legendItem.name;
-      prop.range = legendItem.range.replace(/ *\([^)]*\) */g, ''); // Remove count in brackets
-
-      // Count features in each class
-      if (!options.count[classNumber]) {
-        options.count[classNumber] = 1;
-      } else {
-        options.count[classNumber]++;
-      }
-    }
-  }
-}
+  return null;
+};
 
 export function getColorsByRgbInterpolation(firstColor, lastColor, nbColors) {
   const colors = [];
@@ -240,5 +154,5 @@ export function hexToRgb(hex) {
 
 // Convert RGB color to hex
 export function rgbToHex(rgb) {
-  return '#' + ((1 << 24) + (rgb.r << 16) + (rgb.g << 8) + rgb.b).toString(16).slice(1);
+  return '#' + ((1 << 24) + (rgb.r << 16) + (rgb.g << 8) + rgb.b).toString(16).slice(1); // tslint:disable-line
 }

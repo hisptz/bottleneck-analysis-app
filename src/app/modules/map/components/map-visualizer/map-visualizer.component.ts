@@ -159,6 +159,7 @@ export class MapVisualizerComponent implements OnInit, OnChanges, AfterViewInit 
     const container = fromUtils.prepareMapContainer(componentId, itemHeight, mapWidth, false);
     const otherOptions = {
       zoomControl: false,
+      maxZoom: 12,
       fadeAnimation: false,
       scrollWheelZoom: fullScreen ? true : false,
       worldCopyJump: true

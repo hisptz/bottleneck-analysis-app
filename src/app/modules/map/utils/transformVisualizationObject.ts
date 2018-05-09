@@ -26,9 +26,6 @@ export function transformVisualizationObject(visualizationObject) {
   let layers: Layer[] = [];
 
   const vizObjLayers = visualizationObject.layers;
-  // visualizationObject.layers.filter(
-  //   layer => layer.settings.layer !== 'earthEngine'
-  // );
 
   vizObjLayers.forEach(mapview => {
     const settings = mapview.settings;
@@ -63,8 +60,8 @@ export function transformVisualizationObject(visualizationObject) {
       colorLow: settings.colorLow,
       colorHigh: settings.colorHigh,
       colorScale: settings.colorScale || defaultColorScale,
-      classes: settings.classes,
-      method: settings.method ? settings.method : 2
+      classes: settings.classes || defaultClasses,
+      method: settings.method || 2
     };
 
     const displaySettings = _.pick(settings, [
@@ -131,4 +128,4 @@ export function transformVisualizationObject(visualizationObject) {
 const defaultScaleKey = 'YlOrBr';
 const defaultClasses = 5;
 const isVersionGreater = Number(localStorage.getItem('version')) >= 2.28;
-const defaultColorScale = isVersionGreater ? getColorScale(defaultScaleKey, defaultClasses) : undefined;
+const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);

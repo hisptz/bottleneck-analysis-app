@@ -6,7 +6,11 @@ import {
   getPeriodFromFilters,
   getDataItemsFromColumns
 } from '../utils/analytics';
-import { getLegendItems, getColorsByRgbInterpolation } from '../utils/classify';
+import {
+  getLegendItems,
+  getLegendItemForValue,
+  getColorsByRgbInterpolation
+} from '../utils/classify';
 import { toGeoJson } from './GeoJson';
 import { GeoJson } from 'leaflet';
 import { Feature, GeometryObject } from 'geojson';
@@ -52,7 +56,7 @@ export const thematic = options => {
     legend = legendSet
       ? createLegendFromLegendSet(legendSet, options.displayName, options.type)
       : createLegendFromConfig(orderedValues, legendProperties, options.displayName, options.type);
-
+    legend.items.forEach(item => (item.count = 0));
     const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
     legend['period'] =
       (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) ||
@@ -61,9 +65,10 @@ export const thematic = options => {
     valueFeatures.forEach(({ id, properties }) => {
       const value = valueById[id];
       const item = getLegendItem(value);
-
-      item && !item.count ? (item.count = 1) : item.count++;
-
+      if (item) {
+        item.count++;
+        properties.percentage = (item.count / orderedValues.length * 100).toFixed(1);
+      }
       properties.value = value;
       properties.label = name;
       properties.dx = layerDx;
@@ -76,12 +81,6 @@ export const thematic = options => {
       };
       properties.radius =
         (value - minValue) / (maxValue - minValue) * (radiusHigh - radiusLow) + radiusLow;
-    });
-
-    valueFeatures.forEach(({ id, properties }) => {
-      const value = valueById[id];
-      const item = getLegendItem(value);
-      properties.percentage = (item.count / orderedValues.length * 100).toFixed(1);
     });
     const _options = {
       ...otherOptions,
@@ -163,7 +162,7 @@ const createLegendFromLegendSet = (legendSet, displayName, type) => {
 const createLegendFromConfig = (data, config, displayName, type) => {
   const { method, classes, colorScale, colorLow, colorHigh } = config;
 
-  const items = getLegendItems(data, method, classes);
+  const items = data.length ? getLegendItems(data, method, classes) : [];
 
   let colors;
 
@@ -185,16 +184,6 @@ const createLegendFromConfig = (data, config, displayName, type) => {
       color: colors[index]
     }))
   };
-};
-
-// Returns legend item where a value belongs
-const getLegendItemForValue = (legendItems, value) => {
-  const isLast = index => index === legendItems.length - 1;
-  return legendItems.find(
-    (item, index) =>
-      value >= item.startValue &&
-      (value < item.endValue || (isLast(index) && value === item.endValue))
-  );
 };
 
 export const thematicLayerOptions = (id, opacity, displaySettings) => {
