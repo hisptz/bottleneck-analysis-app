@@ -68,6 +68,9 @@ export class ManifestService {
       } else {
         this.httpClient.get<Manifest>('manifest.webapp').subscribe(
           manifestObject => {
+            console.log(
+              'Interactive dashboard version ' + manifestObject.version
+            );
             this._manifestObject = { ...manifestObject };
             observer.next(manifestObject);
             observer.complete();
