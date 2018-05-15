@@ -7,9 +7,15 @@ export const CLOSE_PIN_VISUALIZATION_LEGEND = '[Map UI] Close pinned legend';
 export const CLOSE_VISUALIZATION_FILTER_SECTION = '[Map UI] Close filter section legend';
 export const INITIALIZE_VISUALIZATION_LEGEND = '[Map UI] Initialize the visualization legend';
 export const TOGGLE_DATA_TABLE = '[Map UI] Toggle Datatable visability';
+export const FULLSCREEN_OPEN_VISUALIZATION_LEGEND = '[Map UI] Open visualization open fullScreen';
 
 export class ToggleOpenVisualizationLegend implements Action {
   readonly type = TOGGLE_OPEN_VISUALIZATION_LEGEND;
+  constructor(public payload: string) {}
+}
+
+export class FullScreenOpenVisualizationLegend implements Action {
+  readonly type = FULLSCREEN_OPEN_VISUALIZATION_LEGEND;
   constructor(public payload: string) {}
 }
 
@@ -52,4 +58,5 @@ export type VisualizationLegendAction =
   | ToggleVisualizationLegendFilterSection
   | CloseVisualizationLegendFilterSection
   | InitiealizeVisualizationLegend
-  | ToggleDataTable;
+  | ToggleDataTable
+  | FullScreenOpenVisualizationLegend;

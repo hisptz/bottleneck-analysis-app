@@ -13,10 +13,7 @@ export const initialState: LayerState = {
   loading: false
 };
 
-export function reducer(
-  state = initialState,
-  action: fromLayers.LayersAction
-): LayerState {
+export function reducer(state = initialState, action: fromLayers.LayersAction): LayerState {
   switch (action.type) {
     case fromLayers.LOAD_LAYERS: {
       return {
@@ -27,6 +24,7 @@ export function reducer(
     case fromLayers.LOAD_LAYERS_SUCCESS: {
       const layers = action.payload;
       const entities = layers.reduce(
+        // tslint:disable-next-line
         (entities: { [id: string]: Layer }, layer: Layer) => {
           return {
             ...entities,

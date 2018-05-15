@@ -48,8 +48,8 @@ export const ClientCluster = L.MarkerClusterGroup.extend({
 
   setOpacity(opacity) {
     this.options.opacity = opacity;
-    this.eachLayer(layer => layer.setOpacity(opacity)); // Circle markers
-    this._featureGroup.eachLayer(layer => layer.setOpacity(opacity)); // Cluster markers
+    this.eachLayer(layer => layer.setStyle({ opacity: opacity, fillOpacity: opacity })); // Circle markers
+    this._featureGroup.setStyle({ opacity: opacity, fillOpacity: opacity }); // Cluster markers
   }
 });
 

@@ -43,12 +43,14 @@ export const event = options => {
   const orgUnits = getOrgUnitsFromRows(dataSelections.rows);
   const period = getPeriodFromFilters(dataSelections.filters);
   const dataFilters = getFiltersFromColumns(dataSelections.columns);
+  const { program, filters } = dataSelections;
 
   const formatTime = date => timeFormat('%Y-%m-%d')(new Date(date));
+  const _period = period
+    ? getPeriodNameFromId(period.dimensionItem)
+    : `${formatTime(startDate)} - ${formatTime(endDate)}`;
   let legend = {
-    period: period
-      ? getPeriodNameFromId(period.dimensionItem)
-      : `${formatTime(startDate)} - ${formatTime(endDate)}`,
+    period: _period,
     filters: dataFilters && getFiltersAsText(dataFilters),
     title: null,
     type: 'event',
@@ -79,7 +81,7 @@ export const event = options => {
         color: color || EVENT_COLOR,
         radius: eventPointRadius || EVENT_RADIUS
       };
-      const title = options.displayName;
+      const title = program ? `${program.displayName}` : `Event Layer`;
       legend = {
         ...legend,
         title,

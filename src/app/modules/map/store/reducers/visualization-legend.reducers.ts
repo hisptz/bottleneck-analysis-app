@@ -57,7 +57,27 @@ export function reducer(
       }
       const visualizationLegend = {
         ...state.entities[visualizationObjectId],
-        open
+        open,
+        pinned: open ? true : pinned
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: visualizationLegend
+      };
+      return {
+        ...state,
+        entities
+      };
+    }
+
+    case fromVisualizationLegend.FULLSCREEN_OPEN_VISUALIZATION_LEGEND: {
+      const visualizationObjectId = action.payload;
+      const pinned = true;
+      const open = true;
+      const visualizationLegend = {
+        ...state.entities[visualizationObjectId],
+        open,
+        pinned
       };
       const entities = {
         ...state.entities,
