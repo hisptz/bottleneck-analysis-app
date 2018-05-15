@@ -3,7 +3,6 @@ import { getSanitizedAnalyticsMetadata } from './standardize-incoming-analytics.
 export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters: any[]) {
   // TODO deal with analytics with more than one dynamic dimensions
   let newAnalyticsObject: any = { ...analyticsObject };
-
   if (analyticsObject !== null) {
     const newMetadata: any = { ...getSanitizedAnalyticsMetadata(analyticsObject.metaData, true) };
 
