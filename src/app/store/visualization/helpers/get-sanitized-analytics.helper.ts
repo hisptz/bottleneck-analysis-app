@@ -1,19 +1,20 @@
 import * as _ from 'lodash';
 import { getSanitizedAnalyticsMetadata } from './standardize-incoming-analytics.helper';
+
 export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters: any[]) {
   // TODO deal with analytics with more than one dynamic dimensions
-  let newAnalyticsObject: any = { ...analyticsObject };
+  let newAnalyticsObject: any = {...analyticsObject};
   if (analyticsObject !== null) {
-    const newMetadata: any = { ...getSanitizedAnalyticsMetadata(analyticsObject.metaData, true) };
+    const newMetadata: any = {...getSanitizedAnalyticsMetadata(analyticsObject.metaData, true)};
 
     if (analyticsObject.headers) {
-      const headerWithOptionSet = _.filter(analyticsObject.headers, analyticsHeader => analyticsHeader.optionSet)[0];
+      const headersWithOptionSet = _.filter(analyticsObject.headers, analyticsHeader => analyticsHeader.optionSet);
 
       /**
        * Check header with option set
        */
-      if (headerWithOptionSet) {
-        const headerOptionsObject = _.find(visualizationFilters, ['name', headerWithOptionSet.name]);
+      _.each(headersWithOptionSet, header => {
+        const headerOptionsObject = _.find(visualizationFilters, ['name', header.name]);
 
         if (headerOptionsObject) {
           const headerOptions = _.assign([], headerOptionsObject.options);
@@ -21,8 +22,8 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
             /**
              * Update metadata dimension
              */
-            if (newMetadata[headerWithOptionSet.name]) {
-              newMetadata[headerWithOptionSet.name] = _.assign(
+            if (newMetadata[header.name]) {
+              newMetadata[header.name] = _.assign(
                 [],
                 _.map(headerOptions, (option: any) => (option.code ? option.code : option.id))
               );
@@ -44,7 +45,7 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
             newMetadata.names = _.assign({}, newMetadataNames);
           }
         }
-      }
+      });
 
       const headersWithDynamicDimensionButNotOptionSet = _.filter(analyticsObject.headers, (analyticsHeader: any) => {
         return (
@@ -54,12 +55,12 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
           analyticsHeader.name !== 'value' &&
           !analyticsHeader.optionSet
         );
-      })[0];
+      });
 
-      if (headersWithDynamicDimensionButNotOptionSet) {
+      _.each(headersWithDynamicDimensionButNotOptionSet, header => {
         const headerOptionsWithoutOptionSetObject = _.find(visualizationFilters, [
           'name',
-          headersWithDynamicDimensionButNotOptionSet.name
+          header.name
         ]);
 
         if (headerOptionsWithoutOptionSetObject) {
@@ -67,8 +68,16 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
 
           if (headerFilter) {
             let headerOptions = [];
-            if (headerFilter.split(':').length > 1) {
-              headerOptions = getFilterNumberRange(headerFilter);
+            const splittedFilter = headerFilter.split(':');
+
+            if (splittedFilter.length > 1) {
+              // find index for the dimension
+              const dataSelectionHeaderIndex = analyticsObject.headers.indexOf(
+                _.find(analyticsObject.headers, ['name', headerOptionsWithoutOptionSetObject.name]));
+              const rowValues = dataSelectionHeaderIndex !== -1 ?
+                _.filter(_.map(analyticsObject.rows, row => parseInt(row[dataSelectionHeaderIndex], 10)),
+                  rowValue => !isNaN(rowValue)) : [];
+              headerOptions = getFilterOptions(splittedFilter[0], parseInt(splittedFilter[1], 10), _.max(rowValues));
             } else {
               if (headerOptionsWithoutOptionSetObject.items) {
                 headerOptions = _.map(headerOptionsWithoutOptionSetObject.items, (item: any) => {
@@ -84,8 +93,8 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
               /**
                * Update metadata dimension
                */
-              if (newMetadata[headersWithDynamicDimensionButNotOptionSet.name]) {
-                newMetadata[headersWithDynamicDimensionButNotOptionSet.name] = _.assign(
+              if (newMetadata[header.name]) {
+                newMetadata[header.name] = _.assign(
                   [],
                   _.map(headerOptions, (option: any) => (option.code ? option.code : option.id))
                 );
@@ -108,12 +117,57 @@ export function getSanitizedAnalytics(analyticsObject: any, visualizationFilters
             }
           }
         }
-      }
+      });
     }
 
     newAnalyticsObject.metaData = _.assign({}, newMetadata);
   }
+
   return newAnalyticsObject;
+}
+
+function getFilterOptions(operator: string, testValue: number, maxValue: number) {
+  switch (operator) {
+    case 'LT':
+      return _.times(testValue, (valueItem: number) => {
+        return {
+          code: valueItem.toString(),
+          name: valueItem.toString()
+        };
+      });
+    case 'LE':
+      return _.times(testValue + 1, (valueItem: number) => {
+        return {
+          code: valueItem.toString(),
+          name: valueItem.toString()
+        };
+      });
+    case 'GT':
+      return _.map(_.range(testValue + 1, maxValue + 1), valueItem => {
+        return {
+          code: valueItem.toString(),
+          name: valueItem.toString()
+        };
+      });
+    case 'GE':
+      return _.map(_.range(testValue, maxValue + 1), valueItem => {
+        return {
+          code: valueItem.toString(),
+          name: valueItem.toString()
+        };
+      });
+    case 'EQ':
+      return [{code: testValue.toString(), name: testValue.toString()}];
+    case 'NE':
+      return _.filter(_.times(maxValue + 1, (valueItem: number) => {
+        return {
+          code: valueItem.toString(),
+          name: valueItem.toString()
+        };
+      }), valueItem => parseInt(valueItem.code, 10) !== testValue);
+    default:
+      return [];
+  }
 }
 
 function getFilterNumberRange(filterString) {
@@ -154,6 +208,7 @@ function getFilterNumberRange(filterString) {
       }
     ];
   } else if (splitedFilter[0] === 'GE') {
+
   } else if (splitedFilter[0] === 'GT') {
   } else if (splitedFilter[0] === 'NE') {
   }
