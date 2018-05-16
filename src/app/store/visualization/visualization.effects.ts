@@ -512,7 +512,7 @@ export class VisualizationEffects {
 
   private _delete(dashboardId: string, visualizationId: string) {
     return this.httpClient.delete(
-      'dashboards/' + dashboardId + '/items/' + visualizationId
+      'dashboards/' + dashboardId + '/items/' + visualizationId, true
     );
   }
 
