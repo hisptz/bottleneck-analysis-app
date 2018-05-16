@@ -477,7 +477,7 @@ export class DashboardEffects {
           this.httpClient.post('dashboards', {
             id: uniqueId,
             name: dashboardName
-          }).subscribe(
+          }, true).subscribe(
             () => {
               this._load(uniqueId).subscribe(
                 (dashboardObject: any) => {
@@ -500,7 +500,7 @@ export class DashboardEffects {
     name: string;
   }): Observable<Dashboard> {
     return new Observable(observer => {
-      this.httpClient.put(`dashboards/${dashboardData.id}`, {name: dashboardData.name}).subscribe(
+      this.httpClient.put(`dashboards/${dashboardData.id}`, {name: dashboardData.name}, true).subscribe(
         () => {
           this._load(dashboardData.id).subscribe(
             (dashboardObject: any) => {
@@ -517,7 +517,7 @@ export class DashboardEffects {
 
   private _delete(dashboardId: string) {
     return new Observable(observer => {
-      this.httpClient.delete(`dashboards/${dashboardId}`).subscribe(
+      this.httpClient.delete(`dashboards/${dashboardId}`, true).subscribe(
         () => {
           observer.next(dashboardId);
           observer.complete();
