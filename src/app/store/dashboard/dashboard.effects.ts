@@ -556,7 +556,7 @@ export class DashboardEffects {
         dashboardItemType +
         '&id=' +
         itemId,
-        {}
+        {}, true
       ).subscribe(
         () => {
           this._load(dashboardId).subscribe(

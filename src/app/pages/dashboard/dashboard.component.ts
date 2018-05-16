@@ -6,7 +6,6 @@ import {CurrentUserState} from '../../store/current-user/current-user.state';
 import {getCurrentUser} from '../../store/current-user/current-user.selectors';
 import {Observable} from 'rxjs/Observable';
 import {Visualization} from '../../store/visualization/visualization.state';
-import { of } from 'rxjs/observable/of';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,7 +27,8 @@ export class DashboardComponent implements OnInit {
     this.visualizationLoading$ = store.select(visualizationSelectors.getVisualizationLoadingState);
     this.welcomingTitle = 'Welcome to the most interactive dashboard';
     this.welcomingDescription =
-      'Enjoy interactive features with support for one click switching between tables, charts and maps, changing data selections as well as layouts';
+      'Enjoy interactive features with support for one click switching between tables, charts and maps, changing data ' +
+      'selections as well as layouts';
   }
 
   ngOnInit() {
