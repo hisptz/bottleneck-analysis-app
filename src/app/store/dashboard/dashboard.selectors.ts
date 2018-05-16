@@ -2,6 +2,7 @@ import { AppState } from '../app.reducers';
 import { createSelector } from '@ngrx/store';
 import { Dashboard, DashboardMenuItem, DashboardState } from './dashboard.state';
 import * as _ from 'lodash';
+import { sortDashboardMenuItemsByBookmark } from './helpers/sort-dashboard-menu-items-by-bookmark.helper';
 
 const dashboardState = (state: AppState) => state.dashboard;
 
@@ -25,12 +26,12 @@ export const getCurrentDashboardSharing = createSelector(dashboardState,
 
 export const getDashboardMenuItems = createSelector(dashboardState,
   (dashboardObject: DashboardState) => dashboardObject.activeDashboards.length > 0 ?
-                                       dashboardObject.activeDashboards.slice(
+                                       sortDashboardMenuItemsByBookmark(dashboardObject.activeDashboards.slice(
                                          getStartItemIndex(dashboardObject.currentDashboardPage,
                                            dashboardObject.dashboardPerPage),
                                          getEndItemIndex(dashboardObject.currentDashboardPage,
                                            dashboardObject.dashboardPerPage) + 1).
-                                         map((dashboard: Dashboard) => mapStateToDashboardMenu(dashboard)) :
+                                         map((dashboard: Dashboard) => mapStateToDashboardMenu(dashboard))) :
     []);
 
 export const getAllDashboardMenuItems = createSelector(dashboardState,
