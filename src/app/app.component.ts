@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgxDhis2HttpClientService } from 'ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
+  constructor(private http: NgxDhis2HttpClientService) {
+    this.http.get('me.json').subscribe((user) => {
+      console.log(user);
+    });
+  }
 }

@@ -9,7 +9,7 @@
       "projectType": "application",
       "prefix": "app",
       "schematics": {
-        "@schematics/angular:component": {
+        "@ngrx/schematics:component": {
           "styleext": "scss"
         }
       },
@@ -24,7 +24,8 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.json"
             ],
             "styles": [
               "src/styles.scss"
@@ -47,14 +48,16 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "serviceWorker": true
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "idashboard:build"
+            "browserTarget": "idashboard:build",
+            "proxyConfig": "proxy-config.json"
           },
           "configurations": {
             "production": {
@@ -81,7 +84,8 @@
             "scripts": [],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.json"
             ]
           }
         },
@@ -122,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "idashboard"
+  "defaultProject": "idashboard",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
