@@ -1,9 +1,0 @@
-#dashboard-menu-list-container-desktop {
-  display: flex;
-  height: 100%;
-}
-
-.dashboard-menu-item-block-desktop {
-  border-right: solid thin #f1f1f1;
-  height: 100%;
-}
