@@ -7,6 +7,7 @@ import {
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import { userReducer, UserState } from './user.reducer';
+import { systemInfoReducer, SystemInfoState } from './system-info.reducer';
 
 /**
  * Root state interface
@@ -16,10 +17,12 @@ export interface State {
    * User state
    */
   user: UserState;
+  systemInfo: SystemInfoState;
 }
 
 export const reducers: ActionReducerMap<State> = {
   user: userReducer,
+  systemInfo: systemInfoReducer,
 };
 
 

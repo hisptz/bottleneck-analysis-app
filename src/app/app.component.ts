@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from './reducers/index';
-import { LoadCurrentUser } from './actions/user.actions';
+import { LoadSystemInfo } from './actions/system-info.actions';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ import { LoadCurrentUser } from './actions/user.actions';
 export class AppComponent {
   constructor(private store: Store<State>) {
 
-    // Load current user information
-    store.dispatch(new LoadCurrentUser());
+    // Load system information
+    store.dispatch(new LoadSystemInfo());
   }
 }

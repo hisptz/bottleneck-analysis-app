@@ -17,5 +17,5 @@ export class UserEffects {
   loadCurrentUser$: Observable<any> = this.actions$.pipe(ofType(UserActionTypes.LoadCurrentUser),
     switchMap(() => this.userService.loadCurrentUser().
       pipe(map((user: User) => new AddCurrentUser(user)),
-        catchError((error: any) => of(new LoadCurrentUserFail({error}))))));
+        catchError((error: any) => of(new LoadCurrentUserFail(error))))));
 }
