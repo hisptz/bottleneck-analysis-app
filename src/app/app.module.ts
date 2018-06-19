@@ -27,7 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
     /**
      * Module for registering service worker
      */
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
 
     /**
      * Module for registering ngrx store reducers
