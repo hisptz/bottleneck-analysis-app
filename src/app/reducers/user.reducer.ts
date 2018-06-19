@@ -46,12 +46,12 @@ export function userReducer(
       return {...state, loading: true, loaded: false, hasError: false, error: null};
     }
 
-    case UserActionTypes.LoadCurrentUserSuccess: {
-      return adapter.addOne(action.payload.user, {...state, loading: false, loaded: true});
+    case UserActionTypes.AddCurrentUser: {
+      return adapter.addOne(action.currentUser, {...state, loading: false, loaded: true});
     }
 
     case UserActionTypes.LoadCurrentUserFail: {
-      return {...state, loading: false, hasError: true, error: action.payload.error};
+      return {...state, loading: false, hasError: true, error: action.error};
     }
 
     default: {

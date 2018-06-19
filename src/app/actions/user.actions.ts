@@ -4,7 +4,7 @@ import { ErrorMessage } from '../models/error-message.model';
 
 export enum UserActionTypes {
   LoadCurrentUser = '[User] Load current User',
-  LoadCurrentUserSuccess = '[User] Load Current User success',
+  AddCurrentUser = '[User] Add Current User',
   LoadCurrentUserFail = '[User] Load Current User fail'
 }
 
@@ -12,21 +12,21 @@ export class LoadCurrentUser implements Action {
   readonly type = UserActionTypes.LoadCurrentUser;
 }
 
-export class LoadCurrentUserSuccess implements Action {
-  readonly type = UserActionTypes.LoadCurrentUserSuccess;
+export class AddCurrentUser implements Action {
+  readonly type = UserActionTypes.AddCurrentUser;
 
-  constructor(public payload: {user: User}) {
+  constructor(public currentUser: User) {
   }
 }
 
 export class LoadCurrentUserFail implements Action {
   readonly type = UserActionTypes.LoadCurrentUserFail;
 
-  constructor(public payload: {error: ErrorMessage}) {
+  constructor(public error: ErrorMessage) {
   }
 }
 
 export type UserActions =
   | LoadCurrentUser
-  | LoadCurrentUserSuccess
+  | AddCurrentUser
   | LoadCurrentUserFail;
