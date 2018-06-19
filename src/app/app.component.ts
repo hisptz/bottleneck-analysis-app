@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { NgxDhis2HttpClientService } from 'ngx-dhis2-http-client';
+import { Store } from '@ngrx/store';
+import { State } from './reducers/index';
+import { LoadCurrentUser } from './actions/user.actions';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +9,9 @@ import { NgxDhis2HttpClientService } from 'ngx-dhis2-http-client';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private http: NgxDhis2HttpClientService) {
-    this.http.get('me.json').subscribe((user) => {
-      console.log(user);
-    });
+  constructor(private store: Store<State>) {
+
+    // Load current user information
+    store.dispatch(new LoadCurrentUser());
   }
 }

@@ -11,6 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppEffects } from './app.effects';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
+import { UserEffects } from './effects/user.effects';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
     /**
      * Module for registering ngrx store side effects
      */
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([AppEffects, UserEffects]),
 
     /**
      * Development tool for debugging ngrx store operations
