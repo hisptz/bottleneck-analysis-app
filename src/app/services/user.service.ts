@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/index';
+import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(private httpClient: NgxDhis2HttpClientService) {}
 

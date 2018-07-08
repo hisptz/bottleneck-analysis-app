@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from './reducers/index';
+import { State } from './reducers';
 import { LoadSystemInfo } from './actions/system-info.actions';
 
 @Component({
@@ -10,7 +10,6 @@ import { LoadSystemInfo } from './actions/system-info.actions';
 })
 export class AppComponent {
   constructor(private store: Store<State>) {
-
     // Load system information
     store.dispatch(new LoadSystemInfo());
   }

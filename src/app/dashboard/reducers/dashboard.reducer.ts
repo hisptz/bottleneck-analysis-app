@@ -1,21 +1,34 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Dashboard } from '../models/dashboard.model';
-import { DashboardActions, DashboardActionTypes } from '../actions/dashboard.actions';
+import {
+  DashboardActions,
+  DashboardActionTypes
+} from '../actions/dashboard.actions';
 
-export interface DashboardState extends EntityState<Dashboard> {
+export interface DashboardObjectState extends EntityState<Dashboard> {
   // additional entities state properties
+  loading: boolean;
+  loaded: boolean;
+  hasError: boolean;
+  error: any;
 }
 
-export const adapter: EntityAdapter<Dashboard> = createEntityAdapter<Dashboard>();
+export const adapter: EntityAdapter<Dashboard> = createEntityAdapter<
+  Dashboard
+>();
 
-export const initialState: DashboardState = adapter.getInitialState({
+export const initialState: DashboardObjectState = adapter.getInitialState({
   // additional entity state properties
+  loading: false,
+  loaded: false,
+  hasError: false,
+  error: null
 });
 
-export function reducer(
+export function dashboardObjectReducer(
   state = initialState,
   action: DashboardActions
-): DashboardState {
+): DashboardObjectState {
   switch (action.type) {
     case DashboardActionTypes.AddDashboard: {
       return adapter.addOne(action.payload.dashboard, state);
@@ -26,7 +39,7 @@ export function reducer(
     }
 
     case DashboardActionTypes.AddDashboards: {
-      return adapter.addMany(action.payload.dashboards, state);
+      return adapter.addMany(action.dashboards, state);
     }
 
     case DashboardActionTypes.UpsertDashboards: {
@@ -50,7 +63,25 @@ export function reducer(
     }
 
     case DashboardActionTypes.LoadDashboards: {
-      return adapter.addAll(action.payload.dashboards, state);
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        hasError: false,
+        error: null
+      };
+    }
+
+    case DashboardActionTypes.LoadDashboardsSuccess: {
+      return {
+        ...state,
+        loading: false,
+        loaded: true
+      };
+    }
+
+    case DashboardActionTypes.LoadDashboardsFail: {
+      return { ...state, loading: false, hasError: true, error: action.error };
     }
 
     case DashboardActionTypes.ClearDashboards: {
@@ -67,5 +98,5 @@ export const {
   selectIds,
   selectEntities,
   selectAll,
-  selectTotal,
+  selectTotal
 } = adapter.getSelectors();

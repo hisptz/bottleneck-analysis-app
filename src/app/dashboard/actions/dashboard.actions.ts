@@ -4,6 +4,8 @@ import { Dashboard } from '../models/dashboard.model';
 
 export enum DashboardActionTypes {
   LoadDashboards = '[Dashboard] Load Dashboards',
+  LoadDashboardsFail = '[Dashboard] Load Dashboards fail',
+  LoadDashboardsSuccess = '[Dashboard] Load Dashboards success',
   AddDashboard = '[Dashboard] Add Dashboard',
   UpsertDashboard = '[Dashboard] Upsert Dashboard',
   AddDashboards = '[Dashboard] Add Dashboards',
@@ -15,10 +17,20 @@ export enum DashboardActionTypes {
   ClearDashboards = '[Dashboard] Clear Dashboards'
 }
 
-export class LoadDashboards implements Action {
+export class LoadDashboardsAction implements Action {
   readonly type = DashboardActionTypes.LoadDashboards;
 
   constructor(public payload: { dashboards: Dashboard[] }) {}
+}
+
+export class LoadDashboardsFailAction implements Action {
+  readonly type = DashboardActionTypes.LoadDashboardsFail;
+  constructor(public error: any) {}
+}
+
+export class LoadDashboardsSuccessAction implements Action {
+  readonly type = DashboardActionTypes.LoadDashboardsSuccess;
+  constructor(public dashboards: Dashboard[]) {}
 }
 
 export class AddDashboard implements Action {
@@ -36,7 +48,7 @@ export class UpsertDashboard implements Action {
 export class AddDashboards implements Action {
   readonly type = DashboardActionTypes.AddDashboards;
 
-  constructor(public payload: { dashboards: Dashboard[] }) {}
+  constructor(public dashboards: Dashboard[]) {}
 }
 
 export class UpsertDashboards implements Action {
@@ -74,13 +86,15 @@ export class ClearDashboards implements Action {
 }
 
 export type DashboardActions =
- LoadDashboards
- | AddDashboard
- | UpsertDashboard
- | AddDashboards
- | UpsertDashboards
- | UpdateDashboard
- | UpdateDashboards
- | DeleteDashboard
- | DeleteDashboards
- | ClearDashboards;
+  | LoadDashboardsAction
+  | LoadDashboardsFailAction
+  | LoadDashboardsSuccessAction
+  | AddDashboard
+  | UpsertDashboard
+  | AddDashboards
+  | UpsertDashboards
+  | UpdateDashboard
+  | UpdateDashboards
+  | DeleteDashboard
+  | DeleteDashboards
+  | ClearDashboards;

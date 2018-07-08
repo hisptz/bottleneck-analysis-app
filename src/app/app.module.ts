@@ -5,19 +5,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { StoreModule } from '@ngrx/store';
+import {
+  RouterStateSerializer,
+  StoreRouterConnectingModule
+} from '@ngrx/router-store';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { AppEffects } from './app.effects';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
-import { UserEffects } from './effects/user.effects';
-import { SystemInfoEffects } from './effects/system-info.effects';
+import { effects } from './effects';
+import { RouteSerializer } from './utils';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -29,7 +30,9 @@ import { SystemInfoEffects } from './effects/system-info.effects';
     /**
      * Module for registering service worker
      */
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    }),
 
     /**
      * Module for registering ngrx store reducers
@@ -37,17 +40,21 @@ import { SystemInfoEffects } from './effects/system-info.effects';
     StoreModule.forRoot(reducers, { metaReducers }),
 
     /**
+     * @ngrx/router-store keeps router state up-to-date in the store
+     */
+    StoreRouterConnectingModule,
+
+    /**
      * Module for registering ngrx store side effects
      */
-    EffectsModule.forRoot([AppEffects, UserEffects, SystemInfoEffects]),
+    EffectsModule.forRoot(effects),
 
     /**
      * Development tool for debugging ngrx store operations
      */
     !environment.production ? StoreDevtoolsModule.instrument() : []
-
   ],
-  providers: [],
+  providers: [{ provide: RouterStateSerializer, useClass: RouteSerializer }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
