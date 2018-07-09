@@ -1,4 +1,4 @@
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 import {
   DashboardObjectState,
   dashboardObjectReducer
@@ -18,3 +18,7 @@ export const dashboardReducer: ActionReducerMap<DashboardState> = {
   dashboardObject: dashboardObjectReducer,
   dashboardVisualization: dashboardVisualizationReducer
 };
+
+export const getDashboardState = createFeatureSelector<DashboardState>(
+  'dashboard'
+);

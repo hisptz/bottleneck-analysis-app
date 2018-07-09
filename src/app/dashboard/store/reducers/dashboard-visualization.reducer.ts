@@ -30,3 +30,7 @@ export function dashboardVisualizationReducer(
   }
   return state;
 }
+
+export const {
+  selectEntities: selectDashboardVisualizationEntities
+} = dashboardVisualizationAdapter.getSelectors();

@@ -14,18 +14,20 @@ export interface DashboardObjectState extends EntityState<Dashboard> {
   currentDashboard: string;
 }
 
-export const adapter: EntityAdapter<Dashboard> = createEntityAdapter<
+export const dashboardObjectAdapter: EntityAdapter<
   Dashboard
->();
+> = createEntityAdapter<Dashboard>();
 
-export const initialState: DashboardObjectState = adapter.getInitialState({
-  // additional entity state properties
-  loading: false,
-  loaded: false,
-  hasError: false,
-  error: null,
-  currentDashboard: ''
-});
+export const initialState: DashboardObjectState = dashboardObjectAdapter.getInitialState(
+  {
+    // additional entity state properties
+    loading: false,
+    loaded: false,
+    hasError: false,
+    error: null,
+    currentDashboard: ''
+  }
+);
 
 export function dashboardObjectReducer(
   state = initialState,
@@ -33,35 +35,41 @@ export function dashboardObjectReducer(
 ): DashboardObjectState {
   switch (action.type) {
     case DashboardActionTypes.AddDashboard: {
-      return adapter.addOne(action.payload.dashboard, state);
+      return dashboardObjectAdapter.addOne(action.payload.dashboard, state);
     }
 
     case DashboardActionTypes.UpsertDashboard: {
-      return adapter.upsertOne(action.payload.dashboard, state);
+      return dashboardObjectAdapter.upsertOne(action.payload.dashboard, state);
     }
 
     case DashboardActionTypes.AddDashboards: {
-      return adapter.addMany(action.dashboards, state);
+      return dashboardObjectAdapter.addMany(action.dashboards, state);
     }
 
     case DashboardActionTypes.UpsertDashboards: {
-      return adapter.upsertMany(action.payload.dashboards, state);
+      return dashboardObjectAdapter.upsertMany(
+        action.payload.dashboards,
+        state
+      );
     }
 
     case DashboardActionTypes.UpdateDashboard: {
-      return adapter.updateOne(action.payload.dashboard, state);
+      return dashboardObjectAdapter.updateOne(action.payload.dashboard, state);
     }
 
     case DashboardActionTypes.UpdateDashboards: {
-      return adapter.updateMany(action.payload.dashboards, state);
+      return dashboardObjectAdapter.updateMany(
+        action.payload.dashboards,
+        state
+      );
     }
 
     case DashboardActionTypes.DeleteDashboard: {
-      return adapter.removeOne(action.payload.id, state);
+      return dashboardObjectAdapter.removeOne(action.payload.id, state);
     }
 
     case DashboardActionTypes.DeleteDashboards: {
-      return adapter.removeMany(action.payload.ids, state);
+      return dashboardObjectAdapter.removeMany(action.payload.ids, state);
     }
 
     case DashboardActionTypes.LoadDashboards: {
@@ -87,7 +95,7 @@ export function dashboardObjectReducer(
     }
 
     case DashboardActionTypes.ClearDashboards: {
-      return adapter.removeAll(state);
+      return dashboardObjectAdapter.removeAll(state);
     }
 
     case DashboardActionTypes.SetCurrentDashboard: {
@@ -101,8 +109,18 @@ export function dashboardObjectReducer(
 }
 
 export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal
-} = adapter.getSelectors();
+  selectEntities: selectDashboardEntities
+} = dashboardObjectAdapter.getSelectors();
+
+// additional entities parameters
+export const getDashboardObjectLoadingState = (state: DashboardObjectState) =>
+  state.loading;
+export const getDashboardObjectLoadedState = (state: DashboardObjectState) =>
+  state.loaded;
+export const getDashboardObjectHasErrorState = (state: DashboardObjectState) =>
+  state.hasError;
+export const getDashboardObjectErrorState = (state: DashboardObjectState) =>
+  state.error;
+
+export const getCurrentDashboardObjectState = (state: DashboardObjectState) =>
+  state.currentDashboard;

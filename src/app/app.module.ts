@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,11 +19,18 @@ import {
 import { reducers, metaReducers, effects } from './store';
 import { RouteSerializer } from './utils';
 
+import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    /**
+     * Menu  module
+     */
+    NgxDhis2MenuModule.forRoot(),
     /**
      * Routing module
      */
