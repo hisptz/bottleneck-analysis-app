@@ -35,8 +35,10 @@ import {
 // helpers import
 import {
   getStandardizedDashboards,
-  getCurrentDashboardId
+  getCurrentDashboardId,
+  getStandardizedDashboardVisualizations
 } from '../../helpers';
+import { AddDashboardVisualizationsAction } from '../actions';
 
 @Injectable()
 export class DashboardEffects {
@@ -78,6 +80,9 @@ export class DashboardEffects {
           action.dashboards,
           action.currentUser
         )
+      ),
+      new AddDashboardVisualizationsAction(
+        getStandardizedDashboardVisualizations(action.dashboards)
       )
     ])
   );

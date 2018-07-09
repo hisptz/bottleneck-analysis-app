@@ -4,10 +4,17 @@ import {
   dashboardObjectReducer
 } from './dashboard.reducer';
 
+import {
+  DashboardVisualizationState,
+  dashboardVisualizationReducer
+} from './dashboard-visualization.reducer';
+
 export interface DashboardState {
   dashboardObject: DashboardObjectState;
+  dashboardVisualization: DashboardVisualizationState;
 }
 
 export const dashboardReducer: ActionReducerMap<DashboardState> = {
-  dashboardObject: dashboardObjectReducer
+  dashboardObject: dashboardObjectReducer,
+  dashboardVisualization: dashboardVisualizationReducer
 };
