@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { Observable, of } from 'rxjs';
 import {
   switchMap,
@@ -7,6 +8,8 @@ import {
   tap,
   withLatestFrom
 } from 'rxjs/operators';
+
+import * as _ from 'lodash';
 
 // ngrx store
 import { Store } from '@ngrx/store';
@@ -24,6 +27,7 @@ import {
   AddDashboardsAction,
   SetCurrentDashboardAction
 } from '../actions/dashboard.actions';
+
 import {
   UserActionTypes,
   AddCurrentUser,
@@ -32,11 +36,19 @@ import {
   getRouteUrl
 } from '../../../store';
 
+import {
+  AddAllVisualizationObjectsAction,
+  getStandardizedVisualizationObject,
+  AddAllVisualizationUiConfigurationsAction,
+  getStandardizedVisualizationUiConfig
+} from '@hisptz/ngx-dhis2-visualization';
+
 // helpers import
 import {
   getStandardizedDashboards,
   getCurrentDashboardId,
-  getStandardizedDashboardVisualizations
+  getStandardizedDashboardVisualizations,
+  getDashboardItemsFromDashboards
 } from '../../helpers';
 import { AddDashboardVisualizationsAction } from '../actions';
 
@@ -83,6 +95,18 @@ export class DashboardEffects {
       ),
       new AddDashboardVisualizationsAction(
         getStandardizedDashboardVisualizations(action.dashboards)
+      ),
+      new AddAllVisualizationObjectsAction(
+        _.map(
+          getDashboardItemsFromDashboards(action.dashboards),
+          dashboardItem => getStandardizedVisualizationObject(dashboardItem)
+        )
+      ),
+      new AddAllVisualizationUiConfigurationsAction(
+        _.map(
+          getDashboardItemsFromDashboards(action.dashboards),
+          dashboardItem => getStandardizedVisualizationUiConfig(dashboardItem)
+        )
       )
     ])
   );
