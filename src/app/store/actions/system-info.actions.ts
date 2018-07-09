@@ -1,11 +1,10 @@
 import { Action } from '@ngrx/store';
-import { SystemInfo } from '../models/system-info.model';
-import { ErrorMessage } from '../models/error-message.model';
+import { SystemInfo, ErrorMessage } from '../../models';
 
 export enum SystemInfoActionTypes {
   LoadSystemInfo = '[SystemInfo] Load System info',
   AddSystemInfo = '[SystemInfo] Add System info',
-  LoadSystemInfoFail = '[SystemInfo] Load System info fail',
+  LoadSystemInfoFail = '[SystemInfo] Load System info fail'
 }
 
 export class LoadSystemInfo implements Action {
@@ -25,6 +24,6 @@ export class LoadSystemInfoFail implements Action {
 }
 
 export type SystemInfoActions =
- LoadSystemInfo
- | AddSystemInfo
- | LoadSystemInfoFail;
+  | LoadSystemInfo
+  | AddSystemInfo
+  | LoadSystemInfoFail;

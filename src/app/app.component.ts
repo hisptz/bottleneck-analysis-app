@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from './reducers';
-import { LoadSystemInfo } from './actions/system-info.actions';
+import { State, LoadSystemInfo } from './store';
 
 @Component({
   selector: 'app-root',

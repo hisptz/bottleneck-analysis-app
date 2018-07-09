@@ -1,7 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { User } from '../models/user.model';
+import { User, ErrorMessage } from '../../models';
 import { UserActions, UserActionTypes } from '../actions/user.actions';
-import { ErrorMessage } from '../models/error-message.model';
 
 export interface UserState extends EntityState<User> {
   // additional entities state properties
@@ -43,15 +42,25 @@ export function userReducer(
 ): UserState {
   switch (action.type) {
     case UserActionTypes.LoadCurrentUser: {
-      return {...state, loading: true, loaded: false, hasError: false, error: null};
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        hasError: false,
+        error: null
+      };
     }
 
     case UserActionTypes.AddCurrentUser: {
-      return adapter.addOne(action.currentUser, {...state, loading: false, loaded: true});
+      return adapter.addOne(action.currentUser, {
+        ...state,
+        loading: false,
+        loaded: true
+      });
     }
 
     case UserActionTypes.LoadCurrentUserFail: {
-      return {...state, loading: false, hasError: true, error: action.error};
+      return { ...state, loading: false, hasError: true, error: action.error };
     }
 
     default: {
@@ -76,5 +85,5 @@ export const {
   selectIds,
   selectEntities,
   selectAll,
-  selectTotal,
+  selectTotal
 } = adapter.getSelectors();

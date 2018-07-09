@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { Dashboard } from '../models/dashboard.model';
+import { Dashboard } from '../../models/dashboard.model';
+import { User, ErrorMessage } from '../../../models';
 
 export enum DashboardActionTypes {
   LoadDashboards = '[Dashboard] Load Dashboards',
@@ -14,23 +15,28 @@ export enum DashboardActionTypes {
   UpdateDashboards = '[Dashboard] Update Dashboards',
   DeleteDashboard = '[Dashboard] Delete Dashboard',
   DeleteDashboards = '[Dashboard] Delete Dashboards',
-  ClearDashboards = '[Dashboard] Clear Dashboards'
+  ClearDashboards = '[Dashboard] Clear Dashboards',
+  SetCurrentDashboard = '[Dashboard] Set current dashboard'
 }
 
 export class LoadDashboardsAction implements Action {
   readonly type = DashboardActionTypes.LoadDashboards;
 
-  constructor(public payload: { dashboards: Dashboard[] }) {}
+  constructor(public currentUser: User) {}
 }
 
 export class LoadDashboardsFailAction implements Action {
   readonly type = DashboardActionTypes.LoadDashboardsFail;
-  constructor(public error: any) {}
+  constructor(public error: ErrorMessage) {}
 }
 
 export class LoadDashboardsSuccessAction implements Action {
   readonly type = DashboardActionTypes.LoadDashboardsSuccess;
-  constructor(public dashboards: Dashboard[]) {}
+  constructor(
+    public dashboards: any[],
+    public currentUser: User,
+    public routeUrl: string
+  ) {}
 }
 
 export class AddDashboard implements Action {
@@ -45,7 +51,7 @@ export class UpsertDashboard implements Action {
   constructor(public payload: { dashboard: Dashboard }) {}
 }
 
-export class AddDashboards implements Action {
+export class AddDashboardsAction implements Action {
   readonly type = DashboardActionTypes.AddDashboards;
 
   constructor(public dashboards: Dashboard[]) {}
@@ -85,16 +91,22 @@ export class ClearDashboards implements Action {
   readonly type = DashboardActionTypes.ClearDashboards;
 }
 
+export class SetCurrentDashboardAction implements Action {
+  readonly type = DashboardActionTypes.SetCurrentDashboard;
+  constructor(public id: string) {}
+}
+
 export type DashboardActions =
   | LoadDashboardsAction
   | LoadDashboardsFailAction
   | LoadDashboardsSuccessAction
   | AddDashboard
   | UpsertDashboard
-  | AddDashboards
+  | AddDashboardsAction
   | UpsertDashboards
   | UpdateDashboard
   | UpdateDashboards
   | DeleteDashboard
   | DeleteDashboards
-  | ClearDashboards;
+  | ClearDashboards
+  | SetCurrentDashboardAction;

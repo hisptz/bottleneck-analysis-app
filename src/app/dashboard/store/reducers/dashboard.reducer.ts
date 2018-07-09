@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Dashboard } from '../models/dashboard.model';
+import { Dashboard } from '../../models';
 import {
   DashboardActions,
   DashboardActionTypes
@@ -11,6 +11,7 @@ export interface DashboardObjectState extends EntityState<Dashboard> {
   loaded: boolean;
   hasError: boolean;
   error: any;
+  currentDashboard: string;
 }
 
 export const adapter: EntityAdapter<Dashboard> = createEntityAdapter<
@@ -22,7 +23,8 @@ export const initialState: DashboardObjectState = adapter.getInitialState({
   loading: false,
   loaded: false,
   hasError: false,
-  error: null
+  error: null,
+  currentDashboard: ''
 });
 
 export function dashboardObjectReducer(
@@ -86,6 +88,10 @@ export function dashboardObjectReducer(
 
     case DashboardActionTypes.ClearDashboards: {
       return adapter.removeAll(state);
+    }
+
+    case DashboardActionTypes.SetCurrentDashboard: {
+      return { ...state, currentDashboard: action.id };
     }
 
     default: {

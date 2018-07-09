@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/internal/operators';
-import { UserService } from '../services/user.service';
-import { User } from '../models/user.model';
+import { UserService } from '../../services';
+import { User } from '../../models';
 import {
   AddCurrentUser,
   LoadCurrentUserFail,

@@ -4,17 +4,18 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+
 import { StoreModule } from '@ngrx/store';
-import {
-  RouterStateSerializer,
-  StoreRouterConnectingModule
-} from '@ngrx/router-store';
-import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
-import { effects } from './effects';
+import {
+  RouterStateSerializer,
+  StoreRouterConnectingModule
+} from '@ngrx/router-store';
+
+import { reducers, metaReducers, effects } from './store';
 import { RouteSerializer } from './utils';
 
 @NgModule({

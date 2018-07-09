@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { NgxDhis2VisualizationModule } from '@hisptz/ngx-dhis2-visualization';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { containers } from './containers';
-import { StoreModule } from '@ngrx/store';
-import { dashboardReducer } from './reducers';
-import { EffectsModule } from '@ngrx/effects';
-import { DashboardEffects } from './effects/dashboard.effects';
-import { NgxDhis2VisualizationModule } from '@hisptz/ngx-dhis2-visualization';
+import { dashboardEffects, dashboardReducer } from './store';
 
 @NgModule({
   imports: [
@@ -15,7 +14,7 @@ import { NgxDhis2VisualizationModule } from '@hisptz/ngx-dhis2-visualization';
     DashboardRoutingModule,
     NgxDhis2VisualizationModule.forRoot(),
     StoreModule.forFeature('dashboard', dashboardReducer),
-    EffectsModule.forFeature([DashboardEffects])
+    EffectsModule.forFeature(dashboardEffects)
   ],
   declarations: [...containers]
 })
