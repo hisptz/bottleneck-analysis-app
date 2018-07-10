@@ -7,12 +7,14 @@ import { NgxDhis2VisualizationModule } from '@hisptz/ngx-dhis2-visualization';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { containers } from './containers';
 import { dashboardEffects, dashboardReducer } from './store';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     DashboardRoutingModule,
     NgxDhis2VisualizationModule.forRoot(),
+    TranslateModule.forChild(),
     StoreModule.forFeature('dashboard', dashboardReducer),
     EffectsModule.forFeature(dashboardEffects)
   ],

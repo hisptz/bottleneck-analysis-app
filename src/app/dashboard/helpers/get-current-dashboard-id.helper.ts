@@ -5,7 +5,6 @@ export function getCurrentDashboardId(
   dashboards: any[],
   currentUserInfo: User
 ) {
-  console.log(routeUrl);
   let currentDashboard = routeUrl.split('/')[2];
 
   if (!_.find(dashboards, ['id', currentDashboard])) {

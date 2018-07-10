@@ -10,11 +10,19 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../environments/environment';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
   RouterStateSerializer,
   StoreRouterConnectingModule
 } from '@ngrx/router-store';
+
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 import { reducers, metaReducers, effects } from './store';
 import { RouteSerializer } from './utils';
@@ -27,6 +35,16 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    /**
+     * Translation module
+     */
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     /**
      * Menu  module
      */
