@@ -118,6 +118,7 @@ export class DashboardEffects {
     ofType(DashboardActionTypes.SetCurrentDashboard),
     withLatestFrom(this.store.select(getCurrentUser)),
     tap(([action, currentUser]: [SetCurrentDashboardAction, User]) => {
+      // Set selected dashboard id into local storage
       localStorage.setItem(
         'dhis2.dashboard.current.' + currentUser.userCredentials.username,
         action.id

@@ -1,3 +1,13 @@
-<div>
-  {{'Dashboard' | translate}}
+<div class="current-dashboard-container">
+  <!-- current dashboard header -->
+  <div class="current-dashboard-header-block">
+    Header
+  </div>
+  <!-- end of current dashboard header -->
+
+  <!-- current dashboard visualizations -->
+  <div class="current-dashboard-visualizations-block">
+    <ngx-dhis2-visualization *ngFor="let visualizationId of currentDashboardVisualizations$ | async" [id]="visualizationId"></ngx-dhis2-visualization>
+  </div>
+  <!-- end of current dashboard visualizations -->
 </div>

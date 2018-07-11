@@ -15,7 +15,7 @@ import { dashboardEffects, dashboardReducer } from './store';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    NgxDhis2VisualizationModule.forRoot(),
+    NgxDhis2VisualizationModule,
     TranslateModule.forChild(),
     StoreModule.forFeature('dashboard', dashboardReducer),
     EffectsModule.forFeature(dashboardEffects)
