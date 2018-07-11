@@ -33,7 +33,8 @@ import {
   AddCurrentUser,
   Go,
   State,
-  getRouteUrl
+  getRouteUrl,
+  getCurrentUser
 } from '../../../store';
 
 import {
@@ -51,6 +52,7 @@ import {
   getDashboardItemsFromDashboards
 } from '../../helpers';
 import { AddDashboardVisualizationsAction } from '../actions';
+import { User } from '../../../models';
 
 @Injectable()
 export class DashboardEffects {
@@ -114,8 +116,15 @@ export class DashboardEffects {
   @Effect()
   setCurrentDashboard$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.SetCurrentDashboard),
+    withLatestFrom(this.store.select(getCurrentUser)),
+    tap(([action, currentUser]: [SetCurrentDashboardAction, User]) => {
+      localStorage.setItem(
+        'dhis2.dashboard.current.' + currentUser.userCredentials.username,
+        action.id
+      );
+    }),
     map(
-      (action: SetCurrentDashboardAction) =>
+      ([action, currentUser]: [SetCurrentDashboardAction, User]) =>
         new Go({ path: [`/dashboards/${action.id}`] })
     )
   );

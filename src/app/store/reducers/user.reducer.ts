@@ -81,9 +81,4 @@ export const getUserLoadedState = (state: UserState) => state.loaded;
 export const getUserHasErrorState = (state: UserState) => state.hasError;
 export const getUserErrorState = (state: UserState) => state.error;
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal
-} = adapter.getSelectors();
+export const { selectAll: selectAllUsers } = adapter.getSelectors();
