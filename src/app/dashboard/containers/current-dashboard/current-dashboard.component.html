@@ -6,7 +6,7 @@
   <!-- end of current dashboard header -->
 
   <!-- current dashboard visualizations -->
-  <div class="current-dashboard-visualizations-block">
+  <div class="current-dashboard-visualizations">
     <ngx-dhis2-visualization *ngFor="let visualizationId of currentDashboardVisualizations$ | async" [id]="visualizationId"></ngx-dhis2-visualization>
   </div>
   <!-- end of current dashboard visualizations -->

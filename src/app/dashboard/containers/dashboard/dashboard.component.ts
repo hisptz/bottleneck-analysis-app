@@ -18,9 +18,19 @@ import { Dashboard } from '../../models';
 export class DashboardComponent implements OnInit {
   dashboards$: Observable<Dashboard[]>;
   currentDashboardId$: Observable<string>;
+  menuContainerHeight: number;
+
   constructor(private store: Store<DashboardState>) {
     this.dashboards$ = store.select(getAllDashboards);
     this.currentDashboardId$ = store.select(getCurrentDashboardId);
+
+    // menu container height in pixels
+    this.menuContainerHeight = 60;
+  }
+
+  // Get dashboard content margin top by adding additional height from menu container height
+  get dashboardContentMarginTop(): number {
+    return this.menuContainerHeight + 60;
   }
 
   ngOnInit() {}

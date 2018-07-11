@@ -1,5 +1,6 @@
 .dashboard-menu {
-  min-height: 50px;
+  height: 100%;
+  overflow: auto;
   border-bottom: solid thin #eeeeee;
   padding: 10px;
   .dashboard-menu-list {

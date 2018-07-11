@@ -1,9 +1,14 @@
-<div class="dashboard-container">
+<div class="container-fluid dashboard-container">
 
     <!-- dashboard menu -->
-    <div class="dashboard-menu-container">
+    <div class="dashboard-menu-container" [style.height]="menuContainerHeight + 'px'">
         <app-dashboard-menu [dashboardMenuList]="dashboards$ | async" [currentDashboardId]="currentDashboardId$ | async" (setCurrentDashboard)="onSetCurrenDashboardAction($event)"></app-dashboard-menu>
     </div>
     <!-- end of dashboard menu -->
-    <router-outlet></router-outlet>
+
+    <!-- dashboard content -->
+    <div class="dashboard-content" [style.margin-top]="dashboardContentMarginTop + 'px'">
+        <router-outlet></router-outlet>
+    </div>
+    <!-- end of dashboard content -->
 </div>
