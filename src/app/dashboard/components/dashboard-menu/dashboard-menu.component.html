@@ -1,0 +1,7 @@
+<div class="dashboard-menu">
+    <ul class="dashboard-menu-list">
+        <li *ngFor="let dashboardMenuItem of dashboardMenuList">
+            <app-dashboard-menu-item [dashboardMenuItem]="dashboardMenuItem" [currentDashboardId]="currentDashboardId" (setDashboard)="onSetCurrentDashboard($event)"></app-dashboard-menu-item>
+        </li>
+    </ul>
+</div>

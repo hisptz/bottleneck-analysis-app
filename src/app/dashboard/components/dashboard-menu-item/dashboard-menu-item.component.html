@@ -1,0 +1,3 @@
+<a [ngClass]="{'dashboard-menu-item': true, 'current-dashboard': dashboardMenuItem?.id === currentDashboardId}" (click)="onSetDashboard($event)">
+  {{dashboardMenuItem?.name}}
+</a>

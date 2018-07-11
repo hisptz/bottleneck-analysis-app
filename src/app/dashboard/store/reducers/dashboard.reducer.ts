@@ -109,7 +109,8 @@ export function dashboardObjectReducer(
 }
 
 export const {
-  selectEntities: selectDashboardEntities
+  selectEntities: selectDashboardEntities,
+  selectAll: selectAllDashboards
 } = dashboardObjectAdapter.getSelectors();
 
 // additional entities parameters

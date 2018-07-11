@@ -1,1 +1,9 @@
-<router-outlet></router-outlet>
+<div class="dashboard-container">
+
+    <!-- dashboard menu -->
+    <div class="dashboard-menu-container">
+        <app-dashboard-menu [dashboardMenuList]="dashboards$ | async" [currentDashboardId]="currentDashboardId$ | async" (setCurrentDashboard)="onSetCurrenDashboardAction($event)"></app-dashboard-menu>
+    </div>
+    <!-- end of dashboard menu -->
+    <router-outlet></router-outlet>
+</div>

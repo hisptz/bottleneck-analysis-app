@@ -1,0 +1,15 @@
+.dashboard-menu {
+  min-height: 50px;
+  border-bottom: solid thin #eeeeee;
+  padding: 10px;
+  .dashboard-menu-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    li {
+      margin: 3px;
+    }
+  }
+}

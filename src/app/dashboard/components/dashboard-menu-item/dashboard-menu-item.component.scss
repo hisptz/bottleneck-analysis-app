@@ -1,0 +1,17 @@
+.dashboard-menu-item {
+  text-decoration: none;
+  display: flex;
+  height: 34px;
+  border-radius: 17px;
+  border: solid thin #eeeeee;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  padding: 10px;
+  cursor: pointer;
+  color: #222222;
+}
+
+.current-dashboard {
+  background-color: #eeeeee;
+}
