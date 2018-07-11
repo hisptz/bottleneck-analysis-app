@@ -24,6 +24,8 @@ export class DashboardMenuItemComponent implements OnInit {
 
   onSetDashboard(e) {
     e.stopPropagation();
-    this.setDashboard.emit(this.dashboardMenuItem.id);
+    if (this.currentDashboardId !== this.dashboardMenuItem.id) {
+      this.setDashboard.emit(this.dashboardMenuItem.id);
+    }
   }
 }
