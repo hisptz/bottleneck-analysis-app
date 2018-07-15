@@ -9,6 +9,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 
 import { containers } from './containers';
 import { components } from './components';
+import { pipes } from './pipes';
 import { dashboardEffects, dashboardReducer } from './store';
 
 @NgModule({
@@ -20,6 +21,6 @@ import { dashboardEffects, dashboardReducer } from './store';
     StoreModule.forFeature('dashboard', dashboardReducer),
     EffectsModule.forFeature(dashboardEffects)
   ],
-  declarations: [...containers, ...components]
+  declarations: [...containers, ...components, ...pipes]
 })
 export class DashboardModule {}
