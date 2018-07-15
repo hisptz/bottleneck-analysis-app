@@ -1,0 +1,36 @@
+.dashboard-header-container {
+  display: flex;
+
+  .dashboard-title-block {
+    flex: 3;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.dashboard-notification {
+  flex: 1;
+}
+.dashboard-search-block {
+  flex: 2;
+}
+
+.dashboard-options {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dashboard-global-filter {
+  margin-left: 3px;
+}
+
+.dashboard-description {
+  margin-left: 4px;
+  text-align: justify;
+}
+
+@media (max-width: 999px) {
+  .dashboard-header-container {
+    display: block;
+  }
+}

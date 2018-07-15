@@ -1,3 +1,7 @@
 <a [ngClass]="{'dashboard-menu-item': true, 'current-dashboard': dashboardMenuItem?.id === currentDashboardId}" (click)="onSetDashboard($event)">
+  <a [title]="'You have bookmarked this dashboard' | translate" class="dashboard-menu-bookmark-btn" *ngIf="dashboardMenuItem?.bookmarked"
+    (click)="onToggleBookmark($event)">
+    <img [src]="bookmarkedIcon" alt="">
+  </a>
   {{dashboardMenuItem?.name}}
 </a>

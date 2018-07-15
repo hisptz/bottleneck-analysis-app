@@ -1,13 +1,16 @@
 <div class="current-dashboard-container">
   <!-- current dashboard header -->
   <div class="current-dashboard-header-block">
-    Header
+    <app-current-dashboard-header [currentDashboard]="currentDashboard$ | async"></app-current-dashboard-header>
   </div>
   <!-- end of current dashboard header -->
 
   <!-- current dashboard visualizations -->
   <div class="current-dashboard-visualizations">
-    <ngx-dhis2-visualization *ngFor="let visualizationId of currentDashboardVisualizations$ | async" [id]="visualizationId"></ngx-dhis2-visualization>
+    <div class="visualization-card-block" [style.grid-column]="'span 4'" [style.grid-row]="'span 1'" *ngFor="let visualizationId of currentDashboardVisualizations$ | async">
+      <ngx-dhis2-visualization [id]="visualizationId"></ngx-dhis2-visualization>
+    </div>
+
   </div>
   <!-- end of current dashboard visualizations -->
 </div>

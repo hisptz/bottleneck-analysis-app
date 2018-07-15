@@ -6,10 +6,22 @@
   border: solid thin #eeeeee;
   justify-content: center;
   align-items: center;
-  font-size: 15px;
+  font-size: 14px;
   padding: 10px;
   cursor: pointer;
   color: #222222;
+
+  .dashboard-menu-bookmark-btn {
+    display: flex;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    padding-right: 5px;
+    cursor: pointer;
+    img {
+      height: 16px;
+    }
+  }
 }
 
 .current-dashboard {

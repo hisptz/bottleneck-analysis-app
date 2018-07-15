@@ -87,7 +87,9 @@ export class DashboardEffects {
   loadAllDashboardSuccess$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.LoadDashboardsSuccess),
     switchMap((action: LoadDashboardsSuccessAction) => [
-      new AddDashboardsAction(getStandardizedDashboards(action.dashboards)),
+      new AddDashboardsAction(
+        getStandardizedDashboards(action.dashboards, action.currentUser)
+      ),
       new SetCurrentDashboardAction(
         getCurrentDashboardId(
           action.routeUrl,

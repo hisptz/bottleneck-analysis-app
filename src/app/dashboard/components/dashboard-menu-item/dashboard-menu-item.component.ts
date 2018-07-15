@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { Dashboard } from '../../models';
 
+import { BOOKMARKED_ICON } from '../../../icons';
+
 @Component({
   selector: 'app-dashboard-menu-item',
   templateUrl: './dashboard-menu-item.component.html',
@@ -18,7 +20,12 @@ export class DashboardMenuItemComponent implements OnInit {
   @Input() dashboardMenuItem: Dashboard;
   @Input() currentDashboardId: string;
   @Output() setDashboard: EventEmitter<string> = new EventEmitter<string>();
-  constructor() {}
+
+  unBookmarkedIcon: string;
+  bookmarkedIcon: string;
+  constructor() {
+    this.bookmarkedIcon = BOOKMARKED_ICON;
+  }
 
   ngOnInit() {}
 
@@ -27,5 +34,10 @@ export class DashboardMenuItemComponent implements OnInit {
     if (this.currentDashboardId !== this.dashboardMenuItem.id) {
       this.setDashboard.emit(this.dashboardMenuItem.id);
     }
+  }
+
+  onToggleBookmark(e) {
+    e.stopPropagation();
+    console.log('bookmark toggle');
   }
 }
