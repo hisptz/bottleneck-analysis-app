@@ -2,7 +2,9 @@ import {
   Component,
   OnInit,
   Input,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { Dashboard } from '../../models';
 
@@ -14,7 +16,21 @@ import { Dashboard } from '../../models';
 })
 export class CurrentDashboardHeaderComponent implements OnInit {
   @Input() currentDashboard: Dashboard;
+  @Output()
+  toggleCurrentDashboardBookmark: EventEmitter<{
+    id: string;
+    supportBookmark: boolean;
+    bookmarked: boolean;
+  }> = new EventEmitter();
   constructor() {}
 
   ngOnInit() {}
+
+  onToggleDashboardBookmarkAction(dashboardBookmarked: boolean) {
+    this.toggleCurrentDashboardBookmark.emit({
+      id: this.currentDashboard.id,
+      supportBookmark: this.currentDashboard.supportBookmark,
+      bookmarked: dashboardBookmarked
+    });
+  }
 }

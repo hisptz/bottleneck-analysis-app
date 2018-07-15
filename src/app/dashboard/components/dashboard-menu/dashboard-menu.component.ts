@@ -20,11 +20,22 @@ export class DashboardMenuComponent implements OnInit {
 
   @Output()
   setCurrentDashboard: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output()
+  toggleDashboardBookmark: EventEmitter<{
+    id: string;
+    bookmarked: boolean;
+    supportBookmark;
+  }> = new EventEmitter();
   constructor() {}
 
   ngOnInit() {}
 
   onSetCurrentDashboard(dashboardId: string) {
     this.setCurrentDashboard.emit(dashboardId);
+  }
+
+  onToggleDashboardMenuItemBookmark(dashboardMenuDetails: any) {
+    this.toggleDashboardBookmark.emit(dashboardMenuDetails);
   }
 }

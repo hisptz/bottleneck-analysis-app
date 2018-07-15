@@ -25,7 +25,10 @@ import {
   LoadDashboardsSuccessAction,
   LoadDashboardsFailAction,
   AddDashboardsAction,
-  SetCurrentDashboardAction
+  SetCurrentDashboardAction,
+  ToggleDashboardBookmarkAction,
+  ToggleDashboardBookmarkSuccessAction,
+  ToggleDashboardBookmarkFailAction
 } from '../actions/dashboard.actions';
 
 import {
@@ -129,6 +132,41 @@ export class DashboardEffects {
     map(
       ([action, currentUser]: [SetCurrentDashboardAction, User]) =>
         new Go({ path: [`/dashboards/${action.id}`] })
+    )
+  );
+
+  @Effect()
+  toggleDashboardBookmark$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardActionTypes.ToggleDashboardBookmark),
+    withLatestFrom(this.store.select(getCurrentUser)),
+    switchMap(([action, currentUser]: [ToggleDashboardBookmarkAction, User]) =>
+      this.dashboardService
+        .bookmarkDashboard(
+          action.id,
+          action.changes.bookmarked,
+          action.supportBookmark,
+          currentUser.id
+        )
+        .pipe(
+          map(
+            () =>
+              new ToggleDashboardBookmarkSuccessAction(action.id, {
+                bookmarkPending: false
+              })
+          ),
+          catchError(error =>
+            of(
+              new ToggleDashboardBookmarkFailAction(
+                action.id,
+                {
+                  bookmarkPending: false,
+                  bookmarked: !action.changes.bookmarked
+                },
+                error
+              )
+            )
+          )
+        )
     )
   );
 

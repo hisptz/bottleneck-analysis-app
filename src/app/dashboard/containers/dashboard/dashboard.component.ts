@@ -5,7 +5,8 @@ import {
   DashboardState,
   getAllDashboards,
   getCurrentDashboardId,
-  SetCurrentDashboardAction
+  SetCurrentDashboardAction,
+  ToggleDashboardBookmarkAction
 } from '../../store';
 import { Dashboard } from '../../models';
 
@@ -37,5 +38,22 @@ export class DashboardComponent implements OnInit {
 
   onSetCurrenDashboardAction(dashboardId: string) {
     this.store.dispatch(new SetCurrentDashboardAction(dashboardId));
+  }
+
+  onToggleDashboardBookmark(dashboardDetails: {
+    id: string;
+    supportBookmark: boolean;
+    bookmarked: boolean;
+  }) {
+    this.store.dispatch(
+      new ToggleDashboardBookmarkAction(
+        dashboardDetails.id,
+        dashboardDetails.supportBookmark,
+        {
+          bookmarked: dashboardDetails.bookmarked,
+          bookmarkPending: true
+        }
+      )
+    );
   }
 }

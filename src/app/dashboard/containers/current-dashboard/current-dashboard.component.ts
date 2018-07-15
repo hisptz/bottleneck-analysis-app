@@ -5,7 +5,8 @@ import { Store } from '@ngrx/store';
 import {
   DashboardState,
   getCurrentDashboardVisualizations,
-  getCurrentDashboard
+  getCurrentDashboard,
+  ToggleDashboardBookmarkAction
 } from '../../store';
 import { Dashboard } from '../../models';
 
@@ -27,4 +28,21 @@ export class CurrentDashboardComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  onToggleCurrentDashboardBookmark(dashboardDetails: {
+    id: string;
+    supportBookmark: boolean;
+    bookmarked: boolean;
+  }) {
+    this.store.dispatch(
+      new ToggleDashboardBookmarkAction(
+        dashboardDetails.id,
+        dashboardDetails.supportBookmark,
+        {
+          bookmarked: dashboardDetails.bookmarked,
+          bookmarkPending: true
+        }
+      )
+    );
+  }
 }

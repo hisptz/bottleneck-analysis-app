@@ -1,6 +1,8 @@
 <div class="current-dashboard-bookmark-button">
-  <button class="dashboard-bookmark-btn" (click)="bookmarkDashboard($event)" [title]="(dashboardBookmarked ? 'You have bookmarked this dashboard': 'Bookmark this dashboard') | translate">
-    <img *ngIf="!dashboardBookmarked" [src]="unBookmarkedIcon" alt="">
-    <img *ngIf="dashboardBookmarked" [src]="bookmarkedIcon" alt="">
+  <button [disabled]="dashboardBookmarkPending" class="dashboard-bookmark-btn" (click)="onToggleDashboardBookmark($event)"
+    [title]="(dashboardBookmarkPending ? 'Bookmarking dashboard...' : dashboardBookmarked ? 'You have bookmarked this dashboard': 'Bookmark this dashboard') | translate">
+    <img *ngIf="!dashboardBookmarked && !dashboardBookmarkPending" [src]="unBookmarkedIcon" alt="">
+    <img *ngIf="dashboardBookmarked && !dashboardBookmarkPending" [src]="bookmarkedIcon" alt="">
+    <img *ngIf="dashboardBookmarkPending" [src]="bookmarkPendingIcon" alt="">
   </button>
 </div>

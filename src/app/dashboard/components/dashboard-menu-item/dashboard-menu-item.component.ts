@@ -8,7 +8,11 @@ import {
 } from '@angular/core';
 import { Dashboard } from '../../models';
 
-import { BOOKMARKED_ICON } from '../../../icons';
+import {
+  BOOKMARKED_ICON,
+  BOOKMARK_PENDING_ICON,
+  UN_BOOKMARKED_ICON
+} from '../../../icons';
 
 @Component({
   selector: 'app-dashboard-menu-item',
@@ -20,11 +24,23 @@ export class DashboardMenuItemComponent implements OnInit {
   @Input() dashboardMenuItem: Dashboard;
   @Input() currentDashboardId: string;
   @Output() setDashboard: EventEmitter<string> = new EventEmitter<string>();
+  @Output()
+  toggleDashboardMenuItemBookmark: EventEmitter<{
+    id: string;
+    bookmarked: boolean;
+    supportBookmark: boolean;
+  }> = new EventEmitter();
+
+  showBookmarkButton: boolean;
 
   unBookmarkedIcon: string;
+  bookmarkPendingIcon: string;
   bookmarkedIcon: string;
   constructor() {
     this.bookmarkedIcon = BOOKMARKED_ICON;
+    this.bookmarkPendingIcon = BOOKMARK_PENDING_ICON;
+    this.unBookmarkedIcon = UN_BOOKMARKED_ICON;
+    this.showBookmarkButton = false;
   }
 
   ngOnInit() {}
@@ -38,6 +54,20 @@ export class DashboardMenuItemComponent implements OnInit {
 
   onToggleBookmark(e) {
     e.stopPropagation();
-    console.log('bookmark toggle');
+    this.toggleDashboardMenuItemBookmark.emit({
+      id: this.dashboardMenuItem.id,
+      bookmarked: !this.dashboardMenuItem.bookmarked,
+      supportBookmark: this.dashboardMenuItem.supportBookmark
+    });
+  }
+
+  onHover(e) {
+    e.stopPropagation();
+    this.showBookmarkButton = true;
+  }
+
+  onBlur(e) {
+    e.stopPropagation();
+    this.showBookmarkButton = false;
   }
 }

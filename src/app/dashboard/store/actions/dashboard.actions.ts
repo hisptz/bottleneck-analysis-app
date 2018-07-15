@@ -16,7 +16,10 @@ export enum DashboardActionTypes {
   DeleteDashboard = '[Dashboard] Delete Dashboard',
   DeleteDashboards = '[Dashboard] Delete Dashboards',
   ClearDashboards = '[Dashboard] Clear Dashboards',
-  SetCurrentDashboard = '[Dashboard] Set current dashboard'
+  SetCurrentDashboard = '[Dashboard] Set current dashboard',
+  ToggleDashboardBookmark = '[Dashboard] Toggle dashboard bookmark status',
+  ToggleDashboardBookmarkSuccess = '[Dashboard] Toggle dashboard bookmark success',
+  ToggleDashboardBookmarkFail = '[Dashboard] Toggle dashboard bookmark fail'
 }
 
 export class LoadDashboardsAction implements Action {
@@ -96,6 +99,29 @@ export class SetCurrentDashboardAction implements Action {
   constructor(public id: string) {}
 }
 
+export class ToggleDashboardBookmarkAction implements Action {
+  readonly type = DashboardActionTypes.ToggleDashboardBookmark;
+  constructor(
+    public id: string,
+    public supportBookmark: boolean,
+    public changes: Partial<Dashboard>
+  ) {}
+}
+
+export class ToggleDashboardBookmarkSuccessAction implements Action {
+  readonly type = DashboardActionTypes.ToggleDashboardBookmarkSuccess;
+  constructor(public id: string, public changes: Partial<Dashboard>) {}
+}
+
+export class ToggleDashboardBookmarkFailAction implements Action {
+  readonly type = DashboardActionTypes.ToggleDashboardBookmarkFail;
+  constructor(
+    public id: string,
+    public changes: Partial<Dashboard>,
+    public error: any
+  ) {}
+}
+
 export type DashboardActions =
   | LoadDashboardsAction
   | LoadDashboardsFailAction
@@ -109,4 +135,7 @@ export type DashboardActions =
   | DeleteDashboard
   | DeleteDashboards
   | ClearDashboards
-  | SetCurrentDashboardAction;
+  | SetCurrentDashboardAction
+  | ToggleDashboardBookmarkAction
+  | ToggleDashboardBookmarkSuccessAction
+  | ToggleDashboardBookmarkFailAction;

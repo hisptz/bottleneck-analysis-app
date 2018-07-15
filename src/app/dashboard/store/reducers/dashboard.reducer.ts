@@ -102,6 +102,15 @@ export function dashboardObjectReducer(
       return { ...state, currentDashboard: action.id };
     }
 
+    case DashboardActionTypes.ToggleDashboardBookmark:
+    case DashboardActionTypes.ToggleDashboardBookmarkSuccess:
+    case DashboardActionTypes.ToggleDashboardBookmarkFail: {
+      return dashboardObjectAdapter.updateOne(
+        { id: action.id, changes: action.changes },
+        state
+      );
+    }
+
     default: {
       return state;
     }

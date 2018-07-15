@@ -7,5 +7,7 @@ export interface Dashboard {
   lastUpdated: string;
   description?: string;
   bookmarked: boolean;
+  bookmarkPending?: boolean;
+  supportBookmark: boolean;
   access: DashboardAccess;
 }

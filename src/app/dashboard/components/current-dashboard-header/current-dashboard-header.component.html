@@ -9,7 +9,8 @@
       </div>
 
       <div class="current-dashboard-bookmark-button">
-        <app-current-dashboard-bookmark [dashboardBookmarked]="currentDashboard?.bookmarked"></app-current-dashboard-bookmark>
+        <app-current-dashboard-bookmark [dashboardBookmarked]="currentDashboard?.bookmarked" [dashboardBookmarkPending]="currentDashboard?.bookmarkPending"
+          (toggleDashboardBookmark)="onToggleDashboardBookmarkAction($event)"></app-current-dashboard-bookmark>
       </div>
       <div class="current-dashboard-global-filter">
         <!-- <app-dashboard-global-filter [currentDashboardId]="(currentDashboard$ | async)?.id"></app-dashboard-global-filter> -->
