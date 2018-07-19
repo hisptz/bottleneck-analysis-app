@@ -11,6 +11,7 @@ import { containers } from './containers';
 import { components } from './components';
 import { pipes } from './pipes';
 import { dashboardEffects, dashboardReducer } from './store';
+import { SharingFilterModule } from './modules/sharing-filter/sharing-filter.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { dashboardEffects, dashboardReducer } from './store';
     NgxDhis2VisualizationModule,
     TranslateModule.forChild(),
     StoreModule.forFeature('dashboard', dashboardReducer),
-    EffectsModule.forFeature(dashboardEffects)
+    EffectsModule.forFeature(dashboardEffects),
+    SharingFilterModule
   ],
   declarations: [...containers, ...components, ...pipes]
 })

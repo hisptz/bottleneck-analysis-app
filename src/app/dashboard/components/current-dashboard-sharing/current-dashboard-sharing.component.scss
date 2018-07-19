@@ -1,0 +1,40 @@
+.dashboard-sharing-container {
+  position: relative;
+  .dashboard-sharing-body {
+    background-color: #ffffff;
+    position: absolute;
+    top: 40px;
+    width: 400px;
+    height: 400px;
+    z-index: 1310;
+    padding: 10px;
+    border: solid thin #eeeeee;
+  }
+
+  .dashboard-share-btn {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    border: none;
+    background-color: transparent;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    img {
+      display: block;
+      margin: auto;
+      height: 17px;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard-sharing-container {
+    position: static;
+  }
+  .dashboard-sharing-body {
+    left: 3%;
+    width: 94%;
+    top: 45px;
+  }
+}

@@ -1,3 +1,9 @@
-<p>
-  current-dashboard-sharing works!
-</p>
+<div class="dashboard-sharing-container">
+  <button class="dashboard-share-btn" title="{{ showShareBlock ? 'close sharing options' : 'Manage sharing options'}}" (click)="toggleShareBlock($event)">
+    <img *ngIf="!showShareBlock" [src]="shareIcon" alt="">
+    <img *ngIf="showShareBlock" src="assets/icons/close.png" alt="">
+  </button>
+  <div class="dashboard-sharing-body">
+    <app-sharing-filter [id]="id" [type]="'dashboard'"></app-sharing-filter>
+  </div>
+</div>
