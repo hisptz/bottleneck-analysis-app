@@ -21,4 +21,12 @@ export class CurrentDashboardSharingComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  toggleShareBlock(e?) {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    this.showShareBlock = !this.showShareBlock;
+  }
 }

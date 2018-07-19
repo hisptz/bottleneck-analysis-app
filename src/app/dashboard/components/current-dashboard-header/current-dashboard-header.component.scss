@@ -5,6 +5,11 @@
     flex: 3;
     display: flex;
     align-items: center;
+
+    .dashboard-title {
+      display: flex;
+      align-items: center;
+    }
   }
 }
 
@@ -27,6 +32,11 @@
 .dashboard-description {
   margin-left: 4px;
   text-align: justify;
+}
+
+.current-dashboard-share-button,
+.current-dashboard-bookmark-button {
+  margin-left: 5px;
 }
 
 @media (max-width: 999px) {
