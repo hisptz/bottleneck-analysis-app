@@ -10,7 +10,7 @@ export class DashboardService {
   dashboardUrlFields: string;
   constructor(private httpClient: NgxDhis2HttpClientService) {
     this.dashboardUrlFields =
-      '?fields=id,name,publicAccess,access,externalAccess,created,lastUpdated,favorite,' +
+      '?fields=id,name,description,publicAccess,access,externalAccess,created,lastUpdated,favorite,' +
       'user[id,name],dashboardItems[id,type,created,lastUpdated,shape,appKey,chart[id,displayName],' +
       'map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName]]&paging=false';
   }

@@ -13,6 +13,7 @@ export function getStandardizedDashboards(
       name: dashboard.name,
       created: dashboard.created,
       lastUpdated: dashboard.lastUpdated,
+      description: dashboard.description,
       supportBookmark: dashboard.hasOwnProperty('favorite'),
       bookmarked: dashboard.hasOwnProperty('favorite')
         ? dashboard.favorite

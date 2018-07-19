@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-current-dashboard-description',
@@ -6,10 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./current-dashboard-description.component.scss']
 })
 export class CurrentDashboardDescriptionComponent implements OnInit {
+  @Input() dashboardDescription: string;
+  @Input() dashboardId: string;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
