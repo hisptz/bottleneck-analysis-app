@@ -61,7 +61,6 @@ export class DashboardService {
         ).pipe(
           switchMap((dashboard: any) => {
             const dashboardItemToAdd = { ...dashboardItem, id: uniqueId };
-            console.log(dashboardItemToAdd);
             return this.httpClient
               .put(`dashboards/${dashboardId}?mergeMode=MERGE`, {
                 ...dashboard,

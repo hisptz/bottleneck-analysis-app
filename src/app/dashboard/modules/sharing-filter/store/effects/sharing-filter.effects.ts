@@ -91,7 +91,7 @@ export class SharingFilterEffects {
   @Effect()
   saveSharing$: Observable<any> = this.actions$.pipe(
     ofType(SharingFilterActionTypes.SaveSharingFilterItem),
-    switchMap((action: SaveSharingFilterItemAction) =>
+    exhaustMap((action: SaveSharingFilterItemAction) =>
       this.store.select(getSharingFilterItemById(action.sharingFilterId)).pipe(
         take(1),
         exhaustMap((sharingFilter: SharingFilter) =>
