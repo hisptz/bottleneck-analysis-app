@@ -28,7 +28,10 @@ import {
   SetCurrentDashboardAction,
   ToggleDashboardBookmarkAction,
   ToggleDashboardBookmarkSuccessAction,
-  ToggleDashboardBookmarkFailAction
+  ToggleDashboardBookmarkFailAction,
+  AddDashboardItemAction,
+  AddDashboardItemSuccessAction,
+  AddDashboardItemFailAction
 } from '../actions/dashboard.actions';
 
 import {
@@ -44,7 +47,9 @@ import {
   AddAllVisualizationObjectsAction,
   getStandardizedVisualizationObject,
   AddAllVisualizationUiConfigurationsAction,
-  getStandardizedVisualizationUiConfig
+  getStandardizedVisualizationUiConfig,
+  AddVisualizationObjectAction,
+  AddVisualizationUiConfigurationAction
 } from '@hisptz/ngx-dhis2-visualization';
 
 // helpers import
@@ -54,7 +59,11 @@ import {
   getStandardizedDashboardVisualizations,
   getDashboardItemsFromDashboards
 } from '../../helpers';
-import { AddDashboardVisualizationsAction } from '../actions';
+import {
+  AddDashboardVisualizationsAction,
+  DashboardVisualizationActionTypes,
+  AddDashboardVisualizationItemAction
+} from '../actions';
 import { User } from '../../../models';
 
 @Injectable()
@@ -166,6 +175,44 @@ export class DashboardEffects {
               )
             )
           )
+        )
+    )
+  );
+
+  @Effect()
+  addDashboardItem$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardActionTypes.AddDashboardItem),
+    switchMap((action: AddDashboardItemAction) =>
+      this.dashboardService
+        .addDashboardItem(action.dashboardId, action.dashboardItem)
+        .pipe(
+          switchMap((dashboardResponse: any) => [
+            new AddDashboardItemSuccessAction(
+              dashboardResponse.dashboardId,
+              dashboardResponse.dashboardItem
+            ),
+            new AddDashboardVisualizationItemAction(
+              dashboardResponse.dashboardId,
+              dashboardResponse.dashboardItem
+                ? dashboardResponse.dashboardItem.id
+                : ''
+            ),
+            new AddVisualizationObjectAction(
+              getStandardizedVisualizationObject({
+                ...dashboardResponse.dashboardItem,
+                dashboardId: dashboardResponse.dashboardId,
+                isOpen: true
+              })
+            ),
+            new AddVisualizationUiConfigurationAction(
+              getStandardizedVisualizationUiConfig({
+                ...dashboardResponse.dashboardItem,
+                dashboardId: dashboardResponse.dashboardId,
+                isOpen: true
+              })
+            )
+          ]),
+          catchError(error => of(new AddDashboardItemFailAction('', error)))
         )
     )
   );

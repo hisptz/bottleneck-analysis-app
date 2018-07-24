@@ -10,4 +10,5 @@ export interface Dashboard {
   bookmarkPending?: boolean;
   supportBookmark: boolean;
   access: DashboardAccess;
+  addingItem?: boolean;
 }

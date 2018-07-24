@@ -111,6 +111,20 @@ export function dashboardObjectReducer(
       );
     }
 
+    case DashboardActionTypes.AddDashboardItem: {
+      return dashboardObjectAdapter.updateOne(
+        { id: action.dashboardId, changes: { addingItem: true } },
+        state
+      );
+    }
+
+    case DashboardActionTypes.AddDashboardItemSuccess: {
+      return dashboardObjectAdapter.updateOne(
+        { id: action.dashboardId, changes: { addingItem: false } },
+        state
+      );
+    }
+
     default: {
       return state;
     }

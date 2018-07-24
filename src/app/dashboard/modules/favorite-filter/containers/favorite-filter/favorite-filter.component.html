@@ -1,0 +1,42 @@
+<div class="favorite-filter-container">
+  <!-- favorite filter filter search -->
+  <div class="favorite-filter-search-block">
+    <input type="text" class="favorite-filter-search-input" [placeholder]="searchPlaceholder | translate" size="60" (keyup)="onSearch($event)"
+      (focus)="onUpdateSearchBody($event)">
+    <button class="add-favorite-btn" [title]="newFavoritePlaceholder | translate">
+      <img [src]="plusIcon" alt="">
+    </button>
+    <button class="favorite-filter-search-filter" (click)="onToggleSearchFilters($event)">
+      <img [ngClass]="{'rotated-img': showSearchFilters}" [src]="arrowDownIcon" alt="">
+    </button>
+    <ul class="favorite-filter-search-filter-options" *ngIf="showSearchFilters">
+      <li *ngFor="let searchFilterOption of searchFilterOptions">
+        <a (click)="onSetCurrentFilterOption(searchFilterOption.id,
+          $event) ">
+          <img *ngIf="currentSearchFilterOptionId === searchFilterOption.id" [src]="tickIcon" alt="">
+          <span class="search-filter-option-spacer" *ngIf="currentSearchFilterOptionId !== searchFilterOption.id">&nbsp;</span>
+          <span>{{searchFilterOption.name}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- end of favorite filter filter search -->
+
+  <!-- favorite filter result section -->
+  <div class="favorite-filter-result-container" *ngIf="showBody">
+    <div class="favorite-result-list">
+      <div class="favorite-result-item" *ngFor="let favoriteResult of favoriteFilters$ | async">
+        <div class="favorite-result-title-block">
+          <img [src]="favoriteResult.icon" alt="">
+          <span class="favorite-result-title">{{ favoriteResult.name }}</span>
+        </div>
+        <div class="favorite-result-options">
+          <button title="Add to dashboard" class="favorite-result-btn" *ngIf="dashboardAccess?.manage" (click)="onAddFavorite(favoriteResult, $event)">
+            <img [src]="plusIcon" alt="">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end of favorite filter result section -->
+</div>

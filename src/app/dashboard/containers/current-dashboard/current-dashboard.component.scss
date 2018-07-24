@@ -12,6 +12,14 @@
     grid-auto-rows: minmax(400px, auto);
   }
 
+  .visualization-card-placeholder {
+    border: dotted thin #eeeeee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 450px;
+  }
+
   @media print {
     .current-dashboard-visualizations {
       grid-template-columns: repeat(2, 1fr);

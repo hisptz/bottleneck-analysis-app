@@ -19,12 +19,12 @@
   </div>
 
   <div class="dashboard-search-block no-print">
-    <!-- <app-dashboard-item-search [dashboardAccess]="(currentDashboard$ | async)?.access"></app-dashboard-item-search> -->
+    <app-favorite-filter [currentUser]="currentUser" [dashboardAccess]="currentDashboard?.access" (addFavorite)="onAddFavoriteAction($event)"></app-favorite-filter>
   </div>
 </div>
 
 <!-- current dashboard description -->
-<div class="current-dashboard-description">
+<div class="current-dashboard-description" *ngIf="currentDashboard?.description">
   <app-current-dashboard-description [dashboardDescription]="currentDashboard?.description"></app-current-dashboard-description>
 </div>
 <!-- end of current dashboard description -->

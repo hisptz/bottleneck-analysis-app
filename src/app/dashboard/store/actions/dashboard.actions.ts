@@ -8,6 +8,9 @@ export enum DashboardActionTypes {
   LoadDashboardsFail = '[Dashboard] Load Dashboards fail',
   LoadDashboardsSuccess = '[Dashboard] Load Dashboards success',
   AddDashboard = '[Dashboard] Add Dashboard',
+  AddDashboardItem = '[Dashboard] Add Dashboard item',
+  AddDashboardItemSuccess = '[Dashboard] Add Dashboard item success',
+  AddDashboardItemFail = '[Dashboard] Add Dashboard item fail',
   UpsertDashboard = '[Dashboard] Upsert Dashboard',
   AddDashboards = '[Dashboard] Add Dashboards',
   UpsertDashboards = '[Dashboard] Upsert Dashboards',
@@ -122,8 +125,26 @@ export class ToggleDashboardBookmarkFailAction implements Action {
   ) {}
 }
 
+export class AddDashboardItemAction implements Action {
+  readonly type = DashboardActionTypes.AddDashboardItem;
+  constructor(public dashboardId: string, public dashboardItem: any) {}
+}
+
+export class AddDashboardItemSuccessAction implements Action {
+  readonly type = DashboardActionTypes.AddDashboardItemSuccess;
+  constructor(public dashboardId: string, public dashboardItem: any) {}
+}
+
+export class AddDashboardItemFailAction implements Action {
+  readonly type = DashboardActionTypes.AddDashboardItemFail;
+  constructor(public dashboardId: string, public error: ErrorMessage) {}
+}
+
 export type DashboardActions =
   | LoadDashboardsAction
+  | AddDashboardItemAction
+  | AddDashboardItemSuccessAction
+  | AddDashboardItemFailAction
   | LoadDashboardsFailAction
   | LoadDashboardsSuccessAction
   | AddDashboard

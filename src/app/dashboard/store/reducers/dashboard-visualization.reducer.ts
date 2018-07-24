@@ -27,6 +27,22 @@ export function dashboardVisualizationReducer(
         action.dashboardVisualizations,
         state
       );
+    case DashboardVisualizationActionTypes.AddDashboardVisualizationItem: {
+      return dashboardVisualizationAdapter.updateOne(
+        {
+          id: action.dashboardId,
+          changes: {
+            items: [
+              action.dashboardItemId,
+              ...(state.entities[action.dashboardId]
+                ? state.entities[action.dashboardId].items
+                : [])
+            ]
+          }
+        },
+        state
+      );
+    }
   }
   return state;
 }
