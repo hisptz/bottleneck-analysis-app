@@ -22,7 +22,8 @@ export enum DashboardActionTypes {
   SetCurrentDashboard = '[Dashboard] Set current dashboard',
   ToggleDashboardBookmark = '[Dashboard] Toggle dashboard bookmark status',
   ToggleDashboardBookmarkSuccess = '[Dashboard] Toggle dashboard bookmark success',
-  ToggleDashboardBookmarkFail = '[Dashboard] Toggle dashboard bookmark fail'
+  ToggleDashboardBookmarkFail = '[Dashboard] Toggle dashboard bookmark fail',
+  AddNewUnsavedFavorite = '[Dashboard] Add new unsaved favorite'
 }
 
 export class LoadDashboardsAction implements Action {
@@ -140,6 +141,11 @@ export class AddDashboardItemFailAction implements Action {
   constructor(public dashboardId: string, public error: ErrorMessage) {}
 }
 
+export class AddNewUnsavedFavoriteAction implements Action {
+  readonly type = DashboardActionTypes.AddNewUnsavedFavorite;
+  constructor(public id: string, public changes: Partial<Dashboard>) {}
+}
+
 export type DashboardActions =
   | LoadDashboardsAction
   | AddDashboardItemAction
@@ -159,4 +165,5 @@ export type DashboardActions =
   | SetCurrentDashboardAction
   | ToggleDashboardBookmarkAction
   | ToggleDashboardBookmarkSuccessAction
-  | ToggleDashboardBookmarkFailAction;
+  | ToggleDashboardBookmarkFailAction
+  | AddNewUnsavedFavoriteAction;

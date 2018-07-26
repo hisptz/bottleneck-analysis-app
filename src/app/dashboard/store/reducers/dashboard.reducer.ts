@@ -104,7 +104,8 @@ export function dashboardObjectReducer(
 
     case DashboardActionTypes.ToggleDashboardBookmark:
     case DashboardActionTypes.ToggleDashboardBookmarkSuccess:
-    case DashboardActionTypes.ToggleDashboardBookmarkFail: {
+    case DashboardActionTypes.ToggleDashboardBookmarkFail:
+    case DashboardActionTypes.AddNewUnsavedFavorite: {
       return dashboardObjectAdapter.updateOne(
         { id: action.id, changes: action.changes },
         state

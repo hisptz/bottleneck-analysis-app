@@ -7,7 +7,8 @@ import {
   getCurrentDashboardVisualizations,
   getCurrentDashboard,
   ToggleDashboardBookmarkAction,
-  AddDashboardItemAction
+  AddDashboardItemAction,
+  AddNewUnsavedFavoriteAction
 } from '../../store';
 import { Dashboard } from '../../models';
 import { getCurrentUser, State } from '../../../store';
@@ -60,6 +61,14 @@ export class CurrentDashboardComponent implements OnInit {
         dashboardFavoriteDetails.dashboardId,
         dashboardFavoriteDetails.dashboardItem
       )
+    );
+  }
+
+  onCreateFavoriteForCurrentDashboard(dashboardId: string) {
+    this.store.dispatch(
+      new AddNewUnsavedFavoriteAction(dashboardId, {
+        hasNewUnsavedFavorite: true
+      })
     );
   }
 }

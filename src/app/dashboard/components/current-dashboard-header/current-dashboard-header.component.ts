@@ -42,6 +42,11 @@ export class CurrentDashboardHeaderComponent implements OnInit {
       [favoriteType: string]: any;
     };
   }>();
+
+  @Output()
+  createFavoriteForCurrentDashboard: EventEmitter<string> = new EventEmitter<
+    string
+  >();
   constructor() {}
 
   ngOnInit() {}
@@ -78,5 +83,11 @@ export class CurrentDashboardHeaderComponent implements OnInit {
             }
       }
     });
+  }
+
+  onCreateFavoriteAction() {
+    if (this.currentDashboard) {
+      this.createFavoriteForCurrentDashboard.emit(this.currentDashboard.id);
+    }
   }
 }

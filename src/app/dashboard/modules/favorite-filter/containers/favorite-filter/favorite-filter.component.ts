@@ -46,6 +46,8 @@ export class FavoriteFilterComponent implements OnInit {
     dashboardTypeDetails: any;
   }>();
 
+  @Output() createFavorite: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(private store: Store<FavoriteFilterState>) {
     this.favoriteFilters$ = store.select(getFavoriteFilters);
     this.searchPlaceholder =
@@ -110,5 +112,10 @@ export class FavoriteFilterComponent implements OnInit {
       name: favoriteFilter.name,
       dashboardTypeDetails
     });
+  }
+
+  onCreateFavorite(e) {
+    e.stopPropagation();
+    this.createFavorite.emit(null);
   }
 }

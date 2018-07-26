@@ -3,7 +3,7 @@
   <div class="favorite-filter-search-block">
     <input type="text" class="favorite-filter-search-input" [placeholder]="searchPlaceholder | translate" size="60" (keyup)="onSearch($event)"
       (focus)="onUpdateSearchBody($event)">
-    <button class="add-favorite-btn" [title]="newFavoritePlaceholder | translate">
+    <button class="add-favorite-btn" [title]="newFavoritePlaceholder | translate" (click)="onCreateFavorite($event)">
       <img [src]="plusIcon" alt="">
     </button>
     <button class="favorite-filter-search-filter" (click)="onToggleSearchFilters($event)">

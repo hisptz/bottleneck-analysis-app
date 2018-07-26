@@ -19,7 +19,8 @@
   </div>
 
   <div class="dashboard-search-block no-print">
-    <app-favorite-filter [currentUser]="currentUser" [dashboardAccess]="currentDashboard?.access" (addFavorite)="onAddFavoriteAction($event)"></app-favorite-filter>
+    <app-favorite-filter [currentUser]="currentUser" [dashboardAccess]="currentDashboard?.access" (addFavorite)="onAddFavoriteAction($event)"
+      (createFavorite)="onCreateFavoriteAction()"></app-favorite-filter>
   </div>
 </div>
 

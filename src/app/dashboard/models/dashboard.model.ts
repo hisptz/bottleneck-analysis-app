@@ -11,4 +11,5 @@ export interface Dashboard {
   supportBookmark: boolean;
   access: DashboardAccess;
   addingItem?: boolean;
+  hasNewUnsavedFavorite?: boolean;
 }
