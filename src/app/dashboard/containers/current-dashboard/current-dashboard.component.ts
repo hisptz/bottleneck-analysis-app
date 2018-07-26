@@ -24,6 +24,9 @@ export class CurrentDashboardComponent implements OnInit {
   currentDashboardVisualizations$: Observable<Array<string>>;
   currentDashboard$: Observable<Dashboard>;
   currentUser$: Observable<User>;
+
+  // TODO find best way
+  newFavorites: any[] = [];
   constructor(private store: Store<State>) {
     this.currentDashboardVisualizations$ = store.select(
       getCurrentDashboardVisualizations
@@ -65,6 +68,11 @@ export class CurrentDashboardComponent implements OnInit {
   }
 
   onCreateFavoriteForCurrentDashboard(dashboardId: string) {
+    console.log('here');
+    this.newFavorites = [
+      ...this.newFavorites,
+      `new_${dashboardId}_${this.newFavorites.length + 1}`
+    ];
     this.store.dispatch(
       new AddNewUnsavedFavoriteAction(dashboardId, {
         hasNewUnsavedFavorite: true
