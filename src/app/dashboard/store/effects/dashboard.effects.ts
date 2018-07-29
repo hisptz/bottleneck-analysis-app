@@ -238,13 +238,13 @@ export class DashboardEffects {
             this.dashboardService
               .create({ id, name: action.dashboardName }, dashboardSettings)
               .pipe(
-                map(
-                  () =>
-                    new UpdateDashboardAction(id, {
-                      creating: false,
-                      updatedOrCreated: true
-                    })
-                ),
+                switchMap(() => [
+                  new UpdateDashboardAction(id, {
+                    creating: false,
+                    updatedOrCreated: true
+                  }),
+                  new SetCurrentDashboardAction(id)
+                ]),
                 catchError(error =>
                   of(
                     new UpdateDashboardAction(id, {
