@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Dashboard } from '../../models/dashboard.model';
 import { User, ErrorMessage } from '../../../models';
+import { DashboardSettings } from '../../models/dashboard-settings.model';
 
 export enum DashboardActionTypes {
   LoadDashboards = '[Dashboard] Load Dashboards',
@@ -29,7 +30,10 @@ export enum DashboardActionTypes {
 export class LoadDashboardsAction implements Action {
   readonly type = DashboardActionTypes.LoadDashboards;
 
-  constructor(public currentUser: User) {}
+  constructor(
+    public currentUser: User,
+    public dashboardSettings: DashboardSettings
+  ) {}
 }
 
 export class LoadDashboardsFailAction implements Action {

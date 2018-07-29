@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import * as _ from 'lodash';
 
 import { Dashboard } from '../models';
-import { map, switchMap, catchError, tap } from 'rxjs/operators';
+import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { UtilService } from './util.service';
+import { DashboardSettings } from '../models/dashboard-settings.model';
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   dashboardUrlFields: string;
@@ -19,12 +20,38 @@ export class DashboardService {
       'map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName]]&paging=false';
   }
 
-  loadAll(): Observable<Dashboard[]> {
+  loadAll(dashboardSettings: DashboardSettings): Observable<Dashboard[]> {
+    return dashboardSettings && dashboardSettings.useDataStoreAsSource
+      ? this.loadFromDataStore(dashboardSettings)
+      : this.loadFromApi();
+  }
+
+  loadFromApi() {
     return this.httpClient
       .get(`dashboards.json${this.dashboardUrlFields}`, true)
       .pipe(
         map((dashboardResponse: any) => dashboardResponse.dashboards || [])
       );
+  }
+
+  loadFromDataStore(dashboardSettings: DashboardSettings) {
+    return this.httpClient.get('dataStore/dashboards').pipe(
+      mergeMap((dashboardIds: Array<string>) =>
+        forkJoin(
+          _.map(dashboardIds, dashboardId =>
+            this.httpClient.get(`dataStore/dashboards/${dashboardId}`)
+          )
+        ).pipe(
+          map((dashboards: any[]) =>
+            _.filter(
+              dashboards,
+              dashboard => dashboard.namespace === dashboardSettings.id
+            )
+          )
+        )
+      ),
+      catchError(() => of([]))
+    );
   }
 
   load(id: string, customFields?: string): Observable<Dashboard[]> {

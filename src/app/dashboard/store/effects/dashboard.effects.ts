@@ -61,7 +61,6 @@ import {
 } from '../../helpers';
 import {
   AddDashboardVisualizationsAction,
-  DashboardVisualizationActionTypes,
   AddDashboardVisualizationItemAction
 } from '../actions';
 import { User } from '../../../models';
@@ -69,19 +68,11 @@ import { User } from '../../../models';
 @Injectable()
 export class DashboardEffects {
   @Effect()
-  currentUserLoaded$: Observable<any> = this.actions$.pipe(
-    ofType(UserActionTypes.AddCurrentUser),
-    map(
-      (action: AddCurrentUser) => new LoadDashboardsAction(action.currentUser)
-    )
-  );
-
-  @Effect()
   loadAllDashboards$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.LoadDashboards),
     withLatestFrom(this.store.select(getRouteUrl)),
     switchMap(([action, routeUrl]: [LoadDashboardsAction, string]) =>
-      this.dashboardService.loadAll().pipe(
+      this.dashboardService.loadAll(action.dashboardSettings).pipe(
         map(
           (dashboards: any[]) =>
             new LoadDashboardsSuccessAction(
