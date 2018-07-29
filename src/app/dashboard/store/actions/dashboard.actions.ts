@@ -9,6 +9,7 @@ export enum DashboardActionTypes {
   LoadDashboardsFail = '[Dashboard] Load Dashboards fail',
   LoadDashboardsSuccess = '[Dashboard] Load Dashboards success',
   AddDashboard = '[Dashboard] Add Dashboard',
+  CreateDashboard = '[Dashboard] Create Dashboard',
   AddDashboardItem = '[Dashboard] Add Dashboard item',
   AddDashboardItemSuccess = '[Dashboard] Add Dashboard item success',
   AddDashboardItemFail = '[Dashboard] Add Dashboard item fail',
@@ -50,10 +51,16 @@ export class LoadDashboardsSuccessAction implements Action {
   ) {}
 }
 
-export class AddDashboard implements Action {
+export class AddDashboardAction implements Action {
   readonly type = DashboardActionTypes.AddDashboard;
 
-  constructor(public payload: { dashboard: Dashboard }) {}
+  constructor(public dashboard: Dashboard) {}
+}
+
+export class CreateDashboardAction implements Action {
+  readonly type = DashboardActionTypes.CreateDashboard;
+
+  constructor(public dashboardName: string) {}
 }
 
 export class UpsertDashboard implements Action {
@@ -74,10 +81,10 @@ export class UpsertDashboards implements Action {
   constructor(public payload: { dashboards: Dashboard[] }) {}
 }
 
-export class UpdateDashboard implements Action {
+export class UpdateDashboardAction implements Action {
   readonly type = DashboardActionTypes.UpdateDashboard;
 
-  constructor(public payload: { dashboard: Update<Dashboard> }) {}
+  constructor(public id: string, public changes: Partial<Dashboard>) {}
 }
 
 export class UpdateDashboards implements Action {
@@ -157,11 +164,12 @@ export type DashboardActions =
   | AddDashboardItemFailAction
   | LoadDashboardsFailAction
   | LoadDashboardsSuccessAction
-  | AddDashboard
+  | CreateDashboardAction
+  | AddDashboardAction
   | UpsertDashboard
   | AddDashboardsAction
   | UpsertDashboards
-  | UpdateDashboard
+  | UpdateDashboardAction
   | UpdateDashboards
   | DeleteDashboard
   | DeleteDashboards

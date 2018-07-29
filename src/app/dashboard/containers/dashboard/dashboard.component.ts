@@ -6,7 +6,8 @@ import {
   getAllDashboards,
   getCurrentDashboardId,
   SetCurrentDashboardAction,
-  ToggleDashboardBookmarkAction
+  ToggleDashboardBookmarkAction,
+  CreateDashboardAction
 } from '../../store';
 import { Dashboard } from '../../models';
 
@@ -38,6 +39,10 @@ export class DashboardComponent implements OnInit {
 
   onSetCurrenDashboardAction(dashboardId: string) {
     this.store.dispatch(new SetCurrentDashboardAction(dashboardId));
+  }
+
+  onCreateDashboardAction(dashboardName: string) {
+    this.store.dispatch(new CreateDashboardAction(dashboardName));
   }
 
   onToggleDashboardBookmark(dashboardDetails: {

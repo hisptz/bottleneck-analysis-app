@@ -35,7 +35,7 @@ export function dashboardObjectReducer(
 ): DashboardObjectState {
   switch (action.type) {
     case DashboardActionTypes.AddDashboard: {
-      return dashboardObjectAdapter.addOne(action.payload.dashboard, state);
+      return dashboardObjectAdapter.addOne(action.dashboard, state);
     }
 
     case DashboardActionTypes.UpsertDashboard: {
@@ -54,7 +54,10 @@ export function dashboardObjectReducer(
     }
 
     case DashboardActionTypes.UpdateDashboard: {
-      return dashboardObjectAdapter.updateOne(action.payload.dashboard, state);
+      return dashboardObjectAdapter.updateOne(
+        { id: action.id, changes: action.changes },
+        state
+      );
     }
 
     case DashboardActionTypes.UpdateDashboards: {

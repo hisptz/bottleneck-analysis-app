@@ -21,6 +21,8 @@ export class DashboardMenuComponent implements OnInit {
   @Output()
   setCurrentDashboard: EventEmitter<string> = new EventEmitter<string>();
 
+  @Output() createDashboard: EventEmitter<string> = new EventEmitter<string>();
+
   @Output()
   toggleDashboardBookmark: EventEmitter<{
     id: string;
@@ -37,5 +39,9 @@ export class DashboardMenuComponent implements OnInit {
 
   onToggleDashboardMenuItemBookmark(dashboardMenuDetails: any) {
     this.toggleDashboardBookmark.emit(dashboardMenuDetails);
+  }
+
+  onCreateDashboard(dashboardName: string) {
+    this.createDashboard.emit(dashboardName);
   }
 }

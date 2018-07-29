@@ -41,3 +41,7 @@ export function dashboardSettingsReducer(
   }
   return state;
 }
+
+export const {
+  selectAll: getAllDashboardSettingsState
+} = dashboardSettingsAdapter.getSelectors();

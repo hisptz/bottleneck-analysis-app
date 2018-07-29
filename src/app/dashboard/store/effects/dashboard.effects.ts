@@ -6,7 +6,9 @@ import {
   map,
   catchError,
   tap,
-  withLatestFrom
+  withLatestFrom,
+  exhaustMap,
+  mergeMap
 } from 'rxjs/operators';
 
 import * as _ from 'lodash';
@@ -16,7 +18,7 @@ import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 // Services import
-import { DashboardService } from '../../services';
+import { DashboardService, UtilService } from '../../services';
 
 // store actions import
 import {
@@ -31,7 +33,10 @@ import {
   ToggleDashboardBookmarkFailAction,
   AddDashboardItemAction,
   AddDashboardItemSuccessAction,
-  AddDashboardItemFailAction
+  AddDashboardItemFailAction,
+  CreateDashboardAction,
+  AddDashboardAction,
+  UpdateDashboardAction
 } from '../actions/dashboard.actions';
 
 import {
@@ -64,6 +69,8 @@ import {
   AddDashboardVisualizationItemAction
 } from '../actions';
 import { User } from '../../../models';
+import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
+import { DashboardSettings } from '../../models/dashboard-settings.model';
 
 @Injectable()
 export class DashboardEffects {
@@ -208,9 +215,55 @@ export class DashboardEffects {
     )
   );
 
+  @Effect()
+  createDashboard$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardActionTypes.CreateDashboard),
+    withLatestFrom(this.store.select(getDashboardSettings)),
+    mergeMap(
+      ([action, dashboardSettings]: [
+        CreateDashboardAction,
+        DashboardSettings
+      ]) =>
+        this.utilService.getUniqueId().pipe(
+          tap((id: string) => {
+            this.store.dispatch(
+              new AddDashboardAction({
+                id,
+                name: action.dashboardName,
+                creating: true
+              })
+            );
+          }),
+          mergeMap((id: string) =>
+            this.dashboardService
+              .create({ id, name: action.dashboardName }, dashboardSettings)
+              .pipe(
+                map(
+                  () =>
+                    new UpdateDashboardAction(id, {
+                      creating: false,
+                      updatedOrCreated: true
+                    })
+                ),
+                catchError(error =>
+                  of(
+                    new UpdateDashboardAction(id, {
+                      creating: false,
+                      updatedOrCreated: false,
+                      error
+                    })
+                  )
+                )
+              )
+          )
+        )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<State>,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private utilService: UtilService
   ) {}
 }

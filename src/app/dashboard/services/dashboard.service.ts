@@ -61,6 +61,15 @@ export class DashboardService {
     );
   }
 
+  create(dashboard: Dashboard, dashboardSettings: DashboardSettings) {
+    return dashboardSettings && dashboardSettings.useDataStoreAsSource
+      ? this.httpClient.post(`dataStore/dashboards/${dashboard.id}`, {
+          ...dashboard,
+          namespace: dashboardSettings.id
+        })
+      : this.httpClient.post('dashboard.json', dashboard);
+  }
+
   bookmarkDashboard(
     dashboardId: string,
     bookmarked: boolean,

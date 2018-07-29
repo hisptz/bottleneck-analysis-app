@@ -3,7 +3,7 @@
     <!-- dashboard menu -->
     <div class="dashboard-menu-container" [style.height]="menuContainerHeight + 'px'">
         <app-dashboard-menu [dashboardMenuList]="dashboards$ | async" [currentDashboardId]="currentDashboardId$ | async" (setCurrentDashboard)="onSetCurrenDashboardAction($event)"
-            (toggleDashboardBookmark)="onToggleDashboardBookmark($event)"></app-dashboard-menu>
+            (toggleDashboardBookmark)="onToggleDashboardBookmark($event)" (createDashboard)="onCreateDashboardAction($event)"></app-dashboard-menu>
     </div>
     <!-- end of dashboard menu -->
 

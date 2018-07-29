@@ -1,5 +1,8 @@
 <div class="dashboard-menu">
     <ul class="dashboard-menu-list">
+        <li>
+            <app-add-dashboard (create)="onCreateDashboard($event)"></app-add-dashboard>
+        </li>
         <li *ngFor="let dashboardMenuItem of dashboardMenuList | sortByBookmark">
             <app-dashboard-menu-item [dashboardMenuItem]="dashboardMenuItem" [currentDashboardId]="currentDashboardId" (setDashboard)="onSetCurrentDashboard($event)"
                 (toggleDashboardMenuItemBookmark)="onToggleDashboardMenuItemBookmark($event)"></app-dashboard-menu-item>

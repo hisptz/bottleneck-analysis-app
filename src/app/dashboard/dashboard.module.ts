@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,6 +19,7 @@ import { FavoriteFilterModule } from './modules/favorite-filter/favorite-filter.
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     DashboardRoutingModule,
     NgxDhis2VisualizationModule,
     TranslateModule.forChild(),
