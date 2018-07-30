@@ -3,9 +3,14 @@ import { DashboardSettings } from '../../models/dashboard-settings.model';
 import { User } from '../../../models';
 
 export enum DashboardSettingsActionTypes {
+  InitializeDashboardSettings = '[DashboardSettings] initialize dashboard settings',
   LoadDashboardSettings = '[DashboardSettings] Load dashboard settings',
   AddDashboardSettings = '[DashboardSettings] Add dashboard settings',
   LoadDashboardSettingsFail = '[DashboardSettings] Load dashboard settings fails'
+}
+
+export class InitializeDashboardSettingsAction implements Action {
+  readonly type = DashboardSettingsActionTypes.InitializeDashboardSettings;
 }
 
 export class LoadDashboardSettingsAction implements Action {
@@ -25,6 +30,7 @@ export class LoadDashboardSettingsFailAction implements Action {
 }
 
 export type DashboardSettingsActions =
+  | InitializeDashboardSettingsAction
   | LoadDashboardSettingsAction
   | LoadDashboardSettingsFailAction
   | AddDashboardSettingsAction;

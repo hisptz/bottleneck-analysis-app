@@ -12,9 +12,12 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { containers } from './containers';
 import { components } from './components';
 import { pipes } from './pipes';
-import { dashboardEffects, dashboardReducer } from './store';
+import { dashboardEffects } from './store';
 import { SharingFilterModule } from './modules/sharing-filter/sharing-filter.module';
 import { FavoriteFilterModule } from './modules/favorite-filter/favorite-filter.module';
+import { dashboardObjectReducer } from './store/reducers/dashboard.reducer';
+import { dashboardSettingsReducer } from './store/reducers/dashboard-settings.reducer';
+import { dashboardVisualizationReducer } from './store/reducers/dashboard-visualization.reducer';
 
 @NgModule({
   imports: [
@@ -23,7 +26,12 @@ import { FavoriteFilterModule } from './modules/favorite-filter/favorite-filter.
     DashboardRoutingModule,
     NgxDhis2VisualizationModule,
     TranslateModule.forChild(),
-    StoreModule.forFeature('dashboard', dashboardReducer),
+    StoreModule.forFeature('dashboardObject', dashboardObjectReducer),
+    StoreModule.forFeature('dashboardSettings', dashboardSettingsReducer),
+    StoreModule.forFeature(
+      'dashboardVisualization',
+      dashboardVisualizationReducer
+    ),
     EffectsModule.forFeature(dashboardEffects),
     SharingFilterModule,
     FavoriteFilterModule

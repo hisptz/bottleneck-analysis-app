@@ -1,3 +1,4 @@
+import { createFeatureSelector } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import {
@@ -47,6 +48,10 @@ export function dashboardVisualizationReducer(
   return state;
 }
 
+export const getDashboardVisualizationState = createFeatureSelector<
+  DashboardVisualizationState
+>('dashboardVisualization');
+
 export const {
-  selectEntities: selectDashboardVisualizationEntities
-} = dashboardVisualizationAdapter.getSelectors();
+  selectEntities: getDashboardVisualizationEntities
+} = dashboardVisualizationAdapter.getSelectors(getDashboardVisualizationState);

@@ -67,7 +67,7 @@ export class DashboardService {
           ...dashboard,
           namespace: dashboardSettings.id
         })
-      : this.httpClient.post('dashboard.json', dashboard);
+      : this.httpClient.post('dashboards.json', dashboard);
   }
 
   bookmarkDashboard(

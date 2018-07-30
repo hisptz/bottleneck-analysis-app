@@ -7,7 +7,6 @@ import {
   catchError,
   tap,
   withLatestFrom,
-  exhaustMap,
   mergeMap
 } from 'rxjs/operators';
 
@@ -39,14 +38,7 @@ import {
   UpdateDashboardAction
 } from '../actions/dashboard.actions';
 
-import {
-  UserActionTypes,
-  AddCurrentUser,
-  Go,
-  State,
-  getRouteUrl,
-  getCurrentUser
-} from '../../../store';
+import { Go, State, getRouteUrl, getCurrentUser } from '../../../store';
 
 import {
   AddAllVisualizationObjectsAction,

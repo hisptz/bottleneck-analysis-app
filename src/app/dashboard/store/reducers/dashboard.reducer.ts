@@ -1,3 +1,4 @@
+import { createFeatureSelector } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Dashboard } from '../../models';
 import {
@@ -18,7 +19,7 @@ export const dashboardObjectAdapter: EntityAdapter<
   Dashboard
 > = createEntityAdapter<Dashboard>();
 
-export const initialState: DashboardObjectState = dashboardObjectAdapter.getInitialState(
+const initialState: DashboardObjectState = dashboardObjectAdapter.getInitialState(
   {
     // additional entity state properties
     loading: false,
@@ -135,10 +136,14 @@ export function dashboardObjectReducer(
   }
 }
 
+export const getDashboardObjectState = createFeatureSelector<
+  DashboardObjectState
+>('dashboardObject');
+
 export const {
-  selectEntities: selectDashboardEntities,
-  selectAll: selectAllDashboards
-} = dashboardObjectAdapter.getSelectors();
+  selectEntities: getDashboardObjectEntities,
+  selectAll: getAllDashboards
+} = dashboardObjectAdapter.getSelectors(getDashboardObjectState);
 
 // additional entities parameters
 export const getDashboardObjectLoadingState = (state: DashboardObjectState) =>

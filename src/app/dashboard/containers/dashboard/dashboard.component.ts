@@ -2,12 +2,14 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
-  DashboardState,
+  DashboardObjectState,
   getAllDashboards,
   getCurrentDashboardId,
   SetCurrentDashboardAction,
   ToggleDashboardBookmarkAction,
-  CreateDashboardAction
+  CreateDashboardAction,
+  DashboardSettingsState,
+  InitializeDashboardSettingsAction
 } from '../../store';
 import { Dashboard } from '../../models';
 
@@ -22,7 +24,13 @@ export class DashboardComponent implements OnInit {
   currentDashboardId$: Observable<string>;
   menuContainerHeight: number;
 
-  constructor(private store: Store<DashboardState>) {
+  constructor(
+    private store: Store<DashboardObjectState>,
+    private dashboardSettingsStore: Store<DashboardSettingsState>
+  ) {
+    // initialize dashboads settings
+    dashboardSettingsStore.dispatch(new InitializeDashboardSettingsAction());
+
     this.dashboards$ = store.select(getAllDashboards);
     this.currentDashboardId$ = store.select(getCurrentDashboardId);
 

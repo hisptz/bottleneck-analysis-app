@@ -1,18 +1,23 @@
 import { createSelector } from '@ngrx/store';
-import { DashboardState, getDashboardState } from '../reducers';
-import { getAllDashboardSettingsState } from '../reducers/dashboard-settings.reducer';
-import { DashboardSettings } from '../../models/dashboard-settings.model';
-export const getDashboardSettingsState = createSelector(
-  getDashboardState,
-  (state: DashboardState) => state.dashboardSettings
-);
-
-export const getAllDashboardSettings = createSelector(
+import {
+  getAllDashboardSettings,
   getDashboardSettingsState,
-  getAllDashboardSettingsState
-);
+  getDashboardSettingsLoadedState,
+  getDashboardSettingsLoadingState
+} from '../reducers/dashboard-settings.reducer';
+import { DashboardSettings } from '../../models/dashboard-settings.model';
 
 export const getDashboardSettings = createSelector(
   getAllDashboardSettings,
   (dashboardSettingsList: DashboardSettings[]) => dashboardSettingsList[0]
+);
+
+export const getDashboardSettingsLoaded = createSelector(
+  getDashboardSettingsState,
+  getDashboardSettingsLoadedState
+);
+
+export const getDashboardSettingsLoading = createSelector(
+  getDashboardSettingsState,
+  getDashboardSettingsLoadingState
 );

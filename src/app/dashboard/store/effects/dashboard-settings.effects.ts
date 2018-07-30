@@ -7,20 +7,52 @@ import {
   AddDashboardSettingsAction,
   LoadDashboardSettingsFailAction,
   LoadDashboardSettingsAction,
-  LoadDashboardsAction
+  LoadDashboardsAction,
+  InitializeDashboardSettingsAction
 } from '../actions';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { UserActionTypes, AddCurrentUser } from '../../../store';
+import {
+  mergeMap,
+  map,
+  catchError,
+  withLatestFrom,
+  tap,
+  filter,
+  take
+} from 'rxjs/operators';
+import {
+  UserActionTypes,
+  AddCurrentUser,
+  State,
+  getCurrentUser
+} from '../../../store';
+import { Store } from '@ngrx/store';
+import { User } from '../../../models';
+import { DashboardSettingsState } from '../reducers';
+import { getDashboardSettingsLoaded } from '../selectors';
 
 @Injectable()
 export class DashboardSettingsEffects {
-  @Effect()
-  currentUserLoaded$: Observable<any> = this.actions$.pipe(
-    ofType(UserActionTypes.AddCurrentUser),
-    map(
-      (action: AddCurrentUser) =>
-        new LoadDashboardSettingsAction(action.currentUser)
-    )
+  @Effect({ dispatch: false })
+  initializeDashboardSettings$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardSettingsActionTypes.InitializeDashboardSettings),
+    tap((action: InitializeDashboardSettingsAction) => {
+      this.store
+        .select(getDashboardSettingsLoaded)
+        .pipe(take(1))
+        .subscribe((loaded: boolean) => {
+          if (!loaded) {
+            this.rootStore
+              .select(getCurrentUser)
+              .subscribe((currentUser: User) => {
+                if (currentUser) {
+                  this.store.dispatch(
+                    new LoadDashboardSettingsAction(currentUser)
+                  );
+                }
+              });
+          }
+        });
+    })
   );
 
   @Effect()
@@ -53,6 +85,8 @@ export class DashboardSettingsEffects {
 
   constructor(
     private actions$: Actions,
+    private rootStore: Store<State>,
+    private store: Store<DashboardSettingsState>,
     private dashboardSettingsService: DashboardSettingsService
   ) {}
 }

@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
-  DashboardState,
   getCurrentDashboardVisualizations,
   getCurrentDashboard,
   ToggleDashboardBookmarkAction,
@@ -68,7 +67,6 @@ export class CurrentDashboardComponent implements OnInit {
   }
 
   onCreateFavoriteForCurrentDashboard(dashboardId: string) {
-    console.log('here');
     this.newFavorites = [
       ...this.newFavorites,
       `new_${dashboardId}_${this.newFavorites.length + 1}`

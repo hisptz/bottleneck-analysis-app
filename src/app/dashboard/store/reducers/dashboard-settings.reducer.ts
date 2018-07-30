@@ -1,3 +1,4 @@
+import { createFeatureSelector } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import {
   DashboardSettingsActions,
@@ -14,7 +15,7 @@ const dashboardSettingsAdapter: EntityAdapter<
   DashboardSettings
 > = createEntityAdapter<DashboardSettings>();
 
-export const initialState: DashboardSettingsState = dashboardSettingsAdapter.getInitialState(
+const initialState: DashboardSettingsState = dashboardSettingsAdapter.getInitialState(
   {
     // additional entity state properties
     loading: false,
@@ -32,16 +33,34 @@ export function dashboardSettingsReducer(
     }
 
     case DashboardSettingsActionTypes.AddDashboardSettings: {
-      return dashboardSettingsAdapter.addOne(action.dashboardSettings, {
-        ...state,
-        loading: false,
-        loaded: true
-      });
+      return action.dashboardSettings
+        ? dashboardSettingsAdapter.addOne(action.dashboardSettings, {
+            ...state,
+            loading: false,
+            loaded: true
+          })
+        : {
+            ...state,
+            loading: false,
+            loaded: true
+          };
     }
   }
   return state;
 }
 
+export const getDashboardSettingsState = createFeatureSelector<
+  DashboardSettingsState
+>('dashboardSettings');
+
+export const getDashboardSettingsLoadedState = (
+  state: DashboardSettingsState
+) => state.loaded;
+
+export const getDashboardSettingsLoadingState = (
+  state: DashboardSettingsState
+) => state.loading;
+
 export const {
-  selectAll: getAllDashboardSettingsState
-} = dashboardSettingsAdapter.getSelectors();
+  selectAll: getAllDashboardSettings
+} = dashboardSettingsAdapter.getSelectors(getDashboardSettingsState);
