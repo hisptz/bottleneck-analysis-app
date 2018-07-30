@@ -5,7 +5,7 @@ import {
   ManifestService,
   Manifest
 } from '@hisptz/ngx-dhis2-http-client';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, catchError } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -29,11 +29,16 @@ export class DashboardSettingsService {
             return dashboardSettingsList.indexOf(namespace) !== -1
               ? this.httpClient
                   .get(`dataStore/dashboard-settings/${namespace}`)
-                  .pipe(map((dashboardSettings: any) => dashboardSettings))
+                  .pipe(
+                    map((dashboardSettings: any) => dashboardSettings),
+                    catchError((error: any) => of(null))
+                  )
               : of(null);
-          })
+          }),
+          catchError((error: any) => of(null))
         );
-      })
+      }),
+      catchError((error: any) => of(null))
     );
   }
 }

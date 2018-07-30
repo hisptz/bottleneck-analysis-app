@@ -1,15 +1,21 @@
-import {
-  ActionReducer,
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-  MetaReducer
-} from '@ngrx/store';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { RouterReducerState, routerReducer } from '@ngrx/router-store';
 import { environment } from '../../../environments/environment';
 
 import { userReducer, UserState } from './user.reducer';
 import { systemInfoReducer, SystemInfoState } from './system-info.reducer';
+import {
+  DashboardObjectState,
+  dashboardObjectReducer
+} from './dashboard.reducer';
+import {
+  DashboardSettingsState,
+  dashboardSettingsReducer
+} from './dashboard-settings.reducer';
+import {
+  DashboardVisualizationState,
+  dashboardVisualizationReducer
+} from './dashboard-visualization.reducer';
 
 /**
  * Root state interface
@@ -29,12 +35,18 @@ export interface State {
    * Router state
    */
   route: RouterReducerState;
+  dashboardObject: DashboardObjectState;
+  dashboardSettings: DashboardSettingsState;
+  dashboardVisualization: DashboardVisualizationState;
 }
 
 export const reducers: ActionReducerMap<State> = {
   user: userReducer,
   systemInfo: systemInfoReducer,
-  route: routerReducer
+  route: routerReducer,
+  dashboardObject: dashboardObjectReducer,
+  dashboardSettings: dashboardSettingsReducer,
+  dashboardVisualization: dashboardVisualizationReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

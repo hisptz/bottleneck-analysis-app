@@ -1,10 +1,9 @@
-import { createFeatureSelector } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import {
   DashboardSettingsActions,
   DashboardSettingsActionTypes
 } from '../actions';
-import { DashboardSettings } from '../../models/dashboard-settings.model';
+import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
 
 export interface DashboardSettingsState extends EntityState<DashboardSettings> {
   loading: boolean;
@@ -49,10 +48,6 @@ export function dashboardSettingsReducer(
   return state;
 }
 
-export const getDashboardSettingsState = createFeatureSelector<
-  DashboardSettingsState
->('dashboardSettings');
-
 export const getDashboardSettingsLoadedState = (
   state: DashboardSettingsState
 ) => state.loaded;
@@ -62,5 +57,5 @@ export const getDashboardSettingsLoadingState = (
 ) => state.loading;
 
 export const {
-  selectAll: getAllDashboardSettings
-} = dashboardSettingsAdapter.getSelectors(getDashboardSettingsState);
+  selectAll: getAllDashboardSettingsState
+} = dashboardSettingsAdapter.getSelectors();

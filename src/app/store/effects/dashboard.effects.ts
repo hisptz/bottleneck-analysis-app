@@ -38,8 +38,6 @@ import {
   UpdateDashboardAction
 } from '../actions/dashboard.actions';
 
-import { Go, State, getRouteUrl, getCurrentUser } from '../../../store';
-
 import {
   AddAllVisualizationObjectsAction,
   getStandardizedVisualizationObject,
@@ -58,11 +56,14 @@ import {
 } from '../../helpers';
 import {
   AddDashboardVisualizationsAction,
-  AddDashboardVisualizationItemAction
+  AddDashboardVisualizationItemAction,
+  Go
 } from '../actions';
-import { User } from '../../../models';
+import { User } from '../../models';
 import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
-import { DashboardSettings } from '../../models/dashboard-settings.model';
+import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
+import { State } from '../reducers';
+import { getCurrentUser, getRouteUrl } from '../selectors';
 
 @Injectable()
 export class DashboardEffects {

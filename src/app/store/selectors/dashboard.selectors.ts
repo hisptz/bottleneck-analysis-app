@@ -1,13 +1,29 @@
 import { createSelector } from '@ngrx/store';
 import {
-  getDashboardObjectEntities,
-  getDashboardObjectState,
+  getDashboardObjectEntitiesState,
   getCurrentDashboardObjectState,
   getDashboardObjectLoadingState,
   getDashboardObjectLoadedState,
   getDashboardObjectHasErrorState,
-  getDashboardObjectErrorState
+  getDashboardObjectErrorState,
+  getAllDashboardsState
 } from '../reducers/dashboard.reducer';
+import { getRootState, State } from '../reducers';
+
+export const getDashboardObjectState = createSelector(
+  getRootState,
+  (state: State) => state.dashboardObject
+);
+
+export const getDashboardObjectEntities = createSelector(
+  getDashboardObjectState,
+  getDashboardObjectEntitiesState
+);
+
+export const getAllDashboards = createSelector(
+  getDashboardObjectState,
+  getAllDashboardsState
+);
 
 export const getCurrentDashboardId = createSelector(
   getDashboardObjectState,

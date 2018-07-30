@@ -5,7 +5,7 @@ import {
   DashboardVisualizationAction,
   DashboardVisualizationActionTypes
 } from '../actions';
-import { DashboardVisualization } from '../../models';
+import { DashboardVisualization } from '../../dashboard/models';
 
 export interface DashboardVisualizationState
   extends EntityState<DashboardVisualization> {}
@@ -48,10 +48,6 @@ export function dashboardVisualizationReducer(
   return state;
 }
 
-export const getDashboardVisualizationState = createFeatureSelector<
-  DashboardVisualizationState
->('dashboardVisualization');
-
 export const {
-  selectEntities: getDashboardVisualizationEntities
-} = dashboardVisualizationAdapter.getSelectors(getDashboardVisualizationState);
+  selectEntities: getDashboardVisualizationEntitiesState
+} = dashboardVisualizationAdapter.getSelectors();

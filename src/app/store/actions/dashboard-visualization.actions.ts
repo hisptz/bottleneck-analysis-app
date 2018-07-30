@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { DashboardVisualization } from '../../models';
+import { DashboardVisualization } from '../../dashboard/models';
 
 export enum DashboardVisualizationActionTypes {
   AddDashboardVisualizations = '[DashboardVisualization] Add dashboard visualizations',

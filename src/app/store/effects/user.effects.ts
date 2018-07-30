@@ -9,6 +9,7 @@ import {
   LoadCurrentUserFail,
   UserActionTypes
 } from '../actions/user.actions';
+import { LoadDashboardSettingsAction } from '../actions';
 
 @Injectable()
 export class UserEffects {
@@ -22,6 +23,15 @@ export class UserEffects {
         map((user: User) => new AddCurrentUser(user)),
         catchError((error: any) => of(new LoadCurrentUserFail(error)))
       )
+    )
+  );
+
+  @Effect()
+  currentUserLoaded$: Observable<any> = this.actions$.pipe(
+    ofType(UserActionTypes.AddCurrentUser),
+    map(
+      (action: AddCurrentUser) =>
+        new LoadDashboardSettingsAction(action.currentUser)
     )
   );
 }

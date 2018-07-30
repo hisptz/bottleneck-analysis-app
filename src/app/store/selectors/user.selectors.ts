@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { getRootState, State } from '../reducers';
-import { UserState, selectAllUsers } from '../reducers/user.reducer';
+import { selectAllUsers } from '../reducers/user.reducer';
 import { User } from '../../models';
 export const getUserState = createSelector(
   getRootState,

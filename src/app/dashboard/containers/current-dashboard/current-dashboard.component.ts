@@ -2,15 +2,16 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
+import { Dashboard } from '../../models';
 import {
+  getCurrentUser,
+  State,
   getCurrentDashboardVisualizations,
   getCurrentDashboard,
   ToggleDashboardBookmarkAction,
   AddDashboardItemAction,
   AddNewUnsavedFavoriteAction
-} from '../../store';
-import { Dashboard } from '../../models';
-import { getCurrentUser, State } from '../../../store';
+} from '../../../store';
 import { User } from '../../../models';
 
 @Component({

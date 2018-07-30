@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { Dashboard } from '../../models/dashboard.model';
-import { User, ErrorMessage } from '../../../models';
-import { DashboardSettings } from '../../models/dashboard-settings.model';
+import { Dashboard } from '../../dashboard/models/dashboard.model';
+import { User, ErrorMessage } from '../../models';
+import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
 
 export enum DashboardActionTypes {
   LoadDashboards = '[Dashboard] Load Dashboards',

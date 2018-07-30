@@ -3,10 +3,10 @@ import { Observable, forkJoin, of } from 'rxjs';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import * as _ from 'lodash';
 
-import { Dashboard } from '../models';
+import { Dashboard } from '../dashboard/models';
 import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { UtilService } from './util.service';
-import { DashboardSettings } from '../models/dashboard-settings.model';
+import { DashboardSettings } from '../dashboard/models/dashboard-settings.model';
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   dashboardUrlFields: string;

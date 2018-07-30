@@ -1,6 +1,6 @@
 import { createFeatureSelector } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Dashboard } from '../../models';
+import { Dashboard } from '../../dashboard/models';
 import {
   DashboardActions,
   DashboardActionTypes
@@ -129,21 +129,15 @@ export function dashboardObjectReducer(
         state
       );
     }
-
-    default: {
-      return state;
-    }
   }
+
+  return state;
 }
 
-export const getDashboardObjectState = createFeatureSelector<
-  DashboardObjectState
->('dashboardObject');
-
 export const {
-  selectEntities: getDashboardObjectEntities,
-  selectAll: getAllDashboards
-} = dashboardObjectAdapter.getSelectors(getDashboardObjectState);
+  selectEntities: getDashboardObjectEntitiesState,
+  selectAll: getAllDashboardsState
+} = dashboardObjectAdapter.getSelectors();
 
 // additional entities parameters
 export const getDashboardObjectLoadingState = (state: DashboardObjectState) =>

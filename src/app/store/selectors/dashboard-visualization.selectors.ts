@@ -1,6 +1,17 @@
 import { createSelector } from '@ngrx/store';
 import { getCurrentDashboardId } from './dashboard.selectors';
-import { getDashboardVisualizationEntities } from '../reducers/dashboard-visualization.reducer';
+import { getDashboardVisualizationEntitiesState } from '../reducers/dashboard-visualization.reducer';
+import { getRootState, State } from '../reducers';
+
+export const getDashboardVisualizationState = createSelector(
+  getRootState,
+  (state: State) => state.dashboardVisualization
+);
+
+export const getDashboardVisualizationEntities = createSelector(
+  getDashboardVisualizationState,
+  getDashboardVisualizationEntitiesState
+);
 
 export const getCurrentDashboardVisualizations = createSelector(
   getDashboardVisualizationEntities,

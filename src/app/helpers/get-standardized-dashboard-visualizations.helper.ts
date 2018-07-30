@@ -1,4 +1,4 @@
-import { DashboardVisualization } from '../models';
+import { DashboardVisualization } from '../dashboard/models';
 import * as _ from 'lodash';
 export function getStandardizedDashboardVisualizations(
   dashboards: any[]
