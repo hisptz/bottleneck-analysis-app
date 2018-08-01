@@ -30,11 +30,6 @@ export function dashboardVisualizationReducer(
         state
       );
     case DashboardVisualizationActionTypes.AddDashboardVisualizationItem: {
-      console.log(
-        state.entities[action.dashboardId]
-          ? state.entities[action.dashboardId].items
-          : []
-      );
       return dashboardVisualizationAdapter.updateOne(
         {
           id: action.dashboardId,

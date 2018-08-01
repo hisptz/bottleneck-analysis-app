@@ -39,7 +39,6 @@ export class VisualizationLayerEffects {
     .ofType(VisualizationLayerActionTypes.LOAD_VISUALIZATION_ANALYTICS)
     .pipe(
       tap((action: LoadVisualizationAnalyticsAction) => {
-        console.log(action.visualizationLayers);
         forkJoin(
           _.map(action.visualizationLayers, visualizationLayer =>
             this.analyticsService.getAnalytics(

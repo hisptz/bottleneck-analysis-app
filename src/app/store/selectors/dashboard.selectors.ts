@@ -63,7 +63,6 @@ export const getDefaultVisualizationLayers = createSelector(
   getSystemInfo,
   getCurrentUser,
   (systemInfo, currentUser) => {
-    console.log(systemInfo, currentUser);
     const orgUnits =
       currentUser.dataViewOrganisationUnits.length > 0
         ? currentUser.dataViewOrganisationUnits

@@ -30,6 +30,12 @@ export function visualizationLayerReducer(
         { id: action.id, changes: action.changes },
         state
       );
+    case VisualizationLayerActionTypes.ReplaceVisualizationLayerId: {
+      return visualizationLayerAdapter.updateOne(
+        { id: action.currentId, changes: { id: action.newId } },
+        state
+      );
+    }
   }
   return state;
 }

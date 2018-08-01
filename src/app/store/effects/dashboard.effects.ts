@@ -171,11 +171,11 @@ export class DashboardEffects {
     )
   );
 
-  @Effect()
+  @Effect({ dispatch: false })
   addDashboardItem$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.AddDashboardItem),
     withLatestFrom(this.store.select(getDashboardSettings)),
-    switchMap(
+    tap(
       ([action, dashboardSettings]: [
         AddDashboardItemAction,
         DashboardSettings
@@ -186,34 +186,47 @@ export class DashboardEffects {
             action.dashboardItem,
             dashboardSettings
           )
-          .pipe(
-            switchMap((dashboardResponse: any) => [
-              new AddDashboardItemSuccessAction(
-                dashboardResponse.dashboardId,
-                dashboardResponse.dashboardItem
-              ),
-              new AddDashboardVisualizationItemAction(
-                dashboardResponse.dashboardId,
-                dashboardResponse.dashboardItem
-                  ? dashboardResponse.dashboardItem.id
-                  : ''
-              ),
-              new AddVisualizationObjectAction(
-                getStandardizedVisualizationObject({
-                  ...dashboardResponse.dashboardItem,
-                  dashboardId: dashboardResponse.dashboardId,
-                  isOpen: true
-                })
-              ),
-              new AddVisualizationUiConfigurationAction(
-                getStandardizedVisualizationUiConfig({
-                  ...dashboardResponse.dashboardItem,
-                  dashboardId: dashboardResponse.dashboardId,
-                  isOpen: true
-                })
-              )
-            ]),
-            catchError(error => of(new AddDashboardItemFailAction('', error)))
+          .subscribe(
+            (dashboardResponse: any) => {
+              this.store.dispatch(
+                new AddDashboardItemSuccessAction(
+                  dashboardResponse.dashboardId,
+                  dashboardResponse.dashboardItem
+                )
+              );
+
+              if (!action.skipStoreUpdate) {
+                this.store.dispatch(
+                  new AddDashboardVisualizationItemAction(
+                    dashboardResponse.dashboardId,
+                    dashboardResponse.dashboardItem
+                      ? dashboardResponse.dashboardItem.id
+                      : ''
+                  )
+                );
+                this.store.dispatch(
+                  new AddVisualizationObjectAction(
+                    getStandardizedVisualizationObject({
+                      ...dashboardResponse.dashboardItem,
+                      dashboardId: dashboardResponse.dashboardId,
+                      isOpen: true
+                    })
+                  )
+                );
+                this.store.dispatch(
+                  new AddVisualizationUiConfigurationAction(
+                    getStandardizedVisualizationUiConfig({
+                      ...dashboardResponse.dashboardItem,
+                      dashboardId: dashboardResponse.dashboardId,
+                      isOpen: true
+                    })
+                  )
+                );
+              }
+            },
+            error => {
+              this.store.dispatch(new AddDashboardItemFailAction('', error));
+            }
           )
     )
   );
@@ -263,16 +276,22 @@ export class DashboardEffects {
     )
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   addNewFavorite$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.AddNewUnsavedFavorite),
-    tap((action: AddNewUnsavedFavoriteAction) => {
-      this.utilService.getUniqueId().subscribe(dashboardItemId => {
-        this.store.dispatch(
-          new AddDashboardVisualizationItemAction(action.id, dashboardItemId)
-        );
-      });
-    })
+    mergeMap((action: AddNewUnsavedFavoriteAction) =>
+      this.utilService
+        .getUniqueId()
+        .pipe(
+          map(
+            dashboardItemId =>
+              new AddDashboardVisualizationItemAction(
+                action.id,
+                dashboardItemId
+              )
+          )
+        )
+    )
   );
 
   constructor(

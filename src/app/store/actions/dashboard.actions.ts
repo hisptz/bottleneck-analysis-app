@@ -139,7 +139,11 @@ export class ToggleDashboardBookmarkFailAction implements Action {
 
 export class AddDashboardItemAction implements Action {
   readonly type = DashboardActionTypes.AddDashboardItem;
-  constructor(public dashboardId: string, public dashboardItem: any) {}
+  constructor(
+    public dashboardId: string,
+    public dashboardItem: any,
+    public skipStoreUpdate?: boolean
+  ) {}
 }
 
 export class AddDashboardItemSuccessAction implements Action {
@@ -154,7 +158,7 @@ export class AddDashboardItemFailAction implements Action {
 
 export class AddNewUnsavedFavoriteAction implements Action {
   readonly type = DashboardActionTypes.AddNewUnsavedFavorite;
-  constructor(public id: string, public changes: Partial<Dashboard>) {}
+  constructor(public id: string) {}
 }
 
 export type DashboardActions =

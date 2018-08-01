@@ -27,7 +27,8 @@ import {
   AddVisualizationConfigurationAction,
   UpdateVisualizationConfigurationAction,
   AddVisualizationUiConfigurationAction,
-  SaveVisualizationFavoriteAction
+  SaveVisualizationFavoriteAction,
+  ReplaceVisualizationLayerIdAction
 } from '../actions';
 
 // reducers
@@ -81,7 +82,7 @@ export class VisualizationObjectEffects {
             visualizationObject.progress &&
             visualizationObject.progress.percent === 0
           ) {
-            // set initial global visualization configurations
+            // set initial visualization configurations
             this.store.dispatch(
               new AddVisualizationConfigurationAction({
                 id: visualizationObject.visualizationConfigId,
@@ -100,102 +101,6 @@ export class VisualizationObjectEffects {
               this.store.dispatch(
                 new LoadVisualizationFavoriteAction(visualizationObject)
               );
-            }
-          } else if (action.visualizationLayers) {
-            // set visualization layers
-            const visualizationLayers: any[] = _.filter(
-              _.map(
-                action.visualizationLayers || [],
-                (visualizationLayer: VisualizationLayer) => {
-                  return visualizationLayer.analytics ||
-                    visualizationLayer.dataSelections
-                    ? {
-                        ...visualizationLayer,
-                        analytics: visualizationLayer.analytics
-                          ? getStandardizedAnalyticsObject(
-                              visualizationLayer.analytics,
-                              true
-                            )
-                          : null,
-                        dataSelections: visualizationLayer.dataSelections || []
-                      }
-                    : null;
-                }
-              ),
-              visualizationLayer => visualizationLayer
-            );
-
-            // update visualization object with layers
-            if (visualizationLayers.length > 0) {
-              // Update visualization object
-              if (
-                _.some(
-                  visualizationLayers,
-                  visualizationLayer => visualizationLayer.analytics
-                )
-              ) {
-                this.store.dispatch(
-                  new UpdateVisualizationObjectAction(action.id, {
-                    layers: _.map(
-                      visualizationLayers,
-                      visualizationLayer => visualizationLayer.id
-                    ),
-                    progress: {
-                      statusCode: 200,
-                      statusText: 'OK',
-                      percent: 100,
-                      message: 'Analytics has been loaded'
-                    }
-                  })
-                );
-
-                // Update visualization Layers
-                _.each(visualizationLayers, visualizationLayer => {
-                  this.store.dispatch(
-                    new UpdateVisualizationLayerAction(visualizationLayer.id, {
-                      ...visualizationLayer
-                    })
-                  );
-                });
-              } else if (
-                !_.some(
-                  visualizationLayers,
-                  visualizationLayer => visualizationLayer.analytics
-                ) &&
-                _.some(
-                  visualizationLayers,
-                  visualizationLayer => visualizationLayer.dataSelections
-                )
-              ) {
-                this.store.dispatch(
-                  new UpdateVisualizationObjectAction(action.id, {
-                    layers: _.map(
-                      visualizationLayers,
-                      visualizationLayer => visualizationLayer.id
-                    ),
-                    progress: {
-                      statusCode: 200,
-                      statusText: 'OK',
-                      percent: 50,
-                      message: 'Favorite has been loaded'
-                    }
-                  })
-                );
-
-                // Load analytics for visualization layers
-                this.store.dispatch(
-                  new LoadVisualizationAnalyticsAction(
-                    action.id,
-                    visualizationLayers
-                  )
-                );
-              } else {
-                console.warn(
-                  `Visualization with id ${
-                    action.id
-                  } has no any visualizable layer or data selections`
-                );
-              }
             }
           }
         } else {
@@ -574,27 +479,34 @@ export class VisualizationObjectEffects {
                 },
                 layers: [favoriteResult.id]
               };
+
+              // Update visualization object with new favorite
               this.store.dispatch(
                 new UpdateVisualizationObjectAction(action.id, {
                   ...newVisualization
                 })
               );
 
-              this.dashboardStore.dispatch(
-                new AddDashboardItemAction(action.dashboardId, {
-                  id: visualization.id,
-                  type: favoriteDetails.favoriteType,
-                  [_.camelCase(favoriteDetails.favoriteType)]: {
-                    id: favoriteResult.id,
-                    displayName: favoriteResult.name
-                  }
+              // Update visualization layer
+              this.store.dispatch(
+                new UpdateVisualizationLayerAction(action.layers[0].id, {
+                  id: favoriteResult.id
                 })
               );
 
-              this.store.dispatch(
-                new LoadVisualizationFavoriteSuccessAction(
-                  newVisualization,
-                  favoriteResult
+              // Save favorite as dashboard item
+              this.dashboardStore.dispatch(
+                new AddDashboardItemAction(
+                  action.dashboardId,
+                  {
+                    id: visualization.id,
+                    type: favoriteDetails.favoriteType,
+                    [_.camelCase(favoriteDetails.favoriteType)]: {
+                      id: favoriteResult.id,
+                      displayName: favoriteResult.name
+                    }
+                  },
+                  true
                 )
               );
             });

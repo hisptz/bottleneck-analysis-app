@@ -3,7 +3,7 @@ import { Visualization, VisualizationLayer } from '../../models/index';
 
 export enum VisualizationObjectActionTypes {
   ADD_ALL_VISUALIZATION_OBJECTS = '[Visualization] Add all visualization objects',
-  ADD_VISUALIZATION_OBJECT = '[Visualization] Add visualization objects',
+  ADD_VISUALIZATION_OBJECT = '[Visualization] Add visualization object',
   INITIALIZE_VISUALIZATION_OBJECT = '[Visualization] Initialize visualization object',
   UPDATE_VISUALIZATION_OBJECT = '[Visualization] Update visualization object',
   LOAD_VISUALIZATION_FAVORITE = '[Visualization] Load visualization favorite',
