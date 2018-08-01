@@ -18,12 +18,14 @@ export class DashboardSettingsService {
   loadAll() {
     return this.manifestService.getManifest().pipe(
       mergeMap((manifestObject: any) => {
-        const namespace =
-          manifestObject &&
-          manifestObject.activities &&
-          manifestObject.activities.dhis
-            ? manifestObject.activities.dhis.namespace
-            : 'default';
+        // const namespace =
+        //   manifestObject &&
+        //   manifestObject.activities &&
+        //   manifestObject.activities.dhis
+        //     ? manifestObject.activities.dhis.namespace
+        //     : 'default';
+        // TODO FIND DYNAMIC WAY
+        const namespace = 'bna-dashboard';
         return this.httpClient.get('dataStore/dashboard-settings').pipe(
           mergeMap((dashboardSettingsList: Array<string>) => {
             return dashboardSettingsList.indexOf(namespace) !== -1

@@ -1,5 +1,5 @@
 {
-    "version": "2.2-alpha.2",
+    "version": "2.2-alpha.3",
     "name": "BNA Dashboard Mock up 2",
     "description": "BNA Dashboard Mock up 2",
     "appType": "APP",
@@ -16,8 +16,7 @@
     "default_locale": "en",
     "activities": {
         "dhis": {
-            "href": "../../../",
-            "namespace": "bna-dashboard"
+            "href": "../../../"
         }
     },
      "authorities": [

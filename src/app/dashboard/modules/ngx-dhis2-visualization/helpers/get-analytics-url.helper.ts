@@ -13,16 +13,18 @@ export function getAnalyticsUrl(
 }
 
 function flattenDimensions(
-  dataSelections: VisualizationDataSelection[]
+  dataSelections: VisualizationDataSelection[],
+  isAggregate?: boolean
 ): string {
-  const isEligibleForAnalytics =
-    _.filter(
-      _.map(
-        dataSelections,
-        dataSelection => ['ou', 'pe'].indexOf(dataSelection.dimension) !== -1
-      ),
-      isEligible => isEligible
-    ).length === 2;
+  const isEligibleForAnalytics = isAggregate
+    ? dataSelections.length >= 3
+    : _.filter(
+        _.map(
+          dataSelections,
+          dataSelection => ['ou', 'pe'].indexOf(dataSelection.dimension) !== -1
+        ),
+        isEligible => isEligible
+      ).length === 2;
 
   if (!isEligibleForAnalytics) {
     return '';
@@ -51,7 +53,7 @@ function getAggregateAnalyticsUrl(
   layerType: string,
   config?: any
 ): string {
-  const flattenedDimensionString = flattenDimensions(dataSelections);
+  const flattenedDimensionString = flattenDimensions(dataSelections, true);
   return flattenedDimensionString !== ''
     ? 'analytics.json?' +
         flattenedDimensionString +
