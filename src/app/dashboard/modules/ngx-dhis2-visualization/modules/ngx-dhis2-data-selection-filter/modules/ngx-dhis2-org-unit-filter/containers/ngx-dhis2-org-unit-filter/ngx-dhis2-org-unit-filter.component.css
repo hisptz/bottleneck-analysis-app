@@ -1,0 +1,55 @@
+.ngx-dhis2-org-unit-filter__container {
+  min-height: 400px;
+  width: 100%;
+}
+
+.ngx-dhis2-org-unit-filter__selected-org-units {
+  height: 50px;
+  border-bottom: solid thin #fafafa;
+}
+
+.ngx-dhis2-org-unit-filter__selection-container {
+  display: flex;
+  justify-content: space-between;
+  min-height: 300px;
+  width: 100%;
+}
+
+.ngx-dhis2-org-unit-filter__org-unit-selection {
+  flex: 1;
+}
+
+.ngx-dhis2-org-unit-filter__org-unit-options {
+  flex: 1;
+}
+
+.ngx-dhis2-org-unit-filter__user-org-unit-selection {
+}
+
+.ngx-dhis2-org-unit-filter__org-unit-level-group {
+}
+
+.ngx-dhis2-org-unit-filter__org-unit-group {
+}
+
+.ngx-dhis2-org-unit-filter__org-unit-buttons {
+  display: flex;
+  justify-content: flex-end;
+  border-top: solid thin #fafafa;
+}
+
+.ngx-dhis2-org-unit-filter__btn {
+  margin: 5px;
+  height: 48px;
+  font-size: 16px;
+  background-color: #ffffff;
+  outline: none;
+  color: #777777;
+  padding: 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.ngx-dhis2-org-unit-filter__btn:hover {
+  color: #222222;
+}

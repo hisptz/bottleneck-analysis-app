@@ -6,7 +6,10 @@ export function getStandardizedDashboardVisualizations(
   return _.map(dashboards || [], dashboard => {
     return {
       id: dashboard.id,
-      items: _.map(dashboard.dashboardItems, dashboardItem => dashboardItem.id)
+      items: _.map(
+        dashboard.dashboardItems || [],
+        dashboardItem => dashboardItem.id
+      )
     };
   });
 }

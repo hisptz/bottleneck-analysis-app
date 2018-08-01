@@ -35,7 +35,8 @@ import {
   AddDashboardItemFailAction,
   CreateDashboardAction,
   AddDashboardAction,
-  UpdateDashboardAction
+  UpdateDashboardAction,
+  AddNewUnsavedFavoriteAction
 } from '../actions/dashboard.actions';
 
 import {
@@ -173,38 +174,47 @@ export class DashboardEffects {
   @Effect()
   addDashboardItem$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.AddDashboardItem),
-    switchMap((action: AddDashboardItemAction) =>
-      this.dashboardService
-        .addDashboardItem(action.dashboardId, action.dashboardItem)
-        .pipe(
-          switchMap((dashboardResponse: any) => [
-            new AddDashboardItemSuccessAction(
-              dashboardResponse.dashboardId,
-              dashboardResponse.dashboardItem
-            ),
-            new AddDashboardVisualizationItemAction(
-              dashboardResponse.dashboardId,
-              dashboardResponse.dashboardItem
-                ? dashboardResponse.dashboardItem.id
-                : ''
-            ),
-            new AddVisualizationObjectAction(
-              getStandardizedVisualizationObject({
-                ...dashboardResponse.dashboardItem,
-                dashboardId: dashboardResponse.dashboardId,
-                isOpen: true
-              })
-            ),
-            new AddVisualizationUiConfigurationAction(
-              getStandardizedVisualizationUiConfig({
-                ...dashboardResponse.dashboardItem,
-                dashboardId: dashboardResponse.dashboardId,
-                isOpen: true
-              })
-            )
-          ]),
-          catchError(error => of(new AddDashboardItemFailAction('', error)))
-        )
+    withLatestFrom(this.store.select(getDashboardSettings)),
+    switchMap(
+      ([action, dashboardSettings]: [
+        AddDashboardItemAction,
+        DashboardSettings
+      ]) =>
+        this.dashboardService
+          .addDashboardItem(
+            action.dashboardId,
+            action.dashboardItem,
+            dashboardSettings
+          )
+          .pipe(
+            switchMap((dashboardResponse: any) => [
+              new AddDashboardItemSuccessAction(
+                dashboardResponse.dashboardId,
+                dashboardResponse.dashboardItem
+              ),
+              new AddDashboardVisualizationItemAction(
+                dashboardResponse.dashboardId,
+                dashboardResponse.dashboardItem
+                  ? dashboardResponse.dashboardItem.id
+                  : ''
+              ),
+              new AddVisualizationObjectAction(
+                getStandardizedVisualizationObject({
+                  ...dashboardResponse.dashboardItem,
+                  dashboardId: dashboardResponse.dashboardId,
+                  isOpen: true
+                })
+              ),
+              new AddVisualizationUiConfigurationAction(
+                getStandardizedVisualizationUiConfig({
+                  ...dashboardResponse.dashboardItem,
+                  dashboardId: dashboardResponse.dashboardId,
+                  isOpen: true
+                })
+              )
+            ]),
+            catchError(error => of(new AddDashboardItemFailAction('', error)))
+          )
     )
   );
 
@@ -251,6 +261,18 @@ export class DashboardEffects {
           )
         )
     )
+  );
+
+  @Effect({ dispatch: false })
+  addNewFavorite$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardActionTypes.AddNewUnsavedFavorite),
+    tap((action: AddNewUnsavedFavoriteAction) => {
+      this.utilService.getUniqueId().subscribe(dashboardItemId => {
+        this.store.dispatch(
+          new AddDashboardVisualizationItemAction(action.id, dashboardItemId)
+        );
+      });
+    })
   );
 
   constructor(

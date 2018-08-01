@@ -78,9 +78,4 @@ export const getSystemInfoHasErrorState = (state: SystemInfoState) =>
   state.hasError;
 export const getSystemInfoErrorState = (state: SystemInfoState) => state.error;
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal
-} = adapter.getSelectors();
+export const { selectAll: getSystemInfosState } = adapter.getSelectors();

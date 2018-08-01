@@ -10,7 +10,8 @@ import {
   getCurrentDashboard,
   ToggleDashboardBookmarkAction,
   AddDashboardItemAction,
-  AddNewUnsavedFavoriteAction
+  AddNewUnsavedFavoriteAction,
+  getDefaultVisualizationLayers
 } from '../../../store';
 import { User } from '../../../models';
 
@@ -24,6 +25,7 @@ export class CurrentDashboardComponent implements OnInit {
   currentDashboardVisualizations$: Observable<Array<string>>;
   currentDashboard$: Observable<Dashboard>;
   currentUser$: Observable<User>;
+  defaultVisualizationLayers$: Observable<any[]>;
 
   // TODO find best way
   newFavorites: any[] = [];
@@ -34,6 +36,11 @@ export class CurrentDashboardComponent implements OnInit {
 
     this.currentDashboard$ = store.select(getCurrentDashboard);
     this.currentUser$ = store.select(getCurrentUser);
+
+    // default visualization layers
+    this.defaultVisualizationLayers$ = store.select(
+      getDefaultVisualizationLayers
+    );
   }
 
   ngOnInit() {}

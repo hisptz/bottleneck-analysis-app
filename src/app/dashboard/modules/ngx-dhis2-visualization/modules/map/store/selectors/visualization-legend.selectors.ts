@@ -1,0 +1,40 @@
+import { createSelector, MemoizedSelector } from '@ngrx/store';
+
+import * as fromFeature from '../reducers';
+import * as fromVisualizationLegend from '../reducers/visualization-legend.reducers';
+
+import { VisualizationLegend } from '../../models/visualization-legend.model';
+
+export const getVisualizationLegendState = createSelector(
+  fromFeature.getMapState,
+  (state: fromFeature.MapState) => state.visualizationLegend
+);
+
+export const getAllVisualizationLegendEntities = createSelector(
+  getVisualizationLegendState,
+  fromVisualizationLegend.getVisualizationLegendEntities
+);
+
+export const isVisualizationLegendOpen = id =>
+  createSelector(
+    getAllVisualizationLegendEntities,
+    entities => entities[id].open
+  );
+
+export const isVisualizationLegendPinned = id =>
+  createSelector(
+    getAllVisualizationLegendEntities,
+    entities => entities[id].pinned
+  );
+
+export const isDataTableOpen = id =>
+  createSelector(
+    getAllVisualizationLegendEntities,
+    entities => entities[id].datatableIsOpen
+  );
+
+export const isVisualizationLegendFilterSectionOpen = id =>
+  createSelector(
+    getAllVisualizationLegendEntities,
+    entities => entities[id].filterSectionOpen
+  );

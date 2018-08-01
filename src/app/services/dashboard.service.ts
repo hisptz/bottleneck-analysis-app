@@ -65,7 +65,8 @@ export class DashboardService {
     return dashboardSettings && dashboardSettings.useDataStoreAsSource
       ? this.httpClient.post(`dataStore/dashboards/${dashboard.id}`, {
           ...dashboard,
-          namespace: dashboardSettings.id
+          namespace: dashboardSettings.id,
+          dashbboardItems: []
         })
       : this.httpClient.post('dashboards.json', dashboard);
   }
@@ -85,20 +86,34 @@ export class DashboardService {
         );
   }
 
-  addDashboardItem(dashboardId: string, dashboardItem: any) {
+  addDashboardItem(
+    dashboardId: string,
+    dashboardItem: any,
+    dashboardSettings: DashboardSettings
+  ) {
+    console.log(dashboardSettings);
     // TODO find best way for this as this approach is deprecated
     return this.utilService.getUniqueId().pipe(
-      switchMap((uniqueId: string) =>
-        this.load(
-          dashboardId,
-          '?fields=id,created,lastUpdated,externalAccess,publicAccess,favorites,' +
-            'translations,name,userAccesses,userGroupAccesses,dashboardItems[id,type,appKey,chart[id,name],' +
-            'map[id,name],reportTable[id,name],eventReport[id,name],eventChart[id,name]]'
-        ).pipe(
+      switchMap((uniqueId: string) => {
+        const dashboardLoadPromise =
+          dashboardSettings && dashboardSettings.useDataStoreAsSource
+            ? this.httpClient.get(`dataStore/dashboards/${dashboardId}`)
+            : this.load(
+                dashboardId,
+                '?fields=id,created,lastUpdated,externalAccess,publicAccess,favorites,' +
+                  'translations,name,userAccesses,userGroupAccesses,dashboardItems[id,type,appKey,chart[id,name],' +
+                  'map[id,name],reportTable[id,name],eventReport[id,name],eventChart[id,name]]'
+              );
+
+        return dashboardLoadPromise.pipe(
           switchMap((dashboard: any) => {
             const dashboardItemToAdd = { ...dashboardItem, id: uniqueId };
+            const dashboardUpdateUrl =
+              dashboardSettings && dashboardSettings.useDataStoreAsSource
+                ? `dataStore/dashboards/${dashboardId}`
+                : `dashboards/${dashboardId}?mergeMode=MERGE`;
             return this.httpClient
-              .put(`dashboards/${dashboardId}?mergeMode=MERGE`, {
+              .put(dashboardUpdateUrl, {
                 ...dashboard,
                 dashboardItems: [
                   dashboardItemToAdd,
@@ -111,8 +126,8 @@ export class DashboardService {
                 })
               );
           })
-        )
-      )
+        );
+      })
     );
   }
 

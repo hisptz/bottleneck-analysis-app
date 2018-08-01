@@ -1,0 +1,46 @@
+<div class="data-filter-group">
+  <div class="data-filter-group-header">
+    <div class="data-filter-group-header__title">Data Dimension Groups</div>
+    <div class="data-filter-group-header__description">Create your prefered groups for your selected data dimensions</div>
+  </div>
+
+  <div class="data-filter-group__list">
+    <!-- data filter group item -->
+    <div class="data-filter-group__item" *ngFor="let group of dataGroups">
+      <!-- title -->
+      <div class="data-filter-group__item-header" (click)="onSetCurrentGroup(group, $event)">
+        <div class="data-filter-group__item-header-title">
+          <button>
+            <img [src]="dragIcon" alt="">
+          </button> {{group.name}}
+          <small>({{group.members.length}} selected)</small>
+        </div>
+        <img [src]="arrowDownIcon" alt="">
+      </div>
+      <!-- end of title -->
+
+      <!-- content -->
+      <div class="data-filter-group__item-content" *ngIf="group.current">
+        <div class="data-filter-group__item-title">
+          <div class="data-filter-group__item-label">Group name</div>
+          <input type="text" value="{{group.name}}">
+        </div>
+        <div class="data-filter-group__item-member-list">
+          <div class="data-filter-group__item-label">Group members</div>
+          <div class="data-filter-group__item-member-item" *ngFor="let member of group.members">
+            <img [src]="dragIcon" alt="">&nbsp;{{member.name}}
+          </div>
+        </div>
+      </div>
+      <!-- end of content -->
+    </div>
+    <!-- end of data filter group item -->
+  </div>
+
+  <div class="data-filter-group_add-new">
+    <button class="data-filter-group_add-button" (click)="onAddGroup($event)">
+      Add new group
+    </button>
+  </div>
+
+</div>

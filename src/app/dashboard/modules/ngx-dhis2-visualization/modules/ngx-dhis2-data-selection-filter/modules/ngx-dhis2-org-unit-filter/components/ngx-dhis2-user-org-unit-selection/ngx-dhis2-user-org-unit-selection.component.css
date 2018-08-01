@@ -1,0 +1,26 @@
+.ngx-dhis2-user-org-unit-selection__container {
+  padding: 10px;
+}
+
+.ngx-dhis2-user-org-unit-selection__list {
+  display: flex;
+  margin-top: 10px;
+}
+
+.ngx-dhis2-user-org-unit-selection__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 70px;
+  font-size: 14px;
+  border: solid thin #eeeeee;
+  background-color: #ffffff;
+  padding: 5px;
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.ngx-dhis2-user-org-unit-selection__item:hover {
+  background-color: #eeeeee;
+}
