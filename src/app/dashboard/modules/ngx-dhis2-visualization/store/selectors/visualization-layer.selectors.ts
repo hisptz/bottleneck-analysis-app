@@ -4,16 +4,16 @@ import {
   getVisualizationObjectEntities,
   getVisualizationLayerEntities,
   getVisualizationUiConfigurationEntities
-} from '../reducers/index';
+} from '../reducers';
 import {
   Visualization,
   VisualizationUiConfig,
   VisualizationLayer
-} from '../../models/index';
+} from '../../models';
 import {
   getVisualizationMetadataIdentifiers,
   getVisualizationLayout
-} from '../../helpers/index';
+} from '../../helpers';
 import {
   getSystemInfosState,
   systemInfoReducer

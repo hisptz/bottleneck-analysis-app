@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { getVisualizationObjectEntities } from '../reducers/index';
-import { Visualization, VisualizationProgress } from '../../models/index';
+import { getVisualizationObjectEntities } from '../reducers';
+import { Visualization, VisualizationProgress } from '../../models';
 
 export const getVisualizationObjectById = id =>
   createSelector(

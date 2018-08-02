@@ -9,6 +9,7 @@ import {
   ARROW_DOWN_ICON,
   TREE_ICON
 } from '../../icons';
+import { INITIAL_LAYOUT_MODEL } from '../../../map/modules/layout/model/layout-model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -64,6 +65,19 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   get selectedOrgUnits(): any[] {
     const dataObject = _.find(this.dataSelections, ['dimension', 'ou']);
     return dataObject ? dataObject.items : [];
+  }
+
+  get layoutItem(): any {
+    return _.groupBy(
+      _.map(this.dataSelections, dataSelection => {
+        return {
+          name: dataSelection.name,
+          value: dataSelection.dimension,
+          layout: dataSelection.layout
+        };
+      }),
+      'layout'
+    );
   }
 
   ngOnInit() {}

@@ -9,11 +9,11 @@ import { NgxDhis2DictionaryModule } from '@hisptz/ngx-dhis2-dictionary';
 import { NgxDhis2SelectionFiltersModule } from './modules/ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
 import { NgxDhis2ChartModule } from './modules/ngx-dhis-chart/ngx-dhis2-chart.module';
 // store
-import { reducers } from './store/reducers/index';
-import { pipes } from './pipes/index';
-import { components } from './components/index';
-import { containers } from './containers/index';
-import { effects } from './store/effects/index';
+import { reducers } from './store/reducers';
+import { pipes } from './pipes';
+import { components } from './components';
+import { containers } from './containers';
+import { effects } from './store/effects';
 import { FormsModule } from '@angular/forms';
 
 // import { MapModule } from './modules/map/map.module';

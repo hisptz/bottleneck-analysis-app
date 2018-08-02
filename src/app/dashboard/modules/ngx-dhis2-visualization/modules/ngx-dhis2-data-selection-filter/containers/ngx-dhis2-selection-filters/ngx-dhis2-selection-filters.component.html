@@ -34,6 +34,14 @@
         <img [src]="orgUnitIcon" alt="">&nbsp;{{'Org-Unit' | translate}}&nbsp;
         <img [ngClass]="{'arrow-up': selectedFilter === 'ORG_UNIT'}" [src]="arrowDownIcon" alt="">
       </button>
+
+      <button [ngClass]="{
+        'selection-filter-btn': true,
+        'active-filter': selectedFilter === 'LAYOUT'
+        }" [title]="'Layout' | translate" (click)="toggleCurrentFilter($event, 'LAYOUT')">
+        <img [src]="orgUnitcon" alt="">&nbsp;{{'Layout' | translate}}&nbsp;
+        <img [ngClass]="{'arrow-up': selectedFilter === 'LAYOUT'}" [src]="arrowDownIcon" alt="">
+      </button>
       <!--end of org unit filter button-->
 
       <!--selections update button-->
@@ -64,6 +72,9 @@
     <ngx-dhis2-org-unit-filter *ngIf="selectedFilter === 'ORG_UNIT'" [selectedOrgUnitItems]="selectedOrgUnits" (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')"
       (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"></ngx-dhis2-org-unit-filter>
     <!--end of org unit filter-->
+
+    <app-layout [layoutModel]="layoutItem" *ngIf="selectedFilter === 'LAYOUT'" (onLayoutUpdate)="onFilterUpdate($event, 'LAYOUT')"
+      (onLayoutClose)="onFilterClose($event, 'LAYOUT')"></app-layout>
   </div>
   <!--end of selection filter body-->
 </div>

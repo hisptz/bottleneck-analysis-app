@@ -13,8 +13,8 @@
       <li *ngFor="let searchFilterOption of searchFilterOptions">
         <a (click)="onSetCurrentFilterOption(searchFilterOption.id,
           $event) ">
-          <img *ngIf="currentSearchFilterOptionId === searchFilterOption.id" [src]="tickIcon" alt="">
-          <span class="search-filter-option-spacer" *ngIf="currentSearchFilterOptionId !== searchFilterOption.id">&nbsp;</span>
+          <img *ngIf="(selectedFavoriteOwnership$ | async) === searchFilterOption.id" [src]="tickIcon" alt="">
+          <span class="search-filter-option-spacer" *ngIf="(selectedFavoriteOwnership$ | async) !== searchFilterOption.id">&nbsp;</span>
           <span>{{searchFilterOption.name}}</span>
         </a>
       </li>
@@ -24,8 +24,43 @@
 
   <!-- favorite filter result section -->
   <div class="favorite-filter-result-container" *ngIf="showBody">
+    <div class="favorite-search-result-header">
+      <ul class="favorite-search-header-list">
+        <li *ngFor="let header of favoriteFilterHeaders$ | async">
+          <a title="{{header.title}}" [ngClass]="header.selected ? 'active-search-header' : ''" (click)="onToggleHeaderSelection(header, $event)">
+            <img *ngIf="header.icon" [src]="header.icon" alt="" [ngClass]="'search-header-icon'">
+            <span class="search-item-title">{{header.title}}</span>
+            <span class="search-item-count" *ngIf="header.itemCount > 0 && header.name !== 'all'">{{header.itemCount | kNumber}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
     <div class="favorite-result-list">
-      <div class="favorite-result-item" *ngFor="let favoriteResult of favoriteFilters$ | async">
+      <div class="favorite-search-summary" *ngIf="(favoriteFilterLoaded$ | async) && (favoriteFilters$ | async).length > 0" [@open]>
+        <span>About {{(favoriteFilters$ | async).length}} result{{(favoriteFilters$ | async).length > 1 ? 's': ''}} found</span>
+      </div>
+
+      <div class="favorite-empty-search-result" *ngIf="(favoriteFilterLoaded$ | async) && (favoriteFilters$ | async).length === 0"
+        [@open]>
+        <div class="text-center">
+          <img [src]="'assets/icons/empty-flag.png'" alt="">
+          <h4 class="text-muted">No search results found for "{{searchTerm}}"</h4>
+        </div>
+      </div>
+
+      <div class="favorite-searching" *ngIf="favoriteFilterLoading$ | async" [@open]>
+        <div>
+          <div class="animated-background"></div>
+        </div>
+        <div style="width: 90%">
+          <div class="animated-background"></div>
+        </div>
+        <div style="width: 80%">
+          <div class="animated-background"></div>
+        </div>
+      </div>
+
+      <div class="favorite-result-item" *ngFor="let favoriteResult of favoriteFilters$ | async" [@open]>
         <div class="favorite-result-title-block">
           <img [src]="favoriteResult.icon" alt="">
           <span class="favorite-result-title">{{ favoriteResult.name }}</span>

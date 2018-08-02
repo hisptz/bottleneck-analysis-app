@@ -191,3 +191,118 @@
   margin: auto;
   height: 15px;
 }
+
+.favorite-search-result-header {
+  padding: 5px 10px;
+  border-bottom: solid thin #eee;
+}
+
+.favorite-search-header-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.favorite-search-header-list > li > a {
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  min-height: 25px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  font-size: 13px;
+  border-radius: 16px;
+  padding: 5px 10px;
+  margin: 2px;
+}
+
+.favorite-search-header-list > li > a:hover {
+  background-color: #269abc;
+  -webkit-transform: scale(1.01);
+  -moz-transform: scale(1.01);
+  -o-transform: scale(1.01);
+  -ms-transform: scale(1.01);
+  transform: scale(1.01);
+  color: #ffffff;
+}
+
+.favorite-search-header-list > li > a:hover .search-item-count {
+  color: #ffffff;
+}
+
+.favorite-search-header-list > li > a > img {
+  height: 15px;
+  display: block;
+  margin: auto;
+  padding-right: 4px;
+}
+
+.search-item-count {
+  margin-left: 5px;
+}
+
+.active-search-header {
+  background-color: #269abc;
+  box-shadow: none;
+  color: #ffffff !important;
+}
+
+.active-search-header .search-item-count {
+  color: #ffffff;
+}
+
+.favorite-search-summary {
+  font-size: 12px;
+  color: #666;
+  padding: 5px 10px;
+}
+
+.favorite-empty-search-result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.favorite-empty-search-result img {
+  height: 30px;
+}
+
+.favorite-searching {
+  padding: 10px;
+}
+
+.favorite-searching div {
+  margin-bottom: 3px;
+  height: 5px;
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.animated-background {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  background-size: 800px 104px;
+  height: 100%;
+  position: relative;
+}

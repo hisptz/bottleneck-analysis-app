@@ -6,7 +6,7 @@ import { tap } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 
 // reducers
-import { VisualizationState } from '../reducers/index';
+import { VisualizationState } from '../reducers';
 
 // actions
 import {
@@ -24,7 +24,7 @@ import { AnalyticsService } from '../../services/analytics.service';
 import {
   getStandardizedAnalyticsObject,
   getSanitizedAnalytics
-} from '../../helpers/index';
+} from '../../helpers';
 
 @Injectable()
 export class VisualizationLayerEffects {

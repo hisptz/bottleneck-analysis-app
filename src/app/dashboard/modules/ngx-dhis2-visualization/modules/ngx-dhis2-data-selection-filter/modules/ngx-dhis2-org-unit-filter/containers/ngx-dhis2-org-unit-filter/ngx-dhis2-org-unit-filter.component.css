@@ -1,10 +1,10 @@
 .ngx-dhis2-org-unit-filter__container {
-  min-height: 400px;
+  min-height: 340px;
   width: 100%;
 }
 
 .ngx-dhis2-org-unit-filter__selected-org-units {
-  height: 50px;
+  height: 30px;
   border-bottom: solid thin #fafafa;
 }
 
@@ -16,11 +16,11 @@
 }
 
 .ngx-dhis2-org-unit-filter__org-unit-selection {
-  flex: 1;
+  width: 220px;
 }
 
 .ngx-dhis2-org-unit-filter__org-unit-options {
-  flex: 1;
+  width: 220px;
 }
 
 .ngx-dhis2-org-unit-filter__user-org-unit-selection {
@@ -35,17 +35,17 @@
 .ngx-dhis2-org-unit-filter__org-unit-buttons {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   border-top: solid thin #fafafa;
 }
 
 .ngx-dhis2-org-unit-filter__btn {
   margin: 5px;
-  height: 48px;
-  font-size: 16px;
+  height: 25px;
+  font-size: 14px;
   background-color: #ffffff;
   outline: none;
   color: #777777;
-  padding: 15px;
   border: none;
   cursor: pointer;
 }

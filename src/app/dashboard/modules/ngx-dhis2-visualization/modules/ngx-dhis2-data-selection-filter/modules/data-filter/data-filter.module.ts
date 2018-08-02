@@ -11,7 +11,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { DndModule } from 'ng2-dnd';
 import { DataFilterService } from './services/data-filter.service';
 import { HttpModule } from '@angular/http';
-import { components } from './components/index';
+import { components } from './components';
 
 @NgModule({
   imports: [

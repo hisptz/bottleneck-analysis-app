@@ -1,4 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import * as _ from 'lodash';
 import { FavoriteFilter } from '../../models/favorite-filter.model';
 import {
   FavoriteFilterActions,
@@ -12,6 +13,8 @@ export interface FavoriteFilterState extends EntityState<FavoriteFilter> {
   loaded: boolean;
   hasError: boolean;
   error: any;
+  selectedHeaders: string[];
+  selectedFavoriteOwnership: string;
 }
 
 export const favoriteFilterAdapter: EntityAdapter<
@@ -24,7 +27,9 @@ export const initialState: FavoriteFilterState = favoriteFilterAdapter.getInitia
     loading: false,
     loaded: false,
     hasError: false,
-    error: null
+    error: null,
+    selectedHeaders: ['all'],
+    selectedFavoriteOwnership: 'all'
   }
 );
 
@@ -45,7 +50,11 @@ export function favoriteFilterReducer(
     }
 
     case FavoriteFilterActionTypes.AddFavoriteFilters: {
-      return favoriteFilterAdapter.addMany(action.favoriteFilters, state);
+      return favoriteFilterAdapter.addAll(action.favoriteFilters, {
+        ...state,
+        loading: false,
+        loaded: true
+      });
     }
 
     case FavoriteFilterActionTypes.UpsertFavoriteFilters: {
@@ -78,17 +87,54 @@ export function favoriteFilterReducer(
     }
 
     case FavoriteFilterActionTypes.LoadFavoriteFilters: {
-      return {
+      return favoriteFilterAdapter.removeAll({
         ...state,
         loaded: false,
-        loading: false,
+        loading: true,
         hasError: false,
         error: null
-      };
+      });
     }
 
     case FavoriteFilterActionTypes.ClearFavoriteFilters: {
       return favoriteFilterAdapter.removeAll(state);
+    }
+
+    case FavoriteFilterActionTypes.ToggleFavoriteFiltersHeader: {
+      let newSelectedHeaders = [];
+      if (action.multipleSelection) {
+        if (action.toggledHeader === 'all') {
+          newSelectedHeaders =
+            state.selectedHeaders.indexOf(action.toggledHeader) === -1
+              ? [action.toggledHeader]
+              : [];
+        } else {
+          const headerIndex = state.selectedHeaders.indexOf(
+            action.toggledHeader
+          );
+          newSelectedHeaders =
+            headerIndex === -1
+              ? [...state.selectedHeaders, action.toggledHeader]
+              : [
+                  ..._.slice(state.selectedHeaders, 0, headerIndex),
+                  ..._.slice(state.selectedHeaders, headerIndex + 1)
+                ];
+        }
+      } else {
+        newSelectedHeaders =
+          state.selectedHeaders.indexOf(action.toggledHeader) === -1
+            ? [action.toggledHeader]
+            : [];
+      }
+
+      return { ...state, selectedHeaders: newSelectedHeaders };
+    }
+
+    case FavoriteFilterActionTypes.SetFavoriteOnwership: {
+      return {
+        ...state,
+        selectedFavoriteOwnership: action.favoriteOwnership
+      };
     }
 
     default: {
@@ -100,6 +146,17 @@ export function favoriteFilterReducer(
 export const getFavoriteFilterState = createFeatureSelector<
   FavoriteFilterState
 >('favoriteFilter');
+
+export const getSelectedHeadersState = (state: FavoriteFilterState) =>
+  state.selectedHeaders;
+
+export const getSelectedFavoriteOwnershipState = (state: FavoriteFilterState) =>
+  state.selectedFavoriteOwnership;
+
+export const getFavoriteFilterLoadingState = (state: FavoriteFilterState) =>
+  state.loading;
+export const getFavoriteFilterLoadedState = (state: FavoriteFilterState) =>
+  state.loaded;
 
 export const {
   selectAll: getFavoriteFilters,

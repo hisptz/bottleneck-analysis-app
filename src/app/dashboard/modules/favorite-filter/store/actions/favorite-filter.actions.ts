@@ -13,7 +13,9 @@ export enum FavoriteFilterActionTypes {
   UpdateFavoriteFilters = '[FavoriteFilter] Update FavoriteFilters',
   DeleteFavoriteFilter = '[FavoriteFilter] Delete FavoriteFilter',
   DeleteFavoriteFilters = '[FavoriteFilter] Delete FavoriteFilters',
-  ClearFavoriteFilters = '[FavoriteFilter] Clear FavoriteFilters'
+  ClearFavoriteFilters = '[FavoriteFilter] Clear FavoriteFilters',
+  ToggleFavoriteFiltersHeader = '[FavoriteFilter] Toggle favorite filter header',
+  SetFavoriteOnwership = '[FavoriteFilter] Set favorite ownership'
 }
 
 export class LoadFavoriteFiltersAction implements Action {
@@ -78,6 +80,19 @@ export class ClearFavoriteFilters implements Action {
   readonly type = FavoriteFilterActionTypes.ClearFavoriteFilters;
 }
 
+export class ToggleFavoriteFiltersHeaderAction implements Action {
+  readonly type = FavoriteFilterActionTypes.ToggleFavoriteFiltersHeader;
+  constructor(
+    public toggledHeader: string,
+    public multipleSelection: boolean
+  ) {}
+}
+
+export class SetFavoriteOnwershipAction implements Action {
+  readonly type = FavoriteFilterActionTypes.SetFavoriteOnwership;
+  constructor(public favoriteOwnership: string) {}
+}
+
 export type FavoriteFilterActions =
   | LoadFavoriteFiltersAction
   | LoadFavoriteFiltersFailAction
@@ -89,4 +104,6 @@ export type FavoriteFilterActions =
   | UpdateFavoriteFilters
   | DeleteFavoriteFilter
   | DeleteFavoriteFilters
-  | ClearFavoriteFilters;
+  | ClearFavoriteFilters
+  | ToggleFavoriteFiltersHeaderAction
+  | SetFavoriteOnwershipAction;

@@ -1,10 +1,10 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 // models
-import { VisualizationLayer } from '../../models/index';
+import { VisualizationLayer } from '../../models';
 
 // actions
-import { VisualizationLayerActionTypes } from '../actions/index';
+import { VisualizationLayerActionTypes } from '../actions';
 
 export interface VisualizationLayerState
   extends EntityState<VisualizationLayer> {}

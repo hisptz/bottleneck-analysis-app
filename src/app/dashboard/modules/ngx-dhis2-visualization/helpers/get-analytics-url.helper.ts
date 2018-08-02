@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { VisualizationDataSelection } from '../models/index';
+import { VisualizationDataSelection } from '../models';
 
 // TODO Find best standard for config structure so that layerType can be obtained direct from config object
 export function getAnalyticsUrl(

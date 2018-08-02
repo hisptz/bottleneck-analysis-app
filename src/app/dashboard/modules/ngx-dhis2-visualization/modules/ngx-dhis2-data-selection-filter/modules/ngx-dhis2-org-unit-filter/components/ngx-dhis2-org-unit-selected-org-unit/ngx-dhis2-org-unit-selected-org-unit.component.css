@@ -4,7 +4,7 @@
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  max-height: 50px;
+  max-height: 30px;
   overflow: auto;
 }
 

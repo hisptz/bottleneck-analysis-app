@@ -1,4 +1,4 @@
-import { Visualization } from '../models/index';
+import { Visualization } from '../models';
 import * as _ from 'lodash';
 
 export function getStandardizedVisualizationObject(

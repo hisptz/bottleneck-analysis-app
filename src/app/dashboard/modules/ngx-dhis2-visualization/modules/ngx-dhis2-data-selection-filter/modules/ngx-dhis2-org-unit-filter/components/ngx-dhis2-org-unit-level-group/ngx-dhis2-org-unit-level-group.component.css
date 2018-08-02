@@ -1,5 +1,4 @@
 .ngx-dhis2-org-unit-level-group__container {
-  padding: 10px;
 }
 
 .ngx-dhis2-org-unit-level-group__list {
@@ -14,14 +13,14 @@
   margin: 0;
   padding: 0;
   width: 100%;
-  max-height: 220px;
+  max-height: 155px;
   overflow: auto;
 }
 
 .ngx-dhis2-org-unit-level-group__list > li,
 .ngx-dhis2-org-unit-level-group__inner-list > li {
   border-bottom: solid thin #eeeeee;
-  font-size: 15px;
+  font-size: 12px;
   display: flex;
 }
 
@@ -46,7 +45,7 @@
 
 .ngx-dhis2-org-unit-level-group__item {
   text-decoration: none;
-  padding: 10px 17px 10px 17px;
+  padding: 5px 7px 5px 7px;
   color: #222222;
   width: 100%;
   display: flex;

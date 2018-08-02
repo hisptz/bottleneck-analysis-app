@@ -1,4 +1,4 @@
-import { VisualizationDataSelection } from '../models/index';
+import { VisualizationDataSelection } from '../models';
 import * as _ from 'lodash';
 
 export function getSelectionDimensionsFromAnalytics(

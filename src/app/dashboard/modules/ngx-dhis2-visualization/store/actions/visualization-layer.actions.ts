@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { VisualizationLayer } from '../../models/index';
+import { VisualizationLayer } from '../../models';
 
 export enum VisualizationLayerActionTypes {
   ADD_VISUALIZATION_LAYER = '[VisualizationLayer] Add visualization layer',

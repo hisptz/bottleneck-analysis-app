@@ -1,4 +1,4 @@
-import { VisualizationUiConfig } from '../models/index';
+import { VisualizationUiConfig } from '../models';
 import { checkIfVisualizationIsNonVisualizable } from './check-if-visualization-is-non-visualizable.helper';
 import { getVisualizationWidthFromShape } from './get-visualization-width-from-shape.helper';
 

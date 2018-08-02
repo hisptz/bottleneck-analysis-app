@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {INITIAL_LAYOUT_MODEL} from './model/layout-model';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { INITIAL_LAYOUT_MODEL } from './model/layout-model';
 
 @Component({
   selector: 'app-layout',
@@ -7,14 +7,13 @@ import {INITIAL_LAYOUT_MODEL} from './model/layout-model';
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit {
-
   @Input() layoutModel = INITIAL_LAYOUT_MODEL;
   @Input() visualizationType: string;
   @Output() onLayoutUpdate = new EventEmitter();
   @Output() onLayoutClose: EventEmitter<boolean> = new EventEmitter<boolean>();
-  filters: any;
-  columns: any;
-  rows: any;
+  filters: any[];
+  columns: any[];
+  rows: any[];
   icons: any;
   dimensions: any;
   columnName: string;

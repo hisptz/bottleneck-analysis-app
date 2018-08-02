@@ -4,16 +4,16 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers, effects } from './store/index';
+import { reducers, effects } from './store';
 // containers
-import { containers } from './containers/index';
+import { containers } from './containers';
 // components
-import { components } from './components/index';
+import { components } from './components';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 
 // Filters Modules
-import { modules } from './modules/index';
+import { modules } from './modules';
 
 @NgModule({
   imports: [

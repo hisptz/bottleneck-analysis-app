@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 // models
-import { VisualizationConfig } from '../../models/index';
+import { VisualizationConfig } from '../../models';
 
 // actions
 import {

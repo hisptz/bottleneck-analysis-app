@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { VisualizationUiConfig } from '../../models/index';
+import { VisualizationUiConfig } from '../../models';
 
 export enum VisualizationUiConfigurationActionTypes {
   ADD_ALL_VISUALIZATION_UI_CONFIGURATIONS = '[VisualizationUIConfig] Add all visualization Ui configurations',

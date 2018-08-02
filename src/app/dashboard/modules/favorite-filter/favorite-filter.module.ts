@@ -6,6 +6,7 @@ import { FavoriteFilterEffects } from './store/effects/favorite-filter.effects';
 import { StoreModule } from '@ngrx/store';
 import { favoriteFilterReducer } from './store/reducers/favorite-filter.reducer';
 import { TranslateModule } from '@ngx-translate/core';
+import { pipes } from './pipes';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     EffectsModule.forFeature([FavoriteFilterEffects]),
     TranslateModule.forChild()
   ],
-  declarations: [FavoriteFilterComponent],
+  declarations: [FavoriteFilterComponent, ...pipes],
   exports: [FavoriteFilterComponent]
 })
 export class FavoriteFilterModule {}

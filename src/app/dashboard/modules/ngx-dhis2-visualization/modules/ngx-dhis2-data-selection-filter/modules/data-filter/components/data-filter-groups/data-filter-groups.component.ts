@@ -8,7 +8,7 @@ import {
   EventEmitter,
   OnDestroy
 } from '@angular/core';
-import { DRAG_ICON, ARROW_DOWN_ICON } from '../../icons/index';
+import { DRAG_ICON, ARROW_DOWN_ICON } from '../../icons';
 import * as _ from 'lodash';
 
 @Component({
