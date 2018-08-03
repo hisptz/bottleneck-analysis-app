@@ -6,7 +6,7 @@
     </button>
     <div [ngClass]="{'ngx-dhis2-org-unit-tree-item-name' : true, 'ngx-dhis2-org-unit-tree-item-selected': selected}" (click)="onToggleOrgUnit($event)">
       <div>{{(orgUnit$ | async)?.name}}</div>
-      <div class="ngx-dhis2-org-unit-tree-item-count" *ngIf="(orgUnit$ | async)?.children.length > 0">&nbsp;({{(orgUnit$ | async)?.children.length}})</div>
+      <div class="ngx-dhis2-org-unit-tree-item-count" *ngIf="selectedChildren !== 0">&nbsp;({{selectedChildren}})</div>
     </div>
   </div>
   <!-- end of org unit title area -->

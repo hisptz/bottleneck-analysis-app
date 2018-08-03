@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import * as _ from 'lodash';
 import { TICK } from '../../icons';
 import { OrgUnitLevel, OrgUnitGroup } from '../../models';
 
@@ -12,7 +13,10 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
   /**
    * Input for selected levels or groups
    */
-  @Input() selectedLevelsOrGroups: any[];
+  @Input() selectedLevelsOrGroups: string[];
+
+  @Input() topOrgUnitLevel: number;
+
   /**
    * Input for organisation unit levels
    */
@@ -33,8 +37,35 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
    */
   orgUnitGroupLevelSearchQuery: string;
 
+  @Output() activateOrgUnitLevelOrGroup = new EventEmitter();
+  @Output() deactivateOrgUnitLevelOrGroup = new EventEmitter();
+
   constructor() {
     this.tickIcon = TICK;
+  }
+
+  get filteredOrgUnitLevels(): any[] {
+    return _.map(
+      _.filter(
+        this.orgUnitLevels,
+        orgUnitLevel => orgUnitLevel.level >= this.topOrgUnitLevel
+      ),
+      orgUnitLevel => {
+        return {
+          ...orgUnitLevel,
+          selected: this.selectedLevelsOrGroups.indexOf(orgUnitLevel.id) !== -1
+        };
+      }
+    );
+  }
+
+  get filteredOrgUnitGroups(): any[] {
+    return _.map(this.orgUnitGroups, orgUnitGroup => {
+      return {
+        ...orgUnitGroup,
+        selected: this.selectedLevelsOrGroups.indexOf(orgUnitGroup.id) !== -1
+      };
+    });
   }
 
   ngOnInit() {}
@@ -42,5 +73,28 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
   onOrgUnitGroupLevelFilter(e) {
     e.stopPropagation();
     this.orgUnitGroupLevelSearchQuery = e.target.value;
+  }
+
+  onUpdate(e, selectedOrgUnitLevelOrGroup: any, itemType: string) {
+    e.stopPropagation();
+    if (selectedOrgUnitLevelOrGroup.selected) {
+      this.deactivateOrgUnitLevelOrGroup.emit({
+        id: selectedOrgUnitLevelOrGroup.id,
+        name: selectedOrgUnitLevelOrGroup.name,
+        type:
+          itemType === 'LEVEL'
+            ? 'ORGANISATION_UNIT_LEVEL'
+            : 'ORGANISATION_UNIT_GROUP'
+      });
+    } else {
+      this.activateOrgUnitLevelOrGroup.emit({
+        id: selectedOrgUnitLevelOrGroup.id,
+        name: selectedOrgUnitLevelOrGroup.name,
+        type:
+          itemType === 'LEVEL'
+            ? 'ORGANISATION_UNIT_LEVEL'
+            : 'ORGANISATION_UNIT_GROUP'
+      });
+    }
   }
 }

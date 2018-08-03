@@ -21,6 +21,7 @@ import {
 import { OrgUnitLevel, OrgUnitGroup } from '../../models';
 import { OrgUnitFilterConfig } from '../../models/org-unit-filter-config.model';
 import { DEFAULT_ORG_UNIT_FILTER_CONFIG } from '../../constants';
+import { getTopOrgUnitLevel } from '../../store/selectors/org-unit.selectors';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -52,6 +53,8 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   @Output() orgUnitUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() orgUnitClose: EventEmitter<any> = new EventEmitter<any>();
 
+  topOrgUnitLevel$: Observable<number>;
+
   constructor(private store: Store<OrgUnitFilterState>) {
     // default org unit filter configuration
     this.orgUnitFilterConfig = DEFAULT_ORG_UNIT_FILTER_CONFIG;
@@ -66,12 +69,15 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
     this.orgUnitGroups$ = store.select(getOrgUnitGroups);
   }
 
-  get selectedLevelsOrOrgUnits(): any[] {
-    return _.filter(
-      this.selectedOrgUnitItems,
-      selectedOrgUnit =>
-        selectedOrgUnit.type === 'ORGANISATION_UNIT_LEVEL' ||
-        selectedOrgUnit.type === 'ORGANISATION_UNIT_GROUP'
+  get selectedLevelsOrOrgUnits(): string[] {
+    return _.map(
+      _.filter(
+        this.selectedOrgUnitItems,
+        selectedOrgUnit =>
+          selectedOrgUnit.type === 'ORGANISATION_UNIT_LEVEL' ||
+          selectedOrgUnit.type === 'ORGANISATION_UNIT_GROUP'
+      ),
+      levelOrGroup => levelOrGroup.id
     );
   }
 
@@ -87,6 +93,10 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
       this.selectedOrgUnitItems,
       selectedOrgUnit => selectedOrgUnit.type === 'USER_ORGANISATION_UNIT'
     );
+  }
+
+  get topOrgUnitLevel(): Observable<number> {
+    return this.store.select(getTopOrgUnitLevel(this.selectedOrgUnits));
   }
 
   ngOnInit() {}

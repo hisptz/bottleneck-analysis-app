@@ -12,9 +12,9 @@
         <!-- end of header for level section -->
 
         <!-- level list -->
-        <li *ngFor="let orgUnitLevel of orgUnitLevels | orgUnitGroupLevelFilter:orgUnitGroupLevelSearchQuery:'level'">
-          <a class="ngx-dhis2-org-unit-level-group__item">
-            <!-- <img [src]="tickIcon"> -->
+        <li *ngFor="let orgUnitLevel of filteredOrgUnitLevels | orgUnitGroupLevelFilter:orgUnitGroupLevelSearchQuery:'level'">
+          <a class="ngx-dhis2-org-unit-level-group__item" (click)="onUpdate($event, orgUnitLevel, 'LEVEL')">
+            <img *ngIf="orgUnitLevel.selected" [src]="tickIcon">
             <span class="ngx-dhis2-org-unit-level-group__item-selection-holder"></span>
             <span class="ngx-dhis2-org-unit-level-group__item-name">{{orgUnitLevel.name}}</span>
           </a>
@@ -28,9 +28,9 @@
         <!-- end of header for group selections -->
 
         <!-- group list -->
-        <li *ngFor="let orgUnitGroup of orgUnitGroups | orgUnitGroupLevelFilter:orgUnitGroupLevelSearchQuery:'group'">
-          <a class="ngx-dhis2-org-unit-level-group__item">
-            <!-- <img [src]="tickIcon"> -->
+        <li *ngFor="let orgUnitGroup of filteredOrgUnitGroups | orgUnitGroupLevelFilter:orgUnitGroupLevelSearchQuery:'group'">
+          <a class="ngx-dhis2-org-unit-level-group__item" (click)="onUpdate($event, orgUnitGroup, 'GROUP')">
+            <img *ngIf="orgUnitGroup.selected" [src]="tickIcon">
             <span class="ngx-dhis2-org-unit-level-group__item-selection-holder"></span>
             <span class="ngx-dhis2-org-unit-level-group__item-name">{{orgUnitGroup.name}}</span>
           </a>

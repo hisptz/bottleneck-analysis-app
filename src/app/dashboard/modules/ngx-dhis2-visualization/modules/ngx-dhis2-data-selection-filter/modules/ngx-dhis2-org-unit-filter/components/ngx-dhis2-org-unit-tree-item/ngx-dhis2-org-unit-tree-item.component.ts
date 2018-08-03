@@ -33,6 +33,7 @@ export class NgxDhis2OrgUnitTreeItemComponent implements OnInit, OnChanges {
 
   orgUnit$: Observable<OrgUnit>;
   selected: boolean;
+  selectedChildren: number;
 
   // icons
   plusCircleIcon: string;
@@ -45,7 +46,7 @@ export class NgxDhis2OrgUnitTreeItemComponent implements OnInit, OnChanges {
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges['selectedOrgUnits']) {
-      this.setOrgUnitProperties();
+      this.setOrgUnitProperties(simpleChanges['selectedOrgUnits'].firstChange);
     }
   }
 
@@ -54,11 +55,11 @@ export class NgxDhis2OrgUnitTreeItemComponent implements OnInit, OnChanges {
       // fetch current org unit
       this.orgUnit$ = this.store.select(getOrgUnitById(this.orgUnitId));
 
-      this.setOrgUnitProperties();
+      this.setOrgUnitProperties(true);
     }
   }
 
-  setOrgUnitProperties() {
+  setOrgUnitProperties(firstChange?: boolean) {
     // get org unit selection status
     this.selected = _.some(
       this.selectedOrgUnits || [],
@@ -68,15 +69,30 @@ export class NgxDhis2OrgUnitTreeItemComponent implements OnInit, OnChanges {
     // set expanded state considering has children selected
 
     if (this.orgUnit$) {
-      this.orgUnit$.subscribe((orgUnit: OrgUnit) => {
-        if (orgUnit && orgUnit.children && !this.expanded) {
-          this.expanded = _.some(
-            this.selectedOrgUnits || [],
-            selectedOrgUnit =>
-              orgUnit.children.indexOf(selectedOrgUnit.id) !== -1
-          );
-        }
-      });
+      this.orgUnit$
+        .pipe(first((orgUnit: any) => orgUnit))
+        .subscribe((orgUnit: OrgUnit) => {
+          if (orgUnit && orgUnit.children) {
+            const selectedOrgUnitIds = _.map(
+              this.selectedOrgUnits,
+              selectedOrgUnit => selectedOrgUnit.id
+            );
+
+            this.selectedChildren = _.filter(
+              orgUnit.children,
+              orgUnitChildId =>
+                selectedOrgUnitIds.indexOf(orgUnitChildId) !== -1
+            ).length;
+
+            if (!this.expanded && firstChange) {
+              this.expanded = _.some(
+                this.selectedOrgUnits || [],
+                selectedOrgUnit =>
+                  orgUnit.children.indexOf(selectedOrgUnit.id) !== -1
+              );
+            }
+          }
+        });
     }
   }
 

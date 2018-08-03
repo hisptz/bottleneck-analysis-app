@@ -35,3 +35,17 @@ export const getOrgUnitById = orgUnitId =>
       ? { ...orgUnit, children: getOrgUnitChildrenIds(orgUnits, orgUnit) }
       : null;
   });
+
+export const getTopOrgUnitLevel = selectedOrgUnits =>
+  createSelector(getOrgUnits, (orgUnits: OrgUnit[]) => {
+    const selectedOrgUnitsWithLevels: OrgUnit[] = _.sortBy(
+      _.map(selectedOrgUnits || [], orgUnit =>
+        _.find(orgUnits, ['id', orgUnit.id])
+      ),
+      'level'
+    );
+
+    return selectedOrgUnitsWithLevels[0]
+      ? selectedOrgUnitsWithLevels[0].level
+      : 0;
+  });
