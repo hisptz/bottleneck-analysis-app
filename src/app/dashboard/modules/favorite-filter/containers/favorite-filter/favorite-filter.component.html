@@ -1,6 +1,6 @@
-<div class="favorite-filter-container">
+<div class="favorite-filter-container" appClickOutside (clickOutside)="showBody = false">
   <!-- favorite filter filter search -->
-  <div class="favorite-filter-search-block">
+  <div class="favorite-filter-search-block" appClickOutside (clickOutside)="showSearchFilters = false">
     <input type="text" class="favorite-filter-search-input" [placeholder]="searchPlaceholder | translate" size="60" (keyup)="onSearch($event)"
       (focus)="onUpdateSearchBody($event)">
     <button class="add-favorite-btn" [title]="newFavoritePlaceholder | translate" (click)="onCreateFavorite($event)">
@@ -9,7 +9,7 @@
     <button class="favorite-filter-search-filter" (click)="onToggleSearchFilters($event)">
       <img [ngClass]="{'rotated-img': showSearchFilters}" [src]="arrowDownIcon" alt="">
     </button>
-    <ul class="favorite-filter-search-filter-options" *ngIf="showSearchFilters">
+    <ul class="favorite-filter-search-filter-options" *ngIf="showSearchFilters" [@open]>
       <li *ngFor="let searchFilterOption of searchFilterOptions">
         <a (click)="onSetCurrentFilterOption(searchFilterOption.id,
           $event) ">
@@ -23,7 +23,7 @@
   <!-- end of favorite filter filter search -->
 
   <!-- favorite filter result section -->
-  <div class="favorite-filter-result-container" *ngIf="showBody">
+  <div class="favorite-filter-result-container" *ngIf="showBody" [@open]>
     <div class="favorite-search-result-header">
       <ul class="favorite-search-header-list">
         <li *ngFor="let header of favoriteFilterHeaders$ | async">

@@ -145,7 +145,7 @@ export class FavoriteFilterComponent implements OnInit {
     event.stopPropagation();
     this.store.dispatch(
       new ToggleFavoriteFiltersHeaderAction(
-        header.type,
+        header.title,
         event.ctrlKey ? true : false
       )
     );

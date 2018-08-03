@@ -28,7 +28,7 @@ export const initialState: FavoriteFilterState = favoriteFilterAdapter.getInitia
     loaded: false,
     hasError: false,
     error: null,
-    selectedHeaders: ['all'],
+    selectedHeaders: ['ALL'],
     selectedFavoriteOwnership: 'all'
   }
 );

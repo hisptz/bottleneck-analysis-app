@@ -8,7 +8,7 @@ const FILTER_HEADER = {
   },
   charts: {
     title: 'Charts',
-    icon: 'assets/icon/column.png'
+    icon: 'assets/icons/column.png'
   },
   reportTables: {
     title: 'Tables',
@@ -81,12 +81,21 @@ export const getFavoriteFiltersBasedType = createSelector(
     favoriteOwnership: string,
     currentUser: User
   ) => {
-    return _.filter(favoriteFilters, (favoriteFilter: FavoriteFilter) => {
-      return (
+    return _.filter(
+      _.map(favoriteFilters, favoriteFilter => {
+        const favoriteHeader = FILTER_HEADER[favoriteFilter.type];
+        return {
+          ...favoriteFilter,
+          headerName: favoriteHeader ? favoriteHeader.title : '',
+          icon: favoriteHeader ? favoriteHeader.icon : ''
+        };
+      }),
+      favoriteFilter =>
         _.some(
           selectedFilterHeaders,
           selectedHeader =>
-            selectedHeader === 'all' || selectedHeader === favoriteFilter.type
+            selectedHeader === 'ALL' ||
+            selectedHeader === favoriteFilter.headerName
         ) &&
         (favoriteOwnership !== 'all'
           ? favoriteFilter.user
@@ -95,28 +104,43 @@ export const getFavoriteFiltersBasedType = createSelector(
               : favoriteFilter.user.id !== currentUser.id
             : true
           : true)
-      );
-    });
+    );
   }
 );
 
 export const getFavoriteFilterHeaders = createSelector(
-  getFavoriteFiltersBasedType,
+  getFavoriteFilters,
   getSelectedFilterHeaders,
-  (favoriteFilters, selectedFilterHeaders) => {
+  getSelectedFavoriteOwnership,
+  getCurrentUser,
+  (favoriteFilters, selectedFilterHeaders, favoriteOwnership, currentUser) => {
     const groupedFavoriteFilters = _.groupBy(favoriteFilters, 'type');
     const favoriteFilterKeys = _.keys(FILTER_HEADER);
-    const results = [
+
+    const favoriteHeaders: any[] = [
       {
         title: 'ALL',
         type: 'all',
         selected: _.some(
           selectedFilterHeaders,
-          selectedHeader => selectedHeader === 'all'
+          selectedHeader => selectedHeader === 'ALL'
         )
       },
       ..._.map(favoriteFilterKeys, filterKey => {
         const filterDetails = FILTER_HEADER[filterKey];
+        console.log(
+          _.filter(
+            groupedFavoriteFilters[filterKey],
+            favoriteFilter =>
+              favoriteOwnership !== 'all'
+                ? favoriteFilter.user
+                  ? favoriteOwnership === 'me'
+                    ? favoriteFilter.user.id === currentUser.id
+                    : favoriteFilter.user.id !== currentUser.id
+                  : true
+                : true
+          )
+        );
         return {
           itemCount: groupedFavoriteFilters[filterKey]
             ? groupedFavoriteFilters[filterKey].length
@@ -126,12 +150,25 @@ export const getFavoriteFilterHeaders = createSelector(
           type: filterKey,
           selected: _.some(
             selectedFilterHeaders,
-            selectedHeader => selectedHeader === filterKey
+            selectedHeader =>
+              filterDetails && selectedHeader === filterDetails.title
           )
         };
       })
     ];
-    console.log(results);
-    return results;
+
+    const groupedFavoriteHeaders = _.groupBy(favoriteHeaders, 'title');
+    return _.map(_.keys(groupedFavoriteHeaders), favoriteHeaderKey => {
+      const favoriteHeaderArray = groupedFavoriteHeaders[favoriteHeaderKey];
+      return {
+        title: favoriteHeaderKey,
+        icon: favoriteHeaderArray[0] ? favoriteHeaderArray[0].icon : '',
+        selected: _.some(
+          favoriteHeaderArray,
+          favoriteHeader => favoriteHeader.selected
+        ),
+        itemCount: _.sumBy(favoriteHeaderArray, 'itemCount')
+      };
+    });
   }
 );
