@@ -22,6 +22,10 @@
   cursor: pointer;
 }
 
-.ngx-dhis2-user-org-unit-selection__item:hover {
+/* .ngx-dhis2-user-org-unit-selection__item:hover {
   background-color: #eeeeee;
+} */
+
+.ngx-dhis2-user-org-unit-selection__selected-item {
+  background-color: #dddddd;
 }

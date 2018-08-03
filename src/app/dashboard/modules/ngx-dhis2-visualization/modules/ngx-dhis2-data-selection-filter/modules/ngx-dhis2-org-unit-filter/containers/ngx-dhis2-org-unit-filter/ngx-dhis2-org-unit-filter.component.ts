@@ -52,8 +52,6 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   @Output() orgUnitUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() orgUnitClose: EventEmitter<any> = new EventEmitter<any>();
 
-  selectedOrgUnits: any[];
-
   constructor(private store: Store<OrgUnitFilterState>) {
     // default org unit filter configuration
     this.orgUnitFilterConfig = DEFAULT_ORG_UNIT_FILTER_CONFIG;
@@ -68,22 +66,54 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
     this.orgUnitGroups$ = store.select(getOrgUnitGroups);
   }
 
-  ngOnInit() {
-    this.selectedOrgUnits = this.selectedOrgUnitItems || [];
+  get selectedLevelsOrOrgUnits(): any[] {
+    return _.filter(
+      this.selectedOrgUnitItems,
+      selectedOrgUnit =>
+        selectedOrgUnit.type === 'ORGANISATION_UNIT_LEVEL' ||
+        selectedOrgUnit.type === 'ORGANISATION_UNIT_GROUP'
+    );
   }
+
+  get selectedOrgUnits(): any[] {
+    return _.filter(
+      this.selectedOrgUnitItems,
+      selectedOrgUnit => selectedOrgUnit.type === 'ORGANISATION_UNIT'
+    );
+  }
+
+  get selectedUserOrgUnits(): any[] {
+    return _.filter(
+      this.selectedOrgUnitItems,
+      selectedOrgUnit => selectedOrgUnit.type === 'USER_ORGANISATION_UNIT'
+    );
+  }
+
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.onOrgUnitClose();
   }
 
   onSelectOrgUnit(orgUnit: any) {
-    this.selectedOrgUnits = !this.orgUnitFilterConfig.singleSelection
-      ? [...this.selectedOrgUnits, orgUnit]
+    this.selectedOrgUnitItems = !this.orgUnitFilterConfig.singleSelection
+      ? [
+          ...(orgUnit.type === 'USER_ORGANISATION_UNIT'
+            ? _.filter(
+                this.selectedOrgUnitItems,
+                selectedOrgUnitItem =>
+                  selectedOrgUnitItem.type === 'USER_ORGANISATION_UNIT'
+              )
+            : this.selectedOrgUnitItems),
+          orgUnit
+        ]
       : [
-          ..._.filter(
-            this.selectedOrgUnits,
-            selectedOrgUnit => selectedOrgUnit.type !== orgUnit.type
-          ),
+          ...(orgUnit.type === 'USER_ORGANISATION_UNIT'
+            ? []
+            : _.filter(
+                this.selectedOrgUnitItems,
+                selectedOrgUnit => selectedOrgUnit.type !== orgUnit.type
+              )),
           orgUnit
         ];
 
@@ -93,17 +123,17 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   }
 
   onDeselectOrgUnit(orgUnit: any) {
-    const orgUnitIndex = this.selectedOrgUnits.indexOf(
-      _.find(this.selectedOrgUnits, ['id', orgUnit.id])
+    const orgUnitIndex = this.selectedOrgUnitItems.indexOf(
+      _.find(this.selectedOrgUnitItems, ['id', orgUnit.id])
     );
 
-    this.selectedOrgUnits = !this.orgUnitFilterConfig.singleSelection
+    this.selectedOrgUnitItems = !this.orgUnitFilterConfig.singleSelection
       ? orgUnitIndex !== -1
         ? [
-            ..._.slice(this.selectedOrgUnits, 0, orgUnitIndex),
-            ..._.slice(this.selectedOrgUnits, orgUnitIndex + 1)
+            ..._.slice(this.selectedOrgUnitItems, 0, orgUnitIndex),
+            ..._.slice(this.selectedOrgUnitItems, orgUnitIndex + 1)
           ]
-        : this.selectedOrgUnits
+        : this.selectedOrgUnitItems
       : [];
 
     if (this.orgUnitFilterConfig.updateOnSelect) {
@@ -114,14 +144,14 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   onOrgUnitClose() {
     this.orgUnitClose.emit({
       dimension: 'ou',
-      items: this.selectedOrgUnits
+      items: this.selectedOrgUnitItems
     });
   }
 
   onOrgUnitUpdate() {
     this.orgUnitUpdate.emit({
       dimension: 'ou',
-      items: this.selectedOrgUnits
+      items: this.selectedOrgUnitItems
     });
   }
 

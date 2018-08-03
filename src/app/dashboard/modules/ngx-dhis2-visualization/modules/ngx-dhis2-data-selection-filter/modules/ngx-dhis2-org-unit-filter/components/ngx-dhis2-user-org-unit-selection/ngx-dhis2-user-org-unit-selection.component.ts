@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import * as _ from 'lodash';
+import { USER_ORG_UNITS } from '../../constants/user-org-units.constants';
 
 @Component({
   selector: 'ngx-dhis2-user-org-unit-selection',
@@ -6,10 +8,41 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ngx-dhis2-user-org-unit-selection.component.css']
 })
 export class NgxDhis2UserOrgUnitSelectionComponent implements OnInit {
+  @Input() selectedUserOrgUnits: any[];
 
-  constructor() { }
+  @Output() activateUserOrgUnit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() deactivateUserOrgUnit: EventEmitter<any> = new EventEmitter<any>();
 
-  ngOnInit() {
+  constructor() {}
+
+  get userOrgUnits(): any[] {
+    return _.map(USER_ORG_UNITS || [], userOrgUnit => {
+      return {
+        ...userOrgUnit,
+        selected: _.some(
+          this.selectedUserOrgUnits,
+          selectedUserOrgUnit => selectedUserOrgUnit.id === userOrgUnit.id
+        )
+      };
+    });
   }
 
+  ngOnInit() {}
+
+  onUpdate(e, selectedUserOrgUnit: any) {
+    e.stopPropagation();
+    if (selectedUserOrgUnit.selected) {
+      this.deactivateUserOrgUnit.emit({
+        id: selectedUserOrgUnit.id,
+        name: selectedUserOrgUnit.name,
+        type: selectedUserOrgUnit.type
+      });
+    } else {
+      this.activateUserOrgUnit.emit({
+        id: selectedUserOrgUnit.id,
+        name: selectedUserOrgUnit.name,
+        type: selectedUserOrgUnit.type
+      });
+    }
+  }
 }

@@ -10,6 +10,10 @@ import { OrgUnitLevel, OrgUnitGroup } from '../../models';
 })
 export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
   /**
+   * Input for selected levels or groups
+   */
+  @Input() selectedLevelsOrGroups: any[];
+  /**
    * Input for organisation unit levels
    */
   @Input() orgUnitLevels: OrgUnitLevel[];
