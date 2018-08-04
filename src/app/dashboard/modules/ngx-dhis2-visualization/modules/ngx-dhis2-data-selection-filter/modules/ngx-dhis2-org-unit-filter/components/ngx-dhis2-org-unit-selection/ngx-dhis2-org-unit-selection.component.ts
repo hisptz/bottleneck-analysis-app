@@ -7,6 +7,7 @@ import { OrgUnitFilterState } from '../../store';
 import { getHighestLevelOrgUnitIds } from '../../store/selectors/org-unit.selectors';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ngx-dhis2-org-unit-selection',
   templateUrl: './ngx-dhis2-org-unit-selection.component.html',
   styleUrls: ['./ngx-dhis2-org-unit-selection.component.css']

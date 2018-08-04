@@ -15,6 +15,7 @@ import { components } from './components';
 import { containers } from './containers';
 import { effects } from './store/effects';
 import { FormsModule } from '@angular/forms';
+import { MapModule } from './modules/map/map.module';
 
 // import { MapModule } from './modules/map/map.module';
 
@@ -28,8 +29,8 @@ import { FormsModule } from '@angular/forms';
     NgxDhis2ChartModule,
     NgxDhis2TableModule,
     NgxDhis2DictionaryModule,
-    NgxDhis2SelectionFiltersModule
-    // MapModule
+    NgxDhis2SelectionFiltersModule,
+    MapModule
   ],
   declarations: [...pipes, ...components, ...containers],
   exports: [...containers]
