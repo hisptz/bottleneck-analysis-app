@@ -33,3 +33,7 @@
   height: 270px;
   padding: 3px;
 }
+
+.ngx-dhis2-org-unit-selection__loading {
+  padding: 7px;
+}

@@ -22,6 +22,9 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
    */
   @Input() orgUnitLevels: OrgUnitLevel[];
 
+  @Input() loadingLevels: boolean;
+  @Input() loadingGroups: boolean;
+
   /**
    * Input for organisation unit groups
    */

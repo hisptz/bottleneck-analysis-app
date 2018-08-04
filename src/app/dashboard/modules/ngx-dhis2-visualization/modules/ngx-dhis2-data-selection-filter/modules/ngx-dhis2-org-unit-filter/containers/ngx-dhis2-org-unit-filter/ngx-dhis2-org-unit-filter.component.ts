@@ -16,12 +16,17 @@ import {
   getOrgUnitGroups,
   LoadOrgUnitLevelsAction,
   LoadOrgUnitGroupsAction,
-  LoadOrgUnitsAction
+  LoadOrgUnitsAction,
+  getOrgUnitGroupLoading,
+  getOrgUnitLevelLoading
 } from '../../store';
 import { OrgUnitLevel, OrgUnitGroup } from '../../models';
 import { OrgUnitFilterConfig } from '../../models/org-unit-filter-config.model';
 import { DEFAULT_ORG_UNIT_FILTER_CONFIG } from '../../constants';
-import { getTopOrgUnitLevel } from '../../store/selectors/org-unit.selectors';
+import {
+  getTopOrgUnitLevel,
+  getOrgUnitLoading
+} from '../../store/selectors/org-unit.selectors';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -51,6 +56,10 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
    */
   orgUnitGroups$: Observable<OrgUnitGroup[]>;
 
+  loadingOrgUnitLevels$: Observable<boolean>;
+  loadingOrgUnitGroups$: Observable<boolean>;
+  loadingOrgUnits$: Observable<boolean>;
+
   @Output() orgUnitUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() orgUnitClose: EventEmitter<any> = new EventEmitter<any>();
 
@@ -68,6 +77,9 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
     // Selecting organisation unit information
     this.orgUnitLevels$ = store.select(getOrgUnitLevels);
     this.orgUnitGroups$ = store.select(getOrgUnitGroups);
+    this.loadingOrgUnitGroups$ = store.select(getOrgUnitGroupLoading);
+    this.loadingOrgUnitLevels$ = store.select(getOrgUnitLevelLoading);
+    this.loadingOrgUnits$ = store.select(getOrgUnitLoading);
   }
 
   get selectedLevelsOrOrgUnits(): string[] {
@@ -107,7 +119,6 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   }
 
   onSelectOrgUnit(orgUnit: any) {
-    console.log(orgUnit);
     if (
       orgUnit.type === 'ORGANISATION_UNIT_LEVEL' ||
       orgUnit.type === 'ORGANISATION_UNIT_GROUP'

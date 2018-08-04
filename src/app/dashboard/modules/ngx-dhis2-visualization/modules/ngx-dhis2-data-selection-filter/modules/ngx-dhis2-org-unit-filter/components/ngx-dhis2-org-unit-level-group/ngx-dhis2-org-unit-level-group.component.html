@@ -11,6 +11,28 @@
         </li>
         <!-- end of header for level section -->
 
+        <li *ngIf="loadingLevels">
+          <!-- loading org units -->
+          <div style="width: 100%;  padding: 7px;">
+            <div style="height: 7px; margin-bottom: 3px; width: 30%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+            <div style="height: 7px; margin-bottom: 3px; width: 50%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+            <div style="height: 7px; margin-bottom: 3px; width: 70%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+            <div style="height: 7px; margin-bottom: 3px; width: 90%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+            <div style="height: 7px; margin-bottom: 3px; width: 98%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+          </div>
+          <!-- end of loading org units -->
+        </li>
+
         <!-- level list -->
         <li *ngFor="let orgUnitLevel of filteredOrgUnitLevels | orgUnitGroupLevelFilter:orgUnitGroupLevelSearchQuery:'level'">
           <a class="ngx-dhis2-org-unit-level-group__item" (click)="onUpdate($event, orgUnitLevel, 'LEVEL')">
@@ -26,6 +48,28 @@
           <span class="ngx-dhis2-org-unit-level-group__item-header">Select Groups</span>
         </li>
         <!-- end of header for group selections -->
+
+        <li *ngIf="loadingGroups">
+          <!-- loading org units -->
+          <div style="width: 100%; padding: 7px;">
+            <div style="height: 7px; margin-bottom: 3px; width: 30%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+            <div style="height: 7px; margin-bottom: 3px; width: 50%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+            <div style="height: 7px; margin-bottom: 3px; width: 70%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+            <div style="height: 7px; margin-bottom: 3px; width: 90%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+            <div style="height: 7px; margin-bottom: 3px; width: 98%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+          </div>
+          <!-- end of loading org units -->
+        </li>
 
         <!-- group list -->
         <li *ngFor="let orgUnitGroup of filteredOrgUnitGroups | orgUnitGroupLevelFilter:orgUnitGroupLevelSearchQuery:'group'">
