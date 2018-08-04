@@ -13,6 +13,7 @@ export interface OrgUnitState extends EntityState<OrgUnit> {
   // additional parameters
   loading: boolean;
   loaded: boolean;
+  loadInitiated: boolean;
   hasError: boolean;
   error: any;
 }
@@ -23,6 +24,7 @@ export const OrgUnitAdapter: EntityAdapter<OrgUnit> = createEntityAdapter<
 
 export const initialState: OrgUnitState = OrgUnitAdapter.getInitialState({
   loading: false,
+  loadInitiated: false,
   loaded: false,
   hasError: false,
   error: null
@@ -36,11 +38,14 @@ export function orgUnitReducer(
     case OrgUnitActionsTypes.LoadOrgUnits:
       return {
         ...state,
-        loading: true,
-        loaded: false,
+        loading: state.loaded ? false : true,
+        loaded: state.loaded,
         hasError: false,
         error: null
       };
+    case OrgUnitActionsTypes.LoadOrgUnitsInitiated: {
+      return { ...state, loadInitiated: true };
+    }
     case OrgUnitActionsTypes.AddOrgUnits: {
       return OrgUnitAdapter.addMany(action.OrgUnits, {
         ...state,
@@ -53,6 +58,8 @@ export function orgUnitReducer(
 }
 
 export const getOrgUnitLoadingState = (state: OrgUnitState) => state.loading;
+export const getOrgUnitLoadingInitiatedState = (state: OrgUnitState) =>
+  state.loadInitiated;
 export const getOrgUnitLoadedState = (state: OrgUnitState) => state.loaded;
 export const getOrgUnitHasErrorState = (state: OrgUnitState) => state.hasError;
 export const getOrgUnitErrorState = (state: OrgUnitState) => state.error;

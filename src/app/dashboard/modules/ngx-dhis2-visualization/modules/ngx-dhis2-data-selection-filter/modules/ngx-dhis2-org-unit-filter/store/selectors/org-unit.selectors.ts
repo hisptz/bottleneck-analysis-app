@@ -3,7 +3,9 @@ import * as _ from 'lodash';
 import { OrgUnitFilterState, getOrgUnitFilterState } from '../reducers';
 import {
   selectAllOrgUnits,
-  getOrgUnitLoadingState
+  getOrgUnitLoadingState,
+  getOrgUnitLoadedState,
+  getOrgUnitLoadingInitiatedState
 } from '../reducers/org-unit.reducer';
 import { OrgUnit } from '../../models';
 import { getOrgUnitChildrenIds } from '../../helpers';
@@ -16,6 +18,16 @@ export const getOrgUnitState = createSelector(
 export const getOrgUnitLoading = createSelector(
   getOrgUnitState,
   getOrgUnitLoadingState
+);
+
+export const getOrgUnitLoadingInitiated = createSelector(
+  getOrgUnitState,
+  getOrgUnitLoadingInitiatedState
+);
+
+export const getOrgUnitLoaded = createSelector(
+  getOrgUnitState,
+  getOrgUnitLoadedState
 );
 
 export const getOrgUnits = createSelector(getOrgUnitState, selectAllOrgUnits);

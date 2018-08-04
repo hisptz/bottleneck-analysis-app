@@ -12,6 +12,7 @@ import {
 export interface OrgUnitLevelState extends EntityState<OrgUnitLevel> {
   // additional parameters
   loading: boolean;
+  loadInitiated: boolean;
   loaded: boolean;
   hasError: boolean;
   error: any;
@@ -25,6 +26,7 @@ export const initialState: OrgUnitLevelState = orgUnitLevelAdapter.getInitialSta
   {
     loading: false,
     loaded: false,
+    loadInitiated: false,
     hasError: false,
     error: null
   }
@@ -35,14 +37,18 @@ export function orgUnitLevelReducer(
   action: OrgUnitLevelActions
 ): OrgUnitLevelState {
   switch (action.type) {
+    case OrgUnitLevelActionsTypes.InitiateOrgUnitLevels: {
+      return { ...state, loadInitiated: true };
+    }
     case OrgUnitLevelActionsTypes.LoadOrgUnitLevels:
       return {
         ...state,
-        loading: true,
-        loaded: false,
+        loading: state.loaded ? false : true,
+        loaded: state.loaded,
         hasError: false,
         error: null
       };
+
     case OrgUnitLevelActionsTypes.AddOrgUnitLevels: {
       return orgUnitLevelAdapter.addMany(action.orgUnitLevels, {
         ...state,
@@ -56,6 +62,8 @@ export function orgUnitLevelReducer(
 
 export const getOrgUnitLevelLoadingState = (state: OrgUnitLevelState) =>
   state.loading;
+export const getOrgUnitLevelLoadInitiatedState = (state: OrgUnitLevelState) =>
+  state.loadInitiated;
 export const getOrgUnitLevelLoadedState = (state: OrgUnitLevelState) =>
   state.loaded;
 export const getOrgUnitLevelHasErrorState = (state: OrgUnitLevelState) =>

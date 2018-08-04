@@ -15,10 +15,12 @@ import {
   getOrgUnitLevels,
   getOrgUnitGroups,
   LoadOrgUnitLevelsAction,
-  LoadOrgUnitGroupsAction,
   LoadOrgUnitsAction,
   getOrgUnitGroupLoading,
-  getOrgUnitLevelLoading
+  getOrgUnitLevelLoading,
+  InitiateOrgUnitGroupsAction,
+  InitiateOrgUnitLevelsAction,
+  LoadOrgUnitGroupsAction
 } from '../../store';
 import { OrgUnitLevel, OrgUnitGroup } from '../../models';
 import { OrgUnitFilterConfig } from '../../models/org-unit-filter-config.model';
@@ -27,7 +29,6 @@ import {
   getTopOrgUnitLevel,
   getOrgUnitLoading
 } from '../../store/selectors/org-unit.selectors';
-import { filter } from 'rxjs/operators';
 
 @Component({
   // tslint:disable-next-line:component-selector

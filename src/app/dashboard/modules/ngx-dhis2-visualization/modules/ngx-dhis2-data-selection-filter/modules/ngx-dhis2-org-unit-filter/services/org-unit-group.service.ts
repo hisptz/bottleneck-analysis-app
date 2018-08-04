@@ -8,7 +8,7 @@ import { OrgUnitGroup } from '../models';
 export class OrgUnitGroupService {
   constructor(private httpClient: NgxDhis2HttpClientService) {}
 
-  loadAll(): Observable<OrgUnitGroup> {
+  loadAll(): Observable<OrgUnitGroup[]> {
     return this.httpClient
       .get(`organisationUnitGroups.json?fields=id,name&paging=false`)
       .pipe(map((res: any) => res.organisationUnitGroups || []));

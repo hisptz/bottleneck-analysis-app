@@ -3,7 +3,8 @@ import { OrgUnitFilterState, getOrgUnitFilterState } from '../reducers';
 import {
   selectAllOrgUnitGroups,
   OrgUnitGroupState,
-  getOrgUnitGroupLoadingState
+  getOrgUnitGroupLoadingState,
+  getOrgUnitGroupLoadInitiatedState
 } from '../reducers/org-unit-group.reducer';
 import { OrgUnitGroup } from '../../models';
 
@@ -17,6 +18,10 @@ export const getOrgUnitGroupLoading = createSelector(
   getOrgUnitGroupLoadingState
 );
 
+export const getOrgUnitGroupLoadInitiated = createSelector(
+  getOrgUnitGroupState,
+  getOrgUnitGroupLoadInitiatedState
+);
 export const getOrgUnitGroups = createSelector(
   getOrgUnitGroupState,
   selectAllOrgUnitGroups

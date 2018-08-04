@@ -2,12 +2,17 @@ import { Action } from '@ngrx/store';
 import { OrgUnitLevel } from '../../models';
 export enum OrgUnitLevelActionsTypes {
   LoadOrgUnitLevels = '[OrgUnitLevel] load organisation unit levels',
+  InitiateOrgUnitLevels = '[OrgUnitLevel] initiate organisation unit levels',
   LoadOrgUnitLevelsFail = '[OrgUnitLevel] load organisation unit levels fail',
   AddOrgUnitLevels = '[OrgUnitLevel] add organisation unit levels'
 }
 
 export class LoadOrgUnitLevelsAction implements Action {
   readonly type = OrgUnitLevelActionsTypes.LoadOrgUnitLevels;
+}
+
+export class InitiateOrgUnitLevelsAction implements Action {
+  readonly type = OrgUnitLevelActionsTypes.InitiateOrgUnitLevels;
 }
 
 export class AddOrgUnitLevelsAction implements Action {
@@ -23,4 +28,5 @@ export class LoadOrgUnitLevelsFailAction implements Action {
 export type OrgUnitLevelActions =
   | LoadOrgUnitLevelsAction
   | AddOrgUnitLevelsAction
-  | LoadOrgUnitLevelsFailAction;
+  | LoadOrgUnitLevelsFailAction
+  | InitiateOrgUnitLevelsAction;
