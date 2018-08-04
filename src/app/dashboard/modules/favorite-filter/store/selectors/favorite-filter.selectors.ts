@@ -128,19 +128,6 @@ export const getFavoriteFilterHeaders = createSelector(
       },
       ..._.map(favoriteFilterKeys, filterKey => {
         const filterDetails = FILTER_HEADER[filterKey];
-        console.log(
-          _.filter(
-            groupedFavoriteFilters[filterKey],
-            favoriteFilter =>
-              favoriteOwnership !== 'all'
-                ? favoriteFilter.user
-                  ? favoriteOwnership === 'me'
-                    ? favoriteFilter.user.id === currentUser.id
-                    : favoriteFilter.user.id !== currentUser.id
-                  : true
-                : true
-          )
-        );
         return {
           itemCount: groupedFavoriteFilters[filterKey]
             ? groupedFavoriteFilters[filterKey].length
