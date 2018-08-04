@@ -11,7 +11,9 @@ import {
   ToggleDashboardBookmarkAction,
   AddDashboardItemAction,
   AddNewUnsavedFavoriteAction,
-  getDefaultVisualizationLayers
+  getDefaultVisualizationLayers,
+  Go,
+  SetCurrentVisualizationAction
 } from '../../../store';
 import { User } from '../../../models';
 
@@ -74,5 +76,15 @@ export class CurrentDashboardComponent implements OnInit {
 
   onCreateFavoriteForCurrentDashboard(dashboardId: string) {
     this.store.dispatch(new AddNewUnsavedFavoriteAction(dashboardId));
+  }
+
+  onToggleVisualizationFullScreen(fullScreenDetails) {
+    console.log(fullScreenDetails);
+    this.store.dispatch(
+      new SetCurrentVisualizationAction(
+        fullScreenDetails.id,
+        fullScreenDetails.dashboardId
+      )
+    );
   }
 }

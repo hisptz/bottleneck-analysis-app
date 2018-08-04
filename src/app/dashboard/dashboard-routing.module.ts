@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {
   DashboardComponent,
   DashboardHomeComponent,
-  CurrentDashboardComponent
+  CurrentDashboardComponent,
+  CurrentDashboardVisualizationComponent
 } from './containers';
 
 const routes: Routes = [
@@ -14,6 +15,10 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardHomeComponent
+      },
+      {
+        path: ':id/fullScreen/:visualizationId',
+        component: CurrentDashboardVisualizationComponent
       },
       {
         path: ':id',

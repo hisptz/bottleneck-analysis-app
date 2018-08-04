@@ -49,7 +49,6 @@ export class ChartItemComponent implements OnInit {
   drawChart(analyticsObject, chartConfiguration): void {
     if (chartConfiguration && analyticsObject) {
       const chartObject: any = drawChart(analyticsObject, chartConfiguration);
-
       if (chartObject) {
         setTimeout(() => {
           this.chart = Highcharts.chart(chartObject);

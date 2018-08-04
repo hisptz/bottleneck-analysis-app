@@ -4,7 +4,9 @@ import {
   Component,
   Input,
   OnChanges,
-  OnInit
+  OnInit,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { VisualizationInputs } from '../../models/visualization-inputs.model';
@@ -50,6 +52,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
   @Input() isNewFavorite: boolean;
   @Input() dashboardId: string;
 
+  @Output() toggleFullScreen: EventEmitter<any> = new EventEmitter<any>();
   private _visualizationInputs$: Subject<VisualizationInputs> = new Subject();
   visualizationObject$: Observable<Visualization>;
   visualizationLayers$: Observable<VisualizationLayer[]>;
@@ -120,7 +123,16 @@ export class VisualizationComponent implements OnInit, OnChanges {
     );
   }
 
-  onFullScreenAction(event: { id: string; uiConfigId: string }) {
+  onFullScreenAction(event: {
+    id: string;
+    uiConfigId: string;
+    fullScreen: boolean;
+  }) {
+    this.toggleFullScreen.emit({
+      id: this.id,
+      dashboardId: this.dashboardId,
+      fullScreen: event.fullScreen
+    });
     this.store.dispatch(new ToggleFullScreenAction(event.uiConfigId));
   }
 

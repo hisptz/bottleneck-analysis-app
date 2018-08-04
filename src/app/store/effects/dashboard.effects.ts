@@ -36,17 +36,22 @@ import {
   CreateDashboardAction,
   AddDashboardAction,
   UpdateDashboardAction,
-  AddNewUnsavedFavoriteAction
+  AddNewUnsavedFavoriteAction,
+  SetCurrentVisualizationAction
 } from '../actions/dashboard.actions';
 
 import {
   AddAllVisualizationObjectsAction,
-  getStandardizedVisualizationObject,
   AddAllVisualizationUiConfigurationsAction,
-  getStandardizedVisualizationUiConfig,
   AddVisualizationObjectAction,
-  AddVisualizationUiConfigurationAction
-} from '@hisptz/ngx-dhis2-visualization';
+  AddVisualizationUiConfigurationAction,
+  ToggleFullScreenAction
+} from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
+
+import {
+  getStandardizedVisualizationUiConfig,
+  getStandardizedVisualizationObject
+} from '../../dashboard/modules/ngx-dhis2-visualization/helpers';
 
 // helpers import
 import {
@@ -99,7 +104,8 @@ export class DashboardEffects {
           action.routeUrl,
           action.dashboards,
           action.currentUser
-        )
+        ),
+        action.routeUrl
       ),
       new AddDashboardVisualizationsAction(
         getStandardizedDashboardVisualizations(action.dashboards)
@@ -119,7 +125,7 @@ export class DashboardEffects {
     ])
   );
 
-  @Effect()
+  @Effect({ dispatch: false })
   setCurrentDashboard$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.SetCurrentDashboard),
     withLatestFrom(this.store.select(getCurrentUser)),
@@ -129,10 +135,35 @@ export class DashboardEffects {
         'dhis2.dashboard.current.' + currentUser.userCredentials.username,
         action.id
       );
-    }),
+
+      const splitedRouteUrl = action.routeUrl ? action.routeUrl.split('/') : [];
+      const currentVisualizationId = splitedRouteUrl[4];
+      if (!currentVisualizationId) {
+        this.store.dispatch(new Go({ path: [`/dashboards/${action.id}`] }));
+      } else {
+        this.store.dispatch(
+          new ToggleFullScreenAction(`${currentVisualizationId}_ui_config`)
+        );
+
+        this.store.dispatch(
+          new SetCurrentVisualizationAction(currentVisualizationId, action.id)
+        );
+      }
+    })
+  );
+
+  @Effect()
+  setCurrentVisualization$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardActionTypes.SetCurrentVisualization),
     map(
-      ([action, currentUser]: [SetCurrentDashboardAction, User]) =>
-        new Go({ path: [`/dashboards/${action.id}`] })
+      (action: SetCurrentVisualizationAction) =>
+        new Go({
+          path: [
+            `/dashboards/${action.dashboardId}/fullScreen/${
+              action.visualizationId
+            }`
+          ]
+        })
     )
   );
 

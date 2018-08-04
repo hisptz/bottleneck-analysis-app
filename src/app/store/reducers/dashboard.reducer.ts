@@ -13,6 +13,7 @@ export interface DashboardObjectState extends EntityState<Dashboard> {
   hasError: boolean;
   error: any;
   currentDashboard: string;
+  currentVisualization: string;
 }
 
 export const dashboardObjectAdapter: EntityAdapter<
@@ -26,7 +27,8 @@ const initialState: DashboardObjectState = dashboardObjectAdapter.getInitialStat
     loaded: false,
     hasError: false,
     error: null,
-    currentDashboard: ''
+    currentDashboard: '',
+    currentVisualization: ''
   }
 );
 
@@ -106,6 +108,10 @@ export function dashboardObjectReducer(
       return { ...state, currentDashboard: action.id };
     }
 
+    case DashboardActionTypes.SetCurrentVisualization: {
+      return { ...state, currentVisualization: action.visualizationId };
+    }
+
     case DashboardActionTypes.ToggleDashboardBookmark:
     case DashboardActionTypes.ToggleDashboardBookmarkSuccess:
     case DashboardActionTypes.ToggleDashboardBookmarkFail: {
@@ -150,3 +156,6 @@ export const getDashboardObjectErrorState = (state: DashboardObjectState) =>
 
 export const getCurrentDashboardObjectState = (state: DashboardObjectState) =>
   state.currentDashboard;
+
+export const getCurrentVisualizationState = (state: DashboardObjectState) =>
+  state.currentVisualization;

@@ -32,7 +32,11 @@ export class VisualizationHeaderSectionComponent {
   constructor() {}
 
   onFullScreenAction(id) {
-    this.fullScreenAction.emit({ id, uiConfigId: this.uiConfigId });
+    this.fullScreenAction.emit({
+      id,
+      uiConfigId: this.uiConfigId,
+      fullScreen: this.fullScreen
+    });
   }
 
   onFilterUpdateAction(dataSelections: VisualizationDataSelection[]) {

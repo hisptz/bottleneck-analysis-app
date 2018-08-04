@@ -58,6 +58,10 @@
   cursor: not-allowed !important;
 }
 
+.chart-block {
+  width: 100%;
+}
+
 @media print {
   .chart-type-list {
     display: none;

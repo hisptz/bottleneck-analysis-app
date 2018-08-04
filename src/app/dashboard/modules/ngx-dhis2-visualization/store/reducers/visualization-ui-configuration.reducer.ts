@@ -8,6 +8,7 @@ import {
   VisualizationUiConfigurationAction,
   VisualizationUiConfigurationActionTypes
 } from '../actions';
+import { convertVerticalHeightToPixel } from '../../helpers/convert-vertical-height-to-pixel.helper';
 
 export interface VisualizationUiConfigurationState
   extends EntityState<VisualizationUiConfig> {}
@@ -41,6 +42,7 @@ export function visualizationUiConfigurationReducer(
         state
       );
     case VisualizationUiConfigurationActionTypes.TOGGLE_FULL_SCREEN:
+      console.log();
       const visualizationUiConfig = state.entities[action.id];
       return visualizationUiConfig
         ? visualizationUiConfigurationAdapter.updateOne(

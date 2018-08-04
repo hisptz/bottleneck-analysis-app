@@ -1,0 +1,4 @@
+<div class="current-dashboard-visualization-container">
+  <ngx-dhis2-visualization *ngIf="(currentVisualizationId$ | async) !== ''" [id]="currentVisualizationId$ | async" [dashboardId]="currentDashboardId$ | async"
+    (toggleFullScreen)="onToggleVisualizationFullScreen($event)"></ngx-dhis2-visualization>
+</div>

@@ -22,6 +22,7 @@ export enum DashboardActionTypes {
   DeleteDashboards = '[Dashboard] Delete Dashboards',
   ClearDashboards = '[Dashboard] Clear Dashboards',
   SetCurrentDashboard = '[Dashboard] Set current dashboard',
+  SetCurrentVisualization = '[Dashboard] Set current visualization',
   ToggleDashboardBookmark = '[Dashboard] Toggle dashboard bookmark status',
   ToggleDashboardBookmarkSuccess = '[Dashboard] Toggle dashboard bookmark success',
   ToggleDashboardBookmarkFail = '[Dashboard] Toggle dashboard bookmark fail',
@@ -111,7 +112,12 @@ export class ClearDashboards implements Action {
 
 export class SetCurrentDashboardAction implements Action {
   readonly type = DashboardActionTypes.SetCurrentDashboard;
-  constructor(public id: string) {}
+  constructor(public id: string, public routeUrl?: string) {}
+}
+
+export class SetCurrentVisualizationAction implements Action {
+  readonly type = DashboardActionTypes.SetCurrentVisualization;
+  constructor(public visualizationId: string, public dashboardId: string) {}
 }
 
 export class ToggleDashboardBookmarkAction implements Action {
@@ -182,4 +188,5 @@ export type DashboardActions =
   | ToggleDashboardBookmarkAction
   | ToggleDashboardBookmarkSuccessAction
   | ToggleDashboardBookmarkFailAction
-  | AddNewUnsavedFavoriteAction;
+  | AddNewUnsavedFavoriteAction
+  | SetCurrentVisualizationAction;

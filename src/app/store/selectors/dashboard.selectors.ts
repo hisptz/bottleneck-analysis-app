@@ -6,7 +6,8 @@ import {
   getDashboardObjectLoadedState,
   getDashboardObjectHasErrorState,
   getDashboardObjectErrorState,
-  getAllDashboardsState
+  getAllDashboardsState,
+  getCurrentVisualizationState
 } from '../reducers/dashboard.reducer';
 import { getRootState, State } from '../reducers';
 import { getSystemInfo } from './system-info.selectors';
@@ -25,6 +26,11 @@ export const getDashboardObjectEntities = createSelector(
 export const getAllDashboards = createSelector(
   getDashboardObjectState,
   getAllDashboardsState
+);
+
+export const getCurrentVisualizationId = createSelector(
+  getDashboardObjectState,
+  getCurrentVisualizationState
 );
 
 export const getCurrentDashboardId = createSelector(
