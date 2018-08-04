@@ -53,7 +53,10 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
       orgUnitLevel => {
         return {
           ...orgUnitLevel,
-          selected: this.selectedLevelsOrGroups.indexOf(orgUnitLevel.id) !== -1
+          selected:
+            this.selectedLevelsOrGroups.indexOf(
+              'LEVEL-' + orgUnitLevel.level
+            ) !== -1
         };
       }
     );
@@ -63,7 +66,9 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
     return _.map(this.orgUnitGroups, orgUnitGroup => {
       return {
         ...orgUnitGroup,
-        selected: this.selectedLevelsOrGroups.indexOf(orgUnitGroup.id) !== -1
+        selected:
+          this.selectedLevelsOrGroups.indexOf('OU_GROUP-' + orgUnitGroup.id) !==
+          -1
       };
     });
   }
@@ -79,7 +84,10 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
     e.stopPropagation();
     if (selectedOrgUnitLevelOrGroup.selected) {
       this.deactivateOrgUnitLevelOrGroup.emit({
-        id: selectedOrgUnitLevelOrGroup.id,
+        id:
+          itemType === 'LEVEL'
+            ? 'LEVEL-' + selectedOrgUnitLevelOrGroup.level
+            : 'OU_GROUP-' + selectedOrgUnitLevelOrGroup.id,
         name: selectedOrgUnitLevelOrGroup.name,
         type:
           itemType === 'LEVEL'
@@ -88,7 +96,10 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
       });
     } else {
       this.activateOrgUnitLevelOrGroup.emit({
-        id: selectedOrgUnitLevelOrGroup.id,
+        id:
+          itemType === 'LEVEL'
+            ? 'LEVEL-' + selectedOrgUnitLevelOrGroup.level
+            : 'OU_GROUP-' + selectedOrgUnitLevelOrGroup.id,
         name: selectedOrgUnitLevelOrGroup.name,
         type:
           itemType === 'LEVEL'

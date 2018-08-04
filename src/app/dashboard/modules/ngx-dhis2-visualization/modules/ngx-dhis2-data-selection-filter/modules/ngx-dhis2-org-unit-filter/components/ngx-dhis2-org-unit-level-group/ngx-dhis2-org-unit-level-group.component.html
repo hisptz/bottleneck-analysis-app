@@ -15,7 +15,7 @@
         <li *ngFor="let orgUnitLevel of filteredOrgUnitLevels | orgUnitGroupLevelFilter:orgUnitGroupLevelSearchQuery:'level'">
           <a class="ngx-dhis2-org-unit-level-group__item" (click)="onUpdate($event, orgUnitLevel, 'LEVEL')">
             <img *ngIf="orgUnitLevel.selected" [src]="tickIcon">
-            <span class="ngx-dhis2-org-unit-level-group__item-selection-holder"></span>
+            <span *ngIf="!orgUnitLevel.selected" class="ngx-dhis2-org-unit-level-group__item-selection-holder"></span>
             <span class="ngx-dhis2-org-unit-level-group__item-name">{{orgUnitLevel.name}}</span>
           </a>
         </li>
@@ -31,7 +31,7 @@
         <li *ngFor="let orgUnitGroup of filteredOrgUnitGroups | orgUnitGroupLevelFilter:orgUnitGroupLevelSearchQuery:'group'">
           <a class="ngx-dhis2-org-unit-level-group__item" (click)="onUpdate($event, orgUnitGroup, 'GROUP')">
             <img *ngIf="orgUnitGroup.selected" [src]="tickIcon">
-            <span class="ngx-dhis2-org-unit-level-group__item-selection-holder"></span>
+            <span *ngIf="!orgUnitGroup.selected" class="ngx-dhis2-org-unit-level-group__item-selection-holder"></span>
             <span class="ngx-dhis2-org-unit-level-group__item-name">{{orgUnitGroup.name}}</span>
           </a>
         </li>

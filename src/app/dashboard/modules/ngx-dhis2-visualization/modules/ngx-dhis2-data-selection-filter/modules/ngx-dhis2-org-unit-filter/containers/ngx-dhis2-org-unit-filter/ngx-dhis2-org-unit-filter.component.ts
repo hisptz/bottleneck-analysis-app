@@ -22,6 +22,7 @@ import { OrgUnitLevel, OrgUnitGroup } from '../../models';
 import { OrgUnitFilterConfig } from '../../models/org-unit-filter-config.model';
 import { DEFAULT_ORG_UNIT_FILTER_CONFIG } from '../../constants';
 import { getTopOrgUnitLevel } from '../../store/selectors/org-unit.selectors';
+import { filter } from 'rxjs/operators';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -106,26 +107,52 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   }
 
   onSelectOrgUnit(orgUnit: any) {
-    this.selectedOrgUnitItems = !this.orgUnitFilterConfig.singleSelection
-      ? [
-          ...(orgUnit.type === 'USER_ORGANISATION_UNIT'
-            ? _.filter(
-                this.selectedOrgUnitItems,
-                selectedOrgUnitItem =>
-                  selectedOrgUnitItem.type === 'USER_ORGANISATION_UNIT'
-              )
-            : this.selectedOrgUnitItems),
-          orgUnit
-        ]
-      : [
-          ...(orgUnit.type === 'USER_ORGANISATION_UNIT'
-            ? []
-            : _.filter(
-                this.selectedOrgUnitItems,
-                selectedOrgUnit => selectedOrgUnit.type !== orgUnit.type
-              )),
+    console.log(orgUnit);
+    if (
+      orgUnit.type === 'ORGANISATION_UNIT_LEVEL' ||
+      orgUnit.type === 'ORGANISATION_UNIT_GROUP'
+    ) {
+      if (orgUnit.type === 'ORGANISATION_UNIT_LEVEL') {
+        this.selectedOrgUnitItems = [
+          ..._.filter(
+            this.selectedOrgUnitItems,
+            selectedOrgUnitItem =>
+              selectedOrgUnitItem.type !== 'ORGANISATION_UNIT_GROUP'
+          ),
           orgUnit
         ];
+      } else {
+        this.selectedOrgUnitItems = [
+          ..._.filter(
+            this.selectedOrgUnitItems,
+            selectedOrgUnitItem =>
+              selectedOrgUnitItem.type !== 'ORGANISATION_UNIT_LEVEL'
+          ),
+          orgUnit
+        ];
+      }
+    } else {
+      this.selectedOrgUnitItems = !this.orgUnitFilterConfig.singleSelection
+        ? [
+            ...(orgUnit.type === 'USER_ORGANISATION_UNIT'
+              ? _.filter(
+                  this.selectedOrgUnitItems,
+                  selectedOrgUnitItem =>
+                    selectedOrgUnitItem.type === 'USER_ORGANISATION_UNIT'
+                )
+              : this.selectedOrgUnitItems),
+            orgUnit
+          ]
+        : [
+            ...(orgUnit.type === 'USER_ORGANISATION_UNIT'
+              ? []
+              : _.filter(
+                  this.selectedOrgUnitItems,
+                  selectedOrgUnit => selectedOrgUnit.type !== orgUnit.type
+                )),
+            orgUnit
+          ];
+    }
 
     if (this.orgUnitFilterConfig.updateOnSelect) {
       this.onOrgUnitUpdate();
