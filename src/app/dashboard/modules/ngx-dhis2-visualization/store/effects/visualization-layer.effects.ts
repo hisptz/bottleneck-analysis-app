@@ -39,6 +39,16 @@ export class VisualizationLayerEffects {
     .ofType(VisualizationLayerActionTypes.LOAD_VISUALIZATION_ANALYTICS)
     .pipe(
       tap((action: LoadVisualizationAnalyticsAction) => {
+        this.store.dispatch(
+          new UpdateVisualizationObjectAction(action.visualizationId, {
+            progress: {
+              statusCode: 200,
+              statusText: 'OK',
+              percent: 50,
+              message: 'Favorite information has been loaded'
+            }
+          })
+        );
         forkJoin(
           _.map(action.visualizationLayers, visualizationLayer =>
             this.analyticsService.getAnalytics(

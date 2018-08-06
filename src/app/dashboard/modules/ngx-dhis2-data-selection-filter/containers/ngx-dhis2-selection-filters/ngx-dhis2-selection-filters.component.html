@@ -7,7 +7,7 @@
     </button>
     <div class="selection-filter-btn-list" *ngIf="showFilters">
       <!--data filter button-->
-      <button [ngClass]="{
+      <button *ngIf="filterConfig?.showDataFilter" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'DATA'
         }" [title]="'Filter by data' | translate" (click)="toggleCurrentFilter($event, 'DATA')">
@@ -17,7 +17,7 @@
       <!--end of data filter button-->
 
       <!--period filter button-->
-      <button [ngClass]="{
+      <button *ngIf="filterConfig?.showPeriodFilter" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'PERIOD'
         }" [title]="'Filter by period' | translate" (click)="toggleCurrentFilter($event, 'PERIOD')">
@@ -27,7 +27,7 @@
       <!--end of period filter button-->
 
       <!--org unit filter button-->
-      <button [ngClass]="{
+      <button *ngIf="filterConfig?.showOrgUnitFilter" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'ORG_UNIT'
         }" [title]="'Filter by organisation unit' | translate" (click)="toggleCurrentFilter($event, 'ORG_UNIT')">
@@ -35,7 +35,7 @@
         <img [ngClass]="{'arrow-up': selectedFilter === 'ORG_UNIT'}" [src]="arrowDownIcon" alt="">
       </button>
 
-      <button [ngClass]="{
+      <button *ngIf="filterConfig?.showLayout" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'LAYOUT'
         }" [title]="'Layout' | translate" (click)="toggleCurrentFilter($event, 'LAYOUT')">

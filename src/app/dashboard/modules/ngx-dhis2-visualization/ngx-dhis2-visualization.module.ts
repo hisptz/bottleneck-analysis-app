@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NgxDhis2TableModule } from '@hisptz/ngx-dhis2-table';
 import { NgxDhis2DictionaryModule } from '@hisptz/ngx-dhis2-dictionary';
-import { NgxDhis2SelectionFiltersModule } from './modules/ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
+import { NgxDhis2SelectionFiltersModule } from '../../modules/ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
 import { NgxDhis2ChartModule } from './modules/ngx-dhis-chart/ngx-dhis2-chart.module';
 // store
 import { reducers } from './store/reducers';

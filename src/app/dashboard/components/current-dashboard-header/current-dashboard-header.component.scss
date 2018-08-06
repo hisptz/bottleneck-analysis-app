@@ -35,8 +35,14 @@
 }
 
 .current-dashboard-share-button,
-.current-dashboard-bookmark-button {
+.current-dashboard-bookmark-button,
+.current-dashboard-global-filter {
   margin-left: 5px;
+}
+
+.current-dashboard-global-filter {
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 999px) {

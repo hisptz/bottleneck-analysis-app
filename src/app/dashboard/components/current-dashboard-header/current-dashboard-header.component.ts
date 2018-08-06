@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { Dashboard } from '../../models';
 import { Observable } from 'rxjs';
 import { User } from '../../../models';
+import { SelectionFilterConfig } from '../../modules/ngx-dhis2-data-selection-filter/models/selected-filter-config.model';
 
 @Component({
   selector: 'app-current-dashboard-header',
@@ -20,6 +21,8 @@ import { User } from '../../../models';
 export class CurrentDashboardHeaderComponent implements OnInit {
   @Input() currentDashboard: Dashboard;
   @Input() currentUser: User;
+
+  selectionFilterConfig: SelectionFilterConfig;
 
   @Output()
   toggleCurrentDashboardBookmark: EventEmitter<{
@@ -47,7 +50,15 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   createFavoriteForCurrentDashboard: EventEmitter<string> = new EventEmitter<
     string
   >();
-  constructor() {}
+
+  @Output() globalFilterChange: EventEmitter<any> = new EventEmitter<any>();
+
+  constructor() {
+    this.selectionFilterConfig = {
+      showDataFilter: false,
+      showLayout: false
+    };
+  }
 
   ngOnInit() {}
 
@@ -89,5 +100,12 @@ export class CurrentDashboardHeaderComponent implements OnInit {
     if (this.currentDashboard) {
       this.createFavoriteForCurrentDashboard.emit(this.currentDashboard.id);
     }
+  }
+
+  onFilterUpdateAction(dataSelections: any[]) {
+    this.globalFilterChange.emit({
+      id: this.currentDashboard.id,
+      globalSelections: dataSelections
+    });
   }
 }

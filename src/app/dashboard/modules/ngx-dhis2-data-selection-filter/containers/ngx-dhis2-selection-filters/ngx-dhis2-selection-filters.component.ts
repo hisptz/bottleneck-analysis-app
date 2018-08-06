@@ -9,7 +9,8 @@ import {
   ARROW_DOWN_ICON,
   TREE_ICON
 } from '../../icons';
-import { INITIAL_LAYOUT_MODEL } from '../../../map/modules/layout/model/layout-model';
+import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
+import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config.constant';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,10 +20,10 @@ import { INITIAL_LAYOUT_MODEL } from '../../../map/modules/layout/model/layout-m
 })
 export class NgxDhis2SelectionFiltersComponent implements OnInit {
   @Input() dataSelections: any[];
+  @Input() selectionFilterConfig: SelectionFilterConfig;
   @Output() filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
   showFilters: boolean;
   showFilterBody: boolean;
-  selectedFilter: string;
 
   // icons
   filterIcon: string;
@@ -32,10 +33,10 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   dataIcon: string;
   periodIcon: string;
   orgUnitIcon: string;
+  private _selectedFilter: string;
 
   constructor() {
     this.showFilters = this.showFilterBody = false;
-    this.selectedFilter = 'DATA';
 
     // icons initializations
     this.filterIcon = FILTER_ICON;
@@ -80,6 +81,28 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     );
   }
 
+  get filterConfig(): SelectionFilterConfig {
+    return {
+      ...SELECTION_FILTER_CONFIG,
+      ...(this.selectionFilterConfig || {})
+    };
+  }
+
+  get selectedFilter(): string {
+    return (
+      this._selectedFilter ||
+      (this.filterConfig.showDataFilter
+        ? 'DATA'
+        : this.filterConfig.showPeriodFilter
+          ? 'PERIOD'
+          : this.filterConfig.showOrgUnitFilter
+            ? 'ORG_UNIT'
+            : this.filterConfig.showLayout
+              ? 'LAYOUT'
+              : '')
+    );
+  }
+
   ngOnInit() {}
 
   toggleFilters(e) {
@@ -94,11 +117,11 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
 
   toggleCurrentFilter(e, selectedFilter) {
     e.stopPropagation();
-    if (this.selectedFilter === selectedFilter) {
-      this.selectedFilter = '';
+    if (this._selectedFilter === selectedFilter) {
+      this._selectedFilter = '';
       this.showFilterBody = false;
     } else {
-      this.selectedFilter = selectedFilter;
+      this._selectedFilter = selectedFilter;
       this.showFilterBody = true;
     }
   }
@@ -119,7 +142,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     }
 
     if (this.selectedFilter === selectedFilter) {
-      this.selectedFilter = '';
+      // this._selectedFilter = '';
       this.showFilterBody = false;
     }
   }
@@ -138,7 +161,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
         ];
 
     this.filterUpdate.emit(this.dataSelections);
-    this.selectedFilter = '';
+    this._selectedFilter = '';
     this.showFilterBody = false;
   }
 

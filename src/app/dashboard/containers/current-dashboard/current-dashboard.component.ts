@@ -13,7 +13,8 @@ import {
   AddNewUnsavedFavoriteAction,
   getDefaultVisualizationLayers,
   Go,
-  SetCurrentVisualizationAction
+  SetCurrentVisualizationAction,
+  GlobalFilterChangeAction
 } from '../../../store';
 import { User } from '../../../models';
 
@@ -79,12 +80,19 @@ export class CurrentDashboardComponent implements OnInit {
   }
 
   onToggleVisualizationFullScreen(fullScreenDetails) {
-    console.log(fullScreenDetails);
     this.store.dispatch(
       new SetCurrentVisualizationAction(
         fullScreenDetails.id,
         fullScreenDetails.dashboardId
       )
+    );
+  }
+
+  onGlobalFilterChange(globalFilterDetails: any) {
+    this.store.dispatch(
+      new GlobalFilterChangeAction(globalFilterDetails.id, {
+        globalSelections: globalFilterDetails.globalSelections
+      })
     );
   }
 }

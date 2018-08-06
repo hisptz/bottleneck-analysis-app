@@ -13,7 +13,9 @@
           (toggleDashboardBookmark)="onToggleDashboardBookmarkAction($event)"></app-current-dashboard-bookmark>
       </div>
       <div class="current-dashboard-global-filter">
-        <!-- <app-dashboard-global-filter [currentDashboardId]="(currentDashboard$ | async)?.id"></app-dashboard-global-filter> -->
+        <ngx-dhis2-selection-filters (filterUpdate)="onFilterUpdateAction($event)" [dataSelections]="currentDashboard?.globalSelections"
+          [selectionFilterConfig]="selectionFilterConfig">
+        </ngx-dhis2-selection-filters>
       </div>
     </div>
   </div>

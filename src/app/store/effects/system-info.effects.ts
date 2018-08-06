@@ -38,6 +38,6 @@ export class SystemInfoEffects {
   @Effect()
   systemInfoLoaded$: Observable<any> = this.actions$.pipe(
     ofType(SystemInfoActionTypes.AddSystemInfo),
-    map(() => new LoadCurrentUser())
+    map((action: AddSystemInfo) => new LoadCurrentUser(action.systemInfo))
   );
 }

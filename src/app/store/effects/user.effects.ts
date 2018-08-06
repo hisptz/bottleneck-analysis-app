@@ -7,7 +7,8 @@ import { User } from '../../models';
 import {
   AddCurrentUser,
   LoadCurrentUserFail,
-  UserActionTypes
+  UserActionTypes,
+  LoadCurrentUser
 } from '../actions/user.actions';
 import { LoadDashboardSettingsAction } from '../actions';
 
@@ -18,9 +19,9 @@ export class UserEffects {
   @Effect()
   loadCurrentUser$: Observable<any> = this.actions$.pipe(
     ofType(UserActionTypes.LoadCurrentUser),
-    switchMap(() =>
+    switchMap((action: LoadCurrentUser) =>
       this.userService.loadCurrentUser().pipe(
-        map((user: User) => new AddCurrentUser(user)),
+        map((user: User) => new AddCurrentUser(user, action.systemInfo)),
         catchError((error: any) => of(new LoadCurrentUserFail(error)))
       )
     )
@@ -31,7 +32,7 @@ export class UserEffects {
     ofType(UserActionTypes.AddCurrentUser),
     map(
       (action: AddCurrentUser) =>
-        new LoadDashboardSettingsAction(action.currentUser)
+        new LoadDashboardSettingsAction(action.currentUser, action.systemInfo)
     )
   );
 }

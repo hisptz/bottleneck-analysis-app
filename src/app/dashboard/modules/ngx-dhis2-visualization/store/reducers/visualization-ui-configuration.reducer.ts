@@ -42,7 +42,6 @@ export function visualizationUiConfigurationReducer(
         state
       );
     case VisualizationUiConfigurationActionTypes.TOGGLE_FULL_SCREEN:
-      console.log();
       const visualizationUiConfig = state.entities[action.id];
       return visualizationUiConfig
         ? visualizationUiConfigurationAdapter.updateOne(

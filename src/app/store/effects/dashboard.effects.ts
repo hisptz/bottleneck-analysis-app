@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import {
   switchMap,
   map,
@@ -37,7 +37,8 @@ import {
   AddDashboardAction,
   UpdateDashboardAction,
   AddNewUnsavedFavoriteAction,
-  SetCurrentVisualizationAction
+  SetCurrentVisualizationAction,
+  GlobalFilterChangeAction
 } from '../actions/dashboard.actions';
 
 import {
@@ -69,7 +70,12 @@ import { User } from '../../models';
 import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
 import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
 import { State } from '../reducers';
-import { getCurrentUser, getRouteUrl } from '../selectors';
+import {
+  getCurrentUser,
+  getRouteUrl,
+  getCurrentDashboardVisualizations
+} from '../selectors';
+import { getCurrentVisualizationObjectLayers } from '@hisptz/ngx-dhis2-visualization';
 
 @Injectable()
 export class DashboardEffects {
@@ -84,7 +90,8 @@ export class DashboardEffects {
             new LoadDashboardsSuccessAction(
               dashboards,
               action.currentUser,
-              routeUrl
+              routeUrl,
+              action.systemInfo
             )
         ),
         catchError((error: any) => of(new LoadDashboardsFailAction(error)))
@@ -97,7 +104,11 @@ export class DashboardEffects {
     ofType(DashboardActionTypes.LoadDashboardsSuccess),
     switchMap((action: LoadDashboardsSuccessAction) => [
       new AddDashboardsAction(
-        getStandardizedDashboards(action.dashboards, action.currentUser)
+        getStandardizedDashboards(
+          action.dashboards,
+          action.currentUser,
+          action.systemInfo
+        )
       ),
       new SetCurrentDashboardAction(
         getCurrentDashboardId(
@@ -322,6 +333,20 @@ export class DashboardEffects {
               )
           )
         )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  globalFilterChange$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardActionTypes.GlobalFilterChange),
+    withLatestFrom(this.store.select(getCurrentDashboardVisualizations)),
+    tap(
+      ([action, dashboardVisualizations]: [
+        GlobalFilterChangeAction,
+        string[]
+      ]) => {
+        console.log(dashboardVisualizations);
+      }
     )
   );
 

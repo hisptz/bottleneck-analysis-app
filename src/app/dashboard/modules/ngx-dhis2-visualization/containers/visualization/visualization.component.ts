@@ -138,17 +138,6 @@ export class VisualizationComponent implements OnInit, OnChanges {
 
   onVisualizationLayerUpdate(visualizationLayer: VisualizationLayer) {
     this.store.dispatch(
-      new UpdateVisualizationObjectAction(this.id, {
-        progress: {
-          statusCode: 200,
-          statusText: 'OK',
-          percent: 50,
-          message: 'Favorite information has been loaded'
-        }
-      })
-    );
-
-    this.store.dispatch(
       new LoadVisualizationAnalyticsAction(this.id, [visualizationLayer])
     );
   }

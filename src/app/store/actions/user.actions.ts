@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { User, ErrorMessage } from '../../models';
+import { User, ErrorMessage, SystemInfo } from '../../models';
 
 export enum UserActionTypes {
   LoadCurrentUser = '[User] Load current User',
@@ -9,12 +9,13 @@ export enum UserActionTypes {
 
 export class LoadCurrentUser implements Action {
   readonly type = UserActionTypes.LoadCurrentUser;
+  constructor(public systemInfo: SystemInfo) {}
 }
 
 export class AddCurrentUser implements Action {
   readonly type = UserActionTypes.AddCurrentUser;
 
-  constructor(public currentUser: User) {}
+  constructor(public currentUser: User, public systemInfo: SystemInfo) {}
 }
 
 export class LoadCurrentUserFail implements Action {

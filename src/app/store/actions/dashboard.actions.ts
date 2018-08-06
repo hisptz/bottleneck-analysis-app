@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Dashboard } from '../../dashboard/models/dashboard.model';
-import { User, ErrorMessage } from '../../models';
+import { User, ErrorMessage, SystemInfo } from '../../models';
 import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
 
 export enum DashboardActionTypes {
@@ -26,7 +26,8 @@ export enum DashboardActionTypes {
   ToggleDashboardBookmark = '[Dashboard] Toggle dashboard bookmark status',
   ToggleDashboardBookmarkSuccess = '[Dashboard] Toggle dashboard bookmark success',
   ToggleDashboardBookmarkFail = '[Dashboard] Toggle dashboard bookmark fail',
-  AddNewUnsavedFavorite = '[Dashboard] Add new unsaved favorite'
+  AddNewUnsavedFavorite = '[Dashboard] Add new unsaved favorite',
+  GlobalFilterChange = '[Dashboard] Global filter change'
 }
 
 export class LoadDashboardsAction implements Action {
@@ -34,7 +35,8 @@ export class LoadDashboardsAction implements Action {
 
   constructor(
     public currentUser: User,
-    public dashboardSettings: DashboardSettings
+    public dashboardSettings: DashboardSettings,
+    public systemInfo: SystemInfo
   ) {}
 }
 
@@ -48,7 +50,8 @@ export class LoadDashboardsSuccessAction implements Action {
   constructor(
     public dashboards: any[],
     public currentUser: User,
-    public routeUrl: string
+    public routeUrl: string,
+    public systemInfo: SystemInfo
   ) {}
 }
 
@@ -167,6 +170,10 @@ export class AddNewUnsavedFavoriteAction implements Action {
   constructor(public id: string) {}
 }
 
+export class GlobalFilterChangeAction implements Action {
+  readonly type = DashboardActionTypes.GlobalFilterChange;
+  constructor(public id: string, public changes: Partial<Dashboard>) {}
+}
 export type DashboardActions =
   | LoadDashboardsAction
   | AddDashboardItemAction
@@ -189,4 +196,5 @@ export type DashboardActions =
   | ToggleDashboardBookmarkSuccessAction
   | ToggleDashboardBookmarkFailAction
   | AddNewUnsavedFavoriteAction
-  | SetCurrentVisualizationAction;
+  | SetCurrentVisualizationAction
+  | GlobalFilterChangeAction;

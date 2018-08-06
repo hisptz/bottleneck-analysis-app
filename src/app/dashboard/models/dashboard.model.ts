@@ -17,4 +17,5 @@ export interface Dashboard {
   updatedOrCreated?: boolean;
   error?: any;
   namespace?: string;
+  globalSelections?: any[];
 }

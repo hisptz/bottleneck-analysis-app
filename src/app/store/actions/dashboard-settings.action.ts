@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
-import { User } from '../../models';
+import { User, SystemInfo } from '../../models';
 
 export enum DashboardSettingsActionTypes {
   InitializeDashboardSettings = '[DashboardSettings] initialize dashboard settings',
@@ -15,13 +15,14 @@ export class InitializeDashboardSettingsAction implements Action {
 
 export class LoadDashboardSettingsAction implements Action {
   readonly type = DashboardSettingsActionTypes.LoadDashboardSettings;
-  constructor(public currentUser: User) {}
+  constructor(public currentUser: User, public systemInfo: SystemInfo) {}
 }
 export class AddDashboardSettingsAction implements Action {
   readonly type = DashboardSettingsActionTypes.AddDashboardSettings;
   constructor(
     public dashboardSettings: DashboardSettings,
-    public currentUser: User
+    public currentUser: User,
+    public systemInfo: SystemInfo
   ) {}
 }
 export class LoadDashboardSettingsFailAction implements Action {

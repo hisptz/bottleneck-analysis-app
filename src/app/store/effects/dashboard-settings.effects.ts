@@ -27,7 +27,8 @@ export class DashboardSettingsEffects {
           (dashboardSettings: any) =>
             new AddDashboardSettingsAction(
               dashboardSettings,
-              action.currentUser
+              action.currentUser,
+              action.systemInfo
             )
         ),
         catchError((error: any) =>
@@ -42,7 +43,11 @@ export class DashboardSettingsEffects {
     ofType(DashboardSettingsActionTypes.AddDashboardSettings),
     map(
       (action: AddDashboardSettingsAction) =>
-        new LoadDashboardsAction(action.currentUser, action.dashboardSettings)
+        new LoadDashboardsAction(
+          action.currentUser,
+          action.dashboardSettings,
+          action.systemInfo
+        )
     )
   );
 
