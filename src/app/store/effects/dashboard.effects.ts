@@ -78,11 +78,11 @@ import {
   getRouteUrl,
   getCurrentDashboardVisualizations
 } from '../selectors';
-import { getCurrentVisualizationObjectLayers } from '@hisptz/ngx-dhis2-visualization';
 import {
   Visualization,
   VisualizationLayer
 } from '../../dashboard/modules/ngx-dhis2-visualization/models';
+import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx-dhis2-visualization/store/selectors';
 
 @Injectable()
 export class DashboardEffects {
