@@ -7,7 +7,8 @@ import {
   catchError,
   tap,
   withLatestFrom,
-  mergeMap
+  mergeMap,
+  take
 } from 'rxjs/operators';
 
 import * as _ from 'lodash';
@@ -46,12 +47,14 @@ import {
   AddAllVisualizationUiConfigurationsAction,
   AddVisualizationObjectAction,
   AddVisualizationUiConfigurationAction,
-  ToggleFullScreenAction
+  ToggleFullScreenAction,
+  LoadVisualizationAnalyticsAction
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
 
 import {
   getStandardizedVisualizationUiConfig,
-  getStandardizedVisualizationObject
+  getStandardizedVisualizationObject,
+  getMergedDataSelections
 } from '../../dashboard/modules/ngx-dhis2-visualization/helpers';
 
 // helpers import
@@ -76,6 +79,10 @@ import {
   getCurrentDashboardVisualizations
 } from '../selectors';
 import { getCurrentVisualizationObjectLayers } from '@hisptz/ngx-dhis2-visualization';
+import {
+  Visualization,
+  VisualizationLayer
+} from '../../dashboard/modules/ngx-dhis2-visualization/models';
 
 @Injectable()
 export class DashboardEffects {
@@ -344,9 +351,49 @@ export class DashboardEffects {
       ([action, dashboardVisualizations]: [
         GlobalFilterChangeAction,
         string[]
-      ]) => {
-        console.log(dashboardVisualizations);
-      }
+      ]) =>
+        from(dashboardVisualizations)
+          .pipe(
+            mergeMap(dashboardVisualization =>
+              this.store
+                .select(
+                  getCurrentVisualizationObjectLayers(dashboardVisualization)
+                )
+                .pipe(
+                  take(1),
+                  map((visualizationLayers: VisualizationLayer[]) => {
+                    return {
+                      visualizationId: dashboardVisualization,
+                      visualizationLayers: _.map(
+                        visualizationLayers,
+                        (visualizationLayer: VisualizationLayer) => {
+                          return {
+                            ...visualizationLayer,
+                            dataSelections: getMergedDataSelections(
+                              visualizationLayer.dataSelections,
+                              action.changes.globalSelections
+                            )
+                          };
+                        }
+                      )
+                    };
+                  })
+                )
+            )
+          )
+          .subscribe(
+            (visualizationDetails: {
+              visualizationId: string;
+              visualizationLayers: VisualizationLayer[];
+            }) => {
+              this.store.dispatch(
+                new LoadVisualizationAnalyticsAction(
+                  visualizationDetails.visualizationId,
+                  visualizationDetails.visualizationLayers
+                )
+              );
+            }
+          )
     )
   );
 

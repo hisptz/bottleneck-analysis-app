@@ -19,3 +19,4 @@ export * from './get-visualization-layout.helper';
 export * from './get-visualization-metadata-identifier.helper';
 export * from './get-visualization-width-from-shape.helper';
 export * from './get-selection-dimensions-from-analytics.helper';
+export * from './get-merged-dataSelections.helper';
