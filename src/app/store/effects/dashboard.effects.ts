@@ -18,7 +18,7 @@ import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 // Services import
-import { DashboardService, UtilService } from '../../services';
+import { DashboardService } from '../../services';
 
 // store actions import
 import {
@@ -83,6 +83,7 @@ import {
   VisualizationLayer
 } from '../../dashboard/modules/ngx-dhis2-visualization/models';
 import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx-dhis2-visualization/store/selectors';
+import { generateUid } from '../../helpers/generate-uid.helper';
 
 @Injectable()
 export class DashboardEffects {
@@ -288,58 +289,45 @@ export class DashboardEffects {
       ([action, dashboardSettings]: [
         CreateDashboardAction,
         DashboardSettings
-      ]) =>
-        this.utilService.getUniqueId().pipe(
-          tap((id: string) => {
-            this.store.dispatch(
-              new AddDashboardAction({
-                id,
-                name: action.dashboardName,
-                creating: true
-              })
-            );
-          }),
-          mergeMap((id: string) =>
-            this.dashboardService
-              .create({ id, name: action.dashboardName }, dashboardSettings)
-              .pipe(
-                switchMap(() => [
-                  new UpdateDashboardAction(id, {
-                    creating: false,
-                    updatedOrCreated: true
-                  }),
-                  new SetCurrentDashboardAction(id)
-                ]),
-                catchError(error =>
-                  of(
-                    new UpdateDashboardAction(id, {
-                      creating: false,
-                      updatedOrCreated: false,
-                      error
-                    })
-                  )
-                )
+      ]) => {
+        const id = generateUid();
+        this.store.dispatch(
+          new AddDashboardAction({
+            id,
+            name: action.dashboardName,
+            creating: true
+          })
+        );
+        return this.dashboardService
+          .create({ id, name: action.dashboardName }, dashboardSettings)
+          .pipe(
+            switchMap(() => [
+              new UpdateDashboardAction(id, {
+                creating: false,
+                updatedOrCreated: true
+              }),
+              new SetCurrentDashboardAction(id)
+            ]),
+            catchError(error =>
+              of(
+                new UpdateDashboardAction(id, {
+                  creating: false,
+                  updatedOrCreated: false,
+                  error
+                })
               )
-          )
-        )
+            )
+          );
+      }
     )
   );
 
   @Effect()
   addNewFavorite$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.AddNewUnsavedFavorite),
-    mergeMap((action: AddNewUnsavedFavoriteAction) =>
-      this.utilService
-        .getUniqueId()
-        .pipe(
-          map(
-            dashboardItemId =>
-              new AddDashboardVisualizationItemAction(
-                action.id,
-                dashboardItemId
-              )
-          )
-        )
+    map(
+      (action: AddNewUnsavedFavoriteAction) =>
+        new AddDashboardVisualizationItemAction(action.id, generateUid())
     )
   );
 
@@ -400,7 +388,6 @@ export class DashboardEffects {
   constructor(
     private actions$: Actions,
     private store: Store<State>,
-    private dashboardService: DashboardService,
-    private utilService: UtilService
+    private dashboardService: DashboardService
   ) {}
 }

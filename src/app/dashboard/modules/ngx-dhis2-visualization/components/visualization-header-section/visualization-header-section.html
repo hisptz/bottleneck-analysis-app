@@ -1,6 +1,7 @@
 <div class="visualization-header-section-container">
   <div class="visualization-filters" *ngIf="showFilters">
-    <ngx-dhis2-selection-filters [dataSelections]="visualizationLayer?.dataSelections" (filterUpdate)="onFilterUpdateAction($event)">
+    <ngx-dhis2-selection-filters [dataSelections]="visualizationLayer?.dataSelections" [layout]="visualizationLayer?.layout"
+      (filterUpdate)="onFilterUpdateAction($event)">
     </ngx-dhis2-selection-filters>
     <div class="visualization-favorite">
       <input class="visualization-name-input" *ngIf="showNameInput" type="text" [(ngModel)]="name" placeholder="Enter favorite name">

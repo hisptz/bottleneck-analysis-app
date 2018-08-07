@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { INITIAL_LAYOUT_MODEL } from './model/layout-model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -7,7 +8,7 @@ import { INITIAL_LAYOUT_MODEL } from './model/layout-model';
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit {
-  @Input() layoutModel = INITIAL_LAYOUT_MODEL;
+  @Input() layoutModel: any = INITIAL_LAYOUT_MODEL;
   @Input() visualizationType: string;
   @Output() onLayoutUpdate = new EventEmitter();
   @Output() onLayoutClose: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -19,6 +20,7 @@ export class LayoutComponent implements OnInit {
   columnName: string;
   rowName: string;
 
+  subs = new Subscription();
   constructor() {
     this.icons = {
       dx: 'assets/icons/data.png',
@@ -44,9 +46,9 @@ export class LayoutComponent implements OnInit {
   }
 
   updateLayoutDimensions() {
-    this.filters = [...this.layoutModel.filters];
-    this.columns = [...this.layoutModel.columns];
-    this.rows = [...this.layoutModel.rows];
+    this.filters = this.layoutModel.filters;
+    this.columns = this.layoutModel.columns;
+    this.rows = this.layoutModel.rows;
   }
 
   updateLayout() {

@@ -61,7 +61,7 @@
     <!--data filter-->
     <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedData" (dataFilterClose)="onFilterClose($event, 'DATA')"
       (dataFilterUpdate)="onFilterUpdate($event, 'DATA')"></app-data-filter>
-    <!--end of data filter
+    <!--end of data filter-->
 
     <!--period filter-->
     <app-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods" (periodFilterClose)="onFilterClose($event, 'PERIOD')"
