@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { openAnimation } from '../../../../../animations';
 
 /**
  * Generated class for the VisualizationFooterSectionComponent component.
@@ -9,7 +10,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'visualization-footer-section',
   templateUrl: 'visualization-footer-section.html',
-  styleUrls: ['./visualization-footer-section.css']
+  styleUrls: ['./visualization-footer-section.css'],
+  animations: [openAnimation]
 })
 export class VisualizationFooterSectionComponent {
   @Input() type: string;

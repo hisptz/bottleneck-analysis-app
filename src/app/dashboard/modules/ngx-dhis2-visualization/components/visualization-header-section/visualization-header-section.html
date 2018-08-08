@@ -6,7 +6,7 @@
     &nbsp;
   </div>
   <div *ngIf="!showFilters"></div>
-  <div class="visualization-resize" *ngIf="!hideResizeButtons">
+  <div class="visualization-resize" *ngIf="!hideResizeButtons" [@open]>
     <app-visualization-resize-section [id]="id" [fullScreen]="fullScreen" (toggleFullScreen)="onFullScreenAction($event)"></app-visualization-resize-section>
   </div>
 </div>

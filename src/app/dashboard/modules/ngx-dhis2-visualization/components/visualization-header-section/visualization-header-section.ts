@@ -2,11 +2,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
 import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { VisualizationDataSelection } from '../../models/visualization-data-selection.model';
+import { openAnimation } from '../../../../../animations';
 
 @Component({
   selector: 'visualization-header-section',
   templateUrl: 'visualization-header-section.html',
-  styleUrls: ['./visualization-header-section.css']
+  styleUrls: ['./visualization-header-section.css'],
+  animations: [openAnimation]
 })
 export class VisualizationHeaderSectionComponent {
   @Input() id: string;
