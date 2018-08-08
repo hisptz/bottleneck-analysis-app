@@ -6,6 +6,7 @@ import { VisualizationTypesSectionComponent } from './visualization-types-sectio
 import { VisualizationHeaderSectionComponent } from './visualization-header-section/visualization-header-section';
 import { VisualizationResizeSectionComponent } from './visualization-resize-section/visualization-resize-section.component';
 import { VisualizationBodySectionComponent } from './visualization-body-section/visualization-body-section';
+import { VisualizationManagementSectionComponent } from './visualization-management-section/visualization-management-section.component';
 
 export const components: any[] = [
   VisualizationTitleSectionComponent,
@@ -15,5 +16,6 @@ export const components: any[] = [
   VisualizationTypesSectionComponent,
   VisualizationHeaderSectionComponent,
   VisualizationResizeSectionComponent,
-  VisualizationBodySectionComponent
+  VisualizationBodySectionComponent,
+  VisualizationManagementSectionComponent
 ];

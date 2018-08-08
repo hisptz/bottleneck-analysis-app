@@ -1,0 +1,26 @@
+<div [ngClass]="{'visualization-management-section': true, 'visualization-management-active': showManagementPanel}">
+  <div *ngIf="showManagementPanel" class="visualization-management-container" [@open]>
+    <div class="form-group">
+      <label for="">Name *</label>
+      <input type="text" class="form-control" placeholder="Favorite name" (change)="onInputChange($event, 'NAME')" [value]="name">
+    </div>
+    <div class="form-group">
+      <label for="">Description</label>
+      <textarea name="" class="form-control" id="" cols="30" rows="4" placeholder="Enter description" [value]="''"></textarea>
+    </div>
+  </div>
+
+  <div class="visualization-management-footer">
+    <button class="visualization-footer-btn visualization-save-btn" [disabled]="!name || name === ''" title="save this item">
+      <img src="assets/icons/save.png" alt="">
+      <span class="save-btn-text">Save</span>
+      <a title="manage" (click)="onToggleManagementPanel($event)">
+        <img [ngClass]="{'arrow-up': !showManagementPanel}" src="assets/icons/arrow-down.png" alt="">
+      </a>
+    </button>
+    <button class="visualization-footer-btn visualization-delete-btn" title="remove this item">
+      <img src="assets/icons/trash.png" alt="">
+      <span>Delete</span>
+    </button>
+  </div>
+</div>

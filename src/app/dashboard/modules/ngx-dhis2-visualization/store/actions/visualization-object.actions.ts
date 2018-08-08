@@ -33,7 +33,8 @@ export class InitializeVisualizationObjectAction implements Action {
     public name: string,
     public visualizationType: string,
     public visualizationLayers: VisualizationLayer[],
-    public index?: number
+    public currentUser: any,
+    public systemInfo: any
   ) {}
 }
 

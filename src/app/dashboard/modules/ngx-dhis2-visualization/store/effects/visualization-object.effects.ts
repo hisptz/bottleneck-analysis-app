@@ -27,8 +27,7 @@ import {
   AddVisualizationConfigurationAction,
   UpdateVisualizationConfigurationAction,
   AddVisualizationUiConfigurationAction,
-  SaveVisualizationFavoriteAction,
-  ReplaceVisualizationLayerIdAction
+  SaveVisualizationFavoriteAction
 } from '../actions';
 
 // reducers
@@ -63,6 +62,7 @@ import { getFavoritePayload } from '../../helpers/get-favorite-payload.helpers';
 import { UtilService } from '../../../../../services';
 import { DashboardObjectState } from '../../../../../store/reducers/dashboard.reducer';
 import { AddDashboardItemAction } from '../../../../../store';
+import { getDefaultVisualizationLayer } from '../../helpers/get-default-visualization-layer.helper';
 
 @Injectable()
 export class VisualizationObjectEffects {
@@ -145,12 +145,24 @@ export class VisualizationObjectEffects {
           // set visualization layers
           const visualizationLayers: any[] = _.filter(
             _.map(
-              action.visualizationLayers || [],
+              action.visualizationLayers ||
+                _.filter(
+                  [
+                    getDefaultVisualizationLayer(
+                      action.currentUser,
+                      action.systemInfo
+                    )
+                  ],
+                  visualizationLayer => visualizationLayer
+                ),
               (visualizationLayer: VisualizationLayer) => {
                 return visualizationLayer.analytics ||
                   visualizationLayer.dataSelections
                   ? {
                       ...visualizationLayer,
+                      id: initialVisualizationObject.favorite
+                        ? initialVisualizationObject.favorite.id
+                        : '',
                       analytics: visualizationLayer.analytics
                         ? getStandardizedAnalyticsObject(
                             visualizationLayer.analytics,
@@ -164,6 +176,7 @@ export class VisualizationObjectEffects {
             ),
             visualizationLayer => visualizationLayer
           );
+          console.log(visualizationLayers);
 
           // update visualization object with layers
           if (visualizationLayers.length > 0) {
@@ -194,10 +207,6 @@ export class VisualizationObjectEffects {
                 this.store.dispatch(
                   new AddVisualizationLayerAction({
                     ...visualizationLayer,
-                    id:
-                      visualizationLayer.id === ''
-                        ? `${action.id}_${action.index}`
-                        : visualizationLayer.id,
                     dataSelections: getSelectionDimensionsFromAnalytics(
                       visualizationLayer.analytics
                     )
@@ -214,22 +223,10 @@ export class VisualizationObjectEffects {
                 visualizationLayer => visualizationLayer.dataSelections
               )
             ) {
-              const newVisualizationLayers: Visualization[] = _.map(
-                visualizationLayers,
-                (visualizationLayer: Visualization) => {
-                  return {
-                    ...visualizationLayer,
-                    id:
-                      visualizationLayer.id === ''
-                        ? `${action.id}_${action.index}`
-                        : visualizationLayer.id
-                  };
-                }
-              );
               this.store.dispatch(
                 new UpdateVisualizationObjectAction(action.id, {
                   layers: _.map(
-                    newVisualizationLayers,
+                    visualizationLayers,
                     visualizationLayer => visualizationLayer.id
                   ),
                   progress: {
@@ -242,7 +239,7 @@ export class VisualizationObjectEffects {
               );
 
               // Add visualization Layers
-              _.each(newVisualizationLayers, visualizationLayer => {
+              _.each(visualizationLayers, visualizationLayer => {
                 this.store.dispatch(
                   new AddVisualizationLayerAction(visualizationLayer)
                 );
@@ -252,7 +249,7 @@ export class VisualizationObjectEffects {
               this.store.dispatch(
                 new LoadVisualizationAnalyticsAction(
                   action.id,
-                  newVisualizationLayers
+                  visualizationLayers
                 )
               );
             } else {

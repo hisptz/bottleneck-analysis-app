@@ -61,7 +61,8 @@
            (visualizationProgress$ | async).percent === 100 &&
            (visualizationProgress$ | async).statusCode === 200">
       <visualization-footer-section [type]="(visualizationConfig$ | async)?.currentType" [configId]="(visualizationConfig$ | async)?.id"
-        [hideTypeButtons]="(visualizationUiConfig$ | async)?.hideTypeButtons" (visualizationTypeChange)="onVisualizationTypeChange($event)"></visualization-footer-section>
+        [name]="(visualizationObject$ | async)?.name" [hideTypeButtons]="(visualizationUiConfig$ | async)?.hideTypeButtons"
+        (visualizationTypeChange)="onVisualizationTypeChange($event)"></visualization-footer-section>
     </div>
     <!-- end of visualization body footer block-->
   </div>

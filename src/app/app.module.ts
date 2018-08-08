@@ -79,8 +79,7 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
     /**
      * Development tool for debugging ngrx store operations
      */
-    // !environment.production ? StoreDevtoolsModule.instrument() : []
-    StoreDevtoolsModule.instrument()
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [{ provide: RouterStateSerializer, useClass: RouteSerializer }],
   bootstrap: [AppComponent]

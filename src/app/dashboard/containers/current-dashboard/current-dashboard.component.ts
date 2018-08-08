@@ -11,12 +11,11 @@ import {
   ToggleDashboardBookmarkAction,
   AddDashboardItemAction,
   AddNewUnsavedFavoriteAction,
-  getDefaultVisualizationLayers,
-  Go,
   SetCurrentVisualizationAction,
   GlobalFilterChangeAction
 } from '../../../store';
-import { User } from '../../../models';
+import { User, SystemInfo } from '../../../models';
+import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -28,7 +27,7 @@ export class CurrentDashboardComponent implements OnInit {
   currentDashboardVisualizations$: Observable<Array<string>>;
   currentDashboard$: Observable<Dashboard>;
   currentUser$: Observable<User>;
-  defaultVisualizationLayers$: Observable<any[]>;
+  systemInfo$: Observable<SystemInfo>;
 
   constructor(private store: Store<State>) {
     this.currentDashboardVisualizations$ = store.select(
@@ -37,11 +36,7 @@ export class CurrentDashboardComponent implements OnInit {
 
     this.currentDashboard$ = store.select(getCurrentDashboard);
     this.currentUser$ = store.select(getCurrentUser);
-
-    // default visualization layers
-    this.defaultVisualizationLayers$ = store.select(
-      getDefaultVisualizationLayers
-    );
+    this.systemInfo$ = store.select(getSystemInfo);
   }
 
   ngOnInit() {}

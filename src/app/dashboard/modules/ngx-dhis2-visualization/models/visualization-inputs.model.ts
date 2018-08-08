@@ -5,5 +5,6 @@ export interface VisualizationInputs {
   type: string;
   name: string;
   visualizationLayers: VisualizationLayer[];
-  index: number;
+  currentUser: any;
+  systemInfo: any;
 }

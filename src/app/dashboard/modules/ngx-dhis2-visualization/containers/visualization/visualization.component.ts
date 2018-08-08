@@ -45,12 +45,13 @@ import { take, switchMap, map } from 'rxjs/operators';
 })
 export class VisualizationComponent implements OnInit, OnChanges {
   @Input() id: string;
-  @Input() index: number;
   @Input() type: string;
   @Input() visualizationLayers: VisualizationLayer[];
   @Input() name: string;
   @Input() isNewFavorite: boolean;
   @Input() dashboardId: string;
+  @Input() currentUser: any;
+  @Input() systemInfo: any;
 
   @Output() toggleFullScreen: EventEmitter<any> = new EventEmitter<any>();
   private _visualizationInputs$: Subject<VisualizationInputs> = new Subject();
@@ -71,7 +72,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
             visualizationInputs.name,
             visualizationInputs.type,
             visualizationInputs.visualizationLayers,
-            visualizationInputs.index
+            visualizationInputs.currentUser,
+            visualizationInputs.systemInfo
           )
         );
 
@@ -101,7 +103,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
       type: this.type,
       visualizationLayers: this.visualizationLayers,
       name: this.name,
-      index: this.index
+      currentUser: this.currentUser,
+      systemInfo: this.systemInfo
     });
   }
 

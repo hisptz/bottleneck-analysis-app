@@ -12,18 +12,21 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./visualization-footer-section.css']
 })
 export class VisualizationFooterSectionComponent {
-
   @Input() type: string;
+  @Input() name: string;
+  @Input() description: string;
   @Input() configId: string;
   @Input() hideTypeButtons: boolean;
-  @Output() visualizationTypeChange: EventEmitter<{id: string, type: string}> = new EventEmitter<{id: string, type: string}>();
 
-  constructor() {
+  @Output()
+  visualizationTypeChange: EventEmitter<{
+    id: string;
+    type: string;
+  }> = new EventEmitter<{ id: string; type: string }>();
 
-  }
+  constructor() {}
 
   onVisualizationTypeChange(type: string) {
-    this.visualizationTypeChange.emit({id: this.configId, type: type});
+    this.visualizationTypeChange.emit({ id: this.configId, type: type });
   }
-
 }

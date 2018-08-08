@@ -1,5 +1,6 @@
 import { Visualization } from '../models';
 import * as _ from 'lodash';
+import { generateUid } from '../../../../helpers/generate-uid.helper';
 
 export function getStandardizedVisualizationObject(
   visualizationItem: any
@@ -49,8 +50,8 @@ function getVisualizationName(visualizationItem: any) {
               visualizationItem[_.camelCase(visualizationItem.type)]
             )
             ? visualizationItem[_.camelCase(visualizationItem.type)].displayName
-            : null
-          : null;
+            : 'Untitled'
+          : 'Untitled';
   }
 }
 
@@ -68,7 +69,7 @@ function getFavoriteDetails(visualizationItem: any) {
         requireAnalytics: true
       }
     : {
-        id: visualizationItem.id,
+        id: generateUid(),
         name: getVisualizationName(visualizationItem),
         type: _.camelCase(visualizationItem.type)
       };
