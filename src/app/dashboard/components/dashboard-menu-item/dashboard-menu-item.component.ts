@@ -13,12 +13,14 @@ import {
   BOOKMARK_PENDING_ICON,
   UN_BOOKMARKED_ICON
 } from '../../../icons';
+import { openAnimation } from '../../../animations';
 
 @Component({
   selector: 'app-dashboard-menu-item',
   templateUrl: './dashboard-menu-item.component.html',
   styleUrls: ['./dashboard-menu-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [openAnimation]
 })
 export class DashboardMenuItemComponent implements OnInit {
   @Input() dashboardMenuItem: Dashboard;

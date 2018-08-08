@@ -37,12 +37,14 @@ import {
 import { UpdateVisualizationConfigurationAction } from '../../store/actions/visualization-configuration.actions';
 import { LoadVisualizationAnalyticsAction } from '../../store/actions/visualization-layer.actions';
 import { take, switchMap, map, distinctUntilChanged } from 'rxjs/operators';
+import { openAnimation } from '../../../../../animations';
 
 @Component({
   selector: 'ngx-dhis2-visualization',
   templateUrl: './visualization.component.html',
   styleUrls: ['./visualization.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [openAnimation]
 })
 export class VisualizationComponent implements OnInit, OnChanges {
   @Input() id: string;
@@ -182,8 +184,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
         .subscribe((visualizationUiConfig: VisualizationUiConfig) => {
           this.store.dispatch(
             new ToggleVisualizationFocusAction(visualizationUiConfig.id, {
-              hideFooter: !visualizationUiConfig.hideFooter,
-              hideResizeButtons: !visualizationUiConfig.hideResizeButtons
+              hideFooter: !focused,
+              hideResizeButtons: !focused
             })
           );
           this.cardFocused = focused;

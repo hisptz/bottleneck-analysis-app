@@ -1,4 +1,4 @@
-<div [ngClass]="{
+<div [@open] [ngClass]="{
  'visualization-card': true,
  'visualization-card-full-screen': (visualizationUiConfig$ | async)?.fullScreen
  }" (mouseenter)="onToggleVisualizationCardFocus($event, true)" (mouseleave)="onToggleVisualizationCardFocus($event, false)">
