@@ -37,6 +37,7 @@ export function visualizationUiConfigurationReducer(
         state
       );
     case VisualizationUiConfigurationActionTypes.SHOW_OR_HIDE_VISUALIZATION_BODY:
+    case VisualizationUiConfigurationActionTypes.TOGGLE_VISUALIZATION_FOCUS:
       return visualizationUiConfigurationAdapter.updateOne(
         { id: action.id, changes: action.changes },
         state

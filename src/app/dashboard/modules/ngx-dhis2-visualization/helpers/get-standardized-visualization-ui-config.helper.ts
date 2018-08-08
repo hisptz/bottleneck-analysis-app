@@ -16,9 +16,12 @@ export function getStandardizedVisualizationUiConfig(
     showBody: true,
     fullScreen: false,
     showFilters: !isNonVisualizable,
+    hideFooter: true,
+    hideHeader: isNonVisualizable,
+    hideManagementBlock: isNonVisualizable,
     hideTypeButtons: isNonVisualizable,
     showInterpretionBlock: !isNonVisualizable,
-    showResizeButton: true,
+    hideResizeButtons: true,
     showTitleBlock: false
   };
 }

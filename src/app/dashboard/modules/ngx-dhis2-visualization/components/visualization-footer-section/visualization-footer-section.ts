@@ -17,6 +17,7 @@ export class VisualizationFooterSectionComponent {
   @Input() description: string;
   @Input() configId: string;
   @Input() hideTypeButtons: boolean;
+  @Input() hideManagementBlock: boolean;
 
   @Output()
   visualizationTypeChange: EventEmitter<{
@@ -24,7 +25,9 @@ export class VisualizationFooterSectionComponent {
     type: string;
   }> = new EventEmitter<{ id: string; type: string }>();
 
-  constructor() {}
+  constructor() {
+    this.hideManagementBlock = this.hideTypeButtons = true;
+  }
 
   onVisualizationTypeChange(type: string) {
     this.visualizationTypeChange.emit({ id: this.configId, type: type });

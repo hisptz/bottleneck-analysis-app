@@ -3,19 +3,10 @@
     <ngx-dhis2-selection-filters [dataSelections]="visualizationLayer?.dataSelections" [layout]="visualizationLayer?.layout"
       (filterUpdate)="onFilterUpdateAction($event)">
     </ngx-dhis2-selection-filters>
-    <div class="visualization-favorite">
-      <input class="visualization-name-input" *ngIf="showNameInput" type="text" [(ngModel)]="name" placeholder="Enter favorite name">
-      <button (click)="onSaveFavorite($event)" *ngIf="showNameInput" class="visualization-favorite-btn">
-        <img src="assets/icons/tick.png" alt="">
-      </button>
-      <button (click)="onToggleNameInput($event)" class="visualization-favorite-btn">
-        <img [src]="showNameInput ? 'assets/icons/close.png': 'assets/icons/edit.png'" alt="">
-      </button>
-    </div>
     &nbsp;
   </div>
   <div *ngIf="!showFilters"></div>
-  <div class="visualization-resize">
-    <app-visualization-resize-section [id]="id" [fullScreen]="fullScreen" [showResizeButton]="showResizeButton" (toggleFullScreen)="onFullScreenAction($event)"></app-visualization-resize-section>
+  <div class="visualization-resize" *ngIf="!hideResizeButtons">
+    <app-visualization-resize-section [id]="id" [fullScreen]="fullScreen" (toggleFullScreen)="onFullScreenAction($event)"></app-visualization-resize-section>
   </div>
 </div>

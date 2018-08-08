@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { VisualizationInputs } from '../../models/visualization-inputs.model';
-import { Observable, Subject, forkJoin, pipe } from 'rxjs';
+import { Observable, Subject, forkJoin, pipe, of } from 'rxjs';
 import { Visualization } from '../../models/visualization.model';
 import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
 import { VisualizationProgress } from '../../models/visualization-progress.model';
@@ -31,11 +31,12 @@ import { getCurrentVisualizationUiConfig } from '../../store/selectors/visualiza
 import { getCurrentVisualizationConfig } from '../../store/selectors/visualization-configuration.selectors';
 import {
   ShowOrHideVisualizationBodyAction,
-  ToggleFullScreenAction
+  ToggleFullScreenAction,
+  ToggleVisualizationFocusAction
 } from '../../store/actions/visualization-ui-configuration.actions';
 import { UpdateVisualizationConfigurationAction } from '../../store/actions/visualization-configuration.actions';
 import { LoadVisualizationAnalyticsAction } from '../../store/actions/visualization-layer.actions';
-import { take, switchMap, map } from 'rxjs/operators';
+import { take, switchMap, map, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-dhis2-visualization',
@@ -52,6 +53,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
   @Input() dashboardId: string;
   @Input() currentUser: any;
   @Input() systemInfo: any;
+  cardFocused: boolean;
 
   @Output() toggleFullScreen: EventEmitter<any> = new EventEmitter<any>();
   private _visualizationInputs$: Subject<VisualizationInputs> = new Subject();
@@ -62,6 +64,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
   visualizationConfig$: Observable<VisualizationConfig>;
 
   constructor(private store: Store<VisualizationState>) {
+    this.cardFocused = false;
     this.type = 'TABLE';
     this._visualizationInputs$.asObservable().subscribe(visualizationInputs => {
       if (visualizationInputs) {
@@ -169,5 +172,22 @@ export class VisualizationComponent implements OnInit, OnChanges {
           )
         );
       });
+  }
+
+  onToggleVisualizationCardFocus(e, focused: boolean) {
+    e.stopPropagation();
+    if (this.cardFocused !== focused) {
+      this.visualizationUiConfig$
+        .pipe(take(1))
+        .subscribe((visualizationUiConfig: VisualizationUiConfig) => {
+          this.store.dispatch(
+            new ToggleVisualizationFocusAction(visualizationUiConfig.id, {
+              hideFooter: !visualizationUiConfig.hideFooter,
+              hideResizeButtons: !visualizationUiConfig.hideResizeButtons
+            })
+          );
+          this.cardFocused = focused;
+        });
+    }
   }
 }

@@ -14,7 +14,7 @@ export class VisualizationHeaderSectionComponent {
   @Input() isNew: string;
   @Input() uiConfigId: string;
   @Input() showFilters: boolean;
-  @Input() showResizeButton: boolean;
+  @Input() hideResizeButtons: boolean;
   @Input() fullScreen: boolean;
   @Input() visualizationLayer: VisualizationLayer;
 

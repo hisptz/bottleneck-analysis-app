@@ -2,7 +2,7 @@
   <div *ngIf="!hideTypeButtons">
     <app-visualization-types-section [currentVisualization]="type" (visualizationTypeChange)="onVisualizationTypeChange($event)"></app-visualization-types-section>
   </div>
-  <div class="visualization-footer-right">
+  <div class="visualization-footer-right" *ngIf="!hideManagementBlock">
     <app-visualization-management-section [name]="name"></app-visualization-management-section>
   </div>
 </div>

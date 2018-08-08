@@ -1,7 +1,7 @@
 <div [ngClass]="{
  'visualization-card': true,
  'visualization-card-full-screen': (visualizationUiConfig$ | async)?.fullScreen
- }">
+ }" (mouseenter)="onToggleVisualizationCardFocus($event, true)" (mouseleave)="onToggleVisualizationCardFocus($event, false)">
   <!--visualization title block-->
   <div class="visualization-title-block" *ngIf="(visualizationUiConfig$ | async)?.showTitleBlock">
     <visualization-title-section [id]="id" [uiConfigId]="(visualizationUiConfig$ | async)?.id" [showBody]="(visualizationUiConfig$ | async)?.showBody"
@@ -13,9 +13,9 @@
   <!--visualization body block-->
   <div class="visualization-body-block" [style.height]="(visualizationUiConfig$ | async)?.height" *ngIf="(visualizationUiConfig$ | async)?.showBody">
     <!--visualization body header-->
-    <div class="visualization-body-header-block">
+    <div class="visualization-body-header-block" *ngIf="!(visualizationUiConfig$ | async)?.hideHeader">
       <visualization-header-section [id]="id" [uiConfigId]="(visualizationUiConfig$ | async)?.id" [showFilters]="(visualizationUiConfig$ | async)?.showFilters"
-        [showResizeButton]="(visualizationUiConfig$ | async)?.showResizeButton" [fullScreen]="(visualizationUiConfig$ | async)?.fullScreen"
+        [hideResizeButtons]="(visualizationUiConfig$ | async)?.hideResizeButtons" [fullScreen]="(visualizationUiConfig$ | async)?.fullScreen"
         [isNew]="(visualizationObject$ | async)?.isNew" [visualizationLayer]="(visualizationLayers$ | async) ? (visualizationLayers$ | async)[0] : null"
         (fullScreenAction)="onFullScreenAction($event)" (visualizationLayerUpdate)="onVisualizationLayerUpdate($event)" (savefavorite)="onSaveFavorite($event)"></visualization-header-section>
     </div>
@@ -59,10 +59,10 @@
     <!--visualization body footer block-->
     <div class="visualization-body-footer-block" *ngIf="(visualizationProgress$ | async) &&
            (visualizationProgress$ | async).percent === 100 &&
-           (visualizationProgress$ | async).statusCode === 200">
+           (visualizationProgress$ | async).statusCode === 200 && !(visualizationUiConfig$ | async)?.hideFooter">
       <visualization-footer-section [type]="(visualizationConfig$ | async)?.currentType" [configId]="(visualizationConfig$ | async)?.id"
         [name]="(visualizationObject$ | async)?.name" [hideTypeButtons]="(visualizationUiConfig$ | async)?.hideTypeButtons"
-        (visualizationTypeChange)="onVisualizationTypeChange($event)"></visualization-footer-section>
+        [hideManagementBlock]="(visualizationUiConfig$ | async)?.hideManagementBlock" (visualizationTypeChange)="onVisualizationTypeChange($event)"></visualization-footer-section>
     </div>
     <!-- end of visualization body footer block-->
   </div>

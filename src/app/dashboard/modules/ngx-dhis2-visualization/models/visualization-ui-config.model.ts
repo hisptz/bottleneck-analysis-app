@@ -6,11 +6,12 @@ export interface VisualizationUiConfig {
   hideFooter?: boolean;
   showFilters?: boolean;
   hideTypeButtons?: boolean;
+  hideManagementBlock?: boolean;
   showBody: boolean;
   height: string;
   width: string;
   fullScreen: boolean;
   showInterpretionBlock: boolean;
-  showResizeButton: boolean;
+  hideResizeButtons: boolean;
   showTitleBlock: boolean;
 }
