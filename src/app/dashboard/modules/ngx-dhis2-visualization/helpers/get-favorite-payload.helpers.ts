@@ -25,7 +25,7 @@ export function getFavoritePayload(
             'layout'
           );
           return {
-            ...visualizationLayer.config,
+            ...getFavoriteOptionsByType(visualizationLayer.config, currentType),
             id: visualizationLayer.id,
             columns: getSanitizedDataSelections(
               groupedDataSelections['columns']
@@ -72,4 +72,47 @@ function getSanitizedDataSelections(dataSelections: any[]) {
       })
     };
   });
+}
+
+function getFavoriteOptionsByType(favoriteDetails: any, favoriteType: string) {
+  switch (favoriteType) {
+    case 'CHART': {
+      return {
+        type: favoriteDetails.type || 'COLUMN',
+        name: favoriteDetails.name || 'Untitled',
+        title: favoriteDetails.title || null,
+        description: favoriteDetails.description || '',
+        prototype: favoriteDetails.prototype || {},
+        percentStackedValues: favoriteDetails.percentStackedValues || false,
+        cumulativeValues: favoriteDetails.cumulativeValues || false,
+        hideEmptyRowItems: favoriteDetails.hideEmptyRowItems || 'NONE',
+        regressionType: favoriteDetails.regressionType || 'NONE',
+        completedOnly: favoriteDetails.completedOnly || false,
+        targetLineValue: favoriteDetails.targetLineValue || null,
+        baseLineValue: favoriteDetails.baseLineValue || null,
+        sortOrder: favoriteDetails.sortOrder || 0,
+        aggregationType: favoriteDetails.aggregationType || 'DEFAULT',
+        rangeAxisMaxValue: favoriteDetails.rangeAxisMaxValue || null,
+        rangeAxisMinValue: favoriteDetails.rangeAxisMinValue || null,
+        rangeAxisSteps: favoriteDetails.rangeAxisSteps || null,
+        rangeAxisDecimals: favoriteDetails.rangeAxisDecimals || null,
+        noSpaceBetweenColumns: favoriteDetails.noSpaceBetweenColumns || false,
+        hideLegend: favoriteDetails.hideLegend || false,
+        hideTitle: favoriteDetails.hideTitle || false,
+        hideSubtitle: favoriteDetails.hideSubtitle || false,
+        subtitle: favoriteDetails.subtitle || null,
+        reportParams: favoriteDetails.reportParams || {},
+        showData: favoriteDetails.showData || true,
+        targetLineLabel: favoriteDetails.targetLineLabel || null,
+        baseLineLabel: favoriteDetails.baseLineLabel || null,
+        domainAxisLabel: favoriteDetails.domainAxisLabel || null,
+        rangeAxisLabel: favoriteDetails.rangeAxisLabel || null
+      };
+    }
+    case 'TABLE': {
+      return favoriteDetails;
+    }
+    default:
+      return {};
+  }
 }
