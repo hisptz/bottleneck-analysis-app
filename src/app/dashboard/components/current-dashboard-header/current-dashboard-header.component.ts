@@ -11,6 +11,7 @@ import { Dashboard } from '../../models';
 import { Observable } from 'rxjs';
 import { User } from '../../../models';
 import { SelectionFilterConfig } from '../../modules/ngx-dhis2-data-selection-filter/models/selected-filter-config.model';
+import { generateUid } from '../../../helpers/generate-uid.helper';
 
 @Component({
   selector: 'app-current-dashboard-header',
@@ -19,8 +20,10 @@ import { SelectionFilterConfig } from '../../modules/ngx-dhis2-data-selection-fi
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrentDashboardHeaderComponent implements OnInit {
-  @Input() currentDashboard: Dashboard;
-  @Input() currentUser: User;
+  @Input()
+  currentDashboard: Dashboard;
+  @Input()
+  currentUser: User;
 
   selectionFilterConfig: SelectionFilterConfig;
 
@@ -51,7 +54,8 @@ export class CurrentDashboardHeaderComponent implements OnInit {
     string
   >();
 
-  @Output() globalFilterChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  globalFilterChange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {
     this.selectionFilterConfig = {
@@ -78,7 +82,7 @@ export class CurrentDashboardHeaderComponent implements OnInit {
     this.addDashboardItem.emit({
       dashboardId: this.currentDashboard.id,
       dashboardItem: {
-        id: '',
+        id: generateUid(),
         type: favorite.dashboardTypeDetails.type,
         [_.camelCase(favorite.dashboardTypeDetails.type)]: favorite
           .dashboardTypeDetails.isArray

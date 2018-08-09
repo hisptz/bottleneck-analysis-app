@@ -122,14 +122,14 @@ export function dashboardObjectReducer(
       );
     }
 
-    case DashboardActionTypes.AddDashboardItem: {
+    case DashboardActionTypes.ManageDashboardItem: {
       return dashboardObjectAdapter.updateOne(
         { id: action.dashboardId, changes: { addingItem: true } },
         state
       );
     }
 
-    case DashboardActionTypes.AddDashboardItemSuccess: {
+    case DashboardActionTypes.ManageDashboardItemSuccess: {
       return dashboardObjectAdapter.updateOne(
         { id: action.dashboardId, changes: { addingItem: false } },
         state

@@ -65,7 +65,7 @@ import {
 import { getFavoritePayload } from '../../helpers/get-favorite-payload.helpers';
 import { UtilService } from '../../../../../services';
 import { DashboardObjectState } from '../../../../../store/reducers/dashboard.reducer';
-import { AddDashboardItemAction } from '../../../../../store';
+import { ManageDashboardItemAction } from '../../../../../store';
 import { getDefaultVisualizationLayer } from '../../helpers/get-default-visualization-layer.helper';
 
 @Injectable()
@@ -491,22 +491,22 @@ export class VisualizationObjectEffects {
 
             favoritePromise.subscribe(favoriteResult => {
               // Save favorite as dashboard item
-              if (visualizationObject.isNew) {
-                this.dashboardStore.dispatch(
-                  new AddDashboardItemAction(
-                    action.dashboardId,
-                    {
-                      id: action.id,
-                      type: favoriteDetails.favoriteType,
-                      [_.camelCase(favoriteDetails.favoriteType)]: {
-                        id: favoriteResult.id,
-                        displayName: favoriteResult.name
-                      }
-                    },
-                    true
-                  )
-                );
-              }
+
+              this.dashboardStore.dispatch(
+                new ManageDashboardItemAction(
+                  action.dashboardId,
+                  {
+                    id: action.id,
+                    type: favoriteDetails.favoriteType,
+                    [_.camelCase(favoriteDetails.favoriteType)]: {
+                      id: favoriteResult.id,
+                      displayName: favoriteResult.name
+                    }
+                  },
+                  visualizationObject.isNew ? 'ADD' : 'UPDATE',
+                  true
+                )
+              );
 
               // Update visualization object with new favorite
               this.store.dispatch(

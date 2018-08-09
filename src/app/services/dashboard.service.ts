@@ -83,10 +83,11 @@ export class DashboardService {
         );
   }
 
-  addDashboardItem(
+  manageDashboardItem(
     dashboardId: string,
     dashboardItem: any,
-    dashboardSettings: DashboardSettings
+    dashboardSettings: DashboardSettings,
+    action: string
   ) {
     // TODO find best way for this as this approach is deprecated
     const dashboardLoadPromise =
@@ -101,10 +102,19 @@ export class DashboardService {
 
     return dashboardLoadPromise.pipe(
       switchMap((dashboard: any) => {
-        const dashboardItemToAdd = {
+        if (action === 'ADD') {
+        }
+        const newDashboardItem = {
           ...dashboardItem,
           id: dashboardItem.id || generateUid()
         };
+
+        const newDashboardItems = this._manageDasboardItems(
+          dashboard.dashbboardItems || [],
+          newDashboardItem,
+          action
+        );
+
         const dashboardUpdateUrl =
           dashboardSettings && dashboardSettings.useDataStoreAsSource
             ? `dataStore/dashboards/${dashboardId}`
@@ -112,15 +122,52 @@ export class DashboardService {
         return this.httpClient
           .put(dashboardUpdateUrl, {
             ...dashboard,
-            dashboardItems: [dashboardItemToAdd, ...dashboard.dashboardItems]
+            dashboardItems: newDashboardItems
           })
           .pipe(
             map(() => {
-              return { dashboardId, dashboardItem: dashboardItemToAdd };
+              return { dashboardId, dashboardItem: newDashboardItem, action };
             })
           );
       })
     );
+  }
+
+  private _manageDasboardItems(
+    dashboardItems: any[],
+    incomingDashboardItem: any,
+    action: string
+  ) {
+    switch (action) {
+      case 'ADD': {
+        return [incomingDashboardItem, ...dashboardItems];
+      }
+      case 'UPDATE': {
+        const dashboardItemIndex = dashboardItems.indexOf(
+          incomingDashboardItem
+        );
+        return dashboardItemIndex !== -1
+          ? [
+              ..._.slice(dashboardItems, 0, dashboardItemIndex),
+              incomingDashboardItem,
+              ..._.slice(dashboardItems, dashboardItemIndex + 1)
+            ]
+          : dashboardItems;
+      }
+      case 'REMOVE': {
+        const dashboardItemIndex = dashboardItems.indexOf(
+          incomingDashboardItem
+        );
+        return dashboardItemIndex !== -1
+          ? [
+              ..._.slice(dashboardItems, 0, dashboardItemIndex),
+              ..._.slice(dashboardItems, dashboardItemIndex + 1)
+            ]
+          : dashboardItems;
+      }
+      default:
+        return dashboardItems;
+    }
   }
 
   private _bookmarkDashboardByApi(dashboardId: string, bookmarked: boolean) {

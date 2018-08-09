@@ -10,9 +10,9 @@ export enum DashboardActionTypes {
   LoadDashboardsSuccess = '[Dashboard] Load Dashboards success',
   AddDashboard = '[Dashboard] Add Dashboard',
   CreateDashboard = '[Dashboard] Create Dashboard',
-  AddDashboardItem = '[Dashboard] Add Dashboard item',
-  AddDashboardItemSuccess = '[Dashboard] Add Dashboard item success',
-  AddDashboardItemFail = '[Dashboard] Add Dashboard item fail',
+  ManageDashboardItem = '[Dashboard] Add Dashboard item',
+  ManageDashboardItemSuccess = '[Dashboard] Add Dashboard item success',
+  ManageDashboardItemFail = '[Dashboard] Add Dashboard item fail',
   UpsertDashboard = '[Dashboard] Upsert Dashboard',
   AddDashboards = '[Dashboard] Add Dashboards',
   UpsertDashboards = '[Dashboard] Upsert Dashboards',
@@ -146,22 +146,23 @@ export class ToggleDashboardBookmarkFailAction implements Action {
   ) {}
 }
 
-export class AddDashboardItemAction implements Action {
-  readonly type = DashboardActionTypes.AddDashboardItem;
+export class ManageDashboardItemAction implements Action {
+  readonly type = DashboardActionTypes.ManageDashboardItem;
   constructor(
     public dashboardId: string,
     public dashboardItem: any,
+    public action: string,
     public skipStoreUpdate?: boolean
   ) {}
 }
 
-export class AddDashboardItemSuccessAction implements Action {
-  readonly type = DashboardActionTypes.AddDashboardItemSuccess;
+export class ManageDashboardItemSuccessAction implements Action {
+  readonly type = DashboardActionTypes.ManageDashboardItemSuccess;
   constructor(public dashboardId: string, public dashboardItem: any) {}
 }
 
-export class AddDashboardItemFailAction implements Action {
-  readonly type = DashboardActionTypes.AddDashboardItemFail;
+export class ManageDashboardItemFailAction implements Action {
+  readonly type = DashboardActionTypes.ManageDashboardItemFail;
   constructor(public dashboardId: string, public error: ErrorMessage) {}
 }
 
@@ -176,9 +177,9 @@ export class GlobalFilterChangeAction implements Action {
 }
 export type DashboardActions =
   | LoadDashboardsAction
-  | AddDashboardItemAction
-  | AddDashboardItemSuccessAction
-  | AddDashboardItemFailAction
+  | ManageDashboardItemAction
+  | ManageDashboardItemSuccessAction
+  | ManageDashboardItemFailAction
   | LoadDashboardsFailAction
   | LoadDashboardsSuccessAction
   | CreateDashboardAction

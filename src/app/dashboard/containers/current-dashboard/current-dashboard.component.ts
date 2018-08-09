@@ -9,7 +9,7 @@ import {
   getCurrentDashboardVisualizations,
   getCurrentDashboard,
   ToggleDashboardBookmarkAction,
-  AddDashboardItemAction,
+  ManageDashboardItemAction,
   AddNewUnsavedFavoriteAction,
   SetCurrentVisualizationAction,
   GlobalFilterChangeAction
@@ -63,9 +63,10 @@ export class CurrentDashboardComponent implements OnInit {
     dashboardItem: any;
   }) {
     this.store.dispatch(
-      new AddDashboardItemAction(
+      new ManageDashboardItemAction(
         dashboardFavoriteDetails.dashboardId,
-        dashboardFavoriteDetails.dashboardItem
+        dashboardFavoriteDetails.dashboardItem,
+        'ADD'
       )
     );
   }

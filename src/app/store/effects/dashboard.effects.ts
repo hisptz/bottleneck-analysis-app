@@ -31,9 +31,9 @@ import {
   ToggleDashboardBookmarkAction,
   ToggleDashboardBookmarkSuccessAction,
   ToggleDashboardBookmarkFailAction,
-  AddDashboardItemAction,
-  AddDashboardItemSuccessAction,
-  AddDashboardItemFailAction,
+  ManageDashboardItemAction,
+  ManageDashboardItemSuccessAction,
+  ManageDashboardItemFailAction,
   CreateDashboardAction,
   AddDashboardAction,
   UpdateDashboardAction,
@@ -223,23 +223,24 @@ export class DashboardEffects {
 
   @Effect({ dispatch: false })
   addDashboardItem$: Observable<any> = this.actions$.pipe(
-    ofType(DashboardActionTypes.AddDashboardItem),
+    ofType(DashboardActionTypes.ManageDashboardItem),
     withLatestFrom(this.store.select(getDashboardSettings)),
     tap(
       ([action, dashboardSettings]: [
-        AddDashboardItemAction,
+        ManageDashboardItemAction,
         DashboardSettings
-      ]) =>
+      ]) => {
         this.dashboardService
-          .addDashboardItem(
+          .manageDashboardItem(
             action.dashboardId,
             action.dashboardItem,
-            dashboardSettings
+            dashboardSettings,
+            'ADD'
           )
           .subscribe(
             (dashboardResponse: any) => {
               this.store.dispatch(
-                new AddDashboardItemSuccessAction(
+                new ManageDashboardItemSuccessAction(
                   dashboardResponse.dashboardId,
                   dashboardResponse.dashboardItem
                 )
@@ -275,9 +276,10 @@ export class DashboardEffects {
               }
             },
             error => {
-              this.store.dispatch(new AddDashboardItemFailAction('', error));
+              this.store.dispatch(new ManageDashboardItemFailAction('', error));
             }
-          )
+          );
+      }
     )
   );
 
