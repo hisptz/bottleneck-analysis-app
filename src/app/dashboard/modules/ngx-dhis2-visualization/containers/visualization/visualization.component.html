@@ -62,7 +62,8 @@
            (visualizationProgress$ | async).statusCode === 200 && !(visualizationUiConfig$ | async)?.hideFooter">
       <visualization-footer-section [type]="(visualizationConfig$ | async)?.currentType" [configId]="(visualizationConfig$ | async)?.id"
         [name]="(visualizationObject$ | async)?.name" [hideTypeButtons]="(visualizationUiConfig$ | async)?.hideTypeButtons"
-        [hideManagementBlock]="(visualizationUiConfig$ | async)?.hideManagementBlock" (visualizationTypeChange)="onVisualizationTypeChange($event)"></visualization-footer-section>
+        [hideManagementBlock]="(visualizationUiConfig$ | async)?.hideManagementBlock" (saveVisualization)="onSaveFavorite($event)"
+        (visualizationTypeChange)="onVisualizationTypeChange($event)"></visualization-footer-section>
     </div>
     <!-- end of visualization body footer block-->
   </div>

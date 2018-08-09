@@ -47,17 +47,26 @@ import { openAnimation } from '../../../../../animations';
   animations: [openAnimation]
 })
 export class VisualizationComponent implements OnInit, OnChanges {
-  @Input() id: string;
-  @Input() type: string;
-  @Input() visualizationLayers: VisualizationLayer[];
-  @Input() name: string;
-  @Input() isNewFavorite: boolean;
-  @Input() dashboardId: string;
-  @Input() currentUser: any;
-  @Input() systemInfo: any;
+  @Input()
+  id: string;
+  @Input()
+  type: string;
+  @Input()
+  visualizationLayers: VisualizationLayer[];
+  @Input()
+  name: string;
+  @Input()
+  isNewFavorite: boolean;
+  @Input()
+  dashboardId: string;
+  @Input()
+  currentUser: any;
+  @Input()
+  systemInfo: any;
   cardFocused: boolean;
 
-  @Output() toggleFullScreen: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  toggleFullScreen: EventEmitter<any> = new EventEmitter<any>();
   private _visualizationInputs$: Subject<VisualizationInputs> = new Subject();
   visualizationObject$: Observable<Visualization>;
   visualizationLayers$: Observable<VisualizationLayer[]>;
@@ -67,7 +76,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
 
   constructor(private store: Store<VisualizationState>) {
     this.cardFocused = false;
-    this.type = 'TABLE';
+    this.type = 'REPORT_TABLE';
     this._visualizationInputs$.asObservable().subscribe(visualizationInputs => {
       if (visualizationInputs) {
         // initialize visualization object
@@ -151,29 +160,13 @@ export class VisualizationComponent implements OnInit, OnChanges {
   }
 
   onSaveFavorite(favoriteDetails) {
-    this.visualizationConfig$
-      .pipe(
-        switchMap((config: any) =>
-          this.visualizationLayers$.pipe(
-            map((layers: any[]) => {
-              return { config, layers };
-            })
-          )
-        ),
-        take(1)
+    this.store.dispatch(
+      new SaveVisualizationFavoriteAction(
+        this.id,
+        favoriteDetails,
+        this.dashboardId
       )
-      .subscribe((visualizationDetails: any) => {
-        this.store.dispatch(
-          new SaveVisualizationFavoriteAction(
-            this.id,
-            favoriteDetails.name,
-            favoriteDetails.isNew,
-            visualizationDetails.config,
-            visualizationDetails.layers,
-            this.dashboardId
-          )
-        );
-      });
+    );
   }
 
   onToggleVisualizationCardFocus(e, focused: boolean) {

@@ -27,7 +27,8 @@ import {
   AddVisualizationConfigurationAction,
   UpdateVisualizationConfigurationAction,
   AddVisualizationUiConfigurationAction,
-  SaveVisualizationFavoriteAction
+  SaveVisualizationFavoriteAction,
+  UpdateVisualizationLayersAction
 } from '../actions';
 
 // reducers
@@ -53,7 +54,10 @@ import {
   getSelectionDimensionsFromAnalytics
 } from '../../helpers';
 import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
-import { getVisualizationObjectById } from '../selectors';
+import {
+  getVisualizationObjectById,
+  getCombinedVisualizationObjectById
+} from '../selectors';
 import {
   getCurrentVisualizationObjectLayers,
   getCurrentVisualizationConfig
@@ -176,7 +180,6 @@ export class VisualizationObjectEffects {
             ),
             visualizationLayer => visualizationLayer
           );
-          console.log(visualizationLayers);
 
           // update visualization object with layers
           if (visualizationLayers.length > 0) {
@@ -341,6 +344,7 @@ export class VisualizationObjectEffects {
                   analytics: null,
                   config: {
                     ...favoriteLayer,
+                    type: favoriteLayer.type ? favoriteLayer.type : 'COLUMN',
                     spatialSupport,
                     visualizationType: action.visualization.type
                   }
@@ -436,58 +440,70 @@ export class VisualizationObjectEffects {
   saveVisualizationFavorite$: Observable<any> = this.actions$.pipe(
     ofType(VisualizationObjectActionTypes.SaveVisualizationFavorite),
     tap((action: SaveVisualizationFavoriteAction) => {
-      const dataSelections: any[] =
-        action.layers && action.layers.length > 0
-          ? action.layers[0].dataSelections
-          : [];
-      const favoriteDetails = getFavoritePayload(
-        action.name,
-        dataSelections,
-        action.config.currentType
-      );
+      this.store
+        .select(getCombinedVisualizationObjectById(action.id))
+        .pipe(take(1))
+        .subscribe((visualizationObject: any) => {
+          // Update visualization object
+          this.store.dispatch(
+            new UpdateVisualizationObjectAction(action.id, {
+              name: action.favoriteDetails.name,
+              description: action.favoriteDetails.description,
+              favorite: {
+                ...visualizationObject.favorite,
+                name: action.favoriteDetails.name
+              }
+            })
+          );
 
-      if (favoriteDetails) {
-        const favoritePromise = action.isNew
-          ? this.utilService.getUniqueId().pipe(
-              switchMap(favoriteId =>
-                this.favoriteService.create(favoriteDetails.url, {
-                  ...favoriteDetails.favorite,
-                  id: favoriteId
-                })
-              )
-            )
-          : this.favoriteService.update(favoriteDetails.url, {
-              ...favoriteDetails.favorite,
-              id: action.layers[0].id
-            });
-
-        favoritePromise.subscribe(favoriteResult => {
-          this.store
-            .select(getVisualizationObjectById(action.id))
-            .pipe(take(1))
-            .subscribe((visualization: Visualization) => {
-              const newVisualization = {
-                ...visualization,
-                favorite: {
-                  id: favoriteResult.id,
-                  name: favoriteResult.name,
-                  type: action.config.currentType.toLowerCase(),
-                  requireAnalytics: true
-                },
-                layers: [favoriteResult.id]
+          // Get updated visualization layer based on new changes
+          const visualizationLayers: VisualizationLayer[] = _.map(
+            visualizationObject.layers,
+            visualizationLayer => {
+              return {
+                ...visualizationLayer,
+                config: {
+                  ...(visualizationLayer.config || {}),
+                  ...action.favoriteDetails
+                }
               };
+            }
+          );
 
+          // Update visualization layers in the store
+          _.each(visualizationLayers, visualizationLayer => {
+            this.store.dispatch(
+              new UpdateVisualizationLayerAction(
+                visualizationLayer.id,
+                visualizationLayer
+              )
+            );
+          });
+
+          // Get favorite payload details
+          const favoriteDetails = getFavoritePayload(
+            visualizationLayers,
+            visualizationObject.type,
+            visualizationObject.config.currentType
+          );
+
+          if (favoriteDetails) {
+            const favoritePromise =
+              visualizationObject.isNew || favoriteDetails.hasDifferentType
+                ? this.favoriteService.create(
+                    favoriteDetails.url,
+                    favoriteDetails.favorite
+                  )
+                : this.favoriteService.update(
+                    favoriteDetails.url,
+                    favoriteDetails.favorite
+                  );
+
+            favoritePromise.subscribe(favoriteResult => {
               // Update visualization object with new favorite
               this.store.dispatch(
                 new UpdateVisualizationObjectAction(action.id, {
-                  ...newVisualization
-                })
-              );
-
-              // Update visualization layer
-              this.store.dispatch(
-                new UpdateVisualizationLayerAction(action.layers[0].id, {
-                  id: favoriteResult.id
+                  isNew: false
                 })
               );
 
@@ -496,7 +512,7 @@ export class VisualizationObjectEffects {
                 new AddDashboardItemAction(
                   action.dashboardId,
                   {
-                    id: visualization.id,
+                    id: action.id,
                     type: favoriteDetails.favoriteType,
                     [_.camelCase(favoriteDetails.favoriteType)]: {
                       id: favoriteResult.id,
@@ -507,8 +523,8 @@ export class VisualizationObjectEffects {
                 )
               );
             });
+          }
         });
-      }
     })
   );
 

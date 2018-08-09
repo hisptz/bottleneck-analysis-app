@@ -27,11 +27,17 @@ export class VisualizationFooterSectionComponent {
     type: string;
   }> = new EventEmitter<{ id: string; type: string }>();
 
+  @Output() saveVisualization: EventEmitter<any> = new EventEmitter<any>();
+
   constructor() {
     this.hideManagementBlock = this.hideTypeButtons = true;
   }
 
   onVisualizationTypeChange(type: string) {
     this.visualizationTypeChange.emit({ id: this.configId, type: type });
+  }
+
+  onVisualizationSave(visualizationDetails: any) {
+    this.saveVisualization.emit(visualizationDetails);
   }
 }

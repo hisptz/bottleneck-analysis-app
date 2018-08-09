@@ -14,6 +14,10 @@ export function getDefaultVisualizationLayer(
       : currentUser.organisationUnits;
   return {
     id: '',
+    config: {
+      name: 'Untitled',
+      type: 'COLUMN'
+    },
     dataSelections: [
       {
         dimension: 'pe',

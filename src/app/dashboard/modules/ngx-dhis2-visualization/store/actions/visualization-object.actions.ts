@@ -68,10 +68,7 @@ export class SaveVisualizationFavoriteAction implements Action {
   readonly type = VisualizationObjectActionTypes.SaveVisualizationFavorite;
   constructor(
     public id: string,
-    public name: string,
-    public isNew: boolean,
-    public config: any,
-    public layers: any[],
+    public favoriteDetails: any,
     public dashboardId: string
   ) {}
 }

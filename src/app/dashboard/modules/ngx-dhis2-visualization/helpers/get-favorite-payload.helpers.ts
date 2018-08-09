@@ -1,129 +1,72 @@
 import * as _ from 'lodash';
-import { VisualizationDataSelection } from '../models/visualization-data-selection.model';
+import { VisualizationLayer } from '../models';
+import { getStandardizedVisualizationType } from './get-standardized-visualization-type.helper';
+import { VisualizationDataSelection } from '@hisptz/ngx-dhis2-visualization';
 export function getFavoritePayload(
-  name: string,
-  dataSelections: VisualizationDataSelection[],
-  favoriteType: string
+  visualizationLayers: VisualizationLayer[],
+  originalType: string,
+  currentType: string
 ) {
-  if (dataSelections.length === 0) {
+  if (visualizationLayers.length === 0) {
     return null;
   }
-  const groupedDataSelections = _.groupBy(dataSelections, 'layout');
-  console.log(groupedDataSelections);
-  switch (favoriteType) {
-    case 'TABLE': {
-      return {
-        url: 'reportTables',
-        favoriteType: 'REPORT_TABLE',
-        favorite: {
-          columns: groupedDataSelections['columns'],
-          rows: groupedDataSelections['rows'],
-          filters: groupedDataSelections['filters'],
-          name: name,
-          description: '',
-          showDimensionLabels: true,
-          hideEmptyRows: false,
-          hideEmptyColumns: false,
-          stickyColumnDimension: false,
-          stickyRowDimension: false,
-          skipRounding: false,
-          aggregationType: 'DEFAULT',
-          numberType: 'VALUE',
-          measureCriteria: '',
-          dataApprovalLevel: {
-            id: 'DEFAULT'
-          },
-          showHierarchy: false,
-          completedOnly: false,
-          displayDensity: 'NORMAL',
-          fontSize: 'NORMAL',
-          digitGroupSeparator: 'SPACE',
-          legendSet: null,
-          legendDisplayStyle: 'FILL',
-          legendDisplayStrategy: 'FIXED',
-          regression: false,
-          cumulative: false,
-          sortOrder: 0,
-          topLimit: 0,
-          rowTotals: false,
-          colTotals: false,
-          rowSubTotals: false,
-          colSubTotals: false,
-          reportParams: {
-            paramReportingPeriod: false,
-            paramOrganisationUnit: false,
-            paramParentOrganisationUnit: false
-          }
-        }
-      };
-    }
 
+  // Get standardized visualization type
+  const standardizedType = getStandardizedVisualizationType(originalType);
+
+  switch (currentType) {
+    case 'TABLE':
     case 'CHART': {
-      return {
-        url: 'charts',
-        favoriteType: 'CHART',
-        favorite: {
-          columns: [
-            {
-              dimension: 'dx',
-              items: [
-                {
-                  id: 'fbfJHSPpUQD'
-                }
-              ]
-            }
-          ],
-          rows: [
-            {
-              dimension: 'pe',
-              items: [
-                {
-                  id: 'LAST_12_MONTHS'
-                }
-              ]
-            }
-          ],
-          filters: [
-            {
-              dimension: 'ou',
-              items: [
-                {
-                  id: 'ImspTQPwCqd'
-                }
-              ]
-            }
-          ],
-          name: 'New favorite chart',
-          title: null,
-          description: '',
-          prototype: {},
-          type: 'COLUMN',
-          percentStackedValues: false,
-          cumulativeValues: false,
-          hideEmptyRowItems: 'NONE',
-          regressionType: 'NONE',
-          completedOnly: false,
-          targetLineValue: null,
-          baseLineValue: null,
-          sortOrder: 0,
-          aggregationType: 'DEFAULT',
-          rangeAxisMaxValue: null,
-          rangeAxisMinValue: null,
-          rangeAxisSteps: null,
-          rangeAxisDecimals: null,
-          noSpaceBetweenColumns: false,
-          hideLegend: false,
-          hideTitle: false,
-          hideSubtitle: false,
-          subtitle: null,
-          reportParams: {},
-          showData: true,
-          targetLineLabel: null,
-          baseLineLabel: null,
-          domainAxisLabel: null,
-          rangeAxisLabel: null
+      const favoriteArray = _.map(
+        visualizationLayers,
+        (visualizationLayer: VisualizationLayer) => {
+          const groupedDataSelections = _.groupBy(
+            visualizationLayer.dataSelections,
+            'layout'
+          );
+          return {
+            ...visualizationLayer.config,
+            id: visualizationLayer.id,
+            columns: getSanitizedDataSelections(
+              groupedDataSelections['columns']
+            ),
+            rows: getSanitizedDataSelections(groupedDataSelections['rows']),
+            filters: getSanitizedDataSelections(
+              groupedDataSelections['filters']
+            )
+          };
         }
-      };
+      );
+
+      // Get appropriate favorite type based on current selection
+      const favoriteType =
+        standardizedType === currentType
+          ? originalType
+          : currentType === 'CHART'
+            ? 'CHART'
+            : 'REPORT_TABLE';
+      console.log(favoriteType);
+      return favoriteArray[0]
+        ? {
+            url: `${_.camelCase(favoriteType)}s`,
+            hasDifferentType: standardizedType !== originalType,
+            favoriteType,
+            favorite: favoriteArray[0]
+          }
+        : null;
     }
   }
+}
+
+function getSanitizedDataSelections(dataSelections: any[]) {
+  return _.map(dataSelections, dataSelection => {
+    return {
+      dimension: dataSelection.dimension,
+      items: _.map(dataSelection.items || [], item => {
+        return {
+          id: item.id
+        };
+      })
+    };
+  });
 }

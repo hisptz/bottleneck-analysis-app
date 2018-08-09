@@ -11,7 +11,8 @@
   </div>
 
   <div class="visualization-management-footer">
-    <button class="visualization-footer-btn visualization-save-btn" [disabled]="!name || name === ''" title="save this item">
+    <button class="visualization-footer-btn visualization-save-btn" [disabled]="!name || name === ''" title="save this item"
+      (click)="onSave($event)">
       <img src="assets/icons/save.png" alt="">
       <span class="save-btn-text">Save</span>
       <a title="manage" (click)="onToggleManagementPanel($event)">

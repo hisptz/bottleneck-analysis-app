@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { openAnimation } from '../../../../../animations';
 
 @Component({
@@ -10,6 +10,7 @@ import { openAnimation } from '../../../../../animations';
 export class VisualizationManagementSectionComponent implements OnInit {
   @Input() name: string;
   @Input() description: string;
+  @Output() save: EventEmitter<any> = new EventEmitter<any>();
   showManagementPanel: boolean;
   constructor() {}
 
@@ -30,5 +31,13 @@ export class VisualizationManagementSectionComponent implements OnInit {
     } else {
       this.description = e.target.value.trim('');
     }
+  }
+
+  onSave(e) {
+    e.stopPropagation();
+    this.save.emit({
+      name: this.name,
+      description: this.description
+    });
   }
 }
