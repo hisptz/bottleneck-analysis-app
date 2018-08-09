@@ -5,15 +5,12 @@ import * as _ from 'lodash';
 
 import { Dashboard } from '../dashboard/models';
 import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
-import { UtilService } from './util.service';
 import { DashboardSettings } from '../dashboard/models/dashboard-settings.model';
+import { generateUid } from '../helpers/generate-uid.helper';
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   dashboardUrlFields: string;
-  constructor(
-    private httpClient: NgxDhis2HttpClientService,
-    private utilService: UtilService
-  ) {
+  constructor(private httpClient: NgxDhis2HttpClientService) {
     this.dashboardUrlFields =
       '?fields=id,name,description,publicAccess,access,externalAccess,created,lastUpdated,favorite,' +
       'user[id,name],dashboardItems[id,type,created,lastUpdated,shape,appKey,chart[id,displayName],' +
@@ -91,42 +88,37 @@ export class DashboardService {
     dashboardItem: any,
     dashboardSettings: DashboardSettings
   ) {
-    console.log(dashboardSettings);
     // TODO find best way for this as this approach is deprecated
-    return this.utilService.getUniqueId().pipe(
-      switchMap((uniqueId: string) => {
-        const dashboardLoadPromise =
-          dashboardSettings && dashboardSettings.useDataStoreAsSource
-            ? this.httpClient.get(`dataStore/dashboards/${dashboardId}`)
-            : this.load(
-                dashboardId,
-                '?fields=id,created,lastUpdated,externalAccess,publicAccess,favorites,' +
-                  'translations,name,userAccesses,userGroupAccesses,dashboardItems[id,type,appKey,chart[id,name],' +
-                  'map[id,name],reportTable[id,name],eventReport[id,name],eventChart[id,name]]'
-              );
+    const dashboardLoadPromise =
+      dashboardSettings && dashboardSettings.useDataStoreAsSource
+        ? this.httpClient.get(`dataStore/dashboards/${dashboardId}`)
+        : this.load(
+            dashboardId,
+            '?fields=id,created,lastUpdated,externalAccess,publicAccess,favorites,' +
+              'translations,name,userAccesses,userGroupAccesses,dashboardItems[id,type,appKey,chart[id,name],' +
+              'map[id,name],reportTable[id,name],eventReport[id,name],eventChart[id,name]]'
+          );
 
-        return dashboardLoadPromise.pipe(
-          switchMap((dashboard: any) => {
-            const dashboardItemToAdd = { ...dashboardItem, id: uniqueId };
-            const dashboardUpdateUrl =
-              dashboardSettings && dashboardSettings.useDataStoreAsSource
-                ? `dataStore/dashboards/${dashboardId}`
-                : `dashboards/${dashboardId}?mergeMode=MERGE`;
-            return this.httpClient
-              .put(dashboardUpdateUrl, {
-                ...dashboard,
-                dashboardItems: [
-                  dashboardItemToAdd,
-                  ...dashboard.dashboardItems
-                ]
-              })
-              .pipe(
-                map(() => {
-                  return { dashboardId, dashboardItem: dashboardItemToAdd };
-                })
-              );
+    return dashboardLoadPromise.pipe(
+      switchMap((dashboard: any) => {
+        const dashboardItemToAdd = {
+          ...dashboardItem,
+          id: dashboardItem.id || generateUid()
+        };
+        const dashboardUpdateUrl =
+          dashboardSettings && dashboardSettings.useDataStoreAsSource
+            ? `dataStore/dashboards/${dashboardId}`
+            : `dashboards/${dashboardId}?mergeMode=MERGE`;
+        return this.httpClient
+          .put(dashboardUpdateUrl, {
+            ...dashboard,
+            dashboardItems: [dashboardItemToAdd, ...dashboard.dashboardItems]
           })
-        );
+          .pipe(
+            map(() => {
+              return { dashboardId, dashboardItem: dashboardItemToAdd };
+            })
+          );
       })
     );
   }

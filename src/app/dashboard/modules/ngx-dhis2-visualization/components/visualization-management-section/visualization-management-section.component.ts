@@ -8,9 +8,15 @@ import { openAnimation } from '../../../../../animations';
   animations: [openAnimation]
 })
 export class VisualizationManagementSectionComponent implements OnInit {
-  @Input() name: string;
-  @Input() description: string;
-  @Output() save: EventEmitter<any> = new EventEmitter<any>();
+  @Input()
+  name: string;
+  @Input()
+  description: string;
+
+  @Input()
+  savingFavorite: boolean;
+  @Output()
+  save: EventEmitter<any> = new EventEmitter<any>();
   showManagementPanel: boolean;
   constructor() {}
 
@@ -35,6 +41,7 @@ export class VisualizationManagementSectionComponent implements OnInit {
 
   onSave(e) {
     e.stopPropagation();
+    this.showManagementPanel = false;
     this.save.emit({
       name: this.name,
       description: this.description
