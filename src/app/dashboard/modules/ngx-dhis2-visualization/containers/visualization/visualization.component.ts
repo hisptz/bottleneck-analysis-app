@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
@@ -35,7 +34,10 @@ import {
   ToggleVisualizationFocusAction
 } from '../../store/actions/visualization-ui-configuration.actions';
 import { UpdateVisualizationConfigurationAction } from '../../store/actions/visualization-configuration.actions';
-import { LoadVisualizationAnalyticsAction } from '../../store/actions/visualization-layer.actions';
+import {
+  LoadVisualizationAnalyticsAction,
+  UpdateVisualizationLayerAction
+} from '../../store/actions/visualization-layer.actions';
 import { take, switchMap, map, distinctUntilChanged } from 'rxjs/operators';
 import { openAnimation } from '../../../../../animations';
 
@@ -153,9 +155,17 @@ export class VisualizationComponent implements OnInit, OnChanges {
     this.store.dispatch(new ToggleFullScreenAction(event.uiConfigId));
   }
 
-  onVisualizationLayerUpdate(visualizationLayer: VisualizationLayer) {
+  onLoadVisualizationAnalytics(visualizationLayer: VisualizationLayer) {
     this.store.dispatch(
       new LoadVisualizationAnalyticsAction(this.id, [visualizationLayer])
+    );
+  }
+
+  onVisualizationLayerConfigUpdate(visualizationLayer: VisualizationLayer) {
+    this.store.dispatch(
+      new UpdateVisualizationLayerAction(visualizationLayer.id, {
+        config: visualizationLayer.config
+      })
     );
   }
 

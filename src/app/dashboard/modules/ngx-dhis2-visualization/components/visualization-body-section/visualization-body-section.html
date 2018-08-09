@@ -1,7 +1,8 @@
 <div class="visualization-body-section-container">
   <!--chart visualization-->
   <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'CHART'">
-    <ngx-dhis2-chart-list [visualizationId]="id" [visualizationLayers]="visualizationLayers" [chartHeight]="visualizationUiConfig.height"></ngx-dhis2-chart-list>
+    <ngx-dhis2-chart-list [visualizationId]="id" [visualizationLayers]="visualizationLayers" [chartHeight]="visualizationUiConfig.height"
+      (updateChartVisualizationLayer)="onVisualizationLayerUpdate($event)"></ngx-dhis2-chart-list>
   </div>
   <!--end of chart visualization-->
 

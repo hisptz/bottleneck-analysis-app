@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import * as Highcharts from 'highcharts';
 declare var require: any;
 const HighchartsGroupedCategories = require('highcharts-grouped-categories')(
@@ -26,9 +26,15 @@ import { drawChart } from '../../helpers';
   styleUrls: ['./chart-item.component.css']
 })
 export class ChartItemComponent implements OnInit {
-  @Input() chartConfiguration: ChartConfiguration;
-  @Input() analyticsObject: any;
-  @Input() chartHeight: string;
+  @Input()
+  chartConfiguration: ChartConfiguration;
+  @Input()
+  analyticsObject: any;
+  @Input()
+  chartHeight: string;
+
+  @Output()
+  chartUpdate: EventEmitter<any> = new EventEmitter<any>();
   showOptions: boolean;
   chartTypes: ChartType[];
   chart: any;
@@ -63,6 +69,10 @@ export class ChartItemComponent implements OnInit {
     this.drawChart(this.analyticsObject, {
       ...this.chartConfiguration,
       type: chartType
+    });
+    this.chartUpdate.emit({
+      id: this.renderId,
+      type: chartType.toUpperCase()
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationConfig } from '../../models/visualization-config.model';
 import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
@@ -11,11 +11,17 @@ import { VisualizationLayer } from '../../models/visualization-layer.model';
   styleUrls: ['./visualization-body-section.css']
 })
 export class VisualizationBodySectionComponent {
-  @Input() id: string;
-  @Input() visualizationLayers: VisualizationLayer[];
-  @Input() visualizationConfig: VisualizationConfig;
-  @Input() visualizationUiConfig: VisualizationUiConfig;
+  @Input()
+  id: string;
+  @Input()
+  visualizationLayers: VisualizationLayer[];
+  @Input()
+  visualizationConfig: VisualizationConfig;
+  @Input()
+  visualizationUiConfig: VisualizationUiConfig;
 
+  @Output()
+  updateVisualizationLayer: EventEmitter<any> = new EventEmitter<any>();
   get metadataIdentifiers() {
     return _.uniq(
       _.flatten(
@@ -24,4 +30,8 @@ export class VisualizationBodySectionComponent {
     );
   }
   constructor() {}
+
+  onVisualizationLayerUpdate(visualizationLayer: any) {
+    this.updateVisualizationLayer.emit(visualizationLayer);
+  }
 }

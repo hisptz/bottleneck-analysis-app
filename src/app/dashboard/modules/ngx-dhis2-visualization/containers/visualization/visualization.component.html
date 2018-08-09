@@ -17,7 +17,7 @@
       <visualization-header-section [id]="id" [uiConfigId]="(visualizationUiConfig$ | async)?.id" [showFilters]="(visualizationUiConfig$ | async)?.showFilters"
         [hideResizeButtons]="(visualizationUiConfig$ | async)?.hideResizeButtons" [fullScreen]="(visualizationUiConfig$ | async)?.fullScreen"
         [isNew]="(visualizationObject$ | async)?.isNew" [visualizationLayer]="(visualizationLayers$ | async) ? (visualizationLayers$ | async)[0] : null"
-        (fullScreenAction)="onFullScreenAction($event)" (visualizationLayerUpdate)="onVisualizationLayerUpdate($event)" (savefavorite)="onSaveFavorite($event)"></visualization-header-section>
+        (fullScreenAction)="onFullScreenAction($event)" (visualizationLayerUpdate)="onLoadVisualizationAnalytics($event)" (savefavorite)="onSaveFavorite($event)"></visualization-header-section>
     </div>
     <!--end of visualization body header-->
 
@@ -50,7 +50,7 @@
            (visualizationProgress$ | async).percent === 100 &&
            (visualizationProgress$ | async).statusCode === 200">
         <visualization-body-section [id]="(visualizationUiConfig$ | async)?.fullScreen ? id + '_full_screen' : id" [visualizationUiConfig]="visualizationUiConfig$ | async"
-          [visualizationLayers]="visualizationLayers$ | async" [visualizationConfig]="visualizationConfig$ | async"></visualization-body-section>
+          [visualizationLayers]="visualizationLayers$ | async" [visualizationConfig]="visualizationConfig$ | async" (updateVisualizationLayer)="onVisualizationLayerConfigUpdate($event)"></visualization-body-section>
       </div>
       <!--end of visualization content-->
     </div>

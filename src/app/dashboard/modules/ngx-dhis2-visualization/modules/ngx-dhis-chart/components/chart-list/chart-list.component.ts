@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  Output,
+  EventEmitter
+} from '@angular/core';
+import * as _ from 'lodash';
 import { ChartItemComponent } from '../chart-item/chart-item.component';
 import { getChartConfiguration } from '../../helpers';
 
@@ -9,12 +17,19 @@ import { getChartConfiguration } from '../../helpers';
   styleUrls: ['./chart-list.component.css']
 })
 export class ChartListComponent implements OnInit {
-  @Input() visualizationLayers: any[] = [];
-  @Input() visualizationId: string;
-  @Input() chartHeight: string;
+  @Input()
+  visualizationLayers: any[] = [];
+  @Input()
+  visualizationId: string;
+  @Input()
+  chartHeight: string;
   chartLayers: Array<{ chartConfiguration: any; analyticsObject: any }> = [];
 
-  @ViewChild(ChartItemComponent) chartItem: ChartItemComponent;
+  @Output()
+  updateChartVisualizationLayer: EventEmitter<any> = new EventEmitter<any>();
+
+  @ViewChild(ChartItemComponent)
+  chartItem: ChartItemComponent;
 
   constructor() {}
 
@@ -25,7 +40,7 @@ export class ChartListComponent implements OnInit {
           return {
             chartConfiguration: getChartConfiguration(
               layer.config || {},
-              this.visualizationId + '_' + layerIndex,
+              layer.id,
               layer.layout
             ),
             analyticsObject: layer.analytics
@@ -44,6 +59,28 @@ export class ChartListComponent implements OnInit {
   onDownloadEvent(filename, downloadFormat) {
     if (this.chartItem) {
       this.chartItem.downloadChart(filename, downloadFormat);
+    }
+  }
+
+  onChartItemUpdate(chartItem) {
+    const visualizationLayer = _.find(this.visualizationLayers, [
+      'id',
+      chartItem.id
+    ]);
+
+    if (visualizationLayer) {
+      const newVisualizationLayer = _.omit(visualizationLayer, [
+        'layout',
+        'metadataIdentifiers'
+      ]);
+
+      this.updateChartVisualizationLayer.emit({
+        ...newVisualizationLayer,
+        config: {
+          ...newVisualizationLayer.config,
+          ...chartItem
+        }
+      });
     }
   }
 }
