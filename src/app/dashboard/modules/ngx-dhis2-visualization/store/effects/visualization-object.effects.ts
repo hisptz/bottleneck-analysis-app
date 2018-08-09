@@ -470,16 +470,6 @@ export class VisualizationObjectEffects {
             }
           );
 
-          // Update visualization layers in the store
-          _.each(visualizationLayers, visualizationLayer => {
-            this.store.dispatch(
-              new UpdateVisualizationLayerAction(
-                visualizationLayer.id,
-                visualizationLayer
-              )
-            );
-          });
-
           // Get favorite payload details
           const favoriteDetails = getFavoritePayload(
             visualizationLayers,
@@ -500,6 +490,24 @@ export class VisualizationObjectEffects {
                   );
 
             favoritePromise.subscribe(favoriteResult => {
+              // Save favorite as dashboard item
+              if (visualizationObject.isNew) {
+                this.dashboardStore.dispatch(
+                  new AddDashboardItemAction(
+                    action.dashboardId,
+                    {
+                      id: action.id,
+                      type: favoriteDetails.favoriteType,
+                      [_.camelCase(favoriteDetails.favoriteType)]: {
+                        id: favoriteResult.id,
+                        displayName: favoriteResult.name
+                      }
+                    },
+                    true
+                  )
+                );
+              }
+
               // Update visualization object with new favorite
               this.store.dispatch(
                 new UpdateVisualizationObjectAction(action.id, {
@@ -507,21 +515,15 @@ export class VisualizationObjectEffects {
                 })
               );
 
-              // Save favorite as dashboard item
-              this.dashboardStore.dispatch(
-                new AddDashboardItemAction(
-                  action.dashboardId,
-                  {
-                    id: action.id,
-                    type: favoriteDetails.favoriteType,
-                    [_.camelCase(favoriteDetails.favoriteType)]: {
-                      id: favoriteResult.id,
-                      displayName: favoriteResult.name
-                    }
-                  },
-                  true
-                )
-              );
+              // Update visualization layers in the store
+              _.each(visualizationLayers, visualizationLayer => {
+                this.store.dispatch(
+                  new UpdateVisualizationLayerAction(
+                    visualizationLayer.id,
+                    visualizationLayer
+                  )
+                );
+              });
             });
           }
         });

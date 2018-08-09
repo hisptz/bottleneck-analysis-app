@@ -45,13 +45,16 @@ export function getFavoritePayload(
           : currentType === 'CHART'
             ? 'CHART'
             : 'REPORT_TABLE';
-      console.log(favoriteType);
+
       return favoriteArray[0]
         ? {
             url: `${_.camelCase(favoriteType)}s`,
-            hasDifferentType: standardizedType !== originalType,
+            hasDifferentType: standardizedType !== currentType,
             favoriteType,
-            favorite: favoriteArray[0]
+            favorite: _.omit(favoriteArray[0], [
+              'visualizationType',
+              'spatialSupport'
+            ])
           }
         : null;
     }
