@@ -12,7 +12,7 @@
 
     <div class="visualization-card-block" [style.grid-column]="'span 4'" [style.grid-row]="'span 1'" *ngFor="let visualizationId of currentDashboardVisualizations$ | async">
       <ngx-dhis2-visualization [id]="visualizationId" [currentUser]="currentUser$ | async" [systemInfo]="systemInfo$ | async" [dashboardId]="(currentDashboard$ | async)?.id"
-        (toggleFullScreen)="onToggleVisualizationFullScreen($event)"></ngx-dhis2-visualization>
+        (toggleFullScreen)="onToggleVisualizationFullScreen($event)" (deleteVisualization)="onDeleteVisualizationAction($event)"></ngx-dhis2-visualization>
     </div>
 
   </div>

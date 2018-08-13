@@ -14,12 +14,18 @@ import { openAnimation } from '../../../../../animations';
   animations: [openAnimation]
 })
 export class VisualizationFooterSectionComponent {
-  @Input() type: string;
-  @Input() name: string;
-  @Input() description: string;
-  @Input() configId: string;
-  @Input() hideTypeButtons: boolean;
-  @Input() hideManagementBlock: boolean;
+  @Input()
+  type: string;
+  @Input()
+  name: string;
+  @Input()
+  description: string;
+  @Input()
+  configId: string;
+  @Input()
+  hideTypeButtons: boolean;
+  @Input()
+  hideManagementBlock: boolean;
 
   @Output()
   visualizationTypeChange: EventEmitter<{
@@ -27,7 +33,11 @@ export class VisualizationFooterSectionComponent {
     type: string;
   }> = new EventEmitter<{ id: string; type: string }>();
 
-  @Output() saveVisualization: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  saveVisualization: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  removeVisualization: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {
     this.hideManagementBlock = this.hideTypeButtons = true;
@@ -39,5 +49,9 @@ export class VisualizationFooterSectionComponent {
 
   onVisualizationSave(visualizationDetails: any) {
     this.saveVisualization.emit(visualizationDetails);
+  }
+
+  onVisualizationRemove(details: any) {
+    this.removeVisualization.emit(details);
   }
 }

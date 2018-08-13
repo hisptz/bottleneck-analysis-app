@@ -67,7 +67,8 @@ import {
 import {
   AddDashboardVisualizationsAction,
   AddDashboardVisualizationItemAction,
-  Go
+  Go,
+  RemoveDashboardVisualizationItemAction
 } from '../actions';
 import { User } from '../../models';
 import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
@@ -235,7 +236,7 @@ export class DashboardEffects {
             action.dashboardId,
             action.dashboardItem,
             dashboardSettings,
-            'ADD'
+            action.action
           )
           .subscribe(
             (dashboardResponse: any) => {
@@ -247,32 +248,43 @@ export class DashboardEffects {
               );
 
               if (!action.skipStoreUpdate) {
-                this.store.dispatch(
-                  new AddDashboardVisualizationItemAction(
-                    dashboardResponse.dashboardId,
-                    dashboardResponse.dashboardItem
-                      ? dashboardResponse.dashboardItem.id
-                      : ''
-                  )
-                );
-                this.store.dispatch(
-                  new AddVisualizationObjectAction(
-                    getStandardizedVisualizationObject({
-                      ...dashboardResponse.dashboardItem,
-                      dashboardId: dashboardResponse.dashboardId,
-                      isOpen: true
-                    })
-                  )
-                );
-                this.store.dispatch(
-                  new AddVisualizationUiConfigurationAction(
-                    getStandardizedVisualizationUiConfig({
-                      ...dashboardResponse.dashboardItem,
-                      dashboardId: dashboardResponse.dashboardId,
-                      isOpen: true
-                    })
-                  )
-                );
+                if (action.action === 'ADD') {
+                  this.store.dispatch(
+                    new AddDashboardVisualizationItemAction(
+                      dashboardResponse.dashboardId,
+                      dashboardResponse.dashboardItem
+                        ? dashboardResponse.dashboardItem.id
+                        : ''
+                    )
+                  );
+
+                  this.store.dispatch(
+                    new AddVisualizationObjectAction(
+                      getStandardizedVisualizationObject({
+                        ...dashboardResponse.dashboardItem,
+                        dashboardId: dashboardResponse.dashboardId,
+                        isOpen: true
+                      })
+                    )
+                  );
+
+                  this.store.dispatch(
+                    new AddVisualizationUiConfigurationAction(
+                      getStandardizedVisualizationUiConfig({
+                        ...dashboardResponse.dashboardItem,
+                        dashboardId: dashboardResponse.dashboardId,
+                        isOpen: true
+                      })
+                    )
+                  );
+                } else if (action.action === 'DELETE') {
+                  this.store.dispatch(
+                    new RemoveDashboardVisualizationItemAction(
+                      action.dashboardId,
+                      action.dashboardItem.id
+                    )
+                  );
+                }
               }
             },
             error => {

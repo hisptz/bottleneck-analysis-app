@@ -1,4 +1,4 @@
-<div [ngClass]="{'visualization-management-section': true, 'visualization-management-active': showManagementPanel}">
+<div [ngClass]="{'visualization-management-section': true, 'visualization-management-active': showManagementPanel || showDeleteConfirmation}">
   <div *ngIf="showManagementPanel" class="visualization-management-container" [@open]>
     <div class="form-group">
       <label for="">Name *</label>
@@ -10,7 +10,18 @@
     </div>
   </div>
 
-  <div class="visualization-management-footer">
+  <div class="visualization-delete-block" *ngIf="showDeleteConfirmation">
+    <div class="visualization-delete-body">
+      <div>Are you sure you want to delete this item?</div>
+      <button class="visualization-footer-btn visualization-cancel-delete-btn" (click)="onDeleteCancel($event)">Cancel</button>
+      <button class="visualization-footer-btn visualization-confirm-delete-btn" (click)="onConfirmDelete($event)">Delete</button>
+    </div>
+    <div class="visualization-associated-item">
+      <input type="checkbox" [(ngModel)]="deleteFavorite">&nbsp;Also delete associated favorite
+    </div>
+  </div>
+
+  <div class="visualization-management-footer" *ngIf="!showDeleteConfirmation">
     <button class="visualization-footer-btn visualization-save-btn" [disabled]="!name || name === ''" title="save this item"
       (click)="onSave($event)">
       <img src="assets/icons/save.png" alt="">
@@ -19,7 +30,7 @@
         <img [ngClass]="{'arrow-up': !showManagementPanel}" src="assets/icons/arrow-down.png" alt="">
       </a>
     </button>
-    <button class="visualization-footer-btn visualization-delete-btn" title="remove this item">
+    <button class="visualization-footer-btn visualization-delete-btn" title="Remove this item" (click)="onRemove($event)">
       <img src="assets/icons/trash.png" alt="">
       <span>Delete</span>
     </button>

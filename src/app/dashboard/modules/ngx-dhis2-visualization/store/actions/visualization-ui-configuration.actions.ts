@@ -6,7 +6,8 @@ export enum VisualizationUiConfigurationActionTypes {
   ADD_VISUALIZATION_UI_CONFIGURATION = '[VisualizationUIConfig] Add visualization Ui configuration',
   SHOW_OR_HIDE_VISUALIZATION_BODY = '[VisualizationUIConfig] show or hide visualization body',
   TOGGLE_FULL_SCREEN = '[VisualizationUIConfig] toggle full screen',
-  TOGGLE_VISUALIZATION_FOCUS = '[VisualizationUIConfig] toggle visualization focus'
+  TOGGLE_VISUALIZATION_FOCUS = '[VisualizationUIConfig] toggle visualization focus',
+  RemoveVisualizationUiConfiguration = '[VisualizationUIConfig] Remove visualization Ui configuration'
 }
 
 export class AddVisualizationUiConfigurationAction implements Action {
@@ -48,9 +49,16 @@ export class ToggleVisualizationFocusAction implements Action {
   ) {}
 }
 
+export class RemoveVisualizationUiConfigurationAction implements Action {
+  readonly type =
+    VisualizationUiConfigurationActionTypes.RemoveVisualizationUiConfiguration;
+  constructor(public id: string) {}
+}
+
 export type VisualizationUiConfigurationAction =
   | AddAllVisualizationUiConfigurationsAction
   | AddVisualizationUiConfigurationAction
   | ShowOrHideVisualizationBodyAction
   | ToggleFullScreenAction
-  | ToggleVisualizationFocusAction;
+  | ToggleVisualizationFocusAction
+  | RemoveVisualizationUiConfigurationAction;

@@ -16,6 +16,8 @@ import {
 } from '../../../store';
 import { User, SystemInfo } from '../../../models';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
+import { Visualization } from '../../modules/ngx-dhis2-visualization/models';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -90,5 +92,17 @@ export class CurrentDashboardComponent implements OnInit {
         globalSelections: globalFilterDetails.globalSelections
       })
     );
+  }
+
+  onDeleteVisualizationAction(visualization: Visualization) {
+    this.currentDashboard$.pipe(take(1)).subscribe((dashboard: Dashboard) => {
+      this.store.dispatch(
+        new ManageDashboardItemAction(
+          dashboard.id,
+          { id: visualization.id },
+          'DELETE'
+        )
+      );
+    });
   }
 }

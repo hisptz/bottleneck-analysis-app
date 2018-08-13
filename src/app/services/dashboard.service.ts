@@ -102,8 +102,6 @@ export class DashboardService {
 
     return dashboardLoadPromise.pipe(
       switchMap((dashboard: any) => {
-        if (action === 'ADD') {
-        }
         const newDashboardItem = {
           ...dashboardItem,
           id: dashboardItem.id || generateUid()
@@ -154,7 +152,7 @@ export class DashboardService {
             ]
           : dashboardItems;
       }
-      case 'REMOVE': {
+      case 'DELETE': {
         const dashboardItemIndex = dashboardItems.indexOf(
           incomingDashboardItem
         );

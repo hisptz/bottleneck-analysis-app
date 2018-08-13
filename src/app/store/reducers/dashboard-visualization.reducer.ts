@@ -45,6 +45,22 @@ export function dashboardVisualizationReducer(
         state
       );
     }
+
+    case DashboardVisualizationActionTypes.RemoveDashboardVisualizationItem: {
+      const correspondingDashboard = state.entities[action.dashboardId];
+      const items = _.filter(
+        correspondingDashboard ? correspondingDashboard.items : [],
+        item => item !== action.dashboardItemId
+      );
+
+      return dashboardVisualizationAdapter.updateOne(
+        {
+          id: action.dashboardId,
+          changes: { items }
+        },
+        state
+      );
+    }
   }
   return state;
 }

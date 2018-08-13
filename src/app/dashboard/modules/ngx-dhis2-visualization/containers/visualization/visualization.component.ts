@@ -69,6 +69,10 @@ export class VisualizationComponent implements OnInit, OnChanges {
 
   @Output()
   toggleFullScreen: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  deleteVisualization: EventEmitter<any> = new EventEmitter<any>();
+
   private _visualizationInputs$: Subject<VisualizationInputs> = new Subject();
   visualizationObject$: Observable<Visualization>;
   visualizationLayers$: Observable<VisualizationLayer[]>;
@@ -194,5 +198,21 @@ export class VisualizationComponent implements OnInit, OnChanges {
           this.cardFocused = focused;
         });
     }
+  }
+
+  onDeleteVisualizationAction(options: any) {
+    this.visualizationObject$
+      .pipe(take(1))
+      .subscribe((visualization: Visualization) => {
+        this.deleteVisualization.emit(visualization);
+        this.store.dispatch(
+          new UpdateVisualizationObjectAction(this.id, {
+            notification: {
+              message: 'Removing dasboard item...',
+              type: 'progress'
+            }
+          })
+        );
+      });
   }
 }

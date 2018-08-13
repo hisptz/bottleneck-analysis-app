@@ -2,6 +2,12 @@
  'visualization-card': true,
  'visualization-card-full-screen': (visualizationUiConfig$ | async)?.fullScreen
  }" (mouseenter)="onToggleVisualizationCardFocus($event, true)" (mouseleave)="onToggleVisualizationCardFocus($event, false)">
+  <!-- visualization notification block -->
+  <div class="visualization-notification-block" *ngIf="(visualizationObject$ | async)?.notification">
+    {{(visualizationObject$ | async)?.notification.message}}
+  </div>
+  <!-- end of visualization notification block -->
+
   <!--visualization title block-->
   <div class="visualization-title-block" *ngIf="(visualizationUiConfig$ | async)?.showTitleBlock">
     <visualization-title-section [id]="id" [uiConfigId]="(visualizationUiConfig$ | async)?.id" [showBody]="(visualizationUiConfig$ | async)?.showBody"
@@ -63,7 +69,7 @@
       <visualization-footer-section [type]="(visualizationConfig$ | async)?.currentType" [configId]="(visualizationConfig$ | async)?.id"
         [name]="(visualizationObject$ | async)?.name" [hideTypeButtons]="(visualizationUiConfig$ | async)?.hideTypeButtons"
         [hideManagementBlock]="(visualizationUiConfig$ | async)?.hideManagementBlock" (saveVisualization)="onSaveFavorite($event)"
-        (visualizationTypeChange)="onVisualizationTypeChange($event)"></visualization-footer-section>
+        (visualizationTypeChange)="onVisualizationTypeChange($event)" (removeVisualization)="onDeleteVisualizationAction($event)"></visualization-footer-section>
     </div>
     <!-- end of visualization body footer block-->
   </div>

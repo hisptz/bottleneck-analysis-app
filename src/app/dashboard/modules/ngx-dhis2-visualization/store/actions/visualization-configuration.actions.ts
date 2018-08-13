@@ -3,7 +3,8 @@ import { VisualizationConfig } from '../../models';
 
 export enum VisualizationConfigurationActionTypes {
   ADD_VISUALIZATION_CONFIGURATION = '[VisualizationConfig] Add visualization configuration',
-  UPDATE_VISUALIZATION_CONFIGURATION = '[VisualizationConfig] Update visualization configuration'
+  UPDATE_VISUALIZATION_CONFIGURATION = '[VisualizationConfig] Update visualization configuration',
+  RemoveVisualizationConfiguration = '[VisualizationConfig] Remove visualization configuration'
 }
 
 export class AddVisualizationConfigurationAction implements Action {
@@ -21,6 +22,13 @@ export class UpdateVisualizationConfigurationAction implements Action {
   ) {}
 }
 
+export class RemoveVisualizationConfigurationAction implements Action {
+  readonly type =
+    VisualizationConfigurationActionTypes.RemoveVisualizationConfiguration;
+  constructor(public id: string) {}
+}
+
 export type VisualizationConfigurationAction =
   | AddVisualizationConfigurationAction
-  | UpdateVisualizationConfigurationAction;
+  | UpdateVisualizationConfigurationAction
+  | RemoveVisualizationConfigurationAction;

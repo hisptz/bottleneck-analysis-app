@@ -9,7 +9,8 @@ export enum VisualizationLayerActionTypes {
   LOAD_VISUALIZATION_ANALYTICS = '[VisualizationLayer] Load visualization analytics',
   LOAD_VISUALIZATION_ANALYTICS_SUCCESS = '[VisualizationLayer] Load visualization analytics success',
   LOAD_VISUALIZATION_ANALYTICS_FAIL = '[VisualizationLayer] Load visualization analytics fail',
-  ReplaceVisualizationLayerId = '[VisualizationLayer] Replace visualization layer id'
+  ReplaceVisualizationLayerId = '[VisualizationLayer] Replace visualization layer id',
+  RemoveVisualizationLayer = '[VisualizationLayer] Remove visualization layer'
 }
 
 export class AddVisualizationLayerAction implements Action {
@@ -56,6 +57,11 @@ export class ReplaceVisualizationLayerIdAction implements Action {
   constructor(public currentId: string, public newId: string) {}
 }
 
+export class RemoveVisualizationLayerAction implements Action {
+  readonly type = VisualizationLayerActionTypes.RemoveVisualizationLayer;
+  constructor(public id: string) {}
+}
+
 export type VisualizationLayerAction =
   | AddVisualizationLayerAction
   | UpdateVisualizationLayerAction
@@ -63,4 +69,5 @@ export type VisualizationLayerAction =
   | LoadVisualizationAnalyticsSuccessAction
   | LoadVisualizationAnalyticsFailAction
   | ReplaceVisualizationLayerIdAction
-  | UpdateVisualizationLayersAction;
+  | UpdateVisualizationLayersAction
+  | RemoveVisualizationLayerAction;

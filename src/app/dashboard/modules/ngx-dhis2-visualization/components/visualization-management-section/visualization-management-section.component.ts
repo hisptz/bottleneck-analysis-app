@@ -17,11 +17,19 @@ export class VisualizationManagementSectionComponent implements OnInit {
   savingFavorite: boolean;
   @Output()
   save: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  remove: EventEmitter<any> = new EventEmitter<any>();
   showManagementPanel: boolean;
-  constructor() {}
+  showDeleteConfirmation: boolean;
+  deleteFavorite: boolean;
+  constructor() {
+    this.deleteFavorite = false;
+  }
 
   ngOnInit() {
     this.showManagementPanel = false;
+    this.showDeleteConfirmation = false;
   }
 
   onToggleManagementPanel(e) {
@@ -46,5 +54,25 @@ export class VisualizationManagementSectionComponent implements OnInit {
       name: this.name,
       description: this.description
     });
+  }
+
+  onRemove(e) {
+    e.stopPropagation();
+    this.showManagementPanel = false;
+    this.showDeleteConfirmation = true;
+  }
+
+  onDeleteCancel(e) {
+    e.stopPropagation();
+    this.showDeleteConfirmation = false;
+  }
+
+  onConfirmDelete(e) {
+    e.stopPropagation();
+    this.remove.emit({
+      deleteFavorite: this.deleteFavorite
+    });
+    this.deleteFavorite = false;
+    this.showDeleteConfirmation = false;
   }
 }

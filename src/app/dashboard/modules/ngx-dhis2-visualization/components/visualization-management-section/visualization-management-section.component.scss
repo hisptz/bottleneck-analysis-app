@@ -76,3 +76,38 @@
 .arrow-up {
   transform: rotate(180deg);
 }
+
+.visualization-delete-block {
+  font-size: 15px;
+}
+
+.visualization-cancel-delete-btn,
+.visualization-confirm-delete-btn {
+  width: 60px;
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+.visualization-cancel-delete-btn {
+  border: solid thin #eeeeee;
+}
+
+.visualization-confirm-delete-btn,
+.visualization-confirm-delete-btn:hover {
+  color: #ffffff;
+  background-color: #e64d3e;
+}
+
+.visualization-delete-body {
+  display: flex;
+  align-items: center;
+  padding: 7px;
+}
+
+.visualization-associated-item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  padding-top: 7px;
+  padding-left: 7px;
+}
