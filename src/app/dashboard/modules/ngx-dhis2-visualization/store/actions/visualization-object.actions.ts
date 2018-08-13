@@ -10,7 +10,8 @@ export enum VisualizationObjectActionTypes {
   LOAD_VISUALIZATION_FAVORITE_SUCCESS = '[Visualization] Load visualization favorite success',
   LOAD_VISUALIZATION_FAVORITE_FAIL = '[Visualization] Load visualization favorite fail',
   SaveVisualizationFavorite = '[Visualization] Save visualization favorite',
-  RemoveVisualizationObject = '[Visualization] Remove visualization favorite'
+  RemoveVisualizationFavorite = '[Visualization] Remove visualization favorite',
+  RemoveVisualizationObject = '[Visualization] Remove visualization object'
 }
 
 export class AddVisualizationObjectAction implements Action {
@@ -79,6 +80,15 @@ export class RemoveVisualizationObjectAction implements Action {
   constructor(public id: string, public options?: any) {}
 }
 
+export class RemoveVisualizationFavoriteAction implements Action {
+  readonly type = VisualizationObjectActionTypes.RemoveVisualizationFavorite;
+  constructor(
+    public visualizationId: string,
+    public favoriteId: string,
+    public favoriteType: string
+  ) {}
+}
+
 export type VisualizationObjectAction =
   | AddVisualizationObjectAction
   | AddAllVisualizationObjectsAction
@@ -88,4 +98,5 @@ export type VisualizationObjectAction =
   | LoadVisualizationFavoriteFailAction
   | InitializeVisualizationObjectAction
   | UpdateVisualizationObjectAction
-  | RemoveVisualizationObjectAction;
+  | RemoveVisualizationObjectAction
+  | RemoveVisualizationFavoriteAction;

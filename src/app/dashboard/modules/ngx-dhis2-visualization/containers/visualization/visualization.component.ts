@@ -19,7 +19,8 @@ import { Store } from '@ngrx/store';
 import {
   InitializeVisualizationObjectAction,
   UpdateVisualizationObjectAction,
-  SaveVisualizationFavoriteAction
+  SaveVisualizationFavoriteAction,
+  RemoveVisualizationFavoriteAction
 } from '../../store/actions/visualization-object.actions';
 import {
   getCurrentVisualizationProgress,
@@ -204,7 +205,11 @@ export class VisualizationComponent implements OnInit, OnChanges {
     this.visualizationObject$
       .pipe(take(1))
       .subscribe((visualization: Visualization) => {
-        this.deleteVisualization.emit(visualization);
+        this.deleteVisualization.emit({
+          visualization,
+          deleteFavorite: options.deleteFavorite
+        });
+
         this.store.dispatch(
           new UpdateVisualizationObjectAction(this.id, {
             notification: {

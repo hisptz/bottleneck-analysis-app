@@ -94,12 +94,17 @@ export class CurrentDashboardComponent implements OnInit {
     );
   }
 
-  onDeleteVisualizationAction(visualization: Visualization) {
+  onDeleteVisualizationAction(visualizationDetails: any) {
     this.currentDashboard$.pipe(take(1)).subscribe((dashboard: Dashboard) => {
       this.store.dispatch(
         new ManageDashboardItemAction(
           dashboard.id,
-          { id: visualization.id },
+          {
+            id: visualizationDetails.visualization.id,
+            favorite: visualizationDetails.visualization.favorite,
+            deleteFavorite: visualizationDetails.deleteFavorite,
+            isNew: visualizationDetails.visualization.isNew
+          },
           'DELETE'
         )
       );

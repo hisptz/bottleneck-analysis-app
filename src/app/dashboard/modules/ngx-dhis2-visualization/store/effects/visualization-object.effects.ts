@@ -32,7 +32,8 @@ import {
   RemoveVisualizationObjectAction,
   RemoveVisualizationConfigurationAction,
   RemoveVisualizationLayerAction,
-  RemoveVisualizationUiConfigurationAction
+  RemoveVisualizationUiConfigurationAction,
+  RemoveVisualizationFavoriteAction
 } from '../actions';
 
 // reducers
@@ -542,6 +543,16 @@ export class VisualizationObjectEffects {
       new RemoveVisualizationLayerAction(action.id),
       new RemoveVisualizationUiConfigurationAction(action.id)
     ])
+  );
+
+  @Effect({ dispatch: false })
+  removeVisualizationFavorite$: Observable<any> = this.actions$.pipe(
+    ofType(VisualizationObjectActionTypes.RemoveVisualizationFavorite),
+    tap((action: RemoveVisualizationFavoriteAction) => {
+      this.favoriteService
+        .delete(action.favoriteId, action.favoriteType)
+        .subscribe();
+    })
   );
 
   constructor(

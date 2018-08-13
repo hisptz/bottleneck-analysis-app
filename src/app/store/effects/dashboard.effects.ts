@@ -49,7 +49,8 @@ import {
   AddVisualizationUiConfigurationAction,
   ToggleFullScreenAction,
   LoadVisualizationAnalyticsAction,
-  RemoveVisualizationObjectAction
+  RemoveVisualizationObjectAction,
+  RemoveVisualizationFavoriteAction
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
 
 import {
@@ -279,6 +280,18 @@ export class DashboardEffects {
                     )
                   );
                 } else if (action.action === 'DELETE') {
+                  if (
+                    !action.dashboardItem.isNew &&
+                    action.dashboardItem.deleteFavorite
+                  ) {
+                    this.store.dispatch(
+                      new RemoveVisualizationFavoriteAction(
+                        action.dashboardItem.id,
+                        action.dashboardItem.favorite.id,
+                        action.dashboardItem.favorite.type
+                      )
+                    );
+                  }
                   this.store.dispatch(
                     new RemoveDashboardVisualizationItemAction(
                       action.dashboardId,

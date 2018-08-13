@@ -23,4 +23,8 @@ export class FavoriteService {
       .put(`${favoriteUrl}/${favorite.id}`, favorite)
       .pipe(map(() => favorite));
   }
+
+  delete(favoriteId: string, favoriteType: string) {
+    return this.http.delete(`${favoriteType}s/${favoriteId}`);
+  }
 }
