@@ -17,5 +17,5 @@ export interface Visualization {
   isNew?: boolean;
   appKey?: string;
   notification?: VisualizationNotification;
-  isNonVisualizable: boolean;
+  isNonVisualizable?: boolean;
 }

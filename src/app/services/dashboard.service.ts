@@ -108,7 +108,7 @@ export class DashboardService {
         };
 
         const newDashboardItems = this._manageDasboardItems(
-          dashboard.dashbboardItems || [],
+          dashboard.dashboardItems || [],
           newDashboardItem,
           action
         );

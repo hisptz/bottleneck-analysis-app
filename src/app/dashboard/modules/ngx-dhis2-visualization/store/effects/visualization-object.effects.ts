@@ -72,6 +72,7 @@ import { UtilService } from '../../../../../services';
 import { DashboardObjectState } from '../../../../../store/reducers/dashboard.reducer';
 import { ManageDashboardItemAction } from '../../../../../store';
 import { getDefaultVisualizationLayer } from '../../helpers/get-default-visualization-layer.helper';
+import { generateUid } from '../../../../../helpers/generate-uid.helper';
 
 @Injectable()
 export class VisualizationObjectEffects {
@@ -109,7 +110,11 @@ export class VisualizationObjectEffects {
             // Load favorite information
             if (visualizationObject.favorite) {
               this.store.dispatch(
-                new LoadVisualizationFavoriteAction(visualizationObject)
+                new LoadVisualizationFavoriteAction(
+                  visualizationObject,
+                  action.visualizationLayers,
+                  action.systemInfo
+                )
               );
             }
           }
@@ -285,7 +290,9 @@ export class VisualizationObjectEffects {
             (favorite: any) =>
               new LoadVisualizationFavoriteSuccessAction(
                 action.visualization,
-                favorite
+                favorite,
+                action.currentUser,
+                action.systemInfo
               )
           ),
           catchError(error =>
@@ -335,29 +342,42 @@ export class VisualizationObjectEffects {
             );
 
             // generate visualization layers
-            const visualizationLayers: VisualizationLayer[] = _.map(
-              action.favorite.mapViews || [action.favorite],
-              (favoriteLayer: any) => {
-                const dataSelections = getSelectionDimensionsFromFavorite(
-                  favoriteLayer
-                );
-                return {
-                  id: favoriteLayer.id,
-                  dataSelections,
-                  layerType: getVisualizationLayerType(
-                    action.visualization.favorite.type,
-                    favoriteLayer
-                  ),
-                  analytics: null,
-                  config: {
-                    ...favoriteLayer,
-                    type: favoriteLayer.type ? favoriteLayer.type : 'COLUMN',
-                    spatialSupport,
-                    visualizationType: action.visualization.type
+            const visualizationLayers: VisualizationLayer[] = !action
+              .visualization.isNonVisualizable
+              ? _.map(
+                  action.favorite.mapViews || [action.favorite],
+                  (favoriteLayer: any) => {
+                    const dataSelections = getSelectionDimensionsFromFavorite(
+                      favoriteLayer
+                    );
+                    return {
+                      id: favoriteLayer.id,
+                      dataSelections,
+                      layerType: getVisualizationLayerType(
+                        action.visualization.favorite.type,
+                        favoriteLayer
+                      ),
+                      analytics: null,
+                      config: {
+                        ...favoriteLayer,
+                        type: favoriteLayer.type
+                          ? favoriteLayer.type
+                          : 'COLUMN',
+                        spatialSupport,
+                        visualizationType: action.visualization.type
+                      }
+                    };
                   }
-                };
-              }
-            );
+                )
+              : [
+                  {
+                    id: generateUid(),
+                    ...getDefaultVisualizationLayer(
+                      action.currentUser,
+                      action.systemInfo
+                    )
+                  }
+                ];
 
             // Add visualization Layers
             _.each(visualizationLayers, visualizationLayer => {
