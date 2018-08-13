@@ -81,22 +81,29 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   }) {
     this.addDashboardItem.emit({
       dashboardId: this.currentDashboard.id,
-      dashboardItem: {
-        id: generateUid(),
-        type: favorite.dashboardTypeDetails.type,
-        [_.camelCase(favorite.dashboardTypeDetails.type)]: favorite
-          .dashboardTypeDetails.isArray
-          ? [
-              {
-                id: favorite.id,
-                name: favorite.name
-              }
-            ]
-          : {
-              id: favorite.id,
-              name: favorite.name
+      dashboardItem:
+        favorite.dashboardTypeDetails.type !== 'APP'
+          ? {
+              id: generateUid(),
+              type: favorite.dashboardTypeDetails.type,
+              [_.camelCase(favorite.dashboardTypeDetails.type)]: favorite
+                .dashboardTypeDetails.isArray
+                ? [
+                    {
+                      id: favorite.id,
+                      name: favorite.name
+                    }
+                  ]
+                : {
+                    id: favorite.id,
+                    name: favorite.name
+                  }
             }
-      }
+          : {
+              id: generateUid(),
+              type: favorite.dashboardTypeDetails.type,
+              appKey: favorite.id
+            }
     });
   }
 

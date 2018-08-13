@@ -14,6 +14,10 @@ export class VisualizationBodySectionComponent {
   @Input()
   id: string;
   @Input()
+  appKey: string;
+  @Input()
+  baseUrl: string;
+  @Input()
   visualizationLayers: VisualizationLayer[];
   @Input()
   visualizationConfig: VisualizationConfig;
@@ -28,6 +32,14 @@ export class VisualizationBodySectionComponent {
         _.map(this.visualizationLayers, layer => layer.metadataIdentifiers)
       )
     );
+  }
+
+  get appUrl(): string {
+    return `${this.visualizationConfig.contextPath}/api/apps/${
+      this.appKey
+    }/index.html?dashboardItemId=${
+      this.id
+    }/#/orgUnit=orgUnitId&period=periodId&dashboard=dashboardId`;
   }
   constructor() {}
 

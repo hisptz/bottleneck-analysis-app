@@ -15,5 +15,7 @@ export interface Visualization {
   progress?: VisualizationProgress;
   layers: Array<string>;
   isNew?: boolean;
+  appKey?: string;
   notification?: VisualizationNotification;
+  isNonVisualizable: boolean;
 }

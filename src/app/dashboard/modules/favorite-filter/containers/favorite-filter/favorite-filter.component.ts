@@ -28,8 +28,10 @@ import { openAnimation } from '../../../../../animations';
   animations: [openAnimation]
 })
 export class FavoriteFilterComponent implements OnInit {
-  @Input() currentUser: any;
-  @Input() dashboardAccess: DashboardAccess;
+  @Input()
+  currentUser: any;
+  @Input()
+  dashboardAccess: DashboardAccess;
   searchPlaceholder: string;
   newFavoritePlaceholder: string;
   showSearchFilters: boolean;
@@ -57,10 +59,12 @@ export class FavoriteFilterComponent implements OnInit {
   }> = new EventEmitter<{
     id: string;
     name: string;
+    appKey: string;
     dashboardTypeDetails: any;
   }>();
 
-  @Output() createFavorite: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  createFavorite: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private store: Store<FavoriteFilterState>) {
     this.favoriteFilters$ = store.select(getFavoriteFiltersBasedType);
@@ -130,7 +134,7 @@ export class FavoriteFilterComponent implements OnInit {
     e.stopPropagation();
     const dashboardTypeDetails = DASHBOARD_TYPES[favoriteFilter.type];
     this.addFavorite.emit({
-      id: favoriteFilter.id,
+      id: favoriteFilter.id || favoriteFilter.key,
       name: favoriteFilter.name,
       dashboardTypeDetails
     });

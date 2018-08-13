@@ -44,8 +44,7 @@
 
   <!--app visualization-->
   <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'APP'">
-    <iframe [ngStyle]="{'width': '100%', 'height': height}" frameborder="0" scrolling="no" allowfullscreen [src]="appUrl | safe">
-    </iframe>
+    <app-visualization-widget [appUrl]="appUrl" [height]="visualizationUiConfig.height" [id]="id"></app-visualization-widget>
   </div>
   <!--end of app visualization-->
 

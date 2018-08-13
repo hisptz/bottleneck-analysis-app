@@ -13,7 +13,7 @@ export function getStandardizedFavoriteItems(
         const favorites: any = favoriteResult[favoriteKey];
         return _.map(favorites, favorite => {
           return {
-            id: favorite.id,
+            id: favorite.id || favorite.key,
             name: favorite.displayName || favorite.name,
             type: favoriteKey,
             user: favorite.user

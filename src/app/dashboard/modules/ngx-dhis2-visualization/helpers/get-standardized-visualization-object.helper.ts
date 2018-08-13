@@ -1,18 +1,24 @@
 import { Visualization } from '../models';
 import * as _ from 'lodash';
 import { generateUid } from '../../../../helpers/generate-uid.helper';
+import { checkIfVisualizationIsNonVisualizable } from './check-if-visualization-is-non-visualizable.helper';
 
 export function getStandardizedVisualizationObject(
   visualizationItem: any
 ): Visualization {
+  const isNonVisualizable = checkIfVisualizationIsNonVisualizable(
+    visualizationItem.type
+  );
   return {
     id: visualizationItem.id,
     name: getVisualizationName(visualizationItem),
     type: visualizationItem.type,
     favorite: getFavoriteDetails(visualizationItem),
     created: visualizationItem.created,
+    appKey: visualizationItem.appKey,
     lastUpdated: visualizationItem.lastUpdated,
     isNew: visualizationItem.isNew,
+    isNonVisualizable,
     progress: {
       statusCode: 200,
       statusText: 'OK',

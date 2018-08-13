@@ -19,8 +19,7 @@ import { Store } from '@ngrx/store';
 import {
   InitializeVisualizationObjectAction,
   UpdateVisualizationObjectAction,
-  SaveVisualizationFavoriteAction,
-  RemoveVisualizationFavoriteAction
+  SaveVisualizationFavoriteAction
 } from '../../store/actions/visualization-object.actions';
 import {
   getCurrentVisualizationProgress,

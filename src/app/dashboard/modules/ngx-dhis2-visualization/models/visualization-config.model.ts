@@ -5,6 +5,7 @@ export interface VisualizationConfig {
   type: string;
   // current selected visualization type
   currentType: string;
+  contextPath?: string;
   basemap?: string;
   zoom?: number;
   latitude?: string;

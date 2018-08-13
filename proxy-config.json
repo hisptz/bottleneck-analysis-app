@@ -1,12 +1,12 @@
 {
   "/api": {
-    "target": "https://play.dhis2.org/2.30",
+    "target": "https://play.dhis2.org/2.29",
     "secure": "false",
     "auth": "system:System123",
     "changeOrigin": "true"
   },
   "/": {
-    "target": "https://play.dhis2.org/2.30",
+    "target": "https://play.dhis2.org/2.29",
     "secure": "false",
     "auth": "system:System123",
     "changeOrigin": "true"

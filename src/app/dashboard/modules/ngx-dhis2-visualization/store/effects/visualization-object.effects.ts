@@ -96,6 +96,7 @@ export class VisualizationObjectEffects {
               new AddVisualizationConfigurationAction({
                 id: visualizationObject.visualizationConfigId,
                 type: visualizationObject.type,
+                contextPath: '../../../',
                 currentType: getStandardizedVisualizationType(
                   visualizationObject.type
                 ),
@@ -142,6 +143,7 @@ export class VisualizationObjectEffects {
             new AddVisualizationConfigurationAction({
               id: initialVisualizationObject.visualizationConfigId,
               type: initialVisualizationObject.type,
+              contextPath: action.systemInfo.contextPath || '../../../',
               currentType: getStandardizedVisualizationType(
                 initialVisualizationObject.type
               ),

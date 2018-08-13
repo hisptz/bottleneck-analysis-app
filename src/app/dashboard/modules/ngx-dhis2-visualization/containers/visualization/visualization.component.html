@@ -56,7 +56,8 @@
            (visualizationProgress$ | async).percent === 100 &&
            (visualizationProgress$ | async).statusCode === 200">
         <visualization-body-section [id]="(visualizationUiConfig$ | async)?.fullScreen ? id + '_full_screen' : id" [visualizationUiConfig]="visualizationUiConfig$ | async"
-          [visualizationLayers]="visualizationLayers$ | async" [visualizationConfig]="visualizationConfig$ | async" (updateVisualizationLayer)="onVisualizationLayerConfigUpdate($event)"></visualization-body-section>
+          [visualizationLayers]="visualizationLayers$ | async" [visualizationConfig]="visualizationConfig$ | async" (updateVisualizationLayer)="onVisualizationLayerConfigUpdate($event)"
+          [appKey]="(visualizationObject$ | async)?.appKey"></visualization-body-section>
       </div>
       <!--end of visualization content-->
     </div>
