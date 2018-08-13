@@ -28,7 +28,11 @@ import {
   UpdateVisualizationConfigurationAction,
   AddVisualizationUiConfigurationAction,
   SaveVisualizationFavoriteAction,
-  UpdateVisualizationLayersAction
+  UpdateVisualizationLayersAction,
+  RemoveVisualizationObjectAction,
+  RemoveVisualizationConfigurationAction,
+  RemoveVisualizationLayerAction,
+  RemoveVisualizationUiConfigurationAction
 } from '../actions';
 
 // reducers
@@ -528,6 +532,16 @@ export class VisualizationObjectEffects {
           }
         });
     })
+  );
+
+  @Effect()
+  removeVisualizationObject$: Observable<any> = this.actions$.pipe(
+    ofType(VisualizationObjectActionTypes.RemoveVisualizationObject),
+    switchMap((action: RemoveVisualizationObjectAction) => [
+      new RemoveVisualizationConfigurationAction(action.id),
+      new RemoveVisualizationLayerAction(action.id),
+      new RemoveVisualizationUiConfigurationAction(action.id)
+    ])
   );
 
   constructor(

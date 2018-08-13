@@ -48,7 +48,8 @@ import {
   AddVisualizationObjectAction,
   AddVisualizationUiConfigurationAction,
   ToggleFullScreenAction,
-  LoadVisualizationAnalyticsAction
+  LoadVisualizationAnalyticsAction,
+  RemoveVisualizationObjectAction
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
 
 import {
@@ -283,6 +284,10 @@ export class DashboardEffects {
                       action.dashboardId,
                       action.dashboardItem.id
                     )
+                  );
+
+                  this.store.dispatch(
+                    new RemoveVisualizationObjectAction(action.dashboardItem.id)
                   );
                 }
               }

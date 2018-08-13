@@ -40,6 +40,9 @@ export function visualizationObjectReducer(
         { id: action.id, changes: action.changes },
         state
       );
+    case VisualizationObjectActionTypes.RemoveVisualizationObject: {
+      return visualizationObjectAdapter.removeOne(action.id, state);
+    }
   }
   return state;
 }

@@ -35,6 +35,9 @@ export function visualizationConfigurationReducer(
         { id: action.id, changes: action.changes },
         state
       );
+    case VisualizationConfigurationActionTypes.RemoveVisualizationConfiguration: {
+      return visualizationConfigurationAdapter.removeOne(action.id, state);
+    }
   }
   return state;
 }

@@ -56,6 +56,9 @@ export function visualizationUiConfigurationReducer(
             state
           )
         : state;
+    case VisualizationUiConfigurationActionTypes.RemoveVisualizationUiConfiguration: {
+      return visualizationUiConfigurationAdapter.removeOne(action.id, state);
+    }
   }
   return state;
 }

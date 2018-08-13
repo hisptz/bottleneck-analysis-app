@@ -76,7 +76,7 @@ export class SaveVisualizationFavoriteAction implements Action {
 
 export class RemoveVisualizationObjectAction implements Action {
   readonly type = VisualizationObjectActionTypes.RemoveVisualizationObject;
-  constructor(public visualization: Visualization, public options: any) {}
+  constructor(public id: string, public options?: any) {}
 }
 
 export type VisualizationObjectAction =

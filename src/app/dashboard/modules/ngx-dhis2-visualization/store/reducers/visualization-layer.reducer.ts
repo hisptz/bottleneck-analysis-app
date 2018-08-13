@@ -42,6 +42,9 @@ export function visualizationLayerReducer(
         state
       );
     }
+    case VisualizationLayerActionTypes.RemoveVisualizationLayer: {
+      return visualizationLayerAdapter.removeOne(action.id, state);
+    }
   }
   return state;
 }
