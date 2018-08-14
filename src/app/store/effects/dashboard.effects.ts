@@ -70,7 +70,8 @@ import {
   AddDashboardVisualizationsAction,
   AddDashboardVisualizationItemAction,
   Go,
-  RemoveDashboardVisualizationItemAction
+  RemoveDashboardVisualizationItemAction,
+  AddDashboardVisualizationAction
 } from '../actions';
 import { User } from '../../models';
 import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
@@ -345,6 +346,10 @@ export class DashboardEffects {
                   externalize: true,
                   delete: true
                 }
+              }),
+              new AddDashboardVisualizationAction({
+                id,
+                items: []
               }),
               new SetCurrentDashboardAction(id)
             ]),

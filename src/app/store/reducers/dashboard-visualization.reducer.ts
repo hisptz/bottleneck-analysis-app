@@ -29,6 +29,12 @@ export function dashboardVisualizationReducer(
         action.dashboardVisualizations,
         state
       );
+
+    case DashboardVisualizationActionTypes.AddDashboardVisualization:
+      return dashboardVisualizationAdapter.addOne(
+        action.dashboardVisualization,
+        state
+      );
     case DashboardVisualizationActionTypes.AddDashboardVisualizationItem: {
       return dashboardVisualizationAdapter.updateOne(
         {
