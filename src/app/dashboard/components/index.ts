@@ -8,6 +8,7 @@ import { CurrentDashboardDescriptionComponent } from './current-dashboard-descri
 import { CurrentDashboardGlobalFilterComponent } from './current-dashboard-global-filter/current-dashboard-global-filter.component';
 import { CurrentDashboardItemSearchComponent } from './current-dashboard-item-search/current-dashboard-item-search.component';
 import { AddDashboardComponent } from './add-dashboard/add-dashboard.component';
+import { DashboardProgressComponent } from './dashboard-progress/dashboard-progress.component';
 
 export const components: any[] = [
   DashboardMenuComponent,
@@ -19,5 +20,6 @@ export const components: any[] = [
   CurrentDashboardDescriptionComponent,
   CurrentDashboardGlobalFilterComponent,
   CurrentDashboardItemSearchComponent,
-  AddDashboardComponent
+  AddDashboardComponent,
+  DashboardProgressComponent
 ];

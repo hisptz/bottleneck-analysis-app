@@ -25,6 +25,12 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   @Input()
   currentUser: User;
 
+  @Input()
+  dashboardLoading: boolean;
+
+  @Input()
+  dashboardLoaded: boolean;
+
   selectionFilterConfig: SelectionFilterConfig;
 
   @Output()

@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import * as _ from 'lodash';
+import { VisualizationLayer } from '../../models';
 
 @Component({
   selector: 'app-visualization-widget',
@@ -7,12 +9,48 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class VisualizationWidgetComponent implements OnInit {
   @Input()
-  id: string;
+  contextPath: string;
   @Input()
-  appUrl: string;
+  dashboardId: string;
+  @Input()
+  appKey: string;
+  @Input()
+  visualizationId: string;
   @Input()
   height: string;
+  @Input()
+  visualizationLayers: VisualizationLayer[];
   constructor() {}
 
+  get appUrl(): string {
+    const dataSelections = this.visualizationLayers[0]
+      ? this.visualizationLayers[0].dataSelections
+      : [];
+    const orgUnit = this.getDataSelectionIdsByDimension(dataSelections, 'ou');
+
+    const period = this.getDataSelectionIdsByDimension(dataSelections, 'pe');
+    const appUrl = `${this.contextPath}/api/apps/${
+      this.appKey
+    }/index.html?dashboardItemId=${
+      this.visualizationId
+    }/#/?orgUnit=${orgUnit}&period=${period}&dashboard=dashboardId&dashboardItem=dashboardItemId`;
+    return appUrl;
+  }
+
   ngOnInit() {}
+
+  getDataSelectionIdsByDimension(dataSelections: any[], dimension: string) {
+    return _.join(
+      _.flatten(
+        _.map(
+          _.filter(
+            dataSelections,
+            dataSelection => dataSelection.dimension === dimension
+          ),
+          dataSelection => _.map(dataSelection.items, item => item.id)
+        )
+      ),
+      ';'
+    );
+  }
 }

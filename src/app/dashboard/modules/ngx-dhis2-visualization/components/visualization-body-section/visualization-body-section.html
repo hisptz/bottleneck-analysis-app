@@ -44,7 +44,8 @@
 
   <!--app visualization-->
   <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'APP'">
-    <app-visualization-widget [appUrl]="appUrl" [height]="visualizationUiConfig.height" [id]="id"></app-visualization-widget>
+    <app-visualization-widget [appKey]="appKey" [height]="visualizationUiConfig.height" [visualizationId]="id" [contextPath]="visualizationConfig.contextPath"
+      [visualizationLayers]="visualizationLayers"></app-visualization-widget>
   </div>
   <!--end of app visualization-->
 

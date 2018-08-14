@@ -23,7 +23,7 @@ export const dashboardObjectAdapter: EntityAdapter<
 const initialState: DashboardObjectState = dashboardObjectAdapter.getInitialState(
   {
     // additional entity state properties
-    loading: false,
+    loading: true,
     loaded: false,
     hasError: false,
     error: null,

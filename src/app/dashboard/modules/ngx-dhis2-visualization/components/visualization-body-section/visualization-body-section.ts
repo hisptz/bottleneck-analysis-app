@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationConfig } from '../../models/visualization-config.model';
 import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
@@ -8,7 +14,8 @@ import { VisualizationLayer } from '../../models/visualization-layer.model';
   // tslint:disable-next-line:component-selector
   selector: 'visualization-body-section',
   templateUrl: 'visualization-body-section.html',
-  styleUrls: ['./visualization-body-section.css']
+  styleUrls: ['./visualization-body-section.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VisualizationBodySectionComponent {
   @Input()
@@ -34,13 +41,6 @@ export class VisualizationBodySectionComponent {
     );
   }
 
-  get appUrl(): string {
-    return `${this.visualizationConfig.contextPath}/api/apps/${
-      this.appKey
-    }/index.html?dashboardItemId=${
-      this.id
-    }/#/orgUnit=orgUnitId&period=periodId&dashboard=dashboardId`;
-  }
   constructor() {}
 
   onVisualizationLayerUpdate(visualizationLayer: any) {

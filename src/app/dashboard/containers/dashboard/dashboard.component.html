@@ -2,8 +2,20 @@
 
     <!-- dashboard menu -->
     <div class="dashboard-menu-container" [style.height]="menuContainerHeight + 'px'">
-        <app-dashboard-menu [dashboardMenuList]="dashboards$ | async" [currentDashboardId]="currentDashboardId$ | async" (setCurrentDashboard)="onSetCurrenDashboardAction($event)"
-            (toggleDashboardBookmark)="onToggleDashboardBookmark($event)" (createDashboard)="onCreateDashboardAction($event)"></app-dashboard-menu>
+        <div *ngIf="dashboardLoading$ | async" style="display: flex; padding: 10px;">
+            <div style="height: 34px; width: 34px; margin-left: 2px;">
+                <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
+            </div>
+            <div style="height: 34px; width: 120px; margin-left: 7px;">
+                <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
+            </div>
+            <div style="height: 34px; width: 120px; margin-left: 7px;">
+                <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
+            </div>
+        </div>
+        <app-dashboard-menu *ngIf="dashboardLoaded$ | async" [dashboardMenuList]="dashboards$ | async" [currentDashboardId]="currentDashboardId$ | async"
+            (setCurrentDashboard)="onSetCurrenDashboardAction($event)" (toggleDashboardBookmark)="onToggleDashboardBookmark($event)"
+            (createDashboard)="onCreateDashboardAction($event)"></app-dashboard-menu>
     </div>
     <!-- end of dashboard menu -->
 

@@ -12,12 +12,18 @@ import {
   ManageDashboardItemAction,
   AddNewUnsavedFavoriteAction,
   SetCurrentVisualizationAction,
-  GlobalFilterChangeAction
+  GlobalFilterChangeAction,
+  getDashboardObjectLoading,
+  getDashboardObjectLoaded
 } from '../../../store';
 import { User, SystemInfo } from '../../../models';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
-import { Visualization } from '../../modules/ngx-dhis2-visualization/models';
 import { take } from 'rxjs/operators';
+
+import {
+  WELCOMING_DESCRIPTION,
+  WELCOMING_TITLE
+} from '../../constants/welcoming-messages.constants';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -30,6 +36,12 @@ export class CurrentDashboardComponent implements OnInit {
   currentDashboard$: Observable<Dashboard>;
   currentUser$: Observable<User>;
   systemInfo$: Observable<SystemInfo>;
+  dashboardLoading$: Observable<boolean>;
+  dashboardLoaded$: Observable<boolean>;
+
+  welcomingTitle: string;
+  welcomingDescription: string;
+  emptyVisualizationMessage: string;
 
   constructor(private store: Store<State>) {
     this.currentDashboardVisualizations$ = store.select(
@@ -39,6 +51,13 @@ export class CurrentDashboardComponent implements OnInit {
     this.currentDashboard$ = store.select(getCurrentDashboard);
     this.currentUser$ = store.select(getCurrentUser);
     this.systemInfo$ = store.select(getSystemInfo);
+    this.dashboardLoading$ = store.select(getDashboardObjectLoading);
+    this.dashboardLoaded$ = store.select(getDashboardObjectLoaded);
+
+    this.welcomingTitle = WELCOMING_TITLE;
+    this.welcomingDescription = WELCOMING_DESCRIPTION;
+    this.emptyVisualizationMessage =
+      'There are no items on this dashboard, search for charts, tables, maps and many more and add them to your dashboard';
   }
 
   ngOnInit() {}

@@ -8,7 +8,9 @@ import {
   ToggleDashboardBookmarkAction,
   CreateDashboardAction,
   InitializeDashboardSettingsAction,
-  State
+  State,
+  getDashboardObjectLoading,
+  getDashboardObjectLoaded
 } from '../../../store';
 import { Dashboard } from '../../models';
 
@@ -22,6 +24,8 @@ export class DashboardComponent implements OnInit {
   dashboards$: Observable<Dashboard[]>;
   currentDashboardId$: Observable<string>;
   menuContainerHeight: number;
+  dashboardLoading$: Observable<boolean>;
+  dashboardLoaded$: Observable<boolean>;
 
   constructor(private store: Store<State>) {
     // initialize dashboads settings
@@ -29,6 +33,8 @@ export class DashboardComponent implements OnInit {
 
     this.dashboards$ = store.select(getAllDashboards);
     this.currentDashboardId$ = store.select(getCurrentDashboardId);
+    this.dashboardLoading$ = store.select(getDashboardObjectLoading);
+    this.dashboardLoaded$ = store.select(getDashboardObjectLoaded);
 
     // menu container height in pixels
     this.menuContainerHeight = 60;

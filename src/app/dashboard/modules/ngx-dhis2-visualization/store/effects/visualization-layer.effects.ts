@@ -12,7 +12,8 @@ import { VisualizationState } from '../reducers';
 import {
   VisualizationLayerActionTypes,
   LoadVisualizationAnalyticsAction,
-  LoadVisualizationAnalyticsSuccessAction
+  LoadVisualizationAnalyticsSuccessAction,
+  UpdateVisualizationLayerAction
 } from '../actions/visualization-layer.actions';
 
 import { UpdateVisualizationObjectAction } from '../actions/visualization-object.actions';
@@ -25,8 +26,8 @@ import {
   getStandardizedAnalyticsObject,
   getSanitizedAnalytics
 } from '../../helpers';
-import { getVisualizationObjectById } from '@hisptz/ngx-dhis2-visualization';
 import { Visualization } from '../../models';
+import { getVisualizationObjectById } from '../selectors';
 
 @Injectable()
 export class VisualizationLayerEffects {
@@ -110,7 +111,14 @@ export class VisualizationLayerEffects {
               }
             );
           } else {
-            console.log(action.visualizationLayers);
+            _.each(action.visualizationLayers, visualizationLayer => {
+              this.store.dispatch(
+                new UpdateVisualizationLayerAction(
+                  visualizationLayer.id,
+                  visualizationLayer
+                )
+              );
+            });
           }
         });
     })
