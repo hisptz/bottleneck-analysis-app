@@ -1,7 +1,7 @@
 {
-    "version": "2.2-alpha.5",
-    "name": "BNA Dashboard Mock up 5",
-    "description": "BNA Dashboard Mock up 5",
+    "version": "2.2-alpha.6",
+    "name": "BNA Dashboard Mock up alpha 6",
+    "description": "BNA Dashboard Mock up alpha 6",
     "appType": "APP",
     "launch_path": "index.html",
     "icons": {
