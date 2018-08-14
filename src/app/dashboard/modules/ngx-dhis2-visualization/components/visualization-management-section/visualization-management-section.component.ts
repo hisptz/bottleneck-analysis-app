@@ -15,6 +15,9 @@ export class VisualizationManagementSectionComponent implements OnInit {
 
   @Input()
   savingFavorite: boolean;
+
+  @Input()
+  hideManagementBlock: boolean;
   @Output()
   save: EventEmitter<any> = new EventEmitter<any>();
 

@@ -22,8 +22,8 @@
   </div>
 
   <div class="visualization-management-footer" *ngIf="!showDeleteConfirmation">
-    <button class="visualization-footer-btn visualization-save-btn" [disabled]="!name || name === ''" title="save this item"
-      (click)="onSave($event)">
+    <button *ngIf="!hideManagementBlock" class="visualization-footer-btn visualization-save-btn" [disabled]="!name || name === ''"
+      title="save this item" (click)="onSave($event)">
       <img src="assets/icons/save.png" alt="">
       <span class="save-btn-text">Save</span>
       <a title="manage" (click)="onToggleManagementPanel($event)">
