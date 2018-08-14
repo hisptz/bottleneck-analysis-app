@@ -336,7 +336,15 @@ export class DashboardEffects {
             switchMap(() => [
               new UpdateDashboardAction(id, {
                 creating: false,
-                updatedOrCreated: true
+                updatedOrCreated: true,
+                access: {
+                  manage: true,
+                  write: true,
+                  update: true,
+                  read: true,
+                  externalize: true,
+                  delete: true
+                }
               }),
               new SetCurrentDashboardAction(id)
             ]),
