@@ -35,9 +35,11 @@ export class VisualizationWidgetComponent implements OnInit {
       this.appKey
     }/index.html?dashboardItemId=${
       this.visualizationId
-    }/#/?orgUnit=${orgUnit}&period=${period}&dashboard=${
+    }&other=/#/?orgUnit=${orgUnit}&period=${period}&dashboard=${
       this.dashboardId
-    }&focusedDashboardItem=${this.focusedDashboardItem}`;
+    }&dashboardItem=${this.visualizationId}&focusedDashboardItem=${
+      this.focusedDashboardItem
+    }`;
   }
 
   ngOnInit() {}
