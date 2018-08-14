@@ -14,7 +14,8 @@ import {
   SetCurrentVisualizationAction,
   GlobalFilterChangeAction,
   getDashboardObjectLoading,
-  getDashboardObjectLoaded
+  getDashboardObjectLoaded,
+  getVisualizationReady
 } from '../../../store';
 import { User, SystemInfo } from '../../../models';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
@@ -38,6 +39,7 @@ export class CurrentDashboardComponent implements OnInit {
   systemInfo$: Observable<SystemInfo>;
   dashboardLoading$: Observable<boolean>;
   dashboardLoaded$: Observable<boolean>;
+  visualizationsReady$: Observable<boolean>;
 
   welcomingTitle: string;
   welcomingDescription: string;
@@ -53,6 +55,7 @@ export class CurrentDashboardComponent implements OnInit {
     this.systemInfo$ = store.select(getSystemInfo);
     this.dashboardLoading$ = store.select(getDashboardObjectLoading);
     this.dashboardLoaded$ = store.select(getDashboardObjectLoaded);
+    this.visualizationsReady$ = store.select(getVisualizationReady);
 
     this.welcomingTitle = WELCOMING_TITLE;
     this.welcomingDescription = WELCOMING_DESCRIPTION;

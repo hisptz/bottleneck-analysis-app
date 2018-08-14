@@ -9,14 +9,18 @@ import {
 import { DashboardVisualization } from '../../dashboard/models';
 
 export interface DashboardVisualizationState
-  extends EntityState<DashboardVisualization> {}
+  extends EntityState<DashboardVisualization> {
+  visualizationsReady: boolean;
+}
 
 export const dashboardVisualizationAdapter: EntityAdapter<
   DashboardVisualization
 > = createEntityAdapter<DashboardVisualization>();
 
 const initialState: DashboardVisualizationState = dashboardVisualizationAdapter.getInitialState(
-  {}
+  {
+    visualizationsReady: false
+  }
 );
 
 export function dashboardVisualizationReducer(
@@ -52,6 +56,10 @@ export function dashboardVisualizationReducer(
       );
     }
 
+    case DashboardVisualizationActionTypes.LoadDashboardVisualizationSuccess: {
+      return { ...state, visualizationsReady: true };
+    }
+
     case DashboardVisualizationActionTypes.RemoveDashboardVisualizationItem: {
       const correspondingDashboard = state.entities[action.dashboardId];
       const items = _.filter(
@@ -70,6 +78,10 @@ export function dashboardVisualizationReducer(
   }
   return state;
 }
+
+export const getVisualizationsReadyState = (
+  state: DashboardVisualizationState
+) => state.visualizationsReady;
 
 export const {
   selectEntities: getDashboardVisualizationEntitiesState

@@ -5,7 +5,8 @@ export enum DashboardVisualizationActionTypes {
   AddDashboardVisualizations = '[DashboardVisualization] Add dashboard visualizations',
   AddDashboardVisualization = '[DashboardVisualization] Add dashboard visualization',
   AddDashboardVisualizationItem = '[DashboardVisualization] Add dashboard visualization item',
-  RemoveDashboardVisualizationItem = '[DashboardVisualization] Remove dashboard visualization item'
+  RemoveDashboardVisualizationItem = '[DashboardVisualization] Remove dashboard visualization item',
+  LoadDashboardVisualizationSuccess = '[DashboardVisualization] Load dashboard visualization success'
 }
 
 export class AddDashboardVisualizationsAction implements Action {
@@ -30,8 +31,14 @@ export class RemoveDashboardVisualizationItemAction implements Action {
   constructor(public dashboardId: string, public dashboardItemId: string) {}
 }
 
+export class LoadDashboardVisualizationSuccessAction implements Action {
+  readonly type =
+    DashboardVisualizationActionTypes.LoadDashboardVisualizationSuccess;
+}
+
 export type DashboardVisualizationAction =
   | AddDashboardVisualizationsAction
   | AddDashboardVisualizationAction
   | AddDashboardVisualizationItemAction
-  | RemoveDashboardVisualizationItemAction;
+  | RemoveDashboardVisualizationItemAction
+  | LoadDashboardVisualizationSuccessAction;

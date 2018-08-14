@@ -11,23 +11,26 @@ export function getSelectionDimensionsFromFavorite(favoriteLayer) {
     favoriteLayer.dataElementDimensions,
     dataElementDimension => dataElementDimension.dataElement
   );
-  return [
-    ...getStandardizedDimensions(
-      favoriteLayer.rows,
-      favoriteDataElements,
-      'rows'
-    ),
-    ...getStandardizedDimensions(
-      favoriteLayer.columns,
-      favoriteDataElements,
-      'columns'
-    ),
-    ...getStandardizedDimensions(
-      favoriteLayer.filters,
-      favoriteDataElements,
-      'filters'
-    )
-  ];
+  return _.filter(
+    [
+      ...getStandardizedDimensions(
+        favoriteLayer.rows,
+        favoriteDataElements,
+        'rows'
+      ),
+      ...getStandardizedDimensions(
+        favoriteLayer.columns,
+        favoriteDataElements,
+        'columns'
+      ),
+      ...getStandardizedDimensions(
+        favoriteLayer.filters,
+        favoriteDataElements,
+        'filters'
+      )
+    ],
+    dataSelection => dataSelection.dimension !== 'dy'
+  );
 }
 
 function getStandardizedDimensions(

@@ -50,7 +50,8 @@ import {
   ToggleFullScreenAction,
   LoadVisualizationAnalyticsAction,
   RemoveVisualizationObjectAction,
-  RemoveVisualizationFavoriteAction
+  RemoveVisualizationFavoriteAction,
+  VisualizationObjectActionTypes
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
 
 import {
@@ -71,7 +72,8 @@ import {
   AddDashboardVisualizationItemAction,
   Go,
   RemoveDashboardVisualizationItemAction,
-  AddDashboardVisualizationAction
+  AddDashboardVisualizationAction,
+  LoadDashboardVisualizationSuccessAction
 } from '../actions';
 import { User } from '../../models';
 import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
@@ -146,6 +148,12 @@ export class DashboardEffects {
         )
       )
     ])
+  );
+
+  @Effect()
+  addAllVisualizations$: Observable<any> = this.actions$.pipe(
+    ofType(VisualizationObjectActionTypes.ADD_ALL_VISUALIZATION_OBJECTS),
+    map(() => new LoadDashboardVisualizationSuccessAction())
   );
 
   @Effect({ dispatch: false })
