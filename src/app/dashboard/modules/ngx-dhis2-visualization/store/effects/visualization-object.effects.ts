@@ -112,7 +112,7 @@ export class VisualizationObjectEffects {
               this.store.dispatch(
                 new LoadVisualizationFavoriteAction(
                   visualizationObject,
-                  action.visualizationLayers,
+                  action.currentUser,
                   action.systemInfo
                 )
               );
@@ -342,42 +342,29 @@ export class VisualizationObjectEffects {
             );
 
             // generate visualization layers
-            const visualizationLayers: VisualizationLayer[] = !action
-              .visualization.isNonVisualizable
-              ? _.map(
-                  action.favorite.mapViews || [action.favorite],
-                  (favoriteLayer: any) => {
-                    const dataSelections = getSelectionDimensionsFromFavorite(
-                      favoriteLayer
-                    );
-                    return {
-                      id: favoriteLayer.id,
-                      dataSelections,
-                      layerType: getVisualizationLayerType(
-                        action.visualization.favorite.type,
-                        favoriteLayer
-                      ),
-                      analytics: null,
-                      config: {
-                        ...favoriteLayer,
-                        type: favoriteLayer.type
-                          ? favoriteLayer.type
-                          : 'COLUMN',
-                        spatialSupport,
-                        visualizationType: action.visualization.type
-                      }
-                    };
+            const visualizationLayers: VisualizationLayer[] = _.map(
+              action.favorite.mapViews || [action.favorite],
+              (favoriteLayer: any) => {
+                const dataSelections = getSelectionDimensionsFromFavorite(
+                  favoriteLayer
+                );
+                return {
+                  id: favoriteLayer.id,
+                  dataSelections,
+                  layerType: getVisualizationLayerType(
+                    action.visualization.favorite.type,
+                    favoriteLayer
+                  ),
+                  analytics: null,
+                  config: {
+                    ...favoriteLayer,
+                    type: favoriteLayer.type ? favoriteLayer.type : 'COLUMN',
+                    spatialSupport,
+                    visualizationType: action.visualization.type
                   }
-                )
-              : [
-                  {
-                    id: generateUid(),
-                    ...getDefaultVisualizationLayer(
-                      action.currentUser,
-                      action.systemInfo
-                    )
-                  }
-                ];
+                };
+              }
+            );
 
             // Add visualization Layers
             _.each(visualizationLayers, visualizationLayer => {
@@ -446,10 +433,21 @@ export class VisualizationObjectEffects {
             });
           }
         } else {
+          // Update visualization layers
+          const visualizationLayer: VisualizationLayer = {
+            ...getDefaultVisualizationLayer(
+              action.currentUser,
+              action.systemInfo
+            ),
+            id: generateUid()
+          };
+          this.store.dispatch(
+            new AddVisualizationLayerAction(visualizationLayer)
+          );
           // Update visualization object
           this.store.dispatch(
             new UpdateVisualizationObjectAction(action.visualization.id, {
-              layers: [visualizationFavoriteOptions.id],
+              layers: [visualizationLayer.id],
               progress: {
                 statusCode: 200,
                 statusText: 'OK',
