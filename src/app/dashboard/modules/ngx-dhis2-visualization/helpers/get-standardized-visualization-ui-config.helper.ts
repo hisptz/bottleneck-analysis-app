@@ -17,7 +17,7 @@ export function getStandardizedVisualizationUiConfig(
     fullScreen: false,
     showFilters: !isNonVisualizable,
     hideFooter: true,
-    hideHeader: isNonVisualizable,
+    hideHeader: false,
     hideManagementBlock: isNonVisualizable,
     hideTypeButtons: isNonVisualizable,
     showInterpretionBlock: !isNonVisualizable,
