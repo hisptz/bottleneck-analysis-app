@@ -8,17 +8,20 @@ import {
   VisualizationUiConfigurationAction,
   VisualizationUiConfigurationActionTypes
 } from '../actions';
-import { convertVerticalHeightToPixel } from '../../helpers/convert-vertical-height-to-pixel.helper';
 
 export interface VisualizationUiConfigurationState
-  extends EntityState<VisualizationUiConfig> {}
+  extends EntityState<VisualizationUiConfig> {
+  focusedVisualization: string;
+}
 
 export const visualizationUiConfigurationAdapter: EntityAdapter<
   VisualizationUiConfig
 > = createEntityAdapter<VisualizationUiConfig>();
 
 const initialState: VisualizationUiConfigurationState = visualizationUiConfigurationAdapter.getInitialState(
-  {}
+  {
+    focusedVisualization: ''
+  }
 );
 
 export function visualizationUiConfigurationReducer(
@@ -40,7 +43,7 @@ export function visualizationUiConfigurationReducer(
     case VisualizationUiConfigurationActionTypes.TOGGLE_VISUALIZATION_FOCUS:
       return visualizationUiConfigurationAdapter.updateOne(
         { id: action.id, changes: action.changes },
-        state
+        { ...state, focusedVisualization: action.id.split('_')[0] }
       );
     case VisualizationUiConfigurationActionTypes.TOGGLE_FULL_SCREEN:
       const visualizationUiConfig = state.entities[action.id];
@@ -62,3 +65,7 @@ export function visualizationUiConfigurationReducer(
   }
   return state;
 }
+
+export const getFocusedVisualizationState = (
+  state: VisualizationUiConfigurationState
+) => state.focusedVisualization;

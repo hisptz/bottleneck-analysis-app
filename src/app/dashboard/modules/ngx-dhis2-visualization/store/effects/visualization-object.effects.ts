@@ -59,14 +59,7 @@ import {
   getSelectionDimensionsFromAnalytics
 } from '../../helpers';
 import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
-import {
-  getVisualizationObjectById,
-  getCombinedVisualizationObjectById
-} from '../selectors';
-import {
-  getCurrentVisualizationObjectLayers,
-  getCurrentVisualizationConfig
-} from '@hisptz/ngx-dhis2-visualization';
+import { getCombinedVisualizationObjectById } from '../selectors';
 import { getFavoritePayload } from '../../helpers/get-favorite-payload.helpers';
 import { UtilService } from '../../../../../services';
 import { DashboardObjectState } from '../../../../../store/reducers/dashboard.reducer';

@@ -13,6 +13,8 @@ export class VisualizationWidgetComponent implements OnInit {
   @Input()
   dashboardId: string;
   @Input()
+  focusedDashboardItem: string;
+  @Input()
   appKey: string;
   @Input()
   visualizationId: string;
@@ -29,12 +31,13 @@ export class VisualizationWidgetComponent implements OnInit {
     const orgUnit = this.getDataSelectionIdsByDimension(dataSelections, 'ou');
 
     const period = this.getDataSelectionIdsByDimension(dataSelections, 'pe');
-    const appUrl = `${this.contextPath}/api/apps/${
+    return `${this.contextPath}/api/apps/${
       this.appKey
     }/index.html?dashboardItemId=${
       this.visualizationId
-    }/#/?orgUnit=${orgUnit}&period=${period}&dashboard=dashboardId&dashboardItem=dashboardItemId`;
-    return appUrl;
+    }/#/?orgUnit=${orgUnit}&period=${period}&dashboard=${
+      this.dashboardId
+    }&focusedDashboardItem=${this.focusedDashboardItem}`;
   }
 
   ngOnInit() {}

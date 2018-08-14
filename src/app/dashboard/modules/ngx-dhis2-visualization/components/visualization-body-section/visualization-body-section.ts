@@ -31,6 +31,12 @@ export class VisualizationBodySectionComponent {
   @Input()
   visualizationUiConfig: VisualizationUiConfig;
 
+  @Input()
+  dashboardId: string;
+
+  @Input()
+  focusedVisualization: string;
+
   @Output()
   updateVisualizationLayer: EventEmitter<any> = new EventEmitter<any>();
   get metadataIdentifiers() {

@@ -26,7 +26,10 @@ import {
   getVisualizationObjectById
 } from '../../store/selectors/visualization-object.selectors';
 import { getCurrentVisualizationObjectLayers } from '../../store/selectors/visualization-layer.selectors';
-import { getCurrentVisualizationUiConfig } from '../../store/selectors/visualization-ui-configuration.selectors';
+import {
+  getCurrentVisualizationUiConfig,
+  getFocusedVisualization
+} from '../../store/selectors/visualization-ui-configuration.selectors';
 import { getCurrentVisualizationConfig } from '../../store/selectors/visualization-configuration.selectors';
 import {
   ShowOrHideVisualizationBodyAction,
@@ -79,6 +82,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
   visualizationUiConfig$: Observable<VisualizationUiConfig>;
   visualizationProgress$: Observable<VisualizationProgress>;
   visualizationConfig$: Observable<VisualizationConfig>;
+  focusedVisualization$: Observable<string>;
 
   constructor(private store: Store<VisualizationState>) {
     this.cardFocused = false;
@@ -113,6 +117,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
         this.visualizationConfig$ = this.store.select(
           getCurrentVisualizationConfig(visualizationInputs.id)
         );
+
+        this.focusedVisualization$ = store.select(getFocusedVisualization);
       }
     });
   }
