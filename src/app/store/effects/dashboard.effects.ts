@@ -47,7 +47,9 @@ import {
   ToggleFullScreenAction,
   LoadVisualizationAnalyticsAction,
   RemoveVisualizationObjectAction,
-  RemoveVisualizationFavoriteAction
+  RemoveVisualizationFavoriteAction,
+  VisualizationObjectActionTypes,
+  SaveVisualizationFavoriteSuccessAction
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
 
 import {
@@ -410,6 +412,27 @@ export class DashboardEffects {
               );
             }
           )
+    )
+  );
+
+  @Effect()
+  saveVisualizationFavoriteSuccess$: Observable<any> = this.actions$.pipe(
+    ofType(VisualizationObjectActionTypes.SaveVisualizationFavoriteSuccess),
+    map(
+      (action: SaveVisualizationFavoriteSuccessAction) =>
+        new ManageDashboardItemAction(
+          action.dashboardId,
+          {
+            id: action.visualizationId,
+            type: action.favoriteType,
+            [_.camelCase(action.favoriteType)]: {
+              id: action.favoriteDetails.id,
+              displayName: action.favoriteDetails.name
+            }
+          },
+          action.action,
+          true
+        )
     )
   );
 

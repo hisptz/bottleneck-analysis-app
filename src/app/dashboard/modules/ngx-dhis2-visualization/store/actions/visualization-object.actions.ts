@@ -10,6 +10,7 @@ export enum VisualizationObjectActionTypes {
   LOAD_VISUALIZATION_FAVORITE_SUCCESS = '[Visualization] Load visualization favorite success',
   LOAD_VISUALIZATION_FAVORITE_FAIL = '[Visualization] Load visualization favorite fail',
   SaveVisualizationFavorite = '[Visualization] Save visualization favorite',
+  SaveVisualizationFavoriteSuccess = '[Visualization] Save visualization favorite success',
   RemoveVisualizationFavorite = '[Visualization] Remove visualization favorite',
   RemoveVisualizationObject = '[Visualization] Remove visualization object'
 }
@@ -84,6 +85,18 @@ export class SaveVisualizationFavoriteAction implements Action {
   ) {}
 }
 
+export class SaveVisualizationFavoriteSuccessAction implements Action {
+  readonly type =
+    VisualizationObjectActionTypes.SaveVisualizationFavoriteSuccess;
+  constructor(
+    public dashboardId: string,
+    public visualizationId: string,
+    public favoriteType: string,
+    public favoriteDetails: any,
+    public action: string
+  ) {}
+}
+
 export class RemoveVisualizationObjectAction implements Action {
   readonly type = VisualizationObjectActionTypes.RemoveVisualizationObject;
   constructor(public id: string, public options?: any) {}
@@ -108,4 +121,5 @@ export type VisualizationObjectAction =
   | InitializeVisualizationObjectAction
   | UpdateVisualizationObjectAction
   | RemoveVisualizationObjectAction
-  | RemoveVisualizationFavoriteAction;
+  | RemoveVisualizationFavoriteAction
+  | SaveVisualizationFavoriteSuccessAction;

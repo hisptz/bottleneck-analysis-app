@@ -28,12 +28,12 @@ import {
   UpdateVisualizationConfigurationAction,
   AddVisualizationUiConfigurationAction,
   SaveVisualizationFavoriteAction,
-  UpdateVisualizationLayersAction,
   RemoveVisualizationObjectAction,
   RemoveVisualizationConfigurationAction,
   RemoveVisualizationLayerAction,
   RemoveVisualizationUiConfigurationAction,
-  RemoveVisualizationFavoriteAction
+  RemoveVisualizationFavoriteAction,
+  SaveVisualizationFavoriteSuccessAction
 } from '../actions';
 
 // reducers
@@ -61,9 +61,6 @@ import {
 import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
 import { getCombinedVisualizationObjectById } from '../selectors';
 import { getFavoritePayload } from '../../helpers/get-favorite-payload.helpers';
-import { UtilService } from '../../../../../services';
-import { DashboardObjectState } from '../../../../../store/reducers/dashboard.reducer';
-import { ManageDashboardItemAction } from '../../../../../store';
 import { getDefaultVisualizationLayer } from '../../helpers/get-default-visualization-layer.helper';
 import { generateUid } from '../../../../../helpers/generate-uid.helper';
 
@@ -514,19 +511,13 @@ export class VisualizationObjectEffects {
             favoritePromise.subscribe(favoriteResult => {
               // Save favorite as dashboard item
 
-              this.dashboardStore.dispatch(
-                new ManageDashboardItemAction(
+              this.store.dispatch(
+                new SaveVisualizationFavoriteSuccessAction(
                   action.dashboardId,
-                  {
-                    id: action.id,
-                    type: favoriteDetails.favoriteType,
-                    [_.camelCase(favoriteDetails.favoriteType)]: {
-                      id: favoriteResult.id,
-                      displayName: favoriteResult.name
-                    }
-                  },
-                  visualizationObject.isNew ? 'ADD' : 'UPDATE',
-                  true
+                  action.id,
+                  favoriteDetails.favoriteType,
+                  favoriteResult,
+                  visualizationObject.isNew ? 'ADD' : 'UPDATE'
                 )
               );
 
@@ -575,9 +566,7 @@ export class VisualizationObjectEffects {
   constructor(
     private actions$: Actions,
     private store: Store<VisualizationState>,
-    private dashboardStore: Store<DashboardObjectState>,
     private favoriteService: FavoriteService,
-    private systemInfoService: SystemInfoService,
-    private utilService: UtilService
+    private systemInfoService: SystemInfoService
   ) {}
 }
