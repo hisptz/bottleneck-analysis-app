@@ -74,7 +74,8 @@ export class DashboardVisualizationEffects {
               );
               return new LoadDashboardVisualizationsSuccessAction(
                 action.dashboardId,
-                dashboardVisualizations
+                dashboardVisualizations,
+                action.currentVisualizationId
               );
             }),
             catchError((error: any) =>
@@ -104,7 +105,11 @@ export class DashboardVisualizationEffects {
       // Deduce visualization Ui configuration from dashboard items and addd them to visualization ui store
       const visualizationUiConfigs: any[] = _.map(
         action.dashboardItems || [],
-        dashboardItem => getStandardizedVisualizationUiConfig(dashboardItem)
+        dashboardItem =>
+          getStandardizedVisualizationUiConfig(
+            dashboardItem,
+            action.currentVisualizationId
+          )
       );
 
       this.store.dispatch(

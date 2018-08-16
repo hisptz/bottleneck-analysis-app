@@ -15,13 +15,20 @@ export enum DashboardVisualizationActionTypes {
 
 export class LoadDashboardVisualizationsAction implements Action {
   readonly type = DashboardVisualizationActionTypes.LoadDashboardVisualizations;
-  constructor(public dashboardId: string) {}
+  constructor(
+    public dashboardId: string,
+    public currentVisualizationId: string
+  ) {}
 }
 
 export class LoadDashboardVisualizationsSuccessAction implements Action {
   readonly type =
     DashboardVisualizationActionTypes.LoadDashboardVisualizationsSuccess;
-  constructor(public dashboardId: string, public dashboardItems: any[]) {}
+  constructor(
+    public dashboardId: string,
+    public dashboardItems: any[],
+    public currentVisualizationId: string
+  ) {}
 }
 
 export class LoadDashboardVisualizationsFailAction implements Action {

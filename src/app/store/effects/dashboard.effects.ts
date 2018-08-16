@@ -132,8 +132,6 @@ export class DashboardEffects {
       if (!currentVisualizationId) {
         this.store.dispatch(new Go({ path: [`/dashboards/${action.id}`] }));
       } else {
-        this.store.dispatch(new ToggleFullScreenAction(currentVisualizationId));
-
         this.store.dispatch(
           new SetCurrentVisualizationAction(currentVisualizationId, action.id)
         );
@@ -146,7 +144,10 @@ export class DashboardEffects {
         .subscribe((dashboardVisualization: DashboardVisualization) => {
           if (!dashboardVisualization) {
             this.store.dispatch(
-              new LoadDashboardVisualizationsAction(action.id)
+              new LoadDashboardVisualizationsAction(
+                action.id,
+                currentVisualizationId
+              )
             );
           }
         });

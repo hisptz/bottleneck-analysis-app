@@ -5,7 +5,9 @@ import {
   getCurrentVisualizationId,
   getCurrentDashboardId,
   SetCurrentDashboardAction,
-  getCurrentUser
+  getCurrentUser,
+  getCurrentDashboardVisualizationLoading,
+  getCurrentDashboardVisualizationLoaded
 } from '../../../store';
 import { Observable } from 'rxjs';
 import { User, SystemInfo } from '../../../models';
@@ -21,11 +23,21 @@ export class CurrentDashboardVisualizationComponent implements OnInit {
   currentDashboardId$: Observable<string>;
   currentUser$: Observable<User>;
   systemInfo$: Observable<SystemInfo>;
+  currentDashboardVisualizationLoading$: Observable<boolean>;
+  currentDashboardVisualizationLoaded$: Observable<boolean>;
   constructor(private store: Store<State>) {
     this.currentVisualizationId$ = this.store.select(getCurrentVisualizationId);
     this.currentDashboardId$ = this.store.select(getCurrentDashboardId);
     this.currentUser$ = store.select(getCurrentUser);
     this.systemInfo$ = store.select(getSystemInfo);
+
+    this.currentDashboardVisualizationLoading$ = store.select(
+      getCurrentDashboardVisualizationLoading
+    );
+
+    this.currentDashboardVisualizationLoaded$ = store.select(
+      getCurrentDashboardVisualizationLoaded
+    );
   }
 
   onToggleVisualizationFullScreen(fullScreenDetails: any) {
