@@ -149,9 +149,14 @@ export class DashboardService {
         return [incomingDashboardItem, ...dashboardItems];
       }
       case 'UPDATE': {
+        const correspondingDashboardItem = _.find(dashboardItems, [
+          'id',
+          incomingDashboardItem.id
+        ]);
         const dashboardItemIndex = dashboardItems.indexOf(
-          incomingDashboardItem
+          correspondingDashboardItem
         );
+
         return dashboardItemIndex !== -1
           ? [
               ..._.slice(dashboardItems, 0, dashboardItemIndex),
@@ -161,8 +166,12 @@ export class DashboardService {
           : dashboardItems;
       }
       case 'DELETE': {
+        const correspondingDashboardItem = _.find(dashboardItems, [
+          'id',
+          incomingDashboardItem.id
+        ]);
         const dashboardItemIndex = dashboardItems.indexOf(
-          incomingDashboardItem
+          correspondingDashboardItem
         );
         return dashboardItemIndex !== -1
           ? [
