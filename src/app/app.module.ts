@@ -57,8 +57,8 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
     /**
      * Module for registering service worker
      */
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: !environment.production
     }),
 
     /**

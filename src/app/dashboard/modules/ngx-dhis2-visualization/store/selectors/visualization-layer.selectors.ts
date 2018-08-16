@@ -36,9 +36,7 @@ export const getCurrentVisualizationObjectLayers = (visualizationId: string) =>
       }
 
       const currentVisualizationUiConfiguration: VisualizationUiConfig =
-        visualizationUiConfigurationEntities[
-          currentVisualizationObject.uiConfigId
-        ];
+        visualizationUiConfigurationEntities[visualizationId];
       return currentVisualizationUiConfiguration.showBody
         ? _.map(
             _.filter(

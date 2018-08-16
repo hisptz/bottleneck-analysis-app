@@ -34,8 +34,8 @@ export function dashboardVisualizationReducer(
         state
       );
 
-    case DashboardVisualizationActionTypes.AddDashboardVisualization:
-      return dashboardVisualizationAdapter.addOne(
+    case DashboardVisualizationActionTypes.UpsertDashboardVisualization:
+      return dashboardVisualizationAdapter.upsertOne(
         action.dashboardVisualization,
         state
       );

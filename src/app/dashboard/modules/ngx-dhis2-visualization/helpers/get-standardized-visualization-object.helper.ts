@@ -9,7 +9,7 @@ export function getStandardizedVisualizationObject(
   const isNonVisualizable = checkIfVisualizationIsNonVisualizable(
     visualizationItem.type
   );
-  return {
+  const visualizationObject = {
     id: visualizationItem.id,
     name: getVisualizationName(visualizationItem),
     type: visualizationItem.type,
@@ -25,10 +25,9 @@ export function getStandardizedVisualizationObject(
       percent: 0,
       message: 'Loading..'
     },
-    uiConfigId: `${visualizationItem.id}_ui_config`,
-    visualizationConfigId: `${visualizationItem.id}_config`,
     layers: []
   };
+  return visualizationObject;
 }
 
 function getVisualizationName(visualizationItem: any) {

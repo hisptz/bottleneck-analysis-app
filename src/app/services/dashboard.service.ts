@@ -25,7 +25,9 @@ export class DashboardService {
 
   loadFromApi() {
     return this.httpClient
-      .get(`dashboards.json${this.dashboardUrlFields}`, true)
+      .get(
+        `dashboards.json?fields=id,name,description,access,created,lastUpdated,favorite,favorites&paging=false`
+      )
       .pipe(
         map((dashboardResponse: any) => dashboardResponse.dashboards || [])
       );
@@ -51,11 +53,16 @@ export class DashboardService {
     );
   }
 
-  load(id: string, customFields?: string): Observable<Dashboard[]> {
-    return this.httpClient.get(
-      `dashboards/${id}.json${customFields || this.dashboardUrlFields}`,
-      true
-    );
+  load(
+    id: string,
+    dashboardSettings: DashboardSettings,
+    customFields?: string
+  ): Observable<Dashboard[]> {
+    const dashboardUrl =
+      dashboardSettings && dashboardSettings.useDataStoreAsSource
+        ? `dataStore/dashboards/${id}`
+        : `dashboards/${id}.json${customFields || this.dashboardUrlFields}`;
+    return this.httpClient.get(dashboardUrl);
   }
 
   create(dashboard: Dashboard, dashboardSettings: DashboardSettings) {
@@ -95,6 +102,7 @@ export class DashboardService {
         ? this.httpClient.get(`dataStore/dashboards/${dashboardId}`)
         : this.load(
             dashboardId,
+            dashboardSettings,
             '?fields=id,created,lastUpdated,externalAccess,publicAccess,favorites,' +
               'translations,name,userAccesses,userGroupAccesses,dashboardItems[id,type,appKey,chart[id,name],' +
               'map[id,name],reportTable[id,name],eventReport[id,name],eventChart[id,name]]'

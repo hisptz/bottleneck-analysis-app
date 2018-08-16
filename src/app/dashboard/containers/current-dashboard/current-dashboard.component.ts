@@ -2,11 +2,11 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { Dashboard } from '../../models';
+import { Dashboard, DashboardVisualization } from '../../models';
 import {
   getCurrentUser,
   State,
-  getCurrentDashboardVisualizations,
+  getCurrentDashboardVisualization,
   getCurrentDashboard,
   ToggleDashboardBookmarkAction,
   ManageDashboardItemAction,
@@ -15,7 +15,10 @@ import {
   GlobalFilterChangeAction,
   getDashboardObjectLoading,
   getDashboardObjectLoaded,
-  getVisualizationReady
+  getVisualizationReady,
+  getCurrentDashboardVisualizationItems,
+  getCurrentDashboardVisualizationLoading,
+  getCurrentDashboardVisualizationLoaded
 } from '../../../store';
 import { User, SystemInfo } from '../../../models';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
@@ -33,7 +36,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrentDashboardComponent implements OnInit {
-  currentDashboardVisualizations$: Observable<Array<string>>;
+  currentDashboardVisualizationItems$: Observable<any[]>;
+  currentDashboardVisualizationLoading$: Observable<boolean>;
+  currentDashboardVisualizationLoaded$: Observable<boolean>;
   currentDashboard$: Observable<Dashboard>;
   currentUser$: Observable<User>;
   systemInfo$: Observable<SystemInfo>;
@@ -46,8 +51,16 @@ export class CurrentDashboardComponent implements OnInit {
   emptyVisualizationMessage: string;
 
   constructor(private store: Store<State>) {
-    this.currentDashboardVisualizations$ = store.select(
-      getCurrentDashboardVisualizations
+    this.currentDashboardVisualizationItems$ = store.select(
+      getCurrentDashboardVisualizationItems
+    );
+
+    this.currentDashboardVisualizationLoading$ = store.select(
+      getCurrentDashboardVisualizationLoading
+    );
+
+    this.currentDashboardVisualizationLoaded$ = store.select(
+      getCurrentDashboardVisualizationLoaded
     );
 
     this.currentDashboard$ = store.select(getCurrentDashboard);

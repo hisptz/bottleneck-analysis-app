@@ -9,7 +9,7 @@ export function getStandardizedVisualizationUiConfig(
     visualizationItem.type
   );
   return {
-    id: `${visualizationItem.id}_ui_config`,
+    id: visualizationItem.id,
     shape: visualizationItem.shape || 'NORMAL',
     height: '450px',
     width: getVisualizationWidthFromShape(visualizationItem.shape || 'NORMAL'),

@@ -4,9 +4,12 @@ import {
   State,
   getCurrentVisualizationId,
   getCurrentDashboardId,
-  SetCurrentDashboardAction
+  SetCurrentDashboardAction,
+  getCurrentUser
 } from '../../../store';
 import { Observable } from 'rxjs';
+import { User, SystemInfo } from '../../../models';
+import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
 
 @Component({
   selector: 'app-current-dashboard-visualization',
@@ -16,9 +19,13 @@ import { Observable } from 'rxjs';
 export class CurrentDashboardVisualizationComponent implements OnInit {
   currentVisualizationId$: Observable<string>;
   currentDashboardId$: Observable<string>;
+  currentUser$: Observable<User>;
+  systemInfo$: Observable<SystemInfo>;
   constructor(private store: Store<State>) {
     this.currentVisualizationId$ = this.store.select(getCurrentVisualizationId);
     this.currentDashboardId$ = this.store.select(getCurrentDashboardId);
+    this.currentUser$ = store.select(getCurrentUser);
+    this.systemInfo$ = store.select(getSystemInfo);
   }
 
   onToggleVisualizationFullScreen(fullScreenDetails: any) {

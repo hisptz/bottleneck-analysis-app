@@ -11,7 +11,6 @@ export interface Visualization {
   lastUpdated?: string;
   description?: string;
   visualizationConfigId?: string;
-  uiConfigId?: string;
   progress?: VisualizationProgress;
   layers: Array<string>;
   isNew?: boolean;

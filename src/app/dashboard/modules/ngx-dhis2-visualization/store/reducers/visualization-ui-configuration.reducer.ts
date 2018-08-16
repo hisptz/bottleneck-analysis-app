@@ -29,8 +29,8 @@ export function visualizationUiConfigurationReducer(
   action: VisualizationUiConfigurationAction
 ): VisualizationUiConfigurationState {
   switch (action.type) {
-    case VisualizationUiConfigurationActionTypes.ADD_ALL_VISUALIZATION_UI_CONFIGURATIONS:
-      return visualizationUiConfigurationAdapter.addAll(
+    case VisualizationUiConfigurationActionTypes.AddVisualizationUiConfigurations:
+      return visualizationUiConfigurationAdapter.addMany(
         action.visualizationUiConfigurations,
         state
       );

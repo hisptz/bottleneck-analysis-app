@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { VisualizationUiConfig } from '../../models';
 
 export enum VisualizationUiConfigurationActionTypes {
-  ADD_ALL_VISUALIZATION_UI_CONFIGURATIONS = '[VisualizationUIConfig] Add all visualization Ui configurations',
+  AddVisualizationUiConfigurations = '[VisualizationUIConfig] Add all visualization Ui configurations',
   ADD_VISUALIZATION_UI_CONFIGURATION = '[VisualizationUIConfig] Add visualization Ui configuration',
   SHOW_OR_HIDE_VISUALIZATION_BODY = '[VisualizationUIConfig] show or hide visualization body',
   TOGGLE_FULL_SCREEN = '[VisualizationUIConfig] toggle full screen',
@@ -17,9 +17,9 @@ export class AddVisualizationUiConfigurationAction implements Action {
   constructor(public visualizationUiConfiguration: VisualizationUiConfig) {}
 }
 
-export class AddAllVisualizationUiConfigurationsAction implements Action {
+export class AddVisualizationUiConfigurationsAction implements Action {
   readonly type =
-    VisualizationUiConfigurationActionTypes.ADD_ALL_VISUALIZATION_UI_CONFIGURATIONS;
+    VisualizationUiConfigurationActionTypes.AddVisualizationUiConfigurations;
 
   constructor(public visualizationUiConfigurations: VisualizationUiConfig[]) {}
 }
@@ -56,7 +56,7 @@ export class RemoveVisualizationUiConfigurationAction implements Action {
 }
 
 export type VisualizationUiConfigurationAction =
-  | AddAllVisualizationUiConfigurationsAction
+  | AddVisualizationUiConfigurationsAction
   | AddVisualizationUiConfigurationAction
   | ShowOrHideVisualizationBodyAction
   | ToggleFullScreenAction

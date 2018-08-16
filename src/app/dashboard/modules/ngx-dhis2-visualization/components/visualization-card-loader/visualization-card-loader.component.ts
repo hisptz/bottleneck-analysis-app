@@ -7,18 +7,20 @@ import * as _ from 'lodash';
   styleUrls: ['./visualization-card-loader.component.css']
 })
 export class VisualizationCardLoaderComponent implements OnInit {
-  @Input() visualizationType: string;
-  @Input() height: string;
-  @Input() name: string;
+  @Input()
+  visualizationType: string;
+  @Input()
+  height: string;
+  @Input()
+  name: string;
   tableCellCounts: any[];
   chartBars: any[];
 
   constructor() {
-    this.tableCellCounts = _.range(20);
+    this.tableCellCounts = _.range(10);
     this.chartBars = ['70', '30', '80', '10', '30', '60'];
     this.height = '400px';
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

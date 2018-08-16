@@ -2,10 +2,10 @@ import { createSelector } from '@ngrx/store';
 import { getCurrentDashboardId } from './dashboard.selectors';
 import {
   getDashboardVisualizationEntitiesState,
-  getVisualizationsReadyState,
   DashboardVisualizationState
 } from '../reducers/dashboard-visualization.reducer';
 import { getRootState, State } from '../reducers';
+import { DashboardVisualization } from '../../dashboard/models';
 
 export const getDashboardVisualizationState = createSelector(
   getRootState,
@@ -17,15 +17,36 @@ export const getDashboardVisualizationEntities = createSelector(
   getDashboardVisualizationEntitiesState
 );
 
-export const getCurrentDashboardVisualizations = createSelector(
+export const getCurrentDashboardVisualization = createSelector(
   getDashboardVisualizationEntities,
   getCurrentDashboardId,
-  (dashboardVisualizationEntities, currentDashboardId) => {
-    const dashboardVisualizations =
-      dashboardVisualizationEntities[currentDashboardId];
-    return dashboardVisualizations ? dashboardVisualizations.items : [];
-  }
+  (dashboardVisualizationEntities, currentDashboardId) =>
+    dashboardVisualizationEntities[currentDashboardId]
 );
+
+export const getCurrentDashboardVisualizationItems = createSelector(
+  getCurrentDashboardVisualization,
+  (currentDashboardVisualization: DashboardVisualization) =>
+    currentDashboardVisualization ? currentDashboardVisualization.items : []
+);
+
+export const getCurrentDashboardVisualizationLoading = createSelector(
+  getCurrentDashboardVisualization,
+  (currentDashboardVisualization: DashboardVisualization) =>
+    currentDashboardVisualization ? currentDashboardVisualization.loading : true
+);
+
+export const getCurrentDashboardVisualizationLoaded = createSelector(
+  getCurrentDashboardVisualization,
+  (currentDashboardVisualization: DashboardVisualization) =>
+    currentDashboardVisualization ? currentDashboardVisualization.loaded : false
+);
+
+export const getDashboardVisualizationById = id =>
+  createSelector(
+    getDashboardVisualizationEntities,
+    dashboardVisualizationEntities => dashboardVisualizationEntities[id]
+  );
 
 export const getVisualizationReady = createSelector(
   getDashboardVisualizationState,

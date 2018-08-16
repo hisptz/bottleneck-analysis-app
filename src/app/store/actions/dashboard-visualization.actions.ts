@@ -1,21 +1,42 @@
 import { Action } from '@ngrx/store';
 import { DashboardVisualization } from '../../dashboard/models';
+import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
 
 export enum DashboardVisualizationActionTypes {
+  LoadDashboardVisualizations = '[DashboardVisualization] Load dashboard visualizations',
+  LoadDashboardVisualizationsSuccess = '[DashboardVisualization] Load dashboard visualizations success',
+  LoadDashboardVisualizationsFail = '[DashboardVisualization] Load dashboard visualizations fail',
   AddDashboardVisualizations = '[DashboardVisualization] Add dashboard visualizations',
-  AddDashboardVisualization = '[DashboardVisualization] Add dashboard visualization',
+  UpsertDashboardVisualization = '[DashboardVisualization] Add or Update dashboard visualization',
   AddDashboardVisualizationItem = '[DashboardVisualization] Add dashboard visualization item',
   RemoveDashboardVisualizationItem = '[DashboardVisualization] Remove dashboard visualization item',
   LoadDashboardVisualizationSuccess = '[DashboardVisualization] Load dashboard visualization success'
 }
 
+export class LoadDashboardVisualizationsAction implements Action {
+  readonly type = DashboardVisualizationActionTypes.LoadDashboardVisualizations;
+  constructor(public dashboardId: string) {}
+}
+
+export class LoadDashboardVisualizationsSuccessAction implements Action {
+  readonly type =
+    DashboardVisualizationActionTypes.LoadDashboardVisualizationsSuccess;
+  constructor(public dashboardId: string, public dashboardItems: any[]) {}
+}
+
+export class LoadDashboardVisualizationsFailAction implements Action {
+  readonly type =
+    DashboardVisualizationActionTypes.LoadDashboardVisualizationsFail;
+  constructor(public dashboardId: string, public error: any) {}
+}
 export class AddDashboardVisualizationsAction implements Action {
   readonly type = DashboardVisualizationActionTypes.AddDashboardVisualizations;
   constructor(public dashboardVisualizations: DashboardVisualization[]) {}
 }
 
 export class AddDashboardVisualizationAction implements Action {
-  readonly type = DashboardVisualizationActionTypes.AddDashboardVisualization;
+  readonly type =
+    DashboardVisualizationActionTypes.UpsertDashboardVisualization;
   constructor(public dashboardVisualization: DashboardVisualization) {}
 }
 
@@ -37,6 +58,8 @@ export class LoadDashboardVisualizationSuccessAction implements Action {
 }
 
 export type DashboardVisualizationAction =
+  | LoadDashboardVisualizationsAction
+  | LoadDashboardVisualizationsFailAction
   | AddDashboardVisualizationsAction
   | AddDashboardVisualizationAction
   | AddDashboardVisualizationItemAction

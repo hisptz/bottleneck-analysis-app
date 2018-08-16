@@ -88,9 +88,11 @@ export class VisualizationObjectEffects {
             // set initial visualization configurations
             this.store.dispatch(
               new AddVisualizationConfigurationAction({
-                id: visualizationObject.visualizationConfigId,
+                id: action.id,
                 type: visualizationObject.type,
-                contextPath: action.systemInfo.contextPath || '../../..',
+                contextPath: action.systemInfo
+                  ? action.systemInfo.contextPath
+                  : '../../..',
                 currentType: getStandardizedVisualizationType(
                   visualizationObject.type
                 ),
@@ -139,9 +141,11 @@ export class VisualizationObjectEffects {
           // set initial global visualization configurations
           this.store.dispatch(
             new AddVisualizationConfigurationAction({
-              id: initialVisualizationObject.visualizationConfigId,
+              id: action.id,
               type: initialVisualizationObject.type,
-              contextPath: action.systemInfo.contextPath || '../../..',
+              contextPath: action.systemInfo
+                ? action.systemInfo.contextPath
+                : '../../..',
               currentType: getStandardizedVisualizationType(
                 initialVisualizationObject.type
               ),

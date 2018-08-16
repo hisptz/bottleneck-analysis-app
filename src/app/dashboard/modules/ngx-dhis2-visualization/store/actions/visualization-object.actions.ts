@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { Visualization, VisualizationLayer } from '../../models';
 
 export enum VisualizationObjectActionTypes {
-  ADD_ALL_VISUALIZATION_OBJECTS = '[Visualization] Add all visualization objects',
+  AddVisualizationObjects = '[Visualization] Add all visualization objects',
   ADD_VISUALIZATION_OBJECT = '[Visualization] Add visualization object',
   INITIALIZE_VISUALIZATION_OBJECT = '[Visualization] Initialize visualization object',
   UPDATE_VISUALIZATION_OBJECT = '[Visualization] Update visualization object',
@@ -20,8 +20,8 @@ export class AddVisualizationObjectAction implements Action {
   constructor(public visualizationObject: Visualization) {}
 }
 
-export class AddAllVisualizationObjectsAction implements Action {
-  readonly type = VisualizationObjectActionTypes.ADD_ALL_VISUALIZATION_OBJECTS;
+export class AddVisualizationObjectsAction implements Action {
+  readonly type = VisualizationObjectActionTypes.AddVisualizationObjects;
 
   constructor(public visualizationObjects: Visualization[]) {}
 }
@@ -100,7 +100,7 @@ export class RemoveVisualizationFavoriteAction implements Action {
 
 export type VisualizationObjectAction =
   | AddVisualizationObjectAction
-  | AddAllVisualizationObjectsAction
+  | AddVisualizationObjectsAction
   | SaveVisualizationFavoriteAction
   | LoadVisualizationFavoriteAction
   | LoadVisualizationFavoriteSuccessAction

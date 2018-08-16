@@ -5,6 +5,7 @@ import {
   DashboardActions,
   DashboardActionTypes
 } from '../actions/dashboard.actions';
+import { getStandardizedDashboards } from '../../helpers';
 
 export interface DashboardObjectState extends EntityState<Dashboard> {
   // additional entities state properties
@@ -89,11 +90,24 @@ export function dashboardObjectReducer(
     }
 
     case DashboardActionTypes.LoadDashboardsSuccess: {
-      return {
-        ...state,
-        loading: false,
-        loaded: true
-      };
+      const dashboards: Dashboard[] = getStandardizedDashboards(
+        action.dashboards,
+        action.currentUser,
+        action.systemInfo
+      );
+
+      return dashboards
+        ? dashboardObjectAdapter.addMany(dashboards, {
+            ...state,
+            loading: false,
+            loaded: true
+          })
+        : {
+            ...state,
+            loading: false,
+            hasError: true,
+            error: 'Could not read dashboard list'
+          };
     }
 
     case DashboardActionTypes.LoadDashboardsFail: {

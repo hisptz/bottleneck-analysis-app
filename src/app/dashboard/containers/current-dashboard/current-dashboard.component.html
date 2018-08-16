@@ -8,7 +8,7 @@
   <!-- end of current dashboard header -->
 
   <!-- current dashboard visualization loader -->
-  <div class="current-dashboard-visualizations" *ngIf="!(visualizationsReady$ | async)">
+  <div class="current-dashboard-visualizations" *ngIf="(currentDashboardVisualizationLoading$ | async)">
 
     <div class="visualization-card-block" [style.grid-column]="'span 4'" [style.grid-row]="'span 6'" *ngFor="let count of [1,2,3]">
       <app-dashboard-progress [borderRadius]="'3px'"></app-dashboard-progress>
@@ -18,7 +18,7 @@
   <!-- end of current dashboard visualization loader -->
 
   <!-- empty visualization placeholder -->
-  <div class="welcoming-block" *ngIf="(currentDashboardVisualizations$ | async).length === 0 && (visualizationsReady$ | async)">
+  <div class="welcoming-block" *ngIf="(currentDashboardVisualizationLoaded$ | async) && (currentDashboardVisualizationItems$ | async).length === 0">
     <div>
       <!--Welcoming image-->
       <div class="welcome-img-block">
@@ -37,9 +37,9 @@
   <!-- end of empty visualization placeholder -->
 
   <!-- current dashboard visualizations -->
-  <div class="current-dashboard-visualizations" *ngIf="visualizationsReady$ | async">
+  <div class="current-dashboard-visualizations" *ngIf="(currentDashboardVisualizationLoaded$ | async)">
 
-    <div class="visualization-card-block" [style.grid-column]="'span 4'" [style.grid-row]="'span 1'" *ngFor="let visualizationId of currentDashboardVisualizations$ | async">
+    <div class="visualization-card-block" [style.grid-column]="'span 4'" [style.grid-row]="'span 1'" *ngFor="let visualizationId of currentDashboardVisualizationItems$ | async">
       <ngx-dhis2-visualization [id]="visualizationId" [currentUser]="currentUser$ | async" [systemInfo]="systemInfo$ | async" [dashboardId]="(currentDashboard$ | async)?.id"
         (toggleFullScreen)="onToggleVisualizationFullScreen($event)" (deleteVisualization)="onDeleteVisualizationAction($event)"></ngx-dhis2-visualization>
     </div>

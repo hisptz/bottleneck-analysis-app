@@ -47,6 +47,12 @@ export const getCurrentDashboard = createSelector(
     dashboardEntities[currentDashboardId]
 );
 
+export const getDashboardById = id =>
+  createSelector(
+    getDashboardObjectEntities,
+    (dashboardEntities: any) => dashboardEntities[id]
+  );
+
 export const getDashboardObjectLoading = createSelector(
   getDashboardObjectState,
   getDashboardObjectLoadingState

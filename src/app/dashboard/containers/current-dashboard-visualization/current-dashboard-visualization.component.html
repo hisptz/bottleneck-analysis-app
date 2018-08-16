@@ -1,4 +1,4 @@
 <div class="current-dashboard-visualization-container">
-  <ngx-dhis2-visualization *ngIf="(currentVisualizationId$ | async) !== ''" [id]="currentVisualizationId$ | async" [dashboardId]="currentDashboardId$ | async"
-    (toggleFullScreen)="onToggleVisualizationFullScreen($event)"></ngx-dhis2-visualization>
+  <ngx-dhis2-visualization *ngIf="(currentVisualizationId$ | async) !== ''" [id]="currentVisualizationId$ | async" [currentUser]="currentUser$ | async"
+    [systemInfo]="systemInfo$ | async" [dashboardId]="currentDashboardId$ | async" (toggleFullScreen)="onToggleVisualizationFullScreen($event)"></ngx-dhis2-visualization>
 </div>

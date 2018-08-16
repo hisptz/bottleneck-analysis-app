@@ -24,8 +24,8 @@ export function visualizationObjectReducer(
   action: VisualizationObjectAction
 ): VisualizationObjectState {
   switch (action.type) {
-    case VisualizationObjectActionTypes.ADD_ALL_VISUALIZATION_OBJECTS:
-      return visualizationObjectAdapter.addAll(
+    case VisualizationObjectActionTypes.AddVisualizationObjects:
+      return visualizationObjectAdapter.addMany(
         action.visualizationObjects,
         state
       );

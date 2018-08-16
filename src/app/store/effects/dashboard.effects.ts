@@ -26,7 +26,6 @@ import {
   LoadDashboardsAction,
   LoadDashboardsSuccessAction,
   LoadDashboardsFailAction,
-  AddDashboardsAction,
   SetCurrentDashboardAction,
   ToggleDashboardBookmarkAction,
   ToggleDashboardBookmarkSuccessAction,
@@ -43,15 +42,12 @@ import {
 } from '../actions/dashboard.actions';
 
 import {
-  AddAllVisualizationObjectsAction,
-  AddAllVisualizationUiConfigurationsAction,
   AddVisualizationObjectAction,
   AddVisualizationUiConfigurationAction,
   ToggleFullScreenAction,
   LoadVisualizationAnalyticsAction,
   RemoveVisualizationObjectAction,
-  RemoveVisualizationFavoriteAction,
-  VisualizationObjectActionTypes
+  RemoveVisualizationFavoriteAction
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
 
 import {
@@ -61,19 +57,13 @@ import {
 } from '../../dashboard/modules/ngx-dhis2-visualization/helpers';
 
 // helpers import
+import { getCurrentDashboardId } from '../../helpers';
 import {
-  getStandardizedDashboards,
-  getCurrentDashboardId,
-  getStandardizedDashboardVisualizations,
-  getDashboardItemsFromDashboards
-} from '../../helpers';
-import {
-  AddDashboardVisualizationsAction,
   AddDashboardVisualizationItemAction,
   Go,
   RemoveDashboardVisualizationItemAction,
   AddDashboardVisualizationAction,
-  LoadDashboardVisualizationSuccessAction
+  LoadDashboardVisualizationsAction
 } from '../actions';
 import { User } from '../../models';
 import { getDashboardSettings } from '../selectors/dashboard-settings.selectors';
@@ -82,14 +72,13 @@ import { State } from '../reducers';
 import {
   getCurrentUser,
   getRouteUrl,
-  getCurrentDashboardVisualizations
+  getDashboardVisualizationById,
+  getCurrentDashboardVisualizationItems
 } from '../selectors';
-import {
-  Visualization,
-  VisualizationLayer
-} from '../../dashboard/modules/ngx-dhis2-visualization/models';
+import { VisualizationLayer } from '../../dashboard/modules/ngx-dhis2-visualization/models';
 import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx-dhis2-visualization/store/selectors';
 import { generateUid } from '../../helpers/generate-uid.helper';
+import { DashboardVisualization } from '../../dashboard/models';
 
 @Injectable()
 export class DashboardEffects {
@@ -116,44 +105,14 @@ export class DashboardEffects {
   @Effect()
   loadAllDashboardSuccess$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.LoadDashboardsSuccess),
-    switchMap((action: LoadDashboardsSuccessAction) => [
-      new AddDashboardsAction(
-        getStandardizedDashboards(
-          action.dashboards,
-          action.currentUser,
-          action.systemInfo
-        )
-      ),
-      new SetCurrentDashboardAction(
-        getCurrentDashboardId(
-          action.routeUrl,
-          action.dashboards,
-          action.currentUser
-        ),
-        action.routeUrl
-      ),
-      new AddDashboardVisualizationsAction(
-        getStandardizedDashboardVisualizations(action.dashboards)
-      ),
-      new AddAllVisualizationObjectsAction(
-        _.map(
-          getDashboardItemsFromDashboards(action.dashboards),
-          dashboardItem => getStandardizedVisualizationObject(dashboardItem)
-        )
-      ),
-      new AddAllVisualizationUiConfigurationsAction(
-        _.map(
-          getDashboardItemsFromDashboards(action.dashboards),
-          dashboardItem => getStandardizedVisualizationUiConfig(dashboardItem)
-        )
-      )
-    ])
-  );
-
-  @Effect()
-  addAllVisualizations$: Observable<any> = this.actions$.pipe(
-    ofType(VisualizationObjectActionTypes.ADD_ALL_VISUALIZATION_OBJECTS),
-    map(() => new LoadDashboardVisualizationSuccessAction())
+    map((action: LoadDashboardsSuccessAction) => {
+      const currentDashboardId = getCurrentDashboardId(
+        action.routeUrl,
+        action.dashboards,
+        action.currentUser
+      );
+      return new SetCurrentDashboardAction(currentDashboardId, action.routeUrl);
+    })
   );
 
   @Effect({ dispatch: false })
@@ -167,19 +126,30 @@ export class DashboardEffects {
         action.id
       );
 
+      // Decide on the route to take
       const splitedRouteUrl = action.routeUrl ? action.routeUrl.split('/') : [];
       const currentVisualizationId = splitedRouteUrl[4];
       if (!currentVisualizationId) {
         this.store.dispatch(new Go({ path: [`/dashboards/${action.id}`] }));
       } else {
-        this.store.dispatch(
-          new ToggleFullScreenAction(`${currentVisualizationId}_ui_config`)
-        );
+        this.store.dispatch(new ToggleFullScreenAction(currentVisualizationId));
 
         this.store.dispatch(
           new SetCurrentVisualizationAction(currentVisualizationId, action.id)
         );
       }
+
+      // Load current dashboard contents if not available
+      this.store
+        .select(getDashboardVisualizationById(action.id))
+        .pipe(take(1))
+        .subscribe((dashboardVisualization: DashboardVisualization) => {
+          if (!dashboardVisualization) {
+            this.store.dispatch(
+              new LoadDashboardVisualizationsAction(action.id)
+            );
+          }
+        });
     })
   );
 
@@ -357,6 +327,10 @@ export class DashboardEffects {
               }),
               new AddDashboardVisualizationAction({
                 id,
+                loaded: true,
+                loading: false,
+                hasError: false,
+                error: null,
                 items: []
               }),
               new SetCurrentDashboardAction(id)
@@ -387,7 +361,7 @@ export class DashboardEffects {
   @Effect({ dispatch: false })
   globalFilterChange$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.GlobalFilterChange),
-    withLatestFrom(this.store.select(getCurrentDashboardVisualizations)),
+    withLatestFrom(this.store.select(getCurrentDashboardVisualizationItems)),
     tap(
       ([action, dashboardVisualizations]: [
         GlobalFilterChangeAction,
