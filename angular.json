@@ -32,7 +32,7 @@
               "node_modules/leaflet/dist/leaflet.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/jquery/dist/jquery.js"]
           },
           "configurations": {
             "production": {

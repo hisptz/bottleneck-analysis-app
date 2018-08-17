@@ -33,13 +33,7 @@ function flattenDimensions(
     _.map(dataSelections, (dataSelection: VisualizationDataSelection) => {
       const selectionValues = dataSelection.filter
         ? dataSelection.filter
-        : _.map(
-            _.filter(
-              dataSelection.items || [],
-              item => item.type !== 'FUNCTION_RULE'
-            ),
-            item => item.id
-          ).join(';');
+        : _.map(dataSelection.items, item => item.id).join(';');
       return selectionValues !== ''
         ? 'dimension=' + dataSelection.dimension + ':' + selectionValues
         : ['dx', 'ou', 'pe'].indexOf(dataSelection.dimension) === -1
