@@ -86,6 +86,10 @@ export class AnalyticsService {
 
     const dxObject = _.find(dataSelections, ['dimension', 'dx']);
 
+    if (!dxObject) {
+      return null;
+    }
+
     const functionAnalyticsPromises = _.map(
       dxObject ? dxObject.items : [],
       (dxItem: any) =>
@@ -196,7 +200,7 @@ export class AnalyticsService {
       dxDataSelection
     );
     const dxItems = _.filter(
-      dxDataSelection.items,
+      dxDataSelection ? dxDataSelection.items : [],
       item => (useEqualOperator ? item.type === dxType : item.type !== dxType)
     );
 
