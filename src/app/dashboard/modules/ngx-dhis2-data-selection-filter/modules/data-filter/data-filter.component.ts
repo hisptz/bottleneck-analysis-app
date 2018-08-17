@@ -24,13 +24,20 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   dataGroups: any[] = [];
   selectedGroup: any = { id: 'ALL', name: '[ All ]' };
 
-  @Output() dataFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output() dataFilterClose: EventEmitter<any> = new EventEmitter<any>();
-  @Input() selectedItems: any[] = [];
-  @Input() selectedGroups: any[] = [];
-  @Input() functionMappings: any[] = [];
-  @Input() hiddenDataElements: any[] = [];
-  @Input() singleSelection = false;
+  @Output()
+  dataFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  dataFilterClose: EventEmitter<any> = new EventEmitter<any>();
+  @Input()
+  selectedItems: any[] = [];
+  @Input()
+  selectedGroups: any[] = [];
+  @Input()
+  functionMappings: any[] = [];
+  @Input()
+  hiddenDataElements: any[] = [];
+  @Input()
+  singleSelection = false;
   selectedGroupId: string;
 
   showGroupingPanel: boolean;
@@ -190,6 +197,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
               id: rule.id,
               name: rule.name,
               functionObject: {
+                id: functionObject.id,
                 functionString: functionObject.function,
                 ruleDefinition: rule
               },

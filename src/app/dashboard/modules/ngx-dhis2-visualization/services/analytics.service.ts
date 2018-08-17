@@ -1,16 +1,49 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import * as _ from 'lodash';
+import { Observable, of, forkJoin } from 'rxjs';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
 import { VisualizationDataSelection } from '../models';
-import { getAnalyticsUrl } from '../helpers';
-import { mergeMap } from 'rxjs/operators';
+import {
+  getAnalyticsUrl,
+  getSanitizedAnalytics,
+  getStandardizedAnalyticsObject,
+  getMergedAnalytics
+} from '../helpers';
+import { mergeMap, map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
   constructor(private http: NgxDhis2HttpClientService) {}
 
   getAnalytics(
+    dataSelections: VisualizationDataSelection[],
+    layerType: string,
+    config?: any
+  ) {
+    return forkJoin(
+      this._getNormalAnalytics(
+        this._getDataSelectionByDxType(
+          dataSelections || [],
+          'FUNCTION_RULE',
+          false
+        ),
+        layerType,
+        config
+      ),
+      this._getFunctionAnalytics(
+        this._getDataSelectionByDxType(dataSelections || [], 'FUNCTION_RULE')
+      )
+    ).pipe(
+      map((analyticsResults: any[]) =>
+        getMergedAnalytics(
+          this._getSanitizedAnalyticsArray(analyticsResults, dataSelections)
+        )
+      )
+    );
+  }
+
+  private _getNormalAnalytics(
     dataSelections: VisualizationDataSelection[],
     layerType: string,
     config?: any
@@ -35,5 +68,149 @@ export class AnalyticsService {
           )
         )
       : of(null);
+  }
+
+  private _getFunctionAnalytics(dataSelections: VisualizationDataSelection[]) {
+    if (dataSelections.length === 0) {
+      return of(null);
+    }
+    const ouObject = _.find(dataSelections, ['dimension', 'ou']);
+    const ouValue = ouObject
+      ? _.join(_.map(ouObject.items, item => item.id), ';')
+      : '';
+
+    const peObject = _.find(dataSelections, ['dimension', 'pe']);
+    const peValue = peObject
+      ? _.join(_.map(peObject.items, item => item.id), ';')
+      : '';
+
+    const dxObject = _.find(dataSelections, ['dimension', 'dx']);
+
+    const functionAnalyticsPromises = _.map(
+      dxObject ? dxObject.items : [],
+      (dxItem: any) =>
+        this._runFunction(
+          {
+            pe: peValue,
+            ou: ouValue,
+            rule: dxItem.functionObject
+              ? dxItem.functionObject.ruleDefinition
+              : null,
+            success: result => {},
+            error: error => {}
+          },
+          dxItem.functionObject ? dxItem.functionObject.functionString : ''
+        )
+    );
+
+    return forkJoin(functionAnalyticsPromises).pipe(
+      map((analyticsResults: any[]) =>
+        getMergedAnalytics(
+          this._getSanitizedAnalyticsArray(analyticsResults, dataSelections)
+        )
+      )
+    );
+  }
+
+  private _getSanitizedAnalyticsArray(
+    analyticsResults: any[],
+    dataSelections: VisualizationDataSelection[]
+  ) {
+    return _.map(
+      _.filter(
+        analyticsResults,
+        analyticsResultObject => analyticsResultObject !== null
+      ),
+      analytics =>
+        getSanitizedAnalytics(
+          getStandardizedAnalyticsObject(analytics, true),
+          dataSelections
+        )
+    );
+  }
+
+  private _runFunction(
+    functionParameters: any,
+    functionString: string
+  ): Observable<any> {
+    return new Observable(observer => {
+      if (!this._isError(functionString)) {
+        try {
+          functionParameters.error = error => {
+            observer.error(error);
+            observer.complete();
+          };
+          functionParameters.success = results => {
+            observer.next(results);
+            observer.complete();
+          };
+          functionParameters.progress = results => {};
+          const execute = Function('parameters', functionString);
+
+          execute(functionParameters);
+        } catch (e) {
+          observer.error(e.stack);
+          observer.complete();
+        }
+      } else {
+        observer.error({ message: 'Errors in the code.' });
+        observer.complete();
+      }
+    });
+  }
+
+  private _isError(code) {
+    let successError = false;
+    let errorError = false;
+    let progressError = false;
+    const value = code
+      .split(' ')
+      .join('')
+      .split('\n')
+      .join('')
+      .split('\t')
+      .join('');
+    if (value.indexOf('parameters.success(') === -1) {
+      successError = true;
+    }
+    if (value.indexOf('parameters.error(') === -1) {
+      errorError = true;
+    }
+    if (value.indexOf('parameters.progress(') === -1) {
+      progressError = true;
+    }
+    return successError || errorError;
+  }
+
+  private _getDataSelectionByDxType(
+    dataSelections: VisualizationDataSelection[],
+    dxType: string,
+    useEqualOperator: boolean = true
+  ): VisualizationDataSelection[] {
+    const dxDataSelection: VisualizationDataSelection = _.find(dataSelections, [
+      'dimension',
+      'dx'
+    ]);
+
+    const dxDataSelectionSelectionIndex = dataSelections.indexOf(
+      dxDataSelection
+    );
+    const dxItems = _.filter(
+      dxDataSelection.items,
+      item => (useEqualOperator ? item.type === dxType : item.type !== dxType)
+    );
+
+    return dxDataSelectionSelectionIndex !== -1
+      ? dxItems.length > 0
+        ? [
+            ..._.slice(dataSelections, 0, dxDataSelectionSelectionIndex),
+            {
+              ...dxDataSelection,
+              items: dxItems
+            },
+            ..._.slice(dataSelections, dxDataSelectionSelectionIndex + 1)
+          ]
+        : []
+      : dataSelections;
   }
 }
