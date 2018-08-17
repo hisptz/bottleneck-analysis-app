@@ -25,7 +25,7 @@ export class DashboardSettingsService {
         //     ? manifestObject.activities.dhis.namespace
         //     : 'default';
         // TODO FIND DYNAMIC WAY
-        const namespace = 'bna-dashboard';
+        const namespace = 'who-malaria';
         return this.httpClient.get('dataStore/dashboard-settings').pipe(
           mergeMap((dashboardSettingsList: Array<string>) => {
             return dashboardSettingsList.indexOf(namespace) !== -1
