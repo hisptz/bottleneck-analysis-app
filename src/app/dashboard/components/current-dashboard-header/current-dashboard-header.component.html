@@ -34,7 +34,8 @@
     </div>
   </div>
 
-  <div class="dashboard-search-block no-print">
+  <!-- hide search and add dashboard item. to revert remove ngif=false -->
+  <div class="dashboard-search-block no-print" *ngIf="false">
     <div style="height: 40px; width: 100%;" *ngIf="dashboardLoading">
       <app-dashboard-progress [borderRadius]="'5px'"></app-dashboard-progress>
     </div>

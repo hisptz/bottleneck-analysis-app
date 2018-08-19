@@ -10,7 +10,7 @@
   <!-- current dashboard visualization loader -->
   <div class="current-dashboard-visualizations" *ngIf="(currentDashboardVisualizationLoading$ | async)">
 
-    <div class="visualization-card-block" [style.grid-column]="'span 6'" [style.grid-row]="'span 6'" *ngFor="let count of [1,2,3]">
+    <div class="visualization-card-block" [style.grid-column]="'span 6'" [style.grid-row]="'span 6'" *ngFor="let count of [1,2,3,4]">
       <app-dashboard-progress [borderRadius]="'3px'"></app-dashboard-progress>
     </div>
 
