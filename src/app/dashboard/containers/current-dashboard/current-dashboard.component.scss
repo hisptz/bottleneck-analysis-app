@@ -9,6 +9,7 @@
     grid-template-rows: repeat(12, 1fr);
     grid-gap: 0.5em;
     -ms-grid-auto-rows: minmax(400px, auto);
+    /* autoprefixer: off */
     grid-auto-rows: minmax(400px, auto);
   }
 
@@ -63,6 +64,7 @@
   @media screen and (max-width: 900px) {
     .current-dashboard-visualizations {
       grid-template-columns: 1fr;
+      /* autoprefixer: off */
       grid-auto-rows: minmax(370px, auto);
       -ms-grid-auto-rows: minmax(370px, auto);
     }
@@ -72,6 +74,7 @@
     .current-dashboard-visualizations {
       grid-template-columns: 1fr;
       -ms-grid-auto-rows: minmax(360px, auto);
+      /* autoprefixer: off */
       grid-auto-rows: minmax(360px, auto);
     }
   }
