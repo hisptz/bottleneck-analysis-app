@@ -39,7 +39,8 @@
   <!-- current dashboard visualizations -->
   <div class="current-dashboard-visualizations" *ngIf="(currentDashboardVisualizationLoaded$ | async)">
 
-    <div class="visualization-card-block" [style.grid-column]="'span 6'" [style.grid-row]="'span 1'" *ngFor="let visualizationId of currentDashboardVisualizationItems$ | async">
+    <div class="visualization-card-block" [style.grid-column]="(currentDashboardVisualizationItems$ | async).length > 1 ? 'span 6' : 'span 12' "
+      [style.grid-row]="'span 1'" *ngFor="let visualizationId of currentDashboardVisualizationItems$ | async">
       <ngx-dhis2-visualization [id]="visualizationId" [currentUser]="currentUser$ | async" [systemInfo]="systemInfo$ | async" [dashboardId]="(currentDashboard$ | async)?.id"
         (toggleFullScreen)="onToggleVisualizationFullScreen($event)" (deleteVisualization)="onDeleteVisualizationAction($event)"></ngx-dhis2-visualization>
     </div>

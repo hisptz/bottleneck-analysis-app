@@ -30,7 +30,11 @@ export function dashboardGroupReducer(state = initialState, action: DashboardGro
 
       const payload: DashboardGroups[] = [
         { id: 'Xm4TNggmC8J', name: 'Malaria Burden Reduction Bulletin', dashboards: ['who-malaria_sLldHZZgnFx'] },
-        { id: 'bxI7Q1agaN5', name: 'Malaria Elimination Bulletin', dashboards: ['who-malaria_b8F1kKlV9Fk'] }
+        {
+          id: 'bxI7Q1agaN5',
+          name: 'Malaria Elimination Bulletin',
+          dashboards: ['who-malaria_b8F1kKlV9Fk', 'who-malaria_aBVHnhMvdEO']
+        }
       ];
 
       return DashboardGroupsAdapter.addMany(payload, {
