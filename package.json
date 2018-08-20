@@ -4,7 +4,6 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prestart": "d2-manifest package.json ./src/manifest.webapp",
     "build": "ng build --prod --aot && cd dist/idashboard && zip -r -D idashboard.zip .",
     "test": "ng test",
     "lint": "ng lint",
@@ -101,8 +100,8 @@
   },
   "manifest.webapp": {
     "version": "2.2-alpha.9",
-    "name": "BNA Dashboard Mock up alpha 9",
-    "description": "BNA Dashboard Mock up alpha 9",
+    "name": "WHO Dashboard Mock up alpha 9",
+    "description": "WHO Dashboard Mock up alpha 9",
     "launch_path": "index.html",
     "appType": "APP",
     "icons": {

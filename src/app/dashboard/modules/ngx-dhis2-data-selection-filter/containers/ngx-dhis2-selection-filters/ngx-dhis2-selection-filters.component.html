@@ -11,7 +11,7 @@
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'DATA'
         }" [title]="'Filter by data' | translate" (click)="toggleCurrentFilter($event, 'DATA')">
-        <img [src]="dataIcon" alt="">&nbsp;{{'Data' | translate}}&nbsp;
+        <img [src]="dataIcon" alt="">&nbsp;{{'Data Mapping' | translate}}&nbsp;
         <img [ngClass]="{'arrow-up': selectedFilter === 'DATA'}" [src]="arrowDownIcon" alt="">
       </button>
       <!--end of data filter button-->

@@ -4,6 +4,8 @@ import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { VisualizationDataSelection } from '../../models/visualization-data-selection.model';
 import { openAnimation } from '../../../../../animations';
 
+import { SelectionFilterConfig } from '../../../ngx-dhis2-data-selection-filter/models/selected-filter-config.model';
+
 @Component({
   selector: 'visualization-header-section',
   templateUrl: 'visualization-header-section.html',
@@ -11,27 +13,43 @@ import { openAnimation } from '../../../../../animations';
   animations: [openAnimation]
 })
 export class VisualizationHeaderSectionComponent {
-  @Input() id: string;
-  @Input() name: string;
-  @Input() isNew: string;
-  @Input() uiConfigId: string;
-  @Input() showFilters: boolean;
-  @Input() hideResizeButtons: boolean;
-  @Input() fullScreen: boolean;
-  @Input() visualizationLayer: VisualizationLayer;
+  @Input()
+  id: string;
+  @Input()
+  name: string;
+  @Input()
+  isNew: string;
+  @Input()
+  uiConfigId: string;
+  @Input()
+  showFilters: boolean;
+  @Input()
+  hideResizeButtons: boolean;
+  @Input()
+  fullScreen: boolean;
+  @Input()
+  visualizationLayer: VisualizationLayer;
 
   showNameInput: boolean;
 
   @Output()
-  visualizationLayerUpdate: EventEmitter<VisualizationLayer> = new EventEmitter<
-    VisualizationLayer
-  >();
+  visualizationLayerUpdate: EventEmitter<VisualizationLayer> = new EventEmitter<VisualizationLayer>();
 
-  @Output() fullScreenAction: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  fullScreenAction: EventEmitter<any> = new EventEmitter<any>();
 
-  @Output() savefavorite: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  savefavorite: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {}
+  selectionFilterConfig: SelectionFilterConfig;
+
+  constructor() {
+    this.selectionFilterConfig = {
+      showPeriodFilter: false,
+      showOrgUnitFilter: false,
+      showLayout: false
+    };
+  }
 
   onFullScreenAction(id) {
     this.fullScreenAction.emit({

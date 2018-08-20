@@ -1,28 +1,28 @@
+
 {
-  "launch_path": "index.html",
-  "default_locale": "en",
-  "activities": {
-    "dhis": {
-      "href": "../../../"
-    }
-  },
-  "appType": "APP",
-  "name": "BNA Dashboard Mock up alpha 9",
-  "version": "2.2-alpha.9",
-  "description": "BNA Dashboard Mock up alpha 9",
-  "icons": {
-    "16": "assets/img/icon-16x16.png",
-    "48": "assets/img/icon-48x48.png",
-    "128": "assets/img/icon-128x128.png"
-  },
-  "developer": {
-    "name": "HISPTZ",
-    "url": "https://hisptanzania.org"
-  },
-  "authorities": {
-    "0": "MY_APP_ADD_NEW",
-    "1": "MY_APP_UPDATE",
-    "2": "MY_APP_DELETE"
-  },
+    "version": "2.2-alpha.9",
+    "name": "WHO Dashboard Mock up alpha 9",
+    "description": "WHO Dashboard Mock up alpha 9",
+    "appType": "APP",
+    "launch_path": "index.html",
+    "icons": {
+        "16": "assets/img/icon-16x16.png",
+        "48": "assets/img/icon-48x48.png",
+        "128": "assets/img/icon-128x128.png"
+    },
+    "developer": {
+        "name": "HISPTZ",
+        "url": "https://hisptanzania.org"
+    },
+    "default_locale": "en",
+    "activities": {
+        "dhis": {
+            "href": "../../../"
+        }
+    },
+     "authorities": [
+         "MY_APP_ADD_NEW",
+         "MY_APP_UPDATE",
+         "MY_APP_DELETE"],
   "manifest_generated_at": "Mon Aug 20 2018 11:39:55 GMT+0300 (EAT)"
 }
