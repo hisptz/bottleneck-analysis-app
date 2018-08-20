@@ -4,18 +4,10 @@ import { environment } from '../../../environments/environment';
 
 import { userReducer, UserState } from './user.reducer';
 import { systemInfoReducer, SystemInfoState } from './system-info.reducer';
-import {
-  DashboardObjectState,
-  dashboardObjectReducer
-} from './dashboard.reducer';
-import {
-  DashboardSettingsState,
-  dashboardSettingsReducer
-} from './dashboard-settings.reducer';
-import {
-  DashboardVisualizationState,
-  dashboardVisualizationReducer
-} from './dashboard-visualization.reducer';
+import { DashboardObjectState, dashboardObjectReducer } from './dashboard.reducer';
+import { DashboardSettingsState, dashboardSettingsReducer } from './dashboard-settings.reducer';
+import { DashboardVisualizationState, dashboardVisualizationReducer } from './dashboard-visualization.reducer';
+import { DashboardGroupsState, dashboardGroupReducer } from './dashboard-groups.reducer';
 
 /**
  * Root state interface
@@ -36,6 +28,7 @@ export interface State {
    */
   route: RouterReducerState;
   dashboardObject: DashboardObjectState;
+  dashboardGroups: DashboardGroupsState;
   dashboardSettings: DashboardSettingsState;
   dashboardVisualization: DashboardVisualizationState;
 }
@@ -45,13 +38,12 @@ export const reducers: ActionReducerMap<State> = {
   systemInfo: systemInfoReducer,
   route: routerReducer,
   dashboardObject: dashboardObjectReducer,
+  dashboardGroups: dashboardGroupReducer,
   dashboardSettings: dashboardSettingsReducer,
   dashboardVisualization: dashboardVisualizationReducer
 };
 
-export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? []
-  : [];
+export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
 
 /**
  * Root state selector

@@ -1,8 +1,7 @@
 .dashboard-menu {
   height: 100%;
   overflow: auto;
-  border-bottom: solid thin #eeeeee;
-  padding: 10px;
+  padding: 5px 10px;
   .dashboard-menu-list {
     list-style-type: none;
     padding: 0;
@@ -14,4 +13,70 @@
       margin: 3px;
     }
   }
+}
+
+// color
+$color: blue;
+
+// TAB ~~~~~~~~~~~~~~~ (.)(.)
+.tab {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  width: 100%;
+  margin: 0 auto;
+  color: #888;
+  border-bottom: solid thin #eeeeee;
+}
+
+.tabs {
+  display: table;
+  padding: 0;
+  position: relative;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  margin: 0;
+  width: 100%;
+
+  li {
+    float: left;
+    line-height: 38px;
+    overflow: hidden;
+    position: relative;
+    color: #888;
+    font-weight: 500;
+    cursor: pointer;
+    display: block;
+    letter-spacing: 0;
+    outline: none;
+    padding: 0 20px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.tabs_item {
+  display: none;
+  padding: 30px 0;
+
+  h4 {
+    font-weight: bold;
+    color: $color;
+    font-size: 20px;
+  }
+
+  img {
+    width: 200px;
+    float: left;
+    margin-right: 30px;
+  }
+
+  &:first-child {
+    display: block;
+  }
+}
+
+.current {
+  border-bottom: 2px solid $color;
 }

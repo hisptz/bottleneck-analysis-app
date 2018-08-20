@@ -10,65 +10,42 @@ import {
   getCurrentVisualizationState
 } from '../reducers/dashboard.reducer';
 import { getRootState, State } from '../reducers';
-import { getSystemInfo } from './system-info.selectors';
-import { getCurrentUser } from './user.selectors';
-import { systemInfoReducer } from '../reducers/system-info.reducer';
-import { generateUid } from '../../helpers/generate-uid.helper';
 
-export const getDashboardObjectState = createSelector(
-  getRootState,
-  (state: State) => state.dashboardObject
+import { getCurrentDashboardGroup } from '../selectors/dashboard-groups.selectors';
+
+export const getDashboardObjectState = createSelector(getRootState, (state: State) => state.dashboardObject);
+
+export const getDashboardObjectEntities = createSelector(getDashboardObjectState, getDashboardObjectEntitiesState);
+
+export const getAllDashboards = createSelector(getDashboardObjectState, getAllDashboardsState);
+
+export const getAllGroupDashboards = createSelector(
+  getAllDashboards,
+  getCurrentDashboardGroup,
+  (allDashboards, currentDashboardGroup) => {
+    return currentDashboardGroup && currentDashboardGroup.dashboards
+      ? allDashboards.filter(({ id }) => currentDashboardGroup.dashboards.includes(id))
+      : allDashboards;
+  }
 );
 
-export const getDashboardObjectEntities = createSelector(
-  getDashboardObjectState,
-  getDashboardObjectEntitiesState
-);
+export const getCurrentVisualizationId = createSelector(getDashboardObjectState, getCurrentVisualizationState);
 
-export const getAllDashboards = createSelector(
-  getDashboardObjectState,
-  getAllDashboardsState
-);
-
-export const getCurrentVisualizationId = createSelector(
-  getDashboardObjectState,
-  getCurrentVisualizationState
-);
-
-export const getCurrentDashboardId = createSelector(
-  getDashboardObjectState,
-  getCurrentDashboardObjectState
-);
+export const getCurrentDashboardId = createSelector(getDashboardObjectState, getCurrentDashboardObjectState);
 
 export const getCurrentDashboard = createSelector(
   getDashboardObjectEntities,
   getCurrentDashboardId,
-  (dashboardEntities, currentDashboardId) =>
-    dashboardEntities[currentDashboardId]
+  (dashboardEntities, currentDashboardId) => dashboardEntities[currentDashboardId]
 );
 
 export const getDashboardById = id =>
-  createSelector(
-    getDashboardObjectEntities,
-    (dashboardEntities: any) => dashboardEntities[id]
-  );
+  createSelector(getDashboardObjectEntities, (dashboardEntities: any) => dashboardEntities[id]);
 
-export const getDashboardObjectLoading = createSelector(
-  getDashboardObjectState,
-  getDashboardObjectLoadingState
-);
+export const getDashboardObjectLoading = createSelector(getDashboardObjectState, getDashboardObjectLoadingState);
 
-export const getDashboardObjectLoaded = createSelector(
-  getDashboardObjectState,
-  getDashboardObjectLoadedState
-);
+export const getDashboardObjectLoaded = createSelector(getDashboardObjectState, getDashboardObjectLoadedState);
 
-export const getDashboardObjectHasError = createSelector(
-  getDashboardObjectState,
-  getDashboardObjectHasErrorState
-);
+export const getDashboardObjectHasError = createSelector(getDashboardObjectState, getDashboardObjectHasErrorState);
 
-export const getDashboardObjectError = createSelector(
-  getDashboardObjectState,
-  getDashboardObjectErrorState
-);
+export const getDashboardObjectError = createSelector(getDashboardObjectState, getDashboardObjectErrorState);

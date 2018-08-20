@@ -16,7 +16,8 @@
         </div>
         <app-dashboard-menu *ngIf="dashboardLoaded$ | async" [dashboardMenuList]="dashboards$ | async" [currentDashboardId]="currentDashboardId$ | async"
             (setCurrentDashboard)="onSetCurrenDashboardAction($event)" (toggleDashboardBookmark)="onToggleDashboardBookmark($event)"
-            (createDashboard)="onCreateDashboardAction($event)"></app-dashboard-menu>
+            (createDashboard)="onCreateDashboardAction($event)" [dashboardGroups]="dashboardGroups$ | async" [activeDashboardGroupId]="currentDashboardGroupId$ | async"
+            (setActiveDashboardGroup)="onSetActiveDashboardGroupAction($event)"></app-dashboard-menu>
     </div>
     <!-- end of dashboard menu -->
 

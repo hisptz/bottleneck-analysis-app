@@ -1,12 +1,13 @@
 import {
   Component,
-  OnInit,
+  OnChanges,
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  SimpleChanges
 } from '@angular/core';
-import { Dashboard } from '../../models';
+import { Dashboard, DashboardGroups } from '../../models';
 
 @Component({
   selector: 'app-dashboard-menu',
@@ -14,14 +15,25 @@ import { Dashboard } from '../../models';
   styleUrls: ['./dashboard-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardMenuComponent implements OnInit {
-  @Input() dashboardMenuList: Dashboard[];
-  @Input() currentDashboardId: string;
+export class DashboardMenuComponent implements OnChanges {
+  @Input()
+  dashboardMenuList: Dashboard[];
+  @Input()
+  currentDashboardId: string;
+  @Input()
+  dashboardGroups: DashboardGroups[];
+
+  @Input()
+  activeDashboardGroupId: string;
 
   @Output()
   setCurrentDashboard: EventEmitter<string> = new EventEmitter<string>();
 
-  @Output() createDashboard: EventEmitter<string> = new EventEmitter<string>();
+  @Output()
+  setActiveDashboardGroup: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output()
+  createDashboard: EventEmitter<string> = new EventEmitter<string>();
 
   @Output()
   toggleDashboardBookmark: EventEmitter<{
@@ -31,10 +43,23 @@ export class DashboardMenuComponent implements OnInit {
   }> = new EventEmitter();
   constructor() {}
 
-  ngOnInit() {}
+  ngOnChanges(changes: SimpleChanges) {
+    const { activeDashboardGroupId } = changes;
+    if (activeDashboardGroupId) {
+      const { dashboards } = this.dashboardGroups.find(({ id }) => id === activeDashboardGroupId.currentValue);
+      if (!dashboards.includes(this.currentDashboardId)) {
+        const [firstDashboard, ...rest] = dashboards;
+        this.onSetCurrentDashboard(firstDashboard);
+      }
+    }
+  }
 
   onSetCurrentDashboard(dashboardId: string) {
     this.setCurrentDashboard.emit(dashboardId);
+  }
+
+  onSetActiveDashboardGroup(groupId: string) {
+    this.setActiveDashboardGroup.emit(groupId);
   }
 
   onToggleDashboardMenuItemBookmark(dashboardMenuDetails: any) {
