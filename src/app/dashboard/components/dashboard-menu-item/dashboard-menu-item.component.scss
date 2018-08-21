@@ -9,7 +9,8 @@
   font-size: 14px;
   padding: 10px;
   cursor: pointer;
-  color: #222222;
+  background-color: #eeeeee;
+  color: rgba(0, 0, 0, 0.87) !important;
 
   .dashboard-menu-bookmark-btn {
     display: flex;
@@ -25,5 +26,6 @@
 }
 
 .current-dashboard {
-  background-color: #eeeeee;
+  background-color: #00796b;
+  color: #fff !important;
 }

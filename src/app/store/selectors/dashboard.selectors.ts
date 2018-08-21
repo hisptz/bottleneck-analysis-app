@@ -24,7 +24,9 @@ export const getAllGroupDashboards = createSelector(
   getCurrentDashboardGroup,
   (allDashboards, currentDashboardGroup) => {
     return currentDashboardGroup && currentDashboardGroup.dashboards
-      ? allDashboards.filter(({ id }) => currentDashboardGroup.dashboards.includes(id))
+      ? allDashboards
+          .filter(({ id }) => currentDashboardGroup.dashboards.includes(id))
+          .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
       : allDashboards;
   }
 );

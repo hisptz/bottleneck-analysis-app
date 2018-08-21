@@ -4,7 +4,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { NgxDhis2TableModule } from '@hisptz/ngx-dhis2-table';
+import { NgxDhis2TableModule } from './modules/ngx-dhis2-table/ngx-dhis2-table.module';
 import { NgxDhis2DictionaryModule } from '@hisptz/ngx-dhis2-dictionary';
 import { NgxDhis2SelectionFiltersModule } from '../ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
 import { NgxDhis2ChartModule } from './modules/ngx-dhis-chart/ngx-dhis2-chart.module';
@@ -33,12 +33,7 @@ import { VisualizationWidgetComponent } from './components/visualization-widget/
     NgxDhis2SelectionFiltersModule,
     MapModule
   ],
-  declarations: [
-    ...pipes,
-    ...components,
-    ...containers,
-    VisualizationWidgetComponent
-  ],
+  declarations: [...pipes, ...components, ...containers, VisualizationWidgetComponent],
   exports: [...containers]
 })
 export class NgxDhis2VisualizationModule {}

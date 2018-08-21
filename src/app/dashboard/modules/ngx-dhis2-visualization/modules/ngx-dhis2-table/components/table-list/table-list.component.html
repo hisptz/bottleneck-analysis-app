@@ -1,0 +1,6 @@
+<div class="row">
+    <div class="col-12" *ngFor="let tableLayer of tableLayers">
+        <ngx-dhis2-table-item [analyticsObject]="tableLayer.analyticsObject" [tableConfiguration]="tableLayer.tableConfiguration">
+        </ngx-dhis2-table-item>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, Output, EventEmitter } from '@angular/core';
 import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { VisualizationInputs } from '../../models/visualization-inputs.model';
-import { Observable, Subject, forkJoin, pipe, of } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Visualization } from '../../models/visualization.model';
 import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
 import { VisualizationProgress } from '../../models/visualization-progress.model';
@@ -33,7 +33,7 @@ import {
   LoadVisualizationAnalyticsAction,
   UpdateVisualizationLayerAction
 } from '../../store/actions/visualization-layer.actions';
-import { take, switchMap, map, distinctUntilChanged } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { openAnimation } from '../../../../../animations';
 
 @Component({
