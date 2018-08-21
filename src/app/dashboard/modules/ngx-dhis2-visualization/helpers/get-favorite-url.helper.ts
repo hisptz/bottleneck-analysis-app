@@ -33,7 +33,6 @@ export function getFavoriteUrl(favorite: any): string {
         '!dataElementGroups,!dataSets,!periods,!organisationUnitLevels,!organisationUnits';
     }
   } else {
-
     if (favorite.type === 'resources') {
       url += `dashboardItems/${favorite.id}.json?fields=id,resources[id,displayName,url]`;
     } else if (favorite.type === 'app' || favorite.type === 'messages') {
