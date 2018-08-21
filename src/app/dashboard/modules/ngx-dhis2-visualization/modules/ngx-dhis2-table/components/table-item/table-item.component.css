@@ -1,5 +1,11 @@
 .table-item-container {
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+}
+
+.table-item-container > div {
+  flex: 1;
 }
 
 .custom-table {

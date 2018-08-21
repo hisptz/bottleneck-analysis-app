@@ -4,5 +4,5 @@ export interface DashboardVisualization {
   loaded: boolean;
   error: any;
   hasError: boolean;
-  items: Array<string>;
+  items: Array<{ id: string; width: string; height: string }>;
 }
