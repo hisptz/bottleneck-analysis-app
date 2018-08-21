@@ -3,14 +3,11 @@ import * as _ from 'lodash';
 import { generateUid } from '../../../../helpers/generate-uid.helper';
 import { checkIfVisualizationIsNonVisualizable } from './check-if-visualization-is-non-visualizable.helper';
 
-export function getStandardizedVisualizationObject(
-  visualizationItem: any
-): Visualization {
-  const isNonVisualizable = checkIfVisualizationIsNonVisualizable(
-    visualizationItem.type
-  );
+export function getStandardizedVisualizationObject(visualizationItem: any): Visualization {
+  const isNonVisualizable = checkIfVisualizationIsNonVisualizable(visualizationItem.type);
   const visualizationObject = {
     id: visualizationItem.id,
+    title: getVisualizationTitle(visualizationItem),
     name: getVisualizationName(visualizationItem),
     type: visualizationItem.type,
     favorite: getFavoriteDetails(visualizationItem),
@@ -49,15 +46,22 @@ function getVisualizationName(visualizationItem: any) {
     default:
       return visualizationItem.name
         ? visualizationItem.name
-        : visualizationItem.type &&
-          visualizationItem.hasOwnProperty(_.camelCase(visualizationItem.type))
-          ? _.isPlainObject(
-              visualizationItem[_.camelCase(visualizationItem.type)]
-            )
+        : visualizationItem.type && visualizationItem.hasOwnProperty(_.camelCase(visualizationItem.type))
+          ? _.isPlainObject(visualizationItem[_.camelCase(visualizationItem.type)])
             ? visualizationItem[_.camelCase(visualizationItem.type)].displayName
             : 'Untitled'
           : 'Untitled';
   }
+}
+
+function getVisualizationTitle(visualizationItem: any) {
+  return visualizationItem.title
+    ? visualizationItem.title
+    : visualizationItem.type && visualizationItem.hasOwnProperty(_.camelCase(visualizationItem.type))
+      ? _.isPlainObject(visualizationItem[_.camelCase(visualizationItem.type)])
+        ? visualizationItem[_.camelCase(visualizationItem.type)].title
+        : undefined
+      : undefined;
 }
 
 function getFavoriteDetails(visualizationItem: any) {

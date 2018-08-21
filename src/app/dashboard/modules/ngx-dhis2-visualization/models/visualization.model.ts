@@ -6,6 +6,7 @@ export interface Visualization {
   id: string;
   name: string;
   type?: string;
+  title?: string;
   favorite?: VisualizationFavorite;
   created?: string;
   lastUpdated?: string;

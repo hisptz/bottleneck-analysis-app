@@ -11,7 +11,7 @@
   <!--visualization title block-->
   <div class="visualization-title-block" *ngIf="(visualizationUiConfig$ | async)?.showTitleBlock">
     <visualization-title-section [id]="id" [uiConfigId]="(visualizationUiConfig$ | async)?.id" [showBody]="(visualizationUiConfig$ | async)?.showBody"
-      [fullScreen]="(visualizationUiConfig$ | async)?.fullScreen" [type]="(visualizationConfig$ | async)?.currentType" [name]="(visualizationObject$ | async)?.name"
+      [fullScreen]="(visualizationUiConfig$ | async)?.fullScreen" [type]="(visualizationConfig$ | async)?.currentType" [name]="(visualizationObject$ | async)?.title || (visualizationObject$ | async)?.name"
       (toggleVisualization)="onToggleVisualizationBody($event)"></visualization-title-section>
   </div>
   <!--end of visualization title block-->
