@@ -29,7 +29,11 @@ export function dashboardGroupReducer(state = initialState, action: DashboardGro
        */
 
       const payload: DashboardGroups[] = [
-        { id: 'Xm4TNggmC8J', name: 'Malaria Burden Reduction Bulletin', dashboards: ['who-malaria_sLldHZZgnFx'] },
+        {
+          id: 'Xm4TNggmC8J',
+          name: 'Malaria Burden Reduction Bulletin',
+          dashboards: ['who-malaria_sLldHZZgnFx', 'who-malaria_zMdUF7qxNEt', 'who-malaria_QT4gSejEGCE']
+        },
         {
           id: 'bxI7Q1agaN5',
           name: 'Malaria Elimination Bulletin',
