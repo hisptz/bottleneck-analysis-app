@@ -9,9 +9,9 @@ import {
 import { Dashboard } from '../../models';
 
 import {
-  BOOKMARKED_ICON,
   BOOKMARK_PENDING_ICON,
-  UN_BOOKMARKED_ICON
+  UN_BOOKMARKED_ICON,
+  BOOKMARKED_SELECTED_ICON
 } from '../../../icons';
 import { openAnimation } from '../../../animations';
 
@@ -23,9 +23,12 @@ import { openAnimation } from '../../../animations';
   animations: [openAnimation]
 })
 export class DashboardMenuItemComponent implements OnInit {
-  @Input() dashboardMenuItem: Dashboard;
-  @Input() currentDashboardId: string;
-  @Output() setDashboard: EventEmitter<string> = new EventEmitter<string>();
+  @Input()
+  dashboardMenuItem: Dashboard;
+  @Input()
+  currentDashboardId: string;
+  @Output()
+  setDashboard: EventEmitter<string> = new EventEmitter<string>();
   @Output()
   toggleDashboardMenuItemBookmark: EventEmitter<{
     id: string;
@@ -39,7 +42,7 @@ export class DashboardMenuItemComponent implements OnInit {
   bookmarkPendingIcon: string;
   bookmarkedIcon: string;
   constructor() {
-    this.bookmarkedIcon = BOOKMARKED_ICON;
+    this.bookmarkedIcon = BOOKMARKED_SELECTED_ICON;
     this.bookmarkPendingIcon = BOOKMARK_PENDING_ICON;
     this.unBookmarkedIcon = UN_BOOKMARKED_ICON;
     this.showBookmarkButton = false;

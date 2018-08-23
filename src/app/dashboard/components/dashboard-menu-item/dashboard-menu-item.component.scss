@@ -4,28 +4,46 @@
   height: 34px;
   border-radius: 17px;
   border: solid thin #eeeeee;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  font-size: 14px;
-  padding: 10px;
+  font-size: 13px;
   cursor: pointer;
   background-color: #eeeeee;
   color: rgba(0, 0, 0, 0.87) !important;
 
   .dashboard-menu-bookmark-btn {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
     display: flex;
-    background-color: transparent;
+    background-color: #9d9d9d;
     align-items: center;
     justify-content: center;
-    padding-right: 5px;
     cursor: pointer;
     img {
       height: 16px;
     }
   }
+
+  .active-dashboard-menu-bookmarked-btn {
+    background-color: transparent;
+  }
+
+  .dashboard-menu-item-name {
+    padding-left: 5px;
+    padding-right: 10px;
+  }
+}
+
+.dashboard-menu-item:hover {
+  background-color: #d8dadc;
 }
 
 .current-dashboard {
   background-color: #00796b;
   color: #fff !important;
+}
+
+.current-dashboard:hover {
+  background-color: #1c8275;
 }
