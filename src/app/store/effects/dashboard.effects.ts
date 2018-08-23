@@ -174,35 +174,40 @@ export class DashboardEffects {
   @Effect()
   toggleDashboardBookmark$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.ToggleDashboardBookmark),
-    withLatestFrom(this.store.select(getCurrentUser)),
-    switchMap(([action, currentUser]: [ToggleDashboardBookmarkAction, User]) =>
-      this.dashboardService
-        .bookmarkDashboard(
-          action.id,
-          action.changes.bookmarked,
-          action.supportBookmark,
-          currentUser.id
-        )
-        .pipe(
-          map(
-            () =>
-              new ToggleDashboardBookmarkSuccessAction(action.id, {
-                bookmarkPending: false
-              })
-          ),
-          catchError(error =>
-            of(
-              new ToggleDashboardBookmarkFailAction(
-                action.id,
-                {
-                  bookmarkPending: false,
-                  bookmarked: !action.changes.bookmarked
-                },
-                error
+    withLatestFrom(this.store.select(getDashboardSettings)),
+    switchMap(
+      ([action, dashboardSettings]: [
+        ToggleDashboardBookmarkAction,
+        DashboardSettings
+      ]) =>
+        this.dashboardService
+          .bookmarkDashboard(
+            action.id,
+            action.changes.bookmarked,
+            action.supportBookmark,
+            action.currentUser.id,
+            dashboardSettings
+          )
+          .pipe(
+            map(
+              () =>
+                new ToggleDashboardBookmarkSuccessAction(action.id, {
+                  bookmarkPending: false
+                })
+            ),
+            catchError(error =>
+              of(
+                new ToggleDashboardBookmarkFailAction(
+                  action.id,
+                  {
+                    bookmarkPending: false,
+                    bookmarked: !action.changes.bookmarked
+                  },
+                  error
+                )
               )
             )
           )
-        )
     )
   );
 

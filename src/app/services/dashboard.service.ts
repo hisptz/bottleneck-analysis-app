@@ -79,9 +79,10 @@ export class DashboardService {
     dashboardId: string,
     bookmarked: boolean,
     supportBookmark: boolean,
-    currentUserId: string
+    currentUserId: string,
+    dashboardSettings: DashboardSettings
   ) {
-    return supportBookmark
+    return supportBookmark && !dashboardSettings.useDataStoreAsSource
       ? this._bookmarkDashboardByApi(dashboardId, bookmarked)
       : this._bookmarkDashboardByDataStore(
           dashboardId,
@@ -197,20 +198,21 @@ export class DashboardService {
     bookmarked: boolean
   ) {
     return this.httpClient.get(`dataStore/dashboards/${dashboardId}`).pipe(
-      switchMap((dashboardOption: any) =>
-        this.httpClient.put(`dataStore/dashboards/${dashboardId}`, {
-          ...dashboardOption,
+      switchMap((dashboard: any) => {
+        const dashboardBookmarks = dashboard.bookmarks || [];
+        return this.httpClient.put(`dataStore/dashboards/${dashboardId}`, {
+          ...dashboard,
           bookmarks: bookmarked
-            ? dashboardOption.bookmarks.indexOf(currentUserId) === -1
-              ? [...dashboardOption.bookmarks, currentUserId]
-              : [...dashboardOption.bookmarks]
+            ? dashboardBookmarks.indexOf(currentUserId) === -1
+              ? [...dashboardBookmarks, currentUserId]
+              : [...dashboardBookmarks]
             : _.filter(
-                dashboardOption.bookmarks,
+                dashboardBookmarks || [],
                 bookmark => bookmark !== currentUserId
               )
-        })
-      ),
-      catchError(() =>
+        });
+      }),
+      catchError((error: any) =>
         this.httpClient.post(`dataStore/dashboards/${dashboardId}`, {
           id: dashboardId,
           bookmarks: [currentUserId]

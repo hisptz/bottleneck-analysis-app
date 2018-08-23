@@ -128,7 +128,8 @@ export class ToggleDashboardBookmarkAction implements Action {
   constructor(
     public id: string,
     public supportBookmark: boolean,
-    public changes: Partial<Dashboard>
+    public changes: Partial<Dashboard>,
+    public currentUser: User
   ) {}
 }
 

@@ -14,9 +14,12 @@ import {
   InitializeDashboardSettingsAction,
   State,
   getDashboardObjectLoading,
-  getDashboardObjectLoaded
+  getDashboardObjectLoaded,
+  getCurrentUser
 } from '../../../store';
 import { Dashboard, DashboardGroups } from '../../models';
+import { User } from '../../../models';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,6 +35,7 @@ export class DashboardComponent implements OnInit {
   dashboardLoading$: Observable<boolean>;
   dashboardLoaded$: Observable<boolean>;
   dashboardGroups$: Observable<DashboardGroups[]>;
+  currentUser$: Observable<User>;
 
   constructor(private store: Store<State>) {
     // initialize dashboads settings
@@ -43,6 +47,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardLoaded$ = store.select(getDashboardObjectLoaded);
     this.dashboardGroups$ = store.select(getAllDashboardGroups);
     this.currentDashboardGroupId$ = store.select(getActiveDashboardGroup);
+    this.currentUser$ = store.select(getCurrentUser);
 
     // menu container height in pixels
     this.menuContainerHeight = 91;
@@ -67,12 +72,23 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(new CreateDashboardAction(dashboardName));
   }
 
-  onToggleDashboardBookmark(dashboardDetails: { id: string; supportBookmark: boolean; bookmarked: boolean }) {
-    this.store.dispatch(
-      new ToggleDashboardBookmarkAction(dashboardDetails.id, dashboardDetails.supportBookmark, {
-        bookmarked: dashboardDetails.bookmarked,
-        bookmarkPending: true
-      })
-    );
+  onToggleDashboardBookmark(dashboardDetails: {
+    id: string;
+    supportBookmark: boolean;
+    bookmarked: boolean;
+  }) {
+    this.currentUser$.pipe(take(1)).subscribe((currentUser: User) => {
+      this.store.dispatch(
+        new ToggleDashboardBookmarkAction(
+          dashboardDetails.id,
+          dashboardDetails.supportBookmark,
+          {
+            bookmarked: dashboardDetails.bookmarked,
+            bookmarkPending: true
+          },
+          currentUser
+        )
+      );
+    });
   }
 }
