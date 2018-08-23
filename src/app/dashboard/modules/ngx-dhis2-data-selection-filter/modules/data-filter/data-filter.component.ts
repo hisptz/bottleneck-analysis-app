@@ -196,10 +196,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
             return {
               id: rule.id,
               name: rule.name,
+              ruleDefinition: rule,
               functionObject: {
                 id: functionObject.id,
-                functionString: functionObject.function,
-                ruleDefinition: rule
+                functionString: functionObject.function
               },
               type: 'FUNCTION_RULE'
             };
