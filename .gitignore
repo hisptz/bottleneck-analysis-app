@@ -23,6 +23,7 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+proxy-config.json
 
 # misc
 /.sass-cache
@@ -37,5 +38,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
-proxy-config.json

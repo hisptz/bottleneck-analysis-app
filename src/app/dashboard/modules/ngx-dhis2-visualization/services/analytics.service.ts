@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
-import { Observable, of, forkJoin } from 'rxjs';
+import { Observable, of, forkJoin, throwError } from 'rxjs';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
 import { VisualizationDataSelection } from '../models';
@@ -10,7 +10,7 @@ import {
   getStandardizedAnalyticsObject,
   getMergedAnalytics
 } from '../helpers';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
@@ -86,26 +86,40 @@ export class AnalyticsService {
 
     const dxObject = _.find(dataSelections, ['dimension', 'dx']);
 
-    if (!dxObject) {
+    if (!dxObject || dxObject.items.length === 0) {
       return null;
     }
 
-    const functionAnalyticsPromises = _.map(
-      dxObject ? dxObject.items : [],
-      (dxItem: any) =>
-        this._runFunction(
+    const functionAnalyticsPromises = _.map(dxObject.items, (dxItem: any) => {
+      let functionPromise = of(null);
+      try {
+        const functionRuleJson =
+          typeof dxItem.ruleDefinition.json === 'string'
+            ? JSON.parse(dxItem.ruleDefinition.json)
+            : dxItem.ruleDefinition.json;
+        functionPromise = this._runFunction(
           {
             pe: peValue,
             ou: ouValue,
-            rule: dxItem.functionObject
-              ? dxItem.functionObject.ruleDefinition
-              : null,
+            rule: {
+              ...dxItem.ruleDefinition,
+              json: functionRuleJson
+            },
             success: result => {},
-            error: error => {}
+            error: error => {},
+            progress: progress => {}
           },
           dxItem.functionObject ? dxItem.functionObject.functionString : ''
-        )
-    );
+        );
+      } catch (e) {
+        functionPromise = throwError({
+          status: '400',
+          statusText: 'Internal server error',
+          error: 'Something is wrong with your rule definition, ' + e
+        });
+      }
+      return functionPromise;
+    });
 
     return forkJoin(functionAnalyticsPromises).pipe(
       map((analyticsResults: any[]) =>
@@ -142,7 +156,6 @@ export class AnalyticsService {
         try {
           functionParameters.error = error => {
             observer.error(error);
-            observer.complete();
           };
           functionParameters.success = results => {
             observer.next(results);
