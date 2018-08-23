@@ -43,3 +43,7 @@ table tr td:first-child {
   font-weight: 600;
   text-align: center;
 }
+
+.table {
+  margin-bottom: 0rem;
+}

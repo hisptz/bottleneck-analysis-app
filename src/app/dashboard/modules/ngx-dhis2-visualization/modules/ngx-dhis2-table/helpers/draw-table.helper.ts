@@ -371,10 +371,6 @@ function getDataValueColor(legendClasses, value) {
       if (legendClass.startValue <= value && legendClass.endValue > value) {
         color = legendClass.color;
       }
-
-      // if (legendClass.startValue < value && legendClass.endValue >= value) {
-      
-      // }
     });
   }
   return color;

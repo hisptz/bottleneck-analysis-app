@@ -10,8 +10,10 @@ import { drawTable } from '../../helpers/index';
   styleUrls: ['./table-item.component.css']
 })
 export class TableItemComponent implements OnInit {
-  @Input() tableConfiguration: TableConfiguration;
-  @Input() analyticsObject: any;
+  @Input()
+  tableConfiguration: TableConfiguration;
+  @Input()
+  analyticsObject: any;
   tableObject: any;
   sort_direction: string[] = [];
   current_sorting: boolean[] = [];
@@ -21,13 +23,9 @@ export class TableItemComponent implements OnInit {
 
   ngOnInit() {
     if (this.analyticsObject && this.tableConfiguration) {
-      this.tableObject = drawTable(
-        this.analyticsObject,
-        this.tableConfiguration
-      );
+      this.tableObject = drawTable(this.analyticsObject, this.tableConfiguration);
     }
   }
-
   sortData(tableObject, n, isLastItem) {
     if (tableObject.columns.length === 1 && isLastItem) {
       this.current_sorting = [];
