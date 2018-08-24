@@ -2,7 +2,7 @@
 
     <ul class="tabs">
         <li *ngFor="let dashboardGroup of dashboardGroups" [ngClass]="{'current': dashboardGroup.id === activeDashboardGroupId }"
-            (click)="onSetActiveDashboardGroup(dashboardGroup.id)">{{dashboardGroup.name}}</li>
+            (click)="onSetActiveDashboardGroup(dashboardGroup)">{{dashboardGroup.name}}</li>
     </ul> <!-- / tabs -->
     <div class="tab_content">
         <div class="dashboard-menu">

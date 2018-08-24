@@ -7,6 +7,7 @@ export enum DashboardGroupsActionTypes {
   LoadDashboardGroups = '[DashboardGroups] Load dashboard group',
   AddDashboardGroups = '[DashboardGroups] Add dashboard group',
   SetActiveDashboardGroup = '[DashboardGroups] Set Active Dashboard group',
+  SetActiveDashboardGroupFail = '[DashboardGroups] Set Active Dashboard group fail',
   LoadDashboardGroupsFail = '[DashboardGroups] Load dashboard group fails'
 }
 
@@ -21,7 +22,12 @@ export class LoadDashboardGroupsAction implements Action {
 
 export class SetActiveDashboardGroupsAction implements Action {
   readonly type = DashboardGroupsActionTypes.SetActiveDashboardGroup;
-  constructor(public activeGroup: string) {}
+  constructor(public activeGroup: DashboardGroups) {}
+}
+
+export class SetActiveDashboardGroupsActionFail implements Action {
+  readonly type = DashboardGroupsActionTypes.SetActiveDashboardGroupFail;
+  constructor(public error: any) {}
 }
 
 export class AddDashboardGroupsAction implements Action {
@@ -38,4 +44,5 @@ export type DashboardGroupsActions =
   | LoadDashboardGroupsAction
   | LoadDashboardGroupsFailAction
   | SetActiveDashboardGroupsAction
+  | SetActiveDashboardGroupsActionFail
   | AddDashboardGroupsAction;

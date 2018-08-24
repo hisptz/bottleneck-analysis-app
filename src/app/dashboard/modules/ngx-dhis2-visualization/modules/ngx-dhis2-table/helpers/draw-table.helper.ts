@@ -63,6 +63,7 @@ export function drawTable(analyticsObject, tableConfiguration: TableConfiguratio
         table.titles.rows.push(analyticsObject.headers[getTitleIndex(analyticsObject.headers, item)].column);
       }
     }
+
     for (const columnItem of tableConfiguration.columns) {
       const dimension = calculateColSpan(analyticsObject, tableConfiguration.columns, columnItem);
       const currentColumnItems = prepareSingleCategories(analyticsObject, columnItem);
@@ -77,6 +78,7 @@ export function drawTable(analyticsObject, tableConfiguration: TableConfiguratio
           });
         }
       }
+
       let styles = '';
       if (tableConfiguration.hasOwnProperty('style')) {
         if (tableConfiguration.styles.hasOwnProperty(columnItem)) {
@@ -336,6 +338,7 @@ function getDataValueColor(legendClasses, value) {
 function getLegendSets(dataItem, legendClasses, legendSets, configuration, metaData) {
   const { legendDisplayStrategy } = configuration;
   const { items } = metaData;
+
   if (legendDisplayStrategy === USE_BY_DATA_ITEM_LEGEND) {
     const dx = dataItem.find(dItem => dItem.type === 'dx');
     const legendSetId = dx && dx.value && items[dx.value] && items[dx.value]['legendSet'];

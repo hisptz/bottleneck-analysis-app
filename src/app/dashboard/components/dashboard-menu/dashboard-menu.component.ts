@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnChanges,
-  Input,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  SimpleChanges
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Dashboard, DashboardGroups } from '../../models';
 
 @Component({
@@ -15,7 +7,7 @@ import { Dashboard, DashboardGroups } from '../../models';
   styleUrls: ['./dashboard-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardMenuComponent implements OnChanges {
+export class DashboardMenuComponent {
   @Input()
   dashboardMenuList: Dashboard[];
   @Input()
@@ -30,7 +22,7 @@ export class DashboardMenuComponent implements OnChanges {
   setCurrentDashboard: EventEmitter<string> = new EventEmitter<string>();
 
   @Output()
-  setActiveDashboardGroup: EventEmitter<string> = new EventEmitter<string>();
+  setActiveDashboardGroup: EventEmitter<DashboardGroups> = new EventEmitter<DashboardGroups>();
 
   @Output()
   createDashboard: EventEmitter<string> = new EventEmitter<string>();
@@ -43,23 +35,12 @@ export class DashboardMenuComponent implements OnChanges {
   }> = new EventEmitter();
   constructor() {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    const { activeDashboardGroupId } = changes;
-    if (activeDashboardGroupId) {
-      const { dashboards } = this.dashboardGroups.find(({ id }) => id === activeDashboardGroupId.currentValue);
-      if (!dashboards.includes(this.currentDashboardId)) {
-        const [firstDashboard, ...rest] = dashboards;
-        this.onSetCurrentDashboard(firstDashboard);
-      }
-    }
-  }
-
   onSetCurrentDashboard(dashboardId: string) {
     this.setCurrentDashboard.emit(dashboardId);
   }
 
-  onSetActiveDashboardGroup(groupId: string) {
-    this.setActiveDashboardGroup.emit(groupId);
+  onSetActiveDashboardGroup(group: DashboardGroups) {
+    this.setActiveDashboardGroup.emit(group);
   }
 
   onToggleDashboardMenuItemBookmark(dashboardMenuDetails: any) {

@@ -50,7 +50,7 @@ export function dashboardGroupReducer(state = initialState, action: DashboardGro
     }
 
     case DashboardGroupsActionTypes.SetActiveDashboardGroup: {
-      return { ...state, activeGroup: action.activeGroup };
+      return { ...state, activeGroup: action.activeGroup.id };
     }
 
     default: {
