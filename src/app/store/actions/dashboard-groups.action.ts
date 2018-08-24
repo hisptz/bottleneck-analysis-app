@@ -4,6 +4,7 @@ import { User, SystemInfo } from '../../models';
 
 export enum DashboardGroupsActionTypes {
   InitializeDashboardGroups = '[DashboardGroups] initialize dashboard group',
+  InitializeDashboardGroupSuccess = '[DashboardGroups] initialize dashboard group success',
   LoadDashboardGroups = '[DashboardGroups] Load dashboard group',
   AddDashboardGroups = '[DashboardGroups] Add dashboard group',
   SetActiveDashboardGroup = '[DashboardGroups] Set Active Dashboard group',
@@ -13,6 +14,11 @@ export enum DashboardGroupsActionTypes {
 
 export class InitializeDashboardGroupsAction implements Action {
   readonly type = DashboardGroupsActionTypes.InitializeDashboardGroups;
+}
+
+export class InitializeDashboardGroupsActionSuccess implements Action {
+  readonly type = DashboardGroupsActionTypes.InitializeDashboardGroupSuccess;
+  constructor(public dashboardGroups: DashboardGroups[], public activeGroup: string) {}
 }
 
 export class LoadDashboardGroupsAction implements Action {
@@ -45,4 +51,5 @@ export type DashboardGroupsActions =
   | LoadDashboardGroupsFailAction
   | SetActiveDashboardGroupsAction
   | SetActiveDashboardGroupsActionFail
+  | InitializeDashboardGroupsActionSuccess
   | AddDashboardGroupsAction;

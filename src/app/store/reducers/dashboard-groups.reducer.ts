@@ -1,4 +1,5 @@
 import { DashboardGroupsActions, DashboardGroupsActionTypes } from '../actions/dashboard-groups.action';
+import { DashboardActionTypes, DashboardActions } from '../actions/dashboard.actions';
 import { DashboardGroups } from '../../dashboard/models/dashboard-groups.model';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
@@ -17,9 +18,12 @@ const initialState: DashboardGroupsState = DashboardGroupsAdapter.getInitialStat
   loaded: false
 });
 
-export function dashboardGroupReducer(state = initialState, action: DashboardGroupsActions): DashboardGroupsState {
+export function dashboardGroupReducer(
+  state = initialState,
+  action: DashboardGroupsActions | DashboardActions
+): DashboardGroupsState {
   switch (action.type) {
-    case DashboardGroupsActionTypes.InitializeDashboardGroups: {
+    case DashboardGroupsActionTypes.InitializeDashboardGroupSuccess: {
       /**
        * The addMany function provided by the created adapter
        * adds many records to the entity dictionary
@@ -28,25 +32,20 @@ export function dashboardGroupReducer(state = initialState, action: DashboardGro
        * sort each record upon entry into the sorted array.
        */
 
-      const payload: DashboardGroups[] = [
-        {
-          id: 'Xm4TNggmC8J',
-          name: 'Malaria Burden Reduction Bulletin',
-          dashboards: ['who-malaria_sLldHZZgnFx', 'who-malaria_zMdUF7qxNEt', 'who-malaria_QT4gSejEGCE']
-        },
-        {
-          id: 'bxI7Q1agaN5',
-          name: 'Malaria Elimination Bulletin',
-          dashboards: ['who-malaria_b8F1kKlV9Fk', 'who-malaria_aBVHnhMvdEO']
-        }
-      ];
+      const { dashboardGroups, activeGroup } = action;
 
-      return DashboardGroupsAdapter.addMany(payload, {
+      return DashboardGroupsAdapter.addMany(dashboardGroups, {
         ...state,
-        activeGroup: 'Xm4TNggmC8J',
+        activeGroup,
         loaded: true,
         loading: false
       });
+    }
+
+    case DashboardActionTypes.SetCurrentDashboard: {
+      const { entities } = state;
+      const activeGroup = Object.keys(entities).find(id => entities[id].dashboards.includes(action.id));
+      return { ...state, activeGroup };
     }
 
     case DashboardGroupsActionTypes.SetActiveDashboardGroup: {
