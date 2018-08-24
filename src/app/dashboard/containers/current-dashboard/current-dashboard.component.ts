@@ -7,6 +7,7 @@ import {
   getCurrentUser,
   State,
   getCurrentDashboard,
+  getAllLegendSets,
   ToggleDashboardBookmarkAction,
   ManageDashboardItemAction,
   AddNewUnsavedFavoriteAction,
@@ -19,7 +20,7 @@ import {
   getCurrentDashboardVisualizationLoading,
   getCurrentDashboardVisualizationLoaded
 } from '../../../store';
-import { User, SystemInfo } from '../../../models';
+import { User, SystemInfo, LegendSet } from '../../../models';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
 import { take } from 'rxjs/operators';
 
@@ -44,6 +45,7 @@ export class CurrentDashboardComponent implements OnInit {
   dashboardLoading$: Observable<boolean>;
   dashboardLoaded$: Observable<boolean>;
   visualizationsReady$: Observable<boolean>;
+  legendSets$: Observable<LegendSet[]>;
 
   welcomingTitle: string;
   welcomingDescription: string;
@@ -68,6 +70,7 @@ export class CurrentDashboardComponent implements OnInit {
     this.dashboardLoading$ = store.select(getDashboardObjectLoading);
     this.dashboardLoaded$ = store.select(getDashboardObjectLoaded);
     this.visualizationsReady$ = store.select(getVisualizationReady);
+    this.legendSets$ = store.select(getAllLegendSets);
 
     this.welcomingTitle = WELCOMING_TITLE;
     this.welcomingDescription = WELCOMING_DESCRIPTION;

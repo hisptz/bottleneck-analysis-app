@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TableConfiguration } from '../../models/table-configuration';
-
 import { getTableConfiguration } from '../../helpers/index';
+import { LegendSet } from '../../models/legend-set.model';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'ngx-dhis2-table-list',
@@ -9,8 +9,12 @@ import { getTableConfiguration } from '../../helpers/index';
   styleUrls: ['./table-list.component.css']
 })
 export class TableListComponent implements OnInit {
-  @Input() visualizationLayers: any[];
-  @Input() visualizationType: string;
+  @Input()
+  visualizationLayers: any[];
+  @Input()
+  visualizationType: string;
+  @Input()
+  legendSets: LegendSet[];
   tableLayers: Array<{
     tableConfiguration: TableConfiguration;
     analyticsObject: any;
@@ -21,14 +25,11 @@ export class TableListComponent implements OnInit {
     if (this.visualizationLayers && this.visualizationLayers.length > 0) {
       this.tableLayers = this.visualizationLayers.map((layer: any) => {
         return {
-          tableConfiguration: getTableConfiguration(
-            layer.config || {},
-            layer.layout,
-            this.visualizationType
-          ),
+          tableConfiguration: getTableConfiguration(layer.config || {}, layer.layout, this.visualizationType),
           analyticsObject: layer.analytics
         };
       });
     }
+    console.log({ legendSets: this.legendSets });
   }
 }

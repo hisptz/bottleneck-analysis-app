@@ -9,3 +9,4 @@ export * from './visualization-favorite.model';
 export * from './visualization-icons.model';
 export * from './visualization-inputs.model';
 export * from './visualization-selection-dimension.model';
+export * from './legend-set.model';

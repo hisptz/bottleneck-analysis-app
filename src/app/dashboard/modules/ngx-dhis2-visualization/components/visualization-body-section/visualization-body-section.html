@@ -8,7 +8,7 @@
 
   <!--table visualization-->
   <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'TABLE'">
-    <ngx-dhis2-table-list [visualizationLayers]="visualizationLayers" [visualizationType]="visualizationConfig.type"></ngx-dhis2-table-list>
+    <ngx-dhis2-table-list [visualizationLayers]="visualizationLayers" [visualizationType]="visualizationConfig.type" [legendSets]="legendSets"></ngx-dhis2-table-list>
   </div>
   <!--end of table visualization-->
 

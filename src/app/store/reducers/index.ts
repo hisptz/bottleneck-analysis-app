@@ -8,6 +8,7 @@ import { DashboardObjectState, dashboardObjectReducer } from './dashboard.reduce
 import { DashboardSettingsState, dashboardSettingsReducer } from './dashboard-settings.reducer';
 import { DashboardVisualizationState, dashboardVisualizationReducer } from './dashboard-visualization.reducer';
 import { DashboardGroupsState, dashboardGroupReducer } from './dashboard-groups.reducer';
+import { LegendSetState, legendSetReducer } from './legend-set.reducer';
 
 /**
  * Root state interface
@@ -31,6 +32,7 @@ export interface State {
   dashboardGroups: DashboardGroupsState;
   dashboardSettings: DashboardSettingsState;
   dashboardVisualization: DashboardVisualizationState;
+  legendSets: LegendSetState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -40,7 +42,8 @@ export const reducers: ActionReducerMap<State> = {
   dashboardObject: dashboardObjectReducer,
   dashboardGroups: dashboardGroupReducer,
   dashboardSettings: dashboardSettingsReducer,
-  dashboardVisualization: dashboardVisualizationReducer
+  dashboardVisualization: dashboardVisualizationReducer,
+  legendSets: legendSetReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

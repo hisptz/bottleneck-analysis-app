@@ -6,6 +6,7 @@ import { Visualization } from '../../models/visualization.model';
 import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
 import { VisualizationProgress } from '../../models/visualization-progress.model';
 import { VisualizationConfig } from '../../models/visualization-config.model';
+import { LegendSet } from '../../models/legend-set.model';
 import { VisualizationState } from '../../store/reducers';
 import { Store } from '@ngrx/store';
 import {
@@ -58,6 +59,9 @@ export class VisualizationComponent implements OnInit, OnChanges {
   dashboardId: string;
   @Input()
   currentUser: any;
+
+  @Input()
+  legendSets: LegendSet[];
   @Input()
   systemInfo: any;
   cardFocused: boolean;
