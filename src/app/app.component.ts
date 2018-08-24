@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
 import { State, LoadSystemInfo } from './store';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ import { State, LoadSystemInfo } from './store';
 export class AppComponent {
   constructor(
     private store: Store<State>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private titleService: Title
   ) {
     // Load system information
     store.dispatch(new LoadSystemInfo());
@@ -22,5 +24,11 @@ export class AppComponent {
 
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     translate.use('en');
+
+    this.setTitle('BNA Dashboard');
+  }
+
+  public setTitle(newTitle: string) {
+    this.titleService.setTitle(newTitle);
   }
 }

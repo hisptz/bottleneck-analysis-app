@@ -45,8 +45,10 @@ export class DashboardMenuComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     const { activeDashboardGroupId } = changes;
-    if (activeDashboardGroupId) {
-      const { dashboards } = this.dashboardGroups.find(({ id }) => id === activeDashboardGroupId.currentValue);
+    if (activeDashboardGroupId && activeDashboardGroupId.currentValue) {
+      const { dashboards } = this.dashboardGroups.find(
+        ({ id }) => id === activeDashboardGroupId.currentValue
+      );
       if (!dashboards.includes(this.currentDashboardId)) {
         const [firstDashboard, ...rest] = dashboards;
         this.onSetCurrentDashboard(firstDashboard);

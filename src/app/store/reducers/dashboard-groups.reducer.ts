@@ -1,4 +1,7 @@
-import { DashboardGroupsActions, DashboardGroupsActionTypes } from '../actions/dashboard-groups.action';
+import {
+  DashboardGroupsActions,
+  DashboardGroupsActionTypes
+} from '../actions/dashboard-groups.action';
 import { DashboardGroups } from '../../dashboard/models/dashboard-groups.model';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
@@ -8,16 +11,23 @@ export interface DashboardGroupsState extends EntityState<DashboardGroups> {
   loaded: boolean;
 }
 
-export const DashboardGroupsAdapter: EntityAdapter<DashboardGroups> = createEntityAdapter<DashboardGroups>();
+export const DashboardGroupsAdapter: EntityAdapter<
+  DashboardGroups
+> = createEntityAdapter<DashboardGroups>();
 
-const initialState: DashboardGroupsState = DashboardGroupsAdapter.getInitialState({
-  // additional entity state properties
-  loading: false,
-  activeGroup: null,
-  loaded: false
-});
+const initialState: DashboardGroupsState = DashboardGroupsAdapter.getInitialState(
+  {
+    // additional entity state properties
+    loading: false,
+    activeGroup: null,
+    loaded: false
+  }
+);
 
-export function dashboardGroupReducer(state = initialState, action: DashboardGroupsActions): DashboardGroupsState {
+export function dashboardGroupReducer(
+  state = initialState,
+  action: DashboardGroupsActions
+): DashboardGroupsState {
   switch (action.type) {
     case DashboardGroupsActionTypes.InitializeDashboardGroups: {
       /**
@@ -28,22 +38,10 @@ export function dashboardGroupReducer(state = initialState, action: DashboardGro
        * sort each record upon entry into the sorted array.
        */
 
-      const payload: DashboardGroups[] = [
-        {
-          id: 'Xm4TNggmC8J',
-          name: 'Malaria Burden Reduction Bulletin',
-          dashboards: ['who-malaria_sLldHZZgnFx', 'who-malaria_zMdUF7qxNEt', 'who-malaria_QT4gSejEGCE']
-        },
-        {
-          id: 'bxI7Q1agaN5',
-          name: 'Malaria Elimination Bulletin',
-          dashboards: ['who-malaria_b8F1kKlV9Fk', 'who-malaria_aBVHnhMvdEO']
-        }
-      ];
+      const payload: DashboardGroups[] = [];
 
       return DashboardGroupsAdapter.addMany(payload, {
         ...state,
-        activeGroup: 'Xm4TNggmC8J',
         loaded: true,
         loading: false
       });
@@ -59,6 +57,9 @@ export function dashboardGroupReducer(state = initialState, action: DashboardGro
   }
 }
 
-export const getDashboardGroupsLoadedState = (state: DashboardGroupsState) => state.loaded;
-export const getActiveDashboardGroupState = (state: DashboardGroupsState) => state.activeGroup;
-export const getDashboardGroupsLoadingState = (state: DashboardGroupsState) => state.loading;
+export const getDashboardGroupsLoadedState = (state: DashboardGroupsState) =>
+  state.loaded;
+export const getActiveDashboardGroupState = (state: DashboardGroupsState) =>
+  state.activeGroup;
+export const getDashboardGroupsLoadingState = (state: DashboardGroupsState) =>
+  state.loading;
