@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, defer, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { State } from '../reducers';
 import {
   InitializeDashboardGroupsAction,
   InitializeDashboardGroupsActionSuccess,
@@ -10,8 +12,9 @@ import {
   DashboardGroupsActionTypes,
   DashboardGroupsActions
 } from '../actions/dashboard-groups.action';
+import { getCurrentDashboardId } from '../selectors';
 import { SetCurrentDashboardAction } from '../actions/dashboard.actions';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
 
 const GROUPS_PAYLOAD = [
   {
@@ -31,7 +34,13 @@ export class DashboardGroupsEffects {
   @Effect()
   setCurrentDashBoard$: Observable<Action> = this.actions$.pipe(
     ofType<SetActiveDashboardGroupsAction>(DashboardGroupsActionTypes.SetActiveDashboardGroup),
-    map(({ activeGroup }) => new SetCurrentDashboardAction(activeGroup.dashboards[0])),
+    withLatestFrom(this.store.select(getCurrentDashboardId)),
+    map(
+      ([action, dashboardId]: [SetActiveDashboardGroupsAction, string]) =>
+        new SetCurrentDashboardAction(
+          action.activeGroup.dashboards.includes(dashboardId) ? dashboardId : action.activeGroup.dashboards[0]
+        )
+    ),
     catchError(error => of(new SetActiveDashboardGroupsActionFail(error)))
   );
 
@@ -45,5 +54,5 @@ export class DashboardGroupsEffects {
   // remember to put this at the end of all effects
   @Effect()
   init$: Observable<Action> = defer(() => of(new InitializeDashboardGroupsAction()));
-  constructor(private actions$: Actions) {}
+  constructor(private actions$: Actions, private store: Store<State>) {}
 }
