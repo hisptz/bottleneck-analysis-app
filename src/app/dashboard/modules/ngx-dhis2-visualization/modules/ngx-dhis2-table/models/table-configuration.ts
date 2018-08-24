@@ -10,6 +10,7 @@ export interface TableConfiguration {
   showHierarchy: boolean;
   rows: any[];
   columns: any[];
+  legendDisplayStrategy: string;
   displayList: boolean;
   legendSet: any;
   styles: any;

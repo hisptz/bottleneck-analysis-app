@@ -1,8 +1,5 @@
 import * as _ from 'lodash';
-export function getStandardizedAnalyticsObject(
-  analyticsObject: any,
-  preferNormalStructure: boolean = false
-) {
+export function getStandardizedAnalyticsObject(analyticsObject: any, preferNormalStructure: boolean = false) {
   if (analyticsObject && analyticsObject.count) {
     return analyticsObject;
   }
@@ -35,10 +32,7 @@ export function getStandardizedAnalyticsObject(
      */
     if (analyticsObject.metaData) {
       try {
-        const sanitizedMetadata: any = getSanitizedAnalyticsMetadata(
-          analyticsObject.metaData,
-          preferNormalStructure
-        );
+        const sanitizedMetadata: any = getSanitizedAnalyticsMetadata(analyticsObject.metaData, preferNormalStructure);
         sanitizedAnalyticsObject.metaData = sanitizedMetadata;
       } catch (e) {
         console.warn('Invalid metadata object');
@@ -56,10 +50,7 @@ export function getStandardizedAnalyticsObject(
   return analyticsObject ? sanitizedAnalyticsObject : null;
 }
 
-function getSanitizedAnalyticsMetadata(
-  analyticMetadata: any,
-  preferNormalStructure: boolean
-) {
+function getSanitizedAnalyticsMetadata(analyticMetadata: any, preferNormalStructure: boolean) {
   let sanitizedMetadata: any = {};
 
   if (analyticMetadata) {
@@ -73,11 +64,11 @@ function getSanitizedAnalyticsMetadata(
       const metadataNames: any = {};
       if (metadataItemsKeys) {
         metadataItemsKeys.forEach(metadataItemKey => {
-          metadataNames[metadataItemKey] =
-            analyticMetadata.items[metadataItemKey].name;
+          metadataNames[metadataItemKey] = analyticMetadata.items[metadataItemKey].name;
         });
       }
       sanitizedMetadata['names'] = metadataNames;
+      sanitizedMetadata['items'] = analyticMetadata.items;
     }
 
     /**

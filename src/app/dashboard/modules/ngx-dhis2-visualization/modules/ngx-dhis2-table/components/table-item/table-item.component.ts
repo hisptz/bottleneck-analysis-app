@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TableConfiguration } from '../../models/table-configuration';
 
 import { drawTable } from '../../helpers/index';
+import { LegendSet } from '../../models/legend-set.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,6 +15,8 @@ export class TableItemComponent implements OnInit {
   tableConfiguration: TableConfiguration;
   @Input()
   analyticsObject: any;
+  @Input()
+  legendSets: LegendSet[];
   tableObject: any;
   sort_direction: string[] = [];
   current_sorting: boolean[] = [];
@@ -23,7 +26,7 @@ export class TableItemComponent implements OnInit {
 
   ngOnInit() {
     if (this.analyticsObject && this.tableConfiguration) {
-      this.tableObject = drawTable(this.analyticsObject, this.tableConfiguration);
+      this.tableObject = drawTable(this.analyticsObject, this.tableConfiguration, this.legendSets);
     }
   }
   sortData(tableObject, n, isLastItem) {
