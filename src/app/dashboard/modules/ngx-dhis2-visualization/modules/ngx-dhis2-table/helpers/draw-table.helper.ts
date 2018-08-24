@@ -197,6 +197,8 @@ export function drawTable(analyticsObject, tableConfiguration: TableConfiguratio
           table.rows.push(item);
         }
 
+        console.log(item.items);
+
         counter++;
       }
     } else {
@@ -323,16 +325,15 @@ function getDataValue(analyticsObject, dataItems = []) {
   return num;
 }
 
-function getDataValueColor(legendClasses, value) {
-  let color = '';
-  if (!isNaN(value) && legendClasses) {
-    legendClasses.forEach(legendClass => {
-      if (legendClass.startValue <= value && legendClass.endValue > value) {
-        color = legendClass.color;
-      }
-    });
-  }
-  return color;
+function getDataValueColor(legendItems: any = [], value) {
+  const isLast = index => index === legendItems.length - 1;
+  const dataItem =
+    value &&
+    legendItems.find(
+      (item, index) => value >= item.startValue && (value < item.endValue || (isLast(index) && value === item.endValue))
+    );
+
+  return dataItem && dataItem.color;
 }
 
 function getLegendSets(dataItem, legendClasses, legendSets, configuration, metaData) {
