@@ -4,7 +4,8 @@
     <li *ngFor="let sharingItem of (sharingFilter$ | async).sharingItems | limit:3" class="sharing-item" (click)="changeAccess($event, sharingItem)">
       <img *ngIf="sharingItem.isExternal && sharingItem.access" [src]="tickIcon" alt="">
       <img *ngIf="!sharingItem.isExternal && sharingItem.access === 'r-------'" [src]="viewIcon" alt="">
-      <img *ngIf="!sharingItem.isExternal && sharingItem.access === 'rw------'" [src]="editIcon" alt=""> {{ sharingItem.name }} &nbsp;
+      <img *ngIf="!sharingItem.isExternal && sharingItem.access === 'rw------'" [src]="editIcon" alt=""> {{ sharingItem.name
+      }} &nbsp;
       <img class="sharing-close-btn" *ngIf="!sharingItem.isExternal && !sharingItem.isPublic" [src]="closeIcon" alt="" (click)="removeSharingItem($event, sharingItem)">
     </li>
     <li *ngIf="(sharingFilter$ | async) && (sharingFilter$ | async).sharingItems.length > 3" class="sharing-item">
@@ -15,7 +16,7 @@
     <li class=" share-input-block ">
       <input type="text " class="share-input " id="sharing_filter_input " [(ngModel)]="searchTerm " [placeholder]="'Search users and user Groups to share the dashboard' | translate"
         autofocus>
-      <div class="share-search-not-found " *ngIf="(sharingSearchList$ | async | filterByName:searchTerm).length===0 && searchTerm.length>
+      <div class="share-search-not-found " *ngIf="(sharingSearchList$ | async) && (sharingSearchList$ | async | filterByName:searchTerm).length===0 && searchTerm.length>
     0">Not found</div>
       <ul class="share-search-result-list">
         <li *ngFor="let searchItem of sharingSearchList$ | async | filterByName:searchTerm">
