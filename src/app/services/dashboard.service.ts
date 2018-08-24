@@ -37,15 +37,15 @@ export class DashboardService {
     return this.httpClient.get('dataStore/dashboards').pipe(
       mergeMap((dashboardIds: Array<string>) =>
         forkJoin(
-          _.map(dashboardIds, dashboardId =>
-            this.httpClient.get(`dataStore/dashboards/${dashboardId}`)
-          )
-        ).pipe(
-          map((dashboards: any[]) =>
-            _.filter(
-              dashboards,
-              dashboard => dashboard.namespace === dashboardSettings.id
-            )
+          _.map(
+            _.filter(dashboardIds, (dashboardId: string) => {
+              const splitedDashboardId = dashboardId.split('_');
+              const dashboardNamespace = splitedDashboardId[0] || '';
+              return dashboardNamespace === dashboardSettings.id;
+            }),
+            dashboardId => {
+              return this.httpClient.get(`dataStore/dashboards/${dashboardId}`);
+            }
           )
         )
       ),
