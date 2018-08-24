@@ -9,6 +9,7 @@ import { CurrentDashboardGlobalFilterComponent } from './current-dashboard-globa
 import { CurrentDashboardItemSearchComponent } from './current-dashboard-item-search/current-dashboard-item-search.component';
 import { AddDashboardComponent } from './add-dashboard/add-dashboard.component';
 import { DashboardProgressComponent } from './dashboard-progress/dashboard-progress.component';
+import { DefaultDashboardListComponent } from './default-dashboard-list/default-dashboard-list.component';
 
 export const components: any[] = [
   DashboardMenuComponent,
@@ -21,5 +22,6 @@ export const components: any[] = [
   CurrentDashboardGlobalFilterComponent,
   CurrentDashboardItemSearchComponent,
   AddDashboardComponent,
-  DashboardProgressComponent
+  DashboardProgressComponent,
+  DefaultDashboardListComponent
 ];

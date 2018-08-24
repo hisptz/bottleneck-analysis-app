@@ -1,21 +1,12 @@
-<div class="tab">
-
-    <ul class="tabs">
-        <li *ngFor="let dashboardGroup of dashboardGroups" [ngClass]="{'current': dashboardGroup.id === activeDashboardGroupId }"
-            (click)="onSetActiveDashboardGroup(dashboardGroup.id)">{{dashboardGroup.name}}</li>
+<div class="dashboard-menu">
+    <ul class="dashboard-menu-list">
+        <!-- Hide add dashboard actions -->
+        <li>
+            <app-default-dashboard-list></app-default-dashboard-list>
+        </li>
+        <li *ngFor="let dashboardMenuItem of dashboardMenuList | sortByBookmark">
+            <app-dashboard-menu-item [dashboardMenuItem]="dashboardMenuItem" [currentDashboardId]="currentDashboardId" (setDashboard)="onSetCurrentDashboard($event)"
+                (toggleDashboardMenuItemBookmark)="onToggleDashboardMenuItemBookmark($event)"></app-dashboard-menu-item>
+        </li>
     </ul>
-    <div class="tab_content">
-        <div class="dashboard-menu">
-            <ul class="dashboard-menu-list">
-                <!-- Hide add dashboard actions -->
-                <!-- <li>
-                    <app-add-dashboard (create)="onCreateDashboard($event)"></app-add-dashboard>
-                </li> -->
-                <li *ngFor="let dashboardMenuItem of dashboardMenuList | sortByBookmark">
-                    <app-dashboard-menu-item [dashboardMenuItem]="dashboardMenuItem" [currentDashboardId]="currentDashboardId" (setDashboard)="onSetCurrentDashboard($event)"
-                        (toggleDashboardMenuItemBookmark)="onToggleDashboardMenuItemBookmark($event)"></app-dashboard-menu-item>
-                </li>
-            </ul>
-        </div>
-    </div> <!-- / tab_content -->
-</div> <!-- / tab -->
+</div>
