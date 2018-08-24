@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
-  getAllDashboards,
   getAllGroupDashboards,
   getCurrentDashboardId,
   SetCurrentDashboardAction,

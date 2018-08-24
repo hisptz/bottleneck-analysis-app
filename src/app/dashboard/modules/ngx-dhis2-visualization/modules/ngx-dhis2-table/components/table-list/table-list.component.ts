@@ -30,6 +30,5 @@ export class TableListComponent implements OnInit {
         };
       });
     }
-    console.log({ legendSets: this.legendSets });
   }
 }
