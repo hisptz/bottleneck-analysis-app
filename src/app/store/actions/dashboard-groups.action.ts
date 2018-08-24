@@ -4,14 +4,21 @@ import { User, SystemInfo } from '../../models';
 
 export enum DashboardGroupsActionTypes {
   InitializeDashboardGroups = '[DashboardGroups] initialize dashboard group',
+  InitializeDashboardGroupSuccess = '[DashboardGroups] initialize dashboard group success',
   LoadDashboardGroups = '[DashboardGroups] Load dashboard group',
   AddDashboardGroups = '[DashboardGroups] Add dashboard group',
   SetActiveDashboardGroup = '[DashboardGroups] Set Active Dashboard group',
+  SetActiveDashboardGroupFail = '[DashboardGroups] Set Active Dashboard group fail',
   LoadDashboardGroupsFail = '[DashboardGroups] Load dashboard group fails'
 }
 
 export class InitializeDashboardGroupsAction implements Action {
   readonly type = DashboardGroupsActionTypes.InitializeDashboardGroups;
+}
+
+export class InitializeDashboardGroupsActionSuccess implements Action {
+  readonly type = DashboardGroupsActionTypes.InitializeDashboardGroupSuccess;
+  constructor(public dashboardGroups: DashboardGroups[], public activeGroup: string) {}
 }
 
 export class LoadDashboardGroupsAction implements Action {
@@ -21,7 +28,12 @@ export class LoadDashboardGroupsAction implements Action {
 
 export class SetActiveDashboardGroupsAction implements Action {
   readonly type = DashboardGroupsActionTypes.SetActiveDashboardGroup;
-  constructor(public activeGroup: string) {}
+  constructor(public activeGroup: DashboardGroups) {}
+}
+
+export class SetActiveDashboardGroupsActionFail implements Action {
+  readonly type = DashboardGroupsActionTypes.SetActiveDashboardGroupFail;
+  constructor(public error: any) {}
 }
 
 export class AddDashboardGroupsAction implements Action {
@@ -38,4 +50,6 @@ export type DashboardGroupsActions =
   | LoadDashboardGroupsAction
   | LoadDashboardGroupsFailAction
   | SetActiveDashboardGroupsAction
+  | SetActiveDashboardGroupsActionFail
+  | InitializeDashboardGroupsActionSuccess
   | AddDashboardGroupsAction;

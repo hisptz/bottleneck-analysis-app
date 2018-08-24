@@ -2,6 +2,10 @@ import {
   DashboardGroupsActions,
   DashboardGroupsActionTypes
 } from '../actions/dashboard-groups.action';
+import {
+  DashboardActionTypes,
+  DashboardActions
+} from '../actions/dashboard.actions';
 import { DashboardGroups } from '../../dashboard/models/dashboard-groups.model';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
@@ -26,10 +30,10 @@ const initialState: DashboardGroupsState = DashboardGroupsAdapter.getInitialStat
 
 export function dashboardGroupReducer(
   state = initialState,
-  action: DashboardGroupsActions
+  action: DashboardGroupsActions | DashboardActions
 ): DashboardGroupsState {
   switch (action.type) {
-    case DashboardGroupsActionTypes.InitializeDashboardGroups: {
+    case DashboardGroupsActionTypes.InitializeDashboardGroupSuccess: {
       /**
        * The addMany function provided by the created adapter
        * adds many records to the entity dictionary
@@ -38,17 +42,26 @@ export function dashboardGroupReducer(
        * sort each record upon entry into the sorted array.
        */
 
-      const payload: DashboardGroups[] = [];
+      const { dashboardGroups, activeGroup } = action;
 
-      return DashboardGroupsAdapter.addMany(payload, {
+      return DashboardGroupsAdapter.addMany(dashboardGroups, {
         ...state,
+        activeGroup,
         loaded: true,
         loading: false
       });
     }
 
+    case DashboardActionTypes.SetCurrentDashboard: {
+      const { entities } = state;
+      const activeGroup = Object.keys(entities).find(id =>
+        entities[id].dashboards.includes(action.id)
+      );
+      return { ...state, activeGroup };
+    }
+
     case DashboardGroupsActionTypes.SetActiveDashboardGroup: {
-      return { ...state, activeGroup: action.activeGroup };
+      return { ...state, activeGroup: action.activeGroup.id };
     }
 
     default: {

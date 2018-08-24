@@ -2,8 +2,14 @@ import { TableConfiguration } from '../models/table-configuration';
 import { LegendSet } from '../models/legend-set.model';
 const USE_BY_DATA_ITEM_LEGEND = 'BY_DATA_ITEM';
 
-export function drawTable(analyticsObject, tableConfiguration: TableConfiguration, legendSets: LegendSet[]) {
-  const legendClasses = tableConfiguration.legendSet ? tableConfiguration.legendSet.legends : null;
+export function drawTable(
+  analyticsObject,
+  tableConfiguration: TableConfiguration,
+  legendSets: LegendSet[]
+) {
+  const legendClasses = tableConfiguration.legendSet
+    ? tableConfiguration.legendSet.legends
+    : null;
 
   const table = {
     headers: [],
@@ -27,11 +33,15 @@ export function drawTable(analyticsObject, tableConfiguration: TableConfiguratio
       items: [],
       style: ''
     };
-    tableConfiguration.columns[tableConfiguration.columns.indexOf('pe')] = 'eventdate';
-    tableConfiguration.columns[tableConfiguration.columns.indexOf('ou')] = 'ouname';
+    tableConfiguration.columns[tableConfiguration.columns.indexOf('pe')] =
+      'eventdate';
+    tableConfiguration.columns[tableConfiguration.columns.indexOf('ou')] =
+      'ouname';
     for (const item of tableConfiguration.columns) {
       table.headers[0].items.push({
-        name: analyticsObject.headers[getTitleIndex(analyticsObject.headers, item)].column,
+        name:
+          analyticsObject.headers[getTitleIndex(analyticsObject.headers, item)]
+            .column,
         span: 1
       });
     }
@@ -57,15 +67,29 @@ export function drawTable(analyticsObject, tableConfiguration: TableConfiguratio
     if (tableConfiguration.showDimensionLabels) {
       table.titlesAvailable = true;
       for (const item of tableConfiguration.columns) {
-        table.titles.column.push(analyticsObject.headers[getTitleIndex(analyticsObject.headers, item)].column);
+        table.titles.column.push(
+          analyticsObject.headers[getTitleIndex(analyticsObject.headers, item)]
+            .column
+        );
       }
       for (const item of tableConfiguration.rows) {
-        table.titles.rows.push(analyticsObject.headers[getTitleIndex(analyticsObject.headers, item)].column);
+        table.titles.rows.push(
+          analyticsObject.headers[getTitleIndex(analyticsObject.headers, item)]
+            .column
+        );
       }
     }
+
     for (const columnItem of tableConfiguration.columns) {
-      const dimension = calculateColSpan(analyticsObject, tableConfiguration.columns, columnItem);
-      const currentColumnItems = prepareSingleCategories(analyticsObject, columnItem);
+      const dimension = calculateColSpan(
+        analyticsObject,
+        tableConfiguration.columns,
+        columnItem
+      );
+      const currentColumnItems = prepareSingleCategories(
+        analyticsObject,
+        columnItem
+      );
       const headerItem = [];
       for (let i = 0; i < dimension.duplication; i++) {
         for (const currentItem of currentColumnItems) {
@@ -77,6 +101,7 @@ export function drawTable(analyticsObject, tableConfiguration: TableConfiguratio
           });
         }
       }
+
       let styles = '';
       if (tableConfiguration.hasOwnProperty('style')) {
         if (tableConfiguration.styles.hasOwnProperty(columnItem)) {
@@ -93,7 +118,10 @@ export function drawTable(analyticsObject, tableConfiguration: TableConfiguratio
     const column_length = tableConfiguration.columns.length;
     const column_items_array = [];
     for (let i = 0; i < column_length; i++) {
-      const currentRowItems = prepareSingleCategories(analyticsObject, tableConfiguration.columns[i]);
+      const currentRowItems = prepareSingleCategories(
+        analyticsObject,
+        tableConfiguration.columns[i]
+      );
       column_items_array.push(currentRowItems);
     }
     let table_columns_array = [];
@@ -122,8 +150,15 @@ export function drawTable(analyticsObject, tableConfiguration: TableConfiguratio
     const rows_length = tableConfiguration.rows.length;
     const row_items_array = [];
     for (let i = 0; i < rows_length; i++) {
-      const dimension = calculateColSpan(analyticsObject, tableConfiguration.rows, tableConfiguration.rows[i]);
-      const currentRowItems = prepareSingleCategories(analyticsObject, tableConfiguration.rows[i]);
+      const dimension = calculateColSpan(
+        analyticsObject,
+        tableConfiguration.rows,
+        tableConfiguration.rows[i]
+      );
+      const currentRowItems = prepareSingleCategories(
+        analyticsObject,
+        tableConfiguration.rows[i]
+      );
       row_items_array.push({ items: currentRowItems, dimensions: dimension });
     }
     let table_rows_array = [];
@@ -180,20 +215,31 @@ export function drawTable(analyticsObject, tableConfiguration: TableConfiguratio
             name: '',
             val: getDataValue(analyticsObject, dataItem),
             color: getDataValueColor(
-              getLegendSets(dataItem, legendClasses, legendSets, tableConfiguration, analyticsObject.metaData),
+              getLegendSets(
+                dataItem,
+                legendClasses,
+                legendSets,
+                tableConfiguration,
+                analyticsObject.metaData
+              ),
               getDataValue(analyticsObject, dataItem)
             ),
             row_span: '1',
             display: true
           });
         }
-        if (tableConfiguration.hasOwnProperty('hideEmptyRows') && tableConfiguration.hideEmptyRows) {
+        if (
+          tableConfiguration.hasOwnProperty('hideEmptyRows') &&
+          tableConfiguration.hideEmptyRows
+        ) {
           if (!checkZeros(tableConfiguration.rows.length, item.items)) {
             table.rows.push(item);
           }
         } else {
           table.rows.push(item);
         }
+
+        console.log(item.items);
 
         counter++;
       }
@@ -214,7 +260,10 @@ export function drawTable(analyticsObject, tableConfiguration: TableConfiguratio
           display: true
         });
       }
-      if (tableConfiguration.hasOwnProperty('hideEmptyRows') && tableConfiguration.hideEmptyRows) {
+      if (
+        tableConfiguration.hasOwnProperty('hideEmptyRows') &&
+        tableConfiguration.hideEmptyRows
+      ) {
         if (!checkZeros(tableConfiguration.rows.length, item.items)) {
           table.rows.push(item);
         }
@@ -257,7 +306,11 @@ function calculateColSpan(analyticsObject, array, item) {
   return dimensions;
 }
 
-function prepareSingleCategories(initialAnalytics, itemIdentifier, preDefinedItems = []) {
+function prepareSingleCategories(
+  initialAnalytics,
+  itemIdentifier,
+  preDefinedItems = []
+) {
   const analyticsObject = sanitizeIncomingAnalytics(initialAnalytics);
   const structure = [];
   if (preDefinedItems.length === 0) {
@@ -306,7 +359,9 @@ function getDataValue(analyticsObject, dataItems = []) {
   for (const value of analyticsObject.rows) {
     let counter = 0;
     for (const item of dataItems) {
-      if (value[getTitleIndex(analyticsObject.headers, item.type)] === item.value) {
+      if (
+        value[getTitleIndex(analyticsObject.headers, item.type)] === item.value
+      ) {
         counter++;
       }
     }
@@ -314,32 +369,46 @@ function getDataValue(analyticsObject, dataItems = []) {
       if (isNaN(value[getTitleIndex(analyticsObject.headers, 'value')])) {
         num = value[getTitleIndex(analyticsObject.headers, 'value')];
       } else {
-        num += parseFloat(value[getTitleIndex(analyticsObject.headers, 'value')]);
+        num += parseFloat(
+          value[getTitleIndex(analyticsObject.headers, 'value')]
+        );
       }
     }
   }
   return num;
 }
 
-function getDataValueColor(legendClasses, value) {
-  let color = '';
-  if (!isNaN(value) && legendClasses) {
-    legendClasses.forEach(legendClass => {
-      if (legendClass.startValue <= value && legendClass.endValue > value) {
-        color = legendClass.color;
-      }
-    });
-  }
-  return color;
+function getDataValueColor(legendItems: any = [], value) {
+  const isLast = index => index === legendItems.length - 1;
+  const dataItem =
+    value &&
+    (legendItems || []).find(
+      (item, index) =>
+        value >= item.startValue &&
+        (value < item.endValue || (isLast(index) && value === item.endValue))
+    );
+
+  return dataItem && dataItem.color;
 }
 
-function getLegendSets(dataItem, legendClasses, legendSets, configuration, metaData) {
+function getLegendSets(
+  dataItem,
+  legendClasses,
+  legendSets,
+  configuration,
+  metaData
+) {
   const { legendDisplayStrategy } = configuration;
   const { items } = metaData;
+
   if (legendDisplayStrategy === USE_BY_DATA_ITEM_LEGEND) {
     const dx = dataItem.find(dItem => dItem.type === 'dx');
-    const legendSetId = dx && dx.value && items[dx.value] && items[dx.value]['legendSet'];
-    const legendSet = legendSetId && legendSets && legendSets.find(({ id }) => id === legendSetId);
+    const legendSetId =
+      dx && dx.value && items[dx.value] && items[dx.value]['legendSet'];
+    const legendSet =
+      legendSetId &&
+      legendSets &&
+      legendSets.find(({ id }) => id === legendSetId);
     return legendSet && legendSet.legends;
   }
   return legendClasses;

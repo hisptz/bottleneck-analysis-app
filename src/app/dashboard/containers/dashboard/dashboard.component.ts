@@ -63,8 +63,8 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(new SetCurrentDashboardAction(dashboardId));
   }
 
-  onSetActiveDashboardGroupAction(groupId: string) {
-    this.store.dispatch(new SetActiveDashboardGroupsAction(groupId));
+  onSetActiveDashboardGroupAction(group: DashboardGroups) {
+    this.store.dispatch(new SetActiveDashboardGroupsAction(group));
   }
 
   onCreateDashboardAction(dashboardName: string) {
