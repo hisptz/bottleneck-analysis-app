@@ -1,9 +1,31 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 
 interface DefaultDashboard {
   name: string;
 }
+
+const DASHBOARD_ITEMS = [
+  {
+    shape: 'FULL_WIDTH',
+    type: 'CHART',
+    chart: {
+      name: 'National-level Surveillance data',
+      interpretations: []
+    }
+  },
+  {
+    shape: 'DOUBLE_WIDTH',
+    type: 'REPORT_TABLE',
+    reportTable: {
+      name: 'Malaria: OPD'
+    }
+  },
+  {
+    shape: 'DOUBLE_WIDTH',
+    type: 'APP'
+  }
+];
 
 @Component({
   selector: 'app-default-dashboard-list',
@@ -15,6 +37,9 @@ export class DefaultDashboardListComponent implements OnInit {
   defaultDashboardList: DefaultDashboard[];
   showDefaultList: boolean;
   searchTerm: string;
+
+  @Output()
+  create: EventEmitter<any> = new EventEmitter<any>();
   constructor() {
     this.defaultDashboardList = [
       {
@@ -54,7 +79,7 @@ export class DefaultDashboardListComponent implements OnInit {
 
   onAddDashboard(e, dashboard: DefaultDashboard) {
     e.stopPropagation();
-    console.log(dashboard);
     this.showDefaultList = false;
+    this.create.emit({ ...dashboard, dashboardItems: DASHBOARD_ITEMS });
   }
 }

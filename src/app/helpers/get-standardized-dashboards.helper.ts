@@ -20,12 +20,10 @@ export function getStandardizedDashboards(
       lastUpdated: dashboard.lastUpdated,
       description: dashboard.description,
       supportBookmark: dashboard.hasOwnProperty('favorite'),
-      bookmarked: dashboard.hasOwnProperty('favorite')
-        ? dashboard.favorite
-        : getDashboardBookmarkStatus(
-            dashboard.favorites,
-            currentUser ? currentUser.id : ''
-          ),
+      bookmarked: getDashboardBookmarkStatus(
+        dashboard.favorites || dashboard.bookmarks,
+        currentUser ? currentUser.id : ''
+      ),
       access: dashboard.access,
       globalSelections: [
         {

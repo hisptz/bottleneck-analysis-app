@@ -67,8 +67,8 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(new SetActiveDashboardGroupsAction(group));
   }
 
-  onCreateDashboardAction(dashboardName: string) {
-    this.store.dispatch(new CreateDashboardAction(dashboardName));
+  onCreateDashboardAction(dashboard: any) {
+    this.store.dispatch(new CreateDashboardAction(dashboard));
   }
 
   onToggleDashboardBookmark(dashboardDetails: {

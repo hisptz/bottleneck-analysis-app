@@ -55,7 +55,7 @@ export class DashboardMenuComponent {
     this.toggleDashboardBookmark.emit(dashboardMenuDetails);
   }
 
-  onCreateDashboard(dashboardName: string) {
-    this.createDashboard.emit(dashboardName);
+  onCreateDashboard(dashboard: any) {
+    this.createDashboard.emit(dashboard);
   }
 }

@@ -309,29 +309,21 @@ export class DashboardEffects {
         CreateDashboardAction,
         DashboardSettings
       ]) => {
-        const id = generateUid();
+        const id = `${dashboardSettings.id}_${generateUid()}`;
         this.store.dispatch(
           new AddDashboardAction({
+            ...action.dashboardItem,
             id,
-            name: action.dashboardName,
             creating: true
           })
         );
         return this.dashboardService
-          .create({ id, name: action.dashboardName }, dashboardSettings)
+          .create({ ...action.dashboardItem, id }, dashboardSettings)
           .pipe(
             switchMap(() => [
               new UpdateDashboardAction(id, {
                 creating: false,
-                updatedOrCreated: true,
-                access: {
-                  manage: true,
-                  write: true,
-                  update: true,
-                  read: true,
-                  externalize: true,
-                  delete: true
-                }
+                updatedOrCreated: true
               }),
               new AddDashboardVisualizationAction({
                 id,
