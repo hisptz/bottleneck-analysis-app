@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
 import { getFavoriteUrl } from '../helpers';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { FavoriteConfiguration } from '../models/favorite-configurations.model';
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +28,9 @@ export class FavoriteService {
   }
 
   update(favoriteUrl: string, favorite: any) {
-    return this.http.put(`${favoriteUrl}/${favorite.id}`, favorite).pipe(map(() => favorite));
+    return this.http
+      .put(`${favoriteUrl}/${favorite.id}`, favorite)
+      .pipe(map(() => favorite));
   }
 
   delete(favoriteId: string, favoriteType: string) {

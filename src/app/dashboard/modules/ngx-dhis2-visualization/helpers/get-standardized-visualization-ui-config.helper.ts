@@ -6,7 +6,9 @@ export function getStandardizedVisualizationUiConfig(
   visualizationItem: any,
   currentVisualizationItemId?: string
 ): VisualizationUiConfig {
-  const isNonVisualizable = checkIfVisualizationIsNonVisualizable(visualizationItem.type);
+  const isNonVisualizable = checkIfVisualizationIsNonVisualizable(
+    visualizationItem.type
+  );
 
   const isFullScreen = currentVisualizationItemId === visualizationItem.id;
   return {
@@ -16,13 +18,13 @@ export function getStandardizedVisualizationUiConfig(
     width: getVisualizationWidthFromShape(visualizationItem.shape || 'NORMAL'),
     showBody: true,
     fullScreen: isFullScreen,
-    showFilters: !isNonVisualizable,
+    showFilters: false,
     hideFooter: true,
     hideHeader: false,
     hideManagementBlock: !isNonVisualizable,
     hideTypeButtons: !isNonVisualizable,
     showInterpretionBlock: !isNonVisualizable,
     hideResizeButtons: true,
-    showTitleBlock: true
+    showTitleBlock: false
   };
 }
