@@ -8,21 +8,14 @@ interface DefaultDashboard {
 const DASHBOARD_ITEMS = [
   {
     shape: 'FULL_WIDTH',
-    type: 'CHART',
-    chart: {
-      name: 'National-level Surveillance data',
-      interpretations: []
-    }
+    type: 'CHART'
   },
   {
-    shape: 'DOUBLE_WIDTH',
-    type: 'REPORT_TABLE',
-    reportTable: {
-      name: 'Malaria: OPD'
-    }
+    shape: 'FULL_WIDTH',
+    type: 'REPORT_TABLE'
   },
   {
-    shape: 'DOUBLE_WIDTH',
+    shape: 'FULL_WIDTH',
     type: 'APP'
   }
 ];

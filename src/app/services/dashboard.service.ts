@@ -35,20 +35,25 @@ export class DashboardService {
 
   loadFromDataStore(dashboardSettings: DashboardSettings) {
     return this.httpClient.get('dataStore/dashboards').pipe(
-      mergeMap((dashboardIds: Array<string>) =>
-        forkJoin(
-          _.map(
-            _.filter(dashboardIds, (dashboardId: string) => {
-              const splitedDashboardId = dashboardId.split('_');
-              const dashboardNamespace = splitedDashboardId[0] || '';
-              return dashboardNamespace === dashboardSettings.id;
-            }),
-            dashboardId => {
-              return this.httpClient.get(`dataStore/dashboards/${dashboardId}`);
-            }
-          )
-        )
-      ),
+      mergeMap((dashboardIds: Array<string>) => {
+        const filteredDashboardIds = _.filter(
+          dashboardIds,
+          (dashboardId: string) => {
+            const splitedDashboardId = dashboardId.split('_');
+            const dashboardNamespace = splitedDashboardId[0] || '';
+            return dashboardNamespace === dashboardSettings.id;
+          }
+        );
+
+        if (filteredDashboardIds.length === 0) {
+          return of([]);
+        }
+        return forkJoin(
+          _.map(filteredDashboardIds, dashboardId => {
+            return this.httpClient.get(`dataStore/dashboards/${dashboardId}`);
+          })
+        );
+      }),
       catchError(() => of([]))
     );
   }

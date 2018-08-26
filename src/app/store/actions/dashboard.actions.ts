@@ -64,7 +64,7 @@ export class AddDashboardAction implements Action {
 export class CreateDashboardAction implements Action {
   readonly type = DashboardActionTypes.CreateDashboard;
 
-  constructor(public dashboardItem: any) {}
+  constructor(public dashboard: any) {}
 }
 
 export class UpsertDashboard implements Action {

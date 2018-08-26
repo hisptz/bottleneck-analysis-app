@@ -310,15 +310,35 @@ export class DashboardEffects {
         DashboardSettings
       ]) => {
         const id = `${dashboardSettings.id}_${generateUid()}`;
+        const dashboardObject = {
+          ...action.dashboard,
+          id: `${dashboardSettings.id}_${generateUid()}`,
+          dashboardItems: _.map(
+            action.dashboard.dashboardItems || [],
+            (dashboardItem: any) => {
+              return dashboardItem.type !== 'APP'
+                ? {
+                    ...dashboardItem,
+                    id: generateUid(),
+                    [_.camelCase(dashboardItem.type)]: {
+                      id: generateUid()
+                    }
+                  }
+                : {
+                    ...dashboardItem,
+                    id: generateUid()
+                  };
+            }
+          )
+        };
         this.store.dispatch(
           new AddDashboardAction({
-            ...action.dashboardItem,
-            id,
+            ...dashboardObject,
             creating: true
           })
         );
         return this.dashboardService
-          .create({ ...action.dashboardItem, id }, dashboardSettings)
+          .create(dashboardObject, dashboardSettings)
           .pipe(
             switchMap(() => [
               new UpdateDashboardAction(id, {
@@ -331,7 +351,10 @@ export class DashboardEffects {
                 loading: false,
                 hasError: false,
                 error: null,
-                items: []
+                items: _.map(
+                  dashboardObject.dashboardItems,
+                  (dashboardItem: any) => dashboardItem.id
+                )
               }),
               new SetCurrentDashboardAction(id)
             ]),
