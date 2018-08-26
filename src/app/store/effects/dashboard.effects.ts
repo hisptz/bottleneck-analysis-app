@@ -309,7 +309,6 @@ export class DashboardEffects {
         CreateDashboardAction,
         DashboardSettings
       ]) => {
-        const id = `${dashboardSettings.id}_${generateUid()}`;
         const dashboardObject = {
           ...action.dashboard,
           id: `${dashboardSettings.id}_${generateUid()}`,
@@ -341,26 +340,16 @@ export class DashboardEffects {
           .create(dashboardObject, dashboardSettings)
           .pipe(
             switchMap(() => [
-              new UpdateDashboardAction(id, {
+              new UpdateDashboardAction(dashboardObject.id, {
                 creating: false,
                 updatedOrCreated: true
               }),
-              new AddDashboardVisualizationAction({
-                id,
-                loaded: true,
-                loading: false,
-                hasError: false,
-                error: null,
-                items: _.map(
-                  dashboardObject.dashboardItems,
-                  (dashboardItem: any) => dashboardItem.id
-                )
-              }),
-              new SetCurrentDashboardAction(id)
+              new LoadDashboardVisualizationsAction(dashboardObject.id, ''),
+              new SetCurrentDashboardAction(dashboardObject.id)
             ]),
             catchError(error =>
               of(
-                new UpdateDashboardAction(id, {
+                new UpdateDashboardAction(dashboardObject.id, {
                   creating: false,
                   updatedOrCreated: false,
                   error
