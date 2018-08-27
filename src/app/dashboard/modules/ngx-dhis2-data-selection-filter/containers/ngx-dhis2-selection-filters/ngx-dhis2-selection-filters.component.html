@@ -2,8 +2,7 @@
   <!--selection filter header-->
   <div class="selection-filter-header">
     <button class="selection-filter-btn filter-control-btn" (click)="toggleFilters($event)" [title]="'Filter by different dimensions' | translate">
-      <img [src]="filterIcon" alt="">
-      <img [src]="showFilters ? arrowLeftIcon : arrowRightIcon" alt="">
+      FILTER
     </button>
     <div class="selection-filter-btn-list" *ngIf="showFilters">
       <!--data filter button-->
@@ -11,7 +10,7 @@
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'DATA'
         }" [title]="'Filter by data' | translate" (click)="toggleCurrentFilter($event, 'DATA')">
-        <img [src]="dataIcon" alt="">&nbsp;{{'Data Mapping' | translate}}&nbsp;
+        <img [src]="dataIcon" alt="">&nbsp;{{'Data' | translate}}&nbsp;
         <img [ngClass]="{'arrow-up': selectedFilter === 'DATA'}" [src]="arrowDownIcon" alt="">
       </button>
       <!--end of data filter button-->

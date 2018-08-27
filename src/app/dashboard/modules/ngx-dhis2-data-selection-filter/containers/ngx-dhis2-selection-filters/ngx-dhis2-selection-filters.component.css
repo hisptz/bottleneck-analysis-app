@@ -50,7 +50,20 @@
 
 .filter-control-btn {
   width: 50px;
-  padding-left: 10px;
+  border: none;
+  box-shadow: none;
+  font-size: 16px;
+  color: #00796b;
+  margin-right: 20px;
+}
+
+.filter-control-btn:hover {
+  background-color: transparent;
+  -webkit-transform: none;
+  -moz-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
 }
 
 .selection-filter-name {

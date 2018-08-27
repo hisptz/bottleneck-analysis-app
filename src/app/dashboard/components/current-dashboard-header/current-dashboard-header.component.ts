@@ -65,7 +65,6 @@ export class CurrentDashboardHeaderComponent implements OnInit {
 
   constructor() {
     this.selectionFilterConfig = {
-      showDataFilter: false,
       showLayout: false
     };
   }
