@@ -4,7 +4,9 @@ import { Intervention } from '../models/intervention.model';
 
 export enum InterventionActionTypes {
   LoadInterventions = '[Intervention] Load Interventions',
-  AddIntervention = '[Intervention] Add Intervention',
+  CreateIntervention = '[Intervention] Create Intervention',
+  CreateInterventionSuccess = '[Intervention] Create Intervention success',
+  CreateInterventionFail = '[Intervention] Create Intervention fail',
   UpsertIntervention = '[Intervention] Upsert Intervention',
   AddInterventions = '[Intervention] Add Interventions',
   UpsertInterventions = '[Intervention] Upsert Interventions',
@@ -19,12 +21,21 @@ export class LoadInterventions implements Action {
   readonly type = InterventionActionTypes.LoadInterventions;
 }
 
-export class AddIntervention implements Action {
-  readonly type = InterventionActionTypes.AddIntervention;
+export class CreateIntervention implements Action {
+  readonly type = InterventionActionTypes.CreateIntervention;
 
-  constructor(public payload: { intervention: Intervention }) {}
+  constructor(public intervention: Intervention) {}
 }
 
+export class CreateInterventionSuccess implements Action {
+  readonly type = InterventionActionTypes.CreateInterventionSuccess;
+  constructor(public intervention: Intervention) {}
+}
+
+export class CreateInterventionFail implements Action {
+  readonly type = InterventionActionTypes.CreateInterventionFail;
+  constructor(public intervention: Intervention, public error: any) {}
+}
 export class UpsertIntervention implements Action {
   readonly type = InterventionActionTypes.UpsertIntervention;
 
@@ -73,7 +84,9 @@ export class ClearInterventions implements Action {
 
 export type InterventionActions =
   | LoadInterventions
-  | AddIntervention
+  | CreateIntervention
+  | CreateInterventionSuccess
+  | CreateInterventionFail
   | UpsertIntervention
   | AddInterventions
   | UpsertInterventions

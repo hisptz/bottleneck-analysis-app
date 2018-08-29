@@ -10,6 +10,7 @@ export interface State extends EntityState<Intervention> {
   // additional entities state properties
   loading: boolean;
   loaded: boolean;
+  notification: { message: string };
 }
 
 export const adapter: EntityAdapter<Intervention> = createEntityAdapter<
@@ -19,7 +20,8 @@ export const adapter: EntityAdapter<Intervention> = createEntityAdapter<
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
   loading: false,
-  loaded: false
+  loaded: false,
+  notification: null
 });
 
 export function reducer(
@@ -27,8 +29,18 @@ export function reducer(
   action: InterventionActions
 ): State {
   switch (action.type) {
-    case InterventionActionTypes.AddIntervention: {
-      return adapter.addOne(action.payload.intervention, state);
+    case InterventionActionTypes.CreateIntervention: {
+      return {
+        ...state,
+        notification: { message: `Adding ${action.intervention.name}...` }
+      };
+    }
+
+    case InterventionActionTypes.CreateInterventionSuccess: {
+      return adapter.addOne(action.intervention, {
+        ...state,
+        notification: null
+      });
     }
 
     case InterventionActionTypes.UpsertIntervention: {

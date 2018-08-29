@@ -47,6 +47,7 @@ export class DefaultDashboardListComponent implements OnInit {
   loadingInterventions$: Observable<boolean>;
   interventionLoaded$: Observable<boolean>;
   interventions$: Observable<any[]>;
+  interventionNotification$: Observable<any>;
 
   @Output()
   create: EventEmitter<any> = new EventEmitter<any>();
@@ -62,39 +63,14 @@ export class DefaultDashboardListComponent implements OnInit {
     );
 
     this.interventions$ = interventionStore.select(
-      fromInterventionReducer.getInterventions
+      fromInterventionSelectors.getSortedInterventions
     );
-    this.defaultDashboardList = [
-      {
-        id: generateUid(),
-        name: 'Antenatal Care'
-      },
-      {
-        id: generateUid(),
-        name: 'Immunization'
-      },
-      {
-        id: generateUid(),
-        name: 'Malaria Treatment'
-      },
-      {
-        id: generateUid(),
-        name: 'Skilled Birth Delivery'
-      }
-    ];
+
+    this.interventionNotification$ = interventionStore.select(
+      fromInterventionSelectors.getInterventionNotification
+    );
   }
 
-  get dashboardList(): DefaultDashboard[] {
-    return this.searchTerm
-      ? _.filter(this.defaultDashboardList, (dashboard: DefaultDashboard) => {
-          return (
-            (dashboard.name || '')
-              .toLowerCase()
-              .indexOf(this.searchTerm.toLowerCase()) !== -1
-          );
-        })
-      : this.defaultDashboardList;
-  }
   ngOnInit() {}
 
   onSearchDashboard(e) {
@@ -164,9 +140,9 @@ export class DefaultDashboardListComponent implements OnInit {
 
   onAddIntervention(intervention: any) {
     this.showInterventionForm = false;
-    this.defaultDashboardList = [...this.defaultDashboardList, intervention];
-
-    // this.onAddDashboard(intervention);
+    this.interventionStore.dispatch(
+      new fromInterventionActions.CreateIntervention(intervention)
+    );
   }
 
   onUpdateIntervention(intervention: any) {

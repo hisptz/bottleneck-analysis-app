@@ -3,9 +3,11 @@
     <label for="">Name*</label>
     <input type="text" (keyup)="onEnterInterventionName($event)" [value]="interventionName" placeholder="Enter intervention name"
       class="form-control form-control-sm">
+    <div *ngIf="isNotUnique" class="text-danger unique-intervention">Intervention already exist
+    </div>
   </div>
   <div class="add-intervention-btns">
-    <button (click)="onSaveIntervention($event)" [disabled]="!interventionName || interventionName === ''" class="btn btn-sm btn-primary">{{savingIntervention
+    <button (click)="onSaveIntervention($event)" [disabled]="!interventionName || interventionName === '' || isNotUnique" class="btn btn-sm btn-primary">{{savingIntervention
       ? 'Saving...' : 'Save'}}</button>
     <button (click)="onCloseInterventionForm($event)" class="btn btn-sm btn-secondary">Cancel</button>
   </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import * as _ from 'lodash';
 import { generateUid } from '../../../helpers/generate-uid.helper';
 
 @Component({
@@ -11,6 +12,8 @@ export class InterventionFormComponent implements OnInit {
   interventionId: string;
   @Input()
   interventionName: string;
+  @Input()
+  availableInterventions: any[];
 
   @Output()
   save: EventEmitter<any> = new EventEmitter<any>();
@@ -20,6 +23,13 @@ export class InterventionFormComponent implements OnInit {
   constructor() {
     this.interventionId = generateUid();
     this.interventionName = 'Untitled';
+  }
+
+  get isNotUnique() {
+    return _.some(
+      this.availableInterventions || [],
+      intervention => intervention.name === this.interventionName
+    );
   }
 
   ngOnInit() {}

@@ -1,5 +1,22 @@
 .default-dashboard-list-container {
   display: flex;
+  position: relative;
+}
+
+.intervention-notification-block {
+  position: absolute;
+  background-color: #f9ecbd;
+  top: 10px;
+  z-index: 1000;
+  padding: 5px;
+  font-size: 13px;
+  border: solid thin #f9ecbd;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  width: 90%;
+  border-radius: 3px;
 }
 
 .intervention-loading-block {
