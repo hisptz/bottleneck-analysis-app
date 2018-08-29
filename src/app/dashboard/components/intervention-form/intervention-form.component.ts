@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { generateUid } from '../../../helpers/generate-uid.helper';
+import { Intervention } from '../../store/models/intervention.model';
 
 @Component({
   selector: 'app-intervention-form',
@@ -9,11 +10,12 @@ import { generateUid } from '../../../helpers/generate-uid.helper';
 })
 export class InterventionFormComponent implements OnInit {
   @Input()
-  interventionId: string;
-  @Input()
-  interventionName: string;
+  intervention: Intervention;
+
   @Input()
   availableInterventions: any[];
+
+  interventionName: string;
 
   @Output()
   save: EventEmitter<any> = new EventEmitter<any>();
@@ -21,18 +23,25 @@ export class InterventionFormComponent implements OnInit {
   @Output()
   close: EventEmitter<any> = new EventEmitter<any>();
   constructor() {
-    this.interventionId = generateUid();
-    this.interventionName = 'Untitled';
+    this.intervention = { id: generateUid(), name: 'Untitled' };
   }
 
   get isNotUnique() {
     return _.some(
       this.availableInterventions || [],
-      intervention => intervention.name === this.interventionName
+      intervention =>
+        intervention &&
+        intervention.name &&
+        intervention.id &&
+        intervention.name.toLowerCase() ===
+          (this.interventionName || '').toLowerCase() &&
+        intervention.id !== this.intervention.id
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.interventionName = this.intervention.name;
+  }
 
   onEnterInterventionName(e) {
     e.stopPropagation();
@@ -40,11 +49,11 @@ export class InterventionFormComponent implements OnInit {
   }
   onSaveIntervention(e) {
     e.stopPropagation();
-    this.save.emit({ id: this.interventionId, name: this.interventionName });
+    this.save.emit({ ...this.intervention, name: this.interventionName });
   }
 
   onCloseInterventionForm(e) {
     e.stopPropagation();
-    this.close.emit({ id: this.interventionId, name: this.interventionName });
+    this.close.emit(this.intervention);
   }
 }

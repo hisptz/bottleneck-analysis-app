@@ -45,6 +45,29 @@ export class InterventionEffects {
       )
     )
   );
+
+  @Effect()
+  saveIntervention$: Observable<any> = this.actions$.pipe(
+    ofType(fromInterventionActions.InterventionActionTypes.SaveIntervention),
+    mergeMap((action: fromInterventionActions.SaveIntervention) =>
+      this.interventionService.updateIntervention(action.intervention).pipe(
+        map(
+          () =>
+            new fromInterventionActions.SaveInterventionSuccess(
+              action.intervention
+            )
+        ),
+        catchError((error: any) =>
+          of(
+            new fromInterventionActions.SaveInterventionFail(
+              action.intervention,
+              error
+            )
+          )
+        )
+      )
+    )
+  );
   constructor(
     private actions$: Actions,
     private interventionService: InterventionService

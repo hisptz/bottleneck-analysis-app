@@ -60,7 +60,47 @@ export function reducer(
     }
 
     case InterventionActionTypes.UpdateIntervention: {
-      return adapter.updateOne(action.payload.intervention, state);
+      return adapter.updateOne(
+        { id: action.id, changes: action.changes },
+        state
+      );
+    }
+
+    case InterventionActionTypes.SaveIntervention: {
+      return adapter.updateOne(
+        {
+          id: action.intervention.id,
+          changes: { showEditForm: !action.intervention.showEditForm }
+        },
+        {
+          ...state,
+          notification: {
+            message: `Updating intervention to ${action.intervention.name}...`
+          }
+        }
+      );
+    }
+
+    case InterventionActionTypes.SaveInterventionSuccess: {
+      return adapter.updateOne(
+        {
+          id: action.intervention.id,
+          changes: { name: action.intervention.name }
+        },
+        {
+          ...state,
+          notification: null
+        }
+      );
+    }
+
+    case InterventionActionTypes.SaveInterventionFail: {
+      return {
+        ...state,
+        notification: {
+          message: `Could not update interventation ${action.error.message}`
+        }
+      };
     }
 
     case InterventionActionTypes.UpdateInterventions: {

@@ -103,16 +103,11 @@ export class DefaultDashboardListComponent implements OnInit {
     if (e) {
       e.stopPropagation();
     }
-    this.defaultDashboardList = _.map(
-      this.defaultDashboardList,
-      (interventionItem: any) => {
-        return intervention.id === interventionItem.id
-          ? {
-              ...interventionItem,
-              showEditForm: !interventionItem.showEditForm
-            }
-          : interventionItem;
-      }
+
+    this.interventionStore.dispatch(
+      new fromInterventionActions.UpdateIntervention(intervention.id, {
+        showEditForm: !intervention.showEditForm
+      })
     );
   }
 
@@ -146,17 +141,8 @@ export class DefaultDashboardListComponent implements OnInit {
   }
 
   onUpdateIntervention(intervention: any) {
-    this.defaultDashboardList = _.map(
-      this.defaultDashboardList,
-      (interventionItem: any) => {
-        return intervention.id === interventionItem.id
-          ? {
-              ...interventionItem,
-              showEditForm: !interventionItem.showEditForm,
-              name: intervention.name
-            }
-          : interventionItem;
-      }
+    this.interventionStore.dispatch(
+      new fromInterventionActions.SaveIntervention(intervention)
     );
   }
 

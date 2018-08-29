@@ -11,6 +11,9 @@ export enum InterventionActionTypes {
   AddInterventions = '[Intervention] Add Interventions',
   UpsertInterventions = '[Intervention] Upsert Interventions',
   UpdateIntervention = '[Intervention] Update Intervention',
+  SaveIntervention = '[Intervention] Save Intervention',
+  SaveInterventionSuccess = '[Intervention] Save Intervention success',
+  SaveInterventionFail = '[Intervention] Save Intervention fail',
   UpdateInterventions = '[Intervention] Update Interventions',
   DeleteIntervention = '[Intervention] Delete Intervention',
   DeleteInterventions = '[Intervention] Delete Interventions',
@@ -57,7 +60,21 @@ export class UpsertInterventions implements Action {
 export class UpdateIntervention implements Action {
   readonly type = InterventionActionTypes.UpdateIntervention;
 
-  constructor(public payload: { intervention: Update<Intervention> }) {}
+  constructor(public id: string, public changes: Partial<Intervention>) {}
+}
+export class SaveIntervention implements Action {
+  readonly type = InterventionActionTypes.SaveIntervention;
+  constructor(public intervention: Intervention) {}
+}
+
+export class SaveInterventionSuccess implements Action {
+  readonly type = InterventionActionTypes.SaveInterventionSuccess;
+  constructor(public intervention: Intervention) {}
+}
+
+export class SaveInterventionFail implements Action {
+  readonly type = InterventionActionTypes.SaveInterventionFail;
+  constructor(public intervention: Intervention, public error: any) {}
 }
 
 export class UpdateInterventions implements Action {
@@ -91,6 +108,9 @@ export type InterventionActions =
   | AddInterventions
   | UpsertInterventions
   | UpdateIntervention
+  | SaveIntervention
+  | SaveInterventionSuccess
+  | SaveInterventionFail
   | UpdateInterventions
   | DeleteIntervention
   | DeleteInterventions

@@ -51,8 +51,8 @@
         </div>
         <div class="intervention-delete-block" *ngIf="intervention.deleting">Deleting {{intervention.name}}...</div>
         <div *ngIf="intervention.showEditForm">
-          <app-intervention-form [interventionId]="intervention.id" [interventionName]="intervention.name" [availableInterventions]="interventions$ | async"
-            (save)="onUpdateIntervention($event)" (close)="onToggleInterventionEditForm($event)"></app-intervention-form>
+          <app-intervention-form [intervention]="intervention" [availableInterventions]="interventions$ | async" (save)="onUpdateIntervention($event)"
+            (close)="onToggleInterventionEditForm($event)"></app-intervention-form>
         </div>
       </li>
     </ul>

@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
+import { Intervention } from '../store/models/intervention.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +27,17 @@ export class InterventionService {
     );
   }
 
-  createIntervention(intervention: any) {
+  createIntervention(intervention: Intervention) {
     return this.http.post(
       `${this.dataStoreUrl}/${intervention.id}`,
       intervention
+    );
+  }
+
+  updateIntervention(intervention: Intervention) {
+    return this.http.put(
+      `${this.dataStoreUrl}/${intervention.id}`,
+      _.omit(intervention, ['showEditForm'])
     );
   }
 }
