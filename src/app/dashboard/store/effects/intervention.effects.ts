@@ -68,6 +68,29 @@ export class InterventionEffects {
       )
     )
   );
+
+  @Effect()
+  deleteIntervention$: Observable<any> = this.actions$.pipe(
+    ofType(fromInterventionActions.InterventionActionTypes.DeleteIntervention),
+    mergeMap((action: fromInterventionActions.DeleteIntervention) =>
+      this.interventionService.deleteIntervention(action.intervention.id).pipe(
+        map(
+          () =>
+            new fromInterventionActions.DeleteInterventionSuccess(
+              action.intervention.id
+            )
+        ),
+        catchError((error: any) =>
+          of(
+            new fromInterventionActions.DeleteInterventionFail(
+              action.intervention,
+              error
+            )
+          )
+        )
+      )
+    )
+  );
   constructor(
     private actions$: Actions,
     private interventionService: InterventionService

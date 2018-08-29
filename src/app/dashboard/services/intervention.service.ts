@@ -40,4 +40,8 @@ export class InterventionService {
       _.omit(intervention, ['showEditForm'])
     );
   }
+
+  deleteIntervention(id: string) {
+    return this.http.delete(`${this.dataStoreUrl}/${id}`);
+  }
 }

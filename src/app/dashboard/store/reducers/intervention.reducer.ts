@@ -108,11 +108,43 @@ export function reducer(
     }
 
     case InterventionActionTypes.DeleteIntervention: {
-      return adapter.removeOne(action.payload.id, state);
+      return adapter.updateOne(
+        {
+          id: action.intervention.id,
+          changes: { showDeleteDialog: false, deleting: true }
+        },
+        {
+          ...state,
+          notification: { message: `Deleting ${action.intervention.name}...` }
+        }
+      );
     }
 
+    case InterventionActionTypes.DeleteInterventionSuccess: {
+      return adapter.removeOne(action.id, {
+        ...state,
+        notification: null
+      });
+    }
+
+    case InterventionActionTypes.DeleteInterventionFail: {
+      return adapter.updateOne(
+        { id: action.intervention.id, changes: { deleting: false } },
+        {
+          ...state,
+          notification: {
+            message: `Could not delete ${action.intervention.name}: ${
+              action.error.message
+            }`
+          }
+        }
+      );
+    }
     case InterventionActionTypes.DeleteInterventions: {
-      return adapter.removeMany(action.payload.ids, state);
+      return adapter.removeMany(action.payload.ids, {
+        ...state,
+        notification: null
+      });
     }
 
     case InterventionActionTypes.LoadInterventions: {

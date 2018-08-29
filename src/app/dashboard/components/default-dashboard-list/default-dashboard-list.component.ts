@@ -7,6 +7,7 @@ import * as fromInterventionReducer from '../../store/reducers/intervention.redu
 import * as fromInterventionActions from '../../store/actions/intervention.actions';
 import * as fromInterventionSelectors from '../../store/selectors/intervention.selectors';
 import { Observable } from 'rxjs';
+import { Intervention } from '../../store/models/intervention.model';
 
 interface DefaultDashboard {
   id: string;
@@ -111,20 +112,15 @@ export class DefaultDashboardListComponent implements OnInit {
     );
   }
 
-  onToggleInterventionDelete(intervention, e?) {
+  onToggleInterventionDelete(intervention: Intervention, e?) {
     if (e) {
       e.stopPropagation();
     }
-    this.defaultDashboardList = _.map(
-      this.defaultDashboardList,
-      (interventionItem: any) => {
-        return intervention.id === interventionItem.id
-          ? {
-              ...interventionItem,
-              showDeleteDialog: !interventionItem.showDeleteDialog
-            }
-          : interventionItem;
-      }
+
+    this.interventionStore.dispatch(
+      new fromInterventionActions.UpdateIntervention(intervention.id, {
+        showDeleteDialog: !intervention.showDeleteDialog
+      })
     );
   }
 
@@ -150,17 +146,8 @@ export class DefaultDashboardListComponent implements OnInit {
     if (e) {
       e.stopPropagation();
     }
-    this.defaultDashboardList = _.map(
-      this.defaultDashboardList,
-      (interventionItem: any) => {
-        return intervention.id === interventionItem.id
-          ? {
-              ...interventionItem,
-              showDeleteDialog: !interventionItem.showDeleteDialog,
-              deleting: true
-            }
-          : interventionItem;
-      }
+    this.interventionStore.dispatch(
+      new fromInterventionActions.DeleteIntervention(intervention)
     );
   }
 }

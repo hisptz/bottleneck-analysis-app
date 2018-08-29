@@ -16,6 +16,8 @@ export enum InterventionActionTypes {
   SaveInterventionFail = '[Intervention] Save Intervention fail',
   UpdateInterventions = '[Intervention] Update Interventions',
   DeleteIntervention = '[Intervention] Delete Intervention',
+  DeleteInterventionSuccess = '[Intervention] Delete Intervention success',
+  DeleteInterventionFail = '[Intervention] Delete Intervention fail',
   DeleteInterventions = '[Intervention] Delete Interventions',
   ClearInterventions = '[Intervention] Clear Interventions'
 }
@@ -86,7 +88,18 @@ export class UpdateInterventions implements Action {
 export class DeleteIntervention implements Action {
   readonly type = InterventionActionTypes.DeleteIntervention;
 
-  constructor(public payload: { id: string }) {}
+  constructor(public intervention: Intervention) {}
+}
+
+export class DeleteInterventionSuccess implements Action {
+  readonly type = InterventionActionTypes.DeleteInterventionSuccess;
+
+  constructor(public id: string) {}
+}
+
+export class DeleteInterventionFail implements Action {
+  readonly type = InterventionActionTypes.DeleteInterventionFail;
+  constructor(public intervention: Intervention, public error: any) {}
 }
 
 export class DeleteInterventions implements Action {
@@ -113,5 +126,7 @@ export type InterventionActions =
   | SaveInterventionFail
   | UpdateInterventions
   | DeleteIntervention
+  | DeleteInterventionSuccess
+  | DeleteInterventionFail
   | DeleteInterventions
   | ClearInterventions;

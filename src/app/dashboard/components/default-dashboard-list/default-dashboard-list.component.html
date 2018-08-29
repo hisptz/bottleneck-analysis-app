@@ -37,8 +37,8 @@
           <div>
             <button (click)="onToggleInterventionEditForm(intervention, $event)" title="Edit intervention" class="btn btn-sm intervention-btn"><i
                 class="fa fa-pencil"></i></button>
-            <button style="margin-left: 3px;" (click)="onToggleInterventionDelete(intervention, $event)" title="Edit intervention" class="btn btn-sm btn-danger intervention-btn"><i
-                class="fa fa-trash"></i></button>
+            <button style="margin-left: 3px;" (click)="onToggleInterventionDelete(intervention, $event)" title="Delete intervention"
+              class="btn btn-sm btn-danger intervention-btn"><i class="fa fa-trash"></i></button>
           </div>
         </a>
         <div class="intervention-delete-block" *ngIf="intervention.showDeleteDialog">
