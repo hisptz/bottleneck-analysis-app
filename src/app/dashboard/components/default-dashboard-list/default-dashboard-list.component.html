@@ -1,4 +1,4 @@
-<div class="default-dashboard-list-container">
+<div class="default-dashboard-list-container" appClickOutside (clickOutside)="showDefaultList = false">
   <button class="default-dashboard-btn" title="Add new intervention" (click)="onToggleInterventionList($event)"><i class="fa fa-plus"></i></button>
   <div class="default-dashboard-list-block">
     <!-- default dashboard search -->
@@ -6,7 +6,7 @@
     <!-- end of default dashboard search -->
 
     <!-- default dashboard list -->
-    <ul class="default-dashboard-list" *ngIf="showDefaultList" appClickOutside (clickOutside)="showDefaultList = false">
+    <ul class="default-dashboard-list" *ngIf="showDefaultList">
       <li class="intervention-notification-block" *ngIf="interventionNotification$ | async">
         {{(interventionNotification$ | async).message}}
       </li>
