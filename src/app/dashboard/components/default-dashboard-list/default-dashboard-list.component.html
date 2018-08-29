@@ -1,5 +1,5 @@
-<div class="default-dashboard-list-container">
-  <button class="default-dashboard-btn" title="Add new intervention"><i class="fa fa-plus"></i></button>
+<div class="default-dashboard-list-container" appClickOutside (clickOutside)="showDefaultList = false">
+  <button class="default-dashboard-btn" title="Add new intervention" (click)="onToggleInterventionList($event)"><i class="fa fa-plus"></i></button>
   <div class="default-dashboard-list-block">
     <!-- default dashboard search -->
     <input type="text" (keyup)="onSearchDashboard($event)" class="default-dashboard-search-input" size="25" placeholder="Search for interventation">
@@ -7,10 +7,56 @@
 
     <!-- default dashboard list -->
     <ul class="default-dashboard-list" *ngIf="showDefaultList">
-      <li *ngFor="let dashboard of dashboardList"><a (click)="onAddDashboard($event, dashboard)">{{ dashboard.name }}
-        </a></li>
+      <li class="intervention-notification-block" *ngIf="interventionNotification$ | async">
+        {{(interventionNotification$ | async).message}}
+      </li>
+      <li *ngIf="loadingInterventions$ | async">
+        <!-- loading intervention block -->
+        <div class="intervention-loading-block">
+          <div class="text-center">
+            <img src="assets/icons/balls-3.svg" alt="">
+            <div>Loading interventions...</div>
+          </div>
+        </div>
+        <!-- en of loading intervention block -->
+      </li>
+      <li *ngIf="(interventionLoaded$ | async) && !showInterventionForm" class="add-intervention-btn">
+        <button (click)="onToggleInterventionForm($event)" class="btn btn-primary btn-sm">Add new</button>
+      </li>
+      <li *ngIf="showInterventionForm" class="intervention-form">
+        <app-intervention-form [availableInterventions]="interventions$ | async" (save)="onAddIntervention($event)" (close)="onToggleInterventionForm()"></app-intervention-form>
+      </li>
+      <li *ngIf="(interventionLoaded$ | async) && (interventions$ | async).length === 0" class="empty-interventions">
+        <div class="alert alert-warning">
+          Default interventions are not available, please add them to continue
+        </div>
+      </li>
+      <li *ngFor="let intervention of interventions$ | async | filterByName:searchTerm">
+        <a *ngIf="!intervention.deleting && !intervention.showDeleteDialog" title="Click to add intervention" (click)="onAddDashboard(intervention, $event)">
+          {{ intervention.name }}
+          <div>
+            <button (click)="onToggleInterventionEditForm(intervention, $event)" title="Edit intervention" class="btn btn-sm intervention-btn"><i
+                class="fa fa-pencil"></i></button>
+            <button style="margin-left: 3px;" (click)="onToggleInterventionDelete(intervention, $event)" title="Delete intervention"
+              class="btn btn-sm btn-danger intervention-btn"><i class="fa fa-trash"></i></button>
+          </div>
+        </a>
+        <div class="intervention-delete-block" *ngIf="intervention.showDeleteDialog">
+          Delete {{intervention.name}}?
+          <div class="intervention-delete-btns">
+            <button class="btn btn-success btn-sm intervention-btn" (click)="onToggleInterventionDelete(intervention, $event)">No</button>
+            &nbsp;
+            <button class="btn btn-danger btn-sm intervention-btn" (click)="onDeleteIntervention(intervention, $event)">Yes</button>
+          </div>
+        </div>
+        <div class="intervention-delete-block" *ngIf="intervention.deleting">Deleting {{intervention.name}}...</div>
+        <div *ngIf="intervention.showEditForm">
+          <app-intervention-form [intervention]="intervention" [availableInterventions]="interventions$ | async" (save)="onUpdateIntervention($event)"
+            (close)="onToggleInterventionEditForm($event)"></app-intervention-form>
+        </div>
+      </li>
     </ul>
-    <!-- end of default dashboard list -->
+    <!-- end of default intervention list -->
   </div>
 
 </div>

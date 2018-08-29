@@ -1,8 +1,19 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
+import { generateUid } from '../../../helpers/generate-uid.helper';
+import { Store } from '@ngrx/store';
+
+import * as fromInterventionReducer from '../../store/reducers/intervention.reducer';
+import * as fromInterventionActions from '../../store/actions/intervention.actions';
+import * as fromInterventionSelectors from '../../store/selectors/intervention.selectors';
+import { Observable } from 'rxjs';
+import { Intervention } from '../../store/models/intervention.model';
 
 interface DefaultDashboard {
+  id: string;
   name: string;
+  showEditForm?: boolean;
+  showDeleteDialog?: boolean;
 }
 
 const DASHBOARD_ITEMS = [
@@ -29,39 +40,38 @@ export class DefaultDashboardListComponent implements OnInit {
   @Input()
   defaultDashboardList: DefaultDashboard[];
   showDefaultList: boolean;
+  showInterventionForm: boolean;
+  newInterventionName: string;
+  savingIntervention: boolean;
   searchTerm: string;
+
+  loadingInterventions$: Observable<boolean>;
+  interventionLoaded$: Observable<boolean>;
+  interventions$: Observable<any[]>;
+  interventionNotification$: Observable<any>;
 
   @Output()
   create: EventEmitter<any> = new EventEmitter<any>();
-  constructor() {
-    this.defaultDashboardList = [
-      {
-        name: 'Antenatal Care'
-      },
-      {
-        name: 'Immunization'
-      },
-      {
-        name: 'Malaria Treatment'
-      },
-      {
-        name: 'Skilled Birth Delivery'
-      }
-    ];
-  }
+  constructor(private interventionStore: Store<fromInterventionReducer.State>) {
+    interventionStore.dispatch(new fromInterventionActions.LoadInterventions());
 
-  get dashboardList(): DefaultDashboard[] {
-    return _.filter(
-      this.defaultDashboardList,
-      (dashboard: DefaultDashboard) => {
-        return (
-          dashboard.name
-            .toLowerCase()
-            .indexOf(this.searchTerm.toLowerCase()) !== -1
-        );
-      }
+    this.loadingInterventions$ = interventionStore.select(
+      fromInterventionSelectors.getInterventionLoading
+    );
+
+    this.interventionLoaded$ = interventionStore.select(
+      fromInterventionSelectors.getInterventionLoaded
+    );
+
+    this.interventions$ = interventionStore.select(
+      fromInterventionSelectors.getSortedInterventions
+    );
+
+    this.interventionNotification$ = interventionStore.select(
+      fromInterventionSelectors.getInterventionNotification
     );
   }
+
   ngOnInit() {}
 
   onSearchDashboard(e) {
@@ -70,9 +80,74 @@ export class DefaultDashboardListComponent implements OnInit {
     this.showDefaultList = true;
   }
 
-  onAddDashboard(e, dashboard: DefaultDashboard) {
-    e.stopPropagation();
+  onAddDashboard(dashboard: DefaultDashboard, e?) {
+    if (e) {
+      e.stopPropagation();
+    }
     this.showDefaultList = false;
     this.create.emit({ ...dashboard, dashboardItems: DASHBOARD_ITEMS });
+  }
+
+  onToggleInterventionList(e) {
+    e.stopPropagation();
+    this.showDefaultList = !this.showDefaultList;
+  }
+
+  onToggleInterventionForm(e?) {
+    if (e) {
+      e.stopPropagation();
+    }
+    this.showInterventionForm = !this.showInterventionForm;
+  }
+
+  onToggleInterventionEditForm(intervention, e?) {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    this.interventionStore.dispatch(
+      new fromInterventionActions.UpdateIntervention(intervention.id, {
+        showEditForm: !intervention.showEditForm
+      })
+    );
+  }
+
+  onToggleInterventionDelete(intervention: Intervention, e?) {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    this.interventionStore.dispatch(
+      new fromInterventionActions.UpdateIntervention(intervention.id, {
+        showDeleteDialog: !intervention.showDeleteDialog
+      })
+    );
+  }
+
+  onEnterInterventionName(e) {
+    e.stopPropagation();
+    this.newInterventionName = e.target.value.trim();
+  }
+
+  onAddIntervention(intervention: any) {
+    this.showInterventionForm = false;
+    this.interventionStore.dispatch(
+      new fromInterventionActions.CreateIntervention(intervention)
+    );
+  }
+
+  onUpdateIntervention(intervention: any) {
+    this.interventionStore.dispatch(
+      new fromInterventionActions.SaveIntervention(intervention)
+    );
+  }
+
+  onDeleteIntervention(intervention, e?) {
+    if (e) {
+      e.stopPropagation();
+    }
+    this.interventionStore.dispatch(
+      new fromInterventionActions.DeleteIntervention(intervention)
+    );
   }
 }
