@@ -1,7 +1,10 @@
 <div class="intervention-form-block">
-  <input type="text" (keyup)="onEnterInterventionName($event)" [value]="interventionName" placeholder="Enter intervention name"
-    class="form-control form-control-sm">
-  <div class="float-right add-intervention-btns">
+  <div class="form-group">
+    <label for="">Name*</label>
+    <input type="text" (keyup)="onEnterInterventionName($event)" [value]="interventionName" placeholder="Enter intervention name"
+      class="form-control form-control-sm">
+  </div>
+  <div class="add-intervention-btns">
     <button (click)="onSaveIntervention($event)" [disabled]="!interventionName || interventionName === ''" class="btn btn-sm btn-primary">{{savingIntervention
       ? 'Saving...' : 'Save'}}</button>
     <button (click)="onCloseInterventionForm($event)" class="btn btn-sm btn-secondary">Cancel</button>

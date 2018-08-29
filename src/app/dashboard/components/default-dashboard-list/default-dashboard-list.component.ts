@@ -1,6 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { generateUid } from '../../../helpers/generate-uid.helper';
+import { Store } from '@ngrx/store';
+
+import * as fromInterventionReducer from '../../store/reducers/intervention.reducer';
+import * as fromInterventionActions from '../../store/actions/intervention.actions';
+import * as fromInterventionSelectors from '../../store/selectors/intervention.selectors';
+import { Observable } from 'rxjs';
 
 interface DefaultDashboard {
   id: string;
@@ -38,9 +44,26 @@ export class DefaultDashboardListComponent implements OnInit {
   savingIntervention: boolean;
   searchTerm: string;
 
+  loadingInterventions$: Observable<boolean>;
+  interventionLoaded$: Observable<boolean>;
+  interventions$: Observable<any[]>;
+
   @Output()
   create: EventEmitter<any> = new EventEmitter<any>();
-  constructor() {
+  constructor(private interventionStore: Store<fromInterventionReducer.State>) {
+    interventionStore.dispatch(new fromInterventionActions.LoadInterventions());
+
+    this.loadingInterventions$ = interventionStore.select(
+      fromInterventionSelectors.getInterventionLoading
+    );
+
+    this.interventionLoaded$ = interventionStore.select(
+      fromInterventionSelectors.getInterventionLoaded
+    );
+
+    this.interventions$ = interventionStore.select(
+      fromInterventionReducer.getInterventions
+    );
     this.defaultDashboardList = [
       {
         id: generateUid(),

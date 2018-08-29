@@ -15,6 +15,12 @@ import { NgxDhis2VisualizationModule } from './modules/ngx-dhis2-visualization/n
 import { NgxDhis2SelectionFiltersModule } from './modules/ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
 import { directives } from './directives';
 
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+
+import * as fromInterventionReducer from './store/reducers/intervention.reducer';
+import * as fromInterventionEffect from './store/effects/index';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,7 +30,9 @@ import { directives } from './directives';
     NgxDhis2SelectionFiltersModule,
     TranslateModule.forChild(),
     SharingFilterModule,
-    FavoriteFilterModule
+    FavoriteFilterModule,
+    StoreModule.forFeature('intervention', fromInterventionReducer.reducer),
+    EffectsModule.forFeature(fromInterventionEffect.effects)
   ],
   declarations: [...containers, ...components, ...pipes, ...directives]
 })
