@@ -1,8 +1,8 @@
 
 {
-    "version": "1.0-alpha.1",
-    "name": "WHO Malaria Dashboard",
-    "description": "WHO Malaria Dashboard",
+    "version": "1.0-alpha.9",
+    "name": "BNA Dashboard",
+    "description": "BNA Dashboard",
     "appType": "APP",
     "launch_path": "index.html",
     "icons": {
