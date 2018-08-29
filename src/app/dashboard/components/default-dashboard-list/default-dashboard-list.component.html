@@ -1,14 +1,42 @@
 <div class="default-dashboard-list-container">
-  <button class="default-dashboard-btn" title="Add new intervention"><i class="fa fa-plus"></i></button>
+  <button class="default-dashboard-btn" title="Add new intervention" (click)="onToggleInterventionList($event)"><i class="fa fa-plus"></i></button>
   <div class="default-dashboard-list-block">
     <!-- default dashboard search -->
     <input type="text" (keyup)="onSearchDashboard($event)" class="default-dashboard-search-input" size="25" placeholder="Search for interventation">
     <!-- end of default dashboard search -->
 
     <!-- default dashboard list -->
-    <ul class="default-dashboard-list" *ngIf="showDefaultList">
-      <li *ngFor="let dashboard of dashboardList"><a (click)="onAddDashboard($event, dashboard)">{{ dashboard.name }}
-        </a></li>
+    <ul class="default-dashboard-list" *ngIf="showDefaultList" appClickOutside (clickOutside)="showDefaultList = false">
+      <li *ngIf="!showInterventionForm" class="add-intervention-btn">
+        <button (click)="onToggleInterventionForm($event)" class="btn btn-primary btn-sm">Add new</button>
+      </li>
+      <li *ngIf="showInterventionForm" class="intervention-form">
+        <app-intervention-form (save)="onAddIntervention($event)" (close)="onToggleInterventionForm()"></app-intervention-form>
+      </li>
+      <li *ngFor="let dashboard of dashboardList">
+        <a *ngIf="!dashboard.deleting && !dashboard.showDeleteDialog" title="Click to add intervention" (click)="onAddDashboard(dashboard, $event)">
+          {{ dashboard.name }}
+          <div>
+            <button (click)="onToggleInterventionEditForm(dashboard, $event)" title="Edit intervention" class="btn btn-sm intervention-btn"><i
+                class="fa fa-pencil"></i></button>
+            <button style="margin-left: 3px;" (click)="onToggleInterventionDelete(dashboard, $event)" title="Edit intervention" class="btn btn-sm btn-danger intervention-btn"><i
+                class="fa fa-trash"></i></button>
+          </div>
+        </a>
+        <div class="intervention-delete-block" *ngIf="dashboard.showDeleteDialog">
+          Delete {{dashboard.name}}?
+          <div class="intervention-delete-btns">
+            <button class="btn btn-success btn-sm intervention-btn" (click)="onToggleInterventionDelete(dashboard, $event)">No</button>
+            &nbsp;
+            <button class="btn btn-danger btn-sm intervention-btn" (click)="onDeleteIntervention(dashboard, $event)">Yes</button>
+          </div>
+        </div>
+        <div class="intervention-delete-block" *ngIf="dashboard.deleting">Deleting {{dashboard.name}}...</div>
+        <div *ngIf="dashboard.showEditForm">
+          <app-intervention-form [interventionId]="dashboard.id" [interventionName]="dashboard.name" (save)="onUpdateIntervention($event)"
+            (close)="onToggleInterventionEditForm($event)"></app-intervention-form>
+        </div>
+      </li>
     </ul>
     <!-- end of default dashboard list -->
   </div>

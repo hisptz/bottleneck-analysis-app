@@ -13,6 +13,7 @@ import { SharingFilterModule } from './modules/sharing-filter/sharing-filter.mod
 import { FavoriteFilterModule } from './modules/favorite-filter/favorite-filter.module';
 import { NgxDhis2VisualizationModule } from './modules/ngx-dhis2-visualization/ngx-dhis2-visualization.module';
 import { NgxDhis2SelectionFiltersModule } from './modules/ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
+import { directives } from './directives';
 
 @NgModule({
   imports: [
@@ -25,6 +26,6 @@ import { NgxDhis2SelectionFiltersModule } from './modules/ngx-dhis2-data-selecti
     SharingFilterModule,
     FavoriteFilterModule
   ],
-  declarations: [...containers, ...components, ...pipes]
+  declarations: [...containers, ...components, ...pipes, ...directives]
 })
 export class DashboardModule {}

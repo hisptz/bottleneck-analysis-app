@@ -44,19 +44,57 @@
   border-bottom: none;
   z-index: 1370;
 
+  .intervention-form {
+    margin-bottom: 10px;
+  }
+
+  .add-intervention-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px;
+  }
+
   li {
+    .intervention-btn {
+      padding: 3px;
+      line-height: 13px;
+      font-size: 13px;
+    }
+
+    .intervention-delete-block {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      font-size: 13px;
+      background-color: #ffffff;
+      border: solid thin #eeeeee;
+      .intervention-delete-btns {
+        display: flex;
+      }
+    }
+
     a {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       text-decoration: none;
       color: #333333;
       width: 100%;
-      padding: 7px 10px;
+      padding: 10px;
       font-size: 13px;
       border-bottom: solid thin #eeeeee;
+      cursor: pointer;
     }
 
     a:hover {
       background-color: #eeeeee;
+    }
+
+    a img {
+      height: 13px;
     }
   }
 }
