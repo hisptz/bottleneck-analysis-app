@@ -199,5 +199,8 @@ export const getDashboardObjectErrorState = (state: DashboardObjectState) =>
 export const getCurrentDashboardObjectState = (state: DashboardObjectState) =>
   state.currentDashboard;
 
+export const getDashboardNotificationState = (state: DashboardObjectState) =>
+  state.notification;
+
 export const getCurrentVisualizationState = (state: DashboardObjectState) =>
   state.currentVisualization;

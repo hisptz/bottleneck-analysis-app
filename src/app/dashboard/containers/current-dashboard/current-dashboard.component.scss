@@ -1,4 +1,20 @@
 .current-dashboard-container {
+  position: relative;
+  .current-dashboard-notification-block {
+    position: absolute;
+    background-color: #f9ecbd;
+    top: 0;
+    z-index: 1000;
+    padding: 5px;
+    font-size: 13px;
+    border: solid thin #f9ecbd;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: 400px;
+    border-radius: 3px;
+  }
   .current-dashboard-visualizations {
     margin-top: 15px;
     margin-bottom: 10px;

@@ -20,7 +20,8 @@ import {
   getCurrentDashboardVisualizationLoading,
   getCurrentDashboardVisualizationLoaded,
   UpdateDashboardAction,
-  DeleteDashboard
+  DeleteDashboard,
+  getDashboardObjectNotification
 } from '../../../store';
 import { User, SystemInfo, LegendSet } from '../../../models';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
@@ -42,6 +43,7 @@ export class CurrentDashboardComponent implements OnInit {
   currentDashboardVisualizationLoading$: Observable<boolean>;
   currentDashboardVisualizationLoaded$: Observable<boolean>;
   currentDashboard$: Observable<Dashboard>;
+  dashboardNotification$: Observable<any>;
   currentUser$: Observable<User>;
   systemInfo$: Observable<SystemInfo>;
   dashboardLoading$: Observable<boolean>;
@@ -65,6 +67,8 @@ export class CurrentDashboardComponent implements OnInit {
     this.currentDashboardVisualizationLoaded$ = store.select(
       getCurrentDashboardVisualizationLoaded
     );
+
+    this.dashboardNotification$ = store.select(getDashboardObjectNotification);
 
     this.currentDashboard$ = store.select(getCurrentDashboard);
     this.currentUser$ = store.select(getCurrentUser);

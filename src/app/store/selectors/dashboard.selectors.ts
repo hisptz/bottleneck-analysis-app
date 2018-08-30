@@ -8,7 +8,8 @@ import {
   getDashboardObjectHasErrorState,
   getDashboardObjectErrorState,
   getAllDashboardsState,
-  getCurrentVisualizationState
+  getCurrentVisualizationState,
+  getDashboardNotificationState
 } from '../reducers/dashboard.reducer';
 import { getRootState, State } from '../reducers';
 
@@ -72,6 +73,10 @@ export const getDashboardObjectLoading = createSelector(
 export const getDashboardObjectLoaded = createSelector(
   getDashboardObjectState,
   getDashboardObjectLoadedState
+);
+export const getDashboardObjectNotification = createSelector(
+  getDashboardObjectState,
+  getDashboardNotificationState
 );
 
 export const getDashboardObjectHasError = createSelector(
