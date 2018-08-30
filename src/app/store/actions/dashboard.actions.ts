@@ -19,6 +19,9 @@ export enum DashboardActionTypes {
   UpdateDashboard = '[Dashboard] Update Dashboard',
   UpdateDashboards = '[Dashboard] Update Dashboards',
   DeleteDashboard = '[Dashboard] Delete Dashboard',
+  DeleteDashboardSuccess = '[Dashboard] Delete Dashboard success',
+  DeleteDashboardFail = '[Dashboard] Delete Dashboard fail',
+  RemoveDashboard = '[Dashboard] Remove Dashboard',
   DeleteDashboards = '[Dashboard] Delete Dashboards',
   ClearDashboards = '[Dashboard] Clear Dashboards',
   SetCurrentDashboard = '[Dashboard] Set current dashboard',
@@ -100,13 +103,28 @@ export class UpdateDashboards implements Action {
 export class DeleteDashboard implements Action {
   readonly type = DashboardActionTypes.DeleteDashboard;
 
-  constructor(public payload: { id: string }) {}
+  constructor(public dashboard: Dashboard) {}
+}
+
+export class DeleteDashboardSuccess implements Action {
+  readonly type = DashboardActionTypes.DeleteDashboardSuccess;
+  constructor(public dashboard: Dashboard) {}
+}
+
+export class DeleteDashboardFail implements Action {
+  readonly type = DashboardActionTypes.DeleteDashboardFail;
+  constructor(public dashboard: Dashboard, public error: any) {}
 }
 
 export class DeleteDashboards implements Action {
   readonly type = DashboardActionTypes.DeleteDashboards;
 
   constructor(public payload: { ids: string[] }) {}
+}
+
+export class RemoveDashboard implements Action {
+  readonly type = DashboardActionTypes.RemoveDashboard;
+  constructor(public dashboard: Dashboard) {}
 }
 
 export class ClearDashboards implements Action {
@@ -191,7 +209,10 @@ export type DashboardActions =
   | UpdateDashboardAction
   | UpdateDashboards
   | DeleteDashboard
+  | DeleteDashboardSuccess
+  | DeleteDashboardFail
   | DeleteDashboards
+  | RemoveDashboard
   | ClearDashboards
   | SetCurrentDashboardAction
   | ToggleDashboardBookmarkAction

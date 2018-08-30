@@ -1,9 +1,16 @@
 <div class="current-dashboard-container">
+  <!-- current dashboard notification -->
+  <div class="current-dashboard-notification-block" *ngIf="dashboardNotification$ | async">
+    {{(dashboardNotification$ | async)?.message}}
+  </div>
+  <!-- end of current dashboard notification -->
+
   <!-- current dashboard header -->
   <div class="current-dashboard-header-block">
     <app-current-dashboard-header [currentDashboard]="currentDashboard$ | async" [currentUser]="currentUser$ | async" (toggleCurrentDashboardBookmark)="onToggleCurrentDashboardBookmark($event)"
       (addDashboardItem)="onAddDashboardItem($event)" (createFavoriteForCurrentDashboard)="onCreateFavoriteForCurrentDashboard($event)"
-      (globalFilterChange)="onGlobalFilterChange($event)" [dashboardLoading]="dashboardLoading$ | async" [dashboardLoaded]="dashboardLoaded$ | async"></app-current-dashboard-header>
+      (globalFilterChange)="onGlobalFilterChange($event)" (toggleDashboardDeleteDialog)="onToggleDeleteDialog($event)" (deleteDashboard)="onDeleteDashboard($event)"
+      [dashboardLoading]="dashboardLoading$ | async" [dashboardLoaded]="dashboardLoaded$ | async"></app-current-dashboard-header>
   </div>
   <!-- end of current dashboard header -->
 

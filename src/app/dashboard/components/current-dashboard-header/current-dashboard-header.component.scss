@@ -45,6 +45,30 @@
   align-items: center;
 }
 
+.dashboard-delete-block {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  .dashboard-delete-btn {
+    padding-top: 5px;
+    cursor: pointer;
+  }
+}
+
+.dashboard-delete-confirmation {
+  display: flex;
+  align-items: center;
+  border: solid thin #eeeeee;
+  border-radius: 3px;
+  padding: 7px;
+  justify-content: space-around;
+  .dashboard-delete-confirm-btn {
+    padding: 3px;
+    line-height: 13px;
+    font-size: 13px;
+  }
+}
+
 @media (max-width: 999px) {
   .dashboard-header-container {
     display: block;

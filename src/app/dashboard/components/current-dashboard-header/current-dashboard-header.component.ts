@@ -63,6 +63,12 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   @Output()
   globalFilterChange: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  toggleDashboardDeleteDialog: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  deleteDashboard: EventEmitter<any> = new EventEmitter<any>();
+
   constructor() {
     this.selectionFilterConfig = {
       showLayout: false
@@ -123,5 +129,15 @@ export class CurrentDashboardHeaderComponent implements OnInit {
       id: this.currentDashboard.id,
       globalSelections: dataSelections
     });
+  }
+
+  onToggleDashboardDeleteDialog(e) {
+    e.stopPropagation();
+    this.toggleDashboardDeleteDialog.emit(this.currentDashboard);
+  }
+
+  onDeleteDashboard(e) {
+    e.stopPropagation();
+    this.deleteDashboard.emit(this.currentDashboard);
   }
 }

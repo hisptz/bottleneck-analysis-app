@@ -14,6 +14,8 @@ export interface Dashboard {
   hasNewUnsavedFavorite?: boolean;
   creating?: boolean;
   updating?: boolean;
+  showDeleteDialog?: boolean;
+  deleting?: boolean;
   updatedOrCreated?: boolean;
   error?: any;
   namespace?: string;

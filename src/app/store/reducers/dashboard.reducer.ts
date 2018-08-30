@@ -15,6 +15,7 @@ export interface DashboardObjectState extends EntityState<Dashboard> {
   error: any;
   currentDashboard: string;
   currentVisualization: string;
+  notification: { message: string };
 }
 
 export const dashboardObjectAdapter: EntityAdapter<
@@ -29,7 +30,8 @@ const initialState: DashboardObjectState = dashboardObjectAdapter.getInitialStat
     hasError: false,
     error: null,
     currentDashboard: '',
-    currentVisualization: ''
+    currentVisualization: '',
+    notification: null
   }
 );
 
@@ -72,7 +74,32 @@ export function dashboardObjectReducer(
     }
 
     case DashboardActionTypes.DeleteDashboard: {
-      return dashboardObjectAdapter.removeOne(action.payload.id, state);
+      return dashboardObjectAdapter.updateOne(
+        {
+          id: action.dashboard.id,
+          changes: { showDeleteDialog: false, deleting: true }
+        },
+        {
+          ...state,
+          notification: {
+            message: `Deleting dashboard with name ${action.dashboard.name}...`
+          }
+        }
+      );
+    }
+
+    case DashboardActionTypes.RemoveDashboard: {
+      return dashboardObjectAdapter.removeOne(action.dashboard.id, {
+        ...state,
+        notification: null
+      });
+    }
+
+    case DashboardActionTypes.DeleteDashboardFail: {
+      return {
+        ...state,
+        notification: { message: `Could not delete dashboard: ${action.error}` }
+      };
     }
 
     case DashboardActionTypes.DeleteDashboards: {
@@ -171,6 +198,9 @@ export const getDashboardObjectErrorState = (state: DashboardObjectState) =>
 
 export const getCurrentDashboardObjectState = (state: DashboardObjectState) =>
   state.currentDashboard;
+
+export const getDashboardNotificationState = (state: DashboardObjectState) =>
+  state.notification;
 
 export const getCurrentVisualizationState = (state: DashboardObjectState) =>
   state.currentVisualization;

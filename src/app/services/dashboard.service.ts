@@ -76,6 +76,12 @@ export class DashboardService {
       : this.httpClient.post('dashboards.json', dashboard);
   }
 
+  delete(dashboardId: string, dashboardSettings: DashboardSettings) {
+    return dashboardSettings && dashboardSettings.useDataStoreAsSource
+      ? this.httpClient.delete(`dataStore/dashboards/${dashboardId}`)
+      : this.httpClient.delete(`dashboard/${dashboardId}`);
+  }
+
   bookmarkDashboard(
     dashboardId: string,
     bookmarked: boolean,

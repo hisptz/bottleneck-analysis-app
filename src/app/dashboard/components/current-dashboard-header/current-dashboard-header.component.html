@@ -35,12 +35,24 @@
   </div>
 
   <!-- hide search and add dashboard item. to revert remove ngif=false -->
-  <div class="dashboard-search-block no-print" *ngIf="false">
+  <div class="dashboard-search-block no-print">
     <div style="height: 40px; width: 100%;" *ngIf="dashboardLoading">
       <app-dashboard-progress [borderRadius]="'5px'"></app-dashboard-progress>
     </div>
-    <app-favorite-filter *ngIf="dashboardLoaded" [currentUser]="currentUser" [dashboardAccess]="currentDashboard?.access" (addFavorite)="onAddFavoriteAction($event)"
-      (createFavorite)="onCreateFavoriteAction()"></app-favorite-filter>
+    <div class="dashboard-delete-block" *ngIf="dashboardLoaded">
+      <a title="Delete this dashboard" class="text-danger dashboard-delete-btn" (click)="onToggleDashboardDeleteDialog($event)"
+        *ngIf="!currentDashboard?.showDeleteDialog && !currentDashboard?.deleting">DELETE</a>
+      <div class="dashboard-delete-confirmation" *ngIf="currentDashboard?.showDeleteDialog">
+        Delete this dashboard?&nbsp;
+        <button class="btn btn-sm btn-success dashboard-delete-confirm-btn" (click)="onToggleDashboardDeleteDialog($event)">No</button>
+        &nbsp;
+        <button class="btn btn-sm btn-danger dashboard-delete-confirm-btn" (click)="onDeleteDashboard($event)">Yes</button>
+      </div>
+    </div>
+    <div *ngIf="showFavoriteFilter">
+      <app-favorite-filter *ngIf="dashboardLoaded" [currentUser]="currentUser" [dashboardAccess]="currentDashboard?.access" (addFavorite)="onAddFavoriteAction($event)"
+        (createFavorite)="onCreateFavoriteAction()"></app-favorite-filter>
+    </div>
   </div>
 </div>
 

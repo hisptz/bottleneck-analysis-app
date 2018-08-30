@@ -18,7 +18,10 @@ import {
   getVisualizationReady,
   getCurrentDashboardVisualizationItems,
   getCurrentDashboardVisualizationLoading,
-  getCurrentDashboardVisualizationLoaded
+  getCurrentDashboardVisualizationLoaded,
+  UpdateDashboardAction,
+  DeleteDashboard,
+  getDashboardObjectNotification
 } from '../../../store';
 import { User, SystemInfo, LegendSet } from '../../../models';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
@@ -40,6 +43,7 @@ export class CurrentDashboardComponent implements OnInit {
   currentDashboardVisualizationLoading$: Observable<boolean>;
   currentDashboardVisualizationLoaded$: Observable<boolean>;
   currentDashboard$: Observable<Dashboard>;
+  dashboardNotification$: Observable<any>;
   currentUser$: Observable<User>;
   systemInfo$: Observable<SystemInfo>;
   dashboardLoading$: Observable<boolean>;
@@ -63,6 +67,8 @@ export class CurrentDashboardComponent implements OnInit {
     this.currentDashboardVisualizationLoaded$ = store.select(
       getCurrentDashboardVisualizationLoaded
     );
+
+    this.dashboardNotification$ = store.select(getDashboardObjectNotification);
 
     this.currentDashboard$ = store.select(getCurrentDashboard);
     this.currentUser$ = store.select(getCurrentUser);
@@ -149,5 +155,17 @@ export class CurrentDashboardComponent implements OnInit {
         )
       );
     });
+  }
+
+  onToggleDeleteDialog(currentDashboard: Dashboard) {
+    this.store.dispatch(
+      new UpdateDashboardAction(currentDashboard.id, {
+        showDeleteDialog: !currentDashboard.showDeleteDialog
+      })
+    );
+  }
+
+  onDeleteDashboard(currentDashboard: Dashboard) {
+    this.store.dispatch(new DeleteDashboard(currentDashboard));
   }
 }

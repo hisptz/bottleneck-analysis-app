@@ -38,7 +38,11 @@ import {
   UpdateDashboardAction,
   AddNewUnsavedFavoriteAction,
   SetCurrentVisualizationAction,
-  GlobalFilterChangeAction
+  GlobalFilterChangeAction,
+  DeleteDashboard,
+  DeleteDashboardSuccess,
+  DeleteDashboardFail,
+  RemoveDashboard
 } from '../actions/dashboard.actions';
 
 import {
@@ -75,12 +79,13 @@ import {
   getCurrentUser,
   getRouteUrl,
   getDashboardVisualizationById,
-  getCurrentDashboardVisualizationItems
+  getCurrentDashboardVisualizationItems,
+  getAllGroupDashboards
 } from '../selectors';
 import { VisualizationLayer } from '../../dashboard/modules/ngx-dhis2-visualization/models';
 import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx-dhis2-visualization/store/selectors';
 import { generateUid } from '../../helpers/generate-uid.helper';
-import { DashboardVisualization } from '../../dashboard/models';
+import { DashboardVisualization, Dashboard } from '../../dashboard/models';
 
 @Injectable()
 export class DashboardEffects {
@@ -359,6 +364,54 @@ export class DashboardEffects {
           );
       }
     )
+  );
+
+  @Effect()
+  deleteDashboard$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardActionTypes.DeleteDashboard),
+    withLatestFrom(this.store.select(getDashboardSettings)),
+    mergeMap(
+      ([action, dashboardSettings]: [DeleteDashboard, DashboardSettings]) =>
+        this.dashboardService
+          .delete(action.dashboard.id, dashboardSettings)
+          .pipe(
+            map(() => new DeleteDashboardSuccess(action.dashboard)),
+            catchError((error: any) =>
+              of(new DeleteDashboardFail(action.dashboard, error))
+            )
+          )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  deleteDashboardSuccess$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardActionTypes.DeleteDashboardSuccess),
+    withLatestFrom(this.store.select(getAllGroupDashboards)),
+    tap(([action, dashboards]: [DeleteDashboardSuccess, Dashboard[]]) => {
+      const dashboardIndex = dashboards.indexOf(
+        _.find(dashboards, ['id', action.dashboard.id])
+      );
+
+      // Find dashboard to navigate
+      const dashboardToNavigate =
+        dashboards.length > 1
+          ? dashboardIndex === 0
+            ? dashboards[1]
+            : dashboards[dashboardIndex - 1]
+          : null;
+
+      // Remove dashboard from the list
+      this.store.dispatch(new RemoveDashboard(action.dashboard));
+
+      // Set current dashboard
+      if (dashboardToNavigate) {
+        this.store.dispatch(
+          new SetCurrentDashboardAction(dashboardToNavigate.id)
+        );
+      } else {
+        this.store.dispatch(new Go({ path: [`/dashboards`] }));
+      }
+    })
   );
 
   @Effect()
