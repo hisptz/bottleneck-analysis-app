@@ -18,7 +18,9 @@ import {
   getVisualizationReady,
   getCurrentDashboardVisualizationItems,
   getCurrentDashboardVisualizationLoading,
-  getCurrentDashboardVisualizationLoaded
+  getCurrentDashboardVisualizationLoaded,
+  UpdateDashboardAction,
+  DeleteDashboard
 } from '../../../store';
 import { User, SystemInfo, LegendSet } from '../../../models';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
@@ -149,5 +151,17 @@ export class CurrentDashboardComponent implements OnInit {
         )
       );
     });
+  }
+
+  onToggleDeleteDialog(currentDashboard: Dashboard) {
+    this.store.dispatch(
+      new UpdateDashboardAction(currentDashboard.id, {
+        showDeleteDialog: !currentDashboard.showDeleteDialog
+      })
+    );
+  }
+
+  onDeleteDashboard(currentDashboard: Dashboard) {
+    this.store.dispatch(new DeleteDashboard(currentDashboard));
   }
 }
