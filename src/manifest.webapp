@@ -1,6 +1,6 @@
 
 {
-    "version": "1.0-alpha.9",
+    "version": "1.0-alpha.10",
     "name": "BNA Dashboard",
     "description": "BNA Dashboard",
     "appType": "APP",
@@ -23,6 +23,5 @@
      "authorities": [
          "MY_APP_ADD_NEW",
          "MY_APP_UPDATE",
-         "MY_APP_DELETE"],
-  "manifest_generated_at": "Mon Aug 20 2018 11:39:55 GMT+0300 (EAT)"
+         "MY_APP_DELETE"]
 }
