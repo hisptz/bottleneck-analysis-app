@@ -67,6 +67,7 @@ export function drawChart(
       );
       break;
   }
+
   return chartObject;
 }
 
@@ -95,7 +96,7 @@ function extendSpiderWebChartOptions(
    * Sort the corresponding series
    */
   const sortedSeries = getSortableSeries(
-    getChartSeriesNew(
+    getChartSeries(
       analyticsObject,
       getAxisItemsNew(analyticsObject, chartConfiguration.xAxisType, true),
       yAxisSeriesItems,
@@ -143,7 +144,7 @@ function extendPieChartOptions(
    * Sort the corresponding series
    */
   const sortedSeries = getSortableSeries(
-    getChartSeriesNew(
+    getChartSeries(
       analyticsObject,
       getAxisItemsNew(analyticsObject, chartConfiguration.xAxisType, true),
       yAxisSeriesItems,
@@ -269,7 +270,7 @@ function extendSolidGaugeChartOptions(
    * Sort the corresponding series
    */
   const sortedSeries = getSortableSeries(
-    getChartSeriesNew(
+    getChartSeries(
       analyticsObject,
       getAxisItemsNew(analyticsObject, chartConfiguration.xAxisType, true),
       yAxisSeriesItems,
@@ -278,20 +279,7 @@ function extendSolidGaugeChartOptions(
     chartConfiguration.cumulativeValues ? -1 : chartConfiguration.sortOrder
   );
 
-  /**
-   * Rearange series based on some chart type
-   */
-  const rearrangedSeries = getRearrangedSeries(
-    sortedSeries,
-    chartConfiguration.type
-  );
-
-  /**
-   * Get series
-   */
-  newChartObject.series = _.assign([], rearrangedSeries);
-
-  return newChartObject;
+  return { ...newChartObject, series: sortedSeries };
 }
 
 function extendOtherChartOptions(
@@ -299,23 +287,16 @@ function extendOtherChartOptions(
   analyticsObject: any,
   chartConfiguration: any
 ): any {
-  const newChartObject = _.clone(initialChartObject);
-
   const yAxisSeriesItems: any[] = getAxisItems(
     analyticsObject,
     chartConfiguration.yAxisType
   );
 
   /**
-   * Get y axis options
-   */
-  newChartObject.yAxis = _.assign([], getYAxisOptions(chartConfiguration));
-
-  /**
    * Sort the corresponding series
    */
   const sortedSeries = getSortableSeries(
-    getChartSeriesNew(
+    getChartSeries(
       analyticsObject,
       getAxisItemsNew(analyticsObject, chartConfiguration.xAxisType, true),
       yAxisSeriesItems,
@@ -325,33 +306,11 @@ function extendOtherChartOptions(
   );
 
   /**
-   * Rearange series based on some chart type
-   */
-  const rearrangedSeries = getRearrangedSeries(
-    sortedSeries,
-    chartConfiguration.type
-  );
-
-  /**
    * Update series with axis options
    */
   const seriesWithAxisOptions = updateSeriesWithAxisOptions(
-    rearrangedSeries,
+    sortedSeries,
     chartConfiguration.multiAxisTypes
-  );
-
-  /**
-   * Get series
-   */
-  newChartObject.series = _.assign([], seriesWithAxisOptions);
-
-  /**
-   * Get refined x axis options
-   */
-
-  newChartObject.xAxis = getXAxisOptions(
-    getRefinedXAxisCategoriesNew(newChartObject.series),
-    chartConfiguration.type
   );
 
   /**
@@ -359,18 +318,23 @@ function extendOtherChartOptions(
    */
   const newColors: any[] = _.filter(
     _.map(
-      newChartObject.series,
+      seriesWithAxisOptions,
       seriesObject =>
         seriesObject.data[0] ? seriesObject.data[0].color : undefined
     ),
     color => color
   );
 
-  if (newColors.length > 0) {
-    newChartObject.colors = newColors;
-  }
-
-  return newChartObject;
+  return {
+    ...initialChartObject,
+    yAxis: getYAxisOptions(chartConfiguration),
+    xAxis: getXAxisOptions(
+      getRefinedXAxisCategories(seriesWithAxisOptions),
+      chartConfiguration.type
+    ),
+    colors: newColors.length > 0 ? newColors : initialChartObject.colors,
+    series: seriesWithAxisOptions
+  };
 }
 
 function updateSeriesWithAxisOptions(series: any[], multiAxisOptions: any[]) {
@@ -412,12 +376,10 @@ function updateSeriesWithAxisOptions(series: any[], multiAxisOptions: any[]) {
 }
 
 function getRearrangedSeries(series: any[], chartType: string) {
-  // todo find best way to rearrange charts
-  // return _.indexOf(chartType, 'stacked') !== -1 || chartType === 'area' ? _.reverse(series) : series;
   return series;
 }
 
-function getRefinedXAxisCategoriesNew(series: any[]) {
+function getRefinedXAxisCategories(series: any[]) {
   let newCategories: any[] = [];
   // todo find a way to effectively merge categories from each data
   if (series) {
@@ -502,36 +464,7 @@ function getRefinedXAxisCategoriesNew(series: any[]) {
     }
   }
 
-  /**
-   * Split categories array when applicable
-   */
-
-  return newCategories;
-}
-
-function getRefinedXAxisCategories(series: any[]) {
-  let newCategories: any[] = [];
-  // todo find a way to effectively merge categories from each data
-  if (series) {
-    const seriesDataObjects = _.map(
-      series,
-      (seriesObject: any) => seriesObject.data
-    );
-
-    if (seriesDataObjects) {
-      const seriesCategoryNamesArray = _.map(seriesDataObjects, seriesData => {
-        return _.map(seriesData, data => {
-          return data.name;
-        });
-      });
-
-      if (seriesCategoryNamesArray) {
-        newCategories = _.assign([], seriesCategoryNamesArray[0]);
-      }
-    }
-  }
-
-  return newCategories;
+  return _.uniqBy(newCategories, 'name');
 }
 
 function getSortableSeries(series, sortOrder) {
@@ -613,20 +546,20 @@ function getCombinedSeriesData(seriesData: any) {
   return combinedSeriesData;
 }
 
-function getChartSeriesNew(
+function getChartSeries(
   analyticsObject: any,
   xAxisItems: any[],
   yAxisItems: any[],
   chartConfiguration: any
 ) {
-  return yAxisItems.map((yAxisItem, yAxisIndex) => {
+  const series = yAxisItems.map((yAxisItem, yAxisIndex) => {
     return {
       name: yAxisItem.name,
       id: yAxisItem.id,
       index: yAxisIndex,
       turboThreshold: 0,
       pointPlacement: chartConfiguration.type === 'radar' ? 'on' : undefined,
-      data: getSeriesDataNew(
+      data: getSeriesData(
         analyticsObject,
         chartConfiguration,
         yAxisItem.id,
@@ -635,9 +568,11 @@ function getChartSeriesNew(
       type: getAllowedChartType(chartConfiguration.type)
     };
   });
+
+  return series;
 }
 
-function getSeriesDataNew(
+function getSeriesData(
   analyticsObject: any,
   chartConfiguration: any,
   yAxisItemId: string,
@@ -663,21 +598,22 @@ function getSeriesDataNew(
   /**
    * Get index to locate data for x axis
    */
-  const xAxisItemIndex = _
-    .map(chartConfiguration.xAxisType, (xAxisType: any) => {
+  const xAxisItemIndex = _.map(
+    chartConfiguration.xAxisType,
+    (xAxisType: any) => {
       return _.findIndex(
         analyticsObject.headers,
         _.find(analyticsObject.headers, ['name', xAxisType])
       );
-    })
-    .join('_');
+    }
+  ).join('_');
 
   if (xAxisItems) {
     xAxisItems.forEach(xAxisItem => {
       /**
        * Get the required data depending on xAxis and yAxis
        */
-      const seriesValue = getSeriesValueNew(
+      const seriesValue = getSeriesValue(
         analyticsObject.rows,
         yAxisItemIndex,
         yAxisItemId,
@@ -698,7 +634,7 @@ function getSeriesDataNew(
   return data;
 }
 
-function getSeriesValueNew(
+function getSeriesValue(
   analyticsRows,
   yAxisItemIndex,
   yAxisItemId,
@@ -707,23 +643,29 @@ function getSeriesValueNew(
   dataIndex
 ) {
   let finalValue = 0;
-  const seriesValues = _
-    .map(analyticsRows, row => {
-      let seriesValue: any = 0;
-      let xAxisRowId = '';
-      _.forEach(xAxisItemIndex.split('_'), (axisIndex: any) => {
-        xAxisRowId += xAxisRowId !== '' ? '_' : '';
-        xAxisRowId += row[axisIndex];
-      });
+  const seriesValues = _.map(analyticsRows, row => {
+    let seriesValue = 0;
+    let xAxisRowId = '';
+    _.forEach(xAxisItemIndex.split('_'), (axisIndex: any) => {
+      xAxisRowId += xAxisRowId !== '' ? '_' : '';
+      xAxisRowId += row[axisIndex];
+    });
 
-      if (row[yAxisItemIndex] === yAxisItemId && xAxisRowId === xAxisItemId) {
-        seriesValue += parseFloat(row[dataIndex]);
+    if (row[yAxisItemIndex] === yAxisItemId && xAxisRowId === xAxisItemId) {
+      const value = parseFloat(row[dataIndex]);
+      if (isNaN(value)) {
+        return row[dataIndex];
       }
-      return seriesValue;
-    })
-    .filter(value => value !== 0);
+      seriesValue += value;
+    }
+    return seriesValue;
+  }).filter(value => value !== 0);
 
   if (seriesValues) {
+    // Check if series values have non numeric content
+    if (_.some(seriesValues, seriesValue => isNaN(seriesValue))) {
+      return '';
+    }
     // TODO find best way to identify ratios
     const isRatio = _.some(
       seriesValues,
@@ -825,10 +767,6 @@ function getAxisItems(
     });
   }
 
-  // todo find best way to remove this hardcoding
-  // if (isCategory && axisType === 'pe') {
-  //   return _.reverse(items);
-  // }
   return items;
 }
 
@@ -846,9 +784,9 @@ function getChartTitleObject(chartConfiguration: any): any {
 }
 
 function getChartSubtitleObject(chartConfiguration: any): any {
-  // if (chartConfiguration.hideSubtitle) {
-  //   return null;
-  // }
+  if (chartConfiguration.hideSubtitle) {
+    return null;
+  }
   return {
     text: chartConfiguration.subtitle
   };

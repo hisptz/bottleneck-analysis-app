@@ -11,6 +11,10 @@ export function getAnalyticsWithGrouping(
     return analytics;
   }
   const dxGroups = dxDataSelection.groups;
+
+  if (dxGroups.length === 0) {
+    return analytics;
+  }
   const { headers, rows, metaData } = analytics;
 
   // Get dx header index
@@ -38,7 +42,7 @@ export function getAnalyticsWithGrouping(
 
   const newMetaData = {
     ...metaData,
-    ...groupNames,
+    names: { ...metaData.names, ...groupNames },
     ['groups']: _.map(dxGroups, (group: any) => group.id)
   };
 
@@ -52,7 +56,7 @@ export function getAnalyticsWithGrouping(
       } else {
         newRows = [
           ...newRows,
-          [..._.slice(row, 0, valueHeaderIndex), '', group.id]
+          [..._.slice(row, 0, valueHeaderIndex), group.id, group.id]
         ];
       }
     });

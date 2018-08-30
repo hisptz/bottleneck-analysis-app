@@ -1,4 +1,5 @@
 import { ChartConfiguration } from '../models/chart-configuration.model';
+import * as _ from 'lodash';
 export function getChartConfiguration(
   visualizationSettings: any,
   renderId: string,
@@ -71,9 +72,12 @@ export function getChartConfiguration(
     multiAxisTypes: visualizationSettings.hasOwnProperty('selectedChartTypes')
       ? visualizationSettings.selectedChartTypes
       : [],
-    xAxisType: visualizationLayout.rows ? visualizationLayout.rows : ['dx'],
-    yAxisType: visualizationLayout.columns
-      ? visualizationLayout.columns[0]
-      : 'ou'
+    xAxisType: visualizationLayout.rows
+      ? _.map(visualizationLayout.rows, row => row.dimension)
+      : ['dx'],
+    yAxisType:
+      visualizationLayout.columns && visualizationLayout.columns[0]
+        ? visualizationLayout.columns[0].dimension
+        : 'ou'
   };
 }
