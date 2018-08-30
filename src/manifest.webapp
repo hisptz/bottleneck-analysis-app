@@ -6,9 +6,9 @@
     "appType": "APP",
     "launch_path": "index.html",
     "icons": {
-        "16": "assets/img/icon-16x16.png",
-        "48": "assets/img/icon-48x48.png",
-        "128": "assets/img/icon-128x128.png"
+        "16": "assets/icons/icon-16x16.png",
+        "48": "assets/icons/icon-48x48.png",
+        "128": "assets/icons/icon-128x128.png"
     },
     "developer": {
         "name": "HISPTZ",

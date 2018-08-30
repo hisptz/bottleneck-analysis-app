@@ -32,6 +32,7 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   dashboardLoaded: boolean;
 
   selectionFilterConfig: SelectionFilterConfig;
+  showFavoriteFilter: boolean;
 
   @Output()
   toggleCurrentDashboardBookmark: EventEmitter<{
