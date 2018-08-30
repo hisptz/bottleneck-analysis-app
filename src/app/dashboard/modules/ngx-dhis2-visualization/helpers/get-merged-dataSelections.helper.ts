@@ -5,7 +5,13 @@ export function getMergedDataSelections(
   existingDataSelections: VisualizationDataSelection[],
   newDataSelections: VisualizationDataSelection[]
 ): any[] {
-  return _.map(
+  const unAvaialableDataSelections: VisualizationDataSelection[] = _.filter(
+    newDataSelections,
+    (dataSelection: VisualizationDataSelection) =>
+      !_.find(existingDataSelections, ['dimension', dataSelection.dimension])
+  );
+
+  const mergedDataSelections = _.map(
     existingDataSelections,
     (dataSelection: VisualizationDataSelection) => {
       const matchingDataSelection: VisualizationDataSelection = _.find(
@@ -15,4 +21,5 @@ export function getMergedDataSelections(
       return matchingDataSelection || dataSelection;
     }
   );
+  return [...unAvaialableDataSelections, ...mergedDataSelections];
 }

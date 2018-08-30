@@ -18,11 +18,15 @@ import * as _ from 'lodash';
   styleUrls: ['./data-filter-groups.component.css']
 })
 export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() dataGroups: any[];
-  @Input() selectedItems: any[];
-  @Input() selectedGroupId: string;
+  @Input()
+  dataGroups: any[];
+  @Input()
+  selectedItems: any[];
+  @Input()
+  selectedGroupId: string;
 
-  @Output() dataGroupsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output()
+  dataGroupsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
   @Output()
   selectedGroupUpdate: EventEmitter<string> = new EventEmitter<string>();
   // icons
@@ -88,7 +92,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
             };
           }),
           newDataGroup => {
-            console.log(alreadySelectedItems, newDataGroup);
             return {
               ...newDataGroup,
               members: newDataGroup.current

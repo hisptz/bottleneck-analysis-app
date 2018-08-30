@@ -8,7 +8,8 @@ import {
   getAnalyticsUrl,
   getSanitizedAnalytics,
   getStandardizedAnalyticsObject,
-  getMergedAnalytics
+  getMergedAnalytics,
+  getAnalyticsWithGrouping
 } from '../helpers';
 import { mergeMap, map, tap } from 'rxjs/operators';
 
@@ -17,6 +18,18 @@ export class AnalyticsService {
   constructor(private http: NgxDhis2HttpClientService) {}
 
   getAnalytics(
+    dataSelections: VisualizationDataSelection[],
+    layerType: string,
+    config?: any
+  ) {
+    return this.getCombinedAnalytics(dataSelections, layerType, config).pipe(
+      map((analytics: any) =>
+        getAnalyticsWithGrouping(dataSelections, analytics)
+      )
+    );
+  }
+
+  getCombinedAnalytics(
     dataSelections: VisualizationDataSelection[],
     layerType: string,
     config?: any

@@ -28,7 +28,7 @@ export function getStandardizedDashboards(
       globalSelections: [
         {
           dimension: 'pe',
-          layout: 'rows',
+          layout: 'filters',
           items: [
             {
               id: systemInfo.analysisRelativePeriod
@@ -37,7 +37,7 @@ export function getStandardizedDashboards(
         },
         {
           dimension: 'ou',
-          layout: 'filters',
+          layout: 'columns',
           items: [
             {
               id: orgUnits[0] ? orgUnits[0].id : '',
