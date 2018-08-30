@@ -428,22 +428,19 @@ export class DashboardEffects {
     ofType(DashboardActionTypes.GlobalFilterChange),
     withLatestFrom(this.store.select(getCurrentDashboardVisualizationItems)),
     tap(
-      ([action, dashboardVisualizations]: [
-        GlobalFilterChangeAction,
-        string[]
-      ]) =>
+      ([action, dashboardVisualizations]: [GlobalFilterChangeAction, any[]]) =>
         from(dashboardVisualizations)
           .pipe(
             mergeMap(dashboardVisualization =>
               this.store
                 .select(
-                  getCurrentVisualizationObjectLayers(dashboardVisualization)
+                  getCurrentVisualizationObjectLayers(dashboardVisualization.id)
                 )
                 .pipe(
                   take(1),
                   map((visualizationLayers: VisualizationLayer[]) => {
                     return {
-                      visualizationId: dashboardVisualization,
+                      visualizationId: dashboardVisualization.id,
                       visualizationLayers: _.map(
                         visualizationLayers,
                         (visualizationLayer: VisualizationLayer) => {

@@ -87,7 +87,7 @@ export class AnalyticsService {
     const dxObject = _.find(dataSelections, ['dimension', 'dx']);
 
     if (!dxObject || dxObject.items.length === 0) {
-      return null;
+      return of(null);
     }
 
     const functionAnalyticsPromises = _.map(dxObject.items, (dxItem: any) => {

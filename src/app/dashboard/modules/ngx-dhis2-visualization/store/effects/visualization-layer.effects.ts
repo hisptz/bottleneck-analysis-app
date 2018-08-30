@@ -45,7 +45,7 @@ export class VisualizationLayerEffects {
         .select(getVisualizationObjectById(action.visualizationId))
         .pipe(take(1))
         .subscribe((visualizationObject: Visualization) => {
-          if (!visualizationObject.isNonVisualizable) {
+          if (visualizationObject && !visualizationObject.isNonVisualizable) {
             this.store.dispatch(
               new UpdateVisualizationObjectAction(action.visualizationId, {
                 progress: {

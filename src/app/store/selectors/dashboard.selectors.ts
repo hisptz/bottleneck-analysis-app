@@ -14,6 +14,7 @@ import {
 import { getRootState, State } from '../reducers';
 
 import { getCurrentDashboardGroup } from '../selectors/dashboard-groups.selectors';
+import { Dashboard } from '../../dashboard/models';
 
 export const getDashboardObjectState = createSelector(
   getRootState,
@@ -57,6 +58,11 @@ export const getCurrentDashboard = createSelector(
   getCurrentDashboardId,
   (dashboardEntities, currentDashboardId) =>
     dashboardEntities[currentDashboardId]
+);
+
+export const getCurrentDashboardGlobalSelections = createSelector(
+  getCurrentDashboard,
+  (dashboard: Dashboard) => (dashboard ? dashboard.globalSelections : [])
 );
 
 export const getDashboardById = id =>

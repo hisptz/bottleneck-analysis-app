@@ -349,6 +349,7 @@ export class VisualizationObjectEffects {
                 const dataSelections = getSelectionDimensionsFromFavorite(
                   favoriteLayer
                 );
+
                 return {
                   id: favoriteLayer.id,
                   dataSelections,
