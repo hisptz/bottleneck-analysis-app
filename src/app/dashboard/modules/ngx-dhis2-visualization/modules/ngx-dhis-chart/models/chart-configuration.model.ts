@@ -21,7 +21,9 @@ export interface ChartConfiguration {
   baseLineLabel: string;
   legendAlign: string;
   reverseLegend: boolean;
-  rangeAxisMaxValue: number,
-  rangeAxisMinValue: number,
+  rangeAxisMaxValue: number;
+  rangeAxisMinValue: number;
   axes: any[];
+  dataSelections: any[];
+  categoryRotation?: number;
 }

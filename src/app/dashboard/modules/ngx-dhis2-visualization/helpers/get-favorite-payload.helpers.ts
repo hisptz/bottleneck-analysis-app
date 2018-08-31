@@ -24,7 +24,10 @@ export function getFavoritePayload(
             'layout'
           );
           return {
-            ...getFavoriteOptionsByType(visualizationLayer.config, currentType),
+            ...getFavoriteOptionsByType(
+              visualizationLayer.config || {},
+              currentType
+            ),
             id: visualizationLayer.id,
             columns: getSanitizedDataSelections(
               groupedDataSelections['columns']
@@ -44,7 +47,6 @@ export function getFavoritePayload(
           : currentType === 'CHART'
             ? 'CHART'
             : 'REPORT_TABLE';
-
       return favoriteArray[0]
         ? {
             url: `${_.camelCase(favoriteType)}s`,
@@ -64,11 +66,8 @@ function getSanitizedDataSelections(dataSelections: any[]) {
   return _.map(dataSelections, dataSelection => {
     return {
       dimension: dataSelection.dimension,
-      items: _.map(dataSelection.items || [], item => {
-        return {
-          id: item.id
-        };
-      })
+      items: dataSelection.items,
+      groups: dataSelection.groups
     };
   });
 }

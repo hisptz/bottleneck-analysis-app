@@ -19,10 +19,14 @@ import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config
   styleUrls: ['./ngx-dhis2-selection-filters.component.css']
 })
 export class NgxDhis2SelectionFiltersComponent implements OnInit {
-  @Input() dataSelections: any[];
-  @Input() layout: any;
-  @Input() selectionFilterConfig: SelectionFilterConfig;
-  @Output() filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Input()
+  dataSelections: any[];
+  @Input()
+  layout: any;
+  @Input()
+  selectionFilterConfig: SelectionFilterConfig;
+  @Output()
+  filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
   showFilters: boolean;
   showFilterBody: boolean;
 
@@ -153,7 +157,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
       'dimension',
       selectedItems.dimension
     ])
-      ? [...this.dataSelections, { ...selectedItems, layout: 'columns' }]
+      ? [...this.dataSelections, { ...selectedItems, layout: 'rows' }]
       : [
           ...this.updateDataSelectionWithNewSelections(
             this.dataSelections,

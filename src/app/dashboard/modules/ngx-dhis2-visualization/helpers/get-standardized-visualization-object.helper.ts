@@ -3,14 +3,19 @@ import * as _ from 'lodash';
 import { generateUid } from '../../../../helpers/generate-uid.helper';
 import { checkIfVisualizationIsNonVisualizable } from './check-if-visualization-is-non-visualizable.helper';
 
-export function getStandardizedVisualizationObject(visualizationItem: any): Visualization {
-  const isNonVisualizable = checkIfVisualizationIsNonVisualizable(visualizationItem.type);
+export function getStandardizedVisualizationObject(
+  visualizationItem: any,
+  dataSelections?: any[]
+): Visualization {
+  const isNonVisualizable = checkIfVisualizationIsNonVisualizable(
+    visualizationItem.type
+  );
   const visualizationObject = {
     id: visualizationItem.id,
     title: getVisualizationTitle(visualizationItem),
     name: getVisualizationName(visualizationItem),
     type: visualizationItem.type,
-    favorite: getFavoriteDetails(visualizationItem),
+    favorite: getFavoriteDetails(visualizationItem, dataSelections),
     created: visualizationItem.created,
     appKey: visualizationItem.appKey,
     lastUpdated: visualizationItem.lastUpdated,
@@ -46,8 +51,11 @@ function getVisualizationName(visualizationItem: any) {
     default:
       return visualizationItem.name
         ? visualizationItem.name
-        : visualizationItem.type && visualizationItem.hasOwnProperty(_.camelCase(visualizationItem.type))
-          ? _.isPlainObject(visualizationItem[_.camelCase(visualizationItem.type)])
+        : visualizationItem.type &&
+          visualizationItem.hasOwnProperty(_.camelCase(visualizationItem.type))
+          ? _.isPlainObject(
+              visualizationItem[_.camelCase(visualizationItem.type)]
+            )
             ? visualizationItem[_.camelCase(visualizationItem.type)].displayName
             : 'Untitled'
           : 'Untitled';
@@ -57,14 +65,15 @@ function getVisualizationName(visualizationItem: any) {
 function getVisualizationTitle(visualizationItem: any) {
   return visualizationItem.title
     ? visualizationItem.title
-    : visualizationItem.type && visualizationItem.hasOwnProperty(_.camelCase(visualizationItem.type))
+    : visualizationItem.type &&
+      visualizationItem.hasOwnProperty(_.camelCase(visualizationItem.type))
       ? _.isPlainObject(visualizationItem[_.camelCase(visualizationItem.type)])
         ? visualizationItem[_.camelCase(visualizationItem.type)].title
         : undefined
       : undefined;
 }
 
-function getFavoriteDetails(visualizationItem: any) {
+function getFavoriteDetails(visualizationItem: any, dataSelections?: any[]) {
   if (!visualizationItem) {
     return null;
   }
@@ -73,13 +82,17 @@ function getFavoriteDetails(visualizationItem: any) {
     ? {
         id: favoriteItem.id,
         type: _.camelCase(visualizationItem.type),
+        visualizationType: visualizationItem.type,
         name: getVisualizationName(visualizationItem),
         useTypeAsBase: true,
-        requireAnalytics: true
+        requireAnalytics: true,
+        dataSelections
       }
     : {
         id: generateUid(),
         name: getVisualizationName(visualizationItem),
-        type: _.camelCase(visualizationItem.type)
+        type: _.camelCase(visualizationItem.type),
+        visualizationType: visualizationItem.type,
+        dataSelections
       };
 }

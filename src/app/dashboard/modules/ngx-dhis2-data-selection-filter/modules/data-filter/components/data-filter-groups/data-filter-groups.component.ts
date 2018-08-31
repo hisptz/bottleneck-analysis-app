@@ -18,11 +18,15 @@ import * as _ from 'lodash';
   styleUrls: ['./data-filter-groups.component.css']
 })
 export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() dataGroups: any[];
-  @Input() selectedItems: any[];
-  @Input() selectedGroupId: string;
+  @Input()
+  dataGroups: any[];
+  @Input()
+  selectedItems: any[];
+  @Input()
+  selectedGroupId: string;
 
-  @Output() dataGroupsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output()
+  dataGroupsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
   @Output()
   selectedGroupUpdate: EventEmitter<string> = new EventEmitter<string>();
   // icons
@@ -32,7 +36,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.dragIcon = DRAG_ICON;
     this.arrowDownIcon = ARROW_DOWN_ICON;
     this.dataGroups = [];
-    this.selectedGroupId = 'group_1';
+    this.selectedGroupId = 'group1';
   }
 
   get dataGroupsVm() {
@@ -88,7 +92,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
             };
           }),
           newDataGroup => {
-            console.log(alreadySelectedItems, newDataGroup);
             return {
               ...newDataGroup,
               members: newDataGroup.current
@@ -116,8 +119,9 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
         return { ...dataGroup, current: false };
       }),
       {
-        id: `group_${currentGroupLength + 1}`,
+        id: `group${currentGroupLength + 1}`,
         name: `Untitled Group ${currentGroupLength + 1}`,
+        color: '#000000',
         current: true,
         members: []
       }

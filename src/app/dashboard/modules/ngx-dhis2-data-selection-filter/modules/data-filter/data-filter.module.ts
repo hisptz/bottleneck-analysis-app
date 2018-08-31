@@ -12,6 +12,11 @@ import { DndModule } from 'ng2-dnd';
 import { DataFilterService } from './services/data-filter.service';
 import { HttpModule } from '@angular/http';
 import { components } from './components';
+import { StoreModule } from '@ngrx/store';
+
+import * as fromDataGroupReducer from './store/reducers/data-group.reducer';
+import * as fromDataGroupEffects from './store/effects/index';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
@@ -20,7 +25,9 @@ import { components } from './components';
     HttpModule,
     DragulaModule,
     NgxPaginationModule,
-    DndModule.forRoot()
+    DndModule.forRoot(),
+    StoreModule.forFeature('dataGroup', fromDataGroupReducer.reducer),
+    EffectsModule.forFeature(fromDataGroupEffects.effects)
   ],
   declarations: [
     DataFilterComponent,

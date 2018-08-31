@@ -17,8 +17,13 @@ import {
   getCurrentUser
 } from '../../../store';
 import { Dashboard, DashboardGroups } from '../../models';
-import { User } from '../../../models';
+import { User, SystemInfo } from '../../../models';
 import { take } from 'rxjs/operators';
+import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
+
+import * as fromDataGroupActions from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/actions/data-group.actions';
+import { DataGroup } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/models/data-group.model';
+import { getDataGroups } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/reducers/data-group.reducer';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,10 +40,13 @@ export class DashboardComponent implements OnInit {
   dashboardLoaded$: Observable<boolean>;
   dashboardGroups$: Observable<DashboardGroups[]>;
   currentUser$: Observable<User>;
+  systemInfo$: Observable<SystemInfo>;
+  dataGroups$: Observable<DataGroup[]>;
 
   constructor(private store: Store<State>) {
     // initialize dashboads settings
     store.dispatch(new InitializeDashboardSettingsAction());
+    store.dispatch(new fromDataGroupActions.LoadDataGroups());
 
     this.dashboards$ = store.select(getAllGroupDashboards);
     this.currentDashboardId$ = store.select(getCurrentDashboardId);
@@ -47,6 +55,8 @@ export class DashboardComponent implements OnInit {
     this.dashboardGroups$ = store.select(getAllDashboardGroups);
     this.currentDashboardGroupId$ = store.select(getActiveDashboardGroup);
     this.currentUser$ = store.select(getCurrentUser);
+    this.systemInfo$ = store.select(getSystemInfo);
+    this.dataGroups$ = store.select(getDataGroups);
 
     // menu container height in pixels
     this.menuContainerHeight = 60;
@@ -67,8 +77,15 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(new SetActiveDashboardGroupsAction(group));
   }
 
-  onCreateDashboardAction(dashboard: any) {
-    this.store.dispatch(new CreateDashboardAction(dashboard));
+  onCreateDashboardAction(dashboardDetails: any) {
+    this.store.dispatch(
+      new CreateDashboardAction(
+        dashboardDetails.dashboard,
+        dashboardDetails.currentUser,
+        dashboardDetails.systemInfo,
+        dashboardDetails.dataGroups
+      )
+    );
   }
 
   onToggleDashboardBookmark(dashboardDetails: {

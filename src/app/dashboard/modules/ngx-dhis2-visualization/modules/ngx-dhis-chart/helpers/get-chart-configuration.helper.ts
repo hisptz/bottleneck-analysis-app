@@ -1,9 +1,11 @@
 import { ChartConfiguration } from '../models/chart-configuration.model';
+import * as _ from 'lodash';
 export function getChartConfiguration(
   visualizationSettings: any,
   renderId: string,
   visualizationLayout: any,
-  customChartType: string = ''
+  customChartType: string = '',
+  dataSelections: any[] = []
 ): ChartConfiguration {
   const chartType =
     customChartType !== ''
@@ -51,6 +53,7 @@ export function getChartConfiguration(
       ? visualizationSettings.baseLineLabel
       : '',
     legendAlign: 'bottom',
+    categoryRotation: 0,
     reverseLegend: false,
     showLabels: true,
     axes: visualizationSettings.axes ? visualizationSettings.axes : [],
@@ -71,9 +74,13 @@ export function getChartConfiguration(
     multiAxisTypes: visualizationSettings.hasOwnProperty('selectedChartTypes')
       ? visualizationSettings.selectedChartTypes
       : [],
-    xAxisType: visualizationLayout.rows ? visualizationLayout.rows : ['dx'],
-    yAxisType: visualizationLayout.columns
-      ? visualizationLayout.columns[0]
-      : 'ou'
+    xAxisType: visualizationLayout.rows
+      ? _.map(visualizationLayout.rows, row => row.dimension)
+      : ['dx'],
+    yAxisType:
+      visualizationLayout.columns && visualizationLayout.columns[0]
+        ? visualizationLayout.columns[0].dimension
+        : 'ou',
+    dataSelections
   };
 }

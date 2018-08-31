@@ -8,15 +8,42 @@ import {
   getAnalyticsUrl,
   getSanitizedAnalytics,
   getStandardizedAnalyticsObject,
-  getMergedAnalytics
+  getMergedAnalytics,
+  getAnalyticsWithGrouping,
+  generateDummyAnalytics
 } from '../helpers';
-import { mergeMap, map, tap } from 'rxjs/operators';
+import { mergeMap, map, tap, catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
   constructor(private http: NgxDhis2HttpClientService) {}
 
   getAnalytics(
+    dataSelections: VisualizationDataSelection[],
+    layerType: string,
+    config: any = null,
+    preference: any = { returnDummyAnalyticsOnFail: true }
+  ) {
+    return this.getCombinedAnalytics(dataSelections, layerType, config).pipe(
+      map((analytics: any) =>
+        getAnalyticsWithGrouping(dataSelections, analytics)
+      ),
+      catchError((error: any) => {
+        if (!preference.returnDummyAnalyticsOnFail) {
+          return throwError(error);
+        }
+
+        return of(
+          getAnalyticsWithGrouping(
+            dataSelections,
+            generateDummyAnalytics(dataSelections)
+          )
+        );
+      })
+    );
+  }
+
+  getCombinedAnalytics(
     dataSelections: VisualizationDataSelection[],
     layerType: string,
     config?: any
@@ -87,7 +114,7 @@ export class AnalyticsService {
     const dxObject = _.find(dataSelections, ['dimension', 'dx']);
 
     if (!dxObject || dxObject.items.length === 0) {
-      return null;
+      return of(null);
     }
 
     const functionAnalyticsPromises = _.map(dxObject.items, (dxItem: any) => {
