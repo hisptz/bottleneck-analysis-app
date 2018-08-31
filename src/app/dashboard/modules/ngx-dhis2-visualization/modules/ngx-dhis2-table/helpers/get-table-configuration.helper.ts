@@ -37,7 +37,7 @@ export function getTableConfiguration(
       : true,
     displayList: checkForEventDataType(favoriteObject, type),
     rows: visualizationLayout.rows
-      ? _.map(visualizationLayout.rows, row => row.dimension)
+      ? _.map(_.reverse(visualizationLayout.rows), row => row.dimension)
       : ['pe'],
     columns: visualizationLayout.columns
       ? _.map(visualizationLayout.columns, column => column.dimension)

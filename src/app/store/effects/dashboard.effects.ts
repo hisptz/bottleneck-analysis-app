@@ -86,6 +86,7 @@ import { VisualizationLayer } from '../../dashboard/modules/ngx-dhis2-visualizat
 import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx-dhis2-visualization/store/selectors';
 import { generateUid } from '../../helpers/generate-uid.helper';
 import { DashboardVisualization, Dashboard } from '../../dashboard/models';
+import { getStandardizedDashboard } from '../../helpers/get-standardized-dashboard.helper';
 
 @Injectable()
 export class DashboardEffects {
@@ -314,8 +315,13 @@ export class DashboardEffects {
         CreateDashboardAction,
         DashboardSettings
       ]) => {
+        const dashboard = getStandardizedDashboard(
+          action.dashboard,
+          action.currentUser,
+          action.systemInfo
+        );
         const dashboardObject = {
-          ...action.dashboard,
+          ...dashboard,
           id: `${dashboardSettings.id}_${generateUid()}`,
           dashboardItems: _.map(
             action.dashboard.dashboardItems || [],
@@ -336,10 +342,15 @@ export class DashboardEffects {
           )
         };
         this.store.dispatch(
-          new AddDashboardAction({
-            ...dashboardObject,
-            creating: true
-          })
+          new AddDashboardAction(
+            _.omit(
+              {
+                ...dashboardObject,
+                creating: true
+              },
+              ['dashboardItems']
+            )
+          )
         );
         return this.dashboardService
           .create(dashboardObject, dashboardSettings)

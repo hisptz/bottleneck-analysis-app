@@ -17,8 +17,9 @@ import {
   getCurrentUser
 } from '../../../store';
 import { Dashboard, DashboardGroups } from '../../models';
-import { User } from '../../../models';
+import { User, SystemInfo } from '../../../models';
 import { take } from 'rxjs/operators';
+import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit {
   dashboardLoaded$: Observable<boolean>;
   dashboardGroups$: Observable<DashboardGroups[]>;
   currentUser$: Observable<User>;
+  systemInfo$: Observable<SystemInfo>;
 
   constructor(private store: Store<State>) {
     // initialize dashboads settings
@@ -47,6 +49,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardGroups$ = store.select(getAllDashboardGroups);
     this.currentDashboardGroupId$ = store.select(getActiveDashboardGroup);
     this.currentUser$ = store.select(getCurrentUser);
+    this.systemInfo$ = store.select(getSystemInfo);
 
     // menu container height in pixels
     this.menuContainerHeight = 60;
@@ -67,8 +70,14 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(new SetActiveDashboardGroupsAction(group));
   }
 
-  onCreateDashboardAction(dashboard: any) {
-    this.store.dispatch(new CreateDashboardAction(dashboard));
+  onCreateDashboardAction(dashboardDetails: any) {
+    this.store.dispatch(
+      new CreateDashboardAction(
+        dashboardDetails.dashboard,
+        dashboardDetails.currentUser,
+        dashboardDetails.systemInfo
+      )
+    );
   }
 
   onToggleDashboardBookmark(dashboardDetails: {

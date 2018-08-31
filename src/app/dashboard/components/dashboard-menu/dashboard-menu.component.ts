@@ -3,9 +3,11 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnInit
 } from '@angular/core';
 import { Dashboard, DashboardGroups } from '../../models';
+import { User, SystemInfo } from '../../../models';
 
 @Component({
   selector: 'app-dashboard-menu',
@@ -13,13 +15,19 @@ import { Dashboard, DashboardGroups } from '../../models';
   styleUrls: ['./dashboard-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardMenuComponent {
+export class DashboardMenuComponent implements OnInit {
   @Input()
   dashboardMenuList: Dashboard[];
   @Input()
   currentDashboardId: string;
   @Input()
   dashboardGroups: DashboardGroups[];
+
+  @Input()
+  currentUser: User;
+
+  @Input()
+  systemInfo: SystemInfo;
 
   @Input()
   activeDashboardGroupId: string;
@@ -33,7 +41,7 @@ export class DashboardMenuComponent {
   >();
 
   @Output()
-  createDashboard: EventEmitter<string> = new EventEmitter<string>();
+  createDashboard: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
   toggleDashboardBookmark: EventEmitter<{
@@ -42,6 +50,8 @@ export class DashboardMenuComponent {
     supportBookmark;
   }> = new EventEmitter();
   constructor() {}
+
+  ngOnInit() {}
 
   onSetCurrentDashboard(dashboardId: string) {
     this.setCurrentDashboard.emit(dashboardId);
@@ -56,6 +66,10 @@ export class DashboardMenuComponent {
   }
 
   onCreateDashboard(dashboard: any) {
-    this.createDashboard.emit(dashboard);
+    this.createDashboard.emit({
+      dashboard,
+      currentUser: this.currentUser,
+      systemInfo: this.systemInfo
+    });
   }
 }

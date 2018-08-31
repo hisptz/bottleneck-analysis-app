@@ -43,7 +43,7 @@ export class ChartItemComponent implements OnInit {
 
   constructor() {
     this.chartTypes = CHART_TYPES;
-    this.showOptions = true;
+    this.showOptions = false;
   }
 
   ngOnInit() {
