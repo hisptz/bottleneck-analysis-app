@@ -318,7 +318,8 @@ export class DashboardEffects {
         const dashboard = getStandardizedDashboard(
           action.dashboard,
           action.currentUser,
-          action.systemInfo
+          action.systemInfo,
+          action.dataGroups
         );
         const dashboardObject = {
           ...dashboard,

@@ -381,7 +381,6 @@ function getRearrangedSeries(series: any[], chartType: string) {
 
 function getRefinedXAxisCategories(series: any[]) {
   let newCategories: any[] = [];
-  // todo find a way to effectively merge categories from each data
   if (series) {
     const seriesDataObjects = _.map(
       series,
@@ -740,10 +739,6 @@ function getAxisItemsNew(
     }
   });
 
-  // todo find best way to remove this hardcoding
-  // if (isCategory && axisType === 'pe') {
-  //   return _.reverse(items);
-  // }
   return items;
 }
 
@@ -1036,13 +1031,7 @@ function getXAxisOptions(
         {
           categories: xAxisCategories,
           labels: {
-            rotation: chartConfiguration.categoryRotation
-              ? chartConfiguration.categoryRotation
-              : xAxisCategories.length <= 5
-                ? 0
-                : xAxisCategories.length >= 10
-                  ? -45
-                  : -45,
+            rotation: 0,
             style: {
               color: '#000000',
               fontWeight: 'normal',

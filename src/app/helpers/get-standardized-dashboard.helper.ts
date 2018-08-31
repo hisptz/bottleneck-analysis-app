@@ -2,11 +2,13 @@ import * as _ from 'lodash';
 import { User, SystemInfo } from '../models';
 import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
 import { Dashboard } from '../dashboard/models';
+import { DataGroup } from '../dashboard/modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/models/data-group.model';
 
 export function getStandardizedDashboard(
   dashboard: any,
   currentUser: User,
-  systemInfo: SystemInfo
+  systemInfo: SystemInfo,
+  defaultDataGroups?: DataGroup[]
 ): Dashboard {
   const orgUnits =
     currentUser.dataViewOrganisationUnits.length > 0
@@ -28,24 +30,13 @@ export function getStandardizedDashboard(
       {
         dimension: 'dx',
         layout: 'rows',
-        items: _.map(_.times(6), (count: number) => {
-          return {
-            id: `indicator${count}`,
-            name: `Indicator${count}`
-          };
-        }),
-        groups: _.map(_.times(6), (count: number) => {
-          return {
-            id: `group${count}`,
-            name: `Group${count}`,
-            members: [
-              {
-                id: `indicator${count}`,
-                name: `Indicator${count}`
-              }
-            ]
-          };
-        })
+        items: _.flatten(
+          _.map(
+            defaultDataGroups || [],
+            (dataGroup: DataGroup) => dataGroup.items
+          )
+        ),
+        groups: defaultDataGroups
       },
       {
         dimension: 'pe',

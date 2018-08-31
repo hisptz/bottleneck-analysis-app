@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Dashboard, DashboardGroups } from '../../models';
 import { User, SystemInfo } from '../../../models';
+import { DataGroup } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/models/data-group.model';
 
 @Component({
   selector: 'app-dashboard-menu',
@@ -31,6 +32,9 @@ export class DashboardMenuComponent implements OnInit {
 
   @Input()
   activeDashboardGroupId: string;
+
+  @Input()
+  dataGroups: DataGroup[];
 
   @Output()
   setCurrentDashboard: EventEmitter<string> = new EventEmitter<string>();
@@ -69,7 +73,8 @@ export class DashboardMenuComponent implements OnInit {
     this.createDashboard.emit({
       dashboard,
       currentUser: this.currentUser,
-      systemInfo: this.systemInfo
+      systemInfo: this.systemInfo,
+      dataGroups: this.dataGroups
     });
   }
 }
