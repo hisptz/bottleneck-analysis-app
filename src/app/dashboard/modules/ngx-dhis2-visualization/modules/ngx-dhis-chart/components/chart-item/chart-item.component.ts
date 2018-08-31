@@ -43,7 +43,7 @@ export class ChartItemComponent implements OnInit {
 
   constructor() {
     this.chartTypes = CHART_TYPES;
-    this.showOptions = false;
+    this.showOptions = true;
   }
 
   ngOnInit() {
@@ -55,6 +55,7 @@ export class ChartItemComponent implements OnInit {
   drawChart(analyticsObject, chartConfiguration): void {
     if (chartConfiguration && analyticsObject) {
       const chartObject: any = drawChart(analyticsObject, chartConfiguration);
+      console.log(chartObject);
       if (chartObject) {
         setTimeout(() => {
           this.chart = Highcharts.chart(chartObject);

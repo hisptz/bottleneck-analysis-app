@@ -53,6 +53,7 @@ export function getChartConfiguration(
       ? visualizationSettings.baseLineLabel
       : '',
     legendAlign: 'bottom',
+    categoryRotation: 0,
     reverseLegend: false,
     showLabels: true,
     axes: visualizationSettings.axes ? visualizationSettings.axes : [],

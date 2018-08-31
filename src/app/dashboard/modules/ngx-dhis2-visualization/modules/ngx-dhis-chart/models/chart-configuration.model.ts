@@ -25,4 +25,5 @@ export interface ChartConfiguration {
   rangeAxisMinValue: number;
   axes: any[];
   dataSelections: any[];
+  categoryRotation?: number;
 }

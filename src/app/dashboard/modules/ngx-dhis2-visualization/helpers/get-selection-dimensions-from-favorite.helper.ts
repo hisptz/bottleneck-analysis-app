@@ -53,10 +53,11 @@ function getStandardizedDimensions(
       items: _.map(dimensionObject.items, item => {
         return {
           id: item.dimensionItem || item.id,
-          name: item.displayName,
+          name: item.displayName || item.name,
           type: getDimensionItemType(dimensionObject.dimension, item)
         };
-      })
+      }),
+      groups: dimensionObject.groups
     };
   });
 }

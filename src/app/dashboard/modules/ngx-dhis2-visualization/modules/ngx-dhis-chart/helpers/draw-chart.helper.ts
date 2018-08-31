@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import { flatten } from '@angular/router/src/utils/collection';
 import { ChartConfiguration } from '../models';
 
 export function drawChart(
@@ -124,7 +123,7 @@ function extendSpiderWebChartOptions(
    */
   newChartObject.xAxis = getXAxisOptions(
     getRefinedXAxisCategories(newChartObject.series),
-    chartConfiguration.type
+    chartConfiguration
   );
 
   return newChartObject;
@@ -1014,10 +1013,13 @@ function getLegendOptions(chartConfiguration: any) {
   };
 }
 
-function getXAxisOptions(xAxisCategories: any[], chartType) {
+function getXAxisOptions(
+  xAxisCategories: any[],
+  chartConfiguration: ChartConfiguration
+) {
   let xAxisOptions = {};
 
-  switch (chartType) {
+  switch (chartConfiguration.type) {
     case 'radar':
       xAxisOptions = _.assign(
         {},
@@ -1034,8 +1036,9 @@ function getXAxisOptions(xAxisCategories: any[], chartType) {
         {
           categories: xAxisCategories,
           labels: {
-            rotation:
-              xAxisCategories.length <= 5
+            rotation: chartConfiguration.categoryRotation
+              ? chartConfiguration.categoryRotation
+              : xAxisCategories.length <= 5
                 ? 0
                 : xAxisCategories.length >= 10
                   ? -45
@@ -1254,7 +1257,8 @@ function getSanitizedChartObject(
         seriesObject.data,
         (dataItem: any, dataIndex: number) =>
           dataItem.y === '' ||
-          dataSelectionGroupMembers.indexOf(dataItem.id) === -1
+          (dataSelectionGroupMembers.length > 0 &&
+            dataSelectionGroupMembers.indexOf(dataItem.id) === -1)
             ? dataIndex
             : -1
       ),
@@ -1288,10 +1292,11 @@ function getSanitizedChartObject(
     };
   });
 
-  console.log(chartObject.series);
-
   let categoryCount = 0;
   const newCategories = _.map(chartObject.xAxis.categories, (category: any) => {
+    if (!category.categories) {
+      return category;
+    }
     const newCategory = {
       ...category,
       categories: _.filter(
@@ -1300,7 +1305,8 @@ function getSanitizedChartObject(
           newDataIndexes.indexOf(innerCategoryIndex + categoryCount) === -1
       )
     };
-    categoryCount += category.categories.length;
+
+    categoryCount += category.categories ? category.categories.length : 0;
     return newCategory;
   });
 

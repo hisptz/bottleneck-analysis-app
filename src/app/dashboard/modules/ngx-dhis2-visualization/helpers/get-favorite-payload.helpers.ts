@@ -66,11 +66,8 @@ function getSanitizedDataSelections(dataSelections: any[]) {
   return _.map(dataSelections, dataSelection => {
     return {
       dimension: dataSelection.dimension,
-      items: _.map(dataSelection.items || [], item => {
-        return {
-          id: item.id
-        };
-      })
+      items: dataSelection.items,
+      groups: dataSelection.groups
     };
   });
 }

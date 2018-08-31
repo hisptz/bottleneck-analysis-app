@@ -9,9 +9,10 @@ import {
   getSanitizedAnalytics,
   getStandardizedAnalyticsObject,
   getMergedAnalytics,
-  getAnalyticsWithGrouping
+  getAnalyticsWithGrouping,
+  generateDummyAnalytics
 } from '../helpers';
-import { mergeMap, map, tap } from 'rxjs/operators';
+import { mergeMap, map, tap, catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
@@ -20,12 +21,25 @@ export class AnalyticsService {
   getAnalytics(
     dataSelections: VisualizationDataSelection[],
     layerType: string,
-    config?: any
+    config: any = null,
+    preference: any = { returnDummyAnalyticsOnFail: true }
   ) {
     return this.getCombinedAnalytics(dataSelections, layerType, config).pipe(
       map((analytics: any) =>
         getAnalyticsWithGrouping(dataSelections, analytics)
-      )
+      ),
+      catchError((error: any) => {
+        if (!preference.returnDummyAnalyticsOnFail) {
+          return throwError(error);
+        }
+
+        return of(
+          getAnalyticsWithGrouping(
+            dataSelections,
+            generateDummyAnalytics(dataSelections)
+          )
+        );
+      })
     );
   }
 

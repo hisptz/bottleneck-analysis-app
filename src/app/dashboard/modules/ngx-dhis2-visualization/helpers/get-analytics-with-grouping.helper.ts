@@ -5,12 +5,16 @@ export function getAnalyticsWithGrouping(
   dataSelections: VisualizationDataSelection[],
   analytics: any
 ) {
+  if (!analytics) {
+    return null;
+  }
   const dxDataSelection = _.find(dataSelections, ['dimension', 'dx']);
 
-  if (!dxDataSelection && !analytics) {
+  if (!dxDataSelection) {
     return analytics;
   }
-  const dxGroups = dxDataSelection.groups;
+
+  const dxGroups = dxDataSelection.groups || [];
 
   if (dxGroups.length === 0) {
     return analytics;
@@ -20,6 +24,7 @@ export function getAnalyticsWithGrouping(
   // Get dx header index
   const dxHeaderIndex = headers.indexOf(_.find(headers, ['name', 'dx']));
   const valueHeaderIndex = headers.indexOf(_.find(headers, ['name', 'value']));
+  console.log(dxHeaderIndex);
 
   // Update headers with groups
   const newHeaders = [
@@ -62,5 +67,6 @@ export function getAnalyticsWithGrouping(
     });
   });
 
+  console.log({ headers: newHeaders, metaData: newMetaData, rows: newRows });
   return { headers: newHeaders, metaData: newMetaData, rows: newRows };
 }
