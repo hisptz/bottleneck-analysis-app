@@ -4,7 +4,8 @@ export function getChartConfiguration(
   visualizationSettings: any,
   renderId: string,
   visualizationLayout: any,
-  customChartType: string = ''
+  customChartType: string = '',
+  dataSelections: any[] = []
 ): ChartConfiguration {
   const chartType =
     customChartType !== ''
@@ -78,6 +79,7 @@ export function getChartConfiguration(
     yAxisType:
       visualizationLayout.columns && visualizationLayout.columns[0]
         ? visualizationLayout.columns[0].dimension
-        : 'ou'
+        : 'ou',
+    dataSelections
   };
 }

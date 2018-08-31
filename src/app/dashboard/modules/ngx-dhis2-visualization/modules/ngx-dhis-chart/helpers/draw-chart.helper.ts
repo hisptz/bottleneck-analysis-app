@@ -1,12 +1,13 @@
 import * as _ from 'lodash';
+import { flatten } from '@angular/router/src/utils/collection';
+import { ChartConfiguration } from '../models';
 
 export function drawChart(
   incomingAnalyticsObject: any,
   chartConfiguration: any
 ): any {
-  // TODO MOVE THIS LOGIC TO ANALYTICS OBJECT IN THE FUTURE
   const analyticsObject = sanitizeAnalyticsBasedOnConfiguration(
-    standardizeIncomingAnalytics(incomingAnalyticsObject),
+    incomingAnalyticsObject,
     chartConfiguration
   );
 
@@ -68,7 +69,7 @@ export function drawChart(
       break;
   }
 
-  return chartObject;
+  return getSanitizedChartObject(chartObject, chartConfiguration);
 }
 
 function extendSpiderWebChartOptions(
@@ -715,9 +716,8 @@ function getAxisItemsNew(
 ) {
   let items: any[] = [];
   const metadataNames = analyticsObject.metaData.names;
-  const metadataDimensions = analyticsObject.metaData.dimensions;
   axisTypeArray.forEach((axisType, axisIndex) => {
-    const itemKeys = metadataDimensions[axisType];
+    const itemKeys = analyticsObject.metaData[axisType];
     if (itemKeys) {
       if (axisIndex > 0) {
         const availableItems = _.assign([], items);
@@ -755,8 +755,7 @@ function getAxisItems(
 ) {
   let items: any[] = [];
   const metadataNames = analyticsObject.metaData.names;
-  const metadataDimensions = analyticsObject.metaData.dimensions;
-  const itemKeys = metadataDimensions[axisType];
+  const itemKeys = analyticsObject.metaData[axisType];
 
   if (itemKeys) {
     items = _.map(itemKeys, itemKey => {
@@ -1192,9 +1191,9 @@ function mapAnalyticsToCumulativeFormat(
   const newAnalyticsObject = _.clone(analyticsObject);
 
   if (analyticsObject) {
-    const yAxisDimensionArray = analyticsObject.metaData.dimensions[yAxisType];
+    const yAxisDimensionArray = analyticsObject.metaData[yAxisType];
     const xAxisDimensionArray = [
-      ..._.reverse([...analyticsObject.metaData.dimensions[xAxisType]])
+      ..._.reverse([...analyticsObject.metaData[xAxisType]])
     ];
     const yAxisDimensionIndex = _.findIndex(
       analyticsObject.headers,
@@ -1230,98 +1229,75 @@ function mapAnalyticsToCumulativeFormat(
   return newAnalyticsObject;
 }
 
-function standardizeIncomingAnalytics(analyticsObject: any) {
-  const sanitizedAnalyticsObject: any = {
-    headers: [],
-    metaData: {
-      names: null,
-      dimensions: null
-    },
-    rows: []
+function getSanitizedChartObject(
+  chartObject: any,
+  chartConfiguration: ChartConfiguration
+) {
+  const dataSelectionGroups = _.flatten(
+    _.filter(
+      _.map(chartConfiguration.dataSelections || [], (dataSelection: any) => {
+        return dataSelection.groups;
+      }),
+      group => group
+    )
+  );
+  const dataSelectionGroupMembers = _.flatten(
+    _.map(dataSelectionGroups, group => {
+      return _.map(group.members, (member: any) => `${member.id}_${group.id}`);
+    })
+  );
+  console.log(dataSelectionGroups);
+  // Remove non numeric series data and their categories
+  const dataIndexesArrayToRemove = _.map(chartObject.series, seriesObject => {
+    return _.filter(
+      _.map(
+        seriesObject.data,
+        (dataItem: any, dataIndex: number) =>
+          dataItem.y === '' ||
+          dataSelectionGroupMembers.indexOf(dataItem.id) === -1
+            ? dataIndex
+            : -1
+      ),
+      (dataIndex: number) => dataIndex !== -1
+    );
+  });
+
+  let newDataIndexes = [];
+  _.each(dataIndexesArrayToRemove, (dataIndexes: number[]) => {
+    newDataIndexes = newDataIndexes.length === 0 ? dataIndexes : newDataIndexes;
+    newDataIndexes = _.intersection(newDataIndexes, dataIndexes);
+  });
+
+  const newSeries = _.map(chartObject.series, (seriesObject: any) => {
+    return {
+      ...seriesObject,
+      data: _.filter(
+        seriesObject.data,
+        (dataItem: any, dataIndex: number) =>
+          newDataIndexes.indexOf(dataIndex) === -1
+      )
+    };
+  });
+
+  console.log(chartObject.series);
+
+  let categoryCount = 0;
+  const newCategories = _.map(chartObject.xAxis.categories, (category: any) => {
+    const newCategory = {
+      ...category,
+      categories: _.filter(
+        category.categories,
+        (innerCategory: any, innerCategoryIndex: number) =>
+          newDataIndexes.indexOf(innerCategoryIndex + categoryCount) === -1
+      )
+    };
+    categoryCount += category.categories.length;
+    return newCategory;
+  });
+
+  return {
+    ...chartObject,
+    series: newSeries,
+    xAxis: { ...chartObject.xAxis, categories: newCategories }
   };
-
-  if (analyticsObject) {
-    /**
-     * Check headers
-     */
-    if (analyticsObject.headers) {
-      analyticsObject.headers.forEach((header: any) => {
-        try {
-          const newHeader: any = header;
-          sanitizedAnalyticsObject.headers.push(newHeader);
-        } catch (e) {
-          console.warn('Invalid header object');
-        }
-      });
-    }
-
-    /**
-     * Check metaData
-     */
-    if (analyticsObject.metaData) {
-      try {
-        const sanitizedMetadata: any = getSanitizedAnalyticsMetadata(
-          analyticsObject.metaData
-        );
-        sanitizedAnalyticsObject.metaData = sanitizedMetadata;
-      } catch (e) {
-        console.warn('Invalid metadata object');
-      }
-    }
-
-    /**
-     * Check rows
-     */
-    if (analyticsObject.rows) {
-      sanitizedAnalyticsObject.rows = analyticsObject.rows;
-    }
-  }
-
-  return sanitizedAnalyticsObject;
-}
-
-function getSanitizedAnalyticsMetadata(analyticMetadata: any) {
-  const sanitizedMetadata: any = {
-    names: null,
-    dimensions: null
-  };
-
-  if (analyticMetadata) {
-    /**
-     * Get metadata names
-     */
-    if (analyticMetadata.names) {
-      sanitizedMetadata.names = analyticMetadata.names;
-    } else if (analyticMetadata.items) {
-      const metadataItemsKeys = _.keys(analyticMetadata.items);
-      const metadataNames: any = {};
-      if (metadataItemsKeys) {
-        metadataItemsKeys.forEach(metadataItemKey => {
-          metadataNames[metadataItemKey] =
-            analyticMetadata.items[metadataItemKey].name;
-        });
-      }
-      sanitizedMetadata.names = metadataNames;
-    }
-
-    /**
-     * Get metadata dimensions
-     */
-    if (analyticMetadata.dimensions) {
-      sanitizedMetadata.dimensions = analyticMetadata.dimensions;
-    } else {
-      const metadataKeys = _.keys(analyticMetadata);
-      const metadataDimensions: any = {};
-      if (metadataKeys) {
-        metadataKeys.forEach(metadataKey => {
-          if (metadataKey !== 'names') {
-            metadataDimensions[metadataKey] = analyticMetadata[metadataKey];
-          }
-        });
-      }
-      sanitizedMetadata.dimensions = metadataDimensions;
-    }
-  }
-
-  return sanitizedMetadata;
 }

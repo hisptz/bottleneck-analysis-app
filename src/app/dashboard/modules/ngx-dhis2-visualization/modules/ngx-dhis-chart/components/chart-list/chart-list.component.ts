@@ -41,7 +41,9 @@ export class ChartListComponent implements OnInit {
             chartConfiguration: getChartConfiguration(
               layer.config || {},
               layer.id,
-              layer.layout
+              layer.layout,
+              '',
+              layer.dataSelections
             ),
             analyticsObject: layer.analytics
           };
