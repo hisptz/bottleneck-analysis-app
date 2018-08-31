@@ -906,7 +906,8 @@ function getPlotOptions(chartConfiguration: any) {
         plotOptions[
           plotOptionChartType !== '' ? plotOptionChartType : 'series'
         ] = {
-          showInLegend: !chartConfiguration.hideLegend
+          showInLegend: !chartConfiguration.hideLegend,
+          colorByPoint: true
         };
 
         /**
@@ -1246,7 +1247,6 @@ function getSanitizedChartObject(
       return _.map(group.members, (member: any) => `${member.id}_${group.id}`);
     })
   );
-  console.log(dataSelectionGroups);
   // Remove non numeric series data and their categories
   const dataIndexesArrayToRemove = _.map(chartObject.series, seriesObject => {
     return _.filter(
@@ -1272,7 +1272,16 @@ function getSanitizedChartObject(
     return {
       ...seriesObject,
       data: _.filter(
-        seriesObject.data,
+        _.map(seriesObject.data, (dataItem: any) => {
+          const splitedDataItemId = dataItem.id.split('_');
+          const associatedGroup = _.find(dataSelectionGroups, [
+            'id',
+            splitedDataItemId[1]
+          ]);
+          return associatedGroup && associatedGroup.color
+            ? { ...dataItem, color: associatedGroup.color }
+            : dataItem;
+        }),
         (dataItem: any, dataIndex: number) =>
           newDataIndexes.indexOf(dataIndex) === -1
       )

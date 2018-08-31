@@ -37,7 +37,7 @@ export class InterventionService {
   updateIntervention(intervention: Intervention) {
     return this.http.put(
       `${this.dataStoreUrl}/${intervention.id}`,
-      _.omit(intervention, ['showEditForm'])
+      _.omit(intervention, ['showEditForm', 'showDeleteDialog', 'deleting'])
     );
   }
 
