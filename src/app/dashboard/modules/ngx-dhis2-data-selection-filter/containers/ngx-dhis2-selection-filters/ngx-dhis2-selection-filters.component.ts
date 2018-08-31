@@ -94,21 +94,20 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   }
 
   get selectedFilter(): string {
-    return (
-      this._selectedFilter ||
-      (this.filterConfig.showDataFilter
-        ? 'DATA'
-        : this.filterConfig.showPeriodFilter
-          ? 'PERIOD'
-          : this.filterConfig.showOrgUnitFilter
-            ? 'ORG_UNIT'
-            : this.filterConfig.showLayout
-              ? 'LAYOUT'
-              : '')
-    );
+    return this._selectedFilter;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._selectedFilter = this.filterConfig.showDataFilter
+      ? 'DATA'
+      : this.filterConfig.showPeriodFilter
+        ? 'PERIOD'
+        : this.filterConfig.showOrgUnitFilter
+          ? 'ORG_UNIT'
+          : this.filterConfig.showLayout
+            ? 'LAYOUT'
+            : '';
+  }
 
   toggleFilters(e) {
     e.stopPropagation();
