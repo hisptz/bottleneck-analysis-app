@@ -6,11 +6,17 @@ import {
   Output,
   OnDestroy
 } from '@angular/core';
-import { DataFilterService } from './services/data-filter.service';
 import * as _ from 'lodash';
 import { Subscription, Observable, of } from 'rxjs';
-import { DATA_FILTER_OPTIONS } from './data-filter.model';
-import { LIST_ICON, ARROW_LEFT_ICON, ARROW_RIGHT_ICON } from './icons';
+
+import { DataFilterService } from '../../services/data-filter.service';
+import { DATA_FILTER_OPTIONS } from '../../data-filter.model';
+import * as fromIcons from '../../icons';
+
+import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
+import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
+import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
+import { Store } from '@ngrx/store';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -79,15 +85,32 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   arrowLeftIcon: string;
   arrowRightIcon: string;
 
-  constructor(private dataFilterService: DataFilterService) {
+  dataFilterObject$: Observable<any>;
+
+  constructor(
+    private dataFilterService: DataFilterService,
+    private dataFilterStore: Store<fromDataFilterReducer.State>
+  ) {
+    // Load data filter items
+    dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
+
+    // Get data filter object
+    this.dataFilterObject$ = dataFilterStore.select(
+      fromDataFilterSelectors.getDataFilterObject
+    );
+
+    this.dataFilterObject$.subscribe((dataFilter: any) => {
+      console.log(JSON.stringify(dataFilter));
+    });
+
     this.dataFilterOptions = DATA_FILTER_OPTIONS;
     this.showGroups = false;
     this.need_groups = true;
     this.loading = true;
 
-    this.listIcon = LIST_ICON;
-    this.arrowLeftIcon = ARROW_LEFT_ICON;
-    this.arrowRightIcon = ARROW_RIGHT_ICON;
+    this.listIcon = fromIcons.LIST_ICON;
+    this.arrowLeftIcon = fromIcons.ARROW_LEFT_ICON;
+    this.arrowRightIcon = fromIcons.ARROW_RIGHT_ICON;
 
     this.showGroupingPanel = false;
 

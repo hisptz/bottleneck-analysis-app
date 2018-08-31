@@ -93,6 +93,11 @@ export class DefaultDashboardListComponent implements OnInit {
     this.showDefaultList = !this.showDefaultList;
   }
 
+  onOpenInterventionList(e) {
+    e.stopPropagation();
+    this.showDefaultList = true;
+  }
+
   onToggleInterventionForm(e?) {
     if (e) {
       e.stopPropagation();

@@ -2,7 +2,8 @@
   <button class="default-dashboard-btn" title="Add new intervention" (click)="onToggleInterventionList($event)"><i class="fa fa-plus"></i></button>
   <div class="default-dashboard-list-block">
     <!-- default dashboard search -->
-    <input type="text" (keyup)="onSearchDashboard($event)" class="default-dashboard-search-input" size="25" placeholder="Search for interventation">
+    <input type="text" (focus)="onOpenInterventionList($event)" (keyup)="onSearchDashboard($event)" class="default-dashboard-search-input"
+      size="25" placeholder="Search for interventation">
     <!-- end of default dashboard search -->
 
     <!-- default dashboard list -->
