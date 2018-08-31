@@ -6,7 +6,6 @@ import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
 import { DataSet } from '../model/dataset';
 import { DataelementGroup } from '../model/dataelement-group';
-import { IndicatorGroup } from '../model/indicator-group';
 import { CategoryCombo } from '../model/category-combo';
 import { Indicator } from '../model/indicator';
 import { DataElement } from '../model/data-element';
@@ -22,7 +21,7 @@ export const PROGRAM_KEY = 'programs';
 export const PROGRAM_INDICATOR_KEY = 'programIndicators';
 export const FUNCTIONS = 'functions';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DataFilterService {
   metaData = {
     organisationUnits: [],
@@ -84,7 +83,7 @@ export class DataFilterService {
       .pipe(map(res => res.dataElementGroups || []));
   }
 
-  getIndicatorGroups(): Observable<IndicatorGroup[]> {
+  getIndicatorGroups(): Observable<any[]> {
     return this.http
       .get(
         'indicatorGroups.json?paging=false&fields=id,name,indicators[id,name]'

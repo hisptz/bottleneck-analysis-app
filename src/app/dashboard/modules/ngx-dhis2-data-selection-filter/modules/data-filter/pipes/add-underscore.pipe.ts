@@ -4,9 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'addUnderscore'
 })
 export class AddUnderscorePipe implements PipeTransform {
-
   transform(value: any, args?: any): any {
-    return value.replace(".","_");
+    return value.replace('.', '_');
   }
-
 }
