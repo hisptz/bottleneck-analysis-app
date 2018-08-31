@@ -1234,11 +1234,13 @@ function getSanitizedChartObject(
       group => group
     )
   );
+
   const dataSelectionGroupMembers = _.flatten(
     _.map(dataSelectionGroups, group => {
       return _.map(group.members, (member: any) => `${member.id}_${group.id}`);
     })
   );
+
   // Remove non numeric series data and their categories
   const dataIndexesArrayToRemove = _.map(chartObject.series, seriesObject => {
     return _.filter(
@@ -1267,11 +1269,18 @@ function getSanitizedChartObject(
       data: _.filter(
         _.map(seriesObject.data, (dataItem: any) => {
           const splitedDataItemId = dataItem.id.split('_');
+
           const associatedGroup = _.find(dataSelectionGroups, [
             'id',
             splitedDataItemId[1]
           ]);
-          return associatedGroup && associatedGroup.color
+
+          return associatedGroup &&
+            _.some(
+              associatedGroup.items,
+              (item: any) => item.id === splitedDataItemId[1]
+            ) &&
+            associatedGroup.color
             ? { ...dataItem, color: associatedGroup.color }
             : dataItem;
         }),

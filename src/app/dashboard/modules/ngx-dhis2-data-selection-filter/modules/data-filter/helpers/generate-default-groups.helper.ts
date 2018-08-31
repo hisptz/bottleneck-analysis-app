@@ -20,47 +20,72 @@ const DEFAULT_GROUP_COLORS: string[] = [
   '#525214'
 ];
 
-export const DEFAULT_GROUP_ITEM = {
-  id: generateUid(),
-  name: 'Indicator 1'
-};
-
 export function generateDefaultGroups() {
   return [
     {
       name: 'Commodities',
       id: generateUid(),
-      items: [DEFAULT_GROUP_ITEM],
+      members: [
+        {
+          id: generateUid(),
+          name: 'Indicator 1'
+        }
+      ],
       color: DEFAULT_GROUP_COLORS[0]
     },
     {
       name: 'Human Resources',
       id: generateUid(),
-      items: [DEFAULT_GROUP_ITEM],
+      members: [
+        {
+          id: generateUid(),
+          name: 'Indicator 1'
+        }
+      ],
       color: DEFAULT_GROUP_COLORS[1]
     },
     {
       name: 'Geographic Accessibility',
       id: generateUid(),
-      items: [DEFAULT_GROUP_ITEM],
+      members: [
+        {
+          id: generateUid(),
+          name: 'Indicator 1'
+        }
+      ],
       color: DEFAULT_GROUP_COLORS[2]
     },
     {
       name: 'Initial Utilisation',
       id: generateUid(),
-      items: [DEFAULT_GROUP_ITEM],
+      members: [
+        {
+          id: generateUid(),
+          name: 'Indicator 1'
+        }
+      ],
       color: DEFAULT_GROUP_COLORS[3]
     },
     {
       name: 'Continuous Utilisation',
       id: generateUid(),
-      items: [DEFAULT_GROUP_ITEM],
+      members: [
+        {
+          id: generateUid(),
+          name: 'Indicator 1'
+        }
+      ],
       color: DEFAULT_GROUP_COLORS[4]
     },
     {
       name: 'Effective Coverage',
       id: generateUid(),
-      items: [DEFAULT_GROUP_ITEM],
+      members: [
+        {
+          id: generateUid(),
+          name: 'Indicator 1'
+        }
+      ],
       color: DEFAULT_GROUP_COLORS[5]
     }
   ];

@@ -33,7 +33,7 @@ export function getStandardizedDashboard(
         items: _.flatten(
           _.map(
             defaultDataGroups || [],
-            (dataGroup: DataGroup) => dataGroup.items
+            (dataGroup: DataGroup) => dataGroup.members
           )
         ),
         groups: defaultDataGroups
