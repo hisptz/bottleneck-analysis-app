@@ -13,11 +13,13 @@ import { DataFilterService } from '../../services/data-filter.service';
 import * as fromIcons from '../../icons';
 import * as fromConstants from '../../constants';
 import * as fromModels from '../../models';
+import * as fromHelpers from '../../helpers';
 
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
 import { Store } from '@ngrx/store';
+import { take, map } from 'rxjs/operators';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -54,7 +56,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   private _selectedItems: any[];
   selectedItems$: Observable<any>;
   querystring: string = null;
-  listchanges: string = null;
+  dataItemSearchTerm: string;
   showBody = false;
   dataItems: any = {
     dataElements: [],
@@ -214,7 +216,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   setSelectedGroup(group, listArea, event) {
     event.stopPropagation();
-    this.listchanges = '';
+    this.dataItemSearchTerm = '';
     this.selectedGroup = { ...group };
     this.availableItems = this.dataItemList(this._selectedItems, group);
     this.showGroups = false;
@@ -490,40 +492,28 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   }
 
   // this will add a selected item in a list function
-  addSelected(item, event) {
+  onSelectDataItem(item: any, e) {
+    e.stopPropagation();
     if (this.singleSelection) {
-      this.deselectAllItems(event);
-    }
-    event.stopPropagation();
-    const itemIndex = _.findIndex(this.availableItems, item);
-
-    this.availableItems = [
-      ...this.availableItems.slice(0, itemIndex),
-      ...this.availableItems.slice(itemIndex + 1)
-    ];
-
-    if (!_.find(this._selectedItems, ['id', item.id])) {
-      this._selectedItems = [...this._selectedItems, item];
+      this.onDeselectAllItems();
     }
 
-    this.selectedItems$ = of(this._selectedItems);
+    if (!_.find(this.selectedItems, ['id', item.id])) {
+      this.selectedItems = [...this.selectedItems, item];
+    }
   }
 
   // Remove selected Item
-  removeSelected(item, event) {
+  onRemoveDataItem(dataItem: any, event) {
     event.stopPropagation();
-    const itemIndex = _.findIndex(this._selectedItems, item);
+    const itemIndex = this.selectedItems.indexOf(dataItem);
 
-    this._selectedItems = [
-      ...this._selectedItems.slice(0, itemIndex),
-      ...this._selectedItems.slice(itemIndex + 1)
-    ];
-
-    if (!_.find(this.availableItems, ['id', item.id])) {
-      this.availableItems = [...this.availableItems, item];
+    if (itemIndex !== -1) {
+      this.selectedItems = [
+        ...this.selectedItems.slice(0, itemIndex),
+        ...this.selectedItems.slice(itemIndex + 1)
+      ];
     }
-
-    this.selectedItems$ = of(this._selectedItems);
   }
 
   getAutogrowingTables(selections) {
@@ -551,32 +541,31 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   }
 
   // selecting all items
-  selectAllItems(event) {
+  onSelectAllItems(event) {
     event.stopPropagation();
 
-    this.availableItems.forEach(item => {
-      if (!_.find(this._selectedItems, ['id', item.id])) {
-        this._selectedItems = [...this._selectedItems, item];
-      }
-    });
-
-    this.availableItems = [];
-
-    this.selectedItems$ = of(this._selectedItems);
+    this.dataFilterItems$
+      .pipe(
+        map((dataFilterItems: any[]) =>
+          fromHelpers.filterByName(dataFilterItems, this.dataItemSearchTerm)
+        ),
+        take(1)
+      )
+      .subscribe((dataFilterItems: any[]) => {
+        console.log(dataFilterItems.length);
+        this.selectedItems = _.uniqBy(
+          [...this.selectedItems, ...dataFilterItems],
+          'id'
+        );
+      });
   }
 
   // selecting all items
-  deselectAllItems(e) {
-    e.stopPropagation();
-    this._selectedItems.forEach(item => {
-      if (!_.find(this.availableItems, ['id', item.id])) {
-        this.availableItems = [...this.availableItems, item];
-      }
-    });
-
-    this._selectedItems = [];
-
-    this.selectedItems$ = of(this._selectedItems);
+  onDeselectAllItems(e?) {
+    if (e) {
+      e.stopPropagation();
+    }
+    this.selectedItems = [];
   }
 
   // Check if item is in selected list
@@ -732,7 +721,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       this.selectedGroup
     );
     this.p = 1;
-    this.listchanges = '';
+    this.dataItemSearchTerm = '';
   }
 
   toggleDataFilterGroupList(e) {

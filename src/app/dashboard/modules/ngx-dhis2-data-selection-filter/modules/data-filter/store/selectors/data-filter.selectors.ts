@@ -85,26 +85,32 @@ export const getDataFilterItems = createSelector(
 
     if (currentDataFilterGroup.id === 'all') {
       return _.sortBy(
-        _.flatten(
-          _.map(
-            dataFilterGroups,
-            (dataFilterGroup: any) => dataFilterGroup.items
-          )
+        _.uniqBy(
+          _.flatten(
+            _.map(
+              dataFilterGroups,
+              (dataFilterGroup: any) => dataFilterGroup.items
+            )
+          ),
+          'id'
         ),
         'name'
       );
     }
 
     return _.sortBy(
-      _.flatten(
-        _.map(
-          _.filter(
-            dataFilterGroups,
-            (dataFilterGroup: any) =>
-              dataFilterGroup.id === currentDataFilterGroup.id
-          ),
-          (dataFilterGroup: any) => dataFilterGroup.items
-        )
+      _.uniqBy(
+        _.flatten(
+          _.map(
+            _.filter(
+              dataFilterGroups,
+              (dataFilterGroup: any) =>
+                dataFilterGroup.id === currentDataFilterGroup.id
+            ),
+            (dataFilterGroup: any) => dataFilterGroup.items
+          )
+        ),
+        'id'
       ),
       'name'
     );
