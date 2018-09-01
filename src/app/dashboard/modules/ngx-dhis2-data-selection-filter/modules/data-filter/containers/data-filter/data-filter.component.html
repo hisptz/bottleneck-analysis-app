@@ -49,7 +49,7 @@
     </div>
 
     <div class="data-filter-list-search">
-      <input type="text" class="form-control form-control-sm" (focus)="showBody = true" (keyup)="searchChanged()" placeholder="Search"
+      <input type="text" class="form-control form-control-sm" (focus)="showBody = true" (keyup)="onDataItemsSearch($event)" placeholder="Search"
         [(ngModel)]="dataItemSearchTerm">
     </div>
 
@@ -70,14 +70,15 @@
           <a>No items</a>
         </li>
         <li *ngFor="let dataFilterItem of dataFilterItems$ | async | removeSelectedItems:selectedItems | filterByName:dataItemSearchTerm
-        | paginate: { id: 'foo',itemsPerPage: 25, currentPage: p } " title="Click to select item " id="{{dataFilterItem.id | addUnderscore}} ">
+        | paginate: { id: 'available_list',itemsPerPage: 25, currentPage: currentPageForAvailableDataItems } " title="Click to select item "
+          id="{{dataFilterItem.id | addUnderscore}} ">
           <a (click)="onSelectDataItem(dataFilterItem, $event) ">{{ dataFilterItem.name }}</a>
         </li>
 
         <li *ngIf="(dataFilterItems$ | async | removeSelectedItems:selectedItems | filterByName:dataItemSearchTerm).length>=
         25">
           <a>
-            <pagination-controls id="foo" (pageChange)="p = $event" maxSize="0">
+            <pagination-controls id="available_list" (pageChange)="currentPageForAvailableDataItems = $event" maxSize="0">
             </pagination-controls>
           </a>
         </li>
@@ -86,13 +87,13 @@
 
     <div class="data-filter-selected-body">
       <ul>
-        <li *ngFor="let item of selectedItems | paginate:{id: 'selectedlist',itemsPerPage: 100, currentPage: k}" style="cursor: move"
-          dnd-droppable (onDropSuccess)="transferDataSuccess($event,item)" title="click to unselect item">
-          <a dnd-draggable [dragEnabled]="true" (click)="onRemoveDataItem(item, $event)" [dragData]="item" class="{{item.hasOwnProperty('programType') ? 'auto-growing' : ''}}">
+        <li *ngFor="let item of selectedItems | paginate:{id: 'selected_list',itemsPerPage: 100, currentPage: currentPageForSelectedDataItems}"
+          title="click to unselect item">
+          <a (click)="onRemoveDataItem(item, $event)">
             {{ item.name }} </a>
         </li>
         <li *ngIf="(selectedItems).length > 100">
-          <pagination-controls id='selectedlist' maxSize="0" (pageChange)="k = $event"></pagination-controls>
+          <pagination-controls id='selected_list' maxSize="0" (pageChange)="currentPageForSelectedDataItems = $event"></pagination-controls>
         </li>
       </ul>
     </div>
@@ -109,8 +110,6 @@
 </div>
 
 <div class="data-filter-btns">
-  <div>
-    <button class="btn btn-outline-secondary btn-sm" (click)="close($event)">CLOSE</button>
-    <button class="btn btn-outline-secondary btn-sm" [disabled]="selectedItems.length === 0" (click)="emit($event)">UPDATE</button>
-  </div>
+  <button class="btn btn-sm data-filter-action-btn" (click)="close($event)">CLOSE</button>
+  <button class="btn btn-sm data-filter-action-btn" [disabled]="selectedItems.length === 0" (click)="emit($event)">UPDATE</button>
 </div>

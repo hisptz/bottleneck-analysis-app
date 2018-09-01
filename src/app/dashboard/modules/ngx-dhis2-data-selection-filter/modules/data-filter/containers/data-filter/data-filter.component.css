@@ -205,7 +205,7 @@
 .data-filter-available-body,
 .data-filter-selected-body {
   padding: 0.2em;
-  height: 130px;
+  height: 150px;
   overflow: hidden;
 }
 
@@ -266,8 +266,29 @@
 }
 
 .data-filter-btns {
+  width: 100%;
+  border-top: solid thin #fafafa;
   display: flex;
   justify-content: flex-end;
   padding-top: 0.2em;
   padding-right: 5px;
+}
+
+.data-filter-action-btn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  margin-left: 5px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  outline: none;
+  color: #777777;
+  cursor: pointer;
+}
+
+.data-filter-action-btn:hover {
+  color: #222222;
 }

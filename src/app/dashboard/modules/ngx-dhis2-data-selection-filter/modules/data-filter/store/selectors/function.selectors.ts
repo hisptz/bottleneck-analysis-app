@@ -46,12 +46,21 @@ export const getFunctions = createSelector(
         ? {
             id: functionObject.id,
             name: functionObject.name,
-            function: functionObject.function,
             items: _.filter(
-              _.map(
-                functionObject.rules || [],
-                ruleId => functionRuleEntities[ruleId]
-              ),
+              _.map(functionObject.rules || [], ruleId => {
+                const functionRule = functionRuleEntities[ruleId];
+                return functionRule
+                  ? {
+                      id: functionRule.id,
+                      name: functionRule.name,
+                      ruleDefinition: functionRule,
+                      functionObject: {
+                        id: functionObject.id,
+                        functionString: functionObject.function
+                      }
+                    }
+                  : null;
+              }),
               functionRule => functionRule
             )
           }
