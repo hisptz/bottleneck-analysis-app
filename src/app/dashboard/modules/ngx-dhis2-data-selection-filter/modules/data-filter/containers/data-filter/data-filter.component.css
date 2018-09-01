@@ -116,8 +116,9 @@
   cursor: pointer;
 }
 
-.data-filter-group-list > li > a:hover {
-  background-color: #dddddd;
+.data-filter-group-list > li > a:hover,
+.selected-data-filter-group {
+  background-color: #eeeeee;
 }
 
 .data-filter-group-list:hover {

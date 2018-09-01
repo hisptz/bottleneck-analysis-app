@@ -43,12 +43,23 @@ const getDataFilterGroupsWithItems = createSelector(
 
 export const getDataFilterGroups = createSelector(
   getDataFilterGroupsWithItems,
-  (dataFilterGroupWithItems: any[]) => {
+  getCurrentDataFilterGroupId,
+  (dataFilterGroupWithItems: any[], currentDataFilterGroupId: string) => {
     return [
-      { id: 'all', name: '[ All ]' },
+      {
+        id: 'all',
+        name: '[ All ]',
+        selected: currentDataFilterGroupId === 'all'
+      },
       ..._.sortBy(
         _.map(dataFilterGroupWithItems, (dataFilterGroup: any) =>
-          _.omit(dataFilterGroup, ['items'])
+          _.omit(
+            {
+              ...dataFilterGroup,
+              selected: dataFilterGroup.id === currentDataFilterGroupId
+            },
+            ['items']
+          )
         ),
         'name'
       )

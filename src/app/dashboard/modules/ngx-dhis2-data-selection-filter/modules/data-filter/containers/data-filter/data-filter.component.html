@@ -39,7 +39,8 @@
           <input type="search" class="form-control form-control-sm" placeholder="Search" [(ngModel)]="querystring">
           <ul class="data-filter-group-list">
             <li *ngFor="let dataFilterGroup of dataFilterGroups$ | async | filterByName: querystring">
-              <a (click)="onSetDataFilterGroup(dataFilterGroup, $event)">{{ dataFilterGroup.name }}</a>
+              <a [ngClass]="{'selected-data-filter-group': dataFilterGroup.selected}" (click)="onSetDataFilterGroup(dataFilterGroup, $event)">{{
+                dataFilterGroup.name }}</a>
             </li>
           </ul>
         </div>
