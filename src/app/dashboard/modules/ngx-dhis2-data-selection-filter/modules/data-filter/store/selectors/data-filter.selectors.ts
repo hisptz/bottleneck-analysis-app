@@ -74,3 +74,39 @@ export const getCurrentDataFilterGroup = createSelector(
     _.find(dataFilterGroups, ['id', currentDataFilterGroupId]) ||
     _.find(dataFilterGroups, ['id', 'all'])
 );
+
+export const getDataFilterItems = createSelector(
+  getDataFilterGroupsWithItems,
+  getCurrentDataFilterGroup,
+  (dataFilterGroups: any[], currentDataFilterGroup: any) => {
+    if (!currentDataFilterGroup) {
+      return [];
+    }
+
+    if (currentDataFilterGroup.id === 'all') {
+      return _.sortBy(
+        _.flatten(
+          _.map(
+            dataFilterGroups,
+            (dataFilterGroup: any) => dataFilterGroup.items
+          )
+        ),
+        'name'
+      );
+    }
+
+    return _.sortBy(
+      _.flatten(
+        _.map(
+          _.filter(
+            dataFilterGroups,
+            (dataFilterGroup: any) =>
+              dataFilterGroup.id === currentDataFilterGroup.id
+          ),
+          (dataFilterGroup: any) => dataFilterGroup.items
+        )
+      ),
+      'name'
+    );
+  }
+);

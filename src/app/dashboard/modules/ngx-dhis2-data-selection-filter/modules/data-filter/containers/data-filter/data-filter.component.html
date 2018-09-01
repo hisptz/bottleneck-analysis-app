@@ -54,7 +54,7 @@
     </div>
 
     <div class="data-filter-available-header">
-      <span>Available ({{(availableItems | filterByName:listchanges).length}})</span>
+      <span>Available ({{(dataFilterItems$ | async | filterByName:listchanges).length}})</span>
       <a (click)="selectAllItems($event)">&raquo;</a>
     </div>
     <div class="data-filter-selected-header">
@@ -65,16 +65,16 @@
 
     <div class="data-filter-available-body">
       <ul #scrollse>
-        <li *ngIf="loading">Loading...</li>
-        <li *ngIf="!loading && (availableItems | filterByName:listchanges).length == 0">
+        <!-- <li *ngIf="loading">Loading...</li> -->
+        <li *ngIf="(dataFilterItems$ | async | filterByName:listchanges).length == 0">
           <a>No items</a>
         </li>
-        <li *ngFor="let item of availableItems | filterByName:listchanges |  paginate: { id: 'foo',itemsPerPage: 25, currentPage: p }"
+        <li *ngFor="let item of dataFilterItems$ | async | filterByName:listchanges |  paginate: { id: 'foo',itemsPerPage: 25, currentPage: p }"
           [ngClass]="{'hiddenTree': inSelected(item, selectedItems)}" title="Click to select item" id="{{item.id | addUnderscore}}">
           <a (click)="addSelected(item, $event)">{{ item.name }}</a>
         </li>
 
-        <li *ngIf="(availableItems | filterByName:listchanges).length >= 25">
+        <li *ngIf="(dataFilterItems$ | async | filterByName:listchanges).length >= 25">
           <a>
             <pagination-controls id="foo" (pageChange)="p = $event" maxSize="0">
             </pagination-controls>

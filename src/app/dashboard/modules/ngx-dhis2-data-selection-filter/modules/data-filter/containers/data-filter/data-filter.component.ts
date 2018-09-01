@@ -91,6 +91,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   dataFilterGroups$: Observable<any[]>;
   currentDataFilterGroup$: Observable<any>;
+  dataFilterItems$: Observable<any[]>;
 
   constructor(
     private dataFilterService: DataFilterService,
@@ -109,6 +110,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
     this.currentDataFilterGroup$ = dataFilterStore.select(
       fromDataFilterSelectors.getCurrentDataFilterGroup
+    );
+
+    this.dataFilterItems$ = dataFilterStore.select(
+      fromDataFilterSelectors.getDataFilterItems
     );
 
     this.showGroups = false;
