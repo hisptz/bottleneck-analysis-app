@@ -89,7 +89,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   arrowLeftIcon: string;
   arrowRightIcon: string;
 
-  dataFilterObject$: Observable<any>;
+  dataFilterGroups$: Observable<any[]>;
+  currentDataFilterGroup$: Observable<any>;
 
   constructor(
     private dataFilterService: DataFilterService,
@@ -102,14 +103,13 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     // Load data filter items
     dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
 
-    // Get data filter object
-    this.dataFilterObject$ = dataFilterStore.select(
+    this.dataFilterGroups$ = dataFilterStore.select(
       fromDataFilterSelectors.getDataFilterGroups
     );
 
-    this.dataFilterObject$.subscribe((dataFilter: any) => {
-      console.log(JSON.stringify(dataFilter));
-    });
+    this.currentDataFilterGroup$ = dataFilterStore.select(
+      fromDataFilterSelectors.getCurrentDataFilterGroup
+    );
 
     this.showGroups = false;
     this.need_groups = true;
@@ -215,6 +215,14 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.showGroups = false;
     this.p = 1;
     listArea.scrollTop = 0;
+  }
+
+  onSetDataFilterGroup(dataFilterGroup: any, e) {
+    e.stopPropagation();
+    this.dataFilterStore.dispatch(
+      new fromDataFilterActions.SetCurrentDataFilterGroup(dataFilterGroup.id)
+    );
+    this.showGroups = false;
   }
 
   getSelectedOption(): any[] {

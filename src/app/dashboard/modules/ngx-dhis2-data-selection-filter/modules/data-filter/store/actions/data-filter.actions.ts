@@ -13,7 +13,8 @@ export enum DataFilterActionTypes {
   DeleteDataFilter = '[DataFilter] Delete DataFilter',
   DeleteDataFilters = '[DataFilter] Delete DataFilters',
   ClearDataFilters = '[DataFilter] Clear DataFilters',
-  UpdateActiveDataFilterSelections = '[DataFilter] Update active data filter selections'
+  UpdateActiveDataFilterSelections = '[DataFilter] Update active data filter selections',
+  SetCurrentDataFilterGroup = '[DataFilter] Set current data filter group'
 }
 
 export class LoadDataFilters implements Action {
@@ -77,6 +78,11 @@ export class UpdateActiveDataFilterSelections implements Action {
   constructor(public dataFilterSelections: any[]) {}
 }
 
+export class SetCurrentDataFilterGroup implements Action {
+  readonly type = DataFilterActionTypes.SetCurrentDataFilterGroup;
+  constructor(public dataFilterGroupId: string) {}
+}
+
 export type DataFilterActions =
   | LoadDataFilters
   | AddDataFilter
@@ -88,4 +94,5 @@ export type DataFilterActions =
   | DeleteDataFilter
   | DeleteDataFilters
   | ClearDataFilters
-  | UpdateActiveDataFilterSelections;
+  | UpdateActiveDataFilterSelections
+  | SetCurrentDataFilterGroup;

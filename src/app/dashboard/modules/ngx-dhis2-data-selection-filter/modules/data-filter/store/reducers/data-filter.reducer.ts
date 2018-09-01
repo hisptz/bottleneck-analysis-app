@@ -10,6 +10,7 @@ import { createFeatureSelector } from '@ngrx/store';
 export interface State extends EntityState<DataFilter> {
   // additional entities state properties
   activeDataFilterSelections: string[];
+  currentDataFilterGroupId: string;
 }
 
 export const adapter: EntityAdapter<DataFilter> = createEntityAdapter<
@@ -18,7 +19,8 @@ export const adapter: EntityAdapter<DataFilter> = createEntityAdapter<
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
-  activeDataFilterSelections: ['all']
+  activeDataFilterSelections: ['all'],
+  currentDataFilterGroupId: 'all'
 });
 
 export function reducer(
@@ -77,6 +79,10 @@ export function reducer(
           (dataSelection: any) => dataSelection.prefix
         )
       };
+    }
+
+    case DataFilterActionTypes.SetCurrentDataFilterGroup: {
+      return { ...state, currentDataFilterGroupId: action.dataFilterGroupId };
     }
 
     default: {

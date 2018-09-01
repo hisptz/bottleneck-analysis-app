@@ -19,7 +19,7 @@
     <div class="data-filter-group-selection" appClickOutside (clickOutside)="showGroups = false">
       <!--Group selection button-->
       <button class="btn btn-sm data-filter-group-btn" (click)="toggleDataFilterGroupList($event)">
-        <span>{{ selectedGroup?.name || 'Select'}}</span>
+        <span>{{ (currentDataFilterGroup$ | async)?.name || 'Select'}}</span>
         <span>
           <img src="assets/icons/arrow-down.png" alt="">
         </span>
@@ -38,8 +38,8 @@
         <div class="panel-body data-filter-group-panel-body">
           <input type="search" class="form-control form-control-sm" placeholder="Search" [(ngModel)]="querystring">
           <ul class="data-filter-group-list">
-            <li *ngFor="let item of dataGroups | filterByName: querystring">
-              <a (click)="setSelectedGroup(item, scrollse, $event)">{{ item.name }}</a>
+            <li *ngFor="let dataFilterGroup of dataFilterGroups$ | async | filterByName: querystring">
+              <a (click)="onSetDataFilterGroup(dataFilterGroup, $event)">{{ dataFilterGroup.name }}</a>
             </li>
           </ul>
         </div>

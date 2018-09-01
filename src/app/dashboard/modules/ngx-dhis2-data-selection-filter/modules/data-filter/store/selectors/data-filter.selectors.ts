@@ -6,9 +6,14 @@ import * as fromFunctionSelectors from './function.selectors';
 import * as fromIndicatorGroupSelectors from './indicator-group.selectors';
 import * as fromModels from '../../models';
 
-export const getActiveDataFilterSelections = createSelector(
+const getActiveDataFilterSelections = createSelector(
   fromDataFilterReducer.getDataFilterState,
   (state: fromDataFilterReducer.State) => state.activeDataFilterSelections
+);
+
+const getCurrentDataFilterGroupId = createSelector(
+  fromDataFilterReducer.getDataFilterState,
+  (state: fromDataFilterReducer.State) => state.currentDataFilterGroupId
 );
 
 const getDataFilterGroupEntities = createSelector(
@@ -41,9 +46,20 @@ export const getDataFilterGroups = createSelector(
   (dataFilterGroupWithItems: any[]) => {
     return [
       { id: 'all', name: '[ All ]' },
-      ..._.map(dataFilterGroupWithItems, (dataFilterGroup: any) =>
-        _.omit(dataFilterGroup, ['items'])
+      ..._.sortBy(
+        _.map(dataFilterGroupWithItems, (dataFilterGroup: any) =>
+          _.omit(dataFilterGroup, ['items'])
+        ),
+        'name'
       )
     ];
   }
+);
+
+export const getCurrentDataFilterGroup = createSelector(
+  getDataFilterGroups,
+  getCurrentDataFilterGroupId,
+  (dataFilterGroups: any[], currentDataFilterGroupId: string) =>
+    _.find(dataFilterGroups, ['id', currentDataFilterGroupId]) ||
+    _.find(dataFilterGroups, ['id', 'all'])
 );
