@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { IndicatorGroup } from '../models/indicator-group.model';
+import { IndicatorGroup } from '../../models/indicator-group.model';
 import {
   IndicatorGroupActions,
   IndicatorGroupActionTypes

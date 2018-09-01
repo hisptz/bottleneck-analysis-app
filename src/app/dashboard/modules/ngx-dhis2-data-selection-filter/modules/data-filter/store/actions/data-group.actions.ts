@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { DataGroup } from '../models/data-group.model';
+import { DataGroup } from '../../models/data-group.model';
 
 export enum DataGroupActionTypes {
   LoadDataGroupsInitiated = '[DataGroup] Load Data Groups initiated',

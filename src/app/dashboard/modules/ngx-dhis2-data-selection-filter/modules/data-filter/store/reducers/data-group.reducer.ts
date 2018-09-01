@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { DataGroup } from '../models/data-group.model';
+import { DataGroup } from '../../models/data-group.model';
 import {
   DataGroupActions,
   DataGroupActionTypes

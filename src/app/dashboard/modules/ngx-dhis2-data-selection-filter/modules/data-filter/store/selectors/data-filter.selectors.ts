@@ -1,13 +1,49 @@
 import { createSelector } from '@ngrx/store';
+import * as _ from 'lodash';
 
+import * as fromDataFilterReducer from '../reducers/data-filter.reducer';
 import * as fromFunctionSelectors from './function.selectors';
 import * as fromIndicatorGroupSelectors from './indicator-group.selectors';
-import * as fromModels from '../models';
+import * as fromModels from '../../models';
 
-export const getDataFilterObject = createSelector(
+export const getActiveDataFilterSelections = createSelector(
+  fromDataFilterReducer.getDataFilterState,
+  (state: fromDataFilterReducer.State) => state.activeDataFilterSelections
+);
+
+const getDataFilterGroupEntities = createSelector(
   fromFunctionSelectors.getFunctions,
   fromIndicatorGroupSelectors.getIndicatorGroups,
   (functions: any[], indicatorGroups: any[]) => {
-    return { functions, indicatorGroups };
+    return { fn: functions, in: indicatorGroups };
+  }
+);
+
+const getDataFilterGroupsWithItems = createSelector(
+  getActiveDataFilterSelections,
+  getDataFilterGroupEntities,
+  (activeDataFilterSelections: string[], dataFilterGroupEntities: any) => {
+    const selectionKeys =
+      activeDataFilterSelections[0] === 'all'
+        ? _.keys(dataFilterGroupEntities)
+        : activeDataFilterSelections;
+    return _.flatten(
+      _.map(
+        selectionKeys,
+        (selectionKey: string) => dataFilterGroupEntities[selectionKey]
+      )
+    );
+  }
+);
+
+export const getDataFilterGroups = createSelector(
+  getDataFilterGroupsWithItems,
+  (dataFilterGroupWithItems: any[]) => {
+    return [
+      { id: 'all', name: '[ All ]' },
+      ..._.map(dataFilterGroupWithItems, (dataFilterGroup: any) =>
+        _.omit(dataFilterGroup, ['items'])
+      )
+    ];
   }
 );

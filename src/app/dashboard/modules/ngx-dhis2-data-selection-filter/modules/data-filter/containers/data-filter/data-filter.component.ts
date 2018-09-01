@@ -10,8 +10,9 @@ import * as _ from 'lodash';
 import { Subscription, Observable, of } from 'rxjs';
 
 import { DataFilterService } from '../../services/data-filter.service';
-import { DATA_FILTER_OPTIONS } from '../../data-filter.model';
 import * as fromIcons from '../../icons';
+import * as fromConstants from '../../constants';
+import * as fromModels from '../../models';
 
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
@@ -28,7 +29,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   availableItems: any[] = [];
   dataGroups: any[] = [];
-  selectedGroup: any = { id: 'ALL', name: '[ All ]' };
+  selectedGroup: any = { id: 'all', name: '[ All ]' };
 
   @Output()
   dataFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
@@ -44,6 +45,9 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   hiddenDataElements: any[] = [];
   @Input()
   singleSelection = false;
+
+  @Input()
+  dataFilterPreferences: { enabledSelections: string[] };
   selectedGroupId: string;
 
   showGroupingPanel: boolean;
@@ -74,7 +78,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   k = 1;
   need_groups: boolean;
 
-  dataFilterOptions: any[];
+  dataFilterSelections: fromModels.DataFilterSelection[];
   showGroups: boolean;
 
   hideMonth = false;
@@ -91,19 +95,22 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     private dataFilterService: DataFilterService,
     private dataFilterStore: Store<fromDataFilterReducer.State>
   ) {
+    // Set default data filter preferences
+    this.dataFilterPreferences = {
+      enabledSelections: ['in', 'fn']
+    };
     // Load data filter items
     dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
 
     // Get data filter object
     this.dataFilterObject$ = dataFilterStore.select(
-      fromDataFilterSelectors.getDataFilterObject
+      fromDataFilterSelectors.getDataFilterGroups
     );
 
     this.dataFilterObject$.subscribe((dataFilter: any) => {
       console.log(JSON.stringify(dataFilter));
     });
 
-    this.dataFilterOptions = DATA_FILTER_OPTIONS;
     this.showGroups = false;
     this.need_groups = true;
     this.loading = true;
@@ -125,6 +132,24 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // set data filter selections
+    const enabledSelections = _.uniq([
+      'all',
+      ...this.dataFilterPreferences.enabledSelections
+    ]);
+    this.dataFilterSelections = _.filter(
+      fromConstants.DATA_FILTER_SELECTIONS || [],
+      (dataFilterSelection: fromModels.DataFilterSelection) => {
+        if (
+          !this.dataFilterPreferences ||
+          !this.dataFilterPreferences.enabledSelections
+        ) {
+          return true;
+        }
+
+        return enabledSelections.indexOf(dataFilterSelection.prefix) !== -1;
+      }
+    );
     // set selected data group
     this.selectedGroupId = this.selectedGroups[0]
       ? this.selectedGroups[0].id
@@ -194,7 +219,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   getSelectedOption(): any[] {
     const someArr = [];
-    this.dataFilterOptions.forEach(val => {
+    this.dataFilterSelections.forEach(val => {
       if (val.selected) {
         someArr.push(val);
       }
@@ -288,10 +313,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
     // check if data element is in a selected group
     if (
-      _.includes(selectedOptions, 'ALL') ||
+      _.includes(selectedOptions, 'all') ||
       _.includes(selectedOptions, 'de')
     ) {
-      if (group.id === 'ALL') {
+      if (group.id === 'all') {
         currentList.push(...data.de);
       } else {
         if (group.hasOwnProperty('dataElements')) {
@@ -308,10 +333,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
     // check if data indicators are in a selected group
     if (
-      _.includes(selectedOptions, 'ALL') ||
+      _.includes(selectedOptions, 'all') ||
       _.includes(selectedOptions, 'in')
     ) {
-      if (group.id === 'ALL') {
+      if (group.id === 'all') {
         currentList.push(...data.in);
       } else {
         if (group.hasOwnProperty('indicators')) {
@@ -325,10 +350,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
     // check if data data sets are in a selected group
     if (
-      _.includes(selectedOptions, 'ALL') ||
+      _.includes(selectedOptions, 'all') ||
       _.includes(selectedOptions, 'ds')
     ) {
-      if (group.id === 'ALL') {
+      if (group.id === 'all') {
         this.dataItems.dataSetGroups.forEach(groupObject => {
           currentList.push(
             ...data.ds.map(datacv => {
@@ -355,10 +380,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     }
     // check if program
     if (
-      _.includes(selectedOptions, 'ALL') ||
+      _.includes(selectedOptions, 'all') ||
       _.includes(selectedOptions, 'pr')
     ) {
-      if (group.id === 'ALL') {
+      if (group.id === 'all') {
         currentList.push(...data.pi);
       } else {
         if (group.hasOwnProperty('programIndicators')) {
@@ -374,10 +399,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     }
 
     if (
-      _.includes(selectedOptions, 'ALL') ||
+      _.includes(selectedOptions, 'all') ||
       _.includes(selectedOptions, 'fn')
     ) {
-      if (group.id === 'ALL') {
+      if (group.id === 'all') {
         currentList.push(...data.rl);
       } else {
         if (group.hasOwnProperty('rules')) {
@@ -409,11 +434,11 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     const options = this.getSelectedOption();
     const data = this.getData();
 
-    if (_.includes(options, 'ALL') || _.includes(options, 'de')) {
+    if (_.includes(options, 'all') || _.includes(options, 'de')) {
       currentGroupList.push(...data.dx);
     }
 
-    if (_.includes(options, 'ALL') || _.includes(options, 'in')) {
+    if (_.includes(options, 'all') || _.includes(options, 'in')) {
       if (options.length === 1 && _.includes(options, 'in')) {
         currentGroupList.push(...data.in);
       } else {
@@ -429,15 +454,15 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (_.includes(options, 'ALL') || _.includes(options, 'pr')) {
+    if (_.includes(options, 'all') || _.includes(options, 'pr')) {
       currentGroupList.push(...data.pr);
     }
 
-    if (_.includes(options, 'ALL') || _.includes(options, 'ds')) {
+    if (_.includes(options, 'all') || _.includes(options, 'ds')) {
       currentGroupList.push(...data.ds);
     }
 
-    if (_.includes(options, 'ALL') || _.includes(options, 'fn')) {
+    if (_.includes(options, 'all') || _.includes(options, 'fn')) {
       currentGroupList.push(...data.fn);
     }
 
@@ -446,7 +471,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     }
 
     return [
-      { id: 'ALL', name: '[ All ]' },
+      { id: 'all', name: '[ All ]' },
       ..._.sortBy(currentGroupList, ['name'])
     ];
   }
@@ -656,43 +681,37 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     });
   }
 
-  toggleDataFilterOption(toggledOption, event) {
+  onToggleDataFilterSelection(toggledDataFilterSelection, event) {
     event.stopPropagation();
     const multipleSelection = event.ctrlKey ? true : false;
-
-    this.dataFilterOptions = this.dataFilterOptions.map(option => {
-      const newOption: any = { ...option };
-
-      if (toggledOption.prefix === 'ALL') {
-        if (newOption.prefix !== 'ALL') {
-          newOption.selected = false;
-        } else {
-          newOption.selected = !toggledOption.selected;
-        }
-      } else {
-        if (newOption.prefix === toggledOption.prefix) {
-          newOption.selected = !newOption.selected;
-        }
-
-        if (toggledOption.prefix === 'ALL') {
-          if (newOption.prefix !== 'ALL' && toggledOption.selected) {
-            newOption.selected = false;
-          }
-        } else {
-          if (newOption.prefix === 'ALL') {
-            newOption.selected = false;
-          }
-        }
-
-        if (!multipleSelection && toggledOption.prefix !== newOption.prefix) {
-          newOption.selected = false;
-        }
+    this.dataFilterSelections = _.map(
+      this.dataFilterSelections,
+      (dataFilterSelection: any) => {
+        return {
+          ...dataFilterSelection,
+          selected:
+            toggledDataFilterSelection.prefix === 'all'
+              ? dataFilterSelection.prefix !== 'all'
+                ? false
+                : !dataFilterSelection.selected
+              : toggledDataFilterSelection.prefix === dataFilterSelection.prefix
+                ? !dataFilterSelection.selected
+                : multipleSelection
+                  ? dataFilterSelection.prefix === 'all'
+                    ? false
+                    : dataFilterSelection.selected
+                  : false
+        };
       }
+    );
 
-      return newOption;
-    });
+    this.dataFilterStore.dispatch(
+      new fromDataFilterActions.UpdateActiveDataFilterSelections(
+        this.dataFilterSelections
+      )
+    );
 
-    this.selectedGroup = { id: 'ALL', name: '[ All ]' };
+    this.selectedGroup = { id: 'all', name: '[ All ]' };
     this.dataGroups = this.groupList();
 
     this.availableItems = this.dataItemList(

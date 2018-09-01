@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { FunctionObject } from '../store/models/function.model';
+import { FunctionObject } from '../models/function.model';
 
 export function getStandardizedFunctions(
   functionList,

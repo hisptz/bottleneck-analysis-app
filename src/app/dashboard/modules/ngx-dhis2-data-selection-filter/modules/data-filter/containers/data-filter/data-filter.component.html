@@ -1,16 +1,16 @@
 <div class="data-filter-container">
   <!-- data filter section -->
   <div class="data-filter-content">
-    <div class="data-filter-options">
-      <ul class="data-filter-options-icon">
-        <li *ngFor="let option of dataFilterOptions">
-          <a (click)="toggleDataFilterOption(option, $event)" [ngClass]="{
+    <div class="data-filter-selections-block">
+      <ul class="data-filter-selections">
+        <li *ngFor="let dataFilterSelection of dataFilterSelections">
+          <a (click)="onToggleDataFilterSelection(dataFilterSelection, $event)" [ngClass]="{
             'btn': true,
             'btn-sm': true,
-            'btn-info': option.selected,
-            'btn-default': !option.selected
-           }" title="Click to see {{option.name}}">
-            {{option.name}}
+            'data-filter-selection': true,
+            'selected-data-filter-selection': dataFilterSelection.selected
+           }" title="Click to see {{dataFilterSelection.name}}">
+            {{dataFilterSelection.name}}
           </a>
         </li>
       </ul>
@@ -18,7 +18,7 @@
 
     <div class="data-filter-group-selection" appClickOutside (clickOutside)="showGroups = false">
       <!--Group selection button-->
-      <button class="btn btn-outline-secondary btn-sm data-filter-group-btn" (click)="toggleDataFilterGroupList($event)">
+      <button class="btn btn-sm data-filter-group-btn" (click)="toggleDataFilterGroupList($event)">
         <span>{{ selectedGroup?.name || 'Select'}}</span>
         <span>
           <img src="assets/icons/arrow-down.png" alt="">

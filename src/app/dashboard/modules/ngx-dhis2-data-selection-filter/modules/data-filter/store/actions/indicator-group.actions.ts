@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { IndicatorGroup } from '../models/indicator-group.model';
+import { IndicatorGroup } from '../../models/indicator-group.model';
 
 export enum IndicatorGroupActionTypes {
   LoadIndicatorGroups = '[IndicatorGroup] Load IndicatorGroups',

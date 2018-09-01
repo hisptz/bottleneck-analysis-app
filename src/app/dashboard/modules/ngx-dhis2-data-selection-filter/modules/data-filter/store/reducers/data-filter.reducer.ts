@@ -1,12 +1,15 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { DataFilter } from '../models/data-filter.model';
+import * as _ from 'lodash';
+import { DataFilter } from '../../models/data-filter.model';
 import {
   DataFilterActions,
   DataFilterActionTypes
 } from '../actions/data-filter.actions';
+import { createFeatureSelector } from '@ngrx/store';
 
 export interface State extends EntityState<DataFilter> {
   // additional entities state properties
+  activeDataFilterSelections: string[];
 }
 
 export const adapter: EntityAdapter<DataFilter> = createEntityAdapter<
@@ -15,6 +18,7 @@ export const adapter: EntityAdapter<DataFilter> = createEntityAdapter<
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  activeDataFilterSelections: ['all']
 });
 
 export function reducer(
@@ -62,11 +66,26 @@ export function reducer(
       return adapter.removeAll(state);
     }
 
+    case DataFilterActionTypes.UpdateActiveDataFilterSelections: {
+      return {
+        ...state,
+        activeDataFilterSelections: _.map(
+          _.filter(
+            action.dataFilterSelections,
+            (dataSelection: any) => dataSelection.selected
+          ),
+          (dataSelection: any) => dataSelection.prefix
+        )
+      };
+    }
+
     default: {
       return state;
     }
   }
 }
+
+export const getDataFilterState = createFeatureSelector<State>('dataFilter');
 
 export const {
   selectIds,

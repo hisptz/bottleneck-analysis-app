@@ -8,7 +8,7 @@ import * as fromDataGroupActions from '../actions/data-group.actions';
 import * as fromDataGroupReducer from '../reducers/data-group.reducer';
 import * as fromDataGroupSelectors from '../selectors/data-group.selectors';
 import { DataGroupService } from '../../services/data-group.service';
-import { DataGroup } from '../models/data-group.model';
+import { DataGroup } from '../../models/data-group.model';
 
 @Injectable()
 export class DataGroupEffects {

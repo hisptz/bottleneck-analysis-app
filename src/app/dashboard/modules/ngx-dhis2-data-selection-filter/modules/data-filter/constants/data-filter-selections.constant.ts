@@ -1,8 +1,11 @@
-export const DATA_FILTER_OPTIONS: any[] = [
+import { DataFilterSelection } from '../models/data-filter-selection.model';
+
+export const DATA_FILTER_SELECTIONS: DataFilterSelection[] = [
   {
     name: 'All',
-    prefix: 'ALL',
-    selected: true},
+    prefix: 'all',
+    selected: true
+  },
   {
     name: 'Data elements',
     prefix: 'de',
@@ -22,7 +25,8 @@ export const DATA_FILTER_OPTIONS: any[] = [
     name: 'Program indicators',
     prefix: 'pr',
     selected: false
-  },{
+  },
+  {
     name: 'Functions',
     prefix: 'fn',
     selected: false

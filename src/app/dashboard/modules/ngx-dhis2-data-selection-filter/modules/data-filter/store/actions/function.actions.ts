@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { FunctionObject } from '../models/function.model';
-import { FunctionRule } from '../models';
+import * as fromModels from '../../models';
 
 export enum FunctionActionTypes {
   LoadFunctionsInitiated = '[Function] Load Functions initiated',
@@ -38,40 +37,45 @@ export class LoadFunctionsFail implements Action {
 export class AddFunction implements Action {
   readonly type = FunctionActionTypes.AddFunction;
 
-  constructor(public payload: { function: FunctionObject }) {}
+  constructor(public payload: { function: fromModels.FunctionObject }) {}
 }
 
 export class UpsertFunction implements Action {
   readonly type = FunctionActionTypes.UpsertFunction;
 
-  constructor(public payload: { function: FunctionObject }) {}
+  constructor(public payload: { function: fromModels.FunctionObject }) {}
 }
 
 export class AddFunctions implements Action {
   readonly type = FunctionActionTypes.AddFunctions;
 
   constructor(
-    public functions: FunctionObject[],
-    public functionRules: FunctionRule[]
+    public functions: fromModels.FunctionObject[],
+    public functionRules: fromModels.FunctionRule[]
   ) {}
 }
 
 export class UpsertFunctions implements Action {
   readonly type = FunctionActionTypes.UpsertFunctions;
 
-  constructor(public payload: { functions: FunctionObject[] }) {}
+  constructor(public payload: { functions: fromModels.FunctionObject[] }) {}
 }
 
 export class UpdateFunction implements Action {
   readonly type = FunctionActionTypes.UpdateFunction;
 
-  constructor(public id: string, public changes: Partial<FunctionObject>) {}
+  constructor(
+    public id: string,
+    public changes: Partial<fromModels.FunctionObject>
+  ) {}
 }
 
 export class UpdateFunctions implements Action {
   readonly type = FunctionActionTypes.UpdateFunctions;
 
-  constructor(public payload: { functions: Update<FunctionObject>[] }) {}
+  constructor(
+    public payload: { functions: Update<fromModels.FunctionObject>[] }
+  ) {}
 }
 
 export class DeleteFunction implements Action {
@@ -92,7 +96,7 @@ export class ClearFunctions implements Action {
 
 export class SetActiveFunction implements Action {
   readonly type = FunctionActionTypes.SetActiveFunction;
-  constructor(public functionObject: FunctionObject) {}
+  constructor(public functionObject: fromModels.FunctionObject) {}
 }
 
 export class UpdateActiveFunction implements Action {

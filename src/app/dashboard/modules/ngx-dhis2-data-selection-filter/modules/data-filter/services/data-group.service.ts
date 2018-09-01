@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { forkJoin, of, throwError } from 'rxjs';
-import { DataGroup } from '../store/models/data-group.model';
+import { DataGroup } from '../models/data-group.model';
 import { generateDefaultGroups } from '../helpers/generate-default-groups.helper';
 
 @Injectable({

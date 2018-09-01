@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import { User, SystemInfo } from '../models';
 import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
 import { Dashboard } from '../dashboard/models';
-import { DataGroup } from '../dashboard/modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/models/data-group.model';
+import { DataGroup } from '../dashboard/modules/ngx-dhis2-data-selection-filter/modules/data-filter/models/data-group.model';
 
 export function getStandardizedDashboard(
   dashboard: any,

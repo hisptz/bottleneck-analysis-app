@@ -4,7 +4,7 @@ import * as fromFunction from '../reducers/function.reducer';
 
 import * as fromFunctionRuleReducer from '../reducers/function-rule.reducer';
 
-import * as fromModels from '../models';
+import * as fromModels from '../../models';
 
 export const getFunctionInitiatedStatus = createSelector(
   fromFunction.getFunctionState,
@@ -46,6 +46,7 @@ export const getFunctions = createSelector(
         ? {
             id: functionObject.id,
             name: functionObject.name,
+            function: functionObject.function,
             items: _.filter(
               _.map(
                 functionObject.rules || [],
