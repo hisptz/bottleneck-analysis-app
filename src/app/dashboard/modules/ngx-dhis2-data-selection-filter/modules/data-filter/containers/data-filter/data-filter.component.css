@@ -205,7 +205,7 @@
 .data-filter-available-body,
 .data-filter-selected-body {
   padding: 0.2em;
-  height: 150px;
+  min-height: 150px;
   overflow: hidden;
 }
 

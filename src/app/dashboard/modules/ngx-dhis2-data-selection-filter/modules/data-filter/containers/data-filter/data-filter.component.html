@@ -63,7 +63,7 @@
     </div>
 
 
-    <div class="data-filter-available-body ">
+    <div class="data-filter-available-body" [ngStyle]="{'height': showGroupingPanel ? '350px': '150px'}">
       <ul #scrollse>
         <li *ngIf="!(dataFilterLoading$ | async) && (dataFilterItems$ | async | removeSelectedItems:selectedItems | filterByName:dataItemSearchTerm).length==0 ">
           <a>No items</a>
@@ -85,7 +85,7 @@
       </ul>
     </div>
 
-    <div class="data-filter-selected-body">
+    <div class="data-filter-selected-body" [ngStyle]="{'height': showGroupingPanel ? '350px': '150px'}">
       <ul>
         <li *ngFor="let item of selectedItems | paginate:{id: 'selected_list',itemsPerPage: 100, currentPage: currentPageForSelectedDataItems}"
           title="click to unselect item">
