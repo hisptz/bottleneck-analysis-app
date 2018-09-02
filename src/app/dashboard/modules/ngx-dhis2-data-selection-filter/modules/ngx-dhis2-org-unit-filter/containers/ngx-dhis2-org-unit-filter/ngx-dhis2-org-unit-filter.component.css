@@ -25,14 +25,8 @@
   width: 220px;
 }
 
-.ngx-dhis2-org-unit-filter__user-org-unit-selection {
-}
-
 .ngx-dhis2-org-unit-filter__org-unit-level-group {
   position: relative;
-}
-
-.ngx-dhis2-org-unit-filter__org-unit-group {
 }
 
 .ngx-dhis2-org-unit-filter__org-unit-buttons {
@@ -44,7 +38,7 @@
 
 .ngx-dhis2-org-unit-filter__btn {
   margin: 5px;
-  height: 25px;
+  height: 35px;
   font-size: 14px;
   background-color: #ffffff;
   outline: none;

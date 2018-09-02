@@ -3,7 +3,7 @@ import { Update } from '@ngrx/entity';
 import { Dashboard } from '../../dashboard/models/dashboard.model';
 import { User, ErrorMessage, SystemInfo } from '../../models';
 import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
-import { DataGroup } from '../../dashboard/modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/models/data-group.model';
+import { DataGroup } from '../../models/data-group.model';
 
 export enum DashboardActionTypes {
   LoadDashboards = '[Dashboard] Load Dashboards',
@@ -40,7 +40,8 @@ export class LoadDashboardsAction implements Action {
   constructor(
     public currentUser: User,
     public dashboardSettings: DashboardSettings,
-    public systemInfo: SystemInfo
+    public systemInfo: SystemInfo,
+    public dataGroups: DataGroup[]
   ) {}
 }
 
@@ -54,8 +55,8 @@ export class LoadDashboardsSuccessAction implements Action {
   constructor(
     public dashboards: any[],
     public currentUser: User,
-    public routeUrl: string,
-    public systemInfo: SystemInfo
+    public systemInfo: SystemInfo,
+    public dataGroups: any[]
   ) {}
 }
 

@@ -1,4 +1,4 @@
-import * as fromModels from '../store/models';
+import * as fromModels from '../models';
 import * as _ from 'lodash';
 
 export function getStandardizedIndicators(

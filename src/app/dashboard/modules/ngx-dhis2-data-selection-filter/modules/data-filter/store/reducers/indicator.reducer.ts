@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Indicator } from '../models/indicator.model';
+import { Indicator } from '../../models/indicator.model';
 import {
   IndicatorActions,
   IndicatorActionTypes

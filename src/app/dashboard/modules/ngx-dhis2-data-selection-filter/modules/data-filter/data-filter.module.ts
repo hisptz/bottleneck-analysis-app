@@ -8,8 +8,9 @@ import { HttpModule } from '@angular/http';
 import { components } from './components';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { ColorPickerModule } from 'ngx-color-picker';
 
-import * as fromDataGroupReducer from './store/reducers/data-group.reducer';
+import * as fromDataFilterReducer from './store/reducers/data-filter.reducer';
 import * as fromFunctionReducer from './store/reducers/function.reducer';
 import * as fromFunctionRuleReducer from './store/reducers/function-rule.reducer';
 import * as fromIndicatorGroupReducer from './store/reducers/indicator-group.reducer';
@@ -27,9 +28,10 @@ import { directives } from './directives';
     FormsModule,
     HttpModule,
     DragulaModule,
+    ColorPickerModule,
     NgxPaginationModule,
     DndModule.forRoot(),
-    StoreModule.forFeature('dataGroup', fromDataGroupReducer.reducer),
+    StoreModule.forFeature('dataFilter', fromDataFilterReducer.reducer),
     StoreModule.forFeature('function', fromFunctionReducer.reducer),
     StoreModule.forFeature('functionRule', fromFunctionRuleReducer.reducer),
     StoreModule.forFeature('indicatorGroup', fromIndicatorGroupReducer.reducer),

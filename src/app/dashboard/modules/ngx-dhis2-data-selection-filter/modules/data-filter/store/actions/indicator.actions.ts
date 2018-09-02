@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { Indicator } from '../models/indicator.model';
+import { Indicator } from '../../models/indicator.model';
 
 export enum IndicatorActionTypes {
   LoadIndicators = '[Indicator] Load Indicators',

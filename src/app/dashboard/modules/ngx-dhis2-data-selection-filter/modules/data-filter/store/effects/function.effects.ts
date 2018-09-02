@@ -10,7 +10,7 @@ import * as fromFunctionActions from '../actions/function.actions';
 import * as fromFuctionSelectors from '../selectors/function.selectors';
 import * as fromHelpers from '../../helpers';
 
-import { FunctionObject } from '../models/function.model';
+import { FunctionObject } from '../../models/function.model';
 import { FunctionService } from '../../services/function.service';
 
 @Injectable()

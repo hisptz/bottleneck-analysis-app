@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { DRAG_ICON, ARROW_DOWN_ICON } from '../../icons';
 import * as _ from 'lodash';
+import { generateUid } from '../../../../../../../helpers/generate-uid.helper';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -25,10 +26,19 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   selectedGroupId: string;
 
+  @Input()
+  dataGroupPreferences: {
+    maximumNumberOfGroups: number;
+    maximumItemPerGroup: number;
+  };
   @Output()
   dataGroupsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
+
   @Output()
-  selectedGroupUpdate: EventEmitter<string> = new EventEmitter<string>();
+  selectedGroupIdUpdate: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output()
+  removeMember: EventEmitter<any> = new EventEmitter<any>();
   // icons
   dragIcon: string;
   arrowDownIcon: string;
@@ -36,21 +46,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.dragIcon = DRAG_ICON;
     this.arrowDownIcon = ARROW_DOWN_ICON;
     this.dataGroups = [];
-    this.selectedGroupId = 'group1';
-  }
-
-  get dataGroupsVm() {
-    return _.map(
-      this.dataGroups || [],
-      (dataGroup: any, dataGroupIndex: number) => {
-        return {
-          ...dataGroup,
-          current: this.selectedGroupId
-            ? dataGroup.id === this.selectedGroupId
-            : dataGroupIndex === 0
-        };
-      }
-    );
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
@@ -59,22 +54,28 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
         this.dataGroups = _.map(this.dataGroups, dataGroup => {
           return {
             ...dataGroup,
-            members: _.map(this.selectedItems, selectedItem => {
-              return {
-                id: selectedItem.id,
-                name: selectedItem.name
-              };
-            })
+            members: _.slice(
+              _.map(this.selectedItems, selectedItem => {
+                return {
+                  id: selectedItem.id,
+                  name: selectedItem.name
+                };
+              }),
+              0,
+              this.dataGroupPreferences.maximumItemPerGroup
+            )
           };
         });
       } else {
         let alreadySelectedItems = [];
+        let additionalSelectedItems = [];
         this.dataGroups = _.map(
           _.map(this.dataGroups, dataGroup => {
             return {
               ...dataGroup,
               members:
-                !dataGroup.current && dataGroup.members.length > 0
+                dataGroup.id !== this.selectedGroupId &&
+                dataGroup.members.length > 0
                   ? _.filter(dataGroup.members, member => {
                       const availableMember = _.find(this.selectedItems, [
                         'id',
@@ -92,15 +93,55 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
             };
           }),
           newDataGroup => {
-            return {
-              ...newDataGroup,
-              members: newDataGroup.current
+            const selectedGroupMembers =
+              newDataGroup.id === this.selectedGroupId
                 ? _.filter(
                     this.selectedItems,
                     selectedItem =>
                       !_.find(alreadySelectedItems, ['id', selectedItem.id])
                   )
-                : newDataGroup.members
+                : [];
+
+            additionalSelectedItems = _.uniqBy(
+              [
+                ...additionalSelectedItems,
+                ..._.slice(
+                  selectedGroupMembers,
+                  this.dataGroupPreferences.maximumItemPerGroup
+                )
+              ],
+              'id'
+            );
+
+            const unSelectedGroupMembers =
+              newDataGroup.id !== this.selectedGroupId
+                ? [...newDataGroup.members, ...additionalSelectedItems]
+                : [];
+
+            if (unSelectedGroupMembers.length > 0) {
+              additionalSelectedItems = _.slice(
+                unSelectedGroupMembers,
+                this.dataGroupPreferences.maximumItemPerGroup
+              );
+            }
+
+            const newMembers =
+              newDataGroup.id === this.selectedGroupId
+                ? _.slice(
+                    selectedGroupMembers,
+                    0,
+                    this.dataGroupPreferences.maximumItemPerGroup
+                  )
+                : _.slice(
+                    unSelectedGroupMembers,
+                    0,
+                    this.dataGroupPreferences.maximumItemPerGroup
+                  );
+
+            console.log(additionalSelectedItems);
+            return {
+              ...newDataGroup,
+              members: newMembers
             };
           }
         );
@@ -109,42 +150,48 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (!this.selectedGroupId && this.dataGroups[0]) {
+      this.selectedGroupId = this.dataGroups[0].id;
+    }
+  }
 
   onAddGroup(e) {
     e.stopPropagation();
-    const currentGroupLength = this.dataGroups.length;
+    const newGroupId = generateUid();
+    this.selectedGroupId = newGroupId;
     this.dataGroups = [
       ..._.map(this.dataGroups, dataGroup => {
         return { ...dataGroup, current: false };
       }),
       {
-        id: `group${currentGroupLength + 1}`,
-        name: `Untitled Group ${currentGroupLength + 1}`,
+        id: newGroupId,
+        name: 'Untitled',
         color: '#000000',
-        current: true,
         members: []
       }
     ];
 
     this.dataGroupsUpdate.emit(this.dataGroups);
+    this.selectedGroupIdUpdate.emit(this.selectedGroupId);
   }
 
   onSetCurrentGroup(currentDataGroup, e) {
     e.stopPropagation();
-    this.dataGroups = _.map(this.dataGroups, (dataGroup: any) => {
-      return {
-        ...dataGroup,
-        current: dataGroup.id === currentDataGroup.id && !dataGroup.current
-      };
-    });
+    if (currentDataGroup.id === this.selectedGroupId) {
+      this.selectedGroupId = '';
+    } else {
+      this.selectedGroupId = currentDataGroup.id;
+    }
+    this.selectedGroupIdUpdate.emit(this.selectedGroupId);
+  }
 
-    this.dataGroupsUpdate.emit(this.dataGroups);
-    this.selectedGroupUpdate.emit(currentDataGroup.id);
+  onRemoveMember(member: any, e) {
+    e.stopPropagation();
+    this.removeMember.emit(member);
   }
 
   ngOnDestroy() {
     this.dataGroupsUpdate.emit(this.dataGroups);
-    this.selectedGroupUpdate.emit(this.selectedGroupId);
   }
 }

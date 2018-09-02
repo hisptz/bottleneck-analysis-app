@@ -2,11 +2,16 @@ import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
 import * as fromIndicatorGroup from '../reducers/indicator-group.reducer';
 import * as fromIndicator from '../reducers/indicator.reducer';
-import * as fromModels from '../models';
+import * as fromModels from '../../models';
 
 export const getIndicatorGroupsInitiatedStatus = createSelector(
   fromIndicatorGroup.getIndicatorGroupState,
   (state: fromIndicatorGroup.State) => state.loadInitiated
+);
+
+export const getIndicatorGroupsLoadingStatus = createSelector(
+  fromIndicatorGroup.getIndicatorGroupState,
+  (state: fromIndicatorGroup.State) => state.loading
 );
 
 export const getIndicatorGroups = createSelector(

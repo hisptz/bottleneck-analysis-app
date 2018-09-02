@@ -1,6 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import * as _ from 'lodash';
-import { FunctionRule } from '../models/function-rule.model';
+import { FunctionRule } from '../../models/function-rule.model';
 import {
   FunctionRuleActions,
   FunctionRuleActionTypes

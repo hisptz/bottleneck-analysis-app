@@ -8,7 +8,9 @@ import {
   tap,
   withLatestFrom,
   mergeMap,
-  take
+  take,
+  first,
+  filter
 } from 'rxjs/operators';
 
 import * as _ from 'lodash';
@@ -87,39 +89,40 @@ import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx
 import { generateUid } from '../../helpers/generate-uid.helper';
 import { DashboardVisualization, Dashboard } from '../../dashboard/models';
 import { getStandardizedDashboard } from '../../helpers/get-standardized-dashboard.helper';
+import { getDataGroupObjectWithLoadingStatus } from '../selectors/data-group.selectors';
 
 @Injectable()
 export class DashboardEffects {
   @Effect()
   loadAllDashboards$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.LoadDashboards),
-    withLatestFrom(this.store.select(getRouteUrl)),
-    switchMap(([action, routeUrl]: [LoadDashboardsAction, string]) =>
-      this.dashboardService.loadAll(action.dashboardSettings).pipe(
+    switchMap((action: LoadDashboardsAction) => {
+      return this.dashboardService.loadAll(action.dashboardSettings).pipe(
         map(
           (dashboards: any[]) =>
             new LoadDashboardsSuccessAction(
               dashboards,
               action.currentUser,
-              routeUrl,
-              action.systemInfo
+              action.systemInfo,
+              action.dataGroups
             )
         ),
         catchError((error: any) => of(new LoadDashboardsFailAction(error)))
-      )
-    )
+      );
+    })
   );
 
   @Effect()
   loadAllDashboardSuccess$: Observable<any> = this.actions$.pipe(
     ofType(DashboardActionTypes.LoadDashboardsSuccess),
-    map((action: LoadDashboardsSuccessAction) => {
+    withLatestFrom(this.store.select(getRouteUrl)),
+    map(([action, routeUrl]: [LoadDashboardsSuccessAction, string]) => {
       const currentDashboardId = getCurrentDashboardId(
-        action.routeUrl,
+        routeUrl,
         action.dashboards,
         action.currentUser
       );
-      return new SetCurrentDashboardAction(currentDashboardId, action.routeUrl);
+      return new SetCurrentDashboardAction(currentDashboardId, routeUrl);
     })
   );
 

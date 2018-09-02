@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import { User, SystemInfo } from '../models';
 import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
 import { Dashboard } from '../dashboard/models';
-import { DataGroup } from '../dashboard/modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/models/data-group.model';
+import { DataGroup } from '../models/data-group.model';
 
 export function getStandardizedDashboard(
   dashboard: any,
@@ -26,38 +26,40 @@ export function getStandardizedDashboard(
       currentUser ? currentUser.id : ''
     ),
     access: dashboard.access,
-    globalSelections: [
-      {
-        dimension: 'dx',
-        layout: 'rows',
-        items: _.flatten(
-          _.map(
-            defaultDataGroups || [],
-            (dataGroup: DataGroup) => dataGroup.members
-          )
-        ),
-        groups: defaultDataGroups
-      },
-      {
-        dimension: 'pe',
-        layout: 'filters',
-        items: [
+    globalSelections: !dashboard.globalSelections
+      ? [
           {
-            id: systemInfo.analysisRelativePeriod
+            dimension: 'dx',
+            layout: 'rows',
+            items: _.flatten(
+              _.map(
+                defaultDataGroups || [],
+                (dataGroup: DataGroup) => dataGroup.members
+              )
+            ),
+            groups: defaultDataGroups
+          },
+          {
+            dimension: 'pe',
+            layout: 'filters',
+            items: [
+              {
+                id: systemInfo.analysisRelativePeriod
+              }
+            ]
+          },
+          {
+            dimension: 'ou',
+            layout: 'columns',
+            items: [
+              {
+                id: orgUnits[0] ? orgUnits[0].id : '',
+                name: orgUnits[0] ? orgUnits[0].name : '',
+                type: 'ORGANISATION_UNIT'
+              }
+            ]
           }
         ]
-      },
-      {
-        dimension: 'ou',
-        layout: 'columns',
-        items: [
-          {
-            id: orgUnits[0] ? orgUnits[0].id : '',
-            name: orgUnits[0] ? orgUnits[0].name : '',
-            type: 'ORGANISATION_UNIT'
-          }
-        ]
-      }
-    ]
+      : dashboard.globalSelections
   };
 }

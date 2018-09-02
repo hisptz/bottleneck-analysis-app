@@ -1,4 +1,4 @@
-import { generateUid } from '../../../../../../helpers/generate-uid.helper';
+import { generateUid } from './generate-uid.helper';
 
 const DEFAULT_GROUP_COLORS: string[] = [
   '#7DB2E8',

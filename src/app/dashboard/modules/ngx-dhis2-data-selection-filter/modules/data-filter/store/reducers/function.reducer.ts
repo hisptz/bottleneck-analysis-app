@@ -1,6 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import * as _ from 'lodash';
-import { FunctionObject } from '../models/function.model';
+import { FunctionObject } from '../../models/function.model';
 import {
   FunctionActions,
   FunctionActionTypes

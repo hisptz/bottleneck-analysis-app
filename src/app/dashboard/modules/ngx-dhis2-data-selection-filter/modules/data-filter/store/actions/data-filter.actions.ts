@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { DataFilter } from '../models/data-filter.model';
+import { DataFilter } from '../../models/data-filter.model';
 
 export enum DataFilterActionTypes {
   LoadDataFilters = '[DataFilter] Load DataFilters',
@@ -12,7 +12,9 @@ export enum DataFilterActionTypes {
   UpdateDataFilters = '[DataFilter] Update DataFilters',
   DeleteDataFilter = '[DataFilter] Delete DataFilter',
   DeleteDataFilters = '[DataFilter] Delete DataFilters',
-  ClearDataFilters = '[DataFilter] Clear DataFilters'
+  ClearDataFilters = '[DataFilter] Clear DataFilters',
+  UpdateActiveDataFilterSelections = '[DataFilter] Update active data filter selections',
+  SetCurrentDataFilterGroup = '[DataFilter] Set current data filter group'
 }
 
 export class LoadDataFilters implements Action {
@@ -71,6 +73,16 @@ export class ClearDataFilters implements Action {
   readonly type = DataFilterActionTypes.ClearDataFilters;
 }
 
+export class UpdateActiveDataFilterSelections implements Action {
+  readonly type = DataFilterActionTypes.UpdateActiveDataFilterSelections;
+  constructor(public dataFilterSelections: any[]) {}
+}
+
+export class SetCurrentDataFilterGroup implements Action {
+  readonly type = DataFilterActionTypes.SetCurrentDataFilterGroup;
+  constructor(public dataFilterGroupId: string) {}
+}
+
 export type DataFilterActions =
   | LoadDataFilters
   | AddDataFilter
@@ -81,4 +93,6 @@ export type DataFilterActions =
   | UpdateDataFilters
   | DeleteDataFilter
   | DeleteDataFilters
-  | ClearDataFilters;
+  | ClearDataFilters
+  | UpdateActiveDataFilterSelections
+  | SetCurrentDataFilterGroup;

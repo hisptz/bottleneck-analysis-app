@@ -7,16 +7,18 @@ import {
   OnDestroy
 } from '@angular/core';
 import * as _ from 'lodash';
-import { Subscription, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { take, map } from 'rxjs/operators';
 
-import { DataFilterService } from '../../services/data-filter.service';
-import { DATA_FILTER_OPTIONS } from '../../data-filter.model';
 import * as fromIcons from '../../icons';
+import * as fromConstants from '../../constants';
+import * as fromModels from '../../models';
+import * as fromHelpers from '../../helpers';
 
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
-import { Store } from '@ngrx/store';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -25,10 +27,7 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./data-filter.component.css']
 })
 export class DataFilterComponent implements OnInit, OnDestroy {
-  private subscription: Subscription;
-  availableItems: any[] = [];
   dataGroups: any[] = [];
-  selectedGroup: any = { id: 'ALL', name: '[ All ]' };
 
   @Output()
   dataFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
@@ -38,669 +37,244 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   selectedItems: any[] = [];
   @Input()
   selectedGroups: any[] = [];
+
   @Input()
-  functionMappings: any[] = [];
+  dataFilterPreferences: {
+    singleSelection: boolean;
+    enabledSelections: string[];
+  };
+
   @Input()
-  hiddenDataElements: any[] = [];
-  @Input()
-  singleSelection = false;
-  selectedGroupId: string;
+  dataGroupPreferences: {
+    maximumNumberOfGroups: number;
+    maximumItemPerGroup: number;
+  };
 
   showGroupingPanel: boolean;
-  private _selectedItems: any[];
   selectedItems$: Observable<any>;
-  querystring: string = null;
-  listchanges: string = null;
+  querystring: string;
+  dataItemSearchTerm: string;
   showBody = false;
-  dataItems: any = {
-    dataElements: [],
-    indicators: [],
-    dataElementGroups: [],
-    indicatorGroups: [],
-    categoryOptions: [],
-    dataSets: [],
-    programs: [],
-    programIndicators: [],
-    dataSetGroups: [
-      { id: '', name: 'Reporting Rate' },
-      { id: '.REPORTING_RATE_ON_TIME', name: 'Reporting Rate on time' },
-      { id: '.ACTUAL_REPORTS', name: 'Actual Reports Submitted' },
-      { id: '.ACTUAL_REPORTS_ON_TIME', name: 'Reports Submitted on time' },
-      { id: '.EXPECTED_REPORTS', name: 'Expected Reports' }
-    ]
-  };
-  loading: boolean;
-  p = 1;
-  k = 1;
-  need_groups: boolean;
+  currentPageForAvailableDataItems = 1;
+  currentPageForSelectedDataItems = 1;
 
-  dataFilterOptions: any[];
+  selectedGroupId: string;
+
+  dataFilterSelections: fromModels.DataFilterSelection[];
   showGroups: boolean;
-
-  hideMonth = false;
-  hideQuarter = false;
 
   // icons
   listIcon: string;
   arrowLeftIcon: string;
   arrowRightIcon: string;
 
-  dataFilterObject$: Observable<any>;
+  dataFilterGroups$: Observable<any[]>;
+  currentDataFilterGroup$: Observable<any>;
+  dataFilterItems$: Observable<any[]>;
+  dataFilterLoading$: Observable<boolean>;
 
-  constructor(
-    private dataFilterService: DataFilterService,
-    private dataFilterStore: Store<fromDataFilterReducer.State>
-  ) {
+  constructor(private dataFilterStore: Store<fromDataFilterReducer.State>) {
+    // Set default data filter preferences
+    this.dataFilterPreferences = {
+      enabledSelections: ['in', 'fn'],
+      singleSelection: false
+    };
+
+    // Set default data group preferences
+    this.dataGroupPreferences = {
+      maximumNumberOfGroups: 6,
+      maximumItemPerGroup: 3
+    };
     // Load data filter items
     dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
 
-    // Get data filter object
-    this.dataFilterObject$ = dataFilterStore.select(
-      fromDataFilterSelectors.getDataFilterObject
+    this.dataFilterGroups$ = dataFilterStore.select(
+      fromDataFilterSelectors.getDataFilterGroups
     );
 
-    this.dataFilterObject$.subscribe((dataFilter: any) => {
-      console.log(JSON.stringify(dataFilter));
-    });
+    this.currentDataFilterGroup$ = dataFilterStore.select(
+      fromDataFilterSelectors.getCurrentDataFilterGroup
+    );
 
-    this.dataFilterOptions = DATA_FILTER_OPTIONS;
+    this.dataFilterItems$ = dataFilterStore.select(
+      fromDataFilterSelectors.getDataFilterItems
+    );
+
+    this.dataFilterLoading$ = dataFilterStore.select(
+      fromDataFilterSelectors.getDataFilterLoadingStatus
+    );
+
     this.showGroups = false;
-    this.need_groups = true;
-    this.loading = true;
 
     this.listIcon = fromIcons.LIST_ICON;
     this.arrowLeftIcon = fromIcons.ARROW_LEFT_ICON;
     this.arrowRightIcon = fromIcons.ARROW_RIGHT_ICON;
 
     this.showGroupingPanel = false;
-
-    this.selectedGroups = [
-      {
-        id: `group_1`,
-        name: `Untitled Group 1`,
-        current: true,
-        members: []
-      }
-    ];
   }
 
   ngOnInit() {
-    // set selected data group
-    this.selectedGroupId = this.selectedGroups[0]
-      ? this.selectedGroups[0].id
-      : 'group_1';
-    // TODO revamp period filter to accomodate more data dimensions criterion
-    this.initiateData();
-    this._selectedItems = [...this.selectedItems];
-    this.selectedItems$ = of(this._selectedItems);
-  }
-
-  // trigger this to reset pagination pointer when search change
-  searchChanged() {
-    this.p = 1;
-  }
-
-  initiateData() {
-    this.subscription = this.dataFilterService
-      .initiateData()
-      .subscribe(items => {
-        this.dataItems = Object.assign(
-          {},
-          {
-            dataElements: items[0],
-            indicators: items[1],
-            dataElementGroups: items[3],
-            indicatorGroups: items[2],
-            categoryOptions: items[5],
-            dataSets: items[4],
-            programs: items[6],
-            programIndicators: items[7],
-            functions: items[8],
-            dataSetGroups: [
-              { id: '', name: 'Reporting Rate' },
-              { id: '.REPORTING_RATE_ON_TIME', name: 'Reporting Rate on time' },
-              { id: '.ACTUAL_REPORTS', name: 'Actual Reports Submitted' },
-              {
-                id: '.ACTUAL_REPORTS_ON_TIME',
-                name: 'Reports Submitted on time'
-              },
-              { id: '.EXPECTED_REPORTS', name: 'Expected Reports' }
-            ]
-          }
-        );
-        this.loading = false;
-        this.dataGroups = this.groupList();
-        this.availableItems = this.dataItemList(
-          this._selectedItems,
-          this.selectedGroup
-        );
-
-        // /**
-        //  * Detect changes manually
-        //  */
-        // this.changeDetector.detectChanges();
-      });
-  }
-
-  setSelectedGroup(group, listArea, event) {
-    event.stopPropagation();
-    this.listchanges = '';
-    this.selectedGroup = { ...group };
-    this.availableItems = this.dataItemList(this._selectedItems, group);
-    this.showGroups = false;
-    this.p = 1;
-    listArea.scrollTop = 0;
-  }
-
-  getSelectedOption(): any[] {
-    const someArr = [];
-    this.dataFilterOptions.forEach(val => {
-      if (val.selected) {
-        someArr.push(val);
-      }
-    });
-    return _.map(someArr, 'prefix');
-  }
-
-  // get data Items data_element, indicators, dataSets
-  getDataItems() {
-    const dataElements = [];
-    this.dataItems.dataElements.forEach(dataelement => {
-      dataElements.push(...this.getDetailedDataElements(dataelement));
-    });
-    return {
-      de: dataElements,
-      in: this.dataItems.indicators,
-      ds: this.dataItems.dataSets,
-      pi: this.dataItems.programIndicators,
-      rl: _.flatten(
-        _.map(this.dataItems.functions, functionObject =>
-          _.map(functionObject.rules || [], (rule: any) => {
-            return {
-              id: rule.id,
-              name: rule.name,
-              ruleDefinition: rule,
-              functionObject: {
-                id: functionObject.id,
-                functionString: functionObject.function
-              },
-              type: 'FUNCTION_RULE'
-            };
-          })
-        )
-      )
-    };
-  }
-
-  // this function helps you to get the detailed metadata
-  getDetailedDataElements(dataElement) {
-    const dataElements = [];
-    const categoryCombo = this.getCategoryCombo(dataElement.categoryCombo.id);
-
-    dataElements.push({
-      dataElementId: dataElement.id,
-      id: dataElement.id,
-      name: dataElement.name + '',
-      dataSetElements: dataElement.dataSetElements
-    });
-
-    categoryCombo.categoryOptionCombos.forEach(option => {
-      if (option.name !== 'default') {
-        dataElements.push({
-          dataElementId: dataElement.id,
-          id: dataElement.id + '.' + option.id,
-          name: dataElement.name + ' ' + option.name,
-          dataSetElements: dataElement.dataSetElements
-        });
-      }
-    });
-
-    return dataElements;
-  }
-
-  // Helper to get the data elements option
-  getCategoryCombo(uid): any {
-    let category = null;
-    this.dataItems.categoryOptions.forEach(val => {
-      if (val.id === uid) {
-        category = val;
-      }
-    });
-    return category;
-  }
-
-  // Helper function to get data groups
-  getData() {
-    return {
-      dx: this.dataItems.dataElementGroups,
-      in: this.dataItems.indicatorGroups,
-      ds: this.dataItems.dataSetGroups,
-      pr: this.dataItems.programs,
-      fn: this.dataItems.functions
-    };
-  }
-
-  // get the data list do display
-  dataItemList(selectedItems, group) {
-    const currentList = [];
-    const selectedOptions = this.getSelectedOption();
-    const data: any = this.getDataItems();
-
-    // check if data element is in a selected group
-    if (
-      _.includes(selectedOptions, 'ALL') ||
-      _.includes(selectedOptions, 'de')
-    ) {
-      if (group.id === 'ALL') {
-        currentList.push(...data.de);
-      } else {
-        if (group.hasOwnProperty('dataElements')) {
-          const newArray = _.filter(data.de, dataElement => {
-            return _.includes(
-              _.map(group.dataElements, 'id'),
-              dataElement.dataElementId
-            );
-          });
-          currentList.push(...newArray);
+    // set data filter selections
+    const enabledSelections = _.uniq([
+      'all',
+      ...this.dataFilterPreferences.enabledSelections
+    ]);
+    this.dataFilterSelections = _.filter(
+      fromConstants.DATA_FILTER_SELECTIONS || [],
+      (dataFilterSelection: fromModels.DataFilterSelection) => {
+        if (
+          !this.dataFilterPreferences ||
+          !this.dataFilterPreferences.enabledSelections
+        ) {
+          return true;
         }
-      }
-    }
 
-    // check if data indicators are in a selected group
-    if (
-      _.includes(selectedOptions, 'ALL') ||
-      _.includes(selectedOptions, 'in')
-    ) {
-      if (group.id === 'ALL') {
-        currentList.push(...data.in);
-      } else {
-        if (group.hasOwnProperty('indicators')) {
-          const newArray = _.filter(data.in, indicator => {
-            return _.includes(_.map(group.indicators, 'id'), indicator['id']);
-          });
-          currentList.push(...newArray);
-        }
+        return enabledSelections.indexOf(dataFilterSelection.prefix) !== -1;
       }
-    }
-
-    // check if data data sets are in a selected group
-    if (
-      _.includes(selectedOptions, 'ALL') ||
-      _.includes(selectedOptions, 'ds')
-    ) {
-      if (group.id === 'ALL') {
-        this.dataItems.dataSetGroups.forEach(groupObject => {
-          currentList.push(
-            ...data.ds.map(datacv => {
-              return {
-                id: datacv.id + groupObject.id,
-                name: groupObject.name + ' ' + datacv.name
-              };
-            })
-          );
-        });
-      } else if (
-        !group.hasOwnProperty('indicators') &&
-        !group.hasOwnProperty('dataElements')
-      ) {
-        currentList.push(
-          ...data.ds.map(datacv => {
-            return {
-              id: datacv.id + group.id,
-              name: group.name + ' ' + datacv.name
-            };
-          })
-        );
-      }
-    }
-    // check if program
-    if (
-      _.includes(selectedOptions, 'ALL') ||
-      _.includes(selectedOptions, 'pr')
-    ) {
-      if (group.id === 'ALL') {
-        currentList.push(...data.pi);
-      } else {
-        if (group.hasOwnProperty('programIndicators')) {
-          const newArray = _.filter(data.pi, indicator => {
-            return _.includes(
-              _.map(group.programIndicators, 'id'),
-              indicator['id']
-            );
-          });
-          currentList.push(...newArray);
-        }
-      }
-    }
-
-    if (
-      _.includes(selectedOptions, 'ALL') ||
-      _.includes(selectedOptions, 'fn')
-    ) {
-      if (group.id === 'ALL') {
-        currentList.push(...data.rl);
-      } else {
-        if (group.hasOwnProperty('rules')) {
-          const newArray = _.filter(data.rl, functionRule => {
-            return _.includes(_.map(group.rules, 'id'), functionRule['id']);
-          });
-          currentList.push(...newArray);
-        }
-      }
-    }
-
-    const currentListWithOutHiddenItems = _.filter(currentList, item => {
-      return !_.includes(this.hiddenDataElements, item['id']);
-    });
-
-    return _.sortBy(
-      _.filter(
-        currentListWithOutHiddenItems,
-        (item: any) => !_.find(selectedItems, ['id', item.id])
-      ),
-      ['name']
     );
   }
 
-  // Get group list to display
-  groupList() {
-    this.need_groups = true;
-    const currentGroupList = [];
-    const options = this.getSelectedOption();
-    const data = this.getData();
+  // trigger this to reset pagination pointer when search change
+  onDataItemsSearch(e) {
+    e.stopPropagation();
+    this.currentPageForAvailableDataItems = 1;
+  }
 
-    if (_.includes(options, 'ALL') || _.includes(options, 'de')) {
-      currentGroupList.push(...data.dx);
-    }
-
-    if (_.includes(options, 'ALL') || _.includes(options, 'in')) {
-      if (options.length === 1 && _.includes(options, 'in')) {
-        currentGroupList.push(...data.in);
-      } else {
-        currentGroupList.push(
-          ...data.in.map(indicatorGroup => {
-            return {
-              id: indicatorGroup.id,
-              name: indicatorGroup.name + ' - Computed',
-              indicators: indicatorGroup.indicators
-            };
-          })
-        );
-      }
-    }
-
-    if (_.includes(options, 'ALL') || _.includes(options, 'pr')) {
-      currentGroupList.push(...data.pr);
-    }
-
-    if (_.includes(options, 'ALL') || _.includes(options, 'ds')) {
-      currentGroupList.push(...data.ds);
-    }
-
-    if (_.includes(options, 'ALL') || _.includes(options, 'fn')) {
-      currentGroupList.push(...data.fn);
-    }
-
-    if (_.includes(options, 'ds')) {
-      this.need_groups = false;
-    }
-
-    return [
-      { id: 'ALL', name: '[ All ]' },
-      ..._.sortBy(currentGroupList, ['name'])
-    ];
+  onSetDataFilterGroup(dataFilterGroup: any, e) {
+    e.stopPropagation();
+    this.dataFilterStore.dispatch(
+      new fromDataFilterActions.SetCurrentDataFilterGroup(dataFilterGroup.id)
+    );
+    this.showGroups = false;
   }
 
   // this will add a selected item in a list function
-  addSelected(item, event) {
-    if (this.singleSelection) {
-      this.deselectAllItems(event);
-    }
-    event.stopPropagation();
-    const itemIndex = _.findIndex(this.availableItems, item);
-
-    this.availableItems = [
-      ...this.availableItems.slice(0, itemIndex),
-      ...this.availableItems.slice(itemIndex + 1)
-    ];
-
-    if (!_.find(this._selectedItems, ['id', item.id])) {
-      this._selectedItems = [...this._selectedItems, item];
+  onSelectDataItem(item: any, e) {
+    e.stopPropagation();
+    if (this.dataFilterPreferences.singleSelection) {
+      this.onDeselectAllItems();
     }
 
-    this.selectedItems$ = of(this._selectedItems);
+    if (!_.find(this.selectedItems, ['id', item.id])) {
+      this.selectedItems =
+        this.dataGroupPreferences &&
+        this.dataGroupPreferences.maximumItemPerGroup &&
+        this.dataGroupPreferences.maximumNumberOfGroups
+          ? _.slice(
+              [...this.selectedItems, item],
+              0,
+              this.dataGroupPreferences.maximumItemPerGroup *
+                this.dataGroupPreferences.maximumNumberOfGroups
+            )
+          : [...this.selectedItems, item];
+    }
   }
 
   // Remove selected Item
-  removeSelected(item, event) {
-    event.stopPropagation();
-    const itemIndex = _.findIndex(this._selectedItems, item);
-
-    this._selectedItems = [
-      ...this._selectedItems.slice(0, itemIndex),
-      ...this._selectedItems.slice(itemIndex + 1)
-    ];
-
-    if (!_.find(this.availableItems, ['id', item.id])) {
-      this.availableItems = [...this.availableItems, item];
+  onRemoveDataItem(dataItem: any, e?) {
+    if (e) {
+      e.stopPropagation();
     }
+    const itemIndex = this.selectedItems.indexOf(dataItem);
 
-    this.selectedItems$ = of(this._selectedItems);
+    if (itemIndex !== -1) {
+      this.selectedItems = [
+        ...this.selectedItems.slice(0, itemIndex),
+        ...this.selectedItems.slice(itemIndex + 1)
+      ];
+    }
   }
 
-  getAutogrowingTables(selections) {
-    const autogrowings = [];
-    selections.forEach(value => {
-      if (value.hasOwnProperty('programType')) {
-        autogrowings.push(value);
-      }
-    });
-    return autogrowings;
-  }
+  // selecting all items
+  onSelectAllItems(event) {
+    event.stopPropagation();
 
-  getFunctions(selections) {
-    const mappings = [];
-    selections.forEach(value => {
-      const dataElementId = value.id.split('.');
-      this.functionMappings.forEach(mappedItem => {
-        const mappedId = mappedItem.split('_');
-        if (dataElementId[0] === mappedId[0]) {
-          mappings.push({ id: value.id, func: mappedId[1] });
-        }
+    this.dataFilterItems$
+      .pipe(
+        map((dataFilterItems: any[]) =>
+          fromHelpers.filterByName(dataFilterItems, this.dataItemSearchTerm)
+        ),
+        take(1)
+      )
+      .subscribe((dataFilterItems: any[]) => {
+        const newSelectedItems = _.uniqBy(
+          [...this.selectedItems, ...dataFilterItems],
+          'id'
+        );
+        this.selectedItems =
+          this.dataGroupPreferences &&
+          this.dataGroupPreferences.maximumItemPerGroup &&
+          this.dataGroupPreferences.maximumNumberOfGroups
+            ? _.slice(
+                newSelectedItems,
+                0,
+                this.dataGroupPreferences.maximumItemPerGroup *
+                  this.dataGroupPreferences.maximumNumberOfGroups
+              )
+            : newSelectedItems;
       });
-    });
-    return mappings;
   }
 
   // selecting all items
-  selectAllItems(event) {
-    event.stopPropagation();
-
-    this.availableItems.forEach(item => {
-      if (!_.find(this._selectedItems, ['id', item.id])) {
-        this._selectedItems = [...this._selectedItems, item];
-      }
-    });
-
-    this.availableItems = [];
-
-    this.selectedItems$ = of(this._selectedItems);
-  }
-
-  // selecting all items
-  deselectAllItems(e) {
-    e.stopPropagation();
-    this._selectedItems.forEach(item => {
-      if (!_.find(this.availableItems, ['id', item.id])) {
-        this.availableItems = [...this.availableItems, item];
-      }
-    });
-
-    this._selectedItems = [];
-
-    this.selectedItems$ = of(this._selectedItems);
-  }
-
-  // Check if item is in selected list
-  inSelected(item, list) {
-    let checker = false;
-    for (const per of list) {
-      if (per.id === item.id) {
-        checker = true;
-      }
+  onDeselectAllItems(e?) {
+    if (e) {
+      e.stopPropagation();
     }
-    return checker;
+    this.selectedItems = [];
   }
 
-  // action that will fire when the sorting of selected data is done
-  transferDataSuccess(data, current) {
-    if (data.dragData.id === current.id) {
-      console.log('Droping in the same area');
-    } else {
-      const number =
-        this.getDataPosition(data.dragData.id) >
-        this.getDataPosition(current.id)
-          ? 0
-          : 1;
-      this.deleteData(data.dragData);
-      this.insertData(data.dragData, current, number);
-    }
-  }
-
-  emit(e) {
-    e.stopPropagation();
-    this.dataFilterUpdate.emit({
-      items: this._selectedItems,
-      groups: this.selectedGroups,
+  emit() {
+    return {
+      items: this.selectedItems,
+      groups: _.map(this.selectedGroups, (dataGroup: any) =>
+        _.omit(dataGroup, ['current'])
+      ),
       dimension: 'dx'
-    });
-  }
-
-  // helper method to find the index of dragged item
-  getDataPosition(dataId) {
-    let dataIndex = null;
-    this._selectedItems.forEach((data, index) => {
-      if (data.id === dataId) {
-        dataIndex = index;
-      }
-    });
-    return dataIndex;
-  }
-
-  // help method to delete the selected Data in list before inserting it in another position
-  deleteData(dataToDelete) {
-    this._selectedItems.forEach((data, dataIndex) => {
-      if (dataToDelete.id === data.id) {
-        this._selectedItems.splice(dataIndex, 1);
-      }
-    });
-
-    this.selectedItems$ = of(this._selectedItems);
-  }
-
-  // Helper method to insert Data in new position after drag drop event
-  insertData(Data_to_insert, current_Data, num: number) {
-    this._selectedItems.forEach((Data, Data_index) => {
-      if (
-        current_Data.id === Data.id &&
-        !this.checkDataAvailabilty(Data_to_insert, this._selectedItems)
-      ) {
-        this._selectedItems.splice(Data_index + num, 0, Data_to_insert);
-      }
-    });
-
-    this.selectedItems$ = of(this._selectedItems);
-  }
-
-  // check if orgunit already exist in the orgunit display list
-  checkDataAvailabilty(Data, array): boolean {
-    let checker = false;
-    for (const per of array) {
-      if (per.id === Data.id) {
-        checker = true;
-      }
-    }
-    return checker;
-  }
-
-  getDataForAnalytics(selectedData) {
-    let dataForAnalytics = '';
-    let counter = 0;
-    selectedData.forEach(dataValue => {
-      const dataElementId = dataValue.id.split('.');
-      if (dataValue.hasOwnProperty('programType')) {
-      } else {
-        let mapped = false;
-        this.functionMappings.forEach(mappedItem => {
-          const mappedId = mappedItem.split('_');
-          if (dataElementId[0] === mappedId[0]) {
-            mapped = true;
-          }
-        });
-        if (mapped) {
-        } else {
-          dataForAnalytics += counter === 0 ? dataValue.id : ';' + dataValue.id;
-          counter++;
-        }
-      }
-    });
-    return dataForAnalytics;
+    };
   }
 
   close(e) {
     e.stopPropagation();
-    this.dataFilterClose.emit({
-      items: this._selectedItems,
-      groups: this.selectedGroups,
-      dimension: 'dx'
-    });
+    this.dataFilterClose.emit(this.emit());
   }
 
-  toggleDataFilterOption(toggledOption, event) {
+  onDataFilterUpdate(e) {
+    e.stopPropagation();
+    this.dataFilterUpdate.emit(this.emit());
+  }
+
+  onToggleDataFilterSelection(toggledDataFilterSelection, event) {
     event.stopPropagation();
     const multipleSelection = event.ctrlKey ? true : false;
-
-    this.dataFilterOptions = this.dataFilterOptions.map(option => {
-      const newOption: any = { ...option };
-
-      if (toggledOption.prefix === 'ALL') {
-        if (newOption.prefix !== 'ALL') {
-          newOption.selected = false;
-        } else {
-          newOption.selected = !toggledOption.selected;
-        }
-      } else {
-        if (newOption.prefix === toggledOption.prefix) {
-          newOption.selected = !newOption.selected;
-        }
-
-        if (toggledOption.prefix === 'ALL') {
-          if (newOption.prefix !== 'ALL' && toggledOption.selected) {
-            newOption.selected = false;
-          }
-        } else {
-          if (newOption.prefix === 'ALL') {
-            newOption.selected = false;
-          }
-        }
-
-        if (!multipleSelection && toggledOption.prefix !== newOption.prefix) {
-          newOption.selected = false;
-        }
+    this.dataFilterSelections = _.map(
+      this.dataFilterSelections,
+      (dataFilterSelection: any) => {
+        return {
+          ...dataFilterSelection,
+          selected:
+            toggledDataFilterSelection.prefix === 'all'
+              ? dataFilterSelection.prefix !== 'all'
+                ? false
+                : !dataFilterSelection.selected
+              : toggledDataFilterSelection.prefix === dataFilterSelection.prefix
+                ? !dataFilterSelection.selected
+                : multipleSelection
+                  ? dataFilterSelection.prefix === 'all'
+                    ? false
+                    : dataFilterSelection.selected
+                  : false
+        };
       }
-
-      return newOption;
-    });
-
-    this.selectedGroup = { id: 'ALL', name: '[ All ]' };
-    this.dataGroups = this.groupList();
-
-    this.availableItems = this.dataItemList(
-      this._selectedItems,
-      this.selectedGroup
     );
-    this.p = 1;
-    this.listchanges = '';
+
+    this.dataFilterStore.dispatch(
+      new fromDataFilterActions.UpdateActiveDataFilterSelections(
+        this.dataFilterSelections
+      )
+    );
+
+    this.currentPageForAvailableDataItems = 1;
+    this.dataItemSearchTerm = '';
   }
 
   toggleDataFilterGroupList(e) {
@@ -717,16 +291,11 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.selectedGroups = dataGroups;
   }
 
-  onSelectedGroupUpdate(selectedGroupId: string) {
+  onSelectedGroupIdUpdate(selectedGroupId: string) {
     this.selectedGroupId = selectedGroupId;
   }
 
   ngOnDestroy() {
-    this.dataFilterClose.emit({
-      items: this._selectedItems,
-      groups: this.selectedGroups,
-      dimension: 'dx'
-    });
-    this.subscription.unsubscribe();
+    this.dataFilterClose.emit(this.emit());
   }
 }

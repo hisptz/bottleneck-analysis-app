@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { DataGroup } from '../models/data-group.model';
+import { DataGroup } from '../../models/data-group.model';
 import {
   DataGroupActions,
   DataGroupActionTypes
@@ -85,8 +85,4 @@ export function reducer(state = initialState, action: DataGroupActions): State {
   }
 }
 
-export const getDataGroupState = createFeatureSelector<State>('dataGroup');
-
-export const { selectAll: getDataGroups } = adapter.getSelectors(
-  getDataGroupState
-);
+export const { selectAll: getDataGroupsState } = adapter.getSelectors();

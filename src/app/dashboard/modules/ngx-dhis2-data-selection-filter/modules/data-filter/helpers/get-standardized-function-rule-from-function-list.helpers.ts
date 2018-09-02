@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { FunctionRule } from '../store/models/function-rule.model';
+import { FunctionRule } from '../models/function-rule.model';
 
 export function getStandardizedFunctionRulesFromFunctionList(
   functionList,
@@ -18,6 +18,7 @@ export function getStandardizedFunctionRulesFromFunctionList(
       ]);
       return {
         ...functionRule,
+        type: 'FUNCTION_RULE',
         selected: selectedRule && selectedRule.id === functionRule.id
       };
     }

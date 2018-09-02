@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Dashboard, DashboardGroups } from '../../models';
 import { User, SystemInfo } from '../../../models';
-import { DataGroup } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/models/data-group.model';
+import { DataGroup } from '../../../models/data-group.model';
 
 @Component({
   selector: 'app-dashboard-menu',

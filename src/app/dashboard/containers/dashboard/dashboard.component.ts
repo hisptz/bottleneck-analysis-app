@@ -20,10 +20,8 @@ import { Dashboard, DashboardGroups } from '../../models';
 import { User, SystemInfo } from '../../../models';
 import { take } from 'rxjs/operators';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
-
-import * as fromDataGroupActions from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/actions/data-group.actions';
-import { DataGroup } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/models/data-group.model';
-import { getDataGroups } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/reducers/data-group.reducer';
+import { DataGroup } from '../../../models/data-group.model';
+import { getDataGroups } from '../../../store/selectors/data-group.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,7 +44,6 @@ export class DashboardComponent implements OnInit {
   constructor(private store: Store<State>) {
     // initialize dashboads settings
     store.dispatch(new InitializeDashboardSettingsAction());
-    store.dispatch(new fromDataGroupActions.LoadDataGroups());
 
     this.dashboards$ = store.select(getAllGroupDashboards);
     this.currentDashboardId$ = store.select(getCurrentDashboardId);

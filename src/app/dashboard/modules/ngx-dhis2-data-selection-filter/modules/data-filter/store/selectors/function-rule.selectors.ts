@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
 import * as fromFunctionRuleReducer from '../reducers/function-rule.reducer';
 import { getActiveFunction } from './function.selectors';
-import { FunctionObject, FunctionRule } from '../models';
+import { FunctionObject, FunctionRule } from '../../models';
 
 export const getActiveFunctionRuleId = createSelector(
   fromFunctionRuleReducer.getFunctionRuleState,
