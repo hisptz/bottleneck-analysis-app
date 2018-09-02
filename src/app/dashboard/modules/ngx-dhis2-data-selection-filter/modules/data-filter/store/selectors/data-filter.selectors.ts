@@ -33,6 +33,7 @@ const getDataFilterGroupsWithItems = createSelector(
       activeDataFilterSelections[0] === 'all'
         ? _.keys(dataFilterGroupEntities)
         : activeDataFilterSelections;
+
     return _.flatten(
       _.map(
         selectionKeys,
