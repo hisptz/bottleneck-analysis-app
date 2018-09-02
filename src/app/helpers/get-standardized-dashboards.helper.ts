@@ -7,9 +7,10 @@ import { getStandardizedDashboard } from './get-standardized-dashboard.helper';
 export function getStandardizedDashboards(
   dashboards: any[],
   currentUser: User,
-  systemInfo: SystemInfo
+  systemInfo: SystemInfo,
+  dataGroups?: any[]
 ): Dashboard[] {
   return _.map(dashboards || [], dashboard =>
-    getStandardizedDashboard(dashboard, currentUser, systemInfo)
+    getStandardizedDashboard(dashboard, currentUser, systemInfo, dataGroups)
   );
 }

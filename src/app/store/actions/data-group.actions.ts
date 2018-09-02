@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { DataGroup } from '../../models/data-group.model';
+import * as fromModels from '../../models';
+import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
 
 export enum DataGroupActionTypes {
   LoadDataGroupsInitiated = '[DataGroup] Load Data Groups initiated',
@@ -19,48 +20,56 @@ export enum DataGroupActionTypes {
 
 export class LoadDataGroupsInitiated implements Action {
   readonly type = DataGroupActionTypes.LoadDataGroupsInitiated;
-
-  constructor() {}
 }
 
 export class LoadDataGroups implements Action {
   readonly type = DataGroupActionTypes.LoadDataGroups;
+  constructor(
+    public dashboardSettings: DashboardSettings,
+    public currentUser: fromModels.User,
+    public systemInfo: fromModels.SystemInfo
+  ) {}
 }
 
 export class AddDataGroup implements Action {
   readonly type = DataGroupActionTypes.AddDataGroup;
 
-  constructor(public payload: { dataGroup: DataGroup }) {}
+  constructor(public payload: { dataGroup: fromModels.DataGroup }) {}
 }
 
 export class UpsertDataGroup implements Action {
   readonly type = DataGroupActionTypes.UpsertDataGroup;
 
-  constructor(public payload: { dataGroup: DataGroup }) {}
+  constructor(public payload: { dataGroup: fromModels.DataGroup }) {}
 }
 
 export class AddDataGroups implements Action {
   readonly type = DataGroupActionTypes.AddDataGroups;
 
-  constructor(public dataGroups: DataGroup[]) {}
+  constructor(
+    public dataGroups: fromModels.DataGroup[],
+    public dashboardSettings: DashboardSettings,
+    public currentUser: fromModels.User,
+    public systemInfo: fromModels.SystemInfo
+  ) {}
 }
 
 export class UpsertDataGroups implements Action {
   readonly type = DataGroupActionTypes.UpsertDataGroups;
 
-  constructor(public payload: { dataGroups: DataGroup[] }) {}
+  constructor(public payload: { dataGroups: fromModels.DataGroup[] }) {}
 }
 
 export class UpdateDataGroup implements Action {
   readonly type = DataGroupActionTypes.UpdateDataGroup;
 
-  constructor(public payload: { dataGroup: Update<DataGroup> }) {}
+  constructor(public payload: { dataGroup: Update<fromModels.DataGroup> }) {}
 }
 
 export class UpdateDataGroups implements Action {
   readonly type = DataGroupActionTypes.UpdateDataGroups;
 
-  constructor(public payload: { dataGroups: Update<DataGroup>[] }) {}
+  constructor(public payload: { dataGroups: Update<fromModels.DataGroup>[] }) {}
 }
 
 export class DeleteDataGroup implements Action {

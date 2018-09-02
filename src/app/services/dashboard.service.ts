@@ -71,9 +71,15 @@ export class DashboardService {
   }
 
   create(dashboard: Dashboard, dashboardSettings: DashboardSettings) {
+    const sanitizedDashboard: any = dashboardSettings.allowAdditionalAttributes
+      ? dashboard
+      : _.omit(dashboard, dashboardSettings.additionalAttributes);
     return dashboardSettings && dashboardSettings.useDataStoreAsSource
-      ? this.httpClient.post(`dataStore/dashboards/${dashboard.id}`, dashboard)
-      : this.httpClient.post('dashboards.json', dashboard);
+      ? this.httpClient.post(
+          `dataStore/dashboards/${dashboard.id}`,
+          sanitizedDashboard
+        )
+      : this.httpClient.post('dashboards.json', sanitizedDashboard);
   }
 
   delete(dashboardId: string, dashboardSettings: DashboardSettings) {

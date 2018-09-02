@@ -8,6 +8,9 @@ import {
 } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { take, map } from 'rxjs/operators';
+
 import * as fromIcons from '../../icons';
 import * as fromConstants from '../../constants';
 import * as fromModels from '../../models';
@@ -16,8 +19,6 @@ import * as fromHelpers from '../../helpers';
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
-import { Store } from '@ngrx/store';
-import { take, map } from 'rxjs/operators';
 
 @Component({
   // tslint:disable-next-line:component-selector

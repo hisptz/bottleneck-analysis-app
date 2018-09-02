@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { State, LoadSystemInfo } from './store';
 import { Title } from '@angular/platform-browser';
+import { LoadDataGroups } from './store/actions/data-group.actions';
 
 @Component({
   selector: 'app-root',
@@ -17,13 +18,13 @@ export class AppComponent {
     private titleService: Title
   ) {
     // Load system information
-    store.dispatch(new LoadSystemInfo());
+    this.store.dispatch(new LoadSystemInfo());
 
     // this language will be used as a fallback when a translation isn't found in the current language
-    translate.setDefaultLang('en');
+    this.translate.setDefaultLang('en');
 
     // the lang to use, if the lang isn't available, it will use the current loader to get them
-    translate.use('en');
+    this.translate.use('en');
 
     this.setTitle('BNA Dashboard');
   }

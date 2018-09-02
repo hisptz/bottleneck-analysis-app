@@ -10,7 +10,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import * as fromDataFilterReducer from './store/reducers/data-filter.reducer';
-import * as fromDataGroupReducer from './store/reducers/data-group.reducer';
 import * as fromFunctionReducer from './store/reducers/function.reducer';
 import * as fromFunctionRuleReducer from './store/reducers/function-rule.reducer';
 import * as fromIndicatorGroupReducer from './store/reducers/indicator-group.reducer';
@@ -31,7 +30,6 @@ import { directives } from './directives';
     NgxPaginationModule,
     DndModule.forRoot(),
     StoreModule.forFeature('dataFilter', fromDataFilterReducer.reducer),
-    StoreModule.forFeature('dataGroup', fromDataGroupReducer.reducer),
     StoreModule.forFeature('function', fromFunctionReducer.reducer),
     StoreModule.forFeature('functionRule', fromFunctionRuleReducer.reducer),
     StoreModule.forFeature('indicatorGroup', fromIndicatorGroupReducer.reducer),

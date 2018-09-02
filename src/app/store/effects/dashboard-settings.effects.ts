@@ -15,6 +15,7 @@ import {
 } from '../actions';
 
 import { State } from '../reducers';
+import { LoadDataGroups } from '../actions/data-group.actions';
 
 @Injectable()
 export class DashboardSettingsEffects {
@@ -43,9 +44,9 @@ export class DashboardSettingsEffects {
     ofType(DashboardSettingsActionTypes.AddDashboardSettings),
     map(
       (action: AddDashboardSettingsAction) =>
-        new LoadDashboardsAction(
-          action.currentUser,
+        new LoadDataGroups(
           action.dashboardSettings,
+          action.currentUser,
           action.systemInfo
         )
     )

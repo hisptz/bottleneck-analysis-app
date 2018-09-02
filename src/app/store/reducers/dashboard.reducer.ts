@@ -120,7 +120,8 @@ export function dashboardObjectReducer(
       const dashboards: Dashboard[] = getStandardizedDashboards(
         action.dashboards,
         action.currentUser,
-        action.systemInfo
+        action.systemInfo,
+        action.dataGroups
       );
 
       return dashboards
