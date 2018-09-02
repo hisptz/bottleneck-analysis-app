@@ -44,6 +44,12 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     enabledSelections: string[];
   };
 
+  @Input()
+  dataGroupPreferences: {
+    maximumNumberOfGroups: number;
+    maximumItemPerGroup: number;
+  };
+
   showGroupingPanel: boolean;
   selectedItems$: Observable<any>;
   querystring: string;
@@ -72,6 +78,12 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.dataFilterPreferences = {
       enabledSelections: ['in', 'fn'],
       singleSelection: false
+    };
+
+    // Set default data group preferences
+    this.dataGroupPreferences = {
+      maximumNumberOfGroups: 6,
+      maximumItemPerGroup: 3
     };
     // Load data filter items
     dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
@@ -141,7 +153,17 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     }
 
     if (!_.find(this.selectedItems, ['id', item.id])) {
-      this.selectedItems = [...this.selectedItems, item];
+      this.selectedItems =
+        this.dataGroupPreferences &&
+        this.dataGroupPreferences.maximumItemPerGroup &&
+        this.dataGroupPreferences.maximumNumberOfGroups
+          ? _.slice(
+              [...this.selectedItems, item],
+              0,
+              this.dataGroupPreferences.maximumItemPerGroup *
+                this.dataGroupPreferences.maximumNumberOfGroups
+            )
+          : [...this.selectedItems, item];
     }
   }
 
@@ -172,11 +194,21 @@ export class DataFilterComponent implements OnInit, OnDestroy {
         take(1)
       )
       .subscribe((dataFilterItems: any[]) => {
-        console.log(dataFilterItems.length);
-        this.selectedItems = _.uniqBy(
+        const newSelectedItems = _.uniqBy(
           [...this.selectedItems, ...dataFilterItems],
           'id'
         );
+        this.selectedItems =
+          this.dataGroupPreferences &&
+          this.dataGroupPreferences.maximumItemPerGroup &&
+          this.dataGroupPreferences.maximumNumberOfGroups
+            ? _.slice(
+                newSelectedItems,
+                0,
+                this.dataGroupPreferences.maximumItemPerGroup *
+                  this.dataGroupPreferences.maximumNumberOfGroups
+              )
+            : newSelectedItems;
       });
   }
 

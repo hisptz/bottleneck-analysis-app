@@ -46,10 +46,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.dragIcon = DRAG_ICON;
     this.arrowDownIcon = ARROW_DOWN_ICON;
     this.dataGroups = [];
-    this.dataGroupPreferences = {
-      maximumNumberOfGroups: 6,
-      maximumItemPerGroup: 3
-    };
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
