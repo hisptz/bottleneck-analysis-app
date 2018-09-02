@@ -9,6 +9,11 @@ export const getIndicatorGroupsInitiatedStatus = createSelector(
   (state: fromIndicatorGroup.State) => state.loadInitiated
 );
 
+export const getIndicatorGroupsLoadingStatus = createSelector(
+  fromIndicatorGroup.getIndicatorGroupState,
+  (state: fromIndicatorGroup.State) => state.loading
+);
+
 export const getIndicatorGroups = createSelector(
   fromIndicatorGroup.getAllIndicatorGroups,
   fromIndicator.getIndicatorEntities,

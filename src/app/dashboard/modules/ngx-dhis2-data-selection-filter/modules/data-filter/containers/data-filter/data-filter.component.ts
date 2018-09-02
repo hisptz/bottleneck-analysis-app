@@ -55,7 +55,6 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   querystring: string;
   dataItemSearchTerm: string;
   showBody = false;
-  loading: boolean;
   currentPageForAvailableDataItems = 1;
   currentPageForSelectedDataItems = 1;
 
@@ -72,6 +71,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   dataFilterGroups$: Observable<any[]>;
   currentDataFilterGroup$: Observable<any>;
   dataFilterItems$: Observable<any[]>;
+  dataFilterLoading$: Observable<boolean>;
 
   constructor(private dataFilterStore: Store<fromDataFilterReducer.State>) {
     // Set default data filter preferences
@@ -100,8 +100,11 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       fromDataFilterSelectors.getDataFilterItems
     );
 
+    this.dataFilterLoading$ = dataFilterStore.select(
+      fromDataFilterSelectors.getDataFilterLoadingStatus
+    );
+
     this.showGroups = false;
-    this.loading = true;
 
     this.listIcon = fromIcons.LIST_ICON;
     this.arrowLeftIcon = fromIcons.ARROW_LEFT_ICON;

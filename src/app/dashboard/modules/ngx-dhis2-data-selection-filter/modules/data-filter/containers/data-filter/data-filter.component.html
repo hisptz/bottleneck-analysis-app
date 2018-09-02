@@ -65,8 +65,7 @@
 
     <div class="data-filter-available-body ">
       <ul #scrollse>
-        <!-- <li *ngIf="loading ">Loading...</li> -->
-        <li *ngIf="(dataFilterItems$ | async | removeSelectedItems:selectedItems | filterByName:dataItemSearchTerm).length==0 ">
+        <li *ngIf="!(dataFilterLoading$ | async) && (dataFilterItems$ | async | removeSelectedItems:selectedItems | filterByName:dataItemSearchTerm).length==0 ">
           <a>No items</a>
         </li>
         <li *ngFor="let dataFilterItem of dataFilterItems$ | async | removeSelectedItems:selectedItems | filterByName:dataItemSearchTerm
@@ -74,6 +73,7 @@
           id="{{dataFilterItem.id | addUnderscore}} ">
           <a (click)="onSelectDataItem(dataFilterItem, $event) ">{{ dataFilterItem.name }}</a>
         </li>
+        <li *ngIf="dataFilterLoading$ | async"><small>Loading...</small></li>
 
         <li *ngIf="(dataFilterItems$ | async | removeSelectedItems:selectedItems | filterByName:dataItemSearchTerm).length>=
         25">

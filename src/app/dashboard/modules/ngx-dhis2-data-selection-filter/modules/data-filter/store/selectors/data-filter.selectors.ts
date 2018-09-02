@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import * as fromDataFilterReducer from '../reducers/data-filter.reducer';
 import * as fromFunctionSelectors from './function.selectors';
 import * as fromIndicatorGroupSelectors from './indicator-group.selectors';
+import * as fromIndicatorSelectors from './indicator.selectors';
 import * as fromModels from '../../models';
 
 const getActiveDataFilterSelections = createSelector(
@@ -39,6 +40,17 @@ const getDataFilterGroupsWithItems = createSelector(
       )
     );
   }
+);
+
+export const getDataFilterLoadingStatus = createSelector(
+  fromFunctionSelectors.getFunctionLoadingStatus,
+  fromIndicatorGroupSelectors.getIndicatorGroupsLoadingStatus,
+  fromIndicatorSelectors.getIndicatorsLoadingStatus,
+  (
+    functionLoading: boolean,
+    indicatorGroupsLoading: boolean,
+    indicatorsLoading: boolean
+  ) => functionLoading && indicatorGroupsLoading && indicatorsLoading
 );
 
 export const getDataFilterGroups = createSelector(
