@@ -27,7 +27,10 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   selectedGroupId: string;
 
   @Input()
-  dataGroupPreferences: { maximumNumberOfGroups: number };
+  dataGroupPreferences: {
+    maximumNumberOfGroups: number;
+    maximumItemPerGroup: number;
+  };
   @Output()
   dataGroupsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
 
@@ -43,7 +46,10 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.dragIcon = DRAG_ICON;
     this.arrowDownIcon = ARROW_DOWN_ICON;
     this.dataGroups = [];
-    this.dataGroupPreferences = { maximumNumberOfGroups: 6 };
+    this.dataGroupPreferences = {
+      maximumNumberOfGroups: 6,
+      maximumItemPerGroup: 3
+    };
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
@@ -52,16 +58,21 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
         this.dataGroups = _.map(this.dataGroups, dataGroup => {
           return {
             ...dataGroup,
-            members: _.map(this.selectedItems, selectedItem => {
-              return {
-                id: selectedItem.id,
-                name: selectedItem.name
-              };
-            })
+            members: _.slice(
+              _.map(this.selectedItems, selectedItem => {
+                return {
+                  id: selectedItem.id,
+                  name: selectedItem.name
+                };
+              }),
+              0,
+              this.dataGroupPreferences.maximumItemPerGroup
+            )
           };
         });
       } else {
         let alreadySelectedItems = [];
+        let additionalSelectedItems = [];
         this.dataGroups = _.map(
           _.map(this.dataGroups, dataGroup => {
             return {
@@ -86,16 +97,55 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
             };
           }),
           newDataGroup => {
+            const selectedGroupMembers =
+              newDataGroup.id === this.selectedGroupId
+                ? _.filter(
+                    this.selectedItems,
+                    selectedItem =>
+                      !_.find(alreadySelectedItems, ['id', selectedItem.id])
+                  )
+                : [];
+
+            additionalSelectedItems = _.uniqBy(
+              [
+                ...additionalSelectedItems,
+                ..._.slice(
+                  selectedGroupMembers,
+                  this.dataGroupPreferences.maximumItemPerGroup
+                )
+              ],
+              'id'
+            );
+
+            const unSelectedGroupMembers =
+              newDataGroup.id !== this.selectedGroupId
+                ? [...newDataGroup.members, ...additionalSelectedItems]
+                : [];
+
+            if (unSelectedGroupMembers.length > 0) {
+              additionalSelectedItems = _.slice(
+                unSelectedGroupMembers,
+                this.dataGroupPreferences.maximumItemPerGroup
+              );
+            }
+
+            const newMembers =
+              newDataGroup.id === this.selectedGroupId
+                ? _.slice(
+                    selectedGroupMembers,
+                    0,
+                    this.dataGroupPreferences.maximumItemPerGroup
+                  )
+                : _.slice(
+                    unSelectedGroupMembers,
+                    0,
+                    this.dataGroupPreferences.maximumItemPerGroup
+                  );
+
+            console.log(additionalSelectedItems);
             return {
               ...newDataGroup,
-              members:
-                newDataGroup.id === this.selectedGroupId
-                  ? _.filter(
-                      this.selectedItems,
-                      selectedItem =>
-                        !_.find(alreadySelectedItems, ['id', selectedItem.id])
-                    )
-                  : newDataGroup.members
+              members: newMembers
             };
           }
         );
