@@ -58,7 +58,7 @@
   <!--selection filter body-->
   <div class="selection-filter-body" *ngIf="selectedFilter !== '' && showFilterBody">
     <!--data filter-->
-    <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedData" (dataFilterClose)="onFilterClose($event, 'DATA')"
+    <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedData" [selectedGroups]="selectedDataGroups" (dataFilterClose)="onFilterClose($event, 'DATA')"
       (dataFilterUpdate)="onFilterUpdate($event, 'DATA')"></app-data-filter>
     <!--end of data filter-->
 

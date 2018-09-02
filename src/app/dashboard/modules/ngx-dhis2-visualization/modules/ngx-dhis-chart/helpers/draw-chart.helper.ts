@@ -1277,8 +1277,8 @@ function getSanitizedChartObject(
 
           return associatedGroup &&
             _.some(
-              associatedGroup.items,
-              (item: any) => item.id === splitedDataItemId[1]
+              associatedGroup.members,
+              (member: any) => member.id === splitedDataItemId[0]
             ) &&
             associatedGroup.color
             ? { ...dataItem, color: associatedGroup.color }

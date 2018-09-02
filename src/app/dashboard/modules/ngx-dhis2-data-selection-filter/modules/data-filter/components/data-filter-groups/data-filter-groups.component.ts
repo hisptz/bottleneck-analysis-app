@@ -25,10 +25,15 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   selectedGroupId: string;
 
+  @Input()
+  dataGroupPreferences: { maximumNumberOfGroups: number };
   @Output()
   dataGroupsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
   @Output()
   selectedGroupUpdate: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output()
+  removeMember: EventEmitter<any> = new EventEmitter<any>();
   // icons
   dragIcon: string;
   arrowDownIcon: string;
@@ -36,7 +41,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.dragIcon = DRAG_ICON;
     this.arrowDownIcon = ARROW_DOWN_ICON;
     this.dataGroups = [];
-    this.selectedGroupId = 'group1';
+    this.dataGroupPreferences = { maximumNumberOfGroups: 6 };
   }
 
   get dataGroupsVm() {
@@ -109,7 +114,11 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.dataGroups && this.dataGroups[0] && !this.selectedGroupId) {
+      this.selectedGroupId = this.dataGroups[0].id;
+    }
+  }
 
   onAddGroup(e) {
     e.stopPropagation();
@@ -141,6 +150,11 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
 
     this.dataGroupsUpdate.emit(this.dataGroups);
     this.selectedGroupUpdate.emit(currentDataGroup.id);
+  }
+
+  onRemoveMember(member: any, e) {
+    e.stopPropagation();
+    this.removeMember.emit(member);
   }
 
   ngOnDestroy() {

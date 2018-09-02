@@ -8,6 +8,7 @@ import { HttpModule } from '@angular/http';
 import { components } from './components';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 import * as fromDataFilterReducer from './store/reducers/data-filter.reducer';
 import * as fromFunctionReducer from './store/reducers/function.reducer';
@@ -27,6 +28,7 @@ import { directives } from './directives';
     FormsModule,
     HttpModule,
     DragulaModule,
+    ColorPickerModule,
     NgxPaginationModule,
     DndModule.forRoot(),
     StoreModule.forFeature('dataFilter', fromDataFilterReducer.reducer),

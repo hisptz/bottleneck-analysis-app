@@ -6,29 +6,39 @@
 
   <div class="data-filter-group__list">
     <!-- data filter group item -->
-    <div class="data-filter-group__item" *ngFor="let group of dataGroups">
+    <div [ngClass]="{'data-filter-group__item': true, 'active-data-filter-group': group.current}" *ngFor="let group of dataGroups">
       <!-- title -->
-      <div class="data-filter-group__item-header" (click)="onSetCurrentGroup(group, $event)">
+      <div [ngClass]="{'data-filter-group__item-header': true, 'active-data-filter-group-item': group.current}" (click)="onSetCurrentGroup(group, $event)">
         <div class="data-filter-group__item-header-title">
           <button>
             <img [src]="dragIcon" alt="">
-          </button> {{group.name}}
+          </button>
+          <div [style.background-color]="group.color" class="data-filter-group_color-item">&nbsp;</div>
+          {{group.name}}
           <small>({{group.members.length}} selected)</small>
         </div>
-        <img [src]="arrowDownIcon" alt="">
+        <img class="{{group.current ? 'arrow-up': ''}}" [src]="arrowDownIcon" alt="">
       </div>
       <!-- end of title -->
 
       <!-- content -->
       <div class="data-filter-group__item-content" *ngIf="group.current">
         <div class="data-filter-group__item-title">
-          <div class="data-filter-group__item-label">Group name</div>
-          <input type="text" value="{{group.name}}">
+          <div class="data-filter-group__item-label">Name</div>
+          <input type="text" [(ngModel)]="group.name">
+        </div>
+        <div class="data-filter-group__item-title">
+          <div class="data-filter-group__item-label">Color</div>
+          <input [(colorPicker)]="group.color" [style.background]="group.color" />
         </div>
         <div class="data-filter-group__item-member-list">
-          <div class="data-filter-group__item-label">Group members</div>
+          <div class="data-filter-group__item-label">Members</div>
           <div class="data-filter-group__item-member-item" *ngFor="let member of group.members">
-            <img [src]="dragIcon" alt="">&nbsp;{{member.name}}
+            <div class="data-filter-group__item-member-item-title">
+              <img [src]="dragIcon" alt="">&nbsp;{{member.name}}
+            </div>
+            <button (click)="onRemoveMember(member, $event)" title="Remove item from group" class="btn btn-sm btn-outline-danger"><i
+                class="fa fa-trash"></i></button>
           </div>
         </div>
       </div>
@@ -38,7 +48,8 @@
   </div>
 
   <div class="data-filter-group_add-new">
-    <button class="data-filter-group_add-button" (click)="onAddGroup($event)">
+    <button [disabled]="dataGroups.length >= dataGroupPreferences.maximumNumberOfGroups" class="data-filter-group_add-button"
+      (click)="onAddGroup($event)">
       Add new group
     </button>
   </div>

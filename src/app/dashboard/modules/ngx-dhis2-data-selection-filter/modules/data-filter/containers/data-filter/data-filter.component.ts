@@ -96,15 +96,6 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.arrowRightIcon = fromIcons.ARROW_RIGHT_ICON;
 
     this.showGroupingPanel = false;
-
-    this.selectedGroups = [
-      {
-        id: `group_1`,
-        name: `Untitled Group 1`,
-        current: true,
-        members: []
-      }
-    ];
   }
 
   ngOnInit() {
@@ -155,8 +146,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   }
 
   // Remove selected Item
-  onRemoveDataItem(dataItem: any, event) {
-    event.stopPropagation();
+  onRemoveDataItem(dataItem: any, e?) {
+    if (e) {
+      e.stopPropagation();
+    }
     const itemIndex = this.selectedItems.indexOf(dataItem);
 
     if (itemIndex !== -1) {

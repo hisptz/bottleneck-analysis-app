@@ -34,9 +34,10 @@
 }
 
 .data-filter-group__list {
-  max-height: 200px;
+  max-height: 400px;
   margin-top: 5px;
   overflow: auto;
+  padding: 5px;
 }
 
 .data-filter-group__item {
@@ -83,12 +84,17 @@
 
 .data-filter-group__item-header-title {
   font-size: 14px;
+  display: flex;
+  align-items: center;
 }
 
 .data-filter-group__item-header-title > button {
   outline: none;
   border: none;
   background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
@@ -106,4 +112,30 @@
   margin-bottom: 3px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.data-filter-group__item-member-item-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.active-data-filter-group {
+  border-width: 4px;
+}
+
+.active-data-filter-group-item {
+  background-color: #eeeeee;
+}
+
+.data-filter-group_color-item {
+  width: 20px;
+  border-radius: 2px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.arrow-up {
+  transform: rotate(180deg);
 }

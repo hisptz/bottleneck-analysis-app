@@ -103,8 +103,8 @@
 
   <!-- data filter groups -->
   <div class="data-filter-groups-container" *ngIf="showGroupingPanel">
-    <app-data-filter-groups [dataGroups]="selectedGroups" [selectedGroupId]="selectedGroupId" [selectedItems]="selectedItems$ | async"
-      (dataGroupsUpdate)="onDataGroupsUpdate($event)" (selectedGroupUpdate)="onSelectedGroupUpdate($event)"></app-data-filter-groups>
+    <app-data-filter-groups [dataGroups]="selectedGroups" [selectedGroupId]="selectedGroupId" [selectedItems]="selectedItems"
+      (dataGroupsUpdate)="onDataGroupsUpdate($event)" (selectedGroupUpdate)="onSelectedGroupUpdate($event)" (removeMember)="onRemoveDataItem($event)"></app-data-filter-groups>
   </div>
   <!-- end of data filter groups -->
 </div>
