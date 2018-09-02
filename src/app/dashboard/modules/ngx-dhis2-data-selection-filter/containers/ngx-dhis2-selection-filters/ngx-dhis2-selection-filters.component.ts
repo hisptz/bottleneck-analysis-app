@@ -98,7 +98,6 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.dataSelections);
     this._selectedFilter = this.filterConfig.showDataFilter
       ? 'DATA'
       : this.filterConfig.showPeriodFilter

@@ -104,12 +104,12 @@
   <!-- data filter groups -->
   <div class="data-filter-groups-container" *ngIf="showGroupingPanel">
     <app-data-filter-groups [dataGroups]="selectedGroups" [selectedGroupId]="selectedGroupId" [selectedItems]="selectedItems"
-      (dataGroupsUpdate)="onDataGroupsUpdate($event)" (selectedGroupUpdate)="onSelectedGroupUpdate($event)" (removeMember)="onRemoveDataItem($event)"></app-data-filter-groups>
+      (dataGroupsUpdate)="onDataGroupsUpdate($event)" (selectedGroupIdUpdate)="onSelectedGroupIdUpdate($event)" (removeMember)="onRemoveDataItem($event)"></app-data-filter-groups>
   </div>
   <!-- end of data filter groups -->
 </div>
 
 <div class="data-filter-btns">
   <button class="btn btn-sm data-filter-action-btn" (click)="close($event)">CLOSE</button>
-  <button class="btn btn-sm data-filter-action-btn" [disabled]="selectedItems.length === 0" (click)="emit($event)">UPDATE</button>
+  <button class="btn btn-sm data-filter-action-btn" [disabled]="selectedItems.length === 0" (click)="onDataFilterUpdate($event)">UPDATE</button>
 </div>

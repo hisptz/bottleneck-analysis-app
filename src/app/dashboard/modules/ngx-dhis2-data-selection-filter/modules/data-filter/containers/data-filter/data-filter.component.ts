@@ -44,8 +44,6 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     enabledSelections: string[];
   };
 
-  selectedGroupId: string;
-
   showGroupingPanel: boolean;
   selectedItems$: Observable<any>;
   querystring: string;
@@ -54,6 +52,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   loading: boolean;
   currentPageForAvailableDataItems = 1;
   currentPageForSelectedDataItems = 1;
+
+  selectedGroupId: string;
 
   dataFilterSelections: fromModels.DataFilterSelection[];
   showGroups: boolean;
@@ -188,22 +188,24 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.selectedItems = [];
   }
 
-  emit(e) {
-    e.stopPropagation();
-    this.dataFilterUpdate.emit({
+  emit() {
+    return {
       items: this.selectedItems,
-      groups: this.selectedGroups,
+      groups: _.map(this.selectedGroups, (dataGroup: any) =>
+        _.omit(dataGroup, ['current'])
+      ),
       dimension: 'dx'
-    });
+    };
   }
 
   close(e) {
     e.stopPropagation();
-    this.dataFilterClose.emit({
-      items: this.selectedItems,
-      groups: this.selectedGroups,
-      dimension: 'dx'
-    });
+    this.dataFilterClose.emit(this.emit());
+  }
+
+  onDataFilterUpdate(e) {
+    e.stopPropagation();
+    this.dataFilterUpdate.emit(this.emit());
   }
 
   onToggleDataFilterSelection(toggledDataFilterSelection, event) {
@@ -254,15 +256,11 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.selectedGroups = dataGroups;
   }
 
-  onSelectedGroupUpdate(selectedGroupId: string) {
+  onSelectedGroupIdUpdate(selectedGroupId: string) {
     this.selectedGroupId = selectedGroupId;
   }
 
   ngOnDestroy() {
-    this.dataFilterClose.emit({
-      items: this.selectedItems,
-      groups: this.selectedGroups,
-      dimension: 'dx'
-    });
+    this.dataFilterClose.emit(this.emit());
   }
 }

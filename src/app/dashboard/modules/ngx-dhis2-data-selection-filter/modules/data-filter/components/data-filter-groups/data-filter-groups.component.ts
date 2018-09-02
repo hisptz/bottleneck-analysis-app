@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { DRAG_ICON, ARROW_DOWN_ICON } from '../../icons';
 import * as _ from 'lodash';
+import { generateUid } from '../../../../../../../helpers/generate-uid.helper';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -29,8 +30,9 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   dataGroupPreferences: { maximumNumberOfGroups: number };
   @Output()
   dataGroupsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
+
   @Output()
-  selectedGroupUpdate: EventEmitter<string> = new EventEmitter<string>();
+  selectedGroupIdUpdate: EventEmitter<string> = new EventEmitter<string>();
 
   @Output()
   removeMember: EventEmitter<any> = new EventEmitter<any>();
@@ -42,20 +44,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.arrowDownIcon = ARROW_DOWN_ICON;
     this.dataGroups = [];
     this.dataGroupPreferences = { maximumNumberOfGroups: 6 };
-  }
-
-  get dataGroupsVm() {
-    return _.map(
-      this.dataGroups || [],
-      (dataGroup: any, dataGroupIndex: number) => {
-        return {
-          ...dataGroup,
-          current: this.selectedGroupId
-            ? dataGroup.id === this.selectedGroupId
-            : dataGroupIndex === 0
-        };
-      }
-    );
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
@@ -79,7 +67,8 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
             return {
               ...dataGroup,
               members:
-                !dataGroup.current && dataGroup.members.length > 0
+                dataGroup.id !== this.selectedGroupId &&
+                dataGroup.members.length > 0
                   ? _.filter(dataGroup.members, member => {
                       const availableMember = _.find(this.selectedItems, [
                         'id',
@@ -99,13 +88,14 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
           newDataGroup => {
             return {
               ...newDataGroup,
-              members: newDataGroup.current
-                ? _.filter(
-                    this.selectedItems,
-                    selectedItem =>
-                      !_.find(alreadySelectedItems, ['id', selectedItem.id])
-                  )
-                : newDataGroup.members
+              members:
+                newDataGroup.id === this.selectedGroupId
+                  ? _.filter(
+                      this.selectedItems,
+                      selectedItem =>
+                        !_.find(alreadySelectedItems, ['id', selectedItem.id])
+                    )
+                  : newDataGroup.members
             };
           }
         );
@@ -115,41 +105,39 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.dataGroups && this.dataGroups[0] && !this.selectedGroupId) {
+    if (!this.selectedGroupId && this.dataGroups[0]) {
       this.selectedGroupId = this.dataGroups[0].id;
     }
   }
 
   onAddGroup(e) {
     e.stopPropagation();
-    const currentGroupLength = this.dataGroups.length;
+    const newGroupId = generateUid();
+    this.selectedGroupId = newGroupId;
     this.dataGroups = [
       ..._.map(this.dataGroups, dataGroup => {
         return { ...dataGroup, current: false };
       }),
       {
-        id: `group${currentGroupLength + 1}`,
-        name: `Untitled Group ${currentGroupLength + 1}`,
+        id: newGroupId,
+        name: 'Untitled',
         color: '#000000',
-        current: true,
         members: []
       }
     ];
 
     this.dataGroupsUpdate.emit(this.dataGroups);
+    this.selectedGroupIdUpdate.emit(this.selectedGroupId);
   }
 
   onSetCurrentGroup(currentDataGroup, e) {
     e.stopPropagation();
-    this.dataGroups = _.map(this.dataGroups, (dataGroup: any) => {
-      return {
-        ...dataGroup,
-        current: dataGroup.id === currentDataGroup.id && !dataGroup.current
-      };
-    });
-
-    this.dataGroupsUpdate.emit(this.dataGroups);
-    this.selectedGroupUpdate.emit(currentDataGroup.id);
+    if (currentDataGroup.id === this.selectedGroupId) {
+      this.selectedGroupId = '';
+    } else {
+      this.selectedGroupId = currentDataGroup.id;
+    }
+    this.selectedGroupIdUpdate.emit(this.selectedGroupId);
   }
 
   onRemoveMember(member: any, e) {
@@ -159,6 +147,5 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy() {
     this.dataGroupsUpdate.emit(this.dataGroups);
-    this.selectedGroupUpdate.emit(this.selectedGroupId);
   }
 }
