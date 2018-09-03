@@ -8,9 +8,7 @@ import {
   tap,
   withLatestFrom,
   mergeMap,
-  take,
-  first,
-  filter
+  take
 } from 'rxjs/operators';
 
 import * as _ from 'lodash';
@@ -44,7 +42,10 @@ import {
   DeleteDashboard,
   DeleteDashboardSuccess,
   DeleteDashboardFail,
-  RemoveDashboard
+  RemoveDashboard,
+  SaveDashboardAction,
+  SaveDashboardSuccessAction,
+  SaveDashboardFailAction
 } from '../actions/dashboard.actions';
 
 import {
@@ -55,7 +56,8 @@ import {
   RemoveVisualizationObjectAction,
   RemoveVisualizationFavoriteAction,
   VisualizationObjectActionTypes,
-  SaveVisualizationFavoriteSuccessAction
+  SaveVisualizationFavoriteSuccessAction,
+  SaveVisualizationFavoriteAction
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
 
 import {
@@ -70,7 +72,6 @@ import {
   AddDashboardVisualizationItemAction,
   Go,
   RemoveDashboardVisualizationItemAction,
-  AddDashboardVisualizationAction,
   LoadDashboardVisualizationsAction
 } from '../actions';
 import { User } from '../../models';
@@ -89,7 +90,6 @@ import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx
 import { generateUid } from '../../helpers/generate-uid.helper';
 import { DashboardVisualization, Dashboard } from '../../dashboard/models';
 import { getStandardizedDashboard } from '../../helpers/get-standardized-dashboard.helper';
-import { getDataGroupObjectWithLoadingStatus } from '../selectors/data-group.selectors';
 
 @Injectable()
 export class DashboardEffects {
@@ -326,7 +326,7 @@ export class DashboardEffects {
         );
         const dashboardObject = {
           ...dashboard,
-          id: `${dashboardSettings.id}_${generateUid()}`,
+          id: generateUid(),
           dashboardItems: _.map(
             action.dashboard.dashboardItems || [],
             (dashboardItem: any) => {
@@ -375,6 +375,43 @@ export class DashboardEffects {
                   error
                 })
               )
+            )
+          );
+      }
+    )
+  );
+
+  @Effect()
+  saveDashboard$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardActionTypes.SaveDashboard),
+    withLatestFrom(this.store.select(getDashboardSettings)),
+    mergeMap(
+      ([action, dashboardSettings]: [
+        SaveDashboardAction,
+        DashboardSettings
+      ]) => {
+        // Also Update visualization for the current dashboard
+        this.store
+          .select(getCurrentDashboardVisualizationItems)
+          .pipe(take(1))
+          .subscribe((visualizations: any[]) => {
+            _.each(visualizations, (visualization: any) => {
+              this.store.dispatch(
+                new SaveVisualizationFavoriteAction(
+                  visualization.id,
+                  {},
+                  action.dashboard.id
+                )
+              );
+            });
+          });
+
+        return this.dashboardService
+          .update(action.dashboard, dashboardSettings)
+          .pipe(
+            map(() => new SaveDashboardSuccessAction(action.dashboard)),
+            catchError((error: any) =>
+              of(new SaveDashboardFailAction(action.dashboard, error))
             )
           );
       }
@@ -486,27 +523,6 @@ export class DashboardEffects {
               );
             }
           )
-    )
-  );
-
-  @Effect()
-  saveVisualizationFavoriteSuccess$: Observable<any> = this.actions$.pipe(
-    ofType(VisualizationObjectActionTypes.SaveVisualizationFavoriteSuccess),
-    map(
-      (action: SaveVisualizationFavoriteSuccessAction) =>
-        new ManageDashboardItemAction(
-          action.dashboardId,
-          {
-            id: action.visualizationId,
-            type: action.favoriteType,
-            [_.camelCase(action.favoriteType)]: {
-              id: action.favoriteDetails.id,
-              displayName: action.favoriteDetails.name
-            }
-          },
-          action.action,
-          true
-        )
     )
   );
 

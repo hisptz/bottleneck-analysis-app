@@ -1,4 +1,4 @@
-<div class="selection-filter-container">
+<div class="selection-filter-container" appClickOutside (clickOutside)="showFilterBody = false">
   <!--selection filter header-->
   <div class="selection-filter-header">
     <button class="selection-filter-btn filter-control-btn" (click)="toggleFilters($event)" [title]="'Filter by different dimensions' | translate">

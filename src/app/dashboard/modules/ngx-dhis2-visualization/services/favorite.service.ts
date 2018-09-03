@@ -69,10 +69,17 @@ export class FavoriteService {
       : this.http.post(favoriteUrl, favorite).pipe(map(() => favorite));
   }
 
-  update(favoriteUrl: string, favorite: any) {
-    return this.http
-      .put(`${favoriteUrl}/${favorite.id}`, favorite)
-      .pipe(map(() => favorite));
+  update(
+    favoriteUrl: string,
+    favorite: any,
+    configurations?: FavoriteConfiguration,
+    namespace?: string
+  ) {
+    return configurations && configurations.useDataStoreAsSource
+      ? this.http
+          .put(`dataStore/${namespace}/${favorite.id}`, favorite)
+          .pipe(map(() => favorite))
+      : this.http.put(favoriteUrl, favorite).pipe(map(() => favorite));
   }
 
   delete(favoriteId: string, favoriteType: string) {

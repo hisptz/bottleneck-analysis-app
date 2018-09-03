@@ -13,16 +13,20 @@ import { SlicePipe } from '@angular/common';
 })
 export class PeriodFilterComponent implements OnInit {
   periodTypes: any[];
-  @Input() selectedPeriodType = '';
-  @Input() selectedPeriods: any[] = [];
+  @Input()
+  selectedPeriodType = '';
+  @Input()
+  selectedPeriods: any[] = [];
   @Input()
   periodConfig: any = {
     resetOnPeriodTypeChange: false,
     emitOnSelection: false,
-    singleSelection: false
+    singleSelection: true
   };
-  @Output() periodFilterUpdate = new EventEmitter();
-  @Output() periodFilterClose = new EventEmitter();
+  @Output()
+  periodFilterUpdate = new EventEmitter();
+  @Output()
+  periodFilterClose = new EventEmitter();
   availablePeriods: any[];
   periods$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   selectedPeriods$: Observable<any>;

@@ -65,7 +65,7 @@ export class DashboardService {
   ): Observable<Dashboard[]> {
     const dashboardUrl =
       dashboardSettings && dashboardSettings.useDataStoreAsSource
-        ? `dataStore/dashboards/${id}`
+        ? `dataStore/dashboards/${dashboardSettings.id}_${id}`
         : `dashboards/${id}.json${customFields || this.dashboardUrlFields}`;
     return this.httpClient.get(dashboardUrl);
   }
@@ -76,7 +76,7 @@ export class DashboardService {
       : _.omit(dashboard, dashboardSettings.additionalAttributes);
     return dashboardSettings && dashboardSettings.useDataStoreAsSource
       ? this.httpClient.post(
-          `dataStore/dashboards/${dashboard.id}`,
+          `dataStore/dashboards/${dashboardSettings.id}_${dashboard.id}`,
           sanitizedDashboard
         )
       : this.httpClient.post('dashboards.json', sanitizedDashboard);
@@ -84,8 +84,26 @@ export class DashboardService {
 
   delete(dashboardId: string, dashboardSettings: DashboardSettings) {
     return dashboardSettings && dashboardSettings.useDataStoreAsSource
-      ? this.httpClient.delete(`dataStore/dashboards/${dashboardId}`)
+      ? this.httpClient.delete(
+          `dataStore/dashboards/${dashboardSettings.id}_${dashboardId}`
+        )
       : this.httpClient.delete(`dashboard/${dashboardId}`);
+  }
+
+  update(dashboard: Dashboard, dashboardSettings: DashboardSettings) {
+    return this.load(dashboard.id, dashboardSettings).pipe(
+      switchMap((dashboardFromServer: any) => {
+        const newDashboard = { ...dashboardFromServer, ...dashboard };
+        return dashboardSettings && dashboardSettings.useDataStoreAsSource
+          ? this.httpClient.put(
+              `dataStore/dashboards/${dashboardSettings.id}_${dashboard.id}`,
+              dashboardSettings.additionalAttributes
+                ? newDashboard
+                : _.omit(newDashboard, dashboardSettings.additionalAttributes)
+            )
+          : this.httpClient.put(`dashboard/${dashboard.id}`, newDashboard);
+      })
+    );
   }
 
   bookmarkDashboard(
@@ -113,7 +131,9 @@ export class DashboardService {
     // TODO find best way for this as this approach is deprecated
     const dashboardLoadPromise =
       dashboardSettings && dashboardSettings.useDataStoreAsSource
-        ? this.httpClient.get(`dataStore/dashboards/${dashboardId}`)
+        ? this.httpClient.get(
+            `dataStore/dashboards/${dashboardSettings.id}_${dashboardId}`
+          )
         : this.load(
             dashboardId,
             dashboardSettings,
@@ -137,7 +157,7 @@ export class DashboardService {
 
         const dashboardUpdateUrl =
           dashboardSettings && dashboardSettings.useDataStoreAsSource
-            ? `dataStore/dashboards/${dashboardId}`
+            ? `dataStore/dashboards/${dashboardSettings.id}_${dashboardId}`
             : `dashboards/${dashboardId}?mergeMode=MERGE`;
         return this.httpClient
           .put(dashboardUpdateUrl, {
