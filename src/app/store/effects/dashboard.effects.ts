@@ -44,7 +44,10 @@ import {
   DeleteDashboard,
   DeleteDashboardSuccess,
   DeleteDashboardFail,
-  RemoveDashboard
+  RemoveDashboard,
+  SaveDashboardAction,
+  SaveDashboardSuccessAction,
+  SaveDashboardFailAction
 } from '../actions/dashboard.actions';
 
 import {
@@ -70,7 +73,6 @@ import {
   AddDashboardVisualizationItemAction,
   Go,
   RemoveDashboardVisualizationItemAction,
-  AddDashboardVisualizationAction,
   LoadDashboardVisualizationsAction
 } from '../actions';
 import { User } from '../../models';
@@ -89,7 +91,6 @@ import { getCurrentVisualizationObjectLayers } from '../../dashboard/modules/ngx
 import { generateUid } from '../../helpers/generate-uid.helper';
 import { DashboardVisualization, Dashboard } from '../../dashboard/models';
 import { getStandardizedDashboard } from '../../helpers/get-standardized-dashboard.helper';
-import { getDataGroupObjectWithLoadingStatus } from '../selectors/data-group.selectors';
 
 @Injectable()
 export class DashboardEffects {
@@ -326,7 +327,7 @@ export class DashboardEffects {
         );
         const dashboardObject = {
           ...dashboard,
-          id: `${dashboardSettings.id}_${generateUid()}`,
+          id: generateUid(),
           dashboardItems: _.map(
             action.dashboard.dashboardItems || [],
             (dashboardItem: any) => {
@@ -378,6 +379,21 @@ export class DashboardEffects {
             )
           );
       }
+    )
+  );
+
+  @Effect()
+  saveDashboard$: Observable<any> = this.actions$.pipe(
+    ofType(DashboardActionTypes.SaveDashboard),
+    withLatestFrom(this.store.select(getDashboardSettings)),
+    mergeMap(
+      ([action, dashboardSettings]: [SaveDashboardAction, DashboardSettings]) =>
+        this.dashboardService.update(action.dashboard, dashboardSettings).pipe(
+          map(() => new SaveDashboardSuccessAction(action.dashboard)),
+          catchError((error: any) =>
+            of(new SaveDashboardFailAction(action.dashboard, error))
+          )
+        )
     )
   );
 

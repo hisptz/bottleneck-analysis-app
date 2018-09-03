@@ -21,7 +21,8 @@ import {
   getCurrentDashboardVisualizationLoaded,
   UpdateDashboardAction,
   DeleteDashboard,
-  getDashboardObjectNotification
+  getDashboardObjectNotification,
+  SaveDashboardAction
 } from '../../../store';
 import { User, SystemInfo, LegendSet } from '../../../models';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
@@ -167,5 +168,9 @@ export class CurrentDashboardComponent implements OnInit {
 
   onDeleteDashboard(currentDashboard: Dashboard) {
     this.store.dispatch(new DeleteDashboard(currentDashboard));
+  }
+
+  onSaveDashboard(currentDashboard: Dashboard) {
+    this.store.dispatch(new SaveDashboardAction(currentDashboard));
   }
 }

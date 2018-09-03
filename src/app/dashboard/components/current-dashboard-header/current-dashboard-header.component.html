@@ -39,9 +39,13 @@
     <div style="height: 40px; width: 100%;" *ngIf="dashboardLoading">
       <app-dashboard-progress [borderRadius]="'5px'"></app-dashboard-progress>
     </div>
+    <div class="dashboard-save-block" *ngIf="dashboardLoaded">
+      <button [disabled]="currentDashboard?.saving" title="Save changes for this dashboard" class="text-primary dashboard-save-btn"
+        (click)="onSaveDashboard($event)">{{currentDashboard?.saving ? 'SAVING...': 'SAVE'}}</button>
+    </div>
     <div class="dashboard-delete-block" *ngIf="dashboardLoaded">
-      <a title="Delete this dashboard" class="text-danger dashboard-delete-btn" (click)="onToggleDashboardDeleteDialog($event)"
-        *ngIf="!currentDashboard?.showDeleteDialog && !currentDashboard?.deleting">DELETE</a>
+      <button [disabled]="currentDashboard?.saving || currentDashboard?.deleting" title="Delete this dashboard" class="text-danger dashboard-delete-btn"
+        (click)="onToggleDashboardDeleteDialog($event)" *ngIf="!currentDashboard?.showDeleteDialog && !currentDashboard?.deleting">DELETE</button>
       <div class="dashboard-delete-confirmation" *ngIf="currentDashboard?.showDeleteDialog">
         Delete this dashboard?&nbsp;
         <button class="btn btn-sm btn-success dashboard-delete-confirm-btn" (click)="onToggleDashboardDeleteDialog($event)">No</button>

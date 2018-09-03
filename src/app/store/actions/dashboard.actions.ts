@@ -18,6 +18,9 @@ export enum DashboardActionTypes {
   AddDashboards = '[Dashboard] Add Dashboards',
   UpsertDashboards = '[Dashboard] Upsert Dashboards',
   UpdateDashboard = '[Dashboard] Update Dashboard',
+  SaveDashboard = '[Dashboard] Save Dashboard',
+  SaveDashboardSuccess = '[Dashboard] Save Dashboard success',
+  SaveDashboardFail = '[Dashboard] Save Dashboard fail',
   UpdateDashboards = '[Dashboard] Update Dashboards',
   DeleteDashboard = '[Dashboard] Delete Dashboard',
   DeleteDashboardSuccess = '[Dashboard] Delete Dashboard success',
@@ -201,6 +204,22 @@ export class GlobalFilterChangeAction implements Action {
   readonly type = DashboardActionTypes.GlobalFilterChange;
   constructor(public id: string, public changes: Partial<Dashboard>) {}
 }
+
+export class SaveDashboardAction implements Action {
+  readonly type = DashboardActionTypes.SaveDashboard;
+  constructor(public dashboard: Dashboard) {}
+}
+
+export class SaveDashboardSuccessAction implements Action {
+  readonly type = DashboardActionTypes.SaveDashboardSuccess;
+  constructor(public dashboard: Dashboard) {}
+}
+
+export class SaveDashboardFailAction implements Action {
+  readonly type = DashboardActionTypes.SaveDashboardFail;
+  constructor(public dashboard: Dashboard, public error: any) {}
+}
+
 export type DashboardActions =
   | LoadDashboardsAction
   | ManageDashboardItemAction
@@ -214,6 +233,9 @@ export type DashboardActions =
   | AddDashboardsAction
   | UpsertDashboards
   | UpdateDashboardAction
+  | SaveDashboardAction
+  | SaveDashboardSuccessAction
+  | SaveDashboardFailAction
   | UpdateDashboards
   | DeleteDashboard
   | DeleteDashboardSuccess

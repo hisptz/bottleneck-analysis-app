@@ -177,6 +177,39 @@ export function dashboardObjectReducer(
         state
       );
     }
+
+    case DashboardActionTypes.SaveDashboard: {
+      return dashboardObjectAdapter.updateOne(
+        { id: action.dashboard.id, changes: { saving: true } },
+        {
+          ...state,
+          notification: { message: `Updating ${action.dashboard.name}....` }
+        }
+      );
+    }
+
+    case DashboardActionTypes.SaveDashboardSuccess: {
+      return dashboardObjectAdapter.updateOne(
+        { id: action.dashboard.id, changes: { saving: false } },
+        {
+          ...state,
+          notification: null
+        }
+      );
+    }
+
+    case DashboardActionTypes.SaveDashboardFail: {
+      return dashboardObjectAdapter.updateOne(
+        {
+          id: action.dashboard.id,
+          changes: { saving: false, hasError: true, error: action.error }
+        },
+        {
+          ...state,
+          notification: null
+        }
+      );
+    }
   }
 
   return state;

@@ -17,6 +17,8 @@
   flex: 1;
 }
 .dashboard-search-block {
+  display: flex;
+  justify-content: flex-end;
   flex: 2;
 }
 
@@ -45,11 +47,17 @@
   align-items: center;
 }
 
-.dashboard-delete-block {
+.dashboard-delete-block,
+.dashboard-save-block {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  .dashboard-delete-btn {
+  margin-left: 10px;
+  .dashboard-delete-btn,
+  .dashboard-save-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
     padding-top: 5px;
     cursor: pointer;
   }

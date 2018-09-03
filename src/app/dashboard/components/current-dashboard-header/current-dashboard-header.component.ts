@@ -70,6 +70,9 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   @Output()
   deleteDashboard: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  saveDashboard: EventEmitter<any> = new EventEmitter<any>();
+
   constructor() {
     this.selectionFilterConfig = {
       showLayout: false
@@ -140,5 +143,10 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   onDeleteDashboard(e) {
     e.stopPropagation();
     this.deleteDashboard.emit(this.currentDashboard);
+  }
+
+  onSaveDashboard(e) {
+    e.stopPropagation();
+    this.saveDashboard.emit(this.currentDashboard);
   }
 }
