@@ -5,7 +5,7 @@
         <div>
           <!--Welcoming image-->
           <div class="welcome-img-block">
-            <img src="assets/img/welcome.png" class="img-fluid welcome-img" alt="">
+            <img src="assets/icons/icon-128x128.png" class="img-fluid welcome-img" alt="">
           </div>
           <!--end of welcoming image-->
 
@@ -20,6 +20,10 @@
             <h5 class="text-center" [innerHtml]="welcomingMessage.description | translate"></h5>
           </div>
           <!--end of loading block-->
+
+          <div *ngIf="dashboardsLoaded$ | async">
+            <h2>Welcome to Bottleneck Analysis App</h2>
+          </div>
         </div>
       </div>
     </div>

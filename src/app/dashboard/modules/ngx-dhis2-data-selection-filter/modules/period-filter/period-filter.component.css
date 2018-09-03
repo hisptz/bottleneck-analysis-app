@@ -2,7 +2,7 @@
   /*display: grid;*/
   /*grid-template-columns: repeat(2, 1fr);*/
   /*border: solid 1px #dddddd;*/
-  padding: .2em;
+  padding: 0.2em;
 }
 
 .period-top-section {
@@ -24,10 +24,9 @@
   display: flex;
 }
 
-
 .period-top-section,
 .period-year-btns {
-  padding-bottom:.2em;
+  padding-bottom: 0.2em;
 }
 
 .period-available-header {
@@ -65,19 +64,13 @@
 .period-available-body,
 .period-selected-body {
   flex: 1;
-  padding: .2em;
+  padding: 0.2em;
   height: 220px;
   overflow: auto;
 }
 
 .period-available-body {
   border-right: solid 1px #dddddd;
-}
-
-.period-filter-btns {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: .2em;
 }
 
 .period-available-body::-webkit-scrollbar,
@@ -87,14 +80,16 @@
 
 .period-available-body::-webkit-scrollbar-track,
 .period-selected-body::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
 
 .period-available-body::-webkit-scrollbar-thumb,
 .period-selected-body::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
 }
 
 .period-list {
@@ -113,4 +108,33 @@
 
 .period-list > li > a:hover {
   background-color: #dddddd;
+}
+
+.period-filter-btns {
+  width: 100%;
+  border-top: solid thin #fafafa;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.2em;
+  padding-right: 5px;
+  margin-top: 5px;
+}
+
+.period-filter-action-btn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  margin-left: 5px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  outline: none;
+  color: #777777;
+  cursor: pointer;
+}
+
+.period-filter-action-btn:hover {
+  color: #222222;
 }

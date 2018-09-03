@@ -8,9 +8,7 @@ import {
   tap,
   withLatestFrom,
   mergeMap,
-  take,
-  first,
-  filter
+  take
 } from 'rxjs/operators';
 
 import * as _ from 'lodash';
