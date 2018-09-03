@@ -84,10 +84,10 @@ export class DashboardService {
 
   delete(dashboardId: string, dashboardSettings: DashboardSettings) {
     return dashboardSettings && dashboardSettings.useDataStoreAsSource
-      ? this.httpClient.delete(`dataStore/dashboards/${dashboardId}`)
-      : this.httpClient.delete(
-          `dashboard/${dashboardSettings.id}_${dashboardId}`
-        );
+      ? this.httpClient.delete(
+          `dataStore/dashboards/${dashboardSettings.id}_${dashboardId}`
+        )
+      : this.httpClient.delete(`dashboard/${dashboardId}`);
   }
 
   update(dashboard: Dashboard, dashboardSettings: DashboardSettings) {

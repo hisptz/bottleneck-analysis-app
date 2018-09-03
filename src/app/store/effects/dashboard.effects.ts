@@ -58,7 +58,8 @@ import {
   RemoveVisualizationObjectAction,
   RemoveVisualizationFavoriteAction,
   VisualizationObjectActionTypes,
-  SaveVisualizationFavoriteSuccessAction
+  SaveVisualizationFavoriteSuccessAction,
+  SaveVisualizationFavoriteAction
 } from '../../dashboard/modules/ngx-dhis2-visualization/store/actions';
 
 import {
@@ -387,13 +388,35 @@ export class DashboardEffects {
     ofType(DashboardActionTypes.SaveDashboard),
     withLatestFrom(this.store.select(getDashboardSettings)),
     mergeMap(
-      ([action, dashboardSettings]: [SaveDashboardAction, DashboardSettings]) =>
-        this.dashboardService.update(action.dashboard, dashboardSettings).pipe(
-          map(() => new SaveDashboardSuccessAction(action.dashboard)),
-          catchError((error: any) =>
-            of(new SaveDashboardFailAction(action.dashboard, error))
-          )
-        )
+      ([action, dashboardSettings]: [
+        SaveDashboardAction,
+        DashboardSettings
+      ]) => {
+        // Also Update visualization for the current dashboard
+        this.store
+          .select(getCurrentDashboardVisualizationItems)
+          .pipe(take(1))
+          .subscribe((visualizations: any[]) => {
+            _.each(visualizations, (visualization: any) => {
+              this.store.dispatch(
+                new SaveVisualizationFavoriteAction(
+                  visualization.id,
+                  {},
+                  action.dashboard.id
+                )
+              );
+            });
+          });
+
+        return this.dashboardService
+          .update(action.dashboard, dashboardSettings)
+          .pipe(
+            map(() => new SaveDashboardSuccessAction(action.dashboard)),
+            catchError((error: any) =>
+              of(new SaveDashboardFailAction(action.dashboard, error))
+            )
+          );
+      }
     )
   );
 
@@ -502,27 +525,6 @@ export class DashboardEffects {
               );
             }
           )
-    )
-  );
-
-  @Effect()
-  saveVisualizationFavoriteSuccess$: Observable<any> = this.actions$.pipe(
-    ofType(VisualizationObjectActionTypes.SaveVisualizationFavoriteSuccess),
-    map(
-      (action: SaveVisualizationFavoriteSuccessAction) =>
-        new ManageDashboardItemAction(
-          action.dashboardId,
-          {
-            id: action.visualizationId,
-            type: action.favoriteType,
-            [_.camelCase(action.favoriteType)]: {
-              id: action.favoriteDetails.id,
-              displayName: action.favoriteDetails.name
-            }
-          },
-          action.action,
-          true
-        )
     )
   );
 

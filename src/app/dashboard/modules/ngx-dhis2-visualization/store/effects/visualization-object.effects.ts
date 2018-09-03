@@ -56,7 +56,8 @@ import {
   getStandardizedVisualizationObject,
   getStandardizedVisualizationUiConfig,
   getStandardizedAnalyticsObject,
-  getSelectionDimensionsFromAnalytics
+  getSelectionDimensionsFromAnalytics,
+  checkIfVisualizationIsNonVisualizable
 } from '../../helpers';
 import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
 import { getCombinedVisualizationObjectById } from '../selectors';
@@ -471,81 +472,99 @@ export class VisualizationObjectEffects {
         .select(getCombinedVisualizationObjectById(action.id))
         .pipe(take(1))
         .subscribe((visualizationObject: any) => {
-          // Update visualization object
-          this.store.dispatch(
-            new UpdateVisualizationObjectAction(action.id, {
-              name: action.favoriteDetails.name,
-              description: action.favoriteDetails.description,
-              favorite: {
-                ...visualizationObject.favorite,
-                name: action.favoriteDetails.name
-              }
-            })
-          );
-
-          // Get updated visualization layer based on new changes
-          const visualizationLayers: VisualizationLayer[] = _.map(
-            visualizationObject.layers,
-            visualizationLayer => {
-              return {
-                ...visualizationLayer,
-                config: {
-                  ...(visualizationLayer.config || {}),
-                  ...action.favoriteDetails
+          if (
+            !checkIfVisualizationIsNonVisualizable(visualizationObject.type)
+          ) {
+            // Update visualization object
+            this.store.dispatch(
+              new UpdateVisualizationObjectAction(action.id, {
+                name:
+                  action.favoriteDetails.name ||
+                  visualizationObject.favorite.name,
+                description: action.favoriteDetails.description,
+                favorite: {
+                  ...visualizationObject.favorite,
+                  name:
+                    action.favoriteDetails.name ||
+                    visualizationObject.favorite.name
                 }
-              };
-            }
-          );
+              })
+            );
 
-          // Get favorite payload details
-          const favoriteDetails = getFavoritePayload(
-            visualizationLayers,
-            visualizationObject.type,
-            visualizationObject.config.currentType
-          );
+            // Get updated visualization layer based on new changes
+            const visualizationLayers: VisualizationLayer[] = _.map(
+              visualizationObject.layers,
+              visualizationLayer => {
+                return {
+                  ...visualizationLayer,
+                  config: {
+                    ...(visualizationLayer.config || {}),
+                    ...action.favoriteDetails
+                  }
+                };
+              }
+            );
 
-          if (favoriteDetails) {
-            const favoritePromise =
-              visualizationObject.isNew || favoriteDetails.hasDifferentType
-                ? this.favoriteService.create(
-                    favoriteDetails.url,
-                    favoriteDetails.favorite
-                  )
-                : this.favoriteService.update(
-                    favoriteDetails.url,
-                    favoriteDetails.favorite
-                  );
+            // Get favorite payload details
+            const favoriteDetails = getFavoritePayload(
+              visualizationLayers,
+              visualizationObject.type,
+              visualizationObject.config.currentType
+            );
 
-            favoritePromise.subscribe(favoriteResult => {
-              // Save favorite as dashboard item
+            if (favoriteDetails) {
+              const favoritePromise =
+                visualizationObject.isNew || favoriteDetails.hasDifferentType
+                  ? this.favoriteService.create(
+                      favoriteDetails.url,
+                      favoriteDetails.favorite,
+                      {
+                        useDataStoreAsSource: true,
+                        autoCreateFavorite: true
+                      },
+                      'favorites'
+                    )
+                  : this.favoriteService.update(
+                      favoriteDetails.url,
+                      favoriteDetails.favorite,
+                      {
+                        useDataStoreAsSource: true,
+                        autoCreateFavorite: true
+                      },
+                      'favorites'
+                    );
 
-              this.store.dispatch(
-                new SaveVisualizationFavoriteSuccessAction(
-                  action.dashboardId,
-                  action.id,
-                  favoriteDetails.favoriteType,
-                  favoriteResult,
-                  visualizationObject.isNew ? 'ADD' : 'UPDATE'
-                )
-              );
+              favoritePromise.subscribe(favoriteResult => {
+                // Save favorite as dashboard item
 
-              // Update visualization object with new favorite
-              this.store.dispatch(
-                new UpdateVisualizationObjectAction(action.id, {
-                  isNew: false
-                })
-              );
-
-              // Update visualization layers in the store
-              _.each(visualizationLayers, visualizationLayer => {
                 this.store.dispatch(
-                  new UpdateVisualizationLayerAction(
-                    visualizationLayer.id,
-                    visualizationLayer
+                  new SaveVisualizationFavoriteSuccessAction(
+                    action.dashboardId,
+                    action.id,
+                    favoriteDetails.favoriteType,
+                    favoriteResult,
+                    visualizationObject.isNew ? 'ADD' : 'UPDATE'
                   )
                 );
+
+                // Update visualization object with new favorite
+                this.store.dispatch(
+                  new UpdateVisualizationObjectAction(action.id, {
+                    isNew: false
+                  })
+                );
+
+                // Update visualization layers in the store
+                _.each(visualizationLayers, visualizationLayer => {
+                  this.store.dispatch(
+                    new UpdateVisualizationLayerAction(
+                      visualizationLayer.id,
+                      visualizationLayer
+                    )
+                  );
+                });
               });
-            });
+            }
           }
         });
     })
