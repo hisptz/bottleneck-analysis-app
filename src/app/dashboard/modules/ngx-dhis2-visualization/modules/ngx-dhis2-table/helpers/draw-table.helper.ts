@@ -239,8 +239,6 @@ export function drawTable(
           table.rows.push(item);
         }
 
-        console.log(item.items);
-
         counter++;
       }
     } else {

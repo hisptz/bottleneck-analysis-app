@@ -23,7 +23,7 @@
 .custom-table > tbody > tr > td {
   font-size: 13px !important;
 }
-
+/* 
 table tr th {
   background-color: rgba(238, 238, 238, 0.29);
   padding: 4px;
@@ -46,4 +46,4 @@ table tr td:first-child {
 
 .table {
   margin-bottom: 0rem;
-}
+} */
