@@ -79,18 +79,28 @@ export class TableItemComponent implements OnInit {
         [
           ...tableRow,
           ..._.map(_.last(tableColumnsArray), (tableDataCell: any) => {
-            return { value: '' };
+            const lastTableRow = _.last(tableRow);
+            const rowPaths =
+              lastTableRow && lastTableRow.path
+                ? lastTableRow.path.split('/')
+                : [];
+            const columnPaths =
+              tableDataCell && tableDataCell.path
+                ? tableDataCell.path.split('/')
+                : [];
+
+            return {
+              isDataCell: true,
+              dataDimensions: [
+                ...tableConfiguration.rows,
+                ...tableConfiguration.columns
+              ],
+              dataRowIds: [...rowPaths, ...columnPaths]
+            };
           })
         ]
       ];
     });
-
-    console.log(
-      JSON.stringify({
-        headers: tableHeaderRows,
-        rows: tableDataRows
-      })
-    );
 
     return {
       headers: tableHeaderRows,
@@ -177,7 +187,7 @@ export class TableItemComponent implements OnInit {
           _.each(dataItemsArray[dataItemArrayIndex], (rowsItem: any) => {
             flatDataItemsArray = [
               ...flatDataItemsArray,
-              [{ ...rowsItem, column: 0 }]
+              [{ ...rowsItem, column: 0, path: rowsItem.id }]
             ];
           });
         } else {
@@ -186,6 +196,7 @@ export class TableItemComponent implements OnInit {
             _.map(dataItemsArray[dataItemArrayIndex], (dataItem: any) => {
               return {
                 ...dataItem,
+                path: dataItem.id,
                 colSpan: _.reduce(
                   _.map(
                     _.slice(dataItemsArray, dataItemArrayIndex + 1),
@@ -200,6 +211,10 @@ export class TableItemComponent implements OnInit {
       } else {
         let innerFlatDataItemsArray = [];
         _.each(flatDataItemsArray, (flatDataItems: any[]) => {
+          const path = _.join(
+            _.map(flatDataItems, (dataItemObject: any) => dataItemObject.id),
+            '/'
+          );
           if (dimension === 'row') {
             _.each(
               dataItemsArray[dataItemArrayIndex],
@@ -222,16 +237,27 @@ export class TableItemComponent implements OnInit {
                         );
                         return {
                           ...flatDataItem,
+                          path: flatDataItem.path ? flatDataItem.path : path,
                           [dimension === 'row' ? 'rowSpan' : 'colSpan']: span
                         };
                       }),
-                      { ...dataItem, column: dataItemArrayIndex }
+                      {
+                        ...dataItem,
+                        path: `${path}/${dataItem.id}`,
+                        column: dataItemArrayIndex
+                      }
                     ]
                   ];
                 } else {
                   innerFlatDataItemsArray = [
                     ...innerFlatDataItemsArray,
-                    [{ ...dataItem, column: dataItemArrayIndex }]
+                    [
+                      {
+                        ...dataItem,
+                        path: `${path}/${dataItem.id}`,
+                        column: dataItemArrayIndex
+                      }
+                    ]
                   ];
                 }
               }
@@ -241,17 +267,20 @@ export class TableItemComponent implements OnInit {
 
         if (dimension === 'column') {
           const flatDataItems = _.last(flatDataItemsArray);
+
           innerFlatDataItemsArray = [
             ...flatDataItemsArray,
             _.flatten(
               _.map(
                 _.range(flatDataItems.length),
-                (flatDataItemIndex: number) =>
-                  _.map(
+                (flatDataItemCount: number) => {
+                  const path = flatDataItems[flatDataItemCount].path;
+                  return _.map(
                     dataItemsArray[dataItemArrayIndex],
-                    (dataItem: any, dataItemIndex: number) => {
+                    (dataItem: any) => {
                       return {
                         ...dataItem,
+                        path: `${path}/${dataItem.id}`,
                         colSpan: _.reduce(
                           _.map(
                             _.slice(dataItemsArray, dataItemArrayIndex + 1),
@@ -259,11 +288,11 @@ export class TableItemComponent implements OnInit {
                               slicedDataItemsArray.length
                           ),
                           (product: number, count: number) => product * count
-                        ),
-                        parentColumn: flatDataItemIndex
+                        )
                       };
                     }
-                  )
+                  );
+                }
               )
             )
           ];

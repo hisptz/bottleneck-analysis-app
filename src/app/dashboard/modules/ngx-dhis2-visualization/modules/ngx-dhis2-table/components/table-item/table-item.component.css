@@ -1,7 +1,7 @@
 .table-item-container {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .table-item-container > div {
@@ -47,3 +47,14 @@ table tr td:first-child {
 .table {
   margin-bottom: 0rem;
 } */
+
+.table-item-cell-label {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.table-item-cell-block {
+  padding: 0;
+}

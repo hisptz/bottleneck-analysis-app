@@ -9,8 +9,12 @@
         </thead>
         <tbody>
             <tr *ngFor="let tableRow of tableData.rows">
-                <td *ngFor="let tableCell of tableRow" [attr.rowspan]="tableCell.rowSpan">
-                    {{tableCell.value}}
+                <td class="table-item-cell-block" *ngFor="let tableCell of tableRow" [attr.rowspan]="tableCell.rowSpan">
+                    <span class="table-item-cell-label" *ngIf="!tableCell.isDataCell">{{tableCell.name}}</span>
+                    <div *ngIf="tableCell.isDataCell">
+                        <app-table-item-cell [dataRowIds]="tableCell.dataRowIds" [dataDimensions]="tableCell.dataDimensions" [analyticsObject]="analyticsObject"
+                            [legendSets]="legendSets"></app-table-item-cell>
+                    </div>
                 </td>
             </tr>
         </tbody>
