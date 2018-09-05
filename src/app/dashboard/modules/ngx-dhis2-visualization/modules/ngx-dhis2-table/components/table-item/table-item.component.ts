@@ -102,9 +102,122 @@ export class TableItemComponent implements OnInit {
       ];
     });
 
+    // remove empty row based on groups
+    const dxDataSelection = _.find(tableConfiguration.dataSelections, [
+      'dimension',
+      'dx'
+    ]);
+
+    const dxGroupMembers = _.flatten(
+      _.map(dxDataSelection ? dxDataSelection.groups || [] : [], dxGroup => {
+        return _.map(dxGroup.members, (member: any) => [dxGroup.id, member.id]);
+      })
+    );
+
+    // TODO THIS IS A HACK TO MAKE BNA GROUPING WORK
+    let firstDataColumns = [];
+    const flattenedDataRows = _.map(tableDataRows, (tableRows: any[]) => {
+      firstDataColumns = [...firstDataColumns, _.first(tableRows)];
+      const dataPaths = _.uniq(
+        _.flatten(
+          _.map(
+            tableRows,
+            (tableCell: any) =>
+              tableCell.path ? tableCell.path.split('/') : []
+          )
+        )
+      );
+
+      return _.uniqBy(
+        [
+          ..._.filter(
+            _.map(dataPaths, (dataPath: string) =>
+              _.find(firstDataColumns, ['id', dataPath])
+            ),
+            dataCell => dataCell
+          ),
+          ...tableRows
+        ],
+        'id'
+      );
+    });
+
+    // let dataRowsPaths = [];
+    const filteredDataRows = _.filter(
+      flattenedDataRows,
+      (tableDataRow: any[]) => {
+        const matchingDataRows = _.filter(
+          _.filter(
+            tableDataRow,
+            (tableDataCell: any) => tableDataCell.dataRowIds
+          ),
+          (tableDataCell: any) => {
+            const intersectedRows = _.filter(
+              dxGroupMembers,
+              (dxGroupMember: any[]) => {
+                return (
+                  _.intersection(tableDataCell.dataRowIds, dxGroupMember)
+                    .length === dxGroupMember.length
+                );
+              }
+            );
+
+            return intersectedRows.length > 0;
+          }
+        );
+
+        // dataRowsPaths = _.filter(
+        //   [
+        //     ...dataRowsPaths,
+        //     _.first(matchingDataRows)
+        //       ? _.first(matchingDataRows).dataRowIds
+        //       : []
+        //   ],
+        //   (dataRowPaths: any[]) => dataRowPaths.length > 0
+        // );
+
+        return matchingDataRows.length > 0;
+      }
+    );
+
+    let mergedDataRowsArray = [];
+    const availableParent = {};
+    _.each(filteredDataRows, (filteredDataRow: any[]) => {
+      mergedDataRowsArray = [
+        ...mergedDataRowsArray,
+        _.filter(
+          _.map(filteredDataRow, (filterDataCell: any) => {
+            if (!availableParent[filterDataCell.id]) {
+              if (filterDataCell.id) {
+                availableParent[filterDataCell.id] = 1;
+              }
+              return filterDataCell;
+            }
+
+            availableParent[filterDataCell.id] =
+              availableParent[filterDataCell.id] + 1;
+            return null;
+          }),
+          dataCell => dataCell
+        )
+      ];
+    });
+
+    mergedDataRowsArray = _.map(
+      mergedDataRowsArray,
+      (mergedDataRows: any[]) => {
+        return _.map(mergedDataRows, (mergedDataCell: any) => {
+          return {
+            ...mergedDataCell,
+            rowSpan: availableParent[mergedDataCell.id]
+          };
+        });
+      }
+    );
+
     return {
       headers: tableHeaderRows,
-      rows: tableDataRows
+      rows: mergedDataRowsArray
     };
   }
 
