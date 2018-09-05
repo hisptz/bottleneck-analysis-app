@@ -89,19 +89,22 @@ export class TableItemComponent implements OnInit {
                 ? tableDataCell.path.split('/')
                 : [];
 
+            const dataRowIds = [...rowPaths, ...columnPaths];
             return {
+              id: dataRowIds.join('_'),
               isDataCell: true,
               dataDimensions: [
                 ...tableConfiguration.rows,
                 ...tableConfiguration.columns
               ],
-              dataRowIds: [...rowPaths, ...columnPaths]
+              dataRowIds
             };
           })
         ]
       ];
     });
 
+    // TODO THIS IS A HACK TO MAKE BNA GROUPING WORK
     // remove empty row based on groups
     const dxDataSelection = _.find(tableConfiguration.dataSelections, [
       'dimension',
@@ -114,7 +117,6 @@ export class TableItemComponent implements OnInit {
       })
     );
 
-    // TODO THIS IS A HACK TO MAKE BNA GROUPING WORK
     let firstDataColumns = [];
     const flattenedDataRows = _.map(tableDataRows, (tableRows: any[]) => {
       firstDataColumns = [...firstDataColumns, _.first(tableRows)];
@@ -142,7 +144,6 @@ export class TableItemComponent implements OnInit {
       );
     });
 
-    // let dataRowsPaths = [];
     const filteredDataRows = _.filter(
       flattenedDataRows,
       (tableDataRow: any[]) => {
@@ -165,16 +166,6 @@ export class TableItemComponent implements OnInit {
             return intersectedRows.length > 0;
           }
         );
-
-        // dataRowsPaths = _.filter(
-        //   [
-        //     ...dataRowsPaths,
-        //     _.first(matchingDataRows)
-        //       ? _.first(matchingDataRows).dataRowIds
-        //       : []
-        //   ],
-        //   (dataRowPaths: any[]) => dataRowPaths.length > 0
-        // );
 
         return matchingDataRows.length > 0;
       }
@@ -285,8 +276,7 @@ export class TableItemComponent implements OnInit {
             : '';
         return {
           id: metadataId,
-          name: metadataName,
-          value: metadataName
+          name: metadataName
         };
       });
     });
