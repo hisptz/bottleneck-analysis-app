@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { VisualizationLayer } from '../models';
 import { getStandardizedVisualizationType } from './get-standardized-visualization-type.helper';
+import { generateDefaultLegendSet } from '../../../../helpers/generate-default-legend-set.helper';
 export function getFavoritePayload(
   visualizationLayers: VisualizationLayer[],
   originalType: string,
@@ -30,11 +31,16 @@ export function getFavoritePayload(
             ),
             id: visualizationLayer.id,
             columns: getSanitizedDataSelections(
-              groupedDataSelections['columns']
+              groupedDataSelections['columns'],
+              currentType
             ),
-            rows: getSanitizedDataSelections(groupedDataSelections['rows']),
+            rows: getSanitizedDataSelections(
+              groupedDataSelections['rows'],
+              currentType
+            ),
             filters: getSanitizedDataSelections(
-              groupedDataSelections['filters']
+              groupedDataSelections['filters'],
+              currentType
             )
           };
         }
@@ -62,7 +68,12 @@ export function getFavoritePayload(
   }
 }
 
-function getSanitizedDataSelections(dataSelections: any[]) {
+function getSanitizedDataSelections(
+  dataSelections: any[],
+  favoriteType: string,
+  favoritPreferences?: any
+) {
+  console.log(favoriteType);
   return _.map(dataSelections, dataSelection => {
     return {
       dimension: dataSelection.dimension,
@@ -108,7 +119,10 @@ function getFavoriteOptionsByType(favoriteDetails: any, favoriteType: string) {
       };
     }
     case 'TABLE': {
-      return favoriteDetails;
+      return {
+        ...favoriteDetails,
+        legendSet: favoriteDetails.legendSet || generateDefaultLegendSet()
+      };
     }
     default:
       return {};

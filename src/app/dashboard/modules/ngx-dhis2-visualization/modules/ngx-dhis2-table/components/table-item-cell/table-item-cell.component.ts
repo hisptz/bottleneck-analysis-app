@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
+import { LegendSet } from '../../../../models';
+import { Legend } from '../../../../../../../models';
 
 @Component({
   selector: 'app-table-item-cell',
@@ -17,13 +19,15 @@ export class TableItemCellComponent implements OnInit {
   analyticsObject: any;
 
   @Input()
-  legendSets: any[];
+  legendSet: LegendSet;
 
-  dataValue: number;
+  dataValue: any;
+  color: string;
 
   constructor() {}
 
   ngOnInit() {
+    // Find data for the cell
     const dataIndex = this.analyticsObject.headers.indexOf(
       _.find(this.analyticsObject.headers, ['name', 'value'])
     );
@@ -48,11 +52,28 @@ export class TableItemCellComponent implements OnInit {
     const dataValuesSum = _.sum(dataValues);
 
     if (isRatio) {
-      this.dataValue = parseFloat(
+      const dataValue = parseFloat(
         (dataValuesSum / dataValues.length).toFixed(2)
       );
+
+      this.dataValue = dataValue !== 0 ? dataValue : '';
     } else {
-      this.dataValue = dataValuesSum;
+      this.dataValue = dataValuesSum !== 0 ? dataValuesSum : '';
     }
+
+    // Find color for the cell
+    const legends: Legend[] = this.legendSet ? this.legendSet.legends : [];
+    const associatedLegend: Legend = _.filter(legends, (legend: Legend) => {
+      return _.inRange(this.dataValue, legend.startValue, legend.endValue);
+    })[0];
+
+    this.color =
+      legends.length > 0
+        ? associatedLegend && this.dataValue !== ''
+          ? associatedLegend.color
+          : '#ffffff'
+        : this.dataValue !== ''
+          ? '#eeeeee'
+          : '#ffffff';
   }
 }

@@ -46,7 +46,7 @@ export function getAnalyticsWithGrouping(
 
   const newMetaData = {
     ...metaData,
-    names: { ...metaData.names, ...groupNames },
+    names: { ...metaData.names, ...groupNames, ['groups']: 'Group' },
     ['groups']: _.map(dxGroups, (group: any) => group.id)
   };
 

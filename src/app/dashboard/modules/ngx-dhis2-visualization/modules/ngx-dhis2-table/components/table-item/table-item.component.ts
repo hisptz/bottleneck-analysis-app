@@ -300,6 +300,7 @@ export class TableItemComponent implements OnInit {
               return {
                 ...dataItem,
                 path: dataItem.id,
+                textCenter: true,
                 colSpan: _.reduce(
                   _.map(
                     _.slice(dataItemsArray, dataItemArrayIndex + 1),
@@ -384,6 +385,7 @@ export class TableItemComponent implements OnInit {
                       return {
                         ...dataItem,
                         path: `${path}/${dataItem.id}`,
+                        textCenter: true,
                         colSpan: _.reduce(
                           _.map(
                             _.slice(dataItemsArray, dataItemArrayIndex + 1),

@@ -12,6 +12,8 @@ export class LegendSetService {
   getLegendSets(): Observable<LegendSet[]> {
     const legendUrl = `legendSets.json?fields=id,displayName~rename(name),
     legends[id,displayName~rename(name),startValue,endValue,color]&paging=false`;
-    return this.http.get(legendUrl).pipe(map((legenSetResponse: any) => legenSetResponse.legendSets || []));
+    return this.http
+      .get(legendUrl)
+      .pipe(map((legenSetResponse: any) => legenSetResponse.legendSets || []));
   }
 }

@@ -43,7 +43,7 @@ export function getTableConfiguration(
     columns: visualizationLayout.columns
       ? _.map(visualizationLayout.columns, column => column.dimension)
       : ['dx'],
-    legendSet: favoriteObject.legendSet || null,
+    legendSet: favoriteObject.legendSet,
     legendDisplayStrategy: favoriteObject.legendDisplayStrategy,
     styles: null,
     dataSelections
