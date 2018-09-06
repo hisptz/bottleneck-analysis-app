@@ -8,12 +8,31 @@ export function getStandardizedDashboard(
   dashboard: any,
   currentUser: User,
   systemInfo: SystemInfo,
-  defaultDataGroups?: DataGroup[]
+  defaultDataGroups?: DataGroup[],
+  dashboardPreferences?: { startWithDynamicOrgUnits: boolean }
 ): Dashboard {
-  const orgUnits =
-    currentUser.dataViewOrganisationUnits.length > 0
-      ? currentUser.dataViewOrganisationUnits
-      : currentUser.organisationUnits;
+  dashboardPreferences = {
+    startWithDynamicOrgUnits: true
+  };
+  const orgUnits = dashboardPreferences.startWithDynamicOrgUnits
+    ? [
+        {
+          id: 'USER_ORGUNIT',
+          name: 'User Org unit',
+          type: 'USER_ORGANISATION_UNIT'
+        }
+      ]
+    : _.map(
+        currentUser.dataViewOrganisationUnits.length > 0
+          ? currentUser.dataViewOrganisationUnits
+          : currentUser.organisationUnits,
+        (orgUnit: any) => {
+          return {
+            ...orgUnit,
+            type: 'ORGANISATION_UNIT'
+          };
+        }
+      );
   return {
     id: dashboard.id,
     name: dashboard.name,
@@ -51,13 +70,7 @@ export function getStandardizedDashboard(
           {
             dimension: 'ou',
             layout: 'columns',
-            items: [
-              {
-                id: orgUnits[0] ? orgUnits[0].id : '',
-                name: orgUnits[0] ? orgUnits[0].name : '',
-                type: 'ORGANISATION_UNIT'
-              }
-            ]
+            items: orgUnits
           }
         ]
       : dashboard.globalSelections

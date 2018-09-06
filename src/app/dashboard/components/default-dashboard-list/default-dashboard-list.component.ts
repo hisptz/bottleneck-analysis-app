@@ -27,7 +27,8 @@ const DASHBOARD_ITEMS = [
   },
   {
     shape: 'FULL_WIDTH',
-    type: 'APP'
+    type: 'APP',
+    appKey: 'bna-widget'
   }
 ];
 

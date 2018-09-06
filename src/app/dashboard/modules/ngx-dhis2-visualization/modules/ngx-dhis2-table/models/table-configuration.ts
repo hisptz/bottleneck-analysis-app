@@ -14,4 +14,5 @@ export interface TableConfiguration {
   displayList: boolean;
   legendSet: any;
   styles: any;
+  dataSelections?: any[];
 }

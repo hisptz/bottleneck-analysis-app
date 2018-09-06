@@ -1,6 +1,8 @@
 import * as _ from 'lodash';
-import { VisualizationLayer } from '../models';
+import { VisualizationLayer, VisualizationDataSelection } from '../models';
 import { getStandardizedVisualizationType } from './get-standardized-visualization-type.helper';
+import { generateDefaultLegendSet } from '../../../../helpers/generate-default-legend-set.helper';
+import { updateDataSelectionBasedOnPreferences } from './update-data-selection-based-preference.helper';
 export function getFavoritePayload(
   visualizationLayers: VisualizationLayer[],
   originalType: string,
@@ -16,6 +18,14 @@ export function getFavoritePayload(
   switch (currentType) {
     case 'TABLE':
     case 'CHART': {
+      // Get appropriate favorite type based on current selection
+      const favoriteType =
+        standardizedType === currentType
+          ? originalType
+          : currentType === 'CHART'
+            ? 'CHART'
+            : 'REPORT_TABLE';
+
       const favoriteArray = _.map(
         visualizationLayers,
         (visualizationLayer: VisualizationLayer) => {
@@ -30,23 +40,21 @@ export function getFavoritePayload(
             ),
             id: visualizationLayer.id,
             columns: getSanitizedDataSelections(
-              groupedDataSelections['columns']
+              groupedDataSelections['columns'],
+              favoriteType
             ),
-            rows: getSanitizedDataSelections(groupedDataSelections['rows']),
+            rows: getSanitizedDataSelections(
+              groupedDataSelections['rows'],
+              favoriteType
+            ),
             filters: getSanitizedDataSelections(
-              groupedDataSelections['filters']
+              groupedDataSelections['filters'],
+              favoriteType
             )
           };
         }
       );
 
-      // Get appropriate favorite type based on current selection
-      const favoriteType =
-        standardizedType === currentType
-          ? originalType
-          : currentType === 'CHART'
-            ? 'CHART'
-            : 'REPORT_TABLE';
       return favoriteArray[0]
         ? {
             url: `${_.camelCase(favoriteType)}s`,
@@ -62,13 +70,19 @@ export function getFavoritePayload(
   }
 }
 
-function getSanitizedDataSelections(dataSelections: any[]) {
+function getSanitizedDataSelections(
+  dataSelections: VisualizationDataSelection[],
+  favoriteType: string,
+  favoritePreferences: any = {
+    reportTable: { preferOrgUnitChildren: true }
+  }
+) {
   return _.map(dataSelections, dataSelection => {
-    return {
-      dimension: dataSelection.dimension,
-      items: dataSelection.items,
-      groups: dataSelection.groups
-    };
+    return updateDataSelectionBasedOnPreferences(
+      dataSelection,
+      favoriteType,
+      favoritePreferences
+    );
   });
 }
 
@@ -108,7 +122,10 @@ function getFavoriteOptionsByType(favoriteDetails: any, favoriteType: string) {
       };
     }
     case 'TABLE': {
-      return favoriteDetails;
+      return {
+        ...favoriteDetails,
+        legendSet: favoriteDetails.legendSet || generateDefaultLegendSet()
+      };
     }
     default:
       return {};

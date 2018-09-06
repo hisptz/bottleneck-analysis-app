@@ -3,7 +3,8 @@ import * as _ from 'lodash';
 export function getTableConfiguration(
   favoriteObject: any,
   visualizationLayout: any,
-  type: string
+  type: string,
+  dataSelections: any[]
 ): TableConfiguration {
   return {
     title: favoriteObject.hasOwnProperty('displayName')
@@ -42,9 +43,10 @@ export function getTableConfiguration(
     columns: visualizationLayout.columns
       ? _.map(visualizationLayout.columns, column => column.dimension)
       : ['dx'],
-    legendSet: favoriteObject.legendSet || null,
+    legendSet: favoriteObject.legendSet,
     legendDisplayStrategy: favoriteObject.legendDisplayStrategy,
-    styles: null
+    styles: null,
+    dataSelections
   };
 }
 

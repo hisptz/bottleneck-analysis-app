@@ -25,7 +25,12 @@ export class TableListComponent implements OnInit {
     if (this.visualizationLayers && this.visualizationLayers.length > 0) {
       this.tableLayers = this.visualizationLayers.map((layer: any) => {
         return {
-          tableConfiguration: getTableConfiguration(layer.config || {}, layer.layout, this.visualizationType),
+          tableConfiguration: getTableConfiguration(
+            layer.config || {},
+            layer.layout,
+            this.visualizationType,
+            layer.dataSelections
+          ),
           analyticsObject: layer.analytics
         };
       });

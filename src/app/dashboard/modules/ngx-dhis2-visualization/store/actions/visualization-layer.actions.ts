@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { VisualizationLayer } from '../../models';
+import { VisualizationLayer, VisualizationDataSelection } from '../../models';
 import { Update } from '@ngrx/entity';
 
 export enum VisualizationLayerActionTypes {
@@ -34,7 +34,8 @@ export class LoadVisualizationAnalyticsAction implements Action {
 
   constructor(
     public visualizationId: string,
-    public visualizationLayers: VisualizationLayer[]
+    public visualizationLayers: VisualizationLayer[],
+    public globalSelections?: VisualizationDataSelection[]
   ) {}
 }
 

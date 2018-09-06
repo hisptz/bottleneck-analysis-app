@@ -24,10 +24,14 @@ import { AnalyticsService } from '../../services/analytics.service';
 // helpers
 import {
   getStandardizedAnalyticsObject,
-  getSanitizedAnalytics
+  getSanitizedAnalytics,
+  getMergedDataSelections
 } from '../../helpers';
-import { Visualization } from '../../models';
-import { getVisualizationObjectById } from '../selectors';
+import { Visualization, VisualizationLayer } from '../../models';
+import {
+  getVisualizationObjectById,
+  getCombinedVisualizationObjectById
+} from '../selectors';
 
 @Injectable()
 export class VisualizationLayerEffects {
@@ -42,9 +46,9 @@ export class VisualizationLayerEffects {
     ofType(VisualizationLayerActionTypes.LOAD_VISUALIZATION_ANALYTICS),
     tap((action: LoadVisualizationAnalyticsAction) => {
       this.store
-        .select(getVisualizationObjectById(action.visualizationId))
+        .select(getCombinedVisualizationObjectById(action.visualizationId))
         .pipe(take(1))
-        .subscribe((visualizationObject: Visualization) => {
+        .subscribe((visualizationObject: any) => {
           if (visualizationObject && !visualizationObject.isNonVisualizable) {
             this.store.dispatch(
               new UpdateVisualizationObjectAction(action.visualizationId, {
@@ -57,13 +61,32 @@ export class VisualizationLayerEffects {
               })
             );
 
-            forkJoin(
-              _.map(action.visualizationLayers, visualizationLayer =>
-                this.analyticsService.getAnalytics(
-                  visualizationLayer.dataSelections,
-                  visualizationLayer.layerType,
-                  visualizationLayer.config
+            const visualizationLayers = action.globalSelections
+              ? _.map(
+                  visualizationObject.layers,
+                  (visualizationLayer: VisualizationLayer) => {
+                    return {
+                      ...visualizationLayer,
+                      dataSelections: getMergedDataSelections(
+                        visualizationLayer.dataSelections,
+                        action.globalSelections,
+                        visualizationObject.type
+                      )
+                    };
+                  }
                 )
+              : action.visualizationLayers;
+
+            forkJoin(
+              _.map(
+                visualizationLayers,
+                (visualizationLayer: VisualizationLayer) => {
+                  return this.analyticsService.getAnalytics(
+                    visualizationLayer.dataSelections,
+                    visualizationLayer.layerType,
+                    visualizationLayer.config
+                  );
+                }
               )
             ).subscribe(
               analyticsResponse => {
@@ -71,16 +94,14 @@ export class VisualizationLayerEffects {
                 _.each(analyticsResponse, (analytics, analyticsIndex) => {
                   this.store.dispatch(
                     new LoadVisualizationAnalyticsSuccessAction(
-                      action.visualizationLayers[analyticsIndex].id,
+                      visualizationLayers[analyticsIndex].id,
                       {
                         analytics: getSanitizedAnalytics(
                           getStandardizedAnalyticsObject(analytics, true),
-                          action.visualizationLayers[analyticsIndex]
-                            .dataSelections
+                          visualizationLayers[analyticsIndex].dataSelections
                         ),
                         dataSelections:
-                          action.visualizationLayers[analyticsIndex]
-                            .dataSelections
+                          visualizationLayers[analyticsIndex].dataSelections
                       }
                     )
                   );
@@ -104,7 +125,7 @@ export class VisualizationLayerEffects {
                       statusCode: error.status,
                       statusText: 'Error',
                       percent: 100,
-                      message: error.error
+                      message: error.message
                     }
                   })
                 );
