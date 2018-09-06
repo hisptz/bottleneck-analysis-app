@@ -7,11 +7,13 @@ import {
   SetCurrentDashboardAction,
   getCurrentUser,
   getCurrentDashboardVisualizationLoading,
-  getCurrentDashboardVisualizationLoaded
+  getCurrentDashboardVisualizationLoaded,
+  getCurrentDashboard
 } from '../../../store';
 import { Observable } from 'rxjs';
 import { User, SystemInfo } from '../../../models';
 import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
+import { Dashboard } from '../../models';
 
 @Component({
   selector: 'app-current-dashboard-visualization',
@@ -20,7 +22,7 @@ import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
 })
 export class CurrentDashboardVisualizationComponent implements OnInit {
   currentVisualizationId$: Observable<string>;
-  currentDashboardId$: Observable<string>;
+  currentDashboard$: Observable<Dashboard>;
   currentUser$: Observable<User>;
   systemInfo$: Observable<SystemInfo>;
   currentDashboardVisualizationLoading$: Observable<boolean>;
@@ -28,17 +30,23 @@ export class CurrentDashboardVisualizationComponent implements OnInit {
 
   constructor(private store: Store<State>) {
     this.currentVisualizationId$ = this.store.select(getCurrentVisualizationId);
-    this.currentDashboardId$ = this.store.select(getCurrentDashboardId);
+    this.currentDashboard$ = this.store.select(getCurrentDashboard);
     this.currentUser$ = store.select(getCurrentUser);
     this.systemInfo$ = store.select(getSystemInfo);
 
-    this.currentDashboardVisualizationLoading$ = store.select(getCurrentDashboardVisualizationLoading);
+    this.currentDashboardVisualizationLoading$ = store.select(
+      getCurrentDashboardVisualizationLoading
+    );
 
-    this.currentDashboardVisualizationLoaded$ = store.select(getCurrentDashboardVisualizationLoaded);
+    this.currentDashboardVisualizationLoaded$ = store.select(
+      getCurrentDashboardVisualizationLoaded
+    );
   }
 
   onToggleVisualizationFullScreen(fullScreenDetails: any) {
-    this.store.dispatch(new SetCurrentDashboardAction(fullScreenDetails.dashboardId));
+    this.store.dispatch(
+      new SetCurrentDashboardAction(fullScreenDetails.dashboardId)
+    );
   }
   ngOnInit() {}
 }

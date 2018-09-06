@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationConfig } from '../../models/visualization-config.model';
 import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
@@ -26,7 +32,7 @@ export class VisualizationBodySectionComponent {
   visualizationUiConfig: VisualizationUiConfig;
 
   @Input()
-  dashboardId: string;
+  dashboard: any;
 
   @Input()
   legendSets: string;
@@ -37,7 +43,11 @@ export class VisualizationBodySectionComponent {
   @Output()
   updateVisualizationLayer: EventEmitter<any> = new EventEmitter<any>();
   get metadataIdentifiers() {
-    return _.uniq(_.flatten(_.map(this.visualizationLayers, layer => layer.metadataIdentifiers)));
+    return _.uniq(
+      _.flatten(
+        _.map(this.visualizationLayers, layer => layer.metadataIdentifiers)
+      )
+    );
   }
 
   constructor() {}
