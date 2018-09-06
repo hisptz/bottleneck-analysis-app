@@ -49,21 +49,99 @@ export class VisualizationLayerEffects {
         .select(getCombinedVisualizationObjectById(action.visualizationId))
         .pipe(take(1))
         .subscribe((visualizationObject: any) => {
-          if (visualizationObject && !visualizationObject.isNonVisualizable) {
-            this.store.dispatch(
-              new UpdateVisualizationObjectAction(action.visualizationId, {
-                progress: {
-                  statusCode: 200,
-                  statusText: 'OK',
-                  percent: 50,
-                  message: 'Favorite information has been loaded'
-                }
-              })
-            );
+          if (visualizationObject) {
+            if (!visualizationObject.isNonVisualizable) {
+              this.store.dispatch(
+                new UpdateVisualizationObjectAction(action.visualizationId, {
+                  progress: {
+                    statusCode: 200,
+                    statusText: 'OK',
+                    percent: 50,
+                    message: 'Favorite information has been loaded'
+                  }
+                })
+              );
 
-            const visualizationLayers = action.globalSelections
-              ? _.map(
-                  visualizationObject.layers,
+              const visualizationLayers = action.globalSelections
+                ? _.map(
+                    visualizationObject.layers,
+                    (visualizationLayer: VisualizationLayer) => {
+                      return {
+                        ...visualizationLayer,
+                        dataSelections: getMergedDataSelections(
+                          visualizationLayer.dataSelections,
+                          action.globalSelections,
+                          visualizationObject.type
+                        )
+                      };
+                    }
+                  )
+                : action.visualizationLayers;
+
+              forkJoin(
+                _.map(
+                  visualizationLayers,
+                  (visualizationLayer: VisualizationLayer) => {
+                    return this.analyticsService.getAnalytics(
+                      visualizationLayer.dataSelections,
+                      visualizationLayer.layerType,
+                      visualizationLayer.config
+                    );
+                  }
+                )
+              ).subscribe(
+                analyticsResponse => {
+                  // Save visualizations layers
+                  _.each(analyticsResponse, (analytics, analyticsIndex) => {
+                    this.store.dispatch(
+                      new LoadVisualizationAnalyticsSuccessAction(
+                        visualizationLayers[analyticsIndex].id,
+                        {
+                          analytics: getSanitizedAnalytics(
+                            getStandardizedAnalyticsObject(analytics, true),
+                            visualizationLayers[analyticsIndex].dataSelections
+                          ),
+                          dataSelections:
+                            visualizationLayers[analyticsIndex].dataSelections
+                        }
+                      )
+                    );
+                  });
+                  // Update visualization object
+                  this.store.dispatch(
+                    new UpdateVisualizationObjectAction(
+                      action.visualizationId,
+                      {
+                        progress: {
+                          statusCode: 200,
+                          statusText: 'OK',
+                          percent: 100,
+                          message: 'Analytics loaded'
+                        }
+                      }
+                    )
+                  );
+                },
+                error => {
+                  this.store.dispatch(
+                    new UpdateVisualizationObjectAction(
+                      action.visualizationId,
+                      {
+                        progress: {
+                          statusCode: error.status,
+                          statusText: 'Error',
+                          percent: 100,
+                          message: error.message
+                        }
+                      }
+                    )
+                  );
+                }
+              );
+            } else {
+              _.each(
+                _.map(
+                  action.visualizationLayers,
                   (visualizationLayer: VisualizationLayer) => {
                     return {
                       ...visualizationLayer,
@@ -74,63 +152,17 @@ export class VisualizationLayerEffects {
                       )
                     };
                   }
-                )
-              : action.visualizationLayers;
-
-            forkJoin(
-              _.map(
-                visualizationLayers,
-                (visualizationLayer: VisualizationLayer) => {
-                  return this.analyticsService.getAnalytics(
-                    visualizationLayer.dataSelections,
-                    visualizationLayer.layerType,
-                    visualizationLayer.config
-                  );
-                }
-              )
-            ).subscribe(
-              analyticsResponse => {
-                // Save visualizations layers
-                _.each(analyticsResponse, (analytics, analyticsIndex) => {
+                ),
+                visualizationLayer => {
                   this.store.dispatch(
-                    new LoadVisualizationAnalyticsSuccessAction(
-                      visualizationLayers[analyticsIndex].id,
-                      {
-                        analytics: getSanitizedAnalytics(
-                          getStandardizedAnalyticsObject(analytics, true),
-                          visualizationLayers[analyticsIndex].dataSelections
-                        ),
-                        dataSelections:
-                          visualizationLayers[analyticsIndex].dataSelections
-                      }
+                    new UpdateVisualizationLayerAction(
+                      visualizationLayer.id,
+                      visualizationLayer
                     )
                   );
-                });
-                // Update visualization object
-                this.store.dispatch(
-                  new UpdateVisualizationObjectAction(action.visualizationId, {
-                    progress: {
-                      statusCode: 200,
-                      statusText: 'OK',
-                      percent: 100,
-                      message: 'Analytics loaded'
-                    }
-                  })
-                );
-              },
-              error => {
-                this.store.dispatch(
-                  new UpdateVisualizationObjectAction(action.visualizationId, {
-                    progress: {
-                      statusCode: error.status,
-                      statusText: 'Error',
-                      percent: 100,
-                      message: error.message
-                    }
-                  })
-                );
-              }
-            );
+                }
+              );
+            }
           } else {
             _.each(action.visualizationLayers, visualizationLayer => {
               this.store.dispatch(

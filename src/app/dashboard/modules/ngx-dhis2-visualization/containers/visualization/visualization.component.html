@@ -56,9 +56,9 @@
            (visualizationProgress$ | async).percent === 100 &&
            (visualizationProgress$ | async).statusCode === 200">
         <visualization-body-section [id]="(visualizationUiConfig$ | async)?.fullScreen ? id + '_full_screen' : id" [visualizationUiConfig]="visualizationUiConfig$ | async"
-          [visualizationLayers]="visualizationLayers$ | async" [visualizationConfig]="visualizationConfig$ | async" [dashboardId]="dashboardId"
+          [visualizationLayers]="visualizationLayers$ | async" [visualizationConfig]="visualizationConfig$ | async" [dashboard]="dashboard"
           [focusedVisualization]="focusedVisualization$ | async" (updateVisualizationLayer)="onVisualizationLayerConfigUpdate($event)"
-          [appKey]="(visualizationObject$ | async)?.appKey" [legendSets]="legendSets"></visualization-body-section>
+          [appKey]="(visualizationObject$ | async)?.appKey" [legendSets]="legendSets" [currentUser]="currentUser"></visualization-body-section>
       </div>
       <!--end of visualization content-->
     </div>

@@ -45,7 +45,7 @@
   <!--app visualization-->
   <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'APP'">
     <app-visualization-widget [appKey]="appKey" [height]="visualizationUiConfig.height" [visualizationId]="id" [contextPath]="visualizationConfig.contextPath"
-      [visualizationLayers]="visualizationLayers" [dashboardId]="dashboardId" [focusedDashboardItem]="focusedVisualization"></app-visualization-widget>
+      [visualizationLayers]="visualizationLayers" [dashboard]="dashboard" [focusedDashboardItem]="focusedVisualization" [currentUser]="currentUser"></app-visualization-widget>
   </div>
   <!--end of app visualization-->
 
