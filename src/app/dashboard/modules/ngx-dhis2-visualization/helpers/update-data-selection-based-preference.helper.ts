@@ -28,8 +28,8 @@ export function updateDataSelectionBasedOnPreferences(
           !_.some(
             dataSelection.items,
             (item: any) =>
-              item.type.indexOf('LEVEL') !== -1 ||
-              item.id.indexOf('CHILDREN') !== -1
+              (item.type && item.type.indexOf('LEVEL') !== -1) ||
+              (item.id && item.id.indexOf('CHILDREN') !== -1)
           )
         ) {
           const lowestOrgUnitLevel = _.min(
