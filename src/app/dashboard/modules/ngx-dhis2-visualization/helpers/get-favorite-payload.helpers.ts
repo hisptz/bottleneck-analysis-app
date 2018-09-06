@@ -77,7 +77,6 @@ function getSanitizedDataSelections(
     reportTable: { preferOrgUnitChildren: true }
   }
 ) {
-  console.log(favoriteType);
   return _.map(dataSelections, dataSelection => {
     return updateDataSelectionBasedOnPreferences(
       dataSelection,
