@@ -8,6 +8,11 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: '**',
+    redirectTo: 'dashboards',
+    pathMatch: 'full'
+  },
+  {
     path: 'dashboards',
     loadChildren: './dashboard/dashboard.module#DashboardModule'
   }
@@ -16,7 +21,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      useHash: true
+      useHash: true,
+      preloadingStrategy: PreloadAllModules
     })
   ],
   exports: [RouterModule]
