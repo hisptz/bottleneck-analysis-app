@@ -47,7 +47,7 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
     /**
      * Menu  module
      */
-    NgxDhis2MenuModule.forRoot(),
+    NgxDhis2MenuModule,
     /**
      * Routing module
      */

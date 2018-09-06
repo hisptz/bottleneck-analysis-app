@@ -94,7 +94,9 @@ export class VisualizationWidgetComponent implements OnInit {
         )
       ),
       (item: any) => {
-        return { id: item.id, name: item.name };
+        const itemName =
+          dimension === 'pe' ? this.derivePeriodName(item) : item.name;
+        return { id: item.id, name: itemName };
       }
     );
 
@@ -114,5 +116,34 @@ export class VisualizationWidgetComponent implements OnInit {
     return singleSelection && selectionItems.length > 0
       ? JSON.stringify(selectionItems[0])
       : JSON.stringify(selectionItems);
+  }
+
+  derivePeriodName(period: any) {
+    let periodName = period.name;
+
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+
+    if (period.id === 'THIS_YEAR') {
+      periodName = year;
+    } else if (period.id === 'THIS_MONTH') {
+      periodName = `${monthNames[month]} ${year}`;
+    }
+    return periodName;
   }
 }
