@@ -35,7 +35,7 @@ export class FavoriteService {
 
         const favoritePayload = getFavoritePayload(
           visualizationLayers,
-          favoriteType,
+          favorite.visualizationType,
           favoriteType
         );
 

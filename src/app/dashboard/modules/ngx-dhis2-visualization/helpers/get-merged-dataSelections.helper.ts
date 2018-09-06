@@ -1,11 +1,16 @@
 import * as _ from 'lodash';
 import { VisualizationDataSelection } from '../models';
+import { updateDataSelectionBasedOnPreferences } from './update-data-selection-based-preference.helper';
 
 export function getMergedDataSelections(
   existingDataSelections: VisualizationDataSelection[],
-  newDataSelections: VisualizationDataSelection[]
+  newDataSelections: VisualizationDataSelection[],
+  visualizationType: string,
+  favoritePreferences: { reportTable: { preferOrgUnitChildren: boolean } } = {
+    reportTable: { preferOrgUnitChildren: true }
+  }
 ): any[] {
-  const unAvaialableDataSelections: VisualizationDataSelection[] = _.filter(
+  const unAvailableDataSelections: VisualizationDataSelection[] = _.filter(
     newDataSelections,
     (dataSelection: VisualizationDataSelection) =>
       !_.find(existingDataSelections, ['dimension', dataSelection.dimension])
@@ -18,8 +23,14 @@ export function getMergedDataSelections(
         newDataSelections,
         ['dimension', dataSelection.dimension]
       );
-      return matchingDataSelection || dataSelection;
+
+      return updateDataSelectionBasedOnPreferences(
+        matchingDataSelection || dataSelection,
+        visualizationType,
+        favoritePreferences
+      );
     }
   );
-  return [...unAvaialableDataSelections, ...mergedDataSelections];
+
+  return [...unAvailableDataSelections, ...mergedDataSelections];
 }

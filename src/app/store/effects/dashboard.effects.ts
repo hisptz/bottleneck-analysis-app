@@ -493,18 +493,7 @@ export class DashboardEffects {
                   map((visualizationLayers: VisualizationLayer[]) => {
                     return {
                       visualizationId: dashboardVisualization.id,
-                      visualizationLayers: _.map(
-                        visualizationLayers,
-                        (visualizationLayer: VisualizationLayer) => {
-                          return {
-                            ...visualizationLayer,
-                            dataSelections: getMergedDataSelections(
-                              visualizationLayer.dataSelections,
-                              action.changes.globalSelections
-                            )
-                          };
-                        }
-                      )
+                      visualizationLayers
                     };
                   })
                 )
@@ -518,7 +507,8 @@ export class DashboardEffects {
               this.store.dispatch(
                 new LoadVisualizationAnalyticsAction(
                   visualizationDetails.visualizationId,
-                  visualizationDetails.visualizationLayers
+                  visualizationDetails.visualizationLayers,
+                  action.changes.globalSelections
                 )
               );
             }

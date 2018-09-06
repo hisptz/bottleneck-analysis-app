@@ -1,7 +1,8 @@
 import * as _ from 'lodash';
-import { VisualizationLayer } from '../models';
+import { VisualizationLayer, VisualizationDataSelection } from '../models';
 import { getStandardizedVisualizationType } from './get-standardized-visualization-type.helper';
 import { generateDefaultLegendSet } from '../../../../helpers/generate-default-legend-set.helper';
+import { updateDataSelectionBasedOnPreferences } from './update-data-selection-based-preference.helper';
 export function getFavoritePayload(
   visualizationLayers: VisualizationLayer[],
   originalType: string,
@@ -17,6 +18,14 @@ export function getFavoritePayload(
   switch (currentType) {
     case 'TABLE':
     case 'CHART': {
+      // Get appropriate favorite type based on current selection
+      const favoriteType =
+        standardizedType === currentType
+          ? originalType
+          : currentType === 'CHART'
+            ? 'CHART'
+            : 'REPORT_TABLE';
+
       const favoriteArray = _.map(
         visualizationLayers,
         (visualizationLayer: VisualizationLayer) => {
@@ -32,27 +41,20 @@ export function getFavoritePayload(
             id: visualizationLayer.id,
             columns: getSanitizedDataSelections(
               groupedDataSelections['columns'],
-              currentType
+              favoriteType
             ),
             rows: getSanitizedDataSelections(
               groupedDataSelections['rows'],
-              currentType
+              favoriteType
             ),
             filters: getSanitizedDataSelections(
               groupedDataSelections['filters'],
-              currentType
+              favoriteType
             )
           };
         }
       );
 
-      // Get appropriate favorite type based on current selection
-      const favoriteType =
-        standardizedType === currentType
-          ? originalType
-          : currentType === 'CHART'
-            ? 'CHART'
-            : 'REPORT_TABLE';
       return favoriteArray[0]
         ? {
             url: `${_.camelCase(favoriteType)}s`,
@@ -69,17 +71,19 @@ export function getFavoritePayload(
 }
 
 function getSanitizedDataSelections(
-  dataSelections: any[],
+  dataSelections: VisualizationDataSelection[],
   favoriteType: string,
-  favoritPreferences?: any
+  favoritePreferences: any = {
+    reportTable: { preferOrgUnitChildren: true }
+  }
 ) {
   console.log(favoriteType);
   return _.map(dataSelections, dataSelection => {
-    return {
-      dimension: dataSelection.dimension,
-      items: dataSelection.items,
-      groups: dataSelection.groups
-    };
+    return updateDataSelectionBasedOnPreferences(
+      dataSelection,
+      favoriteType,
+      favoritePreferences
+    );
   });
 }
 
