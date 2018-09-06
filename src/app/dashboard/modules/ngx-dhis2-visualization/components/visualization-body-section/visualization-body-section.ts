@@ -40,6 +40,9 @@ export class VisualizationBodySectionComponent {
   @Input()
   focusedVisualization: string;
 
+  @Input()
+  currentUser: any;
+
   @Output()
   updateVisualizationLayer: EventEmitter<any> = new EventEmitter<any>();
   get metadataIdentifiers() {

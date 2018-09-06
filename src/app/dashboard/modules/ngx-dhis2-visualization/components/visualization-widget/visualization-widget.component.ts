@@ -22,13 +22,21 @@ export class VisualizationWidgetComponent implements OnInit {
   height: string;
   @Input()
   visualizationLayers: VisualizationLayer[];
+  @Input()
+  currentUser: any;
+
   constructor() {}
 
   get appUrl(): string {
     const dataSelections = this.visualizationLayers[0]
       ? this.visualizationLayers[0].dataSelections
       : [];
-    const orgUnit = this.getDataSelectionByDimension(dataSelections, 'ou');
+    const orgUnit = this.getDataSelectionByDimension(
+      dataSelections,
+      'ou',
+      true,
+      this.currentUser
+    );
 
     const period = this.getDataSelectionByDimension(dataSelections, 'pe');
 
@@ -72,7 +80,8 @@ export class VisualizationWidgetComponent implements OnInit {
   getDataSelectionByDimension(
     dataSelections: any[],
     dimension: string,
-    singleSelection: boolean = true
+    singleSelection: boolean = true,
+    currentUser?: any
   ) {
     const selectionItems = _.map(
       _.flatten(
@@ -89,6 +98,19 @@ export class VisualizationWidgetComponent implements OnInit {
       }
     );
 
+    if (_.some(selectionItems, (item: any) => item.id.indexOf('USER') !== -1)) {
+      const userOrgUnits = _.uniqBy(
+        _.map([
+          ...currentUser.organisationUnits,
+          ...currentUser.dataViewOrganisationUnits
+        ]),
+        'id'
+      );
+
+      return singleSelection && userOrgUnits.length > 0
+        ? JSON.stringify(userOrgUnits[0])
+        : JSON.stringify(userOrgUnits);
+    }
     return singleSelection && selectionItems.length > 0
       ? JSON.stringify(selectionItems[0])
       : JSON.stringify(selectionItems);

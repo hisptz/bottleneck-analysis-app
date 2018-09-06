@@ -64,13 +64,13 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   }
 
   get selectedPeriods(): any[] {
-    const dataObject = _.find(this.dataSelections, ['dimension', 'pe']);
-    return dataObject ? dataObject.items : [];
+    const periodObject = _.find(this.dataSelections, ['dimension', 'pe']);
+    return periodObject ? periodObject.items : [];
   }
 
   get selectedOrgUnits(): any[] {
-    const dataObject = _.find(this.dataSelections, ['dimension', 'ou']);
-    return dataObject ? dataObject.items : [];
+    const periodObject = _.find(this.dataSelections, ['dimension', 'ou']);
+    return periodObject ? periodObject.items : [];
   }
 
   get layoutItem(): any {
