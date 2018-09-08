@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Intervention } from '../models/intervention.model';
+import { Intervention } from '../../models/intervention.model';
 import {
   InterventionActions,
   InterventionActionTypes
@@ -43,20 +43,12 @@ export function reducer(
       });
     }
 
-    case InterventionActionTypes.UpsertIntervention: {
-      return adapter.upsertOne(action.payload.intervention, state);
-    }
-
     case InterventionActionTypes.AddInterventions: {
       return adapter.addMany(action.interventions, {
         ...state,
         loading: false,
         loaded: true
       });
-    }
-
-    case InterventionActionTypes.UpsertInterventions: {
-      return adapter.upsertMany(action.payload.interventions, state);
     }
 
     case InterventionActionTypes.UpdateIntervention: {
@@ -139,12 +131,6 @@ export function reducer(
           }
         }
       );
-    }
-    case InterventionActionTypes.DeleteInterventions: {
-      return adapter.removeMany(action.payload.ids, {
-        ...state,
-        notification: null
-      });
     }
 
     case InterventionActionTypes.LoadInterventions: {

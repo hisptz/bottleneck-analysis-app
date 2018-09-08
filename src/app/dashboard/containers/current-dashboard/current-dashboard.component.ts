@@ -1,33 +1,23 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-
-import { Dashboard } from '../../models';
-import {
-  getCurrentUser,
-  State,
-  getCurrentDashboard,
-  getAllLegendSets,
-  ToggleDashboardBookmarkAction,
-  ManageDashboardItemAction,
-  AddNewUnsavedFavoriteAction,
-  SetCurrentVisualizationAction,
-  GlobalFilterChangeAction,
-  getDashboardObjectLoading,
-  getDashboardObjectLoaded,
-  getVisualizationReady,
-  getCurrentDashboardVisualizationItems,
-  getCurrentDashboardVisualizationLoading,
-  getCurrentDashboardVisualizationLoaded,
-  UpdateDashboardAction,
-  DeleteDashboard,
-  getDashboardObjectNotification,
-  SaveDashboardAction
-} from '../../../store';
-import { User, SystemInfo, LegendSet } from '../../../models';
-import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
 import { take } from 'rxjs/operators';
 
+// root state
+import { State } from '../../../store/reducers';
+
+// selectors
+import * as fromRootSelectors from '../../../store/selectors';
+import * as fromDashboardSelectors from '../../store/selectors';
+
+// actions
+import * as fromDashboardActions from '../../store/actions';
+
+// models
+import { Dashboard } from '../../models';
+import { User, SystemInfo, LegendSet } from '../../../models';
+
+// constant
 import {
   WELCOMING_DESCRIPTION,
   WELCOMING_TITLE
@@ -58,26 +48,36 @@ export class CurrentDashboardComponent implements OnInit {
 
   constructor(private store: Store<State>) {
     this.currentDashboardVisualizationItems$ = store.select(
-      getCurrentDashboardVisualizationItems
+      fromDashboardSelectors.getCurrentDashboardVisualizationItems
     );
 
     this.currentDashboardVisualizationLoading$ = store.select(
-      getCurrentDashboardVisualizationLoading
+      fromDashboardSelectors.getCurrentDashboardVisualizationLoading
     );
 
     this.currentDashboardVisualizationLoaded$ = store.select(
-      getCurrentDashboardVisualizationLoaded
+      fromDashboardSelectors.getCurrentDashboardVisualizationLoaded
     );
 
-    this.dashboardNotification$ = store.select(getDashboardObjectNotification);
+    this.dashboardNotification$ = store.select(
+      fromDashboardSelectors.getDashboardNotification
+    );
 
-    this.currentDashboard$ = store.select(getCurrentDashboard);
-    this.currentUser$ = store.select(getCurrentUser);
-    this.systemInfo$ = store.select(getSystemInfo);
-    this.dashboardLoading$ = store.select(getDashboardObjectLoading);
-    this.dashboardLoaded$ = store.select(getDashboardObjectLoaded);
-    this.visualizationsReady$ = store.select(getVisualizationReady);
-    this.legendSets$ = store.select(getAllLegendSets);
+    this.currentDashboard$ = store.select(
+      fromDashboardSelectors.getCurrentDashboard
+    );
+    this.currentUser$ = store.select(fromRootSelectors.getCurrentUser);
+    this.systemInfo$ = store.select(fromRootSelectors.getSystemInfo);
+    this.dashboardLoading$ = store.select(
+      fromDashboardSelectors.getDashboardLoading
+    );
+    this.dashboardLoaded$ = store.select(
+      fromDashboardSelectors.getDashboardLoaded
+    );
+    this.visualizationsReady$ = store.select(
+      fromDashboardSelectors.getVisualizationReady
+    );
+    this.legendSets$ = store.select(fromRootSelectors.getAllLegendSets);
 
     this.welcomingTitle = WELCOMING_TITLE;
     this.welcomingDescription = WELCOMING_DESCRIPTION;
@@ -94,7 +94,7 @@ export class CurrentDashboardComponent implements OnInit {
   }) {
     this.currentUser$.pipe(take(1)).subscribe((currentUser: User) => {
       this.store.dispatch(
-        new ToggleDashboardBookmarkAction(
+        new fromDashboardActions.ToggleDashboardBookmarkAction(
           dashboardDetails.id,
           dashboardDetails.supportBookmark,
           {
@@ -112,7 +112,7 @@ export class CurrentDashboardComponent implements OnInit {
     dashboardItem: any;
   }) {
     this.store.dispatch(
-      new ManageDashboardItemAction(
+      new fromDashboardActions.ManageDashboardItemAction(
         dashboardFavoriteDetails.dashboardId,
         dashboardFavoriteDetails.dashboardItem,
         'ADD'
@@ -121,12 +121,14 @@ export class CurrentDashboardComponent implements OnInit {
   }
 
   onCreateFavoriteForCurrentDashboard(dashboardId: string) {
-    this.store.dispatch(new AddNewUnsavedFavoriteAction(dashboardId));
+    this.store.dispatch(
+      new fromDashboardActions.AddNewUnsavedFavoriteAction(dashboardId)
+    );
   }
 
   onToggleVisualizationFullScreen(fullScreenDetails) {
     this.store.dispatch(
-      new SetCurrentVisualizationAction(
+      new fromDashboardActions.SetCurrentVisualizationAction(
         fullScreenDetails.id,
         fullScreenDetails.dashboardId
       )
@@ -135,16 +137,19 @@ export class CurrentDashboardComponent implements OnInit {
 
   onGlobalFilterChange(globalFilterDetails: any) {
     this.store.dispatch(
-      new GlobalFilterChangeAction(globalFilterDetails.id, {
-        globalSelections: globalFilterDetails.globalSelections
-      })
+      new fromDashboardActions.GlobalFilterChangeAction(
+        globalFilterDetails.id,
+        {
+          globalSelections: globalFilterDetails.globalSelections
+        }
+      )
     );
   }
 
   onDeleteVisualizationAction(visualizationDetails: any) {
     this.currentDashboard$.pipe(take(1)).subscribe((dashboard: Dashboard) => {
       this.store.dispatch(
-        new ManageDashboardItemAction(
+        new fromDashboardActions.ManageDashboardItemAction(
           dashboard.id,
           {
             id: visualizationDetails.visualization.id,
@@ -160,17 +165,21 @@ export class CurrentDashboardComponent implements OnInit {
 
   onToggleDeleteDialog(currentDashboard: Dashboard) {
     this.store.dispatch(
-      new UpdateDashboardAction(currentDashboard.id, {
+      new fromDashboardActions.UpdateDashboardAction(currentDashboard.id, {
         showDeleteDialog: !currentDashboard.showDeleteDialog
       })
     );
   }
 
   onDeleteDashboard(currentDashboard: Dashboard) {
-    this.store.dispatch(new DeleteDashboard(currentDashboard));
+    this.store.dispatch(
+      new fromDashboardActions.DeleteDashboard(currentDashboard)
+    );
   }
 
   onSaveDashboard(currentDashboard: Dashboard) {
-    this.store.dispatch(new SaveDashboardAction(currentDashboard));
+    this.store.dispatch(
+      new fromDashboardActions.SaveDashboardAction(currentDashboard)
+    );
   }
 }

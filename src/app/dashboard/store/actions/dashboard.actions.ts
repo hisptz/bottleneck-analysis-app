@@ -1,9 +1,8 @@
 import { Action } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
-import { Dashboard } from '../../dashboard/models/dashboard.model';
-import { User, ErrorMessage, SystemInfo } from '../../models';
-import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
-import { DataGroup } from '../../models/data-group.model';
+import { Dashboard } from '../../models/dashboard.model';
+import { User, ErrorMessage, SystemInfo } from '../../../models';
+import { DashboardSettings } from '../../models/dashboard-settings.model';
+import { DataGroup } from '../../../models/data-group.model';
 
 export enum DashboardActionTypes {
   LoadDashboards = '[Dashboard] Load Dashboards',
@@ -14,9 +13,7 @@ export enum DashboardActionTypes {
   ManageDashboardItem = '[Dashboard] Add Dashboard item',
   ManageDashboardItemSuccess = '[Dashboard] Add Dashboard item success',
   ManageDashboardItemFail = '[Dashboard] Add Dashboard item fail',
-  UpsertDashboard = '[Dashboard] Upsert Dashboard',
   AddDashboards = '[Dashboard] Add Dashboards',
-  UpsertDashboards = '[Dashboard] Upsert Dashboards',
   UpdateDashboard = '[Dashboard] Update Dashboard',
   SaveDashboard = '[Dashboard] Save Dashboard',
   SaveDashboardSuccess = '[Dashboard] Save Dashboard success',
@@ -26,7 +23,6 @@ export enum DashboardActionTypes {
   DeleteDashboardSuccess = '[Dashboard] Delete Dashboard success',
   DeleteDashboardFail = '[Dashboard] Delete Dashboard fail',
   RemoveDashboard = '[Dashboard] Remove Dashboard',
-  DeleteDashboards = '[Dashboard] Delete Dashboards',
   ClearDashboards = '[Dashboard] Clear Dashboards',
   SetCurrentDashboard = '[Dashboard] Set current dashboard',
   SetCurrentVisualization = '[Dashboard] Set current visualization',
@@ -80,34 +76,16 @@ export class CreateDashboardAction implements Action {
   ) {}
 }
 
-export class UpsertDashboard implements Action {
-  readonly type = DashboardActionTypes.UpsertDashboard;
-
-  constructor(public payload: { dashboard: Dashboard }) {}
-}
-
 export class AddDashboardsAction implements Action {
   readonly type = DashboardActionTypes.AddDashboards;
 
   constructor(public dashboards: Dashboard[]) {}
 }
 
-export class UpsertDashboards implements Action {
-  readonly type = DashboardActionTypes.UpsertDashboards;
-
-  constructor(public payload: { dashboards: Dashboard[] }) {}
-}
-
 export class UpdateDashboardAction implements Action {
   readonly type = DashboardActionTypes.UpdateDashboard;
 
   constructor(public id: string, public changes: Partial<Dashboard>) {}
-}
-
-export class UpdateDashboards implements Action {
-  readonly type = DashboardActionTypes.UpdateDashboards;
-
-  constructor(public payload: { dashboards: Update<Dashboard>[] }) {}
 }
 
 export class DeleteDashboard implements Action {
@@ -124,12 +102,6 @@ export class DeleteDashboardSuccess implements Action {
 export class DeleteDashboardFail implements Action {
   readonly type = DashboardActionTypes.DeleteDashboardFail;
   constructor(public dashboard: Dashboard, public error: any) {}
-}
-
-export class DeleteDashboards implements Action {
-  readonly type = DashboardActionTypes.DeleteDashboards;
-
-  constructor(public payload: { ids: string[] }) {}
 }
 
 export class RemoveDashboard implements Action {
@@ -229,18 +201,14 @@ export type DashboardActions =
   | LoadDashboardsSuccessAction
   | CreateDashboardAction
   | AddDashboardAction
-  | UpsertDashboard
   | AddDashboardsAction
-  | UpsertDashboards
   | UpdateDashboardAction
   | SaveDashboardAction
   | SaveDashboardSuccessAction
   | SaveDashboardFailAction
-  | UpdateDashboards
   | DeleteDashboard
   | DeleteDashboardSuccess
   | DeleteDashboardFail
-  | DeleteDashboards
   | RemoveDashboard
   | ClearDashboards
   | SetCurrentDashboardAction

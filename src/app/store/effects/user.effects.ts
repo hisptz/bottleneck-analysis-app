@@ -4,35 +4,37 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/internal/operators';
 import { UserService } from '../../services';
 import { User } from '../../models';
-import {
-  AddCurrentUser,
-  LoadCurrentUserFail,
-  UserActionTypes,
-  LoadCurrentUser
-} from '../actions/user.actions';
-import { LoadDashboardSettingsAction } from '../actions';
+
+import * as fromSystemInfoActions from '../actions/system-info.actions';
+import * as fromUserActions from '../actions/user.actions';
+import { Action } from '@ngrx/store';
 
 @Injectable()
 export class UserEffects {
   constructor(private actions$: Actions, private userService: UserService) {}
 
   @Effect()
-  loadCurrentUser$: Observable<any> = this.actions$.pipe(
-    ofType(UserActionTypes.LoadCurrentUser),
-    switchMap((action: LoadCurrentUser) =>
-      this.userService.loadCurrentUser().pipe(
-        map((user: User) => new AddCurrentUser(user, action.systemInfo)),
-        catchError((error: any) => of(new LoadCurrentUserFail(error)))
-      )
+  systemInfoLoaded$: Observable<Action> = this.actions$.pipe(
+    ofType(fromSystemInfoActions.SystemInfoActionTypes.AddSystemInfo),
+    map(
+      (action: fromSystemInfoActions.AddSystemInfo) =>
+        new fromUserActions.LoadCurrentUser(action.systemInfo)
     )
   );
 
   @Effect()
-  currentUserLoaded$: Observable<any> = this.actions$.pipe(
-    ofType(UserActionTypes.AddCurrentUser),
-    map(
-      (action: AddCurrentUser) =>
-        new LoadDashboardSettingsAction(action.currentUser, action.systemInfo)
+  loadCurrentUser$: Observable<any> = this.actions$.pipe(
+    ofType(fromUserActions.UserActionTypes.LoadCurrentUser),
+    switchMap((action: fromUserActions.LoadCurrentUser) =>
+      this.userService.loadCurrentUser().pipe(
+        map(
+          (user: User) =>
+            new fromUserActions.AddCurrentUser(user, action.systemInfo)
+        ),
+        catchError((error: any) =>
+          of(new fromUserActions.LoadCurrentUserFail(error))
+        )
+      )
     )
   );
 }

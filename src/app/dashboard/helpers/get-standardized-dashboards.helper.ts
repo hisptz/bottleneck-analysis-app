@@ -1,6 +1,6 @@
-import { Dashboard } from '../dashboard/models';
+import { Dashboard } from '../models';
 import * as _ from 'lodash';
-import { User, SystemInfo } from '../models';
+import { User, SystemInfo } from '../../models';
 import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
 import { getStandardizedDashboard } from './get-standardized-dashboard.helper';
 

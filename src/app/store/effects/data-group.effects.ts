@@ -4,12 +4,21 @@ import { Observable } from 'rxjs';
 import { withLatestFrom, tap, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
+// root state
+import { State } from '../reducers';
+
+// actions
 import * as fromDataGroupActions from '../actions/data-group.actions';
-import * as fromRootReducer from '../reducers';
+
+// selectors
 import * as fromDataGroupSelectors from '../selectors/data-group.selectors';
+
+// services
 import { DataGroupService } from '../../services/data-group.service';
+
+// models
 import { DataGroup } from '../../models/data-group.model';
-import { LoadDashboardsAction } from '../actions';
+import { LoadDashboardsAction } from '../../dashboard/store/actions';
 
 @Injectable()
 export class DataGroupEffects {
@@ -69,7 +78,7 @@ export class DataGroupEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<fromRootReducer.State>,
+    private store: Store<State>,
     private dataGroupService: DataGroupService
   ) {}
 }

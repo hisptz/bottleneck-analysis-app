@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { User } from '../models';
+import { User } from '../../models';
 export function getCurrentDashboardId(
   routeUrl: string,
   dashboards: any[],

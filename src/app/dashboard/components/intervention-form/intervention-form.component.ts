@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { generateUid } from '../../../helpers/generate-uid.helper';
-import { Intervention } from '../../store/models/intervention.model';
+import { Intervention } from '../../models/intervention.model';
 
 @Component({
   selector: 'app-intervention-form',

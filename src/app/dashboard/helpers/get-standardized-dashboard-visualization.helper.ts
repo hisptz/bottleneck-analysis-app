@@ -1,5 +1,5 @@
-import { DashboardVisualization } from '../dashboard/models';
-import { getVisualizationWidthFromShape } from '../dashboard/modules/ngx-dhis2-visualization/helpers';
+import { DashboardVisualization } from '../models';
+import { getVisualizationWidthFromShape } from '../modules/ngx-dhis2-visualization/helpers';
 import * as _ from 'lodash';
 export function getStandardizedDashboardVisualization(
   dashboardId: string,
@@ -12,6 +12,10 @@ export function getStandardizedDashboardVisualization(
     loaded: !initialStage,
     hasError: false,
     error: null,
-    items: dashboardItems.map(({ id, shape, height }) => ({ id, width: getVisualizationWidthFromShape(shape), height }))
+    items: dashboardItems.map(({ id, shape, height }) => ({
+      id,
+      width: getVisualizationWidthFromShape(shape),
+      height
+    }))
   };
 }

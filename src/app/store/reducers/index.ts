@@ -4,22 +4,7 @@ import { environment } from '../../../environments/environment';
 
 import { userReducer, UserState } from './user.reducer';
 import { systemInfoReducer, SystemInfoState } from './system-info.reducer';
-import {
-  DashboardObjectState,
-  dashboardObjectReducer
-} from './dashboard.reducer';
-import {
-  DashboardSettingsState,
-  dashboardSettingsReducer
-} from './dashboard-settings.reducer';
-import {
-  DashboardVisualizationState,
-  dashboardVisualizationReducer
-} from './dashboard-visualization.reducer';
-import {
-  DashboardGroupsState,
-  dashboardGroupReducer
-} from './dashboard-groups.reducer';
+
 import { LegendSetState, legendSetReducer } from './legend-set.reducer';
 
 import * as fromDataGroupReducer from './data-group.reducer';
@@ -42,10 +27,6 @@ export interface State {
    * Router state
    */
   route: RouterReducerState;
-  dashboardObject: DashboardObjectState;
-  dashboardGroups: DashboardGroupsState;
-  dashboardSettings: DashboardSettingsState;
-  dashboardVisualization: DashboardVisualizationState;
   legendSets: LegendSetState;
   dataGroup: fromDataGroupReducer.State;
 }
@@ -54,10 +35,6 @@ export const reducers: ActionReducerMap<State> = {
   user: userReducer,
   systemInfo: systemInfoReducer,
   route: routerReducer,
-  dashboardObject: dashboardObjectReducer,
-  dashboardGroups: dashboardGroupReducer,
-  dashboardSettings: dashboardSettingsReducer,
-  dashboardVisualization: dashboardVisualizationReducer,
   legendSets: legendSetReducer,
   dataGroup: fromDataGroupReducer.reducer
 };

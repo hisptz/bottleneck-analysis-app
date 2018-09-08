@@ -1,3 +1,15 @@
-import { InterventionEffects } from './intervention.effects';
+import { EffectsModule } from '@ngrx/effects';
 
-export const effects: any[] = [InterventionEffects];
+import { InterventionEffects } from './intervention.effects';
+import { DashboardEffects } from './dashboard.effects';
+import { DashboardVisualizationEffects } from './dashboard-visualization.effects';
+import { DashboardGroupsEffects } from './dashboard-groups.effects';
+import { DashboardSettingsEffects } from './dashboard-settings.effects';
+
+export const effects = EffectsModule.forFeature([
+  DashboardEffects,
+  InterventionEffects,
+  DashboardVisualizationEffects,
+  DashboardGroupsEffects,
+  DashboardSettingsEffects
+]);

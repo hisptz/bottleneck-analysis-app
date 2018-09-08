@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
-import { User, SystemInfo } from '../models';
+import { User, SystemInfo } from '../../models';
 import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
-import { Dashboard } from '../dashboard/models';
-import { DataGroup } from '../models/data-group.model';
+import { Dashboard } from '../models';
+import { DataGroup } from '../../models/data-group.model';
 
 export function getStandardizedDashboard(
   dashboard: any,

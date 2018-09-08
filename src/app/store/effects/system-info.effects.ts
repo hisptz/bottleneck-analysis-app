@@ -3,18 +3,13 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of, defer } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { catchError } from 'rxjs/operators';
+import { Action } from '@ngrx/store';
 
 import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
 
-import {
-  AddSystemInfo,
-  LoadSystemInfoFail,
-  SystemInfoActionTypes,
-  LoadSystemInfo
-} from '../actions/system-info.actions';
+import * as fromSystemInfoActions from '../actions/system-info.actions';
 import { LoadCurrentUser } from '../actions/user.actions';
 import { getSanitizedSystemInfo } from '../../helpers';
-import { Action } from '@ngrx/store';
 
 @Injectable()
 export class SystemInfoEffects {
@@ -25,20 +20,21 @@ export class SystemInfoEffects {
 
   @Effect()
   loadSystemInfo$: Observable<any> = this.actions$.pipe(
-    ofType(SystemInfoActionTypes.LoadSystemInfo),
+    ofType(fromSystemInfoActions.SystemInfoActionTypes.LoadSystemInfo),
     switchMap(() => this.systemInfoService.getSystemInfo()),
     map(
-      (systemInfo: any) => new AddSystemInfo(getSanitizedSystemInfo(systemInfo))
+      (systemInfo: any) =>
+        new fromSystemInfoActions.AddSystemInfo(
+          getSanitizedSystemInfo(systemInfo)
+        )
     ),
-    catchError((error: any) => of(new LoadSystemInfoFail(error)))
+    catchError((error: any) =>
+      of(new fromSystemInfoActions.LoadSystemInfoFail(error))
+    )
   );
 
   @Effect()
-  systemInfoLoaded$: Observable<Action> = this.actions$.pipe(
-    ofType(SystemInfoActionTypes.AddSystemInfo),
-    map((action: AddSystemInfo) => new LoadCurrentUser(action.systemInfo))
+  init$: Observable<Action> = defer(() =>
+    of(new fromSystemInfoActions.LoadSystemInfo())
   );
-
-  @Effect()
-  init$: Observable<Action> = defer(() => of(new LoadSystemInfo()));
 }

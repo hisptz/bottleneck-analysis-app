@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
 import * as fromInterventionReducer from '../reducers/intervention.reducer';
-import { Intervention } from '../models/intervention.model';
+import { Intervention } from '../../models/intervention.model';
 
 export const getInterventionLoading = createSelector(
   fromInterventionReducer.getInterventionState,

@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  State,
-  getCurrentVisualizationId,
-  getCurrentDashboardId,
-  SetCurrentDashboardAction,
-  getCurrentUser,
-  getCurrentDashboardVisualizationLoading,
-  getCurrentDashboardVisualizationLoaded,
-  getCurrentDashboard
-} from '../../../store';
 import { Observable } from 'rxjs';
+
+// root state
+import { State } from '../../../store/reducers';
+
+// selectors
+import * as fromRootSelectors from '../../../store/selectors';
+import * as fromDashboardSelectors from '../../store/selectors';
+
+// actions
+import { SetCurrentDashboardAction } from '../../store/actions';
+
+// models
 import { User, SystemInfo } from '../../../models';
-import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
 import { Dashboard } from '../../models';
 
 @Component({
@@ -29,17 +30,21 @@ export class CurrentDashboardVisualizationComponent implements OnInit {
   currentDashboardVisualizationLoaded$: Observable<boolean>;
 
   constructor(private store: Store<State>) {
-    this.currentVisualizationId$ = this.store.select(getCurrentVisualizationId);
-    this.currentDashboard$ = this.store.select(getCurrentDashboard);
-    this.currentUser$ = store.select(getCurrentUser);
-    this.systemInfo$ = store.select(getSystemInfo);
+    this.currentVisualizationId$ = this.store.select(
+      fromDashboardSelectors.getCurrentVisualizationId
+    );
+    this.currentDashboard$ = this.store.select(
+      fromDashboardSelectors.getCurrentDashboard
+    );
+    this.currentUser$ = store.select(fromRootSelectors.getCurrentUser);
+    this.systemInfo$ = store.select(fromRootSelectors.getSystemInfo);
 
     this.currentDashboardVisualizationLoading$ = store.select(
-      getCurrentDashboardVisualizationLoading
+      fromDashboardSelectors.getCurrentDashboardVisualizationLoading
     );
 
     this.currentDashboardVisualizationLoaded$ = store.select(
-      getCurrentDashboardVisualizationLoaded
+      fromDashboardSelectors.getCurrentDashboardVisualizationLoaded
     );
   }
 

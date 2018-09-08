@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
-import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
-import { User, SystemInfo } from '../../models';
+import { DashboardSettings } from '../../models/dashboard-settings.model';
+import { User, SystemInfo } from '../../../models';
 
 export enum DashboardSettingsActionTypes {
   InitializeDashboardSettings = '[DashboardSettings] initialize dashboard settings',

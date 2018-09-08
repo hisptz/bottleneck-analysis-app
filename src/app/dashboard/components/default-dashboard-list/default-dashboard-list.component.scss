@@ -97,6 +97,15 @@
       font-size: 13px;
     }
 
+    .intervention-actions {
+      display: none;
+    }
+
+    .intervention-btn-actions {
+      background-color: transparent;
+      border: none;
+    }
+
     .intervention-delete-block {
       width: 100%;
       display: flex;
@@ -120,12 +129,15 @@
       width: 100%;
       padding: 10px;
       font-size: 13px;
-      border-bottom: solid thin #eeeeee;
+      // border-bottom: solid thin #eeeeee;
       cursor: pointer;
     }
 
     a:hover {
       background-color: #eeeeee;
+      .intervention-actions {
+        display: flex;
+      }
     }
 
     a img {

@@ -1,27 +1,21 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  getAllGroupDashboards,
-  getCurrentDashboardId,
-  SetCurrentDashboardAction,
-  SetActiveDashboardGroupsAction,
-  getAllDashboardGroups,
-  getActiveDashboardGroup,
-  ToggleDashboardBookmarkAction,
-  CreateDashboardAction,
-  InitializeDashboardSettingsAction,
-  State,
-  getDashboardObjectLoading,
-  getDashboardObjectLoaded,
-  getCurrentUser
-} from '../../../store';
-import { Dashboard, DashboardGroups } from '../../models';
-import { User, SystemInfo } from '../../../models';
 import { take } from 'rxjs/operators';
-import { getSystemInfo } from '../../../store/selectors/system-info.selectors';
-import { DataGroup } from '../../../models/data-group.model';
-import { getDataGroups } from '../../../store/selectors/data-group.selectors';
+
+// root state
+import { State } from '../../../store/reducers';
+
+// selectors
+import * as fromRootSelectors from '../../../store/selectors';
+import * as fromDashboardSelectors from '../../store/selectors';
+
+// actions
+import * as fromDashboardActions from '../../store/actions';
+
+// models
+import { Dashboard, DashboardGroups } from '../../models';
+import { User, SystemInfo, DataGroup } from '../../../models';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,17 +37,31 @@ export class DashboardComponent implements OnInit {
 
   constructor(private store: Store<State>) {
     // initialize dashboads settings
-    store.dispatch(new InitializeDashboardSettingsAction());
+    store.dispatch(
+      new fromDashboardActions.InitializeDashboardSettingsAction()
+    );
 
-    this.dashboards$ = store.select(getAllGroupDashboards);
-    this.currentDashboardId$ = store.select(getCurrentDashboardId);
-    this.dashboardLoading$ = store.select(getDashboardObjectLoading);
-    this.dashboardLoaded$ = store.select(getDashboardObjectLoaded);
-    this.dashboardGroups$ = store.select(getAllDashboardGroups);
-    this.currentDashboardGroupId$ = store.select(getActiveDashboardGroup);
-    this.currentUser$ = store.select(getCurrentUser);
-    this.systemInfo$ = store.select(getSystemInfo);
-    this.dataGroups$ = store.select(getDataGroups);
+    this.dashboards$ = store.select(
+      fromDashboardSelectors.getAllGroupDashboards
+    );
+    this.currentDashboardId$ = store.select(
+      fromDashboardSelectors.getCurrentDashboardId
+    );
+    this.dashboardLoading$ = store.select(
+      fromDashboardSelectors.getDashboardLoading
+    );
+    this.dashboardLoaded$ = store.select(
+      fromDashboardSelectors.getDashboardLoaded
+    );
+    this.dashboardGroups$ = store.select(
+      fromDashboardSelectors.getAllDashboardGroups
+    );
+    this.currentDashboardGroupId$ = store.select(
+      fromDashboardSelectors.getActiveDashboardGroup
+    );
+    this.currentUser$ = store.select(fromRootSelectors.getCurrentUser);
+    this.systemInfo$ = store.select(fromRootSelectors.getSystemInfo);
+    this.dataGroups$ = store.select(fromRootSelectors.getDataGroups);
 
     // menu container height in pixels
     this.menuContainerHeight = 60;
@@ -67,16 +75,20 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {}
 
   onSetCurrenDashboardAction(dashboardId: string) {
-    this.store.dispatch(new SetCurrentDashboardAction(dashboardId));
+    this.store.dispatch(
+      new fromDashboardActions.SetCurrentDashboardAction(dashboardId)
+    );
   }
 
   onSetActiveDashboardGroupAction(group: DashboardGroups) {
-    this.store.dispatch(new SetActiveDashboardGroupsAction(group));
+    this.store.dispatch(
+      new fromDashboardActions.SetActiveDashboardGroupsAction(group)
+    );
   }
 
   onCreateDashboardAction(dashboardDetails: any) {
     this.store.dispatch(
-      new CreateDashboardAction(
+      new fromDashboardActions.CreateDashboardAction(
         dashboardDetails.dashboard,
         dashboardDetails.currentUser,
         dashboardDetails.systemInfo,
@@ -92,7 +104,7 @@ export class DashboardComponent implements OnInit {
   }) {
     this.currentUser$.pipe(take(1)).subscribe((currentUser: User) => {
       this.store.dispatch(
-        new ToggleDashboardBookmarkAction(
+        new fromDashboardActions.ToggleDashboardBookmarkAction(
           dashboardDetails.id,
           dashboardDetails.supportBookmark,
           {

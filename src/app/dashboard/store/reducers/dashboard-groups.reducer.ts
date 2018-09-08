@@ -6,32 +6,31 @@ import {
   DashboardActionTypes,
   DashboardActions
 } from '../actions/dashboard.actions';
-import { DashboardGroups } from '../../dashboard/models/dashboard-groups.model';
+import { DashboardGroups } from '../../models/dashboard-groups.model';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { createFeatureSelector } from '@ngrx/store';
 
-export interface DashboardGroupsState extends EntityState<DashboardGroups> {
+export interface State extends EntityState<DashboardGroups> {
   loading: boolean;
   activeGroup: string;
   loaded: boolean;
 }
 
-export const DashboardGroupsAdapter: EntityAdapter<
+export const adapter: EntityAdapter<DashboardGroups> = createEntityAdapter<
   DashboardGroups
-> = createEntityAdapter<DashboardGroups>();
+>();
 
-const initialState: DashboardGroupsState = DashboardGroupsAdapter.getInitialState(
-  {
-    // additional entity state properties
-    loading: false,
-    activeGroup: null,
-    loaded: false
-  }
-);
+const initialState: State = adapter.getInitialState({
+  // additional entity state properties
+  loading: false,
+  activeGroup: null,
+  loaded: false
+});
 
-export function dashboardGroupReducer(
+export function reducer(
   state = initialState,
   action: DashboardGroupsActions | DashboardActions
-): DashboardGroupsState {
+): State {
   switch (action.type) {
     case DashboardGroupsActionTypes.InitializeDashboardGroupSuccess: {
       /**
@@ -44,7 +43,7 @@ export function dashboardGroupReducer(
 
       const { dashboardGroups, activeGroup } = action;
 
-      return DashboardGroupsAdapter.addMany(dashboardGroups, {
+      return adapter.addMany(dashboardGroups, {
         ...state,
         activeGroup,
         loaded: true,
@@ -70,9 +69,11 @@ export function dashboardGroupReducer(
   }
 }
 
-export const getDashboardGroupsLoadedState = (state: DashboardGroupsState) =>
-  state.loaded;
-export const getActiveDashboardGroupState = (state: DashboardGroupsState) =>
-  state.activeGroup;
-export const getDashboardGroupsLoadingState = (state: DashboardGroupsState) =>
-  state.loading;
+export const getDashboardGroupState = createFeatureSelector<State>(
+  'dashboardGroup'
+);
+
+export const {
+  selectAll: getAllDashboardGroups,
+  selectEntities: getDashboardGroupEntities
+} = adapter.getSelectors(getDashboardGroupState);

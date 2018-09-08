@@ -2,31 +2,40 @@ import { createFeatureSelector } from '@ngrx/store';
 import * as _ from 'lodash';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
-import { DashboardVisualizationAction, DashboardVisualizationActionTypes } from '../actions';
-import { DashboardVisualization } from '../../dashboard/models';
+import {
+  DashboardVisualizationAction,
+  DashboardVisualizationActionTypes
+} from '../actions/dashboard-visualization.actions';
+import { DashboardVisualization } from '../../models';
 
-export interface DashboardVisualizationState extends EntityState<DashboardVisualization> {
+export interface State extends EntityState<DashboardVisualization> {
   visualizationsReady: boolean;
 }
 
-export const dashboardVisualizationAdapter: EntityAdapter<DashboardVisualization> = createEntityAdapter<
+export const dashboardVisualizationAdapter: EntityAdapter<
   DashboardVisualization
->();
+> = createEntityAdapter<DashboardVisualization>();
 
-const initialState: DashboardVisualizationState = dashboardVisualizationAdapter.getInitialState({
+const initialState: State = dashboardVisualizationAdapter.getInitialState({
   visualizationsReady: false
 });
 
-export function dashboardVisualizationReducer(
-  state: DashboardVisualizationState = initialState,
+export function reducer(
+  state: State = initialState,
   action: DashboardVisualizationAction
-): DashboardVisualizationState {
+): State {
   switch (action.type) {
     case DashboardVisualizationActionTypes.AddDashboardVisualizations:
-      return dashboardVisualizationAdapter.addAll(action.dashboardVisualizations, state);
+      return dashboardVisualizationAdapter.addAll(
+        action.dashboardVisualizations,
+        state
+      );
 
     case DashboardVisualizationActionTypes.UpsertDashboardVisualization:
-      return dashboardVisualizationAdapter.upsertOne(action.dashboardVisualization, state);
+      return dashboardVisualizationAdapter.upsertOne(
+        action.dashboardVisualization,
+        state
+      );
     case DashboardVisualizationActionTypes.AddDashboardVisualizationItem: {
       return dashboardVisualizationAdapter.updateOne(
         {
@@ -34,7 +43,9 @@ export function dashboardVisualizationReducer(
           changes: {
             items: [
               { id: action.dashboardItemId, width: 'span 4', height: '450px' },
-              ...(state.entities[action.dashboardId] ? state.entities[action.dashboardId].items : [])
+              ...(state.entities[action.dashboardId]
+                ? state.entities[action.dashboardId].items
+                : [])
             ]
           }
         },
@@ -65,6 +76,10 @@ export function dashboardVisualizationReducer(
   return state;
 }
 
-export const getVisualizationsReadyState = (state: DashboardVisualizationState) => state.visualizationsReady;
+export const getDashboardVisualizationState = createFeatureSelector<State>(
+  'dashboardVisualization'
+);
 
-export const { selectEntities: getDashboardVisualizationEntitiesState } = dashboardVisualizationAdapter.getSelectors();
+export const {
+  selectEntities: getDashboardVisualizationEntities
+} = dashboardVisualizationAdapter.getSelectors(getDashboardVisualizationState);

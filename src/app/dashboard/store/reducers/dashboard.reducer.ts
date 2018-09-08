@@ -1,13 +1,13 @@
 import { createFeatureSelector } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Dashboard } from '../../dashboard/models';
+import { Dashboard } from '../../models';
 import {
   DashboardActions,
   DashboardActionTypes
 } from '../actions/dashboard.actions';
 import { getStandardizedDashboards } from '../../helpers';
 
-export interface DashboardObjectState extends EntityState<Dashboard> {
+export interface State extends EntityState<Dashboard> {
   // additional entities state properties
   loading: boolean;
   loaded: boolean;
@@ -18,63 +18,40 @@ export interface DashboardObjectState extends EntityState<Dashboard> {
   notification: { message: string };
 }
 
-export const dashboardObjectAdapter: EntityAdapter<
+export const adapter: EntityAdapter<Dashboard> = createEntityAdapter<
   Dashboard
-> = createEntityAdapter<Dashboard>();
+>();
 
-const initialState: DashboardObjectState = dashboardObjectAdapter.getInitialState(
-  {
-    // additional entity state properties
-    loading: true,
-    loaded: false,
-    hasError: false,
-    error: null,
-    currentDashboard: '',
-    currentVisualization: '',
-    notification: null
-  }
-);
+const initialState: State = adapter.getInitialState({
+  // additional entity state properties
+  loading: true,
+  loaded: false,
+  hasError: false,
+  error: null,
+  currentDashboard: '',
+  currentVisualization: '',
+  notification: null
+});
 
-export function dashboardObjectReducer(
-  state = initialState,
-  action: DashboardActions
-): DashboardObjectState {
+export function reducer(state = initialState, action: DashboardActions): State {
   switch (action.type) {
     case DashboardActionTypes.AddDashboard: {
-      return dashboardObjectAdapter.addOne(action.dashboard, state);
-    }
-
-    case DashboardActionTypes.UpsertDashboard: {
-      return dashboardObjectAdapter.upsertOne(action.payload.dashboard, state);
+      return adapter.addOne(action.dashboard, state);
     }
 
     case DashboardActionTypes.AddDashboards: {
-      return dashboardObjectAdapter.addMany(action.dashboards, state);
-    }
-
-    case DashboardActionTypes.UpsertDashboards: {
-      return dashboardObjectAdapter.upsertMany(
-        action.payload.dashboards,
-        state
-      );
+      return adapter.addMany(action.dashboards, state);
     }
 
     case DashboardActionTypes.UpdateDashboard: {
-      return dashboardObjectAdapter.updateOne(
+      return adapter.updateOne(
         { id: action.id, changes: action.changes },
         state
       );
     }
 
-    case DashboardActionTypes.UpdateDashboards: {
-      return dashboardObjectAdapter.updateMany(
-        action.payload.dashboards,
-        state
-      );
-    }
-
     case DashboardActionTypes.DeleteDashboard: {
-      return dashboardObjectAdapter.updateOne(
+      return adapter.updateOne(
         {
           id: action.dashboard.id,
           changes: { showDeleteDialog: false, deleting: true }
@@ -89,7 +66,7 @@ export function dashboardObjectReducer(
     }
 
     case DashboardActionTypes.RemoveDashboard: {
-      return dashboardObjectAdapter.removeOne(action.dashboard.id, {
+      return adapter.removeOne(action.dashboard.id, {
         ...state,
         notification: null
       });
@@ -100,10 +77,6 @@ export function dashboardObjectReducer(
         ...state,
         notification: { message: `Could not delete dashboard: ${action.error}` }
       };
-    }
-
-    case DashboardActionTypes.DeleteDashboards: {
-      return dashboardObjectAdapter.removeMany(action.payload.ids, state);
     }
 
     case DashboardActionTypes.LoadDashboards: {
@@ -125,7 +98,7 @@ export function dashboardObjectReducer(
       );
 
       return dashboards
-        ? dashboardObjectAdapter.addMany(dashboards, {
+        ? adapter.addMany(dashboards, {
             ...state,
             loading: false,
             loaded: true
@@ -143,7 +116,7 @@ export function dashboardObjectReducer(
     }
 
     case DashboardActionTypes.ClearDashboards: {
-      return dashboardObjectAdapter.removeAll(state);
+      return adapter.removeAll(state);
     }
 
     case DashboardActionTypes.SetCurrentDashboard: {
@@ -158,28 +131,28 @@ export function dashboardObjectReducer(
     case DashboardActionTypes.ToggleDashboardBookmarkSuccess:
     case DashboardActionTypes.ToggleDashboardBookmarkFail:
     case DashboardActionTypes.GlobalFilterChange: {
-      return dashboardObjectAdapter.updateOne(
+      return adapter.updateOne(
         { id: action.id, changes: action.changes },
         state
       );
     }
 
     case DashboardActionTypes.ManageDashboardItem: {
-      return dashboardObjectAdapter.updateOne(
+      return adapter.updateOne(
         { id: action.dashboardId, changes: { addingItem: true } },
         state
       );
     }
 
     case DashboardActionTypes.ManageDashboardItemSuccess: {
-      return dashboardObjectAdapter.updateOne(
+      return adapter.updateOne(
         { id: action.dashboardId, changes: { addingItem: false } },
         state
       );
     }
 
     case DashboardActionTypes.SaveDashboard: {
-      return dashboardObjectAdapter.updateOne(
+      return adapter.updateOne(
         { id: action.dashboard.id, changes: { saving: true } },
         {
           ...state,
@@ -189,7 +162,7 @@ export function dashboardObjectReducer(
     }
 
     case DashboardActionTypes.SaveDashboardSuccess: {
-      return dashboardObjectAdapter.updateOne(
+      return adapter.updateOne(
         { id: action.dashboard.id, changes: { saving: false } },
         {
           ...state,
@@ -199,7 +172,7 @@ export function dashboardObjectReducer(
     }
 
     case DashboardActionTypes.SaveDashboardFail: {
-      return dashboardObjectAdapter.updateOne(
+      return adapter.updateOne(
         {
           id: action.dashboard.id,
           changes: { saving: false, hasError: true, error: action.error }
@@ -215,26 +188,24 @@ export function dashboardObjectReducer(
   return state;
 }
 
+export const getDashboardState = createFeatureSelector<State>('dashboard');
+
 export const {
-  selectEntities: getDashboardObjectEntitiesState,
-  selectAll: getAllDashboardsState
-} = dashboardObjectAdapter.getSelectors();
+  selectEntities: getDashboardObjectEntities,
+  selectAll: getAllDashboards
+} = adapter.getSelectors(getDashboardState);
 
 // additional entities parameters
-export const getDashboardObjectLoadingState = (state: DashboardObjectState) =>
-  state.loading;
-export const getDashboardObjectLoadedState = (state: DashboardObjectState) =>
-  state.loaded;
-export const getDashboardObjectHasErrorState = (state: DashboardObjectState) =>
-  state.hasError;
-export const getDashboardObjectErrorState = (state: DashboardObjectState) =>
-  state.error;
+export const getDashboardObjectLoadingState = (state: State) => state.loading;
+export const getDashboardObjectLoadedState = (state: State) => state.loaded;
+export const getDashboardObjectHasErrorState = (state: State) => state.hasError;
+export const getDashboardObjectErrorState = (state: State) => state.error;
 
-export const getCurrentDashboardObjectState = (state: DashboardObjectState) =>
+export const getCurrentDashboardObjectState = (state: State) =>
   state.currentDashboard;
 
-export const getDashboardNotificationState = (state: DashboardObjectState) =>
+export const getDashboardNotificationState = (state: State) =>
   state.notification;
 
-export const getCurrentVisualizationState = (state: DashboardObjectState) =>
+export const getCurrentVisualizationState = (state: State) =>
   state.currentVisualization;

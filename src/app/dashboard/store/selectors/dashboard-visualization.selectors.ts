@@ -1,24 +1,10 @@
 import { createSelector } from '@ngrx/store';
 import { getCurrentDashboardId } from './dashboard.selectors';
-import {
-  getDashboardVisualizationEntitiesState,
-  DashboardVisualizationState
-} from '../reducers/dashboard-visualization.reducer';
-import { getRootState, State } from '../reducers';
-import { DashboardVisualization } from '../../dashboard/models';
-
-export const getDashboardVisualizationState = createSelector(
-  getRootState,
-  (state: State) => state.dashboardVisualization
-);
-
-export const getDashboardVisualizationEntities = createSelector(
-  getDashboardVisualizationState,
-  getDashboardVisualizationEntitiesState
-);
+import * as fromDashboardVisualizationReducer from '../reducers/dashboard-visualization.reducer';
+import { DashboardVisualization } from '../../models';
 
 export const getCurrentDashboardVisualization = createSelector(
-  getDashboardVisualizationEntities,
+  fromDashboardVisualizationReducer.getDashboardVisualizationEntities,
   getCurrentDashboardId,
   (dashboardVisualizationEntities, currentDashboardId) =>
     dashboardVisualizationEntities[currentDashboardId]
@@ -44,11 +30,11 @@ export const getCurrentDashboardVisualizationLoaded = createSelector(
 
 export const getDashboardVisualizationById = id =>
   createSelector(
-    getDashboardVisualizationEntities,
+    fromDashboardVisualizationReducer.getDashboardVisualizationEntities,
     dashboardVisualizationEntities => dashboardVisualizationEntities[id]
   );
 
 export const getVisualizationReady = createSelector(
-  getDashboardVisualizationState,
-  (state: DashboardVisualizationState) => state.visualizationsReady
+  fromDashboardVisualizationReducer.getDashboardVisualizationState,
+  (state: fromDashboardVisualizationReducer.State) => state.visualizationsReady
 );
