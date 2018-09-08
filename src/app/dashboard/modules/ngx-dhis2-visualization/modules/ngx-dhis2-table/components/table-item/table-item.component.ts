@@ -6,12 +6,17 @@ import { drawTable } from '../../helpers/index';
 import { LegendSet } from '../../models/legend-set.model';
 import { ChartConfiguration } from '../../../ngx-dhis-chart/models';
 import { drawChart } from '../../../ngx-dhis-chart/helpers';
+import {
+  listEnterAnimation,
+  openAnimation
+} from '../../../../../../../animations';
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'ngx-dhis2-table-item',
   templateUrl: './table-item.component.html',
-  styleUrls: ['./table-item.component.css']
+  styleUrls: ['./table-item.component.css'],
+  animations: [listEnterAnimation, openAnimation]
 })
 export class TableItemComponent implements OnInit {
   @Input()

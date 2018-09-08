@@ -137,8 +137,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
                     0,
                     this.dataGroupPreferences.maximumItemPerGroup
                   );
-
-            console.log(additionalSelectedItems);
             return {
               ...newDataGroup,
               members: newMembers

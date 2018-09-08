@@ -62,7 +62,7 @@
     "ngx-color-picker": "^6.6.0",
     "ngx-pagination": "^3.1.1",
     "polylabel": "^1.0.2",
-    "pwa": "^1.8.0",
+    "pwa": "^1.9.3",
     "rxjs": "^6.2.2",
     "shp-write": "^0.3.2",
     "zone.js": "^0.8.26"
@@ -84,7 +84,7 @@
     "d2-manifest": "^1.0.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
-    "karma": "^2.0.5",
+    "karma": "^3.0.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "~1.4.2",
     "karma-jasmine": "~1.1.1",

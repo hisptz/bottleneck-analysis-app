@@ -41,10 +41,12 @@
 }
 
 .data-filter-group__item {
-  border: solid thin #eeeeee;
-  /* background-color: #f7f7f7; */
-  border-radius: 3px;
   margin-bottom: 3px;
+}
+
+.data-filter-group__item-title {
+  padding: 5px;
+  border-bottom: solid thin #dddddd;
 }
 
 .data-filter-group__item-title input {
@@ -52,7 +54,7 @@
   outline: none;
   border: none;
   padding: 5px;
-  font-size: 15px;
+  font-size: 13px;
   border-radius: 3px;
   color: #666666;
   background-color: #ffffff;
@@ -60,22 +62,39 @@
 }
 
 .data-filter-group__item-content {
-  border-radius: 3px;
-  padding: 5px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-left: solid thin #dddddd;
+  border-right: solid thin #dddddd;
+  border-bottom: solid thin #dddddd;
 }
 
 .data-filter-group__item-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 13px;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
+.data-group-color {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.data-group-color-input {
+  width: 30px !important;
+  height: 19px !important;
+}
+
 .data-filter-group__item-header {
-  border-bottom: solid thin #eeeeee;
+  border: solid thin #dddddd;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px;
+  padding: 3px;
 }
 
 .data-filter-group__item-header img {
@@ -84,6 +103,14 @@
 
 .data-filter-group__item-header-title {
   font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.data-filter-group__item-header-icon {
+  font-size: 12px;
+  color: #999 !important;
+  font-weight: lighter !important;
   display: flex;
   align-items: center;
 }
@@ -104,15 +131,21 @@
   width: 10px;
 }
 
-.data-filter-group__item-member-item {
+.data-filter-group__item-member-list {
+  background-color: #fafafa;
   padding: 5px;
-  font-size: 13px;
+}
+
+.data-filter-group__item-member-item {
+  padding: 3px 5px 3px 5px;
+  font-size: 11px;
   border: solid thin #eeeeee;
   border-radius: 3px;
   margin-bottom: 3px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #ffffff;
 }
 
 .data-filter-group__item-member-item-title {
@@ -121,16 +154,16 @@
   justify-content: center;
 }
 
-.active-data-filter-group {
-  border-width: 4px;
-}
-
 .active-data-filter-group-item {
   background-color: #eeeeee;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .data-filter-group_color-item {
-  width: 20px;
+  width: 17px;
+  height: 17px;
   border-radius: 2px;
   margin-left: 3px;
   margin-right: 3px;
@@ -138,4 +171,10 @@
 
 .arrow-up {
   transform: rotate(180deg);
+}
+
+.data-group-delete-btn {
+  background-color: transparent;
+  padding: 2px;
+  border: none;
 }

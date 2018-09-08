@@ -130,6 +130,11 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     }
   }
 
+  onClickOutside() {
+    this._selectedFilter = '';
+    this.showFilterBody = false;
+  }
+
   onFilterClose(selectedItems, selectedFilter) {
     if (selectedItems && selectedItems.items.length > 0) {
       this.dataSelections = !_.find(this.dataSelections, [
@@ -146,7 +151,6 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     }
 
     if (this.selectedFilter === selectedFilter) {
-      // this._selectedFilter = '';
       this.showFilterBody = false;
     }
   }

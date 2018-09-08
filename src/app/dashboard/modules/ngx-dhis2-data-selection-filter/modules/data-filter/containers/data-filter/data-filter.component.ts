@@ -7,7 +7,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import * as _ from 'lodash';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { take, map } from 'rxjs/operators';
 
@@ -42,6 +42,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   dataFilterPreferences: {
     singleSelection: boolean;
     enabledSelections: string[];
+    hideSelectedPanel: boolean;
+    showGroupsOnStartup: boolean;
   };
 
   @Input()
@@ -77,7 +79,9 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     // Set default data filter preferences
     this.dataFilterPreferences = {
       enabledSelections: ['in', 'fn'],
-      singleSelection: false
+      singleSelection: false,
+      showGroupsOnStartup: true,
+      hideSelectedPanel: true
     };
 
     // Set default data group preferences
@@ -132,6 +136,11 @@ export class DataFilterComponent implements OnInit, OnDestroy {
         return enabledSelections.indexOf(dataFilterSelection.prefix) !== -1;
       }
     );
+
+    // Set show group status based on preferences
+    this.showGroupingPanel =
+      this.dataFilterPreferences &&
+      this.dataFilterPreferences.showGroupsOnStartup;
   }
 
   // trigger this to reset pagination pointer when search change
@@ -175,7 +184,9 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     if (e) {
       e.stopPropagation();
     }
-    const itemIndex = this.selectedItems.indexOf(dataItem);
+    const itemIndex = this.selectedItems.indexOf(
+      _.find(this.selectedItems, ['id', dataItem.id])
+    );
 
     if (itemIndex !== -1) {
       this.selectedItems = [

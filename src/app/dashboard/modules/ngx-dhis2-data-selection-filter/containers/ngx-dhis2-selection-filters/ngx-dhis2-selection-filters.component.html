@@ -1,4 +1,4 @@
-<div class="selection-filter-container" appClickOutside (clickOutside)="showFilterBody = false">
+<div class="selection-filter-container" appClickOutside (clickOutside)="onClickOutside()">
   <!--selection filter header-->
   <div class="selection-filter-header">
     <button class="selection-filter-btn filter-control-btn" (click)="toggleFilters($event)" [title]="'Filter by different dimensions' | translate">
@@ -9,7 +9,8 @@
       <button *ngIf="filterConfig?.showDataFilter" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'DATA'
-        }" [title]="'Filter by data' | translate" (click)="toggleCurrentFilter($event, 'DATA')">
+        }"
+        [title]="'Filter by data' | translate" (click)="toggleCurrentFilter($event, 'DATA')">
         <img [src]="dataIcon" alt="">&nbsp;{{'Data' | translate}}&nbsp;
         <img [ngClass]="{'arrow-up': selectedFilter === 'DATA'}" [src]="arrowDownIcon" alt="">
       </button>
@@ -19,7 +20,8 @@
       <button *ngIf="filterConfig?.showPeriodFilter" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'PERIOD'
-        }" [title]="'Filter by period' | translate" (click)="toggleCurrentFilter($event, 'PERIOD')">
+        }"
+        [title]="'Filter by period' | translate" (click)="toggleCurrentFilter($event, 'PERIOD')">
         <img [src]="periodIcon" alt="">&nbsp;{{'Period' | translate}}&nbsp;
         <img [ngClass]="{'arrow-up': selectedFilter === 'PERIOD'}" [src]="arrowDownIcon" alt="">
       </button>
@@ -29,7 +31,8 @@
       <button *ngIf="filterConfig?.showOrgUnitFilter" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'ORG_UNIT'
-        }" [title]="'Filter by organisation unit' | translate" (click)="toggleCurrentFilter($event, 'ORG_UNIT')">
+        }"
+        [title]="'Filter by organisation unit' | translate" (click)="toggleCurrentFilter($event, 'ORG_UNIT')">
         <img [src]="orgUnitIcon" alt="">&nbsp;{{'Org-Unit' | translate}}&nbsp;
         <img [ngClass]="{'arrow-up': selectedFilter === 'ORG_UNIT'}" [src]="arrowDownIcon" alt="">
       </button>
@@ -37,7 +40,8 @@
       <button *ngIf="filterConfig?.showLayout" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'LAYOUT'
-        }" [title]="'Layout' | translate" (click)="toggleCurrentFilter($event, 'LAYOUT')">
+        }"
+        [title]="'Layout' | translate" (click)="toggleCurrentFilter($event, 'LAYOUT')">
         <img [src]="orgUnitcon" alt="">&nbsp;{{'Layout' | translate}}&nbsp;
         <img [ngClass]="{'arrow-up': selectedFilter === 'LAYOUT'}" [src]="arrowDownIcon" alt="">
       </button>
@@ -58,8 +62,8 @@
   <!--selection filter body-->
   <div class="selection-filter-body" *ngIf="selectedFilter !== '' && showFilterBody">
     <!--data filter-->
-    <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedData" [selectedGroups]="selectedDataGroups" (dataFilterClose)="onFilterClose($event, 'DATA')"
-      (dataFilterUpdate)="onFilterUpdate($event, 'DATA')"></app-data-filter>
+    <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedData" [selectedGroups]="selectedDataGroups"
+      (dataFilterClose)="onFilterClose($event, 'DATA')" (dataFilterUpdate)="onFilterUpdate($event, 'DATA')"></app-data-filter>
     <!--end of data filter-->
 
     <!--period filter-->
@@ -68,8 +72,8 @@
     <!--end of period filter-->
 
     <!--org unit filter-->
-    <ngx-dhis2-org-unit-filter *ngIf="selectedFilter === 'ORG_UNIT'" [selectedOrgUnitItems]="selectedOrgUnits" (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')"
-      (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"></ngx-dhis2-org-unit-filter>
+    <ngx-dhis2-org-unit-filter *ngIf="selectedFilter === 'ORG_UNIT'" [selectedOrgUnitItems]="selectedOrgUnits"
+      (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')" (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"></ngx-dhis2-org-unit-filter>
     <!--end of org unit filter-->
 
     <app-layout [layoutModel]="layoutItem" *ngIf="selectedFilter === 'LAYOUT'" (onLayoutUpdate)="onFilterUpdate($event, 'LAYOUT')"
