@@ -11,35 +11,39 @@
       <div [ngClass]="{'data-filter-group__item-header': true, 'active-data-filter-group-item': group.id === selectedGroupId}"
         (click)="onSetCurrentGroup(group, $event)">
         <div class="data-filter-group__item-header-title">
-          <button>
-            <img [src]="dragIcon" alt="">
-          </button>
           <div [style.background-color]="group.color" class="data-filter-group_color-item">&nbsp;</div>
           {{group.name}}&nbsp;
           <small>({{group.members.length}} selected)</small>
         </div>
-        <img class="{{group.id === selectedGroupId ? 'arrow-up': ''}}" [src]="arrowDownIcon" alt="">
+        <div class="data-filter-group__item-header-btns">
+          <button title="Delete this group" class="data-filter-group-delete-btn text-danger" (click)="onDeleteGroup(group, $event)">
+            <i class="icon-trash-empty"></i>
+          </button>
+          <a class="data-filter-group__item-header-icon">
+            <i class="{{group.id === selectedGroupId ? 'icon-up-open' : 'icon-down-open'}}"></i>
+          </a>
+        </div>
       </div>
       <!-- end of title -->
 
       <!-- content -->
       <div class="data-filter-group__item-content" *ngIf="group.id === selectedGroupId">
         <div class="data-filter-group__item-title">
-          <div class="data-filter-group__item-label">Name</div>
+          <div class="data-filter-group__item-label">
+            <span>Name</span>
+            <div class="data-group-color-block"><input class="data-group-color-input" [(colorPicker)]="group.color"
+                [style.background]="group.color" /></div>
+          </div>
           <input type="text" [(ngModel)]="group.name">
-        </div>
-        <div class="data-filter-group__item-title">
-          <div class="data-filter-group__item-label">Color</div>
-          <input [(colorPicker)]="group.color" [style.background]="group.color" />
         </div>
         <div class="data-filter-group__item-member-list">
           <div class="data-filter-group__item-label">Members</div>
           <div class="data-filter-group__item-member-item" *ngFor="let member of group.members">
             <div class="data-filter-group__item-member-item-title">
-              <img [src]="dragIcon" alt="">&nbsp;{{member.name}}
+              {{member.name}}
             </div>
-            <button (click)="onRemoveMember(member, $event)" title="Remove item from group" class="btn btn-sm btn-outline-danger"><i
-                class="fa fa-trash"></i></button>
+            <button (click)="onRemoveMember(member, $event)" title="Remove item from group" class="btn btn-sm text-danger data-group-delete-btn"><i
+                class="icon-trash-empty"></i></button>
           </div>
         </div>
       </div>
@@ -49,10 +53,14 @@
   </div>
 
   <div class="data-filter-group_add-new">
-    <button [disabled]="dataGroups.length >= dataGroupPreferences.maximumNumberOfGroups" class="data-filter-group_add-button"
+    <button title="Add new group" [disabled]="dataGroups.length >= dataGroupPreferences.maximumNumberOfGroups" class="data-filter-group_add-button"
       (click)="onAddGroup($event)">
-      Add new group
+      <i class="icon-plus"></i>
     </button>
+  </div>
+
+  <div class="data-filter-group-notification">
+    <small>Groups with empty names or without members will be removed</small>
   </div>
 
 </div>

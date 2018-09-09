@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  getDashboardObjectLoading,
-  getDashboardObjectLoaded,
-  State
-} from '../../../store';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+
+// root state
+import { State } from '../../../store/reducers';
+
+// selectors
+import * as fromDashboardSelectors from '../../store/selectors';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -20,8 +21,12 @@ export class DashboardHomeComponent implements OnInit {
     [id: number]: { title: string; description: string };
   };
   constructor(private store: Store<State>) {
-    this.dashboardsLoading$ = store.select(getDashboardObjectLoading);
-    this.dashboardsLoaded$ = store.select(getDashboardObjectLoaded);
+    this.dashboardsLoading$ = store.select(
+      fromDashboardSelectors.getDashboardLoading
+    );
+    this.dashboardsLoaded$ = store.select(
+      fromDashboardSelectors.getDashboardLoaded
+    );
     this.welcomingMessageObject = {
       0: {
         title: 'Intuitive design patterns',

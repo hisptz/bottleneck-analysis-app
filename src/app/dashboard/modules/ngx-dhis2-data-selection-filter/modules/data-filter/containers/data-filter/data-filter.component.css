@@ -292,3 +292,7 @@
 .data-filter-action-btn:hover {
   color: #222222;
 }
+
+.data-filter-full-width {
+  grid-column: span 2;
+}

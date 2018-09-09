@@ -7,7 +7,7 @@ import * as fromInterventionReducer from '../../store/reducers/intervention.redu
 import * as fromInterventionActions from '../../store/actions/intervention.actions';
 import * as fromInterventionSelectors from '../../store/selectors/intervention.selectors';
 import { Observable } from 'rxjs';
-import { Intervention } from '../../store/models/intervention.model';
+import { Intervention } from '../../models/intervention.model';
 
 interface DefaultDashboard {
   id: string;

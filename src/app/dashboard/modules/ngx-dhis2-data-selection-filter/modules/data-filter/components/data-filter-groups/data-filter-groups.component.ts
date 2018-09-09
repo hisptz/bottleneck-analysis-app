@@ -137,8 +137,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
                     0,
                     this.dataGroupPreferences.maximumItemPerGroup
                   );
-
-            console.log(additionalSelectedItems);
             return {
               ...newDataGroup,
               members: newMembers
@@ -146,7 +144,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
           }
         );
       }
-      this.dataGroupsUpdate.emit(this.dataGroups);
+      this.emitDataGroups();
     }
   }
 
@@ -172,7 +170,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
       }
     ];
 
-    this.dataGroupsUpdate.emit(this.dataGroups);
+    // this.emitDataGroups();
     this.selectedGroupIdUpdate.emit(this.selectedGroupId);
   }
 
@@ -191,7 +189,46 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.removeMember.emit(member);
   }
 
+  onDeleteGroup(group: any, e) {
+    e.stopPropagation();
+    const groupToDelete = _.find(this.dataGroups, [
+      'id',
+      group ? group.id : ''
+    ]);
+
+    const groupIndex = this.dataGroups.indexOf(groupToDelete);
+
+    if (groupIndex !== -1) {
+      // Also remove members
+      _.each(groupToDelete.members, (groupMember: any) => {
+        this.removeMember.emit(groupMember);
+      });
+      this.dataGroups = [
+        ..._.slice(this.dataGroups, 0, groupIndex),
+        ..._.slice(this.dataGroups, groupIndex + 1)
+      ];
+
+      this.emitDataGroups();
+    }
+  }
+
+  emitDataGroups() {
+    let membersToRemove = [];
+    const filterDataGroups = _.filter(this.dataGroups, (dataGroup: any) => {
+      if (dataGroup.name === '') {
+        membersToRemove = [...membersToRemove, ...dataGroup.members];
+      }
+      return dataGroup.name !== '' && dataGroup.members.length > 0;
+    });
+
+    // Also remove members for the removed groups
+    _.each(membersToRemove, (member: any) => {
+      this.removeMember.emit(member);
+    });
+    this.dataGroupsUpdate.emit(filterDataGroups);
+  }
+
   ngOnDestroy() {
-    this.dataGroupsUpdate.emit(this.dataGroups);
+    this.emitDataGroups();
   }
 }

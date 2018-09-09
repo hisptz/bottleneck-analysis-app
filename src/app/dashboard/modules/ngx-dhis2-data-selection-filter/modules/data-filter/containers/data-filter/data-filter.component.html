@@ -9,7 +9,8 @@
             'btn-sm': true,
             'data-filter-selection': true,
             'selected-data-filter-selection': dataFilterSelection.selected
-           }" title="Click to see {{dataFilterSelection.name}}">
+           }"
+            title="Click to see {{dataFilterSelection.name}}">
             {{dataFilterSelection.name}}
           </a>
         </li>
@@ -49,28 +50,30 @@
     </div>
 
     <div class="data-filter-list-search">
-      <input type="text" class="form-control form-control-sm" (focus)="showBody = true" (keyup)="onDataItemsSearch($event)" placeholder="Search"
-        [(ngModel)]="dataItemSearchTerm">
+      <input type="text" class="form-control form-control-sm" (focus)="showBody = true" (keyup)="onDataItemsSearch($event)"
+        placeholder="Search" [(ngModel)]="dataItemSearchTerm">
     </div>
 
-    <div class="data-filter-available-header">
-      <span>Available ({{(dataFilterItems$ | async | removeSelectedItems:selectedItems | filterByName:dataItemSearchTerm).length}})</span>
+    <div class="data-filter-available-header {{dataFilterPreferences.hideSelectedPanel ? 'data-filter-full-width' : ''}}">
+      <span>Available ({{(dataFilterItems$ | async | removeSelectedItems:selectedItems |
+        filterByName:dataItemSearchTerm).length}})</span>
       <a (click)="onSelectAllItems($event)">&raquo;</a>
     </div>
-    <div class="data-filter-selected-header ">
+    <div *ngIf="!dataFilterPreferences.hideSelectedPanel" class="data-filter-selected-header ">
       <a (click)="onDeselectAllItems($event) ">&laquo;</a>
       <span>Selected ({{selectedItems.length }})</span>
     </div>
 
 
-    <div class="data-filter-available-body" [ngStyle]="{'height': showGroupingPanel ? '350px': '150px'}">
+    <div class="data-filter-available-body {{dataFilterPreferences.hideSelectedPanel ? 'data-filter-full-width' : ''}}"
+      [ngStyle]="{'height': showGroupingPanel ? '350px': '150px'}">
       <ul #scrollse>
         <li *ngIf="!(dataFilterLoading$ | async) && (dataFilterItems$ | async | removeSelectedItems:selectedItems | filterByName:dataItemSearchTerm).length==0 ">
           <a>No items</a>
         </li>
         <li *ngFor="let dataFilterItem of dataFilterItems$ | async | removeSelectedItems:selectedItems | filterByName:dataItemSearchTerm
-        | paginate: { id: 'available_list',itemsPerPage: 25, currentPage: currentPageForAvailableDataItems } " title="Click to select item "
-          id="{{dataFilterItem.id | addUnderscore}} ">
+        | paginate: { id: 'available_list',itemsPerPage: 25, currentPage: currentPageForAvailableDataItems } "
+          title="Click to select item " id="{{dataFilterItem.id | addUnderscore}} ">
           <a (click)="onSelectDataItem(dataFilterItem, $event) ">{{ dataFilterItem.name }}</a>
         </li>
         <li *ngIf="dataFilterLoading$ | async"><small>Loading...</small></li>
@@ -85,7 +88,7 @@
       </ul>
     </div>
 
-    <div class="data-filter-selected-body" [ngStyle]="{'height': showGroupingPanel ? '350px': '150px'}">
+    <div *ngIf="!dataFilterPreferences.hideSelectedPanel" class="data-filter-selected-body" [ngStyle]="{'height': showGroupingPanel ? '350px': '150px'}">
       <ul>
         <li *ngFor="let item of selectedItems | paginate:{id: 'selected_list',itemsPerPage: 100, currentPage: currentPageForSelectedDataItems}"
           title="click to unselect item">
@@ -104,8 +107,8 @@
   <!-- data filter groups -->
   <div class="data-filter-groups-container" *ngIf="showGroupingPanel">
     <app-data-filter-groups [dataGroups]="selectedGroups" [selectedGroupId]="selectedGroupId" [selectedItems]="selectedItems"
-      [dataGroupPreferences]="dataGroupPreferences" (dataGroupsUpdate)="onDataGroupsUpdate($event)" (selectedGroupIdUpdate)="onSelectedGroupIdUpdate($event)"
-      (removeMember)="onRemoveDataItem($event)"></app-data-filter-groups>
+      [dataGroupPreferences]="dataGroupPreferences" (dataGroupsUpdate)="onDataGroupsUpdate($event)"
+      (selectedGroupIdUpdate)="onSelectedGroupIdUpdate($event)" (removeMember)="onRemoveDataItem($event)"></app-data-filter-groups>
   </div>
   <!-- end of data filter groups -->
 </div>

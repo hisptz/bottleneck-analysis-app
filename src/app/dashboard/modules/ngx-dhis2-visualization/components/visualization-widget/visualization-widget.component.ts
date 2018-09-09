@@ -100,7 +100,12 @@ export class VisualizationWidgetComponent implements OnInit {
       }
     );
 
-    if (_.some(selectionItems, (item: any) => item.id.indexOf('USER') !== -1)) {
+    if (
+      _.some(
+        selectionItems,
+        (item: any) => item && item.id && item.id.indexOf('USER') !== -1
+      )
+    ) {
       const userOrgUnits = _.uniqBy(
         _.map([
           ...currentUser.organisationUnits,

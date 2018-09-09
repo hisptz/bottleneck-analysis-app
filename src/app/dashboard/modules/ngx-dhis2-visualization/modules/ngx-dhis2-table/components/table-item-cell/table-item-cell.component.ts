@@ -64,7 +64,9 @@ export class TableItemCellComponent implements OnInit {
     // Find color for the cell
     const legends: Legend[] = this.legendSet ? this.legendSet.legends : [];
     const associatedLegend: Legend = _.filter(legends, (legend: Legend) => {
-      return _.inRange(this.dataValue, legend.startValue, legend.endValue);
+      return (
+        this.dataValue > legend.startValue && this.dataValue <= legend.endValue
+      );
     })[0];
 
     this.color =
