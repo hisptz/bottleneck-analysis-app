@@ -15,9 +15,14 @@
           {{group.name}}&nbsp;
           <small>({{group.members.length}} selected)</small>
         </div>
-        <a class="data-filter-group__item-header-icon">
-          <i class="{{group.id === selectedGroupId ? 'icon-up-open' : 'icon-down-open'}}"></i>
-        </a>
+        <div class="data-filter-group__item-header-btns">
+          <button title="Delete this group" class="data-filter-group-delete-btn text-danger" (click)="onDeleteGroup(group, $event)">
+            <i class="icon-trash-empty"></i>
+          </button>
+          <a class="data-filter-group__item-header-icon">
+            <i class="{{group.id === selectedGroupId ? 'icon-up-open' : 'icon-down-open'}}"></i>
+          </a>
+        </div>
       </div>
       <!-- end of title -->
 
@@ -48,10 +53,14 @@
   </div>
 
   <div class="data-filter-group_add-new">
-    <button [disabled]="dataGroups.length >= dataGroupPreferences.maximumNumberOfGroups" class="data-filter-group_add-button"
+    <button title="Add new group" [disabled]="dataGroups.length >= dataGroupPreferences.maximumNumberOfGroups" class="data-filter-group_add-button"
       (click)="onAddGroup($event)">
-      Add new group
+      <i class="icon-plus"></i>
     </button>
+  </div>
+
+  <div class="data-filter-group-notification">
+    <small>Groups with empty names or without members will be removed</small>
   </div>
 
 </div>

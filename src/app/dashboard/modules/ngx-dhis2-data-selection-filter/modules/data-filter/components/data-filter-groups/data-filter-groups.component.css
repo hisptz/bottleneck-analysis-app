@@ -11,22 +11,23 @@
 }
 
 .data-filter-group_add-new {
-  margin-top: 10px;
+  margin-left: 5px;
+  display: flex;
 }
 
 .data-filter-group_add-button {
   outline: none;
   border: solid thin #eeeeee;
   background-color: transparent;
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px;
+  padding: 3px;
   border-radius: 3px;
   color: #333333;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .data-filter-group_add-button:hover {
@@ -107,6 +108,25 @@
   align-items: center;
 }
 
+.data-filter-group__item-header-btns {
+  display: flex;
+  justify-content: space-around;
+}
+
+.data-filter-group-delete-btn {
+  display: none;
+  align-items: center;
+  font-size: 12px;
+  border: none !important;
+  outline: none !important;
+  background-color: transparent !important;
+  cursor: pointer;
+}
+
+.data-filter-group__item-header:hover .data-filter-group-delete-btn {
+  display: flex;
+}
+
 .data-filter-group__item-header-icon {
   font-size: 12px;
   color: #999 !important;
@@ -177,4 +197,9 @@
   background-color: transparent;
   padding: 2px;
   border: none;
+}
+
+.data-filter-group-notification {
+  margin-top: 10px;
+  border-top: solid thin #eeeeee;
 }
