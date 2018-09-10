@@ -40,6 +40,9 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output()
   removeMember: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  updateSelectedItems: EventEmitter<any[]> = new EventEmitter<any[]>();
   // icons
   dragIcon: string;
   arrowDownIcon: string;
@@ -48,10 +51,10 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.arrowDownIcon = ARROW_DOWN_ICON;
     this.dataGroups = [];
 
-    // this.dragulaService.createGroup('GROUPS', {
-    //   direction: 'vertical',
-    //   moves: (el, source, handle) => handle.className === 'group-handle'
-    // });
+    this.dragulaService.createGroup('GROUPS', {
+      direction: 'vertical',
+      moves: (el, source, handle) => handle.className === 'group-handle'
+    });
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
@@ -221,6 +224,26 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   onSortGroups(sortedDataGroups: any[]) {
     this.dataGroups = [...sortedDataGroups];
     this.emitDataGroups();
+  }
+
+  onSortGroupMembers(sortedMembers: any[], group: any) {
+    const groupIndex = this.dataGroups.indexOf(
+      _.find(this.dataGroups, ['id', group.id])
+    );
+
+    if (groupIndex !== -1) {
+      this.dataGroups = [
+        ..._.slice(this.dataGroups, 0, groupIndex),
+        { ...group, members: sortedMembers },
+        ..._.slice(this.dataGroups, groupIndex + 1)
+      ];
+
+      this.updateSelectedItems.emit(
+        _.flatten(_.map(this.dataGroups, (dataGroup: any) => dataGroup.members))
+      );
+
+      this.emitDataGroups();
+    }
   }
 
   emitDataGroups() {

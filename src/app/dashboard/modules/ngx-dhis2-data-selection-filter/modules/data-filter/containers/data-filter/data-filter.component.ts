@@ -306,6 +306,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.selectedGroupId = selectedGroupId;
   }
 
+  onUpdateSelectedItems(selectedItems: any[]) {
+    this.selectedItems = [...selectedItems];
+  }
+
   ngOnDestroy() {
     this.dataFilterClose.emit(this.emit());
   }

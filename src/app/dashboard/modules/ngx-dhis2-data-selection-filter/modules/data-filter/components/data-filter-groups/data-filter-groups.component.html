@@ -6,12 +6,14 @@
 
   <div class="data-filter-group__list" dragula="GROUPS" [dragulaModel]="dataGroups" (dragulaModelChange)="onSortGroups($event)">
     <!-- data filter group item -->
-    <div [ngClass]="{'data-filter-group__item': true,'group-handle': true, 'active-data-filter-group': group.id === selectedGroupId}"
-      *ngFor="let group of dataGroups">
+    <div [ngClass]="{'data-filter-group__item': true, 'active-data-filter-group': group.id === selectedGroupId}" *ngFor="let group of dataGroups">
       <!-- title -->
       <div [ngClass]="{'data-filter-group__item-header': true, 'active-data-filter-group-item': group.id === selectedGroupId}"
         (click)="onSetCurrentGroup(group, $event)">
         <div class="data-filter-group__item-header-title">
+          <button>
+            <img class="group-handle" [src]="dragIcon" alt="">
+          </button>
           <div [style.background-color]="group.color" class="data-filter-group_color-item">&nbsp;</div>
           {{group.name}}&nbsp;
           <small>({{group.members.length}} selected)</small>
@@ -39,7 +41,7 @@
         </div>
         <div class="data-filter-group__item-member-list">
           <div class="data-filter-group__item-label">Members</div>
-          <div dragula="MEMBERS" [(dragulaModel)]="group.members">
+          <div dragula="MEMBERS" [dragulaModel]="group.members" (dragulaModelChange)="onSortGroupMembers($event, group)">
             <div class="data-filter-group__item-member-item" *ngFor="let member of group.members">
               <div class="data-filter-group__item-member-item-title">
                 {{member.name}}

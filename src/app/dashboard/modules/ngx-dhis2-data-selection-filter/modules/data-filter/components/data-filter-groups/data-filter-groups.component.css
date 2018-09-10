@@ -165,6 +165,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: #ffffff;
+  cursor: pointer;
 }
 
 .data-filter-group__item-member-item-title {
@@ -201,7 +202,4 @@
 .data-filter-group-notification {
   margin-top: 10px;
   border-top: solid thin #eeeeee;
-}
-
-.group-handle {
 }
