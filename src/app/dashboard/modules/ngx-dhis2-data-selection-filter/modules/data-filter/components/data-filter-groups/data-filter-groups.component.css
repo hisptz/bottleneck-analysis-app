@@ -19,7 +19,6 @@
   outline: none;
   border: solid thin #eeeeee;
   background-color: transparent;
-  /* width: 100%; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,4 +201,7 @@
 .data-filter-group-notification {
   margin-top: 10px;
   border-top: solid thin #eeeeee;
+}
+
+.group-handle {
 }

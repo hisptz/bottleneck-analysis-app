@@ -30,7 +30,6 @@ import { directives } from './directives';
     DragulaModule,
     ColorPickerModule,
     NgxPaginationModule,
-    DndModule.forRoot(),
     StoreModule.forFeature('dataFilter', fromDataFilterReducer.reducer),
     StoreModule.forFeature('function', fromFunctionReducer.reducer),
     StoreModule.forFeature('functionRule', fromFunctionRuleReducer.reducer),

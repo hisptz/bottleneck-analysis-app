@@ -27,6 +27,7 @@ import { reducers, metaReducers, effects } from './store';
 import { RouteSerializer } from './utils';
 
 import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +35,7 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    DragulaModule.forRoot(),
     /**
      * Translation module
      */

@@ -299,7 +299,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   }
 
   onDataGroupsUpdate(dataGroups) {
-    this.selectedGroups = dataGroups;
+    this.selectedGroups = [...dataGroups];
   }
 
   onSelectedGroupIdUpdate(selectedGroupId: string) {

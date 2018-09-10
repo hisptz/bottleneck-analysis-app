@@ -11,6 +11,7 @@ import {
 import { DRAG_ICON, ARROW_DOWN_ICON } from '../../icons';
 import * as _ from 'lodash';
 import { generateUid } from '../../../../../../../helpers/generate-uid.helper';
+import { DragulaService } from 'ng2-dragula';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -42,10 +43,15 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   // icons
   dragIcon: string;
   arrowDownIcon: string;
-  constructor() {
+  constructor(private dragulaService: DragulaService) {
     this.dragIcon = DRAG_ICON;
     this.arrowDownIcon = ARROW_DOWN_ICON;
     this.dataGroups = [];
+
+    // this.dragulaService.createGroup('GROUPS', {
+    //   direction: 'vertical',
+    //   moves: (el, source, handle) => handle.className === 'group-handle'
+    // });
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
@@ -210,6 +216,11 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
 
       this.emitDataGroups();
     }
+  }
+
+  onSortGroups(sortedDataGroups: any[]) {
+    this.dataGroups = [...sortedDataGroups];
+    this.emitDataGroups();
   }
 
   emitDataGroups() {
