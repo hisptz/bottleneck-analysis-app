@@ -263,6 +263,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.dragulaService.destroy('GROUPS');
     this.emitDataGroups();
   }
 }

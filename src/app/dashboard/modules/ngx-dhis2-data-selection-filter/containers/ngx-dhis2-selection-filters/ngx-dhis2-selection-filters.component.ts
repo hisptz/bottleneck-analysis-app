@@ -180,6 +180,8 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
 
   onSave(e) {
     e.stopPropagation();
+    this._selectedFilter = '';
+    this.showFilterBody = false;
     this.save.emit(null);
   }
 

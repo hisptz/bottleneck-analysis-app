@@ -6,7 +6,7 @@
     </button>
     <div class="selection-filter-btn-list" *ngIf="showFilters">
       <!--data filter button-->
-      <button *ngIf="filterConfig?.showDataFilter" [ngClass]="{
+      <button [disabled]="saving" *ngIf="filterConfig?.showDataFilter" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'DATA'
         }"
@@ -17,7 +17,7 @@
       <!--end of data filter button-->
 
       <!--period filter button-->
-      <button *ngIf="filterConfig?.showPeriodFilter" [ngClass]="{
+      <button [disabled]="saving" *ngIf="filterConfig?.showPeriodFilter" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'PERIOD'
         }"
@@ -28,7 +28,7 @@
       <!--end of period filter button-->
 
       <!--org unit filter button-->
-      <button *ngIf="filterConfig?.showOrgUnitFilter" [ngClass]="{
+      <button [disabled]="saving" *ngIf="filterConfig?.showOrgUnitFilter" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'ORG_UNIT'
         }"
