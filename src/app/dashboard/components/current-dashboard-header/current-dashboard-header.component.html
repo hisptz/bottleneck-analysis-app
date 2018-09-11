@@ -28,7 +28,7 @@
       </div>
       <div class="current-dashboard-global-filter" *ngIf="dashboardLoaded">
         <ngx-dhis2-selection-filters (filterUpdate)="onFilterUpdateAction($event)" [dataSelections]="currentDashboard?.globalSelections"
-          [selectionFilterConfig]="selectionFilterConfig">
+          [selectionFilterConfig]="selectionFilterConfig" [saving]="currentDashboard?.saving" (save)="onSaveDashboard()">
         </ngx-dhis2-selection-filters>
       </div>
     </div>
@@ -38,10 +38,6 @@
   <div class="dashboard-search-block no-print">
     <div style="height: 40px; width: 100%;" *ngIf="dashboardLoading">
       <app-dashboard-progress [borderRadius]="'5px'"></app-dashboard-progress>
-    </div>
-    <div class="dashboard-save-block" *ngIf="dashboardLoaded">
-      <button [disabled]="currentDashboard?.saving" title="Save changes for this dashboard" class="text-primary dashboard-save-btn"
-        (click)="onSaveDashboard($event)">{{currentDashboard?.saving ? 'SAVING...': 'SAVE'}}</button>
     </div>
     <div class="dashboard-delete-block" *ngIf="dashboardLoaded">
       <button [disabled]="currentDashboard?.saving || currentDashboard?.deleting" title="Delete this dashboard" class="text-danger dashboard-delete-btn"
@@ -54,8 +50,8 @@
       </div>
     </div>
     <div *ngIf="showFavoriteFilter">
-      <app-favorite-filter *ngIf="dashboardLoaded" [currentUser]="currentUser" [dashboardAccess]="currentDashboard?.access" (addFavorite)="onAddFavoriteAction($event)"
-        (createFavorite)="onCreateFavoriteAction()"></app-favorite-filter>
+      <app-favorite-filter *ngIf="dashboardLoaded" [currentUser]="currentUser" [dashboardAccess]="currentDashboard?.access"
+        (addFavorite)="onAddFavoriteAction($event)" (createFavorite)="onCreateFavoriteAction()"></app-favorite-filter>
     </div>
   </div>
 </div>

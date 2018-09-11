@@ -47,14 +47,9 @@
       </button>
       <!--end of org unit filter button-->
 
-      <!--selections update button-->
-      <!--<button-->
-      <!--class="selection-filter-btn"-->
-      <!--[title]="'Update' | translate"-->
-      <!--&gt;-->
-      <!--<img src="assets/icon/tick.png" alt="">-->
-      <!--</button>-->
-      <!--end of selections update button-->
+      <button [disabled]="saving" class="selection-filter-btn" (click)="onSave($event)">
+        <img src="assets/icons/save.png" alt="">&nbsp;{{saving ? 'Saving...': 'Save'}}
+      </button>
     </div>
   </div>
   <!--end of selection filter header-->
