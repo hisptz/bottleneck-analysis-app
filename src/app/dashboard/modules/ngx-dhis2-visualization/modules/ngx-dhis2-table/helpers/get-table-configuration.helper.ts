@@ -38,11 +38,14 @@ export function getTableConfiguration(
       : true,
     displayList: checkForEventDataType(favoriteObject, type),
     rows: visualizationLayout.rows
-      ? _.map(_.reverse(visualizationLayout.rows), row => row.dimension)
+      ? _.map(_.reverse(visualizationLayout.rows), (row: any) => row.dimension)
       : ['pe'],
     columns: visualizationLayout.columns
-      ? _.map(visualizationLayout.columns, column => column.dimension)
+      ? _.map(visualizationLayout.columns, (column: any) => column.dimension)
       : ['dx'],
+    filters: visualizationLayout.filters
+      ? _.map(visualizationLayout.filters, (filter: any) => filter.dimension)
+      : ['ou'],
     legendSet: favoriteObject.legendSet,
     legendDisplayStrategy: favoriteObject.legendDisplayStrategy,
     styles: null,

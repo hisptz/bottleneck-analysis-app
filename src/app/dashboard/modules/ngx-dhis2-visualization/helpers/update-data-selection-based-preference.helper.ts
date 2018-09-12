@@ -9,7 +9,51 @@ export function updateDataSelectionBasedOnPreferences(
 ) {
   switch (_.camelCase(visualizationType)) {
     case 'chart': {
-      return dataSelection;
+      const chartPreferences =
+        favoritePreferences[_.camelCase(visualizationType)];
+
+      if (!chartPreferences) {
+        return dataSelection;
+      }
+
+      let dataSelectionItems = [];
+      if (
+        !chartPreferences.includeOrgUnitChildren &&
+        dataSelection.dimension === 'ou'
+      ) {
+        if (
+          _.some(
+            dataSelection.items,
+            (item: any) => item.type && item.type.indexOf('LEVEL') !== -1
+          )
+        ) {
+          dataSelectionItems = _.filter(
+            dataSelection.items,
+            (item: any) => item.type && item.type.indexOf('LEVEL') === -1
+          );
+        } else if (
+          _.some(
+            dataSelection.items,
+            (item: any) => item.id && item.id.indexOf('CHILDREN') !== -1
+          )
+        ) {
+          const userOrgUnit = _.find(USER_ORG_UNITS, ['id', 'USER_ORGUNIT']);
+          dataSelectionItems = [
+            {
+              id: 'USER_ORGUNIT',
+              name: userOrgUnit ? userOrgUnit.name : '',
+              type: userOrgUnit ? userOrgUnit.type : 'USER_ORGANISATION_UNIT'
+            }
+          ];
+        }
+      }
+      return {
+        ...dataSelection,
+        items:
+          dataSelectionItems.length > 0
+            ? dataSelectionItems
+            : dataSelection.items
+      };
     }
     case 'reportTable': {
       const reportTablePreferences =
@@ -21,7 +65,7 @@ export function updateDataSelectionBasedOnPreferences(
 
       let dataSelectionItems = [];
       if (
-        reportTablePreferences.preferOrgUnitChildren &&
+        reportTablePreferences.includeOrgUnitChildren &&
         dataSelection.dimension === 'ou'
       ) {
         if (

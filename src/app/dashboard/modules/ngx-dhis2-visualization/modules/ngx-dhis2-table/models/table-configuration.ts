@@ -8,8 +8,9 @@ export interface TableConfiguration {
   showDimensionLabels: boolean;
   hideEmptyRows: boolean;
   showHierarchy: boolean;
-  rows: any[];
-  columns: any[];
+  rows: string[];
+  columns: string[];
+  filters: string[];
   legendDisplayStrategy: string;
   displayList: boolean;
   legendSet: any;

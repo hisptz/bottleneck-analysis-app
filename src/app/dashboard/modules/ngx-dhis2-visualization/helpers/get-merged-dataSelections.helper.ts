@@ -6,8 +6,12 @@ export function getMergedDataSelections(
   existingDataSelections: VisualizationDataSelection[],
   newDataSelections: VisualizationDataSelection[],
   visualizationType: string,
-  favoritePreferences: { reportTable: { preferOrgUnitChildren: boolean } } = {
-    reportTable: { preferOrgUnitChildren: true }
+  favoritePreferences: {
+    reportTable: { includeOrgUnitChildren: boolean };
+    chart: { includeOrgUnitChildren: boolean };
+  } = {
+    reportTable: { includeOrgUnitChildren: true },
+    chart: { includeOrgUnitChildren: false }
   }
 ): any[] {
   const unAvailableDataSelections: VisualizationDataSelection[] = _.filter(

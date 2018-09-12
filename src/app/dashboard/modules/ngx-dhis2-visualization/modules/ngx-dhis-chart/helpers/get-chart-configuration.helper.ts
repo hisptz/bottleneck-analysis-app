@@ -27,7 +27,7 @@ export function getChartConfiguration(
       : true,
     hideSubtitle: visualizationSettings.hasOwnProperty('hideSubtitle')
       ? visualizationSettings.hideSubtitle
-      : true,
+      : false,
     showData: visualizationSettings.hasOwnProperty('showData')
       ? visualizationSettings.showData
       : true,
@@ -75,12 +75,15 @@ export function getChartConfiguration(
       ? visualizationSettings.selectedChartTypes
       : [],
     xAxisType: visualizationLayout.rows
-      ? _.map(visualizationLayout.rows, row => row.dimension)
+      ? _.map(visualizationLayout.rows, (row: any) => row.dimension)
       : ['dx'],
     yAxisType:
       visualizationLayout.columns && visualizationLayout.columns[0]
         ? visualizationLayout.columns[0].dimension
         : 'ou',
+    zAxisType: visualizationLayout.filters
+      ? _.map(visualizationLayout.filters, (filter: any) => filter.dimension)
+      : ['pe'],
     dataSelections
   };
 }

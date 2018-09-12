@@ -1,6 +1,11 @@
 <div class="table-item-container">
     <table class="table table-bordered">
         <thead [@open]>
+            <tr>
+                <th [attr.colspan]="tableData.headers[0].length" class="table-header-cell text-center">
+                    {{tableData.subtitle}}
+                </th>
+            </tr>
             <tr *ngFor="let tableHeaderRow of tableData.headers">
                 <th class="table-header-cell" *ngFor="let tableHeaderCell of tableHeaderRow" [attr.rowspan]="tableHeaderCell.rowSpan"
                     [style.text-align]="tableHeaderCell.textCenter ? 'center' : 'left'" [attr.colspan]="tableHeaderCell.colSpan">

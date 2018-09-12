@@ -40,11 +40,6 @@ export class TableItemComponent implements OnInit {
         this.analyticsObject,
         this.tableConfiguration
       );
-      this.tableObject = drawTable(
-        this.analyticsObject,
-        this.tableConfiguration,
-        this.legendSets
-      );
     }
   }
 
@@ -211,7 +206,24 @@ export class TableItemComponent implements OnInit {
       }
     );
 
+    // TODO MOVE THIS LOGIC TO VISUALIZATION COMPONENT
+    // table title
+    const subtitle = _.map(tableConfiguration.filters, (filter: string) =>
+      _.map(
+        analyticsObject && analyticsObject.metaData
+          ? analyticsObject.metaData[filter] || []
+          : [],
+        (itemId: string) =>
+          analyticsObject &&
+          analyticsObject.metaData &&
+          analyticsObject.metaData.names
+            ? analyticsObject.metaData.names[itemId] || []
+            : []
+      ).join(', ')
+    ).join(' - ');
+
     return {
+      subtitle,
       headers: tableHeaderRows,
       rows: mergedDataRowsArray
     };

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import { tap, withLatestFrom, take } from 'rxjs/operators';
+import { tap, take } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 
 // reducers
@@ -27,11 +27,8 @@ import {
   getSanitizedAnalytics,
   getMergedDataSelections
 } from '../../helpers';
-import { Visualization, VisualizationLayer } from '../../models';
-import {
-  getVisualizationObjectById,
-  getCombinedVisualizationObjectById
-} from '../selectors';
+import { VisualizationLayer } from '../../models';
+import { getCombinedVisualizationObjectById } from '../selectors';
 
 @Injectable()
 export class VisualizationLayerEffects {

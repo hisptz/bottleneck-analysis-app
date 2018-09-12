@@ -3,8 +3,9 @@ export interface ChartConfiguration {
   type: string;
   title: string;
   subtitle: string;
-  xAxisType: any[];
+  xAxisType: string[];
   yAxisType: string;
+  zAxisType: string[];
   showData: boolean;
   hideTitle: boolean;
   hideSubtitle: boolean;

@@ -247,6 +247,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   emitDataGroups() {
+    // TODO FIND BEST WAY TO REMOVE DATA GROUPS WITHOUT MEMBERS AND WITH EMPTY NAMES
     let membersToRemove = [];
     const filterDataGroups = _.filter(this.dataGroups, (dataGroup: any) => {
       if (dataGroup.name === '') {
@@ -259,7 +260,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     _.each(membersToRemove, (member: any) => {
       this.removeMember.emit(member);
     });
-    this.dataGroupsUpdate.emit(filterDataGroups);
+    this.dataGroupsUpdate.emit(this.dataGroups);
   }
 
   ngOnDestroy() {

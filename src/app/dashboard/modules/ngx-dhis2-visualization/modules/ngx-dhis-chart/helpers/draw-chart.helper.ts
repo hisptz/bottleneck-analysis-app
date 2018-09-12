@@ -13,7 +13,7 @@ export function drawChart(
   let chartObject: any = {
     chart: getChartAttributeOptions(chartConfiguration),
     title: getChartTitleObject(chartConfiguration),
-    subtitle: getChartSubtitleObject(chartConfiguration),
+    subtitle: getChartSubtitleObject(chartConfiguration, analyticsObject),
     credits: getChartCreditsOptions(),
     colors: getChartColors(),
     plotOptions: getPlotOptions(chartConfiguration),
@@ -776,12 +776,27 @@ function getChartTitleObject(chartConfiguration: any): any {
   };
 }
 
-function getChartSubtitleObject(chartConfiguration: any): any {
+function getChartSubtitleObject(
+  chartConfiguration: any,
+  analyticsObject: any
+): any {
   if (chartConfiguration.hideSubtitle) {
     return null;
   }
   return {
-    text: chartConfiguration.subtitle
+    text: _.map(chartConfiguration.zAxisType, (zAxis: string) =>
+      _.map(
+        analyticsObject && analyticsObject.metaData
+          ? analyticsObject.metaData[zAxis] || []
+          : [],
+        (itemId: string) =>
+          analyticsObject &&
+          analyticsObject.metaData &&
+          analyticsObject.metaData.names
+            ? analyticsObject.metaData.names[itemId] || []
+            : []
+      ).join(', ')
+    ).join(' - ')
   };
 }
 

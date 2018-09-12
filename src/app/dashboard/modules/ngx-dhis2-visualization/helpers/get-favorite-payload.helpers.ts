@@ -74,7 +74,8 @@ function getSanitizedDataSelections(
   dataSelections: VisualizationDataSelection[],
   favoriteType: string,
   favoritePreferences: any = {
-    reportTable: { preferOrgUnitChildren: true }
+    reportTable: { includeOrgUnitChildren: true },
+    chart: { includeOrgUnitChildren: false }
   }
 ) {
   return _.map(dataSelections, dataSelection => {
