@@ -44,9 +44,15 @@ export function getAnalyticsWithGrouping(
     groupNames[group.id] = group.name;
   });
 
+  // TODO FIND GENERIC WAY TO PUT USER DEFINED NAMES IN METADATA
   const newMetaData = {
     ...metaData,
-    names: { ...metaData.names, ...groupNames, ['groups']: 'Group' },
+    names: {
+      ...metaData.names,
+      ...groupNames,
+      ['groups']: 'Determinant',
+      dx: 'Indicator'
+    },
     ['groups']: _.map(dxGroups, (group: any) => group.id)
   };
 
