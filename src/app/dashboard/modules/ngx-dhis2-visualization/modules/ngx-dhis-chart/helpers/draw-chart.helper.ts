@@ -1050,7 +1050,8 @@ function getXAxisOptions(
             style: {
               color: '#000000',
               fontWeight: 'normal',
-              fontSize: '12px'
+              fontSize: '12px',
+              textOverflow: 'none'
             }
           }
         }

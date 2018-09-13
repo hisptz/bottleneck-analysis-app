@@ -101,6 +101,7 @@ export class VisualizationWidgetComponent implements OnInit {
     );
 
     if (
+      dimension === 'ou' &&
       _.some(
         selectionItems,
         (item: any) => item && item.id && item.id.indexOf('USER') !== -1

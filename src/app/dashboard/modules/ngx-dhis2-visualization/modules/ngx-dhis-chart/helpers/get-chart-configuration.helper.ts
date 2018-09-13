@@ -70,7 +70,7 @@ export function getChartConfiguration(
       'percentStackedValues'
     )
       ? visualizationSettings.percentStackedValues
-      : false,
+      : true,
     multiAxisTypes: visualizationSettings.hasOwnProperty('selectedChartTypes')
       ? visualizationSettings.selectedChartTypes
       : [],
