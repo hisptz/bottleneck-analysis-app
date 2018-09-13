@@ -94,9 +94,8 @@ export class VisualizationWidgetComponent implements OnInit {
         )
       ),
       (item: any) => {
-        const itemName =
-          dimension === 'pe' ? this.derivePeriodName(item) : item.name;
-        return { id: item.id, name: itemName };
+        console.log(this.derivePeriodItem(item));
+        return dimension === 'pe' ? this.derivePeriodItem(item) : item;
       }
     );
 
@@ -124,9 +123,8 @@ export class VisualizationWidgetComponent implements OnInit {
       : JSON.stringify(selectionItems);
   }
 
-  derivePeriodName(period: any) {
-    let periodName = period.name;
-
+  // TODO REMOVE THIS HARDCODING
+  derivePeriodItem(period: any) {
     const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
@@ -145,11 +143,28 @@ export class VisualizationWidgetComponent implements OnInit {
       'December'
     ];
 
-    if (period.id === 'THIS_YEAR') {
-      periodName = year;
-    } else if (period.id === 'THIS_MONTH') {
-      periodName = `${monthNames[month]} ${year}`;
+    switch (period.id) {
+      case 'THIS_YEAR':
+        return { id: year, name: year };
+      case 'LAST_YEAR':
+        return { id: year - 1, name: year - 1 };
+      case 'THIS_MONTH':
+        return {
+          id: `${year}${month < 10 ? '0' : ''}${month}`,
+          name: `${monthNames[month - 1]} ${year}`
+        };
+      case 'LAST_MONTH':
+        const lastMonth = month === 1 ? 12 : month - 1;
+        return {
+          id: `${lastMonth === 12 ? year - 1 : year}${
+            lastMonth < 10 ? '0' : ''
+          }${lastMonth}`,
+          name: `${monthNames[lastMonth - 1]} ${
+            lastMonth === 12 ? year - 1 : year
+          }`
+        };
+      default:
+        return period;
     }
-    return periodName;
   }
 }
