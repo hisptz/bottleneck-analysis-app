@@ -13,5 +13,6 @@ export interface VisualizationUiConfig {
   fullScreen: boolean;
   showInterpretionBlock: boolean;
   hideResizeButtons: boolean;
+  hideDownloadBlock?: boolean;
   showTitleBlock: boolean;
 }

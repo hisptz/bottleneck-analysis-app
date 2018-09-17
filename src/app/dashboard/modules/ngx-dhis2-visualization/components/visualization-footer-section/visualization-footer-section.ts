@@ -27,6 +27,9 @@ export class VisualizationFooterSectionComponent {
   @Input()
   hideManagementBlock: boolean;
 
+  @Input()
+  hideDownloadBlock: boolean;
+
   @Output()
   visualizationTypeChange: EventEmitter<{
     id: string;
@@ -35,6 +38,9 @@ export class VisualizationFooterSectionComponent {
 
   @Output()
   saveVisualization: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  download: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
   removeVisualization: EventEmitter<any> = new EventEmitter<any>();
@@ -53,5 +59,9 @@ export class VisualizationFooterSectionComponent {
 
   onVisualizationRemove(details: any) {
     this.removeVisualization.emit(details);
+  }
+
+  onDownload(downloadFormat: string) {
+    this.download.emit({ type: this.type, downloadFormat: downloadFormat });
   }
 }

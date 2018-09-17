@@ -5,7 +5,8 @@ import {
   OnChanges,
   OnInit,
   Output,
-  EventEmitter
+  EventEmitter,
+  ViewChild
 } from '@angular/core';
 import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { VisualizationInputs } from '../../models/visualization-inputs.model';
@@ -44,6 +45,7 @@ import {
 } from '../../store/actions/visualization-layer.actions';
 import { take } from 'rxjs/operators';
 import { openAnimation } from '../../../../../animations';
+import { VisualizationBodySectionComponent } from '../../components/visualization-body-section/visualization-body-section';
 
 @Component({
   selector: 'ngx-dhis2-visualization',
@@ -80,6 +82,9 @@ export class VisualizationComponent implements OnInit, OnChanges {
 
   @Output()
   deleteVisualization: EventEmitter<any> = new EventEmitter<any>();
+
+  @ViewChild(VisualizationBodySectionComponent)
+  visualizationBody: VisualizationBodySectionComponent;
 
   private _visualizationInputs$: Subject<VisualizationInputs> = new Subject();
   visualizationObject$: Observable<Visualization>;
@@ -229,5 +234,14 @@ export class VisualizationComponent implements OnInit, OnChanges {
           })
         );
       });
+  }
+
+  onVisualizationDownload(downloadDetails: any) {
+    if (this.visualizationBody) {
+      this.visualizationBody.onDownloadVisualization(
+        downloadDetails.type,
+        downloadDetails.downloadFormat
+      );
+    }
   }
 }

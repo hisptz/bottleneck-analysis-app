@@ -107,7 +107,7 @@ export class VisualizationExportService {
   }
 
   private _downloadAnchor(content, ext, filename) {
-    let anchor = document.createElement('a');
+    const anchor = document.createElement('a');
     anchor.style.display = '!important';
     anchor.id = 'downloadanchor';
     document.body.appendChild(anchor);

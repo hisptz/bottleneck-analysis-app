@@ -1,15 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as _ from 'lodash';
 import { TableConfiguration } from '../../models/table-configuration';
-
-import { drawTable } from '../../helpers/index';
 import { LegendSet } from '../../models/legend-set.model';
-import { ChartConfiguration } from '../../../ngx-dhis-chart/models';
-import { drawChart } from '../../../ngx-dhis-chart/helpers';
 import {
   listEnterAnimation,
   openAnimation
 } from '../../../../../../../animations';
+import { VisualizationExportService } from '../../../../services';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -26,11 +23,14 @@ export class TableItemComponent implements OnInit {
   analyticsObject: any;
   @Input()
   legendSets: LegendSet[];
+
+  @ViewChild('table')
+  table: ElementRef;
   tableObject: any;
   sort_direction: string[] = [];
   current_sorting: boolean[] = [];
   tableData: any;
-  constructor() {
+  constructor(private visualizationExportService: VisualizationExportService) {
     this.tableObject = null;
   }
 
@@ -508,6 +508,27 @@ export class TableItemComponent implements OnInit {
             this.sort_direction[n] = 'desc';
             switching = true;
           }
+        }
+      }
+    }
+  }
+
+  downloadTable(downloadFormat) {
+    if (this.table) {
+      const el = this.table.nativeElement;
+      if (downloadFormat === 'XLS') {
+        if (el) {
+          this.visualizationExportService.exportXLS(
+            this.tableConfiguration.title || 'Untitled',
+            el.outerHTML
+          );
+        }
+      } else if (downloadFormat === 'CSV') {
+        if (el) {
+          this.visualizationExportService.exportCSV(
+            this.tableConfiguration.title || 'Untitled',
+            el
+          );
         }
       }
     }
