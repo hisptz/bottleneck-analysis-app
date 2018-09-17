@@ -223,6 +223,7 @@ export class TableItemComponent implements OnInit {
     ).join(' - ');
 
     return {
+      title: tableConfiguration.title,
       subtitle,
       headers: tableHeaderRows,
       rows: mergedDataRowsArray

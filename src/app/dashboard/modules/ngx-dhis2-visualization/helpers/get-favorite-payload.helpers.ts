@@ -92,7 +92,7 @@ function getFavoriteOptionsByType(favoriteDetails: any, favoriteType: string) {
     case 'CHART': {
       return {
         type: favoriteDetails.type || 'COLUMN',
-        name: favoriteDetails.name || 'Untitled',
+        name: favoriteDetails.name || 'Bottleneck Analysis Chart',
         title: favoriteDetails.title || null,
         description: favoriteDetails.description || '',
         prototype: favoriteDetails.prototype || {},
@@ -125,6 +125,7 @@ function getFavoriteOptionsByType(favoriteDetails: any, favoriteType: string) {
     case 'TABLE': {
       return {
         ...favoriteDetails,
+        name: favoriteDetails.name || 'Bottleneck Sublevel Analysis',
         legendSet: favoriteDetails.legendSet || generateDefaultLegendSet()
       };
     }

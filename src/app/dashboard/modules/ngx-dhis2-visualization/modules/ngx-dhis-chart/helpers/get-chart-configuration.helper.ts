@@ -16,9 +16,10 @@ export function getChartConfiguration(
   return {
     renderId: renderId,
     type: chartType,
-    title: visualizationSettings.hasOwnProperty('displayName')
-      ? visualizationSettings.displayName
-      : '',
+    title:
+      visualizationSettings.title ||
+      visualizationSettings.displayName ||
+      visualizationSettings.name,
     subtitle: visualizationSettings.hasOwnProperty('subtitle')
       ? visualizationSettings.subtitle
       : '',

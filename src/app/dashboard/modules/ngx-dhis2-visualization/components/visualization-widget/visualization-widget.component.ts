@@ -94,7 +94,6 @@ export class VisualizationWidgetComponent implements OnInit {
         )
       ),
       (item: any) => {
-        console.log(this.derivePeriodItem(item));
         return dimension === 'pe' ? this.derivePeriodItem(item) : item;
       }
     );

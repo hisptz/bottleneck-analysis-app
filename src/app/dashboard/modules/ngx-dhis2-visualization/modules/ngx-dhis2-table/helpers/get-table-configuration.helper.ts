@@ -7,11 +7,8 @@ export function getTableConfiguration(
   dataSelections: any[]
 ): TableConfiguration {
   return {
-    title: favoriteObject.hasOwnProperty('displayName')
-      ? favoriteObject.displayName
-      : favoriteObject.hasOwnProperty('name')
-        ? favoriteObject.name
-        : '',
+    title:
+      favoriteObject.title || favoriteObject.displayName || favoriteObject.name,
     subtitle: favoriteObject.hasOwnProperty('subtitle')
       ? favoriteObject.subtitle
       : '',
