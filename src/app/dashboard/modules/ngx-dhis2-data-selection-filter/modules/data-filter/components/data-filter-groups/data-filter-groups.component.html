@@ -31,14 +31,7 @@
 
       <!-- content -->
       <div class="data-filter-group__item-content" *ngIf="group.id === selectedGroupId">
-        <div class="data-filter-group__item-title">
-          <div class="data-filter-group__item-label">
-            <span>Name</span>
-            <div class="data-group-color-block"><input class="data-group-color-input" [(colorPicker)]="group.color"
-                [style.background]="group.color" /></div>
-          </div>
-          <input type="text" [(ngModel)]="group.name">
-        </div>
+        <app-data-group-item [dataGroup]="group" [dataGroups]="dataGroups" (updateDataGroup)="onUpdateDataGroup($event)"></app-data-group-item>
         <div class="data-filter-group__item-member-list">
           <div class="data-filter-group__item-label">Members</div>
           <div dragula="MEMBERS" [dragulaModel]="group.members" (dragulaModelChange)="onSortGroupMembers($event, group)">

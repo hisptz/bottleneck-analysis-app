@@ -46,6 +46,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   // icons
   dragIcon: string;
   arrowDownIcon: string;
+
   constructor(private dragulaService: DragulaService) {
     this.dragIcon = DRAG_ICON;
     this.arrowDownIcon = ARROW_DOWN_ICON;
@@ -55,6 +56,10 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
       direction: 'vertical',
       moves: (el, source, handle) => handle.className === 'group-handle'
     });
+  }
+
+  get selectedGroup() {
+    return _.find(this.dataGroups || [], ['id', this.selectedGroupId]);
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
@@ -185,11 +190,13 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
 
   onSetCurrentGroup(currentDataGroup, e) {
     e.stopPropagation();
+
     if (currentDataGroup.id === this.selectedGroupId) {
       this.selectedGroupId = '';
     } else {
       this.selectedGroupId = currentDataGroup.id;
     }
+
     this.selectedGroupIdUpdate.emit(this.selectedGroupId);
   }
 
@@ -261,6 +268,22 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
       this.removeMember.emit(member);
     });
     this.dataGroupsUpdate.emit(this.dataGroups);
+  }
+
+  onUpdateDataGroup(dataGroup: any) {
+    const dataGroupIndex = this.dataGroups.indexOf(
+      _.find(this.dataGroups, ['id', dataGroup.id])
+    );
+
+    if (dataGroupIndex !== -1) {
+      this.dataGroups = [
+        ..._.slice(this.dataGroups, 0, dataGroupIndex),
+        dataGroup,
+        ..._.slice(this.dataGroups, dataGroupIndex + 1)
+      ];
+    }
+
+    this.emitDataGroups();
   }
 
   ngOnDestroy() {

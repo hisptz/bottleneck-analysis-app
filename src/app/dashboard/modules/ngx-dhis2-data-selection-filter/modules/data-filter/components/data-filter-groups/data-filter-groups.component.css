@@ -44,23 +44,6 @@
   margin-bottom: 3px;
 }
 
-.data-filter-group__item-title {
-  padding: 5px;
-  border-bottom: solid thin #dddddd;
-}
-
-.data-filter-group__item-title input {
-  width: 100%;
-  outline: none;
-  border: none;
-  padding: 5px;
-  font-size: 13px;
-  border-radius: 3px;
-  color: #666666;
-  background-color: #ffffff;
-  border: solid thin #eeeeee;
-}
-
 .data-filter-group__item-content {
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
@@ -69,23 +52,9 @@
   border-bottom: solid thin #dddddd;
 }
 
-.data-filter-group__item-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
 .data-group-color {
   display: flex;
   justify-content: flex-end;
-}
-
-.data-group-color-input {
-  width: 30px !important;
-  height: 19px !important;
 }
 
 .data-filter-group__item-header {

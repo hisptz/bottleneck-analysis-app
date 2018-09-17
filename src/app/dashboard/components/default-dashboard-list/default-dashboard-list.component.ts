@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
-import { generateUid } from '../../../helpers/generate-uid.helper';
 import { Store } from '@ngrx/store';
 
 import * as fromInterventionReducer from '../../store/reducers/intervention.reducer';

@@ -1,0 +1,10 @@
+<div class="data-filter-group__item-title" *ngIf="dataGroup">
+  <div class="data-filter-group__item-label">
+    <span>Name</span>
+    <div class="data-group-color-block"><input class="data-group-color-input" [(colorPicker)]="dataGroup.color"
+        [style.background]="dataGroup.color" /></div>
+  </div>
+  <input type="text" [ngModel]="dataGroup.name" (blur)="onDataGroupNameChange($event)">
+  <div *ngIf="isUnique" class="text-danger unique-group">Group already exist
+  </div>
+</div>
