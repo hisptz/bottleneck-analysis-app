@@ -23,6 +23,7 @@ export class TableItemCellComponent implements OnInit {
 
   dataValue: any;
   color: string;
+  tooltip: string;
 
   constructor() {}
 
@@ -77,5 +78,24 @@ export class TableItemCellComponent implements OnInit {
         : this.dataValue !== ''
           ? '#eeeeee'
           : '#ffffff';
+
+    // Find table cell tooltip
+    this.tooltip =
+      _.join(
+        [
+          ..._.map(
+            this.dataRowIds,
+            (dataId: string) =>
+              this.analyticsObject &&
+              this.analyticsObject.metaData &&
+              this.analyticsObject.metaData.names
+                ? this.analyticsObject.metaData.names[dataId]
+                : null
+          )
+        ],
+        ' - '
+      ) +
+      ' ' +
+      this.dataValue;
   }
 }
