@@ -22,6 +22,7 @@ import {
   WELCOMING_DESCRIPTION,
   WELCOMING_TITLE
 } from '../../constants/welcoming-messages.constants';
+import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -41,6 +42,8 @@ export class CurrentDashboardComponent implements OnInit {
   dashboardLoaded$: Observable<boolean>;
   visualizationsReady$: Observable<boolean>;
   legendSets$: Observable<LegendSet[]>;
+
+  currentUserHasManagementAuthorities$: Observable<boolean>;
 
   welcomingTitle: string;
   welcomingDescription: string;
@@ -78,6 +81,10 @@ export class CurrentDashboardComponent implements OnInit {
       fromDashboardSelectors.getVisualizationReady
     );
     this.legendSets$ = store.select(fromRootSelectors.getAllLegendSets);
+
+    this.currentUserHasManagementAuthorities$ = store.select(
+      getCurrentUserManagementAuthoritiesStatus
+    );
 
     this.welcomingTitle = WELCOMING_TITLE;
     this.welcomingDescription = WELCOMING_DESCRIPTION;

@@ -26,6 +26,9 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   currentUser: User;
 
   @Input()
+  currentUserHasAuthorities: boolean;
+
+  @Input()
   dashboardLoading: boolean;
 
   @Input()

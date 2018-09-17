@@ -16,6 +16,7 @@ import * as fromDashboardActions from '../../store/actions';
 // models
 import { Dashboard, DashboardGroups } from '../../models';
 import { User, SystemInfo, DataGroup } from '../../../models';
+import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,6 +35,7 @@ export class DashboardComponent implements OnInit {
   currentUser$: Observable<User>;
   systemInfo$: Observable<SystemInfo>;
   dataGroups$: Observable<DataGroup[]>;
+  currentUserHasManagementAuthorities$: Observable<boolean>;
 
   constructor(private store: Store<State>) {
     // initialize dashboads settings
@@ -62,6 +64,10 @@ export class DashboardComponent implements OnInit {
     this.currentUser$ = store.select(fromRootSelectors.getCurrentUser);
     this.systemInfo$ = store.select(fromRootSelectors.getSystemInfo);
     this.dataGroups$ = store.select(fromRootSelectors.getDataGroups);
+
+    this.currentUserHasManagementAuthorities$ = store.select(
+      getCurrentUserManagementAuthoritiesStatus
+    );
 
     // menu container height in pixels
     this.menuContainerHeight = 60;

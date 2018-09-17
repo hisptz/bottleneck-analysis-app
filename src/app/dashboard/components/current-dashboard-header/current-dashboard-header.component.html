@@ -28,7 +28,8 @@
       </div>
       <div class="current-dashboard-global-filter" *ngIf="dashboardLoaded">
         <ngx-dhis2-selection-filters (filterUpdate)="onFilterUpdateAction($event)" [dataSelections]="currentDashboard?.globalSelections"
-          [selectionFilterConfig]="selectionFilterConfig" [saving]="currentDashboard?.saving" (save)="onSaveDashboard()">
+          [selectionFilterConfig]="selectionFilterConfig" [currentUserHasAuthorities]="currentUserHasAuthorities"
+          [saving]="currentDashboard?.saving" (save)="onSaveDashboard()">
         </ngx-dhis2-selection-filters>
       </div>
     </div>
@@ -41,7 +42,7 @@
     </div>
     <div class="dashboard-delete-block" *ngIf="dashboardLoaded">
       <button [disabled]="currentDashboard?.saving || currentDashboard?.deleting" title="Delete this dashboard" class="text-danger dashboard-delete-btn"
-        (click)="onToggleDashboardDeleteDialog($event)" *ngIf="!currentDashboard?.showDeleteDialog && !currentDashboard?.deleting">DELETE</button>
+        (click)="onToggleDashboardDeleteDialog($event)" *ngIf="currentUserHasAuthorities && !currentDashboard?.showDeleteDialog && !currentDashboard?.deleting">DELETE</button>
       <div class="dashboard-delete-confirmation" *ngIf="currentDashboard?.showDeleteDialog">
         Delete this dashboard?&nbsp;
         <button class="btn btn-sm btn-success dashboard-delete-confirm-btn" (click)="onToggleDashboardDeleteDialog($event)">No</button>

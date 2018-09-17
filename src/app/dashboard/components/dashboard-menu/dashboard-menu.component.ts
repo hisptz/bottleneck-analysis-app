@@ -36,6 +36,9 @@ export class DashboardMenuComponent implements OnInit {
   @Input()
   dataGroups: DataGroup[];
 
+  @Input()
+  currentUserHasAuthorities: boolean;
+
   @Output()
   setCurrentDashboard: EventEmitter<string> = new EventEmitter<string>();
 

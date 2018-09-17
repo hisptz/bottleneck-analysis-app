@@ -13,3 +13,16 @@ export const getCurrentUser = createSelector(
   getAllUser,
   (users: User[]) => users[0]
 );
+
+export const getCurrentUserManagementAuthoritiesStatus = createSelector(
+  getCurrentUser,
+  (currentUser: User) => {
+    if (!currentUser) {
+      return false;
+    }
+
+    return currentUser && currentUser.authorities
+      ? currentUser.authorities.includes('ALL')
+      : false;
+  }
+);

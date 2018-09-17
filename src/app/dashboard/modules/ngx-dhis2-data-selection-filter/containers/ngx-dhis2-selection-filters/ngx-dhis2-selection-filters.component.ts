@@ -27,6 +27,10 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   selectionFilterConfig: SelectionFilterConfig;
   @Input()
   saving: boolean;
+
+  @Input()
+  currentUserHasAuthorities: boolean;
+
   @Output()
   filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
 
@@ -103,15 +107,17 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._selectedFilter = this.filterConfig.showDataFilter
-      ? 'DATA'
-      : this.filterConfig.showPeriodFilter
-        ? 'PERIOD'
-        : this.filterConfig.showOrgUnitFilter
-          ? 'ORG_UNIT'
-          : this.filterConfig.showLayout
-            ? 'LAYOUT'
-            : '';
+    // TODO FIND GENERIC WAY TO HANDLE AUTOHORITIES WHEN SELECTING CURRENT FILTER
+    this._selectedFilter =
+      this.filterConfig.showDataFilter && this.currentUserHasAuthorities
+        ? 'DATA'
+        : this.filterConfig.showPeriodFilter
+          ? 'PERIOD'
+          : this.filterConfig.showOrgUnitFilter
+            ? 'ORG_UNIT'
+            : this.filterConfig.showLayout
+              ? 'LAYOUT'
+              : '';
   }
 
   toggleFilters(e) {

@@ -6,7 +6,7 @@
     </button>
     <div class="selection-filter-btn-list" *ngIf="showFilters">
       <!--data filter button-->
-      <button [disabled]="saving" *ngIf="filterConfig?.showDataFilter" [ngClass]="{
+      <button [disabled]="saving" *ngIf="filterConfig?.showDataFilter && currentUserHasAuthorities" [ngClass]="{
         'selection-filter-btn': true,
         'active-filter': selectedFilter === 'DATA'
         }"
@@ -47,7 +47,7 @@
       </button>
       <!--end of org unit filter button-->
 
-      <button [disabled]="saving" class="selection-filter-btn" (click)="onSave($event)">
+      <button *ngIf="currentUserHasAuthorities" [disabled]="saving" class="selection-filter-btn" (click)="onSave($event)">
         <img src="assets/icons/save.png" alt="">&nbsp;{{saving ? 'Saving...': 'Save'}}
       </button>
     </div>

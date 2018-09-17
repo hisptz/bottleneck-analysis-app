@@ -43,4 +43,9 @@ export interface User {
    * User credential information
    */
   userCredentials: any;
+
+  /**
+   * User authorities
+   */
+  authorities: string[];
 }
