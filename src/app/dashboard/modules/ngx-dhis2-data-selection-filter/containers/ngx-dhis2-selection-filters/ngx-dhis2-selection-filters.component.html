@@ -16,6 +16,14 @@
       </button>
       <!--end of data filter button-->
 
+      <!--Legend configuration button-->
+      <button *ngIf="filterConfig?.showDataFilter" [ngClass]="{'selection-filter-btn': true,'active-filter': _selectedFilter === 'LEGEND_CONFIGURATION' }"
+        [title]="'Configure legend' | translate" (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')">
+        <img [src]="dataIcon" alt="">&nbsp;{{'Legend Configration' | translate}}&nbsp;
+        <img [ngClass]="{'arrow-up': _selectedFilter === 'LEGEND_CONFIGURATION'}" [src]="arrowDownIcon" alt="">
+      </button>
+      <!--end of Legend configuration button-->
+
       <!--period filter button-->
       <button [disabled]="saving" *ngIf="filterConfig?.showPeriodFilter" [ngClass]="{
         'selection-filter-btn': true,
@@ -60,6 +68,12 @@
     <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedData" [selectedGroups]="selectedDataGroups"
       (dataFilterClose)="onFilterClose($event, 'DATA')" (dataFilterUpdate)="onFilterUpdate($event, 'DATA')"></app-data-filter>
     <!--end of data filter-->
+
+    <!-- legend configguration -->
+    <app-legend-set-configuration *ngIf="_selectedFilter === 'LEGEND_CONFIGURATION'" [selectedItems]="selectedData"
+      [selectedGroups]="selectedDataGroups" (legendSetConfigurationClose)="onFilterClose($event, 'LEGEND_CONFIGURATION')"
+      (legendSetConfigurationClose)="onFilterUpdate($event, 'LEGEND_CONFIGURATION')"></app-legend-set-configuration>
+    <!-- end of legend configguration -->
 
     <!--period filter-->
     <app-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods" (periodFilterClose)="onFilterClose($event, 'PERIOD')"

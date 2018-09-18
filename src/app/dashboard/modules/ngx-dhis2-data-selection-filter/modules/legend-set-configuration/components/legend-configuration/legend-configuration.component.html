@@ -1,0 +1,11 @@
+<div class="legend-configuration-container">
+  <div>
+    <app-legend-color-picker (colorSelect)="onColorSelect($event)" [color]="color"></app-legend-color-picker>
+  </div>
+  <div class="legend-input-container">
+    <input (blur)="onLegendUpdate()" type="text" class="legend-input legend-name-input" [(ngModel)]="name">&nbsp;
+    <input (blur)="onLegendUpdate()" type="number" class="legend-input legend-start-end-value-input" [(ngModel)]="startValue">
+    <span style="padding: 0.375rem 0.75rem;">-</span>
+    <input (blur)="onLegendUpdate()" type="number" class="legend-input legend-start-end-value-input" [(ngModel)]="endValue">
+  </div>
+</div>

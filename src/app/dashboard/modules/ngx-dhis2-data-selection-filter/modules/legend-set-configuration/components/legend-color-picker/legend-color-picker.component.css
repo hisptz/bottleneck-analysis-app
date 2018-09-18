@@ -1,0 +1,8 @@
+.color-picker {
+  height: 30px;
+  position: relative !important;
+  width: 50px;
+  border-radius: 2px;
+  padding: 6px 2px;
+  border: solid thin #eeeeee;
+}

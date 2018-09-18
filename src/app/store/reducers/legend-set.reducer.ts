@@ -1,4 +1,7 @@
-import { LegendSetActions, LegendSetActionTypes } from '../actions/legend-set.action';
+import {
+  LegendSetActions,
+  LegendSetActionTypes
+} from '../actions/legend-set.action';
 import { LegendSet } from '../../models/legend-set.model';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
@@ -7,7 +10,9 @@ export interface LegendSetState extends EntityState<LegendSet> {
   loaded: boolean;
 }
 
-export const LegendSetAdapter: EntityAdapter<LegendSet> = createEntityAdapter<LegendSet>();
+export const LegendSetAdapter: EntityAdapter<LegendSet> = createEntityAdapter<
+  LegendSet
+>();
 
 const initialState: LegendSetState = LegendSetAdapter.getInitialState({
   // additional entity state properties
@@ -15,7 +20,10 @@ const initialState: LegendSetState = LegendSetAdapter.getInitialState({
   loaded: false
 });
 
-export function legendSetReducer(state = initialState, action: LegendSetActions): LegendSetState {
+export function legendSetReducer(
+  state = initialState,
+  action: LegendSetActions
+): LegendSetState {
   switch (action.type) {
     case LegendSetActionTypes.LoadLegendSetSuccess: {
       return LegendSetAdapter.addMany(action.payload, {
@@ -25,6 +33,10 @@ export function legendSetReducer(state = initialState, action: LegendSetActions)
       });
     }
 
+    case LegendSetActionTypes.UpsetLagendSets: {
+      return LegendSetAdapter.upsertMany(action.payload.legendSets, state);
+    }
+
     default: {
       return state;
     }
@@ -32,4 +44,5 @@ export function legendSetReducer(state = initialState, action: LegendSetActions)
 }
 
 export const getLegendSetLoadedState = (state: LegendSetState) => state.loaded;
-export const getLegendSetLoadingState = (state: LegendSetState) => state.loading;
+export const getLegendSetLoadingState = (state: LegendSetState) =>
+  state.loading;

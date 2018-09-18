@@ -21,6 +21,7 @@ import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config
 export class NgxDhis2SelectionFiltersComponent implements OnInit {
   @Input()
   dataSelections: any[];
+
   @Input()
   layout: any;
   @Input()
