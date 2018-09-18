@@ -18,8 +18,6 @@ import {
   LoadOrgUnitsAction,
   getOrgUnitGroupLoading,
   getOrgUnitLevelLoading,
-  InitiateOrgUnitGroupsAction,
-  InitiateOrgUnitLevelsAction,
   LoadOrgUnitGroupsAction
 } from '../../store';
 import { OrgUnitLevel, OrgUnitGroup } from '../../models';
@@ -40,12 +38,14 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   /**
    * Selected orgUnit list
    */
-  @Input() selectedOrgUnitItems: any[];
+  @Input()
+  selectedOrgUnitItems: any[];
 
   /**
    * Org unit filter configuration
    */
-  @Input() orgUnitFilterConfig: OrgUnitFilterConfig;
+  @Input()
+  orgUnitFilterConfig: OrgUnitFilterConfig;
 
   /**
    * Organisation unit level observable
@@ -61,8 +61,10 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   loadingOrgUnitGroups$: Observable<boolean>;
   loadingOrgUnits$: Observable<boolean>;
 
-  @Output() orgUnitUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output() orgUnitClose: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  orgUnitUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  orgUnitClose: EventEmitter<any> = new EventEmitter<any>();
 
   topOrgUnitLevel$: Observable<number>;
 
@@ -176,14 +178,21 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
       _.find(this.selectedOrgUnitItems, ['id', orgUnit.id])
     );
 
-    this.selectedOrgUnitItems = !this.orgUnitFilterConfig.singleSelection
-      ? orgUnitIndex !== -1
-        ? [
-            ..._.slice(this.selectedOrgUnitItems, 0, orgUnitIndex),
-            ..._.slice(this.selectedOrgUnitItems, orgUnitIndex + 1)
-          ]
-        : this.selectedOrgUnitItems
-      : [];
+    this.selectedOrgUnitItems =
+      orgUnitIndex !== -1
+        ? !this.orgUnitFilterConfig.singleSelection
+          ? [
+              ..._.slice(this.selectedOrgUnitItems, 0, orgUnitIndex),
+              ..._.slice(this.selectedOrgUnitItems, orgUnitIndex + 1)
+            ]
+          : orgUnit.type === 'ORGANISATION_UNIT_LEVEL' ||
+            orgUnit.type === 'ORGANISATION_UNIT_GROUP'
+            ? [
+                ..._.slice(this.selectedOrgUnitItems, 0, orgUnitIndex),
+                ..._.slice(this.selectedOrgUnitItems, orgUnitIndex + 1)
+              ]
+            : []
+        : this.selectedOrgUnitItems;
 
     if (this.orgUnitFilterConfig.updateOnSelect) {
       this.onOrgUnitUpdate();
