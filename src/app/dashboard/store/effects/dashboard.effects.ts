@@ -26,7 +26,7 @@ import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-vis
 import * as fromVisualizationSelectors from '../../modules/ngx-dhis2-visualization/store/selectors';
 
 // services
-import { DashboardService } from '../../../services';
+import { DashboardService } from '../../services/dashboard.service';
 
 // actions
 import * as fromRootActions from '../../../store/actions';

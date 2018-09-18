@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { mergeMap, withLatestFrom, map, catchError, tap } from 'rxjs/operators';
 
 import { State } from '../../../store/reducers';
-import { DashboardService } from '../../../services';
+import { DashboardService } from '../../services/dashboard.service';
 
 // actions
 import * as fromVisualizationActions from '../../modules/ngx-dhis2-visualization/store/actions';

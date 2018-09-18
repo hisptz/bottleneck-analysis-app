@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
-import { DashboardSettingsService } from '../../../services/dashboard-settings.service';
+import { DashboardSettingsService } from '../../services/dashboard-settings.service';
 
 import * as fromDashboardSettingsActions from '../actions/dashboard-settings.action';
 import * as fromUserActions from '../../../store/actions/user.actions';
@@ -36,7 +36,7 @@ export class DashboardSettingsEffects {
     ),
     mergeMap(
       (action: fromDashboardSettingsActions.LoadDashboardSettingsAction) =>
-        this.dashboardSettingsService.loadAll().pipe(
+        this.dashboardSettingsService.load().pipe(
           map(
             (dashboardSettings: any) =>
               new fromDashboardSettingsActions.AddDashboardSettingsAction(
