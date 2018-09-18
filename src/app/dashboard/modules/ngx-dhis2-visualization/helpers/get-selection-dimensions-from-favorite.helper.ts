@@ -54,6 +54,7 @@ function getStandardizedDimensions(
         return {
           id: item.dimensionItem || item.id,
           name: item.displayName || item.name,
+          legendSet: item.legendSet,
           type: getDimensionItemType(dimensionObject.dimension, item)
         };
       }),

@@ -22,7 +22,8 @@
                     <span class="table-item-cell-label" *ngIf="!tableCell.isDataCell">{{tableCell.name}}</span>
                     <div class="table-item-cell-data" *ngIf="tableCell.isDataCell">
                         <app-table-item-cell [dataRowIds]="tableCell.dataRowIds" [dataDimensions]="tableCell.dataDimensions"
-                            [analyticsObject]="analyticsObject" [legendSet]="tableConfiguration.legendSet"></app-table-item-cell>
+                            [dataSelections]="tableConfiguration.dataSelections" [analyticsObject]="analyticsObject"
+                            [legendSet]="tableConfiguration.legendSet"></app-table-item-cell>
                     </div>
                 </td>
             </tr>

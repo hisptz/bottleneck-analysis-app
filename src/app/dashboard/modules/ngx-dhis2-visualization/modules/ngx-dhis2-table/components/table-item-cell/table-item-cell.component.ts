@@ -16,6 +16,9 @@ export class TableItemCellComponent implements OnInit {
   dataDimensions: string[];
 
   @Input()
+  dataSelections: any[];
+
+  @Input()
   analyticsObject: any;
 
   @Input()
@@ -63,7 +66,20 @@ export class TableItemCellComponent implements OnInit {
     }
 
     // Find color for the cell
-    const legends: Legend[] = this.legendSet ? this.legendSet.legends : [];
+    const dxIndex = this.dataDimensions.indexOf('dx');
+    const dxId = this.dataRowIds[dxIndex];
+    const dxDataSelection = _.find(this.dataSelections, ['dimension', 'dx']);
+    const currentDxItem = _.find(dxDataSelection ? dxDataSelection.items : [], [
+      'id',
+      dxId
+    ]);
+
+    const legends: Legend[] =
+      currentDxItem && currentDxItem.legendSet
+        ? currentDxItem.legendSet.legends
+        : this.legendSet
+          ? this.legendSet.legends
+          : [];
     const associatedLegend: Legend = _.filter(legends, (legend: Legend) => {
       return (
         this.dataValue > legend.startValue && this.dataValue <= legend.endValue
