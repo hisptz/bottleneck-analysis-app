@@ -52,7 +52,7 @@ export class VisualizationWidgetComponent implements OnInit {
         this.visualizationId
       }&other=/#/?orgUnit=${orgUnit}&period=${period}&dashboard=${dashboardDetails}&dashboardItem=${
         this.visualizationId
-      }&groups=${dataGroups}&focusedDashboardItem=${this.focusedDashboardItem}`
+      }&groups=${dataGroups}`
     );
   }
 
