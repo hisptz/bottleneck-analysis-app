@@ -4,7 +4,6 @@ import { generateUid } from './generate-uid.helper';
 import { Legend } from '../dashboard/modules/ngx-dhis2-visualization/modules/ngx-dhis2-table/models/legend-set.model';
 
 export function generateDefaultLegendSet(): LegendSet {
-  console.log();
   return {
     id: generateUid(),
     name: 'Default',
