@@ -769,6 +769,7 @@ function getChartTitleObject(chartConfiguration: any): any {
   }
   return {
     text: chartConfiguration.title,
+    align: 'left',
     style: {
       fontWeight: '500',
       fontSize: '16px'
@@ -796,7 +797,12 @@ function getChartSubtitleObject(
             ? analyticsObject.metaData.names[itemId] || []
             : []
       ).join(', ')
-    ).join(' - ')
+    ).join(' - '),
+    align: 'left',
+    style: {
+      fontWeight: '600',
+      fontSize: '13px'
+    }
   };
 }
 
