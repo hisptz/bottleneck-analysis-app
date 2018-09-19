@@ -28,9 +28,10 @@ export class VisualizationWidgetComponent implements OnInit {
   constructor() {}
 
   get appUrl(): string {
-    const dataSelections = this.visualizationLayers[0]
-      ? this.visualizationLayers[0].dataSelections
-      : [];
+    const dataSelections =
+      this.dashboard && this.dashboard.globalSelections
+        ? this.dashboard.globalSelections
+        : [];
     const orgUnit = this.getDataSelectionByDimension(
       dataSelections,
       'ou',
