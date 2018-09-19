@@ -1,4 +1,5 @@
 import { DashboardAccess } from './dashboard-access.model';
+import { User } from '../../models';
 
 export interface Dashboard {
   id: string;
@@ -21,4 +22,9 @@ export interface Dashboard {
   error?: any;
   namespace?: string;
   globalSelections?: any[];
+  publicAccess: string;
+  externalAccess: boolean;
+  userGroupAccesses: any[];
+  userAccesses: any[];
+  user: { id: string };
 }

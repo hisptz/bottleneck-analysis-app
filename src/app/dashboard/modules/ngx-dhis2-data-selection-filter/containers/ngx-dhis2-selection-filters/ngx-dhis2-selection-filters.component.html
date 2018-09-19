@@ -17,7 +17,7 @@
       <!--end of data filter button-->
 
       <!--Legend configuration button-->
-      <button *ngIf="filterConfig?.showDataFilter" [ngClass]="{'selection-filter-btn': true,'active-filter': _selectedFilter === 'LEGEND_CONFIGURATION' }"
+      <button *ngIf="filterConfig?.showDataFilter && currentUserHasAuthorities" [ngClass]="{'selection-filter-btn': true,'active-filter': _selectedFilter === 'LEGEND_CONFIGURATION' }"
         [title]="'Configure legend' | translate" (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')">
         <img [src]="dataIcon" alt="">&nbsp;{{'Legend' | translate}}&nbsp;
         <img [ngClass]="{'arrow-up': _selectedFilter === 'LEGEND_CONFIGURATION'}" [src]="arrowDownIcon" alt="">

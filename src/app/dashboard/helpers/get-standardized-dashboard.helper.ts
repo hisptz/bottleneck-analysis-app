@@ -44,6 +44,13 @@ export function getStandardizedDashboard(
       dashboard.favorites || dashboard.bookmarks,
       currentUser ? currentUser.id : ''
     ),
+    publicAccess: '--------',
+    externalAccess: false,
+    userGroupAccesses: [],
+    userAccesses: [],
+    user: {
+      id: currentUser.id
+    },
     access: dashboard.access,
     globalSelections: !dashboard.globalSelections
       ? [
