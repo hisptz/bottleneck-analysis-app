@@ -48,7 +48,7 @@ export function updateDataSelectionBasedOnPreferences(
         }
       }
       return {
-        ..._.omit(dataSelection, ['layout']),
+        ...dataSelection,
         items:
           dataSelectionItems.length > 0
             ? dataSelectionItems
@@ -104,7 +104,7 @@ export function updateDataSelectionBasedOnPreferences(
       }
 
       return {
-        ..._.omit(dataSelection, ['layout']),
+        ...dataSelection,
         items:
           dataSelectionItems.length > 0
             ? dataSelectionItems
@@ -112,6 +112,6 @@ export function updateDataSelectionBasedOnPreferences(
       };
     }
     default:
-      return _.omit(dataSelection, ['layout']);
+      return dataSelection;
   }
 }

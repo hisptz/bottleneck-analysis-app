@@ -46,7 +46,7 @@ export function getAnalyticsWithGrouping(
 
   // TODO FIND GENERIC WAY TO PUT USER DEFINED NAMES IN METADATA
   const newMetaData = {
-    ...metaData,
+    ..._.omit(metaData, ['items']),
     names: {
       ...metaData.names,
       ...groupNames,
