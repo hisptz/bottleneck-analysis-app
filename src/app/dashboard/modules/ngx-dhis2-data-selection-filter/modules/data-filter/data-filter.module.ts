@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DragulaModule } from 'ng2-dragula';
-import { DndModule } from 'ng2-dnd';
 import { HttpModule } from '@angular/http';
 import { components } from './components';
 import { StoreModule } from '@ngrx/store';

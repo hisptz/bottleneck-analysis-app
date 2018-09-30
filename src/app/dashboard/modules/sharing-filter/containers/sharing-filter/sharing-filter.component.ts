@@ -18,7 +18,7 @@ import {
   getSharingSearchListVm
 } from '../../store/selectors/sharing-search-list.selectors';
 import { WIEW_ICON, EDIT_ICON, TICK_ICON, CLOSE_ICON } from '../../icons';
-import { take, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { SharingItemState } from '../../store/reducers/sharing-item.reducer';
 import {
   UpsertSharingItemAction,
@@ -89,9 +89,7 @@ export class SharingFilterComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit() {
-    console.log(this.id);
-  }
+  ngOnInit() {}
 
   changeAccess(e, sharingItem: SharingItem, access?: string) {
     e.stopPropagation();

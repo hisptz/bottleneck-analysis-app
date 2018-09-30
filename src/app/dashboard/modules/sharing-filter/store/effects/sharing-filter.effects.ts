@@ -37,21 +37,23 @@ export class SharingFilterEffects {
               .loadSharing(action.id, action.itemType)
               .subscribe(
                 (sharingFilterObject: any) => {
-                  const sharingItems = getStandardizedSharingItems(
-                    sharingFilterObject,
-                    action.id
-                  );
-                  const sharingFilterItem: SharingFilter = {
-                    id: action.id,
-                    type: action.itemType,
-                    user: sharingFilterObject.user
-                  };
-                  this.store.dispatch(
-                    new AddSharingFilterItemAction(
-                      sharingFilterItem,
-                      sharingItems
-                    )
-                  );
+                  if (sharingFilterObject) {
+                    const sharingItems = getStandardizedSharingItems(
+                      sharingFilterObject,
+                      action.id
+                    );
+                    const sharingFilterItem: SharingFilter = {
+                      id: action.id,
+                      type: action.itemType,
+                      user: sharingFilterObject.user
+                    };
+                    this.store.dispatch(
+                      new AddSharingFilterItemAction(
+                        sharingFilterItem,
+                        sharingItems
+                      )
+                    );
+                  }
                 },
                 error =>
                   of(new LoadSharingFilterItemFailAction(action.id, error))
