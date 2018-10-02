@@ -18,7 +18,8 @@
           <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
         </div>
       </div>
-      <div class="current-dashboard-share-button" *ngIf="dashboardLoaded || currentDashboard?.access?.manage">
+
+      <div class="current-dashboard-share-button" *ngIf="dashboardLoaded && currentDashboard?.access?.manage">
         <app-current-dashboard-sharing [id]="currentDashboard?.id"></app-current-dashboard-sharing>
       </div>
 

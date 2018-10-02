@@ -13,6 +13,7 @@ export function getSharingAccessesBasedOnAccessType(
         return sharingItem
           ? {
               id: sharingItem.id.split('_')[0],
+              name: sharingItem.name,
               access: sharingItem.access
             }
           : null;

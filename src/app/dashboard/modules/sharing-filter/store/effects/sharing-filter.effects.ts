@@ -13,26 +13,14 @@ import {
   SaveSharingFilterItemSuccessAction,
   SaveSharingFilterItemFailAction
 } from '../actions/sharing-filter.actions';
-import {
-  tap,
-  take,
-  switchMap,
-  exhaustMap,
-  map,
-  catchError,
-  withLatestFrom
-} from 'rxjs/operators';
+import { tap, take, exhaustMap, map, catchError } from 'rxjs/operators';
 import { SharingFilterState } from '../reducers/sharing-filter.reducer';
 import { getSharingFilterItemById } from '../selectors/sharing-filter.selectors';
 import { SharingFilter } from '../../models';
 import { getStandardizedSharingItems } from '../../helpers/get-standardized-sharing-items.helper';
 import { SharingFilterVm } from '../../models/sharing-filter-vm.model';
 import { getSharingObjectForSaving } from '../../helpers';
-import {
-  SharingItemActionTypes,
-  UpsertSharingItemAction,
-  RemoveSharingItemAction
-} from '../actions/sharing-item.actions';
+import { SharingItemActionTypes } from '../actions/sharing-item.actions';
 
 @Injectable()
 export class SharingFilterEffects {
@@ -49,21 +37,23 @@ export class SharingFilterEffects {
               .loadSharing(action.id, action.itemType)
               .subscribe(
                 (sharingFilterObject: any) => {
-                  const sharingItems = getStandardizedSharingItems(
-                    sharingFilterObject,
-                    action.id
-                  );
-                  const sharingFilterItem: SharingFilter = {
-                    id: action.id,
-                    type: action.itemType,
-                    user: sharingFilterObject.user
-                  };
-                  this.store.dispatch(
-                    new AddSharingFilterItemAction(
-                      sharingFilterItem,
-                      sharingItems
-                    )
-                  );
+                  if (sharingFilterObject) {
+                    const sharingItems = getStandardizedSharingItems(
+                      sharingFilterObject,
+                      action.id
+                    );
+                    const sharingFilterItem: SharingFilter = {
+                      id: action.id,
+                      type: action.itemType,
+                      user: sharingFilterObject.user
+                    };
+                    this.store.dispatch(
+                      new AddSharingFilterItemAction(
+                        sharingFilterItem,
+                        sharingItems
+                      )
+                    );
+                  }
                 },
                 error =>
                   of(new LoadSharingFilterItemFailAction(action.id, error))

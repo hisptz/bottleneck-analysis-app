@@ -18,7 +18,7 @@ import {
   getSharingSearchListVm
 } from '../../store/selectors/sharing-search-list.selectors';
 import { WIEW_ICON, EDIT_ICON, TICK_ICON, CLOSE_ICON } from '../../icons';
-import { take } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { SharingItemState } from '../../store/reducers/sharing-item.reducer';
 import {
   UpsertSharingItemAction,
@@ -35,12 +35,14 @@ export class SharingFilterComponent implements OnInit, OnChanges {
   /**
    * sharing type eg. dashboard, favorite like chart, map etc
    */
-  @Input() type: string;
+  @Input()
+  type: string;
 
   /**
    * Sharing item identifier
    */
-  @Input() id: string;
+  @Input()
+  id: string;
 
   searchTerm: string;
 
@@ -106,7 +108,7 @@ export class SharingFilterComponent implements OnInit, OnChanges {
       : sharingItem.access;
 
     this.sharingFilter$
-      .pipe(take(1))
+      .pipe(first((sharingFilter: SharingFilterVm) => sharingFilter !== null))
       .subscribe((sharingFilter: SharingFilterVm) => {
         const sharingItemId = sharingItem.id.split('_')[0];
         const newSharingItem: SharingItem = {

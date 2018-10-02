@@ -54,7 +54,10 @@ export class DashboardEffects {
         map(
           (dashboards: any[]) =>
             new fromDashboardActions.LoadDashboardsSuccessAction(
-              dashboards,
+              fromDashboardHelpers.getFilteredDashboardBasedOnSharing(
+                dashboards,
+                action.currentUser
+              ),
               action.currentUser,
               action.systemInfo,
               action.dataGroups

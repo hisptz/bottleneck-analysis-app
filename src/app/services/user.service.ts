@@ -17,7 +17,7 @@ export class UserService {
       this.httpClient.get(
         'me.json?fields=id,name,displayName,created,lastUpdated,' +
           'email,dataViewOrganisationUnits[id,name,level],organisationUnits' +
-          '[id,name,level],userCredentials[username]'
+          '[id,name,level],userCredentials[username],userGroups[id,name]'
       ),
       this.httpClient.get('me/authorization')
     ).pipe(

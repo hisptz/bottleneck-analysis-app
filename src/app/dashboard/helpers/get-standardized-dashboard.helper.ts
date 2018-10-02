@@ -3,6 +3,7 @@ import { User, SystemInfo } from '../../models';
 import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
 import { Dashboard } from '../models';
 import { DataGroup } from '../../models/data-group.model';
+import { getDashboardAccess } from './get-dashboard-access.helper';
 
 export function getStandardizedDashboard(
   dashboard: any,
@@ -44,35 +45,41 @@ export function getStandardizedDashboard(
       dashboard.favorites || dashboard.bookmarks,
       currentUser ? currentUser.id : ''
     ),
-    access: dashboard.access,
-    globalSelections: !dashboard.globalSelections
-      ? [
+    publicAccess: '--------',
+    externalAccess: false,
+    userGroupAccesses: [],
+    userAccesses: [],
+    user: dashboard.user || {
+      id: currentUser.id,
+      name: currentUser.name
+    },
+    access: dashboard.access || getDashboardAccess(dashboard, currentUser),
+    globalSelections: dashboard.globalSelections || [
+      {
+        dimension: 'dx',
+        layout: 'rows',
+        items: _.flatten(
+          _.map(
+            defaultDataGroups || [],
+            (dataGroup: DataGroup) => dataGroup.members
+          )
+        ),
+        groups: defaultDataGroups
+      },
+      {
+        dimension: 'pe',
+        layout: 'filters',
+        items: [
           {
-            dimension: 'dx',
-            layout: 'rows',
-            items: _.flatten(
-              _.map(
-                defaultDataGroups || [],
-                (dataGroup: DataGroup) => dataGroup.members
-              )
-            ),
-            groups: defaultDataGroups
-          },
-          {
-            dimension: 'pe',
-            layout: 'filters',
-            items: [
-              {
-                id: systemInfo.analysisRelativePeriod
-              }
-            ]
-          },
-          {
-            dimension: 'ou',
-            layout: 'columns',
-            items: orgUnits
+            id: systemInfo.analysisRelativePeriod
           }
         ]
-      : dashboard.globalSelections
+      },
+      {
+        dimension: 'ou',
+        layout: 'columns',
+        items: orgUnits
+      }
+    ]
   };
 }
