@@ -15,12 +15,14 @@ export class OrgUnitService {
       .get('me.json?fields=organisationUnits,dataViewOrganisationUnits')
       .pipe(
         mergeMap((userInfo: any) => {
-          const userOrgUnits = _.map(
-            [
-              ...userInfo.organisationUnits,
-              ...userInfo.dataViewOrganisationUnits
-            ],
-            orgUnit => orgUnit.id
+          const userOrgUnits = _.uniq(
+            _.map(
+              [
+                ...userInfo.organisationUnits,
+                ...userInfo.dataViewOrganisationUnits
+              ],
+              orgUnit => orgUnit.id
+            )
           );
           return this.httpClient
             .get(
