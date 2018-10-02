@@ -5,15 +5,18 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { SHARE_ICON } from '../../../icons';
+import { openAnimation } from '../../../animations';
 
 @Component({
   selector: 'app-current-dashboard-sharing',
   templateUrl: './current-dashboard-sharing.component.html',
   styleUrls: ['./current-dashboard-sharing.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [openAnimation]
 })
 export class CurrentDashboardSharingComponent implements OnInit {
-  @Input() id: string;
+  @Input()
+  id: string;
   shareIcon: string;
   showShareBlock: boolean;
   constructor() {

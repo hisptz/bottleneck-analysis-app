@@ -26,5 +26,8 @@ export interface Dashboard {
   externalAccess: boolean;
   userGroupAccesses: any[];
   userAccesses: any[];
-  user: { id: string };
+  user: {
+    id: string;
+    name: string;
+  };
 }
