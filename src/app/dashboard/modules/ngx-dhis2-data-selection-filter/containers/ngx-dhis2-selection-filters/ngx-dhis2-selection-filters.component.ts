@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges
+} from '@angular/core';
 import * as _ from 'lodash';
 import {
   FILTER_ICON,
@@ -18,7 +25,7 @@ import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config
   templateUrl: './ngx-dhis2-selection-filters.component.html',
   styleUrls: ['./ngx-dhis2-selection-filters.component.css']
 })
-export class NgxDhis2SelectionFiltersComponent implements OnInit {
+export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
   @Input()
   dataSelections: any[];
 
@@ -107,10 +114,19 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     return this._selectedFilter;
   }
 
-  ngOnInit() {
-    // TODO FIND GENERIC WAY TO HANDLE AUTOHORITIES WHEN SELECTING CURRENT FILTER
-    this._selectedFilter =
-      this.filterConfig.showDataFilter && this.currentUserHasAuthorities
+  ngOnChanges() {
+    // TODO: FIND GENERIC WAY TO HANDLE AUTOHORITIES WHEN SELECTING CURRENT FILTER
+    this._selectedFilter = this._selectedFilter
+      ? this._selectedFilter === 'DATA' && !this.currentUserHasAuthorities
+        ? this.filterConfig.showPeriodFilter
+          ? 'PERIOD'
+          : this.filterConfig.showOrgUnitFilter
+            ? 'ORG_UNIT'
+            : this.filterConfig.showLayout
+              ? 'LAYOUT'
+              : ''
+        : this._selectedFilter
+      : this.filterConfig.showDataFilter && this.currentUserHasAuthorities
         ? 'DATA'
         : this.filterConfig.showPeriodFilter
           ? 'PERIOD'
@@ -120,6 +136,8 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
               ? 'LAYOUT'
               : '';
   }
+
+  ngOnInit() {}
 
   toggleFilters(e) {
     e.stopPropagation();

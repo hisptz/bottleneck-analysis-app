@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnChanges
+} from '@angular/core';
 import * as fromPeriodFilterModel from './period-filter.model';
 import * as _ from 'lodash';
 import { PeriodService } from './period.service';
@@ -11,7 +18,7 @@ import { SlicePipe } from '@angular/common';
   templateUrl: './period-filter.component.html',
   styleUrls: ['./period-filter.component.css']
 })
-export class PeriodFilterComponent implements OnInit {
+export class PeriodFilterComponent implements OnInit, OnChanges {
   periodTypes: any[];
   @Input()
   selectedPeriodType = '';
@@ -47,7 +54,7 @@ export class PeriodFilterComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnChanges() {
     if (!this.selectedPeriodType || this.selectedPeriodType === '') {
       this.selectedPeriodType = this.periodService.deduceSelectedPeriodType(
         this.selectedPeriods
@@ -61,6 +68,8 @@ export class PeriodFilterComponent implements OnInit {
     );
     this.periods$.next(this._periods);
   }
+
+  ngOnInit() {}
 
   getPeriods(selectedPeriodType: string, year: number, selectedPeriods: any[]) {
     return this.updatePeriodsWithSelected(
