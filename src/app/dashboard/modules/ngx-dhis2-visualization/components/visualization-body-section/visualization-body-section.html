@@ -8,13 +8,15 @@
 
   <!--table visualization-->
   <div *ngIf="visualizationConfig.currentType === 'TABLE'">
-    <ngx-dhis2-table-list [visualizationLayers]="visualizationLayers" [visualizationType]="visualizationConfig.type" [legendSets]="legendSets"></ngx-dhis2-table-list>
+    <ngx-dhis2-table-list [visualizationLayers]="visualizationLayers" [visualizationType]="visualizationConfig.type"
+      [legendSets]="legendSets"></ngx-dhis2-table-list>
   </div>
   <!--end of table visualization-->
 
   <!--map visualization-->
   <div class="map-visualization-block" *ngIf="visualizationConfig.currentType === 'MAP'">
-    <app-map [id]="id" [visualizationLayers]="visualizationLayers" [visualizationUiConfig]="visualizationUiConfig" [visualizationConfig]="visualizationConfig"></app-map>
+    <app-map [id]="id" [visualizationLayers]="visualizationLayers" [visualizationUiConfig]="visualizationUiConfig"
+      [visualizationConfig]="visualizationConfig"></app-map>
   </div>
   <!--end of map visualization-->
 
@@ -43,9 +45,10 @@
   <!--end of reports visualization-->
 
   <!--app visualization-->
-  <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'APP'">
-    <app-visualization-widget [appKey]="appKey" [height]="visualizationUiConfig.height" [visualizationId]="id" [contextPath]="visualizationConfig.contextPath"
-      [visualizationLayers]="visualizationLayers" [dashboard]="dashboard" [focusedDashboardItem]="focusedVisualization" [currentUser]="currentUser"></app-visualization-widget>
+  <div class="widget-visualization-block" *ngIf="visualizationConfig.currentType === 'APP'">
+    <app-visualization-widget [appKey]="appKey" [height]="visualizationUiConfig.height" [visualizationId]="id"
+      [contextPath]="visualizationConfig.contextPath" [visualizationLayers]="visualizationLayers" [dashboard]="dashboard"
+      [focusedDashboardItem]="focusedVisualization" [currentUser]="currentUser"></app-visualization-widget>
   </div>
   <!--end of app visualization-->
 

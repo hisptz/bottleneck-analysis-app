@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationLayer } from '../../models';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-visualization-widget',
@@ -49,7 +50,9 @@ export class VisualizationWidgetComponent implements OnInit {
       ? JSON.stringify({ id: this.dashboard.id, name: this.dashboard.name })
       : '';
     return encodeURI(
-      `${this.contextPath}/api/apps/${this.appKey}/index.html?dashboardItemId=${
+      `${environment.production ? this.contextPath : '../../..'}/api/apps/${
+        this.appKey
+      }/index.html?dashboardItemId=${
         this.visualizationId
       }&other=/#/?orgUnit=${orgUnit}&period=${period}&dashboard=${dashboardDetails}&dashboardItem=${
         this.visualizationId

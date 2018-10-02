@@ -2,6 +2,7 @@
   overflow: auto;
 }
 
-.message-visualization-block {
+.message-visualization-block,
+.widget-visualization-block {
   overflow: hidden;
 }
