@@ -1,5 +1,8 @@
 <div class="widget-container">
-  <iframe id="widget_{{visualizationId}}" class="visualization-widget" [style.height]="'calc(' + height + ' - 15px)'"
+  <iframe *ngIf="!loading && !errorMessage" id="widget_{{visualizationId}}" class="visualization-widget" [style.height]="'calc(' + height + ' - 15px)'"
     frameborder="0" allowfullscreen [src]="appUrl | safe:'url'">
   </iframe>
+  <div *ngIf="errorMessage" [style.height]="height" class="widget-error-block">
+    <visualization-error-notifier [errorMessage]="errorMessage"></visualization-error-notifier>
+  </div>
 </div>

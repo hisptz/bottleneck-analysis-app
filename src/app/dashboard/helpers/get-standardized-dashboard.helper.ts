@@ -53,7 +53,7 @@ export function getStandardizedDashboard(
       id: currentUser.id,
       name: currentUser.name
     },
-    access: dashboard.access || getDashboardAccess(dashboard, currentUser),
+    access: getDashboardAccess(dashboard, currentUser),
     globalSelections: dashboard.globalSelections || [
       {
         dimension: 'dx',

@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationLayer } from '../../models';
 import { environment } from '../../../../../../environments/environment';
+import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-visualization-widget',
@@ -26,7 +28,12 @@ export class VisualizationWidgetComponent implements OnInit {
   @Input()
   currentUser: any;
 
-  constructor() {}
+  errorMessage: any;
+  loading: boolean;
+
+  constructor(private httpClient: HttpClient) {
+    this.loading = true;
+  }
 
   get appUrl(): string {
     const dataSelections =
@@ -50,9 +57,7 @@ export class VisualizationWidgetComponent implements OnInit {
       ? JSON.stringify({ id: this.dashboard.id, name: this.dashboard.name })
       : '';
     return encodeURI(
-      `${environment.production ? this.contextPath : '../../..'}/api/apps/${
-        this.appKey
-      }/index.html?dashboardItemId=${
+      `${this.contextPath}/api/apps/${this.appKey}/index.html?dashboardItemId=${
         this.visualizationId
       }&other=/#/?orgUnit=${orgUnit}&period=${period}&dashboard=${dashboardDetails}&dashboardItem=${
         this.visualizationId
@@ -60,7 +65,31 @@ export class VisualizationWidgetComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.httpClient.get(this.appUrl).subscribe(
+      () => {
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        // TODO: Find ways to solve 200 error response as it is success
+        if (error.status >= 400) {
+          this.errorMessage = {
+            statusText: error.statusText,
+            statusCode: error.status,
+            message:
+              error.status !== 404
+                ? error.message
+                : '<small>Root cause analysis widget is not installed yet. Go to ' +
+                  '<a target="_blank" href="' +
+                  this.contextPath +
+                  '/dhis-web-app-management/#">App Management<a> to' +
+                  ' install the widget and then reload this app again</small>'
+          };
+        }
+      }
+    );
+  }
 
   getDataSelectionGroups(dataSelections: any[], dashboard: any) {
     const dxDataSelection =

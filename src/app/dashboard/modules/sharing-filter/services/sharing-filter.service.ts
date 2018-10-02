@@ -76,7 +76,6 @@ export class SharingFilterService {
     namespace: string,
     sharingObject: any
   ) {
-    console.log(sharingObject);
     return this.loadSharingFromDataStore(id, itemType, namespace).pipe(
       switchMap((sharingObjectFromDataStore: any) =>
         this.httpClient.put(`dataStore/${itemType}s/${namespace}_${id}`, {
