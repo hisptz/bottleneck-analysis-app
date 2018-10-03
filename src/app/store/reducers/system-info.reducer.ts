@@ -43,11 +43,13 @@ export function systemInfoReducer(
 ): SystemInfoState {
   switch (action.type) {
     case SystemInfoActionTypes.AddSystemInfo: {
-      return adapter.addOne(action.systemInfo, {
-        ...state,
-        loading: false,
-        loaded: true
-      });
+      return action.systemInfo
+        ? adapter.addOne(action.systemInfo, {
+            ...state,
+            loading: false,
+            loaded: true
+          })
+        : state;
     }
 
     case SystemInfoActionTypes.LoadSystemInfo: {
