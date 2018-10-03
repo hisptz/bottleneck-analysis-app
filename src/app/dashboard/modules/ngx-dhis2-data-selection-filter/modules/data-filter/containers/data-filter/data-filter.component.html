@@ -60,7 +60,7 @@
       <a (click)="onSelectAllItems($event)">&raquo;</a>
     </div>
     <div *ngIf="!dataFilterPreferences.hideSelectedPanel" class="data-filter-selected-header ">
-      <a (click)="onDeselectAllItems($event) ">&laquo;</a>
+      <a (click)="onDeselectAllItems($event)">&laquo;</a>
       <span>Selected ({{selectedItems.length }})</span>
     </div>
 
@@ -115,6 +115,9 @@
 </div>
 
 <div class="data-filter-btns">
-  <button class="btn btn-sm data-filter-action-btn" (click)="close($event)">CLOSE</button>
-  <button class="btn btn-sm data-filter-action-btn" [disabled]="selectedItems.length === 0" (click)="onDataFilterUpdate($event)">UPDATE</button>
+  <button class="btn btn-sm data-filter-action-btn" [disabled]="selectedItems.length === 0" (click)="onDeselectAllItems($event)"
+    title="Unselect all selected items">EMPTY</button>
+  <button class="btn btn-sm data-filter-action-btn" title="Close data filter" (click)="close($event)">CLOSE</button>
+  <button class="btn btn-sm data-filter-action-btn" title="Update visualization(s) with selected items" [disabled]="selectedItems.length === 0"
+    (click)="onDataFilterUpdate($event)">UPDATE</button>
 </div>

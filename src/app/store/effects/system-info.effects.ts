@@ -8,7 +8,6 @@ import { Action } from '@ngrx/store';
 import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
 
 import * as fromSystemInfoActions from '../actions/system-info.actions';
-import { LoadCurrentUser } from '../actions/user.actions';
 import { getSanitizedSystemInfo } from '../../helpers';
 
 @Injectable()
