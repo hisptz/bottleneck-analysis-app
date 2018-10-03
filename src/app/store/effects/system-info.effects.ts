@@ -22,12 +22,17 @@ export class SystemInfoEffects {
   loadSystemInfo$: Observable<any> = this.actions$.pipe(
     ofType(fromSystemInfoActions.SystemInfoActionTypes.LoadSystemInfo),
     switchMap(() => this.systemInfoService.getSystemInfo()),
-    map(
-      (systemInfo: any) =>
-        new fromSystemInfoActions.AddSystemInfo(
-          getSanitizedSystemInfo(systemInfo)
-        )
-    ),
+    map((systemInfo: any) => {
+      const sanitizedSystemInfo: any = getSanitizedSystemInfo(systemInfo);
+      if (!sanitizedSystemInfo) {
+        return new fromSystemInfoActions.LoadSystemInfoFail({
+          statusCode: 500,
+          statusText: 'Error',
+          message: 'Failed to read system information'
+        });
+      }
+      return new fromSystemInfoActions.AddSystemInfo(sanitizedSystemInfo);
+    }),
     catchError((error: any) =>
       of(new fromSystemInfoActions.LoadSystemInfoFail(error))
     )

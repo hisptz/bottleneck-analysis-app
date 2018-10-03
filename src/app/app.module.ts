@@ -73,7 +73,8 @@ import { DragulaModule } from 'ng2-dragula';
     /**
      * Development tool for debugging ngrx store operations
      */
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    // !environment.production ? StoreDevtoolsModule.instrument() : []
+    StoreDevtoolsModule.instrument()
   ],
   providers: [{ provide: RouterStateSerializer, useClass: RouteSerializer }],
   bootstrap: [AppComponent]

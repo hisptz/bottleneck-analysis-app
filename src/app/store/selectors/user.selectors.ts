@@ -11,7 +11,7 @@ export const getAllUser = createSelector(getUserState, selectAllUsers);
 
 export const getCurrentUser = createSelector(
   getAllUser,
-  (users: User[]) => users[0]
+  (users: User[]) => users[0] || null
 );
 
 export const getCurrentUserManagementAuthoritiesStatus = createSelector(
