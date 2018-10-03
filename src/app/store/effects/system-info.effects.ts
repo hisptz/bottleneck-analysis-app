@@ -28,7 +28,7 @@ export class SystemInfoEffects {
         return new fromSystemInfoActions.LoadSystemInfoFail({
           statusCode: 500,
           statusText: 'Error',
-          message: 'Fail to read system information'
+          message: 'Failed to read system information'
         });
       }
       return new fromSystemInfoActions.AddSystemInfo(sanitizedSystemInfo);

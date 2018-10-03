@@ -23,14 +23,20 @@ export class UserEffects {
   );
 
   @Effect()
-  loadCurrentUser$: Observable<any> = this.actions$.pipe(
+  loadCurrentUser$: Observable<Action> = this.actions$.pipe(
     ofType(fromUserActions.UserActionTypes.LoadCurrentUser),
     switchMap((action: fromUserActions.LoadCurrentUser) =>
       this.userService.loadCurrentUser().pipe(
-        map(
-          (user: User) =>
-            new fromUserActions.AddCurrentUser(user, action.systemInfo)
-        ),
+        map((user: User) => {
+          if (!user) {
+            return new fromUserActions.LoadCurrentUserFail({
+              statusCode: 500,
+              statusText: 'Error',
+              message: 'Failed to read user information'
+            });
+          }
+          return new fromUserActions.AddCurrentUser(user, action.systemInfo);
+        }),
         catchError((error: any) =>
           of(new fromUserActions.LoadCurrentUserFail(error))
         )
