@@ -11,8 +11,8 @@
     <!--organisation unit selection area-->
     <div class="ngx-dhis2-org-unit-filter__org-unit-selection">
       <div class="ngx-dhis2-org-unit-filter__disabled-selection-overlay" *ngIf="selectedUserOrgUnits.length > 0"></div>
-      <ngx-dhis2-org-unit-selection [selectedOrgUnits]="selectedOrgUnits" [loadingOrgUnits]="loadingOrgUnits$ | async" (activateOrgUnit)="onSelectOrgUnit($event)"
-        (deactivateOrgUnit)="onDeselectOrgUnit($event)"></ngx-dhis2-org-unit-selection>
+      <ngx-dhis2-org-unit-selection [selectedOrgUnits]="selectedOrgUnits" [loadingOrgUnits]="loadingOrgUnits$ | async"
+        (activateOrgUnit)="onSelectOrgUnit($event)" (deactivateOrgUnit)="onDeselectOrgUnit($event)"></ngx-dhis2-org-unit-selection>
     </div>
     <!--end of organisation unit selection area-->
 
@@ -27,10 +27,11 @@
 
       <!--organisation unit level group section -->
       <div class="ngx-dhis2-org-unit-filter__org-unit-level-group">
-        <div class="ngx-dhis2-org-unit-filter__disabled-overlay" *ngIf="selectedUserOrgUnits.length > 0"></div>
+        <!-- <div class="ngx-dhis2-org-unit-filter__disabled-overlay" *ngIf="selectedUserOrgUnits.length > 0"></div> -->
         <ngx-dhis2-org-unit-level-group [selectedLevelsOrGroups]="selectedLevelsOrOrgUnits" [orgUnitLevels]="orgUnitLevels$ | async"
           [orgUnitGroups]="orgUnitGroups$ | async" [topOrgUnitLevel]="topOrgUnitLevel | async" [loadingLevels]="loadingOrgUnitLevels$ | async"
-          [loadingGroups]="loadingOrgUnitGroups$ | async" (activateOrgUnitLevelOrGroup)="onSelectOrgUnit($event)" (deactivateOrgUnitLevelOrGroup)="onDeselectOrgUnit($event)"></ngx-dhis2-org-unit-level-group>
+          [loadingGroups]="loadingOrgUnitGroups$ | async" (activateOrgUnitLevelOrGroup)="onSelectOrgUnit($event)"
+          (deactivateOrgUnitLevelOrGroup)="onDeselectOrgUnit($event)"></ngx-dhis2-org-unit-level-group>
       </div>
       <!--end of organisation unit level group section -->
 

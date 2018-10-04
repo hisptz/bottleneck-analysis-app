@@ -116,6 +116,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     // TODO: FIND GENERIC WAY TO HANDLE AUTOHORITIES WHEN SELECTING CURRENT FILTER
+    console.log(this._selectedFilter);
     this._selectedFilter = this._selectedFilter
       ? this._selectedFilter === 'DATA' && !this.currentUserHasAuthorities
         ? this.filterConfig.showPeriodFilter
