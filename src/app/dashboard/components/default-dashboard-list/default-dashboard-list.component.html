@@ -1,10 +1,7 @@
 <div class="default-dashboard-list-container" appClickOutside (clickOutside)="showDefaultList = false">
-  <button class="default-dashboard-btn" title="Add new intervention" (click)="onToggleInterventionList($event)"><i class="icon-plus"></i></button>
+  <button class="default-dashboard-btn" title="Add new intervention" (click)="onToggleInterventionList($event)"><i
+      class="icon-plus"></i></button>
   <div class="default-dashboard-list-block">
-    <!-- default dashboard search -->
-    <input type="text" (focus)="onOpenInterventionList($event)" (keyup)="onSearchDashboard($event)" class="default-dashboard-search-input"
-      size="25" placeholder="Search for interventation">
-    <!-- end of default dashboard search -->
 
     <!-- default dashboard list -->
     <ul class="default-dashboard-list" *ngIf="showDefaultList">
@@ -22,10 +19,16 @@
         <!-- en of loading intervention block -->
       </li>
       <li *ngIf="(interventionLoaded$ | async) && !showInterventionForm" class="add-intervention-btn">
-        <button title="Create new intervention" (click)="onToggleInterventionForm($event)" class="btn btn-sm"><i class="icon-plus"></i></button>
+        <!-- default dashboard search -->
+        <input type="text" (focus)="onOpenInterventionList($event)" (keyup)="onSearchDashboard($event)" class="default-dashboard-search-input"
+          size="23" placeholder="Search for default intervention">
+        <!-- end of default dashboard search -->
+        <button title="Create new intervention" (click)="onToggleInterventionForm($event)" class="btn btn-sm add-default-dashboard-btn"><i
+            class="icon-plus"></i></button>
       </li>
       <li *ngIf="showInterventionForm" class="intervention-form">
-        <app-intervention-form [availableInterventions]="interventions$ | async" (save)="onAddIntervention($event)" (close)="onToggleInterventionForm()"></app-intervention-form>
+        <app-intervention-form [availableInterventions]="interventions$ | async" (save)="onAddIntervention($event)"
+          (close)="onToggleInterventionForm()"></app-intervention-form>
       </li>
       <li *ngIf="(interventionLoaded$ | async) && (interventions$ | async).length === 0" class="empty-interventions">
         <div class="alert alert-warning">

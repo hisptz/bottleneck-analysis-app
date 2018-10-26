@@ -39,6 +39,8 @@ export class DashboardMenuComponent implements OnInit {
   @Input()
   currentUserHasAuthorities: boolean;
 
+  searchTerm: string;
+
   @Output()
   setCurrentDashboard: EventEmitter<string> = new EventEmitter<string>();
 
@@ -79,5 +81,10 @@ export class DashboardMenuComponent implements OnInit {
       systemInfo: this.systemInfo,
       dataGroups: this.dataGroups
     });
+  }
+
+  onSearchDashboard(e) {
+    e.stopPropagation();
+    this.searchTerm = e.target.value.trim();
   }
 }

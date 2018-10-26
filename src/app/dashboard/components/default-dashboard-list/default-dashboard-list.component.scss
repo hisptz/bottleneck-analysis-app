@@ -60,11 +60,13 @@
 }
 
 .default-dashboard-list {
+  width: 250px;
   position: absolute;
   list-style-type: none;
   padding: 0;
   margin: 0;
-  left: 10px;
+  top: 35px;
+  left: -35px;
   right: 0;
   background-color: #ffffff;
   border: solid thin #eeeeee;
@@ -81,6 +83,15 @@
     align-items: center;
     justify-content: flex-end;
     padding: 10px;
+  }
+
+  .add-default-dashboard-btn {
+    background-color: #ffffff !important;
+    border-color: #dddddd;
+  }
+
+  .add-default-dashboard-btn:hover {
+    background-color: #dddddd !important;
   }
 
   .empty-interventions {

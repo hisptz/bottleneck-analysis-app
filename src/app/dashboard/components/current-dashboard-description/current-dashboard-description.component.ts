@@ -6,8 +6,12 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./current-dashboard-description.component.scss']
 })
 export class CurrentDashboardDescriptionComponent implements OnInit {
-  @Input() dashboardDescription: string;
-  @Input() dashboardId: string;
+  @Input()
+  dashboardDescription: string;
+  @Input()
+  globalFilter: any;
+  @Input()
+  dashboardId: string;
   constructor() {}
 
   ngOnInit() {}

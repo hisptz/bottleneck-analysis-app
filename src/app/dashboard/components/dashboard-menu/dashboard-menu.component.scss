@@ -15,6 +15,18 @@
   }
 }
 
+.dashboard-search-input {
+  display: flex;
+  height: 34px;
+  outline: none;
+  border: none;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding-right: 10px;
+  font-size: 13px;
+  border-bottom: solid thin #dddddd;
+}
+
 // color
 $color: blue;
 
