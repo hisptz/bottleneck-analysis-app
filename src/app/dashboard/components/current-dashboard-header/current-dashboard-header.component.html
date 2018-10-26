@@ -45,7 +45,7 @@
       <button [disabled]="currentDashboard?.saving || currentDashboard?.deleting" title="Delete this dashboard" class="text-danger dashboard-delete-btn"
         (click)="onToggleDashboardDeleteDialog($event)" *ngIf="currentDashboard?.access?.manage && !currentDashboard?.showDeleteDialog && !currentDashboard?.deleting">DELETE</button>
       <div class="dashboard-delete-confirmation" *ngIf="currentDashboard?.showDeleteDialog">
-        Delete this dashboard?&nbsp;
+        Delete this intervention?&nbsp;
         <button class="btn btn-sm btn-success dashboard-delete-confirm-btn" (click)="onToggleDashboardDeleteDialog($event)">No</button>
         &nbsp;
         <button class="btn btn-sm btn-danger dashboard-delete-confirm-btn" (click)="onDeleteDashboard($event)">Yes</button>

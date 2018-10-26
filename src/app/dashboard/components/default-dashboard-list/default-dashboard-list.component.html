@@ -21,7 +21,7 @@
       <li *ngIf="(interventionLoaded$ | async) && !showInterventionForm" class="add-intervention-btn">
         <!-- default dashboard search -->
         <input type="text" (focus)="onOpenInterventionList($event)" (keyup)="onSearchDashboard($event)" class="default-dashboard-search-input"
-          size="23" placeholder="Search for default intervention">
+          size="23" placeholder="Search">
         <!-- end of default dashboard search -->
         <button title="Create new intervention" (click)="onToggleInterventionForm($event)" class="btn btn-sm add-default-dashboard-btn"><i
             class="icon-plus"></i></button>
