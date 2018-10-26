@@ -33,12 +33,31 @@ export class AnalyticsService {
           return throwError(error);
         }
 
-        return of(
-          getAnalyticsWithGrouping(
-            dataSelections,
-            generateDummyAnalytics(dataSelections)
-          )
+        const dataSelectionsForMetadataCall = _.filter(
+          dataSelections,
+          (dataSelection: VisualizationDataSelection) =>
+            dataSelection.dimension !== 'dx'
         );
+        return this.http
+          .get(
+            getAnalyticsUrl(
+              dataSelectionsForMetadataCall,
+              layerType,
+              config,
+              true
+            )
+          )
+          .pipe(
+            map((metadataAnalytics: any) =>
+              getAnalyticsWithGrouping(
+                dataSelections,
+                generateDummyAnalytics(
+                  dataSelections,
+                  getStandardizedAnalyticsObject(metadataAnalytics, true)
+                )
+              )
+            )
+          );
       })
     );
   }

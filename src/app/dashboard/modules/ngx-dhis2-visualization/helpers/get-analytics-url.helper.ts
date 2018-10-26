@@ -2,75 +2,153 @@ import * as _ from 'lodash';
 import { VisualizationDataSelection } from '../models';
 
 // TODO Find best standard for config structure so that layerType can be obtained direct from config object
-export function getAnalyticsUrl(dataSelections: VisualizationDataSelection[], layerType: string, config?: any): string {
+export function getAnalyticsUrl(
+  dataSelections: VisualizationDataSelection[],
+  layerType: string,
+  config?: any,
+  skipData?: boolean
+): string {
   return layerType === 'thematic'
-    ? getAggregateAnalyticsUrl(dataSelections, layerType, config)
-    : getEventAnalyticsUrl(dataSelections, layerType, config);
+    ? getAggregateAnalyticsUrl(dataSelections, layerType, config, skipData)
+    : getEventAnalyticsUrl(dataSelections, layerType, config, skipData);
 }
 
-function flattenDimensions(dataSelections: VisualizationDataSelection[], isAggregate?: boolean): string {
-  const isEligibleForAnalytics = isAggregate
-    ? dataSelections.length >= 3
-    : _.filter(
-        _.map(dataSelections, dataSelection => ['ou', 'pe'].indexOf(dataSelection.dimension) !== -1),
-        isEligible => isEligible
-      ).length === 2;
-
-  if (!isEligibleForAnalytics) {
+function flattenDimensions(
+  dataSelections: VisualizationDataSelection[],
+  isAggregate?: boolean,
+  skipData?: boolean
+): string {
+  if (
+    !checkIfSelectionsAreEligibleForAnalytics(
+      dataSelections,
+      isAggregate,
+      skipData
+    )
+  ) {
     return '';
   }
-  const dimensions = _.filter(
+
+  return getAnalyticsDimensions(dataSelections).join('&');
+}
+
+function checkIfSelectionsAreEligibleForAnalytics(
+  dataSelections: VisualizationDataSelection[],
+  isAggregate: boolean,
+  skipData?: boolean
+) {
+  if (skipData) {
+    return true;
+  }
+
+  return isAggregate
+    ? dataSelections.length >= 3
+    : _.filter(
+        _.map(
+          dataSelections,
+          dataSelection => ['ou', 'pe'].indexOf(dataSelection.dimension) !== -1
+        ),
+        isEligible => isEligible
+      ).length === 2;
+}
+
+function getAnalyticsDimensions(
+  dataSelections: VisualizationDataSelection[]
+): string[] {
+  return _.filter(
     _.map(dataSelections, (dataSelection: VisualizationDataSelection) => {
-      const selectionValues = dataSelection.filter
-        ? dataSelection.filter
-        : _.map(dataSelection.items, item => item.id).join(';');
+      const selectionValues = getDataSelectionValues(dataSelection);
       return selectionValues !== ''
         ? 'dimension=' + dataSelection.dimension + ':' + selectionValues
         : ['dx', 'ou', 'pe'].indexOf(dataSelection.dimension) === -1
-          ? 'dimension=' + dataSelection.dimension + (dataSelection.legendSet ? '-' + dataSelection.legendSet : '')
+          ? 'dimension=' +
+            dataSelection.dimension +
+            (dataSelection.legendSet ? '-' + dataSelection.legendSet : '')
           : '';
     }),
     dimension => dimension !== ''
   );
+}
 
-  return dimensions.join('&');
+function getDataSelectionValues(dataSelection: VisualizationDataSelection) {
+  return dataSelection.filter
+    ? dataSelection.filter
+    : _.map(dataSelection.items, item => item.id).join(';');
 }
 
 function getAggregateAnalyticsUrl(
   dataSelections: VisualizationDataSelection[],
   layerType: string,
-  config?: any
+  config?: any,
+  skipData?: boolean
 ): string {
-  const flattenedDimensionString = flattenDimensions(dataSelections, true);
+  const flattenedDimensionString = flattenDimensions(
+    dataSelections,
+    true,
+    skipData
+  );
   return flattenedDimensionString !== ''
-    ? 'analytics.json?' + flattenedDimensionString + getAnalyticsUrlOptions(config, layerType)
+    ? 'analytics.json?' +
+        flattenedDimensionString +
+        getAnalyticsUrlOptions(config, layerType, skipData)
     : '';
 }
 
-function getAnalyticsUrlOptions(config: any, layerType: string) {
+function getAnalyticsUrlOptions(
+  config: any,
+  layerType: string,
+  skipData?: boolean
+) {
   if (!config || !layerType) {
     return '';
   }
 
-  const displayPropertySection = config.displayNameProperty ? '&displayProperty=' + config.displayNameProperty : '';
+  return (
+    getDisplayPropertyDetails(config) +
+    getAggregationTypeDetails(config) +
+    getValueDetails(config) +
+    getOutputTypeDetails(layerType) +
+    getCoordinateDetails(layerType) +
+    '&includeMetadataDetails=true' +
+    getSkipDataStatus(skipData)
+  );
+}
 
-  const aggregrationTypeSection = config
+function getDisplayPropertyDetails(config: any) {
+  return config.displayNameProperty
+    ? '&displayProperty=' + config.displayNameProperty
+    : '';
+}
+
+function getAggregationTypeDetails(config) {
+  return config
     ? config.aggregationType && config.aggregationType !== 'DEFAULT'
       ? '&aggregationType=' + config.aggregationType
       : ''
     : '';
-
-  const valueSection = config.value ? '&value' + config.value.id : '';
-
-  const outputType = layerType === 'event' ? '&outputType=EVENT' : '';
-
-  const coordinateSection = layerType === 'event' ? '&coordinatesOnly=true' : '';
-  const includeMetadataDetails = `&includeMetadataDetails=true`;
-
-  return `${displayPropertySection}${aggregrationTypeSection}${valueSection}${outputType}${coordinateSection}${includeMetadataDetails}`;
 }
 
-function getEventAnalyticsUrl(dataSelections: VisualizationDataSelection[], layerType: string, config: any) {
+function getOutputTypeDetails(layerType) {
+  return layerType === 'event' ? '&outputType=EVENT' : '';
+}
+
+function getValueDetails(config) {
+  return config.value ? '&value' + config.value.id : '';
+}
+
+function getCoordinateDetails(layerType) {
+  return layerType === 'event' ? '&coordinatesOnly=true' : '';
+}
+
+function getSkipDataStatus(skipData: boolean) {
+  return skipData ? '&skipData=true' : '';
+}
+
+function getEventAnalyticsUrl(
+  dataSelections: VisualizationDataSelection[],
+  layerType: string,
+  config: any,
+  skipData?: boolean
+) {
   const flattenedDimensionString = flattenDimensions(dataSelections);
   const analyticsUrlFields =
     flattenedDimensionString !== ''
@@ -78,9 +156,11 @@ function getEventAnalyticsUrl(dataSelections: VisualizationDataSelection[], laye
         getProgramParameters(config) +
         getEventAnalyticsStartAndEndDateSection(config) +
         flattenedDimensionString +
-        getAnalyticsUrlOptions(config, layerType)
+        getAnalyticsUrlOptions(config, layerType, skipData)
       : '';
-  return analyticsUrlFields !== '' ? 'analytics/events/' + analyticsUrlFields : '';
+  return analyticsUrlFields !== ''
+    ? 'analytics/events/' + analyticsUrlFields
+    : '';
 }
 
 function getProgramParameters(config: any): string {
@@ -100,7 +180,11 @@ function getEventAnalyticsUrlSection(config) {
     case 'EVENT_REPORT':
       return config.dataType === 'AGGREGATED_VALUES' ? 'aggregate/' : 'query/';
     default:
-      return !config.aggregate ? (config.eventClustering && config.spatialSupport ? 'count/' : 'query/') : 'aggregate/';
+      return !config.aggregate
+        ? config.eventClustering && config.spatialSupport
+          ? 'count/'
+          : 'query/'
+        : 'aggregate/';
   }
 }
 
