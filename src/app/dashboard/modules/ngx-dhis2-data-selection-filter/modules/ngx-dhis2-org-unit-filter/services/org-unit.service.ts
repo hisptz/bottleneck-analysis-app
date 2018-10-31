@@ -27,7 +27,8 @@ export class OrgUnitService {
           return this.httpClient
             .get(
               'organisationUnits.json?fields=!:all&paging=false&filter=path:ilike:' +
-                userOrgUnits.join(';') +
+                userOrgUnits.join('&filter=path:ilike:') +
+                '&rootJunction=OR' +
                 (orgUnitFilterConfig.minLevel
                   ? '&filter=level:le:' + orgUnitFilterConfig.minLevel
                   : '')
@@ -47,7 +48,8 @@ export class OrgUnitService {
                       '&pageSize=' +
                       pageSize +
                       '&order=level:asc&filter=path:ilike:' +
-                      userOrgUnits.join(';')
+                      userOrgUnits.join('&filter=path:ilike:') +
+                      '&rootJunction=OR'
                   )
                 ).pipe(
                   mergeMap(
