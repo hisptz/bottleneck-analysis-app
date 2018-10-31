@@ -9,10 +9,12 @@ export class CurrentDashboardDescriptionComponent implements OnInit {
   @Input()
   dashboardDescription: string;
   @Input()
-  globalFilter: any;
+  globalSelections: any;
   @Input()
   dashboardId: string;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.globalSelections);
+  }
 }

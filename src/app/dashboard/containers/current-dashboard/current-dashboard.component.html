@@ -4,6 +4,7 @@
     {{(dashboardNotification$ | async)?.message}}
   </div>
   <!-- end of current dashboard notification -->
+  <div>{{currentGlobalDataSelections$ | async | json}}</div>
 
   <!-- current dashboard header -->
   <div class="current-dashboard-header-block">
