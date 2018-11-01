@@ -7,3 +7,4 @@ export * from './get-dashboard-items-from-dashboards.helpers';
 export * from './get-standardized-dashboard-visualization.helper';
 export * from './get-filtered-dashboards-based-on-sharing.helper';
 export * from './get-dashboard-access.helper';
+export * from './get-data-selection-summary.helper';

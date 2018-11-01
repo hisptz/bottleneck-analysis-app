@@ -11,6 +11,7 @@ import { Dashboard } from '../../models';
 import { User } from '../../../models';
 import { SelectionFilterConfig } from '../../modules/ngx-dhis2-data-selection-filter/models/selected-filter-config.model';
 import { generateUid } from '../../../helpers/generate-uid.helper';
+import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 
 @Component({
   selector: 'app-current-dashboard-header',
@@ -32,6 +33,9 @@ export class CurrentDashboardHeaderComponent implements OnInit {
 
   @Input()
   dashboardLoaded: boolean;
+
+  @Input()
+  globalDataSelections: VisualizationDataSelection[];
 
   selectionFilterConfig: SelectionFilterConfig;
   showFavoriteFilter: boolean;

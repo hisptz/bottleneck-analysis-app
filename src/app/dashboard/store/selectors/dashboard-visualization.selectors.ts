@@ -7,7 +7,12 @@ import {
   getVisualizationObjectEntities,
   getVisualizationLayerEntities
 } from '../../modules/ngx-dhis2-visualization/store';
-import { Visualization } from '../../modules/ngx-dhis2-visualization/models';
+import {
+  Visualization,
+  VisualizationLayer,
+  VisualizationDataSelection
+} from '../../modules/ngx-dhis2-visualization/models';
+import { getSelectionDimensionsFromAnalytics } from '../../modules/ngx-dhis2-visualization/helpers';
 
 export const getCurrentDashboardVisualization = createSelector(
   fromDashboardVisualizationReducer.getDashboardVisualizationEntities,
@@ -54,16 +59,64 @@ export const getCurrentGlobalDataSelections = createSelector(
     visualizationObjectEntities: any,
     visualizationLayerEntities: any
   ) => {
-    console.log(
+    const visualizationLayers: VisualizationLayer[] = _.map(
       _.flatten(
         _.map(
-          dashboardVisualizationItems,
-          (dashboardVisualizationItem: any) =>
-            visualizationObjectEntities[dashboardVisualizationItem.id]
+          _.flatten(
+            _.map(
+              dashboardVisualizationItems,
+              (dashboardVisualizationItem: any) =>
+                visualizationObjectEntities[dashboardVisualizationItem.id]
+            )
+          ),
+          visualization => visualization.layers
         )
-      )
+      ),
+      layerId => visualizationLayerEntities[layerId]
     );
 
-    return [];
+    const globalDataSelectionsArray = _.map(
+      visualizationLayers,
+      (visualizationLayer: VisualizationLayer) => {
+        return getSelectionDimensionsFromAnalytics(
+          visualizationLayer.analytics
+        );
+      }
+    );
+
+    let mergedDataSelections = [];
+
+    _.each(
+      globalDataSelectionsArray,
+      (dataSelections: VisualizationDataSelection[]) => {
+        _.each(dataSelections, (dataSelection: VisualizationDataSelection) => {
+          const avaialableDataSelection = _.find(mergedDataSelections, [
+            'dimension',
+            dataSelection.dimension
+          ]);
+          if (avaialableDataSelection) {
+            const avaialableDataSelectionIndex = mergedDataSelections.indexOf(
+              avaialableDataSelection
+            );
+            mergedDataSelections = [
+              ..._.slice(mergedDataSelections, 0, avaialableDataSelectionIndex),
+              {
+                ...avaialableDataSelection,
+                ...dataSelection,
+                items: _.uniqBy(
+                  [...avaialableDataSelection.items, ...dataSelection.items],
+                  'id'
+                )
+              },
+              ..._.slice(mergedDataSelections, avaialableDataSelectionIndex + 1)
+            ];
+          } else {
+            mergedDataSelections = [...mergedDataSelections, dataSelection];
+          }
+        });
+      }
+    );
+
+    return mergedDataSelections;
   }
 );
