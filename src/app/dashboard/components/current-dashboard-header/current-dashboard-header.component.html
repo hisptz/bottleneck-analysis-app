@@ -59,7 +59,7 @@
 </div>
 
 <!-- current dashboard description -->
-<div class="current-dashboard-description" *ngIf="currentDashboard?.description">
-  <app-current-dashboard-description [dashboardDescription]="currentDashboard?.description"></app-current-dashboard-description>
+<div class="current-dashboard-description" *ngIf="dashboardLoaded">
+  <app-current-dashboard-description [dashboardDescription]="currentDashboard?.description" [globalSelections]="globalDataSelections"></app-current-dashboard-description>
 </div>
 <!-- end of current dashboard description -->

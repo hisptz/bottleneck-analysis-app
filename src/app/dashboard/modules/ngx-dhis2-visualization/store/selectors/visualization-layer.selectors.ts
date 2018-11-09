@@ -14,10 +14,6 @@ import {
   getVisualizationMetadataIdentifiers,
   getVisualizationLayout
 } from '../../helpers';
-import {
-  getSystemInfosState,
-  systemInfoReducer
-} from '../../../../../store/reducers/system-info.reducer';
 
 export const getCurrentVisualizationObjectLayers = (visualizationId: string) =>
   createSelector(

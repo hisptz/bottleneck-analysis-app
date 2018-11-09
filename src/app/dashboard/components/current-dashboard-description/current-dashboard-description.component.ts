@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { getDataSelectionSummary } from '../../helpers';
 
 @Component({
   selector: 'app-current-dashboard-description',
@@ -9,10 +10,16 @@ export class CurrentDashboardDescriptionComponent implements OnInit {
   @Input()
   dashboardDescription: string;
   @Input()
-  globalFilter: any;
+  globalSelections: any;
   @Input()
   dashboardId: string;
   constructor() {}
 
-  ngOnInit() {}
+  get globalSelectionSummary(): string {
+    return getDataSelectionSummary(this.globalSelections);
+  }
+
+  ngOnInit() {
+    console.log(this.globalSelections);
+  }
 }

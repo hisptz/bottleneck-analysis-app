@@ -43,6 +43,8 @@ export class CurrentDashboardComponent implements OnInit {
   visualizationsReady$: Observable<boolean>;
   legendSets$: Observable<LegendSet[]>;
 
+  currentGlobalDataSelections$: Observable<any>;
+
   currentUserHasManagementAuthorities$: Observable<boolean>;
 
   welcomingTitle: string;
@@ -84,6 +86,10 @@ export class CurrentDashboardComponent implements OnInit {
 
     this.currentUserHasManagementAuthorities$ = store.select(
       getCurrentUserManagementAuthoritiesStatus
+    );
+
+    this.currentGlobalDataSelections$ = store.select(
+      fromDashboardSelectors.getCurrentGlobalDataSelections
     );
 
     this.welcomingTitle = WELCOMING_TITLE;

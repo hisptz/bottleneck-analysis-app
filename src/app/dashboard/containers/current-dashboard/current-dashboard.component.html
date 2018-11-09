@@ -12,7 +12,7 @@
       [currentUserHasAuthorities]="currentUserHasManagementAuthorities$ | async" (createFavoriteForCurrentDashboard)="onCreateFavoriteForCurrentDashboard($event)"
       (globalFilterChange)="onGlobalFilterChange($event)" (toggleDashboardDeleteDialog)="onToggleDeleteDialog($event)"
       (deleteDashboard)="onDeleteDashboard($event)" (saveDashboard)="onSaveDashboard($event)" [dashboardLoading]="dashboardLoading$ | async"
-      [dashboardLoaded]="dashboardLoaded$ | async"></app-current-dashboard-header>
+      [dashboardLoaded]="dashboardLoaded$ | async" [globalDataSelections]="currentGlobalDataSelections$ | async"></app-current-dashboard-header>
   </div>
   <!-- end of current dashboard header -->
 
