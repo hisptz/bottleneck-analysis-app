@@ -56,8 +56,10 @@ export class VisualizationWidgetComponent implements OnInit {
     const dashboardDetails = this.dashboard
       ? JSON.stringify({ id: this.dashboard.id, name: this.dashboard.name })
       : '';
+
+    const contextUrl = environment.production ? this.contextPath : '../../../';
     return encodeURI(
-      `${this.contextPath}/api/apps/${this.appKey}/index.html?dashboardItemId=${
+      `${contextUrl}/api/apps/${this.appKey}/index.html?dashboardItemId=${
         this.visualizationId
       }&other=/#/?orgUnit=${orgUnit}&period=${period}&dashboard=${dashboardDetails}&dashboardItem=${
         this.visualizationId
