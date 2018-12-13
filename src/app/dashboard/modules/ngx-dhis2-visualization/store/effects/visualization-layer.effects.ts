@@ -47,16 +47,18 @@ export class VisualizationLayerEffects {
         .pipe(take(1))
         .subscribe((visualizationObject: any) => {
           if (visualizationObject) {
-            this.store.dispatch(
-              new UpdateVisualizationObjectAction(action.visualizationId, {
-                progress: {
-                  statusCode: 200,
-                  statusText: 'OK',
-                  percent: 50,
-                  message: 'Favorite information has been loaded'
-                }
-              })
-            );
+            if (visualizationObject.type !== 'APP') {
+              this.store.dispatch(
+                new UpdateVisualizationObjectAction(action.visualizationId, {
+                  progress: {
+                    statusCode: 200,
+                    statusText: 'OK',
+                    percent: 50,
+                    message: 'Favorite information has been loaded'
+                  }
+                })
+              );
+            }
 
             const visualizationLayers = action.globalSelections
               ? _.map(
