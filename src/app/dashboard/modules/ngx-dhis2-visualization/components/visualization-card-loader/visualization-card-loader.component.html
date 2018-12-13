@@ -1,6 +1,13 @@
-<div class="visualization-card-loader-container" [style.height]="'calc(' + height + ' - 15px)'">
+<div
+  class="visualization-card-loader-container"
+  [style.height]="'calc(' + height + ' - 15px)'"
+>
   <div class="loader-block">
-    <div class="chart-loader" *ngIf="visualizationType === 'CHART'" [style.height]="'calc(' + height + ' - 70px)'">
+    <div
+      class="chart-loader"
+      *ngIf="visualizationType === 'CHART'"
+      [style.height]="'calc(' + height + ' - 70px)'"
+    >
       <div style="margin-top: 30%;">
         <div class="animated-background">&nbsp;</div>
       </div>
@@ -20,29 +27,31 @@
         <div class="animated-background">&nbsp;</div>
       </div>
     </div>
-    <table class="table-loader" *ngIf="visualizationType === 'TABLE'" [style.height]="'calc(' + height + ' - 50px)'">
+    <table
+      class="table-loader"
+      *ngIf="visualizationType === 'TABLE' || visualizationType === 'APP'"
+      [style.height]="'calc(' + height + ' - 50px)'"
+    >
       <tr *ngFor="let tableCell of tableCellCounts">
-        <td>
-          <div class="animated-background">&nbsp;</div>
-        </td>
-        <td>
-          <div class="animated-background">&nbsp;</div>
-        </td>
-        <td>
-          <div class="animated-background">&nbsp;</div>
-        </td>
-        <td>
-          <div class="animated-background">&nbsp;</div>
-        </td>
+        <td><div class="animated-background">&nbsp;</div></td>
+        <td><div class="animated-background">&nbsp;</div></td>
+        <td><div class="animated-background">&nbsp;</div></td>
+        <td><div class="animated-background">&nbsp;</div></td>
       </tr>
     </table>
   </div>
-  <div class="map-loader" *ngIf="visualizationType === 'MAP'" [style.height]="'calc(' + height + ' - 50px)'">
+  <div
+    class="map-loader"
+    *ngIf="visualizationType === 'MAP'"
+    [style.height]="'calc(' + height + ' - 50px)'"
+  >
     <div class="map-image" [style.height]="'calc(' + height + ' - 80px)'">
       <div class="animated-background">&nbsp;</div>
     </div>
   </div>
   <div class="loading-text">
-    <img src="assets/icons/balls-3.svg" alt=""> Loading data{{name ? ' for ' + name : ''}}
+    <img src="assets/icons/balls-3.svg" alt="" /> Loading data{{
+      name ? ' for ' + name : ''
+    }}
   </div>
 </div>
