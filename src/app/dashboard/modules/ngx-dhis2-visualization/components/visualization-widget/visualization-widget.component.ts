@@ -63,6 +63,7 @@ export class VisualizationWidgetComponent implements OnInit {
       : '';
 
     const contextUrl = environment.production ? this.contextPath : '../../../';
+
     return encodeURI(
       `${contextUrl}/api/apps/${this.appKey}/index.html?dashboardItemId=${
         this.visualizationId
