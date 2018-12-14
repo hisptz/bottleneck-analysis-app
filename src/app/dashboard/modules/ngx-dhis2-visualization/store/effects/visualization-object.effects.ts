@@ -43,7 +43,11 @@ import {
 } from '../reducers';
 
 // models
-import { Visualization, VisualizationLayer } from '../../models';
+import {
+  Visualization,
+  VisualizationLayer,
+  VisualizationDataSelection
+} from '../../models';
 
 // services
 import { FavoriteService } from '../../services/favorite.service';
@@ -64,6 +68,7 @@ import { getCombinedVisualizationObjectById } from '../selectors';
 import { getFavoritePayload } from '../../helpers/get-favorite-payload.helpers';
 import { getDefaultVisualizationLayer } from '../../helpers/get-default-visualization-layer.helper';
 import { generateUid } from '../../../../../helpers/generate-uid.helper';
+import { updateDataSelectionBasedOnPreferences } from '../../helpers/update-data-selection-based-preference.helper';
 
 @Injectable()
 export class VisualizationObjectEffects {
@@ -351,9 +356,23 @@ export class VisualizationObjectEffects {
               ? action.favorite.mapViews || [action.favorite]
               : [visualizationFavoriteOptions],
             (favoriteLayer: any) => {
-              const dataSelections = favoriteLayer.dataSelections
-                ? favoriteLayer.dataSelections
-                : getSelectionDimensionsFromFavorite(favoriteLayer);
+              const dataSelections = _.map(
+                favoriteLayer.dataSelections
+                  ? favoriteLayer.dataSelections
+                  : getSelectionDimensionsFromFavorite(favoriteLayer),
+                (dataSelection: VisualizationDataSelection) => {
+                  // TODO FIND BEST WAY TO HANDLE VISUALIZATION PREFERENCES
+                  return updateDataSelectionBasedOnPreferences(
+                    dataSelection,
+                    visualizationFavoriteOptions.type,
+                    {
+                      reportTable: { includeOrgUnitChildren: true },
+                      chart: { includeOrgUnitChildren: false },
+                      app: { includeOrgUnitChildren: false }
+                    }
+                  );
+                }
+              );
 
               return {
                 id: favoriteLayer.id,

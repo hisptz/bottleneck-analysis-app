@@ -131,6 +131,7 @@ export class VisualizationWidgetComponent implements OnInit {
         (dataSelection: any) => dataSelection.items
       )
     );
+
     return singleSelection && selectionItems.length > 0
       ? JSON.stringify(selectionItems[0])
       : JSON.stringify(selectionItems);
