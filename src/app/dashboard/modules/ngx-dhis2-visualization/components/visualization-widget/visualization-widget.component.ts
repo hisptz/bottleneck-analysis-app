@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationLayer, VisualizationDataSelection } from '../../models';
 import { environment } from '../../../../../../environments/environment';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import { HttpClient } from '@angular/common/http';
 import { getSelectionDimensionsFromAnalytics } from '../../helpers';
 import { VisualizationExportService } from '../../services';
@@ -145,7 +144,6 @@ export class VisualizationWidgetComponent implements OnInit {
   }
 
   onDownloadEvent() {
-    // this.visualizationExportService.exportXLS(this.appKey, this.widgetId);
     this.download = true;
   }
 }
