@@ -25,7 +25,7 @@ export function getStandardizedVisualizationUiConfig(
     hideTypeButtons: true,
     showInterpretionBlock: !isNonVisualizable,
     hideResizeButtons: true,
-    hideDownloadBlock: isNonVisualizable,
+    hideDownloadBlock: false,
     showTitleBlock: false
   };
 }

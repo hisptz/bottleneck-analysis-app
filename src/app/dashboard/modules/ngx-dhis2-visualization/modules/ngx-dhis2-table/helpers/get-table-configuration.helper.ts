@@ -7,6 +7,7 @@ export function getTableConfiguration(
   dataSelections: any[]
 ): TableConfiguration {
   return {
+    id: `${favoriteObject ? favoriteObject.id : _.random(1000, 1000)}_table`,
     title:
       favoriteObject.title || favoriteObject.displayName || favoriteObject.name,
     subtitle: favoriteObject.hasOwnProperty('subtitle')

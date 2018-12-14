@@ -1,4 +1,5 @@
 export interface TableConfiguration {
+  id: string;
   title: string;
   subtitle: string;
   showColumnTotal: boolean;

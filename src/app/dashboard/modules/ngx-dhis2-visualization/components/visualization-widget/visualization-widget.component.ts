@@ -5,6 +5,7 @@ import { environment } from '../../../../../../environments/environment';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import { HttpClient } from '@angular/common/http';
 import { getSelectionDimensionsFromAnalytics } from '../../helpers';
+import { VisualizationExportService } from '../../services';
 
 @Component({
   selector: 'app-visualization-widget',
@@ -31,8 +32,13 @@ export class VisualizationWidgetComponent implements OnInit {
 
   errorMessage: any;
   loading: boolean;
+  widgetId: string;
+  download: boolean;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private visualizationExportService: VisualizationExportService
+  ) {
     this.loading = true;
   }
 
@@ -69,11 +75,12 @@ export class VisualizationWidgetComponent implements OnInit {
         this.visualizationId
       }&other=/#/?orgUnit=${orgUnit}&period=${period}&dashboard=${dashboardDetails}&dashboardItem=${
         this.visualizationId
-      }&groups=${dataGroups}`
+      }&groups=${dataGroups}${this.download ? '&download=true' : ''}`
     );
   }
 
   ngOnInit() {
+    this.widgetId = this.visualizationId + '_widget';
     this.httpClient.get(this.appUrl).subscribe(
       () => {
         this.loading = false;
@@ -135,5 +142,10 @@ export class VisualizationWidgetComponent implements OnInit {
     return singleSelection && selectionItems.length > 0
       ? JSON.stringify(selectionItems[0])
       : JSON.stringify(selectionItems);
+  }
+
+  onDownloadEvent() {
+    // this.visualizationExportService.exportXLS(this.appKey, this.widgetId);
+    this.download = true;
   }
 }

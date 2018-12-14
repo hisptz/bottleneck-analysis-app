@@ -1,33 +1,48 @@
 <div class="table-item-container">
-    <div class="table-item-title">
-        {{tableData?.title}}
-    </div>
-    <table class="table table-bordered" #table>
-        <thead [@open]>
-            <tr>
-                <th [attr.colspan]="tableData.headers[0].length" class="table-header-cell">
-                    {{tableData.subtitle}}
-                </th>
-            </tr>
-            <tr *ngFor="let tableHeaderRow of tableData.headers">
-                <th class="table-header-cell" *ngFor="let tableHeaderCell of tableHeaderRow" [attr.rowspan]="tableHeaderCell.rowSpan"
-                    [style.text-align]="tableHeaderCell.textCenter ? 'center' : 'left'" [attr.colspan]="tableHeaderCell.colSpan">
-                    {{tableHeaderCell.name}}
-                </th>
-            </tr>
-        </thead>
-        <tbody [@listEnter]>
-            <tr *ngFor="let tableRow of tableData.rows">
-                <td class="table-item-cell-block" *ngFor="let tableCell of tableRow" [attr.rowspan]="tableCell.rowSpan">
-                    <span class="table-item-cell-label" *ngIf="!tableCell.isDataCell">{{tableCell.name}}</span>
-                    <div class="table-item-cell-data" *ngIf="tableCell.isDataCell">
-                        <app-table-item-cell [dataRowIds]="tableCell.dataRowIds" [dataDimensions]="tableCell.dataDimensions"
-                            [dataSelections]="tableConfiguration.dataSelections" [analyticsObject]="analyticsObject"
-                            [legendSet]="tableConfiguration.legendSet"></app-table-item-cell>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
+  <div class="table-item-title">{{ tableData?.title }}</div>
+  <table class="table table-bordered" #table [id]="tableConfiguration.id">
+    <thead [@open]>
+      <tr>
+        <th
+          [attr.colspan]="tableData.headers[0].length"
+          class="table-header-cell"
+        >
+          {{ tableData.subtitle }}
+        </th>
+      </tr>
+      <tr *ngFor="let tableHeaderRow of tableData.headers">
+        <th
+          class="table-header-cell"
+          *ngFor="let tableHeaderCell of tableHeaderRow"
+          [attr.rowspan]="tableHeaderCell.rowSpan"
+          [style.text-align]="tableHeaderCell.textCenter ? 'center' : 'left'"
+          [attr.colspan]="tableHeaderCell.colSpan"
+        >
+          {{ tableHeaderCell.name }}
+        </th>
+      </tr>
+    </thead>
+    <tbody [@listEnter]>
+      <tr *ngFor="let tableRow of tableData.rows">
+        <td
+          class="table-item-cell-block"
+          *ngFor="let tableCell of tableRow"
+          [attr.rowspan]="tableCell.rowSpan"
+        >
+          <span class="table-item-cell-label" *ngIf="!tableCell.isDataCell">{{
+            tableCell.name
+          }}</span>
+          <div class="table-item-cell-data" *ngIf="tableCell.isDataCell">
+            <app-table-item-cell
+              [dataRowIds]="tableCell.dataRowIds"
+              [dataDimensions]="tableCell.dataDimensions"
+              [dataSelections]="tableConfiguration.dataSelections"
+              [analyticsObject]="analyticsObject"
+              [legendSet]="tableConfiguration.legendSet"
+            ></app-table-item-cell>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
