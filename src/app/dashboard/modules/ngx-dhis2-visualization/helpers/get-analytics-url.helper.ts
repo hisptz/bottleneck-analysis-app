@@ -8,9 +8,19 @@ export function getAnalyticsUrl(
   config?: any,
   skipData?: boolean
 ): string {
-  return layerType === 'thematic'
-    ? getAggregateAnalyticsUrl(dataSelections, layerType, config, skipData)
-    : getEventAnalyticsUrl(dataSelections, layerType, config, skipData);
+  switch (layerType) {
+    case 'thematic':
+      return getAggregateAnalyticsUrl(
+        dataSelections,
+        layerType,
+        config,
+        skipData
+      );
+    case 'event':
+      return getEventAnalyticsUrl(dataSelections, layerType, config, skipData);
+    default:
+      return '';
+  }
 }
 
 function flattenDimensions(
@@ -60,10 +70,10 @@ function getAnalyticsDimensions(
       return selectionValues !== ''
         ? 'dimension=' + dataSelection.dimension + ':' + selectionValues
         : ['dx', 'ou', 'pe'].indexOf(dataSelection.dimension) === -1
-          ? 'dimension=' +
-            dataSelection.dimension +
-            (dataSelection.legendSet ? '-' + dataSelection.legendSet : '')
-          : '';
+        ? 'dimension=' +
+          dataSelection.dimension +
+          (dataSelection.legendSet ? '-' + dataSelection.legendSet : '')
+        : '';
     }),
     dimension => dimension !== ''
   );

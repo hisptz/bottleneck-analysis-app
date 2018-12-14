@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { VisualizationDataSelection } from '../models';
 import { updateDataSelectionBasedOnPreferences } from './update-data-selection-based-preference.helper';
 
+// TODO FIND BEST WAY TO HANDLE VISUALIZATION PREFERENCES
 export function getMergedDataSelections(
   existingDataSelections: VisualizationDataSelection[],
   newDataSelections: VisualizationDataSelection[],
@@ -9,9 +10,11 @@ export function getMergedDataSelections(
   favoritePreferences: {
     reportTable: { includeOrgUnitChildren: boolean };
     chart: { includeOrgUnitChildren: boolean };
+    app: { includeOrgUnitChildren: boolean };
   } = {
     reportTable: { includeOrgUnitChildren: true },
-    chart: { includeOrgUnitChildren: false }
+    chart: { includeOrgUnitChildren: false },
+    app: { includeOrgUnitChildren: false }
   }
 ): any[] {
   const unAvailableDataSelections: VisualizationDataSelection[] = _.filter(

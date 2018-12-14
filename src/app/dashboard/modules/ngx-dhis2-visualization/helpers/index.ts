@@ -23,3 +23,4 @@ export * from './get-merged-dataSelections.helper';
 export * from './get-merged-analytics.helper';
 export * from './get-analytics-with-grouping.helper';
 export * from './generate-dummy-anaytics.helper';
+export * from './get-data-selection-for-metadata.helper';

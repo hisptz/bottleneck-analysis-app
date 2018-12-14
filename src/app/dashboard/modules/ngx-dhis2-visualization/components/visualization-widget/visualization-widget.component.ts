@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
-import { VisualizationLayer } from '../../models';
+import { VisualizationLayer, VisualizationDataSelection } from '../../models';
 import { environment } from '../../../../../../environments/environment';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import { HttpClient } from '@angular/common/http';
+import { getSelectionDimensionsFromAnalytics } from '../../helpers';
+import { VisualizationExportService } from '../../services';
 
 @Component({
   selector: 'app-visualization-widget',
@@ -30,42 +31,55 @@ export class VisualizationWidgetComponent implements OnInit {
 
   errorMessage: any;
   loading: boolean;
+  widgetId: string;
+  download: boolean;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private visualizationExportService: VisualizationExportService
+  ) {
     this.loading = true;
   }
 
   get appUrl(): string {
-    const dataSelections =
-      this.dashboard && this.dashboard.globalSelections
-        ? this.dashboard.globalSelections
-        : [];
+    const dataSelections = _.map(
+      this.visualizationLayers || [],
+      (visualizationLayer: VisualizationLayer) =>
+        visualizationLayer.analytics
+          ? getSelectionDimensionsFromAnalytics(visualizationLayer.analytics)
+          : visualizationLayer.dataSelections || []
+    )[0];
+
     const orgUnit = this.getDataSelectionByDimension(
-      dataSelections,
+      dataSelections || [],
       'ou',
       true,
       this.currentUser
     );
 
-    const period = this.getDataSelectionByDimension(dataSelections, 'pe');
+    const period = this.getDataSelectionByDimension(dataSelections || [], 'pe');
 
+    // Find best way to pass group selection that doesnt involve dashboard
     const dataGroups = this.getDataSelectionGroups(
-      dataSelections,
-      this.dashboard
+      this.dashboard.globalSelections
     );
     const dashboardDetails = this.dashboard
       ? JSON.stringify({ id: this.dashboard.id, name: this.dashboard.name })
       : '';
+
+    const contextUrl = environment.production ? this.contextPath : '../../../';
+
     return encodeURI(
-      `${this.contextPath}/api/apps/${this.appKey}/index.html?dashboardItemId=${
+      `${contextUrl}/api/apps/${this.appKey}/index.html?dashboardItemId=${
         this.visualizationId
       }&other=/#/?orgUnit=${orgUnit}&period=${period}&dashboard=${dashboardDetails}&dashboardItem=${
         this.visualizationId
-      }&groups=${dataGroups}`
+      }&groups=${dataGroups}${this.download ? '&download=true' : ''}`
     );
   }
 
   ngOnInit() {
+    this.widgetId = this.visualizationId + '_widget';
     this.httpClient.get(this.appUrl).subscribe(
       () => {
         this.loading = false;
@@ -91,10 +105,8 @@ export class VisualizationWidgetComponent implements OnInit {
     );
   }
 
-  getDataSelectionGroups(dataSelections: any[], dashboard: any) {
-    const dxDataSelection =
-      _.find(dataSelections, ['dimension', 'dx']) ||
-      _.find(dashboard.globalSelections, ['dimension', 'dx']);
+  getDataSelectionGroups(dataSelections: VisualizationDataSelection[]) {
+    const dxDataSelection = _.find(dataSelections, ['dimension', 'dx']);
     return JSON.stringify(
       dxDataSelection
         ? _.map(dxDataSelection.groups || [], (group: any) => {
@@ -116,87 +128,22 @@ export class VisualizationWidgetComponent implements OnInit {
     singleSelection: boolean = true,
     currentUser?: any
   ) {
-    const selectionItems = _.map(
-      _.flatten(
-        _.map(
-          _.filter(
-            dataSelections,
-            dataSelection => dataSelection.dimension === dimension
-          ),
-          (dataSelection: any) => dataSelection.items
-        )
-      ),
-      (item: any) => {
-        return dimension === 'pe' ? this.derivePeriodItem(item) : item;
-      }
+    const selectionItems = _.flatten(
+      _.map(
+        _.filter(
+          dataSelections,
+          dataSelection => dataSelection.dimension === dimension
+        ),
+        (dataSelection: any) => dataSelection.items
+      )
     );
 
-    if (
-      dimension === 'ou' &&
-      _.some(
-        selectionItems,
-        (item: any) => item && item.id && item.id.indexOf('USER') !== -1
-      )
-    ) {
-      const userOrgUnits = _.uniqBy(
-        _.map([
-          ...currentUser.organisationUnits,
-          ...currentUser.dataViewOrganisationUnits
-        ]),
-        'id'
-      );
-
-      return singleSelection && userOrgUnits.length > 0
-        ? JSON.stringify(userOrgUnits[0])
-        : JSON.stringify(userOrgUnits);
-    }
     return singleSelection && selectionItems.length > 0
       ? JSON.stringify(selectionItems[0])
       : JSON.stringify(selectionItems);
   }
 
-  // TODO REMOVE THIS HARDCODING
-  derivePeriodItem(period: any) {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const monthNames = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
-
-    switch (period.id) {
-      case 'THIS_YEAR':
-        return { id: year, name: year };
-      case 'LAST_YEAR':
-        return { id: year - 1, name: year - 1 };
-      case 'THIS_MONTH':
-        return {
-          id: `${year}${month < 10 ? '0' : ''}${month}`,
-          name: `${monthNames[month - 1]} ${year}`
-        };
-      case 'LAST_MONTH':
-        const lastMonth = month === 1 ? 12 : month - 1;
-        return {
-          id: `${lastMonth === 12 ? year - 1 : year}${
-            lastMonth < 10 ? '0' : ''
-          }${lastMonth}`,
-          name: `${monthNames[lastMonth - 1]} ${
-            lastMonth === 12 ? year - 1 : year
-          }`
-        };
-      default:
-        return period;
-    }
+  onDownloadEvent() {
+    this.download = true;
   }
 }

@@ -43,7 +43,11 @@ import {
 } from '../reducers';
 
 // models
-import { Visualization, VisualizationLayer } from '../../models';
+import {
+  Visualization,
+  VisualizationLayer,
+  VisualizationDataSelection
+} from '../../models';
 
 // services
 import { FavoriteService } from '../../services/favorite.service';
@@ -64,6 +68,7 @@ import { getCombinedVisualizationObjectById } from '../selectors';
 import { getFavoritePayload } from '../../helpers/get-favorite-payload.helpers';
 import { getDefaultVisualizationLayer } from '../../helpers/get-default-visualization-layer.helper';
 import { generateUid } from '../../../../../helpers/generate-uid.helper';
+import { updateDataSelectionBasedOnPreferences } from '../../helpers/update-data-selection-based-preference.helper';
 
 @Injectable()
 export class VisualizationObjectEffects {
@@ -323,14 +328,15 @@ export class VisualizationObjectEffects {
           systemInfo && systemInfo.databaseInfo
             ? systemInfo.databaseInfo.spatialSupport
             : false;
-        const visualizationFavoriteOptions =
+        const visualizationFavoriteOptions: any =
           action.visualization && action.visualization.favorite
             ? action.visualization.favorite
             : null;
 
-        if (visualizationFavoriteOptions && action.favorite) {
-          if (visualizationFavoriteOptions.requireAnalytics) {
-            // update global visualization configurations
+        if (visualizationFavoriteOptions) {
+          // update global visualization configurations
+
+          if (visualizationFavoriteOptions.visualizationType === 'MAP') {
             this.store.dispatch(
               new UpdateVisualizationConfigurationAction(
                 action.visualization.visualizationConfigId,
@@ -342,99 +348,117 @@ export class VisualizationObjectEffects {
                 }
               )
             );
-
-            // generate visualization layers
-            const visualizationLayers: VisualizationLayer[] = _.map(
-              action.favorite.mapViews || [action.favorite],
-              (favoriteLayer: any) => {
-                const dataSelections = getSelectionDimensionsFromFavorite(
-                  favoriteLayer
-                );
-
-                return {
-                  id: favoriteLayer.id,
-                  dataSelections,
-                  layerType: getVisualizationLayerType(
-                    action.visualization.favorite.type,
-                    favoriteLayer
-                  ),
-                  analytics: null,
-                  config: {
-                    ...favoriteLayer,
-                    type: favoriteLayer.type ? favoriteLayer.type : 'COLUMN',
-                    spatialSupport,
-                    visualizationType: action.visualization.type
-                  }
-                };
-              }
-            );
-
-            // Add visualization Layers
-            _.each(visualizationLayers, visualizationLayer => {
-              this.store.dispatch(
-                new AddVisualizationLayerAction(visualizationLayer)
-              );
-            });
-
-            // Update visualization object
-            this.store.dispatch(
-              new UpdateVisualizationObjectAction(action.visualization.id, {
-                layers: _.map(
-                  visualizationLayers,
-                  visualizationLayer => visualizationLayer.id
-                ),
-                progress: {
-                  statusCode: 200,
-                  statusText: 'OK',
-                  percent: 50,
-                  message: 'Favorite information has been loaded'
-                }
-              })
-            );
-
-            // Load analytics for visualization layers
-            this.store.dispatch(
-              new LoadVisualizationAnalyticsAction(
-                action.visualization.id,
-                visualizationLayers
-              )
-            );
-          } else {
-            const visualizationLayers: VisualizationLayer[] = _.map(
-              [action.favorite],
-              favoriteLayer => {
-                return {
-                  id: favoriteLayer.id,
-                  analytics: {
-                    rows: favoriteLayer[visualizationFavoriteOptions.type]
-                  }
-                };
-              }
-            );
-
-            // Update visualization object
-            this.store.dispatch(
-              new UpdateVisualizationObjectAction(action.visualization.id, {
-                layers: _.map(
-                  visualizationLayers,
-                  visualizationLayer => visualizationLayer.id
-                ),
-                progress: {
-                  statusCode: 200,
-                  statusText: 'OK',
-                  percent: 100,
-                  message: 'Information has been loaded'
-                }
-              })
-            );
-
-            // Add visualization Layers
-            _.each(visualizationLayers, visualizationLayer => {
-              this.store.dispatch(
-                new AddVisualizationLayerAction(visualizationLayer)
-              );
-            });
           }
+
+          // generate visualization layers
+          const visualizationLayers: VisualizationLayer[] = _.map(
+            action.favorite
+              ? action.favorite.mapViews || [action.favorite]
+              : [visualizationFavoriteOptions],
+            (favoriteLayer: any) => {
+              const dataSelections = _.map(
+                favoriteLayer.dataSelections
+                  ? favoriteLayer.dataSelections
+                  : getSelectionDimensionsFromFavorite(favoriteLayer),
+                (dataSelection: VisualizationDataSelection) => {
+                  // TODO FIND BEST WAY TO HANDLE VISUALIZATION PREFERENCES
+                  return updateDataSelectionBasedOnPreferences(
+                    dataSelection,
+                    visualizationFavoriteOptions.type,
+                    {
+                      reportTable: { includeOrgUnitChildren: true },
+                      chart: { includeOrgUnitChildren: false },
+                      app: { includeOrgUnitChildren: false }
+                    }
+                  );
+                }
+              );
+
+              return {
+                id: favoriteLayer.id,
+                dataSelections,
+                layerType: getVisualizationLayerType(
+                  action.visualization.favorite.type,
+                  favoriteLayer
+                ),
+                analytics: null,
+                config: {
+                  ...favoriteLayer,
+                  type: favoriteLayer.type ? favoriteLayer.type : 'COLUMN',
+                  spatialSupport,
+                  visualizationType: action.visualization.type
+                }
+              };
+            }
+          );
+
+          // Add visualization Layers
+          _.each(visualizationLayers, visualizationLayer => {
+            this.store.dispatch(
+              new AddVisualizationLayerAction(visualizationLayer)
+            );
+          });
+
+          // Update visualization object
+          this.store.dispatch(
+            new UpdateVisualizationObjectAction(action.visualization.id, {
+              layers: _.map(
+                visualizationLayers,
+                visualizationLayer => visualizationLayer.id
+              ),
+              progress: {
+                statusCode: 200,
+                statusText: 'OK',
+                percent: 50,
+                message: 'Favorite information has been loaded'
+              }
+            })
+          );
+
+          // Load analytics for visualization layers
+          this.store.dispatch(
+            new LoadVisualizationAnalyticsAction(
+              action.visualization.id,
+              visualizationLayers
+            )
+          );
+          // if (visualizationFavoriteOptions.requireAnalytics) {
+          // } else {
+          //   const visualizationLayers: VisualizationLayer[] = _.map(
+          //     [action.favorite],
+          //     favoriteLayer => {
+          //       return {
+          //         id: favoriteLayer.id,
+          //         analytics: {
+          //           rows: favoriteLayer[visualizationFavoriteOptions.type]
+          //         }
+          //       };
+          //     }
+          //   );
+
+          //   // Update visualization object
+          //   this.store.dispatch(
+          //     new UpdateVisualizationObjectAction(action.visualization.id, {
+          //       layers: _.map(
+          //         visualizationLayers,
+          //         visualizationLayer => visualizationLayer.id
+          //       ),
+          //       progress: {
+          //         statusCode: 200,
+          //         statusText: 'OK',
+          //         percent: 100,
+          //         message: 'Information has been loaded'
+          //       }
+          //     })
+          //   );
+
+          //   // Add visualization Layers
+          //   _.each(visualizationLayers, visualizationLayer => {
+          //     this.store.dispatch(
+          //       new AddVisualizationLayerAction(visualizationLayer)
+          //     );
+          //   });
+          // }
         } else {
           // Update visualization layers
           const visualizationLayer: VisualizationLayer = {

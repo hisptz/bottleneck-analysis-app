@@ -44,6 +44,7 @@ export class TableItemComponent implements OnInit {
   }
 
   drawBnaTable(analyticsObject: any, tableConfiguration: TableConfiguration) {
+    console.log(tableConfiguration);
     // Get table rows
     const rowsItemsArray = this.getDimensionItemsArray(
       tableConfiguration.rows,
@@ -122,10 +123,8 @@ export class TableItemComponent implements OnInit {
       firstDataColumns = [...firstDataColumns, _.first(tableRows)];
       const dataPaths = _.uniq(
         _.flatten(
-          _.map(
-            tableRows,
-            (tableCell: any) =>
-              tableCell.path ? tableCell.path.split('/') : []
+          _.map(tableRows, (tableCell: any) =>
+            tableCell.path ? tableCell.path.split('/') : []
           )
         )
       );
@@ -514,23 +513,25 @@ export class TableItemComponent implements OnInit {
   }
 
   downloadTable(downloadFormat) {
-    if (this.table) {
-      const el = this.table.nativeElement;
-      if (downloadFormat === 'XLS') {
-        if (el) {
+    if (this.tableData && this.tableConfiguration) {
+      const title = `${this.tableData.title || 'Untitled'}-${
+        this.tableData.subtitle
+      }`;
+      if (this.table) {
+        const el = this.table.nativeElement;
+        if (downloadFormat === 'XLS') {
           this.visualizationExportService.exportXLS(
-            this.tableConfiguration.title || 'Untitled',
-            el.outerHTML
+            title,
+            this.tableConfiguration.id
           );
-        }
-      } else if (downloadFormat === 'CSV') {
-        if (el) {
-          this.visualizationExportService.exportCSV(
-            this.tableConfiguration.title || 'Untitled',
-            el
-          );
+        } else if (downloadFormat === 'CSV') {
+          if (el) {
+            this.visualizationExportService.exportCSV(title, el);
+          }
         }
       }
+    } else {
+      console.warn('Problem downloading data');
     }
   }
 }

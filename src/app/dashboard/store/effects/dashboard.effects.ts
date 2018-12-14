@@ -549,7 +549,7 @@ export class DashboardEffects {
       ([action, dashboardVisualizations]: [
         fromDashboardActions.GlobalFilterChangeAction,
         any[]
-      ]) =>
+      ]) => {
         from(dashboardVisualizations)
           .pipe(
             mergeMap(dashboardVisualization =>
@@ -587,7 +587,8 @@ export class DashboardEffects {
                 )
               );
             }
-          )
+          );
+      }
     )
   );
 

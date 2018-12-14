@@ -10,7 +10,8 @@ import {
   getStandardizedAnalyticsObject,
   getMergedAnalytics,
   getAnalyticsWithGrouping,
-  generateDummyAnalytics
+  generateDummyAnalytics,
+  getDataSelectionsForMetadata
 } from '../helpers';
 import { mergeMap, map, tap, catchError } from 'rxjs/operators';
 
@@ -22,9 +23,14 @@ export class AnalyticsService {
     dataSelections: VisualizationDataSelection[],
     layerType: string,
     config: any = null,
-    preference: any = { returnDummyAnalyticsOnFail: true }
+    preference: any = { returnDummyAnalyticsOnFail: true, metadataOnly: false }
   ) {
-    return this.getCombinedAnalytics(dataSelections, layerType, config).pipe(
+    return this.getCombinedAnalytics(
+      dataSelections,
+      layerType,
+      config,
+      preference
+    ).pipe(
       map((analytics: any) =>
         getAnalyticsWithGrouping(dataSelections, analytics)
       ),
@@ -33,15 +39,10 @@ export class AnalyticsService {
           return throwError(error);
         }
 
-        const dataSelectionsForMetadataCall = _.filter(
-          dataSelections,
-          (dataSelection: VisualizationDataSelection) =>
-            dataSelection.dimension !== 'dx'
-        );
         return this.http
           .get(
             getAnalyticsUrl(
-              dataSelectionsForMetadataCall,
+              getDataSelectionsForMetadata(dataSelections),
               layerType,
               config,
               true
@@ -65,8 +66,25 @@ export class AnalyticsService {
   getCombinedAnalytics(
     dataSelections: VisualizationDataSelection[],
     layerType: string,
-    config?: any
+    config?: any,
+    preference?: any
   ) {
+    if (preference && preference.metadataOnly) {
+      return this.http
+        .get(
+          getAnalyticsUrl(
+            getDataSelectionsForMetadata(dataSelections),
+            layerType,
+            config,
+            true
+          )
+        )
+        .pipe(
+          map((metadataResult: any) =>
+            this._getSanitizedAnalyticsArray([metadataResult], dataSelections)
+          )
+        );
+    }
     return forkJoin(
       this._getNormalAnalytics(
         this._getDataSelectionByDxType(
@@ -97,20 +115,19 @@ export class AnalyticsService {
     const analyticsUrl = !layerType
       ? getAnalyticsUrl(dataSelections, 'thematic', config)
       : layerType === 'thematic' || layerType === 'event'
-        ? getAnalyticsUrl(dataSelections, layerType, config)
-        : '';
+      ? getAnalyticsUrl(dataSelections, layerType, config)
+      : '';
     return analyticsUrl !== ''
       ? this.http.get(analyticsUrl).pipe(
-          mergeMap(
-            (analytics: any) =>
-              analytics.count && analytics.count < 2000
-                ? this.http.get(
-                    getAnalyticsUrl(dataSelections, layerType, {
-                      ...config,
-                      eventClustering: false
-                    })
-                  )
-                : of(analytics)
+          mergeMap((analytics: any) =>
+            analytics.count && analytics.count < 2000
+              ? this.http.get(
+                  getAnalyticsUrl(dataSelections, layerType, {
+                    ...config,
+                    eventClustering: false
+                  })
+                )
+              : of(analytics)
           )
         )
       : of(null);

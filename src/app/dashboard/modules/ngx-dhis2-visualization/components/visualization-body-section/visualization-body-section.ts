@@ -12,6 +12,7 @@ import { VisualizationUiConfig } from '../../models/visualization-ui-config.mode
 import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { TableListComponent } from '../../modules/ngx-dhis2-table/components/table-list/table-list.component';
 import { ChartListComponent } from '../../modules/ngx-dhis-chart/components/chart-list/chart-list.component';
+import { VisualizationWidgetComponent } from '../visualization-widget/visualization-widget.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -55,6 +56,9 @@ export class VisualizationBodySectionComponent {
   @ViewChild(ChartListComponent)
   chartList: ChartListComponent;
 
+  @ViewChild(VisualizationWidgetComponent)
+  widget: VisualizationWidgetComponent;
+
   get metadataIdentifiers() {
     return _.uniq(
       _.flatten(
@@ -70,6 +74,8 @@ export class VisualizationBodySectionComponent {
       this.chartList.onDownloadEvent(downloadFormat);
     } else if (visualizationType === 'TABLE' && this.tableList) {
       this.tableList.onDownloadEvent(downloadFormat);
+    } else if (visualizationType === 'APP') {
+      this.widget.onDownloadEvent();
     }
   }
 
