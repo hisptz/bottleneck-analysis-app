@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { Location } from '@angular/common';
@@ -15,7 +15,8 @@ export class RouterEffects {
   ) {}
 
   @Effect({ dispatch: false })
-  navigate$ = this.actions$.ofType(fromRouterActions.GO).pipe(
+  navigate$ = this.actions$.pipe(
+    ofType(fromRouterActions.GO),
     map((action: fromRouterActions.Go) => action.payload),
     tap(({ path, query: queryParams, extras }) => {
       this.router.navigate(path, { queryParams, ...extras });
@@ -23,12 +24,14 @@ export class RouterEffects {
   );
 
   @Effect({ dispatch: false })
-  navigateBack$ = this.actions$
-    .ofType(fromRouterActions.BACK)
-    .pipe(tap(() => this.location.back()));
+  navigateBack$ = this.actions$.pipe(
+    ofType(fromRouterActions.BACK),
+    tap(() => this.location.back())
+  );
 
   @Effect({ dispatch: false })
-  navigateForward$ = this.actions$
-    .ofType(fromRouterActions.FORWARD)
-    .pipe(tap(() => this.location.forward()));
+  navigateForward$ = this.actions$.pipe(
+    ofType(fromRouterActions.FORWARD),
+    tap(() => this.location.forward())
+  );
 }

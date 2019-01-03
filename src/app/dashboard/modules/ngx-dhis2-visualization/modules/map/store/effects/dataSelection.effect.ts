@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as dataSelectionAction from '../actions/data-selection.action';
@@ -9,26 +9,36 @@ import { tap, map, switchMap, catchError, combineLatest } from 'rxjs/operators';
 
 @Injectable()
 export class DataSelectionEffects {
-  constructor(private actions$: Actions, private geofeatureService: fromServices.GeoFeatureService) {}
+  constructor(
+    private actions$: Actions,
+    private geofeatureService: fromServices.GeoFeatureService
+  ) {}
 
   @Effect({ dispatch: false })
-  updatePe$ = this.actions$.ofType(dataSelectionAction.UPDATE_PE_SELECTION).pipe(
+  updatePe$ = this.actions$.pipe(
+    ofType(dataSelectionAction.UPDATE_PE_SELECTION),
     map((action: dataSelectionAction.UpdatePESelection) => {
       const payload = action.payload;
     }),
-    catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+    catchError(error =>
+      of(new visualizationObjectActions.UpdateVisualizationObjectFail(error))
+    )
   );
 
   @Effect({ dispatch: false })
-  updateDx$ = this.actions$.ofType(dataSelectionAction.UPDATE_DX_SELECTION).pipe(
+  updateDx$ = this.actions$.pipe(
+    ofType(dataSelectionAction.UPDATE_DX_SELECTION),
     map((action: dataSelectionAction.UpdateDXSelection) => {
       const payload = action.payload;
     }),
-    catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+    catchError(error =>
+      of(new visualizationObjectActions.UpdateVisualizationObjectFail(error))
+    )
   );
 
   @Effect()
-  updateOu$ = this.actions$.ofType(dataSelectionAction.UPDATE_OU_SELECTION).pipe(
+  updateOu$ = this.actions$.pipe(
+    ofType(dataSelectionAction.UPDATE_OU_SELECTION),
     map((action: dataSelectionAction.UpdateDXSelection) => action.payload),
     switchMap(payload => {
       const { componentId, layer, params } = payload;
@@ -41,7 +51,11 @@ export class DataSelectionEffects {
               geofeature: { [layer.id]: value }
             })
         ),
-        catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+        catchError(error =>
+          of(
+            new visualizationObjectActions.UpdateVisualizationObjectFail(error)
+          )
+        )
       );
     })
   );

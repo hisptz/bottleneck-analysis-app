@@ -288,35 +288,34 @@ export class VisualizationObjectEffects {
   );
 
   @Effect()
-  loadFavorite$: Observable<any> = this.actions$
-    .ofType(VisualizationObjectActionTypes.LOAD_VISUALIZATION_FAVORITE)
-    .pipe(
-      mergeMap((action: LoadVisualizationFavoriteAction) =>
-        this.favoriteService.getFavorite(action.visualization.favorite).pipe(
-          map(
-            (favorite: any) =>
-              new LoadVisualizationFavoriteSuccessAction(
-                action.visualization,
-                favorite,
-                action.currentUser,
-                action.systemInfo
-              )
-          ),
-          catchError(error =>
-            of(
-              new UpdateVisualizationObjectAction(action.visualization.id, {
-                progress: {
-                  statusCode: error.status,
-                  statusText: 'Error',
-                  percent: 100,
-                  message: error.message
-                }
-              })
+  loadFavorite$: Observable<any> = this.actions$.pipe(
+    ofType(VisualizationObjectActionTypes.LOAD_VISUALIZATION_FAVORITE),
+    mergeMap((action: LoadVisualizationFavoriteAction) =>
+      this.favoriteService.getFavorite(action.visualization.favorite).pipe(
+        map(
+          (favorite: any) =>
+            new LoadVisualizationFavoriteSuccessAction(
+              action.visualization,
+              favorite,
+              action.currentUser,
+              action.systemInfo
             )
+        ),
+        catchError(error =>
+          of(
+            new UpdateVisualizationObjectAction(action.visualization.id, {
+              progress: {
+                statusCode: error.status,
+                statusText: 'Error',
+                percent: 100,
+                message: error.message
+              }
+            })
           )
         )
       )
-    );
+    )
+  );
 
   @Effect({ dispatch: false })
   loadFavoriteSuccess$: Observable<any> = this.actions$.pipe(
