@@ -116,26 +116,25 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     // TODO: FIND GENERIC WAY TO HANDLE AUTOHORITIES WHEN SELECTING CURRENT FILTER
-    console.log(this._selectedFilter);
     this._selectedFilter = this._selectedFilter
       ? this._selectedFilter === 'DATA' && !this.currentUserHasAuthorities
         ? this.filterConfig.showPeriodFilter
           ? 'PERIOD'
           : this.filterConfig.showOrgUnitFilter
-            ? 'ORG_UNIT'
-            : this.filterConfig.showLayout
-              ? 'LAYOUT'
-              : ''
+          ? 'ORG_UNIT'
+          : this.filterConfig.showLayout
+          ? 'LAYOUT'
+          : ''
         : this._selectedFilter
       : this.filterConfig.showDataFilter && this.currentUserHasAuthorities
-        ? 'DATA'
-        : this.filterConfig.showPeriodFilter
-          ? 'PERIOD'
-          : this.filterConfig.showOrgUnitFilter
-            ? 'ORG_UNIT'
-            : this.filterConfig.showLayout
-              ? 'LAYOUT'
-              : '';
+      ? 'DATA'
+      : this.filterConfig.showPeriodFilter
+      ? 'PERIOD'
+      : this.filterConfig.showOrgUnitFilter
+      ? 'ORG_UNIT'
+      : this.filterConfig.showLayout
+      ? 'LAYOUT'
+      : '';
   }
 
   ngOnInit() {}
@@ -229,7 +228,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
           ...dataSelections.slice(selectedDimensionIndex + 1)
         ]
       : dataSelections
-        ? [...dataSelections, selectedObject]
-        : [selectedObject];
+      ? [...dataSelections, selectedObject]
+      : [selectedObject];
   }
 }

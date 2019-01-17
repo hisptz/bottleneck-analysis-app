@@ -19,7 +19,5 @@ export class CurrentDashboardDescriptionComponent implements OnInit {
     return getDataSelectionSummary(this.globalSelections);
   }
 
-  ngOnInit() {
-    console.log(this.globalSelections);
-  }
+  ngOnInit() {}
 }

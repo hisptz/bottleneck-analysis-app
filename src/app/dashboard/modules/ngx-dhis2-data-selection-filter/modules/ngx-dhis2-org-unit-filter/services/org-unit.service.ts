@@ -1,16 +1,60 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { Observable, from, of } from 'rxjs';
+import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import * as _ from 'lodash';
+import Dexie from 'dexie';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import { OrgUnit } from '../models';
 import { OrgUnitFilterConfig } from '../models/org-unit-filter-config.model';
+import { AppDatabaseService } from 'src/app/services/app-database.service';
 
 @Injectable({ providedIn: 'root' })
 export class OrgUnitService {
-  constructor(private httpClient: NgxDhis2HttpClientService) {}
+  orgUnitDB: Dexie.Table<OrgUnit, string>;
+  constructor(
+    private httpClient: NgxDhis2HttpClientService,
+    private appDatabaseService: AppDatabaseService
+  ) {
+    this.orgUnitDB = this.appDatabaseService.table('organisationUnits');
+  }
 
-  loadAll(orgUnitFilterConfig: OrgUnitFilterConfig): Observable<OrgUnit[]> {
+  loadFromIndexDB(): Observable<OrgUnit[]> {
+    return new Observable(observer => {
+      this.orgUnitDB.toArray().then(
+        (orgUnits: OrgUnit[]) => {
+          observer.next(orgUnits);
+          observer.complete();
+        },
+        (error: any) => {
+          console.warn('Problem loading org unit');
+          observer.next([]);
+          observer.complete();
+        }
+      );
+    });
+  }
+
+  saveIntoIndexDB(orgUnits: OrgUnit[]): Observable<OrgUnit[]> {
+    return new Observable(observer => {
+      this.orgUnitDB.bulkPut(orgUnits).then(
+        () => {
+          observer.next(orgUnits);
+          observer.complete();
+        },
+        error => {
+          console.warn(
+            `Problem adding/updating org units in index db ${error}`
+          );
+          observer.next(orgUnits);
+          observer.complete();
+        }
+      );
+    });
+  }
+
+  loadFromServer(
+    orgUnitFilterConfig: OrgUnitFilterConfig
+  ): Observable<OrgUnit[]> {
     return this.httpClient
       .get('me.json?fields=organisationUnits,dataViewOrganisationUnits')
       .pipe(
@@ -27,8 +71,7 @@ export class OrgUnitService {
           return this.httpClient
             .get(
               'organisationUnits.json?fields=!:all&paging=false&filter=path:ilike:' +
-                userOrgUnits.join('&filter=path:ilike:') +
-                '&rootJunction=OR' +
+                userOrgUnits.join(';') +
                 (orgUnitFilterConfig.minLevel
                   ? '&filter=level:le:' + orgUnitFilterConfig.minLevel
                   : '')
@@ -48,8 +91,7 @@ export class OrgUnitService {
                       '&pageSize=' +
                       pageSize +
                       '&order=level:asc&filter=path:ilike:' +
-                      userOrgUnits.join('&filter=path:ilike:') +
-                      '&rootJunction=OR'
+                      userOrgUnits.join(';')
                   )
                 ).pipe(
                   mergeMap(
@@ -63,12 +105,25 @@ export class OrgUnitService {
                           )
                         ),
                     null,
-                    5
+                    1
+                  ),
+                  mergeMap((orgUnits: OrgUnit[]) =>
+                    this.saveIntoIndexDB(orgUnits)
                   )
                 );
               })
             );
         })
       );
+  }
+
+  loadAll(orgUnitFilterConfig: OrgUnitFilterConfig): Observable<OrgUnit[]> {
+    return this.loadFromIndexDB().pipe(
+      switchMap((orgUnits: OrgUnit[]) =>
+        orgUnits.length > 0
+          ? of(orgUnits)
+          : this.loadFromServer(orgUnitFilterConfig)
+      )
+    );
   }
 }
