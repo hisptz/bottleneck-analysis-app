@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import Dexie from 'dexie';
 import { map, catchError, switchMap, tap } from 'rxjs/operators';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import { OrgUnitLevel } from '../models';
@@ -8,15 +7,10 @@ import { AppDatabaseService } from 'src/app/services/app-database.service';
 
 @Injectable({ providedIn: 'root' })
 export class OrgUnitLevelService {
-  orgUnitLevelDB: Dexie.Table<OrgUnitLevel, string>;
   constructor(
     private httpClient: NgxDhis2HttpClientService,
     private appDatabaseService: AppDatabaseService
-  ) {
-    this.orgUnitLevelDB = this.appDatabaseService.table(
-      'organisationUnitLevels'
-    );
-  }
+  ) {}
 
   loadFromServer() {
     return this.httpClient
