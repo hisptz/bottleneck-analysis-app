@@ -10,10 +10,12 @@ export class AppDatabaseService extends Dexie {
   constructor() {
     super('dashboard');
     this.version(1).stores({
-      organisationUnits: 'id,name',
-      organisationUnitLevels: 'id,name',
-      organisationUnitGroups: 'id,name',
-      indicators: 'id,name'
+      organisationUnits: 'id',
+      organisationUnitLevels: 'id',
+      organisationUnitGroups: 'id',
+      indicators: 'id',
+      indicatorGroups: 'id',
+      functions: 'id'
     });
   }
 

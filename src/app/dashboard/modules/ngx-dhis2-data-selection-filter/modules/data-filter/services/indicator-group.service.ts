@@ -1,15 +1,33 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError, switchMap, tap } from 'rxjs/operators';
 
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { IndicatorGroup } from 'src/app/dashboard/modules/ngx-dhis2-visualization/modules/map/modules/data-filter/model/indicator-group';
+import { AppDatabaseService } from 'src/app/services/app-database.service';
 
 @Injectable({ providedIn: 'root' })
 export class IndicatorGroupService {
-  constructor(private http: NgxDhis2HttpClientService) {}
+  constructor(
+    private http: NgxDhis2HttpClientService,
+    private appDatabaseService: AppDatabaseService
+  ) {}
 
   loadAll() {
-    return this._loadFromApi();
+    return this.appDatabaseService.getAll('indicatorGroups').pipe(
+      catchError(() => of([])),
+      switchMap((indicatorGroups: IndicatorGroup[]) =>
+        indicatorGroups.length > 0
+          ? of(indicatorGroups)
+          : this._loadFromApi().pipe(
+              tap((indicatorGroupsFromServer: IndicatorGroup[]) => {
+                this.appDatabaseService
+                  .saveBulk('indicatorGroups', indicatorGroupsFromServer)
+                  .subscribe(() => {});
+              })
+            )
+      )
+    );
   }
 
   private _loadFromApi() {
