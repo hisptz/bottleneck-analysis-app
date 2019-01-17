@@ -12,7 +12,8 @@ export class AppDatabaseService extends Dexie {
     this.version(1).stores({
       organisationUnits: 'id,name',
       organisationUnitLevels: 'id,name',
-      organisationUnitGroups: 'id,name'
+      organisationUnitGroups: 'id,name',
+      indicators: 'id,name'
     });
   }
 
