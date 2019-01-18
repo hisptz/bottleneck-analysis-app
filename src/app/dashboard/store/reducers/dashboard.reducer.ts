@@ -1,5 +1,6 @@
 import { createFeatureSelector } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import * as _ from 'lodash';
 import { Dashboard } from '../../models';
 import {
   DashboardActions,
@@ -16,6 +17,7 @@ export interface State extends EntityState<Dashboard> {
   currentDashboard: string;
   currentVisualization: string;
   notification: { message: string };
+  unSavedDashboards: string[];
 }
 
 export const adapter: EntityAdapter<Dashboard> = createEntityAdapter<
@@ -30,7 +32,8 @@ const initialState: State = adapter.getInitialState({
   error: null,
   currentDashboard: '',
   currentVisualization: '',
-  notification: null
+  notification: null,
+  unSavedDashboards: []
 });
 
 export function reducer(state = initialState, action: DashboardActions): State {
@@ -133,7 +136,7 @@ export function reducer(state = initialState, action: DashboardActions): State {
     case DashboardActionTypes.GlobalFilterChange: {
       return adapter.updateOne(
         { id: action.id, changes: action.changes },
-        state
+        { ...state, unSavedDashboards: [...state.unSavedDashboards, action.id] }
       );
     }
 
@@ -166,7 +169,11 @@ export function reducer(state = initialState, action: DashboardActions): State {
         { id: action.dashboard.id, changes: { saving: false } },
         {
           ...state,
-          notification: null
+          notification: null,
+          unSavedDashboards: _.filter(
+            state.unSavedDashboards,
+            unSavedDashboard => unSavedDashboard !== action.dashboard.id
+          )
         }
       );
     }
