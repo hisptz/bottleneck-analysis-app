@@ -4,34 +4,63 @@
       <div *ngIf="dashboardLoading" style="height: 34px; width: 200px;">
         <app-dashboard-progress [borderRadius]="'3px'"></app-dashboard-progress>
       </div>
-      <app-current-dashboard-title *ngIf="dashboardLoaded" [currentDashboardTitle]="currentDashboard?.name"></app-current-dashboard-title>
+      <app-current-dashboard-title
+        *ngIf="dashboardLoaded"
+        [currentDashboardTitle]="currentDashboard?.name"
+      ></app-current-dashboard-title>
     </div>
     <div class="dashboard-options">
       <div *ngIf="dashboardLoading" style="display: flex;">
         <div style="height: 34px; width: 34px; margin-left: 7px;">
-          <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
+          <app-dashboard-progress
+            [borderRadius]="'17px'"
+          ></app-dashboard-progress>
         </div>
         <div style="height: 34px; width: 34px; margin-left: 7px;">
-          <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
+          <app-dashboard-progress
+            [borderRadius]="'17px'"
+          ></app-dashboard-progress>
         </div>
         <div style="height: 34px; width: 50px; margin-left: 7px;">
-          <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
+          <app-dashboard-progress
+            [borderRadius]="'17px'"
+          ></app-dashboard-progress>
         </div>
       </div>
 
-      <div class="current-dashboard-share-button" *ngIf="dashboardLoaded && currentDashboard?.access?.manage">
-        <app-current-dashboard-sharing [id]="currentDashboard?.id"></app-current-dashboard-sharing>
+      <div
+        class="current-dashboard-share-button"
+        *ngIf="dashboardLoaded && currentDashboard?.access?.manage"
+      >
+        <app-current-dashboard-sharing
+          [id]="currentDashboard?.id"
+        ></app-current-dashboard-sharing>
       </div>
 
       <div class="current-dashboard-bookmark-button" *ngIf="dashboardLoaded">
-        <app-current-dashboard-bookmark [dashboardBookmarked]="currentDashboard?.bookmarked" [dashboardBookmarkPending]="currentDashboard?.bookmarkPending"
-          (toggleDashboardBookmark)="onToggleDashboardBookmarkAction($event)"></app-current-dashboard-bookmark>
+        <app-current-dashboard-bookmark
+          [dashboardBookmarked]="currentDashboard?.bookmarked"
+          [dashboardBookmarkPending]="currentDashboard?.bookmarkPending"
+          (toggleDashboardBookmark)="onToggleDashboardBookmarkAction($event)"
+        ></app-current-dashboard-bookmark>
       </div>
       <div class="current-dashboard-global-filter" *ngIf="dashboardLoaded">
-        <ngx-dhis2-selection-filters (filterUpdate)="onFilterUpdateAction($event)" [dataSelections]="currentDashboard?.globalSelections"
-          [selectionFilterConfig]="selectionFilterConfig" [currentUserHasAuthorities]="currentDashboard?.access?.manage"
-          [saving]="currentDashboard?.saving" (save)="onSaveDashboard()">
+        <ngx-dhis2-selection-filters
+          (filterUpdate)="onFilterUpdateAction($event)"
+          [dataSelections]="currentDashboard?.globalSelections"
+          [selectionFilterConfig]="selectionFilterConfig"
+          [currentUserHasAuthorities]="currentDashboard?.access?.manage"
+          [saving]="currentDashboard?.saving"
+          (save)="onSaveDashboard()"
+        >
         </ngx-dhis2-selection-filters>
+        <div
+          *ngIf="currentDashboard?.unSaved"
+          class="un-saved-dashboard text-warning"
+        >
+          <img src="assets/icons/error.png" alt="" /> This dashboard contains
+          un-saved changes
+        </div>
       </div>
     </div>
   </div>
@@ -42,24 +71,56 @@
       <app-dashboard-progress [borderRadius]="'5px'"></app-dashboard-progress>
     </div>
     <div class="dashboard-delete-block" *ngIf="dashboardLoaded">
-      <button [disabled]="currentDashboard?.saving || currentDashboard?.deleting" title="Delete this dashboard" class="text-danger dashboard-delete-btn"
-        (click)="onToggleDashboardDeleteDialog($event)" *ngIf="currentDashboard?.access?.manage && !currentDashboard?.showDeleteDialog && !currentDashboard?.deleting">DELETE</button>
-      <div class="dashboard-delete-confirmation" *ngIf="currentDashboard?.showDeleteDialog">
+      <button
+        [disabled]="currentDashboard?.saving || currentDashboard?.deleting"
+        title="Delete this dashboard"
+        class="text-danger dashboard-delete-btn"
+        (click)="onToggleDashboardDeleteDialog($event)"
+        *ngIf="
+          currentDashboard?.access?.manage &&
+          !currentDashboard?.showDeleteDialog &&
+          !currentDashboard?.deleting
+        "
+      >
+        DELETE
+      </button>
+      <div
+        class="dashboard-delete-confirmation"
+        *ngIf="currentDashboard?.showDeleteDialog"
+      >
         Delete this intervention?&nbsp;
-        <button class="btn btn-sm btn-success dashboard-delete-confirm-btn" (click)="onToggleDashboardDeleteDialog($event)">No</button>
+        <button
+          class="btn btn-sm btn-success dashboard-delete-confirm-btn"
+          (click)="onToggleDashboardDeleteDialog($event)"
+        >
+          No
+        </button>
         &nbsp;
-        <button class="btn btn-sm btn-danger dashboard-delete-confirm-btn" (click)="onDeleteDashboard($event)">Yes</button>
+        <button
+          class="btn btn-sm btn-danger dashboard-delete-confirm-btn"
+          (click)="onDeleteDashboard($event)"
+        >
+          Yes
+        </button>
       </div>
     </div>
     <div *ngIf="showFavoriteFilter">
-      <app-favorite-filter *ngIf="dashboardLoaded" [currentUser]="currentUser" [dashboardAccess]="currentDashboard?.access"
-        (addFavorite)="onAddFavoriteAction($event)" (createFavorite)="onCreateFavoriteAction()"></app-favorite-filter>
+      <app-favorite-filter
+        *ngIf="dashboardLoaded"
+        [currentUser]="currentUser"
+        [dashboardAccess]="currentDashboard?.access"
+        (addFavorite)="onAddFavoriteAction($event)"
+        (createFavorite)="onCreateFavoriteAction()"
+      ></app-favorite-filter>
     </div>
   </div>
 </div>
 
 <!-- current dashboard description -->
 <div class="current-dashboard-description" *ngIf="dashboardLoaded">
-  <app-current-dashboard-description [dashboardDescription]="currentDashboard?.description" [globalSelections]="globalDataSelections"></app-current-dashboard-description>
+  <app-current-dashboard-description
+    [dashboardDescription]="currentDashboard?.description"
+    [globalSelections]="globalDataSelections"
+  ></app-current-dashboard-description>
 </div>
 <!-- end of current dashboard description -->

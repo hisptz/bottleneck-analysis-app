@@ -77,6 +77,16 @@
   }
 }
 
+.un-saved-dashboard {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  padding: 5px 5px 0 5px;
+  img {
+    height: 20px;
+  }
+}
+
 @media (max-width: 999px) {
   .dashboard-header-container {
     display: block;
