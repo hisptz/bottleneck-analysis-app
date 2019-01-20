@@ -73,3 +73,9 @@ export const getDashboardError = createSelector(
   fromDashboardReducer.getDashboardState,
   (state: fromDashboardReducer.State) => (state ? state.error : null)
 );
+
+export const checkIfUnSavedDashboardsExist = createSelector(
+  getAllGroupDashboards,
+  (dashboards: Dashboard[]) =>
+    _.some(dashboards || [], (dashboard: Dashboard) => dashboard.unSaved)
+);

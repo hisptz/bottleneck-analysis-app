@@ -21,6 +21,7 @@ export interface Dashboard {
   updatedOrCreated?: boolean;
   error?: any;
   namespace?: string;
+  unSaved?: boolean;
   globalSelections?: any[];
   publicAccess: string;
   externalAccess: boolean;

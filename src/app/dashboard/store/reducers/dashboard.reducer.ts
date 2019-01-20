@@ -136,7 +136,7 @@ export function reducer(state = initialState, action: DashboardActions): State {
     case DashboardActionTypes.GlobalFilterChange: {
       return adapter.updateOne(
         { id: action.id, changes: action.changes },
-        { ...state, unSavedDashboards: [...state.unSavedDashboards, action.id] }
+        state
       );
     }
 
@@ -166,14 +166,10 @@ export function reducer(state = initialState, action: DashboardActions): State {
 
     case DashboardActionTypes.SaveDashboardSuccess: {
       return adapter.updateOne(
-        { id: action.dashboard.id, changes: { saving: false } },
+        { id: action.dashboard.id, changes: { saving: false, unSaved: false } },
         {
           ...state,
-          notification: null,
-          unSavedDashboards: _.filter(
-            state.unSavedDashboards,
-            unSavedDashboard => unSavedDashboard !== action.dashboard.id
-          )
+          notification: null
         }
       );
     }

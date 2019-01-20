@@ -6,6 +6,7 @@ import {
   CurrentDashboardComponent,
   CurrentDashboardVisualizationComponent
 } from './containers';
+import { UnSavedDashboardGuard } from './guards/un-saved-dashboard.guard';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       },
       {
         path: ':id',
+        canDeactivate: [UnSavedDashboardGuard],
         component: CurrentDashboardComponent
       }
     ]

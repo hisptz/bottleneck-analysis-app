@@ -1,14 +1,49 @@
-<a [ngClass]="{'dashboard-menu-item': true, 'current-dashboard': dashboardMenuItem?.id === currentDashboardId}" (click)="onSetDashboard($event)"
-  (mouseenter)="onHover($event)" (mouseleave)="onBlur($event)">
-  <a [@open] [title]="(dashboardMenuItem?.bookmarked ? 'You have bookmarked this dashboard' : 'Bookmark this dashboard') | translate"
-    [ngClass]="{'dashboard-menu-bookmark-btn': true,  'active-dashboard-menu-bookmarked-btn' : dashboardMenuItem?.id === currentDashboardId}"
-    *ngIf="dashboardMenuItem?.bookmarked && !dashboardMenuItem?.bookmarkPending" (click)="onToggleBookmark($event)">
-    <img *ngIf="dashboardMenuItem?.bookmarked" [src]="bookmarkedIcon" alt="">
+<a
+  [ngClass]="{
+    'dashboard-menu-item': true,
+    'current-dashboard':
+      dashboardMenuItem?.id === currentDashboardId &&
+      !dashboardMenuItem.unSaved,
+    'un-saved-dashboard': dashboardMenuItem.unSaved
+  }"
+  (click)="onSetDashboard($event)"
+  (mouseenter)="onHover($event)"
+  (mouseleave)="onBlur($event)"
+  [title]="
+    dashboardMenuItem?.unSaved
+      ? 'This dashboard contains unsaved changes'
+      : dashboardMenuItem?.name
+  "
+>
+  <a
+    [@open]
+    [title]="
+      (dashboardMenuItem?.bookmarked
+        ? 'You have bookmarked this dashboard'
+        : 'Bookmark this dashboard') | translate
+    "
+    [ngClass]="{
+      'dashboard-menu-bookmark-btn': true,
+      'active-dashboard-menu-bookmarked-btn':
+        dashboardMenuItem?.id === currentDashboardId
+    }"
+    *ngIf="dashboardMenuItem?.bookmarked && !dashboardMenuItem?.bookmarkPending"
+    (click)="onToggleBookmark($event)"
+  >
+    <img *ngIf="dashboardMenuItem?.bookmarked" [src]="bookmarkedIcon" alt="" />
   </a>
-  <a [@open] [title]="'Bookmarking dashboard...' | translate" [ngClass]="{'dashboard-menu-bookmark-btn': true,  'active-dashboard-menu-bookmarked-btn' : dashboardMenuItem?.id === currentDashboardId}"
-    *ngIf="dashboardMenuItem?.bookmarkPending">
-    <img [src]="bookmarkPendingIcon" alt="">
+  <a
+    [@open]
+    [title]="'Bookmarking dashboard...' | translate"
+    [ngClass]="{
+      'dashboard-menu-bookmark-btn': true,
+      'active-dashboard-menu-bookmarked-btn':
+        dashboardMenuItem?.id === currentDashboardId
+    }"
+    *ngIf="dashboardMenuItem?.bookmarkPending"
+  >
+    <img [src]="bookmarkPendingIcon" alt="" />
   </a>
   <div *ngIf="!dashboardMenuItem?.bookmarked">&nbsp;</div>
-  <span class="dashboard-menu-item-name">{{dashboardMenuItem?.name}}</span>
+  <span class="dashboard-menu-item-name">{{ dashboardMenuItem?.name }}</span>
 </a>

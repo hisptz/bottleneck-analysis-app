@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
@@ -153,7 +153,8 @@ export class CurrentDashboardComponent implements OnInit {
       new fromDashboardActions.GlobalFilterChangeAction(
         globalFilterDetails.id,
         {
-          globalSelections: globalFilterDetails.globalSelections
+          globalSelections: globalFilterDetails.globalSelections,
+          unSaved: true
         }
       )
     );
@@ -194,5 +195,11 @@ export class CurrentDashboardComponent implements OnInit {
     this.store.dispatch(
       new fromDashboardActions.SaveDashboardAction(currentDashboard)
     );
+  }
+
+  confirm(message?: string): Observable<boolean> {
+    const confirmation = window.confirm(message || 'Is it OK?');
+
+    return of(confirmation);
   }
 }
