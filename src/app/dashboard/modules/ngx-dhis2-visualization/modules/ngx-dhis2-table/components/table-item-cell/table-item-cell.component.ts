@@ -53,8 +53,6 @@ export class TableItemCellComponent implements OnInit {
       dataValue => dataValue.toString().split('.')[1]
     );
 
-    console.log(dataValues);
-
     const dataValuesSum = dataValues.length > 0 ? _.sum(dataValues) : NaN;
 
     this.dataValue = isRatio

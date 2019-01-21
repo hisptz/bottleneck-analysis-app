@@ -4,7 +4,6 @@ import { VisualizationLayer, VisualizationDataSelection } from '../../models';
 import { environment } from '../../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { getSelectionDimensionsFromAnalytics } from '../../helpers';
-import { VisualizationExportService } from '../../services';
 
 @Component({
   selector: 'app-visualization-widget',
@@ -33,11 +32,9 @@ export class VisualizationWidgetComponent implements OnInit {
   loading: boolean;
   widgetId: string;
   download: boolean;
+  downloadFormat: string;
 
-  constructor(
-    private httpClient: HttpClient,
-    private visualizationExportService: VisualizationExportService
-  ) {
+  constructor(private httpClient: HttpClient) {
     this.loading = true;
   }
 
@@ -74,7 +71,9 @@ export class VisualizationWidgetComponent implements OnInit {
         this.visualizationId
       }&other=/#/?orgUnit=${orgUnit}&period=${period}&dashboard=${dashboardDetails}&dashboardItem=${
         this.visualizationId
-      }&groups=${dataGroups}${this.download ? '&download=true' : ''}`
+      }&groups=${dataGroups}${
+        this.download ? `&download=${this.downloadFormat}` : ''
+      }`
     );
   }
 
@@ -144,7 +143,7 @@ export class VisualizationWidgetComponent implements OnInit {
   }
 
   onDownloadEvent(downloadFormat: string) {
-    console.log(downloadFormat);
+    this.downloadFormat = downloadFormat;
     this.download = true;
   }
 }
