@@ -45,9 +45,10 @@ export class InterventionService {
   }
 
   loadPredefinedInterventions() {
-    return this.http
-      .get('config/default-interventions.json', { useRootUrl: true })
-      .pipe(catchError(() => of([])));
+    return this.http.get('predefined-metadata.json', { useRootUrl: true }).pipe(
+      map((res: any) => res.interventions || []),
+      catchError(() => of([]))
+    );
   }
 
   createIntervention(intervention: Intervention) {
