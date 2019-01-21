@@ -44,7 +44,6 @@ export class TableItemComponent implements OnInit {
   }
 
   drawBnaTable(analyticsObject: any, tableConfiguration: TableConfiguration) {
-    console.log(tableConfiguration);
     // Get table rows
     const rowsItemsArray = this.getDimensionItemsArray(
       tableConfiguration.rows,

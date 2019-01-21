@@ -61,16 +61,21 @@ function checkIfSelectionsAreEligibleForAnalytics(
       ).length === 2;
 }
 
+// TODO: Need to get generic and have decision on whether to use filter or dimension
 function getAnalyticsDimensions(
   dataSelections: VisualizationDataSelection[]
 ): string[] {
   return _.filter(
     _.map(dataSelections, (dataSelection: VisualizationDataSelection) => {
       const selectionValues = getDataSelectionValues(dataSelection);
+
       return selectionValues !== ''
-        ? 'dimension=' + dataSelection.dimension + ':' + selectionValues
+        ? (dataSelection.layout === 'filters' ? 'filter=' : 'dimension=') +
+            dataSelection.dimension +
+            ':' +
+            selectionValues
         : ['dx', 'ou', 'pe'].indexOf(dataSelection.dimension) === -1
-        ? 'dimension=' +
+        ? (dataSelection.layout === 'filters' ? 'filter=' : 'dimension=') +
           dataSelection.dimension +
           (dataSelection.legendSet ? '-' + dataSelection.legendSet : '')
         : '';
