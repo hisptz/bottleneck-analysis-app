@@ -55,15 +55,9 @@ export class TableItemCellComponent implements OnInit {
 
     const dataValuesSum = _.sum(dataValues);
 
-    if (isRatio) {
-      const dataValue = parseFloat(
-        (dataValuesSum / dataValues.length).toFixed(2)
-      );
-
-      this.dataValue = dataValue !== 0 ? dataValue : '';
-    } else {
-      this.dataValue = dataValuesSum !== 0 ? dataValuesSum : '';
-    }
+    this.dataValue = isRatio
+      ? parseFloat((dataValuesSum / dataValues.length).toFixed(2))
+      : dataValuesSum;
 
     // Find color for the cell
     const dxIndex = this.dataDimensions.indexOf('dx');
@@ -78,8 +72,8 @@ export class TableItemCellComponent implements OnInit {
       currentDxItem && currentDxItem.legendSet
         ? currentDxItem.legendSet.legends
         : this.legendSet
-          ? this.legendSet.legends
-          : [];
+        ? this.legendSet.legends
+        : [];
     const associatedLegend: Legend = _.filter(legends, (legend: Legend) => {
       return (
         this.dataValue > legend.startValue && this.dataValue <= legend.endValue
@@ -92,21 +86,19 @@ export class TableItemCellComponent implements OnInit {
           ? associatedLegend.color
           : '#ffffff'
         : this.dataValue !== ''
-          ? '#eeeeee'
-          : '#ffffff';
+        ? '#eeeeee'
+        : '#ffffff';
 
     // Find table cell tooltip
     this.tooltip =
       _.join(
         [
-          ..._.map(
-            this.dataRowIds,
-            (dataId: string) =>
-              this.analyticsObject &&
-              this.analyticsObject.metaData &&
-              this.analyticsObject.metaData.names
-                ? this.analyticsObject.metaData.names[dataId]
-                : null
+          ..._.map(this.dataRowIds, (dataId: string) =>
+            this.analyticsObject &&
+            this.analyticsObject.metaData &&
+            this.analyticsObject.metaData.names
+              ? this.analyticsObject.metaData.names[dataId]
+              : null
           )
         ],
         ' - '
