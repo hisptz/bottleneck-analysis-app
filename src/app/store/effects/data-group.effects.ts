@@ -61,7 +61,7 @@ export class DataGroupEffects {
     )
   );
 
-  // TODO rethink of this approach to achieve a generic app
+  // TODO: rethink of this approach to achieve a generic app
   @Effect()
   dataGroupsLoaded$: Observable<any> = this.actions$.pipe(
     ofType(fromDataGroupActions.DataGroupActionTypes.AddDataGroups),

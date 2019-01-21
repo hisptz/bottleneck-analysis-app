@@ -26,7 +26,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.json",
-              "src/manifest.webapp"
+              "src/manifest.webapp",
+              "src/predefined-metadata.json"
             ],
             "styles": [
               "node_modules/leaflet/dist/leaflet.css",
