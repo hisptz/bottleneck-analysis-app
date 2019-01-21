@@ -25,7 +25,7 @@
     "@angular/router": "^7.1.4",
     "@angular/service-worker": "^7.1.4",
     "@hisptz/ngx-dhis2-dictionary": "^1.0.1",
-    "@hisptz/ngx-dhis2-http-client": "^1.0.4",
+    "@hisptz/ngx-dhis2-http-client": "^2.0.2",
     "@hisptz/ngx-dhis2-menu": "^1.0.7",
     "@hisptz/ngx-dhis2-selection-filters": "^1.0.2",
     "@hisptz/ngx-dhis2-table": "^1.0.0",
