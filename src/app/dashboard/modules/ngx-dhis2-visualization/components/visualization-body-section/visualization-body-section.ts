@@ -75,7 +75,7 @@ export class VisualizationBodySectionComponent {
     } else if (visualizationType === 'TABLE' && this.tableList) {
       this.tableList.onDownloadEvent(downloadFormat);
     } else if (visualizationType === 'APP') {
-      this.widget.onDownloadEvent();
+      this.widget.onDownloadEvent(downloadFormat);
     }
   }
 

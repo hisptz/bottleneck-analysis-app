@@ -143,7 +143,8 @@ export class VisualizationWidgetComponent implements OnInit {
       : JSON.stringify(selectionItems);
   }
 
-  onDownloadEvent() {
+  onDownloadEvent(downloadFormat: string) {
+    console.log(downloadFormat);
     this.download = true;
   }
 }
