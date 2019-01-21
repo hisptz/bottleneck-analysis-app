@@ -53,11 +53,13 @@ export class TableItemCellComponent implements OnInit {
       dataValue => dataValue.toString().split('.')[1]
     );
 
-    const dataValuesSum = _.sum(dataValues);
+    const dataValuesSum = dataValues.length > 0 ? _.sum(dataValues) : NaN;
 
     this.dataValue = isRatio
       ? parseFloat((dataValuesSum / dataValues.length).toFixed(2))
-      : dataValuesSum;
+      : !isNaN(dataValuesSum)
+      ? dataValuesSum
+      : '';
 
     // Find color for the cell
     const dxIndex = this.dataDimensions.indexOf('dx');

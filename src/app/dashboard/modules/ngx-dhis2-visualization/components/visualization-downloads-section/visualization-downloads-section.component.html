@@ -37,7 +37,8 @@
       *ngIf="
         visualizationType === 'CHART' ||
         visualizationType === 'MAP' ||
-        visualizationType === 'TABLE'
+        visualizationType === 'TABLE' ||
+        visualizationType === 'APP'
       "
       (click)="download($event, 'CSV')"
     >
