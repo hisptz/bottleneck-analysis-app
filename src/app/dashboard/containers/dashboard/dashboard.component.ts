@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  Input
+  Input,
+  HostListener
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -41,6 +42,18 @@ export class DashboardComponent implements OnInit {
   systemInfo$: Observable<SystemInfo>;
   dataGroups$: Observable<DataGroup[]>;
   currentUserHasManagementAuthorities$: Observable<boolean>;
+  unSavedDashboardsExist: boolean;
+
+  @HostListener('window:beforeunload')
+  unloadAppToSave() {
+    if (!this.unSavedDashboardsExist) {
+      return true;
+    }
+
+    const confirmation = window.confirm('Is it OK?');
+
+    return confirmation;
+  }
 
   constructor(private store: Store<State>) {
     // initialize dashboads settings
@@ -73,6 +86,12 @@ export class DashboardComponent implements OnInit {
     this.currentUserHasManagementAuthorities$ = store.select(
       getCurrentUserManagementAuthoritiesStatus
     );
+
+    this.store
+      .select(fromDashboardSelectors.checkIfUnSavedDashboardsExist)
+      .subscribe((unSavedDashboardsExist: boolean) => {
+        this.unSavedDashboardsExist = unSavedDashboardsExist;
+      });
 
     // menu container height in pixels
     this.menuContainerHeight = 60;
