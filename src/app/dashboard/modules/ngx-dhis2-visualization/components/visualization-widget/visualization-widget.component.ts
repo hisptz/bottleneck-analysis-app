@@ -1,4 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationLayer, VisualizationDataSelection } from '../../models';
 import { environment } from '../../../../../../environments/environment';
@@ -10,7 +16,7 @@ import { getSelectionDimensionsFromAnalytics } from '../../helpers';
   templateUrl: './visualization-widget.component.html',
   styleUrls: ['./visualization-widget.component.scss']
 })
-export class VisualizationWidgetComponent implements OnInit {
+export class VisualizationWidgetComponent implements OnInit, OnChanges {
   @Input()
   contextPath: string;
   @Input()
@@ -77,6 +83,12 @@ export class VisualizationWidgetComponent implements OnInit {
     );
   }
 
+  ngOnChanges(simpleChanges: SimpleChanges) {
+    if (simpleChanges.visualizationLayers) {
+      this.download = false;
+      this.downloadFormat = '';
+    }
+  }
   ngOnInit() {
     this.widgetId = this.visualizationId + '_widget';
     this.httpClient.get(this.appUrl).subscribe(
