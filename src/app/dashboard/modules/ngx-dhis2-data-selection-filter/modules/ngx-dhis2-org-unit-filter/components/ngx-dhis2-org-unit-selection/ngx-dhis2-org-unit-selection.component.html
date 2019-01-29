@@ -1,0 +1,44 @@
+<div class="ngx-dhis2-org-unit-selection__container">
+
+  <!--org unit tree area-->
+  <div class="ngx-dhis2-org-unit-selection__tree">
+    <!-- loading org units -->
+    <div class="ngx-dhis2-org-unit-selection__loading" *ngIf="loadingOrgUnits">
+
+      <!-- loading org units -->
+      <div style="width: 100%;  padding: 7px;">
+        <div style="height: 7px; margin-bottom: 3px; width: 30%">
+          <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+        </div>
+        <div style="height: 7px; margin-bottom: 3px; width: 50%">
+          <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+        </div>
+        <div style="height: 7px; margin-bottom: 3px; width: 70%">
+          <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+        </div>
+        <div style="height: 7px; margin-bottom: 3px; width: 90%">
+          <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+        </div>
+        <div style="height: 7px; margin-bottom: 3px; width: 98%">
+          <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+        </div>
+      </div>
+      <!-- end of loading org units -->
+
+    </div>
+    <!-- end of loading org units -->
+
+    <!--org unit selection search-->
+    <div class="ngx-dhis2-org-unit-selection__search">
+      <!-- <input type="text" class="ngx-dhis2-org-unit-selection__search-input" placeholder="Search organisation unit"> -->
+    </div>
+    <!--end of org unit selection search-->
+    <div class="ngx-dhis2-org-unit-selection__tree_list">
+      <div class="ngx-dhis2-org-unit-selection__tree_item" *ngFor="let orgUnitId of highestLevelOrgUnitIds$ | async">
+        <ngx-dhis2-org-unit-tree-item [orgUnitId]="orgUnitId" [expanded]="true" [selectedOrgUnits]="selectedOrgUnits" (activate)="onActivateOrgUnit($event)"
+          (deactivate)="onDeactivateOrgUnit($event)"></ngx-dhis2-org-unit-tree-item>
+      </div>
+    </div>
+  </div>
+  <!--end of org unit tree area-->
+</div>

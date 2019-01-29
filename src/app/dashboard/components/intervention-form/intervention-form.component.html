@@ -1,0 +1,14 @@
+<div class="intervention-form-block">
+  <div class="form-group">
+    <label for="">Name*</label>
+    <input type="text" (keyup)="onEnterInterventionName($event)" autofocus [value]="interventionName" placeholder="Enter intervention name"
+      class="form-control form-control-sm">
+    <div *ngIf="isNotUnique" class="text-danger unique-intervention">Intervention already exist
+    </div>
+  </div>
+  <div class="add-intervention-btns">
+    <button (click)="onSaveIntervention($event)" [disabled]="!intervention || intervention.name === '' || isNotUnique"
+      class="btn btn-sm btn-outline-primary">Save</button>
+    <button (click)="onCloseInterventionForm($event)" class="btn btn-sm btn-outline-secondary">Cancel</button>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+.current-dashboard-container {
+  position: relative;
+  .current-dashboard-notification-block {
+    position: absolute;
+    background-color: #f9ecbd;
+    top: 0;
+    z-index: 1000;
+    padding: 5px;
+    font-size: 13px;
+    border: solid thin #f9ecbd;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: 400px;
+    border-radius: 3px;
+  }
+  .current-dashboard-visualizations {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    display: grid;
+    width: 100%;
+    height: 900px;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    grid-gap: 0.5em;
+    -ms-grid-auto-rows: minmax(400px, auto);
+    /* autoprefixer: off */
+    grid-auto-rows: minmax(400px, auto);
+  }
+
+  .visualization-card-placeholder {
+    border: dotted thin #eeeeee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 450px;
+  }
+
+  .welcoming-block {
+    margin-top: 50px;
+    margin-right: 15%;
+    margin-left: 14%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid thin #eeeeee;
+    border-radius: 3px;
+    padding: 20px;
+  }
+
+  .welcome-img-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .welcome-img {
+    height: 400px;
+  }
+
+  @media print {
+    .current-dashboard-visualizations {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 1400px) {
+    .current-dashboard-visualizations {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    .current-dashboard-visualizations {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    .current-dashboard-visualizations {
+      grid-template-columns: 1fr;
+      /* autoprefixer: off */
+      grid-auto-rows: minmax(370px, auto);
+      -ms-grid-auto-rows: minmax(370px, auto);
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .current-dashboard-visualizations {
+      grid-template-columns: 1fr;
+      -ms-grid-auto-rows: minmax(360px, auto);
+      /* autoprefixer: off */
+      grid-auto-rows: minmax(360px, auto);
+    }
+  }
+}

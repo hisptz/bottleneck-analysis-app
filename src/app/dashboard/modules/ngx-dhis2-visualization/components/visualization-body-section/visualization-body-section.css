@@ -1,0 +1,8 @@
+.chart-visualization-block {
+  overflow: auto;
+}
+
+.message-visualization-block,
+.widget-visualization-block {
+  overflow: hidden;
+}

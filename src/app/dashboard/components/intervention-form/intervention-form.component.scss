@@ -1,0 +1,17 @@
+.intervention-form-block {
+  display: block;
+  padding: 10px;
+
+  .add-intervention-btns {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      margin-left: 5px;
+    }
+  }
+
+  .unique-intervention {
+    font-size: 10px;
+    padding: 5px;
+  }
+}

@@ -1,0 +1,121 @@
+.selection-filter-container {
+  position: relative;
+}
+
+.selection-filter-header {
+  display: flex;
+}
+
+.selection-filter-btn {
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+  border-style: none;
+  cursor: pointer;
+  background-color: transparent;
+  height: 30px;
+  width: auto;
+  border-radius: 15px;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  font-size: 12px;
+}
+
+.selection-filter-btn:hover {
+  background-color: rgba(241, 241, 241, 0.6);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.selection-filter-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.selection-filter-btn img {
+  height: 13px;
+}
+
+.filter-control-btn {
+  width: 50px;
+  border: none;
+  box-shadow: none;
+  font-size: 16px;
+  color: #00796b;
+  margin-right: 20px;
+}
+
+.filter-control-btn:hover {
+  background-color: transparent;
+  -webkit-transform: none;
+  -moz-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.selection-filter-name {
+  font-size: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+.selection-filter-btn-list {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 3px;
+}
+
+.selection-filter-btn-list > button {
+  margin-left: 3px;
+}
+
+.selection-filter-btn-list > button > img {
+  height: 13px;
+}
+
+.selection-filter-btn-list > button:first-child {
+  margin-left: 0;
+}
+
+.active-filter {
+  background-color: #f1f1f1;
+}
+
+.selection-filter-body {
+  position: absolute;
+  top: 35px;
+  background-color: rgba(255, 255, 255, 0.95);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+  padding: 5px;
+  min-width: 400px;
+  min-height: 350px;
+  z-index: 1320;
+}
+
+.arrow-up {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 500px) {
+  .selection-filter-body {
+    width: 95%;
+  }
+}

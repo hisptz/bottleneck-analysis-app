@@ -1,0 +1,37 @@
+.ngx-dhis2-org-unit-selected-org-unit-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 30px;
+  overflow: auto;
+}
+
+.ngx-dhis2-org-unit-selected-org-unit-list > li {
+  margin: 3px;
+  height: 26px;
+  border-radius: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eeeeee;
+  font-size: 12px;
+  padding: 10px;
+  position: relative;
+}
+
+.selected-org-unit-name {
+  margin-right: 7px;
+}
+
+.ngx-dhis2-org-unit-selected-org-unit-list > li > a {
+  text-decoration: none;
+  position: absolute;
+  right: 5px;
+  cursor: pointer;
+}
+
+.ngx-dhis2-org-unit-selected-org-unit-list > li > a > img {
+  height: 10px;
+}

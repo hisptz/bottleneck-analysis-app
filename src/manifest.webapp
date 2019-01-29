@@ -1,0 +1,27 @@
+
+{
+    "version": "1.0.0-beta.5",
+    "name": "Bottleneck Analysis App",
+    "description": "Bottleneck Analysis App",
+    "appType": "APP",
+    "launch_path": "index.html",
+    "icons": {
+        "16": "assets/icons/icon-16x16.png",
+        "48": "assets/icons/icon-48x48.png",
+        "128": "assets/icons/icon-128x128.png"
+    },
+    "developer": {
+        "name": "HISPTZ",
+        "url": "https://hisptanzania.org"
+    },
+    "default_locale": "en",
+    "activities": {
+        "dhis": {
+            "href": "../../../"
+        }
+    },
+     "authorities": [
+         "MY_APP_ADD_NEW",
+         "MY_APP_UPDATE",
+         "MY_APP_DELETE"]
+}

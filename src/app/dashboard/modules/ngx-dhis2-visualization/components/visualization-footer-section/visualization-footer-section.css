@@ -1,0 +1,15 @@
+.visualization-footer-section-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
+.visualization-footer-right {
+  position: absolute;
+  width: 450px;
+  bottom: 0;
+  right: 10px;
+  background-color: transparent;
+  z-index: 1200;
+}

@@ -1,0 +1,12 @@
+<div class="visualization-footer-section-container" [@open]>
+  <div *ngIf="!hideTypeButtons">
+    <app-visualization-types-section [currentVisualization]="type" (visualizationTypeChange)="onVisualizationTypeChange($event)"></app-visualization-types-section>
+  </div>
+  <div>
+    <app-visualization-downloads-section *ngIf="!hideDownloadBlock" [visualizationType]="type" (downloadVisualization)="onDownload($event)"></app-visualization-downloads-section>
+  </div>
+  <div class="visualization-footer-right">
+    <app-visualization-management-section [name]="name" (save)="onVisualizationSave($event)" (remove)="onVisualizationRemove($event)"
+      [hideManagementBlock]="hideManagementBlock"></app-visualization-management-section>
+  </div>
+</div>

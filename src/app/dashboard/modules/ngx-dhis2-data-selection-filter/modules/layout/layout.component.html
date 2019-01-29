@@ -1,0 +1,69 @@
+<div class="layout-container">
+  <h5>Table / Chart Layout</h5>
+  <div class="layout-blocks">
+    <!-- available dimension block -->
+    <div class="layout-dimension-block">
+      <div class="layout-dimension-header">
+        Available
+      </div>
+      <div class="layout-dimension-content">
+
+      </div>
+    </div>
+    <!-- end of available dimension block -->
+
+    <!-- filter and row dimensions-->
+    <div class="filter-row-dimensions">
+      <!-- filter dimension block -->
+      <div class="layout-dimension-block">
+        <div class="layout-dimension-header">
+          Filters
+        </div>
+        <div class="layout-dimension-content" [dragula]="'bag-one'" [dragulaModel]="filters">
+          <div class="layout-item" *ngFor="let filter of filters">
+            <img [src]="icons[filter.value]"> &nbsp;
+            <div>{{filter.name}}</div>
+          </div>
+        </div>
+      </div>
+      <!-- end of filter dimension block -->
+
+      <!-- row dimension block -->
+      <div class="layout-dimension-block">
+        <div class="layout-dimension-header">
+          Rows/Categories
+        </div>
+        <div class="layout-dimension-content" [dragula]="'bag-one'" [dragulaModel]="rows">
+          <div class="layout-item" *ngFor="let row of rows">
+            <img [src]="icons[row.value]"> &nbsp;
+            <div>{{row.name}}</div>
+          </div>
+        </div>
+      </div>
+      <!-- end of row dimension block -->
+    </div>
+    <!-- end of filter and row dimensions-->
+
+    <!-- column dimension -->
+    <div class="layout-dimension-block">
+      <div class="layout-dimension-header">
+        Columns/Series
+      </div>
+      <div class="layout-dimension-content" [dragula]="'bag-one'" [dragulaModel]="rows">
+        <div class="layout-item" *ngFor="let column of columns">
+          <img [src]="icons[column.value]"> &nbsp;
+          <div>{{column.name}}</div>
+        </div>
+      </div>
+    </div>
+    <!-- end of column dimension -->
+  </div>
+  <div class="layout-footer">
+    <div>
+      <button class="btn btn-outline-secondary btn-sm" (click)="close()">
+        <i class="fa fa-times"></i>Close</button>
+      <button class="btn btn-outline-secondary btn-sm" (click)="updateLayout()">
+        <i class="fa fa-refresh"></i>Update</button>
+    </div>
+  </div>
+</div>

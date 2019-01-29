@@ -1,0 +1,4 @@
+<div class="chart-list" *ngFor="let chartLayer of chartLayers">
+  <ngx-dhis2-chart-item [chartConfiguration]="chartLayer.chartConfiguration" [analyticsObject]="chartLayer.analyticsObject"
+    [chartHeight]="chartHeight" (chartUpdate)="onChartItemUpdate($event)"></ngx-dhis2-chart-item>
+</div>

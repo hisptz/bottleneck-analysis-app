@@ -1,0 +1,42 @@
+.table-item-container {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.table-item-container > div {
+  flex: 1;
+}
+
+.table-item-cell-label {
+  display: flex;
+  align-items: center;
+  padding: 7px;
+  font-size: 13px;
+  height: 100%;
+}
+
+.table-item-cell-data {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.table-item-cell-block {
+  padding: 0;
+  position: relative;
+}
+
+.table-header-cell {
+  font-size: 13px;
+  padding: 7px;
+  background-color: #eeeeee;
+}
+
+.table-item-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 7px;
+}

@@ -1,0 +1,174 @@
+.data-filter-group {
+  padding: 10px;
+}
+
+.data-filter-group-header__title {
+  font-size: 20px;
+}
+
+.data-filter-group-header__description {
+  font-size: 11px;
+}
+
+.data-filter-group_add-new {
+  margin-left: 5px;
+  display: flex;
+}
+
+.data-filter-group_add-button {
+  outline: none;
+  border: solid thin #eeeeee;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border-radius: 3px;
+  color: #333333;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.data-filter-group_add-button:hover {
+  background-color: #eeeeee;
+}
+
+.data-filter-group__list {
+  max-height: 400px;
+  margin-top: 5px;
+  overflow: auto;
+  padding: 5px;
+}
+
+.data-filter-group__item {
+  margin-bottom: 3px;
+}
+
+.data-filter-group__item-content {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-left: solid thin #dddddd;
+  border-right: solid thin #dddddd;
+  border-bottom: solid thin #dddddd;
+}
+
+.data-group-color {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.data-filter-group__item-header {
+  border: solid thin #dddddd;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px;
+}
+
+.data-filter-group__item-header img {
+  height: 16px;
+}
+
+.data-filter-group__item-header-title {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.data-filter-group__item-header-btns {
+  display: flex;
+  justify-content: space-around;
+}
+
+.data-filter-group-delete-btn {
+  display: none;
+  align-items: center;
+  font-size: 12px;
+  border: none !important;
+  outline: none !important;
+  background-color: transparent !important;
+  cursor: pointer;
+}
+
+.data-filter-group__item-header:hover .data-filter-group-delete-btn {
+  display: flex;
+}
+
+.data-filter-group__item-header-icon {
+  font-size: 12px;
+  color: #999 !important;
+  font-weight: lighter !important;
+  display: flex;
+  align-items: center;
+}
+
+.data-filter-group__item-header-title > button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.data-filter-group__item-header-title > button > img,
+.data-filter-group__item-member-item img {
+  height: 16px;
+  width: 10px;
+}
+
+.data-filter-group__item-member-list {
+  background-color: #fafafa;
+  padding: 5px;
+}
+
+.data-filter-group__item-member-item {
+  padding: 3px 5px 3px 5px;
+  font-size: 11px;
+  border: solid thin #eeeeee;
+  border-radius: 3px;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.data-filter-group__item-member-item-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.active-data-filter-group-item {
+  background-color: #eeeeee;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.data-filter-group_color-item {
+  width: 17px;
+  height: 17px;
+  border-radius: 2px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.arrow-up {
+  transform: rotate(180deg);
+}
+
+.data-group-delete-btn {
+  background-color: transparent;
+  padding: 2px;
+  border: none;
+}
+
+.data-filter-group-notification {
+  margin-top: 10px;
+  border-top: solid thin #eeeeee;
+}

@@ -1,0 +1,22 @@
+<div class="ngx-dhis2-org-unit-tree-item">
+  <!-- org unit title area -->
+  <div class="ngx-dhis2-org-unit-tree-item-title">
+    <button class="ngx-dhis2-org-unit-tree-item-toggle-btn" (click)="onToggleOrgUnitChildren($event)" *ngIf="(orgUnit$ | async)?.children.length > 0">
+      <img [src]="expanded ? minusCircleIcon : plusCircleIcon" alt="">
+    </button>
+    <div [ngClass]="{'ngx-dhis2-org-unit-tree-item-name' : true, 'ngx-dhis2-org-unit-tree-item-selected': selected}" (click)="onToggleOrgUnit($event)">
+      <div>{{(orgUnit$ | async)?.name}}</div>
+      <div class="ngx-dhis2-org-unit-tree-item-count" *ngIf="selectedChildren !== 0">&nbsp;({{selectedChildren}})</div>
+    </div>
+  </div>
+  <!-- end of org unit title area -->
+
+  <!-- org unit children area -->
+  <div class="ngx-dhis2-org-unit-tree-item-children" *ngIf="(orgUnit$ | async)?.children.length > 0 && expanded">
+    <div class="ngx-dhis2-org-unit-tree-item-child-item" *ngFor="let orgUnitChildId of (orgUnit$ | async).children">
+      <ngx-dhis2-org-unit-tree-item [orgUnitId]="orgUnitChildId" (activate)="onActivateOu($event)" (deactivate)="onDeactivateOu($event)"
+        [selectedOrgUnits]="selectedOrgUnits"></ngx-dhis2-org-unit-tree-item>
+    </div>
+  </div>
+  <!-- end of org unit children area -->
+</div>

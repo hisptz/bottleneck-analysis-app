@@ -1,0 +1,50 @@
+<div class="ngx-dhis2-org-unit-filter__container">
+
+  <!--selected organisation unit summary section-->
+  <div class="ngx-dhis2-org-unit-filter__selected-org-units">
+    <ngx-dhis2-org-unit-selected-org-unit [selectedOrgUnits]="selectedOrgUnits"></ngx-dhis2-org-unit-selected-org-unit>
+  </div>
+  <!--selected organisation unit summary section-->
+
+  <!--organisation unit selection container-->
+  <div class="ngx-dhis2-org-unit-filter__selection-container">
+    <!--organisation unit selection area-->
+    <div class="ngx-dhis2-org-unit-filter__org-unit-selection">
+      <div class="ngx-dhis2-org-unit-filter__disabled-selection-overlay" *ngIf="selectedUserOrgUnits.length > 0"></div>
+      <ngx-dhis2-org-unit-selection [selectedOrgUnits]="selectedOrgUnits" [loadingOrgUnits]="loadingOrgUnits$ | async"
+        (activateOrgUnit)="onSelectOrgUnit($event)" (deactivateOrgUnit)="onDeselectOrgUnit($event)"></ngx-dhis2-org-unit-selection>
+    </div>
+    <!--end of organisation unit selection area-->
+
+    <!--organisation unit options area-->
+    <div class="ngx-dhis2-org-unit-filter__org-unit-options">
+      <!--user organisation unit selection options-->
+      <div class="ngx-dhis2-org-unit-filter__user-org-unit-selection">
+        <ngx-dhis2-user-org-unit-selection [selectedUserOrgUnits]="selectedUserOrgUnits" (activateUserOrgUnit)="onSelectOrgUnit($event)"
+          (deactivateUserOrgUnit)="onDeselectOrgUnit($event)"></ngx-dhis2-user-org-unit-selection>
+      </div>
+      <!--end of user organisation unit selection options-->
+
+      <!--organisation unit level group section -->
+      <div class="ngx-dhis2-org-unit-filter__org-unit-level-group">
+        <!-- <div class="ngx-dhis2-org-unit-filter__disabled-overlay" *ngIf="selectedUserOrgUnits.length > 0"></div> -->
+        <ngx-dhis2-org-unit-level-group [selectedLevelsOrGroups]="selectedLevelsOrOrgUnits" [orgUnitLevels]="orgUnitLevels$ | async"
+          [orgUnitGroups]="orgUnitGroups$ | async" [topOrgUnitLevel]="topOrgUnitLevel | async" [loadingLevels]="loadingOrgUnitLevels$ | async"
+          [loadingGroups]="loadingOrgUnitGroups$ | async" (activateOrgUnitLevelOrGroup)="onSelectOrgUnit($event)"
+          (deactivateOrgUnitLevelOrGroup)="onDeselectOrgUnit($event)"></ngx-dhis2-org-unit-level-group>
+      </div>
+      <!--end of organisation unit level group section -->
+
+
+    </div>
+    <!--end of organisation unit options area-->
+  </div>
+  <!--organisation unit selection container-->
+
+  <!--organisation unit buttons-->
+  <div class="ngx-dhis2-org-unit-filter__org-unit-buttons">
+    <button class="ngx-dhis2-org-unit-filter__btn" (click)="onClose($event)">CLOSE</button>
+    <button class="ngx-dhis2-org-unit-filter__btn" (click)="onUpdate($event)">UPDATE</button>
+  </div>
+  <!--end of organisation unit buttons-->
+</div>
