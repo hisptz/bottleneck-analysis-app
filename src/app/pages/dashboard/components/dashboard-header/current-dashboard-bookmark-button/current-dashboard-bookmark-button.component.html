@@ -1,6 +1,0 @@
-<div class="current-dashboard-bookmark-button" *ngIf="currentDashboard">
-    <button class="dashboard-btn dashboard-bookmark-btn" (click)="bookmarkDashboard($event)" title="{{currentDashboard.details.bookmarked ? 'You have bookmaked this dashboard': 'Click to bookmak the dashboard'}}">
-    <img *ngIf="!currentDashboard.details.bookmarked" src="assets/icons/empty-bookmark.png" alt="">
-    <img *ngIf="currentDashboard.details.bookmarked" src="assets/icons/bookmark.png" alt="">
-  </button>
-</div>

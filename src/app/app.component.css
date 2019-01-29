@@ -1,9 +1,0 @@
-#page-container {
-  margin-top: 60px;
-}
-
-@media print {
-  #page-container {
-    margin-top: 0;
-  }
-}
