@@ -71,9 +71,18 @@ export class DashboardService {
   }
 
   create(dashboard: Dashboard, dashboardSettings: DashboardSettings) {
+    const dashboardWithOmittedItems = _.omit(dashboard, [
+      'saving',
+      'unSaved',
+      'updatedOrCreated',
+      'creating'
+    ]);
     const sanitizedDashboard: any = dashboardSettings.allowAdditionalAttributes
-      ? dashboard
-      : _.omit(dashboard, dashboardSettings.additionalAttributes);
+      ? dashboardWithOmittedItems
+      : _.omit(
+          dashboardWithOmittedItems,
+          dashboardSettings.additionalAttributes
+        );
     return dashboardSettings && dashboardSettings.useDataStoreAsSource
       ? this.httpClient.post(
           `dataStore/dashboards/${dashboardSettings.id}_${dashboard.id}`,
@@ -93,7 +102,17 @@ export class DashboardService {
   update(dashboard: Dashboard, dashboardSettings: DashboardSettings) {
     return this.load(dashboard.id, dashboardSettings).pipe(
       switchMap((dashboardFromServer: any) => {
-        const newDashboard = { ...dashboardFromServer, ...dashboard };
+        const newDashboard = _.omit(
+          {
+            ...dashboardFromServer,
+            ...dashboard,
+            publicAccess: dashboardFromServer.publicAccess,
+            externalAccess: dashboardFromServer.externalAccess,
+            userAccesses: dashboardFromServer.userAccesses,
+            userGroupAccesses: dashboardFromServer.userGroupAccesses
+          },
+          ['saving', 'unSaved', 'updatedOrCreated', 'creating']
+        );
         return dashboardSettings && dashboardSettings.useDataStoreAsSource
           ? this.httpClient.put(
               `dataStore/dashboards/${dashboardSettings.id}_${dashboard.id}`,
