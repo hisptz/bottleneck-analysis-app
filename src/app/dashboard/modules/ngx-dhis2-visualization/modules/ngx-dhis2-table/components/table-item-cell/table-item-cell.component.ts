@@ -64,18 +64,11 @@ export class TableItemCellComponent implements OnInit {
         : this.legendSet
         ? this.legendSet.legends
         : [];
-    const associatedLegend: Legend = _.filter(
+
+    const associatedLegend: Legend = this.getLegendRangeForDataValue(
       legends,
-      (legend: Legend, legendIndex: number) => {
-        const isHighestLegend = legendIndex === legends.length - 1;
-        return (
-          this.dataValue >= legend.startValue &&
-          (isHighestLegend
-            ? this.dataValue <= legend.endValue
-            : this.dataValue < legend.endValue)
-        );
-      }
-    )[0];
+      this.dataValue
+    );
 
     this.color =
       legends.length > 0
@@ -120,5 +113,19 @@ export class TableItemCellComponent implements OnInit {
       ),
       dataValue => !isNaN(dataValue)
     );
+  }
+
+  getLegendRangeForDataValue(legends: Legend[], dataValue) {
+    return _.filter(legends, (legend: Legend, legendIndex: number) => {
+      const isHighestLegend = legendIndex === legends.length - 1;
+      return (
+        (isFinite(legend.startValue) ? dataValue >= legend.startValue : true) &&
+        (isFinite(legend.endValue)
+          ? isHighestLegend
+            ? dataValue <= legend.endValue
+            : dataValue < legend.endValue
+          : true)
+      );
+    })[0];
   }
 }
