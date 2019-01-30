@@ -28,6 +28,7 @@
       [dashboardLoading]="dashboardLoading$ | async"
       [dashboardLoaded]="dashboardLoaded$ | async"
       [globalDataSelections]="currentGlobalDataSelections$ | async"
+      (resetDashboard)="onResetDashboard($event)"
     ></app-current-dashboard-header>
   </div>
   <!-- end of current dashboard header -->

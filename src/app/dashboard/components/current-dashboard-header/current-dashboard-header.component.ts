@@ -79,6 +79,9 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   @Output()
   saveDashboard: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  resetDashboard: EventEmitter<any> = new EventEmitter<any>();
+
   constructor() {
     this.selectionFilterConfig = {
       showLayout: false
@@ -153,5 +156,10 @@ export class CurrentDashboardHeaderComponent implements OnInit {
 
   onSaveDashboard() {
     this.saveDashboard.emit(this.currentDashboard);
+  }
+
+  onResetChanges(e) {
+    e.stopPropagation();
+    this.resetDashboard.emit(this.currentDashboard.id);
   }
 }

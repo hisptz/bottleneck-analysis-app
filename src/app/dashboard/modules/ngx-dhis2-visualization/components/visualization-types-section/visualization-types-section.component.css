@@ -1,5 +1,6 @@
 .visualization-types-section {
   display: flex;
+  align-items: center;
 }
 .visualization-type-btn {
   border-style: none;
@@ -20,7 +21,6 @@
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
-  margin-top: 5px;
 }
 .visualization-type-btn:hover {
   background-color: rgba(241, 241, 241, 0.6);

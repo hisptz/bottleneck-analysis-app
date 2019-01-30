@@ -197,6 +197,14 @@ export class CurrentDashboardComponent implements OnInit {
     );
   }
 
+  onResetDashboard(dashboardId) {
+    this.store.dispatch(
+      new fromDashboardActions.ResetDashboardAction(dashboardId, {
+        unSaved: false
+      })
+    );
+  }
+
   confirm(message?: string): Observable<boolean> {
     const confirmation = window.confirm(message || 'Is it OK?');
 

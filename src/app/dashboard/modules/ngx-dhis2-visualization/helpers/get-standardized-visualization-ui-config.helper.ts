@@ -19,13 +19,17 @@ export function getStandardizedVisualizationUiConfig(
     showBody: true,
     fullScreen: isFullScreen,
     showFilters: false,
-    hideFooter: true,
+    hideFooter: false,
     hideHeader: false,
     hideManagementBlock: true,
-    hideTypeButtons: true,
+    hideTypeButtons: false,
     showInterpretionBlock: !isNonVisualizable,
     hideResizeButtons: true,
     hideDownloadBlock: false,
-    showTitleBlock: false
+    showTitleBlock: false,
+    visualizationTypesConfig:
+      visualizationItem.type === 'REPORT_TABLE'
+        ? { switchToMap: true, switchToTable: true }
+        : null
   };
 }

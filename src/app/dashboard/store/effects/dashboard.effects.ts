@@ -592,6 +592,14 @@ export class DashboardEffects {
     )
   );
 
+  @Effect({ dispatch: false })
+  resetDashboard$: Observable<any> = this.actions$.pipe(
+    ofType(fromDashboardActions.DashboardActionTypes.ResetDashboard),
+    tap(() => {
+      window.location.reload();
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromRootReducer.State>,

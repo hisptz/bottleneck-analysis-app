@@ -56,10 +56,16 @@
         </ngx-dhis2-selection-filters>
         <div
           *ngIf="currentDashboard?.unSaved"
-          class="un-saved-dashboard text-warning"
+          class="un-saved-dashboard bg-warning"
         >
-          <img src="assets/icons/error.png" alt="" /> This dashboard contains
-          un-saved changes
+          This intervention contains un-saved changes
+          <button
+            class="btn btn-sm btn-outline-warning discard-changes-btn"
+            (click)="onResetChanges($event)"
+            title="Discard changes (Refresh)"
+          >
+            <img src="assets/icons/close.png" alt="" />
+          </button>
         </div>
       </div>
     </div>
