@@ -81,9 +81,17 @@
   font-size: 13px;
   display: flex;
   align-items: center;
-  padding: 5px 5px 0 5px;
+  margin-left: 5px;
+  padding-left: 5px;
+  border-radius: 3px;
   img {
     height: 20px;
+  }
+}
+
+.discard-changes-btn {
+  img {
+    height: 12px;
   }
 }
 

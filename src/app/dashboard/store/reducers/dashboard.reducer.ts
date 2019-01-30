@@ -133,7 +133,8 @@ export function reducer(state = initialState, action: DashboardActions): State {
     case DashboardActionTypes.ToggleDashboardBookmark:
     case DashboardActionTypes.ToggleDashboardBookmarkSuccess:
     case DashboardActionTypes.ToggleDashboardBookmarkFail:
-    case DashboardActionTypes.GlobalFilterChange: {
+    case DashboardActionTypes.GlobalFilterChange:
+    case DashboardActionTypes.ResetDashboard: {
       return adapter.updateOne(
         { id: action.id, changes: action.changes },
         state
