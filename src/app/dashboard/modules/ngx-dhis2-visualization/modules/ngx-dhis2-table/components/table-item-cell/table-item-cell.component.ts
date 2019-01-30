@@ -111,7 +111,7 @@ export class TableItemCellComponent implements OnInit {
         ),
         dataRow => parseFloat(dataRow[dataIndex])
       ),
-      dataValue => dataValue !== undefined
+      dataValue => !isNaN(dataValue)
     );
   }
 }
