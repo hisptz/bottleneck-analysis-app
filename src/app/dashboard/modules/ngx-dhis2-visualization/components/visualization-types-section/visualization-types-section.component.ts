@@ -5,6 +5,7 @@ import {
   MAP_ICON,
   INFO_ICON
 } from '../../icons';
+import { VisualizationTypesConfig } from '../../models';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,9 +15,11 @@ import {
 })
 export class VisualizationTypesSectionComponent implements OnInit {
   @Input() currentVisualization: string;
+
+  @Input() visualizationTypesConfig: VisualizationTypesConfig;
   @Output()
   visualizationTypeChange: EventEmitter<string> = new EventEmitter<string>();
-  @Output() onToggleInterpretation = new EventEmitter();
+  @Output() toggleInterpretation = new EventEmitter();
 
   tableIcon: string;
   chartIcon: string;
@@ -37,8 +40,8 @@ export class VisualizationTypesSectionComponent implements OnInit {
     this.visualizationTypeChange.emit(type);
   }
 
-  toggleInterpretaion(e) {
+  onToggleInterpretaion(e) {
     e.stopPropagation();
-    this.onToggleInterpretation.emit();
+    this.toggleInterpretation.emit();
   }
 }

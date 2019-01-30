@@ -13,3 +13,7 @@
   background-color: transparent;
   z-index: 1200;
 }
+
+.visualization-footer-left {
+  display: flex;
+}

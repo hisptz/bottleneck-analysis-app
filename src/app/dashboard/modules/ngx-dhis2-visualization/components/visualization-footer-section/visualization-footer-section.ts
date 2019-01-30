@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { openAnimation } from '../../../../../animations';
+import { VisualizationTypesConfig } from '../../models';
 
 /**
  * Generated class for the VisualizationFooterSectionComponent component.
@@ -13,7 +14,7 @@ import { openAnimation } from '../../../../../animations';
   styleUrls: ['./visualization-footer-section.css'],
   animations: [openAnimation]
 })
-export class VisualizationFooterSectionComponent {
+export class VisualizationFooterSectionComponent implements OnInit {
   @Input()
   type: string;
   @Input()
@@ -29,6 +30,9 @@ export class VisualizationFooterSectionComponent {
 
   @Input()
   hideDownloadBlock: boolean;
+
+  @Input()
+  visualizationTypesConfig: VisualizationTypesConfig;
 
   @Output()
   visualizationTypeChange: EventEmitter<{
@@ -48,6 +52,8 @@ export class VisualizationFooterSectionComponent {
   constructor() {
     this.hideManagementBlock = this.hideTypeButtons = true;
   }
+
+  ngOnInit() {}
 
   onVisualizationTypeChange(type: string) {
     this.visualizationTypeChange.emit({ id: this.configId, type: type });
