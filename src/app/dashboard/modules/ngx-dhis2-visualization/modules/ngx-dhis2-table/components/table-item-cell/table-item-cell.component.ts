@@ -66,7 +66,7 @@ export class TableItemCellComponent implements OnInit {
         : [];
     const associatedLegend: Legend = _.filter(legends, (legend: Legend) => {
       return (
-        this.dataValue > legend.startValue && this.dataValue <= legend.endValue
+        this.dataValue >= legend.startValue && this.dataValue < legend.endValue
       );
     })[0];
 
