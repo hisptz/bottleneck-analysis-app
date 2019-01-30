@@ -6,6 +6,13 @@ import {
   OrgUnitLevelActionsTypes
 } from '../actions/org-unit-level.actions';
 
+function sortByLevelNo(
+  currentOrgUnitLevel: OrgUnitLevel,
+  nextOrgUnitLevel: OrgUnitLevel
+) {
+  return currentOrgUnitLevel.level - nextOrgUnitLevel.level;
+}
+
 /**
  * Org unit level state model
  */
@@ -20,7 +27,9 @@ export interface OrgUnitLevelState extends EntityState<OrgUnitLevel> {
 
 export const orgUnitLevelAdapter: EntityAdapter<
   OrgUnitLevel
-> = createEntityAdapter<OrgUnitLevel>();
+> = createEntityAdapter<OrgUnitLevel>({
+  sortComparer: sortByLevelNo
+});
 
 export const initialState: OrgUnitLevelState = orgUnitLevelAdapter.getInitialState(
   {
