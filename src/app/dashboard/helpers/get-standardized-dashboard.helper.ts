@@ -45,10 +45,10 @@ export function getStandardizedDashboard(
       dashboard.favorites || dashboard.bookmarks,
       currentUser ? currentUser.id : ''
     ),
-    publicAccess: '--------',
-    externalAccess: false,
-    userGroupAccesses: [],
-    userAccesses: [],
+    publicAccess: dashboard.publicAccess || '--------',
+    externalAccess: dashboard.externalAccess || false,
+    userGroupAccesses: dashboard.userGroupAccesses || [],
+    userAccesses: dashboard.userAccesses || [],
     user: dashboard.user || {
       id: currentUser.id,
       name: currentUser.name

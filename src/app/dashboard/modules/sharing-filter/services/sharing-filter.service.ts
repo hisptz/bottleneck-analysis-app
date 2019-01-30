@@ -28,9 +28,8 @@ export class SharingFilterService {
     return this.httpClient
       .get(`sharing?type=${itemType}&id=${id}`)
       .pipe(
-        map(
-          (sharingResponse: any) =>
-            sharingResponse ? sharingResponse.object : null
+        map((sharingResponse: any) =>
+          sharingResponse ? sharingResponse.object : null
         )
       );
   }
@@ -77,12 +76,15 @@ export class SharingFilterService {
     sharingObject: any
   ) {
     return this.loadSharingFromDataStore(id, itemType, namespace).pipe(
-      switchMap((sharingObjectFromDataStore: any) =>
-        this.httpClient.put(`dataStore/${itemType}s/${namespace}_${id}`, {
+      switchMap((sharingObjectFromDataStore: any) => {
+        const sharingPayload = {
           ...sharingObjectFromDataStore,
           ...sharingObject
-        })
-      )
+        };
+        return this.httpClient
+          .put(`dataStore/${itemType}s/${namespace}_${id}`, sharingPayload)
+          .pipe(map(() => sharingPayload));
+      })
     );
   }
 

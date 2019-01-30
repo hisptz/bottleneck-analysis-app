@@ -102,15 +102,17 @@ export class DashboardService {
   update(dashboard: Dashboard, dashboardSettings: DashboardSettings) {
     return this.load(dashboard.id, dashboardSettings).pipe(
       switchMap((dashboardFromServer: any) => {
-        const newDashboard = {
-          ...dashboardFromServer,
-          ..._.omit(dashboard, [
-            'saving',
-            'unSaved',
-            'updatedOrCreated',
-            'creating'
-          ])
-        };
+        const newDashboard = _.omit(
+          {
+            ...dashboardFromServer,
+            ...dashboard,
+            publicAccess: dashboardFromServer.publicAccess,
+            externalAccess: dashboardFromServer.externalAccess,
+            userAccesses: dashboardFromServer.userAccesses,
+            userGroupAccesses: dashboardFromServer.userGroupAccesses
+          },
+          ['saving', 'unSaved', 'updatedOrCreated', 'creating']
+        );
         return dashboardSettings && dashboardSettings.useDataStoreAsSource
           ? this.httpClient.put(
               `dataStore/dashboards/${dashboardSettings.id}_${dashboard.id}`,
