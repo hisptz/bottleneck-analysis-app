@@ -64,11 +64,18 @@ export class TableItemCellComponent implements OnInit {
         : this.legendSet
         ? this.legendSet.legends
         : [];
-    const associatedLegend: Legend = _.filter(legends, (legend: Legend) => {
-      return (
-        this.dataValue >= legend.startValue && this.dataValue < legend.endValue
-      );
-    })[0];
+    const associatedLegend: Legend = _.filter(
+      legends,
+      (legend: Legend, legendIndex: number) => {
+        const isHighestLegend = legendIndex === legends.length - 1;
+        return (
+          this.dataValue >= legend.startValue &&
+          (isHighestLegend
+            ? this.dataValue <= legend.endValue
+            : this.dataValue < legend.endValue)
+        );
+      }
+    )[0];
 
     this.color =
       legends.length > 0
