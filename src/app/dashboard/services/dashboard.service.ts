@@ -135,7 +135,9 @@ export class DashboardService {
     return supportBookmark && !dashboardSettings.useDataStoreAsSource
       ? this._bookmarkDashboardByApi(dashboardId, bookmarked)
       : this._bookmarkDashboardByDataStore(
-          dashboardId,
+          `${
+            dashboardSettings ? dashboardSettings.id + '_' : ''
+          }${dashboardId}`,
           currentUserId,
           bookmarked
         );
