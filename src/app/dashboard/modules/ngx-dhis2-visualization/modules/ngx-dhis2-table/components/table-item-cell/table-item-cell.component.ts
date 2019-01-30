@@ -31,21 +31,9 @@ export class TableItemCellComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    // Find data for the cell
-    const dataIndex = this.analyticsObject.headers.indexOf(
-      _.find(this.analyticsObject.headers, ['name', 'value'])
-    );
-    const dataValues = _.filter(
-      _.map(
-        _.filter(
-          this.analyticsObject ? this.analyticsObject.rows || [] : [],
-          (row: any[]) =>
-            _.intersection(this.dataRowIds, row).length ===
-            this.dataRowIds.length
-        ),
-        dataRow => parseFloat(dataRow[dataIndex])
-      ),
-      dataValue => dataValue
+    const dataValues = this.findDataValuesFromAnalytics(
+      this.analyticsObject,
+      this.dataRowIds
     );
 
     const isRatio = _.some(
@@ -107,5 +95,23 @@ export class TableItemCellComponent implements OnInit {
       ) +
       ' ' +
       this.dataValue;
+  }
+
+  findDataValuesFromAnalytics(analyticsObject: any, dataRowIds: string[]) {
+    const dataIndex = analyticsObject.headers.indexOf(
+      _.find(analyticsObject.headers, ['name', 'value'])
+    );
+
+    return _.filter(
+      _.map(
+        _.filter(
+          analyticsObject ? analyticsObject.rows || [] : [],
+          (row: any[]) =>
+            _.intersection(dataRowIds, row).length === dataRowIds.length
+        ),
+        dataRow => parseFloat(dataRow[dataIndex])
+      ),
+      dataValue => dataValue !== undefined
+    );
   }
 }
