@@ -31,21 +31,9 @@ export class TableItemCellComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    // Find data for the cell
-    const dataIndex = this.analyticsObject.headers.indexOf(
-      _.find(this.analyticsObject.headers, ['name', 'value'])
-    );
-    const dataValues = _.filter(
-      _.map(
-        _.filter(
-          this.analyticsObject ? this.analyticsObject.rows || [] : [],
-          (row: any[]) =>
-            _.intersection(this.dataRowIds, row).length ===
-            this.dataRowIds.length
-        ),
-        dataRow => parseFloat(dataRow[dataIndex])
-      ),
-      dataValue => dataValue
+    const dataValues = this.findDataValuesFromAnalytics(
+      this.analyticsObject,
+      this.dataRowIds
     );
 
     const isRatio = _.some(
@@ -76,11 +64,11 @@ export class TableItemCellComponent implements OnInit {
         : this.legendSet
         ? this.legendSet.legends
         : [];
-    const associatedLegend: Legend = _.filter(legends, (legend: Legend) => {
-      return (
-        this.dataValue > legend.startValue && this.dataValue <= legend.endValue
-      );
-    })[0];
+
+    const associatedLegend: Legend = this.getLegendRangeForDataValue(
+      legends,
+      this.dataValue
+    );
 
     this.color =
       legends.length > 0
@@ -107,5 +95,37 @@ export class TableItemCellComponent implements OnInit {
       ) +
       ' ' +
       this.dataValue;
+  }
+
+  findDataValuesFromAnalytics(analyticsObject: any, dataRowIds: string[]) {
+    const dataIndex = analyticsObject.headers.indexOf(
+      _.find(analyticsObject.headers, ['name', 'value'])
+    );
+
+    return _.filter(
+      _.map(
+        _.filter(
+          analyticsObject ? analyticsObject.rows || [] : [],
+          (row: any[]) =>
+            _.intersection(dataRowIds, row).length === dataRowIds.length
+        ),
+        dataRow => parseFloat(dataRow[dataIndex])
+      ),
+      dataValue => !isNaN(dataValue)
+    );
+  }
+
+  getLegendRangeForDataValue(legends: Legend[], dataValue) {
+    return _.filter(legends, (legend: Legend, legendIndex: number) => {
+      const isHighestLegend = legendIndex === legends.length - 1;
+      return (
+        (isFinite(legend.startValue) ? dataValue >= legend.startValue : true) &&
+        (isFinite(legend.endValue)
+          ? isHighestLegend
+            ? dataValue <= legend.endValue
+            : dataValue < legend.endValue
+          : true)
+      );
+    })[0];
   }
 }
