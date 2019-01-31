@@ -64,7 +64,7 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
 
     // Find best way to pass group selection that doesnt involve dashboard
     const dataGroups = this.getDataSelectionGroups(
-      this.dashboard.globalSelections
+      this.dashboard ? this.dashboard.globalSelections : []
     );
     const dashboardDetails = this.dashboard
       ? JSON.stringify({ id: this.dashboard.id, name: this.dashboard.name })

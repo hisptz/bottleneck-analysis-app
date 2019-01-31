@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PeriodFilterComponent } from './period-filter.component';
-import {FormsModule} from '@angular/forms';
-import {PeriodService} from './period.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, FormsModule],
   declarations: [PeriodFilterComponent],
   exports: [PeriodFilterComponent],
-  providers: [PeriodService]
+  providers: []
 })
-export class PeriodFilterModule { }
+export class PeriodFilterModule {}

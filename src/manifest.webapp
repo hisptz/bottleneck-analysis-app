@@ -1,7 +1,7 @@
 
 {
-    "version": "1.0.0-beta.5",
-    "name": "Bottleneck Analysis App",
+    "version": "1.0.0-beta.6",
+    "name": "Bottleneck Analysis App (TEST)",
     "description": "Bottleneck Analysis App",
     "appType": "APP",
     "launch_path": "index.html",

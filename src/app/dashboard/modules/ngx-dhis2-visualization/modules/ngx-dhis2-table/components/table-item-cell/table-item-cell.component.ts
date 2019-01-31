@@ -10,7 +10,7 @@ import { Legend } from '../../../../../../../models';
 })
 export class TableItemCellComponent implements OnInit {
   @Input()
-  dataRowIds: string[];
+  dataRowIds: string[] = [];
 
   @Input()
   dataDimensions: string[];
@@ -50,7 +50,7 @@ export class TableItemCellComponent implements OnInit {
       : '';
 
     // Find color for the cell
-    const dxIndex = this.dataDimensions.indexOf('dx');
+    const dxIndex = (this.dataDimensions || []).indexOf('dx');
     const dxId = this.dataRowIds[dxIndex];
     const dxDataSelection = _.find(this.dataSelections, ['dimension', 'dx']);
     const currentDxItem = _.find(dxDataSelection ? dxDataSelection.items : [], [
@@ -98,8 +98,11 @@ export class TableItemCellComponent implements OnInit {
   }
 
   findDataValuesFromAnalytics(analyticsObject: any, dataRowIds: string[]) {
-    const dataIndex = analyticsObject.headers.indexOf(
-      _.find(analyticsObject.headers, ['name', 'value'])
+    const analyticsHeaders = analyticsObject
+      ? analyticsObject.headers || []
+      : [];
+    const dataIndex = analyticsHeaders.indexOf(
+      _.find(analyticsHeaders, ['name', 'value'])
     );
 
     return _.filter(
@@ -115,7 +118,7 @@ export class TableItemCellComponent implements OnInit {
     );
   }
 
-  getLegendRangeForDataValue(legends: Legend[], dataValue) {
+  getLegendRangeForDataValue(legends: Legend[] = [], dataValue) {
     return _.filter(legends, (legend: Legend, legendIndex: number) => {
       const isHighestLegend = legendIndex === legends.length - 1;
       return (

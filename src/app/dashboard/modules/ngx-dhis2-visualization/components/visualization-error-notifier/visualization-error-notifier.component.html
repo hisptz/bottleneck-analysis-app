@@ -1,7 +1,10 @@
 <div class="visualization-error-notifier">
-  <img src="assets/icons/error.png" alt="">
-  <br>
-  <h4>Aw, Snap. We are sorry for this inconvenience, our server tells us that</h4>
-  <h5>{{errorMessage.statusText}} - (Error Code {{errorMessage.statusCode}})</h5>
-  <div [innerHtml]="errorMessage.message | safe:'html'"></div>
+  <img src="assets/icons/error.png" alt="" /> <br />
+  <h4>
+    Aw, Snap. We are sorry for this inconvenience, our server tells us that
+  </h4>
+  <h5>
+    {{ errorMessage?.statusText }} - (Error Code {{ errorMessage?.statusCode }})
+  </h5>
+  <div [innerHtml]="errorMessage?.message | safe: 'html'"></div>
 </div>

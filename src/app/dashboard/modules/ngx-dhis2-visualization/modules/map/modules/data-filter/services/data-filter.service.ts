@@ -22,7 +22,7 @@ export const PROGRAM_KEY = 'programs';
 export const PROGRAM_INDICATOR_KEY = 'programIndicators';
 export const FUNCTIONS = 'functions';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DataFilterService {
   metaData = {
     organisationUnits: [],

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PeriodFilterComponent } from './period-filter.component';
+import { FormsModule } from '@angular/forms';
 
 describe('PeriodFilterComponent', () => {
   let component: PeriodFilterComponent;
@@ -8,9 +9,9 @@ describe('PeriodFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PeriodFilterComponent ]
-    })
-    .compileComponents();
+      imports: [FormsModule],
+      declarations: [PeriodFilterComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

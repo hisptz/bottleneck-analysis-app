@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { LegendColorPickerComponent } from './legend-color-picker.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 describe('LegendColorPickerComponent', () => {
   let component: LegendColorPickerComponent;
@@ -11,9 +12,9 @@ describe('LegendColorPickerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LegendColorPickerComponent ]
-    })
-    .compileComponents();
+      imports: [ColorPickerModule],
+      declarations: [LegendColorPickerComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
