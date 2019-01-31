@@ -1,4 +1,4 @@
-import { combineLatest as observableCombineLatest, of, Observable } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, switchMap, catchError } from 'rxjs/operators';
@@ -6,11 +6,8 @@ import { Store } from '@ngrx/store';
 
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as dataSelectionAction from '../actions/data-selection.action';
-import * as layersActions from '../actions/layers.action';
 import * as fromServices from '../../services';
 import * as fromStore from '..';
-import { getDimensionItems } from '../../utils/analytics';
-import { toGeoJson } from '../../utils/layers';
 @Injectable()
 export class AnalyticsEffects {
   constructor(
@@ -81,7 +78,7 @@ export class AnalyticsEffects {
 
       const newSources = sources.length ? sources : Observable.create([]);
 
-      return observableCombineLatest(newSources).pipe(
+      return combineLatest(newSources).pipe(
         map((data, index) => {
           let analytics = {};
           if (data.length) {
