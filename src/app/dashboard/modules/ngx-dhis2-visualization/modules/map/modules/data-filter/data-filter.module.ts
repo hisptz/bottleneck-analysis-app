@@ -8,7 +8,6 @@ import { OrderPipe } from './pipes/order-by.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AddUnderscorePipe } from './pipes/add-underscore.pipe';
 import { DragulaModule } from 'ng2-dragula';
-import { DataFilterService } from './services/data-filter.service';
 import { HttpModule } from '@angular/http';
 
 @NgModule({
@@ -27,6 +26,6 @@ import { HttpModule } from '@angular/http';
     AddUnderscorePipe
   ],
   exports: [DataFilterComponent],
-  providers: [DataFilterService]
+  providers: []
 })
 export class DataFilterModule {}

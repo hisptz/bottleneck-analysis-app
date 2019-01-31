@@ -42,13 +42,13 @@ export class DashboardHomeComponent implements OnInit {
         description: 'Do not just look on your data, know more about your data'
       }
     };
+  }
 
+  ngOnInit() {
     this.welcomingMessage = this.welcomingMessageObject[
       this.getRandomInt(0, 2)
     ];
   }
-
-  ngOnInit() {}
 
   getRandomInt(min, max) {
     min = Math.ceil(min);

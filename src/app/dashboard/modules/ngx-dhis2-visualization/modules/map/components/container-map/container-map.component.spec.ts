@@ -1,16 +1,49 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContainerMapComponent } from './container-map.component';
-
+import { MapVisualizerComponent } from '../map-visualizer/map-visualizer.component';
+import {
+  VisualizationLegendComponent,
+  DataTableComponent
+} from '../../containers';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MapFilterSectionComponent } from '../map-filter-section/map-filter-section.component';
+import { MapStyleComponent } from '../map-style/map-style.component';
+import {
+  OrgUnitFilterModule,
+  PeriodFilterModule,
+  DataFilterModule
+} from '../../modules';
+import { StoreModule } from '@ngrx/store';
+import { reducers, effects } from 'src/app/store';
+import { EffectsModule } from '@ngrx/effects';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
 describe('ContainerMapComponent', () => {
   let component: ContainerMapComponent;
   let fixture: ComponentFixture<ContainerMapComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContainerMapComponent ]
-    })
-    .compileComponents();
+      imports: [
+        NgxPaginationModule,
+        OrgUnitFilterModule,
+        PeriodFilterModule,
+        DataFilterModule,
+        StoreModule.forRoot(reducers),
+        EffectsModule.forRoot(effects),
+        RouterTestingModule,
+        HttpClientModule
+      ],
+      declarations: [
+        ContainerMapComponent,
+        MapVisualizerComponent,
+        VisualizationLegendComponent,
+        DataTableComponent,
+        MapFilterSectionComponent,
+        MapStyleComponent
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

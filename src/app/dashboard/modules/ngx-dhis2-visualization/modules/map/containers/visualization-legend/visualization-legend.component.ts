@@ -54,40 +54,44 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sticky$ = this.store.select(
-      fromStore.isVisualizationLegendPinned(
-        this.mapVisualizationObject.componentId
-      )
-    );
-    this.isFilterSectionOpen$ = this.store.select(
-      fromStore.isVisualizationLegendFilterSectionOpen(
-        this.mapVisualizationObject.componentId
-      )
-    );
-    const layers = this.mapVisualizationObject.layers;
+    if (this.mapVisualizationObject) {
+      this.sticky$ = this.store.select(
+        fromStore.isVisualizationLegendPinned(
+          this.mapVisualizationObject.componentId
+        )
+      );
+      this.isFilterSectionOpen$ = this.store.select(
+        fromStore.isVisualizationLegendFilterSectionOpen(
+          this.mapVisualizationObject.componentId
+        )
+      );
+      const layers = this.mapVisualizationObject.layers;
 
-    this.visualizationLegends$ = this.store
-      .select(
-        fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId)
-      )
-      .subscribe(visualizationLengends => {
-        if (visualizationLengends) {
-          this.visualizationLegends = Object.keys(visualizationLengends).map(
-            key => visualizationLengends[key]
-          );
-          this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
-        }
-      });
+      this.visualizationLegends$ = this.store
+        .select(
+          fromStore.getCurrentLegendSets(
+            this.mapVisualizationObject.componentId
+          )
+        )
+        .subscribe(visualizationLengends => {
+          if (visualizationLengends) {
+            this.visualizationLegends = Object.keys(visualizationLengends).map(
+              key => visualizationLengends[key]
+            );
+            this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
+          }
+        });
 
-    this.baseLayerLegend$ = this.store
-      .select(
-        fromStore.getCurrentBaseLayer(this.mapVisualizationObject.componentId)
-      )
-      .subscribe(baselayerLegend => {
-        if (baselayerLegend) {
-          this.baseLayerLegend = { ...baselayerLegend };
-        }
-      });
+      this.baseLayerLegend$ = this.store
+        .select(
+          fromStore.getCurrentBaseLayer(this.mapVisualizationObject.componentId)
+        )
+        .subscribe(baselayerLegend => {
+          if (baselayerLegend) {
+            this.baseLayerLegend = { ...baselayerLegend };
+          }
+        });
+    }
   }
 
   showButtonIcons() {
@@ -285,7 +289,12 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.baseLayerLegend$.unsubscribe();
-    this.visualizationLegends$.unsubscribe();
+    if (this.baseLayerLegend$) {
+      this.baseLayerLegend$.unsubscribe();
+    }
+
+    if (this.visualizationLegends$) {
+      this.visualizationLegends$.unsubscribe();
+    }
   }
 }

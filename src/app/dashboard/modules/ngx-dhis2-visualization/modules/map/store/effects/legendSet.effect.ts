@@ -1,4 +1,4 @@
-import { combineLatest as observableCombineLatest, of, Observable } from 'rxjs';
+import { combineLatest, of, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -35,7 +35,7 @@ export class LegendSetEffects {
         const sources = legendIds.map(id =>
           this.legendSetService.getMapLegendSet(id)
         );
-        return observableCombineLatest(sources).pipe(
+        return combineLatest(sources).pipe(
           map(lgSets => {
             const entity = lgSets.reduce((entities, currentVal, index) => {
               entities[legendSetLayers[currentVal['id']]] = currentVal;

@@ -3,8 +3,8 @@
     'dashboard-menu-item': true,
     'current-dashboard':
       dashboardMenuItem?.id === currentDashboardId &&
-      !dashboardMenuItem.unSaved,
-    'un-saved-dashboard': dashboardMenuItem.unSaved
+      !dashboardMenuItem?.unSaved,
+    'un-saved-dashboard': dashboardMenuItem?.unSaved
   }"
   (click)="onSetDashboard($event)"
   (mouseenter)="onHover($event)"

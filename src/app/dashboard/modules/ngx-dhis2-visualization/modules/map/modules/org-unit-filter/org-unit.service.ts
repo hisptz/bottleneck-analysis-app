@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClientService } from '../../services/http-client.service';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OrgUnitService {
   nodes: any[] = null;
   orgUnitLevels: any[] = [];
@@ -33,8 +33,7 @@ export class OrgUnitService {
             observer.next(this._userInfo);
             observer.complete();
           },
-          error => {
-          }
+          error => {}
         );
       }
     });

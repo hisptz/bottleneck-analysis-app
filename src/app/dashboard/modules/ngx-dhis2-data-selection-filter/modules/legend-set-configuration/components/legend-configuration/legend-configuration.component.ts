@@ -35,13 +35,15 @@ export class LegendConfigurationComponent implements OnInit {
   }
 
   ngOnInit() {
-    const { color } = this.legend;
-    const { name } = this.legend;
-    const { startValue } = this.legend;
-    const { endValue } = this.legend;
-    this.color = color;
-    this.name = name;
-    this.endValue = endValue;
-    this.startValue = startValue;
+    if (this.legend) {
+      const { color } = this.legend;
+      const { name } = this.legend;
+      const { startValue } = this.legend;
+      const { endValue } = this.legend;
+      this.color = color;
+      this.name = name;
+      this.endValue = endValue;
+      this.startValue = startValue;
+    }
   }
 }

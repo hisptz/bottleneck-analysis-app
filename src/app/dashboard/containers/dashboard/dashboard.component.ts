@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  Input,
   HostListener
 } from '@angular/core';
 import { Store } from '@ngrx/store';

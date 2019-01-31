@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TableItemComponent } from './table-item.component';
+import { TableItemCellComponent } from '../table-item-cell/table-item-cell.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TableItemComponent', () => {
   let component: TableItemComponent;
@@ -8,9 +10,9 @@ describe('TableItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TableItemComponent ]
-    })
-    .compileComponents();
+      imports: [BrowserAnimationsModule],
+      declarations: [TableItemComponent, TableItemCellComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

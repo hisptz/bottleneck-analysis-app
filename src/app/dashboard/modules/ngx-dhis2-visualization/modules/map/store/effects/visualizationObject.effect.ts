@@ -1,9 +1,4 @@
-import {
-  zip as observableZip,
-  combineLatest as observableCombineLatest,
-  of,
-  Observable
-} from 'rxjs';
+import { zip as observableZip, combineLatest, of, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -11,7 +6,6 @@ import {
   map,
   switchMap,
   catchError,
-  combineLatest,
   flatMap,
   mergeMap,
   tap,
@@ -180,95 +174,90 @@ export class VisualizationObjectEffects {
   @Effect({ dispatch: false })
   dispatchAddGeoFeaturescomplete$ = this.actions$.pipe(
     ofType(visualizationObjectActions.ADD_VISUALIZATION_OBJECT_COMPLETE),
-    switchMap(
-      (action: visualizationObjectActions.AddVisualizationObjectComplete) => {
-        const vizObject = action.payload;
-        const { layers } = vizObject;
-        const _layers = layers.map(layer => {
-          const { layerOptions } = layer;
-          if (layerOptions.serverClustering) {
-            const url = this.getEventLayerUrl(layer);
-            const { dataSelections } = layer;
-            this.program =
-              dataSelections.program && dataSelections.program.displayName;
-            this.programStage =
-              dataSelections.programStage &&
-              dataSelections.programStage.displayName;
-            const load = (params, callback) => {
-              const serverSide = `/events/cluster/${url}&clusterSize=${
-                params.clusterSize
-              }&bbox=${params.bbox}&coordinatesOnly=true&includeClusterPoints=${
-                params.includeClusterPoints
-              }`;
-              this.analyticsService
-                .getEventsAnalytics(serverSide)
-                .subscribe(data => callback(params.tileId, toGeoJson(data)));
-            };
-            const popup = this.onEventClick.bind(this);
-            const serverSideConfig = {
-              ...layerOptions.serverSideConfig,
-              load,
-              popup
-            };
-            const _layerOptions = { ...layerOptions, serverSideConfig };
-            return { ...layer, layerOptions: _layerOptions };
-          }
-          if (layer.type === 'earthEngine') {
-            const accessToken = callback =>
-              this.systemService
-                .getGoogleEarthToken()
-                .subscribe(json => callback(json));
-            const earthEngineConfig = {
-              ...layerOptions.earthEngineConfig,
-              accessToken
-            };
-            const _layerOptions = { ...layerOptions, earthEngineConfig };
-            return { ...layer, layerOptions: _layerOptions };
-          }
-          return layer;
-        });
+    tap((action: visualizationObjectActions.AddVisualizationObjectComplete) => {
+      const vizObject = action.payload;
+      const { layers } = vizObject;
+      const _layers = layers.map(layer => {
+        const { layerOptions } = layer;
+        if (layerOptions.serverClustering) {
+          const url = this.getEventLayerUrl(layer);
+          const { dataSelections } = layer;
+          this.program =
+            dataSelections.program && dataSelections.program.displayName;
+          this.programStage =
+            dataSelections.programStage &&
+            dataSelections.programStage.displayName;
+          const load = (params, callback) => {
+            const serverSide = `/events/cluster/${url}&clusterSize=${
+              params.clusterSize
+            }&bbox=${params.bbox}&coordinatesOnly=true&includeClusterPoints=${
+              params.includeClusterPoints
+            }`;
+            this.analyticsService
+              .getEventsAnalytics(serverSide)
+              .subscribe(data => callback(params.tileId, toGeoJson(data)));
+          };
+          const popup = this.onEventClick.bind(this);
+          const serverSideConfig = {
+            ...layerOptions.serverSideConfig,
+            load,
+            popup
+          };
+          const _layerOptions = { ...layerOptions, serverSideConfig };
+          return { ...layer, layerOptions: _layerOptions };
+        }
+        if (layer.type === 'earthEngine') {
+          const accessToken = callback =>
+            this.systemService
+              .getGoogleEarthToken()
+              .subscribe(json => callback(json));
+          const earthEngineConfig = {
+            ...layerOptions.earthEngineConfig,
+            accessToken
+          };
+          const _layerOptions = { ...layerOptions, earthEngineConfig };
+          return { ...layer, layerOptions: _layerOptions };
+        }
+        return layer;
+      });
 
-        const entities = this.getParameterEntities(layers);
-        const parameters = Object.keys(entities).map(key => entities[key]);
-        const sources = parameters.map(param => {
-          return this.geofeatureService.getGeoFeatures(param);
-        });
+      const entities = this.getParameterEntities(layers);
+      const parameters = Object.keys(entities).map(key => entities[key]);
+      const sources = parameters.map(param => {
+        return this.geofeatureService.getGeoFeatures(param);
+      });
 
-        if (sources.length === 0) {
+      if (sources.length === 0) {
+        this.store.dispatch(
+          new visualizationObjectActions.AddVisualizationObjectCompleteSuccess({
+            ...vizObject,
+            layers: _layers
+          })
+        );
+      }
+
+      // This is a hack find a way not to subscribe please!
+      // TODO: remove this hack;
+      combineLatest(sources).subscribe(geofeature => {
+        if (geofeature) {
+          const geofeatures = Object.keys(entities).reduce(
+            (arr = {}, key, index) => {
+              return { ...arr, [key]: geofeature[index] };
+            },
+            {}
+          );
           this.store.dispatch(
             new visualizationObjectActions.AddVisualizationObjectCompleteSuccess(
               {
                 ...vizObject,
-                layers: _layers
+                layers: _layers,
+                geofeatures
               }
             )
           );
         }
-
-        // This is a hack find a way not to subscribe please!
-        // TODO: remove this hack;
-        observableCombineLatest(sources).subscribe(geofeature => {
-          if (geofeature) {
-            const geofeatures = Object.keys(entities).reduce(
-              (arr = {}, key, index) => {
-                return { ...arr, [key]: geofeature[index] };
-              },
-              {}
-            );
-            this.store.dispatch(
-              new visualizationObjectActions.AddVisualizationObjectCompleteSuccess(
-                {
-                  ...vizObject,
-                  layers: _layers,
-                  geofeatures
-                }
-              )
-            );
-          }
-        });
-        return observableZip(sources);
-      }
-    )
+      });
+    })
   );
 
   getParameterEntities(layers: Layer[]) {

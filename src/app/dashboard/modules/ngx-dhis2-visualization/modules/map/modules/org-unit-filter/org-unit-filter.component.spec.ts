@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrgUnitFilterComponent } from './org-unit-filter.component';
+import { MultiselectComponent } from './multiselect/multiselect.component';
+import { FilterLevelPipe } from './pipes/filter-level.pipe';
+import { TreeModule } from 'angular-tree-component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('OrgUnitFilterComponent', () => {
   let component: OrgUnitFilterComponent;
@@ -8,9 +12,13 @@ describe('OrgUnitFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrgUnitFilterComponent ]
-    })
-    .compileComponents();
+      imports: [TreeModule, HttpClientModule],
+      declarations: [
+        OrgUnitFilterComponent,
+        MultiselectComponent,
+        FilterLevelPipe
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
