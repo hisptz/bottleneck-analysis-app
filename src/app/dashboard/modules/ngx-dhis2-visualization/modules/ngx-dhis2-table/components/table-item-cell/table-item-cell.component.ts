@@ -118,17 +118,44 @@ export class TableItemCellComponent implements OnInit {
     );
   }
 
+  getApplicableLegends(legends: Legend[] = []) {
+    return _.sortBy(
+      _.filter(legends, (legend: Legend) =>
+        legend
+          ? Number.isInteger(legend.startValue) ||
+            Number.isInteger(legend.endValue)
+          : false
+      ),
+      'startValue'
+    );
+  }
   getLegendRangeForDataValue(legends: Legend[] = [], dataValue) {
-    return _.filter(legends, (legend: Legend, legendIndex: number) => {
-      const isHighestLegend = legendIndex === legends.length - 1;
-      return (
-        (isFinite(legend.startValue) ? dataValue >= legend.startValue : true) &&
-        (isFinite(legend.endValue)
-          ? isHighestLegend
-            ? dataValue <= legend.endValue
-            : dataValue < legend.endValue
-          : true)
-      );
-    })[0];
+    const applicableLegends = this.getApplicableLegends(legends);
+    const applicableLegend = _.filter(
+      applicableLegends,
+      (legend: Legend, legendIndex: number) => {
+        const isHighestLegend = legendIndex === applicableLegends.length - 1;
+        return (
+          (Number.isInteger(legend.startValue)
+            ? dataValue >= legend.startValue
+            : true) &&
+          (Number.isInteger(legend.endValue)
+            ? isHighestLegend
+              ? dataValue <= legend.endValue
+              : dataValue < legend.endValue
+            : true)
+        );
+      }
+    )[0];
+
+    return (
+      applicableLegend ||
+      _.filter(legends, (legend: Legend) =>
+        legend
+          ? !Number.isInteger(legend.startValue) &&
+            !Number.isInteger(legend.endValue)
+          : false
+      )[0]
+    );
   }
 }
