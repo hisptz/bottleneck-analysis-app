@@ -37,9 +37,47 @@ export class LegendSetContainerComponent implements OnInit, OnDestroy {
       this.selectedItems,
       this.legendSetEntities
     );
+
+    let naLegent = {
+      id: '4',
+      color: '	#B0B0B0',
+      name: 'N/A',
+      startValue: 100,
+      endValue: 100,
+    }
+    console.log("LEGEND SET: " + JSON.stringify(legendSets));
     this.currentLegendSet =
       legendSets && legendSets.length > 0 ? legendSets[0].id : '';
-    this.legendSets = legendSets;
+     
+    // this.legendSets = legendSets;
+
+    this.legendSets = _.forEach(legendSets, legendData => {
+      (legendData.legends.length > 0) ? 
+          this.addNotApplicableLegendStatus(legendData.legends, legendHelper.getDefaultLegends()) : 
+          legendData.legends = legendHelper.getDefaultLegends();
+    });
+
+  }
+
+  addNotApplicableLegendStatus(legends, defaultObj) {
+    let localLegends = [];
+    localLegends = legends;
+    let notApplicableIndex = _.findLastIndex(defaultObj, legendObj => {
+      return legendObj['name'] == 'N/A';
+    });
+
+    let leg = {
+      id: "RFKK007nOS9",
+      name: "High",
+      color: "#3eef9c",
+      endValue: 100,
+      startValue: 61
+    };
+
+    
+
+    (!_.some(legends, { name : 'N/A'})) ? localLegends.push(defaultObj[notApplicableIndex]) : localLegends; 
+    return localLegends;
   }
 
   onSetCurrentLegendSet(legendSet: LegendSet, event) {

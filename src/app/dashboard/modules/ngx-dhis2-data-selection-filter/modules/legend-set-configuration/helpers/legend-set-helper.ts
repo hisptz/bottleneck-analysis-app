@@ -25,15 +25,18 @@ export function getLegendSetForUpdate(legendSets: LegendSet[]) {
 
 export function getNewLegend(legends: Legend[]): Legend {
   legends = _.reverse(_.sortBy(legends, 'startValue'));
+  // const startValue =
+  //   legends && legends.length > 0 ? legends[0].endValue + 1 : 0;
+  // const endValue = startValue + 9;
   const startValue =
-    legends && legends.length > 0 ? legends[0].endValue + 1 : 0;
-  const endValue = startValue + 9;
+    legends && legends.length > 0 ? legends[0].endValue : 0;
+  const endValue = startValue + 10;
   return {
     id: getUniqueId(),
     name: 'Untitled',
     color: '#fff',
     startValue: startValue,
-    endValue: endValue
+    endValue: endValue,
   };
 }
 

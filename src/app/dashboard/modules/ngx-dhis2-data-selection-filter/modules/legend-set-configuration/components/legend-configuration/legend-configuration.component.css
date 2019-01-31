@@ -5,6 +5,10 @@
   align-items: flex-start;
 }
 
+#legend-delete-svg {
+  padding: 5px !important;
+}
+
 .legend-configuration-container>div {
   margin: 3px;
 }

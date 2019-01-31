@@ -17,12 +17,31 @@ export class LegendConfigurationComponent implements OnInit {
 
   @Output()
   legendUpdates = new EventEmitter();
+  @Output()
+  onLegendItemDeleted = new EventEmitter();
+  @Output()
+  onUpdateLegendRangeValue = new EventEmitter();
 
   constructor() {}
 
   onColorSelect(color: string) {
     this.color = color;
     this.onLegendUpdate();
+  }
+
+  deleteLegendItem() {
+    event.stopPropagation();
+    this.onLegendItemDeleted.emit(this.legend);
+  }
+
+  onLegendValueChange() {
+    event.stopPropagation();
+    const { id } = this.legend;
+    const color = this.color;
+    const name = this.name;
+    const startValue = this.startValue;
+    const endValue = this.endValue;
+    this.onUpdateLegendRangeValue.emit({ id, color, name, startValue, endValue });
   }
 
   onLegendUpdate() {
@@ -35,15 +54,13 @@ export class LegendConfigurationComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.legend) {
-      const { color } = this.legend;
-      const { name } = this.legend;
-      const { startValue } = this.legend;
-      const { endValue } = this.legend;
-      this.color = color;
-      this.name = name;
-      this.endValue = endValue;
-      this.startValue = startValue;
-    }
+    const { color } = this.legend;
+    const { name } = this.legend;
+    const { startValue } = this.legend;
+    const { endValue } = this.legend;
+    this.color = color;
+    this.name = name;
+    this.endValue = endValue;
+    this.startValue = startValue;
   }
 }
