@@ -1,5 +1,5 @@
 [![dependencies Status](https://david-dm.org/hisptz/bottleneck-analysis-app/status.svg)](https://david-dm.org/hisptz/bottleneck-analysis-app)
-[![devDependencies Status](https://david-dm.org/hisptz/bottleneck-analysis-app/dev-status.svg)](https://david-dm.org/hisptz/bottleneck-analysis-app?type=dev)
+[![devDependencies Status](https://david-dm.org/hisptz/bottleneck-analysis-app/dev-status.svg)](https://david-dm.org/hisptz/bottleneck-analysis-app?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/hisptz/bottleneck-analysis-app.svg)](https://greenkeeper.io/)
 
 # Bottleneck Analysis app
 
