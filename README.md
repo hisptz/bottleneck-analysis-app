@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/hisptz/bottleneck-analysis-app.svg?branch=develop)](https://travis-ci.org/hisptz/bottleneck-analysis-app)
 [![dependencies Status](https://david-dm.org/hisptz/bottleneck-analysis-app/status.svg)](https://david-dm.org/hisptz/bottleneck-analysis-app)
 [![devDependencies Status](https://david-dm.org/hisptz/bottleneck-analysis-app/dev-status.svg)](https://david-dm.org/hisptz/bottleneck-analysis-app?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/hisptz/bottleneck-analysis-app.svg)](https://greenkeeper.io/)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0591d8a3672629944a9d/maintainability)](https://codeclimate.com/github/hisptz/bottleneck-analysis-app/maintainability)
