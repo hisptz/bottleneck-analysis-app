@@ -47,7 +47,7 @@
       <div class="current-dashboard-global-filter" *ngIf="dashboardLoaded">
         <ngx-dhis2-selection-filters
           (filterUpdate)="onFilterUpdateAction($event)"
-          [dataSelections]="currentDashboard?.globalSelections"
+          [dataSelections]="globalDataSelections"
           [selectionFilterConfig]="selectionFilterConfig"
           [currentUserHasAuthorities]="currentDashboard?.access?.manage"
           [saving]="currentDashboard?.saving"

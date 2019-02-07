@@ -63,16 +63,15 @@ export const getCurrentGlobalDataSelections = getFromAnalytics =>
       dashboardVisualizationItems: any,
       visualizationObjectEntities: any,
       visualizationLayerEntities: any
-    ) => {
-      return getMergedGlobalDataSelections(
+    ) =>
+      getMergedGlobalDataSelections(
         getCombinedVisualizationLayers(
           dashboardVisualizationItems,
           visualizationObjectEntities,
           visualizationLayerEntities
         ),
         getFromAnalytics
-      );
-    }
+      )
   );
 
 export const getGlobalDataSelectionSummary = createSelector(

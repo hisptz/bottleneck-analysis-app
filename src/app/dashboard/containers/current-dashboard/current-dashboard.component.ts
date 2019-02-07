@@ -90,7 +90,7 @@ export class CurrentDashboardComponent implements OnInit {
     );
 
     this.currentGlobalDataSelections$ = store.select(
-      fromDashboardSelectors.getCurrentGlobalDataSelections
+      fromDashboardSelectors.getCurrentGlobalDataSelections(false)
     );
 
     this.currentGlobalDataSelectionSummary$ = store.select(
