@@ -12,7 +12,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
 import { DashboardMenuComponent } from '../../components/dashboard-menu/dashboard-menu.component';
 import { DefaultDashboardListComponent } from '../../components/default-dashboard-list/default-dashboard-list.component';
 import { SortByBookmarkPipe } from '../../pipes/sort-by-bookmark.pipe';
-import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
+import { FilterByNamePipe } from '../../../shared/pipes/filter-by-name.pipe';
 import { DashboardMenuItemComponent } from '../../components/dashboard-menu-item/dashboard-menu-item.component';
 import { InterventionFormComponent } from '../../components/intervention-form/intervention-form.component';
 
