@@ -12,14 +12,10 @@ import { components } from './components';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 
-// Filters Modules
-import { modules } from './modules';
-
 @NgModule({
   imports: [
     CommonModule,
     NgxPaginationModule,
-    ...modules,
     StoreModule.forFeature('map', reducers),
     EffectsModule.forFeature(effects)
   ],
