@@ -17,7 +17,7 @@ import { ChartConfiguration } from '../../models/chart-configuration.model';
 import { ChartType } from '../../models/chart-type.model';
 import { CHART_TYPES } from '../../constants/chart-types.constant';
 
-import { drawChart } from '../../helpers';
+import { getChartObject } from '../../helpers';
 import { VisualizationExportService } from '../../../../services';
 
 @Component({
@@ -57,7 +57,10 @@ export class ChartItemComponent implements OnInit {
 
   drawChart(analyticsObject, chartConfiguration): void {
     if (chartConfiguration && analyticsObject) {
-      const chartObject: any = drawChart(analyticsObject, chartConfiguration);
+      const chartObject: any = getChartObject(
+        analyticsObject,
+        chartConfiguration
+      );
       if (chartObject) {
         setTimeout(() => {
           this.chart = Highcharts.chart(chartObject);

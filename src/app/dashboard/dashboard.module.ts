@@ -9,11 +9,11 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { containers } from './containers';
 import { components } from './components';
 import { pipes } from './pipes';
-import { directives } from './directives';
 import { modules } from './modules';
 
 import { reducers } from './store/reducers/index';
 import { effects } from './store/effects/index';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -23,8 +23,9 @@ import { effects } from './store/effects/index';
     TranslateModule.forChild(),
     ...modules,
     ...reducers,
-    effects
+    effects,
+    SharedModule
   ],
-  declarations: [...containers, ...components, ...pipes, ...directives]
+  declarations: [...containers, ...components, ...pipes]
 })
 export class DashboardModule {}

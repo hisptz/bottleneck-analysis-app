@@ -19,7 +19,7 @@ import * as fromDataGroupEffects from './store/effects';
 
 import { containers } from './containers';
 import { pipes } from './pipes';
-import { directives } from './directives';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -29,6 +29,7 @@ import { directives } from './directives';
     DragulaModule,
     ColorPickerModule,
     NgxPaginationModule,
+    SharedModule,
     StoreModule.forFeature('dataFilter', fromDataFilterReducer.reducer),
     StoreModule.forFeature('function', fromFunctionReducer.reducer),
     StoreModule.forFeature('functionRule', fromFunctionRuleReducer.reducer),
@@ -36,7 +37,7 @@ import { directives } from './directives';
     StoreModule.forFeature('indicator', fromIndicatorReducer.reducer),
     EffectsModule.forFeature(fromDataGroupEffects.effects)
   ],
-  declarations: [...directives, ...pipes, ...containers, ...components],
+  declarations: [...pipes, ...containers, ...components],
   exports: [...containers],
   providers: []
 })

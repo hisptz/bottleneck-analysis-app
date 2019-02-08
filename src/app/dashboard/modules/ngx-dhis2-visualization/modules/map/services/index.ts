@@ -1,6 +1,5 @@
 export * from './org-unit.service';
 export * from './geo-feature.service';
-export * from './relative-period.service';
 export * from './layer.service';
 export * from './analytics.service';
 export * from './system.service';

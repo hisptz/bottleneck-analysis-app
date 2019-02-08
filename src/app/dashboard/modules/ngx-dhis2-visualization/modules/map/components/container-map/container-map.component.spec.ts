@@ -9,11 +9,6 @@ import {
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MapFilterSectionComponent } from '../map-filter-section/map-filter-section.component';
 import { MapStyleComponent } from '../map-style/map-style.component';
-import {
-  OrgUnitFilterModule,
-  PeriodFilterModule,
-  DataFilterModule
-} from '../../modules';
 import { StoreModule } from '@ngrx/store';
 import { reducers, effects } from 'src/app/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -27,9 +22,6 @@ describe('ContainerMapComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NgxPaginationModule,
-        OrgUnitFilterModule,
-        PeriodFilterModule,
-        DataFilterModule,
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot(effects),
         RouterTestingModule,

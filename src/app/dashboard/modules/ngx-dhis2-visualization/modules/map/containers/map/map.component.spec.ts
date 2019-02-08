@@ -11,11 +11,6 @@ import {
 import { VisualizationLegendComponent } from '../visualization-legend/visualization-legend.component';
 import { DataTableComponent } from '../data-table/data-table.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import {
-  OrgUnitFilterModule,
-  DataFilterModule,
-  PeriodFilterModule
-} from '../../modules';
 
 import { StoreModule } from '@ngrx/store';
 import { reducers, effects } from 'src/app/store';
@@ -31,9 +26,6 @@ describe('MapComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NgxPaginationModule,
-        OrgUnitFilterModule,
-        DataFilterModule,
-        PeriodFilterModule,
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot(effects),
         RouterTestingModule,

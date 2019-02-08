@@ -14,7 +14,6 @@ import {
   trigger
 } from '@angular/animations';
 import { Store } from '@ngrx/store';
-import { Observable, BehaviorSubject } from 'rxjs';
 import { getDimensionItems } from '../../utils/analytics';
 import * as fromStore from '../../store';
 
@@ -54,7 +53,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   @Output() onLayoutUpdate: EventEmitter<any> = new EventEmitter<any>();
 
   showFilters: boolean;
-  selectedFilter: string = 'ORG_UNIT';
+  selectedFilter: string = 'STYLE';
   selectedDataItems: any = [];
   selectedPeriods: any = [];
   selectedLayer;

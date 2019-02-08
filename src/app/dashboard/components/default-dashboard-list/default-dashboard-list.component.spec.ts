@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DefaultDashboardListComponent } from './default-dashboard-list.component';
 import { InterventionFormComponent } from '../intervention-form/intervention-form.component';
-import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
+import { FilterByNamePipe } from '../../../shared/pipes/filter-by-name.pipe';
 import { effects } from 'src/app/store/effects';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from 'src/app/store';

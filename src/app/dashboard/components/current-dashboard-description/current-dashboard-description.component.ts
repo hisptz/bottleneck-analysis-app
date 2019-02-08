@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { getDataSelectionSummary } from '../../helpers';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-current-dashboard-description',
