@@ -7,11 +7,11 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { FilterByNamePipe } from '../../pipes/filter-by-name.pipe';
 import { StoreModule } from '@ngrx/store';
 import { reducers, effects } from 'src/app/store';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('SharingFilterComponent', () => {
   let component: SharingFilterComponent;
@@ -31,9 +31,10 @@ describe('SharingFilterComponent', () => {
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot(effects),
         RouterTestingModule,
-        HttpClientModule
+        HttpClientModule,
+        SharedModule
       ],
-      declarations: [SharingFilterComponent, LimitPipe, FilterByNamePipe]
+      declarations: [SharingFilterComponent, LimitPipe]
     }).compileComponents();
   }));
 

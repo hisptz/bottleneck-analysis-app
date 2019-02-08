@@ -3,11 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { VisualizationLegendComponent } from './visualization-legend.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MapFilterSectionComponent, MapStyleComponent } from '../../components';
-import {
-  OrgUnitFilterModule,
-  DataFilterModule,
-  PeriodFilterModule
-} from '../../modules';
 
 import { StoreModule } from '@ngrx/store';
 import { reducers, effects } from 'src/app/store';
@@ -23,9 +18,6 @@ describe('VisualizationLegendComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NgxPaginationModule,
-        OrgUnitFilterModule,
-        DataFilterModule,
-        PeriodFilterModule,
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot(effects),
         RouterTestingModule,

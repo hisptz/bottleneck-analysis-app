@@ -2,15 +2,15 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
-  Output,
-  OnChanges
+  Output
 } from '@angular/core';
-import * as fromPeriodFilterModel from './period-filter.model';
 import * as _ from 'lodash';
-import { PeriodService } from './period.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { SlicePipe } from '@angular/common';
+
+import * as fromPeriodFilterModel from './period-filter.model';
+import { PeriodService } from './period.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -99,10 +99,11 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
   }
 
   togglePeriod(period, e) {
-    if (this.periodConfig.singleSelection) {
-      this.deselectAllPeriods(e);
-    }
     e.stopPropagation();
+    if (this.periodConfig.singleSelection) {
+      this.deselectAllPeriods();
+    }
+
     const periodIndex = _.findIndex(
       this._periods,
       _.find(this._periods, ['id', period.id])
@@ -193,8 +194,10 @@ export class PeriodFilterComponent implements OnInit, OnChanges {
     }
   }
 
-  deselectAllPeriods(e) {
-    e.stopPropagation();
+  deselectAllPeriods(e?) {
+    if (e) {
+      e.stopPropagation();
+    }
     this._periods = this._periods
       .map((period: any) => {
         const newPeriod = { ...period };

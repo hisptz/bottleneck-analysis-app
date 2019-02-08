@@ -2,23 +2,22 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
-  Output,
-  OnDestroy
+  Output
 } from '@angular/core';
+import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
-import * as fromIcons from '../../icons';
-import * as fromConstants from '../../constants';
-import * as fromModels from '../../models';
 import * as fromHelpers from '../../helpers';
-
-import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
+import { ARROW_LEFT_ICON, ARROW_RIGHT_ICON, LIST_ICON } from '../../icons';
+import * as fromModels from '../../models';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
+import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
+import { DataFilterPreference } from '../../model/data-filter-preference.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -39,12 +38,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   selectedGroups: any[] = [];
 
   @Input()
-  dataFilterPreferences: {
-    singleSelection: boolean;
-    enabledSelections: string[];
-    hideSelectedPanel: boolean;
-    showGroupsOnStartup: boolean;
-  };
+  dataFilterPreferences: DataFilterPreference;
 
   @Input()
   dataGroupPreferences: {
@@ -66,9 +60,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   showGroups: boolean;
 
   // icons
-  listIcon: string;
-  arrowLeftIcon: string;
-  arrowRightIcon: string;
+  icons: { [name: string]: string };
 
   dataFilterGroups$: Observable<any[]>;
   currentDataFilterGroup$: Observable<any>;
@@ -110,31 +102,15 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
     this.showGroups = false;
 
-    this.listIcon = fromIcons.LIST_ICON;
-    this.arrowLeftIcon = fromIcons.ARROW_LEFT_ICON;
-    this.arrowRightIcon = fromIcons.ARROW_RIGHT_ICON;
+    this.icons = { LIST_ICON, ARROW_LEFT_ICON, ARROW_RIGHT_ICON };
 
     this.showGroupingPanel = false;
   }
 
   ngOnInit() {
     // set data filter selections
-    const enabledSelections = _.uniq([
-      'all',
-      ...this.dataFilterPreferences.enabledSelections
-    ]);
-    this.dataFilterSelections = _.filter(
-      fromConstants.DATA_FILTER_SELECTIONS || [],
-      (dataFilterSelection: fromModels.DataFilterSelection) => {
-        if (
-          !this.dataFilterPreferences ||
-          !this.dataFilterPreferences.enabledSelections
-        ) {
-          return true;
-        }
-
-        return enabledSelections.indexOf(dataFilterSelection.prefix) !== -1;
-      }
+    this.dataFilterSelections = fromHelpers.getDataFilterSelectionsBasedOnPreferences(
+      this.dataFilterPreferences
     );
 
     // Set show group status based on preferences
@@ -268,12 +244,12 @@ export class DataFilterComponent implements OnInit, OnDestroy {
                 ? false
                 : !dataFilterSelection.selected
               : toggledDataFilterSelection.prefix === dataFilterSelection.prefix
-                ? !dataFilterSelection.selected
-                : multipleSelection
-                  ? dataFilterSelection.prefix === 'all'
-                    ? false
-                    : dataFilterSelection.selected
-                  : false
+              ? !dataFilterSelection.selected
+              : multipleSelection
+              ? dataFilterSelection.prefix === 'all'
+                ? false
+                : dataFilterSelection.selected
+              : false
         };
       }
     );

@@ -7,11 +7,7 @@ import {
 } from '../../containers';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MapFilterSectionComponent } from '../map-filter-section/map-filter-section.component';
-import {
-  OrgUnitFilterModule,
-  DataFilterModule,
-  PeriodFilterModule
-} from '../../modules';
+
 import { MapStyleComponent } from '../map-style/map-style.component';
 
 import { StoreModule } from '@ngrx/store';
@@ -28,9 +24,6 @@ describe('MapVisualizerComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NgxPaginationModule,
-        OrgUnitFilterModule,
-        DataFilterModule,
-        PeriodFilterModule,
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot(effects),
         RouterTestingModule,
