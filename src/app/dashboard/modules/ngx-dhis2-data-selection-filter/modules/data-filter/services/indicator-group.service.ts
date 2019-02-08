@@ -3,8 +3,8 @@ import { of } from 'rxjs';
 import { map, catchError, switchMap, tap } from 'rxjs/operators';
 
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
-import { IndicatorGroup } from 'src/app/dashboard/modules/ngx-dhis2-visualization/modules/map/modules/data-filter/model/indicator-group';
 import { AppDatabaseService } from 'src/app/services/app-database.service';
+import { IndicatorGroup } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class IndicatorGroupService {

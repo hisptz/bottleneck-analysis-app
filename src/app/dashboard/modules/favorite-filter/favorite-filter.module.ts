@@ -7,16 +7,17 @@ import { StoreModule } from '@ngrx/store';
 import { favoriteFilterReducer } from './store/reducers/favorite-filter.reducer';
 import { TranslateModule } from '@ngx-translate/core';
 import { pipes } from './pipes';
-import { directives } from './directives';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     StoreModule.forFeature('favoriteFilter', favoriteFilterReducer),
     EffectsModule.forFeature([FavoriteFilterEffects]),
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
+    SharedModule
   ],
-  declarations: [FavoriteFilterComponent, ...pipes, ...directives],
+  declarations: [FavoriteFilterComponent, ...pipes],
   exports: [FavoriteFilterComponent]
 })
 export class FavoriteFilterModule {}
