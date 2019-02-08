@@ -3,7 +3,6 @@ import { async, TestBed } from '@angular/core/testing';
 import { containers } from './containers';
 import { components } from './components';
 import { pipes } from './pipes';
-import { directives } from './directives';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxDhis2VisualizationModule } from './modules/ngx-dhis2-visualization/ngx-dhis2-visualization.module';
@@ -24,7 +23,7 @@ describe('DashboardModule', () => {
         FavoriteFilterModule,
         SharingFilterModule
       ],
-      declarations: [...containers, ...components, ...pipes, ...directives]
+      declarations: [...containers, ...components, ...pipes]
     }).compileComponents();
   }));
 
