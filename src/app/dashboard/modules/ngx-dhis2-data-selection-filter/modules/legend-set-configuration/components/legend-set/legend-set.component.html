@@ -1,8 +1,3 @@
 <div *ngFor="let legend of legendSet.legends">
-  <app-legend-configuration 
-  (onUpdateLegendRangeValue)="updateLegendRangeValues($event)" 
-  (onLegendItemDeleted)="onLegendItemDeleted($event)" 
-  (legendUpdates)="onLegendUpdates($event)" 
-  [legend]="legend"></app-legend-configuration>
+  <app-legend-configuration (legendUpdates)="onLegendUpdates($event)" (deleteLegend)="onDeleteLegend($event)" [legend]="legend"></app-legend-configuration>
 </div>
-

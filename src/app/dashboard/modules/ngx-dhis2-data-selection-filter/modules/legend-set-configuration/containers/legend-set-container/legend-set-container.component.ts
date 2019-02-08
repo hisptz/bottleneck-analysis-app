@@ -20,6 +20,8 @@ export class LegendSetContainerComponent implements OnInit, OnDestroy {
   selectedItems;
   @Input()
   legendSetEntities;
+  @Input()
+  legendItems: LegendSet[];
 
   @Output()
   legendSetConfigurationClose = new EventEmitter();
@@ -38,25 +40,19 @@ export class LegendSetContainerComponent implements OnInit, OnDestroy {
       this.legendSetEntities
     );
 
-    let naLegent = {
-      id: '4',
-      color: '	#B0B0B0',
-      name: 'N/A',
-      startValue: 100,
-      endValue: 100,
-    }
-    console.log("LEGEND SET: " + JSON.stringify(legendSets));
     this.currentLegendSet =
       legendSets && legendSets.length > 0 ? legendSets[0].id : '';
-     
+
     // this.legendSets = legendSets;
 
     this.legendSets = _.forEach(legendSets, legendData => {
-      (legendData.legends.length > 0) ? 
-          this.addNotApplicableLegendStatus(legendData.legends, legendHelper.getDefaultLegends()) : 
-          legendData.legends = legendHelper.getDefaultLegends();
+      legendData.legends.length > 0
+        ? this.addNotApplicableLegendStatus(
+            legendData.legends,
+            legendHelper.getDefaultLegends()
+          )
+        : (legendData.legends = legendHelper.getDefaultLegends());
     });
-
   }
 
   addNotApplicableLegendStatus(legends, defaultObj) {
@@ -67,16 +63,16 @@ export class LegendSetContainerComponent implements OnInit, OnDestroy {
     });
 
     let leg = {
-      id: "RFKK007nOS9",
-      name: "High",
-      color: "#3eef9c",
+      id: 'RFKK007nOS9',
+      name: 'High',
+      color: '#3eef9c',
       endValue: 100,
       startValue: 61
     };
 
-    
-
-    (!_.some(legends, { name : 'N/A'})) ? localLegends.push(defaultObj[notApplicableIndex]) : localLegends; 
+    !_.some(legends, { name: 'N/A' })
+      ? localLegends.push(defaultObj[notApplicableIndex])
+      : localLegends;
     return localLegends;
   }
 

@@ -37,6 +37,9 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   @Input()
   globalDataSelections: VisualizationDataSelection[];
 
+  @Input()
+  globalDataSelectionSummary: string;
+
   selectionFilterConfig: SelectionFilterConfig;
   showFavoriteFilter: boolean;
 
