@@ -14,7 +14,6 @@ import {
   trigger
 } from '@angular/animations';
 import { Store } from '@ngrx/store';
-import { Observable, BehaviorSubject } from 'rxjs';
 import { getDimensionItems } from '../../utils/analytics';
 import * as fromStore from '../../store';
 
