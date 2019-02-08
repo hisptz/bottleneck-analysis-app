@@ -20,6 +20,8 @@ export class LegendSetContainerComponent implements OnInit, OnDestroy {
   selectedItems;
   @Input()
   legendSetEntities;
+  @Input()
+  legendItems: LegendSet[];
 
   @Output()
   legendSetConfigurationClose = new EventEmitter();
@@ -37,6 +39,8 @@ export class LegendSetContainerComponent implements OnInit, OnDestroy {
       this.selectedItems,
       this.legendSetEntities
     );
+
+    console.log(this.legendSets);
 
     this.currentLegendSet =
       legendSets && legendSets.length > 0 ? legendSets[0].id : '';
