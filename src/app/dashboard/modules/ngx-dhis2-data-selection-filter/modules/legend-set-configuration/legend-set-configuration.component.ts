@@ -6,6 +6,7 @@ import {
   EventEmitter,
   OnDestroy
 } from '@angular/core';
+import { flatten as _flatten, map as _map, filter as _filter } from 'lodash';
 import * as _ from 'lodash';
 import { LegendSet } from './models/legend-set';
 import { Store, select } from '@ngrx/store';
@@ -21,7 +22,7 @@ import { UpsetLagendSets } from '../../../../../store/actions/legend-set.action'
 })
 export class LegendSetConfigurationComponent implements OnInit, OnDestroy {
   @Input()
-  selectedItems;
+  selectedItems: any[];
 
   @Input()
   selectedGroups: any[];
@@ -32,6 +33,16 @@ export class LegendSetConfigurationComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<State>) {
     this.legendSetEntities$ = this.store.pipe(select(getLegendSetsEntities));
+  }
+
+  get legendItems(): LegendSet[] {
+    return _filter(
+      _flatten(
+        _map(this.selectedItems || [], (selectedItem: any) =>
+          selectedItem ? selectedItem.legendSet : null
+        )
+      )
+    );
   }
 
   ngOnInit() {}

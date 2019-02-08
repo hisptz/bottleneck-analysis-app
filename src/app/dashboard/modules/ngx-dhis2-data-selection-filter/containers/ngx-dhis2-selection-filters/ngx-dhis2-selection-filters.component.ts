@@ -90,6 +90,10 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
     return periodObject ? periodObject.items : [];
   }
 
+  get selectedLegendSets(): any[] {
+    return [];
+  }
+
   get layoutItem(): any {
     return _.groupBy(
       _.map(this.dataSelections, dataSelection => {

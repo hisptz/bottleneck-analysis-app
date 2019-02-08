@@ -24,4 +24,11 @@ export class LegendSetComponent implements OnInit {
       'startValue'
     );
   }
+
+  onDeleteLegend(data) {
+    const { id } = data;
+    this.legendSet.legends = _.filter(this.legendSet.legends, legend => {
+      return legend.id !== id;
+    });
+  }
 }
