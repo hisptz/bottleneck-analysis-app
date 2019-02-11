@@ -15,22 +15,6 @@ interface DefaultDashboard {
   showDeleteDialog?: boolean;
 }
 
-const DASHBOARD_ITEMS = [
-  {
-    shape: 'FULL_WIDTH',
-    type: 'CHART'
-  },
-  {
-    shape: 'FULL_WIDTH',
-    type: 'REPORT_TABLE'
-  },
-  {
-    shape: 'FULL_WIDTH',
-    type: 'APP',
-    appKey: 'bna-widget'
-  }
-];
-
 @Component({
   selector: 'app-default-dashboard-list',
   templateUrl: './default-dashboard-list.component.html',
@@ -85,7 +69,7 @@ export class DefaultDashboardListComponent implements OnInit {
       e.stopPropagation();
     }
     this.showDefaultList = false;
-    this.create.emit({ ...dashboard, dashboardItems: DASHBOARD_ITEMS });
+    this.create.emit(dashboard);
   }
 
   onToggleInterventionList(e) {

@@ -11,3 +11,4 @@ export * from './get-data-selection-summary.helper';
 export * from './get-sanitized-interventions.helper';
 export * from './get-combined-visualization-layers.helper';
 export * from './get-merged-global-data-selections.helper';
+export * from './get-sanitized-dashboard-item.helper';

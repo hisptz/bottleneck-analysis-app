@@ -284,9 +284,7 @@
           "shape": "FULL_WIDTH",
           "appKey": "bna-widget"
         }
-      ],
-      "externalAccess": false,
-      "supportBookmark": false
+      ]
     },
     { "name": "Treatment of Severe Acute Malnutrition" },
     { "name": "Full Immunization" },

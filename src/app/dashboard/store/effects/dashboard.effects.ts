@@ -335,20 +335,8 @@ export class DashboardEffects {
           id: fromRootHelpers.generateUid(),
           dashboardItems: _.map(
             action.dashboard.dashboardItems || [],
-            (dashboardItem: any) => {
-              return dashboardItem.type !== 'APP'
-                ? {
-                    ...dashboardItem,
-                    id: fromRootHelpers.generateUid(),
-                    [_.camelCase(dashboardItem.type)]: {
-                      id: fromRootHelpers.generateUid()
-                    }
-                  }
-                : {
-                    ...dashboardItem,
-                    id: fromRootHelpers.generateUid()
-                  };
-            }
+            (dashboardItem: any) =>
+              fromDashboardHelpers.getSanitizedDashboardItem(dashboardItem)
           )
         };
         this.store.dispatch(
