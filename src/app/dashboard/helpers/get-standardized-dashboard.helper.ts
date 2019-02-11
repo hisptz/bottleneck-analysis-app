@@ -4,6 +4,7 @@ import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.help
 import { Dashboard } from '../models';
 import { DataGroup } from '../../models/data-group.model';
 import { getDashboardAccess } from './get-dashboard-access.helper';
+import { getDefaultOrgUnits } from './get-default-org-units.helper';
 
 export function getStandardizedDashboard(
   dashboard: any,
@@ -15,25 +16,7 @@ export function getStandardizedDashboard(
   dashboardPreferences = {
     startWithDynamicOrgUnits: true
   };
-  const orgUnits = dashboardPreferences.startWithDynamicOrgUnits
-    ? [
-        {
-          id: 'USER_ORGUNIT',
-          name: 'User Org unit',
-          type: 'USER_ORGANISATION_UNIT'
-        }
-      ]
-    : _.map(
-        currentUser.dataViewOrganisationUnits.length > 0
-          ? currentUser.dataViewOrganisationUnits
-          : currentUser.organisationUnits,
-        (orgUnit: any) => {
-          return {
-            ...orgUnit,
-            type: 'ORGANISATION_UNIT'
-          };
-        }
-      );
+  const orgUnits = getDefaultOrgUnits(currentUser, dashboardPreferences);
   return {
     id: dashboard.id,
     name: dashboard.name,

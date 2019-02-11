@@ -17,27 +17,21 @@ export function getMergedDataSelections(
     app: { includeOrgUnitChildren: false }
   }
 ): any[] {
-  const unAvailableDataSelections: VisualizationDataSelection[] = _.filter(
-    newDataSelections,
-    (dataSelection: VisualizationDataSelection) =>
-      !_.find(existingDataSelections, ['dimension', dataSelection.dimension])
-  );
-
-  const mergedDataSelections = _.map(
-    existingDataSelections,
-    (dataSelection: VisualizationDataSelection) => {
-      const matchingDataSelection: VisualizationDataSelection = _.find(
-        newDataSelections,
-        ['dimension', dataSelection.dimension]
-      );
-
-      return updateDataSelectionBasedOnPreferences(
-        matchingDataSelection || dataSelection,
-        visualizationType,
-        favoritePreferences
-      );
-    }
-  );
-
-  return [...unAvailableDataSelections, ...mergedDataSelections];
+  return [
+    ..._.filter(
+      newDataSelections || [],
+      (dataSelection: VisualizationDataSelection) =>
+        !_.find(existingDataSelections, ['dimension', dataSelection.dimension])
+    ),
+    ..._.map(
+      existingDataSelections || [],
+      (dataSelection: VisualizationDataSelection) =>
+        updateDataSelectionBasedOnPreferences(
+          _.find(newDataSelections, ['dimension', dataSelection.dimension]) ||
+            dataSelection,
+          visualizationType,
+          favoritePreferences
+        )
+    )
+  ];
 }

@@ -1,48 +1,35 @@
 import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-
-import { Observable, of, from } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import {
-  switchMap,
-  map,
   catchError,
-  tap,
-  withLatestFrom,
+  map,
   mergeMap,
-  take
+  switchMap,
+  take,
+  tap,
+  withLatestFrom
 } from 'rxjs/operators';
 
-// ngrx store
-import { Store } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
-// reducers
+import * as fromRootHelpers from '../../../helpers';
+import * as fromRootModels from '../../../models';
+import * as fromRootActions from '../../../store/actions';
 import * as fromRootReducer from '../../../store/reducers';
-
-// selectors
 import * as fromRootSelectors from '../../../store/selectors';
+import * as fromDashboardHelpers from '../../helpers';
+import { getDataSelectionsForDashboardCreation } from '../../helpers/get-data-selections-for-dashboard-creation.helper';
+import * as fromDashboardModels from '../../models';
+import * as fromVisualizationHelpers from '../../modules/ngx-dhis2-visualization/helpers';
+import * as fromVisualizationModels from '../../modules/ngx-dhis2-visualization/models';
+import * as fromVisualizationActions from '../../modules/ngx-dhis2-visualization/store/actions';
+import * as fromVisualizationSelectors from '../../modules/ngx-dhis2-visualization/store/selectors';
+import { DashboardService } from '../../services/dashboard.service';
+import * as fromDashboardVisualizationActions from '../actions/dashboard-visualization.actions';
+import * as fromDashboardActions from '../actions/dashboard.actions';
 import * as fromDashboardSelectors from '../selectors';
 import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-visualization.selectors';
-import * as fromVisualizationSelectors from '../../modules/ngx-dhis2-visualization/store/selectors';
-
-// services
-import { DashboardService } from '../../services/dashboard.service';
-
-// actions
-import * as fromRootActions from '../../../store/actions';
-import * as fromDashboardActions from '../actions/dashboard.actions';
-import * as fromDashboardVisualizationActions from '../actions/dashboard-visualization.actions';
-import * as fromVisualizationActions from '../../modules/ngx-dhis2-visualization/store/actions';
-
-// helpers
-import * as fromRootHelpers from '../../../helpers';
-import * as fromDashboardHelpers from '../../helpers';
-import * as fromVisualizationHelpers from '../../modules/ngx-dhis2-visualization/helpers';
-
-// models
-import * as fromRootModels from '../../../models';
-import * as fromDashboardModels from '../../models';
-import * as fromVisualizationModels from '../../modules/ngx-dhis2-visualization/models';
 
 @Injectable()
 export class DashboardEffects {
@@ -330,25 +317,21 @@ export class DashboardEffects {
           action.systemInfo,
           action.dataGroups
         );
+
+        const dataSelections = getDataSelectionsForDashboardCreation(
+          action.dashboard ? action.dashboard.dashboardItems || [] : [],
+          action.dataGroups,
+          action.systemInfo,
+          action.currentUser
+        );
+
         const dashboardObject = {
           ...dashboard,
           id: fromRootHelpers.generateUid(),
           dashboardItems: _.map(
             action.dashboard.dashboardItems || [],
-            (dashboardItem: any) => {
-              return dashboardItem.type !== 'APP'
-                ? {
-                    ...dashboardItem,
-                    id: fromRootHelpers.generateUid(),
-                    [_.camelCase(dashboardItem.type)]: {
-                      id: fromRootHelpers.generateUid()
-                    }
-                  }
-                : {
-                    ...dashboardItem,
-                    id: fromRootHelpers.generateUid()
-                  };
-            }
+            (dashboardItem: any) =>
+              fromDashboardHelpers.getSanitizedDashboardItem(dashboardItem)
           )
         };
         this.store.dispatch(
@@ -375,7 +358,8 @@ export class DashboardEffects {
               ),
               new fromDashboardVisualizationActions.LoadDashboardVisualizationsAction(
                 dashboardObject.id,
-                ''
+                '',
+                dataSelections
               ),
               new fromDashboardActions.SetCurrentDashboardAction(
                 dashboardObject.id

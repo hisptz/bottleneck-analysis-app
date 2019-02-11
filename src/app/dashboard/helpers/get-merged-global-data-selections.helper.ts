@@ -1,30 +1,18 @@
 import {
-  map as _map,
   each as _each,
+  filter as _filter,
   find as _find,
+  map as _map,
   slice as _slice,
-  uniqBy as _uniqBy,
   some as _some,
-  filter as _filter
+  uniqBy as _uniqBy
 } from 'lodash';
-import {
-  VisualizationLayer,
-  VisualizationDataSelection
-} from '../modules/ngx-dhis2-visualization/models';
-import { getSelectionDimensionsFromAnalytics } from '../modules/ngx-dhis2-visualization/helpers';
 
-export function getMergedGlobalDataSelections(
-  visualizationLayers: VisualizationLayer[],
-  retrieveFromAnalytics?: boolean
+import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
+
+export function getMergedGlobalDataSelectionsFromVisualizationLayers(
+  dataSelectionsArray: Array<VisualizationDataSelection[]>
 ) {
-  const dataSelectionsArray: Array<VisualizationDataSelection[]> = _map(
-    visualizationLayers,
-    (visualizationLayer: VisualizationLayer) =>
-      retrieveFromAnalytics && visualizationLayer.analytics
-        ? getSelectionDimensionsFromAnalytics(visualizationLayer.analytics)
-        : visualizationLayer.dataSelections
-  );
-
   let mergedDataSelections = [];
 
   _each(dataSelectionsArray, (dataSelections: VisualizationDataSelection[]) => {

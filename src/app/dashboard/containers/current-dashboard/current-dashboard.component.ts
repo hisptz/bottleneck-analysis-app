@@ -20,7 +20,8 @@ import { User, SystemInfo, LegendSet } from '../../../models';
 // constant
 import {
   WELCOMING_DESCRIPTION,
-  WELCOMING_TITLE
+  WELCOMING_TITLE,
+  EMPTY_VISUALIZATION
 } from '../../constants/welcoming-messages.constants';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
 
@@ -99,8 +100,7 @@ export class CurrentDashboardComponent implements OnInit {
 
     this.welcomingTitle = WELCOMING_TITLE;
     this.welcomingDescription = WELCOMING_DESCRIPTION;
-    this.emptyVisualizationMessage =
-      'There are no items on this dashboard, search for charts, tables, maps and many more and add them to your dashboard';
+    this.emptyVisualizationMessage = EMPTY_VISUALIZATION;
   }
 
   ngOnInit() {}

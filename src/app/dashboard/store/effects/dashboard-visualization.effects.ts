@@ -22,6 +22,7 @@ import * as fromDashboardSelectors from '../selectors';
 // helpers
 import * as fromDashboardHelpers from '../../helpers';
 import * as fromVisualizationHelpers from '../../modules/ngx-dhis2-visualization/helpers';
+import { getDashboardVisualizationsFromDashboardItems } from '../../helpers';
 
 @Injectable()
 export class DashboardVisualizationEffects {
@@ -54,26 +55,23 @@ export class DashboardVisualizationEffects {
             )
           )
         );
+
+        /** TODO: dashboard is loaded againg from server as at first few items were loaded,
+         *   this may not be the case when using datastore, consider refactoring
+         **/
         return this.dashboardService
           .load(action.dashboardId, dashboardSettings)
           .pipe(
             map((dashboard: any) => {
-              const dashboardVisualizations: any[] = _.map(
-                dashboard && dashboard.dashboardItems
-                  ? dashboard.dashboardItems
-                  : [],
-                (dashboardItem: any) => {
-                  return {
-                    ...dashboardItem,
-                    isOpen: true,
-                    dashboardId: action.dashboardId
-                  };
-                }
+              const dashboardVisualizations: any[] = getDashboardVisualizationsFromDashboardItems(
+                dashboard ? dashboard.dashboardItems || [] : [],
+                action.dashboardId
               );
               return new fromDashboardActions.LoadDashboardVisualizationsSuccessAction(
                 action.dashboardId,
                 dashboardVisualizations,
-                action.currentVisualizationId
+                action.currentVisualizationId,
+                action.dataSelections
               );
             }),
             catchError((error: any) =>
@@ -111,7 +109,7 @@ export class DashboardVisualizationEffects {
           dashboardItem =>
             fromVisualizationHelpers.getStandardizedVisualizationObject(
               dashboardItem,
-              globalSelections
+              action.dataSelections || globalSelections
             )
         );
 
