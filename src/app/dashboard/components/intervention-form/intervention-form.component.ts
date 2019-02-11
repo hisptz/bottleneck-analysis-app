@@ -23,7 +23,25 @@ export class InterventionFormComponent implements OnInit {
   @Output()
   close: EventEmitter<any> = new EventEmitter<any>();
   constructor() {
-    this.intervention = { id: generateUid(), name: 'Untitled' };
+    this.intervention = {
+      id: generateUid(),
+      name: 'Untitled',
+      dashboardItems: [
+        {
+          shape: 'FULL_WIDTH',
+          type: 'CHART'
+        },
+        {
+          shape: 'FULL_WIDTH',
+          type: 'REPORT_TABLE'
+        },
+        {
+          shape: 'FULL_WIDTH',
+          type: 'APP',
+          appKey: 'bna-widget'
+        }
+      ]
+    };
   }
 
   get isNotUnique() {

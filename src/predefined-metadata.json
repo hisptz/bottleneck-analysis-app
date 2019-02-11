@@ -8,5 +8,292 @@
     { "name": "Antibiotics for Pneumonia" },
     { "name": "DPT3 Immunization" },
     { "name": "Focused ANC" }
+  ],
+  "dashboards": [
+    {
+      "name": "ARVs for PMTCT",
+      "dashboardItems": [
+        {
+          "type": "CHART",
+          "chart": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "name": "Availability of ART",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "Availability of Trained PMTCT Providers",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "Initial Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "Continuous Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "Effective Coverage/Quality PMTCT Infants",
+                    "type": "INDICATOR"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "Availability of ART"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "Availability of Trained PMTCT Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "Access to PMTCT Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "Initial Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "Continuous Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "Effective Coverage/Quality PMTCT Infants"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ],
+            "showData": true,
+            "subtitle": null,
+            "hideTitle": false,
+            "prototype": {},
+            "sortOrder": 0,
+            "hideLegend": false,
+            "description": "",
+            "hideSubtitle": false,
+            "reportParams": {},
+            "baseLineLabel": null,
+            "baseLineValue": null,
+            "completedOnly": false,
+            "rangeAxisLabel": null,
+            "rangeAxisSteps": null,
+            "regressionType": "NONE",
+            "aggregationType": "DEFAULT",
+            "domainAxisLabel": null,
+            "targetLineLabel": null,
+            "targetLineValue": null,
+            "cumulativeValues": false,
+            "hideEmptyRowItems": "NONE",
+            "rangeAxisDecimals": null,
+            "rangeAxisMaxValue": null,
+            "rangeAxisMinValue": null,
+            "percentStackedValues": false,
+            "noSpaceBetweenColumns": false
+          },
+          "shape": "FULL_WIDTH"
+        },
+        {
+          "type": "REPORT_TABLE",
+          "shape": "FULL_WIDTH",
+          "reportTable": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "name": "Availability of ART",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "Availability of Trained PMTCT Providers",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "Initial Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "Continuous Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "Effective Coverage/Quality PMTCT Infants",
+                    "type": "INDICATOR"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "Availability of ART"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "Availability of Trained PMTCT Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "Access to PMTCT Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "Initial Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "Continuous Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "Effective Coverage/Quality PMTCT Infants"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT_CHILDREN",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ]
+          }
+        },
+        {
+          "type": "APP",
+          "shape": "FULL_WIDTH",
+          "appKey": "bna-widget"
+        }
+      ],
+      "externalAccess": false,
+      "supportBookmark": false
+    },
+    { "name": "Treatment of Severe Acute Malnutrition" },
+    { "name": "Full Immunization" },
+    { "name": "Skilled Delivery" },
+    { "name": "Vitamin A Supplementation" },
+    { "name": "Antibiotics for Pneumonia" },
+    { "name": "DPT3 Immunization" },
+    { "name": "Focused ANC" }
   ]
 }
