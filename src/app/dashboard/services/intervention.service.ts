@@ -25,12 +25,12 @@ export class InterventionService {
         )
       ),
       catchError((error: any) =>
-        error.status !== 404 ? of([]) : this.generatePredifinedInterventions()
+        error.status !== 404 ? of([]) : this.getPredifinedInterventions()
       )
     );
   }
 
-  generatePredifinedInterventions() {
+  getPredifinedInterventions() {
     return this.loadPredefinedInterventions().pipe(
       switchMap((interventions: any[]) => {
         return forkJoin(
@@ -46,7 +46,7 @@ export class InterventionService {
 
   loadPredefinedInterventions() {
     return this.http.get('predefined-metadata.json', { useRootUrl: true }).pipe(
-      map((res: any) => res.interventions || []),
+      map((res: any) => res.dashboards || []),
       catchError(() => of([]))
     );
   }

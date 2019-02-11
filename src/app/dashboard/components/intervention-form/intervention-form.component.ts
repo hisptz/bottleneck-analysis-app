@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { generateUid } from '../../../helpers/generate-uid.helper';
 import { Intervention } from '../../models/intervention.model';
+import { DASHBOARD_ITEMS } from '../../constants/default-dashboard-items.constant';
 
 @Component({
   selector: 'app-intervention-form',
@@ -23,7 +24,11 @@ export class InterventionFormComponent implements OnInit {
   @Output()
   close: EventEmitter<any> = new EventEmitter<any>();
   constructor() {
-    this.intervention = { id: generateUid(), name: 'Untitled' };
+    this.intervention = {
+      id: generateUid(),
+      name: 'Untitled',
+      dashboardItems: DASHBOARD_ITEMS
+    };
   }
 
   get isNotUnique() {

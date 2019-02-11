@@ -1,6 +1,12 @@
 import { TableConfiguration } from '../models/table-configuration';
 import { LegendSet } from '../models/legend-set.model';
-const USE_BY_DATA_ITEM_LEGEND = 'BY_DATA_ITEM';
+import { getTableTitleIndex } from './get-table-index.helper';
+import { getTableColSpan } from './get-table-col-span.helper';
+import { prepareSingleCategories } from './prepare-single-categories.helper';
+import { checkForZeroTableValues } from './check-for-zero-table-values.helper';
+import { getTableDataValue } from './get-table-data-value.helper';
+import { getaTableDataValueColor } from './get-table-data-value-color.helper';
+import { getTableLegendSets } from './get-table-legend-sets.helper';
 
 export function drawTable(
   analyticsObject,
@@ -40,15 +46,16 @@ export function drawTable(
     for (const item of tableConfiguration.columns) {
       table.headers[0].items.push({
         name:
-          analyticsObject.headers[getTitleIndex(analyticsObject.headers, item)]
-            .column,
+          analyticsObject.headers[
+            getTableTitleIndex(analyticsObject.headers, item)
+          ].column,
         span: 1
       });
     }
     for (const item of analyticsObject.rows) {
       const column_items = [];
       for (const col of tableConfiguration.columns) {
-        const index = getTitleIndex(analyticsObject.headers, col);
+        const index = getTableTitleIndex(analyticsObject.headers, col);
         column_items.push({
           name: '',
           display: true,
@@ -68,20 +75,22 @@ export function drawTable(
       table.titlesAvailable = true;
       for (const item of tableConfiguration.columns) {
         table.titles.column.push(
-          analyticsObject.headers[getTitleIndex(analyticsObject.headers, item)]
-            .column
+          analyticsObject.headers[
+            getTableTitleIndex(analyticsObject.headers, item)
+          ].column
         );
       }
       for (const item of tableConfiguration.rows) {
         table.titles.rows.push(
-          analyticsObject.headers[getTitleIndex(analyticsObject.headers, item)]
-            .column
+          analyticsObject.headers[
+            getTableTitleIndex(analyticsObject.headers, item)
+          ].column
         );
       }
     }
 
     for (const columnItem of tableConfiguration.columns) {
-      const dimension = calculateColSpan(
+      const dimension = getTableColSpan(
         analyticsObject,
         tableConfiguration.columns,
         columnItem
@@ -150,7 +159,7 @@ export function drawTable(
     const rows_length = tableConfiguration.rows.length;
     const row_items_array = [];
     for (let i = 0; i < rows_length; i++) {
-      const dimension = calculateColSpan(
+      const dimension = getTableColSpan(
         analyticsObject,
         tableConfiguration.rows,
         tableConfiguration.rows[i]
@@ -213,16 +222,16 @@ export function drawTable(
           }
           item.items.push({
             name: '',
-            val: getDataValue(analyticsObject, dataItem),
-            color: getDataValueColor(
-              getLegendSets(
+            val: getTableDataValue(analyticsObject, dataItem),
+            color: getaTableDataValueColor(
+              getTableLegendSets(
                 dataItem,
                 legendClasses,
                 legendSets,
                 tableConfiguration,
                 analyticsObject.metaData
               ),
-              getDataValue(analyticsObject, dataItem)
+              getTableDataValue(analyticsObject, dataItem)
             ),
             row_span: '1',
             display: true
@@ -232,7 +241,9 @@ export function drawTable(
           tableConfiguration.hasOwnProperty('hideEmptyRows') &&
           tableConfiguration.hideEmptyRows
         ) {
-          if (!checkZeros(tableConfiguration.rows.length, item.items)) {
+          if (
+            !checkForZeroTableValues(tableConfiguration.rows.length, item.items)
+          ) {
             table.rows.push(item);
           }
         } else {
@@ -253,7 +264,7 @@ export function drawTable(
         }
         item.items.push({
           name: '',
-          val: getDataValue(analyticsObject, dataItem),
+          val: getTableDataValue(analyticsObject, dataItem),
           row_span: '1',
           display: true
         });
@@ -262,7 +273,9 @@ export function drawTable(
         tableConfiguration.hasOwnProperty('hideEmptyRows') &&
         tableConfiguration.hideEmptyRows
       ) {
-        if (!checkZeros(tableConfiguration.rows.length, item.items)) {
+        if (
+          !checkForZeroTableValues(tableConfiguration.rows.length, item.items)
+        ) {
           table.rows.push(item);
         }
       } else {
@@ -274,150 +287,4 @@ export function drawTable(
   // todo improve total options to also work for event table
   // return _getSanitizedTableObject(table, tableConfiguration);
   return table;
-}
-
-function getTitleIndex(analyticsObjectHeaders, name: string) {
-  let index = 0;
-  let counter = 0;
-  for (const header of analyticsObjectHeaders) {
-    if (header.name === name) {
-      index = counter;
-    }
-    counter++;
-  }
-  return index;
-}
-
-function calculateColSpan(analyticsObject, array, item) {
-  const indexOfItem = array.indexOf(item);
-  const array_length = array.length;
-  const last_index = array_length - 1;
-  const dimensions = { col_span: 1, duplication: 1 };
-  for (let i = last_index; i > indexOfItem; i--) {
-    const arr = prepareSingleCategories(analyticsObject, array[i]);
-    dimensions.col_span = dimensions.col_span * arr.length;
-  }
-  for (let i = 0; i < indexOfItem; i++) {
-    const arr = prepareSingleCategories(analyticsObject, array[i]);
-    dimensions.duplication = dimensions.duplication * arr.length;
-  }
-  return dimensions;
-}
-
-function prepareSingleCategories(
-  initialAnalytics,
-  itemIdentifier,
-  preDefinedItems = []
-) {
-  const analyticsObject = sanitizeIncomingAnalytics(initialAnalytics);
-  const structure = [];
-  if (preDefinedItems.length === 0) {
-    for (const val of getMetadataArray(analyticsObject, itemIdentifier)) {
-      structure.push({
-        name: analyticsObject.metaData.names[val],
-        uid: val,
-        type: itemIdentifier
-      });
-    }
-  }
-  if (preDefinedItems.length !== 0) {
-    for (const val of preDefinedItems) {
-      structure.push({
-        name: analyticsObject.metaData.names[val],
-        uid: val,
-        type: itemIdentifier
-      });
-    }
-  }
-  return structure;
-}
-
-function sanitizeIncomingAnalytics(analyticsObject: any) {
-  return analyticsObject;
-}
-
-function getMetadataArray(analyticsObject, metadataType: string) {
-  let metadataArray = [];
-  if (metadataType === 'dx') {
-    metadataArray = analyticsObject.metaData.dx;
-  } else if (metadataType === 'ou') {
-    metadataArray = analyticsObject.metaData.ou;
-  } else if (metadataType === 'co') {
-    metadataArray = analyticsObject.metaData.co;
-  } else if (metadataType === 'pe') {
-    metadataArray = analyticsObject.metaData.pe;
-  } else {
-    metadataArray = analyticsObject.metaData[metadataType];
-  }
-  return metadataArray;
-}
-
-function getDataValue(analyticsObject, dataItems = []) {
-  let num = null;
-  for (const value of analyticsObject.rows) {
-    let counter = 0;
-    for (const item of dataItems) {
-      if (
-        value[getTitleIndex(analyticsObject.headers, item.type)] === item.value
-      ) {
-        counter++;
-      }
-    }
-    if (counter === dataItems.length) {
-      if (isNaN(value[getTitleIndex(analyticsObject.headers, 'value')])) {
-        num = value[getTitleIndex(analyticsObject.headers, 'value')];
-      } else {
-        num += parseFloat(
-          value[getTitleIndex(analyticsObject.headers, 'value')]
-        );
-      }
-    }
-  }
-  return num;
-}
-
-function getDataValueColor(legendItems: any = [], value) {
-  const isLast = index => index === legendItems.length - 1;
-  const dataItem =
-    value &&
-    (legendItems || []).find(
-      (item, index) =>
-        value >= item.startValue &&
-        (value < item.endValue || (isLast(index) && value === item.endValue))
-    );
-
-  return dataItem && dataItem.color;
-}
-
-function getLegendSets(
-  dataItem,
-  legendClasses,
-  legendSets,
-  configuration,
-  metaData
-) {
-  const { legendDisplayStrategy } = configuration;
-  const { items } = metaData;
-
-  if (legendDisplayStrategy === USE_BY_DATA_ITEM_LEGEND) {
-    const dx = dataItem.find(dItem => dItem.type === 'dx');
-    const legendSetId =
-      dx && dx.value && items[dx.value] && items[dx.value]['legendSet'];
-    const legendSet =
-      legendSetId &&
-      legendSets &&
-      legendSets.find(({ id }) => id === legendSetId);
-    return legendSet && legendSet.legends;
-  }
-  return legendClasses;
-}
-
-function checkZeros(stating_length, array): boolean {
-  let checker = true;
-  for (let i = stating_length; i < array.length; i++) {
-    if (array[i].name === '' && array[i].val != null) {
-      checker = false;
-    }
-  }
-  return checker;
 }

@@ -14,7 +14,7 @@ export class LegendConfigurationComponent implements OnInit {
   color: string;
   name: string;
   startValue: number;
-  endValue: any;
+  endValue: number;
 
   deleteIcon: string;
   lessThanIcon: string;
@@ -58,19 +58,17 @@ export class LegendConfigurationComponent implements OnInit {
     const { id } = this.legend;
     const color = this.color;
     const name = this.name;
+
     const startValue =
-      this.startValue &&
-      (!isNaN(this.startValue) || this.startValue === Number.NEGATIVE_INFINITY)
+      !isNaN(this.startValue) || this.startValue === Number.NEGATIVE_INFINITY
         ? this.startValue
         : null;
     const endValue =
-      this.endValue &&
-      (!isNaN(this.endValue) || this.endValue === Number.POSITIVE_INFINITY)
+      !isNaN(this.endValue) || this.endValue === Number.POSITIVE_INFINITY
         ? this.endValue
         : null;
-    if (startValue && endValue) {
-      this.legendUpdates.emit({ id, color, name, startValue, endValue });
-    }
+
+    this.legendUpdates.emit({ id, color, name, startValue, endValue });
   }
 
   onDeleteLegend(e) {

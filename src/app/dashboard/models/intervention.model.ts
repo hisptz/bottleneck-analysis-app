@@ -4,4 +4,5 @@ export interface Intervention {
   showEditForm?: boolean;
   showDeleteDialog?: boolean;
   deleting?: boolean;
+  dashboardItems: any[];
 }
