@@ -13,6 +13,7 @@ export function updateDataSelectionBasedOnPreferences(
     return dataSelection;
   }
 
+  // TODO: FIND BEST WAY TO UPDATE/REMOVE ITEMS WITH LEVELS BASED ON CONFIGURATIONS
   switch (dataSelection.dimension) {
     case 'ou':
       let dataSelectionItems = [];
@@ -21,12 +22,16 @@ export function updateDataSelectionBasedOnPreferences(
         if (
           _.some(
             dataSelection.items,
-            (item: any) => item.type && item.type.indexOf('LEVEL') !== -1
+            (item: any) =>
+              (item.type && item.type.indexOf('LEVEL') !== -1) ||
+              (item.id && item.id.indexOf('LEVEL') !== -1)
           )
         ) {
           dataSelectionItems = _.filter(
             dataSelection.items,
-            (item: any) => item.type && item.type.indexOf('LEVEL') === -1
+            (item: any) =>
+              (item.type && item.type.indexOf('LEVEL') === -1) ||
+              (item.id && item.id.indexOf('LEVEL') === -1)
           );
         } else if (
           _.some(
@@ -48,11 +53,12 @@ export function updateDataSelectionBasedOnPreferences(
       // Set preferences for including org unit children
       if (preferences.includeOrgUnitChildren) {
         if (
-          !_.some(
+          _.some(
             dataSelection.items,
             (item: any) =>
-              (item.type && item.type.indexOf('LEVEL') !== -1) ||
-              (item.id && item.id.indexOf('CHILDREN') !== -1)
+              (item.type && item.type.indexOf('LEVEL') === -1) ||
+              (item.id && item.id.indexOf('CHILDREN') === -1) ||
+              (item.id && item.id.indexOf('LEVEL') === -1)
           )
         ) {
           const lowestOrgUnitLevel = _.min(
@@ -62,7 +68,10 @@ export function updateDataSelectionBasedOnPreferences(
           if (lowestOrgUnitLevel) {
             dataSelectionItems = [
               ...dataSelection.items,
-              { id: `LEVEL-${lowestOrgUnitLevel + 1}`, name: 'Level 2' }
+              {
+                id: `LEVEL-${lowestOrgUnitLevel + 1}`,
+                name: `Level ${lowestOrgUnitLevel + 1}`
+              }
             ];
           } else {
             const userOrgUnitChildren = _.find(USER_ORG_UNITS, [

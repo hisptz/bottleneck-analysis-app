@@ -1,23 +1,19 @@
 import { createSelector } from '@ngrx/store';
-import * as _ from 'lodash';
-import { getCurrentDashboardId } from './dashboard.selectors';
-import * as fromDashboardVisualizationReducer from '../reducers/dashboard-visualization.reducer';
-import { DashboardVisualization } from '../../models';
-import {
-  getVisualizationObjectEntities,
-  getVisualizationLayerEntities
-} from '../../modules/ngx-dhis2-visualization/store';
-import {
-  Visualization,
-  VisualizationLayer,
-  VisualizationDataSelection
-} from '../../modules/ngx-dhis2-visualization/models';
+
 import {
   getCombinedVisualizationLayers,
-  getMergedGlobalDataSelectionsFromVisualizationLayers as getMergedGlobalDataSelections,
-  getDataSelectionSummary
+  getDataSelectionSummary,
+  getMergedGlobalDataSelectionsFromVisualizationLayers as getMergedGlobalDataSelections
 } from '../../helpers';
 import { getDataSelectionsFromVisualizationLayers } from '../../helpers/get-data-selections-from-visualization-layers.helper';
+import { DashboardVisualization } from '../../models';
+import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
+import {
+  getVisualizationLayerEntities,
+  getVisualizationObjectEntities
+} from '../../modules/ngx-dhis2-visualization/store';
+import * as fromDashboardVisualizationReducer from '../reducers/dashboard-visualization.reducer';
+import { getCurrentDashboardId } from './dashboard.selectors';
 
 export const getCurrentDashboardVisualization = createSelector(
   fromDashboardVisualizationReducer.getDashboardVisualizationEntities,

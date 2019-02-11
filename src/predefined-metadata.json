@@ -1,14 +1,4 @@
 {
-  "interventions": [
-    { "name": "ARVs for PMTCT" },
-    { "name": "Treatment of Severe Acute Malnutrition" },
-    { "name": "Full Immunization" },
-    { "name": "Skilled Delivery" },
-    { "name": "Vitamin A Supplementation" },
-    { "name": "Antibiotics for Pneumonia" },
-    { "name": "DPT3 Immunization" },
-    { "name": "Focused ANC" }
-  ],
   "dashboards": [
     {
       "name": "ARVs for PMTCT",
