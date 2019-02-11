@@ -43,6 +43,7 @@ import * as fromVisualizationHelpers from '../../modules/ngx-dhis2-visualization
 import * as fromRootModels from '../../../models';
 import * as fromDashboardModels from '../../models';
 import * as fromVisualizationModels from '../../modules/ngx-dhis2-visualization/models';
+import { getMergedGlobalDataSelectionsFromVisualizationLayers } from '../../helpers';
 
 @Injectable()
 export class DashboardEffects {
@@ -330,6 +331,15 @@ export class DashboardEffects {
           action.systemInfo,
           action.dataGroups
         );
+
+        const dataSelections = getMergedGlobalDataSelectionsFromVisualizationLayers(
+          _.map(action.dashboard.dashboardItems, (dashboardItem: any) => {
+            return fromVisualizationHelpers.getSelectionDimensionsFromFavorite(
+              dashboardItem[_.camelCase(dashboardItem.type)]
+            );
+          })
+        );
+
         const dashboardObject = {
           ...dashboard,
           id: fromRootHelpers.generateUid(),
@@ -363,7 +373,8 @@ export class DashboardEffects {
               ),
               new fromDashboardVisualizationActions.LoadDashboardVisualizationsAction(
                 dashboardObject.id,
-                ''
+                '',
+                dataSelections
               ),
               new fromDashboardActions.SetCurrentDashboardAction(
                 dashboardObject.id

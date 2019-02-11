@@ -21,23 +21,23 @@
               {
                 "items": [
                   {
-                    "name": "Availability of ART",
+                    "name": "[TMPL] Availability of ART",
                     "type": "INDICATOR"
                   },
                   {
-                    "name": "Availability of Trained PMTCT Providers",
+                    "name": "[TMPL] Availability of Trained PMTCT Providers",
                     "type": "INDICATOR"
                   },
                   {
-                    "name": "Initial Utilization PMTCT",
+                    "name": "[TMPL] Initial Utilization PMTCT",
                     "type": "INDICATOR"
                   },
                   {
-                    "name": "Continuous Utilization PMTCT",
+                    "name": "[TMPL] Continuous Utilization PMTCT",
                     "type": "INDICATOR"
                   },
                   {
-                    "name": "Effective Coverage/Quality PMTCT Infants",
+                    "name": "[TMPL] Effective Coverage/Quality PMTCT Infants",
                     "type": "INDICATOR"
                   }
                 ],
@@ -47,7 +47,7 @@
                     "color": "#D98CCC",
                     "members": [
                       {
-                        "name": "Availability of ART"
+                        "name": "[TMPL] Availability of ART"
                       }
                     ]
                   },
@@ -56,7 +56,7 @@
                     "color": "#80CC33",
                     "members": [
                       {
-                        "name": "Availability of Trained PMTCT Providers"
+                        "name": "[TMPL] Availability of Trained PMTCT Providers"
                       }
                     ]
                   },
@@ -65,7 +65,7 @@
                     "color": "#75F0F0",
                     "members": [
                       {
-                        "name": "Access to PMTCT Services"
+                        "name": "[TMPL] Access to PMTCT Services"
                       }
                     ]
                   },
@@ -74,7 +74,7 @@
                     "color": "#7DB2E8",
                     "members": [
                       {
-                        "name": "Initial Utilization PMTCT"
+                        "name": "[TMPL] Initial Utilization PMTCT"
                       }
                     ]
                   },
@@ -83,7 +83,7 @@
                     "color": "#40BF80",
                     "members": [
                       {
-                        "name": "Continuous Utilization PMTCT"
+                        "name": "[TMPL] Continuous Utilization PMTCT"
                       }
                     ]
                   },
@@ -92,7 +92,7 @@
                     "color": "#9485E0",
                     "members": [
                       {
-                        "name": "Effective Coverage/Quality PMTCT Infants"
+                        "name": "[TMPL] Effective Coverage/Quality PMTCT Infants"
                       }
                     ]
                   }
@@ -168,23 +168,23 @@
               {
                 "items": [
                   {
-                    "name": "Availability of ART",
+                    "name": "[TMPL] Availability of ART",
                     "type": "INDICATOR"
                   },
                   {
-                    "name": "Availability of Trained PMTCT Providers",
+                    "name": "[TMPL] Availability of Trained PMTCT Providers",
                     "type": "INDICATOR"
                   },
                   {
-                    "name": "Initial Utilization PMTCT",
+                    "name": "[TMPL] Initial Utilization PMTCT",
                     "type": "INDICATOR"
                   },
                   {
-                    "name": "Continuous Utilization PMTCT",
+                    "name": "[TMPL] Continuous Utilization PMTCT",
                     "type": "INDICATOR"
                   },
                   {
-                    "name": "Effective Coverage/Quality PMTCT Infants",
+                    "name": "[TMPL] Effective Coverage/Quality PMTCT Infants",
                     "type": "INDICATOR"
                   }
                 ],
@@ -194,7 +194,7 @@
                     "color": "#D98CCC",
                     "members": [
                       {
-                        "name": "Availability of ART"
+                        "name": "[TMPL] Availability of ART"
                       }
                     ]
                   },
@@ -203,7 +203,7 @@
                     "color": "#80CC33",
                     "members": [
                       {
-                        "name": "Availability of Trained PMTCT Providers"
+                        "name": "[TMPL] Availability of Trained PMTCT Providers"
                       }
                     ]
                   },
@@ -212,7 +212,7 @@
                     "color": "#75F0F0",
                     "members": [
                       {
-                        "name": "Access to PMTCT Services"
+                        "name": "[TMPL] Access to PMTCT Services"
                       }
                     ]
                   },
@@ -221,7 +221,7 @@
                     "color": "#7DB2E8",
                     "members": [
                       {
-                        "name": "Initial Utilization PMTCT"
+                        "name": "[TMPL] Initial Utilization PMTCT"
                       }
                     ]
                   },
@@ -230,7 +230,7 @@
                     "color": "#40BF80",
                     "members": [
                       {
-                        "name": "Continuous Utilization PMTCT"
+                        "name": "[TMPL] Continuous Utilization PMTCT"
                       }
                     ]
                   },
@@ -239,7 +239,7 @@
                     "color": "#9485E0",
                     "members": [
                       {
-                        "name": "Effective Coverage/Quality PMTCT Infants"
+                        "name": "[TMPL] Effective Coverage/Quality PMTCT Infants"
                       }
                     ]
                   }
