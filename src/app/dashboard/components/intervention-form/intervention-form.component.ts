@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { generateUid } from '../../../helpers/generate-uid.helper';
 import { Intervention } from '../../models/intervention.model';
+import { DASHBOARD_ITEMS } from '../../constants/default-dashboard-items.constant';
 
 @Component({
   selector: 'app-intervention-form',
@@ -26,21 +27,7 @@ export class InterventionFormComponent implements OnInit {
     this.intervention = {
       id: generateUid(),
       name: 'Untitled',
-      dashboardItems: [
-        {
-          shape: 'FULL_WIDTH',
-          type: 'CHART'
-        },
-        {
-          shape: 'FULL_WIDTH',
-          type: 'REPORT_TABLE'
-        },
-        {
-          shape: 'FULL_WIDTH',
-          type: 'APP',
-          appKey: 'bna-widget'
-        }
-      ]
+      dashboardItems: DASHBOARD_ITEMS
     };
   }
 
