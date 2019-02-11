@@ -50,6 +50,14 @@ export const toGeoJson = organisationUnits =>
         properties: {
           id: ou.id,
           name: ou.na,
+          labelStyle: {},
+          percentage: null,
+          value: null,
+          label: null,
+          dx: null,
+          radius: null,
+          color: null,
+          style: {},
           hasCoordinatesDown: ou.hcd,
           hasCoordinatesUp: ou.hcu,
           level: ou.le,
@@ -61,10 +69,7 @@ export const toGeoJson = organisationUnits =>
         }
       };
     })
-    .filter(
-      ({ geometry }) =>
-        Array.isArray(geometry.coordinates) && geometry.coordinates.length
-    );
+    .filter(({ geometry }) => Array.isArray(geometry.coordinates) && geometry.coordinates.length);
 
 export const geoJsonOptions = (id, radiusLow, opacity, color?) => {
   const style = feature => {

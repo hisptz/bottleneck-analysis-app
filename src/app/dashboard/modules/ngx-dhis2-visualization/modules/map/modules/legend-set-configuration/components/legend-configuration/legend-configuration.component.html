@@ -1,0 +1,32 @@
+<div class="legend-configuration-container">
+  <div *ngIf="legendSetType === 'color'">
+    <app-legend-color-picker (colorSelect)="onColorSelect($event)" [color]="color"></app-legend-color-picker>
+  </div>
+
+  <div *ngIf="legendSetType === 'pattern'">
+    <app-legend-pattern-picker
+      [selectedPattern]="pattern"
+      (onPatternChange)="onPatternChange($event)"
+    ></app-legend-pattern-picker>
+  </div>
+
+  <div class="legend-input-container">
+    <input (blur)="onLegendUpdate()" type="text" class="legend-input legend-name-input" [(ngModel)]="name" />&nbsp;
+    <input
+      (blur)="onLegendUpdate()"
+      type="text"
+      class="legend-input legend-start-end-value-input"
+      [(ngModel)]="startValue"
+    />
+    <span style="padding: 0.375rem 0.15rem;">-</span>
+    <input
+      (blur)="onLegendUpdate()"
+      type="text"
+      class="legend-input legend-start-end-value-input"
+      [(ngModel)]="endValue"
+    />
+    <button title="Delete legend" class="legend-button" (click)="onDeleteLegend()">
+      <img [src]="deleteIcon" alt="" />
+    </button>
+  </div>
+</div>

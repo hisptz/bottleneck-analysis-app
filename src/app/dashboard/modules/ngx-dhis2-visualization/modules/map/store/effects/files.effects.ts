@@ -11,17 +11,12 @@ import { Store } from '@ngrx/store';
 
 @Injectable()
 export class FilesEffects {
-  constructor(
-    private actions$: Actions,
-    private fileService: fromServices.MapFilesService
-  ) {}
+  constructor(private actions$: Actions, private fileService: fromServices.MapFilesService) {}
 
   @Effect()
   downloadCSV$ = this.actions$.pipe(
     ofType(filesAction.DOWNLOAD_CSV),
-    map((action: filesAction.DownloadCSV) =>
-      this.fileService.downloadMapVisualizationAsCSV(action)
-    ),
+    map((action: filesAction.DownloadCSV) => this.fileService.downloadMapVisualizationAsCSV(action)),
     switchMap(payload => {
       return of(new filesAction.FileDownloadSuccess(payload));
     })
@@ -30,9 +25,7 @@ export class FilesEffects {
   @Effect()
   downloadGML$ = this.actions$.pipe(
     ofType(filesAction.DOWNLOAD_GML),
-    map((action: filesAction.DownloadGML) =>
-      this.fileService.downloadMapVisualizationAsGML(action)
-    ),
+    map((action: filesAction.DownloadGML) => this.fileService.downloadMapVisualizationAsGML(action)),
     switchMap(payload => {
       return of(new filesAction.FileDownloadSuccess(payload));
     })
@@ -41,9 +34,7 @@ export class FilesEffects {
   @Effect()
   downloadKML$ = this.actions$.pipe(
     ofType(filesAction.DOWNLOAD_KML),
-    map((action: filesAction.DownloadKML) =>
-      this.fileService.downloadMapVisualizationAsKML(action)
-    ),
+    map((action: filesAction.DownloadKML) => this.fileService.downloadMapVisualizationAsKML(action)),
     switchMap(payload => {
       return of(new filesAction.FileDownloadSuccess(payload));
     })
@@ -52,9 +43,7 @@ export class FilesEffects {
   @Effect()
   downloadSHAPEFILE$ = this.actions$.pipe(
     ofType(filesAction.DOWNLOAD_SHAPEFILE),
-    map((action: filesAction.DownloadShapeFile) =>
-      this.fileService.downloadMapVisualizationAsSHAPEFILE(action)
-    ),
+    map((action: filesAction.DownloadShapeFile) => this.fileService.downloadMapVisualizationAsSHAPEFILE(action)),
     switchMap(payload => {
       return of(new filesAction.FileDownloadSuccess(payload));
     })
@@ -63,9 +52,7 @@ export class FilesEffects {
   @Effect()
   downloadJSON$ = this.actions$.pipe(
     ofType(filesAction.DOWNLOAD_JSON),
-    map((action: filesAction.DownloadJSON) =>
-      this.fileService.downloadMapVisualizationAsGeoJSON(action)
-    ),
+    map((action: filesAction.DownloadJSON) => this.fileService.downloadMapVisualizationAsGeoJSON(action)),
     switchMap(payload => {
       return of(new filesAction.FileDownloadSuccess(payload));
     })

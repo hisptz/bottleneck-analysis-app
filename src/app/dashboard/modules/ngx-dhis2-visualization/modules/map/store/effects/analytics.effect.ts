@@ -33,9 +33,7 @@ export class AnalyticsEffects {
           layerIds.push(layer.id);
           return requestParams
             .map((param, paramIndex) => {
-              return `dimension=${param.dimension}:${param.items
-                .map(item => item.id)
-                .join(';')}`;
+              return `dimension=${param.dimension}:${param.items.map(item => item.id).join(';')}`;
             })
             .join('&');
         }
@@ -46,16 +44,14 @@ export class AnalyticsEffects {
             .map((param, paramIndex) => {
               const dimension = `dimension=${param.dimension}`;
               if (param.items.length) {
-                return `${dimension}:${param.items
-                  .map(item => item.id)
-                  .join(';')}`;
+                return `${dimension}:${param.items.map(item => item.id).join(';')}`;
               }
               return dimension;
             })
             .join('&');
-          let url = `/events/query/${
-            layer.dataSelections.program.id
-          }.json?stage=${layer.dataSelections.programStage.id}&${data}`;
+          let url = `/events/query/${layer.dataSelections.program.id}.json?stage=${
+            layer.dataSelections.programStage.id
+          }&${data}`;
           if (layer.dataSelections.endDate) {
             url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
           }
@@ -97,11 +93,7 @@ export class AnalyticsEffects {
           };
           return new visualizationObjectActions.UpdateVizAnalytics(vizObject);
         }),
-        catchError(error =>
-          of(
-            new visualizationObjectActions.UpdateVisualizationObjectFail(error)
-          )
-        )
+        catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
       );
     })
   );
@@ -128,19 +120,11 @@ export class AnalyticsEffects {
               })
             )
           ),
-          catchError(error =>
-            of(
-              new visualizationObjectActions.UpdateVisualizationObjectFail(
-                error
-              )
-            )
-          )
+          catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
         );
       }
     }),
-    catchError(error =>
-      of(new visualizationObjectActions.UpdateVisualizationObjectFail(error))
-    )
+    catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
   );
 
   createParams(payload) {
@@ -168,9 +152,7 @@ export class AnalyticsEffects {
 
     const dataSelections = { ...oldDataselections, ...newDatas };
     if (noAnalyticsLayers.indexOf(layerName) === -1) {
-      const oldSelection = dataselections.filter(
-        dataselection => dataselection.dimension !== filterType
-      );
+      const oldSelection = dataselections.filter(dataselection => dataselection.dimension !== filterType);
       const getOldParams = oldSelection.map(
         dataselection =>
           `dimension=${dataselection.dimension}:${dataselection.items

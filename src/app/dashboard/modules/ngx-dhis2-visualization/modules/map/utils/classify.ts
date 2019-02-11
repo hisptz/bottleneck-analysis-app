@@ -1,10 +1,7 @@
 // Utils for thematic mapping
 import { format, precisionRound } from 'd3-format';
 import * as _ from 'lodash';
-import {
-  CLASSIFICATION_EQUAL_INTERVALS,
-  CLASSIFICATION_EQUAL_COUNTS
-} from '../constants/layer.constant';
+import { CLASSIFICATION_EQUAL_INTERVALS, CLASSIFICATION_EQUAL_COUNTS } from '../constants/layer.constant';
 
 export const classify = (features, options) => {
   const { method, classes, colorScale } = options;
@@ -22,10 +19,9 @@ export const classify = (features, options) => {
 // Returns legend item where a value belongs
 export const getLegendItemForValue = (legendItems, value) => {
   const isLast = index => index === legendItems.length - 1;
+
   return legendItems.find(
-    (item, index) =>
-      value >= item.startValue &&
-      (value < item.endValue || (isLast(index) && value === item.endValue))
+    (item, index) => value >= item.startValue && (value < item.endValue || (isLast(index) && value === item.endValue))
   );
 };
 
@@ -96,10 +92,12 @@ export const getQuantiles = (values, numClasses) => {
   }
 
   // bin can be undefined if few values
-  return bins.filter(bin => bin !== undefined).map((value, index) => ({
-    startValue: Number(valueFormat(value)),
-    endValue: Number(valueFormat(bins[index + 1] || maxValue))
-  }));
+  return bins
+    .filter(bin => bin !== undefined)
+    .map((value, index) => ({
+      startValue: Number(valueFormat(value)),
+      endValue: Number(valueFormat(bins[index + 1] || maxValue))
+    }));
 };
 
 // Returns class number
@@ -131,9 +129,9 @@ export function getColorsByRgbInterpolation(firstColor, lastColor, nbColors) {
   for (let i = 0; i < nbColors; i++) {
     colors.push(
       rgbToHex({
-        r: parseInt((colorA.r + i * (colorB.r - colorA.r) / (nbColors - 1)).toString(), 10),
-        g: parseInt((colorA.g + i * (colorB.g - colorA.g) / (nbColors - 1)).toString(), 10),
-        b: parseInt((colorA.b + i * (colorB.b - colorA.b) / (nbColors - 1)).toString(), 10)
+        r: parseInt((colorA.r + (i * (colorB.r - colorA.r)) / (nbColors - 1)).toString(), 10),
+        g: parseInt((colorA.g + (i * (colorB.g - colorA.g)) / (nbColors - 1)).toString(), 10),
+        b: parseInt((colorA.b + (i * (colorB.b - colorA.b)) / (nbColors - 1)).toString(), 10)
       })
     );
   }

@@ -1,54 +1,24 @@
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
-import * as _ from 'lodash';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
 import { clientCluster } from './cluster/clientCluster';
 import { serverCluster } from './cluster/serverCluster';
-import { GeoJson } from 'leaflet';
-import { Feature, GeometryObject } from 'geojson';
 import { EVENT_COLOR, EVENT_RADIUS } from '../constants/layer.constant';
-import {
-  getOrgUnitsFromRows,
-  getFiltersFromColumns,
-  getFiltersAsText,
-  getPeriodFromFilters,
-  getPeriodNameFromId
-} from '../utils/analytics';
+import { getFiltersFromColumns, getFiltersAsText, getPeriodFromFilters, getPeriodNameFromId } from '../utils/analytics';
 import { createEventFeature } from '../utils/layers';
 import { timeFormat } from 'd3-time-format';
 
 export const event = options => {
-  const {
-    geofeature,
-    layerOptions,
-    displaySettings,
-    opacity,
-    id,
-    dataSelections,
-    legendProperties,
-    analyticsData
-  } = options;
+  const { geofeature, layerOptions, opacity, id, dataSelections, analyticsData } = options;
 
   const { startDate, endDate } = dataSelections;
-  const {
-    eventPointColor,
-    eventPointRadius,
-    radiusLow,
-    eventClustering,
-    serverClustering,
-    serverSideConfig
-  } = layerOptions;
-  const { labelFontSize, labelFontStyle } = displaySettings;
-
-  const orgUnits = getOrgUnitsFromRows(dataSelections.rows);
+  const { eventPointColor, eventPointRadius, eventClustering, serverClustering, serverSideConfig } = layerOptions;
   const period = getPeriodFromFilters(dataSelections.filters);
   const dataFilters = getFiltersFromColumns(dataSelections.columns);
-  const { program, filters } = dataSelections;
+  const { program } = dataSelections;
 
   const formatTime = date => timeFormat('%Y-%m-%d')(new Date(date));
-  const _period = period
-    ? getPeriodNameFromId(period.dimensionItem)
-    : `${formatTime(startDate)} - ${formatTime(endDate)}`;
+  const _period = period ? getPeriodNameFromId(period) : `${formatTime(startDate)} - ${formatTime(endDate)}`;
   let legend = {
     period: _period,
     filters: dataFilters && getFiltersAsText(dataFilters),
@@ -61,10 +31,7 @@ export const event = options => {
   let geoJsonLayer = L.geoJSON(features);
 
   if (analyticsData) {
-    const color =
-      eventPointColor && eventPointColor.charAt(0) !== '#'
-        ? '#' + eventPointColor
-        : eventPointColor;
+    const color = eventPointColor && eventPointColor.charAt(0) !== '#' ? '#' + eventPointColor : eventPointColor;
     const items = [
       {
         name: 'Event',
@@ -161,18 +128,27 @@ const eventLayerEvents = () => {
   const onClick = evt => {
     const attr = evt.layer.feature.properties;
     const name = evt.layer.feature.name;
-    const content = `<table><tbody> <tr>
-                      <th>Organisation unit: </th><td>${attr.ouname}</td></tr>
-                    <tr><th>Event time: </th>
-                      <td>${timeFormat('%Y-%m-%d')(new Date(attr.eventdate))}</td>
-                    </tr>
-                    <tr><th>Program Stage: </th>
-                      <td>${name}</td>
-                    </tr>
-                    <tr>
-                      <th>Event location: </th>
-                      <td>${attr.latitude}, ${attr.longitude}</td>
-                    </tr></tbody></table>`;
+    const content = `
+    <table>
+      <tbody>
+        <tr>
+          <th>Organisation unit: </th>
+          <td>${attr.ouname}</td>
+        </tr>
+        <tr>
+          <th>Event time: </th>
+          <td>${timeFormat('%Y-%m-%d')(new Date(attr.eventdate))}</td>
+        </tr>
+        <tr>
+          <th>Program Stage: </th>
+          <td>${name}</td>
+        </tr>
+        <tr>
+          <th>Event location: </th>
+          <td>${attr.latitude}, ${attr.longitude}</td>
+        </tr>
+        </tbody>
+      </table>`;
     // Close any popup if there is one
     evt.layer.closePopup();
     // Bind new popup to the layer

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from "@angular/core";
 /**
  * Created by mpande on 3/8/18.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class GeoJson {
   point() {
     return this.justType('Point', 'POINT');
@@ -12,23 +12,22 @@ export class GeoJson {
     return this.justType('LineString', 'POLYLINE');
   }
 
+
   polygon() {
     return this.justType('Polygon', 'POLYGON');
   }
+
 
   multipolygon() {
     return this.justType('MultiPolygon', 'POLYGONZ');
   }
 
   private justType(type, TYPE) {
-    return geoJson => {
+    return (geoJson) => {
       const ofType = geoJson.features.filter(this.isType(type));
 
       return {
-        geometries:
-          TYPE === 'POLYGON' || TYPE === 'POLYLINE'
-            ? [ofType.map(this.justCoordinates)]
-            : ofType.map(this.justCoordinates),
+        geometries: (TYPE === 'POLYGON' || TYPE === 'POLYLINE') ? [ofType.map(this.justCoordinates)] : ofType.map(this.justCoordinates),
         properties: ofType.map(this.justProps),
         type: TYPE
       };
@@ -36,11 +35,7 @@ export class GeoJson {
   }
 
   private justCoordinates(feature) {
-    if (
-      feature.geometry.coordinates[0] !== undefined &&
-      feature.geometry.coordinates[0][0] !== undefined &&
-      feature.geometry.coordinates[0][0][0] !== undefined
-    ) {
+    if (feature.geometry.coordinates[0] !== undefined && feature.geometry.coordinates[0][0] !== undefined && feature.geometry.coordinates[0][0][0] !== undefined) {
       return feature.geometry.coordinates[0];
     } else {
       return feature.geometry.coordinates;
@@ -48,7 +43,7 @@ export class GeoJson {
   }
 
   isType(type) {
-    return feature => {
+    return (feature) => {
       return feature.geometry.type;
     };
   }

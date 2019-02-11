@@ -2,8 +2,7 @@
 import * as L from 'leaflet';
 import { toGeoJson, geoJsonOptions } from './GeoJson';
 import * as _ from 'lodash';
-import { GeoJson } from 'leaflet';
-import { Feature, GeometryObject } from 'geojson';
+import { geoJsonExtended } from './geoJsonExtended';
 
 const colors = ['black', 'blue', 'red', 'green', 'yellow'];
 const weights = [2, 1, 0.75, 0.5, 0.5];
@@ -34,10 +33,7 @@ export function boundary(options) {
     {}
   );
 
-  const items = Object.keys(levelStyle).map(key => ({
-    ...levelStyle[key],
-    name: `level ${key}`
-  }));
+  const items = Object.keys(levelStyle).map(key => ({ ...levelStyle[key], name: `level ${key}` }));
   const legend = {
     title: 'Boundary Layer',
     type: 'boundary',
@@ -51,20 +47,28 @@ export function boundary(options) {
     opacity
   };
 
-  features.forEach((feature: any) => {
+  features.forEach(feature => {
     feature.properties.style = levelStyle[feature.properties.level];
     feature.properties.labelStyle = {
       fontSize: displaySettings.labelFontSize,
       fontStyle: displaySettings.labelFontStyle,
       fontColor: displaySettings.labelFontColor,
       fontWeight: displaySettings.labelFontWeight,
-      paddingTop:
-        feature.geometry.type === 'Point' ? 5 + (radiusLow || 5) + 'px' : '0'
+      paddingTop: feature.geometry.type === 'Point' ? 5 + (radiusLow || 5) + 'px' : '0'
     };
   });
 
   const geoJSonOptions = geoJsonOptions(id, radiusLow, opacity);
-  const geoJsonLayer = L.geoJSON(features, geoJSonOptions);
+
+  const _options = {
+    ...geoJSonOptions,
+    label: displaySettings.labels ? '{name}' : undefined,
+    hoverLabel: undefined,
+    labelPane: `${options.id}-labels`,
+    data: features
+  };
+
+  const geoJsonLayer = geoJsonExtended(_options);
   geoJsonLayer.on({
     click: boundaryEvents().onClick,
     mouseover: boundaryEvents().mouseover,

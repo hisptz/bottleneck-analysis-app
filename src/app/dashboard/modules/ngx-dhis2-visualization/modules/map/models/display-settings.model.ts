@@ -4,6 +4,7 @@ export interface DisplaySettings {
   labelFontSize?: string;
   labelFontWeight?: string;
   labels: boolean;
+  values?: boolean;
   hideTitle?: boolean;
   hideSubtitle?: boolean;
 }

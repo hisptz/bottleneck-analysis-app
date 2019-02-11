@@ -1,15 +1,13 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  Observable,
-  BehaviorSubject,
-  SubscriptionLike as ISubscription
-} from 'rxjs';
+import { Observable, BehaviorSubject, SubscriptionLike as ISubscription } from 'rxjs';
 import * as _ from 'lodash';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { TILE_LAYERS } from '../../constants/tile-layer.constant';
 import * as fromStore from '../../store';
 import { LegendSet } from '../../models/Legend-set.model';
+import { LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL } from '../../utils/icons';
 
 @Component({
   selector: 'app-visualization-legend',
@@ -17,17 +15,19 @@ import { LegendSet } from '../../models/Legend-set.model';
   styleUrls: ['./visualization-legend.component.css']
 })
 export class VisualizationLegendComponent implements OnInit, OnDestroy {
-  @Input() mapVisualizationObject: any;
+  @Input()
+  mapVisualizationObject: any;
   public LegendsTileLayer: any;
   public showButtonIncons: boolean = false;
   public activeLayer: number = -1;
+  @Input()
+  baseLayerLegend: any;
   public visualizationLegends: any = [];
   public legendSetEntities: { [id: string]: LegendSet };
   public sticky$: Observable<boolean>;
   public isFilterSectionOpen$: Observable<boolean>;
   public visualizationLegends$: ISubscription;
   public baseLayerLegend$: ISubscription;
-  public baseLayerLegend;
   public showFilterContainer: boolean = false;
   public buttonTop: string;
   public buttonHeight: string;
@@ -42,56 +42,39 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   showTransparent: boolean;
   displayNone: boolean;
   p: number = 1;
-  mapHeight: string;
+  greaterThanOrEqualIcon: any;
+  lessThanIcon;
+  lessThanOrEqualIcon;
 
-  constructor(private store: Store<fromStore.MapState>) {
+  constructor(private store: Store<fromStore.MapState>, private domSanitizer: DomSanitizer) {
     this.displayNone = false;
     this.showTransparent = false;
     this.openTileLegend = false;
     this.isRemovable = false;
     this.toggleBoundary = false;
     this.tileLayers = TILE_LAYERS;
+    this.greaterThanOrEqualIcon = domSanitizer.bypassSecurityTrustUrl(GREATER_THAN_OR_EQUAL);
+    this.lessThanIcon = domSanitizer.bypassSecurityTrustUrl(LESS_THAN);
+    this.lessThanOrEqualIcon = domSanitizer.bypassSecurityTrustUrl(LESS_THAN_OR_EQUAL);
   }
 
   ngOnInit() {
-    if (this.mapVisualizationObject) {
-      this.sticky$ = this.store.select(
-        fromStore.isVisualizationLegendPinned(
-          this.mapVisualizationObject.componentId
-        )
-      );
-      this.isFilterSectionOpen$ = this.store.select(
-        fromStore.isVisualizationLegendFilterSectionOpen(
-          this.mapVisualizationObject.componentId
-        )
-      );
-      const layers = this.mapVisualizationObject.layers;
+    this.sticky$ = this.store.select(fromStore.isVisualizationLegendPinned(this.mapVisualizationObject.componentId));
 
-      this.visualizationLegends$ = this.store
-        .select(
-          fromStore.getCurrentLegendSets(
-            this.mapVisualizationObject.componentId
-          )
-        )
-        .subscribe(visualizationLengends => {
-          if (visualizationLengends) {
-            this.visualizationLegends = Object.keys(visualizationLengends).map(
-              key => visualizationLengends[key]
-            );
-            this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
-          }
-        });
+    this.isFilterSectionOpen$ = this.store.select(
+      fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
+    );
 
-      this.baseLayerLegend$ = this.store
-        .select(
-          fromStore.getCurrentBaseLayer(this.mapVisualizationObject.componentId)
-        )
-        .subscribe(baselayerLegend => {
-          if (baselayerLegend) {
-            this.baseLayerLegend = { ...baselayerLegend };
-          }
-        });
-    }
+    this.visualizationLegends$ = this.store
+      .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
+      .subscribe(visualizationLengends => {
+        if (visualizationLengends) {
+          this.visualizationLegends = Object.keys(visualizationLengends)
+            .map(key => visualizationLengends[key])
+            .filter(({ legend }) => legend.type !== 'boundary');
+          this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
+        }
+      });
   }
 
   showButtonIcons() {
@@ -105,9 +88,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   setActiveItem(index, e) {
     e.stopPropagation();
     if (index === -1) {
-      this.LegendsTileLayer = Object.keys(TILE_LAYERS).map(
-        layerKey => TILE_LAYERS[layerKey]
-      );
+      this.LegendsTileLayer = Object.keys(TILE_LAYERS).map(layerKey => TILE_LAYERS[layerKey]);
     }
 
     if (this.showFilterContainer) {
@@ -170,39 +151,23 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   stickLegendContainer(e) {
     e.stopPropagation();
-    this.store.dispatch(
-      new fromStore.TogglePinVisualizationLegend(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.store.dispatch(new fromStore.TogglePinVisualizationLegend(this.mapVisualizationObject.componentId));
   }
 
   closeLegendContainer(e) {
     e.stopPropagation();
-    this.store.dispatch(
-      new fromStore.CloseVisualizationLegend(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.store.dispatch(new fromStore.CloseVisualizationLegend(this.mapVisualizationObject.componentId));
   }
 
   openFilters(e) {
     e.stopPropagation();
     this.showFilterContainer = true;
-    this.store.dispatch(
-      new fromStore.ToggleVisualizationLegendFilterSection(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.store.dispatch(new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 
   closeFilters() {
     this.showFilterContainer = false;
-    this.store.dispatch(
-      new fromStore.CloseVisualizationLegendFilterSection(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 
   toggleLayerView(index, e) {
@@ -249,11 +214,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     const { name } = tileLayer;
     const changedBaseLayer = true;
     const payload = {
-      [this.mapVisualizationObject.componentId]: {
-        ...this.baseLayerLegend,
-        name,
-        changedBaseLayer
-      }
+      [this.mapVisualizationObject.componentId]: { ...this.baseLayerLegend, name, changedBaseLayer }
     };
     this.store.dispatch(new fromStore.UpdateBaseLayer(payload));
   }
@@ -283,18 +244,22 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   toggleDataTableView(event) {
     event.stopPropagation();
-    this.store.dispatch(
-      new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId)
-    );
+    this.store.dispatch(new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId));
+  }
+
+  dragged(event) {
+    this.activeLayer = -2;
+  }
+
+  dropped(event) {
+    const orderedLayers = this.visualizationLegends.map(({ layer }) => layer).reverse();
+    const { layers } = this.mapVisualizationObject;
+    const newLayers = orderedLayers.map(layerId => layers.filter(layer => layer.id === layerId)[0]);
+    const vizObject = { ...this.mapVisualizationObject, layers: newLayers };
+    this.store.dispatch(new fromStore.UpdateVisualizationObjectSuccess(vizObject));
   }
 
   ngOnDestroy() {
-    if (this.baseLayerLegend$) {
-      this.baseLayerLegend$.unsubscribe();
-    }
-
-    if (this.visualizationLegends$) {
-      this.visualizationLegends$.unsubscribe();
-    }
+    this.visualizationLegends$.unsubscribe();
   }
 }

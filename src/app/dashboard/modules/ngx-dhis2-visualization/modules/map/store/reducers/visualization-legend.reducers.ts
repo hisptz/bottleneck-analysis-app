@@ -1,4 +1,4 @@
-import * as fromVisualizationLegend from '../actions/visualization-legend.action';
+import * as fromVisualizationLegend from './../actions/visualization-legend.action';
 import { VisualizationLegend } from '../../models/visualization-legend.model';
 
 export interface VisualizationLegendState {
@@ -20,7 +20,9 @@ export function reducer(
         open: false,
         pinned: false,
         filterSectionOpen: false,
-        datatableIsOpen: false
+        datatableIsOpen: false,
+        filterSectionLoading: false,
+        filterSectionJustUpdated: false
       };
       const entities = {
         ...state.entities,
@@ -143,7 +145,7 @@ export function reducer(
     case fromVisualizationLegend.CLOSE_PIN_VISUALIZATION_LEGEND: {
       const visualizationObjectId = action.payload;
       const pinned = false;
-      const open = !state.entities[visualizationObjectId].open;
+      const open = false;
       const visualizationLegend = {
         ...state.entities[visualizationObjectId],
         open,
@@ -153,6 +155,76 @@ export function reducer(
         ...state.entities,
         [visualizationObjectId]: visualizationLegend
       };
+      return {
+        ...state,
+        entities
+      };
+    }
+
+    case fromVisualizationLegend.VISUALIZATION_FILTER_SECTION_LOADING: {
+      const visualizationObjectId = action.payload;
+      const filterSectionLoading = true;
+      const visualizationLegend = {
+        ...state.entities[visualizationObjectId],
+        filterSectionLoading
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: visualizationLegend
+      };
+      return {
+        ...state,
+        entities
+      };
+    }
+
+    case fromVisualizationLegend.VISUALIZATION_FILTER_SECTION_LOADED: {
+      const visualizationObjectId = action.payload;
+      const filterSectionLoading = false;
+      const filterSectionJustUpdated = true;
+      const visualizationLegend = {
+        ...state.entities[visualizationObjectId],
+        filterSectionLoading,
+        filterSectionJustUpdated
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: visualizationLegend
+      };
+      return {
+        ...state,
+        entities
+      };
+    }
+
+    case fromVisualizationLegend.VISUALIZATION_FILTER_SECTION_JUST_UPDATED: {
+      const visualizationObjectId = action.payload;
+      const filterSectionJustUpdated = false;
+      const visualizationLegend = {
+        ...state.entities[visualizationObjectId],
+        filterSectionJustUpdated
+      };
+      const entities = {
+        ...state.entities,
+        [visualizationObjectId]: visualizationLegend
+      };
+      return {
+        ...state,
+        entities
+      };
+    }
+
+    case fromVisualizationLegend.VISUALIZATION_FILTER_SECTION_UPDATE_FAIL: {
+      const filterSectionLoading = false;
+      const filterSectionJustUpdated = false;
+      const entities = Object.keys(state.entities).reduce((obj, key) => {
+        obj[key] = {
+          ...state.entities[key],
+          filterSectionJustUpdated,
+          filterSectionLoading
+        };
+        return obj;
+      }, {});
       return {
         ...state,
         entities

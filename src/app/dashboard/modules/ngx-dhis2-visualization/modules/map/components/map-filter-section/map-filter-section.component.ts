@@ -1,19 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  OnDestroy
-} from '@angular/core';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Store } from '@ngrx/store';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { getDimensionItems } from '../../utils/analytics';
 import * as fromStore from '../../store';
 
@@ -45,20 +33,30 @@ import * as fromStore from '../../store';
   ]
 })
 export class MapFilterSectionComponent implements OnInit, OnDestroy {
-  @Input() mapVisualizationObject;
-  @Input() activeLayer;
-  @Input() loaded: boolean = true;
+  @Input()
+  mapVisualizationObject;
+  @Input()
+  activeLayer;
+  @Input()
+  loaded: boolean = true;
 
-  @Output() onFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onLayoutUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  onFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  onLayoutUpdate: EventEmitter<any> = new EventEmitter<any>();
 
   showFilters: boolean;
   selectedFilter: string = 'STYLE';
   selectedDataItems: any = [];
   selectedPeriods: any = [];
   selectedLayer;
-  public legendSets$;
+  public legendSets$: Observable<any>;
+  public legendSetsConfig$: Observable<any>;
   public singleSelection: boolean = true;
+  public isFilterSectionLoading$: Observable<boolean>;
+  public isFilterSectionUpdated$: Observable<boolean>;
+  public legendSetConfigType$: Observable<string>;
+  public currentlegendSet$: Observable<any>;
   public periodConfig: any = {
     singleSelection: true
   };
@@ -75,25 +73,29 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     selectedUserOrgUnits: []
   };
 
-  constructor(private store: Store<fromStore.MapState>) {}
+  constructor(private store: Store<fromStore.MapState>) {
+    this.legendSetConfigType$ = store.select(fromStore.getCurrentLegendSetConfigType);
+    this.currentlegendSet$ = store.select(fromStore.getCurrentLegendSet);
+  }
 
   ngOnInit() {
     this.showFilters = true;
-    const { layers = [] } = this.mapVisualizationObject || {};
+    const { layers, componentId } = this.mapVisualizationObject;
     this.selectedLayer = layers[this.activeLayer];
-    const { dataSelections = [] } = this.selectedLayer || {};
+    const { dataSelections } = this.selectedLayer;
     this.getSelectedFilters(dataSelections);
     this.legendSets$ = this.store.select(fromStore.getAllLegendSets);
+    this.legendSetsConfig$ = this.store.select(fromStore.getAllLegendSetConfigs);
+    this.isFilterSectionLoading$ = this.store.select(fromStore.isVisualizationLegendFilterSectionLoding(componentId));
+    this.isFilterSectionUpdated$ = this.store.select(
+      fromStore.isVisualizationLegendFilterSectionJustUpdated(componentId)
+    );
   }
 
   toggleFilters(e) {
     e.stopPropagation();
     this.showFilters = !this.showFilters;
-    this.store.dispatch(
-      new fromStore.ToggleVisualizationLegendFilterSection(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.store.dispatch(new fromStore.ToggleVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 
   toggleCurrentFilter(e, selectedFilter) {
@@ -111,10 +113,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
     switch (filterType) {
       case 'ORG_UNIT':
-        const _items = items.map(item => ({
-          displayName: item.name,
-          dimesionItem: item.id
-        }));
+        const _items = items.map(item => ({ displayName: item.name, dimensionItem: item.id }));
         const newdimension = {
           dimension: 'ou',
           items: _items
@@ -131,7 +130,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
       case 'PERIOD':
         const peItems = items.map(item => ({
           displayName: item.name,
-          dimesionItem: item.id,
+          dimensionItem: item.id,
           dimensionItemType: 'PERIOD'
         }));
         const newPeDimension = {
@@ -151,7 +150,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
       case 'DATA':
         const dxItems = filterValue.itemList.map(item => ({
           displayName: item.name,
-          dimesionItem: item.id
+          dimensionItem: item.id
         }));
         const newDxDimension = {
           dimension: 'dx',
@@ -175,27 +174,16 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   onStyleFilterUpdate({ layer }) {
     const activeLayerIndex = this.activeLayer;
     const { layers, componentId } = this.mapVisualizationObject;
-    const updatedLayers = layers.map((_layer, index) =>
-      index === activeLayerIndex ? layer : _layer
-    );
-    this.store.dispatch(
-      new fromStore.UpdateLayerStyle({
-        ...this.mapVisualizationObject,
-        layers: updatedLayers
-      })
-    );
+    const updatedLayers = layers.map((_layer, index) => (index === activeLayerIndex ? layer : _layer));
+    this.store.dispatch(new fromStore.UpdateLayerStyle({ ...this.mapVisualizationObject, layers: updatedLayers }));
   }
 
   onFilterClose(event) {
-    this.store.dispatch(
-      new fromStore.CloseVisualizationLegendFilterSection(
-        this.mapVisualizationObject.componentId
-      )
-    );
+    this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 
   getSelectedFilters(dataSelections) {
-    const { columns = [], rows = [], filters = [] } = dataSelections || {};
+    const { columns, rows, filters } = dataSelections;
     const data = [...columns, ...filters, ...rows];
     const selectedPeriods = getDimensionItems('pe', data);
     const selectedDataItems = getDimensionItems('dx', data);
@@ -217,10 +205,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     let selectedGroups = [];
     let selectedUserOrgUnits = [];
     orgUnitArray.map(orgunit => {
-      if (
-        orgunit.dimensionItemType &&
-        orgunit.dimensionItemType === 'ORGANISATION_UNIT'
-      ) {
+      if (orgunit.dimensionItemType && orgunit.dimensionItemType === 'ORGANISATION_UNIT') {
         const orgUnit = {
           id: orgunit.dimensionItem,
           name: orgunit.displayName,
@@ -228,20 +213,14 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
         };
         selectedOrgUnits = [...selectedOrgUnits, orgUnit];
       }
-      if (
-        orgunit.dimensionItem &&
-        orgunit.dimensionItem.indexOf('LEVEL') !== -1
-      ) {
+      if (orgunit.dimensionItem && orgunit.dimensionItem.indexOf('LEVEL') !== -1) {
         const level = {
           level: orgunit.dimensionItem.split('-')[1]
         };
         selectedLevels = [...selectedLevels, level];
       }
 
-      if (
-        orgunit.dimensionItem &&
-        orgunit.dimensionItem.indexOf('OU_GROUP') !== -1
-      ) {
+      if (orgunit.dimensionItem && orgunit.dimensionItem.indexOf('OU_GROUP') !== -1) {
         selectedGroups = [
           ...selectedGroups,
           {
@@ -250,10 +229,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
           }
         ];
       }
-      if (
-        orgunit.dimensionItem &&
-        orgunit.dimensionItem.indexOf('USER') !== -1
-      ) {
+      if (orgunit.dimensionItem && orgunit.dimensionItem.indexOf('USER') !== -1) {
         selectedUserOrgUnits = [
           ...selectedUserOrgUnits,
           {
@@ -266,6 +242,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
     this.orgUnitModel = {
       ...this.orgUnitModel,
+      selectionMode: selectedLevels.length ? 'Level' : selectedGroups.length ? 'Group' : 'orgUnit',
       selectedLevels: selectedLevels || [],
       selectedOrgUnits: selectedOrgUnits || [],
       selectedUserOrgUnits: selectedUserOrgUnits || [],
@@ -273,13 +250,15 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     };
   }
 
+  onLegendSetConfigTypeUpdate(configType: string) {
+    this.store.dispatch(new fromStore.SetCurrentLegendSeletionType(configType));
+  }
+
+  onCurrentLegendSetUpdate(legendSet) {
+    this.store.dispatch(new fromStore.SetCurrentLegendSet(legendSet));
+  }
+
   ngOnDestroy() {
-    if (this.mapVisualizationObject) {
-      this.store.dispatch(
-        new fromStore.CloseVisualizationLegendFilterSection(
-          this.mapVisualizationObject.componentId
-        )
-      );
-    }
+    this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as fromStore from '../../store';
@@ -12,12 +12,19 @@ import { VisualizationObject } from '../../models/visualization-object.model';
   styleUrls: ['./map.component.css'],
   templateUrl: './map.component.html'
 })
-export class MapComponent implements OnInit {
-  @Input() vizObject;
-  @Input() id;
-  @Input() visualizationLayers: any;
-  @Input() visualizationConfig: any;
-  @Input() visualizationUiConfig: any;
+export class MapComponent implements OnChanges {
+  @Input()
+  vizObject;
+  @Input()
+  downloadMapFileName;
+  @Input()
+  hiddenDataElements;
+  @Input()
+  renamedDataElements;
+  @Input()
+  loadingData: boolean;
+  @Input()
+  functionsMapping;
   visualizationObject: VisualizationObject;
   componentId: string;
   displayConfigurations: any;
@@ -27,23 +34,35 @@ export class MapComponent implements OnInit {
     this.store.dispatch(new fromStore.AddContectPath());
   }
 
-  ngOnInit() {
-    this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.id));
+  ngOnChanges(changes: SimpleChanges) {
+    const { vizObject, downloadMapFileName } = changes;
 
-    this.transformVisualizationObject(this.visualizationConfig, this.visualizationLayers, this.id);
-    this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.id));
+    if (vizObject) {
+      const { id } = vizObject.currentValue;
+      this.componentId = id;
+      this.displayConfigurations = {
+        itemHeight: this.vizObject.details.cardHeight,
+        mapWidth: '100%'
+      };
+      this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(id));
+      this.transformVisualizationObject(vizObject.currentValue);
+      this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(id));
+    }
+    if (downloadMapFileName && downloadMapFileName.currentValue) {
+      this.store.dispatch(new fromStore.ConvertDomToPng(this.vizObject.id));
+    }
   }
 
   getVisualizationObject() {
-    this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.id));
+    this.visualizationObject$ = this.store.select(fromStore.getCurrentVisualizationObject(this.componentId));
   }
 
-  transformVisualizationObject(visualizationConfig, visualizationLayers, id) {
+  transformVisualizationObject(data) {
     // TODO FIND A WAY TO GET GEO FEATURES HERE
-    const { visObject } = fromUtils.transformVisualizationObject(visualizationConfig, visualizationLayers, id);
+    const { visObject } = fromUtils.transformVisualizationObject(data);
     this.visualizationObject = {
       ...this.visualizationObject,
-      componentId: this.id,
+      componentId: this.componentId,
       ...visObject
     };
     this.store.dispatch(new fromStore.AddVisualizationObjectComplete(this.visualizationObject));

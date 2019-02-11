@@ -1,0 +1,82 @@
+<div class="legend-set-group">
+  <div class="d-inline">
+    <ng-select
+      [items]="legendSets"
+      bindLabel="name"
+      bindValue="id"
+      (clear)="onLegendSetSelectionClear()"
+      placeholder="Select Legend"
+      (change)="onSetCurrentLegendSet($event)"
+      [(ngModel)]="currentLegendSetId"
+    >
+    </ng-select>
+  </div>
+  <div class="legendStyles">
+    <span>Legend Style: </span>
+    <ng-select
+      [items]="legendStyles"
+      [searchable]="false"
+      [(ngModel)]="currentLegendSet.legendSetType"
+      [clearable]="false"
+      placeholder="Select Legend Style"
+    >
+    </ng-select>
+  </div>
+  <div class="legend-set-group_list">
+    <!-- legend set group item -->
+    <div class="legend-set-group_item">
+      <!-- title -->
+      <div class="legend-set-group_item-header">
+        <div class="legend-set-group_item-header-title">
+          <input
+            (blur)="onLegendSetNameUpdate()"
+            type="text"
+            class="legend-set-input legend-set-name-input"
+            [(ngModel)]="currentLegendSet.name"
+          />
+        </div>
+        <button
+          *ngIf="currentLegendSet.legends.length"
+          title="Delete legendSet"
+          class="legend-button"
+          (click)="deleteLegendSets($event)"
+        >
+          <img [src]="deleteIcon" alt="" />
+        </button>
+      </div>
+      <!-- end of title -->
+      <!-- content -->
+      <div class="legend-set-group_item-content">
+        <div class="legend-set-group_item-member-list">
+          <div class="legend-set-group_item-label"></div>
+          <!--
+            <div class="legend-set-group_item-member-item" *ngIf="legendSet.legends.length === 0">Add new Legend</div>
+          -->
+          <div class="legend-set-group_item-member-item" *ngIf="currentLegendSet.legends.length">
+            <app-legend-set
+              [legendSet]="currentLegendSet"
+              [legendSetType]="currentLegendSet.legendSetType"
+              (onLegendSetChange)="onLegendSetUpdate($event)"
+            ></app-legend-set>
+          </div>
+          <div class="add-new-legend ">
+            <button title="Add new legend" class="add-new-legend-button" (click)="addNewLegend($event)">Add</button>
+          </div>
+        </div>
+      </div>
+      <!-- end of content -->
+    </div>
+    <!-- end of legend set group item -->
+  </div>
+</div>
+<div class="legend-set-save-btns">
+  <div>
+    <button
+      class="btn btn-outline-secondary btn-sm"
+      (click)="saveCofigurations($event)"
+      [disabled]="!currentLegendSet.legends.length"
+    >
+      Save
+    </button>
+  </div>
+</div>

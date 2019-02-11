@@ -3,10 +3,10 @@ export const TILE_LAYERS = {
     name: 'osmLight',
     type: 'tileLayer',
     label: 'OSM Light',
-    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     maxZoom: 18,
-    attribution: '&copy;<a href="https://carto.com/attribution">cartoDB</a>',
-    image: 'assets/img/map-tiles/esri_osm_light.png',
+    attribution:
+      'Map data portions &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     baseLayer: true,
     visible: true
   },

@@ -11,3 +11,10 @@ export interface GeoFeature {
   pn: string;
   ty: string;
 }
+
+export interface MapOptions {
+  label?: boolean;
+  data?: any;
+  pointToLayer: any;
+  usePatterns?: boolean;
+}

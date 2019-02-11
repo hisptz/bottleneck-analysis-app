@@ -1,0 +1,75 @@
+.item-absolute {
+  position: absolute;
+  height: fit-content;
+  min-width: 220px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 3px;
+  top: 10px;
+  left: 5px;
+  z-index: 500;
+}
+
+.equitySign {
+  width: 11px;
+  margin: 0 2px;
+}
+
+.map-legend-header {
+  padding: 5px 10px 5px 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.map-legend-title-block {
+  display: flex;
+}
+
+.map-legend-title {
+  padding-left: 5px;
+  padding-top: 2px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.map-legend-body {
+  border-top: solid thin #ececec;
+  padding: 5px 10px;
+  font-size: 13px;
+  overflow: auto;
+  grid-auto-rows: 30px;
+  display: grid;
+  grid-row-gap: 2px;
+}
+
+.period-legend {
+  color: rgba(0, 0, 0, 0.54);
+  display: block;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.map-legend-table {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.map-legend-table-list {
+  list-style-type: none;
+  justify-content: center;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 5px;
+}
+
+.map-legend-table-list li {
+  margin-right: 2px;
+}

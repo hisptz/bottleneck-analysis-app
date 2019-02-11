@@ -1,14 +1,18 @@
 .map-legend__container {
-  width: 100%;
   position: relative;
   -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-  min-width: 250px;
+  min-width: 220px;
   background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+}
+
+.equitySign {
+  width: 11px;
+  margin: 0 2px;
 }
 
 .map-legend-list {
@@ -20,6 +24,13 @@
 }
 
 .map-legend-header {
+  padding: 5px 10px 5px 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.map-legend-header-base_layer {
   padding: 5px 10px 5px 10px;
   cursor: pointer;
   display: flex;
@@ -56,18 +67,23 @@
 .map-legend-body {
   border-top: solid thin #ececec;
   padding: 5px 10px;
-  font-size: 15px;
+  font-size: 13px;
   overflow: auto;
 }
 
 .map-legend-table {
-  display: flex;
-  width: 100%;
-  padding: 0;
+  display: grid;
+  grid-template-columns: 40px 1fr;
 }
 
 .align-center {
   align-items: center;
+}
+
+.errorMessage {
+  font-size: 15px;
+  font-weight: 600;
+  color: #dc3545;
 }
 
 .map-legend-table-list {
@@ -83,8 +99,9 @@
 }
 
 .tile-layers-list {
-  list-style-type: none;
-  padding: 0;
+  grid-auto-rows: 30px;
+  display: grid;
+  grid-row-gap: 2px;
 }
 
 .tile-layer-item {
@@ -240,6 +257,10 @@ table {
   /*padding: 10px;*/
   font-size: 12px;
   font-weight: bold;
+}
+
+.body {
+  /*border-bottom: 1px solid #cccccc!important;*/
 }
 
 .class-container {
@@ -573,17 +594,15 @@ table.legend-button-table tr td {
 }
 
 .visualization-btn {
-  border-style: none;
   cursor: pointer;
   background-color: hsla(0, 0%, 100%, 0.85);
-  height: 34px;
+  height: 35px;
   width: 34px;
   border-radius: 0 50% 50% 0;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 .visualization-btn img {
@@ -593,18 +612,19 @@ table.legend-button-table tr td {
 }
 
 .legendFilter__container {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
 }
 
 .filter__button {
   position: absolute;
+  margin-top: -5px;
   right: -34px;
   text-align: center;
 }
 
 .legend-filter__container {
-  width: 100%;
-  min-width: 400px;
+  width: 450px;
   -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
@@ -656,4 +676,8 @@ input[type='range']::-webkit-slider-thumb:active {
   width: 12px;
   height: 12px;
   border-radius: 50%;
+}
+
+.map-legend-item.active-legend {
+  background-color: white;
 }

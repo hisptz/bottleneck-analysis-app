@@ -16,7 +16,15 @@ import * as fromStore from '../../store';
   selector: 'app-container-map',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './container-map.component.html',
-  styleUrls: ['./container-map.component.css']
+  styleUrls: ['./container-map.component.css'],
+  styles: [
+    `:host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }`
+  ]
 })
 export class ContainerMapComponent implements OnChanges {
   @Input() visualizationObject: VisualizationObject;
@@ -47,23 +55,15 @@ export class ContainerMapComponent implements OnChanges {
     const { componentId } = visualizationObject;
 
     // Detect if visualizationLegend is Open;
-    this.visualizationLegendIsOpen$ = this.store.select(
-      fromStore.isVisualizationLegendOpen(componentId)
-    );
+    this.visualizationLegendIsOpen$ = this.store.select(fromStore.isVisualizationLegendOpen(componentId));
 
     // Detect if DataTable is Open;
-    this.isDataTableOpen$ = this.store.select(
-      fromStore.isDataTableOpen(componentId)
-    );
+    this.isDataTableOpen$ = this.store.select(fromStore.isDataTableOpen(componentId));
 
     // Get the base layer legend
-    this.baselayerLegend$ = this.store.select(
-      fromStore.getCurrentBaseLayer(componentId)
-    );
+    this.baselayerLegend$ = this.store.select(fromStore.getCurrentBaseLayer(componentId));
 
     // Get current base layerSettings;
-    this.currentLegendSets$ = this.store.select(
-      fromStore.getCurrentLegendSets(componentId)
-    );
+    this.currentLegendSets$ = this.store.select(fromStore.getCurrentLegendSets(componentId));
   }
 }

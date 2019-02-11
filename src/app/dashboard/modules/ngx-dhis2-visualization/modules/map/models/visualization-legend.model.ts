@@ -3,4 +3,6 @@ export interface VisualizationLegend {
   pinned: boolean;
   filterSectionOpen: boolean;
   datatableIsOpen?: boolean;
+  filterSectionLoading?: boolean;
+  filterSectionJustUpdated?: boolean;
 }
