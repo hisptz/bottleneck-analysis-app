@@ -58,6 +58,7 @@
     "leaflet.layergroup.collision": "^0.3.1",
     "leaflet.markercluster": "^1.4.1",
     "lodash": "^4.17.11",
+    "ng2-dnd": "^5.0.2",
     "ng2-dragula": "^2.1.1",
     "ngx-color-picker": "^7.3.0",
     "ngx-pagination": "^3.2.1",

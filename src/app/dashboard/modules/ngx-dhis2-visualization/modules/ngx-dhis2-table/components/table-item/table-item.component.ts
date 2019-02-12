@@ -25,6 +25,9 @@ export class TableItemComponent implements OnInit {
   @Input()
   legendSets: LegendSet[];
 
+  rows: any[];
+  columns: any[];
+
   @ViewChild('table')
   table: ElementRef;
   tableObject: any;
@@ -42,6 +45,22 @@ export class TableItemComponent implements OnInit {
         this.tableConfiguration
       );
     }
+  }
+
+  onLayoutChange(action: any) {
+    const rows = this.tableConfiguration.rows;
+    const columns = this.tableConfiguration.columns;
+
+    this.tableConfiguration = {
+      ...this.tableConfiguration,
+      rows: columns,
+      columns: rows
+    };
+
+    this.tableData = drawBnaTable(
+      this.analyticsObject,
+      this.tableConfiguration
+    );
   }
 
   downloadTable(downloadFormat) {
