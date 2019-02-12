@@ -16,6 +16,12 @@ export class MapComponent implements OnChanges {
   @Input()
   vizObject;
   @Input()
+  visualizationLayers;
+  @Input()
+  visualizationUiConfig;
+  @Input()
+  visualizationConfig;
+  @Input()
   downloadMapFileName;
   @Input()
   hiddenDataElements;
