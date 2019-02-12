@@ -61,6 +61,7 @@ export class TableItemComponent implements OnInit {
       this.analyticsObject,
       this.tableConfiguration
     );
+    console.log(this.tableData);
   }
 
   downloadTable(downloadFormat) {
