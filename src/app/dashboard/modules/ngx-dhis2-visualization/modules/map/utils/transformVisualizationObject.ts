@@ -1,34 +1,35 @@
 import * as _ from 'lodash';
-import { VisualizationObject } from '../models/visualization-object.model';
+import { getOrgUnitsFromRows, getDataItemsFromColumns, getPeriodFromFilters } from './analytics';
 import { MapConfiguration } from '../models/map-configuration.model';
 import { Layer } from '../models/layer.model';
 import { getBboxBounds } from './layers';
 import { colorBrewer, getColorScale } from './colorBrewer';
 
-export function transformVisualizationObject(visualizationObject) {
+export function transformVisualizationObject(visualizationConfig, visualizationLayers, vizId) {
+  if (!visualizationConfig || !visualizationLayers || !vizId) {
+    return { visObject: {} };
+  }
   let visObject = {};
   let geofeatures = {};
   let analytics = {};
   let orgUnitGroupSet = {};
   let serverSideConfig = {};
-  const mapconfig = visualizationObject.details;
+  const { id, name, subtitle, latitude, longitude, basemap, zoom, fullScreen = false } = visualizationConfig;
   const mapConfiguration: MapConfiguration = {
-    id: mapconfig.id,
-    name: mapconfig.name || visualizationObject.name,
-    subtitle: mapconfig.subtitle,
-    latitude: mapconfig.latitude,
-    longitude: mapconfig.longitude,
-    basemap: mapconfig.basemap,
-    zoom: mapconfig.zoom,
-    fullScreen: mapconfig.fullScreen
+    id: id || vizId,
+    name,
+    subtitle,
+    latitude,
+    longitude,
+    basemap,
+    zoom,
+    fullScreen
   };
 
   let layers: Layer[] = [];
 
-  const vizObjLayers = visualizationObject.layers;
-
-  vizObjLayers.forEach(mapview => {
-    const settings = mapview.settings;
+  visualizationLayers.forEach(mapview => {
+    const settings = mapview.config || mapview.settings || mapview;
     const layer = {
       id: settings.id,
       name: settings.name,
@@ -54,7 +55,11 @@ export function transformVisualizationObject(visualizationObject) {
       const bounds = getBboxBounds(mapview.analytics['extent']);
       serverSideConfig = { ...serverSideConfig, bounds };
     }
-    const layerOptions = { ..._layerOptions, serverClustering, serverSideConfig };
+    const layerOptions = {
+      ..._layerOptions,
+      serverClustering,
+      serverSideConfig
+    };
 
     const legendProperties = {
       colorLow: settings.colorLow,
@@ -64,32 +69,39 @@ export function transformVisualizationObject(visualizationObject) {
       method: settings.method || 2
     };
 
-    const { labelFontColor, labelFontSize, labelFontStyle, labels, hideTitle, hideSubtitle } = settings;
-    const displaySettings = {
-      labelFontColor: isColor(labelFontColor) ? labelFontColor : '#000000',
-      labelFontSize: labelFontSize || '14',
-      labelFontStyle,
-      labels,
-      hideSubtitle,
-      hideTitle
-    };
-
-    const dataSelections = _.pick(settings, [
-      'config',
-      'parentLevel',
-      'completedOnly',
-      'translations',
-      'interpretations',
-      'program',
-      'programStage',
-      'columns',
-      'rows',
-      'filters',
-      'aggregationType',
-      'organisationUnitGroupSet',
-      'startDate',
-      'endDate'
+    const displaySettings = _.pick(settings, [
+      'labelFontColor',
+      'labelFontSize',
+      'labelFontStyle',
+      'labelFontWeight',
+      'labels',
+      'hideTitle',
+      'hideSubtitle'
     ]);
+
+    const rows = (mapview.dataSelections || []).filter(dt => dt.dimension === 'ou');
+    const columns = (mapview.dataSelections || []).filter(dt => dt.dimension === 'dx');
+    const filters = (mapview.dataSelections || []).filter(dt => dt.dimension === 'pe');
+    const dataSelections = Object.assign(
+      {},
+      _.pick(settings, [
+        'config',
+        'parentLevel',
+        'completedOnly',
+        'translations',
+        'interpretations',
+        'program',
+        'programStage',
+        'columns',
+        'rows',
+        'filters',
+        'aggregationType',
+        'organisationUnitGroupSet',
+        'startDate',
+        'endDate'
+      ]),
+      { rows, columns, filters }
+    );
 
     const legendSet = settings.legendSet;
 
@@ -126,7 +138,6 @@ export function transformVisualizationObject(visualizationObject) {
 }
 
 const defaultScaleKey = 'YlOrBr';
-export const defaultClasses = 5;
+const defaultClasses = 5;
 const isVersionGreater = Number(localStorage.getItem('version')) >= 2.28;
-export const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);
-const isColor = color => /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
+const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);
