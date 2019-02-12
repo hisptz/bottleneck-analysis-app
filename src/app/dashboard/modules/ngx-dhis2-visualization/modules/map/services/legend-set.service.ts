@@ -1,11 +1,11 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
-
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LegendSetService {
   constructor(private httpClient: HttpClient) {}
 
@@ -22,9 +22,7 @@ export class LegendSetService {
     ];
     const url = `../../../api/legendSets/${legendId}.json?fields=${fields.join(',')}`;
 
-    return this.httpClient
-      .get(url)
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+    return this.httpClient.get(url).pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   getAllLegendSets() {
@@ -39,8 +37,6 @@ export class LegendSetService {
       '!userGroupAccesses'
     ];
     const url = `../../../api/legendSets.json?fields=${fields.join(',')}&paging=false`;
-    return this.httpClient
-      .get(url)
-      .pipe(catchError((error: any) => observableThrowError(error.json())));
+    return this.httpClient.get(url).pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 }

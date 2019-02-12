@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { HttpClientService } from './http-client.service';
 import * as _ from 'lodash';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AnalyticsService {
   constructor(private httpClient: HttpClientService) {}
 

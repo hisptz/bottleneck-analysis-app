@@ -4,7 +4,9 @@ import { Observable, combineLatest } from 'rxjs';
 
 import { GeoFeature } from '../models/geo-feature.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class GeoFeatureService {
   constructor(private httpClient: HttpClientService) {}
 
