@@ -10,7 +10,7 @@
       <tr
         *ngFor="let tableHeaderRow of tableData?.headers"
         dnd-droppable
-        (onDropSuccess)="onLayoutChange('TO_COLUMNS')"
+        (onDropSuccess)="onLayoutChange($event)"
       >
         <th
           class="table-header-cell"
@@ -33,7 +33,7 @@
           *ngFor="let tableCell of tableRow"
           [attr.rowspan]="tableCell.rowSpan"
           dnd-droppable
-          (onDropSuccess)="onLayoutChange('TO_ROWS')"
+          (onDropSuccess)="onLayoutChange($event)"
         >
           <span
             class="table-item-cell-label"

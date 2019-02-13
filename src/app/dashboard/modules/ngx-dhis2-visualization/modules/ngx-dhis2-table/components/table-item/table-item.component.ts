@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import * as _ from 'lodash';
 import { TableConfiguration } from '../../models/table-configuration';
 import { LegendSet } from '../../models/legend-set.model';
@@ -25,6 +33,9 @@ export class TableItemComponent implements OnInit {
   @Input()
   legendSets: LegendSet[];
 
+  @Output()
+  layoutUpdate: EventEmitter<any> = new EventEmitter<any>();
+
   rows: any[];
   columns: any[];
 
@@ -47,7 +58,7 @@ export class TableItemComponent implements OnInit {
     }
   }
 
-  onLayoutChange(action: any) {
+  onLayoutChange(event) {
     const rows = this.tableConfiguration.rows;
     const columns = this.tableConfiguration.columns;
 
@@ -61,6 +72,12 @@ export class TableItemComponent implements OnInit {
       this.analyticsObject,
       this.tableConfiguration
     );
+
+    this.layoutUpdate.emit({
+      rows: columns,
+      columns: rows,
+      filters: this.tableConfiguration.filters
+    });
   }
 
   downloadTable(downloadFormat) {
