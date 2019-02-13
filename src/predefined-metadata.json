@@ -19,6 +19,10 @@
                     "type": "INDICATOR"
                   },
                   {
+                    "name": "[TMPL] Access to PMTCT Services",
+                    "type": "INDICATOR"
+                  },
+                  {
                     "name": "[TMPL] Initial Utilization PMTCT",
                     "type": "INDICATOR"
                   },

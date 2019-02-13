@@ -123,7 +123,10 @@
 </div>
 
 <!-- current dashboard description -->
-<div class="current-dashboard-description" *ngIf="dashboardLoaded">
+<div
+  class="current-dashboard-description"
+  *ngIf="dashboardLoaded && visualizationLoadingPercent == 100"
+>
   <app-current-dashboard-description
     [dashboardDescription]="currentDashboard?.description"
     [globalDataSelectionSummary]="globalDataSelectionSummary"

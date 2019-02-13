@@ -52,12 +52,7 @@ export class LoadDashboardsFailAction implements Action {
 
 export class LoadDashboardsSuccessAction implements Action {
   readonly type = DashboardActionTypes.LoadDashboardsSuccess;
-  constructor(
-    public dashboards: any[],
-    public currentUser: User,
-    public systemInfo: SystemInfo,
-    public dataGroups: any[]
-  ) {}
+  constructor(public dashboards: any[], public currentUser: User) {}
 }
 
 export class AddDashboardAction implements Action {

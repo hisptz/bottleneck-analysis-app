@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+import * as _ from 'lodash';
 
 import {
   getCombinedVisualizationLayers,
@@ -7,7 +8,10 @@ import {
 } from '../../helpers';
 import { getDataSelectionsFromVisualizationLayers } from '../../helpers/get-data-selections-from-visualization-layers.helper';
 import { DashboardVisualization } from '../../models';
-import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
+import {
+  Visualization,
+  VisualizationDataSelection
+} from '../../modules/ngx-dhis2-visualization/models';
 import {
   getVisualizationLayerEntities,
   getVisualizationObjectEntities
@@ -79,4 +83,54 @@ export const getGlobalDataSelectionSummary = createSelector(
   getCurrentGlobalDataSelections(true),
   (globalDataSelections: VisualizationDataSelection[]) =>
     getDataSelectionSummary(globalDataSelections)
+);
+
+export const getCurrentDashboardVisualizationLoadingProgress = createSelector(
+  getCurrentDashboardVisualizationItems,
+  getVisualizationObjectEntities,
+  (dashboardVisualizationItems: any, visualizationObjectEntities: any) => {
+    const visualizationObjects: Visualization[] = _.map(
+      dashboardVisualizationItems,
+      (dashboardVisualization: any) => {
+        const visualizationObject: Visualization =
+          visualizationObjectEntities[dashboardVisualization.id];
+        return visualizationObject;
+      }
+    );
+
+    const loadedPercent =
+      _.reduce(
+        _.map(visualizationObjects, (visualizationObject: Visualization) => {
+          return visualizationObject
+            ? visualizationObject.progress
+              ? visualizationObject.progress.percent
+              : 0
+            : 0;
+        }),
+        (sum, n) => sum + n
+      ) || 0;
+
+    const loadedVisualizationObjects = _.filter(
+      visualizationObjects,
+      (visualizationObject: Visualization) => {
+        return visualizationObject
+          ? visualizationObject.progress
+            ? visualizationObject.progress.percent === 100
+            : false
+          : false;
+      }
+    );
+
+    const lastLoadedVisualizationObject = _.last(loadedVisualizationObjects);
+
+    const totalPercent = visualizationObjects.length * 100;
+    return {
+      message: lastLoadedVisualizationObject
+        ? `Loading data for ${lastLoadedVisualizationObject.name}....`
+        : 'Discovering visualization items...',
+      percent: ((loadedPercent / totalPercent || 0) * 100).toFixed(0),
+      loadedItems: loadedVisualizationObjects.length,
+      totalItems: visualizationObjects.length
+    };
+  }
 );
