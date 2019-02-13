@@ -38,8 +38,8 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
   private _currentLegendSets;
   showDownloadLegend$: Observable<boolean>;
 
-  public mapHasGeofeatures: boolean = true;
-  public mapHasDataAnalytics: boolean = true;
+  public mapHasGeofeatures = true;
+  public mapHasDataAnalytics = true;
   public map: any;
 
   constructor(private store: Store<fromStore.MapState>) {
@@ -142,10 +142,9 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
   }
 
   initializeMapContainer() {
-    const { itemHeight, mapWidth } = this.displayConfigurations;
+    const { height: itemHeight, width: mapWidth, fullScreen: displaFullScreen } = this.displayConfigurations;
     const { mapConfiguration, componentId } = this.visualizationObject;
-    const fullScreen =
-      (mapConfiguration && mapConfiguration.fullScreen) || itemHeight === '100vh' || itemHeight === '100%';
+    const fullScreen = (mapConfiguration && displaFullScreen) || itemHeight === '100vh' || itemHeight === '100%';
     const container = fromUtils.prepareMapContainer(componentId, itemHeight, mapWidth, false);
 
     const otherOptions = {

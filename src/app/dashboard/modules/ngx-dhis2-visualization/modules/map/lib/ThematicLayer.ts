@@ -39,18 +39,9 @@ export const thematic = options => {
   const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
   const period = getPeriodFromFilters(dataSelections.filters);
   legend['period'] = getPeriodNameFromId(period);
-  let valueFormat;
-  if (method === CLASSIFICATION_EQUAL_INTERVALS) {
-    const binSize = (maxValue - minValue) / classes;
-    const precision = precisionRound(binSize, maxValue);
-    valueFormat = format(`.${precision}f`);
-  } else if (method === CLASSIFICATION_EQUAL_COUNTS) {
-    const precision = precisionRound((maxValue - minValue) / classes, maxValue);
-    valueFormat = format(`.${precision}f`);
-  }
 
   valueFeatures.forEach(({ id, properties }) => {
-    const value = valueFormat ? Number(valueFormat(valueById[id])) : valueById[id];
+    const value = valueById[id];
     const item = getLegendItem(value);
     if (item) {
       item.count++;

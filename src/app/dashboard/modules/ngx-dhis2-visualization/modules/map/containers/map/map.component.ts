@@ -28,6 +28,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log({ visualizationUiConfig: this.visualizationUiConfig });
     this.store.dispatch(new fromStore.InitiealizeVisualizationLegend(this.id));
 
     this.transformVisualizationObject(this.visualizationConfig, this.visualizationLayers, this.id);

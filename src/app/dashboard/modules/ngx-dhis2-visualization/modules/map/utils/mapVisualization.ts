@@ -1,5 +1,3 @@
-import { MapConfiguration } from '../models/map-configuration.model';
-
 export function refineHeight(mapHeight) {
   let height = '';
   if (mapHeight.indexOf('vh') >= 0) {
@@ -25,11 +23,8 @@ export function prepareMapContainer(mapObjectId, height, width, isFullscreen) {
   if (isFullscreen) {
     width = '100%';
   }
-  div.style.top = '0px';
-  div.style.bottom = '0px';
-  div.style.left = '0px';
-  div.style.right = '0px';
-  div.style.position = 'absolute';
+  div.style.width = '100%';
+  div.style.height = height;
   div.style.background = '#FCFAF8';
   if (parentElement) {
     parentElement.appendChild(div);
