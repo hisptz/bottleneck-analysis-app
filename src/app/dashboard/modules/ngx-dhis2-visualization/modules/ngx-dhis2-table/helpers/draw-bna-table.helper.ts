@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { TableConfiguration } from '../models/table-configuration';
 import { getDataSelectionGroupMembers } from './get-data-selection-group-members.helper';
 import { getMergedTableRows } from './get-merged-table-rows.helper';
@@ -6,6 +7,8 @@ import { getTableHeaderRows } from './get-table-header-rows.helper';
 import { getTableRowsOrColumnsArray } from './get-table-rows-or-columns-array.helper';
 import { getTableRowsUpdatedWithColumnsMetadata } from './get-table-rows-updated-with-columns-metadata.helper';
 import { getTableSubtitle } from './get-table-subtitle.helper';
+import { getMergedTableColumns } from './get-merged-table-columns.helper';
+import { getHeaderColSpan } from './get-header-col-span.helper';
 
 export function drawBnaTable(
   analyticsObject: any,
@@ -17,13 +20,21 @@ export function drawBnaTable(
     'row'
   );
 
-  // Get table columns
-  const tableColumnsArray = getTableRowsOrColumnsArray(
-    getTableDimensionItemsArray(tableConfiguration.columns, analyticsObject),
-    'column'
+  // Get dx group members
+  const dataSelectionGroupMembers = getDataSelectionGroupMembers(
+    tableConfiguration
   );
 
-  const headers = getTableHeaderRows(
+  // Get table columns
+  const tableColumnsArray = getMergedTableColumns(
+    getTableRowsOrColumnsArray(
+      getTableDimensionItemsArray(tableConfiguration.columns, analyticsObject),
+      'column'
+    ),
+    dataSelectionGroupMembers
+  );
+
+  const headers: Array<any[]> = getTableHeaderRows(
     tableRowsArray[0],
     tableColumnsArray,
     analyticsObject,
@@ -34,13 +45,14 @@ export function drawBnaTable(
     title: tableConfiguration.title,
     subtitle: getTableSubtitle(tableConfiguration, analyticsObject),
     headers,
+    headerColSpan: getHeaderColSpan(headers),
     rows: getMergedTableRows(
       getTableRowsUpdatedWithColumnsMetadata(
         tableConfiguration,
         tableRowsArray,
         tableColumnsArray
       ),
-      getDataSelectionGroupMembers(tableConfiguration)
+      dataSelectionGroupMembers
     )
   };
 }
