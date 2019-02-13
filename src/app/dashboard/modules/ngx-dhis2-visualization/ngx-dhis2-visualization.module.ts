@@ -11,16 +11,17 @@ import { NgxDhis2ChartModule } from './modules/ngx-dhis-chart/ngx-dhis2-chart.mo
 import { MapModule } from './modules/map/map.module';
 
 import { reducers } from './store/reducers';
-import { pipes } from './pipes';
 import { components } from './components';
 import { containers } from './containers';
 import { effects } from './store/effects';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    SharedModule,
     TranslateModule.forRoot(),
     StoreModule.forFeature('visualization', reducers),
     EffectsModule.forFeature(effects),
@@ -30,7 +31,7 @@ import { FormsModule } from '@angular/forms';
     NgxDhis2SelectionFiltersModule,
     MapModule
   ],
-  declarations: [...pipes, ...components, ...containers],
+  declarations: [...components, ...containers],
   exports: [...containers]
 })
 export class NgxDhis2VisualizationModule {}

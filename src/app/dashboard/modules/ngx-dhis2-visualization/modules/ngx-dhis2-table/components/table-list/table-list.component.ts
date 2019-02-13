@@ -1,8 +1,21 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import * as _ from 'lodash';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  EventEmitter,
+  Output
+} from '@angular/core';
 import { TableConfiguration } from '../../models/table-configuration';
 import { getTableConfiguration } from '../../helpers/index';
 import { LegendSet } from '../../models/legend-set.model';
 import { TableItemComponent } from '../table-item/table-item.component';
+import {
+  VisualizationLayer,
+  VisualizationDataSelection
+} from '../../../../models';
+import { getInvertedObject } from '../../helpers/get-inverted-object.helper';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'ngx-dhis2-table-list',
@@ -20,6 +33,9 @@ export class TableListComponent implements OnInit {
     tableConfiguration: TableConfiguration;
     analyticsObject: any;
   }> = [];
+
+  @Output()
+  updateTableVisualizationLayer: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild(TableItemComponent)
   tableItem: TableItemComponent;
   constructor() {}
@@ -44,5 +60,34 @@ export class TableListComponent implements OnInit {
     if (this.tableItem) {
       this.tableItem.downloadTable(downloadFormat);
     }
+  }
+
+  onLayoutUpdate(layout: any) {
+    const invertedLayout = getInvertedObject(layout);
+    console.log(invertedLayout);
+
+    _.each(
+      this.visualizationLayers,
+      (visualizationLayer: VisualizationLayer) => {
+        const newVisualizationLayer = {
+          ...visualizationLayer,
+          dataSelections: _.map(
+            visualizationLayer.dataSelections || [],
+            (dataSelection: VisualizationDataSelection) => {
+              console.log(
+                dataSelection.dimension,
+                invertedLayout[dataSelection.dimension]
+              );
+              return {
+                ...dataSelection,
+                layout: invertedLayout[dataSelection.dimension]
+              };
+            }
+          )
+        };
+
+        this.updateTableVisualizationLayer.emit(newVisualizationLayer);
+      }
+    );
   }
 }

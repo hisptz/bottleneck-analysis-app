@@ -24,6 +24,7 @@ import {
   EMPTY_VISUALIZATION
 } from '../../constants/welcoming-messages.constants';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
+import { getCurrentDashboardVisualizationLoadingProgress } from '../../store/selectors';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -48,6 +49,8 @@ export class CurrentDashboardComponent implements OnInit {
   currentGlobalDataSelectionSummary$: Observable<string>;
 
   currentUserHasManagementAuthorities$: Observable<boolean>;
+
+  progressMessages$: Observable<any>;
 
   welcomingTitle: string;
   welcomingDescription: string;
@@ -96,6 +99,10 @@ export class CurrentDashboardComponent implements OnInit {
 
     this.currentGlobalDataSelectionSummary$ = store.select(
       fromDashboardSelectors.getGlobalDataSelectionSummary
+    );
+
+    this.progressMessages$ = this.store.select(
+      getCurrentDashboardVisualizationLoadingProgress
     );
 
     this.welcomingTitle = WELCOMING_TITLE;

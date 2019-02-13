@@ -53,13 +53,21 @@ export function updateDataSelectionBasedOnPreferences(
       // Set preferences for including org unit children
       if (preferences.includeOrgUnitChildren) {
         if (
-          _.some(
-            dataSelection.items,
-            (item: any) =>
-              (item.type && item.type.indexOf('LEVEL') === -1) ||
-              (item.id && item.id.indexOf('CHILDREN') === -1) ||
-              (item.id && item.id.indexOf('LEVEL') === -1)
-          )
+          _.some(dataSelection.items, (item: any) => {
+            if (!item.id) {
+              return false;
+            }
+            return (
+              item.type &&
+              ((item.type.indexOf('USER') !== -1 &&
+                item.id.indexOf('CHILDREN') === -1) ||
+                (item.type.indexOf('LEVEL') !== -1 &&
+                  item.id.indexOf('LEVEL') === -1) ||
+                ((item.type.indexOf('USER') === -1 ||
+                  item.type.indexOf('LEVEL') !== -1) &&
+                  item.id.indexOf('LEVEL') === -1))
+            );
+          })
         ) {
           const lowestOrgUnitLevel = _.min(
             _.filter(_.map(dataSelection.items, (item: any) => item.level))

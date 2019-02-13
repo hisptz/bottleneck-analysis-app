@@ -40,6 +40,9 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   @Input()
   globalDataSelectionSummary: string;
 
+  @Input()
+  visualizationLoadingPercent: number;
+
   selectionFilterConfig: SelectionFilterConfig;
   showFavoriteFilter: boolean;
 

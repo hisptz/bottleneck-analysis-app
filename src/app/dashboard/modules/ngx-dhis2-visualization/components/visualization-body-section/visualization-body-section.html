@@ -19,6 +19,7 @@
       [visualizationLayers]="visualizationLayers"
       [visualizationType]="visualizationConfig.type"
       [legendSets]="legendSets"
+      (updateTableVisualizationLayer)="onVisualizationLayerUpdate($event)"
     ></ngx-dhis2-table-list>
   </div>
   <!--end of table visualization-->

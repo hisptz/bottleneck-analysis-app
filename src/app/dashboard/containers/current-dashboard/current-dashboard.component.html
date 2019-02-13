@@ -29,6 +29,7 @@
       [dashboardLoaded]="dashboardLoaded$ | async"
       [globalDataSelections]="currentGlobalDataSelections$ | async"
       [globalDataSelectionSummary]="currentGlobalDataSelectionSummary$ | async"
+      [visualizationLoadingPercent]="(progressMessages$ | async)?.percent"
       (resetDashboard)="onResetDashboard($event)"
     ></app-current-dashboard-header>
   </div>

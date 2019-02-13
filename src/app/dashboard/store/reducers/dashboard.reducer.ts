@@ -1,12 +1,11 @@
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector } from '@ngrx/store';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import * as _ from 'lodash';
+
 import { Dashboard } from '../../models';
 import {
   DashboardActions,
   DashboardActionTypes
 } from '../actions/dashboard.actions';
-import { getStandardizedDashboards } from '../../helpers';
 
 export interface State extends EntityState<Dashboard> {
   // additional entities state properties
@@ -93,15 +92,8 @@ export function reducer(state = initialState, action: DashboardActions): State {
     }
 
     case DashboardActionTypes.LoadDashboardsSuccess: {
-      const dashboards: Dashboard[] = getStandardizedDashboards(
-        action.dashboards,
-        action.currentUser,
-        action.systemInfo,
-        action.dataGroups
-      );
-
-      return dashboards
-        ? adapter.addMany(dashboards, {
+      return action.dashboards
+        ? adapter.addMany(action.dashboards, {
             ...state,
             loading: false,
             loaded: true
