@@ -98,13 +98,16 @@ export function getTableRowsOrColumnsArray(
             _.map(
               _.range(flatDataItems.length),
               (flatDataItemCount: number) => {
-                const path = flatDataItems[flatDataItemCount].path;
+                const previousPath = flatDataItems[flatDataItemCount].path;
                 return _.map(
                   dataItemsArray[dataItemArrayIndex],
                   (dataItem: any) => {
+                    const path = `${previousPath}/${dataItem.id}`;
+
                     return {
                       ...dataItem,
-                      path: `${path}/${dataItem.id}`,
+                      path,
+                      dataRowIds: path.split('/'),
                       textCenter: true,
                       colSpan: _.reduce(
                         _.map(

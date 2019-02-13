@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VisualizationErrorNotifierComponent } from './visualization-error-notifier.component';
-import { SafePipe } from '../../pipes/safe';
+import { SafePipe } from '../../../../../shared/pipes/safe';
 
 describe('VisualizationErrorNotifierComponent', () => {
   let component: VisualizationErrorNotifierComponent;
