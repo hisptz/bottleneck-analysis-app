@@ -40,3 +40,17 @@
   font-weight: 500;
   margin-bottom: 7px;
 }
+
+.reshuffle-icon {
+  padding: 0;
+  display: flex;
+}
+.reshuffle-icon img {
+  height: 22px;
+}
+
+.table-header-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}

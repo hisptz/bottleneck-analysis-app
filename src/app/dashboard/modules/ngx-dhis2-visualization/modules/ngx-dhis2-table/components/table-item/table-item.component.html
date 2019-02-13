@@ -4,23 +4,26 @@
     <thead [@open]>
       <tr>
         <th [attr.colspan]="tableData?.headerColSpan" class="table-header-cell">
-          {{ tableData?.subtitle }}
+          <div class="table-header-item">
+            <button
+              class="btn reshuffle-icon"
+              title="Click to transpose"
+              (click)="onLayoutChange($event)"
+            >
+              <img [src]="reshuffleIcon" alt="" />
+            </button>
+            &nbsp;
+            {{ tableData?.subtitle }}
+          </div>
         </th>
       </tr>
-      <tr
-        *ngFor="let tableHeaderRow of tableData?.headers"
-        dnd-droppable
-        (onDropSuccess)="onLayoutChange($event)"
-      >
+      <tr *ngFor="let tableHeaderRow of tableData?.headers">
         <th
           class="table-header-cell"
           *ngFor="let tableHeaderCell of tableHeaderRow"
           [attr.rowspan]="tableHeaderCell.rowSpan"
           [style.text-align]="tableHeaderCell.textCenter ? 'center' : 'left'"
           [attr.colspan]="tableHeaderCell.colSpan"
-          dnd-draggable
-          [dragEnabled]="true"
-          [dragData]="tableHeaderRow"
         >
           {{ tableHeaderCell.name }}
         </th>
@@ -32,17 +35,10 @@
           class="table-item-cell-block"
           *ngFor="let tableCell of tableRow"
           [attr.rowspan]="tableCell.rowSpan"
-          dnd-droppable
-          (onDropSuccess)="onLayoutChange($event)"
         >
-          <span
-            class="table-item-cell-label"
-            *ngIf="!tableCell.isDataCell"
-            dnd-draggable
-            [dragEnabled]="true"
-            [dragData]="tableCell"
-            >{{ tableCell.name }}</span
-          >
+          <span class="table-item-cell-label" *ngIf="!tableCell.isDataCell">{{
+            tableCell.name
+          }}</span>
           <div class="table-item-cell-data" *ngIf="tableCell.isDataCell">
             <app-table-item-cell
               [dataRowIds]="tableCell.dataRowIds"

@@ -64,6 +64,7 @@ export class TableListComponent implements OnInit {
 
   onLayoutUpdate(layout: any) {
     const invertedLayout = getInvertedObject(layout);
+    console.log(invertedLayout);
 
     _.each(
       this.visualizationLayers,
@@ -73,6 +74,10 @@ export class TableListComponent implements OnInit {
           dataSelections: _.map(
             visualizationLayer.dataSelections || [],
             (dataSelection: VisualizationDataSelection) => {
+              console.log(
+                dataSelection.dimension,
+                invertedLayout[dataSelection.dimension]
+              );
               return {
                 ...dataSelection,
                 layout: invertedLayout[dataSelection.dimension]

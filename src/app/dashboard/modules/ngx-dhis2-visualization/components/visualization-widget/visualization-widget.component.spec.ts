@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VisualizationWidgetComponent } from './visualization-widget.component';
 import { VisualizationCardLoaderComponent } from '../visualization-card-loader/visualization-card-loader.component';
-import { SafePipe } from '../../pipes/safe';
+import { SafePipe } from '../../../../../shared/pipes/safe';
 import { VisualizationErrorNotifierComponent } from '../visualization-error-notifier/visualization-error-notifier.component';
 import { HttpClientModule } from '@angular/common/http';
 

@@ -16,6 +16,7 @@ import {
 } from '../../../../../../../animations';
 import { VisualizationExportService } from '../../../../services';
 import { drawBnaTable } from '../../helpers/draw-bna-table.helper';
+import { RESHUFFLE_ICON } from '../../icons';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -36,8 +37,7 @@ export class TableItemComponent implements OnInit {
   @Output()
   layoutUpdate: EventEmitter<any> = new EventEmitter<any>();
 
-  rows: any[];
-  columns: any[];
+  reshuffleIcon: string;
 
   @ViewChild('table')
   table: ElementRef;
@@ -47,6 +47,7 @@ export class TableItemComponent implements OnInit {
   tableData: any;
   constructor(private visualizationExportService: VisualizationExportService) {
     this.tableObject = null;
+    this.reshuffleIcon = RESHUFFLE_ICON;
   }
 
   ngOnInit() {
@@ -59,6 +60,7 @@ export class TableItemComponent implements OnInit {
   }
 
   onLayoutChange(event) {
+    event.stopPropagation();
     const rows = this.tableConfiguration.rows;
     const columns = this.tableConfiguration.columns;
 
@@ -72,12 +74,6 @@ export class TableItemComponent implements OnInit {
       this.analyticsObject,
       this.tableConfiguration
     );
-
-    this.layoutUpdate.emit({
-      rows: columns,
-      columns: rows,
-      filters: this.tableConfiguration.filters
-    });
   }
 
   downloadTable(downloadFormat) {

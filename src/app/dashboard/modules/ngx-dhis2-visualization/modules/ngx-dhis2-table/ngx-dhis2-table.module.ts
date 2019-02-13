@@ -5,9 +5,10 @@ import { CommonModule } from '@angular/common';
 import { TableItemCellComponent } from './components/table-item-cell/table-item-cell.component';
 
 import { DndModule } from 'ng2-dnd';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-  imports: [CommonModule, DndModule.forRoot()],
+  imports: [CommonModule, SharedModule, DndModule.forRoot()],
   declarations: [
     TableListComponent,
     TableItemComponent,
