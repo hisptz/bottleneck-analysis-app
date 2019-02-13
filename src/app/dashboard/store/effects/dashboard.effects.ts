@@ -30,6 +30,7 @@ import * as fromDashboardVisualizationActions from '../actions/dashboard-visuali
 import * as fromDashboardActions from '../actions/dashboard.actions';
 import * as fromDashboardSelectors from '../selectors';
 import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-visualization.selectors';
+import { getStandardizedDashboards } from '../../helpers';
 
 @Injectable()
 export class DashboardEffects {
@@ -41,13 +42,15 @@ export class DashboardEffects {
         map(
           (dashboards: any[]) =>
             new fromDashboardActions.LoadDashboardsSuccessAction(
-              fromDashboardHelpers.getFilteredDashboardBasedOnSharing(
-                dashboards,
-                action.currentUser
+              getStandardizedDashboards(
+                fromDashboardHelpers.getFilteredDashboardBasedOnSharing(
+                  dashboards,
+                  action.currentUser
+                ),
+                action.currentUser,
+                action.dataGroups
               ),
-              action.currentUser,
-              action.systemInfo,
-              action.dataGroups
+              action.currentUser
             )
         ),
         catchError((error: any) =>
@@ -311,18 +314,17 @@ export class DashboardEffects {
         fromDashboardActions.CreateDashboardAction,
         fromDashboardModels.DashboardSettings
       ]) => {
-        const dashboard = fromDashboardHelpers.getStandardizedDashboard(
-          action.dashboard,
-          action.currentUser,
-          action.systemInfo,
-          action.dataGroups
-        );
-
         const dataSelections = getDataSelectionsForDashboardCreation(
           action.dashboard ? action.dashboard.dashboardItems || [] : [],
           action.dataGroups,
           action.systemInfo,
           action.currentUser
+        );
+
+        const dashboard = fromDashboardHelpers.getStandardizedDashboard(
+          action.dashboard,
+          action.currentUser,
+          dataSelections
         );
 
         const dashboardObject = {
