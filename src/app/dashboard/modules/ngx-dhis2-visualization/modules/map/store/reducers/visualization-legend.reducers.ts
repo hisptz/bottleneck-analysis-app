@@ -145,7 +145,7 @@ export function reducer(
     case fromVisualizationLegend.CLOSE_PIN_VISUALIZATION_LEGEND: {
       const visualizationObjectId = action.payload;
       const pinned = false;
-      const open = false;
+      const open = !state.entities[visualizationObjectId].open;
       const visualizationLegend = {
         ...state.entities[visualizationObjectId],
         open,

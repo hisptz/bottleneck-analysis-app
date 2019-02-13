@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
-import { saveAs } from 'file-saver';
+import {saveAs} from 'file-saver';
 import * as shapeWrite from 'shp-write';
-import { Observable } from 'rxjs';
-import { hasOwnProperty } from 'tslint/lib/utils';
-import { ShapeFileService } from './shapefile-services/shape-file.service';
-@Injectable({
-  providedIn: 'root'
-})
+import {Observable} from 'rxjs';
+import {hasOwnProperty} from 'tslint/lib/utils';
+import {ShapeFileService} from './shapefile-services/shape-file.service';
+@Injectable()
 export class MapFilesService {
+
   geometry: any;
 
   constructor(private shapefile: ShapeFileService) {
@@ -34,8 +33,11 @@ export class MapFilesService {
           saveAs(modifiedMapData, layer.name + '.csv');
         }, 10);
       } else {
+
       }
+
     });
+
 
     return null;
   }
@@ -59,7 +61,9 @@ export class MapFilesService {
           saveAs(modifiedMapData, layer.name + '.kml');
         }, 10);
       } else {
+
       }
+
     });
 
     return null;
@@ -84,13 +88,17 @@ export class MapFilesService {
           saveAs(modifiedMapData, layer.name + '.gml');
         }, 10);
       } else {
+
       }
+
     });
+
 
     return null;
   }
 
   downloadMapVisualizationAsSHAPEFILE(mapVisualization) {
+
     const payload = mapVisualization.payload && mapVisualization.payload !== '' ? mapVisualization.payload : {};
     const legends = payload.mapLegends;
     const visualization = payload.visualization;
@@ -115,8 +123,10 @@ export class MapFilesService {
       this.shapefile.download(geoJsonObject, layer.name);
     });
 
+
     return null;
   }
+
 
   downloadMapVisualizationAsGeoJSON(mapVisualization) {
     const payload = mapVisualization.payload && mapVisualization.payload !== '' ? mapVisualization.payload : {};
@@ -136,17 +146,20 @@ export class MapFilesService {
           saveAs(modifiedMapData, layer.name + '.json');
         }, 10);
       } else {
+
       }
+
     });
 
     return null;
   }
 
   private _convertToBinaryData(data, format) {
-    return new Blob([data], { type: 'text/' + format + ';charset=utf-8' });
+    return new Blob([data], {type: 'text/' + format + ';charset=utf-8'});
   }
 
   private _prepareKMLDataForDownload(geoJsonObject, layer) {
+
     const kml = this.dataObjectToKML(geoJsonObject, {
       documentName: layer.name,
       documentDescription: layer.name,
@@ -160,6 +173,7 @@ export class MapFilesService {
   }
 
   private _prepareCSVDataForDownload(data, settings, legend, geoFeatures) {
+
     if (data === null) {
       return null;
     }
@@ -167,6 +181,7 @@ export class MapFilesService {
     let result, ctr, keys, columnDelimiter, lineDelimiter;
     const uids = [];
     if (data.hasOwnProperty('headers')) {
+
       const orgIndex = _.findIndex(data.headers, ['name', 'ou']);
       const valueIndex = _.findIndex(data.headers, ['name', 'value']);
 
@@ -175,8 +190,10 @@ export class MapFilesService {
       keys = ['CODE', 'ID', 'LEVEL', 'NAME', 'PARENT', 'PARENT ID'];
 
       if (settings.tyope === 'event') {
+
       } else {
         data.metaData.dx.forEach((dataElement, dataElementIndex) => {
+
           keys.push(data.metaData.names[dataElement]);
           uids.push(dataElement);
           if (dataElementIndex === data.metaData.dx.length - 1) {
@@ -185,12 +202,13 @@ export class MapFilesService {
             keys.push('COLOR');
             keys.push('COORDINATE');
           }
+
         });
         result = '';
         result += keys.join(columnDelimiter);
         result += lineDelimiter;
 
-        data.rows.forEach(item => {
+        data.rows.forEach((item) => {
           const orgUnitCoordinateObject = this._getOrgUnitCoordinateObject(data.headers, item, geoFeatures);
           if (orgUnitCoordinateObject) {
             ctr = 0;
@@ -199,6 +217,7 @@ export class MapFilesService {
 
             result += orgUnitCoordinateObject.id;
             result += columnDelimiter;
+
 
             result += orgUnitCoordinateObject.le;
             result += columnDelimiter;
@@ -224,14 +243,19 @@ export class MapFilesService {
             result += this._refineCoordinate(orgUnitCoordinateObject, orgUnitCoordinateObject.co);
             result += lineDelimiter;
           }
+
         });
+
       }
+
     } else {
       return '';
     }
 
+
     return result;
   }
+
 
   /**
    * HELPERS FUNCTIONS TO BE SHIFTED TO BETTER POSITION IN THE FUTURE
@@ -246,31 +270,31 @@ export class MapFilesService {
 
   private _prepareGeoJsonDataFromGeoFeatures(geoFeatures: any, analytics: any[], legend): any {
     const features = this._getGeoJSONObject(geoFeatures, analytics, legend);
-    return { type: 'FeatureCollection', features: features };
+    return {'type': 'FeatureCollection', 'features': features};
   }
 
   private _getGeoJSONObject(geoFeatures: any, analyticObject: any, legend: any): any {
     const geoJSONObject: any = [];
     if (geoFeatures) {
-      geoFeatures.forEach(geoFeature => {
+      geoFeatures.forEach((geoFeature) => {
         const sampleGeometry: any = {
-          type: 'Feature',
-          le: geoFeature.le,
-          geometry: {
-            type: '',
-            coordinates: new Function('return ' + geoFeature.co)()
+          'type': 'Feature',
+          'le': geoFeature.le,
+          'geometry': {
+            'type': '',
+            'coordinates': (new Function('return ' + geoFeature.co))()
           },
-          properties: {
-            id: geoFeature.id,
-            name: geoFeature.na,
-            percentage: '',
+          'properties': {
+            'id': geoFeature.id,
+            'name': geoFeature.na,
+            'percentage': '',
             'dataElement.id': '',
             'dataElement.name': '',
             'dataElement.value': 0,
-            classInterval: '',
-            fill: '#00ff00',
+            'classInterval': '',
+            'fill': '#00ff00',
             'fill-opacity': 1,
-            stroke: '#000000',
+            'stroke': '#000000',
             'stroke-opacity': 1,
             'stroke-width': 1
           }
@@ -288,15 +312,14 @@ export class MapFilesService {
         }
 
         if (legend) {
-          const featureLegendClass: any = this._getClass(
-            analyticObject.headers,
-            sampleGeometry.properties['dataElement.value'],
-            legend
-          );
+
+          const featureLegendClass: any = this._getClass(analyticObject.headers, sampleGeometry.properties['dataElement.value'], legend);
           sampleGeometry.properties['fill'] = featureLegendClass.color;
-          sampleGeometry.properties['classInterval'] =
-            featureLegendClass.startValue + ' - ' + featureLegendClass.endValue + ' (' + featureLegendClass.count + ')';
+          sampleGeometry.properties['classInterval'] = featureLegendClass.startValue +
+            ' - ' + featureLegendClass.endValue +
+            ' (' + featureLegendClass.count + ')';
           sampleGeometry.properties['frequency'] = featureLegendClass.count;
+
         }
         // TODO:: FIND BEST WAY TO DETERMINE FEATURE TYPE
         if (geoFeature.le >= 4) {
@@ -342,6 +365,7 @@ export class MapFilesService {
   }
 
   _getDefaultData(analyticObject) {
+
     const data: any = {};
     data.id = analyticObject.metaData.dx[0];
     data.name = analyticObject.metaData.names[data.id];
@@ -354,14 +378,11 @@ export class MapFilesService {
     let coordinates = '';
     let wktCoordinate = '';
 
+
     switch (organisantionUnit.ty) {
       case 1: {
-        coordinates = JSON.stringify(rawCoordinates)
-          .replace(/\]\,\[/g, ':')
-          .replace(/\,/g, ' ')
-          .replace(/\]/g, '')
-          .replace(/\[/g, '')
-          .replace(/\:/g, ',');
+        coordinates = JSON.stringify(rawCoordinates).replace(/\]\,\[/g, ':')
+          .replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
         wktCoordinate = '"POINT(' + coordinates + ')' + '"';
         return wktCoordinate;
       }
@@ -369,12 +390,8 @@ export class MapFilesService {
         if (this.isMultiPolygon(organisantionUnit, rawCoordinates)) {
           wktCoordinate = '"MULTIPOLYGON((' + this.getMultiPolygonWKT(rawCoordinates) + '))' + '"';
         } else {
-          coordinates = JSON.stringify(rawCoordinates[0][0])
-            .replace(/\]\,\[/g, ':')
-            .replace(/\,/g, ' ')
-            .replace(/\]/g, '')
-            .replace(/\[/g, '')
-            .replace(/\:/g, ',');
+          coordinates = JSON.stringify(rawCoordinates[0][0]).replace(/\]\,\[/g, ':')
+            .replace(/\,/g, ' ').replace(/\]/g, '').replace(/\[/g, '').replace(/\:/g, ',');
           wktCoordinate = '"POLYGON((' + coordinates + '))' + '"';
         }
 
@@ -384,25 +401,20 @@ export class MapFilesService {
   }
 
   private getMultiPolygonWKT(rawCoordinates): string {
-    const wkt_str =
-      '' +
-      rawCoordinates
-        .map(function(ring) {
-          return (
-            '(' +
-            ring[0]
-              .map(function(p) {
-                return p[0] + ' ' + p[1];
-              })
-              .join(', ') +
-            ')'
-          );
-        })
-        .join(', ');
+    const wkt_str = '' +
+      rawCoordinates.map(function (ring) {
+        return '(' +
+          ring[0].map(function (p) {
+            return p[0] + ' ' + p[1];
+          }).join(', ')
+          + ')';
+      }).join(', ');
     return wkt_str;
+
   }
 
   private isMultiPolygon(organisantionUnit, coordinates): boolean {
+
     if (coordinates.length > 1) {
       return true;
     } else {
@@ -411,11 +423,14 @@ export class MapFilesService {
   }
 
   private _getClass(headers, item, legend) {
+
+
     let indexOfValue = 0;
     headers.forEach((header, headerIndex) => {
       if (header.name === 'value') {
         indexOfValue = headerIndex;
       }
+
     });
 
     const data = isNaN(item) ? item[indexOfValue] : item;
@@ -440,30 +455,30 @@ export class MapFilesService {
     return _.find(geoFeatures, ['id', OrgUnit]);
   }
 
+
   private dataObjectToKML(fileDataObject: Object, options?: Object) {
     options = options || {
-      documentName: undefined,
-      documentDescription: undefined,
-      name: 'name',
-      description: 'description',
-      simplestyle: true,
-      timestamp: 'timestamp'
-    };
+        documentName: undefined,
+        documentDescription: undefined,
+        name: 'name',
+        description: 'description',
+        simplestyle: true,
+        timestamp: 'timestamp'
+      };
 
-    return (
-      "<?xml version='1.0' encoding='utf-8' ?>" +
-      this._tag(
-        'kml',
-        this._tag(
-          'Document',
-          this._documentName(options) + this._documentDescription(options) + this._root(fileDataObject, options)
-        ),
-        [['xmlns', 'http://www.opengis.net/kml/2.2']]
-      )
-    );
+    return '<?xml version=\'1.0\' encoding=\'utf-8\' ?>' +
+      this._tag('kml',
+        this._tag('Document',
+          this._documentName(options) +
+          this._documentDescription(options) +
+          this._root(fileDataObject, options)
+        ), [['xmlns', 'http://www.opengis.net/kml/2.2']]);
+
   }
 
+
   private _root(_, options) {
+
     if (!_.type) {
       return '';
     }
@@ -487,8 +502,9 @@ export class MapFilesService {
     }
   }
 
+
   private _feature(options, styleHashesArray) {
-    return _ => {
+    return (_) => {
       if (!_.properties || !this.geometry.valid(_.geometry)) {
         return '';
       }
@@ -500,6 +516,7 @@ export class MapFilesService {
       let styleDefinition = '',
         styleReference = '';
       if (options.simplestyle) {
+
         const styleHash = this._hashStyle(_.properties);
         if (styleHash) {
           if (this.geometry.isPoint(_.geometry) && this._hasMarkerStyle(_.properties)) {
@@ -508,10 +525,8 @@ export class MapFilesService {
               styleHashesArray.push(styleHash);
             }
             styleReference = this._tag('styleUrl', '#' + styleHash);
-          } else if (
-            (this.geometry.isPolygon(_.geometry) || this.geometry.isLine(_.geometry)) &&
-            this._hasPolygonAndLineStyle(_.properties)
-          ) {
+          } else if ((this.geometry.isPolygon(_.geometry) || this.geometry.isLine(_.geometry)) &&
+            this._hasPolygonAndLineStyle(_.properties)) {
             if (styleHashesArray.indexOf(styleHash) === -1) {
               styleDefinition = this._polygonAndLineStyle(_.properties, styleHash);
               styleHashesArray.push(styleHash);
@@ -520,28 +535,25 @@ export class MapFilesService {
           }
         }
       }
-      return (
-        styleDefinition +
-        this._tag(
-          'Placemark',
+      return styleDefinition + this._tag('Placemark',
           this._name(_.properties, options) +
-            this._description(_.properties, options) +
-            // this._extendeddata(_.properties) +
-            this._timestamp(_.properties, options) +
-            geometryString +
-            styleReference
-        )
-      );
+          this._description(_.properties, options) +
+          // this._extendeddata(_.properties) +
+          this._timestamp(_.properties, options) +
+          geometryString +
+          styleReference);
     };
   }
 
+
   private _documentName(options) {
-    return options.documentName !== undefined ? this._tag('name', options.documentName) : '';
+    return (options.documentName !== undefined) ? this._tag('name', options.documentName) : '';
   }
 
   private _documentDescription(options) {
-    return options.documentDescription !== undefined ? this._tag('description', options.documentDescription) : '';
+    return (options.documentDescription !== undefined) ? this._tag('description', options.documentDescription) : '';
   }
+
 
   private _name(_, options) {
     return _[options.name] ? this._tag('name', this._encode(_[options.name])) : '';
@@ -555,127 +567,107 @@ export class MapFilesService {
     return _[options.timestamp] ? this._tag('TimeStamp', this._tag('when', this._encode(_[options.timestamp]))) : '';
   }
 
+
   private _getGeometry(): Object {
     const geometry = {
-      Point: _ => {
+      Point: (_) => {
         return this._tag('Point', this._tag('coordinates', _.coordinates.join(',')));
       },
-      LineString: _ => {
+      LineString: (_) => {
         return this._tag('LineString', this._tag('coordinates', this._linearring(_.coordinates)));
       },
-      Polygon: _ => {
+      Polygon: (_) => {
         if (!_.coordinates.length) {
           return '';
         }
+        ;
         const outer = _.coordinates[0],
           inner = _.coordinates.slice(1),
-          outerRing = this._tag(
-            'outerBoundaryIs',
-            this._tag('LinearRing', this._tag('coordinates', this._linearring(outer)))
-          ),
-          innerRings = inner
-            .map(i => {
-              return this._tag(
-                'innerBoundaryIs',
-                this._tag('LinearRing', this._tag('coordinates', this._linearring(i)))
-              );
-            })
-            .join('');
+          outerRing = this._tag('outerBoundaryIs',
+            this._tag('LinearRing', this._tag('coordinates', this._linearring(outer)))),
+          innerRings = inner.map((i) => {
+            return this._tag('innerBoundaryIs',
+              this._tag('LinearRing', this._tag('coordinates', this._linearring(i))));
+          }).join('');
         return this._tag('Polygon', outerRing + innerRings);
       },
-      MultiPoint: _ => {
+      MultiPoint: (_) => {
         if (!_.coordinates.length) {
           return '';
         }
-        return this._tag(
-          'MultiGeometry',
-          _.coordinates
-            .map(c => {
-              return geometry.Point({ coordinates: c });
-            })
-            .join('')
-        );
+        ;
+        return this._tag('MultiGeometry', _.coordinates.map((c) => {
+          return geometry.Point({coordinates: c});
+        }).join(''));
       },
-      MultiPolygon: _ => {
+      MultiPolygon: (_) => {
         if (!_.coordinates.length) {
           return '';
         }
-        return this._tag(
-          'MultiGeometry',
-          _.coordinates
-            .map(c => {
-              return geometry.Polygon({ coordinates: c });
-            })
-            .join('')
-        );
+        ;
+        return this._tag('MultiGeometry', _.coordinates.map((c) => {
+          return geometry.Polygon({coordinates: c});
+        }).join(''));
       },
-      MultiLineString: _ => {
+      MultiLineString: (_) => {
         if (!_.coordinates.length) {
           return '';
         }
-        return this._tag(
-          'MultiGeometry',
-          _.coordinates
-            .map(c => {
-              return geometry.LineString({ coordinates: c });
-            })
-            .join('')
-        );
+        ;
+        return this._tag('MultiGeometry', _.coordinates.map((c) => {
+          return geometry.LineString({coordinates: c});
+        }).join(''));
       },
-      GeometryCollection: _ => {
-        return this._tag('MultiGeometry', _.geometries.map(geometry.any).join(''));
+      GeometryCollection: (_) => {
+        return this._tag('MultiGeometry',
+          _.geometries.map(geometry.any).join(''));
       },
-      valid: _ => {
-        return (
-          _ &&
-          _.type &&
-          (_.coordinates || (_.type === 'GeometryCollection' && _.geometries && _.geometries.every(geometry.valid)))
-        );
+      valid: (_) => {
+        return _ && _.type && (_.coordinates ||
+          _.type === 'GeometryCollection' && _.geometries && _.geometries.every(geometry.valid));
       },
-      any: _ => {
+      any: (_) => {
         if (geometry[_.type]) {
           return geometry[_.type](_);
         } else {
           return '';
         }
       },
-      isPoint: _ => {
-        return _.type === 'Point' || _.type === 'MultiPoint';
+      isPoint: (_) => {
+        return _.type === 'Point' ||
+          _.type === 'MultiPoint';
       },
-      isPolygon: _ => {
-        return _.type === 'Polygon' || _.type === 'MultiPolygon';
+      isPolygon: (_) => {
+        return _.type === 'Polygon' ||
+          _.type === 'MultiPolygon';
       },
-      isLine: _ => {
-        return _.type === 'LineString' || _.type === 'MultiLineString';
+      isLine: (_) => {
+        return _.type === 'LineString' ||
+          _.type === 'MultiLineString';
       }
     };
     return geometry;
   }
 
   private _linearring(_) {
-    return _.map(function(cds) {
+    return _.map(function (cds) {
       return cds.join(',');
     }).join(' ');
   }
 
   // ## Data
   private _extendeddata(_) {
-    return this._tag(
-      'ExtendedData',
-      this._pairs(_)
-        .map(this._data)
-        .join('')
-    );
+    return this._tag('ExtendedData', this._pairs(_).map(this._data).join(''));
   }
 
   private _data(_) {
     return this._tag('Data', this._tag('value', this._encode(_[1])), [['name', this._encode(_[0])]]);
   }
 
-  // ## General helpers
+// ## General helpers
   private _pairs(_) {
     const o = [];
-    for (const i in _) o.push([i, _[i]]);
+    for (const i in _)  o.push([i, _[i]]);
     return o;
   }
 
@@ -685,46 +677,52 @@ export class MapFilesService {
   }
 
   private _markerStyle(_, styleHash) {
-    return this._tag(
-      'Style',
-      this._tag('IconStyle', this._tag('Icon', this._tag('href', this._iconUrl(_)))) + this._iconSize(_),
-      [['id', styleHash]]
-    );
+    return this._tag('Style',
+      this._tag('IconStyle',
+        this._tag('Icon',
+          this._tag('href', this._iconUrl(_)))) +
+      this._iconSize(_), [['id', styleHash]]);
   }
+
 
   private _iconUrl(_) {
     const size = _['marker-size'] || 'medium',
       symbol = _['marker-symbol'] ? '-' + _['marker-symbol'] : '',
       color = (_['marker-color'] || '7e7e7e').replace('#', '');
 
-    return 'https://api.tiles.mapbox.com/v3/marker/' + 'pin-' + size.charAt(0) + symbol + '+' + color + '.png';
+    return 'https://api.tiles.mapbox.com/v3/marker/' + 'pin-' + size.charAt(0) +
+      symbol + '+' + color + '.png';
   }
 
   private _iconSize(_) {
-    return this._tag('hotSpot', '', [['xunits', 'fraction'], ['yunits', 'fraction'], ['x', 0.5], ['y', 0.5]]);
+    return this._tag('hotSpot', '', [
+      ['xunits', 'fraction'],
+      ['yunits', 'fraction'],
+      ['x', 0.5],
+      ['y', 0.5]
+    ]);
   }
 
-  // ## Polygon and Line style
+// ## Polygon and Line style
   private _hasPolygonAndLineStyle(_) {
     for (const key in _) {
-      if (
-        {
-          stroke: true,
+      if ({
+          'stroke': true,
           'stroke-opacity': true,
           'stroke-width': true,
-          fill: true,
+          'fill': true,
           'fill-opacity': true
-        }[key]
-      ) {
+        }[key]) {
         return true;
       }
+      ;
     }
   }
 
   private _polygonAndLineStyle(_, styleHash) {
     const lineStyle = this._tag('LineStyle', [
       this._tag('color', this._hexToKmlColor(_['stroke'], _['stroke-opacity']) || 'ff555555') +
-        this._tag('width', _['stroke-width'] === undefined ? 2 : _['stroke-width'])
+      this._tag('width', _['stroke-width'] === undefined ? 2 : _['stroke-width'])
     ]);
 
     let polyStyle = '';
@@ -738,6 +736,7 @@ export class MapFilesService {
     return this._tag('Style', lineStyle + polyStyle, [['id', styleHash]]);
   }
 
+
   private _hexToKmlColor(hexColor, opacity) {
     if (typeof hexColor !== 'string') {
       return '';
@@ -746,7 +745,9 @@ export class MapFilesService {
     hexColor = hexColor.replace('#', '').toLowerCase();
 
     if (hexColor.length === 3) {
-      hexColor = hexColor[0] + hexColor[0] + hexColor[1] + hexColor[1] + hexColor[2] + hexColor[2];
+      hexColor = hexColor[0] + hexColor[0] +
+        hexColor[1] + hexColor[1] +
+        hexColor[2] + hexColor[2];
     } else if (hexColor.length !== 6) {
       return '';
     }
@@ -769,7 +770,8 @@ export class MapFilesService {
     return o + b + g + r;
   }
 
-  // ## Style helpers
+
+// ## Style helpers
   private _hashStyle(_) {
     let hash = '';
 
@@ -805,6 +807,7 @@ export class MapFilesService {
       hash = hash + 'fo' + _['fill-opacity'].toString().replace('.', '');
     }
 
+
     return hash;
   }
 
@@ -815,12 +818,9 @@ export class MapFilesService {
    * @returns {string}
    */
   private _attr(_) {
-    return _ && _.length
-      ? ' ' +
-          _.map(function(a) {
-            return a[0] + "='" + a[1] + "'";
-          }).join(' ')
-      : '';
+    return (_ && _.length) ? (' ' + _.map(function (a) {
+      return a[0] + '=\'' + a[1] + '\'';
+    }).join(' ')) : '';
   }
 
   /**
@@ -831,6 +831,7 @@ export class MapFilesService {
   private _tagClose(el, attributes) {
     return '<' + el + this._attr(attributes) + '/>';
   }
+
 
   /**
    * @param {string} el element name
@@ -847,12 +848,12 @@ export class MapFilesService {
    * @returns {string}
    */
   private _encode(_) {
-    return (_ === null ? '' : _.toString())
-      .replace(/&/g, '&amp;')
+    return (_ === null ? '' : _.toString()).replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/'/g, '&quot;');
   }
+
 
   /***
    * *  GML FILE GENERATION FUNCTIONS FROM
@@ -862,35 +863,36 @@ export class MapFilesService {
 
   toGML(fileDataObject: Object, options?: Object) {
     options = options || {
-      documentName: undefined,
-      documentDescription: undefined,
-      name: 'name',
-      description: 'description',
-      simplestyle: true,
-      timestamp: 'timestamp'
-    };
+        documentName: undefined,
+        documentDescription: undefined,
+        name: 'name',
+        description: 'description',
+        simplestyle: true,
+        timestamp: 'timestamp'
+      };
 
-    return (
-      '<?xml version="1.0" encoding="utf-8" ?>' +
-      this._tag('ogr:FeatureCollection', this._gml(fileDataObject, options), [
-        ['xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance'],
-        ['xsi:schemaLocation', ''],
-        ['xmlns:ogr', 'http://ogr.maptools.org/'],
-        ['xmlns:gml', 'http://www.opengis.net/gml']
-      ])
-    );
+    return '<?xml version="1.0" encoding="utf-8" ?>' +
+      this._tag('ogr:FeatureCollection',
+        this._gml(fileDataObject, options)
+        , [
+          ['xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance'],
+          ['xsi:schemaLocation', ''],
+          ['xmlns:ogr', 'http://ogr.maptools.org/'],
+          ['xmlns:gml', 'http://www.opengis.net/gml']
+        ]);
   }
 
   private _gml(_, options) {
     if (!_.type) {
-      return '';
+      return ''
     }
 
     switch (_.type) {
       case 'FeatureCollection':
         if (!_.features) {
-          return '';
+          return ''
         }
+        ;
         return _.features.map(this._gmlFeature(options)).join('');
       case 'Feature':
         return this._gmlFeature(options)(_);
@@ -904,10 +906,11 @@ export class MapFilesService {
   }
 
   private _gmlFeature(options) {
-    return _ => {
+    return (_) => {
       if (!_.properties || !this.geometry.valid(_.geometry)) return '';
       const geometryString = this.geometry.any(_.geometry);
       if (!geometryString) return '';
+
 
       return this._tag('gml:featureMember', this._gmlFeatureAttributes(_, options));
     };
@@ -915,12 +918,12 @@ export class MapFilesService {
 
   private _gmlFeatureAttributes(_, options) {
     const name = this._underScoreCharacter(options.documentName);
-    return this._tag(
-      'ogr:' + name,
-      this._tag('ogr:geometryProperty', this._getFeatureTagsAccordingToType(_.geometry.type, _)) +
-        this._preparePropertiesForGmlFormat(_.properties),
-      [['fid', name + '.' + _.properties.id]]
-    );
+    return this._tag('ogr:' + name,
+      this._tag('ogr:geometryProperty',
+        this._getFeatureTagsAccordingToType(_.geometry.type, _)
+      ) +
+      this._preparePropertiesForGmlFormat(_.properties)
+      , [['fid', name + "." + _.properties.id]]);
   }
 
   private _underScoreCharacter(characterString) {
@@ -929,25 +932,25 @@ export class MapFilesService {
   }
 
   private _getFeatureTagsAccordingToType(featureType, _): string {
-    let format = '';
-    if (featureType == 'Point') {
+    let format = "";
+    if (featureType == "Point") {
       format = this._preparePointMembers(_.geometry.coordinates);
     }
 
-    if (featureType == 'LineString' || featureType == 'MultiLineString') {
+    if (featureType == "LineString" || featureType == "MultiLineString") {
+
     }
 
-    if (featureType == 'Polygon' || featureType == 'MultiPolygon') {
-      format = this._tag('gml:' + featureType, this._preparePolygonMembers(_.geometry.coordinates), [
-        ['srsName', 'EPSG:4326']
-      ]);
+    if (featureType == "Polygon" || featureType == "MultiPolygon") {
+      format = this._tag('gml:' + featureType, this._preparePolygonMembers(_.geometry.coordinates), [['srsName', 'EPSG:4326']])
     }
     return format;
+
   }
 
   private _preparePointMembers(coordinates): string {
     const featureBlocks = this._prepareFeatureBlocks(coordinates);
-    let blockTag = '';
+    let blockTag = "";
     featureBlocks.forEach(featureBlock => {
       blockTag += this._getPointOuterBoundTypeGmlFormat(featureBlock);
     });
@@ -956,7 +959,7 @@ export class MapFilesService {
 
   private _preparePolygonMembers(coordinates): string {
     const featureBlocks = this._prepareFeatureBlocks(coordinates);
-    let blockTag = '';
+    let blockTag = "";
     featureBlocks.forEach(featureBlock => {
       blockTag += this._tag('gml:polygonMember', this._getPolygonOuterBoundTypeGmlFormat(featureBlock));
     });
@@ -965,17 +968,18 @@ export class MapFilesService {
   }
 
   private sanitizeStringForXML(stringElement: string): string {
+
     if (typeof stringElement == 'string') {
       if (stringElement.indexOf('&') >= 0) {
-        stringElement = stringElement.replace('&', '&amp;');
+        stringElement = stringElement.replace("&", "&amp;");
       }
 
       if (stringElement.indexOf('<') >= 0) {
-        stringElement = stringElement.replace('<', '&lt;');
+        stringElement = stringElement.replace("<", "&lt;");
       }
 
       if (stringElement.indexOf('>') >= 0) {
-        stringElement = stringElement.replace('<', '&gt;');
+        stringElement = stringElement.replace("<", "&gt;");
       }
     }
 
@@ -983,33 +987,23 @@ export class MapFilesService {
   }
 
   private _getPointOuterBoundTypeGmlFormat(featureBlock): string {
-    let format = '';
+    let format = "";
 
     if (this._isFinalBlock(featureBlock)) {
-      format = this._tag(
-        'gml:Point',
-        this._tag('gml:coordinates', this._convertfeatureCoordinateToGmlFormat(featureBlock)),
-        [['srsName', 'EPSG:4326']]
-      );
+      format = this._tag('gml:Point', this._tag('gml:coordinates', this._convertfeatureCoordinateToGmlFormat(featureBlock)), [['srsName', 'EPSG:4326']])
     }
     return format;
   }
 
   private _getPolygonOuterBoundTypeGmlFormat(featureBlock): string {
-    let format = '';
+    let format = "";
     if (!this._isFinalBlock(featureBlock)) {
-      format = this._tag(
-        'gml:Polygon',
-        this._tag(
-          'gml:outerBoundaryIs',
-          this._tag(
-            'gml:LinearRing',
-            this._tag('gml:coordinates', this._convertfeatureCoordinateToGmlFormat(featureBlock))
-          )
-        )
-      );
+      format = this._tag('gml:Polygon',
+        this._tag('gml:outerBoundaryIs',
+          this._tag('gml:LinearRing',
+            this._tag('gml:coordinates', this._convertfeatureCoordinateToGmlFormat(featureBlock)))));
     }
-    return format;
+    return format
   }
 
   private _prepareFeatureBlocks(coordinates): any[] {
@@ -1018,7 +1012,7 @@ export class MapFilesService {
       blocks.push(coordinates);
     } else {
       coordinates.forEach((coordinate, index) => {
-        blocks.push(coordinate);
+        blocks.push(coordinate)
       });
     }
     return blocks;
@@ -1037,32 +1031,32 @@ export class MapFilesService {
   }
 
   private _getCoordinate(coordinates) {
-    let coord = '';
+    let coord = "";
     coordinates.forEach((coordinate, index) => {
       if (!isNaN(coordinate)) {
         coord += coordinate;
         if (index == 0) {
-          coord += ',';
+          coord += ","
         } else {
-          coord += ' ';
+          coord += " ";
         }
       } else {
         coord += this._getCoordinate(coordinate);
       }
-    });
+    })
 
     return coord;
   }
 
+
   private _preparePropertiesForGmlFormat(properties): string {
-    let propertyGml = '';
+    let propertyGml = "";
     const propertNames = Object.getOwnPropertyNames(properties);
     propertNames.forEach(property => [
-      (propertyGml += this._tag(
-        'ogr:' + this._underScoreCharacter(property),
-        this.sanitizeStringForXML(properties[property])
-      ))
-    ]);
+      propertyGml += this._tag('ogr:' + this._underScoreCharacter(property), this.sanitizeStringForXML(properties[property]))
+    ])
     return propertyGml;
   }
+
+
 }

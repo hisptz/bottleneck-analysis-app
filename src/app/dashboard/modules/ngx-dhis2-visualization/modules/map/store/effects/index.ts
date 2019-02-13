@@ -7,8 +7,6 @@ import { LegendSetEffects } from './legendSet.effect';
 import { BaseLayerEffects } from './baseLayer.effect';
 import { FilesEffects } from './files.effects';
 import { DataSelectionEffects } from './dataSelection.effect';
-import { LegendSetConfigEffects } from './legend-set-config.effects';
-import { DownloadMapEffects } from './download-map.effects';
 
 export const effects: any[] = [
   VisualizationObjectEffects,
@@ -19,9 +17,7 @@ export const effects: any[] = [
   BaseLayerEffects,
   DataSelectionEffects,
   BaseLayerEffects,
-  FilesEffects,
-  LegendSetConfigEffects,
-  DownloadMapEffects
+  FilesEffects
 ];
 
 export * from './layers.effect';
@@ -33,5 +29,3 @@ export * from './legendSet.effect';
 export * from './baseLayer.effect';
 export * from './files.effects';
 export * from './dataSelection.effect';
-export * from './legend-set-config.effects';
-export * from './download-map.effects';

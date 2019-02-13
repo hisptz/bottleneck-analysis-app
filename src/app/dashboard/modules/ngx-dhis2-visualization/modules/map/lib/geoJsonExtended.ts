@@ -2,46 +2,28 @@ import { label } from './Label';
 import * as L from 'leaflet';
 import polylabel from 'polylabel';
 import * as geojsonArea from '@mapbox/geojson-area';
-import { MapOptions } from '../models/geo-feature.model';
 
 export const GeoJson = L.GeoJSON.extend({
   options: {
-    style: {
-      weight: 1
-    },
     highlightStyle: {
-      weight: 3
+      weight: 2
     },
     resetStyle: {
       weight: 1
     }
   },
 
-  initialize(options: MapOptions) {
-    if (!options.pointToLayer) {
-      options.pointToLayer = this.pointToLayer.bind(this);
-    }
-
+  initialize(options) {
     if (options.label) {
       this._labels = L.layerGroup({ margin: 2 });
-    }
-
-    if (options.usePatterns) {
-      this._patterns = [];
     }
 
     L.GeoJSON.prototype.initialize.call(this, options.data, options);
   },
 
   addLayer(layer) {
-    // eslint-disable-line
     const options = this.options;
     const feature = layer.feature;
-    const { style } = feature.properties;
-
-    if (style.fillPattern) {
-      this._patterns.push(style.fillPattern);
-    }
 
     // Add text label
     if (options.label) {
@@ -83,12 +65,6 @@ export const GeoJson = L.GeoJSON.extend({
     this._labels.addLayer(layer._label);
   },
 
-  // Use circle markers for point features
-  pointToLayer(geojson, latlng) {
-    this.options.style.pane = this.options.pane;
-    return new L.CircleMarker(latlng, this.options.style);
-  },
-
   setOpacity(opacity) {
     this.setStyle({
       opacity,
@@ -98,7 +74,7 @@ export const GeoJson = L.GeoJSON.extend({
 
   findById(id) {
     for (const i in this._layers) {
-      // eslint-disable-line
+      // tslint:disable-line
       if (this._layers[i].feature.id === id) {
         return this._layers[i];
       }
@@ -114,10 +90,6 @@ export const GeoJson = L.GeoJSON.extend({
       map.addLayer(this._labels);
     }
 
-    if (this._patterns) {
-      this._patterns.forEach(pattern => pattern.addTo(map));
-    }
-
     if (this.options.highlightStyle) {
       this.on('mouseover', this.onMouseOver, this);
       this.on('mouseout', this.onMouseOut, this);
@@ -126,7 +98,6 @@ export const GeoJson = L.GeoJSON.extend({
     if (this.options.contextmenu) {
       this.on('contextmenu', this.options.contextmenu);
     }
-    this.on('click', this.onClick, this);
 
     this.fire('ready');
   },
@@ -146,23 +117,11 @@ export const GeoJson = L.GeoJSON.extend({
     if (this.options.contextmenu) {
       this.off('contextmenu', this.options.contextmenu);
     }
-    this.off('click', this.onClick, this);
   },
 
   // Set highlight style
   onMouseOver(evt) {
     evt.layer.setStyle(this.options.highlightStyle);
-    const { name, value, percentage } = evt.layer.feature.properties;
-    evt.layer.closeTooltip();
-    evt.layer
-      .bindTooltip(`${name}(${value})(${percentage}%)`, {
-        direction: 'auto',
-        permanent: false,
-        sticky: true,
-        interactive: true,
-        opacity: 1
-      })
-      .openTooltip();
   },
 
   // Reset style
@@ -172,19 +131,6 @@ export const GeoJson = L.GeoJSON.extend({
     }
   },
 
-  onClick(evt) {
-    const { name, value, dx, period } = evt.layer.feature.properties;
-    const content = `<div class="leaflet-popup-orgunit">
-    ${name}<br>
-    ${dx}<br>
-    value: ${value}</div>`;
-    // Close any popup if there is one
-    evt.layer.closePopup();
-    // Bind new popup to the layer
-    evt.layer.bindPopup(content);
-    // Open the binded popup
-    evt.layer.openPopup();
-  },
   // Returns the best label placement
   _getLabelLatlng(geometry) {
     const coords = geometry.coordinates;

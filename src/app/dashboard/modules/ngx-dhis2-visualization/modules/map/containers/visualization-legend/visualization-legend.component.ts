@@ -2,12 +2,10 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, BehaviorSubject, SubscriptionLike as ISubscription } from 'rxjs';
 import * as _ from 'lodash';
-import { DomSanitizer } from '@angular/platform-browser';
 
 import { TILE_LAYERS } from '../../constants/tile-layer.constant';
 import * as fromStore from '../../store';
 import { LegendSet } from '../../models/Legend-set.model';
-import { LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL } from '../../utils/icons';
 
 @Component({
   selector: 'app-visualization-legend',
@@ -15,19 +13,17 @@ import { LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL } from '../../util
   styleUrls: ['./visualization-legend.component.css']
 })
 export class VisualizationLegendComponent implements OnInit, OnDestroy {
-  @Input()
-  mapVisualizationObject: any;
+  @Input() mapVisualizationObject: any;
   public LegendsTileLayer: any;
   public showButtonIncons: boolean = false;
   public activeLayer: number = -1;
-  @Input()
-  baseLayerLegend: any;
   public visualizationLegends: any = [];
   public legendSetEntities: { [id: string]: LegendSet };
   public sticky$: Observable<boolean>;
   public isFilterSectionOpen$: Observable<boolean>;
   public visualizationLegends$: ISubscription;
   public baseLayerLegend$: ISubscription;
+  public baseLayerLegend;
   public showFilterContainer: boolean = false;
   public buttonTop: string;
   public buttonHeight: string;
@@ -42,20 +38,14 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   showTransparent: boolean;
   displayNone: boolean;
   p: number = 1;
-  greaterThanOrEqualIcon: any;
-  lessThanIcon;
-  lessThanOrEqualIcon;
 
-  constructor(private store: Store<fromStore.MapState>, private domSanitizer: DomSanitizer) {
+  constructor(private store: Store<fromStore.MapState>) {
     this.displayNone = false;
     this.showTransparent = false;
     this.openTileLegend = false;
     this.isRemovable = false;
     this.toggleBoundary = false;
     this.tileLayers = TILE_LAYERS;
-    this.greaterThanOrEqualIcon = domSanitizer.bypassSecurityTrustUrl(GREATER_THAN_OR_EQUAL);
-    this.lessThanIcon = domSanitizer.bypassSecurityTrustUrl(LESS_THAN);
-    this.lessThanOrEqualIcon = domSanitizer.bypassSecurityTrustUrl(LESS_THAN_OR_EQUAL);
   }
 
   ngOnInit() {
@@ -71,8 +61,16 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
         if (visualizationLengends) {
           this.visualizationLegends = Object.keys(visualizationLengends)
             .map(key => visualizationLengends[key])
-            .filter(({ legend }) => legend.type !== 'boundary');
+            .reverse();
           this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
+        }
+      });
+
+    this.baseLayerLegend$ = this.store
+      .select(fromStore.getCurrentBaseLayer(this.mapVisualizationObject.componentId))
+      .subscribe(baselayerLegend => {
+        if (baselayerLegend) {
+          this.baseLayerLegend = { ...baselayerLegend };
         }
       });
   }
@@ -260,6 +258,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.baseLayerLegend$.unsubscribe();
     this.visualizationLegends$.unsubscribe();
   }
 }

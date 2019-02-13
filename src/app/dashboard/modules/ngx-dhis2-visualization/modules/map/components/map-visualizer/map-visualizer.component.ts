@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy, OnChanges, SimpleChanges, Input, AfterViewInit } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, Input, AfterViewInit } from '@angular/core';
 import { VisualizationObject } from '../../models/visualization-object.model';
 import { Store } from '@ngrx/store';
 import { getTileLayer } from '../../constants/tile-layer.constant';
 import { MapConfiguration } from '../../models/map-configuration.model';
-import { interval, Observable } from 'rxjs';
+import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
 import * as fromStore from '../../store';
 import * as fromLib from '../../lib';
@@ -13,38 +13,28 @@ import * as _ from 'lodash';
 
 @Component({
   selector: 'hisptz-map-visualizer',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './map-visualizer.component.html',
   styleUrls: ['./map-visualizer.component.css']
 })
 export class MapVisualizerComponent implements OnChanges, AfterViewInit {
-  @Input()
-  visualizationObject: VisualizationObject;
-  @Input()
-  displayConfigurations: any;
-  @Input()
-  visualizationLegendIsOpen: boolean;
-  @Input()
-  isDataTableOpen: boolean;
-  @Input()
-  baselayerLegend: any;
-  @Input()
-  currentLegendSets: any;
+  @Input() visualizationObject: VisualizationObject;
+  @Input() displayConfigurations: any;
+  @Input() visualizationLegendIsOpen: boolean;
+  @Input() isDataTableOpen: boolean;
+  @Input() baselayerLegend: any;
+  @Input() currentLegendSets: any;
 
   private leafletLayers: any = {};
   private layersBounds;
   private basemap: any;
   private _baseLayerLegend;
   private _currentLegendSets;
-  showDownloadLegend$: Observable<boolean>;
 
   public mapHasGeofeatures = true;
   public mapHasDataAnalytics = true;
   public map: any;
 
-  constructor(private store: Store<fromStore.MapState>) {
-    this.showDownloadLegend$ = store.select(fromStore.getShowDownloadLegend);
-  }
+  constructor(private store: Store<fromStore.MapState>) {}
   ngOnChanges(changes: SimpleChanges) {
     const { visualizationObject, displayConfigurations, baselayerLegend, currentLegendSets } = changes;
     this.createMap();
@@ -57,10 +47,9 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
 
     if (
       visualizationObject &&
-      !visualizationObject.firstChange &&
+      !visualizationObject.isFirstChange() &&
       visualizationObject.previousValue !== visualizationObject.currentValue
     ) {
-      this.initializeMapContainer();
       this.redrawMapOndataChange(visualizationObject.currentValue);
       this.legendsAndBaseLayer();
     }
@@ -142,21 +131,17 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
   }
 
   initializeMapContainer() {
-    const { height: itemHeight, width: mapWidth, fullScreen: displaFullScreen } = this.displayConfigurations;
+    const { height: itemHeight, width: mapWidth, fullScreen: displayFullScreen } = this.displayConfigurations;
     const { mapConfiguration, componentId } = this.visualizationObject;
-    const fullScreen = (mapConfiguration && displaFullScreen) || itemHeight === '100vh' || itemHeight === '100%';
+    const fullScreen = (mapConfiguration && displayFullScreen) || itemHeight === '100vh' || itemHeight === '100%';
     const container = fromUtils.prepareMapContainer(componentId, itemHeight, mapWidth, false);
-
     const otherOptions = {
       zoomControl: false,
-      minZoom: 6,
-      zoomSnap: 0,
-      zoomDelta: 0.25,
+      maxZoom: 12,
       fadeAnimation: false,
-      scrollWheelZoom: true,
+      scrollWheelZoom: fullScreen ? true : false,
       worldCopyJump: true
     };
-
     const mymap = L.map(container, otherOptions);
     L.control.scale({ position: 'bottomleft', metric: true, updateWhenIdle: true }).addTo(mymap);
     this.map = mymap;
@@ -186,12 +171,12 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
 
     if (labels) {
       const paneLabelId = `${id}-labels`;
-      this.map.createPane(paneLabelId);
+      const labelPane = this.map.createPane(paneLabelId);
       this.map.getPane(paneLabelId).style.zIndex = (zIndex + 1).toString();
     }
     if (areaRadius) {
       const areaID = `${id}-area`;
-      this.map.createPane(areaID);
+      const areaPane = this.map.createPane(areaID);
       this.map.getPane(areaID).style.zIndex = (zIndex - 1).toString();
     }
   }
@@ -323,7 +308,9 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
     Object.keys(this.leafletLayers).map(key => this.map.removeLayer(this.leafletLayers[key]));
     const { mapConfiguration } = visualizationObject;
     const { overlayLayers, layersBounds, legendSets } = this.prepareLegendAndLayers(visualizationObject);
-    this.drawBaseAndOverLayLayers(mapConfiguration, overlayLayers, layersBounds);
+    overlayLayers.map((layer, index) => {
+      this.createLayer(layer, index);
+    });
 
     const fullScreen =
       (mapConfiguration && mapConfiguration.fullScreen) || itemHeight === '100vh' || itemHeight === '100%';
@@ -335,6 +322,11 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
     if (Object.keys(legendSets).length) {
       this._currentLegendSets = legendSets;
       this.store.dispatch(new fromStore.AddLegendSet({ [visualizationObject.componentId]: legendSets }));
+    }
+
+    if (layersBounds.length) {
+      this.layersBounds = layersBounds;
+      this.layerFitBound(layersBounds);
     }
   }
 }

@@ -1,3 +1,5 @@
+import { MapConfiguration } from '../models/map-configuration.model';
+
 export function refineHeight(mapHeight) {
   let height = '';
   if (mapHeight.indexOf('vh') >= 0) {

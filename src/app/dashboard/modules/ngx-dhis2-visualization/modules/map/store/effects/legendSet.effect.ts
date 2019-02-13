@@ -10,6 +10,12 @@ import * as fromStore from '../../store';
 
 @Injectable()
 export class LegendSetEffects {
+  constructor(
+    private actions$: Actions,
+    private store: Store<fromStore.MapState>,
+    private legendSetService: fromServices.LegendSetService
+  ) {}
+
   @Effect()
   loadLegendSets$ = this.actions$.pipe(
     ofType(legendSetAction.LOAD_LEGEND_SET),
@@ -92,10 +98,4 @@ export class LegendSetEffects {
     }),
     catchError(error => of(new legendSetAction.UpdateLegendSetFail(error)))
   );
-
-  constructor(
-    private actions$: Actions,
-    private store: Store<fromStore.MapState>,
-    private legendSetService: fromServices.LegendSetService
-  ) {}
 }

@@ -18,7 +18,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
-import { LegendSetConfigurationModule } from './modules/legend-set-configuration/legend-set-configuration.module';
+// Filters Modules
+import { filterModules } from '../../../ngx-dhis2-data-selection-filter/modules';
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { LegendSetConfigurationModule } from './modules/legend-set-configuration
     NgxPaginationModule,
     ColorPickerModule,
     NgxDnDModule,
-    LegendSetConfigurationModule,
+    ...filterModules,
     StoreModule.forFeature('map', reducers),
     EffectsModule.forFeature(effects)
   ],

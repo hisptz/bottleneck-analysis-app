@@ -1,5 +1,6 @@
 import * as L from 'leaflet';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
+import { getOrgUnitsFromRows } from '../utils/analytics';
 import * as _ from 'lodash';
 
 export const facility = options => {

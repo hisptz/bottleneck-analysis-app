@@ -8,34 +8,19 @@ import { colorBrewer } from '../../utils/colorBrewer';
   styleUrls: ['./map-style.component.css']
 })
 export class MapStyleComponent implements OnInit {
-  @Input()
-  selectedLayer;
-  @Input()
-  legendConfigType;
-  @Input() currentLegendSet;
-  @Input()
-  legendSets;
-  @Input() legendSetsConfig = [];
-  @Input()
-  isloading: boolean = false;
-  @Input()
-  justUpdated: boolean = false;
-  @Output()
-  onStyleUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output()
-  onLegendSetConfigTypeUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output()
-  onCurrentLegendSetUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output()
-  onStyleFilterClose: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() selectedLayer;
+  @Input() legendSets;
+  @Input() isloading: boolean = false;
+  @Input() justUpdated: boolean = false;
+  @Output() onStyleUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onStyleFilterClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   classifications = [{ method: 2, name: 'Equal interval' }, { method: 3, name: 'Equal counts' }];
   classes = [3, 4, 5, 6, 7, 8, 9];
   default_color = 'YlOrBr';
-  combinedLegendSets;
-  selectedItems;
   dropDownIsOpen = false;
   fontStyleActive: boolean;
   fontWeightActive: boolean;
+  currentLegendSet: any;
   isAutomatic: boolean;
   legendProperties;
   displaySettings;
@@ -45,14 +30,11 @@ export class MapStyleComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    const { displaySettings, legendProperties, legendSet, layerOptions, dataSelections } = this.selectedLayer;
-    const { rows, filters, columns } = dataSelections;
-    const dx = [...rows, ...filters, ...columns].find(({ dimension }) => dimension === 'dx');
-    this.selectedItems = dx && dx.items;
-    this.combinedLegendSets = [...this.legendSets];
+    const { displaySettings, legendProperties, legendSet, layerOptions } = this.selectedLayer;
     this.displaySettings = { ...displaySettings };
     this.legendProperties = { ...legendProperties };
     this.layerOptions = { ...layerOptions };
+    this.isAutomatic = legendSet ? false : true;
     this.currentLegendSet = legendSet;
     this.fontStyleActive = !(this.displaySettings.labelFontStyle === 'normal');
     this.fontWeightActive = !(this.displaySettings.labelFontWeight === 'normal');
@@ -73,7 +55,6 @@ export class MapStyleComponent implements OnInit {
 
   onChangeColor(colorDefault) {
     this.default_color = colorDefault;
-    this.dropDownIsOpen = false;
   }
 
   toggleDropDown() {
@@ -144,7 +125,7 @@ export class MapStyleComponent implements OnInit {
       legendProperties: this.legendProperties,
       displaySettings: this.displaySettings
     };
-    if (this.legendConfigType === 'automatic') {
+    if (this.isAutomatic) {
       delete layer.legendSet;
     }
     this.onStyleUpdate.emit({ layer });
@@ -155,26 +136,11 @@ export class MapStyleComponent implements OnInit {
     this.onStyleFilterClose.emit(true);
   }
 
-  toggleAtomatic(type: string) {
-    this.onLegendSetConfigTypeUpdate.emit(type);
+  toggleAtomatic(isAutomatic) {
+    this.isAutomatic = !this.isAutomatic;
   }
 
   onChangeLegend(id) {
-    this.currentLegendSet = this.combinedLegendSets.filter(lg => lg.id === id)[0];
-  }
-
-  onChangeManualLegend(currentLegendSet) {
-    const legendSet =
-      currentLegendSet && currentLegendSet.legends && currentLegendSet.legends.length ? currentLegendSet : null;
-    if (legendSet) {
-      this.currentLegendSet = {
-        ...currentLegendSet,
-        legends: currentLegendSet.legends.map(item => ({
-          ...item,
-          startValue: Number(item.startValue) > 0 ? Number(item.startValue) : 0
-        }))
-      };
-    }
-    this.onCurrentLegendSetUpdate.emit(this.currentLegendSet);
+    this.currentLegendSet = this.legendSets.filter(lg => lg.id === id)[0];
   }
 }

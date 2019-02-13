@@ -1,10 +1,17 @@
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
+import * as _ from 'lodash';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
 import { clientCluster } from './cluster/clientCluster';
 import { serverCluster } from './cluster/serverCluster';
 import { EVENT_COLOR, EVENT_RADIUS } from '../constants/layer.constant';
-import { getFiltersFromColumns, getFiltersAsText, getPeriodFromFilters, getPeriodNameFromId } from '../utils/analytics';
+import {
+  getOrgUnitsFromRows,
+  getFiltersFromColumns,
+  getFiltersAsText,
+  getPeriodFromFilters,
+  getPeriodNameFromId
+} from '../utils/analytics';
 import { createEventFeature } from '../utils/layers';
 import { timeFormat } from 'd3-time-format';
 

@@ -9,6 +9,8 @@ import * as fromServices from '../../services';
 
 @Injectable()
 export class OrganizationUnitGroupSetEffects {
+  constructor(private actions$: Actions, private orgUnitService: fromServices.OrgUnitService) {}
+
   @Effect()
   addOrgUnitGroupSet$ = this.actions$.pipe(
     ofType(visualizationObjectActions.ADD_ORGANIZATIONUNITGROUPSET),
@@ -51,6 +53,4 @@ export class OrganizationUnitGroupSetEffects {
       );
     })
   );
-
-  constructor(private actions$: Actions, private orgUnitService: fromServices.OrgUnitService) {}
 }

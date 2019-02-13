@@ -1,9 +1,8 @@
 import * as _ from 'lodash';
-import { getOrgUnitsFromRows, getDataItemsFromColumns, getPeriodFromFilters } from './analytics';
 import { MapConfiguration } from '../models/map-configuration.model';
 import { Layer } from '../models/layer.model';
 import { getBboxBounds } from './layers';
-import { colorBrewer, getColorScale } from './colorBrewer';
+import { getColorScale } from './colorBrewer';
 
 export function transformVisualizationObject(visualizationConfig, visualizationLayers, vizId) {
   if (!visualizationConfig || !visualizationLayers || !vizId) {
@@ -138,6 +137,6 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
 }
 
 const defaultScaleKey = 'YlOrBr';
-export const defaultClasses = 5;
+const defaultClasses = 5;
 const isVersionGreater = Number(localStorage.getItem('version')) >= 2.28;
-export const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);
+const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);

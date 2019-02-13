@@ -18,6 +18,13 @@ export class VisualizationObjectEffects {
   public program: string;
   private programStage: string;
 
+  constructor(
+    private actions$: Actions,
+    private store: Store<fromStore.MapState>,
+    private geofeatureService: fromServices.GeoFeatureService,
+    private analyticsService: fromServices.AnalyticsService,
+    private systemService: fromServices.SystemService
+  ) {}
   @Effect()
   createVisualizationObjet$ = this.actions$.pipe(
     ofType(visualizationObjectActions.CREATE_VISUALIZATION_OBJECT),
@@ -250,12 +257,4 @@ export class VisualizationObjectEffects {
     }
     return url;
   }
-
-  constructor(
-    private actions$: Actions,
-    private store: Store<fromStore.MapState>,
-    private geofeatureService: fromServices.GeoFeatureService,
-    private analyticsService: fromServices.AnalyticsService,
-    private systemService: fromServices.SystemService
-  ) {}
 }

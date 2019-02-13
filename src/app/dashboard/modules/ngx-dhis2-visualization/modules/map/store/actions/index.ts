@@ -10,5 +10,3 @@ export * from './legend-set.action';
 export * from './visualization-legend.action';
 export * from './base-layer.action';
 export * from './files.action';
-export * from './ui-settings.actions';
-export * from './download-map.action';

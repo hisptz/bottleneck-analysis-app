@@ -8,6 +8,8 @@ import * as fromServices from '../../services';
 
 @Injectable()
 export class SystemInfoEffects {
+  constructor(private actions$: Actions, private systemInfoService: fromServices.SystemService) {}
+
   @Effect({ dispatch: false })
   addContextPath$ = this.actions$.pipe(
     ofType(systemInfoActions.ADD_CONTEXT_PATH),
@@ -19,6 +21,4 @@ export class SystemInfoEffects {
       });
     })
   );
-
-  constructor(private actions$: Actions, private systemInfoService: fromServices.SystemService) {}
 }

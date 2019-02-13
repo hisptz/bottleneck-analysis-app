@@ -2,7 +2,8 @@
 import * as L from 'leaflet';
 import { toGeoJson, geoJsonOptions } from './GeoJson';
 import * as _ from 'lodash';
-import { geoJsonExtended } from './geoJsonExtended';
+import { GeoJson } from 'leaflet';
+import { Feature, GeometryObject } from 'geojson';
 
 const colors = ['black', 'blue', 'red', 'green', 'yellow'];
 const weights = [2, 1, 0.75, 0.5, 0.5];
@@ -15,8 +16,7 @@ export function boundary(options) {
   if (!features.length) {
     return;
   }
-  const levels = _
-    .uniqBy(features, f => f.properties.level)
+  const levels = _.uniqBy(features, f => f.properties.level)
     .map(f => f.properties.level)
     .sort();
   const levelStyle = levels.reduce(
@@ -59,16 +59,7 @@ export function boundary(options) {
   });
 
   const geoJSonOptions = geoJsonOptions(id, radiusLow, opacity);
-
-  const _options = {
-    ...geoJSonOptions,
-    label: displaySettings.labels ? '{name}' : undefined,
-    hoverLabel: undefined,
-    labelPane: `${options.id}-labels`,
-    data: features
-  };
-
-  const geoJsonLayer = geoJsonExtended(_options);
+  const geoJsonLayer = L.geoJSON(features, geoJSonOptions);
   geoJsonLayer.on({
     click: boundaryEvents().onClick,
     mouseover: boundaryEvents().mouseover,

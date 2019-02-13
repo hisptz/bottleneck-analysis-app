@@ -33,30 +33,22 @@ import * as fromStore from '../../store';
   ]
 })
 export class MapFilterSectionComponent implements OnInit, OnDestroy {
-  @Input()
-  mapVisualizationObject;
-  @Input()
-  activeLayer;
-  @Input()
-  loaded: boolean = true;
+  @Input() mapVisualizationObject;
+  @Input() activeLayer;
+  @Input() loaded: boolean = true;
 
-  @Output()
-  onFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output()
-  onLayoutUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onLayoutUpdate: EventEmitter<any> = new EventEmitter<any>();
 
   showFilters: boolean;
-  selectedFilter: string = 'STYLE';
+  selectedFilter: string = 'ORG_UNIT';
   selectedDataItems: any = [];
   selectedPeriods: any = [];
   selectedLayer;
-  public legendSets$: Observable<any>;
-  public legendSetsConfig$: Observable<any>;
+  public legendSets$;
   public singleSelection: boolean = true;
   public isFilterSectionLoading$: Observable<boolean>;
   public isFilterSectionUpdated$: Observable<boolean>;
-  public legendSetConfigType$: Observable<string>;
-  public currentlegendSet$: Observable<any>;
   public periodConfig: any = {
     singleSelection: true
   };
@@ -73,10 +65,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     selectedUserOrgUnits: []
   };
 
-  constructor(private store: Store<fromStore.MapState>) {
-    this.legendSetConfigType$ = store.select(fromStore.getCurrentLegendSetConfigType);
-    this.currentlegendSet$ = store.select(fromStore.getCurrentLegendSet);
-  }
+  constructor(private store: Store<fromStore.MapState>) {}
 
   ngOnInit() {
     this.showFilters = true;
@@ -85,7 +74,6 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     const { dataSelections } = this.selectedLayer;
     this.getSelectedFilters(dataSelections);
     this.legendSets$ = this.store.select(fromStore.getAllLegendSets);
-    this.legendSetsConfig$ = this.store.select(fromStore.getAllLegendSetConfigs);
     this.isFilterSectionLoading$ = this.store.select(fromStore.isVisualizationLegendFilterSectionLoding(componentId));
     this.isFilterSectionUpdated$ = this.store.select(
       fromStore.isVisualizationLegendFilterSectionJustUpdated(componentId)
@@ -248,14 +236,6 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
       selectedUserOrgUnits: selectedUserOrgUnits || [],
       selectedGroups: selectedGroups || []
     };
-  }
-
-  onLegendSetConfigTypeUpdate(configType: string) {
-    this.store.dispatch(new fromStore.SetCurrentLegendSeletionType(configType));
-  }
-
-  onCurrentLegendSetUpdate(legendSet) {
-    this.store.dispatch(new fromStore.SetCurrentLegendSet(legendSet));
   }
 
   ngOnDestroy() {

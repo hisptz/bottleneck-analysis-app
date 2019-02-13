@@ -10,8 +10,7 @@ export const isValidCoordinate = coord =>
   coord[1] <= 90;
 
 export const toGeoJson = organisationUnits =>
-  _
-    .sortBy(organisationUnits, 'le')
+  _.sortBy(organisationUnits, 'le')
     .map(ou => {
       const coord = JSON.parse(ou.co);
       let gpid = '';
@@ -50,14 +49,6 @@ export const toGeoJson = organisationUnits =>
         properties: {
           id: ou.id,
           name: ou.na,
-          labelStyle: {},
-          percentage: null,
-          value: null,
-          label: null,
-          dx: null,
-          radius: null,
-          color: null,
-          style: {},
           hasCoordinatesDown: ou.hcd,
           hasCoordinatesUp: ou.hcu,
           level: ou.le,
@@ -65,7 +56,15 @@ export const toGeoJson = organisationUnits =>
           grandParentId: gpid,
           parentGraph: ou.pg,
           parentId: ou.pi,
-          parentName: ou.pn
+          parentName: ou.pn,
+          percentage: null,
+          value: null,
+          label: null,
+          dx: null,
+          color: null,
+          labelStyle: null,
+          radius: null,
+          style: null
         }
       };
     })

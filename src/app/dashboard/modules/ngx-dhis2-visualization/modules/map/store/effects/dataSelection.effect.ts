@@ -10,6 +10,8 @@ import { tap, map, switchMap, catchError, combineLatest, take, mapTo } from 'rxj
 
 @Injectable()
 export class DataSelectionEffects {
+  constructor(private actions$: Actions, private geofeatureService: fromServices.GeoFeatureService) {}
+
   @Effect({ dispatch: false })
   updatePe$ = this.actions$.pipe(
     ofType(dataSelectionAction.UPDATE_PE_SELECTION),
@@ -94,6 +96,4 @@ export class DataSelectionEffects {
       );
     })
   );
-
-  constructor(private actions$: Actions, private geofeatureService: fromServices.GeoFeatureService) {}
 }

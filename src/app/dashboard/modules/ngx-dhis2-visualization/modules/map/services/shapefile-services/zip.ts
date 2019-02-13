@@ -18,7 +18,7 @@ export class Zip {
 
   zip(gj, options): Observable<any> {
     this.zipIt = new JSZip();
-    return new Observable(observer=> {
+    return new Observable(observer => {
 
 
       // const layers = this.zipIt.folder(options.folder);

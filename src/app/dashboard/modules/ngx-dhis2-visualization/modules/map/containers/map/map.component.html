@@ -1,8 +1,5 @@
 <div class="map-container">
-  <app-map-loader *ngIf="!(visualizationObject$ | async) || loadingData"></app-map-loader>
-  <app-container-map
-    [visualizationObject]="visualizationObject$ | async"
-    [displayConfigurations]="visualizationUiConfig"
-    *ngIf="(visualizationObject$ | async) && !loadingData"
-  ></app-container-map>
+  <app-map-loader *ngIf="!(visualizationObject$ | async)"></app-map-loader>
+  <app-container-map [visualizationObject]="(visualizationObject$ | async)" [displayConfigurations]="displayConfigurations"
+    *ngIf="(visualizationObject$ | async)"></app-container-map>
 </div>
