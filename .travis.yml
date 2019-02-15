@@ -9,7 +9,6 @@ branches:
   only:
     - master
     - develop
-    - /^greenkeeper/.*$/
 
 addons:
   apt:
@@ -40,6 +39,3 @@ notifications:
       - rajeyw@gmail.com
     on_failure: always
     on_success: always
-
-  slack:
-    secure: ayOCicazeLU9EWJpfoHDzT9YyLpcmMKTIFwCrB9lcmYhGkAfCxewSimShjf/qg7G3e1Df8+cBFD+KoOkyVyY9ovd/h11Uq3MFPv5xScG6nKEfMqt8fAOGe0RSRdjkh9MVlf0h/Ng+oG0ez1Wmz4JZLJDuBE+XkSLBITC5WJl+lpKDM7KvCNpFjdaWfzW7Lj2NAHDMJEvHhklhhMl2LDNwTJMYgojBZvAgL2Sn6qeh63JzmLFkzp3mNcIRTB7D6vxe899X63dMtfIj3JJqkEe4WqmyilxMRjai9c8dqHhvD+uo6PvcuWAKXZgQcvdiUXVzbZ+03ERU2jBQFNOkJolH2zgWmqb8sF06C3+erzEhbM0F73r1sjNqeXDkecrd4hF4A67JuGjy8JV1M2NkD9kIFXjgTGvMTaxKMCg0TupT+fbrh6jU2IYn/NHbM8uDZsnndckwzATwRsYOv01dgweDG00QHPQ7KdU/K9z7chVOlc5uBdbzx6Wbr0wssJx8ZnT9Qg9roU5G2DJRaQRr57f9i/DbwWDByj5e64QCovJJ4+YK5MUB9pApqwVEGedb82unWHepunNwn8Kp7RErSCFZleVLwsSl++lefaYmd3mZxjDKJF9+r7lpruzRbhjwr09m0E5evIClyHMiHhNgeWX25ilmf0yQnP4Mk5vK/2o4Uw=
