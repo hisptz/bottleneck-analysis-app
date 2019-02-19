@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --aot && cd dist/idashboard && zip -r -D idashboard.zip .",
+    "build": "ng build --prod --aot && cd dist/idashboard && zip -r -D bottleneck-analysis.zip .",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
