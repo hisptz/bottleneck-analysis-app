@@ -280,12 +280,2018 @@
         }
       ]
     },
-    { "name": "Treatment of Severe Acute Malnutrition" },
-    { "name": "Full Immunization" },
-    { "name": "Skilled Delivery" },
-    { "name": "Vitamin A Supplementation" },
-    { "name": "Antibiotics for Pneumonia" },
-    { "name": "DPT3 Immunization" },
-    { "name": "Focused ANC" }
+    {
+      "name": "Treatment of Severe Acute Malnutrition",
+      "dashboardItems": [
+        {
+          "type": "CHART",
+          "chart": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of RUTF"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Trained SAM Providers"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Access to SAM Services by children under 5"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Initial SAM Utilization 0-59 months"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Continuous SAM Utilization 0-59 months"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of RUTF"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained SAM Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to SAM Services by children under 5"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial SAM Utilization 0-59 months"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous SAM Utilization 0-59 months"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ],
+            "showData": true,
+            "subtitle": null,
+            "hideTitle": false,
+            "prototype": {},
+            "sortOrder": 0,
+            "hideLegend": false,
+            "description": "",
+            "hideSubtitle": false,
+            "reportParams": {},
+            "baseLineLabel": null,
+            "baseLineValue": null,
+            "completedOnly": false,
+            "rangeAxisLabel": null,
+            "rangeAxisSteps": null,
+            "regressionType": "NONE",
+            "aggregationType": "DEFAULT",
+            "domainAxisLabel": null,
+            "targetLineLabel": null,
+            "targetLineValue": null,
+            "cumulativeValues": false,
+            "hideEmptyRowItems": "NONE",
+            "rangeAxisDecimals": null,
+            "rangeAxisMaxValue": null,
+            "rangeAxisMinValue": null,
+            "percentStackedValues": false,
+            "noSpaceBetweenColumns": false
+          },
+          "shape": "FULL_WIDTH"
+        },
+        {
+          "type": "REPORT_TABLE",
+          "shape": "FULL_WIDTH",
+          "reportTable": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of RUTF"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Trained SAM Providers"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Access to SAM Services by children under 5"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Initial SAM Utilization 0-59 months"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Continuous SAM Utilization 0-59 months"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of RUTF"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained SAM Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to SAM Services by children under 5"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial SAM Utilization 0-59 months"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous SAM Utilization 0-59 months"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT_CHILDREN",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ]
+          }
+        },
+        {
+          "type": "APP",
+          "shape": "FULL_WIDTH",
+          "appKey": "bna-widget"
+        }
+      ]
+    },
+    {
+      "name": "Full Immunization",
+      "dashboardItems": [
+        {
+          "type": "CHART",
+          "chart": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Vaccines BCG"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Trained Immunization Providers"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Access to Immunization Services"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Initial Immunization Utilization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Initial Immunization Utilization - DPT1"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Continuous DPT2 Immunization Utilization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Effective Coverage Full Immunization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Effective Coverage Measles Immunization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Continuous Utilization DPT3"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Vaccines BCG"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained Immunization Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to Immunization Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial Immunization Utilization"
+                      },
+                      {
+                        "name": "[TMPL] Initial Immunization Utilization - DPT1"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous DPT2 Immunization Utilization"
+                      },
+                      {
+                        "name": "[TMPL] Continuous Utilization DPT3"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage Full Immunization"
+                      },
+                      {
+                        "name": "[TMPL] Effective Coverage Measles Immunization"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ],
+            "showData": true,
+            "subtitle": null,
+            "hideTitle": false,
+            "prototype": {},
+            "sortOrder": 0,
+            "hideLegend": false,
+            "description": "",
+            "hideSubtitle": false,
+            "reportParams": {},
+            "baseLineLabel": null,
+            "baseLineValue": null,
+            "completedOnly": false,
+            "rangeAxisLabel": null,
+            "rangeAxisSteps": null,
+            "regressionType": "NONE",
+            "aggregationType": "DEFAULT",
+            "domainAxisLabel": null,
+            "targetLineLabel": null,
+            "targetLineValue": null,
+            "cumulativeValues": false,
+            "hideEmptyRowItems": "NONE",
+            "rangeAxisDecimals": null,
+            "rangeAxisMaxValue": null,
+            "rangeAxisMinValue": null,
+            "percentStackedValues": false,
+            "noSpaceBetweenColumns": false
+          },
+          "shape": "FULL_WIDTH"
+        },
+        {
+          "type": "REPORT_TABLE",
+          "shape": "FULL_WIDTH",
+          "reportTable": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "name": "[TMPL] Availability of ART",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Availability of Trained PMTCT Providers",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Initial Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Continuous Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Effective Coverage/Quality PMTCT Infants",
+                    "type": "INDICATOR"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of ART"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained PMTCT Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to PMTCT Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage/Quality PMTCT Infants"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT_CHILDREN",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ]
+          }
+        },
+        {
+          "type": "APP",
+          "shape": "FULL_WIDTH",
+          "appKey": "bna-widget"
+        }
+      ]
+    },
+    {
+      "name": "Skilled Delivery",
+      "dashboardItems": [
+        {
+          "type": "CHART",
+          "chart": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Oxytocin"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Trained Skilled Delivery Providers"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Access to Skilled Delivery Services 24/7"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Access to Skilled Delivery Services BEmOC"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Initial Skilled Birth Utilization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Continuous Skilled Delivery Utilization Partograph"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Continuous Skilled Delivery Utilization Breastfeeding"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Effective Coverage/Quality Child Birth Survival"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Oxytocin"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained Skilled Delivery Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to Skilled Delivery Services 24/7"
+                      },
+                      {
+                        "name": "[TMPL] Access to Skilled Delivery Services BEmOC"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial Skilled Birth Utilization"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous Skilled Delivery Utilization Partograph"
+                      },
+                      {
+                        "name": "[TMPL] Continuous Skilled Delivery Utilization Breastfeeding"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage/Quality Child Birth Survival"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ],
+            "showData": true,
+            "subtitle": null,
+            "hideTitle": false,
+            "prototype": {},
+            "sortOrder": 0,
+            "hideLegend": false,
+            "description": "",
+            "hideSubtitle": false,
+            "reportParams": {},
+            "baseLineLabel": null,
+            "baseLineValue": null,
+            "completedOnly": false,
+            "rangeAxisLabel": null,
+            "rangeAxisSteps": null,
+            "regressionType": "NONE",
+            "aggregationType": "DEFAULT",
+            "domainAxisLabel": null,
+            "targetLineLabel": null,
+            "targetLineValue": null,
+            "cumulativeValues": false,
+            "hideEmptyRowItems": "NONE",
+            "rangeAxisDecimals": null,
+            "rangeAxisMaxValue": null,
+            "rangeAxisMinValue": null,
+            "percentStackedValues": false,
+            "noSpaceBetweenColumns": false
+          },
+          "shape": "FULL_WIDTH"
+        },
+        {
+          "type": "REPORT_TABLE",
+          "shape": "FULL_WIDTH",
+          "reportTable": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "name": "[TMPL] Availability of ART",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Availability of Trained PMTCT Providers",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Initial Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Continuous Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Effective Coverage/Quality PMTCT Infants",
+                    "type": "INDICATOR"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of ART"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained PMTCT Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to PMTCT Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage/Quality PMTCT Infants"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT_CHILDREN",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ]
+          }
+        },
+        {
+          "type": "APP",
+          "shape": "FULL_WIDTH",
+          "appKey": "bna-widget"
+        }
+      ]
+    },
+    {
+      "name": "Vitamin A Supplementation",
+      "dashboardItems": [
+        {
+          "type": "CHART",
+          "chart": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Vitamin A"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Trained VAS Providers"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Access to VAS Services"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Initial VAS Utilization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Continuous VAS Utilization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Effective Coverage/Quality VAS 12-59 months"
+                  }
+                ],
+                "groups": [
+                  {
+                    "id": "gMBbWj0ti27",
+                    "name": "Commodities",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Vitamin A"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "cH7F1WrsMba",
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained VAS Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "k1ZoaGAFVL3",
+                    "name": "Geographic Accessibility",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to VAS Services"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "sY3S9lyvgnx",
+                    "name": "Initial Utilisation",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial VAS Utilization"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "Zb8rG5RD91g",
+                    "name": "Continuous Utilisation",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous VAS Utilization"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "lvOXDYaW7hB",
+                    "name": "Effective Coverage",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage/Quality VAS 12-59 months"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ],
+            "showData": true,
+            "subtitle": null,
+            "hideTitle": false,
+            "prototype": {},
+            "sortOrder": 0,
+            "hideLegend": false,
+            "description": "",
+            "hideSubtitle": false,
+            "reportParams": {},
+            "baseLineLabel": null,
+            "baseLineValue": null,
+            "completedOnly": false,
+            "rangeAxisLabel": null,
+            "rangeAxisSteps": null,
+            "regressionType": "NONE",
+            "aggregationType": "DEFAULT",
+            "domainAxisLabel": null,
+            "targetLineLabel": null,
+            "targetLineValue": null,
+            "cumulativeValues": false,
+            "hideEmptyRowItems": "NONE",
+            "rangeAxisDecimals": null,
+            "rangeAxisMaxValue": null,
+            "rangeAxisMinValue": null,
+            "percentStackedValues": false,
+            "noSpaceBetweenColumns": false
+          },
+          "shape": "FULL_WIDTH"
+        },
+        {
+          "type": "REPORT_TABLE",
+          "shape": "FULL_WIDTH",
+          "reportTable": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "name": "[TMPL] Availability of ART",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Availability of Trained PMTCT Providers",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Initial Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Continuous Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Effective Coverage/Quality PMTCT Infants",
+                    "type": "INDICATOR"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of ART"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained PMTCT Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to PMTCT Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage/Quality PMTCT Infants"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT_CHILDREN",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ]
+          }
+        },
+        {
+          "type": "APP",
+          "shape": "FULL_WIDTH",
+          "appKey": "bna-widget"
+        }
+      ]
+    },
+    {
+      "name": "Antibiotics for Pneumonia",
+      "dashboardItems": [
+        {
+          "type": "CHART",
+          "chart": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "name": "[TMPL] Availability of Pneumonia Antibiotics",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Availability of Trained Pneumonia Antibiotics Providers",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Access to Pneumonia Antibiotics Services",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Initial Utilization Pneumonia Antibiotics",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Continuous Utilization Pneumonia Antibiotics",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Effective Coverage/Quality Pneumonia Antibiotics",
+                    "type": "INDICATOR"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Pneumonia Antibiotics"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained Pneumonia Antibiotics Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to Pneumonia Antibiotics Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial Utilization Pneumonia Antibiotics"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous Utilization Pneumonia Antibiotics"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage/Quality Pneumonia Antibiotics"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ],
+            "showData": true,
+            "subtitle": null,
+            "hideTitle": false,
+            "prototype": {},
+            "sortOrder": 0,
+            "hideLegend": false,
+            "description": "",
+            "hideSubtitle": false,
+            "reportParams": {},
+            "baseLineLabel": null,
+            "baseLineValue": null,
+            "completedOnly": false,
+            "rangeAxisLabel": null,
+            "rangeAxisSteps": null,
+            "regressionType": "NONE",
+            "aggregationType": "DEFAULT",
+            "domainAxisLabel": null,
+            "targetLineLabel": null,
+            "targetLineValue": null,
+            "cumulativeValues": false,
+            "hideEmptyRowItems": "NONE",
+            "rangeAxisDecimals": null,
+            "rangeAxisMaxValue": null,
+            "rangeAxisMinValue": null,
+            "percentStackedValues": false,
+            "noSpaceBetweenColumns": false
+          },
+          "shape": "FULL_WIDTH"
+        },
+        {
+          "type": "REPORT_TABLE",
+          "shape": "FULL_WIDTH",
+          "reportTable": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "name": "[TMPL] Availability of ART",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Availability of Trained PMTCT Providers",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Initial Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Continuous Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Effective Coverage/Quality PMTCT Infants",
+                    "type": "INDICATOR"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of ART"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained PMTCT Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to PMTCT Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage/Quality PMTCT Infants"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT_CHILDREN",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ]
+          }
+        },
+        {
+          "type": "APP",
+          "shape": "FULL_WIDTH",
+          "appKey": "bna-widget"
+        }
+      ]
+    },
+    {
+      "name": "DPT3 Immunization",
+      "dashboardItems": [
+        {
+          "type": "CHART",
+          "chart": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of DPT3"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Trained Immunization Providers"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Access to Immunization Services"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Initial Immunization Utilization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Initial Immunization Utilization - DPT3"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Continuous DPT3 Immunization Utilization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Effective Coverage Full Immunization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Effective Coverage Measles Immunization"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Vaccines DPT3"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained Immunization Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to Immunization Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial Immunization Utilization"
+                      },
+                      {
+                        "name": "[TMPL] Initial Immunization Utilization - DPT3"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous DPT3 Immunization Utilization"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage Full Immunization"
+                      },
+                      {
+                        "name": "[TMPL] Effective Coverage DPT3 Immunization"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ],
+            "showData": true,
+            "subtitle": null,
+            "hideTitle": false,
+            "prototype": {},
+            "sortOrder": 0,
+            "hideLegend": false,
+            "description": "",
+            "hideSubtitle": false,
+            "reportParams": {},
+            "baseLineLabel": null,
+            "baseLineValue": null,
+            "completedOnly": false,
+            "rangeAxisLabel": null,
+            "rangeAxisSteps": null,
+            "regressionType": "NONE",
+            "aggregationType": "DEFAULT",
+            "domainAxisLabel": null,
+            "targetLineLabel": null,
+            "targetLineValue": null,
+            "cumulativeValues": false,
+            "hideEmptyRowItems": "NONE",
+            "rangeAxisDecimals": null,
+            "rangeAxisMaxValue": null,
+            "rangeAxisMinValue": null,
+            "percentStackedValues": false,
+            "noSpaceBetweenColumns": false
+          },
+          "shape": "FULL_WIDTH"
+        },
+        {
+          "type": "REPORT_TABLE",
+          "shape": "FULL_WIDTH",
+          "reportTable": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "name": "[TMPL] Availability of ART",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Availability of Trained PMTCT Providers",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Initial Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Continuous Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Effective Coverage/Quality PMTCT Infants",
+                    "type": "INDICATOR"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of ART"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained PMTCT Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to PMTCT Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage/Quality PMTCT Infants"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT_CHILDREN",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ]
+          }
+        },
+        {
+          "type": "APP",
+          "shape": "FULL_WIDTH",
+          "appKey": "bna-widget"
+        }
+      ]
+    },
+    {
+      "name": "Focused ANC",
+      "dashboardItems": [
+        {
+          "type": "CHART",
+          "chart": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Trained FANC Providers"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Access to ANC Services"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Initial ANC Utilization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Continous ANC Utilization"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of TTN"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Availability of Iron Folic Acid"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Continuous ANC Utilisation (Breastfeeding)"
+                  },
+                  {
+                    "type": "INDICATOR",
+                    "name": "[TMPL] Effective Coverage/Quality FANC Visits"
+                  }
+                ],
+                "groups": [
+                  {
+                    "id": "gMBbWj0ti27",
+                    "name": "Commodities",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of TTN"
+                      },
+                      {
+                        "name": "[TMPL] Availability of Iron Folic Acid"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "cH7F1WrsMba",
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained FANC Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "k1ZoaGAFVL3",
+                    "name": "Geographic Accessibility",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to ANC Services"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "sY3S9lyvgnx",
+                    "name": "Initial Utilisation",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial ANC Utilization"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "Zb8rG5RD91g",
+                    "name": "Continuous Utilisation",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continous ANC Utilization"
+                      },
+                      {
+                        "name": "[TMPL] Continuous ANC Utilisation (Breastfeeding)"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "lvOXDYaW7hB",
+                    "name": "Effective Coverage",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage/Quality FANC Visits"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ],
+            "showData": true,
+            "subtitle": null,
+            "hideTitle": false,
+            "prototype": {},
+            "sortOrder": 0,
+            "hideLegend": false,
+            "description": "",
+            "hideSubtitle": false,
+            "reportParams": {},
+            "baseLineLabel": null,
+            "baseLineValue": null,
+            "completedOnly": false,
+            "rangeAxisLabel": null,
+            "rangeAxisSteps": null,
+            "regressionType": "NONE",
+            "aggregationType": "DEFAULT",
+            "domainAxisLabel": null,
+            "targetLineLabel": null,
+            "targetLineValue": null,
+            "cumulativeValues": false,
+            "hideEmptyRowItems": "NONE",
+            "rangeAxisDecimals": null,
+            "rangeAxisMaxValue": null,
+            "rangeAxisMinValue": null,
+            "percentStackedValues": false,
+            "noSpaceBetweenColumns": false
+          },
+          "shape": "FULL_WIDTH"
+        },
+        {
+          "type": "REPORT_TABLE",
+          "shape": "FULL_WIDTH",
+          "reportTable": {
+            "name": "Bottleneck Analysis Chart",
+            "rows": [
+              {
+                "items": [
+                  {
+                    "name": "[TMPL] Availability of ART",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Availability of Trained PMTCT Providers",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Initial Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Continuous Utilization PMTCT",
+                    "type": "INDICATOR"
+                  },
+                  {
+                    "name": "[TMPL] Effective Coverage/Quality PMTCT Infants",
+                    "type": "INDICATOR"
+                  }
+                ],
+                "groups": [
+                  {
+                    "name": "Commodities",
+                    "color": "#D98CCC",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of ART"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Human Resources",
+                    "color": "#80CC33",
+                    "members": [
+                      {
+                        "name": "[TMPL] Availability of Trained PMTCT Providers"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Geographic Accessibility",
+                    "color": "#75F0F0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Access to PMTCT Services"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Initial Utilisation",
+                    "color": "#7DB2E8",
+                    "members": [
+                      {
+                        "name": "[TMPL] Initial Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Continuous Utilisation",
+                    "color": "#40BF80",
+                    "members": [
+                      {
+                        "name": "[TMPL] Continuous Utilization PMTCT"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Effective Coverage",
+                    "color": "#9485E0",
+                    "members": [
+                      {
+                        "name": "[TMPL] Effective Coverage/Quality PMTCT Infants"
+                      }
+                    ]
+                  }
+                ],
+                "layout": "rows",
+                "dimension": "dx"
+              }
+            ],
+            "type": "COLUMN",
+            "title": null,
+            "columns": [
+              {
+                "items": [
+                  {
+                    "id": "USER_ORGUNIT_CHILDREN",
+                    "name": "User Org unit",
+                    "type": "USER_ORGANISATION_UNIT"
+                  }
+                ],
+                "layout": "columns",
+                "dimension": "ou"
+              }
+            ],
+            "filters": [
+              {
+                "items": [
+                  {
+                    "id": "LAST_YEAR",
+                    "name": "Last Year",
+                    "type": "RelativeYear",
+                    "selected": true
+                  }
+                ],
+                "layout": "filters",
+                "dimension": "pe"
+              }
+            ]
+          }
+        },
+        {
+          "type": "APP",
+          "shape": "FULL_WIDTH",
+          "appKey": "bna-widget"
+        }
+      ]
+    }
   ]
 }
