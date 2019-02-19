@@ -4,11 +4,10 @@ import { TableItemComponent } from './components/table-item/table-item.component
 import { CommonModule } from '@angular/common';
 import { TableItemCellComponent } from './components/table-item-cell/table-item-cell.component';
 
-import { DndModule } from 'ng2-dnd';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, DndModule.forRoot()],
+  imports: [CommonModule, SharedModule],
   declarations: [
     TableListComponent,
     TableItemComponent,
