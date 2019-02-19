@@ -18,7 +18,6 @@ export class AppComponent {
 
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     this.translate.use('en');
-    console.log('Change');
 
     this.setTitle('Bottleneck Analysis App');
   }
