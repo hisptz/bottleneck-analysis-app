@@ -71,6 +71,7 @@ export class DefaultDashboardListComponent implements OnInit {
       e.stopPropagation();
     }
     this.showDefaultList = false;
+
     this.create.emit({
       ...dashboard,
       dashboardItems: dashboard.dashboardItems || DASHBOARD_ITEMS
