@@ -3,6 +3,7 @@ import { MapConfiguration } from '../models/map-configuration.model';
 import { Layer } from '../models/layer.model';
 import { getBboxBounds } from './layers';
 import { getColorScale } from './colorBrewer';
+import { config } from 'rxjs';
 
 export function transformVisualizationObject(visualizationConfig, visualizationLayers, vizId) {
   if (!visualizationConfig || !visualizationLayers || !vizId) {
@@ -78,9 +79,12 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
       'hideSubtitle'
     ]);
 
-    const rows = (mapview.dataSelections || []).filter(dt => dt.dimension === 'ou');
-    const columns = (mapview.dataSelections || []).filter(dt => dt.dimension === 'dx');
-    const filters = (mapview.dataSelections || []).filter(dt => dt.dimension === 'pe');
+    // const rows = (mapview.dataSelections || []).filter(dt => dt.dimension === 'ou');
+    // const columns = (mapview.dataSelections || []).filter(dt => dt.dimension === 'dx');
+    // const filters = (mapview.dataSelections || []).filter(dt => dt.dimension === 'pe');
+
+    const { rows, columns, filters } = settings;
+
     const dataSelections = Object.assign(
       {},
       _.pick(settings, [
