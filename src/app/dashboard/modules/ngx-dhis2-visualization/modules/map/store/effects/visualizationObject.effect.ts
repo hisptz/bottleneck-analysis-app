@@ -184,6 +184,7 @@ export class VisualizationObjectEffects {
       }
       const requestParams = [...rows, ...columns, ...filters];
       const data = requestParams.filter(dimension => dimension.dimension === 'ou');
+
       const parameter = data
         .map((param, paramIndex) => {
           return `ou=${param.dimension}:${param.items.map(item => item.id || item.dimensionItem).join(';')}`;

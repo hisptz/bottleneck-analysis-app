@@ -42,6 +42,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   selectedFilter = 'STYLE';
   selectedDataItems: any = [];
   selectedPeriods: any = [];
+  selectedOrgUnitItems: any = [];
   selectedLayer;
   public legendSets$;
   public singleSelection = true;
@@ -49,18 +50,6 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   public isFilterSectionUpdated$: Observable<boolean>;
   public periodConfig: any = {
     singleSelection: true
-  };
-  orgUnitModel: any = {
-    selectionMode: 'orgUnit',
-    selectedLevels: [],
-    showUpdateButton: true,
-    selectedGroups: [],
-    orgUnitLevels: [],
-    orgUnitGroups: [],
-    selectedOrgUnits: [],
-    userOrgUnits: [],
-    type: 'report', // can be 'data_entry'
-    selectedUserOrgUnits: []
   };
 
   constructor(private store: Store<fromStore.MapState>) {}
@@ -108,7 +97,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
           filterType: 'ou',
           layer,
           newdimension,
-          params: value
+          params: value || items.map(item => item.id || item.dimensionItem).join(';')
         };
         this.store.dispatch(new fromStore.UpdateOUSelection(payload));
         break;
@@ -116,6 +105,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
         const peItems = items.map(item => ({
           displayName: item.name,
           dimensionItem: item.id,
+          type: item.type,
           dimensionItemType: 'PERIOD'
         }));
         const newPeDimension = {
@@ -171,67 +161,14 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     const data = [...columns, ...filters, ...rows];
     const selectedPeriods = getDimensionItems('pe', data);
     const selectedDataItems = getDimensionItems('dx', data);
-    this.selectedDataItems = selectedDataItems.map(dataItem => ({
-      id: dataItem.dimensionItem,
-      name: dataItem.displayName,
-      type: dataItem.dimensionItemType
-    }));
 
     this.selectedPeriods = selectedPeriods.map(periodItem => ({
       id: periodItem.dimensionItem,
       name: periodItem.displayName,
       type: periodItem.dimensionItemType
     }));
-    const orgUnitArray = getDimensionItems('ou', data);
 
-    let selectedOrgUnits = [];
-    let selectedLevels = [];
-    let selectedGroups = [];
-    let selectedUserOrgUnits = [];
-    orgUnitArray.map(orgunit => {
-      if (orgunit.dimensionItemType && orgunit.dimensionItemType === 'ORGANISATION_UNIT') {
-        const orgUnit = {
-          id: orgunit.dimensionItem,
-          name: orgunit.displayName,
-          type: orgunit.dimensionItemType
-        };
-        selectedOrgUnits = [...selectedOrgUnits, orgUnit];
-      }
-      if (orgunit.dimensionItem && orgunit.dimensionItem.indexOf('LEVEL') !== -1) {
-        const level = {
-          level: orgunit.dimensionItem.split('-')[1]
-        };
-        selectedLevels = [...selectedLevels, level];
-      }
-
-      if (orgunit.dimensionItem && orgunit.dimensionItem.indexOf('OU_GROUP') !== -1) {
-        selectedGroups = [
-          ...selectedGroups,
-          {
-            id: orgunit.dimesionItem,
-            name: orgunit.displayName
-          }
-        ];
-      }
-      if (orgunit.dimensionItem && orgunit.dimensionItem.indexOf('USER') !== -1) {
-        selectedUserOrgUnits = [
-          ...selectedUserOrgUnits,
-          {
-            id: orgunit.dimensionItem,
-            name: orgunit.displayName
-          }
-        ];
-      }
-    });
-
-    this.orgUnitModel = {
-      ...this.orgUnitModel,
-      selectionMode: selectedLevels.length ? 'Level' : selectedGroups.length ? 'Group' : 'orgUnit',
-      selectedLevels: selectedLevels || [],
-      selectedOrgUnits: selectedOrgUnits || [],
-      selectedUserOrgUnits: selectedUserOrgUnits || [],
-      selectedGroups: selectedGroups || []
-    };
+    this.selectedOrgUnitItems = getDimensionItems('ou', data);
   }
 
   ngOnDestroy() {

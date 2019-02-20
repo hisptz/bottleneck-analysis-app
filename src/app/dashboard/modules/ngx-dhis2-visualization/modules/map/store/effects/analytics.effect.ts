@@ -6,11 +6,8 @@ import { Store } from '@ngrx/store';
 
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as dataSelectionAction from '../actions/data-selection.action';
-import * as layersActions from '../actions/layers.action';
 import * as fromServices from '../../services';
 import * as fromStore from '../../store';
-import { getDimensionItems } from '../../utils/analytics';
-import { toGeoJson } from '../../utils/layers';
 import { standardizeIncomingAnalytics } from '../../utils/standardize-incoming-analytics';
 
 @Injectable()
@@ -146,7 +143,7 @@ export class AnalyticsEffects {
     const arrayToObject = (arr, keyField) =>
       Object.assign(
         {},
-        ...arr.map(item => ({ [item[keyField]]: item.items.map(_item => _item.dimensionItem).join(';') }))
+        ...arr.map(item => ({ [item[keyField]]: item.items.map(_item => _item.dimensionItem || _item.id).join(';') }))
       );
     const dataSelections = { ...layer.dataSelections, ..._filters };
 
