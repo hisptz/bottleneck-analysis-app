@@ -88,6 +88,7 @@
 .map-filter-btn {
   border-radius: 0 15px 15px 0;
   width: 45px;
+  display: flex;
 }
 .map-filter-btn:hover {
   -webkit-transform: scale(1);
