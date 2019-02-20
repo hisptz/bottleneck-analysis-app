@@ -1,4 +1,4 @@
-import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers';
 import { LegendSet } from '../../models/Legend-set.model';
@@ -17,9 +17,6 @@ export const getAllBaseLayerObjectEntities = createSelector(
 export const getCurrentBaseLayer = id =>
   createSelector(getAllBaseLayerObjectEntities, entities => entities[id]);
 
-export const getAllBaseLayerObject = createSelector(
-  getAllBaseLayerObjectEntities,
-  entities => {
-    return Object.keys(entities).map(id => entities[id]);
-  }
-);
+export const getAllBaseLayerObject = createSelector(getAllBaseLayerObjectEntities, entities => {
+  return Object.keys(entities).map(id => entities[id]);
+});

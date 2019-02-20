@@ -1,11 +1,12 @@
 /**
  * Created by mpande on 3/8/18.
  */
-import { Injectable } from '@angular/core';
-import { Extent } from './extent';
-@Injectable({ providedIn: 'root' })
+import {Injectable} from '@angular/core';
+import {Extent} from './extent';
+@Injectable()
 export class Point {
-  constructor(private ext: Extent) {}
+  constructor(private ext: Extent) {
+  }
 
   writePoints(coordinates, theExtent, shpView, shxView) {
     const contentLength = 28;
@@ -39,6 +40,7 @@ export class Point {
 
 export function extent(coordinates) {
   return coordinates.reduce((theExtent, coords) => {
+
     this.ext.enlarge(theExtent, coords);
   }, this.ext.blank());
 }

@@ -10,12 +10,7 @@ export function getAnalyticsUrl(
 ): string {
   switch (layerType) {
     case 'thematic':
-      return getAggregateAnalyticsUrl(
-        dataSelections,
-        layerType,
-        config,
-        skipData
-      );
+      return getAggregateAnalyticsUrl(dataSelections, layerType, config, skipData);
     case 'event':
       return getEventAnalyticsUrl(dataSelections, layerType, config, skipData);
     default:
@@ -28,13 +23,7 @@ function flattenDimensions(
   isAggregate?: boolean,
   skipData?: boolean
 ): string {
-  if (
-    !checkIfSelectionsAreEligibleForAnalytics(
-      dataSelections,
-      isAggregate,
-      skipData
-    )
-  ) {
+  if (!checkIfSelectionsAreEligibleForAnalytics(dataSelections, isAggregate, skipData)) {
     return '';
   }
 
@@ -53,29 +42,24 @@ function checkIfSelectionsAreEligibleForAnalytics(
   return isAggregate
     ? dataSelections.length >= 3
     : _.filter(
-        _.map(
-          dataSelections,
-          dataSelection => ['ou', 'pe'].indexOf(dataSelection.dimension) !== -1
-        ),
+        _.map(dataSelections, dataSelection => ['ou', 'pe'].indexOf(dataSelection.dimension) !== -1),
         isEligible => isEligible
       ).length === 2;
 }
 
 // TODO: Need to get generic and have decision on whether to use filter or dimension
-function getAnalyticsDimensions(
-  dataSelections: VisualizationDataSelection[]
-): string[] {
+function getAnalyticsDimensions(dataSelections: VisualizationDataSelection[]): string[] {
   return _.filter(
     _.map(dataSelections, (dataSelection: VisualizationDataSelection) => {
       const selectionValues = getDataSelectionValues(dataSelection);
 
       return selectionValues !== ''
-        ? (dataSelection.layout === 'filters' ? 'filter=' : 'dimension=') +
+        ? (dataSelection.layout === 'filters' ? 'dimension=' : 'dimension=') +
             dataSelection.dimension +
             ':' +
             selectionValues
         : ['dx', 'ou', 'pe'].indexOf(dataSelection.dimension) === -1
-        ? (dataSelection.layout === 'filters' ? 'filter=' : 'dimension=') +
+        ? (dataSelection.layout === 'filters' ? 'dimension=' : 'dimension=') +
           dataSelection.dimension +
           (dataSelection.legendSet ? '-' + dataSelection.legendSet : '')
         : '';
@@ -85,9 +69,7 @@ function getAnalyticsDimensions(
 }
 
 function getDataSelectionValues(dataSelection: VisualizationDataSelection) {
-  return dataSelection.filter
-    ? dataSelection.filter
-    : _.map(dataSelection.items, item => item.id).join(';');
+  return dataSelection.filter ? dataSelection.filter : _.map(dataSelection.items, item => item.id).join(';');
 }
 
 function getAggregateAnalyticsUrl(
@@ -96,23 +78,13 @@ function getAggregateAnalyticsUrl(
   config?: any,
   skipData?: boolean
 ): string {
-  const flattenedDimensionString = flattenDimensions(
-    dataSelections,
-    true,
-    skipData
-  );
+  const flattenedDimensionString = flattenDimensions(dataSelections, true, skipData);
   return flattenedDimensionString !== ''
-    ? 'analytics.json?' +
-        flattenedDimensionString +
-        getAnalyticsUrlOptions(config, layerType, skipData)
+    ? 'analytics.json?' + flattenedDimensionString + getAnalyticsUrlOptions(config, layerType, skipData)
     : '';
 }
 
-function getAnalyticsUrlOptions(
-  config: any,
-  layerType: string,
-  skipData?: boolean
-) {
+function getAnalyticsUrlOptions(config: any, layerType: string, skipData?: boolean) {
   if (!config || !layerType) {
     return '';
   }
@@ -129,9 +101,7 @@ function getAnalyticsUrlOptions(
 }
 
 function getDisplayPropertyDetails(config: any) {
-  return config.displayNameProperty
-    ? '&displayProperty=' + config.displayNameProperty
-    : '';
+  return config.displayNameProperty ? '&displayProperty=' + config.displayNameProperty : '';
 }
 
 function getAggregationTypeDetails(config) {
@@ -173,9 +143,7 @@ function getEventAnalyticsUrl(
         flattenedDimensionString +
         getAnalyticsUrlOptions(config, layerType, skipData)
       : '';
-  return analyticsUrlFields !== ''
-    ? 'analytics/events/' + analyticsUrlFields
-    : '';
+  return analyticsUrlFields !== '' ? 'analytics/events/' + analyticsUrlFields : '';
 }
 
 function getProgramParameters(config: any): string {
@@ -195,11 +163,7 @@ function getEventAnalyticsUrlSection(config) {
     case 'EVENT_REPORT':
       return config.dataType === 'AGGREGATED_VALUES' ? 'aggregate/' : 'query/';
     default:
-      return !config.aggregate
-        ? config.eventClustering && config.spatialSupport
-          ? 'count/'
-          : 'query/'
-        : 'aggregate/';
+      return !config.aggregate ? (config.eventClustering && config.spatialSupport ? 'count/' : 'query/') : 'aggregate/';
   }
 }
 

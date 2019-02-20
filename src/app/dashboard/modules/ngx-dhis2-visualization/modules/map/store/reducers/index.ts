@@ -1,9 +1,4 @@
-import {
-  ActionReducerMap,
-  createSelector,
-  createFeatureSelector,
-  MemoizedSelector
-} from '@ngrx/store';
+import { ActionReducerMap, createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromLayers from './layers.reducer';
 import * as fromVisualizationObject from './visualization-object.reducers';
 import * as fromGeofeatures from './geo-feature.reducers';

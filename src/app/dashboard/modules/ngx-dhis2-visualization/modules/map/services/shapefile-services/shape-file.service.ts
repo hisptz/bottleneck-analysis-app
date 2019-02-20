@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
-import { saveAs } from 'file-saver';
-import { Zip } from './zip';
+import {saveAs} from 'file-saver';
+import {Zip} from './zip';
 
-@Injectable({ providedIn: 'root' })
+
+@Injectable()
 export class ShapeFileService {
-  constructor(private zip: Zip) {}
+
+  constructor(private zip: Zip) {
+  }
 
   download(geoJson, fileName) {
     const options = {
@@ -16,9 +19,10 @@ export class ShapeFileService {
         polygon: 'mypolygons',
         line: 'mylines'
       }
-    };
-    this.zip.zip(geoJson, options).subscribe(content => {
+    }
+    this.zip.zip(geoJson, options).subscribe((content) => {
       saveAs(content, fileName + '.zip');
     });
+
   }
 }

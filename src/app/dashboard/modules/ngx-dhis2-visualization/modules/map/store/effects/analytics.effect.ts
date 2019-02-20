@@ -1,4 +1,4 @@
-import { Observable, of, combineLatest } from 'rxjs';
+import { combineLatest as observableCombineLatest, of, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, switchMap, catchError } from 'rxjs/operators';
@@ -7,7 +7,9 @@ import { Store } from '@ngrx/store';
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as dataSelectionAction from '../actions/data-selection.action';
 import * as fromServices from '../../services';
-import * as fromStore from '..';
+import * as fromStore from '../../store';
+import { standardizeIncomingAnalytics } from '../../utils/standardize-incoming-analytics';
+
 @Injectable()
 export class AnalyticsEffects {
   constructor(
@@ -33,9 +35,7 @@ export class AnalyticsEffects {
           layerIds.push(layer.id);
           return requestParams
             .map((param, paramIndex) => {
-              return `dimension=${param.dimension}:${param.items
-                .map(item => item.id)
-                .join(';')}`;
+              return `dimension=${param.dimension}:${param.items.map(item => item.id).join(';')}`;
             })
             .join('&');
         }
@@ -46,16 +46,14 @@ export class AnalyticsEffects {
             .map((param, paramIndex) => {
               const dimension = `dimension=${param.dimension}`;
               if (param.items.length) {
-                return `${dimension}:${param.items
-                  .map(item => item.id)
-                  .join(';')}`;
+                return `${dimension}:${param.items.map(item => item.id).join(';')}`;
               }
               return dimension;
             })
             .join('&');
-          let url = `/events/query/${
-            layer.dataSelections.program.id
-          }.json?stage=${layer.dataSelections.programStage.id}&${data}`;
+          let url = `/events/query/${layer.dataSelections.program.id}.json?stage=${
+            layer.dataSelections.programStage.id
+          }&${data}`;
           if (layer.dataSelections.endDate) {
             url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
           }
@@ -78,7 +76,7 @@ export class AnalyticsEffects {
 
       const newSources = sources.length ? sources : Observable.create([]);
 
-      return combineLatest(newSources).pipe(
+      return observableCombineLatest(newSources).pipe(
         map((data, index) => {
           let analytics = {};
           if (data.length) {
@@ -97,16 +95,12 @@ export class AnalyticsEffects {
           };
           return new visualizationObjectActions.UpdateVizAnalytics(vizObject);
         }),
-        catchError(error =>
-          of(
-            new visualizationObjectActions.UpdateVisualizationObjectFail(error)
-          )
-        )
+        catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
       );
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   updateOu$ = this.actions$.pipe(
     ofType(
       dataSelectionAction.UPDATE_OU_SELECTION,
@@ -116,75 +110,96 @@ export class AnalyticsEffects {
     map((action: dataSelectionAction.UpdateDXSelection) => action.payload),
     switchMap(payload => {
       const { componentId, layer, newdimension } = payload;
-      const { params, newLayer } = this.createParams(payload);
-      if (params.length) {
-        return this.analyticsService.getAnalytics(params.join('&')).pipe(
-          map(analytics =>
-            this.store.dispatch(
-              new visualizationObjectActions.UpdateFilterAnalytics({
-                analytics: { [layer.id]: analytics },
-                componentId,
-                layer: newLayer
-              })
-            )
-          ),
-          catchError(error =>
-            of(
-              new visualizationObjectActions.UpdateVisualizationObjectFail(
-                error
-              )
-            )
-          )
-        );
-      }
-    }),
-    catchError(error =>
-      of(new visualizationObjectActions.UpdateVisualizationObjectFail(error))
-    )
+      const { url, newLayer } = this.createParams(payload);
+      const sources = url ? this.analyticsService.get(url) : of([]);
+
+      return sources.pipe(
+        map(
+          analytics =>
+            new visualizationObjectActions.UpdateFilterAnalytics({
+              analytics: { [layer.id]: standardizeIncomingAnalytics(analytics, true) },
+              componentId,
+              layer: newLayer
+            })
+        ),
+
+        catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+      );
+    })
   );
 
   createParams(payload) {
-    const { componentId, layer, params, filterType, newdimension } = payload;
-    const layerName = layer.type;
-    const dataselections = [
-      ...layer.dataSelections.rows,
-      ...layer.dataSelections.columns,
-      ...layer.dataSelections.filters
-    ];
-    const newparam = `dimension=${filterType}:${params}`;
-    const noAnalyticsLayers = ['boundary', 'facility', 'external', 'event'];
-    const oldDataselections = { ...layer.dataSelections };
-    let newDatas = {};
-    const newDataSelection = ['rows', 'columns', 'filters'].map(key => {
-      const oldObj = oldDataselections[key].map(item => {
-        if (item.dimension === filterType) {
-          return { ...newdimension };
-        }
-        return item;
-      });
-      const keyValue = { [key]: [...oldObj] };
-      newDatas = { ...newDatas, ...keyValue };
-    });
+    const { layer, filterType, newdimension } = payload;
+    const { type } = layer;
+    const { rows, columns, filters } = layer.dataSelections;
+    const d = { rows, columns, filters };
 
-    const dataSelections = { ...oldDataselections, ...newDatas };
-    if (noAnalyticsLayers.indexOf(layerName) === -1) {
-      const oldSelection = dataselections.filter(
-        dataselection => dataselection.dimension !== filterType
+    const _filters: { rows?: any; columns?: any; filters?: any } = Object.keys(d).reduce((acc, key) => {
+      const dimensions = d[key].map(item => (item.dimension === filterType ? { ...newdimension } : item));
+      acc[key] = dimensions;
+      return acc;
+    }, {});
+
+    const arrayToObject = (arr, keyField) =>
+      Object.assign(
+        {},
+        ...arr.map(item => ({ [item[keyField]]: item.items.map(_item => _item.dimensionItem || _item.id).join(';') }))
       );
-      const getOldParams = oldSelection.map(
-        dataselection =>
-          `dimension=${dataselection.dimension}:${dataselection.items
-            .map(item => item.dimensionItem || item.id)
-            .join(';')}`
-      );
-      return {
-        params: [...getOldParams, newparam],
-        newLayer: { ...layer, dataSelections }
-      };
+    const dataSelections = { ...layer.dataSelections, ..._filters };
+
+    const filtObj = arrayToObject([..._filters.rows, ..._filters.columns, ..._filters.filters], 'dimension');
+
+    const paramUrl = ['dx', 'ou', 'pe']
+      .map(dimension =>
+        filtObj[dimension] && filtObj[dimension] !== '' ? `dimension=${dimension}:${filtObj[dimension]}` : ''
+      )
+      .join('&');
+
+    let url = 'analytics';
+
+    if (type === 'event') {
+      const { aggregationType, startDate, endDate } = dataSelections;
+      if (aggregationType === 'agregate') {
+        url += '/events/aggregate/' + this.getProgramParameters(dataSelections);
+      } else {
+        url += '/events/query/';
+        url += this.getProgramParameters(dataSelections);
+      }
+      if (startDate && endDate) {
+        url += 'startDate=' + startDate + '&' + 'endDate=' + endDate + '&';
+      }
+    } else {
+      url += '.json?';
     }
+    if (paramUrl !== '') {
+      url += paramUrl;
+    }
+    url += this.getAnalyticsCallStrategies('MAP', type);
+    const noAnalyticsLayers = ['boundary', 'facility', 'external'];
     return {
       newLayer: { ...layer, dataSelections },
-      params: []
+      url: noAnalyticsLayers.includes(type) ? null : url
     };
+  }
+
+  getAnalyticsCallStrategies(visualizationType, layerType: string = null): string {
+    let strategies = '';
+    strategies +=
+      visualizationType === 'EVENT_CHART' || visualizationType === 'EVENT_REPORT' || visualizationType === 'EVENT_MAP'
+        ? '&outputType=EVENT'
+        : '';
+    strategies += '&displayProperty=NAME';
+    strategies += layerType !== null && layerType === 'event' ? '&coordinatesOnly=true' : '';
+    return strategies;
+  }
+
+  getProgramParameters({ program, programStage }): string {
+    let params = '';
+    if (programStage && programStage) {
+      if (program.hasOwnProperty('id') && programStage.hasOwnProperty('id')) {
+        params = program.id + '.json?stage=' + programStage.id + '&';
+      }
+    }
+    return params;
   }
 }

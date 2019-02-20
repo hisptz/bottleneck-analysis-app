@@ -1,5 +1,5 @@
 import { Layer } from '../../models/layer.model';
-import * as fromLayers from '../actions/layers.action';
+import * as fromLayers from './../actions/layers.action';
 
 export interface LayerState {
   entities: { [id: number]: Layer };

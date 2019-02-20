@@ -20,6 +20,13 @@
 }
 
 .map-legend-header {
+  padding: 5px 10px 5px 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.map-legend-header-base_layer {
   padding: 5px 10px 5px 10px;
   cursor: pointer;
   display: flex;
@@ -40,7 +47,7 @@
   padding-left: 5px;
   padding-top: 2px;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .map-legend-title-options a {
@@ -240,6 +247,10 @@ table {
   /*padding: 10px;*/
   font-size: 12px;
   font-weight: bold;
+}
+
+.body {
+  /*border-bottom: 1px solid #cccccc!important;*/
 }
 
 .class-container {
@@ -576,20 +587,21 @@ table.legend-button-table tr td {
   border-style: none;
   cursor: pointer;
   background-color: hsla(0, 0%, 100%, 0.85);
-  height: 34px;
-  width: 34px;
-  border-radius: 0 50% 50% 0;
+  height: 35px;
+  width: 45px;
+  border-radius: 0 17px 17px 0;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5px;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 .visualization-btn img {
   display: block;
   margin: auto;
-  height: 20px;
+  height: 12px;
 }
 
 .legendFilter__container {
@@ -598,7 +610,8 @@ table.legend-button-table tr td {
 
 .filter__button {
   position: absolute;
-  right: -34px;
+  margin-top: -5px;
+  right: -45px;
   text-align: center;
 }
 
@@ -656,4 +669,8 @@ input[type='range']::-webkit-slider-thumb:active {
   width: 12px;
   height: 12px;
   border-radius: 50%;
+}
+
+.map-legend-item.active-legend {
+  background-color: white;
 }

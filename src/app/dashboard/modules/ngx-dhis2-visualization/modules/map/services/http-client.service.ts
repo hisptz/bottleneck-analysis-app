@@ -1,70 +1,45 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable ,  throwError } from 'rxjs';
 import { ManifestService } from './manifest.service';
 import { catchError, mergeMap } from 'rxjs/operators';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class HttpClientService {
   private _rootUrl: string;
   private _apiRootUrl: string;
 
-  constructor(
-    private httpClient: HttpClient,
-    private manifestService: ManifestService
-  ) {}
+  constructor(private httpClient: HttpClient, private manifestService: ManifestService) {}
 
   get(url: string, useRootUrl: boolean = false): Observable<any> {
-    const rootUrlPromise = useRootUrl
-      ? this._getRootUrl()
-      : this._getApiRootUrl();
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
 
     return rootUrlPromise.pipe(
-      mergeMap(rootUrl =>
-        this.httpClient.get(rootUrl + url).pipe(catchError(this._handleError))
-      )
+      mergeMap(rootUrl => this.httpClient.get(rootUrl + url).pipe(catchError(this._handleError)))
     );
   }
 
   post(url: string, data: any, useRootUrl: boolean = false) {
-    const rootUrlPromise = useRootUrl
-      ? this._getRootUrl()
-      : this._getApiRootUrl();
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
 
     return rootUrlPromise.pipe(
-      mergeMap(rootUrl =>
-        this.httpClient
-          .post(rootUrl + url, data)
-          .pipe(catchError(this._handleError))
-      )
+      mergeMap(rootUrl => this.httpClient.post(rootUrl + url, data).pipe(catchError(this._handleError)))
     );
   }
 
   put(url: string, data: any, useRootUrl: boolean = false) {
-    const rootUrlPromise = useRootUrl
-      ? this._getRootUrl()
-      : this._getApiRootUrl();
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
 
     return rootUrlPromise.pipe(
-      mergeMap(rootUrl =>
-        this.httpClient
-          .put(rootUrl + url, data)
-          .pipe(catchError(this._handleError))
-      )
+      mergeMap(rootUrl => this.httpClient.put(rootUrl + url, data).pipe(catchError(this._handleError)))
     );
   }
 
   delete(url: string, useRootUrl: boolean = false) {
-    const rootUrlPromise = useRootUrl
-      ? this._getRootUrl()
-      : this._getApiRootUrl();
+    const rootUrlPromise = useRootUrl ? this._getRootUrl() : this._getApiRootUrl();
 
     return rootUrlPromise.pipe(
-      mergeMap(rootUrl =>
-        this.httpClient
-          .delete(rootUrl + url)
-          .pipe(catchError(this._handleError))
-      )
+      mergeMap(rootUrl => this.httpClient.delete(rootUrl + url).pipe(catchError(this._handleError)))
     );
   }
 
@@ -93,6 +68,8 @@ export class HttpClientService {
 
   /**
    * Get root url
+   * @returns {Observable<string>}
+   * @private
    */
   private _getRootUrl(): Observable<string> {
     return new Observable(observer => {
