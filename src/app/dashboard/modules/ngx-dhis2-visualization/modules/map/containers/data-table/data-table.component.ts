@@ -2,9 +2,11 @@ import {
   Component,
   OnInit,
   Input,
+  OnDestroy,
   ChangeDetectionStrategy,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  SimpleChange
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
@@ -13,7 +15,15 @@ import * as fromStore from '../../store';
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [
+    `:host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }`
+  ]
 })
 export class DataTableComponent implements OnInit, OnChanges {
   @Input() mapVisualizationObject;
@@ -29,8 +39,6 @@ export class DataTableComponent implements OnInit, OnChanges {
 
   toggleDataTableView(event) {
     event.stopPropagation();
-    this.store.dispatch(
-      new fromStore.ToggleDataTable(this._mapVisualizationObject.componentId)
-    );
+    this.store.dispatch(new fromStore.ToggleDataTable(this._mapVisualizationObject.componentId));
   }
 }

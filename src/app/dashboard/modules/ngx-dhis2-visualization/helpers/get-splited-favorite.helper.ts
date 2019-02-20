@@ -28,10 +28,7 @@ export function getSplitedFavorite(favorite: any, splitCriterias: any[]) {
         favoriteObject.id = favoriteObject.id + '_' + favoriteIndex;
         favoriteObject.name = getFavoriteName([row, column, filter]);
         favoriteObject.displayName = favoriteObject.name;
-        favoriteObject.analyticsIdentifier = getAnalyticsIdentifier(
-          [row, column, filter],
-          splitCriterias
-        );
+        favoriteObject.analyticsIdentifier = getAnalyticsIdentifier([row, column, filter], splitCriterias);
         favoriteObject.layer = 'thematic';
         favoriteArray.push(favoriteObject);
         favoriteIndex++;
@@ -89,7 +86,7 @@ function getFavoriteName(dimensions: any[]) {
 
       if (dataArray) {
         dataArray.items.forEach(item => {
-          favoriteName += item.displayName;
+          favoriteName += item.displayName || item.name;
         });
       }
     });
@@ -99,7 +96,7 @@ function getFavoriteName(dimensions: any[]) {
 
       if (periodArray) {
         periodArray.items.forEach(item => {
-          favoriteName += favoriteName !== '' ? ' - ' + item.displayName : item.displayName;
+          favoriteName += favoriteName !== '' ? ' - ' + (item.displayName || item.name) : item.displayName || item.name;
         });
       }
     });

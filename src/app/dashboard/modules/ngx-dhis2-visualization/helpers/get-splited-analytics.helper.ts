@@ -27,7 +27,6 @@ export function getSplitedAnalytics(analytics: any, splitCriteria: any[]) {
           const rowIndex = _.findIndex(analyticHeaders, ['name', criteria]);
           const id = metadata[criteria][0];
           rows = splitAnalyticsRows(rows, id, rowIndex);
-
           /**
            * Get names
            */

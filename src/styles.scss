@@ -40,3 +40,9 @@
   -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=20)';
   filter: alpha(opacity=20);
 }
+
+.ngx-pagination {
+  margin-bottom: 4px !important;
+  padding: 2px 0 !important;
+  font-size: 13px !important;
+}

@@ -1,21 +1,9 @@
 import * as L from 'leaflet';
 import * as _ from 'lodash';
-import { label } from './Label';
-import {
-  getOrgUnitsFromRows,
-  getPeriodFromFilters,
-  getDataItemsFromColumns
-} from '../utils/analytics';
-import {
-  getLegendItems,
-  getLegendItemForValue,
-  getColorsByRgbInterpolation
-} from '../utils/classify';
+import { getDataItemsFromColumns } from '../utils/analytics';
+import { getLegendItems, getLegendItemForValue, getColorsByRgbInterpolation } from '../utils/classify';
 import { toGeoJson } from './GeoJson';
-import { GeoJson } from 'leaflet';
-import { Feature, GeometryObject } from 'geojson';
 import { geoJsonExtended } from './geoJsonExtended';
-import { getLabelLatlng } from '../utils/layers';
 
 export const thematic = options => {
   const {
@@ -30,92 +18,60 @@ export const thematic = options => {
   } = options;
   const { rows, columns, filters } = dataSelections;
   const { radiusLow, radiusHigh } = layerOptions;
-  const {
-    labelFontStyle,
-    labelFontSize,
-    labelFontColor,
-    labelFontWeight,
-    labels
-  } = displaySettings;
+  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels, values } = displaySettings;
   const features = toGeoJson(geofeature);
-  const otherOptions = thematicLayerOptions(
-    options.id,
-    opacity,
-    displaySettings
-  );
-  let geoJsonLayer = L.geoJSON(features, otherOptions);
-  let legend = null;
+  const otherOptions = thematicLayerOptions(options.id, opacity, displaySettings);
+  const valueById = getValueById(analyticsData);
+  const layerDx = getDx(analyticsData);
+  const valueFeatures = features.filter(({ id }) => valueById[id] !== undefined);
+  const orderedValues = getOrderedValues(analyticsData);
+  const minValue = orderedValues[0];
+  const maxValue = orderedValues[orderedValues.length - 1];
+  const dataItem = getDataItemsFromColumns(columns)[0];
+  const name = options.name || dataItem.name;
+  const legend = legendSet
+    ? createLegendFromLegendSet(legendSet, options.displayName, options.type)
+    : createLegendFromConfig(orderedValues, legendProperties, options.displayName, options.type);
+  legend.items.forEach(item => (item.count = 0));
+  const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
+  legend['period'] =
+    (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) || analyticsData.metaData.pe[0];
 
-  if (analyticsData && analyticsData.rows.length > 0) {
-    const valueById = getValueById(analyticsData);
-    const layerDx = getDx(analyticsData);
-    const valueFeatures = features.filter(
-      ({ id }) => valueById[id] !== undefined
-    );
-    const orderedValues = getOrderedValues(analyticsData);
-    const minValue = orderedValues[0];
-    const maxValue = orderedValues[orderedValues.length - 1];
-    const valueFrequencyPair = _.countBy(orderedValues);
-    const dataItem = getDataItemsFromColumns(columns)[0];
-    const name = options.name || dataItem.name;
-    legend = legendSet
-      ? createLegendFromLegendSet(legendSet, options.displayName, options.type)
-      : createLegendFromConfig(
-          orderedValues,
-          legendProperties,
-          options.displayName,
-          options.type
-        );
-    legend.items.forEach(item => (item.count = 0));
-    const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
-    legend['period'] =
-      (analyticsData.metaData.dimensions &&
-        analyticsData.metaData.dimensions.pe[0]) ||
-      analyticsData.metaData.pe[0];
-
-    valueFeatures.forEach(
-      ({ id, properties }: { id: string; properties: any }) => {
-        const value = valueById[id];
-        const item = getLegendItem(value);
-        if (item) {
-          item.count++;
-          properties.percentage = (
-            (item.count / orderedValues.length) *
-            100
-          ).toFixed(1);
-        }
-        properties.value = value;
-        properties.label = name;
-        properties.dx = layerDx;
-        properties.color = item && item.color;
-        properties.labelStyle = {
-          fontSize: labelFontSize,
-          fontStyle: labelFontStyle,
-          fontColor: labelFontColor,
-          fontWeight: labelFontWeight
-        };
-        properties.radius =
-          ((value - minValue) / (maxValue - minValue)) *
-            (radiusHigh - radiusLow) +
-          radiusLow;
-      }
-    );
-    const _options = {
-      ...otherOptions,
-      label: labels ? '{name}' : undefined,
-      hoverLabel: labels ? '{name} ({value})' : undefined,
-      labelPane: `${options.id}-labels`,
-      data: valueFeatures
+  valueFeatures.forEach(({ id, properties }) => {
+    const value = valueById[id];
+    const item = getLegendItem(value);
+    if (item) {
+      item.count++;
+      properties.percentage = ((item.count / orderedValues.length) * 100).toFixed(1);
+    }
+    properties.value = value;
+    properties.label = name;
+    properties.dx = layerDx;
+    properties.color = item && item.color;
+    properties.labelStyle = {
+      fontSize: labelFontSize,
+      fontStyle: labelFontStyle,
+      fontColor: labelFontColor,
+      fontWeight: labelFontWeight
     };
-    geoJsonLayer = geoJsonExtended(_options);
+    properties.radius = ((value - minValue) / (maxValue - minValue)) * (radiusHigh - radiusLow) + radiusLow;
+  });
+  const _options = {
+    ...otherOptions,
+    label: labels ? (values ? '{name}({value})' : '{name}') : undefined,
+    hoverLabel: undefined,
+    labelPane: `${options.id}-labels`,
+    data: valueFeatures
+  };
 
-    const thematicEvents = thematicLayerEvents(columns, legend);
-    geoJsonLayer.on({
-      click: thematicEvents.onClick,
-      mouseover: thematicEvents.mouseover,
-      mouseout: thematicEvents.mouseout
-    });
-  }
+  const geoJsonLayer = geoJsonExtended(_options);
+
+  const thematicEvents = thematicLayerEvents(columns, legend);
+  geoJsonLayer.on({
+    click: thematicEvents.onClick,
+    mouseover: thematicEvents.mouseover,
+    mouseout: thematicEvents.mouseout
+  });
   const bounds = geoJsonLayer.getBounds();
   const _legendSet = {
     layer: options.id,
@@ -171,7 +127,7 @@ const createLegendFromLegendSet = (legendSet, displayName, type) => {
   const sortedLegends = _.sortBy(legends, 'startValue');
   const items = sortedLegends.map(legend => _.pick(legend, pickSome));
   return {
-    title: name || displayName,
+    title: displayName || name,
     type,
     items
   };
@@ -205,13 +161,7 @@ const createLegendFromConfig = (data, config, displayName, type) => {
 };
 
 export const thematicLayerOptions = (id, opacity, displaySettings) => {
-  const {
-    labelFontStyle,
-    labelFontSize,
-    labelFontColor,
-    labelFontWeight,
-    labels
-  } = displaySettings;
+  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels } = displaySettings;
   const style = feature => {
     const pop = feature.properties;
     return {
