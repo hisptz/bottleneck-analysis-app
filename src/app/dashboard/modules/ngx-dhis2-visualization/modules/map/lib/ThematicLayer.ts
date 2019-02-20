@@ -127,7 +127,7 @@ const createLegendFromLegendSet = (legendSet, displayName, type) => {
   const sortedLegends = _.sortBy(legends, 'startValue');
   const items = sortedLegends.map(legend => _.pick(legend, pickSome));
   return {
-    title: name || displayName,
+    title: displayName || name,
     type,
     items
   };

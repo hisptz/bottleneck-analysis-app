@@ -10,10 +10,10 @@ import { colorBrewer } from '../../utils/colorBrewer';
 export class MapStyleComponent implements OnInit {
   @Input() selectedLayer;
   @Input() legendSets;
-  @Input() isloading: boolean = false;
-  @Input() justUpdated: boolean = false;
-  @Output() onStyleUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onStyleFilterClose: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() isloading = false;
+  @Input() justUpdated = false;
+  @Output() styleUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output() styleFilterClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   classifications = [{ method: 2, name: 'Equal interval' }, { method: 3, name: 'Equal counts' }];
   classes = [3, 4, 5, 6, 7, 8, 9];
   default_color = 'YlOrBr';
@@ -128,12 +128,12 @@ export class MapStyleComponent implements OnInit {
     if (this.isAutomatic) {
       delete layer.legendSet;
     }
-    this.onStyleUpdate.emit({ layer });
+    this.styleUpdate.emit({ layer });
   }
 
   onCanceling(e) {
     e.stopPropagation();
-    this.onStyleFilterClose.emit(true);
+    this.styleFilterClose.emit(true);
   }
 
   toggleAtomatic(isAutomatic) {

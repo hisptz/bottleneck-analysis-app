@@ -37,7 +37,9 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   layerSelectionForm = false;
   showTransparent: boolean;
   displayNone: boolean;
-  p = 1;
+  currentPage = 1;
+  itemsPerPage = 3;
+  absoluteIndex: number;
 
   constructor(private store: Store<fromStore.MapState>) {
     this.displayNone = false;
@@ -54,13 +56,14 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.isFilterSectionOpen$ = this.store.select(
       fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
     );
-    const layers = this.mapVisualizationObject.layers;
 
     this.visualizationLegends$ = this.store
       .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
-          this.visualizationLegends = Object.keys(visualizationLengends).map(key => visualizationLengends[key]);
+          this.visualizationLegends = Object.keys(visualizationLengends)
+            .map(key => visualizationLengends[key])
+            .reverse();
           this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
         }
       });
@@ -168,8 +171,9 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   toggleLayerView(index, e) {
+    const absoluteIndex = this.itemsPerPage * (this.currentPage - 1) + index;
     e.stopPropagation();
-    const _legend = this.visualizationLegends[index];
+    const _legend = this.visualizationLegends[absoluteIndex];
     const { componentId } = this.mapVisualizationObject;
     const hidden = !_legend.hidden;
     const newLegend = { ..._legend, hidden };
@@ -231,7 +235,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   handlePageChange(event) {
-    this.p = event;
+    this.currentPage = event;
   }
 
   toggleDownload(event) {

@@ -74,8 +74,8 @@
       *ngIf="selectedFilter === 'STYLE'"
       [selectedLayer]="selectedLayer"
       [legendSets]="legendSets$ | async"
-      (onStyleFilterClose)="onFilterClose($event)"
-      (onStyleUpdate)="onStyleFilterUpdate($event)"
+      (styleFilterClose)="onFilterClose($event)"
+      (styleUpdate)="onStyleFilterUpdate($event)"
       [isloading]="isFilterSectionLoading$ | async"
       [justUpdated]="isFilterSectionUpdated$ | async"
     ></app-map-style>

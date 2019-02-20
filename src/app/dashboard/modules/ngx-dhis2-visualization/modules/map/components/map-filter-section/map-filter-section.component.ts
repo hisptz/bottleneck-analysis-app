@@ -89,9 +89,8 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   }
 
   onFilterUpdateAction(filterValue: any, filterType: string) {
-    const activeLayerIndex = this.activeLayer;
     const { layers, componentId } = this.mapVisualizationObject;
-    const layer = layers[activeLayerIndex];
+    const layer = layers[this.activeLayer];
     const { value, items } = filterValue;
 
     // TODO: Refactor all these switch statements.
@@ -157,9 +156,8 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   }
 
   onStyleFilterUpdate({ layer }) {
-    const activeLayerIndex = this.activeLayer;
-    const { layers, componentId } = this.mapVisualizationObject;
-    const updatedLayers = layers.map((_layer, index) => (index === activeLayerIndex ? layer : _layer));
+    const { layers } = this.mapVisualizationObject;
+    const updatedLayers = layers.map((_layer, index) => (index === this.activeLayer ? layer : _layer));
     this.store.dispatch(new fromStore.UpdateLayerStyle({ ...this.mapVisualizationObject, layers: updatedLayers }));
   }
 

@@ -14,13 +14,11 @@ import { getSplitedVisualizationLayers } from '../../../../helpers';
   templateUrl: './map.component.html'
 })
 export class MapComponent implements OnInit {
-  @Input() vizObject;
   @Input() id;
   @Input() visualizationLayers: any;
   @Input() visualizationConfig: any;
   @Input() visualizationUiConfig: any;
   visualizationObject: VisualizationObject;
-  componentId: string;
   displayConfigurations: any;
   public visualizationObject$: Observable<VisualizationObject>;
   constructor(private store: Store<fromStore.MapState>) {
@@ -58,6 +56,6 @@ export class MapComponent implements OnInit {
   }
 
   toggleLegendContainerView() {
-    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this.componentId));
+    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this.id));
   }
 }
