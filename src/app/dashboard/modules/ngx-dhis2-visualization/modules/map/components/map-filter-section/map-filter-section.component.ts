@@ -39,7 +39,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   @Input() loaded = true;
 
   showFilters: boolean;
-  selectedFilter = 'STYLE';
+  selectedFilter = 'ORG_UNIT';
   selectedDataItems: any = [];
   selectedPeriods: any = [];
   selectedOrgUnitItems: any = [];
