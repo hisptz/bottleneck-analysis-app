@@ -51,6 +51,9 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   public periodConfig: any = {
     singleSelection: true
   };
+  public orgUnitFilterConfig = {
+    closeOnDestroy: false
+  };
 
   constructor(private store: Store<fromStore.MapState>) {}
 

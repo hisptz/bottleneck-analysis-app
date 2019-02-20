@@ -36,7 +36,7 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
 
   constructor(private store: Store<fromStore.MapState>) {}
   ngOnChanges(changes: SimpleChanges) {
-    const { visualizationObject, displayConfigurations, baselayerLegend, currentLegendSets } = changes;
+    const { visualizationObject, baselayerLegend, currentLegendSets } = changes;
     this.createMap();
     if (currentLegendSets && currentLegendSets.currentValue) {
       this._currentLegendSets = currentLegendSets.currentValue;
