@@ -20,9 +20,11 @@ import { User, SystemInfo, LegendSet } from '../../../models';
 // constant
 import {
   WELCOMING_DESCRIPTION,
-  WELCOMING_TITLE
+  WELCOMING_TITLE,
+  EMPTY_VISUALIZATION
 } from '../../constants/welcoming-messages.constants';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
+import { getCurrentDashboardVisualizationLoadingProgress } from '../../store/selectors';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -47,6 +49,8 @@ export class CurrentDashboardComponent implements OnInit {
   currentGlobalDataSelectionSummary$: Observable<string>;
 
   currentUserHasManagementAuthorities$: Observable<boolean>;
+
+  progressMessages$: Observable<any>;
 
   welcomingTitle: string;
   welcomingDescription: string;
@@ -97,10 +101,13 @@ export class CurrentDashboardComponent implements OnInit {
       fromDashboardSelectors.getGlobalDataSelectionSummary
     );
 
+    this.progressMessages$ = this.store.select(
+      getCurrentDashboardVisualizationLoadingProgress
+    );
+
     this.welcomingTitle = WELCOMING_TITLE;
     this.welcomingDescription = WELCOMING_DESCRIPTION;
-    this.emptyVisualizationMessage =
-      'There are no items on this dashboard, search for charts, tables, maps and many more and add them to your dashboard';
+    this.emptyVisualizationMessage = EMPTY_VISUALIZATION;
   }
 
   ngOnInit() {}

@@ -3,11 +3,18 @@
   <table class="table table-bordered" #table [id]="tableConfiguration?.id">
     <thead [@open]>
       <tr>
-        <th
-          [attr.colspan]="(tableData?.headers)[0].length"
-          class="table-header-cell"
-        >
-          {{ tableData?.subtitle }}
+        <th [attr.colspan]="tableData?.headerColSpan" class="table-header-cell">
+          <div class="table-header-item">
+            <button
+              class="btn reshuffle-icon"
+              title="Click to transpose"
+              (click)="onLayoutChange($event)"
+            >
+              <img [src]="reshuffleIcon" alt="" />
+            </button>
+            &nbsp;
+            {{ tableData?.subtitle }}
+          </div>
         </th>
       </tr>
       <tr *ngFor="let tableHeaderRow of tableData?.headers">

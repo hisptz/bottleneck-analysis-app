@@ -56,7 +56,7 @@ export class DashboardMenuComponent implements OnInit {
   toggleDashboardBookmark: EventEmitter<{
     id: string;
     bookmarked: boolean;
-    supportBookmark;
+    supportBookmark: boolean;
   }> = new EventEmitter();
   constructor() {}
 

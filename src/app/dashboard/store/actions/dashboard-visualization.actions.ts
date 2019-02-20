@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { DashboardVisualization } from '../../models';
 import { DashboardSettings } from '../../models/dashboard-settings.model';
+import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 
 export enum DashboardVisualizationActionTypes {
   LoadDashboardVisualizations = '[DashboardVisualization] Load dashboard visualizations',
@@ -17,7 +18,8 @@ export class LoadDashboardVisualizationsAction implements Action {
   readonly type = DashboardVisualizationActionTypes.LoadDashboardVisualizations;
   constructor(
     public dashboardId: string,
-    public currentVisualizationId: string
+    public currentVisualizationId: string,
+    public dataSelections?: VisualizationDataSelection[]
   ) {}
 }
 
@@ -27,7 +29,8 @@ export class LoadDashboardVisualizationsSuccessAction implements Action {
   constructor(
     public dashboardId: string,
     public dashboardItems: any[],
-    public currentVisualizationId: string
+    public currentVisualizationId: string,
+    public dataSelections?: VisualizationDataSelection[]
   ) {}
 }
 

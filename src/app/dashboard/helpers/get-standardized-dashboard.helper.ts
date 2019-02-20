@@ -4,36 +4,14 @@ import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.help
 import { Dashboard } from '../models';
 import { DataGroup } from '../../models/data-group.model';
 import { getDashboardAccess } from './get-dashboard-access.helper';
+import { getDefaultOrgUnits } from './get-default-org-units.helper';
+import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
 
 export function getStandardizedDashboard(
   dashboard: any,
   currentUser: User,
-  systemInfo: SystemInfo,
-  defaultDataGroups?: DataGroup[],
-  dashboardPreferences?: { startWithDynamicOrgUnits: boolean }
+  dataSelections?: VisualizationDataSelection[]
 ): Dashboard {
-  dashboardPreferences = {
-    startWithDynamicOrgUnits: true
-  };
-  const orgUnits = dashboardPreferences.startWithDynamicOrgUnits
-    ? [
-        {
-          id: 'USER_ORGUNIT',
-          name: 'User Org unit',
-          type: 'USER_ORGANISATION_UNIT'
-        }
-      ]
-    : _.map(
-        currentUser.dataViewOrganisationUnits.length > 0
-          ? currentUser.dataViewOrganisationUnits
-          : currentUser.organisationUnits,
-        (orgUnit: any) => {
-          return {
-            ...orgUnit,
-            type: 'ORGANISATION_UNIT'
-          };
-        }
-      );
   return {
     id: dashboard.id,
     name: dashboard.name,
@@ -54,32 +32,6 @@ export function getStandardizedDashboard(
       name: currentUser.name
     },
     access: getDashboardAccess(dashboard, currentUser),
-    globalSelections: dashboard.globalSelections || [
-      {
-        dimension: 'dx',
-        layout: 'rows',
-        items: _.flatten(
-          _.map(
-            defaultDataGroups || [],
-            (dataGroup: DataGroup) => dataGroup.members
-          )
-        ),
-        groups: defaultDataGroups
-      },
-      {
-        dimension: 'pe',
-        layout: 'filters',
-        items: [
-          {
-            id: systemInfo.analysisRelativePeriod
-          }
-        ]
-      },
-      {
-        dimension: 'ou',
-        layout: 'columns',
-        items: orgUnits
-      }
-    ]
+    globalSelections: dashboard.globalSelections || dataSelections
   };
 }

@@ -184,7 +184,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
   onVisualizationLayerConfigUpdate(visualizationLayer: VisualizationLayer) {
     this.store.dispatch(
       new UpdateVisualizationLayerAction(visualizationLayer.id, {
-        config: visualizationLayer.config
+        config: visualizationLayer.config,
+        dataSelections: visualizationLayer.dataSelections
       })
     );
   }

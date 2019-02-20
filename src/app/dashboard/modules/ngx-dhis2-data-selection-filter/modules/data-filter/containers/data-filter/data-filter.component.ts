@@ -18,6 +18,7 @@ import * as fromDataFilterActions from '../../store/actions/data-filter.actions'
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
 import { DataFilterPreference } from '../../model/data-filter-preference.model';
+import { DataGroup } from 'src/app/models';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -213,8 +214,11 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   emit() {
     return {
       items: this.selectedItems,
-      groups: _.map(this.selectedGroups, (dataGroup: any) =>
-        _.omit(dataGroup, ['current'])
+      groups: _.filter(
+        _.map(this.selectedGroups, (dataGroup: any) => {
+          return _.omit(dataGroup, ['current']);
+        }),
+        (dataGroup: DataGroup) => dataGroup.members.length > 0
       ),
       dimension: 'dx'
     };

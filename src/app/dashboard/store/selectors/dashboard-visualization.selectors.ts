@@ -1,22 +1,23 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
-import { getCurrentDashboardId } from './dashboard.selectors';
-import * as fromDashboardVisualizationReducer from '../reducers/dashboard-visualization.reducer';
+
+import {
+  getCombinedVisualizationLayers,
+  getDataSelectionSummary,
+  getMergedGlobalDataSelectionsFromVisualizationLayers as getMergedGlobalDataSelections
+} from '../../helpers';
+import { getDataSelectionsFromVisualizationLayers } from '../../helpers/get-data-selections-from-visualization-layers.helper';
 import { DashboardVisualization } from '../../models';
 import {
-  getVisualizationObjectEntities,
-  getVisualizationLayerEntities
-} from '../../modules/ngx-dhis2-visualization/store';
-import {
   Visualization,
-  VisualizationLayer,
   VisualizationDataSelection
 } from '../../modules/ngx-dhis2-visualization/models';
 import {
-  getCombinedVisualizationLayers,
-  getMergedGlobalDataSelections,
-  getDataSelectionSummary
-} from '../../helpers';
+  getVisualizationLayerEntities,
+  getVisualizationObjectEntities
+} from '../../modules/ngx-dhis2-visualization/store';
+import * as fromDashboardVisualizationReducer from '../reducers/dashboard-visualization.reducer';
+import { getCurrentDashboardId } from './dashboard.selectors';
 
 export const getCurrentDashboardVisualization = createSelector(
   fromDashboardVisualizationReducer.getDashboardVisualizationEntities,
@@ -63,19 +64,73 @@ export const getCurrentGlobalDataSelections = getFromAnalytics =>
       dashboardVisualizationItems: any,
       visualizationObjectEntities: any,
       visualizationLayerEntities: any
-    ) =>
-      getMergedGlobalDataSelections(
+    ) => {
+      const dataSelectionsArray: Array<
+        VisualizationDataSelection[]
+      > = getDataSelectionsFromVisualizationLayers(
         getCombinedVisualizationLayers(
           dashboardVisualizationItems,
           visualizationObjectEntities,
           visualizationLayerEntities
         ),
         getFromAnalytics
-      )
+      );
+      return getMergedGlobalDataSelections(dataSelectionsArray);
+    }
   );
 
 export const getGlobalDataSelectionSummary = createSelector(
   getCurrentGlobalDataSelections(true),
   (globalDataSelections: VisualizationDataSelection[]) =>
     getDataSelectionSummary(globalDataSelections)
+);
+
+export const getCurrentDashboardVisualizationLoadingProgress = createSelector(
+  getCurrentDashboardVisualizationItems,
+  getVisualizationObjectEntities,
+  (dashboardVisualizationItems: any, visualizationObjectEntities: any) => {
+    const visualizationObjects: Visualization[] = _.map(
+      dashboardVisualizationItems,
+      (dashboardVisualization: any) => {
+        const visualizationObject: Visualization =
+          visualizationObjectEntities[dashboardVisualization.id];
+        return visualizationObject;
+      }
+    );
+
+    const loadedPercent =
+      _.reduce(
+        _.map(visualizationObjects, (visualizationObject: Visualization) => {
+          return visualizationObject
+            ? visualizationObject.progress
+              ? visualizationObject.progress.percent
+              : 0
+            : 0;
+        }),
+        (sum, n) => sum + n
+      ) || 0;
+
+    const loadedVisualizationObjects = _.filter(
+      visualizationObjects,
+      (visualizationObject: Visualization) => {
+        return visualizationObject
+          ? visualizationObject.progress
+            ? visualizationObject.progress.percent === 100
+            : false
+          : false;
+      }
+    );
+
+    const lastLoadedVisualizationObject = _.last(loadedVisualizationObjects);
+
+    const totalPercent = visualizationObjects.length * 100;
+    return {
+      message: lastLoadedVisualizationObject
+        ? `Loading data for ${lastLoadedVisualizationObject.name}....`
+        : 'Discovering visualization items...',
+      percent: ((loadedPercent / totalPercent || 0) * 100).toFixed(0),
+      loadedItems: loadedVisualizationObjects.length,
+      totalItems: visualizationObjects.length
+    };
+  }
 );

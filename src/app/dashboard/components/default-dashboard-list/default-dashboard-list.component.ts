@@ -7,29 +7,15 @@ import * as fromInterventionActions from '../../store/actions/intervention.actio
 import * as fromInterventionSelectors from '../../store/selectors/intervention.selectors';
 import { Observable } from 'rxjs';
 import { Intervention } from '../../models/intervention.model';
+import { DASHBOARD_ITEMS } from '../../constants/default-dashboard-items.constant';
 
 interface DefaultDashboard {
   id: string;
   name: string;
   showEditForm?: boolean;
   showDeleteDialog?: boolean;
+  dashboardItems: any[];
 }
-
-const DASHBOARD_ITEMS = [
-  {
-    shape: 'FULL_WIDTH',
-    type: 'CHART'
-  },
-  {
-    shape: 'FULL_WIDTH',
-    type: 'REPORT_TABLE'
-  },
-  {
-    shape: 'FULL_WIDTH',
-    type: 'APP',
-    appKey: 'bna-widget'
-  }
-];
 
 @Component({
   selector: 'app-default-dashboard-list',
@@ -85,7 +71,11 @@ export class DefaultDashboardListComponent implements OnInit {
       e.stopPropagation();
     }
     this.showDefaultList = false;
-    this.create.emit({ ...dashboard, dashboardItems: DASHBOARD_ITEMS });
+
+    this.create.emit({
+      ...dashboard,
+      dashboardItems: dashboard.dashboardItems || DASHBOARD_ITEMS
+    });
   }
 
   onToggleInterventionList(e) {
