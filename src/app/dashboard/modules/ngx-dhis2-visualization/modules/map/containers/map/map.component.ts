@@ -45,6 +45,7 @@ export class MapComponent implements OnInit {
       const newAnalytics = { ...analytics, rows };
       return { ...vizLayer, analytics: newAnalytics };
     });
+    this.displayConfigurations = { ...this.visualizationUiConfig, ...this.visualizationLayers[0].config };
     const layers = getSplitedVisualizationLayers(visualizationConfig.type, cleanedOutLayers);
     const { visObject } = fromUtils.transformVisualizationObject(visualizationConfig, layers, id);
     this.visualizationObject = {
