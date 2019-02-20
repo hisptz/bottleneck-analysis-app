@@ -1,6 +1,6 @@
 import * as L from 'leaflet';
 import * as _ from 'lodash';
-import { getDataItemsFromColumns, getPeriodNameFromId, getPeriodFromFilters } from '../utils/analytics';
+import { getDataItemsFromColumns } from '../utils/analytics';
 import { getLegendItems, getLegendItemForValue, getColorsByRgbInterpolation } from '../utils/classify';
 import { toGeoJson } from './GeoJson';
 import { geoJsonExtended } from './geoJsonExtended';
@@ -27,7 +27,6 @@ export const thematic = options => {
   const orderedValues = getOrderedValues(analyticsData);
   const minValue = orderedValues[0];
   const maxValue = orderedValues[orderedValues.length - 1];
-  const valueFrequencyPair = _.countBy(orderedValues);
   const dataItem = getDataItemsFromColumns(columns)[0];
   const name = options.name || dataItem.name;
   const legend = legendSet
@@ -35,8 +34,8 @@ export const thematic = options => {
     : createLegendFromConfig(orderedValues, legendProperties, options.displayName, options.type);
   legend.items.forEach(item => (item.count = 0));
   const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
-  const period = getPeriodFromFilters(dataSelections.filters);
-  legend['period'] = getPeriodNameFromId(period);
+  legend['period'] =
+    (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) || analyticsData.metaData.pe[0];
 
   valueFeatures.forEach(({ id, properties }) => {
     const value = valueById[id];

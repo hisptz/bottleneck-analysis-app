@@ -15,8 +15,8 @@ import { LegendSet } from '../../models/Legend-set.model';
 export class VisualizationLegendComponent implements OnInit, OnDestroy {
   @Input() mapVisualizationObject: any;
   public LegendsTileLayer: any;
-  public showButtonIncons: boolean = false;
-  public activeLayer: number = -1;
+  public showButtonIncons = false;
+  public activeLayer = -1;
   public visualizationLegends: any = [];
   public legendSetEntities: { [id: string]: LegendSet };
   public sticky$: Observable<boolean>;
@@ -24,20 +24,20 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   public visualizationLegends$: ISubscription;
   public baseLayerLegend$: ISubscription;
   public baseLayerLegend;
-  public showFilterContainer: boolean = false;
+  public showFilterContainer = false;
   public buttonTop: string;
   public buttonHeight: string;
   public tileLayers: any;
-  openTileLegend: boolean = false;
-  isRemovable: boolean = false;
-  toggleBoundary: boolean = true;
+  openTileLegend = false;
+  isRemovable = false;
+  toggleBoundary = true;
   boundaryLegend: Array<any> = [];
-  showDownload: boolean = false;
-  showUpload: boolean = false;
-  layerSelectionForm: boolean = false;
+  showDownload = false;
+  showUpload = false;
+  layerSelectionForm = false;
   showTransparent: boolean;
   displayNone: boolean;
-  p: number = 1;
+  p = 1;
 
   constructor(private store: Store<fromStore.MapState>) {
     this.displayNone = false;
@@ -54,14 +54,13 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.isFilterSectionOpen$ = this.store.select(
       fromStore.isVisualizationLegendFilterSectionOpen(this.mapVisualizationObject.componentId)
     );
+    const layers = this.mapVisualizationObject.layers;
 
     this.visualizationLegends$ = this.store
       .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
-          this.visualizationLegends = Object.keys(visualizationLengends)
-            .map(key => visualizationLengends[key])
-            .reverse();
+          this.visualizationLegends = Object.keys(visualizationLengends).map(key => visualizationLengends[key]);
           this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
         }
       });
@@ -250,7 +249,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   }
 
   dropped(event) {
-    const orderedLayers = this.visualizationLegends.map(({ layer }) => layer).reverse();
+    const orderedLayers = this.visualizationLegends.map(({ layer }) => layer);
     const { layers } = this.mapVisualizationObject;
     const newLayers = orderedLayers.map(layerId => layers.filter(layer => layer.id === layerId)[0]);
     const vizObject = { ...this.mapVisualizationObject, layers: newLayers };

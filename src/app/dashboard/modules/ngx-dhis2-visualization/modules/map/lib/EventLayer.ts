@@ -1,6 +1,5 @@
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
-import * as _ from 'lodash';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
 import { clientCluster } from './cluster/clientCluster';
 import { serverCluster } from './cluster/serverCluster';
@@ -16,16 +15,37 @@ import { createEventFeature } from '../utils/layers';
 import { timeFormat } from 'd3-time-format';
 
 export const event = options => {
-  const { geofeature, layerOptions, opacity, id, dataSelections, analyticsData } = options;
+  const {
+    geofeature,
+    layerOptions,
+    displaySettings,
+    opacity,
+    id,
+    dataSelections,
+    legendProperties,
+    analyticsData
+  } = options;
 
   const { startDate, endDate } = dataSelections;
-  const { eventPointColor, eventPointRadius, eventClustering, serverClustering, serverSideConfig } = layerOptions;
+  const {
+    eventPointColor,
+    eventPointRadius,
+    radiusLow,
+    eventClustering,
+    serverClustering,
+    serverSideConfig
+  } = layerOptions;
+  const { labelFontSize, labelFontStyle } = displaySettings;
+
+  const orgUnits = getOrgUnitsFromRows(dataSelections.rows);
   const period = getPeriodFromFilters(dataSelections.filters);
   const dataFilters = getFiltersFromColumns(dataSelections.columns);
-  const { program } = dataSelections;
+  const { program, filters } = dataSelections;
 
   const formatTime = date => timeFormat('%Y-%m-%d')(new Date(date));
-  const _period = period ? getPeriodNameFromId(period) : `${formatTime(startDate)} - ${formatTime(endDate)}`;
+  const _period = period
+    ? getPeriodNameFromId(period.dimensionItem)
+    : `${formatTime(startDate)} - ${formatTime(endDate)}`;
   let legend = {
     period: _period,
     filters: dataFilters && getFiltersAsText(dataFilters),

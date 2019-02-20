@@ -26,7 +26,7 @@ export const toGeoJson = organisationUnits =>
 
       // Grand parent
       if (_.isString(ou.pg) && ou.pg.length) {
-        const ids: string[] = _.compact(ou.pg.split('/'));
+        const ids = _.compact(ou.pg.split('/'));
 
         // Grand parent id
         if (ids.length >= 2) {
@@ -56,15 +56,7 @@ export const toGeoJson = organisationUnits =>
           grandParentId: gpid,
           parentGraph: ou.pg,
           parentId: ou.pi,
-          parentName: ou.pn,
-          percentage: null,
-          value: null,
-          label: null,
-          dx: null,
-          color: null,
-          labelStyle: null,
-          radius: null,
-          style: null
+          parentName: ou.pn
         }
       };
     })

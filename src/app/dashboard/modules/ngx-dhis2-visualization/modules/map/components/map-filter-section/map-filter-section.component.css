@@ -85,6 +85,21 @@
   background-color: #f1f1f1;
 }
 
+.map-filter-btn {
+  border-radius: 0 15px 15px 0;
+  width: 45px;
+}
+.map-filter-btn:hover {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.map-filter-btn img {
+  height: 12px;
+}
+
 .button-close {
   padding-left: 0;
   border-radius: 0 50% 50% 0;

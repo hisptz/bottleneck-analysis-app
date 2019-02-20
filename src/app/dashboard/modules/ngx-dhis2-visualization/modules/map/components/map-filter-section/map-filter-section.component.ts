@@ -35,18 +35,15 @@ import * as fromStore from '../../store';
 export class MapFilterSectionComponent implements OnInit, OnDestroy {
   @Input() mapVisualizationObject;
   @Input() activeLayer;
-  @Input() loaded: boolean = true;
-
-  @Output() onFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onLayoutUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Input() loaded = true;
 
   showFilters: boolean;
-  selectedFilter: string = 'ORG_UNIT';
+  selectedFilter = 'STYLE';
   selectedDataItems: any = [];
   selectedPeriods: any = [];
   selectedLayer;
   public legendSets$;
-  public singleSelection: boolean = true;
+  public singleSelection = true;
   public isFilterSectionLoading$: Observable<boolean>;
   public isFilterSectionUpdated$: Observable<boolean>;
   public periodConfig: any = {

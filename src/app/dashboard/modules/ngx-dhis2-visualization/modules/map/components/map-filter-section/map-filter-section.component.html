@@ -2,14 +2,15 @@
   <div class="visualization-filter-buttons">
     <button
       type="button"
-      class="btn btn-outline-dark btn-sm button-close d-inline-flex visualization-filter-btn border-round-right"
+      class="dashboard-btn visualization-filter-btn map-filter-btn"
       title="Filter by different dimensions"
       [disabled]="!loaded"
       (click)="toggleFilters($event)"
     >
-      <img *ngIf="showFilters" src="assets/icons/arrow-left.png" alt="" />
-      <img *ngIf="showFilters" src="assets/icons/close.png" alt="" />
+      <img src="assets/icons/filter.png" alt="" />
+      <img src="assets/icons/{{ showFilters ? 'arrow-left.png' : 'arrow-right.png' }}" alt="" />
     </button>
+    &nbsp;
     <div class="visualization-filter-list" *ngIf="showFilters">
       <button
         type="button"
@@ -19,7 +20,9 @@
         (click)="toggleCurrentFilter($event, 'ORG_UNIT')"
       >
         <img src="assets/icons/tree.png" alt="" />
+        &nbsp;
         <span>Org Unit</span>
+        <img [ngClass]="{ 'arrow-up': selectedFilter === 'ORG_UNIT' }" src="assets/icons/arrow-down.png" alt="" />
       </button>
       <button
         type="button"
@@ -29,7 +32,9 @@
         (click)="toggleCurrentFilter($event, 'PERIOD')"
       >
         <img src="assets/icons/period.png" alt="" />
+        &nbsp;
         <span>Period</span>
+        <img [ngClass]="{ 'arrow-up': selectedFilter === 'PERIOD' }" src="assets/icons/arrow-down.png" alt="" />
       </button>
       <button
         type="button"
@@ -39,7 +44,9 @@
         (click)="toggleCurrentFilter($event, 'STYLE')"
       >
         <img src="assets/icons/period.png" alt="" />
+        &nbsp;
         <span>Style</span>
+        <img [ngClass]="{ 'arrow-up': selectedFilter === 'STYLE' }" src="assets/icons/arrow-down.png" alt="" />
       </button>
     </div>
   </div>

@@ -132,10 +132,9 @@ export class AnalyticsEffects {
   );
 
   createParams(payload) {
-    const { componentId, layer, params, filterType, newdimension } = payload;
-    const { type, layerOptions } = layer;
+    const { layer, filterType, newdimension } = payload;
+    const { type } = layer;
     const { rows, columns, filters } = layer.dataSelections;
-    const dataselections = [...rows, ...columns, ...filters];
     const d = { rows, columns, filters };
 
     const _filters: { rows?: any; columns?: any; filters?: any } = Object.keys(d).reduce((acc, key) => {

@@ -2,7 +2,7 @@ import { combineLatest as observableCombineLatest, of, Observable, forkJoin } fr
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, switchMap, catchError, tap } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import * as legendSetAction from '../actions/legend-set.action';
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as fromServices from '../../services';

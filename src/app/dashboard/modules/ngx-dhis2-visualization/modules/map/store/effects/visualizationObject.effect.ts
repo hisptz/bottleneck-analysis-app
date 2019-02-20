@@ -15,7 +15,7 @@ import { timeFormat } from 'd3-time-format';
 
 @Injectable()
 export class VisualizationObjectEffects {
-  public program: string;
+  private program: string;
   private programStage: string;
 
   constructor(
@@ -233,8 +233,8 @@ export class VisualizationObjectEffects {
       ...layer.dataSelections.columns,
       ...layer.dataSelections.filters
     ];
-    const period = getPeriodFromFilters(requestParams);
     const dimensions = [];
+    const period = getPeriodFromFilters(requestParams);
 
     requestParams.map(param => {
       const dimension = `dimension=${param.dimension}`;

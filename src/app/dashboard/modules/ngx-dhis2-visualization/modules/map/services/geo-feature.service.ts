@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClientService } from './http-client.service';
-import { Observable ,  forkJoin ,  combineLatest } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-
+import { Observable, forkJoin } from 'rxjs';
 
 import { GeoFeature } from '../models/geo-feature.model';
 
@@ -16,7 +14,7 @@ export class GeoFeatureService {
       return this.httpClient.get(url);
     });
 
-    return combineLatest(requests);
+    return forkJoin(requests);
   }
 
   getGeoFeatures(param): Observable<GeoFeature[]> {
