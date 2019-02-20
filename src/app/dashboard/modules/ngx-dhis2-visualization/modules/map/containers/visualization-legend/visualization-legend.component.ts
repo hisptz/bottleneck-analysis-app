@@ -61,10 +61,9 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
-          this.visualizationLegends = Object.keys(visualizationLengends)
-            .map(key => visualizationLengends[key])
-            .reverse();
+          this.visualizationLegends = Object.keys(visualizationLengends).map(key => visualizationLengends[key]);
           this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
+          this.absoluteIndex = this.activeLayer;
         }
       });
 
@@ -99,6 +98,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.buttonHeight = e.currentTarget.offsetHeight;
 
     this.activeLayer = this.activeLayer === index ? -2 : index;
+    this.absoluteIndex = this.itemsPerPage * (this.currentPage - 1) + index;
   }
 
   mapDownload(e, fileType, mapLegends) {
@@ -236,6 +236,8 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   handlePageChange(event) {
     this.currentPage = event;
+    this.absoluteIndex = this.itemsPerPage * (this.currentPage - 1) + this.activeLayer;
+    this.closeFilters();
   }
 
   toggleDownload(event) {

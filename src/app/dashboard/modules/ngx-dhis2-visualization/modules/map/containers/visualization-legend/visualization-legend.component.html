@@ -249,7 +249,7 @@
   <div class="legend-filter__container" *ngIf="(isFilterSectionOpen$ | async)">
     <app-map-filter-section
       [mapVisualizationObject]="mapVisualizationObject"
-      [activeLayer]="activeLayer"
+      [activeLayer]="absoluteIndex"
     ></app-map-filter-section>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Store } from '@ngrx/store';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -8,6 +8,7 @@ import * as fromStore from '../../store';
 @Component({
   selector: 'app-map-filter-section',
   templateUrl: './map-filter-section.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./map-filter-section.component.css'],
   animations: [
     trigger('open', [
