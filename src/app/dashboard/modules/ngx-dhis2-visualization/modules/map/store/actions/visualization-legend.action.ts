@@ -8,6 +8,10 @@ export const CLOSE_VISUALIZATION_FILTER_SECTION = '[Map UI] Close filter section
 export const INITIALIZE_VISUALIZATION_LEGEND = '[Map UI] Initialize the visualization legend';
 export const TOGGLE_DATA_TABLE = '[Map UI] Toggle Datatable visability';
 export const FULLSCREEN_OPEN_VISUALIZATION_LEGEND = '[Map UI] Open visualization open fullScreen';
+export const VISUALIZATION_FILTER_SECTION_LOADING = '[Map UI] Visualization filter section is loading';
+export const VISUALIZATION_FILTER_SECTION_LOADED = '[Map UI] Visualization filter Section Loaded';
+export const VISUALIZATION_FILTER_SECTION_JUST_UPDATED = '[Map UI] Visualization filter just updated';
+export const VISUALIZATION_FILTER_SECTION_UPDATE_FAIL = '[Map UI] Visualization update fail';
 
 export class ToggleOpenVisualizationLegend implements Action {
   readonly type = TOGGLE_OPEN_VISUALIZATION_LEGEND;
@@ -39,6 +43,25 @@ export class CloseVisualizationLegendFilterSection implements Action {
   constructor(public payload: string) {}
 }
 
+export class VisualizationLegendFilterSectionLoading implements Action {
+  readonly type = VISUALIZATION_FILTER_SECTION_LOADING;
+  constructor(public payload: string) {}
+}
+
+export class VisualizationLegendFilterSectionLoaded implements Action {
+  readonly type = VISUALIZATION_FILTER_SECTION_LOADED;
+  constructor(public payload: string) {}
+}
+
+export class VisualizationLegendFilterSectionJustUpdated implements Action {
+  readonly type = VISUALIZATION_FILTER_SECTION_JUST_UPDATED;
+  constructor(public payload: string) {}
+}
+
+export class VisualizationLegendFilterSectionUpdateFail implements Action {
+  readonly type = VISUALIZATION_FILTER_SECTION_UPDATE_FAIL;
+}
+
 export class InitiealizeVisualizationLegend implements Action {
   readonly type = INITIALIZE_VISUALIZATION_LEGEND;
   constructor(public payload: string) {}
@@ -59,4 +82,8 @@ export type VisualizationLegendAction =
   | CloseVisualizationLegendFilterSection
   | InitiealizeVisualizationLegend
   | ToggleDataTable
-  | FullScreenOpenVisualizationLegend;
+  | FullScreenOpenVisualizationLegend
+  | VisualizationLegendFilterSectionLoading
+  | VisualizationLegendFilterSectionLoaded
+  | VisualizationLegendFilterSectionJustUpdated
+  | VisualizationLegendFilterSectionUpdateFail;

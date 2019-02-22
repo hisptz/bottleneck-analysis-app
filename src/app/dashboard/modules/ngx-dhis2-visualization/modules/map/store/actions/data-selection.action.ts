@@ -14,6 +14,7 @@ export class AddDataSelection implements Action {
   readonly type = ADD_DATA_SELECTION;
   constructor(public payload: DataSelections) {}
 }
+
 export class UpdateDataSelection implements Action {
   readonly type = UPDATE_DATA_SELECTION;
   constructor(public payload: DataSelections) {}

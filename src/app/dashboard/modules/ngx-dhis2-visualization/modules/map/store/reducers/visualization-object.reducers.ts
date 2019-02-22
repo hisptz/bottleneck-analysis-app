@@ -139,16 +139,16 @@ export function reducer(
 
     case fromVisualizationObject.UPDATE_FILTER_ANALYTICS: {
       const { componentId, analytics, layer } = action.payload;
+
       const _analytics = {
         ...state.entities[componentId].analytics,
         ...analytics
       };
-      const newLayers = state.entities[componentId].layers.map(
-        _layer => (_layer.id === layer.id ? layer : _layer)
-      );
+
+      const newLayers = state.entities[componentId].layers.map(_layer => (_layer.id === layer.id ? layer : _layer));
       const visualizationObject = {
         ...state.entities[componentId],
-        analytics,
+        analytics: _analytics,
         layers: newLayers
       };
       const entities = {

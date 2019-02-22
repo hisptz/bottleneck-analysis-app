@@ -1,4 +1,4 @@
-import { combineLatest, of, Observable } from 'rxjs';
+import { combineLatest as observableCombineLatest, of, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, switchMap, catchError } from 'rxjs/operators';
@@ -9,10 +9,7 @@ import * as fromServices from '../../services';
 
 @Injectable()
 export class OrganizationUnitGroupSetEffects {
-  constructor(
-    private actions$: Actions,
-    private orgUnitService: fromServices.OrgUnitService
-  ) {}
+  constructor(private actions$: Actions, private orgUnitService: fromServices.OrgUnitService) {}
 
   @Effect()
   addOrgUnitGroupSet$ = this.actions$.pipe(
@@ -33,7 +30,7 @@ export class OrganizationUnitGroupSetEffects {
           })
         : Observable.create([]);
 
-      return combineLatest(sources).pipe(
+      return observableCombineLatest(sources).pipe(
         map(data => {
           let orgUnitGroupSet = {};
           if (data.length) {
@@ -50,15 +47,9 @@ export class OrganizationUnitGroupSetEffects {
             ...action.payload,
             orgUnitGroupSet
           };
-          return new visualizationObjectActions.UpdateVisualizationObjectSuccess(
-            vizObject
-          );
+          return new visualizationObjectActions.UpdateVisualizationObjectSuccess(vizObject);
         }),
-        catchError(error =>
-          of(
-            new visualizationObjectActions.UpdateVisualizationObjectFail(error)
-          )
-        )
+        catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
       );
     })
   );

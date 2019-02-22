@@ -1,4 +1,4 @@
-import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers';
 import { LegendSet } from '../../models/Legend-set.model';
@@ -17,12 +17,9 @@ export const getAllLegendSetObjectsEntities = createSelector(
 export const getCurrentLegendSets = id =>
   createSelector(getAllLegendSetObjectsEntities, entities => entities[id]);
 
-export const getAllLegendSetObjects = createSelector(
-  getAllLegendSetObjectsEntities,
-  entities => {
-    return Object.keys(entities).map(id => entities[id]);
-  }
-);
+export const getAllLegendSetObjects = createSelector(getAllLegendSetObjectsEntities, entities => {
+  return Object.keys(entities).map(id => entities[id]);
+});
 
 export const getAllLegendSets = createSelector(
   getLegendSetObjectState,

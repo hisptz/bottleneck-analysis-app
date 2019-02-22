@@ -1,4 +1,4 @@
-import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers';
 import { VisualizationObject } from '../../models/visualization-object.model';

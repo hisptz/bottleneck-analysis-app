@@ -24,7 +24,7 @@ interface Manifest {
   };
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ManifestService {
   private _manifestObject: Manifest;
 
@@ -34,6 +34,7 @@ export class ManifestService {
 
   /**
    * Get root Url of the system
+   * @returns {Observable<string>}
    */
   getRootUrl(): Observable<string> {
     return new Observable(observer => {
@@ -56,6 +57,8 @@ export class ManifestService {
 
   /**
    * Get manifest file content
+   * @returns {Observable<Manifest>}
+   * @private
    */
   private _getAppManifest(): Observable<Manifest> {
     return new Observable(observer => {
@@ -70,6 +73,7 @@ export class ManifestService {
             observer.complete();
           },
           error => {
+            console.log(error);
             observer.next(null);
             observer.complete();
           }

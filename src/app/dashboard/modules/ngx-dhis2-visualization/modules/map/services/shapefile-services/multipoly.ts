@@ -1,12 +1,14 @@
 /**
  * Created by mpande on 3/8/18.
  */
-import { Injectable } from '@angular/core';
-import { types } from './constants';
-import { Extent } from './extent';
-@Injectable({ providedIn: 'root' })
+import {Injectable} from '@angular/core';
+import {types} from './constants';
+import {Extent} from './extent';
+@Injectable()
 export class MultiPoly {
-  constructor(private ext: Extent) {}
+  constructor(private ext: Extent) {
+
+  }
 
   write(geometries, theExent, shpView, shxView, TYPE) {
     let shpI = 0,
@@ -16,7 +18,7 @@ export class MultiPoly {
     geometries.forEach((coordinates, index) => {
       const flattened = this._justCoords(coordinates),
         noParts = this.parts([coordinates], TYPE),
-        contentLength = flattened.length * 16 + 48 + (noParts - 1) * 4;
+        contentLength = (flattened.length * 16) + 48 + (noParts - 1) * 4;
 
       const featureExtent = flattened.reduce((extent, c) => {
         return this.ext.enlarge(extent, c);
@@ -49,9 +51,8 @@ export class MultiPoly {
         return arr;
       }, []);
       for (let p = 1; p < noParts; p++) {
-        shpView.setInt32(
-          // set part index
-          shpI + 52 + p * 4,
+        shpView.setInt32( // set part index
+          shpI + 52 + (p * 4),
           onlyParts.reduce((a, b, idx) => {
             return idx < p ? a + b.length : a;
           }, 0),
@@ -60,16 +61,8 @@ export class MultiPoly {
       }
 
       flattened.forEach((coords, i) => {
-        shpView.setFloat64(
-          shpI + 56 + i * 224 + (noParts - 1) * 64,
-          coords[0],
-          true
-        ); // X
-        shpView.setFloat64(
-          shpI + 56 + i * 224 + (noParts - 1) * 64 + 8,
-          coords[1],
-          true
-        ); // Y
+        shpView.setFloat64(shpI + 56 + (i * 224) + (noParts - 1) * 64, coords[0], true); // X
+        shpView.setFloat64(shpI + 56 + (i * 224) + (noParts - 1) * 64 + 8, coords[1], true); // Y
       });
 
       shpI += contentLength + 8;
@@ -77,11 +70,9 @@ export class MultiPoly {
   }
 
   shpLength(geometries) {
-    return (
-      geometries.length * 112 +
+    return (geometries.length * 112) +
       // points
-      this._justCoords(geometries).length * 32
-    );
+      (this._justCoords(geometries).length * 32);
   }
 
   shxLength(geometries) {
@@ -89,13 +80,12 @@ export class MultiPoly {
   }
 
   extent(coordinates) {
-    return (
-      this._justCoords <
-      coordinates.reduce((extent, c) => {
-        return this.ext.enlarge(extent, c);
-      }, this.ext.blank())
-    );
+    return this._justCoords < (coordinates).reduce((extent, c) => {
+      console.log(this.ext);
+      return this.ext.enlarge(extent, c);
+    }, this.ext.blank());
   }
+
 
   parts(geometries, TYPE) {
     let no = 1;
@@ -103,8 +93,7 @@ export class MultiPoly {
     if (TYPE === types.geometries.MULTIPOLYGON) {
       no = geometries.reduce((counts, coords) => {
         counts += coords.length;
-        if (Array.isArray(coords[0][0][0])) {
-          // multi
+        if (Array.isArray(coords[0][0][0])) { // multi
           counts += coords.reduce((countsTwo, rings) => {
             return countsTwo + rings.length - 1; // minus outer
           }, 0);
@@ -117,7 +106,7 @@ export class MultiPoly {
 
   private _totalPoints(geometries) {
     let sum = 0;
-    geometries.forEach(g => {
+    geometries.forEach((g) => {
       sum += g.length;
     });
     return sum;

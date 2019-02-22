@@ -12,13 +12,8 @@ export function getSplitedVisualizationLayers(
   }
 
   let newSplitedLayers: any[] = [];
-  const favoriteObjectArray = _.map(visualizationLayers, layer =>
-    splitPeriodISo(layer.config, layer.analytics)
-  );
-  const analyticsObjectArray = _.map(
-    visualizationLayers,
-    layer => layer.analytics
-  );
+  const favoriteObjectArray = _.map(visualizationLayers, layer => splitPeriodISo(layer.config, layer.analytics));
+  const analyticsObjectArray = _.map(visualizationLayers, layer => layer.analytics);
 
   /**
    * Split analytics
@@ -39,8 +34,7 @@ export function getSplitedVisualizationLayers(
       const dataDimension = analytics.metaData['dx'][0];
       const periodDimension = analytics.metaData['pe'][0];
       const isSplited =
-        analyticsId === `${dataDimension}_${periodDimension}` ||
-        analyticsId === `${periodDimension}_${dataDimension}`;
+        analyticsId === `${dataDimension}_${periodDimension}` || analyticsId === `${periodDimension}_${dataDimension}`;
       if (isSplited) {
         newSplitedLayers = [
           ...newSplitedLayers,
@@ -75,10 +69,7 @@ export const splitPeriodISo = (settings, analytics) => {
     };
   });
   const parentdimension = getPeriodParentDimension(settings);
-  const periodIndex = _.findIndex(settings[parentdimension], [
-    'dimension',
-    'pe'
-  ]);
+  const periodIndex = _.findIndex(settings[parentdimension], ['dimension', 'pe']);
   const dimensions = settings[parentdimension].map((dimension, index) => {
     if (index === periodIndex) {
       return { dimension: 'pe', items };
@@ -89,8 +80,7 @@ export const splitPeriodISo = (settings, analytics) => {
   return { ...settings, ...data };
 };
 
-const getDimension = (dimension, arr) =>
-  arr.filter(item => item.dimension === dimension)[0];
+const getDimension = (dimension, arr) => arr.filter(item => item.dimension === dimension)[0];
 
 const getDimensionItems = (dimension, arr) => {
   const dataItems = getDimension(dimension, arr);
@@ -99,8 +89,6 @@ const getDimensionItems = (dimension, arr) => {
 
 const getPeriodParentDimension = settings => {
   const keys = ['rows', 'columns', 'filters'];
-  const parentdimensions = keys.filter(
-    key => getDimensionItems('pe', settings[key]).length
-  );
+  const parentdimensions = keys.filter(key => getDimensionItems('pe', settings[key]).length);
   return parentdimensions[0];
 };

@@ -2,9 +2,10 @@ import { Component, ChangeDetectionStrategy, Input, OnInit, SimpleChanges } from
 import { Store } from '@ngrx/store';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as fromStore from '../../store';
-import { Layer } from '../../models/layer.model';
+import * as _ from 'lodash';
 import * as fromUtils from '../../utils';
 import { VisualizationObject } from '../../models/visualization-object.model';
+import { getSplitedVisualizationLayers } from '../../../../helpers';
 
 @Component({
   selector: 'app-map',
@@ -13,13 +14,11 @@ import { VisualizationObject } from '../../models/visualization-object.model';
   templateUrl: './map.component.html'
 })
 export class MapComponent implements OnInit {
-  @Input() vizObject;
   @Input() id;
   @Input() visualizationLayers: any;
   @Input() visualizationConfig: any;
   @Input() visualizationUiConfig: any;
   visualizationObject: VisualizationObject;
-  componentId: string;
   displayConfigurations: any;
   public visualizationObject$: Observable<VisualizationObject>;
   constructor(private store: Store<fromStore.MapState>) {
@@ -40,7 +39,15 @@ export class MapComponent implements OnInit {
 
   transformVisualizationObject(visualizationConfig, visualizationLayers, id) {
     // TODO FIND A WAY TO GET GEO FEATURES HERE
-    const { visObject } = fromUtils.transformVisualizationObject(visualizationConfig, visualizationLayers, id);
+    const cleanedOutLayers = visualizationLayers.map(vizLayer => {
+      const { analytics } = vizLayer;
+      const rows = analytics.rows.filter(row => _.uniq(row).length === row.length);
+      const newAnalytics = { ...analytics, rows };
+      return { ...vizLayer, analytics: newAnalytics };
+    });
+    this.displayConfigurations = { ...this.visualizationUiConfig, ...this.visualizationLayers[0].config };
+    const layers = getSplitedVisualizationLayers(visualizationConfig.type, cleanedOutLayers);
+    const { visObject } = fromUtils.transformVisualizationObject(visualizationConfig, layers, id);
     this.visualizationObject = {
       ...this.visualizationObject,
       componentId: this.id,
@@ -50,6 +57,6 @@ export class MapComponent implements OnInit {
   }
 
   toggleLegendContainerView() {
-    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this.componentId));
+    this.store.dispatch(new fromStore.ToggleOpenVisualizationLegend(this.id));
   }
 }

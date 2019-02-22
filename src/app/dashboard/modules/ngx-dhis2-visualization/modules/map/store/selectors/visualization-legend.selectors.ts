@@ -1,9 +1,7 @@
-import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers';
 import * as fromVisualizationLegend from '../reducers/visualization-legend.reducers';
-
-import { VisualizationLegend } from '../../models/visualization-legend.model';
 
 export const getVisualizationLegendState = createSelector(
   fromFeature.getMapState,
@@ -16,25 +14,19 @@ export const getAllVisualizationLegendEntities = createSelector(
 );
 
 export const isVisualizationLegendOpen = id =>
-  createSelector(
-    getAllVisualizationLegendEntities,
-    entities => entities[id].open
-  );
+  createSelector(getAllVisualizationLegendEntities, entities => entities[id].open);
 
 export const isVisualizationLegendPinned = id =>
-  createSelector(
-    getAllVisualizationLegendEntities,
-    entities => entities[id].pinned
-  );
+  createSelector(getAllVisualizationLegendEntities, entities => entities[id].pinned);
 
 export const isDataTableOpen = id =>
-  createSelector(
-    getAllVisualizationLegendEntities,
-    entities => entities[id].datatableIsOpen
-  );
+  createSelector(getAllVisualizationLegendEntities, entities => entities[id].datatableIsOpen);
 
 export const isVisualizationLegendFilterSectionOpen = id =>
-  createSelector(
-    getAllVisualizationLegendEntities,
-    entities => entities[id].filterSectionOpen
-  );
+  createSelector(getAllVisualizationLegendEntities, entities => entities[id].filterSectionOpen);
+
+export const isVisualizationLegendFilterSectionLoding = id =>
+  createSelector(getAllVisualizationLegendEntities, entities => entities[id].filterSectionLoading);
+
+export const isVisualizationLegendFilterSectionJustUpdated = id =>
+  createSelector(getAllVisualizationLegendEntities, entities => entities[id].filterSectionJustUpdated);

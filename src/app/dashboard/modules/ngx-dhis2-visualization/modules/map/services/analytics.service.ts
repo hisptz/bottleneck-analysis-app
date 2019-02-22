@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { HttpClientService } from './http-client.service';
 import * as _ from 'lodash';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class AnalyticsService {
-  constructor(private httpClient: NgxDhis2HttpClientService) {}
+  constructor(private httpClient: HttpClientService) {}
 
   getMapAnalytics(dimension: string[], filters: string[]): Observable<any> {
     const url = [].concat.apply([], [dimension, filters]).join('&');
@@ -13,9 +15,7 @@ export class AnalyticsService {
   }
 
   getAnalytics(dimensions: string): Observable<any> {
-    return this.httpClient.get(
-      `analytics.json?${dimensions}&displayProperty=NAME`
-    );
+    return this.httpClient.get(`analytics.json?${dimensions}&displayProperty=NAME`);
   }
 
   getEventsAnalytics(dimensions: string): Observable<any> {
@@ -23,6 +23,10 @@ export class AnalyticsService {
   }
 
   getEventInformation(eventId): Observable<any> {
-    return this.httpClient.get(`events/${eventId}.json'`);
+    return this.httpClient.get(`../../../api/events/${eventId}.json'`);
+  }
+
+  get(url: string): Observable<any> {
+    return this.httpClient.get(url);
   }
 }

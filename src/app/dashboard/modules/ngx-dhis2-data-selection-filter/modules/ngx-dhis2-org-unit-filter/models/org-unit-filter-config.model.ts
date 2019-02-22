@@ -18,4 +18,6 @@ export interface OrgUnitFilterConfig {
    * Specify whether org unit selection is single or multiple
    */
   singleSelection: boolean;
+
+  closeOnDestroy: boolean;
 }

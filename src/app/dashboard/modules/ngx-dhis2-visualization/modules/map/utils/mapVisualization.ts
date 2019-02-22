@@ -25,7 +25,7 @@ export function prepareMapContainer(mapObjectId, height, width, isFullscreen) {
   if (isFullscreen) {
     width = '100%';
   }
-  div.style.width = width;
+  div.style.width = '100%';
   div.style.height = height;
   div.style.background = '#FCFAF8';
   if (parentElement) {

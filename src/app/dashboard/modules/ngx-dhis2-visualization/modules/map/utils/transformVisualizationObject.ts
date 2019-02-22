@@ -1,19 +1,11 @@
 import * as _ from 'lodash';
-import {
-  getOrgUnitsFromRows,
-  getDataItemsFromColumns,
-  getPeriodFromFilters
-} from './analytics';
 import { MapConfiguration } from '../models/map-configuration.model';
 import { Layer } from '../models/layer.model';
 import { getBboxBounds } from './layers';
-import { colorBrewer, getColorScale } from './colorBrewer';
+import { getColorScale } from './colorBrewer';
+import { config } from 'rxjs';
 
-export function transformVisualizationObject(
-  visualizationConfig,
-  visualizationLayers,
-  vizId
-) {
+export function transformVisualizationObject(visualizationConfig, visualizationLayers, vizId) {
   if (!visualizationConfig || !visualizationLayers || !vizId) {
     return { visObject: {} };
   }
@@ -22,16 +14,7 @@ export function transformVisualizationObject(
   let analytics = {};
   let orgUnitGroupSet = {};
   let serverSideConfig = {};
-  const {
-    id,
-    name,
-    subtitle,
-    latitude,
-    longitude,
-    basemap,
-    zoom,
-    fullScreen = false
-  } = visualizationConfig;
+  const { id, name, subtitle, latitude, longitude, basemap, zoom, fullScreen = false } = visualizationConfig;
   const mapConfiguration: MapConfiguration = {
     id: id || vizId,
     name,
@@ -67,8 +50,7 @@ export function transformVisualizationObject(
       'radiusLow'
     ]);
 
-    const serverClustering =
-      mapview.analytics && mapview.analytics.hasOwnProperty('count');
+    const serverClustering = mapview.analytics && mapview.analytics.hasOwnProperty('count');
     if (serverClustering) {
       const bounds = getBboxBounds(mapview.analytics['extent']);
       serverSideConfig = { ...serverSideConfig, bounds };
@@ -97,15 +79,12 @@ export function transformVisualizationObject(
       'hideSubtitle'
     ]);
 
-    const rows = (mapview.dataSelections || []).filter(
-      dt => dt.dimension == 'ou'
-    );
-    const columns = (mapview.dataSelections || []).filter(
-      dt => dt.dimension == 'dx'
-    );
-    const filters = (mapview.dataSelections || []).filter(
-      dt => dt.dimension == 'pe'
-    );
+    // const rows = (mapview.dataSelections || []).filter(dt => dt.dimension === 'ou');
+    // const columns = (mapview.dataSelections || []).filter(dt => dt.dimension === 'dx');
+    // const filters = (mapview.dataSelections || []).filter(dt => dt.dimension === 'pe');
+
+    const { rows, columns, filters } = settings;
+
     const dataSelections = Object.assign(
       {},
       _.pick(settings, [

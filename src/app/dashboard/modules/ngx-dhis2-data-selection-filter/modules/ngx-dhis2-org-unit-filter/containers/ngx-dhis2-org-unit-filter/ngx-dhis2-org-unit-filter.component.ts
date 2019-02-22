@@ -1,31 +1,32 @@
 import {
   Component,
-  OnInit,
-  Input,
-  Output,
   EventEmitter,
-  OnDestroy
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
 
+import { DEFAULT_ORG_UNIT_FILTER_CONFIG } from '../../constants';
+import { getSanitizedSelectedOrgUnits } from '../../helpers/get-sanitized-selected-org-units.helper';
+import { OrgUnitGroup, OrgUnitLevel } from '../../models';
+import { OrgUnitFilterConfig } from '../../models/org-unit-filter-config.model';
 import {
-  OrgUnitFilterState,
-  getOrgUnitLevels,
+  getOrgUnitGroupLoading,
   getOrgUnitGroups,
+  getOrgUnitLevelLoading,
+  getOrgUnitLevels,
+  LoadOrgUnitGroupsAction,
   LoadOrgUnitLevelsAction,
   LoadOrgUnitsAction,
-  getOrgUnitGroupLoading,
-  getOrgUnitLevelLoading,
-  LoadOrgUnitGroupsAction
+  OrgUnitFilterState
 } from '../../store';
-import { OrgUnitLevel, OrgUnitGroup } from '../../models';
-import { OrgUnitFilterConfig } from '../../models/org-unit-filter-config.model';
-import { DEFAULT_ORG_UNIT_FILTER_CONFIG } from '../../constants';
 import {
-  getTopOrgUnitLevel,
-  getOrgUnitLoading
+  getOrgUnitLoading,
+  getTopOrgUnitLevel
 } from '../../store/selectors/org-unit.selectors';
 
 @Component({
@@ -70,7 +71,10 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<OrgUnitFilterState>) {
     // default org unit filter configuration
-    this.orgUnitFilterConfig = DEFAULT_ORG_UNIT_FILTER_CONFIG;
+    this.orgUnitFilterConfig = {
+      ...DEFAULT_ORG_UNIT_FILTER_CONFIG,
+      ...this.orgUnitFilterConfig
+    };
 
     // Dispatching actions to load organisation unit information
     store.dispatch(new LoadOrgUnitLevelsAction());
@@ -119,7 +123,9 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {
-    this.onOrgUnitClose();
+    if (this.orgUnitFilterConfig.closeOnDestroy) {
+      this.onOrgUnitClose();
+    }
   }
 
   onSelectOrgUnit(orgUnit: any) {
@@ -203,14 +209,14 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   onOrgUnitClose() {
     this.orgUnitClose.emit({
       dimension: 'ou',
-      items: this.selectedOrgUnitItems
+      items: getSanitizedSelectedOrgUnits(this.selectedOrgUnitItems)
     });
   }
 
   onOrgUnitUpdate() {
     this.orgUnitUpdate.emit({
       dimension: 'ou',
-      items: this.selectedOrgUnitItems
+      items: getSanitizedSelectedOrgUnits(this.selectedOrgUnitItems)
     });
   }
 
