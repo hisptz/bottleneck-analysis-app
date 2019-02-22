@@ -21,6 +21,7 @@ export function getMergedGlobalDataSelectionsFromVisualizationLayers(
         'dimension',
         dataSelection.dimension
       ]);
+
       if (availableDataSelection) {
         const availableDataSelectionIndex = mergedDataSelections.indexOf(
           availableDataSelection

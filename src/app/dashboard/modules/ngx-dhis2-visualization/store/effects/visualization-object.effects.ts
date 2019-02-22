@@ -421,43 +421,6 @@ export class VisualizationObjectEffects {
               visualizationLayers
             )
           );
-          // if (visualizationFavoriteOptions.requireAnalytics) {
-          // } else {
-          //   const visualizationLayers: VisualizationLayer[] = _.map(
-          //     [action.favorite],
-          //     favoriteLayer => {
-          //       return {
-          //         id: favoriteLayer.id,
-          //         analytics: {
-          //           rows: favoriteLayer[visualizationFavoriteOptions.type]
-          //         }
-          //       };
-          //     }
-          //   );
-
-          //   // Update visualization object
-          //   this.store.dispatch(
-          //     new UpdateVisualizationObjectAction(action.visualization.id, {
-          //       layers: _.map(
-          //         visualizationLayers,
-          //         visualizationLayer => visualizationLayer.id
-          //       ),
-          //       progress: {
-          //         statusCode: 200,
-          //         statusText: 'OK',
-          //         percent: 100,
-          //         message: 'Information has been loaded'
-          //       }
-          //     })
-          //   );
-
-          //   // Add visualization Layers
-          //   _.each(visualizationLayers, visualizationLayer => {
-          //     this.store.dispatch(
-          //       new AddVisualizationLayerAction(visualizationLayer)
-          //     );
-          //   });
-          // }
         } else {
           // Update visualization layers
           const visualizationLayer: VisualizationLayer = {
