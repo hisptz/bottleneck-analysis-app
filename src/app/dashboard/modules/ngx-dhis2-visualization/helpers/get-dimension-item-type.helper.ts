@@ -14,7 +14,7 @@ export function getDimensionItemType(dimension: string, dimensionItem: any) {
               'USER'
             ) !== -1
           ? 'USER_ORGANISATION_UNIT'
-          : '')
+          : 'ORGANISATION_UNIT')
       );
     }
     default:
