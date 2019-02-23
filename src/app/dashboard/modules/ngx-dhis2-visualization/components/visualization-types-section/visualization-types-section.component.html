@@ -41,7 +41,11 @@
   >
     <img [src]="icons?.INFO_ICON" alt="" />
   </button>
-  <button class="visualization-type-btn" (click)="onLayoutChange($event)">
+  <button
+    class="visualization-type-btn"
+    *ngIf="visualizationTypesConfig?.enableLayoutChangeButton"
+    (click)="onLayoutChange($event)"
+  >
     <img [src]="icons?.RESHUFFLE_ICON" alt="" />
   </button>
 </div>

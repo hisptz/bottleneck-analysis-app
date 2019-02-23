@@ -3,4 +3,5 @@ export interface VisualizationTypesConfig {
   switchToTable?: boolean;
   switchToChart?: boolean;
   switchToInfo?: boolean;
+  enableLayoutChangeButton?: boolean;
 }
