@@ -43,6 +43,7 @@
   </button>
   <button
     class="visualization-type-btn"
+    [title]="'Switch layout' | translate"
     *ngIf="visualizationTypesConfig?.enableLayoutChangeButton"
     (click)="onLayoutChange($event)"
   >
