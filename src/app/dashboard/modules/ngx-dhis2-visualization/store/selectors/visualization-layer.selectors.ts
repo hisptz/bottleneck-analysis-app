@@ -40,9 +40,7 @@ export const getCurrentVisualizationObjectLayers = (visualizationId: string) =>
             metadataIdentifiers: getVisualizationMetadataIdentifiers(
               visualizationLayer.dataSelections
             ),
-            layout:
-              visualizationLayer.layout ||
-              getVisualizationLayout(visualizationLayer.dataSelections)
+            layout: getVisualizationLayout(visualizationLayer.dataSelections)
           };
         }
       );

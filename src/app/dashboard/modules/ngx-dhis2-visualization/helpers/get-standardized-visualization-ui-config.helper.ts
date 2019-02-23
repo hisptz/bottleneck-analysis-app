@@ -29,7 +29,12 @@ export function getStandardizedVisualizationUiConfig(
     showTitleBlock: false,
     visualizationTypesConfig:
       visualizationItem.type === 'REPORT_TABLE'
-        ? { switchToMap: true, switchToTable: true, switchToInfo: true }
+        ? {
+            switchToMap: true,
+            switchToTable: true,
+            switchToInfo: true,
+            enableLayoutChangeButton: true
+          }
         : null
   };
 }
