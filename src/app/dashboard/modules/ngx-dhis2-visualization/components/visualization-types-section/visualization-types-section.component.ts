@@ -3,7 +3,8 @@ import {
   TABLE_ICON,
   COLUMN_CHART_ICON,
   MAP_ICON,
-  INFO_ICON
+  INFO_ICON,
+  RESHUFFLE_ICON
 } from '../../icons';
 import { VisualizationTypesConfig } from '../../models';
 
@@ -20,17 +21,18 @@ export class VisualizationTypesSectionComponent implements OnInit {
   @Output()
   visualizationTypeChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() toggleInterpretation = new EventEmitter();
+  @Output() visualizationLayoutChange: EventEmitter<any> = new EventEmitter();
 
-  tableIcon: string;
-  chartIcon: string;
-  mapIcon: string;
-  infoIcon: string;
+  icons: { [name: string]: string };
 
   constructor() {
-    this.tableIcon = TABLE_ICON;
-    this.chartIcon = COLUMN_CHART_ICON;
-    this.mapIcon = MAP_ICON;
-    this.infoIcon = INFO_ICON;
+    this.icons = {
+      TABLE_ICON,
+      COLUMN_CHART_ICON,
+      MAP_ICON,
+      RESHUFFLE_ICON,
+      INFO_ICON
+    };
   }
 
   ngOnInit() {}
@@ -43,5 +45,10 @@ export class VisualizationTypesSectionComponent implements OnInit {
   onToggleInterpretaion(e) {
     e.stopPropagation();
     this.toggleInterpretation.emit();
+  }
+
+  onLayoutChange(e) {
+    e.stopPropagation();
+    this.visualizationLayoutChange.emit();
   }
 }

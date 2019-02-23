@@ -7,7 +7,7 @@
     [title]="'View Table' | translate"
     (click)="onVisualizationSelect($event, 'TABLE')"
   >
-    <img [src]="tableIcon" alt="" />
+    <img [src]="icons?.TABLE_ICON" alt="" />
   </button>
 
   <button
@@ -18,7 +18,7 @@
     [title]="'View Chart' | translate"
     (click)="onVisualizationSelect($event, 'CHART')"
   >
-    <img [src]="chartIcon" alt="" />
+    <img [src]="icons?.COLUMN_CHART_ICON" alt="" />
   </button>
 
   <button
@@ -29,7 +29,7 @@
     [title]="'View Map' | translate"
     (click)="onVisualizationSelect($event, 'MAP')"
   >
-    <img [src]="mapIcon" alt="" />
+    <img [src]="icons?.MAP_ICON" alt="" />
   </button>
   <button
     class="visualization-type-btn"
@@ -39,9 +39,9 @@
     [title]="'View Information' | translate"
     (click)="onVisualizationSelect($event, 'INFO')"
   >
-    <img [src]="infoIcon" alt="" />
+    <img [src]="icons?.INFO_ICON" alt="" />
   </button>
-  <!--<button class="visualization-type-btn" (click)="toggleInterpretaion($event)">-->
-  <!--<img src="assets/icons/filled-chat.png" alt="">-->
-  <!--</button>-->
+  <button class="visualization-type-btn" (click)="onLayoutChange($event)">
+    <img [src]="icons?.RESHUFFLE_ICON" alt="" />
+  </button>
 </div>

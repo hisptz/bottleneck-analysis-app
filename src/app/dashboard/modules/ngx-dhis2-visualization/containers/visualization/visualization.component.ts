@@ -1,51 +1,54 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
   Output,
-  EventEmitter,
   ViewChild
 } from '@angular/core';
-import { VisualizationLayer } from '../../models/visualization-layer.model';
-import { VisualizationInputs } from '../../models/visualization-inputs.model';
-import { Observable, Subject } from 'rxjs';
-import { Visualization } from '../../models/visualization.model';
-import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
-import { VisualizationProgress } from '../../models/visualization-progress.model';
-import { VisualizationConfig } from '../../models/visualization-config.model';
-import { LegendSet } from '../../models/legend-set.model';
-import { VisualizationState } from '../../store/reducers';
 import { Store } from '@ngrx/store';
-import {
-  InitializeVisualizationObjectAction,
-  UpdateVisualizationObjectAction,
-  SaveVisualizationFavoriteAction
-} from '../../store/actions/visualization-object.actions';
-import {
-  getCurrentVisualizationProgress,
-  getVisualizationObjectById
-} from '../../store/selectors/visualization-object.selectors';
-import { getCurrentVisualizationObjectLayers } from '../../store/selectors/visualization-layer.selectors';
-import {
-  getCurrentVisualizationUiConfig,
-  getFocusedVisualization
-} from '../../store/selectors/visualization-ui-configuration.selectors';
-import { getCurrentVisualizationConfig } from '../../store/selectors/visualization-configuration.selectors';
-import {
-  ShowOrHideVisualizationBodyAction,
-  ToggleFullScreenAction,
-  ToggleVisualizationFocusAction
-} from '../../store/actions/visualization-ui-configuration.actions';
+import * as _ from 'lodash';
+import { Observable, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+import { openAnimation } from '../../../../../animations';
+import { VisualizationBodySectionComponent } from '../../components/visualization-body-section/visualization-body-section';
+import { updateVisualizationLayerBasedOnLayoutChange } from '../../helpers/update-visualization-based -on-layout-change.helper';
+import { LegendSet } from '../../models/legend-set.model';
+import { VisualizationConfig } from '../../models/visualization-config.model';
+import { VisualizationInputs } from '../../models/visualization-inputs.model';
+import { VisualizationLayer } from '../../models/visualization-layer.model';
+import { VisualizationProgress } from '../../models/visualization-progress.model';
+import { VisualizationUiConfig } from '../../models/visualization-ui-config.model';
+import { Visualization } from '../../models/visualization.model';
 import { UpdateVisualizationConfigurationAction } from '../../store/actions/visualization-configuration.actions';
 import {
   LoadVisualizationAnalyticsAction,
   UpdateVisualizationLayerAction
 } from '../../store/actions/visualization-layer.actions';
-import { take } from 'rxjs/operators';
-import { openAnimation } from '../../../../../animations';
-import { VisualizationBodySectionComponent } from '../../components/visualization-body-section/visualization-body-section';
+import {
+  InitializeVisualizationObjectAction,
+  SaveVisualizationFavoriteAction,
+  UpdateVisualizationObjectAction
+} from '../../store/actions/visualization-object.actions';
+import {
+  ShowOrHideVisualizationBodyAction,
+  ToggleFullScreenAction,
+  ToggleVisualizationFocusAction
+} from '../../store/actions/visualization-ui-configuration.actions';
+import { VisualizationState } from '../../store/reducers';
+import { getCurrentVisualizationConfig } from '../../store/selectors/visualization-configuration.selectors';
+import { getCurrentVisualizationObjectLayers } from '../../store/selectors/visualization-layer.selectors';
+import {
+  getCurrentVisualizationProgress,
+  getVisualizationObjectById
+} from '../../store/selectors/visualization-object.selectors';
+import {
+  getCurrentVisualizationUiConfig,
+  getFocusedVisualization
+} from '../../store/selectors/visualization-ui-configuration.selectors';
 
 @Component({
   selector: 'ngx-dhis2-visualization',
@@ -244,5 +247,22 @@ export class VisualizationComponent implements OnInit, OnChanges {
         downloadDetails.downloadFormat
       );
     }
+  }
+
+  onVisualizationLayoutChange() {
+    this.visualizationLayers$
+      .pipe(take(1))
+      .subscribe((visualizationLayers: VisualizationLayer[]) => {
+        _.each(
+          updateVisualizationLayerBasedOnLayoutChange(visualizationLayers),
+          visualizationLayer => {
+            this.store.dispatch(
+              new UpdateVisualizationLayerAction(visualizationLayer.id, {
+                dataSelections: visualizationLayer.dataSelections
+              })
+            );
+          }
+        );
+      });
   }
 }
