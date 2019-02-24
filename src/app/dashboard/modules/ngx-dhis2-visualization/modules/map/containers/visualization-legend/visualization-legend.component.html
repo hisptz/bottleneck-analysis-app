@@ -4,13 +4,13 @@
       <div class="map-legend-list" *ngIf="visualizationLegends.length">
         <div
           class="map-legend-item"
-          [ngClass]="{ 'active-legend': activeLayer === i }"
+          [ngClass]="{ 'active-legend': activeLayer === legend.layer }"
           *ngFor="
             let legend of (visualizationLegends | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage });
             let i = index
           "
         >
-          <div class="map-legend-header" (click)="setActiveItem(i, $event)">
+          <div class="map-legend-header" (click)="setActiveItem(legend.layer, $event)">
             <div class="map-legend-title-block">
               <!-- <svg viewBox="0 0 24 24" style="width: 24px; height: 24px;cursor: ns-resize;">
                 <path fill="#757575" d="M9,3H11V5H9V3M13,3H15V5H13V3M9,7H11V9H9V7M13,7H15V9H13V7M9,11H11V13H9V11M13,11H15V13H13V11M9,15H11V17H9V15M13,15H15V17H13V15M9,19H11V21H9V19M13,19H15V21H13V19Z"></path>
@@ -18,13 +18,16 @@
               <img src="assets/icons/map.png" alt="" />
               <span class="map-legend-title">{{ legend.title || legend.legend.title }}</span>
             </div>
-            <div class="map-legend-title-options no-print" (click)="toggleLayerView(i, $event)">
+            <div class="map-legend-title-options no-print" (click)="toggleLayerView(legend.layer, $event)">
               <a>
                 <img *ngIf="!legend.hidden" src="assets/icons/eye.png" alt="" />
                 <img *ngIf="legend.hidden" src="assets/icons/eye-cross.png" alt="" />
               </a>
             </div>
-            <div class="filter__button no-print" *ngIf="activeLayer === i && !(isFilterSectionOpen$ | async)">
+            <div
+              class="filter__button no-print"
+              *ngIf="activeLayer === legend.layer && !(isFilterSectionOpen$ | async)"
+            >
               <button class="visualization-btn" title="Filter by different dimensions" (click)="openFilters($event)">
                 <img alt="" src="assets/icons/filter.png" />
                 <img src="assets/icons/arrow-right.png" alt="" />
@@ -33,7 +36,7 @@
           </div>
           <div
             class="map-legend-body"
-            *ngIf="activeLayer === i"
+            *ngIf="activeLayer === legend.layer"
             [ngStyle]="{ 'max-height': 'calc(' + mapHeight + ' - ' + (visualizationLegends.length + 4) * 50 + 'px)' }"
           >
             <span class="period-legend">{{ legend.legend.period }}</span>
@@ -117,7 +120,7 @@
       </div>
       <div class="map-legend-list">
         <div class="map-legend-item no-print">
-          <div class="map-legend-header-base_layer" (click)="setActiveItem(-1, $event)">
+          <div class="map-legend-header-base_layer" (click)="setActiveItem('baseMap', $event)">
             <div class="map-legend-title-block">
               <img src="assets/icons/map.png" alt="" />
               <span class="map-legend-title">Base Maps</span>
@@ -131,7 +134,7 @@
           </div>
           <div
             class="map-legend-body"
-            *ngIf="activeLayer === -1"
+            *ngIf="activeLayer === 'baseMap'"
             [ngStyle]="{ 'max-height': 'calc(' + mapHeight + ' - ' + (visualizationLegends.length + 4) * 50 + 'px)' }"
           >
             <ul class="tile-layers-list">
@@ -242,7 +245,7 @@
   <div class="legend-filter__container" *ngIf="(isFilterSectionOpen$ | async)">
     <app-map-filter-section
       [mapVisualizationObject]="mapVisualizationObject"
-      [activeLayer]="absoluteIndex"
+      [activeLayer]="activeLayer"
     ></app-map-filter-section>
   </div>
 </div>

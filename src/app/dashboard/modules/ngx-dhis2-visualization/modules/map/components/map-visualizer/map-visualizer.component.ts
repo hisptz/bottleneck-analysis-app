@@ -241,10 +241,10 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
   }
 
   prepareLegendAndLayers(visualizationObject: VisualizationObject) {
-    const reversedoverlayLayers = fromLib.GetOverLayLayers(visualizationObject);
+    const overlayLayers = fromLib.GetOverLayLayers(visualizationObject);
     const layersBounds = [];
     let legendSets = {};
-    for (const layer of reversedoverlayLayers) {
+    for (const layer of overlayLayers) {
       if (layer) {
         const { bounds, legendSet, geoJsonLayer, id } = layer;
         if (bounds) {
@@ -258,8 +258,6 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
         this.leafletLayers = { ...this.leafletLayers, ...layermap };
       }
     }
-
-    const overlayLayers = reversedoverlayLayers.reverse();
 
     return {
       overlayLayers,

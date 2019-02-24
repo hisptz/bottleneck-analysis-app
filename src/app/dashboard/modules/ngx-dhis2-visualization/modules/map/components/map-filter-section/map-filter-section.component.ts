@@ -53,8 +53,8 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const { layers, componentId } = this.mapVisualizationObject;
-    this.selectedLayer = layers[this.activeLayer];
+    const { layers } = this.mapVisualizationObject;
+    this.selectedLayer = layers.find(layer => layer.id === this.activeLayer);
     const { dataSelections } = this.selectedLayer;
     this.getSelectedFilters(dataSelections);
   }
@@ -72,7 +72,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
 
   onFilterUpdateAction(filterValue: any, filterType: string) {
     const { layers, componentId } = this.mapVisualizationObject;
-    const layer = layers[this.activeLayer];
+    const layer = layers.find(_layer => _layer.id === this.activeLayer);
     const { value, items } = filterValue;
 
     // TODO: Refactor all these switch statements.

@@ -16,7 +16,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   @Input() mapVisualizationObject: any;
   public LegendsTileLayer: any;
   public showButtonIncons = false;
-  public activeLayer = -1;
+  public activeLayer: string;
   public visualizationLegends: any = [];
   public legendSetEntities: { [id: string]: LegendSet };
   public sticky$: Observable<boolean>;
@@ -61,9 +61,10 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       .select(fromStore.getCurrentLegendSets(this.mapVisualizationObject.componentId))
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
-          this.visualizationLegends = Object.keys(visualizationLengends).map(key => visualizationLengends[key]);
-          this.activeLayer = this.activeLayer >= 0 ? this.activeLayer : 0;
-          this.absoluteIndex = this.activeLayer;
+          this.visualizationLegends = Object.keys(visualizationLengends)
+            .reverse()
+            .map(key => visualizationLengends[key]);
+          this.activeLayer = this.activeLayer || this.visualizationLegends[0].layer;
         }
       });
 
@@ -72,6 +73,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       .subscribe(baselayerLegend => {
         if (baselayerLegend) {
           this.baseLayerLegend = { ...baselayerLegend };
+          console.log(this.baseLayerLegend);
         }
       });
   }
@@ -84,9 +86,9 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.showButtonIncons = false;
   }
 
-  setActiveItem(index, e) {
+  setActiveItem(activeLayer, e) {
     e.stopPropagation();
-    if (index === -1) {
+    if (activeLayer === 'baseMap') {
       this.LegendsTileLayer = Object.keys(TILE_LAYERS).map(layerKey => TILE_LAYERS[layerKey]);
     }
 
@@ -97,8 +99,7 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.buttonTop = e.currentTarget.offsetTop;
     this.buttonHeight = e.currentTarget.offsetHeight;
 
-    this.activeLayer = this.activeLayer === index ? -2 : index;
-    this.absoluteIndex = this.itemsPerPage * (this.currentPage - 1) + index;
+    this.activeLayer = activeLayer;
   }
 
   mapDownload(e, fileType, mapLegends) {
@@ -170,10 +171,9 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 
-  toggleLayerView(index, e) {
-    const absoluteIndex = this.itemsPerPage * (this.currentPage - 1) + index;
+  toggleLayerView(layerId, e) {
     e.stopPropagation();
-    const _legend = this.visualizationLegends[absoluteIndex];
+    const _legend = this.visualizationLegends.find(({ layer }) => layer === layerId);
     const { componentId } = this.mapVisualizationObject;
     const hidden = !_legend.hidden;
     const newLegend = { ..._legend, hidden };
@@ -236,7 +236,8 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
 
   handlePageChange(event) {
     this.currentPage = event;
-    this.absoluteIndex = this.itemsPerPage * (this.currentPage - 1) + this.activeLayer;
+    const absoluteIndex = this.itemsPerPage * (this.currentPage - 1);
+    this.activeLayer = this.visualizationLegends[absoluteIndex].layer;
     this.closeFilters();
   }
 
@@ -248,10 +249,6 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
   toggleDataTableView(event) {
     event.stopPropagation();
     this.store.dispatch(new fromStore.ToggleDataTable(this.mapVisualizationObject.componentId));
-  }
-
-  dragged(event) {
-    this.activeLayer = -2;
   }
 
   dropped(event) {
