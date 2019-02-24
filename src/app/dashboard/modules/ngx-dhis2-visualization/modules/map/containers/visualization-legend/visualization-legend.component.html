@@ -181,38 +181,6 @@
             title="Download layers into csv"
           />
         </a>
-        <a *ngIf="showDownload">
-          <img
-            src="assets/icons/kml.png"
-            (click)="mapDownload($event, 'kml', visualizationLegends)"
-            alt="download"
-            title="Download map to kml"
-          />
-        </a>
-        <a *ngIf="showDownload">
-          <img
-            src="assets/icons/csv.png"
-            (click)="mapDownload($event, 'shapefile', visualizationLegends)"
-            alt="download"
-            title="Download map as shapefile"
-          />
-        </a>
-        <a *ngIf="showDownload">
-          <img
-            src="assets/icons/csv.png"
-            (click)="mapDownload($event, 'geojson', visualizationLegends)"
-            alt="download"
-            title="Download map as geojson"
-          />
-        </a>
-        <a *ngIf="showDownload">
-          <img
-            src="assets/icons/csv.png"
-            (click)="mapDownload($event, 'gml', visualizationLegends)"
-            alt="download"
-            title="Download map as gml"
-          />
-        </a>
         <a>
           <img
             *ngIf="!showDownload"
@@ -228,9 +196,6 @@
             title="Back"
             (click)="toggleDownload($event)"
           />
-        </a>
-        <a title="Upload GeoJson file">
-          <img src="assets/icons/upload.png" alt="" />
         </a>
         <a title="Stick Legend" (click)="stickLegendContainer($event)">
           <img *ngIf="!(sticky$ | async)" src="assets/icons/pin-empty.png" alt="" />
