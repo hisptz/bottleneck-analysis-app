@@ -4,7 +4,8 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  ViewChild
+  ViewChild,
+  OnInit
 } from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationConfig } from '../../models/visualization-config.model';
@@ -81,5 +82,11 @@ export class VisualizationBodySectionComponent {
 
   onVisualizationLayerUpdate(visualizationLayer: any) {
     this.updateVisualizationLayer.emit(visualizationLayer);
+  }
+
+  onVisualizationLayoutChange(visualizationLayers: VisualizationLayer[]) {
+    if (this.tableList) {
+      this.tableList.onLayoutChange(visualizationLayers);
+    }
   }
 }

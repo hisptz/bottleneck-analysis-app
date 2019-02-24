@@ -14,6 +14,7 @@ import { State, getLegendSetsEntities } from '../../../../../store';
 import { Observable } from 'rxjs';
 import * as legendSetHelper from './helpers/legend-set-helper';
 import { UpsetLagendSets } from '../../../../../store/actions/legend-set.action';
+import { getDataSelectionUpdatedWithLegendSets } from './helpers/get-data-selection-updated-with-legend-set.helper';
 
 @Component({
   selector: 'app-legend-set-configuration',
@@ -29,6 +30,10 @@ export class LegendSetConfigurationComponent implements OnInit, OnDestroy {
 
   @Output()
   legendSetConfigurationClose = new EventEmitter();
+
+  @Output()
+  legendSetConfigurationUpdate = new EventEmitter();
+
   legendSetEntities$: Observable<any>;
 
   constructor(private store: Store<State>) {
@@ -47,22 +52,26 @@ export class LegendSetConfigurationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {}
 
-  onLegendSetCOnfigurationClose(legendSets: LegendSet[]) {
+  onLegendSetConfigurationClose(legendSets: LegendSet[]) {
+    this.legendSetConfigurationClose.emit(
+      getDataSelectionUpdatedWithLegendSets(
+        legendSetHelper.getLegendSetForUpdate(legendSets),
+        this.selectedItems,
+        this.selectedGroups
+      )
+    );
+  }
+
+  onLegendSetConfigurationUpdate(legendSets: LegendSet[]) {
     legendSets = legendSetHelper.getLegendSetForUpdate(legendSets);
     this.store.dispatch(new UpsetLagendSets({ legendSets }));
-    this.legendSetConfigurationClose.emit({
-      items: _.map(this.selectedItems, (selectedItem: any) => {
-        const legendSet = _.find(legendSets, ['id', selectedItem.id]);
-        return legendSet
-          ? {
-              ...selectedItem,
-              legendSet
-            }
-          : selectedItem;
-      }),
-      groups: this.selectedGroups,
-      dimension: 'dx'
-    });
+    this.legendSetConfigurationUpdate.emit(
+      getDataSelectionUpdatedWithLegendSets(
+        legendSets,
+        this.selectedItems,
+        this.selectedGroups
+      )
+    );
   }
 
   ngOnDestroy() {}

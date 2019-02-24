@@ -253,16 +253,23 @@ export class VisualizationComponent implements OnInit, OnChanges {
     this.visualizationLayers$
       .pipe(take(1))
       .subscribe((visualizationLayers: VisualizationLayer[]) => {
-        _.each(
-          updateVisualizationLayerBasedOnLayoutChange(visualizationLayers),
-          visualizationLayer => {
-            this.store.dispatch(
-              new UpdateVisualizationLayerAction(visualizationLayer.id, {
-                dataSelections: visualizationLayer.dataSelections
-              })
-            );
-          }
+        // TODO: FIND BEST WAY TO UPDATE VISUALIZATION LAYERS AFTER LAYOUT CHANGE
+        const visualizationBasedOnLayoutChange = updateVisualizationLayerBasedOnLayoutChange(
+          visualizationLayers
         );
+
+        if (this.visualizationBody) {
+          this.visualizationBody.onVisualizationLayoutChange(
+            visualizationBasedOnLayoutChange
+          );
+        }
+        _.each(visualizationBasedOnLayoutChange, visualizationLayer => {
+          this.store.dispatch(
+            new UpdateVisualizationLayerAction(visualizationLayer.id, {
+              dataSelections: [...visualizationLayer.dataSelections]
+            })
+          );
+        });
       });
   }
 }

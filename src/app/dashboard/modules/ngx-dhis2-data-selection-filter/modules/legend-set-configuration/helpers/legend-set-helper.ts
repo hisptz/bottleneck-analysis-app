@@ -2,16 +2,15 @@ import { DEFAULT_LEGENDS } from '../constants/default-legend';
 import * as _ from 'lodash';
 import { Legend, LegendSet } from '../models/legend-set';
 
-export function getLegendSetsConfiguration(selectedItems, legendSetEntities) {
+export function getLegendSetsConfiguration(selectedItems) {
   return _.map(selectedItems, selectedItem => {
-    const index = _.indexOf(selectedItems, selectedItem) + 1;
-    const legends =
-      legendSetEntities && legendSetEntities[selectedItem.id]
-        ? legendSetEntities && legendSetEntities[selectedItem.id].legends
-        : [];
-    const name = selectedItem.name ? selectedItem.name : 'Item ' + index;
-    const { id } = selectedItem;
-    return { id, name, legends };
+    return (
+      selectedItem.legendSet || {
+        id: selectedItem.id,
+        name: selectedItem.name,
+        legends: []
+      }
+    );
   });
 }
 
@@ -28,15 +27,14 @@ export function getNewLegend(legends: Legend[]): Legend {
   // const startValue =
   //   legends && legends.length > 0 ? legends[0].endValue + 1 : 0;
   // const endValue = startValue + 9;
-  const startValue =
-    legends && legends.length > 0 ? legends[0].endValue : 0;
+  const startValue = legends && legends.length > 0 ? legends[0].endValue : 0;
   const endValue = startValue + 10;
   return {
     id: getUniqueId(),
     name: 'Untitled',
     color: '#fff',
     startValue: startValue,
-    endValue: endValue,
+    endValue: endValue
   };
 }
 

@@ -2,5 +2,6 @@
   [selectedItems]="selectedItems"
   [legendItems]="legendItems"
   [legendSetEntities]="legendSetEntities$ | async"
-  (legendSetConfigurationClose)="onLegendSetCOnfigurationClose($event)"
+  (legendSetConfigurationClose)="onLegendSetConfigurationClose($event)"
+  (legendSetConfigurationUpdate)="onLegendSetConfigurationUpdate($event)"
 ></app-legend-set-container>
