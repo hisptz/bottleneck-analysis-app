@@ -69,15 +69,16 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
       method: settings.method || 2
     };
 
-    const displaySettings = _.pick(settings, [
-      'labelFontColor',
-      'labelFontSize',
-      'labelFontStyle',
-      'labelFontWeight',
-      'labels',
-      'hideTitle',
-      'hideSubtitle'
-    ]);
+    const labelFontColor = settings.labelFontColor || '#000000';
+    const labelFontSize = settings.labelFontSize || 12;
+    const labelFontStyle = settings.labelFontStyle || 'normal';
+
+    const displaySettings = {
+      ..._.pick(settings, ['labelFontWeight', 'labels', 'hideTitle', 'hideSubtitle']),
+      labelFontColor,
+      labelFontSize,
+      labelFontStyle
+    };
 
     // const rows = (mapview.dataSelections || []).filter(dt => dt.dimension === 'ou');
     // const columns = (mapview.dataSelections || []).filter(dt => dt.dimension === 'dx');
