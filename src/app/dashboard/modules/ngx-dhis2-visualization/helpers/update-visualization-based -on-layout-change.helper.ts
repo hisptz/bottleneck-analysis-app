@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 import { VisualizationDataSelection, VisualizationLayer } from '../models';
+import { getVisualizationLayout } from './get-visualization-layout.helper';
 
 export function updateVisualizationLayerBasedOnLayoutChange(
   visualizationLayers: VisualizationLayer[]
@@ -8,22 +9,24 @@ export function updateVisualizationLayerBasedOnLayoutChange(
   return _.map(
     visualizationLayers,
     (visualizationLayer: VisualizationLayer) => {
+      const dataSelections = _.map(
+        visualizationLayer.dataSelections,
+        (dataSelection: VisualizationDataSelection) => {
+          return {
+            ...dataSelection,
+            layout:
+              dataSelection.layout === 'columns'
+                ? 'rows'
+                : dataSelection.layout === 'rows'
+                ? 'columns'
+                : dataSelection.layout
+          };
+        }
+      );
       return {
-        id: visualizationLayer.id,
-        dataSelections: _.map(
-          visualizationLayer.dataSelections,
-          (dataSelection: VisualizationDataSelection) => {
-            return {
-              ...dataSelection,
-              layout:
-                dataSelection.layout === 'columns'
-                  ? 'rows'
-                  : dataSelection.layout === 'rows'
-                  ? 'columns'
-                  : dataSelection.layout
-            };
-          }
-        )
+        ...visualizationLayer,
+        dataSelections,
+        layout: getVisualizationLayout(dataSelections)
       };
     }
   );

@@ -104,10 +104,10 @@ export class MapStyleComponent implements OnInit {
   }
 
   onRadiusLowChange(radiusLow) {
-    this.layerOptions = { ...this.layerOptions, radiusLow };
+    this.layerOptions = { ...this.layerOptions, radiusLow: Number(radiusLow) };
   }
   onRadiusHighChange(radiusHigh) {
-    this.layerOptions = { ...this.layerOptions, radiusHigh };
+    this.layerOptions = { ...this.layerOptions, radiusHigh: Number(radiusHigh) };
   }
 
   onSubmit(e) {

@@ -20,9 +20,10 @@ export const getDataItemsFromColumns = (columns = []) => getDimensionItems('dx',
 
 // PERIOD
 export const getPeriodFromFilters = (filters = []) => getDimensionItems('pe', filters)[0];
-export const getPeriodNameFromId = id => {
-  const period = relativePeriods.filter(pe => pe.id === id)[0];
-  return period ? period.name : null;
+
+export const getPeriodNameFromId = ({ dimensionItem, displayName, name }) => {
+  const period = relativePeriods.filter(pe => pe.id === dimensionItem)[0];
+  return period ? period.name : displayName || name;
 };
 
 //

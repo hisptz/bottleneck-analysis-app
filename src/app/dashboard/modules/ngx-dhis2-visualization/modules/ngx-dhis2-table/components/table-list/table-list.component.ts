@@ -15,6 +15,7 @@ import { LegendSet } from '../../models/legend-set.model';
 import { TableConfiguration } from '../../models/table-configuration';
 import { TableItemComponent } from '../table-item/table-item.component';
 import { getTableLayers } from '../../helpers/get-table-layers.helper';
+import { VisualizationLayer } from '../../../../models';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -23,9 +24,10 @@ import { getTableLayers } from '../../helpers/get-table-layers.helper';
   styleUrls: ['./table-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableListComponent implements OnInit, OnChanges {
+export class TableListComponent implements OnInit {
   @Input()
   visualizationLayers: any[];
+
   @Input()
   visualizationType: string;
   @Input()
@@ -41,20 +43,7 @@ export class TableListComponent implements OnInit, OnChanges {
   tableItem: TableItemComponent;
   constructor() {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes.visualizationLayers &&
-      !changes.visualizationLayers.firstChange
-    ) {
-      this.setTableLayers();
-    }
-  }
-
   ngOnInit() {
-    this.setTableLayers();
-  }
-
-  setTableLayers() {
     this.tableLayers = getTableLayers(
       this.visualizationLayers,
       this.visualizationType
@@ -65,5 +54,12 @@ export class TableListComponent implements OnInit, OnChanges {
     if (this.tableItem) {
       this.tableItem.downloadTable(downloadFormat);
     }
+  }
+
+  onLayoutChange(visualizationLayers: VisualizationLayer[]) {
+    this.tableLayers = getTableLayers(
+      visualizationLayers,
+      this.visualizationType
+    );
   }
 }

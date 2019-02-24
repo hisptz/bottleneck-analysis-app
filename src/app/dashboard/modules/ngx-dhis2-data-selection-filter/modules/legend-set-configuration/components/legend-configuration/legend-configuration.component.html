@@ -18,21 +18,21 @@
       class="legend-input legend-start-end-value-input"
       [(ngModel)]="startValue"
     />
-    <button
+    <!-- <button
       title="Set negative infinity on start value"
       class="legend-button"
       (click)="setNegativeInfinity($event)"
     >
       <img [src]="lessThanIcon" alt="" />
-    </button>
+    </button> -->
     <span style="padding: 0.375rem 0.75rem;">-</span>
-    <button
+    <!-- <button
       title="Set positive infinity on end value"
       class="legend-button"
       (click)="setPositiveInfinity($event)"
     >
       <img [src]="greaterThanIcon" alt="" />
-    </button>
+    </button> -->
     <input
       (blur)="onLegendUpdate($event)"
       type="text"

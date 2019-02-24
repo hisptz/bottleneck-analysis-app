@@ -42,13 +42,14 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
       type: settings.layer ? settings.layer.replace(/\d$/, '') : 'thematic' // Replace number in thematic layers
     };
 
-    const _layerOptions = _.pick(settings, [
-      'eventClustering',
-      'eventPointRadius',
-      'eventPointColor',
-      'radiusHigh',
-      'radiusLow'
-    ]);
+    const radiusHigh = settings.radiusHigh || 15;
+    const radiusLow = settings.radiusLow || 5;
+
+    const _layerOptions = {
+      ..._.pick(settings, ['eventClustering', 'eventPointRadius', 'eventPointColor']),
+      radiusHigh,
+      radiusLow
+    };
 
     const serverClustering = mapview.analytics && mapview.analytics.hasOwnProperty('count');
     if (serverClustering) {
@@ -69,15 +70,16 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
       method: settings.method || 2
     };
 
-    const displaySettings = _.pick(settings, [
-      'labelFontColor',
-      'labelFontSize',
-      'labelFontStyle',
-      'labelFontWeight',
-      'labels',
-      'hideTitle',
-      'hideSubtitle'
-    ]);
+    const labelFontColor = settings.labelFontColor || '#000000';
+    const labelFontSize = settings.labelFontSize || '12';
+    const labelFontStyle = settings.labelFontStyle || 'normal';
+
+    const displaySettings = {
+      ..._.pick(settings, ['labelFontWeight', 'labels', 'hideTitle', 'hideSubtitle']),
+      labelFontColor,
+      labelFontSize,
+      labelFontStyle
+    };
 
     // const rows = (mapview.dataSelections || []).filter(dt => dt.dimension === 'ou');
     // const columns = (mapview.dataSelections || []).filter(dt => dt.dimension === 'dx');
@@ -140,7 +142,7 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
   };
 }
 
-const defaultScaleKey = 'YlOrBr';
-const defaultClasses = 5;
+export const defaultScaleKey = 'YlOrBr';
+export const defaultClasses = 5;
 const isVersionGreater = Number(localStorage.getItem('version')) >= 2.28;
-const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);
+export const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);

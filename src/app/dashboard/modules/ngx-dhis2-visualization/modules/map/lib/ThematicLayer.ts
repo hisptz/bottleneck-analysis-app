@@ -1,9 +1,10 @@
-import * as L from 'leaflet';
 import * as _ from 'lodash';
-import { getDataItemsFromColumns } from '../utils/analytics';
-import { getLegendItems, getLegendItemForValue, getColorsByRgbInterpolation } from '../utils/classify';
+import { getDataItemsFromColumns, getPeriodNameFromId, getPeriodFromFilters } from '../utils/analytics';
+import { getLegendItemForValue } from '../utils/classify';
 import { toGeoJson } from './GeoJson';
-import { geoJsonExtended } from './geoJsonExtended';
+import geoJsonExtended from './Choropleth';
+import { getAutomaticLegendItems } from '../utils/legend';
+import Patterns from '../utils/patterns';
 
 export const thematic = options => {
   const {
@@ -16,38 +17,50 @@ export const thematic = options => {
     legendSet,
     analyticsData
   } = options;
-  const { rows, columns, filters } = dataSelections;
   const { radiusLow, radiusHigh } = layerOptions;
   const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels, values } = displaySettings;
   const features = toGeoJson(geofeature);
-  const otherOptions = thematicLayerOptions(options.id, opacity, displaySettings);
   const valueById = getValueById(analyticsData);
   const layerDx = getDx(analyticsData);
   const valueFeatures = features.filter(({ id }) => valueById[id] !== undefined);
   const orderedValues = getOrderedValues(analyticsData);
   const minValue = orderedValues[0];
   const maxValue = orderedValues[orderedValues.length - 1];
-  const dataItem = getDataItemsFromColumns(columns)[0];
+  const selectionItems = [...dataSelections.columns, ...dataSelections.rows, ...dataSelections.filters];
+  const dataItem = getDataItemsFromColumns(selectionItems)[0];
   const name = options.name || dataItem.name;
+  const { method, classes, colorScale } = legendProperties;
+  const period = getPeriodFromFilters(selectionItems);
+  const legendName = `${dataItem && dataItem.name}-${getPeriodNameFromId(period)}`;
   const legend = legendSet
-    ? createLegendFromLegendSet(legendSet, options.displayName, options.type)
-    : createLegendFromConfig(orderedValues, legendProperties, options.displayName, options.type);
+    ? createLegendFromLegendSet(legendSet, legendName, options.type)
+    : getAutomaticLegendItems(orderedValues, method, classes, colorScale, legendName, options.type);
   legend.items.forEach(item => (item.count = 0));
   const getLegendItem = _.curry(getLegendItemForValue)(legend.items);
-  legend['period'] =
-    (analyticsData.metaData.dimensions && analyticsData.metaData.dimensions.pe[0]) || analyticsData.metaData.pe[0];
+  legend['period'] = getPeriodNameFromId(period);
 
   valueFeatures.forEach(({ id, properties }) => {
     const value = valueById[id];
     const item = getLegendItem(value);
     if (item) {
       item.count++;
-      properties.percentage = ((item.count / orderedValues.length) * 100).toFixed(1);
     }
+
     properties.value = value;
     properties.label = name;
     properties.dx = layerDx;
     properties.color = item && item.color;
+    properties.style = legend.usePatterns
+      ? generatePatternStyle(item.pattern, id)
+      : {
+          color: '#333',
+          fillColor: item && item.color,
+          fillOpacity: opacity,
+          opacity,
+          weight: 1,
+          fill: true,
+          stroke: true
+        };
     properties.labelStyle = {
       fontSize: labelFontSize,
       fontStyle: labelFontStyle,
@@ -56,8 +69,16 @@ export const thematic = options => {
     };
     properties.radius = ((value - minValue) / (maxValue - minValue)) * (radiusHigh - radiusLow) + radiusLow;
   });
+
+  valueFeatures.forEach(({ id, properties }) => {
+    const value = valueById[id];
+    const item = getLegendItem(value);
+    if (item) {
+      properties.percentage = ((item.count / orderedValues.length) * 100).toFixed(1);
+    }
+  });
+
   const _options = {
-    ...otherOptions,
     label: labels ? (values ? '{name}({value})' : '{name}') : undefined,
     hoverLabel: undefined,
     labelPane: `${options.id}-labels`,
@@ -66,12 +87,6 @@ export const thematic = options => {
 
   const geoJsonLayer = geoJsonExtended(_options);
 
-  const thematicEvents = thematicLayerEvents(columns, legend);
-  geoJsonLayer.on({
-    click: thematicEvents.onClick,
-    mouseover: thematicEvents.mouseover,
-    mouseout: thematicEvents.mouseout
-  });
   const bounds = geoJsonLayer.getBounds();
   const _legendSet = {
     layer: options.id,
@@ -122,131 +137,95 @@ const getOrderedValues = data => {
 };
 
 const createLegendFromLegendSet = (legendSet, displayName, type) => {
-  const { name, legends } = legendSet;
-  const pickSome = ['name', 'startValue', 'endValue', 'color'];
+  const { name, legends, legendSetType } = legendSet;
+  const pickSome = ['name', 'startValue', 'endValue', 'color', 'pattern'];
   const sortedLegends = _.sortBy(legends, 'startValue');
   const items = sortedLegends.map(legend => _.pick(legend, pickSome));
   return {
+    usePatterns: legendSetType === 'pattern',
     title: displayName || name,
     type,
     items
   };
 };
 
-const createLegendFromConfig = (data, config, displayName, type) => {
-  const { method, classes, colorScale, colorLow, colorHigh } = config;
-
-  const items = data.length ? getLegendItems(data, method, classes) : [];
-
-  let colors;
-
-  if (Array.isArray(colorScale)) {
-    colors = colorScale;
-  } else if (_.isString(colorScale)) {
-    colors = colorScale.split(',');
-  }
-
-  if (!colorScale || colors.length !== classes) {
-    colors = getColorsByRgbInterpolation(colorLow, colorHigh, classes);
-  }
-
+const generatePatternStyle = (pattern, id) => {
+  const color = '#333';
+  const fillPattern = getFillPattern(pattern, color, id);
   return {
-    title: displayName,
-    type,
-    items: items.map((item, index) => ({
-      ...item,
-      color: colors[index]
-    }))
+    color,
+    fillPattern
   };
 };
 
-export const thematicLayerOptions = (id, opacity, displaySettings) => {
-  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels } = displaySettings;
-  const style = feature => {
-    const pop = feature.properties;
-    return {
-      color: '#333',
-      fillColor: pop.color,
-      fillOpacity: opacity,
-      opacity,
-      weight: 1,
-      fill: true,
-      stroke: true
-    };
-  };
-
-  const onEachFeature = (feature, layer) => {};
-
-  const pane = id;
-
-  const pointToLayer = (feature, latlng) => {
-    const geojsonMarkerOptions = {
-      pane,
-      radius: feature.properties.radius || 6,
-      fillColor: feature.properties.color || '#fff',
-      color: feature.properties.color || '#333',
-      opacity: opacity || 0.8,
-      weight: 1,
-      fillOpacity: opacity || 0.8
-    };
-    return new L.CircleMarker(latlng, geojsonMarkerOptions);
-  };
-
-  return {
-    pane,
-    style,
-    onEachFeature,
-    pointToLayer
-  };
-};
-
-export const thematicLayerEvents = (columns, legend) => {
-  const onClick = evt => {
-    const { name, value, percentage, dx } = evt.layer.feature.properties;
-    const indicator = columns[0].items[0].name;
-    const period = legend ? legend.period : undefined;
-    const content = `<div class="leaflet-popup-orgunit">
-                    ${name}<br>
-                    ${dx}<br>
-                    ${period}: ${value}</div>`;
-    // Close any popup if there is one
-    evt.layer.closePopup();
-    // Bind new popup to the layer
-    evt.layer.bindPopup(content);
-    // Open the binded popup
-    evt.layer.openPopup();
-  };
-
-  const onRightClick = evt => {
-    L.DomEvent.stopPropagation(evt); // Don't propagate to map right-click
-  };
-
-  const mouseover = evt => {
-    const { name, value, percentage, style } = evt.layer.feature.properties;
-    const weight = 3;
-    evt.layer.setStyle({ ...style, weight });
-    evt.layer.closeTooltip();
-    evt.layer
-      .bindTooltip(`${name}(${value})(${percentage}%)`, {
-        direction: 'auto',
-        permanent: false,
-        sticky: true,
-        interactive: true,
-        opacity: 1
-      })
-      .openTooltip();
-  };
-
-  const mouseout = evt => {
-    const style = evt.layer.feature.properties.style;
-    const weight = 1;
-    evt.layer.setStyle({ ...style, weight });
-  };
-
-  return {
-    onClick,
-    onRightClick,
-    mouseover,
-    mouseout
-  };
+const getFillPattern = (pattern, selectedColor, id) => {
+  switch (pattern) {
+    case 'checkerboardPattern':
+      return Patterns.CheckerBoardPattern({
+        key: 'checkerboard' + id,
+        color: selectedColor,
+        width: 20,
+        height: 20
+      });
+    case 'circlePattern':
+      return Patterns.CirclePattern({
+        x: 7,
+        y: 7,
+        radius: 5,
+        fill: true,
+        width: 15,
+        height: 15,
+        color: selectedColor,
+        key: 'circle' + id
+      });
+    case 'rectPattern':
+      return Patterns.RectPattern({
+        width: 25,
+        height: 25,
+        rx: 2,
+        ry: 2,
+        fill: true,
+        color: selectedColor,
+        key: 'rect' + id
+      });
+    case 'stripePattern':
+      return Patterns.StripePattern({
+        key: 'stripe' + id,
+        color: selectedColor
+      });
+    case 'linesPattern':
+      return Patterns.PathPattern({
+        d: 'M0 0 V 25',
+        stroke: true,
+        weight: 4,
+        spaceWeight: 4,
+        color: selectedColor,
+        spaceColor: '#ffffff',
+        opacity: 1.0,
+        spaceOpacity: 0.0,
+        key: 'path' + selectedColor
+      });
+    case 'chevronPattern':
+      return Patterns.PathPattern({
+        d: 'M8 2.156l-1.406 1.438-6.594 6.563v5.688l.125-.125 7.875-7.906 8 8v-5.625l-6.594-6.594-1.406-1.438z',
+        fill: true,
+        key: 'path' + selectedColor,
+        width: 25,
+        height: 25,
+        x: 5,
+        y: 5,
+        color: selectedColor
+      });
+    case 'trianglePattern':
+      return Patterns.PathPattern({
+        d: 'M10 0 L7 20 L25 20 Z',
+        fill: true,
+        key: 'path' + selectedColor,
+        width: 25,
+        height: 25,
+        x: 5,
+        y: 5,
+        color: selectedColor
+      });
+  }
 };

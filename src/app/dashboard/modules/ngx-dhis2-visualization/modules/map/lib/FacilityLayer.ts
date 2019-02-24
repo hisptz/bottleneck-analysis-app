@@ -1,29 +1,11 @@
 import * as L from 'leaflet';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
-import { GeoJson } from 'leaflet';
-import { Feature, GeometryObject } from 'geojson';
-import {
-  getOrgUnitsFromRows,
-  getPeriodFromFilters,
-  getDataItemsFromColumns
-} from '../utils/analytics';
 import * as _ from 'lodash';
 
 export const facility = options => {
-  const {
-    geofeature,
-    layerOptions,
-    displaySettings,
-    opacity,
-    areaRadius,
-    dataSelections,
-    legendProperties,
-    analyticsData,
-    orgUnitGroupSet
-  } = options;
-  const { rows, columns, filters, organisationUnitGroupSet } = dataSelections;
-  const orgUnits = getOrgUnitsFromRows(rows);
-  const { radiusLow, radiusHigh } = layerOptions;
+  const { geofeature, layerOptions, displaySettings, opacity, areaRadius, dataSelections, orgUnitGroupSet } = options;
+  const { organisationUnitGroupSet } = dataSelections;
+  const { radiusLow } = layerOptions;
 
   let features = toGeoJson(geofeature);
   const geoOptions = geoJsonOptions(options.id, radiusLow, opacity);
@@ -121,13 +103,7 @@ const parseGroupSet = organisationUnitGroups =>
   }, {});
 
 export const facilityGeoJsonOptions = (id, displaySettings, areaRadius, opacity) => {
-  const {
-    labelFontStyle,
-    labelFontSize,
-    labelFontColor,
-    labelFontWeight,
-    labels
-  } = displaySettings;
+  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels } = displaySettings;
   const onEachFeature = (feature, layer) => {
     if (labels) {
       feature.properties.label = feature.properties.name;
