@@ -1,7 +1,7 @@
 <div class="visualization-error-notifier">
   <img src="assets/icons/error.png" alt="" /> <br />
   <h4>
-    Aw, Snap. We are sorry for this inconvenience, our server tells us that
+    {{ titleMessage }}
   </h4>
   <h5>
     {{ errorMessage?.statusText }} - (Error Code {{ errorMessage?.statusCode }})
