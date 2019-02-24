@@ -26,14 +26,11 @@ export const thematic = options => {
   const orderedValues = getOrderedValues(analyticsData);
   const minValue = orderedValues[0];
   const maxValue = orderedValues[orderedValues.length - 1];
-  const dataItem = getDataItemsFromColumns([
-    ...dataSelections.columns,
-    ...dataSelections.rows,
-    ...dataSelections.filters
-  ])[0];
+  const selectionItems = [...dataSelections.columns, ...dataSelections.rows, ...dataSelections.filters];
+  const dataItem = getDataItemsFromColumns(selectionItems)[0];
   const name = options.name || dataItem.name;
   const { method, classes, colorScale } = legendProperties;
-  const period = getPeriodFromFilters([...dataSelections.columns, ...dataSelections.rows, ...dataSelections.filters]);
+  const period = getPeriodFromFilters(selectionItems);
   const legendName = `${dataItem && dataItem.name}-${getPeriodNameFromId(period)}`;
   const legend = legendSet
     ? createLegendFromLegendSet(legendSet, legendName, options.type)
