@@ -30,7 +30,11 @@
         [ngStyle]="{ 'max-height': 'calc(' + mapHeight + ' - 150px)' }"
         (mouseleave)="toggleLegendContainerView()"
       >
-        <app-visualization-legend [mapVisualizationObject]="visualizationObject"></app-visualization-legend>
+        <app-visualization-legend
+          [mapVisualizationObject]="visualizationObject"
+          [currentLayersVisibility]="currentLayersVisibility"
+          *ngIf="currentLayersVisibility"
+        ></app-visualization-legend>
       </div>
     </div>
   </div>

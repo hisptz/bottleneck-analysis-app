@@ -36,6 +36,7 @@ export class ContainerMapComponent implements OnChanges {
   public isDataTableOpen$: Observable<boolean>;
   public baselayerLegend$: Observable<any>;
   public currentLegendSets$: Observable<any>;
+  public currentLayersVisibility$: Observable<any>;
 
   constructor(private store: Store<fromStore.MapState>) {}
 
@@ -65,5 +66,8 @@ export class ContainerMapComponent implements OnChanges {
 
     // Get current base layerSettings;
     this.currentLegendSets$ = this.store.select(fromStore.getCurrentLegendSets(componentId));
+
+    // Get current layers visibility
+    this.currentLayersVisibility$ = this.store.select(fromStore.getCurrentLayersVisibility(componentId));
   }
 }

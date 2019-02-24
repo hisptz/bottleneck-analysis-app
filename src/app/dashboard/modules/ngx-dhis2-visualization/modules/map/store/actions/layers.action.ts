@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Layer } from '../../models/layer.model';
+import { Layer, LayerVisibility } from '../../models/layer.model';
 
 // load layers
 export const LOAD_LAYERS = '[Map] Load Layer';
@@ -17,6 +17,8 @@ export const REMOVE_LAYERS_FAIL = '[Map] Remove Layer Fail';
 export const REMOVE_LAYERS_SUCCESS = '[Map] Remove Layer Success';
 export const UPDATE_LAYER_STYLE = '[Layer] Update layer Style';
 export const UPDATE_LAYER_STYLE_SUCCESS = '[Layer] Update layer Style Success';
+export const INIT_LAYER_VISIBILITY_SETTINGS = '[Map] Initialize layer visibility';
+export const TOGGLE_LAYER_VISIBILITY_SETTINGS = '[Map] Toggle Layer visibility';
 
 export class LoadLayers implements Action {
   readonly type = LOAD_LAYERS;
@@ -87,6 +89,16 @@ export class UpdateLayerStyleSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class InitializeLayerVisibilitySettings implements Action {
+  readonly type = INIT_LAYER_VISIBILITY_SETTINGS;
+  constructor(public payload: { componentId: string; settings: LayerVisibility }) {}
+}
+
+export class ToggleLayerVisibilitySettings implements Action {
+  readonly type = TOGGLE_LAYER_VISIBILITY_SETTINGS;
+  constructor(public payload: { componentId: string; layer: string }) {}
+}
+
 // action types
 export type LayersAction =
   | LoadLayers
@@ -99,4 +111,6 @@ export type LayersAction =
   | RemoveLayersFail
   | RemoveLayersSuccess
   | UpdateLayerStyle
-  | UpdateLayerStyleSuccess;
+  | UpdateLayerStyleSuccess
+  | InitializeLayerVisibilitySettings
+  | ToggleLayerVisibilitySettings;

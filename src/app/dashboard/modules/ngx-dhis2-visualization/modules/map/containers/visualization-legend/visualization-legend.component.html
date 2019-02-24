@@ -18,10 +18,10 @@
               <img src="assets/icons/map.png" alt="" />
               <span class="map-legend-title">{{ legend.title || legend.legend.title }}</span>
             </div>
-            <div class="map-legend-title-options no-print" (click)="toggleLayerView(legend.layer, $event)">
+            <div class="map-legend-title-options no-print" (click)="hideAndShowLayer(legend.layer, $event)">
               <a>
-                <img *ngIf="!legend.hidden" src="assets/icons/eye.png" alt="" />
-                <img *ngIf="legend.hidden" src="assets/icons/eye-cross.png" alt="" />
+                <img *ngIf="currentLayersVisibility[legend.layer]" src="assets/icons/eye.png" alt="" />
+                <img *ngIf="!currentLayersVisibility[legend.layer]" src="assets/icons/eye-cross.png" alt="" />
               </a>
             </div>
             <div

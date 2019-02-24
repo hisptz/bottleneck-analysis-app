@@ -14,6 +14,7 @@ import { LegendSet } from '../../models/Legend-set.model';
 })
 export class VisualizationLegendComponent implements OnInit, OnDestroy {
   @Input() mapVisualizationObject: any;
+  @Input() currentLayersVisibility: any;
   public LegendsTileLayer: any;
   public showButtonIncons = false;
   public activeLayer: string;
@@ -170,15 +171,10 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.CloseVisualizationLegendFilterSection(this.mapVisualizationObject.componentId));
   }
 
-  toggleLayerView(layerId, e) {
+  hideAndShowLayer(layer, e) {
     e.stopPropagation();
-    const _legend = this.visualizationLegends.find(({ layer }) => layer === layerId);
     const { componentId } = this.mapVisualizationObject;
-    const hidden = !_legend.hidden;
-    const newLegend = { ..._legend, hidden };
-    const legend = { [newLegend.layer]: { ...newLegend } };
-
-    this.store.dispatch(new fromStore.UpdateLegendSet({ componentId, legend }));
+    this.store.dispatch(new fromStore.ToggleLayerVisibilitySettings({ componentId, layer }));
   }
 
   toggleBaseLayer(event) {

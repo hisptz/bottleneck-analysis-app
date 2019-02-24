@@ -22,3 +22,7 @@ export interface Layer {
   layerOptions: LayerOptions;
   dataSelections: DataSelections;
 }
+
+export interface LayerVisibility {
+  [id: string]: boolean;
+}

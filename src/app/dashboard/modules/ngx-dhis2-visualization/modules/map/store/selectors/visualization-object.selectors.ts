@@ -2,12 +2,23 @@ import { createSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers';
 import { VisualizationObject } from '../../models/visualization-object.model';
+import { LayerVisibility } from '../../models/layer.model';
 import * as fromVisualizationObject from '../reducers/visualization-object.reducers';
 import * as fromLayers from '../reducers/layers.reducer';
 
 export const getVisualizationObjectState = createSelector(
   fromFeature.getMapState,
   (state: fromFeature.MapState) => state.visualizationObjects
+);
+
+export const getLayerVisibilityState = createSelector(
+  fromFeature.getMapState,
+  (state: fromFeature.MapState) => state.layerVisibility
+);
+
+export const getAllLayerVisibilityEntities = createSelector(
+  getLayerVisibilityState,
+  fromLayers.getLayersVisibilityEntities
 );
 
 export const getAllVisualizationObjectsEntities = createSelector(
@@ -32,14 +43,11 @@ export const getCurrentMap = createSelector(
   }
 );
 
-export const getCurrentMapLayers = createSelector(
-  getAllVisualizationObjectsEntities,
-  fromLayers.getLayersEntities,
-  _getCurrentMap,
-  (entities, layerEntities, currentMap): VisualizationObject => {
-    return entities[currentMap].layers.map(id => layerEntities[id]);
-  }
-);
+export const getCurrentLayersVisibility = id =>
+  createSelector(
+    getAllLayerVisibilityEntities,
+    entities => entities[id]
+  );
 
 export const isVisualizationObjectsLoading = createSelector(
   getVisualizationObjectState,
@@ -52,4 +60,7 @@ export const isVisualizationObjectsLoaded = createSelector(
 );
 
 export const getCurrentVisualizationObject = id =>
-  createSelector(getAllVisualizationObjectsEntities, entities => entities[id]);
+  createSelector(
+    getAllVisualizationObjectsEntities,
+    entities => entities[id]
+  );
