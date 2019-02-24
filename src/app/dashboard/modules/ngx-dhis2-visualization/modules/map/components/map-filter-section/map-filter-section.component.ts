@@ -1,5 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  OnChanges,
+  SimpleChange,
+  SimpleChanges
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { getDimensionItems } from '../../utils/analytics';
@@ -9,36 +17,14 @@ import * as fromStore from '../../store';
   selector: 'app-map-filter-section',
   templateUrl: './map-filter-section.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./map-filter-section.component.css'],
-  animations: [
-    trigger('open', [
-      state(
-        'in',
-        style({
-          opacity: 1
-        })
-      ),
-      transition('void => *', [
-        style({
-          opacity: 0
-        }),
-        animate(700)
-      ]),
-      transition('* => void', [
-        animate(300),
-        style({
-          opacity: 0
-        })
-      ])
-    ])
-  ]
+  styleUrls: ['./map-filter-section.component.css']
 })
-export class MapFilterSectionComponent implements OnInit, OnDestroy {
+export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
   @Input() mapVisualizationObject;
   @Input() activeLayer;
   @Input() loaded = true;
 
-  showFilters: boolean;
+  showFilters = true;
   selectedFilter = 'ORG_UNIT';
   selectedDataItems: any = [];
   selectedPeriods: any = [];
@@ -56,18 +42,22 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
   };
 
   constructor(private store: Store<fromStore.MapState>) {}
-
   ngOnInit() {
-    this.showFilters = true;
+    this.legendSets$ = this.store.select(fromStore.getAllLegendSets);
+    this.isFilterSectionLoading$ = this.store.select(
+      fromStore.isVisualizationLegendFilterSectionLoding(this.mapVisualizationObject.componentId)
+    );
+    this.isFilterSectionUpdated$ = this.store.select(
+      fromStore.isVisualizationLegendFilterSectionJustUpdated(this.mapVisualizationObject.componentId)
+    );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('on init init');
     const { layers, componentId } = this.mapVisualizationObject;
     this.selectedLayer = layers[this.activeLayer];
     const { dataSelections } = this.selectedLayer;
     this.getSelectedFilters(dataSelections);
-    this.legendSets$ = this.store.select(fromStore.getAllLegendSets);
-    this.isFilterSectionLoading$ = this.store.select(fromStore.isVisualizationLegendFilterSectionLoding(componentId));
-    this.isFilterSectionUpdated$ = this.store.select(
-      fromStore.isVisualizationLegendFilterSectionJustUpdated(componentId)
-    );
   }
 
   toggleFilters(e) {
@@ -90,10 +80,9 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
 
     switch (filterType) {
       case 'ORG_UNIT':
-        const _items = items.map(item => ({ displayName: item.name, dimensionItem: item.id }));
         const newdimension = {
           dimension: 'ou',
-          items: _items
+          items
         };
         const payload = {
           componentId,
@@ -105,15 +94,9 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromStore.UpdateOUSelection(payload));
         break;
       case 'PERIOD':
-        const peItems = items.map(item => ({
-          displayName: item.name,
-          dimensionItem: item.id,
-          type: item.type,
-          dimensionItemType: 'PERIOD'
-        }));
         const newPeDimension = {
           dimension: 'pe',
-          items: peItems
+          items
         };
         this.store.dispatch(
           new fromStore.UpdatePESelection({
@@ -163,12 +146,11 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy {
     const { columns, rows, filters } = dataSelections;
     const data = [...columns, ...filters, ...rows];
     const selectedPeriods = getDimensionItems('pe', data);
-    const selectedDataItems = getDimensionItems('dx', data);
 
     this.selectedPeriods = selectedPeriods.map(periodItem => ({
-      id: periodItem.dimensionItem,
-      name: periodItem.displayName,
-      type: periodItem.dimensionItemType
+      id: periodItem.dimensionItem || periodItem.id,
+      name: periodItem.displayName || periodItem.name,
+      type: periodItem.dimensionItemType || periodItem.type
     }));
 
     this.selectedOrgUnitItems = getDimensionItems('ou', data);
