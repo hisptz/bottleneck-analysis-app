@@ -70,7 +70,7 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
     };
 
     const labelFontColor = settings.labelFontColor || '#000000';
-    const labelFontSize = settings.labelFontSize || 12;
+    const labelFontSize = settings.labelFontSize || '12';
     const labelFontStyle = settings.labelFontStyle || 'normal';
 
     const displaySettings = {

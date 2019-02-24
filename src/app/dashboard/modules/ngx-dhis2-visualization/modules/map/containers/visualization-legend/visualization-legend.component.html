@@ -1,12 +1,7 @@
 <div class="legendFilter__container" (mouseover)="showButtonIcons()" (mouseout)="hideButtonIcons()">
   <div class="map-legend__container">
     <div class="layers-list">
-      <div
-        class="map-legend-list"
-        *ngIf="visualizationLegends.length"
-        [model]="visualizationLegends"
-        (drop)="dropped($event)"
-      >
+      <div class="map-legend-list" *ngIf="visualizationLegends.length">
         <div
           class="map-legend-item"
           [ngClass]="{ 'active-legend': activeLayer === i }"
