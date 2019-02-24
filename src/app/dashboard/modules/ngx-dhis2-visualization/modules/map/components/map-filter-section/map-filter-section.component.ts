@@ -53,7 +53,6 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('on init init');
     const { layers, componentId } = this.mapVisualizationObject;
     this.selectedLayer = layers[this.activeLayer];
     const { dataSelections } = this.selectedLayer;

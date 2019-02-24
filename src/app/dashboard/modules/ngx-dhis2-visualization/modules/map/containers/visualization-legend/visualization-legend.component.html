@@ -4,10 +4,8 @@
       <div
         class="map-legend-list"
         *ngIf="visualizationLegends.length"
-        ngxDroppable
         [model]="visualizationLegends"
         (drop)="dropped($event)"
-        (drag)="dragged($event)"
       >
         <div
           class="map-legend-item"
