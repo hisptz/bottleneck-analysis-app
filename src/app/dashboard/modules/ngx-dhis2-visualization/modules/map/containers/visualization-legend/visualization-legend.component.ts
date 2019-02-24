@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, BehaviorSubject, SubscriptionLike as ISubscription } from 'rxjs';
+import { Observable, SubscriptionLike as ISubscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { TILE_LAYERS } from '../../constants/tile-layer.constant';
@@ -62,8 +62,8 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       .subscribe(visualizationLengends => {
         if (visualizationLengends) {
           this.visualizationLegends = Object.keys(visualizationLengends)
-            .reverse()
-            .map(key => visualizationLengends[key]);
+            .map(key => visualizationLengends[key])
+            .reverse();
           this.activeLayer = this.activeLayer || this.visualizationLegends[0].layer;
         }
       });
@@ -73,7 +73,6 @@ export class VisualizationLegendComponent implements OnInit, OnDestroy {
       .subscribe(baselayerLegend => {
         if (baselayerLegend) {
           this.baseLayerLegend = { ...baselayerLegend };
-          console.log(this.baseLayerLegend);
         }
       });
   }

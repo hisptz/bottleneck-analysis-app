@@ -2,8 +2,6 @@ import { label } from './Label';
 import * as L from 'leaflet';
 import polylabel from 'polylabel';
 import * as geojsonArea from '@mapbox/geojson-area';
-import { MapOptions } from '../models/geo-feature.model';
-
 export const GeoJson = L.GeoJSON.extend({
   options: {
     style: {
@@ -17,7 +15,7 @@ export const GeoJson = L.GeoJSON.extend({
     }
   },
 
-  initialize(options: MapOptions) {
+  initialize(options) {
     if (!options.pointToLayer) {
       options.pointToLayer = this.pointToLayer.bind(this);
     }

@@ -17,7 +17,6 @@ export const thematic = options => {
     legendSet,
     analyticsData
   } = options;
-  const { columns } = dataSelections;
   const { radiusLow, radiusHigh } = layerOptions;
   const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels, values } = displaySettings;
   const features = toGeoJson(geofeature);
@@ -34,7 +33,7 @@ export const thematic = options => {
   ])[0];
   const name = options.name || dataItem.name;
   const { method, classes, colorScale } = legendProperties;
-  const period = getPeriodFromFilters(dataSelections.filters);
+  const period = getPeriodFromFilters([...dataSelections.columns, ...dataSelections.rows, ...dataSelections.filters]);
   const legendName = `${dataItem && dataItem.name}-${getPeriodNameFromId(period)}`;
   const legend = legendSet
     ? createLegendFromLegendSet(legendSet, legendName, options.type)

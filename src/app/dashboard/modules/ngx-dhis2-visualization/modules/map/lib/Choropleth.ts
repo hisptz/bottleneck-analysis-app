@@ -2,8 +2,6 @@
 import L from 'leaflet';
 import { GeoJson } from './geoJsonExtended';
 
-import { MapOptions } from '../models/geo-feature.model';
-
 export const Choropleth = GeoJson.extend({
   options: {
     style: {
@@ -20,7 +18,7 @@ export const Choropleth = GeoJson.extend({
     radiusKey: 'radius'
   },
 
-  initialize(options: MapOptions) {
+  initialize(options) {
     if (!options.pointToLayer) {
       options.pointToLayer = this.pointToLayer.bind(this);
     }

@@ -42,13 +42,14 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
       type: settings.layer ? settings.layer.replace(/\d$/, '') : 'thematic' // Replace number in thematic layers
     };
 
-    const _layerOptions = _.pick(settings, [
-      'eventClustering',
-      'eventPointRadius',
-      'eventPointColor',
-      'radiusHigh',
-      'radiusLow'
-    ]);
+    const radiusHigh = settings.radiusHigh || 15;
+    const radiusLow = settings.radiusLow || 5;
+
+    const _layerOptions = {
+      ..._.pick(settings, ['eventClustering', 'eventPointRadius', 'eventPointColor']),
+      radiusHigh,
+      radiusLow
+    };
 
     const serverClustering = mapview.analytics && mapview.analytics.hasOwnProperty('count');
     if (serverClustering) {

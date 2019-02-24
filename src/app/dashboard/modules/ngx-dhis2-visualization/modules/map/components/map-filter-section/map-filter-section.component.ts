@@ -133,7 +133,7 @@ export class MapFilterSectionComponent implements OnInit, OnDestroy, OnChanges {
 
   onStyleFilterUpdate({ layer }) {
     const { layers } = this.mapVisualizationObject;
-    const updatedLayers = layers.map((_layer, index) => (index === this.activeLayer ? layer : _layer));
+    const updatedLayers = layers.map(_layer => (_layer.id === this.activeLayer ? layer : _layer));
     this.store.dispatch(new fromStore.UpdateLayerStyle({ ...this.mapVisualizationObject, layers: updatedLayers }));
   }
 
