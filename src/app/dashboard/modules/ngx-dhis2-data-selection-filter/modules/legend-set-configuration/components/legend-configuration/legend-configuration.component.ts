@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Legend } from '../../models/legend-set';
 import { DELETE_ICON, GREATER_THAN_ICON, LESS_THAN_ICON } from '../../icons';
+import { getSanitizedLegendSet } from '../../helpers/get-sanitized-legend-set.helper';
 
 @Component({
   selector: 'app-legend-configuration',
@@ -59,16 +60,15 @@ export class LegendConfigurationComponent implements OnInit {
     const color = this.color;
     const name = this.name;
 
-    const startValue =
-      !isNaN(this.startValue) || this.startValue === Number.NEGATIVE_INFINITY
-        ? this.startValue
-        : null;
-    const endValue =
-      !isNaN(this.endValue) || this.endValue === Number.POSITIVE_INFINITY
-        ? this.endValue
-        : null;
-
-    this.legendUpdates.emit({ id, color, name, startValue, endValue });
+    this.legendUpdates.emit(
+      getSanitizedLegendSet({
+        id,
+        color,
+        name,
+        startValue: this.startValue,
+        endValue: this.endValue
+      })
+    );
   }
 
   onDeleteLegend(e) {

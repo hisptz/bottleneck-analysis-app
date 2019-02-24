@@ -136,10 +136,8 @@ export class TableItemCellComponent implements OnInit {
       (legend: Legend, legendIndex: number) => {
         const isHighestLegend = legendIndex === applicableLegends.length - 1;
         return (
-          (Number.isInteger(legend.startValue)
-            ? dataValue >= legend.startValue
-            : true) &&
-          (Number.isInteger(legend.endValue)
+          (!isNaN(legend.startValue) ? dataValue >= legend.startValue : true) &&
+          (!isNaN(legend.endValue)
             ? isHighestLegend
               ? dataValue <= legend.endValue
               : dataValue < legend.endValue
@@ -151,10 +149,7 @@ export class TableItemCellComponent implements OnInit {
     return (
       applicableLegend ||
       _.filter(legends, (legend: Legend) =>
-        legend
-          ? !Number.isInteger(legend.startValue) &&
-            !Number.isInteger(legend.endValue)
-          : false
+        legend ? isNaN(legend.startValue) && isNaN(legend.endValue) : false
       )[0]
     );
   }

@@ -190,7 +190,6 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
   }
 
   onFilterUpdate(selectedItems, selectedFilter) {
-    console.log(selectedItems);
     this.dataSelections = !_.find(this.dataSelections, [
       'dimension',
       selectedItems.dimension

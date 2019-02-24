@@ -42,8 +42,7 @@ export class LegendSetContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const legendSets: LegendSet[] = legendHelper.getLegendSetsConfiguration(
-      this.selectedItems,
-      this.legendSetEntities
+      this.selectedItems
     );
 
     this.currentLegendSet =
@@ -75,9 +74,9 @@ export class LegendSetContainerComponent implements OnInit, OnDestroy {
       startValue: 61
     };
 
-    !_.some(legends, { name: 'N/A' })
-      ? localLegends.push(defaultObj[notApplicableIndex])
-      : localLegends;
+    if (!_.some(legends, { name: 'N/A' })) {
+      localLegends.push(defaultObj[notApplicableIndex]);
+    }
     return localLegends;
   }
 
