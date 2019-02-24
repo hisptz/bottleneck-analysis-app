@@ -24,12 +24,13 @@ function getStandardizedLayout(layoutObject: any): VisualizationLayout {
       layoutObject[layoutKey],
       (layout: any) => layout.groups && layout.groups.length > 0
     )
-      ? [...layoutObject[layoutKey], { dimension: 'groups', name: 'Groups' }]
+      ? [
+          ...layoutObject[layoutKey],
+          { dimension: 'groups', name: 'Groups', shouldComeFirst: true }
+        ]
       : layoutObject[layoutKey];
 
-    newLayout[layoutKey] = _.map(layouts, layout => {
-      return { dimension: layout.dimension, name: layout.name };
-    });
+    newLayout[layoutKey] = layouts;
   });
   return newLayout;
 }

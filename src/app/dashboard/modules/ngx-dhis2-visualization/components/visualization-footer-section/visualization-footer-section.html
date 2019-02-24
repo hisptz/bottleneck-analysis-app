@@ -5,6 +5,7 @@
         [currentVisualization]="type"
         [visualizationTypesConfig]="visualizationTypesConfig"
         (visualizationTypeChange)="onVisualizationTypeChange($event)"
+        (visualizationLayoutChange)="onVisualizationLayoutChange($event)"
       ></app-visualization-types-section>
     </div>
     <div *ngIf="!hideDownloadBlock">

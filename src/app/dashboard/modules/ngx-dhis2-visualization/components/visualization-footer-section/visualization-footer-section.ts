@@ -49,6 +49,9 @@ export class VisualizationFooterSectionComponent implements OnInit {
   @Output()
   removeVisualization: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  layoutChange: EventEmitter<any> = new EventEmitter();
+
   constructor() {
     this.hideManagementBlock = this.hideTypeButtons = true;
   }
@@ -69,5 +72,9 @@ export class VisualizationFooterSectionComponent implements OnInit {
 
   onDownload(downloadFormat: string) {
     this.download.emit({ type: this.type, downloadFormat: downloadFormat });
+  }
+
+  onVisualizationLayoutChange() {
+    this.layoutChange.emit();
   }
 }
