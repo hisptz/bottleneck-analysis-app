@@ -141,7 +141,7 @@ export function transformVisualizationObject(visualizationConfig, visualizationL
   };
 }
 
-const defaultScaleKey = 'YlOrBr';
-const defaultClasses = 5;
+export const defaultScaleKey = 'YlOrBr';
+export const defaultClasses = 5;
 const isVersionGreater = Number(localStorage.getItem('version')) >= 2.28;
-const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);
+export const defaultColorScale = getColorScale(defaultScaleKey, defaultClasses);

@@ -1,18 +1,8 @@
 import { datasets } from '../constants/earthengine.constant';
-import { tileLayer } from './TileLayer';
 import { earthEngineHelper } from './earthEngine/EarthEngineHelper';
 
 export const earthEngine = options => {
-  const {
-    geofeature,
-    layerOptions,
-    displaySettings,
-    opacity,
-    id,
-    dataSelections,
-    legendProperties,
-    analyticsData
-  } = options;
+  const { layerOptions, opacity, dataSelections } = options;
 
   const { config } = dataSelections;
 
