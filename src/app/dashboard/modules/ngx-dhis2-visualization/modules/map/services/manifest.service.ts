@@ -73,7 +73,6 @@ export class ManifestService {
             observer.complete();
           },
           error => {
-            console.log(error);
             observer.next(null);
             observer.complete();
           }

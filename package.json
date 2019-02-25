@@ -74,7 +74,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
     "@angular/cli": "^7.3.2",
-    "@angular/compiler-cli": "^7.2.5",
+    "@angular/compiler-cli": "^7.2.6",
     "@angular/language-service": "^7.2.5",
     "@compodoc/compodoc": "^1.1.8",
     "@ngrx/schematics": "^7.2.0",
@@ -83,7 +83,7 @@
     "@types/jasminewd2": "^2.0.6",
     "@types/node": "~11.9.0",
     "codelyzer": "~4.5.0",
-    "commitizen": "^3.0.5",
+    "commitizen": "^3.0.7",
     "cz-conventional-changelog": "^2.1.0",
     "d2-manifest": "^1.0.0",
     "jasmine-core": "~3.3.0",

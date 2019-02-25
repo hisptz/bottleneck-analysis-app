@@ -1,5 +1,8 @@
 import * as _ from 'lodash';
-export function standardizeIncomingAnalytics(analyticsObject: any, preferNormalStructure: boolean = false) {
+export function standardizeIncomingAnalytics(
+  analyticsObject: any,
+  preferNormalStructure: boolean = false
+) {
   // if Serverside Event clustering do nothing
   if (analyticsObject.count) {
     return analyticsObject;
@@ -23,6 +26,7 @@ export function standardizeIncomingAnalytics(analyticsObject: any, preferNormalS
           const newHeader: any = header;
           sanitizedAnalyticsObject.headers.push(newHeader);
         } catch (e) {
+          // TODO: Find a way to return error to user when there is invalid analytics object
           console.warn('Invalid header object');
         }
       });
@@ -33,9 +37,13 @@ export function standardizeIncomingAnalytics(analyticsObject: any, preferNormalS
      */
     if (analyticsObject.metaData) {
       try {
-        const sanitizedMetadata: any = getSanitizedAnalyticsMetadata(analyticsObject.metaData, preferNormalStructure);
+        const sanitizedMetadata: any = getSanitizedAnalyticsMetadata(
+          analyticsObject.metaData,
+          preferNormalStructure
+        );
         sanitizedAnalyticsObject.metaData = sanitizedMetadata;
       } catch (e) {
+        // TODO: Find a way to return error to user when there is invalid metadata object
         console.warn('Invalid metadata object');
       }
     }
@@ -51,7 +59,10 @@ export function standardizeIncomingAnalytics(analyticsObject: any, preferNormalS
   return sanitizedAnalyticsObject;
 }
 
-export function getSanitizedAnalyticsMetadata(analyticMetadata: any, preferNormalStructure: boolean) {
+export function getSanitizedAnalyticsMetadata(
+  analyticMetadata: any,
+  preferNormalStructure: boolean
+) {
   let sanitizedMetadata: any = {};
 
   if (analyticMetadata) {
@@ -65,7 +76,8 @@ export function getSanitizedAnalyticsMetadata(analyticMetadata: any, preferNorma
       const metadataNames: any = {};
       if (metadataItemsKeys) {
         metadataItemsKeys.forEach(metadataItemKey => {
-          metadataNames[metadataItemKey] = analyticMetadata.items[metadataItemKey].name;
+          metadataNames[metadataItemKey] =
+            analyticMetadata.items[metadataItemKey].name;
         });
       }
       sanitizedMetadata['names'] = metadataNames;

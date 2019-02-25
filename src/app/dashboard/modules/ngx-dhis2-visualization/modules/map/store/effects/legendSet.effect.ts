@@ -1,4 +1,9 @@
-import { combineLatest as observableCombineLatest, of, Observable, forkJoin } from 'rxjs';
+import {
+  combineLatest as observableCombineLatest,
+  of,
+  Observable,
+  forkJoin
+} from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -19,38 +24,48 @@ export class LegendSetEffects {
   @Effect()
   loadLegendSets$ = this.actions$.pipe(
     ofType(legendSetAction.LOAD_LEGEND_SET),
-    switchMap((action: visualizationObjectActions.CreateVisualizationObjectSuccess) => {
-      const layers = action.payload.layers;
-      const legendSetLayers = {};
-      const legendIds = [];
-      layers.map(layer => {
-        const { dataSelections } = layer;
-        const { legendSet } = dataSelections;
-        if (legendSet) {
-          legendSetLayers[legendSet.id] = layer.id;
-          legendIds.push(legendSet.id);
-        }
-      });
-      const sources = legendIds.map(id => this.legendSetService.getMapLegendSet(id));
-      return forkJoin(sources).pipe(
-        map(lgSets => {
-          const entity = lgSets.reduce((entities, currentVal, index) => {
-            entities[legendSetLayers[currentVal['id']]] = currentVal;
-            return entities;
-          }, {});
-          const legendSets = {
-            ...action.payload.legendSets,
-            ...entity
-          };
-          const vizObject = {
-            ...action.payload,
-            legendSets
-          };
-          return new visualizationObjectActions.AddLegendVizObj(vizObject);
-        }),
-        catchError(error => of(new visualizationObjectActions.CreateVisualizationObjectFail(error)))
-      );
-    })
+    switchMap(
+      (action: visualizationObjectActions.CreateVisualizationObjectSuccess) => {
+        const layers = action.payload.layers;
+        const legendSetLayers = {};
+        const legendIds = [];
+        layers.map(layer => {
+          const { dataSelections } = layer;
+          const { legendSet } = dataSelections;
+          if (legendSet) {
+            legendSetLayers[legendSet.id] = layer.id;
+            legendIds.push(legendSet.id);
+          }
+        });
+        const sources = legendIds.map(id =>
+          this.legendSetService.getMapLegendSet(id)
+        );
+        return forkJoin(sources).pipe(
+          map(lgSets => {
+            const entity = lgSets.reduce((entities, currentVal, index) => {
+              entities[legendSetLayers[currentVal['id']]] = currentVal;
+              return entities;
+            }, {});
+            const legendSets = {
+              ...action.payload.legendSets,
+              ...entity
+            };
+            const vizObject = {
+              ...action.payload,
+              legendSets
+            };
+            return new visualizationObjectActions.AddLegendVizObj(vizObject);
+          }),
+          catchError(error =>
+            of(
+              new visualizationObjectActions.CreateVisualizationObjectFail(
+                error
+              )
+            )
+          )
+        );
+      }
+    )
   );
 
   @Effect()
@@ -69,14 +84,20 @@ export class LegendSetEffects {
   @Effect()
   addLegendSets$ = this.actions$.pipe(
     ofType(legendSetAction.ADD_LEGEND_SET),
-    map((action: legendSetAction.AddLegendSetSuccess) => new legendSetAction.AddLegendSetSuccess(action.payload)),
+    map(
+      (action: legendSetAction.AddLegendSetSuccess) =>
+        new legendSetAction.AddLegendSetSuccess(action.payload)
+    ),
     catchError(error => of(new legendSetAction.AddLegendSetFail(error)))
   );
 
   @Effect()
   updateLegendSets$ = this.actions$.pipe(
     ofType(legendSetAction.UPDATE_LEGEND_SET),
-    map((action: legendSetAction.UpdateLegendSet) => new legendSetAction.UpdateLegendSetSuccess(action.payload)),
+    map(
+      (action: legendSetAction.UpdateLegendSet) =>
+        new legendSetAction.UpdateLegendSetSuccess(action.payload)
+    ),
     catchError(error => of(new legendSetAction.UpdateLegendSetFail(error)))
   );
 
@@ -93,9 +114,7 @@ export class LegendSetEffects {
   @Effect({ dispatch: false })
   changeLayerVisibility$ = this.actions$.pipe(
     ofType(legendSetAction.CHANGE_LEGEND_SET_LAYER_VISIBILITY),
-    map((action: legendSetAction.ChangeLegendSetLayerVisibility) => {
-      console.log(action.payload);
-    }),
+    map((action: legendSetAction.ChangeLegendSetLayerVisibility) => {}),
     catchError(error => of(new legendSetAction.UpdateLegendSetFail(error)))
   );
 }
