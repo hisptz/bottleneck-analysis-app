@@ -69,10 +69,15 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (
-      simpleChanges.selectedItem &&
+      simpleChanges.selectedItems &&
       !simpleChanges.selectedItems.firstChange
     ) {
-      console.log(simpleChanges.selectedItems.currentValue);
+      const selectedItems = simpleChanges.selectedItems.currentValue;
+
+      if (selectedItems.length > 0) {
+      } else {
+        this.onRemovedAllMembers();
+      }
     }
 
     // if (simpleChanges['selectedItems']) {

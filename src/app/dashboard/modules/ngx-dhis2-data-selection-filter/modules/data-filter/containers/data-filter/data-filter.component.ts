@@ -49,9 +49,6 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     maximumItemPerGroup: number;
   };
 
-  @ViewChild(DataFilterGroupsComponent)
-  dataFilterGroupsComponent: DataFilterGroupsComponent;
-
   showGroupingPanel: boolean;
   selectedItems$: Observable<any>;
   querystring: string;
@@ -214,11 +211,6 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       e.stopPropagation();
     }
     this.selectedItems = [];
-
-    // Also remove items from groups
-    if (this.dataFilterGroupsComponent) {
-      this.dataFilterGroupsComponent.onRemovedAllMembers();
-    }
   }
 
   emit() {
