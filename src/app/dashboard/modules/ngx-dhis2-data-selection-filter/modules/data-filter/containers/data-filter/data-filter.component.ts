@@ -260,7 +260,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
         _.map(this.selectedGroups, (dataGroup: any) => {
           return _.omit(dataGroup, ['current']);
         }),
-        (dataGroup: DataGroup) => dataGroup.members.length > 0
+        (dataGroup: DataGroup) => dataGroup.name !== ''
       ),
       dimension: 'dx'
     };
