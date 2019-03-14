@@ -23,6 +23,9 @@ import { DataGroup } from 'src/app/models';
 import { DataFilterGroupsComponent } from '../../components/data-filter-groups/data-filter-groups.component';
 import { removeAllMembersFromGroups } from '../../helpers';
 import { addMembersToGroups } from '../../helpers/add-members-to-group.helper';
+import { getDataGroupBasedOnDataItem } from '../../helpers/get-data-group-based-on-data-item.helper';
+import { updateDataGroupInList } from '../../helpers/update-data-group-in-list.helper';
+import { removeMemberFromGroup } from '../../helpers/remove-member-from-group.helper';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -169,19 +172,37 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   }
 
   // Remove selected Item
-  onRemoveDataItem(dataItem: any, e?) {
+  onRemoveDataItem(dataItemDetails: { dataItem: any; group: DataGroup }, e?) {
     if (e) {
       e.stopPropagation();
     }
-    const itemIndex = this.selectedItems.indexOf(
-      _.find(this.selectedItems, ['id', dataItem.id])
-    );
+
+    const removedItem = _.find(this.selectedItems, [
+      'id',
+      dataItemDetails && dataItemDetails.dataItem
+        ? dataItemDetails.dataItem.id
+        : undefined
+    ]);
+
+    const itemIndex = this.selectedItems.indexOf(removedItem);
 
     if (itemIndex !== -1) {
       this.selectedItems = [
         ...this.selectedItems.slice(0, itemIndex),
         ...this.selectedItems.slice(itemIndex + 1)
       ];
+
+      const dataGroup =
+        dataItemDetails.group ||
+        getDataGroupBasedOnDataItem(this.selectedGroups, removedItem);
+
+      if (dataGroup) {
+        // Also remove item from the group
+        this.selectedGroups = updateDataGroupInList(
+          this.selectedGroups,
+          removeMemberFromGroup(dataGroup, removedItem)
+        );
+      }
     }
   }
 

@@ -97,13 +97,7 @@ export class DataFilterGroupsComponent implements OnInit, OnDestroy {
 
   onRemoveMember(dataGroup: DataGroup, member: any, e) {
     e.stopPropagation();
-    this.dataGroups = updateDataGroupInList(
-      this.dataGroups,
-      removeMemberFromGroup(dataGroup, member)
-    );
-    this.emitDataGroups();
-
-    this.removeMember.emit(member);
+    this.removeMember.emit({ dataItem: member, group: dataGroup });
   }
 
   onRemovedAllMembers() {
