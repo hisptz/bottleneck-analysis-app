@@ -22,6 +22,7 @@ import { DataFilterPreference } from '../../model/data-filter-preference.model';
 import { DataGroup } from 'src/app/models';
 import { DataFilterGroupsComponent } from '../../components/data-filter-groups/data-filter-groups.component';
 import { removeAllMembersFromGroups } from '../../helpers';
+import { addMembersToGroups } from '../../helpers/add-members-to-group.helper';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -156,6 +157,14 @@ export class DataFilterComponent implements OnInit, OnDestroy {
                 this.dataGroupPreferences.maximumNumberOfGroups
             )
           : [...this.selectedItems, item];
+
+      // Also add members into groups
+      this.selectedGroups = addMembersToGroups(
+        this.selectedGroups,
+        this.selectedGroupId,
+        this.selectedItems,
+        this.dataGroupPreferences
+      );
     }
   }
 
@@ -203,6 +212,13 @@ export class DataFilterComponent implements OnInit, OnDestroy {
                   this.dataGroupPreferences.maximumNumberOfGroups
               )
             : newSelectedItems;
+
+        this.selectedGroups = addMembersToGroups(
+          this.selectedGroups,
+          this.selectedGroupId,
+          this.selectedItems,
+          this.dataGroupPreferences
+        );
       });
   }
 

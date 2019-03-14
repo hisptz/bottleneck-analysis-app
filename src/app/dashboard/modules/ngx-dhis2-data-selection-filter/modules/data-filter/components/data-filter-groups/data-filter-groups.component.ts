@@ -26,7 +26,7 @@ import { removeAllMembersFromGroups } from '../../helpers';
   templateUrl: './data-filter-groups.component.html',
   styleUrls: ['./data-filter-groups.component.css']
 })
-export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
+export class DataFilterGroupsComponent implements OnInit, OnDestroy {
   @Input()
   dataGroups: any[];
   @Input()
@@ -69,19 +69,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     return _.find(this.dataGroups || [], ['id', this.selectedGroupId]);
   }
 
-  ngOnChanges(simpleChanges: SimpleChanges) {
-    if (
-      simpleChanges.selectedItems &&
-      !simpleChanges.selectedItems.firstChange
-    ) {
-      const selectedItems = simpleChanges.selectedItems.currentValue;
-
-      if (selectedItems.length > 0) {
-        this.onAddMembers(selectedItems);
-      }
-    }
-  }
-
   ngOnInit() {
     if (!this.selectedGroupId && this.dataGroups[0]) {
       this.selectedGroupId = this.dataGroups[0].id;
@@ -106,16 +93,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this.selectedGroupIdUpdate.emit(this.selectedGroupId);
-  }
-
-  onAddMembers(members: any[]) {
-    this.dataGroups = addMembersToGroups(
-      this.dataGroups,
-      this.selectedGroupId,
-      members,
-      this.dataGroupPreferences
-    );
-    this.emitDataGroups();
   }
 
   onRemoveMember(dataGroup: DataGroup, member: any, e) {
