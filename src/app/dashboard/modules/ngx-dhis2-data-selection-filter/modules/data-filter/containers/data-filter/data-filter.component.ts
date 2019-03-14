@@ -172,7 +172,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   }
 
   // Remove selected Item
-  onRemoveDataItem(dataItemDetails: { dataItem: any; group: DataGroup }, e?) {
+  onRemoveDataItem(dataItemDetails: { dataItem: any; group?: DataGroup }, e?) {
     if (e) {
       e.stopPropagation();
     }

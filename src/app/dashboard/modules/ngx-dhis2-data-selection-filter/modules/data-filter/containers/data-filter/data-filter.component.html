@@ -199,7 +199,9 @@
           "
           title="click to unselect item"
         >
-          <a (click)="onRemoveDataItem(item, $event)"> {{ item.name }} </a>
+          <a (click)="onRemoveDataItem({ dataItem: item }, $event)">
+            {{ item.name }}
+          </a>
         </li>
         <li *ngIf="selectedItems.length > 100">
           <pagination-controls
