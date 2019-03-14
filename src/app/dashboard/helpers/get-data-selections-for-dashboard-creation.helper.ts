@@ -14,11 +14,11 @@ export function getDataSelectionsForDashboardCreation(
   defaultDataGroups: DataGroup[],
   systemInfo: SystemInfo,
   currentUser: User,
-  dashboardPreferences?: { startWithDynamicOrgUnits: boolean }
-): VisualizationDataSelection[] {
-  const orgUnits = getDefaultOrgUnits(currentUser, {
+  dashboardPreferences: { startWithDynamicOrgUnits: boolean } = {
     startWithDynamicOrgUnits: true
-  });
+  }
+): VisualizationDataSelection[] {
+  const orgUnits = getDefaultOrgUnits(currentUser, dashboardPreferences);
 
   const dataSelections = getMergedGlobalDataSelectionsFromVisualizationLayers(
     _map(dashboardItems, (dashboardItem: any) => {

@@ -1,55 +1,54 @@
-import {
-  each as _each,
-  filter as _filter,
-  find as _find,
-  map as _map,
-  slice as _slice,
-  some as _some,
-  uniqBy as _uniqBy
-} from 'lodash';
+import * as _ from 'lodash';
 
 import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
+import { getUniqueDataSelectionItems } from './get-unique-data-selection-items.helper';
+import { generateUid } from 'src/app/helpers';
+import { DataGroup } from 'src/app/models';
 
 export function getMergedGlobalDataSelectionsFromVisualizationLayers(
   dataSelectionsArray: Array<VisualizationDataSelection[]>
 ) {
   let mergedDataSelections = [];
 
-  _each(dataSelectionsArray, (dataSelections: VisualizationDataSelection[]) => {
-    _each(dataSelections, (dataSelection: VisualizationDataSelection) => {
-      const availableDataSelection = _find(mergedDataSelections, [
-        'dimension',
-        dataSelection.dimension
-      ]);
+  _.each(
+    dataSelectionsArray,
+    (dataSelections: VisualizationDataSelection[]) => {
+      _.each(dataSelections, (dataSelection: VisualizationDataSelection) => {
+        const availableDataSelection = _.find(mergedDataSelections, [
+          'dimension',
+          dataSelection.dimension
+        ]);
 
-      if (availableDataSelection) {
-        const availableDataSelectionIndex = mergedDataSelections.indexOf(
-          availableDataSelection
-        );
-        mergedDataSelections = [
-          ..._slice(mergedDataSelections, 0, availableDataSelectionIndex),
-          {
-            ...availableDataSelection,
-            ...dataSelection,
-            items: _uniqBy(
-              [...availableDataSelection.items, ...dataSelection.items],
-              'id'
-            )
-          },
-          ..._slice(mergedDataSelections, availableDataSelectionIndex + 1)
-        ];
-      } else {
-        mergedDataSelections = [...mergedDataSelections, dataSelection];
-      }
-    });
-  });
+        if (availableDataSelection) {
+          const availableDataSelectionIndex = mergedDataSelections.indexOf(
+            availableDataSelection
+          );
 
-  return _map(
+          mergedDataSelections = [
+            ..._.slice(mergedDataSelections, 0, availableDataSelectionIndex),
+            {
+              ...availableDataSelection,
+              ...dataSelection,
+              items: getUniqueDataSelectionItems([
+                ...availableDataSelection.items,
+                ...dataSelection.items
+              ])
+            },
+            ..._.slice(mergedDataSelections, availableDataSelectionIndex + 1)
+          ];
+        } else {
+          mergedDataSelections = [...mergedDataSelections, dataSelection];
+        }
+      });
+    }
+  );
+
+  return _.map(
     mergedDataSelections,
     (dataSelection: VisualizationDataSelection) => {
       switch (dataSelection.dimension) {
         case 'ou':
-          const OuItemsContainUserOrgUnits = _some(
+          const OuItemsContainUserOrgUnits = _.some(
             dataSelection.items,
             (item: any) => item.id.indexOf('USER') !== -1
           );
@@ -57,10 +56,49 @@ export function getMergedGlobalDataSelectionsFromVisualizationLayers(
           return {
             ...dataSelection,
             items: OuItemsContainUserOrgUnits
-              ? _filter(dataSelection.items, (item: any) => {
+              ? _.filter(dataSelection.items, (item: any) => {
                   return item.id !== 'USER_ORGUNIT';
                 })
               : dataSelection.items
+          };
+        case 'dx':
+          const dataSelectionItems = _.map(
+            dataSelection.items || [],
+            (dataSelectionItem: any) => {
+              return {
+                ...dataSelectionItem,
+                id: dataSelectionItem.id || generateUid()
+              };
+            }
+          );
+          return {
+            ...dataSelection,
+            items: dataSelectionItems,
+            groups: _.map(
+              dataSelection.groups || [],
+              (dataSelectionGroup: DataGroup) => {
+                return {
+                  ...dataSelectionGroup,
+                  id: dataSelectionGroup.id || generateUid(),
+                  members: _.map(
+                    dataSelectionGroup.members || [],
+                    (groupMember: any) => {
+                      const correspondingMember = _.find(dataSelectionItems, [
+                        'name',
+                        groupMember.name
+                      ]);
+                      return {
+                        ...groupMember,
+                        id:
+                          groupMember.id || correspondingMember
+                            ? correspondingMember.id
+                            : generateUid()
+                      };
+                    }
+                  )
+                };
+              }
+            )
           };
         default:
           return dataSelection;
