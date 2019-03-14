@@ -4,28 +4,25 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output,
-  ViewChild
+  Output
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-
+import { DataGroup } from 'src/app/models';
 import * as fromHelpers from '../../helpers';
+import { removeAllMembersFromGroups } from '../../helpers';
+import { addMembersToGroups } from '../../helpers/add-members-to-group.helper';
+import { getDataGroupBasedOnDataItem } from '../../helpers/get-data-group-based-on-data-item.helper';
+import { removeMemberFromGroup } from '../../helpers/remove-member-from-group.helper';
+import { updateDataGroupInList } from '../../helpers/update-data-group-in-list.helper';
 import { ARROW_LEFT_ICON, ARROW_RIGHT_ICON, LIST_ICON } from '../../icons';
+import { DataFilterPreference } from '../../model/data-filter-preference.model';
 import * as fromModels from '../../models';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
-import { DataFilterPreference } from '../../model/data-filter-preference.model';
-import { DataGroup } from 'src/app/models';
-import { DataFilterGroupsComponent } from '../../components/data-filter-groups/data-filter-groups.component';
-import { removeAllMembersFromGroups } from '../../helpers';
-import { addMembersToGroups } from '../../helpers/add-members-to-group.helper';
-import { getDataGroupBasedOnDataItem } from '../../helpers/get-data-group-based-on-data-item.helper';
-import { updateDataGroupInList } from '../../helpers/update-data-group-in-list.helper';
-import { removeMemberFromGroup } from '../../helpers/remove-member-from-group.helper';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -52,6 +49,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   dataGroupPreferences: {
     maximumNumberOfGroups: number;
     maximumItemPerGroup: number;
+    ignoreMaximumRestrictions: boolean;
   };
 
   showGroupingPanel: boolean;
@@ -87,7 +85,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     // Set default data group preferences
     this.dataGroupPreferences = {
       maximumNumberOfGroups: 6,
-      maximumItemPerGroup: 3
+      maximumItemPerGroup: 3,
+      ignoreMaximumRestrictions: false
     };
     // Load data filter items
     dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
