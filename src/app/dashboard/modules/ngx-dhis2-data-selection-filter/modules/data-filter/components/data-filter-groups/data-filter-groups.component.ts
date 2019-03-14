@@ -68,6 +68,13 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
+    if (
+      simpleChanges.selectedItem &&
+      !simpleChanges.selectedItems.firstChange
+    ) {
+      console.log(simpleChanges.selectedItems.currentValue);
+    }
+
     // if (simpleChanges['selectedItems']) {
     //   if (this.dataGroups.length === 1) {
     //     this.dataGroups = _.map(this.dataGroups, dataGroup => {
@@ -196,6 +203,15 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.removeMember.emit(member);
   }
 
+  onRemovedAllMembers() {
+    this.dataGroups = _.map(this.dataGroups || [], (dataGroup: DataGroup) => {
+      return {
+        ...dataGroup,
+        members: []
+      };
+    });
+  }
+
   onDeleteGroup(group: any, e) {
     e.stopPropagation();
     // remove group members
@@ -234,13 +250,12 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   emitDataGroups() {
-    // TODO FIND BEST WAY TO REMOVE DATA GROUPS WITHOUT MEMBERS AND WITH EMPTY NAMES
     let membersToRemove = [];
-    const filterDataGroups = _.filter(this.dataGroups, (dataGroup: any) => {
+    this.dataGroups = _.filter(this.dataGroups, (dataGroup: any) => {
       if (dataGroup.name === '') {
         membersToRemove = [...membersToRemove, ...dataGroup.members];
       }
-      return dataGroup.name !== '' && dataGroup.members.length > 0;
+      return dataGroup.name !== '';
     });
 
     // Also remove members for the removed groups

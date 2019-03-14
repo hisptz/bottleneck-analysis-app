@@ -4,7 +4,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output
+  Output,
+  ViewChild
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
@@ -19,6 +20,7 @@ import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
 import { DataFilterPreference } from '../../model/data-filter-preference.model';
 import { DataGroup } from 'src/app/models';
+import { DataFilterGroupsComponent } from '../../components/data-filter-groups/data-filter-groups.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -46,6 +48,9 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     maximumNumberOfGroups: number;
     maximumItemPerGroup: number;
   };
+
+  @ViewChild(DataFilterGroupsComponent)
+  dataFilterGroupsComponent: DataFilterGroupsComponent;
 
   showGroupingPanel: boolean;
   selectedItems$: Observable<any>;
@@ -209,6 +214,11 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       e.stopPropagation();
     }
     this.selectedItems = [];
+
+    // Also remove items from groups
+    if (this.dataFilterGroupsComponent) {
+      this.dataFilterGroupsComponent.onRemovedAllMembers();
+    }
   }
 
   emit() {
