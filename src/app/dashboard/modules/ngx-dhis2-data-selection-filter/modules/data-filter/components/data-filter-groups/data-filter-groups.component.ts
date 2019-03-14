@@ -17,6 +17,7 @@ import { DataGroup } from 'src/app/models';
 import { updateDataGroupInList } from '../../helpers/update-data-group-in-list.helper';
 import { addDefaultDataGroupInList } from '../../helpers/add-default-data-group-in-list.helper';
 import { removeGroupFromList } from '../../helpers/remove-group-from-list.helper';
+import { addMembersToGroups } from '../../helpers/add-members-to-group.helper';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -75,102 +76,11 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
       const selectedItems = simpleChanges.selectedItems.currentValue;
 
       if (selectedItems.length > 0) {
+        this.onAddMembers(selectedItems);
       } else {
         this.onRemovedAllMembers();
       }
     }
-
-    // if (simpleChanges['selectedItems']) {
-    //   if (this.dataGroups.length === 1) {
-    //     this.dataGroups = _.map(this.dataGroups, dataGroup => {
-    //       return {
-    //         ...dataGroup,
-    //         members: _.slice(
-    //           _.map(this.selectedItems, selectedItem => {
-    //             return {
-    //               id: selectedItem.id,
-    //               name: selectedItem.name
-    //             };
-    //           }),
-    //           0,
-    //           this.dataGroupPreferences.maximumItemPerGroup
-    //         )
-    //       };
-    //     });
-    //   } else {
-    //     let alreadySelectedItems = [];
-    //     let additionalSelectedItems = [];
-    //     this.dataGroups = _.map(
-    //       _.map(this.dataGroups, dataGroup => {
-    //         return {
-    //           ...dataGroup,
-    //           members:
-    //             dataGroup.id !== this.selectedGroupId &&
-    //             dataGroup.members.length > 0
-    //               ? _.filter(dataGroup.members, member => {
-    //                   const availableMember = _.find(this.selectedItems, [
-    //                     'id',
-    //                     member.id
-    //                   ]);
-    //                   // save already selected item for future use
-    //                   alreadySelectedItems = availableMember
-    //                     ? [...alreadySelectedItems, availableMember]
-    //                     : alreadySelectedItems;
-    //                   return availableMember;
-    //                 })
-    //               : dataGroup.members
-    //         };
-    //       }),
-    //       newDataGroup => {
-    //         const selectedGroupMembers =
-    //           newDataGroup.id === this.selectedGroupId
-    //             ? _.filter(
-    //                 this.selectedItems,
-    //                 selectedItem =>
-    //                   !_.find(alreadySelectedItems, ['id', selectedItem.id])
-    //               )
-    //             : [];
-    //         additionalSelectedItems = _.uniqBy(
-    //           [
-    //             ...additionalSelectedItems,
-    //             ..._.slice(
-    //               selectedGroupMembers,
-    //               this.dataGroupPreferences.maximumItemPerGroup
-    //             )
-    //           ],
-    //           'id'
-    //         );
-    //         const unSelectedGroupMembers =
-    //           newDataGroup.id !== this.selectedGroupId
-    //             ? [...newDataGroup.members, ...additionalSelectedItems]
-    //             : [];
-    //         if (unSelectedGroupMembers.length > 0) {
-    //           additionalSelectedItems = _.slice(
-    //             unSelectedGroupMembers,
-    //             this.dataGroupPreferences.maximumItemPerGroup
-    //           );
-    //         }
-    //         const newMembers =
-    //           newDataGroup.id === this.selectedGroupId
-    //             ? _.slice(
-    //                 selectedGroupMembers,
-    //                 0,
-    //                 this.dataGroupPreferences.maximumItemPerGroup
-    //               )
-    //             : _.slice(
-    //                 unSelectedGroupMembers,
-    //                 0,
-    //                 this.dataGroupPreferences.maximumItemPerGroup
-    //               );
-    //         return {
-    //           ...newDataGroup,
-    //           members: newMembers
-    //         };
-    //       }
-    //     );
-    //   }
-    //   this.emitDataGroups();
-    // }
   }
 
   ngOnInit() {
@@ -199,12 +109,24 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedGroupIdUpdate.emit(this.selectedGroupId);
   }
 
+  onAddMembers(members: any[]) {
+    this.dataGroups = addMembersToGroups(
+      this.dataGroups,
+      this.selectedGroupId,
+      members,
+      this.dataGroupPreferences
+    );
+    this.emitDataGroups();
+  }
+
   onRemoveMember(dataGroup: DataGroup, member: any, e) {
+    e.stopPropagation();
     this.dataGroups = updateDataGroupInList(
       this.dataGroups,
       removeMemberFromGroup(dataGroup, member)
     );
-    e.stopPropagation();
+    this.emitDataGroups();
+
     this.removeMember.emit(member);
   }
 
@@ -271,18 +193,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onUpdateDataGroup(dataGroup: any) {
-    const dataGroupIndex = this.dataGroups.indexOf(
-      _.find(this.dataGroups, ['id', dataGroup.id])
-    );
-
-    if (dataGroupIndex !== -1) {
-      this.dataGroups = [
-        ..._.slice(this.dataGroups, 0, dataGroupIndex),
-        dataGroup,
-        ..._.slice(this.dataGroups, dataGroupIndex + 1)
-      ];
-    }
-
+    this.dataGroups = updateDataGroupInList(this.dataGroups, dataGroup);
     this.emitDataGroups();
   }
 
