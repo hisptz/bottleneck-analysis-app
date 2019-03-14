@@ -4,3 +4,5 @@ export * from './get-standardized-indicator-groups.helper';
 export * from './get-standardized-indicators.helper';
 export * from './filter-by-name.helper';
 export * from './get-data-filter-selections-based-on-preferences.helper';
+export * from './remove-all-members-from-groups.helper';
+export * from './remove-group-from-list.helper';

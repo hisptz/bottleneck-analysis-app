@@ -97,7 +97,7 @@
 
     <div
       class="data-filter-available-header {{
-        dataFilterPreferences.hideSelectedPanel ? 'data-filter-full-width' : ''
+        showGroupingPanel ? 'data-filter-full-width' : ''
       }}"
     >
       <span
@@ -112,17 +112,14 @@
       >
       <a (click)="onSelectAllItems($event)">&raquo;</a>
     </div>
-    <div
-      *ngIf="!dataFilterPreferences.hideSelectedPanel"
-      class="data-filter-selected-header "
-    >
+    <div *ngIf="!showGroupingPanel" class="data-filter-selected-header ">
       <a (click)="onDeselectAllItems($event)">&laquo;</a>
       <span>Selected ({{ selectedItems.length }})</span>
     </div>
 
     <div
       class="data-filter-available-body {{
-        dataFilterPreferences.hideSelectedPanel ? 'data-filter-full-width' : ''
+        showGroupingPanel ? 'data-filter-full-width' : ''
       }}"
       [ngStyle]="{ height: showGroupingPanel ? '350px' : '150px' }"
     >
@@ -185,7 +182,7 @@
     </div>
 
     <div
-      *ngIf="!dataFilterPreferences.hideSelectedPanel"
+      *ngIf="!showGroupingPanel"
       class="data-filter-selected-body"
       [ngStyle]="{ height: showGroupingPanel ? '350px' : '150px' }"
     >
@@ -202,7 +199,9 @@
           "
           title="click to unselect item"
         >
-          <a (click)="onRemoveDataItem(item, $event)"> {{ item.name }} </a>
+          <a (click)="onRemoveDataItem({ dataItem: item }, $event)">
+            {{ item.name }}
+          </a>
         </li>
         <li *ngIf="selectedItems.length > 100">
           <pagination-controls

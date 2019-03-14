@@ -10,15 +10,19 @@ import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-
+import { DataGroup } from 'src/app/models';
 import * as fromHelpers from '../../helpers';
+import { removeAllMembersFromGroups } from '../../helpers';
+import { addMembersToGroups } from '../../helpers/add-members-to-group.helper';
+import { getDataGroupBasedOnDataItem } from '../../helpers/get-data-group-based-on-data-item.helper';
+import { removeMemberFromGroup } from '../../helpers/remove-member-from-group.helper';
+import { updateDataGroupInList } from '../../helpers/update-data-group-in-list.helper';
 import { ARROW_LEFT_ICON, ARROW_RIGHT_ICON, LIST_ICON } from '../../icons';
+import { DataFilterPreference } from '../../model/data-filter-preference.model';
 import * as fromModels from '../../models';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
-import { DataFilterPreference } from '../../model/data-filter-preference.model';
-import { DataGroup } from 'src/app/models';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -45,6 +49,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   dataGroupPreferences: {
     maximumNumberOfGroups: number;
     maximumItemPerGroup: number;
+    ignoreMaximumRestrictions: boolean;
   };
 
   showGroupingPanel: boolean;
@@ -80,7 +85,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     // Set default data group preferences
     this.dataGroupPreferences = {
       maximumNumberOfGroups: 6,
-      maximumItemPerGroup: 3
+      maximumItemPerGroup: 3,
+      ignoreMaximumRestrictions: false
     };
     // Load data filter items
     dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
@@ -153,23 +159,49 @@ export class DataFilterComponent implements OnInit, OnDestroy {
                 this.dataGroupPreferences.maximumNumberOfGroups
             )
           : [...this.selectedItems, item];
+
+      // Also add members into groups
+      this.selectedGroups = addMembersToGroups(
+        this.selectedGroups,
+        this.selectedGroupId,
+        this.selectedItems,
+        this.dataGroupPreferences
+      );
     }
   }
 
   // Remove selected Item
-  onRemoveDataItem(dataItem: any, e?) {
+  onRemoveDataItem(dataItemDetails: { dataItem: any; group?: DataGroup }, e?) {
     if (e) {
       e.stopPropagation();
     }
-    const itemIndex = this.selectedItems.indexOf(
-      _.find(this.selectedItems, ['id', dataItem.id])
-    );
+
+    const removedItem = _.find(this.selectedItems, [
+      'id',
+      dataItemDetails && dataItemDetails.dataItem
+        ? dataItemDetails.dataItem.id
+        : undefined
+    ]);
+
+    const itemIndex = this.selectedItems.indexOf(removedItem);
 
     if (itemIndex !== -1) {
       this.selectedItems = [
         ...this.selectedItems.slice(0, itemIndex),
         ...this.selectedItems.slice(itemIndex + 1)
       ];
+
+      const dataGroup =
+        dataItemDetails.group ||
+        getDataGroupBasedOnDataItem(this.selectedGroups, removedItem);
+
+      if (dataGroup) {
+        // Also remove item from the group
+        this.selectedGroups = updateDataGroupInList(
+          this.selectedGroups,
+          removeMemberFromGroup(dataGroup, removedItem)
+        );
+      }
     }
   }
 
@@ -200,6 +232,13 @@ export class DataFilterComponent implements OnInit, OnDestroy {
                   this.dataGroupPreferences.maximumNumberOfGroups
               )
             : newSelectedItems;
+
+        this.selectedGroups = addMembersToGroups(
+          this.selectedGroups,
+          this.selectedGroupId,
+          this.selectedItems,
+          this.dataGroupPreferences
+        );
       });
   }
 
@@ -209,6 +248,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       e.stopPropagation();
     }
     this.selectedItems = [];
+
+    this.selectedGroups = removeAllMembersFromGroups(this.selectedGroups);
   }
 
   emit() {
@@ -218,7 +259,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
         _.map(this.selectedGroups, (dataGroup: any) => {
           return _.omit(dataGroup, ['current']);
         }),
-        (dataGroup: DataGroup) => dataGroup.members.length > 0
+        (dataGroup: DataGroup) => dataGroup.name !== ''
       ),
       dimension: 'dx'
     };
