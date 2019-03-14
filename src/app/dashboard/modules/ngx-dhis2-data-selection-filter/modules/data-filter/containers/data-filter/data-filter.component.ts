@@ -21,6 +21,7 @@ import * as fromDataFilterSelectors from '../../store/selectors/data-filter.sele
 import { DataFilterPreference } from '../../model/data-filter-preference.model';
 import { DataGroup } from 'src/app/models';
 import { DataFilterGroupsComponent } from '../../components/data-filter-groups/data-filter-groups.component';
+import { removeAllMembersFromGroups } from '../../helpers';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -211,6 +212,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       e.stopPropagation();
     }
     this.selectedItems = [];
+
+    this.selectedGroups = removeAllMembersFromGroups(this.selectedGroups);
   }
 
   emit() {

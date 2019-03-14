@@ -18,6 +18,7 @@ import { updateDataGroupInList } from '../../helpers/update-data-group-in-list.h
 import { addDefaultDataGroupInList } from '../../helpers/add-default-data-group-in-list.helper';
 import { removeGroupFromList } from '../../helpers/remove-group-from-list.helper';
 import { addMembersToGroups } from '../../helpers/add-members-to-group.helper';
+import { removeAllMembersFromGroups } from '../../helpers';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -77,8 +78,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
 
       if (selectedItems.length > 0) {
         this.onAddMembers(selectedItems);
-      } else {
-        this.onRemovedAllMembers();
       }
     }
   }
@@ -131,12 +130,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onRemovedAllMembers() {
-    this.dataGroups = _.map(this.dataGroups || [], (dataGroup: DataGroup) => {
-      return {
-        ...dataGroup,
-        members: []
-      };
-    });
+    this.dataGroups = removeAllMembersFromGroups(this.dataGroups);
   }
 
   onDeleteGroup(group: any, e) {
