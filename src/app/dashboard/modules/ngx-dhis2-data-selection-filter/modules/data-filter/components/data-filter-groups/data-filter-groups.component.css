@@ -130,11 +130,7 @@
   border: solid thin #eeeeee;
   border-radius: 3px;
   margin-bottom: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   background-color: #ffffff;
-  cursor: pointer;
 }
 
 .data-filter-group__item-member-item-title {

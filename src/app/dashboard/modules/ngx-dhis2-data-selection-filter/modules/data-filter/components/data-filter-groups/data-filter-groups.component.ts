@@ -45,6 +45,9 @@ export class DataFilterGroupsComponent implements OnInit, OnDestroy {
   removeMember: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
+  updateMember: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
   updateSelectedItems: EventEmitter<any[]> = new EventEmitter<any[]>();
   // icons
   dragIcon: string;
@@ -91,9 +94,12 @@ export class DataFilterGroupsComponent implements OnInit, OnDestroy {
     this.selectedGroupIdUpdate.emit(this.selectedGroupId);
   }
 
-  onRemoveMember(dataGroup: DataGroup, member: any, e) {
-    e.stopPropagation();
-    this.removeMember.emit({ dataItem: member, group: dataGroup });
+  onUpdateMember(member: any) {
+    this.updateMember.emit(member);
+  }
+
+  onRemoveMember(memberDetails: { dataItem: any; group: DataGroup }) {
+    this.removeMember.emit(memberDetails);
   }
 
   onRemovedAllMembers() {

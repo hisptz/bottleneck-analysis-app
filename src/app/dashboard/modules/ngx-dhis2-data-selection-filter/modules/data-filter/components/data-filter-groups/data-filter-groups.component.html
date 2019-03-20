@@ -81,16 +81,12 @@
               class="data-filter-group__item-member-item"
               *ngFor="let member of group.members"
             >
-              <div class="data-filter-group__item-member-item-title">
-                {{ member.name }}
-              </div>
-              <button
-                (click)="onRemoveMember(group, member, $event)"
-                title="Remove item from group"
-                class="btn btn-sm text-danger data-group-delete-btn"
-              >
-                <i class="icon-trash-empty"></i>
-              </button>
+              <app-data-filter-group-member
+                [groupMember]="member"
+                [dataGroup]="group"
+                (removeMember)="onRemoveMember($event)"
+                (updateMember)="onUpdateMember($event)"
+              ></app-data-filter-group-member>
             </div>
           </div>
         </div>
