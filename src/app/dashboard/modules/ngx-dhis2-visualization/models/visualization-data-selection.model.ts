@@ -1,4 +1,5 @@
 import { DataGroup } from 'src/app/models';
+import { VisualizationDataSelectionItem } from './visualization-data-selection-item.model';
 
 export interface VisualizationDataSelection {
   dimension: string;
@@ -7,10 +8,6 @@ export interface VisualizationDataSelection {
   filter?: string;
   optionSet?: any;
   legendSet?: string;
-  items: Array<{
-    id: string;
-    name: string;
-    type?: string;
-  }>;
+  items: VisualizationDataSelectionItem[];
   groups?: DataGroup[];
 }
