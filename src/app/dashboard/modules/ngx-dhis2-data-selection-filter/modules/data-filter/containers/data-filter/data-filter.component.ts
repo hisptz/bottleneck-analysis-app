@@ -170,6 +170,20 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     }
   }
 
+  onUpdateDataItem(dataItem: any) {
+    const dataItemIndex = this.selectedItems.indexOf(
+      _.find(this.selectedItems, ['id', dataItem ? dataItem.id : ''])
+    );
+
+    if (dataItemIndex !== -1) {
+      this.selectedItems = [
+        ..._.slice(this.selectedItems, 0, dataItemIndex),
+        dataItem,
+        ..._.slice(this.selectedItems, dataItemIndex + 1)
+      ];
+    }
+  }
+
   // Remove selected Item
   onRemoveDataItem(dataItemDetails: { dataItem: any; group?: DataGroup }, e?) {
     if (e) {

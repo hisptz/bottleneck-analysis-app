@@ -15,13 +15,27 @@ export class DataFilterGroupMemberComponent implements OnInit {
 
   @Output()
   removeMember: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  updateMember: EventEmitter<any> = new EventEmitter<any>();
+
+  isFormOpen: boolean;
   constructor() {}
 
   ngOnInit() {}
 
   onRemoveMember(dataGroup: DataGroup, member: any, e) {
-    console.log('here');
     e.stopPropagation();
     this.removeMember.emit({ dataItem: member, group: dataGroup });
+  }
+
+  onToggleForm(e) {
+    e.stopPropagation();
+    this.isFormOpen = !this.isFormOpen;
+  }
+
+  onInputChange(e) {
+    e.stopPropagation();
+    this.updateMember.emit(this.groupMember);
   }
 }
