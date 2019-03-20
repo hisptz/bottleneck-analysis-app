@@ -6,6 +6,7 @@ import { getChartSeriesWithAxisOptions } from './get-chart-series-with-axis-opti
 import { getChartYAxisOptions } from './get-chart-y-axis-options.helper';
 import { getChartXAxisOptions } from './get-chart-x-axis-options.helper';
 import { getSanitizedChartXAxisCategories } from './get-sanitized-chart-x-axis-categories.helper';
+import { getXAxisItemsFromChartConfiguration } from './get-x-axis-items-from-chart-configuration.helper';
 
 export function getOtherChartObject(
   initialChartObject: any,
@@ -47,11 +48,13 @@ export function getOtherChartObject(
     color => color
   );
 
+  const xAxisItems = getXAxisItemsFromChartConfiguration(chartConfiguration);
+
   return {
     ...initialChartObject,
     yAxis: getChartYAxisOptions(chartConfiguration),
     xAxis: getChartXAxisOptions(
-      getSanitizedChartXAxisCategories(seriesWithAxisOptions),
+      getSanitizedChartXAxisCategories(seriesWithAxisOptions, xAxisItems),
       chartConfiguration.type
     ),
     colors: newColors.length > 0 ? newColors : initialChartObject.colors,

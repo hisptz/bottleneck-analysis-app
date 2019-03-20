@@ -1,5 +1,9 @@
 import * as _ from 'lodash';
-export function getSanitizedChartXAxisCategories(series: any[]) {
+export function getSanitizedChartXAxisCategories(
+  series: any[],
+  xAxisItems: any
+) {
+  const reversedXAxisItems = _.reverse(xAxisItems || []);
   let newCategories: any[] = [];
   if (series) {
     const seriesDataObjects = _.map(
@@ -16,7 +20,16 @@ export function getSanitizedChartXAxisCategories(series: any[]) {
             const reversedNameArray = _.reverse(nameArray);
             _.times(nameArray.length, (num: number) => {
               if (num === 0) {
-                newCategoryArray.push({ name: reversedNameArray[num] });
+                const parentCategoryItem = _.find(
+                  reversedXAxisItems[num] || [],
+                  ['name', reversedNameArray[num]]
+                );
+                newCategoryArray.push({
+                  name:
+                    parentCategoryItem && parentCategoryItem.label
+                      ? parentCategoryItem.label
+                      : reversedNameArray[num]
+                });
               } else {
                 const parentCategory: any = _.find(newCategoryArray, [
                   'name',
@@ -31,9 +44,16 @@ export function getSanitizedChartXAxisCategories(series: any[]) {
                   let newChildrenCategories: any[] = parentCategory.categories
                     ? parentCategory.categories
                     : [];
+                  const childrenCategoryItem = _.find(
+                    reversedXAxisItems[num] || [],
+                    ['name', reversedNameArray[num]]
+                  );
+
                   newChildrenCategories = _.concat(
                     newChildrenCategories,
-                    reversedNameArray[num]
+                    childrenCategoryItem && childrenCategoryItem.label
+                      ? childrenCategoryItem.label
+                      : reversedNameArray[num]
                   );
                   parentCategory.categories = _.assign(
                     [],
