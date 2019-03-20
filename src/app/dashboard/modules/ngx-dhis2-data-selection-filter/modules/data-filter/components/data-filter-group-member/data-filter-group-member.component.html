@@ -1,0 +1,20 @@
+<div class="data-filter-group-member">
+  <div class="data-filter-group__item-member-item-title btn btn-sm">
+    {{ groupMember?.name }}
+  </div>
+  <div class="data-filter-group-member-actions">
+    <button
+      title="Remove item from group"
+      class="btn btn-sm data-group-delete-btn"
+    >
+      <i class="icon-pencil"></i>
+    </button>
+    <button
+      (click)="onRemoveMember(group, groupMember, $event)"
+      title="Remove item from group"
+      class="btn btn-sm text-danger data-group-delete-btn"
+    >
+      <i class="icon-trash-empty"></i>
+    </button>
+  </div>
+</div>
