@@ -61,6 +61,7 @@ export class ChartItemComponent implements OnInit {
         analyticsObject,
         chartConfiguration
       );
+
       if (chartObject) {
         setTimeout(() => {
           this.chart = Highcharts.chart(chartObject);

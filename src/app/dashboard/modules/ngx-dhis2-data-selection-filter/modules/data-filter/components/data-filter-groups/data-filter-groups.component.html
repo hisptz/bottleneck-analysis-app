@@ -1,46 +1,92 @@
 <div class="data-filter-group">
   <div class="data-filter-group-header">
     <div class="data-filter-group-header__title">Data Dimension Groups</div>
-    <div class="data-filter-group-header__description">Create your prefered groups for your selected data dimensions</div>
+    <div class="data-filter-group-header__description">
+      Create your prefered groups for your selected data dimensions
+    </div>
   </div>
 
-  <div class="data-filter-group__list" dragula="GROUPS" [dragulaModel]="dataGroups" (dragulaModelChange)="onSortGroups($event)">
+  <div
+    class="data-filter-group__list"
+    dragula="GROUPS"
+    [dragulaModel]="dataGroups"
+    (dragulaModelChange)="onSortGroups($event)"
+  >
     <!-- data filter group item -->
-    <div [ngClass]="{'data-filter-group__item': true, 'active-data-filter-group': group.id === selectedGroupId}" *ngFor="let group of dataGroups">
+    <div
+      [ngClass]="{
+        'data-filter-group__item': true,
+        'active-data-filter-group': group.id === selectedGroupId
+      }"
+      *ngFor="let group of dataGroups"
+    >
       <!-- title -->
-      <div [ngClass]="{'data-filter-group__item-header': true, 'active-data-filter-group-item': group.id === selectedGroupId}"
-        (click)="onSetCurrentGroup(group, $event)">
+      <div
+        [ngClass]="{
+          'data-filter-group__item-header': true,
+          'active-data-filter-group-item': group.id === selectedGroupId
+        }"
+        (click)="onSetCurrentGroup(group, $event)"
+      >
         <div class="data-filter-group__item-header-title">
           <button>
-            <img class="group-handle" [src]="dragIcon" alt="">
+            <img class="group-handle" [src]="dragIcon" alt="" />
           </button>
-          <div [style.background-color]="group.color" class="data-filter-group_color-item">&nbsp;</div>
-          {{group.name}}&nbsp;
-          <small>({{group.members.length}} selected)</small>
+          <div
+            [style.background-color]="group.color"
+            class="data-filter-group_color-item"
+          >
+            &nbsp;
+          </div>
+          {{ group.name }}&nbsp;
+          <small>({{ group.members.length }} selected)</small>
         </div>
         <div class="data-filter-group__item-header-btns">
-          <button title="Delete this group" class="data-filter-group-delete-btn text-danger" (click)="onDeleteGroup(group, $event)">
+          <button
+            title="Delete this group"
+            class="data-filter-group-delete-btn text-danger"
+            (click)="onDeleteGroup(group, $event)"
+          >
             <i class="icon-trash-empty"></i>
           </button>
           <a class="data-filter-group__item-header-icon">
-            <i class="{{group.id === selectedGroupId ? 'icon-up-open' : 'icon-down-open'}}"></i>
+            <i
+              class="{{
+                group.id === selectedGroupId ? 'icon-up-open' : 'icon-down-open'
+              }}"
+            ></i>
           </a>
         </div>
       </div>
       <!-- end of title -->
 
       <!-- content -->
-      <div class="data-filter-group__item-content" *ngIf="group.id === selectedGroupId">
-        <app-data-group-item [dataGroup]="group" [dataGroups]="dataGroups" (updateDataGroup)="onUpdateDataGroup($event)"></app-data-group-item>
+      <div
+        class="data-filter-group__item-content"
+        *ngIf="group.id === selectedGroupId"
+      >
+        <app-data-group-item
+          [dataGroup]="group"
+          [dataGroups]="dataGroups"
+          (updateDataGroup)="onUpdateDataGroup($event)"
+        ></app-data-group-item>
         <div class="data-filter-group__item-member-list">
           <div class="data-filter-group__item-label">Members</div>
-          <div dragula="MEMBERS" [dragulaModel]="group.members" (dragulaModelChange)="onSortGroupMembers($event, group)">
-            <div class="data-filter-group__item-member-item" *ngFor="let member of group.members">
-              <div class="data-filter-group__item-member-item-title">
-                {{member.name}}
-              </div>
-              <button (click)="onRemoveMember(member, $event)" title="Remove item from group" class="btn btn-sm text-danger data-group-delete-btn"><i
-                  class="icon-trash-empty"></i></button>
+          <div
+            dragula="MEMBERS"
+            [dragulaModel]="group.members"
+            (dragulaModelChange)="onSortGroupMembers($event, group)"
+          >
+            <div
+              class="data-filter-group__item-member-item"
+              *ngFor="let member of group.members"
+            >
+              <app-data-filter-group-member
+                [groupMember]="member"
+                [dataGroup]="group"
+                (removeMember)="onRemoveMember($event)"
+                (updateMember)="onUpdateMember($event)"
+              ></app-data-filter-group-member>
             </div>
           </div>
         </div>
@@ -51,14 +97,19 @@
   </div>
 
   <div class="data-filter-group_add-new">
-    <button title="Add new group" [disabled]="dataGroups.length >= dataGroupPreferences.maximumNumberOfGroups" class="data-filter-group_add-button"
-      (click)="onAddGroup($event)">
+    <button
+      title="Add new group"
+      [disabled]="
+        dataGroups.length >= dataGroupPreferences.maximumNumberOfGroups
+      "
+      class="data-filter-group_add-button"
+      (click)="onAddGroup($event)"
+    >
       <i class="icon-plus"></i>
     </button>
   </div>
 
   <div class="data-filter-group-notification">
-    <small>Groups with empty names or without members will be removed</small>
+    Groups with empty names or without members will be removed
   </div>
-
 </div>

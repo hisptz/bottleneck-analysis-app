@@ -1,0 +1,43 @@
+<div class="data-filter-group-member-container">
+  <div class="data-filter-group-member" (click)="onToggleForm($event)">
+    <div class="data-filter-group__item-member-item-title btn btn-sm">
+      {{ groupMember?.name }}
+    </div>
+    <div class="data-filter-group-member-actions">
+      <button
+        (click)="onRemoveMember(dataGroup, groupMember, $event)"
+        title="Remove item from group"
+        class="btn btn-sm text-danger data-group-delete-btn"
+      >
+        <i class="icon-trash-empty"></i>
+      </button>
+      <div class="btn btn-sm">
+        <i class="{{ isFormOpen ? 'icon-up-open' : 'icon-down-open' }}"></i>
+      </div>
+    </div>
+  </div>
+  <!-- data group member form -->
+  <div class="data-filter-member-form" *ngIf="isFormOpen">
+    <div class="form-group">
+      <label>Display Label</label>
+      <input
+        type="text"
+        [(ngModel)]="groupMember.label"
+        (change)="onInputChange($event)"
+        class="form-control form-control-sm"
+        placeholder="Enter label"
+      />
+    </div>
+    <div class="form-group">
+      <label>Display Name</label>
+      <input
+        type="text"
+        disabled
+        [ngModel]="groupMember.name"
+        class="form-control form-control-sm"
+        placeholder="Enter display name"
+      />
+    </div>
+  </div>
+  <!-- end of data group member form -->
+</div>

@@ -21,6 +21,9 @@ export function getSelectionDimensionsFromAnalytics(
             id: metadataItemId,
             name: analytics.metaData.names
               ? analytics.metaData.names[metadataItemId]
+              : '',
+            label: analytics.metaData.names
+              ? analytics.metaData.names[metadataItemId]
               : ''
           };
         })

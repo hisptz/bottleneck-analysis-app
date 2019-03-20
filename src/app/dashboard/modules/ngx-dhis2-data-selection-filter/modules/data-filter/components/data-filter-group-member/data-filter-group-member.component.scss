@@ -1,0 +1,18 @@
+.data-filter-group-member {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.data-filter-group-member:hover .data-filter-group-member-actions {
+  display: flex;
+}
+
+.data-filter-group-member-actions {
+  display: none;
+}
+
+.data-filter-member-form {
+  border-top: solid thin #eeeeee;
+  padding: 7px;
+}

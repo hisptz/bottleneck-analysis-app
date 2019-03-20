@@ -42,7 +42,6 @@ export class VisualizationManagementSectionComponent implements OnInit {
 
   onInputChange(e, field: string) {
     e.stopPropagation();
-    console.log(e.target.value);
     if (field === 'NAME') {
       this.name = e.target.value.trim('');
     } else {

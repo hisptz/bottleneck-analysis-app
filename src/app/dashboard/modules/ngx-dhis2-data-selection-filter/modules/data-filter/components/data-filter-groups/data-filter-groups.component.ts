@@ -1,17 +1,20 @@
 import {
   Component,
-  OnInit,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  Output,
   EventEmitter,
-  OnDestroy
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
 } from '@angular/core';
-import { DRAG_ICON, ARROW_DOWN_ICON } from '../../icons';
 import * as _ from 'lodash';
-import { generateUid } from '../../../../../../../helpers/generate-uid.helper';
 import { DragulaService } from 'ng2-dragula';
+import { DataGroup } from 'src/app/models';
+import { generateUid } from '../../../../../../../helpers/generate-uid.helper';
+import { removeAllMembersFromGroups } from '../../helpers';
+import { addDefaultDataGroupInList } from '../../helpers/add-default-data-group-in-list.helper';
+import { removeGroupFromList } from '../../helpers/remove-group-from-list.helper';
+import { updateDataGroupInList } from '../../helpers/update-data-group-in-list.helper';
+import { ARROW_DOWN_ICON, DRAG_ICON } from '../../icons';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,7 +22,7 @@ import { DragulaService } from 'ng2-dragula';
   templateUrl: './data-filter-groups.component.html',
   styleUrls: ['./data-filter-groups.component.css']
 })
-export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
+export class DataFilterGroupsComponent implements OnInit, OnDestroy {
   @Input()
   dataGroups: any[];
   @Input()
@@ -42,6 +45,9 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   removeMember: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
+  updateMember: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
   updateSelectedItems: EventEmitter<any[]> = new EventEmitter<any[]>();
   // icons
   dragIcon: string;
@@ -62,106 +68,6 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     return _.find(this.dataGroups || [], ['id', this.selectedGroupId]);
   }
 
-  ngOnChanges(simpleChanges: SimpleChanges) {
-    if (simpleChanges['selectedItems']) {
-      if (this.dataGroups.length === 1) {
-        this.dataGroups = _.map(this.dataGroups, dataGroup => {
-          return {
-            ...dataGroup,
-            members: _.slice(
-              _.map(this.selectedItems, selectedItem => {
-                return {
-                  id: selectedItem.id,
-                  name: selectedItem.name
-                };
-              }),
-              0,
-              this.dataGroupPreferences.maximumItemPerGroup
-            )
-          };
-        });
-      } else {
-        let alreadySelectedItems = [];
-        let additionalSelectedItems = [];
-        this.dataGroups = _.map(
-          _.map(this.dataGroups, dataGroup => {
-            return {
-              ...dataGroup,
-              members:
-                dataGroup.id !== this.selectedGroupId &&
-                dataGroup.members.length > 0
-                  ? _.filter(dataGroup.members, member => {
-                      const availableMember = _.find(this.selectedItems, [
-                        'id',
-                        member.id
-                      ]);
-
-                      // save already selected item for future use
-                      alreadySelectedItems = availableMember
-                        ? [...alreadySelectedItems, availableMember]
-                        : alreadySelectedItems;
-
-                      return availableMember;
-                    })
-                  : dataGroup.members
-            };
-          }),
-          newDataGroup => {
-            const selectedGroupMembers =
-              newDataGroup.id === this.selectedGroupId
-                ? _.filter(
-                    this.selectedItems,
-                    selectedItem =>
-                      !_.find(alreadySelectedItems, ['id', selectedItem.id])
-                  )
-                : [];
-
-            additionalSelectedItems = _.uniqBy(
-              [
-                ...additionalSelectedItems,
-                ..._.slice(
-                  selectedGroupMembers,
-                  this.dataGroupPreferences.maximumItemPerGroup
-                )
-              ],
-              'id'
-            );
-
-            const unSelectedGroupMembers =
-              newDataGroup.id !== this.selectedGroupId
-                ? [...newDataGroup.members, ...additionalSelectedItems]
-                : [];
-
-            if (unSelectedGroupMembers.length > 0) {
-              additionalSelectedItems = _.slice(
-                unSelectedGroupMembers,
-                this.dataGroupPreferences.maximumItemPerGroup
-              );
-            }
-
-            const newMembers =
-              newDataGroup.id === this.selectedGroupId
-                ? _.slice(
-                    selectedGroupMembers,
-                    0,
-                    this.dataGroupPreferences.maximumItemPerGroup
-                  )
-                : _.slice(
-                    unSelectedGroupMembers,
-                    0,
-                    this.dataGroupPreferences.maximumItemPerGroup
-                  );
-            return {
-              ...newDataGroup,
-              members: newMembers
-            };
-          }
-        );
-      }
-      this.emitDataGroups();
-    }
-  }
-
   ngOnInit() {
     if (!this.selectedGroupId && this.dataGroups[0]) {
       this.selectedGroupId = this.dataGroups[0].id;
@@ -172,19 +78,7 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     e.stopPropagation();
     const newGroupId = generateUid();
     this.selectedGroupId = newGroupId;
-    this.dataGroups = [
-      ..._.map(this.dataGroups, dataGroup => {
-        return { ...dataGroup, current: false };
-      }),
-      {
-        id: newGroupId,
-        name: 'Untitled',
-        color: '#000000',
-        members: []
-      }
-    ];
-
-    // this.emitDataGroups();
+    this.dataGroups = addDefaultDataGroupInList(this.dataGroups, newGroupId);
     this.selectedGroupIdUpdate.emit(this.selectedGroupId);
   }
 
@@ -200,32 +94,28 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedGroupIdUpdate.emit(this.selectedGroupId);
   }
 
-  onRemoveMember(member: any, e) {
-    e.stopPropagation();
-    this.removeMember.emit(member);
+  onUpdateMember(member: any) {
+    this.updateMember.emit(member);
+  }
+
+  onRemoveMember(memberDetails: { dataItem: any; group: DataGroup }) {
+    this.removeMember.emit(memberDetails);
+  }
+
+  onRemovedAllMembers() {
+    this.dataGroups = removeAllMembersFromGroups(this.dataGroups);
   }
 
   onDeleteGroup(group: any, e) {
     e.stopPropagation();
-    const groupToDelete = _.find(this.dataGroups, [
-      'id',
-      group ? group.id : ''
-    ]);
+    // remove group members
+    _.each(group ? group.members : [], (groupMember: any) => {
+      this.removeMember.emit(groupMember);
+    });
 
-    const groupIndex = this.dataGroups.indexOf(groupToDelete);
+    this.dataGroups = removeGroupFromList(this.dataGroups, group);
 
-    if (groupIndex !== -1) {
-      // Also remove members
-      _.each(groupToDelete.members, (groupMember: any) => {
-        this.removeMember.emit(groupMember);
-      });
-      this.dataGroups = [
-        ..._.slice(this.dataGroups, 0, groupIndex),
-        ..._.slice(this.dataGroups, groupIndex + 1)
-      ];
-
-      this.emitDataGroups();
-    }
+    this.emitDataGroups();
   }
 
   onSortGroups(sortedDataGroups: any[]) {
@@ -254,35 +144,11 @@ export class DataFilterGroupsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   emitDataGroups() {
-    // TODO FIND BEST WAY TO REMOVE DATA GROUPS WITHOUT MEMBERS AND WITH EMPTY NAMES
-    let membersToRemove = [];
-    const filterDataGroups = _.filter(this.dataGroups, (dataGroup: any) => {
-      if (dataGroup.name === '') {
-        membersToRemove = [...membersToRemove, ...dataGroup.members];
-      }
-      return dataGroup.name !== '' && dataGroup.members.length > 0;
-    });
-
-    // Also remove members for the removed groups
-    _.each(membersToRemove, (member: any) => {
-      this.removeMember.emit(member);
-    });
     this.dataGroupsUpdate.emit(this.dataGroups);
   }
 
   onUpdateDataGroup(dataGroup: any) {
-    const dataGroupIndex = this.dataGroups.indexOf(
-      _.find(this.dataGroups, ['id', dataGroup.id])
-    );
-
-    if (dataGroupIndex !== -1) {
-      this.dataGroups = [
-        ..._.slice(this.dataGroups, 0, dataGroupIndex),
-        dataGroup,
-        ..._.slice(this.dataGroups, dataGroupIndex + 1)
-      ];
-    }
-
+    this.dataGroups = updateDataGroupInList(this.dataGroups, dataGroup);
     this.emitDataGroups();
   }
 

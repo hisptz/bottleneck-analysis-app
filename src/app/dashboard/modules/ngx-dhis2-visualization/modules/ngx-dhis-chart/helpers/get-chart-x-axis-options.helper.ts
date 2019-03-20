@@ -28,6 +28,7 @@ export function getChartXAxisOptions(
               color: '#000000',
               fontWeight: 'normal',
               fontSize: '12px',
+              lineHeight: '10',
               textOverflow: 'none'
             }
           }

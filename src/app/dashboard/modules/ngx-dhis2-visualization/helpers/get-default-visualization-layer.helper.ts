@@ -25,7 +25,8 @@ export function getDefaultVisualizationLayer(
         items: [
           {
             id: systemInfo.analysisRelativePeriod,
-            name: systemInfo.analysisRelativePeriod
+            name: systemInfo.analysisRelativePeriod,
+            label: systemInfo.analysisRelativePeriod
           }
         ]
       },
@@ -35,7 +36,8 @@ export function getDefaultVisualizationLayer(
         items: [
           {
             id: orgUnits[0] ? orgUnits[0].id : '',
-            name: orgUnits[0] ? orgUnits[0].name : ''
+            name: orgUnits[0] ? orgUnits[0].name : '',
+            label: orgUnits[0] ? orgUnits[0].name : ''
           }
         ]
       }

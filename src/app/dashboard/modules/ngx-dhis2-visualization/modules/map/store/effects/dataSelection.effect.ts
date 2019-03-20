@@ -6,20 +6,32 @@ import * as dataSelectionAction from '../actions/data-selection.action';
 import * as visualizationObjectActions from '../actions/visualization-object.action';
 import * as visualizationLegengActions from '../actions/visualization-legend.action';
 import * as fromServices from '../../services';
-import { tap, map, switchMap, catchError, combineLatest, take, mapTo } from 'rxjs/operators';
+import {
+  tap,
+  map,
+  switchMap,
+  catchError,
+  combineLatest,
+  take,
+  mapTo
+} from 'rxjs/operators';
 
 @Injectable()
 export class DataSelectionEffects {
-  constructor(private actions$: Actions, private geofeatureService: fromServices.GeoFeatureService) {}
+  constructor(
+    private actions$: Actions,
+    private geofeatureService: fromServices.GeoFeatureService
+  ) {}
 
   @Effect({ dispatch: false })
   updatePe$ = this.actions$.pipe(
     ofType(dataSelectionAction.UPDATE_PE_SELECTION),
     map((action: dataSelectionAction.UpdatePESelection) => {
       const payload = action.payload;
-      // console.log(payload);
     }),
-    catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+    catchError(error =>
+      of(new visualizationObjectActions.UpdateVisualizationObjectFail(error))
+    )
   );
 
   @Effect({ dispatch: false })
@@ -27,9 +39,10 @@ export class DataSelectionEffects {
     ofType(dataSelectionAction.UPDATE_DX_SELECTION),
     map((action: dataSelectionAction.UpdateDXSelection) => {
       const payload = action.payload;
-      // console.log(payload);
     }),
-    catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+    catchError(error =>
+      of(new visualizationObjectActions.UpdateVisualizationObjectFail(error))
+    )
   );
 
   @Effect()
@@ -41,9 +54,15 @@ export class DataSelectionEffects {
     ),
     map(
       (action: dataSelectionAction.UpdateDXSelection) =>
-        new visualizationLegengActions.VisualizationLegendFilterSectionLoading(action.payload.componentId)
+        new visualizationLegengActions.VisualizationLegendFilterSectionLoading(
+          action.payload.componentId
+        )
     ),
-    catchError(error => of(new visualizationLegengActions.VisualizationLegendFilterSectionUpdateFail()))
+    catchError(error =>
+      of(
+        new visualizationLegengActions.VisualizationLegendFilterSectionUpdateFail()
+      )
+    )
   );
 
   @Effect()
@@ -51,21 +70,38 @@ export class DataSelectionEffects {
     ofType(visualizationObjectActions.UPDATE_FILTER_ANALYTICS),
     map(
       (action: visualizationObjectActions.UpdateFilterAnalytics) =>
-        new visualizationLegengActions.VisualizationLegendFilterSectionLoaded(action.payload.componentId)
+        new visualizationLegengActions.VisualizationLegendFilterSectionLoaded(
+          action.payload.componentId
+        )
     ),
-    catchError(error => of(new visualizationLegengActions.VisualizationLegendFilterSectionUpdateFail()))
+    catchError(error =>
+      of(
+        new visualizationLegengActions.VisualizationLegendFilterSectionUpdateFail()
+      )
+    )
   );
 
   @Effect()
   visualizationLegendUpdate$ = this.actions$.pipe(
     ofType(visualizationLegengActions.VISUALIZATION_FILTER_SECTION_LOADED),
-    switchMap((action: visualizationLegengActions.VisualizationLegendFilterSectionLoaded) =>
-      interval(3000).pipe(
-        take(1),
-        mapTo({ type: visualizationLegengActions.VISUALIZATION_FILTER_SECTION_JUST_UPDATED, payload: action.payload })
-      )
+    switchMap(
+      (
+        action: visualizationLegengActions.VisualizationLegendFilterSectionLoaded
+      ) =>
+        interval(3000).pipe(
+          take(1),
+          mapTo({
+            type:
+              visualizationLegengActions.VISUALIZATION_FILTER_SECTION_JUST_UPDATED,
+            payload: action.payload
+          })
+        )
     ),
-    catchError(error => of(new visualizationLegengActions.VisualizationLegendFilterSectionUpdateFail()))
+    catchError(error =>
+      of(
+        new visualizationLegengActions.VisualizationLegendFilterSectionUpdateFail()
+      )
+    )
   );
 
   @Effect()
@@ -92,7 +128,11 @@ export class DataSelectionEffects {
               geofeature: { [layer.id]: value }
             })
         ),
-        catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+        catchError(error =>
+          of(
+            new visualizationObjectActions.UpdateVisualizationObjectFail(error)
+          )
+        )
       );
     })
   );

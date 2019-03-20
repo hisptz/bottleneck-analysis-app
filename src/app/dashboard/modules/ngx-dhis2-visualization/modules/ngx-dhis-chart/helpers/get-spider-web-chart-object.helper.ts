@@ -6,6 +6,7 @@ import { getChartYAxisOptions } from './get-chart-y-axis-options.helper';
 import { getSortedChartSeries } from './get-sorted-chart-series.helper';
 import { getChartXAxisOptions } from './get-chart-x-axis-options.helper';
 import { getSanitizedChartXAxisCategories } from './get-sanitized-chart-x-axis-categories.helper';
+import { getXAxisItemsFromChartConfiguration } from './get-x-axis-items-from-chart-configuration.helper';
 export function getSpiderWebChartObject(
   initialChartObject: any,
   analyticsObject: any,
@@ -48,11 +49,13 @@ export function getSpiderWebChartObject(
    */
   newChartObject.series = _.assign([], sortedSeries);
 
+  const xAxisItems = getXAxisItemsFromChartConfiguration(chartConfiguration);
+
   /**
    * Get refined x axis options
    */
   newChartObject.xAxis = getChartXAxisOptions(
-    getSanitizedChartXAxisCategories(newChartObject.series),
+    getSanitizedChartXAxisCategories(newChartObject.series, xAxisItems),
     chartConfiguration
   );
 
