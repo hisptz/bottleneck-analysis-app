@@ -65,7 +65,7 @@ export class TableItemComponent implements OnInit {
         if (downloadFormat === 'XLS') {
           this.visualizationExportService.exportXLS(
             title,
-            this.tableConfiguration.id
+            el ? el.outerHTML : ''
           );
         } else if (downloadFormat === 'CSV') {
           if (el) {
