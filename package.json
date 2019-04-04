@@ -86,7 +86,7 @@
     "commitizen": "^3.0.7",
     "cz-conventional-changelog": "^2.1.0",
     "d2-manifest": "^1.0.0",
-    "jasmine-core": "~3.3.0",
+    "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "~2.2.0",
