@@ -3,7 +3,19 @@ import { getAllowedChartType } from './get-allowed-chart-types.helper';
 export function getPlotOptions(chartConfiguration: any) {
   const plotOptionChartType = getAllowedChartType(chartConfiguration.type);
 
-  const plotOptions = {};
+  // TODO: Find best way to attach custom events into the chart
+  const plotOptions = {
+    series: {
+      cursor: 'pointer',
+      point: {
+        events: {
+          click: function() {
+            this.update({ color: '#f00' }, true, false);
+          }
+        }
+      }
+    }
+  };
   if (plotOptionChartType) {
     switch (plotOptionChartType) {
       case 'solidgauge':
