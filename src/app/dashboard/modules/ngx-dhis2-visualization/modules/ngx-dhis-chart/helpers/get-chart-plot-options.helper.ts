@@ -10,7 +10,30 @@ export function getPlotOptions(chartConfiguration: any) {
       point: {
         events: {
           click: function() {
-            this.update({ color: '#f00' }, true, false);
+            const clickedChart = (window['clickedCharts'] || {})[this.id];
+            const currentColor = this.color;
+
+            if (!clickedChart) {
+              if (!window['clickedCharts']) {
+                window['clickedCharts'] = {};
+              }
+              window['clickedCharts'] = {
+                ...window['clickedCharts'],
+                [this.id]: { color: this.color }
+              };
+            }
+
+            this.update(
+              {
+                color: !clickedChart
+                  ? '#f00'
+                  : currentColor !== '#f00'
+                  ? '#f00'
+                  : clickedChart.color
+              },
+              true,
+              false
+            );
           }
         }
       }
