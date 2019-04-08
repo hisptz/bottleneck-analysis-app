@@ -87,12 +87,14 @@ export function getMergedGlobalDataSelectionsFromVisualizationLayers(
                         'name',
                         groupMember.name
                       ]);
+
                       return {
                         ...groupMember,
                         id:
-                          groupMember.id || correspondingMember
+                          groupMember.id ||
+                          (correspondingMember
                             ? correspondingMember.id
-                            : generateUid()
+                            : generateUid())
                       };
                     }
                   )

@@ -124,6 +124,9 @@
                 "dimension": "pe"
               }
             ],
+            "chartEvents": {
+              "click": "function() {this.update({color: '#f00}, true, false)}"
+            },
             "showData": true,
             "subtitle": null,
             "hideTitle": false,
