@@ -1,9 +1,14 @@
 import * as _ from 'lodash';
+
 import { User } from '../../models';
 
 export function getDashboardAccess(dashboard: any, currentUser: User) {
   let hasAccess = false;
+  let manageSharing = false;
   if (dashboard && currentUser) {
+    // check if user can manage sharing
+    manageSharing = currentUser.isSuperUser;
+
     if (
       (dashboard.user && dashboard.user.id === currentUser.id) ||
       dashboard.publicAccess === 'rw-------' ||
@@ -32,6 +37,7 @@ export function getDashboardAccess(dashboard: any, currentUser: User) {
     delete: hasAccess,
     externalize: hasAccess,
     manage: hasAccess,
+    manageSharing,
     read: hasAccess,
     update: hasAccess,
     write: hasAccess

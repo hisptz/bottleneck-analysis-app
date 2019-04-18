@@ -30,7 +30,7 @@
 
       <div
         class="current-dashboard-share-button"
-        *ngIf="dashboardLoaded && currentDashboard?.access?.manage"
+        *ngIf="dashboardLoaded && currentDashboard?.access?.manageSharing"
       >
         <app-current-dashboard-sharing
           [id]="currentDashboard?.id"

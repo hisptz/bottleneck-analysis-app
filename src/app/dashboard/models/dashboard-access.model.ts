@@ -5,4 +5,5 @@ export interface DashboardAccess {
   delete: boolean;
   write: boolean;
   manage: boolean;
+  manageSharing: boolean;
 }
