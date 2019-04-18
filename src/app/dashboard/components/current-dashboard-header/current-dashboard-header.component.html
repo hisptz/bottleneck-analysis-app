@@ -58,7 +58,13 @@
           *ngIf="currentDashboard?.unSaved"
           class="un-saved-dashboard bg-warning"
         >
-          This intervention contains un-saved changes
+          {{
+            currentUser.isSuperUser
+              ? 'This intervention contains un-saved changes'
+              : 'You are now looking data for ' +
+                globalDataSelectionSummary +
+                ', cancel to reset'
+          }}
           <button
             class="btn btn-sm btn-outline-warning discard-changes-btn"
             (click)="onResetChanges($event)"
