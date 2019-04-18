@@ -8,7 +8,7 @@
     <button
       class="selection-filter-btn filter-control-btn"
       (click)="toggleFilters($event)"
-      *ngIf="showFilterButton"
+      *ngIf="filterConfig?.showFilterButton"
       [title]="'Filter by different dimensions' | translate"
     >
       FILTER
