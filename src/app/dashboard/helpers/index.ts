@@ -14,3 +14,4 @@ export * from './get-merged-global-data-selections.helper';
 export * from './get-sanitized-dashboard-item.helper';
 export * from './get-dashboard-visualizations-from-dashboard-items.helper';
 export * from './get-default-org-units.helper';
+export * from './is-super-user.helper';

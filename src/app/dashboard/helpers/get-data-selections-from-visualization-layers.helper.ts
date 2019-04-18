@@ -10,7 +10,7 @@ export function getDataSelectionsFromVisualizationLayers(
   retrieveFromAnalytics?: boolean
 ): Array<VisualizationDataSelection[]> {
   return _map(visualizationLayers, (visualizationLayer: VisualizationLayer) =>
-    retrieveFromAnalytics && visualizationLayer.analytics
+    retrieveFromAnalytics
       ? getSelectionDimensionsFromAnalytics(visualizationLayer.analytics)
       : visualizationLayer.dataSelections
   );
