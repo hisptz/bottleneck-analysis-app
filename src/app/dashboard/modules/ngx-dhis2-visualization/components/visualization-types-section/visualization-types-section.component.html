@@ -44,7 +44,10 @@
   <button
     class="visualization-type-btn"
     [title]="'Switch layout' | translate"
-    *ngIf="visualizationTypesConfig?.enableLayoutChangeButton"
+    *ngIf="
+      currentVisualization === 'TABLE' &&
+      visualizationTypesConfig?.enableLayoutChangeButton
+    "
     (click)="onLayoutChange($event)"
   >
     <img [src]="icons?.RESHUFFLE_ICON" alt="" />
