@@ -53,4 +53,9 @@ export interface User {
    * User groups
    */
   userGroups: any[];
+
+  /**
+   *Super user status
+   */
+  isSuperUser: boolean;
 }

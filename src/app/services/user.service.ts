@@ -3,6 +3,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { User } from '../models/user.model';
 import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
 import { switchMap, map } from 'rxjs/operators';
+import { isSuperUser } from '../dashboard/helpers';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -22,7 +23,11 @@ export class UserService {
       this.httpClient.get('me/authorization')
     ).pipe(
       map((currentUserResults: any[]) => {
-        return { ...currentUserResults[0], authorities: currentUserResults[1] };
+        return {
+          ...currentUserResults[0],
+          authorities: currentUserResults[1],
+          isSuperUser: isSuperUser(currentUserResults[1])
+        };
       })
     );
   }

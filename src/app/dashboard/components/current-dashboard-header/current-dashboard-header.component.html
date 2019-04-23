@@ -30,7 +30,7 @@
 
       <div
         class="current-dashboard-share-button"
-        *ngIf="dashboardLoaded && currentDashboard?.access?.manage"
+        *ngIf="dashboardLoaded && currentDashboard?.access?.manageSharing"
       >
         <app-current-dashboard-sharing
           [id]="currentDashboard?.id"
@@ -44,7 +44,10 @@
           (toggleDashboardBookmark)="onToggleDashboardBookmarkAction($event)"
         ></app-current-dashboard-bookmark>
       </div>
-      <div class="current-dashboard-global-filter" *ngIf="dashboardLoaded">
+      <div
+        class="current-dashboard-global-filter"
+        *ngIf="dashboardLoaded && currentDashboard"
+      >
         <ngx-dhis2-selection-filters
           (filterUpdate)="onFilterUpdateAction($event)"
           [dataSelections]="globalDataSelections"
@@ -58,7 +61,13 @@
           *ngIf="currentDashboard?.unSaved"
           class="un-saved-dashboard bg-warning"
         >
-          This intervention contains un-saved changes
+          {{
+            currentUser.isSuperUser
+              ? 'This intervention contains un-saved changes'
+              : 'You are now looking data for ' +
+                globalDataSelectionSummary +
+                ', cancel to reset'
+          }}
           <button
             class="btn btn-sm btn-outline-warning discard-changes-btn"
             (click)="onResetChanges($event)"

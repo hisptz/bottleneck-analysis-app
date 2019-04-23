@@ -25,7 +25,7 @@ import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config
   templateUrl: './ngx-dhis2-selection-filters.component.html',
   styleUrls: ['./ngx-dhis2-selection-filters.component.css']
 })
-export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
+export class NgxDhis2SelectionFiltersComponent implements OnInit {
   @Input()
   dataSelections: any[];
 
@@ -55,10 +55,11 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
   dataIcon: string;
   periodIcon: string;
   orgUnitIcon: string;
-  private _selectedFilter: string;
+  selectedFilter: string;
 
   constructor() {
-    this.showFilters = this.showFilterBody = false;
+    this.showFilters = true;
+    this.showFilterBody = false;
 
     // icons initializations
     this.filterIcon = FILTER_ICON;
@@ -114,33 +115,6 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
     };
   }
 
-  get selectedFilter(): string {
-    return this._selectedFilter;
-  }
-
-  ngOnChanges() {
-    // TODO: FIND GENERIC WAY TO HANDLE AUTOHORITIES WHEN SELECTING CURRENT FILTER
-    this._selectedFilter = this._selectedFilter
-      ? this._selectedFilter === 'DATA' && !this.currentUserHasAuthorities
-        ? this.filterConfig.showPeriodFilter
-          ? 'PERIOD'
-          : this.filterConfig.showOrgUnitFilter
-          ? 'ORG_UNIT'
-          : this.filterConfig.showLayout
-          ? 'LAYOUT'
-          : ''
-        : this._selectedFilter
-      : this.filterConfig.showDataFilter && this.currentUserHasAuthorities
-      ? 'DATA'
-      : this.filterConfig.showPeriodFilter
-      ? 'PERIOD'
-      : this.filterConfig.showOrgUnitFilter
-      ? 'ORG_UNIT'
-      : this.filterConfig.showLayout
-      ? 'LAYOUT'
-      : '';
-  }
-
   ngOnInit() {}
 
   toggleFilters(e) {
@@ -155,17 +129,17 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
 
   toggleCurrentFilter(e, selectedFilter) {
     e.stopPropagation();
-    if (this._selectedFilter === selectedFilter) {
-      this._selectedFilter = '';
+    if (this.selectedFilter === selectedFilter) {
+      this.selectedFilter = '';
       this.showFilterBody = false;
     } else {
-      this._selectedFilter = selectedFilter;
+      this.selectedFilter = selectedFilter;
       this.showFilterBody = true;
     }
   }
 
   onClickOutside() {
-    this._selectedFilter = '';
+    this.selectedFilter = '';
     this.showFilterBody = false;
   }
 
@@ -203,13 +177,13 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit, OnChanges {
         ];
 
     this.filterUpdate.emit(this.dataSelections);
-    this._selectedFilter = '';
+    this.selectedFilter = '';
     this.showFilterBody = false;
   }
 
   onSave(e) {
     e.stopPropagation();
-    this._selectedFilter = '';
+    this.selectedFilter = '';
     this.showFilterBody = false;
     this.save.emit(null);
   }
