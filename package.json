@@ -61,7 +61,7 @@
     "leaflet.markercluster": "^1.4.1",
     "lodash": "^4.17.11",
     "ng2-dragula": "^2.1.1",
-    "ngx-color-picker": "^7.5.0",
+    "ngx-color-picker": "^8.0.0",
     "ngx-pagination": "^3.2.1",
     "polylabel": "^1.0.2",
     "pwa": "^1.9.7",
