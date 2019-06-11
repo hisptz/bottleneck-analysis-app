@@ -37,7 +37,7 @@
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "@swimlane/dragula": "^3.7.3",
-    "@swimlane/ngx-dnd": "^6.0.0",
+    "@swimlane/ngx-dnd": "^8.0.0",
     "@types/geojson": "^7946.0.7",
     "@types/polylabel": "^1.0.5",
     "bootstrap": "^4.3.1",
