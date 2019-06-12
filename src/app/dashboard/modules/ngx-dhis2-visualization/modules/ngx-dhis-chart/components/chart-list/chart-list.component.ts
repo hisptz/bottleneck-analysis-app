@@ -28,7 +28,7 @@ export class ChartListComponent implements OnInit {
   @Output()
   updateChartVisualizationLayer: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild(ChartItemComponent)
+  @ViewChild(ChartItemComponent, { static: false })
   chartItem: ChartItemComponent;
 
   constructor() {}

@@ -39,7 +39,7 @@ export class TableListComponent implements OnInit {
 
   @Output()
   updateTableVisualizationLayer: EventEmitter<any> = new EventEmitter<any>();
-  @ViewChild(TableItemComponent)
+  @ViewChild(TableItemComponent, { static: false })
   tableItem: TableItemComponent;
   constructor() {}
 
