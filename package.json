@@ -21,7 +21,7 @@
     "@angular/http": "^7.2.13",
     "@angular/platform-browser": "^7.2.13",
     "@angular/platform-browser-dynamic": "^7.2.13",
-    "@angular/pwa": "^0.13.8",
+    "@angular/pwa": "^0.800.0",
     "@angular/router": "^7.2.13",
     "@angular/service-worker": "^7.2.13",
     "@hisptz/ngx-dhis2-dictionary": "^1.0.17",
