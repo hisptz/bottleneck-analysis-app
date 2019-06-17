@@ -19,7 +19,6 @@ export function getInitialChartObject(
     credits: getChartCreditsOptions(),
     colors: getChartColors(),
     plotOptions: getPlotOptions(chartConfiguration),
-    tooltip: getTooltipOptions(chartConfiguration),
-    exporting: getChartExportingOptions()
+    tooltip: getTooltipOptions(chartConfiguration)
   };
 }
