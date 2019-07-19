@@ -61,7 +61,7 @@
     "lodash": "^4.17.11",
     "ng2-dragula": "^2.1.1",
     "ngx-color-picker": "^8.0.0",
-    "ngx-pagination": "^4.0.0"
+    "ngx-pagination": "^4.0.0",
     "polylabel": "^1.0.2",
     "pwa": "^1.9.7",
     "rxjs": "^6.5.2",
