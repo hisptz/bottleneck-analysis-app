@@ -36,7 +36,7 @@ export class TableItemComponent implements OnInit {
   @Output()
   layoutUpdate: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('table')
+  @ViewChild('table', { static: true })
   table: ElementRef;
   tableObject: any;
   sort_direction: string[] = [];

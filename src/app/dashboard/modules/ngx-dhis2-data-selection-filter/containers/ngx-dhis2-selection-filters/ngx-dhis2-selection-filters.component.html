@@ -39,14 +39,14 @@
         *ngIf="filterConfig?.showDataFilter && currentUserHasAuthorities"
         [ngClass]="{
           'selection-filter-btn': true,
-          'active-filter': _selectedFilter === 'LEGEND_CONFIGURATION'
+          'active-filter': selectedFilter === 'LEGEND_CONFIGURATION'
         }"
         [title]="'Configure legend' | translate"
         (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')"
       >
         <img [src]="dataIcon" alt="" />&nbsp;{{ 'Legend' | translate }}&nbsp;
         <img
-          [ngClass]="{ 'arrow-up': _selectedFilter === 'LEGEND_CONFIGURATION' }"
+          [ngClass]="{ 'arrow-up': selectedFilter === 'LEGEND_CONFIGURATION' }"
           [src]="arrowDownIcon"
           alt=""
         />
@@ -143,7 +143,7 @@
 
     <!-- legend configguration -->
     <app-legend-set-configuration
-      *ngIf="_selectedFilter === 'LEGEND_CONFIGURATION'"
+      *ngIf="selectedFilter === 'LEGEND_CONFIGURATION'"
       [selectedItems]="selectedData"
       [selectedGroups]="selectedDataGroups"
       (legendSetConfigurationClose)="

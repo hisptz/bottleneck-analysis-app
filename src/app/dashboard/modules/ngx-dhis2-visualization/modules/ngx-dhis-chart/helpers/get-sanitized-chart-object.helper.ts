@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { ChartConfiguration } from '../models';
+import { getChartExportingOptions } from './get-chart-exporting-options.helper';
 export function getSanitizedChartObject(
   chartObject: any,
   chartConfiguration: ChartConfiguration
@@ -94,6 +95,7 @@ export function getSanitizedChartObject(
   return {
     ...chartObject,
     series: newSeries,
-    xAxis: { ...chartObject.xAxis, categories: newCategories }
+    xAxis: { ...chartObject.xAxis, categories: newCategories },
+    exporting: getChartExportingOptions(newCategories)
   };
 }

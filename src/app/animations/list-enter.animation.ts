@@ -22,8 +22,7 @@ export const listEnterAnimation = trigger('listEnter', [
             animate(
               '400ms ease-out',
               style({
-                opacity: 1,
-                offset: 1
+                opacity: 1
               })
             ),
             animate(
