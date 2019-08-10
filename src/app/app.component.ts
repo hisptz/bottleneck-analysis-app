@@ -3,6 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { Title } from '@angular/platform-browser';
 
+import { Fn } from '@iapps/function-analytics';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
