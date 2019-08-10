@@ -20,6 +20,7 @@ export interface Dashboard {
   saving?: boolean;
   updatedOrCreated?: boolean;
   error?: any;
+  hasError?: boolean;
   namespace?: string;
   unSaved?: boolean;
   globalSelections?: any[];
