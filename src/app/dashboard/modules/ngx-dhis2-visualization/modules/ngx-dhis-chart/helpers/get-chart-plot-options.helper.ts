@@ -21,6 +21,8 @@ export function getPlotOptions(chartConfiguration: any) {
                 ...window['clickedCharts'],
                 [this.id]: { color: this.color }
               };
+            } else {
+              (window['clickedCharts'] || {})[this.id] = null;
             }
 
             this.update(
