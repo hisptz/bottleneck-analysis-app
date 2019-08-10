@@ -27,6 +27,7 @@
     "@hisptz/ngx-dhis2-http-client": "^2.0.2",
     "@hisptz/ngx-dhis2-menu": "^1.0.9",
     "@hisptz/ngx-dhis2-table": "^1.0.0",
+    "@iapps/function-analytics": "^1.0.0-beta.13",
     "@mapbox/geojson-area": "^0.2.2",
     "@ng-select/ng-select": "^2.17.0",
     "@ngrx/effects": "^8.0.1",

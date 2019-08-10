@@ -99,6 +99,9 @@ export class AnalyticsService {
         this._getDataSelectionByDxType(dataSelections || [], 'FUNCTION_RULE')
       )
     ).pipe(
+      tap(res => {
+        console.log(res);
+      }),
       map((analyticsResults: any[]) =>
         getMergedAnalytics(
           this._getSanitizedAnalyticsArray(analyticsResults, dataSelections)
@@ -227,6 +230,7 @@ export class AnalyticsService {
           functionParameters.progress = results => {};
           const execute = Function('parameters', functionString);
 
+          console.log(functionParameters);
           execute(functionParameters);
         } catch (e) {
           observer.error(e.stack);
@@ -275,6 +279,7 @@ export class AnalyticsService {
     const dxDataSelectionSelectionIndex = dataSelections.indexOf(
       dxDataSelection
     );
+
     const dxItems = _.filter(
       dxDataSelection ? dxDataSelection.items : [],
       item => (useEqualOperator ? item.type === dxType : item.type !== dxType)

@@ -53,6 +53,7 @@ export const getFunctions = createSelector(
                   ? {
                       id: functionRule.id,
                       name: functionRule.name,
+                      type: 'FUNCTION_RULE',
                       ruleDefinition: functionRule,
                       functionObject: {
                         id: functionObject.id,
