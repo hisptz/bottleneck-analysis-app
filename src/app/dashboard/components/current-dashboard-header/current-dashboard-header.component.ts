@@ -160,7 +160,8 @@ export class CurrentDashboardHeaderComponent implements OnInit {
     this.deleteDashboard.emit(this.currentDashboard);
   }
 
-  onSaveDashboard() {
+  onSaveDashboard(e) {
+    e.stopPropagation();
     this.saveDashboard.emit(this.currentDashboard);
   }
 

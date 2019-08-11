@@ -1,7 +1,7 @@
 <div class="dashboard-sharing-container" appClickOutside (clickOutside)="showShareBlock = false">
-  <button class="dashboard-share-btn" title="{{ showShareBlock ? 'close sharing options' : 'Manage sharing options'}}"
-    (click)="toggleShareBlock($event)">
-    <img [src]="shareIcon" alt="">
+  <button class="dashboard-share-btn" mat-icon-button
+    title="{{ showShareBlock ? 'close sharing options' : 'Manage sharing options'}}" (click)="toggleShareBlock($event)">
+    <mat-icon>share</mat-icon>
   </button>
   <div class="dashboard-sharing-body" [hidden]="!showShareBlock" [@open]>
     <app-sharing-filter [id]="id" [type]="'dashboard'"></app-sharing-filter>

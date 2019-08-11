@@ -45,22 +45,23 @@
 .current-dashboard-global-filter {
   display: flex;
   align-items: center;
+  padding-top: 5px;
 }
 
 .dashboard-delete-block,
 .dashboard-save-block {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
   margin-left: 10px;
-  .dashboard-delete-btn,
-  .dashboard-save-btn {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    padding-top: 5px;
-    cursor: pointer;
-  }
+}
+
+.dashboard-delete-btn,
+.dashboard-save-btn {
+  outline: none;
+  cursor: pointer;
+}
+
+.dashboard-delete-btn:focus,
+.dashboard-delete-btn:active {
+  outline: none !important;
 }
 
 .dashboard-delete-confirmation {
