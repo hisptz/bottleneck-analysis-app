@@ -1,17 +1,20 @@
 import {
-  Component,
-  OnInit,
-  Input,
   ChangeDetectionStrategy,
-  Output,
-  EventEmitter
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
-import { Dashboard } from '../../models';
-import { User } from '../../../models';
-import { SelectionFilterConfig } from '../../modules/ngx-dhis2-data-selection-filter/models/selected-filter-config.model';
+
 import { generateUid } from '../../../helpers/generate-uid.helper';
+import { User } from '../../../models';
+import { Dashboard } from '../../models';
+import { SelectionFilterConfig } from '../../modules/ngx-dhis2-data-selection-filter/models/selected-filter-config.model';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
+import { DashboardDeleteDialogComponent } from '../dashboard-delete-dialog/dashboard-delete-dialog.component';
 
 @Component({
   selector: 'app-current-dashboard-header',
@@ -88,7 +91,7 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   @Output()
   resetDashboard: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.selectionFilterConfig = {
       showLayout: false
     };
@@ -150,17 +153,28 @@ export class CurrentDashboardHeaderComponent implements OnInit {
     });
   }
 
-  onToggleDashboardDeleteDialog(e) {
+  onOpenDashboardDeleteDialog(e) {
     e.stopPropagation();
-    this.toggleDashboardDeleteDialog.emit(this.currentDashboard);
+    const dialogRef = this.dialog.open(DashboardDeleteDialogComponent, {
+      data: this.currentDashboard.name,
+      height: '180px',
+      width: '500px',
+      disableClose: true
+    });
+
+    dialogRef.beforeClose().subscribe((action: string) => {
+      if (action === 'DELETE') {
+        this.onDeleteDashboard();
+      }
+    });
   }
 
-  onDeleteDashboard(e) {
-    e.stopPropagation();
+  onDeleteDashboard() {
     this.deleteDashboard.emit(this.currentDashboard);
   }
 
-  onSaveDashboard() {
+  onSaveDashboard(e) {
+    e.stopPropagation();
     this.saveDashboard.emit(this.currentDashboard);
   }
 

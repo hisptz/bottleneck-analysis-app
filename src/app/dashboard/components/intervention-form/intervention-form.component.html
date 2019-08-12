@@ -1,14 +1,15 @@
 <div class="intervention-form-block">
-  <div class="form-group">
-    <label for="">Name*</label>
-    <input type="text" (keyup)="onEnterInterventionName($event)" autofocus [value]="interventionName" placeholder="Enter intervention name"
-      class="form-control form-control-sm">
-    <div *ngIf="isNotUnique" class="text-danger unique-intervention">Intervention already exist
-    </div>
-  </div>
+  <h5 class="border-bottom pb-2">{{interventionName ? 'Update' : 'Create'}} Intervention</h5>
+  <mat-form-field>
+    <input matInput placeholder="Enter intervention name" type="text" (keyup)="onEnterInterventionName($event)"
+      autofocus [ngModel]="interventionName">
+  </mat-form-field>
+
+  <div *ngIf="isNotUnique" class="text-danger unique-intervention">Intervention already exist</div>
+
   <div class="add-intervention-btns">
-    <button (click)="onSaveIntervention($event)" [disabled]="!intervention || intervention.name === '' || isNotUnique"
-      class="btn btn-sm btn-outline-primary">Save</button>
-    <button (click)="onCloseInterventionForm($event)" class="btn btn-sm btn-outline-secondary">Cancel</button>
+    <button mat-stroked-button (click)="onCloseInterventionForm($event)">Cancel</button>
+    <button mat-stroked-button color="primary" (click)="onSaveIntervention($event)"
+      [disabled]="!intervention || intervention.name === '' || isNotUnique">Create</button>
   </div>
 </div>

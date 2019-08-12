@@ -1,11 +1,38 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { pipes } from './pipes';
+import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 import { directives } from './directives';
+import { pipes } from './pipes';
 
 @NgModule({
   declarations: [...pipes, ...directives],
-  exports: [...pipes, ...directives],
-  imports: [CommonModule]
+  exports: [
+    ...pipes,
+    ...directives,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressBarModule
+  ],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressBarModule
+  ]
 })
 export class SharedModule {}

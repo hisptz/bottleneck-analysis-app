@@ -1,15 +1,7 @@
 .dashboard-bookmark-btn {
-  height: 30px;
-  width: 30px;
-  display: flex;
-  border: none;
-  background-color: transparent;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  img {
-    display: block;
-    margin: auto;
-    height: 17px;
+  outline: none;
+
+  :focus {
+    outline: none;
   }
 }

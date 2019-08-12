@@ -12,18 +12,23 @@
   }
 
   .dashboard-share-btn {
-    height: 35px;
-    width: 35px;
-    display: flex;
-    border: none;
-    background-color: transparent;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+    // height: 35px;
+    // width: 35px;
+    // display: flex;
+    // border: none;
+    // background-color: transparent;
+    // justify-content: center;
+    // align-items: center;
+    // cursor: pointer;
+    outline: none;
+    padding-top: -2px;
     img {
       display: block;
       margin: auto;
       height: 16px;
+    }
+    :focus {
+      outline: none;
     }
   }
 }
