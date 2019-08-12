@@ -31,6 +31,7 @@ import * as fromDashboardActions from '../actions/dashboard.actions';
 import * as fromDashboardSelectors from '../selectors';
 import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-visualization.selectors';
 import { getStandardizedDashboards } from '../../helpers';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class DashboardEffects {
@@ -445,25 +446,43 @@ export class DashboardEffects {
       ([action, dashboardSettings]: [
         fromDashboardActions.DeleteDashboard,
         fromDashboardModels.DashboardSettings
-      ]) =>
-        this.dashboardService
+      ]) => {
+        this.snackBar.open(
+          `Deleting ${action.dashboard.name} intervention....`
+        );
+        return this.dashboardService
           .delete(action.dashboard.id, dashboardSettings)
           .pipe(
-            map(
-              () =>
-                new fromDashboardActions.DeleteDashboardSuccess(
-                  action.dashboard
-                )
-            ),
-            catchError((error: any) =>
-              of(
+            map(() => {
+              this.snackBar.open(
+                `${action.dashboard.name} intervention deleted`,
+                'OK',
+                {
+                  duration: 3000
+                }
+              );
+              return new fromDashboardActions.DeleteDashboardSuccess(
+                action.dashboard
+              );
+            }),
+            catchError((error: any) => {
+              this.snackBar.open(
+                `Fail to delete ${
+                  action.dashboard.name
+                } intervention, Error (Code: ${error.status}): ${
+                  error.message
+                }`,
+                'OK'
+              );
+              return of(
                 new fromDashboardActions.DeleteDashboardFail(
                   action.dashboard,
                   error
                 )
-              )
-            )
-          )
+              );
+            })
+          );
+      }
     )
   );
 
@@ -589,6 +608,7 @@ export class DashboardEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromRootReducer.State>,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private snackBar: MatSnackBar
   ) {}
 }
