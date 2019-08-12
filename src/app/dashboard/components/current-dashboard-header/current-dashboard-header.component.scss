@@ -2,7 +2,7 @@
   display: flex;
 
   .dashboard-title-block {
-    flex: 3;
+    flex: 4;
     display: flex;
     align-items: center;
 
@@ -16,10 +16,11 @@
 .dashboard-notification {
   flex: 1;
 }
+
 .dashboard-search-block {
   display: flex;
   justify-content: flex-end;
-  flex: 2;
+  flex: 1;
 }
 
 .dashboard-options {
@@ -93,11 +94,5 @@
 .discard-changes-btn {
   img {
     height: 12px;
-  }
-}
-
-@media (max-width: 999px) {
-  .dashboard-header-container {
-    display: block;
   }
 }
