@@ -26,7 +26,6 @@ export class InterventionFormComponent implements OnInit {
   constructor() {
     this.intervention = {
       id: generateUid(),
-      name: 'Untitled',
       dashboardItems: DASHBOARD_ITEMS
     };
   }

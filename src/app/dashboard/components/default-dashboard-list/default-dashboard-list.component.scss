@@ -1,5 +1,4 @@
 .default-dashboard-list-container {
-  display: flex;
   position: relative;
 }
 
@@ -7,7 +6,7 @@
   position: absolute;
   background-color: #f9ecbd;
   top: 10px;
-  z-index: 1100;
+  z-index: 1000;
   padding: 5px;
   font-size: 13px;
   border: solid thin #f9ecbd;
@@ -20,14 +19,10 @@
 }
 
 .intervention-loading-block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 15px;
   font-size: 13px;
-  img {
-    height: 50px;
-  }
 }
+
 .default-dashboard-btn {
   color: #ffffff;
   height: 34px;
@@ -60,19 +55,19 @@
 }
 
 .default-dashboard-list {
-  width: 250px;
+  width: 400px;
   position: absolute;
   list-style-type: none;
   padding: 0;
   margin: 0;
-  top: 35px;
-  left: -35px;
+  top: 40px;
+  left: 0;
   right: 0;
   background-color: #ffffff;
-  border: solid thin #eeeeee;
+  border: solid thin #dddddd;
   border-bottom: none;
-  z-index: 1370;
-
+  border-radius: 5px;
+  z-index: 1200;
   .intervention-form {
     margin-bottom: 10px;
     border-bottom: solid thin #eeeeee;
