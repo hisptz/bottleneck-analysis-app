@@ -315,6 +315,9 @@ export class DashboardEffects {
         fromDashboardActions.CreateDashboardAction,
         fromDashboardModels.DashboardSettings
       ]) => {
+        this.snackBar.open(
+          `Creating ${action.dashboard.name} intervention....`
+        );
         const dataSelections = getDataSelectionsForDashboardCreation(
           action.dashboard ? action.dashboard.dashboardItems || [] : [],
           action.dataGroups,
@@ -351,25 +354,42 @@ export class DashboardEffects {
         return this.dashboardService
           .create(dashboardObject, dashboardSettings)
           .pipe(
-            switchMap(() => [
-              new fromDashboardActions.UpdateDashboardAction(
-                dashboardObject.id,
+            switchMap(() => {
+              this.snackBar.open(
+                `${action.dashboard.name} intervention created successfully`,
+                'OK',
                 {
-                  creating: false,
-                  updatedOrCreated: true
+                  duration: 3000
                 }
-              ),
-              new fromDashboardVisualizationActions.LoadDashboardVisualizationsAction(
-                dashboardObject.id,
-                '',
-                dataSelections
-              ),
-              new fromDashboardActions.SetCurrentDashboardAction(
-                dashboardObject.id
-              )
-            ]),
-            catchError(error =>
-              of(
+              );
+              return [
+                new fromDashboardActions.UpdateDashboardAction(
+                  dashboardObject.id,
+                  {
+                    creating: false,
+                    updatedOrCreated: true
+                  }
+                ),
+                new fromDashboardVisualizationActions.LoadDashboardVisualizationsAction(
+                  dashboardObject.id,
+                  '',
+                  dataSelections
+                ),
+                new fromDashboardActions.SetCurrentDashboardAction(
+                  dashboardObject.id
+                )
+              ];
+            }),
+            catchError(error => {
+              this.snackBar.open(
+                `Fail to create ${
+                  action.dashboard.name
+                } intervention, Error (Code: ${error.status}): ${
+                  error.message
+                }`,
+                'OK'
+              );
+              return of(
                 new fromDashboardActions.UpdateDashboardAction(
                   dashboardObject.id,
                   {
@@ -378,8 +398,8 @@ export class DashboardEffects {
                     error
                   }
                 )
-              )
-            )
+              );
+            })
           );
       }
     )
@@ -455,7 +475,7 @@ export class DashboardEffects {
           .pipe(
             map(() => {
               this.snackBar.open(
-                `${action.dashboard.name} intervention deleted`,
+                `${action.dashboard.name} intervention deleted successfully`,
                 'OK',
                 {
                   duration: 3000
