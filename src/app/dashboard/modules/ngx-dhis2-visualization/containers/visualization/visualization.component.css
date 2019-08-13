@@ -1,5 +1,6 @@
 .visualization-card {
-  border: solid thin #eeeeee;
+  border: solid thin #dddddd;
+  border-radius: 5px;
   background-color: #ffffff;
   width: 100%;
   position: relative;
@@ -26,7 +27,7 @@
 
 .visualization-body-footer-block {
   position: absolute;
-  z-index: 1000;
+  z-index: 900;
   width: 100%;
   bottom: 0;
   margin-bottom: 5px;
@@ -37,7 +38,7 @@
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 1300;
+  z-index: 900;
 }
 
 .visualization-body-content-block {

@@ -33,17 +33,16 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   layout: any;
   @Input()
   selectionFilterConfig: SelectionFilterConfig;
-  @Input()
-  saving: boolean;
 
   @Input()
   currentUserHasAuthorities: boolean;
 
+  @Input()
+  saving: boolean;
+
   @Output()
   filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
 
-  @Output()
-  save: EventEmitter<any> = new EventEmitter<any>();
   showFilters: boolean;
   showFilterBody: boolean;
 
@@ -179,13 +178,6 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     this.filterUpdate.emit(this.dataSelections);
     this.selectedFilter = '';
     this.showFilterBody = false;
-  }
-
-  onSave(e) {
-    e.stopPropagation();
-    this.selectedFilter = '';
-    this.showFilterBody = false;
-    this.save.emit(null);
   }
 
   updateDataSelectionWithNewSelections(

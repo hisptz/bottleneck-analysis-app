@@ -14,6 +14,7 @@ import { modules } from './modules';
 import { reducers } from './store/reducers/index';
 import { effects } from './store/effects/index';
 import { SharedModule } from '../shared/shared.module';
+import { DashboardDeleteDialogComponent } from './components/dashboard-delete-dialog/dashboard-delete-dialog.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,12 @@ import { SharedModule } from '../shared/shared.module';
     effects,
     SharedModule
   ],
-  declarations: [...containers, ...components, ...pipes]
+  declarations: [
+    ...containers,
+    ...components,
+    ...pipes,
+    DashboardDeleteDialogComponent
+  ],
+  entryComponents: [DashboardDeleteDialogComponent]
 })
 export class DashboardModule {}

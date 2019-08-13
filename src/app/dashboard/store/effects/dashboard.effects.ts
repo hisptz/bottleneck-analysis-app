@@ -31,6 +31,7 @@ import * as fromDashboardActions from '../actions/dashboard.actions';
 import * as fromDashboardSelectors from '../selectors';
 import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-visualization.selectors';
 import { getStandardizedDashboards } from '../../helpers';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class DashboardEffects {
@@ -314,6 +315,9 @@ export class DashboardEffects {
         fromDashboardActions.CreateDashboardAction,
         fromDashboardModels.DashboardSettings
       ]) => {
+        this.snackBar.open(
+          `Creating ${action.dashboard.name} intervention....`
+        );
         const dataSelections = getDataSelectionsForDashboardCreation(
           action.dashboard ? action.dashboard.dashboardItems || [] : [],
           action.dataGroups,
@@ -350,25 +354,42 @@ export class DashboardEffects {
         return this.dashboardService
           .create(dashboardObject, dashboardSettings)
           .pipe(
-            switchMap(() => [
-              new fromDashboardActions.UpdateDashboardAction(
-                dashboardObject.id,
+            switchMap(() => {
+              this.snackBar.open(
+                `${action.dashboard.name} intervention created successfully`,
+                'OK',
                 {
-                  creating: false,
-                  updatedOrCreated: true
+                  duration: 3000
                 }
-              ),
-              new fromDashboardVisualizationActions.LoadDashboardVisualizationsAction(
-                dashboardObject.id,
-                '',
-                dataSelections
-              ),
-              new fromDashboardActions.SetCurrentDashboardAction(
-                dashboardObject.id
-              )
-            ]),
-            catchError(error =>
-              of(
+              );
+              return [
+                new fromDashboardActions.UpdateDashboardAction(
+                  dashboardObject.id,
+                  {
+                    creating: false,
+                    updatedOrCreated: true
+                  }
+                ),
+                new fromDashboardVisualizationActions.LoadDashboardVisualizationsAction(
+                  dashboardObject.id,
+                  '',
+                  dataSelections
+                ),
+                new fromDashboardActions.SetCurrentDashboardAction(
+                  dashboardObject.id
+                )
+              ];
+            }),
+            catchError(error => {
+              this.snackBar.open(
+                `Fail to create ${
+                  action.dashboard.name
+                } intervention, Error (Code: ${error.status}): ${
+                  error.message
+                }`,
+                'OK'
+              );
+              return of(
                 new fromDashboardActions.UpdateDashboardAction(
                   dashboardObject.id,
                   {
@@ -377,8 +398,8 @@ export class DashboardEffects {
                     error
                   }
                 )
-              )
-            )
+              );
+            })
           );
       }
     )
@@ -445,25 +466,43 @@ export class DashboardEffects {
       ([action, dashboardSettings]: [
         fromDashboardActions.DeleteDashboard,
         fromDashboardModels.DashboardSettings
-      ]) =>
-        this.dashboardService
+      ]) => {
+        this.snackBar.open(
+          `Deleting ${action.dashboard.name} intervention....`
+        );
+        return this.dashboardService
           .delete(action.dashboard.id, dashboardSettings)
           .pipe(
-            map(
-              () =>
-                new fromDashboardActions.DeleteDashboardSuccess(
-                  action.dashboard
-                )
-            ),
-            catchError((error: any) =>
-              of(
+            map(() => {
+              this.snackBar.open(
+                `${action.dashboard.name} intervention deleted successfully`,
+                'OK',
+                {
+                  duration: 3000
+                }
+              );
+              return new fromDashboardActions.DeleteDashboardSuccess(
+                action.dashboard
+              );
+            }),
+            catchError((error: any) => {
+              this.snackBar.open(
+                `Fail to delete ${
+                  action.dashboard.name
+                } intervention, Error (Code: ${error.status}): ${
+                  error.message
+                }`,
+                'OK'
+              );
+              return of(
                 new fromDashboardActions.DeleteDashboardFail(
                   action.dashboard,
                   error
                 )
-              )
-            )
-          )
+              );
+            })
+          );
+      }
     )
   );
 
@@ -589,6 +628,7 @@ export class DashboardEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromRootReducer.State>,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private snackBar: MatSnackBar
   ) {}
 }
