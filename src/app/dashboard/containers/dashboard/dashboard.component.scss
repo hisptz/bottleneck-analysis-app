@@ -6,8 +6,21 @@
     right: 0;
     width: 100%;
     z-index: 1000;
-    min-height: 50px;
+    overflow: hidden;
     background-color: #ffffff;
     border-bottom: solid thin #dddddd;
+
+    .more-btn {
+      position: absolute;
+      bottom: 3px;
+      font-weight: 600;
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      text-decoration: none;
+      z-index: 1000;
+      cursor: pointer;
+    }
   }
 }

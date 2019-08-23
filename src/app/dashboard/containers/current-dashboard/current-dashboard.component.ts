@@ -24,7 +24,10 @@ import {
   EMPTY_VISUALIZATION
 } from '../../constants/welcoming-messages.constants';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
-import { getCurrentDashboardVisualizationLoadingProgress } from '../../store/selectors';
+import {
+  getCurrentDashboardVisualizationLoadingProgress,
+  getDashboardMenuHeight
+} from '../../store/selectors';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -44,6 +47,7 @@ export class CurrentDashboardComponent implements OnInit {
   dashboardLoaded$: Observable<boolean>;
   visualizationsReady$: Observable<boolean>;
   legendSets$: Observable<LegendSet[]>;
+  menuContainerHeight$: Observable<number>;
 
   currentGlobalDataSelections$: Observable<any>;
   currentGlobalDataSelectionSummary$: Observable<string>;
@@ -56,48 +60,50 @@ export class CurrentDashboardComponent implements OnInit {
   welcomingDescription: string;
   emptyVisualizationMessage: string;
 
-  constructor(private store: Store<State>) {
-    this.currentDashboardVisualizationItems$ = store.select(
+  constructor(private store: Store<State>) {}
+
+  ngOnInit() {
+    this.currentDashboardVisualizationItems$ = this.store.select(
       fromDashboardSelectors.getCurrentDashboardVisualizationItems
     );
 
-    this.currentDashboardVisualizationLoading$ = store.select(
+    this.currentDashboardVisualizationLoading$ = this.store.select(
       fromDashboardSelectors.getCurrentDashboardVisualizationLoading
     );
 
-    this.currentDashboardVisualizationLoaded$ = store.select(
+    this.currentDashboardVisualizationLoaded$ = this.store.select(
       fromDashboardSelectors.getCurrentDashboardVisualizationLoaded
     );
 
-    this.dashboardNotification$ = store.select(
+    this.dashboardNotification$ = this.store.select(
       fromDashboardSelectors.getDashboardNotification
     );
 
-    this.currentDashboard$ = store.select(
+    this.currentDashboard$ = this.store.select(
       fromDashboardSelectors.getCurrentDashboard
     );
-    this.currentUser$ = store.select(fromRootSelectors.getCurrentUser);
-    this.systemInfo$ = store.select(fromRootSelectors.getSystemInfo);
-    this.dashboardLoading$ = store.select(
+    this.currentUser$ = this.store.select(fromRootSelectors.getCurrentUser);
+    this.systemInfo$ = this.store.select(fromRootSelectors.getSystemInfo);
+    this.dashboardLoading$ = this.store.select(
       fromDashboardSelectors.getDashboardLoading
     );
-    this.dashboardLoaded$ = store.select(
+    this.dashboardLoaded$ = this.store.select(
       fromDashboardSelectors.getDashboardLoaded
     );
-    this.visualizationsReady$ = store.select(
+    this.visualizationsReady$ = this.store.select(
       fromDashboardSelectors.getVisualizationReady
     );
-    this.legendSets$ = store.select(fromRootSelectors.getAllLegendSets);
+    this.legendSets$ = this.store.select(fromRootSelectors.getAllLegendSets);
 
-    this.currentUserHasManagementAuthorities$ = store.select(
+    this.currentUserHasManagementAuthorities$ = this.store.select(
       getCurrentUserManagementAuthoritiesStatus
     );
 
-    this.currentGlobalDataSelections$ = store.select(
+    this.currentGlobalDataSelections$ = this.store.select(
       fromDashboardSelectors.getCurrentGlobalDataSelections(false)
     );
 
-    this.currentGlobalDataSelectionSummary$ = store.select(
+    this.currentGlobalDataSelectionSummary$ = this.store.select(
       fromDashboardSelectors.getGlobalDataSelectionSummary
     );
 
@@ -105,12 +111,12 @@ export class CurrentDashboardComponent implements OnInit {
       getCurrentDashboardVisualizationLoadingProgress
     );
 
+    this.menuContainerHeight$ = this.store.select(getDashboardMenuHeight);
+
     this.welcomingTitle = WELCOMING_TITLE;
     this.welcomingDescription = WELCOMING_DESCRIPTION;
     this.emptyVisualizationMessage = EMPTY_VISUALIZATION;
   }
-
-  ngOnInit() {}
 
   onToggleCurrentDashboardBookmark(dashboardDetails: {
     id: string;
