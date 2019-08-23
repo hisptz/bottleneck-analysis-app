@@ -31,7 +31,8 @@ export enum DashboardActionTypes {
   ToggleDashboardBookmarkFail = '[Dashboard] Toggle dashboard bookmark fail',
   AddNewUnsavedFavorite = '[Dashboard] Add new unsaved favorite',
   GlobalFilterChange = '[Dashboard] Global filter change',
-  ResetDashboard = '[Dashboard] Reset dashboard changes'
+  ResetDashboard = '[Dashboard] Reset dashboard changes',
+  ChangeDashboardMenuHeight = '[Dashboard] change dashboard menu height'
 }
 
 export class LoadDashboardsAction implements Action {
@@ -193,6 +194,9 @@ export class ResetDashboardAction implements Action {
   constructor(public id: string, public changes: Partial<Dashboard>) {}
 }
 
+export class ChangeDashboardMenuHeight implements Action {
+  readonly type = DashboardActionTypes.ChangeDashboardMenuHeight;
+}
 export type DashboardActions =
   | LoadDashboardsAction
   | ManageDashboardItemAction
@@ -219,4 +223,5 @@ export type DashboardActions =
   | AddNewUnsavedFavoriteAction
   | SetCurrentVisualizationAction
   | GlobalFilterChangeAction
-  | ResetDashboardAction;
+  | ResetDashboardAction
+  | ChangeDashboardMenuHeight;

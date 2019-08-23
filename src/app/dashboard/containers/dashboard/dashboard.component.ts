@@ -22,6 +22,12 @@ import * as fromDashboardActions from '../../store/actions';
 import { Dashboard, DashboardGroups } from '../../models';
 import { User, SystemInfo, DataGroup } from '../../../models';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
+import {
+  getDashboardMenuHeight,
+  getDashboardMenuExpanded,
+  getDashboardContentMarginTop
+} from '../../store/selectors';
+import { ChangeDashboardMenuHeight } from '../../store/actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,7 +39,8 @@ export class DashboardComponent implements OnInit {
   dashboards$: Observable<Dashboard[]>;
   currentDashboardId$: Observable<string>;
   currentDashboardGroupId$: Observable<string>;
-  menuContainerHeight: number;
+  menuContainerHeight$: Observable<number>;
+  dashboardContentMarginTop$: Observable<number>;
   dashboardLoading$: Observable<boolean>;
   dashboardLoaded$: Observable<boolean>;
   dashboardGroups$: Observable<DashboardGroups[]>;
@@ -42,6 +49,7 @@ export class DashboardComponent implements OnInit {
   dataGroups$: Observable<DataGroup[]>;
   currentUserHasManagementAuthorities$: Observable<boolean>;
   unSavedDashboardsExist: boolean;
+  menuExpanded$: Observable<boolean>;
 
   @HostListener('window:beforeunload')
   unloadAppToSave() {
@@ -54,36 +62,43 @@ export class DashboardComponent implements OnInit {
     return confirmation;
   }
 
-  constructor(private store: Store<State>) {
-    // initialize dashboads settings
-    store.dispatch(
+  constructor(private store: Store<State>) {}
+
+  ngOnInit() {
+    this.store.dispatch(
       new fromDashboardActions.InitializeDashboardSettingsAction()
     );
 
-    this.dashboards$ = store.select(
+    this.dashboards$ = this.store.select(
       fromDashboardSelectors.getAllGroupDashboards
     );
-    this.currentDashboardId$ = store.select(
+    this.currentDashboardId$ = this.store.select(
       fromDashboardSelectors.getCurrentDashboardId
     );
-    this.dashboardLoading$ = store.select(
+    this.dashboardLoading$ = this.store.select(
       fromDashboardSelectors.getDashboardLoading
     );
-    this.dashboardLoaded$ = store.select(
+    this.dashboardLoaded$ = this.store.select(
       fromDashboardSelectors.getDashboardLoaded
     );
-    this.dashboardGroups$ = store.select(
+    this.dashboardGroups$ = this.store.select(
       fromDashboardSelectors.getAllDashboardGroups
     );
-    this.currentDashboardGroupId$ = store.select(
+    this.currentDashboardGroupId$ = this.store.select(
       fromDashboardSelectors.getActiveDashboardGroup
     );
-    this.currentUser$ = store.select(fromRootSelectors.getCurrentUser);
-    this.systemInfo$ = store.select(fromRootSelectors.getSystemInfo);
-    this.dataGroups$ = store.select(fromRootSelectors.getDataGroups);
+    this.currentUser$ = this.store.select(fromRootSelectors.getCurrentUser);
+    this.systemInfo$ = this.store.select(fromRootSelectors.getSystemInfo);
+    this.dataGroups$ = this.store.select(fromRootSelectors.getDataGroups);
 
-    this.currentUserHasManagementAuthorities$ = store.select(
+    this.currentUserHasManagementAuthorities$ = this.store.select(
       getCurrentUserManagementAuthoritiesStatus
+    );
+
+    this.menuContainerHeight$ = this.store.select(getDashboardMenuHeight);
+    this.menuExpanded$ = this.store.select(getDashboardMenuExpanded);
+    this.dashboardContentMarginTop$ = this.store.select(
+      getDashboardContentMarginTop
     );
 
     this.store
@@ -91,19 +106,9 @@ export class DashboardComponent implements OnInit {
       .subscribe((unSavedDashboardsExist: boolean) => {
         this.unSavedDashboardsExist = unSavedDashboardsExist;
       });
-
-    // menu container height in pixels
-    this.menuContainerHeight = 60;
   }
 
-  // Get dashboard content margin top by adding additional height from menu container height
-  get dashboardContentMarginTop(): number {
-    return this.menuContainerHeight + 60;
-  }
-
-  ngOnInit() {}
-
-  onSetCurrenDashboardAction(dashboardId: string) {
+  onSetCurrentDashboardAction(dashboardId: string) {
     this.store.dispatch(
       new fromDashboardActions.SetCurrentDashboardAction(dashboardId)
     );
@@ -144,5 +149,11 @@ export class DashboardComponent implements OnInit {
         )
       );
     });
+  }
+
+  onToggleDashboardMenuView(e) {
+    e.stopPropagation();
+
+    this.store.dispatch(new ChangeDashboardMenuHeight());
   }
 }

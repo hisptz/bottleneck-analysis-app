@@ -1,51 +1,33 @@
 <div class="container-fluid dashboard-container">
   <!-- dashboard menu -->
-  <div
-    class="dashboard-menu-container"
-    [style.height]="menuContainerHeight + 'px'"
-  >
-    <div
-      *ngIf="(dashboardLoading$ | async)"
-      style="display: flex; padding: 10px;"
-    >
+  <div class="dashboard-menu-container" [style.height]="(menuContainerHeight$ | async) + 'px'">
+    <div *ngIf="(dashboardLoading$ | async)" style="display: flex; padding: 10px;">
       <!-- hide create button loader -->
       <!-- <div style="height: 34px; width: 34px; margin-left: 2px;">
                 <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
             </div> -->
       <div style="height: 34px; width: 120px; margin-left: 7px;">
-        <app-dashboard-progress
-          [borderRadius]="'17px'"
-        ></app-dashboard-progress>
+        <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
       </div>
       <div style="height: 34px; width: 120px; margin-left: 7px;">
-        <app-dashboard-progress
-          [borderRadius]="'17px'"
-        ></app-dashboard-progress>
+        <app-dashboard-progress [borderRadius]="'17px'"></app-dashboard-progress>
       </div>
     </div>
-    <app-dashboard-menu
-      *ngIf="(dashboardLoaded$ | async)"
-      [dashboardMenuList]="dashboards$ | async"
-      [currentDashboardId]="currentDashboardId$ | async"
-      [currentUser]="currentUser$ | async"
-      [currentUserHasAuthorities]="currentUserHasManagementAuthorities$ | async"
-      [systemInfo]="systemInfo$ | async"
-      [dataGroups]="dataGroups$ | async"
-      (setCurrentDashboard)="onSetCurrenDashboardAction($event)"
-      (toggleDashboardBookmark)="onToggleDashboardBookmark($event)"
-      (createDashboard)="onCreateDashboardAction($event)"
-      [dashboardGroups]="dashboardGroups$ | async"
-      [activeDashboardGroupId]="currentDashboardGroupId$ | async"
-      (setActiveDashboardGroup)="onSetActiveDashboardGroupAction($event)"
-    ></app-dashboard-menu>
+    <app-dashboard-menu *ngIf="(dashboardLoaded$ | async)" [dashboardMenuList]="dashboards$ | async"
+      [currentDashboardId]="currentDashboardId$ | async" [currentUser]="currentUser$ | async"
+      [currentUserHasAuthorities]="currentUserHasManagementAuthorities$ | async" [systemInfo]="systemInfo$ | async"
+      [dataGroups]="dataGroups$ | async" (setCurrentDashboard)="onSetCurrentDashboardAction($event)"
+      (toggleDashboardBookmark)="onToggleDashboardBookmark($event)" (createDashboard)="onCreateDashboardAction($event)"
+      [dashboardGroups]="dashboardGroups$ | async" [activeDashboardGroupId]="currentDashboardGroupId$ | async"
+      (setActiveDashboardGroup)="onSetActiveDashboardGroupAction($event)"></app-dashboard-menu>
+
+    <a class="more-btn"
+      (click)="onToggleDashboardMenuView($event)">{{(menuExpanded$ | async) ? 'SHOW LESS' : 'SHOW MORE'}}</a>
   </div>
   <!-- end of dashboard menu -->
 
   <!-- dashboard content -->
-  <div
-    class="dashboard-content"
-    [style.margin-top]="dashboardContentMarginTop + 'px'"
-  >
+  <div class="dashboard-content" [style.margin-top]="(dashboardContentMarginTop$ | async) + 'px'">
     <router-outlet></router-outlet>
   </div>
   <!-- end of dashboard content -->

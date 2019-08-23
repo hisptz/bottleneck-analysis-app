@@ -2,41 +2,26 @@
   <ul class="dashboard-menu-list">
     <!-- Hide add dashboard actions -->
     <li *ngIf="currentUserHasAuthorities">
-      <app-default-dashboard-list
-        (create)="onCreateDashboard($event)"
-      ></app-default-dashboard-list>
+      <app-default-dashboard-list (create)="onCreateDashboard($event)"></app-default-dashboard-list>
     </li>
     <li>
-      <input
-        type="text"
-        size="25"
-        class="dashboard-search-input"
-        (keyup)="onSearchDashboard($event)"
-        placeholder="Search for intervention"
-      />
+      <input type="text" size="25" class="dashboard-search-input" (keyup)="onSearchDashboard($event)"
+        placeholder="Search for intervention" />
     </li>
-    <li
-      *ngFor="
+    <li *ngFor="
         let dashboardMenuItem of dashboardMenuList
           | filterByName: searchTerm
           | sortByBookmark
-      "
-    >
-      <app-dashboard-menu-item
-        [dashboardMenuItem]="dashboardMenuItem"
-        [currentDashboardId]="currentDashboardId"
-        (setDashboard)="onSetCurrentDashboard($event)"
-        (toggleDashboardMenuItemBookmark)="
+      ">
+      <app-dashboard-menu-item [dashboardMenuItem]="dashboardMenuItem" [currentDashboardId]="currentDashboardId"
+        (setDashboard)="onSetCurrentDashboard($event)" (toggleDashboardMenuItemBookmark)="
           onToggleDashboardMenuItemBookmark($event)
-        "
-      ></app-dashboard-menu-item>
+        "></app-dashboard-menu-item>
     </li>
-    <li
-      *ngIf="
+    <li *ngIf="
         searchTerm &&
         (dashboardMenuList | filterByName: searchTerm).length === 0
-      "
-    >
+      ">
       <small>No search result found</small>
     </li>
   </ul>
