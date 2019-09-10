@@ -17,6 +17,8 @@ export interface State extends EntityState<Dashboard> {
   currentVisualization: string;
   notification: { message: string };
   unSavedDashboards: string[];
+  menuHeight: number;
+  menuExpanded: boolean;
 }
 
 export const adapter: EntityAdapter<Dashboard> = createEntityAdapter<
@@ -32,7 +34,9 @@ const initialState: State = adapter.getInitialState({
   currentDashboard: '',
   currentVisualization: '',
   notification: null,
-  unSavedDashboards: []
+  unSavedDashboards: [],
+  menuHeight: 65,
+  menuExpanded: false
 });
 
 export function reducer(state = initialState, action: DashboardActions): State {
@@ -178,6 +182,21 @@ export function reducer(state = initialState, action: DashboardActions): State {
           notification: null
         }
       );
+    }
+
+    case DashboardActionTypes.ChangeDashboardMenuHeight: {
+      const dashboardLength = state.ids.length + 1;
+      const windowWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
+      const dashboardLines = Math.ceil(dashboardLength / (windowWidth / 180));
+
+      return {
+        ...state,
+        menuHeight: state.menuExpanded ? 65 : dashboardLines * 65,
+        menuExpanded: !state.menuExpanded
+      };
     }
   }
 

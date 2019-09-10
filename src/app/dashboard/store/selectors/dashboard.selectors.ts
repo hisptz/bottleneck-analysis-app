@@ -79,3 +79,18 @@ export const checkIfUnSavedDashboardsExist = createSelector(
   (dashboards: Dashboard[]) =>
     _.some(dashboards || [], (dashboard: Dashboard) => dashboard.unSaved)
 );
+
+export const getDashboardMenuHeight = createSelector(
+  fromDashboardReducer.getDashboardState,
+  (state: fromDashboardReducer.State) => (state ? state.menuHeight : 60)
+);
+
+export const getDashboardMenuExpanded = createSelector(
+  fromDashboardReducer.getDashboardState,
+  (state: fromDashboardReducer.State) => (state ? state.menuExpanded : false)
+);
+
+export const getDashboardContentMarginTop = createSelector(
+  getDashboardMenuHeight,
+  (menuHeight: number) => menuHeight + 150
+);
