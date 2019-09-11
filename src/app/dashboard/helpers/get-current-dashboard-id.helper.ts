@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { User } from '../../models';
+import { User } from '@iapps/ngx-dhis2-http-client';
 export function getCurrentDashboardId(
   routeUrl: string,
   dashboards: any[],

@@ -1,6 +1,6 @@
+import { User } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
 
-import { SystemInfo, User } from '../../models';
 import { Dashboard } from '../models';
 import { getStandardizedDashboard } from './get-standardized-dashboard.helper';
 

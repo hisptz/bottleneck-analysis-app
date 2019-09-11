@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
-import { Observable, of, forkJoin, throwError } from 'rxjs';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { Observable, of, throwError, zip } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { VisualizationDataSelection } from '../models';
 import {
-  getAnalyticsUrl,
-  getSanitizedAnalytics,
-  getStandardizedAnalyticsObject,
-  getMergedAnalytics,
-  getAnalyticsWithGrouping,
   generateDummyAnalytics,
-  getDataSelectionsForMetadata
+  getAnalyticsUrl,
+  getAnalyticsWithGrouping,
+  getDataSelectionsForMetadata,
+  getMergedAnalytics,
+  getSanitizedAnalytics,
+  getStandardizedAnalyticsObject
 } from '../helpers';
-import { mergeMap, map, tap, catchError } from 'rxjs/operators';
+import { VisualizationDataSelection } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
@@ -85,7 +85,7 @@ export class AnalyticsService {
           )
         );
     }
-    return forkJoin(
+    return zip(
       this._getNormalAnalytics(
         this._getDataSelectionByDxType(
           dataSelections || [],
@@ -184,7 +184,7 @@ export class AnalyticsService {
       return functionPromise;
     });
 
-    return forkJoin(functionAnalyticsPromises).pipe(
+    return zip(...functionAnalyticsPromises).pipe(
       map((analyticsResults: any[]) =>
         getMergedAnalytics(
           this._getSanitizedAnalyticsArray(analyticsResults, dataSelections)

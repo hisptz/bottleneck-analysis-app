@@ -13,8 +13,9 @@ import * as fromDashboardSelectors from '../../store/selectors';
 import { SetCurrentDashboardAction } from '../../store/actions';
 
 // models
-import { User, SystemInfo } from '../../../models';
+import { SystemInfo } from '../../../models';
 import { Dashboard } from '../../models';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-current-dashboard-visualization',

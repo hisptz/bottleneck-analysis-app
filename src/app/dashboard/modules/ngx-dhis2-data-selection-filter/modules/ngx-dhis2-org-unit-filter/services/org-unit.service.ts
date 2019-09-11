@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, from, of } from 'rxjs';
 import { map, mergeMap, tap, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { OrgUnit } from '../models';
 import { OrgUnitFilterConfig } from '../models/org-unit-filter-config.model';
 import { AppDatabaseService } from 'src/app/services/app-database.service';

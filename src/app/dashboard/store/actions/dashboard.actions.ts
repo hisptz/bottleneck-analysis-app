@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
 import { Dashboard } from '../../models/dashboard.model';
-import { User, ErrorMessage, SystemInfo } from '../../../models';
+import { SystemInfo } from '../../../models';
 import { DashboardSettings } from '../../models/dashboard-settings.model';
 import { DataGroup } from '../../../models/data-group.model';
+import { User, ErrorMessage } from '@iapps/ngx-dhis2-http-client';
 
 export enum DashboardActionTypes {
   LoadDashboards = '[Dashboard] Load Dashboards',

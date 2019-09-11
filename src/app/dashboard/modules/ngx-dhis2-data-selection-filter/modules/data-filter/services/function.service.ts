@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
-import { mergeMap, catchError, switchMap, tap } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
+import { of, zip } from 'rxjs';
+import { catchError, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { AppDatabaseService } from 'src/app/services/app-database.service';
+
 import { FunctionObject } from '../models';
 
 @Injectable({ providedIn: 'root' })
@@ -19,8 +20,8 @@ export class FunctionService {
   private _loadFromServer() {
     return this.http.get(this._dataStoreUrl).pipe(
       mergeMap((functionIds: Array<string>) =>
-        forkJoin(
-          _.map(functionIds, (functionId: string) => this.load(functionId))
+        zip(
+          ..._.map(functionIds, (functionId: string) => this.load(functionId))
         ).pipe(catchError(() => of([])))
       ),
       catchError(() => of([]))

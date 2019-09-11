@@ -1,11 +1,9 @@
-import * as _ from 'lodash';
-import { User, SystemInfo } from '../../models';
-import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
+import { User } from '@iapps/ngx-dhis2-http-client';
+
 import { Dashboard } from '../models';
-import { DataGroup } from '../../models/data-group.model';
-import { getDashboardAccess } from './get-dashboard-access.helper';
-import { getDefaultOrgUnits } from './get-default-org-units.helper';
 import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
+import { getDashboardAccess } from './get-dashboard-access.helper';
+import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
 
 export function getStandardizedDashboard(
   dashboard: any,

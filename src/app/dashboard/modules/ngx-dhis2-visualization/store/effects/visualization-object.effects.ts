@@ -1,75 +1,71 @@
 import { Injectable } from '@angular/core';
+import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import * as _ from 'lodash';
-import { Observable, of, forkJoin } from 'rxjs';
 import { Store } from '@ngrx/store';
+import * as _ from 'lodash';
+import { Observable, of } from 'rxjs';
 import {
   catchError,
   map,
   mergeMap,
-  tap,
-  withLatestFrom,
+  switchMap,
   take,
-  switchMap
+  tap,
+  withLatestFrom
 } from 'rxjs/operators';
 
-// actions
+import { generateUid } from '../../../../../helpers/generate-uid.helper';
 import {
-  AddVisualizationObjectAction,
-  InitializeVisualizationObjectAction,
-  LoadVisualizationFavoriteAction,
-  LoadVisualizationFavoriteSuccessAction,
-  UpdateVisualizationObjectAction,
-  VisualizationObjectActionTypes,
-  AddVisualizationLayerAction,
-  LoadVisualizationAnalyticsAction,
-  UpdateVisualizationLayerAction,
-  AddVisualizationConfigurationAction,
-  UpdateVisualizationConfigurationAction,
-  AddVisualizationUiConfigurationAction,
-  SaveVisualizationFavoriteAction,
-  RemoveVisualizationObjectAction,
-  RemoveVisualizationConfigurationAction,
-  RemoveVisualizationLayerAction,
-  RemoveVisualizationUiConfigurationAction,
-  RemoveVisualizationFavoriteAction,
-  SaveVisualizationFavoriteSuccessAction
-} from '../actions';
-
-// reducers
-import {
-  VisualizationState,
-  getVisualizationObjectEntities
-} from '../reducers';
-
-// models
+  checkIfVisualizationIsNonVisualizable,
+  getSelectionDimensionsFromAnalytics,
+  getSelectionDimensionsFromFavorite,
+  getStandardizedAnalyticsObject,
+  getStandardizedVisualizationObject,
+  getStandardizedVisualizationType,
+  getStandardizedVisualizationUiConfig,
+  getVisualizationLayerType
+} from '../../helpers';
+import { getDefaultVisualizationLayer } from '../../helpers/get-default-visualization-layer.helper';
+import { getFavoritePayload } from '../../helpers/get-favorite-payload.helpers';
+import { updateDataSelectionBasedOnPreferences } from '../../helpers/update-data-selection-based-preference.helper';
 import {
   Visualization,
-  VisualizationLayer,
-  VisualizationDataSelection
+  VisualizationDataSelection,
+  VisualizationLayer
 } from '../../models';
-
-// services
 import { FavoriteService } from '../../services/favorite.service';
-
-// helpers
 import {
-  getSelectionDimensionsFromFavorite,
-  getVisualizationLayerType,
-  getStandardizedVisualizationType,
-  getStandardizedVisualizationObject,
-  getStandardizedVisualizationUiConfig,
-  getStandardizedAnalyticsObject,
-  getSelectionDimensionsFromAnalytics,
-  checkIfVisualizationIsNonVisualizable
-} from '../../helpers';
-import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
+  AddVisualizationConfigurationAction,
+  AddVisualizationLayerAction,
+  AddVisualizationObjectAction,
+  AddVisualizationUiConfigurationAction,
+  InitializeVisualizationObjectAction,
+  LoadVisualizationAnalyticsAction,
+  LoadVisualizationFavoriteAction,
+  LoadVisualizationFavoriteSuccessAction,
+  RemoveVisualizationConfigurationAction,
+  RemoveVisualizationFavoriteAction,
+  RemoveVisualizationLayerAction,
+  RemoveVisualizationObjectAction,
+  RemoveVisualizationUiConfigurationAction,
+  SaveVisualizationFavoriteAction,
+  SaveVisualizationFavoriteSuccessAction,
+  UpdateVisualizationConfigurationAction,
+  UpdateVisualizationLayerAction,
+  UpdateVisualizationObjectAction,
+  VisualizationObjectActionTypes
+} from '../actions';
+import {
+  getVisualizationObjectEntities,
+  VisualizationState
+} from '../reducers';
 import { getCombinedVisualizationObjectById } from '../selectors';
-import { getFavoritePayload } from '../../helpers/get-favorite-payload.helpers';
-import { getDefaultVisualizationLayer } from '../../helpers/get-default-visualization-layer.helper';
-import { generateUid } from '../../../../../helpers/generate-uid.helper';
-import { updateDataSelectionBasedOnPreferences } from '../../helpers/update-data-selection-based-preference.helper';
 
+// actions
+// reducers
+// models
+// services
+// helpers
 @Injectable()
 export class VisualizationObjectEffects {
   @Effect({ dispatch: false })
@@ -276,9 +272,7 @@ export class VisualizationObjectEffects {
               );
             } else {
               console.warn(
-                `Visualization with id ${
-                  action.id
-                } has no any visualizable layer or data selections`
+                `Visualization with id ${action.id} has no any visualizable layer or data selections`
               );
             }
           }

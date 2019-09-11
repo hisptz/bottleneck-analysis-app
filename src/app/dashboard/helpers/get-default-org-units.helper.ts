@@ -1,5 +1,5 @@
 import { map as _map } from 'lodash';
-import { User } from 'src/app/models';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 export function getDefaultOrgUnits(
   currentUser: User,
