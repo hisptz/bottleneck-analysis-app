@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import * as fromModels from '../../models';
 import { DashboardSettings } from '../../dashboard/models/dashboard-settings.model';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 export enum DataGroupActionTypes {
   LoadDataGroupsInitiated = '[DataGroup] Load Data Groups initiated',
@@ -26,7 +27,7 @@ export class LoadDataGroups implements Action {
   readonly type = DataGroupActionTypes.LoadDataGroups;
   constructor(
     public dashboardSettings: DashboardSettings,
-    public currentUser: fromModels.User,
+    public currentUser: User,
     public systemInfo: fromModels.SystemInfo
   ) {}
 }
@@ -49,7 +50,7 @@ export class AddDataGroups implements Action {
   constructor(
     public dataGroups: fromModels.DataGroup[],
     public dashboardSettings: DashboardSettings,
-    public currentUser: fromModels.User,
+    public currentUser: User,
     public systemInfo: fromModels.SystemInfo
   ) {}
 }

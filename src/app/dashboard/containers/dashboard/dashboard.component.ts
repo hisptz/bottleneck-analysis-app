@@ -20,7 +20,7 @@ import * as fromDashboardActions from '../../store/actions';
 
 // models
 import { Dashboard, DashboardGroups } from '../../models';
-import { User, SystemInfo, DataGroup } from '../../../models';
+import { SystemInfo, DataGroup } from '../../../models';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
 import {
   getDashboardMenuHeight,
@@ -28,6 +28,7 @@ import {
   getDashboardContentMarginTop
 } from '../../store/selectors';
 import { ChangeDashboardMenuHeight } from '../../store/actions';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-dashboard',

@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import {
+  ErrorMessage,
+  NgxDhis2HttpClientService,
+  User
+} from '@iapps/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/internal/operators';
 
-import { User } from '../../models';
 import * as fromSystemInfoActions from '../actions/system-info.actions';
 import * as fromUserActions from '../actions/user.actions';
 
@@ -33,14 +36,14 @@ export class UserEffects {
         map((user: User) => {
           if (!user) {
             return new fromUserActions.LoadCurrentUserFail({
-              statusCode: 500,
+              status: 500,
               statusText: 'Error',
               message: 'Failed to read user information'
             });
           }
           return new fromUserActions.AddCurrentUser(user, action.systemInfo);
         }),
-        catchError((error: any) =>
+        catchError((error: ErrorMessage) =>
           of(new fromUserActions.LoadCurrentUserFail(error))
         )
       )

@@ -49,7 +49,7 @@ import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
     }),
     NgxDhis2HttpClientModule.forRoot({
       version: 1,
-      namespace: 'iapps',
+      namespace: 'bottleneck',
       models: {}
     }),
     /**

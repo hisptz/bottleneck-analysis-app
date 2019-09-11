@@ -49,7 +49,7 @@ import {
 } from '../reducers/favorite-filter.reducer';
 import { getCurrentUser } from '../../../../../store';
 import { FavoriteFilter } from '../../models/favorite-filter.model';
-import { User } from '../../../../../models';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 export const getSelectedFilterHeaders = createSelector(
   getFavoriteFilterState,

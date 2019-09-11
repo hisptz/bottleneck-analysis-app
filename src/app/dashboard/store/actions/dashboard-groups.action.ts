@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { DashboardGroups } from '../../models/dashboard-groups.model';
-import { User, SystemInfo } from '../../../models';
+import { SystemInfo } from '../../../models';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 export enum DashboardGroupsActionTypes {
   InitializeDashboardGroups = '[DashboardGroups] initialize dashboard group',

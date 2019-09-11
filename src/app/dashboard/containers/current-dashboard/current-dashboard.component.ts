@@ -15,7 +15,7 @@ import * as fromDashboardActions from '../../store/actions';
 
 // models
 import { Dashboard } from '../../models';
-import { User, SystemInfo, LegendSet } from '../../../models';
+import { SystemInfo, LegendSet } from '../../../models';
 
 // constant
 import {
@@ -28,6 +28,7 @@ import {
   getCurrentDashboardVisualizationLoadingProgress,
   getDashboardMenuHeight
 } from '../../store/selectors';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-current-dashboard',

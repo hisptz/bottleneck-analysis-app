@@ -5,9 +5,10 @@ import {
 } from 'lodash';
 import { getMergedGlobalDataSelectionsFromVisualizationLayers } from './get-merged-global-data-selections.helper';
 import { getSelectionDimensionsFromFavorite } from '../modules/ngx-dhis2-visualization/helpers';
-import { DataGroup, SystemInfo, User } from 'src/app/models';
+import { DataGroup, SystemInfo } from 'src/app/models';
 import { getDefaultOrgUnits } from './get-default-org-units.helper';
 import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 export function getDataSelectionsForDashboardCreation(
   dashboardItems: any[],

@@ -1,5 +1,4 @@
 import { DashboardAccess } from './dashboard-access.model';
-import { User } from '../../models';
 
 export interface Dashboard {
   id: string;
