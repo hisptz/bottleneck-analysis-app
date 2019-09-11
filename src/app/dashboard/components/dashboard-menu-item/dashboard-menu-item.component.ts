@@ -14,6 +14,8 @@ import {
   BOOKMARKED_SELECTED_ICON
 } from '../../../icons';
 import { openAnimation } from '../../../animations';
+import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
+import { dashboardHasRootCauseData } from '../../helpers/dashboard-has-root-cause-data.helper';
 
 @Component({
   selector: 'app-dashboard-menu-item',
@@ -27,6 +29,8 @@ export class DashboardMenuItemComponent implements OnInit {
   dashboardMenuItem: Dashboard;
   @Input()
   currentDashboardId: string;
+  @Input() dataSelections: VisualizationDataSelection[];
+  @Input() rootCauseDataIds: string[];
   @Output()
   setDashboard: EventEmitter<string> = new EventEmitter<string>();
   @Output()
@@ -48,6 +52,25 @@ export class DashboardMenuItemComponent implements OnInit {
     this.showBookmarkButton = false;
   }
 
+  get hasRootCauseData(): boolean {
+    return dashboardHasRootCauseData(
+      this.dataSelections || [],
+      this.dashboardMenuItem ? this.dashboardMenuItem.id : '',
+      this.rootCauseDataIds || []
+    );
+  }
+
+  get dashboardItemDescription(): string {
+    if (!this.dashboardMenuItem) {
+      return '';
+    }
+
+    return `${
+      this.dashboardMenuItem.unSaved
+        ? 'This intervention contains unsaved changes'
+        : this.dashboardMenuItem.name
+    }${this.hasRootCauseData ? '(This intervention has root cause data)' : ''}`;
+  }
   ngOnInit() {}
 
   onSetDashboard(e) {
