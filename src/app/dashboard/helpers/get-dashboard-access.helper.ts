@@ -7,7 +7,7 @@ export function getDashboardAccess(dashboard: any, currentUser: User) {
   let manageSharing = false;
   if (dashboard && currentUser) {
     // check if user can manage sharing
-    manageSharing = currentUser.isSuperUser;
+    manageSharing = currentUser.isSuperUser || (dashboard.user && dashboard.user.id === currentUser.id);
 
     if (
       (dashboard.user && dashboard.user.id === currentUser.id) ||
