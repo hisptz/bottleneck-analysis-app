@@ -2,34 +2,30 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import { tap, take } from 'rxjs/operators';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable, zip } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
 
-// reducers
-import { VisualizationState } from '../reducers';
-
-// actions
 import {
-  VisualizationLayerActionTypes,
-  LoadVisualizationAnalyticsAction,
-  LoadVisualizationAnalyticsSuccessAction,
-  UpdateVisualizationLayerAction
-} from '../actions/visualization-layer.actions';
-
-import { UpdateVisualizationObjectAction } from '../actions/visualization-object.actions';
-
-// services
-import { AnalyticsService } from '../../services/analytics.service';
-
-// helpers
-import {
-  getStandardizedAnalyticsObject,
+  getMergedDataSelections,
   getSanitizedAnalytics,
-  getMergedDataSelections
+  getStandardizedAnalyticsObject
 } from '../../helpers';
 import { VisualizationLayer } from '../../models';
+import { AnalyticsService } from '../../services/analytics.service';
+import {
+  LoadVisualizationAnalyticsAction,
+  LoadVisualizationAnalyticsSuccessAction,
+  UpdateVisualizationLayerAction,
+  VisualizationLayerActionTypes
+} from '../actions/visualization-layer.actions';
+import { UpdateVisualizationObjectAction } from '../actions/visualization-object.actions';
+import { VisualizationState } from '../reducers';
 import { getCombinedVisualizationObjectById } from '../selectors';
 
+// reducers
+// actions
+// services
+// helpers
 @Injectable()
 export class VisualizationLayerEffects {
   constructor(
@@ -76,8 +72,8 @@ export class VisualizationLayerEffects {
                 )
               : action.visualizationLayers;
 
-            forkJoin(
-              _.map(
+            zip(
+              ..._.map(
                 visualizationLayers,
                 (visualizationLayer: VisualizationLayer) => {
                   return this.analyticsService.getAnalytics(

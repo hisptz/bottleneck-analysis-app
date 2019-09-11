@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, of } from 'rxjs';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
+import { Observable, of, zip } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
-import { Dashboard } from '../models';
-import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
-import { DashboardSettings } from '../models/dashboard-settings.model';
 import { generateUid } from '../../helpers/generate-uid.helper';
+import { Dashboard } from '../models';
+import { DashboardSettings } from '../models/dashboard-settings.model';
+
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   dashboardUrlFields: string;
@@ -48,8 +49,8 @@ export class DashboardService {
         if (filteredDashboardIds.length === 0) {
           return of([]);
         }
-        return forkJoin(
-          _.map(filteredDashboardIds, dashboardId => {
+        return zip(
+          ..._.map(filteredDashboardIds, dashboardId => {
             return this.httpClient.get(`dataStore/dashboards/${dashboardId}`);
           })
         );

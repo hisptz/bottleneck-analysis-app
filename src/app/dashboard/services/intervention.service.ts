@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
-import { switchMap, catchError, map } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
-import { Intervention } from '../models/intervention.model';
+import { of, zip } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+
 import { getSanitizedInterventions } from '../helpers';
+import { Intervention } from '../models/intervention.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,8 @@ export class InterventionService {
   getInterventions() {
     return this.http.get(this.dataStoreUrl).pipe(
       switchMap((interventionIds: string[]) =>
-        forkJoin(
-          _.map(interventionIds, (interventionId: string) =>
+        zip(
+          ..._.map(interventionIds, (interventionId: string) =>
             this.http.get(`${this.dataStoreUrl}/${interventionId}`)
           )
         )
@@ -33,8 +34,8 @@ export class InterventionService {
   getPredifinedInterventions() {
     return this.loadPredefinedInterventions().pipe(
       switchMap((interventions: any[]) => {
-        return forkJoin(
-          _.map(
+        return zip(
+          ..._.map(
             getSanitizedInterventions(interventions),
             (sanitizedIntervention: Intervention) =>
               this.createIntervention(sanitizedIntervention)

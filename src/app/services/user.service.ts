@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
-import { User } from '../models/user.model';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
-import { switchMap, map } from 'rxjs/operators';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { Observable, zip } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { isSuperUser } from '../dashboard/helpers';
+import { User } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
    * @returns {Observable<User>}
    */
   loadCurrentUser(): Observable<User> {
-    return forkJoin(
+    return zip(
       this.httpClient.get(
         'me.json?fields=id,name,displayName,created,lastUpdated,' +
           'email,dataViewOrganisationUnits[id,name,level],organisationUnits' +

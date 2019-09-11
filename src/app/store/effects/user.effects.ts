@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/internal/operators';
-import { UserService } from '../../services';
-import { User } from '../../models';
 
+import { User } from '../../models';
 import * as fromSystemInfoActions from '../actions/system-info.actions';
 import * as fromUserActions from '../actions/user.actions';
-import { Action } from '@ngrx/store';
 
 @Injectable()
 export class UserEffects {
-  constructor(private actions$: Actions, private userService: UserService) {}
+  constructor(
+    private actions$: Actions,
+    private httpClient: NgxDhis2HttpClientService
+  ) {}
 
   @Effect()
   systemInfoLoaded$: Observable<Action> = this.actions$.pipe(
@@ -26,7 +29,7 @@ export class UserEffects {
   loadCurrentUser$: Observable<Action> = this.actions$.pipe(
     ofType(fromUserActions.UserActionTypes.LoadCurrentUser),
     switchMap((action: fromUserActions.LoadCurrentUser) =>
-      this.userService.loadCurrentUser().pipe(
+      this.httpClient.me().pipe(
         map((user: User) => {
           if (!user) {
             return new fromUserActions.LoadCurrentUserFail({

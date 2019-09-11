@@ -28,6 +28,7 @@ import { RouteSerializer } from './utils';
 
 import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
 import { DragulaModule } from 'ng2-dragula';
+import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,6 +46,11 @@ import { DragulaModule } from 'ng2-dragula';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
+    }),
+    NgxDhis2HttpClientModule.forRoot({
+      version: 1,
+      namespace: 'iapps',
+      models: {}
     }),
     /**
      * Menu  module
