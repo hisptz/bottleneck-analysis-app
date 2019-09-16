@@ -14,6 +14,7 @@
           | sortByBookmark
       ">
       <app-dashboard-menu-item [dashboardMenuItem]="dashboardMenuItem" [currentDashboardId]="currentDashboardId"
+        [dataSelections]="dataSelections" [rootCauseDataIds]="rootCauseDataIds"
         (setDashboard)="onSetCurrentDashboard($event)" (toggleDashboardMenuItemBookmark)="
           onToggleDashboardMenuItemBookmark($event)
         "></app-dashboard-menu-item>
@@ -25,4 +26,6 @@
       <small>No search result found</small>
     </li>
   </ul>
+
+
 </div>

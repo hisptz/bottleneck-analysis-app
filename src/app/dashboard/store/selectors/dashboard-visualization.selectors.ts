@@ -1,21 +1,9 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
 
-import {
-  getCombinedVisualizationLayers,
-  getDataSelectionSummary,
-  getMergedGlobalDataSelectionsFromVisualizationLayers as getMergedGlobalDataSelections
-} from '../../helpers';
-import { getDataSelectionsFromVisualizationLayers } from '../../helpers/get-data-selections-from-visualization-layers.helper';
 import { DashboardVisualization } from '../../models';
-import {
-  Visualization,
-  VisualizationDataSelection
-} from '../../modules/ngx-dhis2-visualization/models';
-import {
-  getVisualizationLayerEntities,
-  getVisualizationObjectEntities
-} from '../../modules/ngx-dhis2-visualization/store';
+import { Visualization } from '../../modules/ngx-dhis2-visualization/models';
+import { getVisualizationObjectEntities } from '../../modules/ngx-dhis2-visualization/store';
 import * as fromDashboardVisualizationReducer from '../reducers/dashboard-visualization.reducer';
 import { getCurrentDashboardId } from './dashboard.selectors';
 
@@ -53,36 +41,6 @@ export const getDashboardVisualizationById = id =>
 export const getVisualizationReady = createSelector(
   fromDashboardVisualizationReducer.getDashboardVisualizationState,
   (state: fromDashboardVisualizationReducer.State) => state.visualizationsReady
-);
-
-export const getCurrentGlobalDataSelections = getFromAnalytics =>
-  createSelector(
-    getCurrentDashboardVisualizationItems,
-    getVisualizationObjectEntities,
-    getVisualizationLayerEntities,
-    (
-      dashboardVisualizationItems: any,
-      visualizationObjectEntities: any,
-      visualizationLayerEntities: any
-    ) => {
-      const dataSelectionsArray: Array<
-        VisualizationDataSelection[]
-      > = getDataSelectionsFromVisualizationLayers(
-        getCombinedVisualizationLayers(
-          dashboardVisualizationItems,
-          visualizationObjectEntities,
-          visualizationLayerEntities
-        ),
-        getFromAnalytics
-      );
-      return getMergedGlobalDataSelections(dataSelectionsArray);
-    }
-  );
-
-export const getGlobalDataSelectionSummary = createSelector(
-  getCurrentGlobalDataSelections(true),
-  (globalDataSelections: VisualizationDataSelection[]) =>
-    getDataSelectionSummary(globalDataSelections)
 );
 
 export const getCurrentDashboardVisualizationLoadingProgress = createSelector(

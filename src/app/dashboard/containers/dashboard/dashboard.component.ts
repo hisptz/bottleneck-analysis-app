@@ -29,6 +29,8 @@ import {
 } from '../../store/selectors';
 import { ChangeDashboardMenuHeight } from '../../store/actions';
 import { User } from '@iapps/ngx-dhis2-http-client';
+import { getCurrentGlobalDataSelections } from '../../store/selectors/data-selections.selectors';
+import { getRootCauseDataIds } from 'src/app/store/selectors/root-cause-data.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -51,6 +53,9 @@ export class DashboardComponent implements OnInit {
   currentUserHasManagementAuthorities$: Observable<boolean>;
   unSavedDashboardsExist: boolean;
   menuExpanded$: Observable<boolean>;
+  currentGlobalDataSelections$: Observable<any>;
+  currentGlobalDataSelectionsFromAnalytics$: Observable<any>;
+  rootCauseDataIds$: Observable<string[]>;
 
   @HostListener('window:beforeunload')
   unloadAppToSave() {
@@ -107,6 +112,16 @@ export class DashboardComponent implements OnInit {
       .subscribe((unSavedDashboardsExist: boolean) => {
         this.unSavedDashboardsExist = unSavedDashboardsExist;
       });
+
+    this.currentGlobalDataSelections$ = this.store.select(
+      getCurrentGlobalDataSelections(false)
+    );
+
+    this.currentGlobalDataSelectionsFromAnalytics$ = this.store.select(
+      getCurrentGlobalDataSelections(true)
+    );
+
+    this.rootCauseDataIds$ = this.store.select(getRootCauseDataIds);
   }
 
   onSetCurrentDashboardAction(dashboardId: string) {
