@@ -69,7 +69,11 @@ export class DashboardMenuItemComponent implements OnInit {
       this.dashboardMenuItem.unSaved
         ? 'This intervention contains unsaved changes'
         : this.dashboardMenuItem.name
-    }${this.hasRootCauseData ? '(This intervention has root cause data)' : ''}`;
+    }${
+      this.hasRootCauseData
+        ? '(This intervention has root cause data for selected period and organisation unit)'
+        : ''
+    }`;
   }
   ngOnInit() {}
 
