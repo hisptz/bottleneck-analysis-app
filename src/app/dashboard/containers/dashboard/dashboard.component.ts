@@ -31,6 +31,7 @@ import { ChangeDashboardMenuHeight } from '../../store/actions';
 import { User } from '@iapps/ngx-dhis2-http-client';
 import { getCurrentGlobalDataSelections } from '../../store/selectors/data-selections.selectors';
 import { getRootCauseDataIds } from 'src/app/store/selectors/root-cause-data.selectors';
+import { LoadFunctions } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/actions/function.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -71,6 +72,7 @@ export class DashboardComponent implements OnInit {
   constructor(private store: Store<State>) {}
 
   ngOnInit() {
+    this.store.dispatch(new LoadFunctions());
     this.store.dispatch(
       new fromDashboardActions.InitializeDashboardSettingsAction()
     );
