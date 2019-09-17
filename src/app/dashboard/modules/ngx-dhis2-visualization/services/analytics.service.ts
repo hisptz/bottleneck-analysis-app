@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
-import { Observable, of, throwError, zip } from 'rxjs';
+import { Observable, of, throwError, zip, forkJoin } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import {
@@ -156,6 +156,7 @@ export class AnalyticsService {
 
     const functionAnalyticsPromises = _.map(dxObject.items, (dxItem: any) => {
       let functionPromise = of(null);
+
       try {
         const functionRuleJson =
           typeof dxItem.ruleDefinition.json === 'string'
@@ -221,6 +222,7 @@ export class AnalyticsService {
         try {
           functionParameters.error = error => {
             observer.error(error);
+            observer.complete();
           };
           functionParameters.success = results => {
             observer.next(results);
