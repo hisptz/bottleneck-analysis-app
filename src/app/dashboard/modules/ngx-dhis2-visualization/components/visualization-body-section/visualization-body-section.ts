@@ -48,6 +48,9 @@ export class VisualizationBodySectionComponent {
   @Input()
   currentUser: any;
 
+  @Input()
+  downloadFilename: string;
+
   @Output()
   updateVisualizationLayer: EventEmitter<any> = new EventEmitter<any>();
 
@@ -72,9 +75,9 @@ export class VisualizationBodySectionComponent {
 
   onDownloadVisualization(visualizationType: string, downloadFormat: string) {
     if (visualizationType === 'CHART' && this.chartList) {
-      this.chartList.onDownloadEvent(downloadFormat);
+      this.chartList.onDownloadEvent(downloadFormat, this.downloadFilename);
     } else if (visualizationType === 'TABLE' && this.tableList) {
-      this.tableList.onDownloadEvent(downloadFormat);
+      this.tableList.onDownloadEvent(downloadFormat, this.downloadFilename);
     } else if (visualizationType === 'APP') {
       this.widget.onDownloadEvent(downloadFormat);
     }

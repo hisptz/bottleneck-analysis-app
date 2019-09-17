@@ -10,11 +10,11 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import { generateUid } from '../../../helpers/generate-uid.helper';
-import { User } from '../../../models';
 import { Dashboard } from '../../models';
 import { SelectionFilterConfig } from '../../modules/ngx-dhis2-data-selection-filter/models/selected-filter-config.model';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 import { DashboardDeleteDialogComponent } from '../dashboard-delete-dialog/dashboard-delete-dialog.component';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-current-dashboard-header',
@@ -23,28 +23,14 @@ import { DashboardDeleteDialogComponent } from '../dashboard-delete-dialog/dashb
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrentDashboardHeaderComponent implements OnInit {
-  @Input()
-  currentDashboard: Dashboard;
-  @Input()
-  currentUser: User;
-
-  @Input()
-  currentUserHasAuthorities: boolean;
-
-  @Input()
-  dashboardLoading: boolean;
-
-  @Input()
-  dashboardLoaded: boolean;
-
-  @Input()
-  globalDataSelections: VisualizationDataSelection[];
-
-  @Input()
-  globalDataSelectionSummary: string;
-
-  @Input()
-  visualizationLoadingPercent: number;
+  @Input() currentDashboard: Dashboard;
+  @Input() currentUser: User;
+  @Input() currentUserHasAuthorities: boolean;
+  @Input() dashboardLoading: boolean;
+  @Input() dashboardLoaded: boolean;
+  @Input() globalDataSelections: VisualizationDataSelection[];
+  @Input() globalDataSelectionSummary: string;
+  @Input() visualizationLoadingPercent: number;
 
   selectionFilterConfig: SelectionFilterConfig;
   showFavoriteFilter: boolean;

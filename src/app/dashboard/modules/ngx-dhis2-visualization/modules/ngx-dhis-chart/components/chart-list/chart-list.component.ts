@@ -58,9 +58,9 @@ export class ChartListComponent implements OnInit {
     }
   }
 
-  onDownloadEvent(downloadFormat) {
+  onDownloadEvent(downloadFormat, filename) {
     if (this.chartItem) {
-      this.chartItem.downloadChart(downloadFormat);
+      this.chartItem.downloadChart(downloadFormat, filename);
     }
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { take, first } from 'rxjs/operators';
 
 // root state
 import { State } from '../../../store/reducers';
@@ -15,7 +15,7 @@ import * as fromDashboardActions from '../../store/actions';
 
 // models
 import { Dashboard } from '../../models';
-import { User, SystemInfo, LegendSet } from '../../../models';
+import { SystemInfo, LegendSet } from '../../../models';
 
 // constant
 import {
@@ -28,6 +28,12 @@ import {
   getCurrentDashboardVisualizationLoadingProgress,
   getDashboardMenuHeight
 } from '../../store/selectors';
+import { User } from '@iapps/ngx-dhis2-http-client';
+import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
+import {
+  getCurrentGlobalDataSelections,
+  getGlobalDataSelectionSummary
+} from '../../store/selectors/data-selections.selectors';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -100,11 +106,11 @@ export class CurrentDashboardComponent implements OnInit {
     );
 
     this.currentGlobalDataSelections$ = this.store.select(
-      fromDashboardSelectors.getCurrentGlobalDataSelections(false)
+      getCurrentGlobalDataSelections(false)
     );
 
     this.currentGlobalDataSelectionSummary$ = this.store.select(
-      fromDashboardSelectors.getGlobalDataSelectionSummary
+      getGlobalDataSelectionSummary
     );
 
     this.progressMessages$ = this.store.select(

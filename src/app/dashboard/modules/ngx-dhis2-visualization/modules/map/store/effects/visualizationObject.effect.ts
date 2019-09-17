@@ -179,11 +179,7 @@ export class VisualizationObjectEffects {
               dataSelections.programStage &&
               dataSelections.programStage.displayName;
             const load = (params, callback) => {
-              const serverSide = `/events/cluster/${url}&clusterSize=${
-                params.clusterSize
-              }&bbox=${params.bbox}&coordinatesOnly=true&includeClusterPoints=${
-                params.includeClusterPoints
-              }`;
+              const serverSide = `/events/cluster/${url}&clusterSize=${params.clusterSize}&bbox=${params.bbox}&coordinatesOnly=true&includeClusterPoints=${params.includeClusterPoints}`;
               this.analyticsService
                 .getEventsAnalytics(serverSide)
                 .subscribe(data => callback(params.tileId, toGeoJson(data)));

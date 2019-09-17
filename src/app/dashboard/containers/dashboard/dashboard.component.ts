@@ -20,7 +20,7 @@ import * as fromDashboardActions from '../../store/actions';
 
 // models
 import { Dashboard, DashboardGroups } from '../../models';
-import { User, SystemInfo, DataGroup } from '../../../models';
+import { SystemInfo, DataGroup } from '../../../models';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
 import {
   getDashboardMenuHeight,
@@ -28,6 +28,10 @@ import {
   getDashboardContentMarginTop
 } from '../../store/selectors';
 import { ChangeDashboardMenuHeight } from '../../store/actions';
+import { User } from '@iapps/ngx-dhis2-http-client';
+import { getCurrentGlobalDataSelections } from '../../store/selectors/data-selections.selectors';
+import { getRootCauseDataIds } from 'src/app/store/selectors/root-cause-data.selectors';
+import { LoadFunctions } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/actions/function.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -50,6 +54,9 @@ export class DashboardComponent implements OnInit {
   currentUserHasManagementAuthorities$: Observable<boolean>;
   unSavedDashboardsExist: boolean;
   menuExpanded$: Observable<boolean>;
+  currentGlobalDataSelections$: Observable<any>;
+  currentGlobalDataSelectionsFromAnalytics$: Observable<any>;
+  rootCauseDataIds$: Observable<string[]>;
 
   @HostListener('window:beforeunload')
   unloadAppToSave() {
@@ -65,6 +72,7 @@ export class DashboardComponent implements OnInit {
   constructor(private store: Store<State>) {}
 
   ngOnInit() {
+    this.store.dispatch(new LoadFunctions());
     this.store.dispatch(
       new fromDashboardActions.InitializeDashboardSettingsAction()
     );
@@ -106,6 +114,16 @@ export class DashboardComponent implements OnInit {
       .subscribe((unSavedDashboardsExist: boolean) => {
         this.unSavedDashboardsExist = unSavedDashboardsExist;
       });
+
+    this.currentGlobalDataSelections$ = this.store.select(
+      getCurrentGlobalDataSelections(false)
+    );
+
+    this.currentGlobalDataSelectionsFromAnalytics$ = this.store.select(
+      getCurrentGlobalDataSelections(true)
+    );
+
+    this.rootCauseDataIds$ = this.store.select(getRootCauseDataIds);
   }
 
   onSetCurrentDashboardAction(dashboardId: string) {

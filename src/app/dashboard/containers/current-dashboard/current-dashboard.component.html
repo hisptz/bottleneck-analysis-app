@@ -58,7 +58,8 @@
       <ngx-dhis2-visualization [id]="visualization.id" [currentUser]="currentUser$ | async"
         [systemInfo]="systemInfo$ | async" [legendSets]="legendSets$ | async" [dashboard]="currentDashboard$ | async"
         (toggleFullScreen)="onToggleVisualizationFullScreen($event)"
-        (deleteVisualization)="onDeleteVisualizationAction($event)"></ngx-dhis2-visualization>
+        (deleteVisualization)="onDeleteVisualizationAction($event)"
+        [selectionSummary]="currentGlobalDataSelectionSummary$ | async"></ngx-dhis2-visualization>
     </div>
   </div>
   <!-- end of current dashboard visualizations -->

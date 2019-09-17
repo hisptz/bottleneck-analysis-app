@@ -17,7 +17,8 @@ import * as fromDashboardSettingsActions from '../actions/dashboard-settings.act
 import { LoadDataGroups } from '../../../store/actions/data-group.actions';
 import { Action, Store } from '@ngrx/store';
 import { State, getCurrentUser, getSystemInfo } from '../../../store';
-import { User, SystemInfo } from '../../../models';
+import { SystemInfo } from '../../../models';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 @Injectable()
 export class DashboardSettingsEffects {

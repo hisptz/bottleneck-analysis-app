@@ -1,19 +1,14 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
 
-// reducers
+import { Dashboard, DashboardGroups } from '../../models';
 import * as fromDashboardReducer from '../reducers/dashboard.reducer';
-
-// selectors
 import { getCurrentDashboardGroup } from './dashboard-groups.selectors';
-
-// models
-import { Dashboard } from '../../models';
 
 export const getAllGroupDashboards = createSelector(
   fromDashboardReducer.getAllDashboards,
   getCurrentDashboardGroup,
-  (allDashboards, currentDashboardGroup) => {
+  (allDashboards: Dashboard[], currentDashboardGroup: DashboardGroups) => {
     return currentDashboardGroup && currentDashboardGroup.dashboards
       ? (allDashboards || [])
           .filter(({ id }) => currentDashboardGroup.dashboards.includes(id))

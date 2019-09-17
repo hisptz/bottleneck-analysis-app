@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
-import { OrgUnit } from '../dashboard/modules/ngx-dhis2-data-selection-filter/modules/ngx-dhis2-org-unit-filter/models';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,9 +9,6 @@ export class AppDatabaseService extends Dexie {
   constructor() {
     super('dashboard');
     this.version(1).stores({
-      organisationUnits: 'id',
-      organisationUnitLevels: 'id',
-      organisationUnitGroups: 'id',
       indicators: 'id',
       indicatorGroups: 'id',
       functions: 'id'
@@ -24,8 +20,8 @@ export class AppDatabaseService extends Dexie {
       this.table(schemaName)
         .toArray()
         .then(
-          (orgUnits: OrgUnit[]) => {
-            observer.next(orgUnits);
+          (data: any[]) => {
+            observer.next(data);
             observer.complete();
           },
           (error: any) => {

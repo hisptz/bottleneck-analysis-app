@@ -1,6 +1,7 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { User, ErrorMessage } from '../../models';
+
 import { UserActions, UserActionTypes } from '../actions/user.actions';
+import { ErrorMessage, User } from '@iapps/ngx-dhis2-http-client';
 
 export interface UserState extends EntityState<User> {
   // additional entities state properties

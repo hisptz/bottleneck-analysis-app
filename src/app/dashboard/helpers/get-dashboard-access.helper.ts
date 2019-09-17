@@ -1,13 +1,15 @@
 import * as _ from 'lodash';
-
-import { User } from '../../models';
+import { User } from '@iapps/ngx-dhis2-http-client';
+import { isSuperUser } from './is-super-user.helper';
 
 export function getDashboardAccess(dashboard: any, currentUser: User) {
   let hasAccess = false;
   let manageSharing = false;
   if (dashboard && currentUser) {
     // check if user can manage sharing
-    manageSharing = currentUser.isSuperUser;
+    manageSharing =
+      isSuperUser(currentUser) ||
+      (dashboard.user && dashboard.user.id === currentUser.id);
 
     if (
       (dashboard.user && dashboard.user.id === currentUser.id) ||

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 // root state
@@ -13,8 +13,10 @@ import * as fromDashboardSelectors from '../../store/selectors';
 import { SetCurrentDashboardAction } from '../../store/actions';
 
 // models
-import { User, SystemInfo } from '../../../models';
+import { SystemInfo } from '../../../models';
 import { Dashboard } from '../../models';
+import { User } from '@iapps/ngx-dhis2-http-client';
+import { getGlobalDataSelectionSummary } from '../../store/selectors/data-selections.selectors';
 
 @Component({
   selector: 'app-current-dashboard-visualization',
@@ -28,6 +30,7 @@ export class CurrentDashboardVisualizationComponent implements OnInit {
   systemInfo$: Observable<SystemInfo>;
   currentDashboardVisualizationLoading$: Observable<boolean>;
   currentDashboardVisualizationLoaded$: Observable<boolean>;
+  globalSelectionSummary$: Observable<string>;
 
   constructor(private store: Store<State>) {
     this.currentVisualizationId$ = this.store.select(
@@ -53,5 +56,9 @@ export class CurrentDashboardVisualizationComponent implements OnInit {
       new SetCurrentDashboardAction(fullScreenDetails.dashboardId)
     );
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.globalSelectionSummary$ = this.store.select(
+      getGlobalDataSelectionSummary
+    );
+  }
 }

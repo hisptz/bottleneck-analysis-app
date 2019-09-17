@@ -8,6 +8,7 @@ import { systemInfoReducer, SystemInfoState } from './system-info.reducer';
 import { LegendSetState, legendSetReducer } from './legend-set.reducer';
 
 import * as fromDataGroupReducer from './data-group.reducer';
+import { RootCauseData, rootCauseDataReducer } from './root-cause-data.reducer';
 
 /**
  * Root state interface
@@ -29,6 +30,7 @@ export interface State {
   route: RouterReducerState;
   legendSets: LegendSetState;
   dataGroup: fromDataGroupReducer.State;
+  rootCauseData: RootCauseData;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -36,7 +38,8 @@ export const reducers: ActionReducerMap<State> = {
   systemInfo: systemInfoReducer,
   route: routerReducer,
   legendSets: legendSetReducer,
-  dataGroup: fromDataGroupReducer.reducer
+  dataGroup: fromDataGroupReducer.reducer,
+  rootCauseData: rootCauseDataReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

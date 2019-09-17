@@ -7,8 +7,9 @@ import {
   OnInit
 } from '@angular/core';
 import { Dashboard, DashboardGroups } from '../../models';
-import { User, SystemInfo } from '../../../models';
 import { DataGroup } from '../../../models/data-group.model';
+import { User, SystemInfo } from '@iapps/ngx-dhis2-http-client';
+import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 
 @Component({
   selector: 'app-dashboard-menu',
@@ -38,6 +39,10 @@ export class DashboardMenuComponent implements OnInit {
 
   @Input()
   currentUserHasAuthorities: boolean;
+
+  @Input() dataSelections: VisualizationDataSelection[];
+
+  @Input() rootCauseDataIds: string[];
 
   searchTerm: string;
 

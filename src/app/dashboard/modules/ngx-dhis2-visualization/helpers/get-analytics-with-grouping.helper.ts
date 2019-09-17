@@ -10,6 +10,8 @@ export function getAnalyticsWithGrouping(
   }
   const dxDataSelection = _.find(dataSelections, ['dimension', 'dx']);
 
+  const { headers, rows, metaData } = analytics;
+
   if (!dxDataSelection) {
     return analytics;
   }
@@ -19,11 +21,14 @@ export function getAnalyticsWithGrouping(
   if (dxGroups.length === 0) {
     return analytics;
   }
-  const { headers, rows, metaData } = analytics;
 
   // Get dx header index
-  const dxHeaderIndex = headers.indexOf(_.find(headers, ['name', 'dx']));
-  const valueHeaderIndex = headers.indexOf(_.find(headers, ['name', 'value']));
+  const dxHeaderIndex = (headers || []).indexOf(
+    _.find(headers, ['name', 'dx'])
+  );
+  const valueHeaderIndex = (headers || []).indexOf(
+    _.find(headers, ['name', 'value'])
+  );
 
   // Update headers with groups
   const newHeaders = [

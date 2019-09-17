@@ -14,7 +14,6 @@ import {
 } from 'rxjs/operators';
 
 import * as fromRootHelpers from '../../../helpers';
-import * as fromRootModels from '../../../models';
 import * as fromRootActions from '../../../store/actions';
 import * as fromRootReducer from '../../../store/reducers';
 import * as fromRootSelectors from '../../../store/selectors';
@@ -32,6 +31,7 @@ import * as fromDashboardSelectors from '../selectors';
 import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-visualization.selectors';
 import { getStandardizedDashboards } from '../../helpers';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 @Injectable()
 export class DashboardEffects {
@@ -90,7 +90,7 @@ export class DashboardEffects {
     tap(
       ([action, currentUser]: [
         fromDashboardActions.SetCurrentDashboardAction,
-        fromRootModels.User
+        User
       ]) => {
         // Set selected dashboard id into local storage
         localStorage.setItem(
@@ -149,9 +149,7 @@ export class DashboardEffects {
       (action: fromDashboardActions.SetCurrentVisualizationAction) =>
         new fromRootActions.Go({
           path: [
-            `/dashboards/${action.dashboardId}/fullScreen/${
-              action.visualizationId
-            }`
+            `/dashboards/${action.dashboardId}/fullScreen/${action.visualizationId}`
           ]
         })
     )
@@ -382,11 +380,7 @@ export class DashboardEffects {
             }),
             catchError(error => {
               this.snackBar.open(
-                `Fail to create ${
-                  action.dashboard.name
-                } intervention, Error (Code: ${error.status}): ${
-                  error.message
-                }`,
+                `Fail to create ${action.dashboard.name} intervention, Error (Code: ${error.status}): ${error.message}`,
                 'OK'
               );
               return of(
@@ -487,11 +481,7 @@ export class DashboardEffects {
             }),
             catchError((error: any) => {
               this.snackBar.open(
-                `Fail to delete ${
-                  action.dashboard.name
-                } intervention, Error (Code: ${error.status}): ${
-                  error.message
-                }`,
+                `Fail to delete ${action.dashboard.name} intervention, Error (Code: ${error.status}): ${error.message}`,
                 'OK'
               );
               return of(

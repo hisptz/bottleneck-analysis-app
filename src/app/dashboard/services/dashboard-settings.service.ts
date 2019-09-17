@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
 import {
-  NgxDhis2HttpClientService,
   ManifestService,
-  Manifest
+  NgxDhis2HttpClientService
 } from '@hisptz/ngx-dhis2-http-client';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { forkJoin, of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardSettingsService {
@@ -20,14 +18,7 @@ export class DashboardSettingsService {
 
   load() {
     return this.manifestService.getManifest().pipe(
-      mergeMap((manifestObject: any) => {
-        // const namespace =
-        //   manifestObject &&
-        //   manifestObject.activities &&
-        //   manifestObject.activities.dhis
-        //     ? manifestObject.activities.dhis.namespace
-        //     : 'default';
-        // TODO FIND DYNAMIC WAY TO GET DASHBOARD NAMESPACE
+      mergeMap(() => {
         const namespace = 'bna-dashboard';
         return this.httpClient.get(this._dataStoreUrl).pipe(
           mergeMap((dashboardSettingsList: Array<string>) => {
