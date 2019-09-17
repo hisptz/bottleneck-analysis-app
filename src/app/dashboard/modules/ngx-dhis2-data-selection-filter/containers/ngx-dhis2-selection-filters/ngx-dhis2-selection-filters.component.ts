@@ -18,6 +18,7 @@ import {
 } from '../../icons';
 import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
 import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config.constant';
+import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -39,6 +40,8 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
 
   @Input()
   saving: boolean;
+
+  periodFilterConfig: PeriodFilterConfig;
 
   @Output()
   filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
@@ -68,6 +71,8 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     this.dataIcon = DATA_ICON;
     this.periodIcon = PERIOD_ICON;
     this.orgUnitIcon = TREE_ICON;
+
+    this.periodFilterConfig = { singleSelection: true };
   }
 
   get selectedData(): any[] {

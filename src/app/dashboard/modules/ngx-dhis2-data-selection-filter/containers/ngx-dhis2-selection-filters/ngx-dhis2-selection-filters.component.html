@@ -1,4 +1,4 @@
-<div class="selection-filter-container" appClickOutside (clickOutside)="onClickOutside()">
+<div class="selection-filter-container">
   <!--selection filter header-->
   <div class="selection-filter-header">
     <button class="selection-filter-btn filter-control-btn" mat-stroked-button (click)="toggleFilters($event)"
@@ -74,12 +74,13 @@
       " (legendSetConfigurationUpdate)="
         onFilterUpdate($event, 'LEGEND_CONFIGURATION')
       "></app-legend-set-configuration>
-    <!-- end of legend configguration -->
+    <!-- end of legend configuration -->
 
     <!--period filter-->
-    <app-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods"
-      (periodFilterClose)="onFilterClose($event, 'PERIOD')" (periodFilterUpdate)="onFilterUpdate($event, 'PERIOD')">
-    </app-period-filter>
+    <ngx-dhis2-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods"
+      [periodFilterConfig]="periodFilterConfig" (close)="onFilterClose($event, 'PERIOD')"
+      (update)="onFilterUpdate($event, 'PERIOD')">
+    </ngx-dhis2-period-filter>
     <!--end of period filter-->
 
     <!--org unit filter-->
