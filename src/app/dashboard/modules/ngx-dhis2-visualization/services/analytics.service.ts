@@ -85,6 +85,7 @@ export class AnalyticsService {
           )
         );
     }
+
     return zip(
       this._getNormalAnalytics(
         this._getDataSelectionByDxType(
@@ -160,6 +161,7 @@ export class AnalyticsService {
           typeof dxItem.ruleDefinition.json === 'string'
             ? JSON.parse(dxItem.ruleDefinition.json)
             : dxItem.ruleDefinition.json;
+
         functionPromise = this._runFunction(
           {
             pe: peValue,

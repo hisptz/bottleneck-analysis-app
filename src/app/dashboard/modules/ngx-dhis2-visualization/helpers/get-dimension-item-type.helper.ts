@@ -18,6 +18,6 @@ export function getDimensionItemType(dimension: string, dimensionItem: any) {
       );
     }
     default:
-      return dimensionItem.dimensionItemType;
+      return dimensionItem.dimensionItemType || dimensionItem.type;
   }
 }
