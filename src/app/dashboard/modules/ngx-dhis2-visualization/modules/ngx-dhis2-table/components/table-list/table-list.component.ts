@@ -50,9 +50,9 @@ export class TableListComponent implements OnInit {
     );
   }
 
-  onDownloadEvent(downloadFormat) {
+  onDownloadEvent(downloadFormat, filename) {
     if (this.tableItem) {
-      this.tableItem.downloadTable(downloadFormat);
+      this.tableItem.downloadTable(downloadFormat, filename);
     }
   }
 

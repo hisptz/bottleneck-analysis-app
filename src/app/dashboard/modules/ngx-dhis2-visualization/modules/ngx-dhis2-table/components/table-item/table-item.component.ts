@@ -55,11 +55,9 @@ export class TableItemComponent implements OnInit {
     }
   }
 
-  downloadTable(downloadFormat) {
+  downloadTable(downloadFormat, filename) {
     if (this.tableData && this.tableConfiguration) {
-      const title = `${this.tableData.title || 'Untitled'}-${
-        this.tableData.subtitle
-      }`;
+      const title = `Sublevel Analysis - ${filename}`;
       if (this.table) {
         const el = this.table.nativeElement;
         if (downloadFormat === 'XLS') {
