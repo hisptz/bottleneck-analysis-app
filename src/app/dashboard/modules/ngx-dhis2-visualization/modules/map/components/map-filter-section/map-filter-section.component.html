@@ -1,48 +1,31 @@
 <div class="visualization-filter-section">
   <div class="visualization-filter-buttons">
-    <button
-      type="button"
-      class="dashboard-btn visualization-filter-btn map-filter-btn"
-      title="Filter by different dimensions"
-      [disabled]="!loaded"
-      (click)="toggleFilters($event)"
-    >
+    <button type="button" class="dashboard-btn visualization-filter-btn map-filter-btn"
+      title="Filter by different dimensions" [disabled]="!loaded" (click)="toggleFilters($event)">
       <img src="assets/icons/filter.png" alt="" />
       <img src="assets/icons/{{ showFilters ? 'arrow-left.png' : 'arrow-right.png' }}" alt="" />
     </button>
     &nbsp;
     <div class="visualization-filter-list" *ngIf="showFilters">
-      <button
-        type="button"
-        class="btn btn-outline-dark btn-sm org-unit-filter-btn border-round "
-        [ngClass]="{ 'active-filter': selectedFilter === 'ORG_UNIT' }"
-        title="Filter by organisation unit"
-        (click)="toggleCurrentFilter($event, 'ORG_UNIT')"
-      >
+      <button type="button" class="btn btn-outline-dark btn-sm org-unit-filter-btn border-round "
+        [ngClass]="{ 'active-filter': selectedFilter === 'ORG_UNIT' }" title="Filter by organisation unit"
+        (click)="toggleCurrentFilter($event, 'ORG_UNIT')">
         <img src="assets/icons/tree.png" alt="" />
         &nbsp;
         <span>Org Unit</span>
         <img [ngClass]="{ 'arrow-up': selectedFilter === 'ORG_UNIT' }" src="assets/icons/arrow-down.png" alt="" />
       </button>
-      <button
-        type="button"
-        class="btn btn-outline-dark btn-sm period-filter-btn border-round"
-        [ngClass]="{ 'active-filter': selectedFilter === 'PERIOD' }"
-        title="Filter by period"
-        (click)="toggleCurrentFilter($event, 'PERIOD')"
-      >
+      <button type="button" class="btn btn-outline-dark btn-sm period-filter-btn border-round"
+        [ngClass]="{ 'active-filter': selectedFilter === 'PERIOD' }" title="Filter by period"
+        (click)="toggleCurrentFilter($event, 'PERIOD')">
         <img src="assets/icons/period.png" alt="" />
         &nbsp;
         <span>Period</span>
         <img [ngClass]="{ 'arrow-up': selectedFilter === 'PERIOD' }" src="assets/icons/arrow-down.png" alt="" />
       </button>
-      <button
-        type="button"
-        class="btn btn-outline-dark btn-sm style-filter-btn border-round"
-        [ngClass]="{ 'active-filter': selectedFilter === 'STYLE' }"
-        title="Filter by period"
-        (click)="toggleCurrentFilter($event, 'STYLE')"
-      >
+      <button type="button" class="btn btn-outline-dark btn-sm style-filter-btn border-round"
+        [ngClass]="{ 'active-filter': selectedFilter === 'STYLE' }" title="Filter by period"
+        (click)="toggleCurrentFilter($event, 'STYLE')">
         <img src="assets/icons/period.png" alt="" />
         &nbsp;
         <span>Style</span>
@@ -52,35 +35,22 @@
   </div>
   <div class="visualization-filter-body dashboard-border" *ngIf="selectedFilter">
     <!--org unit filter-->
-    <ngx-dhis2-org-unit-filter
-      *ngIf="selectedFilter === 'ORG_UNIT'"
-      [selectedOrgUnitItems]="selectedOrgUnitItems"
-      [orgUnitFilterConfig]="orgUnitFilterConfig"
-      (orgUnitClose)="onFilterClose($event)"
-      (orgUnitUpdate)="onFilterUpdateAction($event, 'ORG_UNIT')"
-    ></ngx-dhis2-org-unit-filter>
+    <ngx-dhis2-org-unit-filter *ngIf="selectedFilter === 'ORG_UNIT'" [selectedOrgUnitItems]="selectedOrgUnitItems"
+      [orgUnitFilterConfig]="orgUnitFilterConfig" (orgUnitClose)="onFilterClose($event)"
+      (orgUnitUpdate)="onFilterUpdateAction($event, 'ORG_UNIT')"></ngx-dhis2-org-unit-filter>
     <!--end of org unit filter-->
 
     <!--period filter-->
-    <app-period-filter
-      *ngIf="selectedFilter === 'PERIOD'"
-      [selectedPeriods]="selectedPeriods"
-      [periodConfig]="periodConfig"
-      (periodFilterClose)="onFilterClose($event)"
-      (periodFilterUpdate)="onFilterUpdateAction($event, 'PERIOD')"
-    ></app-period-filter>
+    <ngx-dhis2-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods"
+      [periodFilterConfig]="periodConfig" (close)="onFilterClose($event)"
+      (update)="onFilterUpdateAction($event, 'PERIOD')">
+    </ngx-dhis2-period-filter>
     <!--end of period filter-->
 
     <!-- style filter -->
-    <app-map-style
-      *ngIf="selectedFilter === 'STYLE'"
-      [selectedLayer]="selectedLayer"
-      [legendSets]="legendSets$ | async"
-      (styleFilterClose)="onFilterClose($event)"
-      (styleUpdate)="onStyleFilterUpdate($event)"
-      [isloading]="isFilterSectionLoading$ | async"
-      [justUpdated]="isFilterSectionUpdated$ | async"
-    ></app-map-style>
+    <app-map-style *ngIf="selectedFilter === 'STYLE'" [selectedLayer]="selectedLayer" [legendSets]="legendSets$ | async"
+      (styleFilterClose)="onFilterClose($event)" (styleUpdate)="onStyleFilterUpdate($event)"
+      [isloading]="isFilterSectionLoading$ | async" [justUpdated]="isFilterSectionUpdated$ | async"></app-map-style>
     <!-- end of style filter -->
   </div>
 </div>
