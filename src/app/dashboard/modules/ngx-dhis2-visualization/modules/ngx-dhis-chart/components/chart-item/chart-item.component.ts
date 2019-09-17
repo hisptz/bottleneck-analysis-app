@@ -92,7 +92,8 @@ export class ChartItemComponent implements OnInit {
   }
 
   downloadChart(downloadFormat, downloadFilename) {
-    const filename = `Bottleneck Chart - ${downloadFilename}`;
+    const date = new Date();
+    const filename = `Bottleneck Chart - ${downloadFilename} generated on ${date.toUTCString()}`;
     if (this.chart) {
       if (downloadFormat === 'PDF') {
         this.chart.exportChartLocal({

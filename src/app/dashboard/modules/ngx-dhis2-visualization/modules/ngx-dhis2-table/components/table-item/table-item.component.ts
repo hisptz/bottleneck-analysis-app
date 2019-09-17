@@ -57,7 +57,8 @@ export class TableItemComponent implements OnInit {
 
   downloadTable(downloadFormat, filename) {
     if (this.tableData && this.tableConfiguration) {
-      const title = `Sublevel Analysis - ${filename}`;
+      const date = new Date();
+      const title = `Sublevel Analysis - ${filename}  generated on ${date.toUTCString()}`;
       if (this.table) {
         const el = this.table.nativeElement;
         if (downloadFormat === 'XLS') {
