@@ -31,6 +31,7 @@
     "@hisptz/ngx-dhis2-table": "^1.0.0",
     "@iapps/function-analytics": "^1.0.0-beta.20",
     "@iapps/ngx-dhis2-http-client": "^2.0.8-beta.3",
+    "@iapps/ngx-dhis2-org-unit-filter": "^1.1.21-beta.2",
     "@mapbox/geojson-area": "^0.2.2",
     "@ng-select/ng-select": "^3.0.7",
     "@ngrx/effects": "^8.3.0",
