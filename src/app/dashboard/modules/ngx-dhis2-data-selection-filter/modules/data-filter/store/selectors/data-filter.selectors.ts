@@ -33,7 +33,6 @@ const getDataFilterGroupsWithItems = createSelector(
       activeDataFilterSelections[0] === 'all'
         ? _.keys(dataFilterGroupEntities)
         : activeDataFilterSelections;
-
     return _.flatten(
       _.map(
         selectionKeys,
@@ -62,20 +61,20 @@ export const getDataFilterGroups = createSelector(
       {
         id: 'all',
         name: '[ All ]',
-        selected: currentDataFilterGroupId === 'all'
+        selected: currentDataFilterGroupId === 'all',
       },
       ..._.sortBy(
         _.map(dataFilterGroupWithItems, (dataFilterGroup: any) =>
           _.omit(
             {
               ...dataFilterGroup,
-              selected: dataFilterGroup.id === currentDataFilterGroupId
+              selected: dataFilterGroup.id === currentDataFilterGroupId,
             },
             ['items']
           )
         ),
-        'name'
-      )
+        ['sortOrder', 'name']
+      ),
     ];
   }
 );

@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { map, catchError, switchMap, tap } from 'rxjs/operators';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { AppDatabaseService } from 'src/app/services/app-database.service';
-import { of } from 'rxjs';
-import { Indicator } from '../model/indicator';
+import { Injectable } from "@angular/core";
+import { map, catchError, switchMap, tap } from "rxjs/operators";
+import { NgxDhis2HttpClientService } from "@iapps/ngx-dhis2-http-client";
+import { AppDatabaseService } from "src/app/services/app-database.service";
+import { of } from "rxjs";
+import { Indicator } from "../model/indicator";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class IndicatorService {
   constructor(
     private http: NgxDhis2HttpClientService,
@@ -13,7 +13,7 @@ export class IndicatorService {
   ) {}
 
   loadAll() {
-    return this.appDatabaseService.getAll('indicators').pipe(
+    return this.appDatabaseService.getAll("indicators").pipe(
       catchError(() => of([])),
       switchMap((indicators: Indicator[]) =>
         indicators.length > 0
@@ -21,7 +21,7 @@ export class IndicatorService {
           : this._loadFromApi().pipe(
               tap((indicatorsFromServer: Indicator[]) => {
                 this.appDatabaseService
-                  .saveBulk('indicators', indicatorsFromServer)
+                  .saveBulk("indicators", indicatorsFromServer)
                   .subscribe(() => {});
               })
             )
@@ -31,7 +31,7 @@ export class IndicatorService {
 
   private _loadFromApi() {
     return this.http
-      .get('indicators.json?fields=id,name,code&paging=false')
+      .get("indicators.json?fields=id,name,code&paging=false")
       .pipe(map(res => res.indicators || []));
   }
 }
