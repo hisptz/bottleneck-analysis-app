@@ -21,9 +21,14 @@ export const getIndicatorGroups = createSelector(
     indicatorGroups: fromModels.IndicatorGroup[],
     indicatorEntities: { [id: string]: fromModels.Indicator }
   ) => {
-    return _.map(
+    let indicatorIdsWithGroups = [];
+    const sanitizedIndicatorGroups = _.map(
       indicatorGroups,
       (indicatorGroup: fromModels.IndicatorGroup) => {
+        indicatorIdsWithGroups = [
+          ...indicatorIdsWithGroups,
+          ...indicatorGroup.indicators,
+        ];
         return {
           id: indicatorGroup.id,
           name: indicatorGroup.name,
@@ -33,9 +38,27 @@ export const getIndicatorGroups = createSelector(
               (indicatorId: string) => indicatorEntities[indicatorId]
             ),
             indicator => indicator
-          )
+          ),
         };
       }
     );
+
+    return [
+      {
+        id: 'ungrouped',
+        name: '[ Un-grouped ]',
+        sortOrder: 2,
+        items: _.keys(indicatorEntities)
+          .filter(
+            (indicatorId: string) =>
+              !_.some(
+                indicatorIdsWithGroups,
+                indicator => indicator === indicatorId
+              )
+          )
+          .map(indicatorId => indicatorEntities[indicatorId]),
+      },
+      ...sanitizedIndicatorGroups,
+    ];
   }
 );
