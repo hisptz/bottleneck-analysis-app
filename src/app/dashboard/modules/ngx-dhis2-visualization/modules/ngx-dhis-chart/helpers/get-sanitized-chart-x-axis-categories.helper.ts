@@ -14,26 +14,27 @@ export function getSanitizedChartXAxisCategories(
     if (seriesDataObjects) {
       const seriesCategoryNamesArray = _.map(seriesDataObjects, seriesData => {
         return _.map(seriesData, data => {
-          const nameArray = data.name.split('_');
+          const idArray = data.id.split('_');
           const newCategoryArray = [];
-          if (nameArray) {
-            const reversedNameArray = _.reverse(nameArray);
-            _.times(nameArray.length, (num: number) => {
+          if (idArray) {
+            const reversedIdArray = _.reverse(idArray);
+            _.times(idArray.length, (num: number) => {
               if (num === 0) {
                 const parentCategoryItem = _.find(
                   reversedXAxisItems[num] || [],
-                  ['name', reversedNameArray[num]]
+                  ['id', reversedIdArray[num]]
                 );
+
                 newCategoryArray.push({
-                  name:
-                    parentCategoryItem && parentCategoryItem.label
-                      ? parentCategoryItem.label
-                      : reversedNameArray[num]
+                  id: reversedIdArray[num],
+                  name: parentCategoryItem
+                    ? parentCategoryItem.label || parentCategoryItem.name
+                    : reversedIdArray[num],
                 });
               } else {
                 const parentCategory: any = _.find(newCategoryArray, [
-                  'name',
-                  reversedNameArray[num - 1]
+                  'id',
+                  reversedIdArray[num - 1],
                 ]);
 
                 if (parentCategory) {
@@ -46,15 +47,16 @@ export function getSanitizedChartXAxisCategories(
                     : [];
                   const childrenCategoryItem = _.find(
                     reversedXAxisItems[num] || [],
-                    ['name', reversedNameArray[num]]
+                    ['id', reversedIdArray[num]]
                   );
 
-                  newChildrenCategories = _.concat(
-                    newChildrenCategories,
-                    childrenCategoryItem && childrenCategoryItem.label
-                      ? childrenCategoryItem.label
-                      : reversedNameArray[num]
-                  );
+                  newChildrenCategories = [
+                    ...newChildrenCategories,
+                    childrenCategoryItem
+                      ? childrenCategoryItem.label || childrenCategoryItem.name
+                      : reversedIdArray[num],
+                  ];
+
                   parentCategory.categories = _.assign(
                     [],
                     newChildrenCategories
@@ -93,7 +95,7 @@ export function getSanitizedChartXAxisCategories(
           } else {
             sanitizedCategoryNames.push({
               name: key,
-              categories: categories
+              categories: categories,
             });
           }
         });
