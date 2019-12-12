@@ -1,4 +1,4 @@
-import { reducer, initialState } from '../reducers/data-filter.reducer';
+import { reducer, initialState } from './data-filter.reducer';
 
 describe('DataFilter Reducer', () => {
   describe('unknown action', () => {

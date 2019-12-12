@@ -58,40 +58,4 @@
     </div>
   </div>
   <!--end of selection filter header-->
-
-  <!--selection filter body-->
-  <div class="selection-filter-body" *ngIf="selectedFilter !== '' && showFilterBody">
-    <!--data filter-->
-    <app-data-filter *ngIf="selectedFilter === 'DATA'" [selectedItems]="selectedData"
-      [selectedGroups]="selectedDataGroups" (dataFilterClose)="onFilterClose($event, 'DATA')"
-      (dataFilterUpdate)="onFilterUpdate($event, 'DATA')"></app-data-filter>
-    <!--end of data filter-->
-
-    <!-- legend configguration -->
-    <app-legend-set-configuration *ngIf="selectedFilter === 'LEGEND_CONFIGURATION'" [selectedItems]="selectedData"
-      [selectedGroups]="selectedDataGroups" (legendSetConfigurationClose)="
-        onFilterClose($event, 'LEGEND_CONFIGURATION')
-      " (legendSetConfigurationUpdate)="
-        onFilterUpdate($event, 'LEGEND_CONFIGURATION')
-      "></app-legend-set-configuration>
-    <!-- end of legend configuration -->
-
-    <!--period filter-->
-    <ngx-dhis2-period-filter *ngIf="selectedFilter === 'PERIOD'" [selectedPeriods]="selectedPeriods"
-      [periodFilterConfig]="periodFilterConfig" (close)="onFilterClose($event, 'PERIOD')"
-      (update)="onFilterUpdate($event, 'PERIOD')">
-    </ngx-dhis2-period-filter>
-    <!--end of period filter-->
-
-    <!--org unit filter-->
-    <ngx-dhis2-org-unit-filter *ngIf="selectedFilter === 'ORG_UNIT'" [selectedOrgUnitItems]="selectedOrgUnits"
-      (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')" (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')">
-    </ngx-dhis2-org-unit-filter>
-    <!--end of org unit filter-->
-
-    <app-layout [layoutModel]="layoutItem" *ngIf="selectedFilter === 'LAYOUT'"
-      (onLayoutUpdate)="onFilterUpdate($event, 'LAYOUT')" (onLayoutClose)="onFilterClose($event, 'LAYOUT')">
-    </app-layout>
-  </div>
-  <!--end of selection filter body-->
 </div>

@@ -8,7 +8,7 @@ import { take, tap, filter, switchMap } from 'rxjs/operators';
 import {
   getMergedDataSelections,
   getSanitizedAnalytics,
-  getStandardizedAnalyticsObject
+  getStandardizedAnalyticsObject,
 } from '../../helpers';
 import { VisualizationLayer, VisualizationDataSelection } from '../../models';
 import { AnalyticsService } from '../../services/analytics.service';
@@ -16,15 +16,15 @@ import {
   LoadVisualizationAnalyticsAction,
   LoadVisualizationAnalyticsSuccessAction,
   UpdateVisualizationLayerAction,
-  VisualizationLayerActionTypes
+  VisualizationLayerActionTypes,
 } from '../actions/visualization-layer.actions';
 import { UpdateVisualizationObjectAction } from '../actions/visualization-object.actions';
 import { VisualizationState } from '../reducers';
 import { getCombinedVisualizationObjectById } from '../selectors';
 import {
   getFunctionLoadedStatus,
-  getFunctions
-} from '../../../ngx-dhis2-data-selection-filter/modules/data-filter/store/selectors/function.selectors';
+  getFunctions,
+} from '../../../selection-filters/modules/data-filter/store/selectors/function.selectors';
 
 // reducers
 // actions
@@ -54,8 +54,8 @@ export class VisualizationLayerEffects {
                     statusCode: 200,
                     statusText: 'OK',
                     percent: 50,
-                    message: 'Favorite information has been loaded'
-                  }
+                    message: 'Favorite information has been loaded',
+                  },
                 })
               );
             }
@@ -70,7 +70,7 @@ export class VisualizationLayerEffects {
                         visualizationLayer.dataSelections,
                         action.globalSelections,
                         visualizationObject.type
-                      )
+                      ),
                     };
                   }
                 )
@@ -102,14 +102,14 @@ export class VisualizationLayerEffects {
                                 if (item.type === 'FUNCTION_RULE') {
                                   const functionRule = _.find(functionRules, [
                                     'id',
-                                    item.id
+                                    item.id,
                                   ]);
                                   return functionRule
                                     ? { ...functionRule, type: item.type }
                                     : item;
                                 }
                                 return item;
-                              })
+                              }),
                             };
                           }
                           default:
@@ -131,7 +131,7 @@ export class VisualizationLayerEffects {
                         visualizationLayer.config,
                         {
                           returnDummyAnalyticsOnFail: true,
-                          metadataOnly: visualizationObject.isNonVisualizable
+                          metadataOnly: visualizationObject.isNonVisualizable,
                         }
                       );
                     }
@@ -149,7 +149,8 @@ export class VisualizationLayerEffects {
                               visualizationLayers[analyticsIndex].dataSelections
                             ),
                             dataSelections:
-                              visualizationLayers[analyticsIndex].dataSelections
+                              visualizationLayers[analyticsIndex]
+                                .dataSelections,
                           }
                         )
                       );
@@ -163,8 +164,8 @@ export class VisualizationLayerEffects {
                             statusCode: 200,
                             statusText: 'OK',
                             percent: 100,
-                            message: 'Analytics loaded'
-                          }
+                            message: 'Analytics loaded',
+                          },
                         }
                       )
                     );
@@ -178,8 +179,8 @@ export class VisualizationLayerEffects {
                             statusCode: error.status,
                             statusText: 'Error',
                             percent: 100,
-                            message: error.message
-                          }
+                            message: error.message,
+                          },
                         }
                       )
                     );

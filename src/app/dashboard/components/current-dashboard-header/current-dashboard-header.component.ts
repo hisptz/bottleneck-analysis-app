@@ -4,14 +4,14 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import { generateUid } from '../../../helpers/generate-uid.helper';
 import { Dashboard } from '../../models';
-import { SelectionFilterConfig } from '../../modules/ngx-dhis2-data-selection-filter/models/selected-filter-config.model';
+import { SelectionFilterConfig } from '../../modules/selection-filters/models/selected-filter-config.model';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 import { DashboardDeleteDialogComponent } from '../dashboard-delete-dialog/dashboard-delete-dialog.component';
 import { User } from '@iapps/ngx-dhis2-http-client';
@@ -20,7 +20,7 @@ import { User } from '@iapps/ngx-dhis2-http-client';
   selector: 'app-current-dashboard-header',
   templateUrl: './current-dashboard-header.component.html',
   styleUrls: ['./current-dashboard-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrentDashboardHeaderComponent implements OnInit {
   @Input() currentDashboard: Dashboard;
@@ -79,7 +79,7 @@ export class CurrentDashboardHeaderComponent implements OnInit {
 
   constructor(private dialog: MatDialog) {
     this.selectionFilterConfig = {
-      showLayout: false
+      showLayout: false,
     };
   }
 
@@ -89,7 +89,7 @@ export class CurrentDashboardHeaderComponent implements OnInit {
     this.toggleCurrentDashboardBookmark.emit({
       id: this.currentDashboard.id,
       supportBookmark: this.currentDashboard.supportBookmark,
-      bookmarked: dashboardBookmarked
+      bookmarked: dashboardBookmarked,
     });
   }
 
@@ -110,19 +110,19 @@ export class CurrentDashboardHeaderComponent implements OnInit {
                 ? [
                     {
                       id: favorite.id,
-                      name: favorite.name
-                    }
+                      name: favorite.name,
+                    },
                   ]
                 : {
                     id: favorite.id,
-                    name: favorite.name
-                  }
+                    name: favorite.name,
+                  },
             }
           : {
               id: generateUid(),
               type: favorite.dashboardTypeDetails.type,
-              appKey: favorite.id
-            }
+              appKey: favorite.id,
+            },
     });
   }
 
@@ -135,7 +135,7 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   onFilterUpdateAction(dataSelections: any[]) {
     this.globalFilterChange.emit({
       id: this.currentDashboard.id,
-      globalSelections: dataSelections
+      globalSelections: dataSelections,
     });
   }
 
@@ -145,7 +145,7 @@ export class CurrentDashboardHeaderComponent implements OnInit {
       data: this.currentDashboard.name,
       height: '180px',
       width: '500px',
-      disableClose: true
+      disableClose: true,
     });
 
     dialogRef.beforeClose().subscribe((action: string) => {

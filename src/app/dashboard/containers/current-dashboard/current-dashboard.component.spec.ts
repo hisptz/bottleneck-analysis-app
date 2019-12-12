@@ -16,7 +16,7 @@ import { NgxDhis2VisualizationModule } from '../../modules/ngx-dhis2-visualizati
 import { CurrentDashboardTitleComponent } from '../../components/current-dashboard-title/current-dashboard-title.component';
 import { CurrentDashboardSharingComponent } from '../../components/current-dashboard-sharing/current-dashboard-sharing.component';
 import { CurrentDashboardBookmarkComponent } from '../../components/current-dashboard-bookmark/current-dashboard-bookmark.component';
-import { NgxDhis2SelectionFiltersModule } from '../../modules/ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
+import { SelectionFiltersModule } from '../../modules/selection-filters/selection-filters.module';
 import { FavoriteFilterModule } from '../../modules/favorite-filter/favorite-filter.module';
 import { CurrentDashboardDescriptionComponent } from '../../components/current-dashboard-description/current-dashboard-description.component';
 import { SharingFilterModule } from '../../modules/sharing-filter/sharing-filter.module';
@@ -32,17 +32,17 @@ describe('CurrentDashboardComponent', () => {
           loader: {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
+            deps: [HttpClient],
+          },
         }),
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot(effects),
         RouterTestingModule,
         HttpClientModule,
         NgxDhis2VisualizationModule,
-        NgxDhis2SelectionFiltersModule,
+        SelectionFiltersModule,
         FavoriteFilterModule,
-        SharingFilterModule
+        SharingFilterModule,
       ],
       declarations: [
         CurrentDashboardComponent,
@@ -52,8 +52,8 @@ describe('CurrentDashboardComponent', () => {
         CurrentDashboardSharingComponent,
         CurrentDashboardBookmarkComponent,
         CurrentDashboardDescriptionComponent,
-        DashboardProgressComponent
-      ]
+        DashboardProgressComponent,
+      ],
     }).compileComponents();
   }));
 

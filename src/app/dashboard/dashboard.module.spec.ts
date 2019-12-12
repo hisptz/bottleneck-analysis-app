@@ -1,15 +1,16 @@
-import { DashboardModule } from './dashboard.module';
 import { async, TestBed } from '@angular/core/testing';
-import { containers } from './containers';
-import { components } from './components';
-import { pipes } from './pipes';
-import { DashboardRoutingModule } from './dashboard-routing.module';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxDhis2VisualizationModule } from './modules/ngx-dhis2-visualization/ngx-dhis2-visualization.module';
-import { NgxDhis2SelectionFiltersModule } from './modules/ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
-import { FavoriteFilterModule } from './modules/favorite-filter/favorite-filter.module';
-import { SharingFilterModule } from './modules/sharing-filter/sharing-filter.module';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { components } from './components';
+import { containers } from './containers';
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { DashboardModule } from './dashboard.module';
+import { FavoriteFilterModule } from './modules/favorite-filter/favorite-filter.module';
+import { NgxDhis2VisualizationModule } from './modules/ngx-dhis2-visualization/ngx-dhis2-visualization.module';
+import { SelectionFiltersModule } from './modules/selection-filters/selection-filters.module';
+import { SharingFilterModule } from './modules/sharing-filter/sharing-filter.module';
+import { pipes } from './pipes';
 
 describe('DashboardModule', () => {
   beforeEach(async(() => {
@@ -19,11 +20,11 @@ describe('DashboardModule', () => {
         DashboardRoutingModule,
         TranslateModule.forChild(),
         NgxDhis2VisualizationModule,
-        NgxDhis2SelectionFiltersModule,
+        SelectionFiltersModule,
         FavoriteFilterModule,
-        SharingFilterModule
+        SharingFilterModule,
       ],
-      declarations: [...containers, ...components, ...pipes]
+      declarations: [...containers, ...components, ...pipes],
     }).compileComponents();
   }));
 

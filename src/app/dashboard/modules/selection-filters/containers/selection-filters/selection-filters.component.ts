@@ -1,32 +1,29 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  OnChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import * as _ from 'lodash';
+
+import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config.constant';
 import {
-  FILTER_ICON,
+  ARROW_DOWN_ICON,
   ARROW_LEFT_ICON,
   ARROW_RIGHT_ICON,
   DATA_ICON,
+  FILTER_ICON,
   PERIOD_ICON,
-  ARROW_DOWN_ICON,
-  TREE_ICON
+  TREE_ICON,
 } from '../../icons';
 import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
-import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config.constant';
-import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectionFilterDialogComponent } from '../../components/selection-filter-dialog/selection-filter-dialog.component';
+import { SelectionDialogData } from '../../models/selection-dialog-data.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'ngx-dhis2-selection-filters',
-  templateUrl: './ngx-dhis2-selection-filters.component.html',
-  styleUrls: ['./ngx-dhis2-selection-filters.component.css']
+  selector: 'app-selection-filters',
+  templateUrl: './selection-filters.component.html',
+  styleUrls: ['./selection-filters.component.css'],
 })
-export class NgxDhis2SelectionFiltersComponent implements OnInit {
+export class SelectionFiltersComponent implements OnInit {
   @Input()
   dataSelections: any[];
 
@@ -42,7 +39,6 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   saving: boolean;
 
   periodFilterConfig: PeriodFilterConfig;
-
   @Output()
   filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
 
@@ -59,7 +55,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   orgUnitIcon: string;
   selectedFilter: string;
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.showFilters = true;
     this.showFilterBody = false;
 
@@ -105,7 +101,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
         return {
           name: dataSelection.name,
           value: dataSelection.dimension,
-          layout: dataSelection.layout
+          layout: dataSelection.layout,
         };
       }),
       'layout'
@@ -115,7 +111,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   get filterConfig(): SelectionFilterConfig {
     return {
       ...SELECTION_FILTER_CONFIG,
-      ...(this.selectionFilterConfig || {})
+      ...(this.selectionFilterConfig || {}),
     };
   }
 
@@ -140,6 +136,28 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
       this.selectedFilter = selectedFilter;
       this.showFilterBody = true;
     }
+
+    const selectionDialogData: SelectionDialogData = {
+      selectedFilter,
+      selectedData: this.selectedData,
+      selectedDataGroups: this.selectedDataGroups,
+      selectedOrgUnits: this.selectedOrgUnits,
+      selectedPeriods: this.selectedPeriods,
+      periodFilterConfig: this.periodFilterConfig,
+    };
+
+    const width = selectedFilter === 'DATA' ? '80%' : '800px';
+    const height = selectedFilter === 'DATA' ? '700px' : '530px';
+
+    const selectionDialog = this.dialog.open(SelectionFilterDialogComponent, {
+      width,
+      height,
+      data: selectionDialogData,
+    });
+
+    selectionDialog.afterClosed().subscribe(data => {
+      console.log(data);
+    });
   }
 
   onClickOutside() {
@@ -151,14 +169,14 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
     if (selectedItems && selectedItems.items.length > 0) {
       this.dataSelections = !_.find(this.dataSelections, [
         'dimension',
-        selectedItems.dimension
+        selectedItems.dimension,
       ])
         ? [...this.dataSelections, { ...selectedItems, layout: 'columns' }]
         : [
             ...this.updateDataSelectionWithNewSelections(
               this.dataSelections,
               selectedItems
-            )
+            ),
           ];
     }
 
@@ -170,14 +188,14 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   onFilterUpdate(selectedItems, selectedFilter) {
     this.dataSelections = !_.find(this.dataSelections, [
       'dimension',
-      selectedItems.dimension
+      selectedItems.dimension,
     ])
       ? [...this.dataSelections, { ...selectedItems, layout: 'rows' }]
       : [
           ...this.updateDataSelectionWithNewSelections(
             this.dataSelections,
             selectedItems
-          )
+          ),
         ];
 
     this.filterUpdate.emit(this.dataSelections);
@@ -191,7 +209,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
   ): any[] {
     const selectedDimension = _.find(dataSelections, [
       'dimension',
-      selectedObject.dimension
+      selectedObject.dimension,
     ]);
     const selectedDimensionIndex = selectedDimension
       ? dataSelections.indexOf(selectedDimension)
@@ -200,7 +218,7 @@ export class NgxDhis2SelectionFiltersComponent implements OnInit {
       ? [
           ...dataSelections.slice(0, selectedDimensionIndex),
           { ...selectedDimension, ...selectedObject },
-          ...dataSelections.slice(selectedDimensionIndex + 1)
+          ...dataSelections.slice(selectedDimensionIndex + 1),
         ]
       : dataSelections
       ? [...dataSelections, selectedObject]

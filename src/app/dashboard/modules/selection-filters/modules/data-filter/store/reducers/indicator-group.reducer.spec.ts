@@ -1,4 +1,4 @@
-import { reducer, initialState } from '../reducers/indicator-group.reducer';
+import { reducer, initialState } from './indicator-group.reducer';
 
 describe('IndicatorGroup Reducer', () => {
   describe('unknown action', () => {

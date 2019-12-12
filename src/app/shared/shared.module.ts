@@ -22,7 +22,7 @@ import { pipes } from './pipes';
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   imports: [
     CommonModule,
@@ -32,7 +32,7 @@ import { pipes } from './pipes';
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressBarModule
-  ]
+    MatProgressBarModule,
+  ],
 })
 export class SharedModule {}
