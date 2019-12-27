@@ -6,8 +6,9 @@
     "start": "ng serve",
     "build": "ng build --prod --aot && cd dist/idashboard && zip -r -D bottleneck-analysis.zip .",
     "test": "ng test",
+    "test:travis": "ng test -- --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
-    "e2e": "ng e2e",
+    "e2e": "ng e2e --protractor-config=e2e/protractor-ci.conf.js",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -w -s",
     "serve-docs": "./node_modules/.bin/compodoc -s -d docs"
   },
