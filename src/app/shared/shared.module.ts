@@ -7,6 +7,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { directives } from './directives';
 import { pipes } from './pipes';
@@ -23,6 +24,7 @@ import { pipes } from './pipes';
     MatFormFieldModule,
     MatInputModule,
     MatProgressBarModule,
+    MatChipsModule,
   ],
   imports: [
     CommonModule,
@@ -33,6 +35,7 @@ import { pipes } from './pipes';
     MatFormFieldModule,
     MatInputModule,
     MatProgressBarModule,
+    MatChipsModule,
   ],
 })
 export class SharedModule {}

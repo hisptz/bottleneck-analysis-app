@@ -6,7 +6,6 @@ import { components } from './components';
 import { containers } from './containers';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardModule } from './dashboard.module';
-import { FavoriteFilterModule } from './modules/favorite-filter/favorite-filter.module';
 import { NgxDhis2VisualizationModule } from './modules/ngx-dhis2-visualization/ngx-dhis2-visualization.module';
 import { SelectionFiltersModule } from './modules/selection-filters/selection-filters.module';
 import { SharingFilterModule } from './modules/sharing-filter/sharing-filter.module';
@@ -21,7 +20,6 @@ describe('DashboardModule', () => {
         TranslateModule.forChild(),
         NgxDhis2VisualizationModule,
         SelectionFiltersModule,
-        FavoriteFilterModule,
         SharingFilterModule,
       ],
       declarations: [...containers, ...components, ...pipes],

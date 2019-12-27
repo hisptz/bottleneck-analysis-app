@@ -2,11 +2,13 @@
 
   <div class="form-group choice">
     <div class="form-check form-check-inline">
-      <input id="radio-1" (change)="toggleAtomatic('true')" name="radio" type="radio" class="form-check-input" [checked]="isAutomatic">
+      <input id="radio-1" (change)="toggleAtomatic('true')" name="radio" type="radio" class="form-check-input"
+        [checked]="isAutomatic">
       <label for="radio-1" class="form-check-label">Automatic</label>
     </div>
     <div class="form-check form-check-inline">
-      <input id="radio-2" (change)="toggleAtomatic('false')" name="radio" type="radio" class="form-check-input" [checked]="!isAutomatic">
+      <input id="radio-2" (change)="toggleAtomatic('false')" name="radio" type="radio" class="form-check-input"
+        [checked]="!isAutomatic">
       <label for="radio-2" class="form-check-label">Predifined</label>
     </div>
   </div>
@@ -15,7 +17,8 @@
     <label for="legends" class="col-sm-3 col-form-label">Legends:</label>
     <div class="col-sm-9">
       <select (change)="onChangeLegend($event.target.value)" class="custom-select" id="legends">
-        <option *ngFor="let legendSet of legendSets" [value]="legendSet.id" [selected]="(currentLegendSet && legendSet.id === currentLegendSet.id)">{{legendSet.name}}</option>
+        <option *ngFor="let legendSet of legendSets" [value]="legendSet.id"
+          [selected]="(currentLegendSet && legendSet.id === currentLegendSet.id)">{{legendSet.name}}</option>
       </select>
     </div>
   </div>
@@ -24,7 +27,8 @@
     <label for="classfication" class="col-sm-4 col-form-label">Classfications:</label>
     <div class="col-sm-8">
       <select (change)="onChange($event.target.value)" class="custom-select" id="classfication">
-        <option *ngFor="let classification of classifications" [value]="classification.method" [selected]="classification.method === legendProperties.method ">{{classification.name}}</option>
+        <option *ngFor="let classification of classifications" [value]="classification.method"
+          [selected]="classification.method === legendProperties.method ">{{classification.name}}</option>
       </select>
     </div>
   </div>
@@ -34,20 +38,23 @@
     <div class="classes__container col-sm-8" id="class">
       <div class="number_selection size-input">
         <select (change)="onChangeClass($event.target.value)" class="custom-select">
-          <option *ngFor="let class of classes" [value]="class" [selected]="class === legendProperties.classes ">{{class}}</option>
+          <option *ngFor="let class of classes" [value]="class" [selected]="class === legendProperties.classes ">
+            {{class}}</option>
         </select>
       </div>
       <div class="colours">
         <div class="dropdown-container" appClickOutside (clickOutside)="dropDownIsOpen = false">
           <button type="button" class="form-control text-left nominal" (click)="toggleDropDown()">
             <ul class="button-ul">
-              <li *ngFor="let code of getColors(default_color, legendProperties.classes)" [ngStyle]="{'background-color': code}"></li>
+              <li *ngFor="let code of getColors(default_color, legendProperties.classes)"
+                [ngStyle]="{'background-color': code}"></li>
             </ul>
           </button>
           <ul class="instead-option list-unstyled" *ngIf="dropDownIsOpen">
             <li *ngFor="let color of colors">
               <ul class="colours-ul">
-                <li *ngFor="let code of getColors(color, legendProperties.classes)" [ngStyle]="{'background-color': code}" (click)="onChangeColor(color)"></li>
+                <li *ngFor="let code of getColors(color, legendProperties.classes)"
+                  [ngStyle]="{'background-color': code}" (click)="onChangeColor(color)"></li>
               </ul>
             </li>
           </ul>
@@ -58,34 +65,40 @@
 
   <div class="check-inputs">
     <div class="form-check ">
-      <input (change)="toggleShowLabel($event)" type="checkbox" class="form-check-input" id="showlabels" [checked]="displaySettings.labels">
+      <input (change)="toggleShowLabel($event)" type="checkbox" class="form-check-input" id="showlabels"
+        [checked]="displaySettings?.labels">
       <label class="form-check-label" for="showlabels">Show labels</label>
     </div>
-    <div class="form-check" *ngIf="displaySettings.labels">
-      <input (change)="toggleShowValues($event)" type="checkbox" class="form-check-input" id="showvalues" [checked]="displaySettings.values">
+    <div class="form-check" *ngIf="displaySettings?.labels">
+      <input (change)="toggleShowValues($event)" type="checkbox" class="form-check-input" id="showvalues"
+        [checked]="displaySettings?.values">
       <label class="form-check-label" for="showvalues">Show values</label>
     </div>
   </div>
-  <div class="labels-options" *ngIf="displaySettings.labels">
+  <div class="labels-options" *ngIf="displaySettings?.labels">
     <div class="form-group">
       <label for="fontSizeInput">Font size</label>
-      <input (change)="onFontSizeChange($event.target.value)" id="fontSizeInput" class="form-control size-input" type="number"
-        [value]="getNumberFromFontSize(displaySettings.labelFontSize)">
+      <input (change)="onFontSizeChange($event.target.value)" id="fontSizeInput" class="form-control size-input"
+        type="number" [value]="getNumberFromFontSize(displaySettings?.labelFontSize)">
     </div>
     <div class="form-group">
       <label for="fontStyle">Font style</label>
       <div class="btn-group d-block" role="group" id="fontStyle">
-        <button type="button" class="btn btn-outline-dark font-weight-bold" [class.active]="displaySettings.labelFontWeight === 'bold'"
-          (click)="toggleFontWeight(displaySettings.labelFontWeight)">B</button>
-        <button type="button" class="btn btn-outline-dark font-italic" (click)="toggleFontStyle(displaySettings.labelFontStyle)"
-          [class.active]="displaySettings.labelFontStyle === 'italic'">I</button>
+        <button type="button" class="btn btn-outline-dark font-weight-bold"
+          [class.active]="displaySettings?.labelFontWeight === 'bold'"
+          (click)="toggleFontWeight(displaySettings?.labelFontWeight)">B</button>
+        <button type="button" class="btn btn-outline-dark font-italic"
+          (click)="toggleFontStyle(displaySettings?.labelFontStyle)"
+          [class.active]="displaySettings?.labelFontStyle === 'italic'">I</button>
       </div>
     </div>
     <div class="form-group">
       <label for="fontColorInput">Font Color</label>
-      <input class="form-control" id="fontColorInput" [style.background]="displaySettings.labelFontColor" [colorPicker]="displaySettings.labelFontColor"
-        (colorPickerChange)="onColorChange($event)" [cpCancelButton]="true" [cpCancelButtonClass]="'btn btn-outline-secondary btn-xs mr-3'"
-        [cpOKButton]="true" [cpOKButtonText]="'Done'" [cpOKButtonClass]="'btn btn-outline-primary btn-xs'" [value]="displaySettings.labelFontColor">
+      <input class="form-control" id="fontColorInput" [style.background]="displaySettings?.labelFontColor"
+        [colorPicker]="displaySettings?.labelFontColor" (colorPickerChange)="onColorChange($event)"
+        [cpCancelButton]="true" [cpCancelButtonClass]="'btn btn-outline-secondary btn-xs mr-3'" [cpOKButton]="true"
+        [cpOKButtonText]="'Done'" [cpOKButtonClass]="'btn btn-outline-primary btn-xs'"
+        [value]="displaySettings?.labelFontColor">
     </div>
   </div>
   <div class="form-group row mt-1">
@@ -94,13 +107,15 @@
       <div class="form-group row mr-1">
         <label for="radiusLow" class="col-sm-4 col-form-label">Low:</label>
         <div class="col-sm-8">
-          <input (change)="onRadiusLowChange($event.target.value)" id="radiusLow" class="form-control" type="number" [value]="layerOptions.radiusLow">
+          <input (change)="onRadiusLowChange($event.target.value)" id="radiusLow" class="form-control" type="number"
+            [value]="layerOptions.radiusLow">
         </div>
       </div>
       <div class="form-group row">
         <label for="radiusHigh" class="col-sm-4 col-form-label">High:</label>
         <div class="col-sm-8">
-          <input (change)="onRadiusHighChange($event.target.value)" id="radiusHigh" class="form-control" type="number" [value]="layerOptions.radiusHigh">
+          <input (change)="onRadiusHighChange($event.target.value)" id="radiusHigh" class="form-control" type="number"
+            [value]="layerOptions.radiusHigh">
         </div>
       </div>
     </div>
@@ -108,8 +123,9 @@
 
   <div class="style-filter-btns">
     <button class="btn btn-outline-secondary btn-sm" [disabled]="isloading" (click)="onCanceling($event)">Close</button>
-    <button class="btn btn-sm" [ngClass]="justUpdated ? 'btn btn-outline-success' : 'btn btn-outline-secondary'" [disabled]="isloading"
-      (click)="onSubmit($event)">
-      <img src="assets/icons/circle-tick.png" alt="" class="height-20" *ngIf="justUpdated">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
+    <button class="btn btn-sm" [ngClass]="justUpdated ? 'btn btn-outline-success' : 'btn btn-outline-secondary'"
+      [disabled]="isloading" (click)="onSubmit($event)">
+      <img src="assets/icons/circle-tick.png" alt="" class="height-20"
+        *ngIf="justUpdated">{{isloading ? 'Updating...' : justUpdated? 'Updated':'Update'}}</button>
   </div>
 </div>

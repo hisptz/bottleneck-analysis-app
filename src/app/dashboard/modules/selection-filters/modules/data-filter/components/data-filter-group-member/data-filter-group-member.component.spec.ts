@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DataFilterGroupMemberComponent } from './data-filter-group-member.component';
+import { FormsModule } from '@angular/forms';
 
 describe('DataFilterGroupMemberComponent', () => {
   let component: DataFilterGroupMemberComponent;
@@ -8,9 +9,9 @@ describe('DataFilterGroupMemberComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataFilterGroupMemberComponent ]
-    })
-    .compileComponents();
+      imports: [FormsModule],
+      declarations: [DataFilterGroupMemberComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

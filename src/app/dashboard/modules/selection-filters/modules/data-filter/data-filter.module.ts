@@ -19,6 +19,8 @@ import * as fromFunctionReducer from './store/reducers/function.reducer';
 import * as fromIndicatorGroupReducer from './store/reducers/indicator-group.reducer';
 import * as fromIndicatorReducer from './store/reducers/indicator.reducer';
 
+import { MatChipsModule } from '@angular/material/chips';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -27,16 +29,17 @@ import * as fromIndicatorReducer from './store/reducers/indicator.reducer';
     DragulaModule,
     ColorPickerModule,
     NgxPaginationModule,
+    MatChipsModule,
     SharedModule,
     StoreModule.forFeature('dataFilter', fromDataFilterReducer.reducer),
     StoreModule.forFeature('function', fromFunctionReducer.reducer),
     StoreModule.forFeature('functionRule', fromFunctionRuleReducer.reducer),
     StoreModule.forFeature('indicatorGroup', fromIndicatorGroupReducer.reducer),
     StoreModule.forFeature('indicator', fromIndicatorReducer.reducer),
-    EffectsModule.forFeature(fromDataGroupEffects.effects)
+    EffectsModule.forFeature(fromDataGroupEffects.effects),
   ],
   declarations: [...pipes, ...containers, ...components],
   exports: [...containers],
-  providers: []
+  providers: [],
 })
 export class DataFilterModule {}

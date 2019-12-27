@@ -147,7 +147,7 @@ export class SelectionFiltersComponent implements OnInit {
     };
 
     const width = selectedFilter === 'DATA' ? '80%' : '800px';
-    const height = selectedFilter === 'DATA' ? '700px' : '530px';
+    const height = selectedFilter === 'DATA' ? '700px' : '600px';
 
     const selectionDialog = this.dialog.open(SelectionFilterDialogComponent, {
       width,

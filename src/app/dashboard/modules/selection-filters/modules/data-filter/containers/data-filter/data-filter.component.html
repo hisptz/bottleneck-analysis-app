@@ -1,19 +1,13 @@
 <div class="data-filter-container">
   <!-- data filter section -->
   <div class="data-filter-content">
-    <div class="data-filter-selections-block">
-      <ul class="data-filter-selections">
-        <li *ngFor="let dataFilterSelection of dataFilterSelections">
-          <a (click)="onToggleDataFilterSelection(dataFilterSelection, $event)" [ngClass]="{
-              btn: true,
-              'btn-sm': true,
-              'data-filter-selection': true,
-              'selected-data-filter-selection': dataFilterSelection.selected
-            }" title="Click to see {{ dataFilterSelection.name }}">
-            {{ dataFilterSelection.name }}
-          </a>
-        </li>
-      </ul>
+    <div class="data-filter-selections-block mb-3">
+      <mat-chip-list>
+        <mat-chip *ngFor="let dataFilterSelection of dataFilterSelections"
+          (click)="onToggleDataFilterSelection(dataFilterSelection, $event)" [selected]="dataFilterSelection.selected">
+          {{ dataFilterSelection.name }}
+        </mat-chip>
+      </mat-chip-list>
     </div>
 
     <div class="data-filter-group-selection" appClickOutside (clickOutside)="showGroups = false">

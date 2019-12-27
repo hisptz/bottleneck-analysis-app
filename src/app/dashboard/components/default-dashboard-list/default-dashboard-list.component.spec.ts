@@ -9,6 +9,9 @@ import { reducers } from 'src/app/store';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { FormsModule } from '@angular/forms';
+import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 
 describe('DefaultDashboardListComponent', () => {
   let component: DefaultDashboardListComponent;
@@ -20,13 +23,16 @@ describe('DefaultDashboardListComponent', () => {
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot(effects),
         RouterTestingModule,
-        HttpClientModule
+        HttpClientModule,
+        SharedModule,
+        FormsModule,
+        NgxDhis2HttpClientModule.forRoot({
+          version: 1,
+          namespace: 'bottleneck',
+          models: {},
+        }),
       ],
-      declarations: [
-        DefaultDashboardListComponent,
-        InterventionFormComponent,
-        FilterByNamePipe
-      ]
+      declarations: [DefaultDashboardListComponent, InterventionFormComponent],
     }).compileComponents();
   }));
 
