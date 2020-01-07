@@ -24,7 +24,7 @@ import { VisualizationExportService } from '../../../../services';
   // tslint:disable-next-line:component-selector
   selector: 'ngx-dhis2-chart-item',
   templateUrl: './chart-item.component.html',
-  styleUrls: ['./chart-item.component.css']
+  styleUrls: ['./chart-item.component.css'],
 })
 export class ChartItemComponent implements OnInit {
   @Input()
@@ -75,11 +75,11 @@ export class ChartItemComponent implements OnInit {
     this.currentChartType = chartType;
     this.drawChart(this.analyticsObject, {
       ...this.chartConfiguration,
-      type: chartType
+      type: chartType,
     });
     this.chartUpdate.emit({
       id: this.renderId,
-      type: chartType.toUpperCase()
+      type: chartType.toUpperCase(),
     });
   }
 
@@ -98,7 +98,7 @@ export class ChartItemComponent implements OnInit {
       if (downloadFormat === 'PDF') {
         this.chart.exportChartLocal({
           filename: filename,
-          type: 'application/pdf'
+          type: 'application/pdf',
         });
       } else if (downloadFormat === 'PNG') {
         this.chart.exportChartLocal({ filename: filename, type: 'image/png' });
@@ -107,7 +107,7 @@ export class ChartItemComponent implements OnInit {
       } else if (downloadFormat === 'SVG') {
         this.chart.exportChartLocal({
           filename: filename,
-          type: 'image/svg+xml'
+          type: 'image/svg+xml',
         });
       } else if (downloadFormat === 'CSV') {
         this.visualizationExportService.exportCSV(

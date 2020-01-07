@@ -1,6 +1,5 @@
 import { VisualizationFavorite } from './visualization-favorite.model';
 import { VisualizationProgress } from './visualization-progress.model';
-import { VisualizationNotification } from './visualization-notification.model';
 
 export interface Visualization {
   id: string;
@@ -16,6 +15,6 @@ export interface Visualization {
   layers: Array<string>;
   isNew?: boolean;
   appKey?: string;
-  notification?: VisualizationNotification;
+  notification?: any;
   isNonVisualizable?: boolean;
 }
