@@ -4,7 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
@@ -23,12 +23,13 @@ import * as fromModels from '../../models';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
+import { DataFilterType } from '../../models/data-filter-type.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'app-data-filter',
   templateUrl: './data-filter.component.html',
-  styleUrls: ['./data-filter.component.css']
+  styleUrls: ['./data-filter.component.css'],
 })
 export class DataFilterComponent implements OnInit, OnDestroy {
   dataGroups: any[] = [];
@@ -62,7 +63,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   selectedGroupId: string;
 
-  dataFilterSelections: fromModels.DataFilterSelection[];
+  dataFilterTypes: DataFilterType[];
   showGroups: boolean;
 
   // icons
@@ -79,14 +80,14 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       enabledSelections: ['in', 'fn'],
       singleSelection: false,
       showGroupsOnStartup: true,
-      hideSelectedPanel: true
+      hideSelectedPanel: true,
     };
 
     // Set default data group preferences
     this.dataGroupPreferences = {
       maximumNumberOfGroups: 6,
       maximumItemPerGroup: 3,
-      ignoreMaximumRestrictions: false
+      ignoreMaximumRestrictions: false,
     };
     // Load data filter items
     dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
@@ -116,7 +117,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // set data filter selections
-    this.dataFilterSelections = fromHelpers.getDataFilterSelectionsBasedOnPreferences(
+    this.dataFilterTypes = fromHelpers.getDataFilterSelectionsBasedOnPreferences(
       this.dataFilterPreferences
     );
 
@@ -179,7 +180,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       this.selectedItems = [
         ..._.slice(this.selectedItems, 0, dataItemIndex),
         dataItem,
-        ..._.slice(this.selectedItems, dataItemIndex + 1)
+        ..._.slice(this.selectedItems, dataItemIndex + 1),
       ];
     }
   }
@@ -194,7 +195,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       'id',
       dataItemDetails && dataItemDetails.dataItem
         ? dataItemDetails.dataItem.id
-        : undefined
+        : undefined,
     ]);
 
     const itemIndex = this.selectedItems.indexOf(removedItem);
@@ -202,7 +203,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     if (itemIndex !== -1) {
       this.selectedItems = [
         ...this.selectedItems.slice(0, itemIndex),
-        ...this.selectedItems.slice(itemIndex + 1)
+        ...this.selectedItems.slice(itemIndex + 1),
       ];
 
       const dataGroup =
@@ -275,7 +276,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
         }),
         (dataGroup: DataGroup) => dataGroup.name !== ''
       ),
-      dimension: 'dx'
+      dimension: 'dx',
     };
   }
 
@@ -289,11 +290,22 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.dataFilterUpdate.emit(this.emit());
   }
 
+  onToggleDataFilterType(dataFilterTypes: DataFilterType[]) {
+    this.dataFilterStore.dispatch(
+      new fromDataFilterActions.UpdateActiveDataFilterSelections(
+        dataFilterTypes
+      )
+    );
+
+    this.currentPageForAvailableDataItems = 1;
+    this.dataItemSearchTerm = '';
+  }
+
   onToggleDataFilterSelection(toggledDataFilterSelection, event) {
     event.stopPropagation();
     const multipleSelection = event.ctrlKey ? true : false;
-    this.dataFilterSelections = _.map(
-      this.dataFilterSelections,
+    this.dataFilterTypes = _.map(
+      this.dataFilterTypes,
       (dataFilterSelection: any) => {
         return {
           ...dataFilterSelection,
@@ -308,19 +320,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
               ? dataFilterSelection.prefix === 'all'
                 ? false
                 : dataFilterSelection.selected
-              : false
+              : false,
         };
       }
     );
-
-    this.dataFilterStore.dispatch(
-      new fromDataFilterActions.UpdateActiveDataFilterSelections(
-        this.dataFilterSelections
-      )
-    );
-
-    this.currentPageForAvailableDataItems = 1;
-    this.dataItemSearchTerm = '';
   }
 
   toggleDataFilterGroupList(e) {

@@ -1,7 +1,14 @@
 .data-filter-container {
-  /* display: flex; */
+  display: flex;
 }
 
+.data-item-selection-container {
+  width: 25%;
+}
+
+.determinant-selection-container {
+  width: 75%;
+}
 .data-filter-content {
   width: 400px;
   display: grid;

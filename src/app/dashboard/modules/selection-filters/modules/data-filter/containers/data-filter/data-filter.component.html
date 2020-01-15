@@ -1,4 +1,4 @@
-<div class="data-filter-container">
+<div class="data-filter-container" *ngIf="false">
   <!-- data filter section -->
   <div class="data-filter-content">
     <div class="data-filter-selections-block mb-3">
@@ -156,6 +156,16 @@
       (updateMember)="onUpdateDataItem($event)"></app-data-filter-groups>
   </div>
   <!-- end of data filter groups -->
+</div>
+
+<div class="data-filter-container">
+  <div class="data-item-selection-container">
+    <app-data-filter-type-selector [dataFilterTypes]="dataFilterTypes"
+      (toggleDataFilterType)="onToggleDataFilterType($event)"></app-data-filter-type-selector>
+  </div>
+  <div class="determinant-selection-container">
+    Determinant
+  </div>
 </div>
 
 <div class="data-filter-btns">

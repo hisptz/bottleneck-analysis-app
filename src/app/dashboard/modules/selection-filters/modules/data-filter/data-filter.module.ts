@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatChipsModule } from '@angular/material/chips';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
@@ -18,8 +19,6 @@ import * as fromFunctionRuleReducer from './store/reducers/function-rule.reducer
 import * as fromFunctionReducer from './store/reducers/function.reducer';
 import * as fromIndicatorGroupReducer from './store/reducers/indicator-group.reducer';
 import * as fromIndicatorReducer from './store/reducers/indicator.reducer';
-
-import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [

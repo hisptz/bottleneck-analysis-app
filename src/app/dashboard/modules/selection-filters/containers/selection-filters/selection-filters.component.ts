@@ -146,8 +146,8 @@ export class SelectionFiltersComponent implements OnInit {
       periodFilterConfig: this.periodFilterConfig,
     };
 
-    const width = selectedFilter === 'DATA' ? '80%' : '800px';
-    const height = selectedFilter === 'DATA' ? '700px' : '600px';
+    const width = selectedFilter === 'DATA' ? '90%' : '800px';
+    const height = selectedFilter === 'DATA' ? '85vh' : '600px';
 
     const selectionDialog = this.dialog.open(SelectionFilterDialogComponent, {
       width,
