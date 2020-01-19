@@ -1,19 +1,19 @@
-import { DataGroup } from 'src/app/models';
+import { Determinant } from 'src/app/models';
 import * as _ from 'lodash';
 
 export function addMembersToGroups(
-  dataGroups: DataGroup[],
+  dataGroups: Determinant[],
   selectedGroupId: string,
   members: any[],
   dataGroupPreferences: any
-): DataGroup[] {
+): Determinant[] {
   const maximumItemPerGroup = dataGroupPreferences
     ? dataGroupPreferences.maximumItemPerGroup
     : (members || []).length;
   let availableMembers = _.differenceBy(
     members,
     _.flatten(
-      _.map(dataGroups, (dataGroup: DataGroup) =>
+      _.map(dataGroups, (dataGroup: Determinant) =>
         dataGroup ? dataGroup.members || [] : []
       )
     ),
@@ -33,7 +33,7 @@ export function addMembersToGroups(
 
     selectedGroup = {
       ...selectedGroup,
-      members: [...selectedGroup.members, ...membersForSelectedGroup]
+      members: [...selectedGroup.members, ...membersForSelectedGroup],
     };
 
     availableMembers = _.differenceBy(
@@ -47,7 +47,7 @@ export function addMembersToGroups(
       ? [
           ..._.slice(dataGroups, 0, selectedGroupIndex),
           selectedGroup,
-          ..._.slice(dataGroups, selectedGroupIndex + 1)
+          ..._.slice(dataGroups, selectedGroupIndex + 1),
         ]
       : dataGroups,
     (dataGroup: any) => {
@@ -67,7 +67,7 @@ export function addMembersToGroups(
 
       return {
         ...dataGroup,
-        members: [...dataGroup.members, ...membersForCurrentGroup]
+        members: [...dataGroup.members, ...membersForCurrentGroup],
       };
     }
   );

@@ -1,8 +1,9 @@
-<mat-dialog-content *ngIf="selectionDialogData">
+<div *ngIf="selectionDialogData">
     <!--data filter-->
     <app-data-filter *ngIf="selectionDialogData.selectedFilter === 'DATA'"
         [selectedItems]="selectionDialogData.selectedData" [selectedGroups]="selectionDialogData.selectedDataGroups"
-        (dataFilterClose)="onFilterClose($event, 'DATA')" (dataFilterUpdate)="onFilterUpdate($event, 'DATA')">
+        [determinants]="selectionDialogData.selectedDataGroups" (dataFilterClose)="onFilterClose($event, 'DATA')"
+        (dataFilterUpdate)="onFilterUpdate($event, 'DATA')">
     </app-data-filter>
     <!--end of data filter-->
 
@@ -30,4 +31,4 @@
         (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')">
     </ngx-dhis2-org-unit-filter>
     <!--end of org unit filter-->
-</mat-dialog-content>
+</div>

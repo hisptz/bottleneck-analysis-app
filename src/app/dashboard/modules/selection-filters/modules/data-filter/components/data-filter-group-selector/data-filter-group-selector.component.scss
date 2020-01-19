@@ -1,0 +1,27 @@
+.data-filter-group-selector-container {
+  margin-top: 15px;
+  position: relative;
+  .data-filter-group__btn {
+    width: 100%;
+    text-align: left;
+    .data-filter-group__btn-content {
+      display: flex;
+      justify-content: space-between;
+      mat-icon {
+        padding-top: 5px;
+      }
+    }
+  }
+
+  .data-filter-group__list {
+    position: absolute;
+    z-index: 300;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}

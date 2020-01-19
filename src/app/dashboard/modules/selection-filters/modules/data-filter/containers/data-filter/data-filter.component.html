@@ -149,35 +149,67 @@
 
   <!-- data filter groups -->
   <div class="data-filter-groups-container" *ngIf="showGroupingPanel">
-    <app-data-filter-groups [dataGroups]="selectedGroups" [selectedGroupId]="selectedGroupId"
-      [selectedItems]="selectedItems" [dataGroupPreferences]="dataGroupPreferences"
-      (dataGroupsUpdate)="onDataGroupsUpdate($event)" (selectedGroupIdUpdate)="onSelectedGroupIdUpdate($event)"
+    <app-determinant-list [determinants]="selectedDeterminants" [selectedDeterminantId]="selectedDeterminantId"
+      [selectedItems]="selectedItems" [determinantPreferences]="determinantPreferences"
+      (determinantsUpdate)="onDataGroupsUpdate($event)"
+      (selectedDeterminantIdUpdate)="onSelectedDeterminantIdUpdate($event)"
       (updateSelectedItems)="onUpdateSelectedItems($event)" (removeMember)="onRemoveDataItem($event)"
-      (updateMember)="onUpdateDataItem($event)"></app-data-filter-groups>
+      (updateMember)="onUpdateDataItem($event)"></app-determinant-list>
   </div>
   <!-- end of data filter groups -->
 </div>
 
 <div class="data-filter-container">
   <div class="data-item-selection-container">
-    <app-data-filter-type-selector [dataFilterTypes]="dataFilterTypes"
-      (toggleDataFilterType)="onToggleDataFilterType($event)"></app-data-filter-type-selector>
+    <h4 class="mb-3">General Configuration</h4>
+    <!-- data configuration section -->
+    <mat-checkbox>Use short names as labels</mat-checkbox>
+
+    <div class="mt-4">Legend Definition</div>
+    <div class="legend-list">
+      <div *ngFor="let item of [1,2,3,4]">
+        <mat-form-field class="w-25">
+          <input matInput disabled placeholder="Name">
+        </mat-form-field>
+        <mat-form-field class="w-75">
+          <input matInput placeholder="Display Label">
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- end of data configuration section -->
+
+    <div *ngIf="false">
+      <!-- data item type selector section -->
+      <app-data-filter-type-selector [dataFilterTypes]="dataFilterTypes"
+        (toggleDataFilterType)="onToggleDataFilterType($event)"></app-data-filter-type-selector>
+      <!-- end of data item type selector section -->
+
+      <!-- data filter group selection section -->
+      <app-data-filter-group-selector></app-data-filter-group-selector>
+      <!-- end of data filter group selection section -->
+
+      <!-- data filter item selection section -->
+      <app-data-filter-item-selector></app-data-filter-item-selector>
+      <!-- end of data filter item selection section -->
+    </div>
+
+
   </div>
   <div class="determinant-selection-container">
-    Determinant
+    <app-determinant-list [determinants]="determinants"></app-determinant-list>
   </div>
 </div>
 
 <div class="data-filter-btns">
-  <button class="btn btn-sm data-filter-action-btn" [disabled]="selectedItems.length === 0"
-    (click)="onDeselectAllItems($event)" title="Unselect all selected items">
-    EMPTY
+  <button mat-stroked-button [disabled]="selectedItems.length === 0" (click)="onDeselectAllItems($event)"
+    title="Unselect all selected items">
+    Empty
   </button>
-  <button class="btn btn-sm data-filter-action-btn" title="Close data filter" (click)="close($event)">
-    CLOSE
+  <button mat-stroked-button title="Close data filter" (click)="close($event)">
+    Close
   </button>
-  <button class="btn btn-sm data-filter-action-btn" title="Update visualization(s) with selected items"
-    [disabled]="selectedItems.length === 0" (click)="onDataFilterUpdate($event)">
-    UPDATE
+  <button mat-stroked-button title="Update visualization(s) with selected items" [disabled]="selectedItems.length === 0"
+    (click)="onDataFilterUpdate($event)">
+    Update
   </button>
 </div>

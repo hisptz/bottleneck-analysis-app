@@ -1,3 +1,79 @@
+.determinant-list-container {
+  padding-left: 15px;
+  display: flex;
+}
+
+.determinant-list {
+  display: flex;
+  width: 100%;
+}
+
+.determinant-item {
+  border: solid thin #dddddd;
+  width: 16.67%;
+}
+
+.determinant-item-color-holder {
+  height: 15px;
+  padding: 5px 7px 5px 7px;
+  margin-right: 5px;
+}
+
+.determinant-title {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.determinant-member-list {
+  display: flex;
+}
+
+.determinant-member {
+  width: 33.33%;
+  overflow-wrap: break-word;
+  padding: 10px;
+  border-right: solid thin #dddddd;
+  font-size: 12px;
+  height: 112px;
+  position: relative;
+}
+
+.determinant-member:hover .determinant-delete-btn {
+  display: block;
+}
+
+.determinant-delete-btn {
+  display: none;
+  position: absolute;
+  right: -4px;
+  top: 4px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.determinant-delete-btn mat-icon {
+  font-size: 16px;
+}
+
+.active-determinant-member {
+  background-color: #dddddd;
+}
+
+.determinant-table-title td {
+  font-size: 13px;
+  padding: 15px;
+  width: 16.67%;
+}
+
+.determinant-table-content td {
+  padding: 0;
+  width: 16.67%;
+}
+.determinant-item-list {
+  display: flex;
+  width: 100%;
+}
 .data-filter-group {
   padding: 10px;
 }

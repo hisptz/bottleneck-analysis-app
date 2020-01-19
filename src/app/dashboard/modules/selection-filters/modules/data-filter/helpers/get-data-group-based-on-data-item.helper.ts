@@ -1,19 +1,19 @@
-import { DataGroup } from 'src/app/models';
+import { Determinant } from 'src/app/models';
 import * as _ from 'lodash';
 
 export function getDataGroupBasedOnDataItem(
-  dataGroups: DataGroup[],
+  dataGroups: Determinant[],
   dataItem: any
 ) {
   if (!dataItem) {
     return null;
   }
   const dataItems = _.flatten(
-    _.map(dataGroups || [], (dataGroup: DataGroup) => {
+    _.map(dataGroups || [], (dataGroup: Determinant) => {
       return _.map(dataGroup.members || [], member => {
         return {
           ...member,
-          groupId: dataGroup.id
+          groupId: dataGroup.id,
         };
       });
     })
@@ -23,6 +23,6 @@ export function getDataGroupBasedOnDataItem(
 
   return _.find(dataGroups, [
     'id',
-    dataItemWithGroup ? dataItemWithGroup.groupId : undefined
+    dataItemWithGroup ? dataItemWithGroup.groupId : undefined,
   ]);
 }

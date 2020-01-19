@@ -1,4 +1,4 @@
-import { DataGroup } from 'src/app/models';
+import { Determinant } from 'src/app/models';
 import { VisualizationDataSelectionItem } from './visualization-data-selection-item.model';
 
 export interface VisualizationDataSelection {
@@ -9,5 +9,5 @@ export interface VisualizationDataSelection {
   optionSet?: any;
   legendSet?: string;
   items: VisualizationDataSelectionItem[];
-  groups?: DataGroup[];
+  groups?: Determinant[];
 }

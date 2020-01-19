@@ -1,10 +1,10 @@
-import { DataGroup } from 'src/app/models';
+import { Determinant } from 'src/app/models';
 import * as _ from 'lodash';
 
-export function updateDataGroupInList(
-  dataGroups: DataGroup[],
-  dataGroupToUpdate: DataGroup
-): DataGroup[] {
+export function updateDeterminantInList(
+  dataGroups: Determinant[],
+  dataGroupToUpdate: Determinant
+): Determinant[] {
   const dataGroupIndex = (dataGroups || []).indexOf(
     _.find(dataGroups, ['id', dataGroupToUpdate ? dataGroupToUpdate.id : ''])
   );
@@ -13,7 +13,7 @@ export function updateDataGroupInList(
     ? [
         ..._.slice(dataGroups, 0, dataGroupIndex),
         dataGroupToUpdate,
-        ..._.slice(dataGroups, dataGroupIndex + 1)
+        ..._.slice(dataGroups, dataGroupIndex + 1),
       ]
     : dataGroups;
 }

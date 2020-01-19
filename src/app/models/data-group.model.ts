@@ -1,4 +1,4 @@
-export interface DataGroup {
+export interface Determinant {
   id: string;
   name: string;
   color: string;

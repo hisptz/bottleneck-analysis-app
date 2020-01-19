@@ -1,0 +1,14 @@
+<div class="data-filter-group-selector-container">
+    <button mat-stroked-button class="data-filter-group__btn">
+        <div class="data-filter-group__btn-content">
+            <span>Select Group</span>
+            <mat-icon>arrow_drop_down</mat-icon>
+        </div>
+    </button>
+    <mat-card class="data-filter-group__list" *ngIf="showGroupList">
+        <mat-form-field>
+            <input matInput placeholder="Search Data item group">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </mat-card>
+</div>

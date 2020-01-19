@@ -20,7 +20,7 @@ import * as fromDashboardActions from '../../store/actions';
 
 // models
 import { Dashboard, DashboardGroups } from '../../models';
-import { SystemInfo, DataGroup } from '../../../models';
+import { SystemInfo, Determinant } from '../../../models';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
 import {
   getDashboardMenuHeight,
@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   dashboardGroups$: Observable<DashboardGroups[]>;
   currentUser$: Observable<User>;
   systemInfo$: Observable<SystemInfo>;
-  dataGroups$: Observable<DataGroup[]>;
+  dataGroups$: Observable<Determinant[]>;
   currentUserHasManagementAuthorities$: Observable<boolean>;
   unSavedDashboardsExist: boolean;
   menuExpanded$: Observable<boolean>;

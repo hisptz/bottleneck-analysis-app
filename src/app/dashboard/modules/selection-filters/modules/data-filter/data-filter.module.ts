@@ -3,6 +3,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
@@ -29,6 +33,10 @@ import * as fromIndicatorReducer from './store/reducers/indicator.reducer';
     ColorPickerModule,
     NgxPaginationModule,
     MatChipsModule,
+    MatCardModule,
+    MatDividerModule,
+    MatListModule,
+    MatCheckboxModule,
     SharedModule,
     StoreModule.forFeature('dataFilter', fromDataFilterReducer.reducer),
     StoreModule.forFeature('function', fromFunctionReducer.reducer),

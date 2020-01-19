@@ -1,6 +1,6 @@
-import { DataGroup } from 'src/app/models';
+import { Determinant } from 'src/app/models';
 
-export function removeMemberFromGroup(group: DataGroup, member: any) {
+export function removeMemberFromGroup(group: Determinant, member: any) {
   if (!group) {
     return null;
   }
@@ -9,6 +9,6 @@ export function removeMemberFromGroup(group: DataGroup, member: any) {
     ...group,
     members: (group.members || []).filter(
       (memberItem: any) => memberItem.id !== member.id
-    )
+    ),
   };
 }
