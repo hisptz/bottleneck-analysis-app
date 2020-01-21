@@ -32,6 +32,7 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   selectedDeterminantId: string;
 
   currentDeterminantMember: any;
+  showDataSelection: boolean;
 
   @Input()
   determinantPreferences: {
@@ -74,44 +75,6 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.determinantList = [
-      {
-        id: 'commodities',
-        name: 'Commodities',
-        color: 'red',
-        members: [],
-      },
-      {
-        id: 'commodities',
-        name: 'Human Resources',
-        color: 'green',
-        members: [],
-      },
-      {
-        id: 'commodities',
-        name: 'Geographical Accessibility',
-        color: 'yellow',
-        members: [],
-      },
-      {
-        id: 'commodities',
-        name: 'Initial Utilisation',
-        color: 'gray',
-        members: [],
-      },
-      {
-        id: 'commodities',
-        name: 'Continuous Utilisation',
-        color: 'pink',
-        members: [],
-      },
-      {
-        id: 'commodities',
-        name: 'Effective Coverage',
-        color: '',
-        members: [],
-      },
-    ];
     if (!this.selectedDeterminantId && this.determinants[0]) {
       this.selectedDeterminantId = this.determinants[0].id;
     }
@@ -209,6 +172,11 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
       dataDeterminant
     );
     this.emitDeterminants();
+  }
+
+  onOpenDataSelection(e) {
+    e.stopPropagation();
+    this.showDataSelection = true;
   }
 
   ngOnDestroy() {

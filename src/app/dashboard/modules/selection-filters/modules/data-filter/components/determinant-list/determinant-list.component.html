@@ -91,11 +91,12 @@
     <tr *ngFor="let determinant of determinants; let i = index;">
       <td>
         <div class="determinant-title">
-          <span class="determinant-item-color-holder" [style.background-color]="determinant.color">&nbsp;</span>
+          <input class="determinant-color" matInput [(colorPicker)]="determinant.color"
+            [style.background]="determinant.color">
           <span>{{determinant.name}}</span>
         </div>
       </td>
-      <td class="p-0">
+      <td class="p-0 determinant-member-td">
         <div class="determinant-member-list">
           <div
             [ngClass]="{'determinant-member': true, 'active-determinant-member': currentDeterminantMember && currentDeterminantMember.id === determinantMember.id}"
@@ -106,6 +107,9 @@
             </a>
             {{determinantMember.name}}
           </div>
+          <button mat-flat-button class="add-determinant-member" (click)="onOpenDataSelection($event)">
+            <mat-icon class="text-muted" inline=true>add</mat-icon>
+          </button>
         </div>
       </td>
       <td *ngIf="i === 0" [attr.rowspan]="determinants.length">

@@ -286,3 +286,12 @@
 .data-filter-full-width {
   grid-column: span 2;
 }
+
+.legend-set-color {
+  border: none;
+  outline: none;
+  margin-bottom: 10px;
+  width: 50px;
+  height: 30px;
+  margin-right: 5px;
+}

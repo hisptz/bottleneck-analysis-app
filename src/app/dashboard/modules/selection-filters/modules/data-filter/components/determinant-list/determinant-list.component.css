@@ -25,6 +25,20 @@
   align-items: center;
 }
 
+.determinant-title mat-form-field {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.determinant-color {
+  border: none;
+  outline: none;
+  margin-bottom: 10px;
+  width: 50px;
+  height: 30px;
+  margin-right: 5px;
+}
+
 .determinant-member-list {
   display: flex;
 }
@@ -37,6 +51,18 @@
   font-size: 12px;
   height: 112px;
   position: relative;
+}
+
+.add-determinant-member {
+  width: 33.33%;
+  border: none;
+  border-radius: 0;
+  border-right: solid thin #dddddd;
+  height: 112px;
+}
+
+.add-determinant-member mat-icon {
+  font-size: 70px;
 }
 
 .determinant-member:hover .determinant-delete-btn {

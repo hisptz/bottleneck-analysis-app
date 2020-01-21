@@ -168,11 +168,9 @@
     <div class="mt-4">Legend Definition</div>
     <div class="legend-list">
       <div *ngFor="let item of [1,2,3,4]">
-        <mat-form-field class="w-25">
-          <input matInput disabled placeholder="Name">
-        </mat-form-field>
+        <input class="legend-set-color" [(colorPicker)]="color" [style.background]="'green'">
         <mat-form-field class="w-75">
-          <input matInput placeholder="Display Label">
+          <input matInput>
         </mat-form-field>
       </div>
     </div>
