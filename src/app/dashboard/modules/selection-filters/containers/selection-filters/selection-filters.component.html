@@ -1,0 +1,61 @@
+<div class="selection-filter-container">
+  <!--selection filter header-->
+  <div class="selection-filter-header">
+    <button class="selection-filter-btn filter-control-btn" mat-stroked-button (click)="toggleFilters($event)"
+      *ngIf="filterConfig?.showFilterButton" [title]="'Filter by different dimensions' | translate">
+      FILTER
+    </button>
+    <div class="selection-filter-btn-list" *ngIf="showFilters">
+      <!--data filter button-->
+      <button [disabled]="saving" *ngIf="filterConfig?.showDataFilter && currentUserHasAuthorities" [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'DATA'
+        }" mat-stroked-button color="{{selectedFilter === 'DATA' ? 'primary' : ''}}"
+        [title]="'Filter by data' | translate" (click)="toggleCurrentFilter($event, 'DATA')">
+        {{ 'Data' | translate }}
+      </button>
+      <!--end of data filter button-->
+
+      <!--Legend configuration button-->
+      <button *ngIf="filterConfig?.showDataFilter && currentUserHasAuthorities" [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'LEGEND_CONFIGURATION'
+        }" color="{{selectedFilter === 'LEGEND_CONFIGURATION' ? 'primary' : ''}}" mat-stroked-button
+        [title]="'Configure legend' | translate" (click)="toggleCurrentFilter($event, 'LEGEND_CONFIGURATION')">
+        {{ 'Legend' | translate }}
+      </button>
+      <!--end of Legend configuration button-->
+
+      <!--period filter button-->
+      <button [disabled]="saving" *ngIf="filterConfig?.showPeriodFilter" [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'PERIOD'
+        }" mat-stroked-button color="{{selectedFilter === 'PERIOD' ? 'primary' : ''}}"
+        [title]="'Filter by period' | translate" (click)="toggleCurrentFilter($event, 'PERIOD')">
+        {{ 'Period' | translate }}
+      </button>
+      <!--end of period filter button-->
+
+      <!--org unit filter button-->
+      <button [disabled]="saving" *ngIf="filterConfig?.showOrgUnitFilter" [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'ORG_UNIT'
+        }" mat-stroked-button color="{{selectedFilter === 'ORG_UNIT' ? 'primary' : ''}}"
+        [title]="'Filter by organisation unit' | translate" (click)="toggleCurrentFilter($event, 'ORG_UNIT')">
+        {{
+          'Org-Unit' | translate
+        }}
+      </button>
+
+      <button *ngIf="filterConfig?.showLayout" [ngClass]="{
+          'selection-filter-btn': true,
+          'active-filter': selectedFilter === 'LAYOUT'
+        }" mat-stroked-button [title]="'Layout' | translate" (click)="toggleCurrentFilter($event, 'LAYOUT')">
+        <img [src]="orgUnitcon" alt="" />&nbsp;{{ 'Layout' | translate }}&nbsp;
+        <img [ngClass]="{ 'arrow-up': selectedFilter === 'LAYOUT' }" [src]="arrowDownIcon" alt="" />
+      </button>
+      <!--end of org unit filter button-->
+    </div>
+  </div>
+  <!--end of selection filter header-->
+</div>

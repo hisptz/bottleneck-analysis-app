@@ -1,15 +1,14 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
+  Input,
   OnChanges,
   SimpleChanges,
-  SimpleChange,
-  Input
 } from '@angular/core';
-import { VisualizationObject } from '../../models/visualization-object.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
+import { VisualizationObject } from '../../models/visualization-object.model';
 import * as fromStore from '../../store';
 
 @Component({
@@ -23,8 +22,8 @@ import * as fromStore from '../../store';
       width: 100%;
       height: 100%;
     }
-  }`
-  ]
+  }`,
+  ],
 })
 export class ContainerMapComponent implements OnChanges {
   @Input() visualizationObject: VisualizationObject;
@@ -56,18 +55,28 @@ export class ContainerMapComponent implements OnChanges {
     const { componentId } = visualizationObject;
 
     // Detect if visualizationLegend is Open;
-    this.visualizationLegendIsOpen$ = this.store.select(fromStore.isVisualizationLegendOpen(componentId));
+    this.visualizationLegendIsOpen$ = this.store.select(
+      fromStore.isVisualizationLegendOpen(componentId)
+    );
 
     // Detect if DataTable is Open;
-    this.isDataTableOpen$ = this.store.select(fromStore.isDataTableOpen(componentId));
+    this.isDataTableOpen$ = this.store.select(
+      fromStore.isDataTableOpen(componentId)
+    );
 
     // Get the base layer legend
-    this.baselayerLegend$ = this.store.select(fromStore.getCurrentBaseLayer(componentId));
+    this.baselayerLegend$ = this.store.select(
+      fromStore.getCurrentBaseLayer(componentId)
+    );
 
     // Get current base layerSettings;
-    this.currentLegendSets$ = this.store.select(fromStore.getCurrentLegendSets(componentId));
+    this.currentLegendSets$ = this.store.select(
+      fromStore.getCurrentLegendSets(componentId)
+    );
 
     // Get current layers visibility
-    this.currentLayersVisibility$ = this.store.select(fromStore.getCurrentLayersVisibility(componentId));
+    this.currentLayersVisibility$ = this.store.select(
+      fromStore.getCurrentLayersVisibility(componentId)
+    );
   }
 }

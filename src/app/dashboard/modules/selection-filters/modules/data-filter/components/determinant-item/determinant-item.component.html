@@ -1,0 +1,10 @@
+<div class="data-filter-group__item-title" *ngIf="determinant">
+  <div class="data-filter-group__item-label">
+    <span>Name</span>
+    <div class="data-group-color-block"><input class="data-group-color-input" [(colorPicker)]="determinant.color"
+        [style.background]="determinant.color" /></div>
+  </div>
+  <input type="text" [ngModel]="determinant.name">
+  <div *ngIf="isUnique" class="text-danger unique-group">Group already exist
+  </div>
+</div>

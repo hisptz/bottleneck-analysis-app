@@ -1,0 +1,199 @@
+<div class="data-filter-container" *ngIf="false">
+  <!-- data filter section -->
+  <div class="data-filter-content">
+    <div class="data-filter-selections-block mb-3">
+      <mat-chip-list>
+        <mat-chip *ngFor="let dataFilterSelection of dataFilterSelections"
+          (click)="onToggleDataFilterSelection(dataFilterSelection, $event)" [selected]="dataFilterSelection.selected">
+          {{ dataFilterSelection.name }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <div class="data-filter-group-selection" appClickOutside (clickOutside)="showGroups = false">
+      <!--Group selection button-->
+      <button class="btn btn-sm data-filter-group-btn" (click)="toggleDataFilterGroupList($event)">
+        <span>{{ (currentDataFilterGroup$ | async)?.name || 'Select' }}</span>
+        <span>
+          <img src="assets/icons/arrow-down.png" alt="" />
+        </span>
+      </button>
+      <!-- end of Group selection button -->
+
+      <!-- data grouping button -->
+      <button class="data-filter-grouping-btn" [title]="'Open grouping panel'" (click)="onToggleGroupingPanel($event)">
+        <img [src]="icons?.LIST_ICON" alt="" />&nbsp;
+        <img [src]="
+            showGroupingPanel ? icons?.ARROW_LEFT_ICON : icons?.ARROW_RIGHT_ICON
+          " alt="" />
+      </button>
+      <!-- end of data grouping button -->
+
+      <!--Group selection list-->
+      <div class="data-filter-group-panel" *ngIf="showGroups">
+        <div class="panel-body data-filter-group-panel-body">
+          <input type="search" class="form-control form-control-sm" placeholder="Search" [(ngModel)]="querystring" />
+          <ul class="data-filter-group-list">
+            <li *ngFor="
+                let dataFilterGroup of (dataFilterGroups$
+                  | async
+                  | filterByName: querystring)
+              ">
+              <a [ngClass]="{
+                  'selected-data-filter-group': dataFilterGroup.selected
+                }" (click)="onSetDataFilterGroup(dataFilterGroup, $event)">{{ dataFilterGroup.name }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--end of Group selection list-->
+    </div>
+
+    <div class="data-filter-list-search">
+      <input type="text" class="form-control form-control-sm" (focus)="showBody = true"
+        (keyup)="onDataItemsSearch($event)" placeholder="Search" [(ngModel)]="dataItemSearchTerm" />
+    </div>
+
+    <div class="data-filter-available-header {{
+        showGroupingPanel ? 'data-filter-full-width' : ''
+      }}">
+      <span>Available ({{
+          (
+            dataFilterItems$
+            | async
+            | removeSelectedItems: selectedItems
+            | filterByName: dataItemSearchTerm
+          ).length
+        }})</span>
+      <a (click)="onSelectAllItems($event)">&raquo;</a>
+    </div>
+    <div *ngIf="!showGroupingPanel" class="data-filter-selected-header ">
+      <a (click)="onDeselectAllItems($event)">&laquo;</a>
+      <span>Selected ({{ selectedItems.length }})</span>
+    </div>
+
+    <div class="data-filter-available-body {{
+        showGroupingPanel ? 'data-filter-full-width' : ''
+      }}" [ngStyle]="{ height: showGroupingPanel ? '350px' : '150px' }">
+      <ul #scrollse>
+        <li *ngIf="
+            !(dataFilterLoading$ | async) &&
+            (
+              dataFilterItems$
+              | async
+              | removeSelectedItems: selectedItems
+              | filterByName: dataItemSearchTerm
+            ).length == 0
+          ">
+          <a>No items</a>
+        </li>
+        <li *ngFor="
+            let dataFilterItem of (dataFilterItems$
+              | async
+              | removeSelectedItems: selectedItems
+              | filterByName: dataItemSearchTerm
+              | paginate
+                : {
+                    id: 'available_list',
+                    itemsPerPage: 25,
+                    currentPage: currentPageForAvailableDataItems
+                  })
+          " title="Click to select item " id="{{ dataFilterItem.id | addUnderscore }} ">
+          <a (click)="onSelectDataItem(dataFilterItem, $event)">{{
+            dataFilterItem.name
+          }}</a>
+        </li>
+        <li *ngIf="(dataFilterLoading$ | async)"><small>Loading...</small></li>
+
+        <li *ngIf="
+            (
+              dataFilterItems$
+              | async
+              | removeSelectedItems: selectedItems
+              | filterByName: dataItemSearchTerm
+            ).length >= 25
+          ">
+          <a>
+            <pagination-controls id="available_list" (pageChange)="currentPageForAvailableDataItems = $event"
+              maxSize="0">
+            </pagination-controls>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="!showGroupingPanel" class="data-filter-selected-body"
+      [ngStyle]="{ height: showGroupingPanel ? '350px' : '150px' }">
+      <ul>
+        <li *ngFor="
+            let item of (selectedItems
+              | paginate
+                : {
+                    id: 'selected_list',
+                    itemsPerPage: 100,
+                    currentPage: currentPageForSelectedDataItems
+                  })
+          " title="click to unselect item">
+          <a (click)="onRemoveDataItem({ dataItem: item }, $event)">
+            {{ item.name }}
+          </a>
+        </li>
+        <li *ngIf="selectedItems.length > 100">
+          <pagination-controls id="selected_list" maxSize="0" (pageChange)="currentPageForSelectedDataItems = $event">
+          </pagination-controls>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- end of data filter section -->
+
+  <!-- data filter groups -->
+  <div class="data-filter-groups-container" *ngIf="showGroupingPanel">
+    <app-determinant-list [determinants]="determinants" [selectedDeterminantId]="selectedDeterminantId"
+      [selectedItems]="selectedItems" [determinantPreferences]="determinantPreferences"
+      [dataFilterGroups]="dataFilterGroups$ | async" (determinantsUpdate)="onDataGroupsUpdate($event)"
+      (selectedDeterminantIdUpdate)="onSelectDeterminant($event)" (updateSelectedItems)="onUpdateSelectedItems($event)"
+      (removeMember)="onRemoveDataItem($event)" (updateMember)="onUpdateDataItem($event)"></app-determinant-list>
+  </div>
+  <!-- end of data filter groups -->
+</div>
+
+<div class="data-filter-container">
+  <div class="data-item-selection-container">
+    <h4 class="mb-3">General Configuration</h4>
+    <!-- data configuration section -->
+    <mat-checkbox>Use short names as labels</mat-checkbox>
+
+    <div class="mt-4">Legend Definition</div>
+    <div class="legend-list">
+      <div *ngFor="let item of [1,2,3,4]">
+        <input class="legend-set-color" [(colorPicker)]="color" [style.background]="'green'">
+        <mat-form-field class="w-75">
+          <input matInput>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- end of data configuration section -->
+
+  </div>
+  <div class="determinant-selection-container">
+    <app-determinant-list [determinants]="determinants" [dataFilterTypes]="dataFilterTypes"
+      [dataFilterGroups]="dataFilterGroups$ | async" (setDataFilterGroup)="onSetDataFilterGroup($event)"
+      [currentDataFilterGroup]="currentDataFilterGroup$ | async" [dataFilterItems]="dataFilterItems$ | async"
+      [selectedItems]="selectedItems" [selectedDeterminantId]="selectedDeterminantId"
+      [determinantPreferences]="determinantPreferences" (toggleDataFilterType)="onToggleDataFilterType($event)"
+      (selectDataItem)="onSelectDataItem($event)" (selectDeterminant)="onSelectDeterminant($event)"
+      (removeDeterminantMember)="onRemoveDataItem($event)" (removeAllDeterminantMembers)="onDeselectAllItems()">
+    </app-determinant-list>
+  </div>
+</div>
+
+<div class="data-filter-btns">
+  <button mat-stroked-button title="Close data filter" (click)="close($event)">
+    Close
+  </button>
+  <button mat-stroked-button title="Update visualization(s) with selected items" [disabled]="selectedItems.length === 0"
+    (click)="onDataFilterUpdate($event)">
+    Update
+  </button>
+</div>

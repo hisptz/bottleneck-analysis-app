@@ -1,0 +1,26 @@
+<div class="determinant-member-details" *ngIf="determinantMember">
+  <mat-form-field class="w-100">
+    <input matInput disabled placeholder="Name" [(ngModel)]="determinantMember.name">
+  </mat-form-field>
+  <mat-form-field class="w-100">
+    <input matInput placeholder="Display Label">
+  </mat-form-field>
+</div>
+<div class="determinant-member-legend">
+  <span class="text-muted">Legend</span>
+  <div class="legend mt-2" *ngFor="let item of [1,2,3,4]">
+    <div class="d-flex align-items-center">
+      <div class="legend-color" [style.background-color]="'red'">&nbsp;</div>
+      <small class="ml-2">Label</small>
+    </div>
+    <div class="d-flex align-items-center justify-content-around mt-1">
+      <mat-form-field class="w-100">
+        <input matInput placeholder="Min">
+      </mat-form-field>
+      <div class="legend-class-separator">-</div>
+      <mat-form-field class="w-100">
+        <input matInput placeholder="Max">
+      </mat-form-field>
+    </div>
+  </div>
+</div>

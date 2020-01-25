@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NgxDhis2TableModule } from './modules/ngx-dhis2-table/ngx-dhis2-table.module';
 import { NgxDhis2DictionaryModule } from '@iapps/ngx-dhis2-dictionary';
-import { NgxDhis2SelectionFiltersModule } from '../ngx-dhis2-data-selection-filter/ngx-dhis2-selection-filters.module';
+import { SelectionFiltersModule } from '../selection-filters/selection-filters.module';
 import { NgxDhis2ChartModule } from './modules/ngx-dhis-chart/ngx-dhis2-chart.module';
 import { MapModule } from './modules/map/map.module';
 
@@ -28,7 +28,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NgxDhis2ChartModule,
     NgxDhis2TableModule,
     NgxDhis2DictionaryModule,
-    NgxDhis2SelectionFiltersModule,
+    SelectionFiltersModule,
     MapModule,
   ],
   declarations: [...components, ...containers],

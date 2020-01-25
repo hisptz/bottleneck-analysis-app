@@ -1,0 +1,34 @@
+<div *ngIf="selectionDialogData">
+    <!--data filter-->
+    <app-data-filter *ngIf="selectionDialogData.selectedFilter === 'DATA'"
+        [selectedItems]="selectionDialogData.selectedData" [selectedGroups]="selectionDialogData.selectedDataGroups"
+        [determinants]="selectionDialogData.selectedDataGroups" (dataFilterClose)="onFilterClose($event, 'DATA')"
+        (dataFilterUpdate)="onFilterUpdate($event, 'DATA')">
+    </app-data-filter>
+    <!--end of data filter-->
+
+    <!-- legend configguration -->
+    <app-legend-set-configuration *ngIf="selectionDialogData.selectedFilter === 'LEGEND_CONFIGURATION'"
+        [selectedItems]="selectionDialogData.selectedData" [selectedGroups]="selectionDialogData.selectedDataGroups"
+        (legendSetConfigurationClose)="
+        onFilterClose($event, 'LEGEND_CONFIGURATION')
+      " (legendSetConfigurationUpdate)="
+        onFilterUpdate($event, 'LEGEND_CONFIGURATION')
+      "></app-legend-set-configuration>
+    <!-- end of legend configuration -->
+
+    <!--period filter-->
+    <ngx-dhis2-period-filter *ngIf="selectionDialogData.selectedFilter === 'PERIOD'"
+        [selectedPeriods]="selectionDialogData.selectedPeriods"
+        [periodFilterConfig]="selectionDialogData.periodFilterConfig" (close)="onFilterClose($event, 'PERIOD')"
+        (update)="onFilterUpdate($event, 'PERIOD')">
+    </ngx-dhis2-period-filter>
+    <!--end of period filter-->
+
+    <!--org unit filter-->
+    <ngx-dhis2-org-unit-filter *ngIf="selectionDialogData.selectedFilter === 'ORG_UNIT'"
+        [selectedOrgUnitItems]="selectionDialogData.selectedOrgUnits" (orgUnitClose)="onFilterClose($event, 'ORG_UNIT')"
+        (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')">
+    </ngx-dhis2-org-unit-filter>
+    <!--end of org unit filter-->
+</div>

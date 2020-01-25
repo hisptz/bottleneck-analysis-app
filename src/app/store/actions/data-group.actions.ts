@@ -16,7 +16,7 @@ export enum DataGroupActionTypes {
   UpdateDataGroups = '[DataGroup] Update DataGroups',
   DeleteDataGroup = '[DataGroup] Delete DataGroup',
   DeleteDataGroups = '[DataGroup] Delete DataGroups',
-  ClearDataGroups = '[DataGroup] Clear DataGroups'
+  ClearDataGroups = '[DataGroup] Clear DataGroups',
 }
 
 export class LoadDataGroupsInitiated implements Action {
@@ -35,20 +35,20 @@ export class LoadDataGroups implements Action {
 export class AddDataGroup implements Action {
   readonly type = DataGroupActionTypes.AddDataGroup;
 
-  constructor(public payload: { dataGroup: fromModels.DataGroup }) {}
+  constructor(public payload: { dataGroup: fromModels.Determinant }) {}
 }
 
 export class UpsertDataGroup implements Action {
   readonly type = DataGroupActionTypes.UpsertDataGroup;
 
-  constructor(public payload: { dataGroup: fromModels.DataGroup }) {}
+  constructor(public payload: { dataGroup: fromModels.Determinant }) {}
 }
 
 export class AddDataGroups implements Action {
   readonly type = DataGroupActionTypes.AddDataGroups;
 
   constructor(
-    public dataGroups: fromModels.DataGroup[],
+    public dataGroups: fromModels.Determinant[],
     public dashboardSettings: DashboardSettings,
     public currentUser: User,
     public systemInfo: fromModels.SystemInfo
@@ -58,19 +58,21 @@ export class AddDataGroups implements Action {
 export class UpsertDataGroups implements Action {
   readonly type = DataGroupActionTypes.UpsertDataGroups;
 
-  constructor(public payload: { dataGroups: fromModels.DataGroup[] }) {}
+  constructor(public payload: { dataGroups: fromModels.Determinant[] }) {}
 }
 
 export class UpdateDataGroup implements Action {
   readonly type = DataGroupActionTypes.UpdateDataGroup;
 
-  constructor(public payload: { dataGroup: Update<fromModels.DataGroup> }) {}
+  constructor(public payload: { dataGroup: Update<fromModels.Determinant> }) {}
 }
 
 export class UpdateDataGroups implements Action {
   readonly type = DataGroupActionTypes.UpdateDataGroups;
 
-  constructor(public payload: { dataGroups: Update<fromModels.DataGroup>[] }) {}
+  constructor(
+    public payload: { dataGroups: Update<fromModels.Determinant>[] }
+  ) {}
 }
 
 export class DeleteDataGroup implements Action {

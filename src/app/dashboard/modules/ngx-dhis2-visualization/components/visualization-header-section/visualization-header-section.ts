@@ -4,13 +4,13 @@ import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { VisualizationDataSelection } from '../../models/visualization-data-selection.model';
 import { openAnimation } from '../../../../../animations';
 
-import { SelectionFilterConfig } from '../../../ngx-dhis2-data-selection-filter/models/selected-filter-config.model';
+import { SelectionFilterConfig } from '../../../selection-filters/models/selected-filter-config.model';
 
 @Component({
   selector: 'visualization-header-section',
   templateUrl: 'visualization-header-section.html',
   styleUrls: ['./visualization-header-section.css'],
-  animations: [openAnimation]
+  animations: [openAnimation],
 })
 export class VisualizationHeaderSectionComponent {
   @Input()
@@ -33,7 +33,9 @@ export class VisualizationHeaderSectionComponent {
   showNameInput: boolean;
 
   @Output()
-  visualizationLayerUpdate: EventEmitter<VisualizationLayer> = new EventEmitter<VisualizationLayer>();
+  visualizationLayerUpdate: EventEmitter<VisualizationLayer> = new EventEmitter<
+    VisualizationLayer
+  >();
 
   @Output()
   fullScreenAction: EventEmitter<any> = new EventEmitter<any>();
@@ -47,7 +49,7 @@ export class VisualizationHeaderSectionComponent {
     this.selectionFilterConfig = {
       showPeriodFilter: false,
       showOrgUnitFilter: false,
-      showLayout: false
+      showLayout: false,
     };
   }
 
@@ -55,14 +57,14 @@ export class VisualizationHeaderSectionComponent {
     this.fullScreenAction.emit({
       id,
       uiConfigId: this.uiConfigId,
-      fullScreen: this.fullScreen
+      fullScreen: this.fullScreen,
     });
   }
 
   onFilterUpdateAction(dataSelections: VisualizationDataSelection[]) {
     this.visualizationLayerUpdate.emit({
       ...this.visualizationLayer,
-      dataSelections
+      dataSelections,
     });
   }
 

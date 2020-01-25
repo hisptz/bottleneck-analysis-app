@@ -17,7 +17,7 @@ import * as fromDataGroupSelectors from '../selectors/data-group.selectors';
 import { DataGroupService } from '../../services/data-group.service';
 
 // models
-import { DataGroup } from '../../models/data-group.model';
+import { Determinant } from '../../models/data-group.model';
 import { LoadDashboardsAction } from '../../dashboard/store/actions';
 
 @Injectable()
@@ -40,7 +40,7 @@ export class DataGroupEffects {
             new fromDataGroupActions.LoadDataGroupsInitiated()
           );
           this.dataGroupService.getDataGroups().subscribe(
-            (dataGroups: DataGroup[]) => {
+            (dataGroups: Determinant[]) => {
               this.store.dispatch(
                 new fromDataGroupActions.AddDataGroups(
                   dataGroups,

@@ -1,0 +1,11 @@
+.data-filter-item-selection-card {
+  margin-top: 10px;
+  mat-form-field {
+    width: 100%;
+  }
+
+  .data-filter-items__viewport {
+    height: 460px;
+    overflow: auto;
+  }
+}

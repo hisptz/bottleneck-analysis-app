@@ -30,10 +30,10 @@
           (toggleDashboardBookmark)="onToggleDashboardBookmarkAction($event)"></app-current-dashboard-bookmark>
       </div>
       <div class="current-dashboard-global-filter" *ngIf="dashboardLoaded && currentDashboard">
-        <ngx-dhis2-selection-filters (filterUpdate)="onFilterUpdateAction($event)"
-          [dataSelections]="globalDataSelections" [selectionFilterConfig]="selectionFilterConfig"
-          [currentUserHasAuthorities]="currentDashboard?.access?.manage" [saving]="currentDashboard?.saving">
-        </ngx-dhis2-selection-filters>
+        <app-selection-filters (filterUpdate)="onFilterUpdateAction($event)" [dataSelections]="globalDataSelections"
+          [selectionFilterConfig]="selectionFilterConfig" [currentUserHasAuthorities]="currentDashboard?.access?.manage"
+          [saving]="currentDashboard?.saving">
+        </app-selection-filters>
         <div *ngIf="currentDashboard?.access?.manage && currentDashboard?.unSaved">
           <button mat-stroked-button class="ml-3" color="warn" [disabled]="currentDashboard?.saving"
             (click)="onResetChanges($event)">Discard</button>
