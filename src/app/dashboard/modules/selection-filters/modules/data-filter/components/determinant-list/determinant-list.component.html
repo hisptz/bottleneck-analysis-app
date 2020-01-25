@@ -82,8 +82,13 @@
       <th>Determinant</th>
       <th width="35%">
         <div class="d-flex align-items-center justify-content-between">
-          <span>Members</span>
-          <button mat-stroked-button>Clear All</button>
+          <div>
+            <span>Members</span>
+            <small class="ml-2">(Max: {{determinantPreferences.maximumItemPerDeterminant}} per
+              determinant)</small>
+          </div>
+          <button mat-stroked-button (click)="onRemoveAllMembers($event)"
+            title="Clear/Remove all members in all determinants">Clear All</button>
         </div>
       </th>
       <th width="35%">{{currentDeterminantMember?.name}}</th>
@@ -95,7 +100,7 @@
           <input class="determinant-color" matInput [(colorPicker)]="determinant.color"
             [style.background]="determinant.color">
           <span>{{determinant.name}}</span>
-          <small class="ml-3">({{determinant?.members?.length}} Selected)</small>
+          <small class="ml-2">({{determinant?.members?.length}} Selected)</small>
         </div>
       </td>
       <td *ngIf="i === 0 && showDataSelection" [attr.rowspan]="determinants.length">
@@ -112,12 +117,13 @@
             [ngClass]="{'determinant-member': true, 'active-determinant-member': currentDeterminantMember && currentDeterminantMember.id === determinantMember.id}"
             (click)="onSetCurrentDeterminantMember(determinantMember, $event)"
             *ngFor="let determinantMember of determinant.members">
-            <a class="determinant-delete-btn" title="Remove member">
+            <a class="determinant-delete-btn" title="Remove member"
+              (click)="onRemoveDeterminantMember(determinantMember, determinant, $event)">
               <mat-icon color="warn">delete</mat-icon>
             </a>
             {{determinantMember.name}}
           </div>
-          <button mat-flat-button class="add-determinant-member"
+          <button mat-flat-button class="add-determinant-member" title="Add Determinant member"
             *ngIf="determinantPreferences && determinant && determinant.members.length < determinantPreferences.maximumItemPerDeterminant"
             (click)="onOpenDataSelection(determinant.id, $event)">
             <mat-icon class="text-muted" inline=true>add</mat-icon>

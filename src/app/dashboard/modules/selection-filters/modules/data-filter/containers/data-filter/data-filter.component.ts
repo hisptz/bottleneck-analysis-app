@@ -188,14 +188,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   }
 
   // Remove selected Item
-  onRemoveDataItem(
-    dataItemDetails: { dataItem: any; group?: Determinant },
-    e?
-  ) {
-    if (e) {
-      e.stopPropagation();
-    }
-
+  onRemoveDataItem(dataItemDetails: {
+    dataItem: any;
+    determinant?: Determinant;
+  }) {
     const removedItem = _.find(this.selectedItems, [
       'id',
       dataItemDetails && dataItemDetails.dataItem
@@ -212,7 +208,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       ];
 
       const determinant =
-        dataItemDetails.group ||
+        dataItemDetails.determinant ||
         getDataGroupBasedOnDataItem(this.determinants, removedItem);
 
       if (determinant) {
@@ -263,10 +259,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   }
 
   // selecting all items
-  onDeselectAllItems(e?) {
-    if (e) {
-      e.stopPropagation();
-    }
+  onDeselectAllItems() {
     this.selectedItems = [];
 
     this.determinants = removeAllMembersFromDeterminants(this.determinants);

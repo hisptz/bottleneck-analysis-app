@@ -182,7 +182,8 @@
       [currentDataFilterGroup]="currentDataFilterGroup$ | async" [dataFilterItems]="dataFilterItems$ | async"
       [selectedItems]="selectedItems" [selectedDeterminantId]="selectedDeterminantId"
       [determinantPreferences]="determinantPreferences" (toggleDataFilterType)="onToggleDataFilterType($event)"
-      (selectDataItem)="onSelectDataItem($event)" (selectDeterminant)="onSelectDeterminant($event)">
+      (selectDataItem)="onSelectDataItem($event)" (selectDeterminant)="onSelectDeterminant($event)"
+      (removeDeterminantMember)="onRemoveDataItem($event)" (removeAllDeterminantMembers)="onDeselectAllItems()">
     </app-determinant-list>
   </div>
 </div>

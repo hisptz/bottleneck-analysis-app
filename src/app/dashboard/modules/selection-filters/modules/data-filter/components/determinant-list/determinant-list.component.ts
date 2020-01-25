@@ -64,6 +64,12 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   @Output() setDataFilterGroup: EventEmitter<any> = new EventEmitter<any>();
 
   @Output() selectDataItem: EventEmitter<any> = new EventEmitter<any>();
+  @Output() removeAllDeterminantMembers: EventEmitter<any> = new EventEmitter<
+    any
+  >();
+  @Output() removeDeterminantMember: EventEmitter<any> = new EventEmitter<
+    any
+  >();
   // icons
   dragIcon: string;
   arrowDownIcon: string;
@@ -200,6 +206,16 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   onSelectDataItem(dataItem: any) {
     this.showDataSelection = false;
     this.selectDataItem.emit(dataItem);
+  }
+
+  onRemoveDeterminantMember(dataItem: any, determinant: Determinant, e) {
+    e.stopPropagation();
+    this.removeDeterminantMember.emit({ dataItem, determinant });
+  }
+
+  onRemoveAllMembers(e) {
+    e.stopPropagation();
+    this.removeAllDeterminantMembers.emit(null);
   }
 
   ngOnDestroy() {
