@@ -13,7 +13,7 @@ import { map, take } from 'rxjs/operators';
 import { Determinant } from 'src/app/models';
 import * as fromHelpers from '../../helpers';
 import { removeAllMembersFromDeterminants } from '../../helpers';
-import { addMembersToGroups } from '../../helpers/add-members-to-group.helper';
+import { addMembersToDeterminants } from '../../helpers/add-members-to-group.helper';
 import { getDataGroupBasedOnDataItem } from '../../helpers/get-data-group-based-on-data-item.helper';
 import { removeMemberFromGroup } from '../../helpers/remove-member-from-group.helper';
 import { updateDeterminantInList } from '../../helpers/update-data-determinant-in-list.helper';
@@ -49,8 +49,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   @Input()
   determinantPreferences: {
-    maximumNumberOfGroups: number;
-    maximumItemPerGroup: number;
+    maximumNumberOfDeterminants: number;
+    maximumItemPerDeterminant: number;
     ignoreMaximumRestrictions: boolean;
   };
 
@@ -62,7 +62,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   currentPageForAvailableDataItems = 1;
   currentPageForSelectedDataItems = 1;
 
-  selectedGroupId: string;
+  selectedDeterminantId: string;
 
   dataFilterTypes: DataFilterType[];
   showGroups: boolean;
@@ -86,8 +86,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
     // Set default data group preferences
     this.determinantPreferences = {
-      maximumNumberOfGroups: 6,
-      maximumItemPerGroup: 3,
+      maximumNumberOfDeterminants: 6,
+      maximumItemPerDeterminant: 3,
       ignoreMaximumRestrictions: false,
     };
     // Load data filter items
@@ -141,8 +141,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   }
 
   // this will add a selected item in a list function
-  onSelectDataItem(item: any, e) {
-    e.stopPropagation();
+  onSelectDataItem(item: any) {
     if (this.dataFilterPreferences.singleSelection) {
       this.onDeselectAllItems();
     }
@@ -150,23 +149,27 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     if (!_.find(this.selectedItems, ['id', item.id])) {
       this.selectedItems =
         this.determinantPreferences &&
-        this.determinantPreferences.maximumItemPerGroup &&
-        this.determinantPreferences.maximumNumberOfGroups
+        this.determinantPreferences.maximumItemPerDeterminant &&
+        this.determinantPreferences.maximumNumberOfDeterminants
           ? _.slice(
               [...this.selectedItems, item],
               0,
-              this.determinantPreferences.maximumItemPerGroup *
-                this.determinantPreferences.maximumNumberOfGroups
+              this.determinantPreferences.maximumItemPerDeterminant *
+                this.determinantPreferences.maximumNumberOfDeterminants
             )
           : [...this.selectedItems, item];
 
       // Also add members into groups
-      this.selectedGroups = addMembersToGroups(
-        this.selectedGroups,
-        this.selectedGroupId,
-        this.selectedItems,
-        this.determinantPreferences
-      );
+      this.determinants = this.determinants.map((determinant: Determinant) => {
+        return determinant.id === this.selectedDeterminantId
+          ? {
+              ...determinant,
+              members: [...(determinant.members || []), item],
+            }
+          : determinant;
+      });
+
+      this.selectedDeterminantId = '';
     }
   }
 
@@ -210,12 +213,12 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
       const determinant =
         dataItemDetails.group ||
-        getDataGroupBasedOnDataItem(this.selectedGroups, removedItem);
+        getDataGroupBasedOnDataItem(this.determinants, removedItem);
 
       if (determinant) {
         // Also remove item from the group
-        this.selectedGroups = updateDeterminantInList(
-          this.selectedGroups,
+        this.determinants = updateDeterminantInList(
+          this.determinants,
           removeMemberFromGroup(determinant, removedItem)
         );
       }
@@ -240,19 +243,19 @@ export class DataFilterComponent implements OnInit, OnDestroy {
         );
         this.selectedItems =
           this.determinantPreferences &&
-          this.determinantPreferences.maximumItemPerGroup &&
-          this.determinantPreferences.maximumNumberOfGroups
+          this.determinantPreferences.maximumItemPerDeterminant &&
+          this.determinantPreferences.maximumNumberOfDeterminants
             ? _.slice(
                 newSelectedItems,
                 0,
-                this.determinantPreferences.maximumItemPerGroup *
-                  this.determinantPreferences.maximumNumberOfGroups
+                this.determinantPreferences.maximumItemPerDeterminant *
+                  this.determinantPreferences.maximumNumberOfDeterminants
               )
             : newSelectedItems;
 
-        this.selectedGroups = addMembersToGroups(
-          this.selectedGroups,
-          this.selectedGroupId,
+        this.determinants = addMembersToDeterminants(
+          this.determinants,
+          this.selectedDeterminantId,
           this.selectedItems,
           this.determinantPreferences
         );
@@ -266,14 +269,14 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     }
     this.selectedItems = [];
 
-    this.selectedGroups = removeAllMembersFromDeterminants(this.selectedGroups);
+    this.determinants = removeAllMembersFromDeterminants(this.determinants);
   }
 
   emit() {
     return {
       items: this.selectedItems,
       groups: _.filter(
-        _.map(this.selectedGroups, (determinant: any) => {
+        _.map(this.determinants, (determinant: any) => {
           return _.omit(determinant, ['current']);
         }),
         (determinant: Determinant) => determinant.name !== ''
@@ -338,12 +341,12 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.showGroupingPanel = !this.showGroupingPanel;
   }
 
-  onDataGroupsUpdate(determinants) {
-    this.selectedGroups = [...determinants];
+  onDeterminantsUpdate(determinants) {
+    this.determinants = [...determinants];
   }
 
-  onSelectedGroupIdUpdate(selectedGroupId: string) {
-    this.selectedGroupId = selectedGroupId;
+  onSelectDeterminant(selectedDeterminantId: string) {
+    this.selectedDeterminantId = selectedDeterminantId;
   }
 
   onUpdateSelectedItems(selectedItems: any[]) {

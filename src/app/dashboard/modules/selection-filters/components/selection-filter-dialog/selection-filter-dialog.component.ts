@@ -16,7 +16,6 @@ export class SelectionFilterDialogComponent implements OnInit {
   ngOnInit() {}
 
   onFilterClose(selectionItems) {
-    console.log(selectionItems, this.selectionDialogData.selectedFilter);
     this.dialogRef.close(this.selectionDialogData);
   }
 }

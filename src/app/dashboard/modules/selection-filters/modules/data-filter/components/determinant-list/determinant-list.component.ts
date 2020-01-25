@@ -31,6 +31,7 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   @Input() dataFilterTypes: DataFilterType[];
   @Input() dataFilterGroups: any[];
   @Input() currentDataFilterGroup: any;
+  @Input() dataFilterItems: any[];
 
   currentDeterminantMember: any;
   showDataSelection: boolean;
@@ -44,9 +45,7 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   determinantsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
 
   @Output()
-  selectedDeterminantIdUpdate: EventEmitter<string> = new EventEmitter<
-    string
-  >();
+  selectDeterminant: EventEmitter<string> = new EventEmitter<string>();
 
   @Output()
   removeMember: EventEmitter<any> = new EventEmitter<any>();
@@ -63,6 +62,8 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   >();
 
   @Output() setDataFilterGroup: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output() selectDataItem: EventEmitter<any> = new EventEmitter<any>();
   // icons
   dragIcon: string;
   arrowDownIcon: string;
@@ -82,11 +83,7 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
     return _.find(this.determinants || [], ['id', this.selectedDeterminantId]);
   }
 
-  ngOnInit() {
-    if (!this.selectedDeterminantId && this.determinants[0]) {
-      this.selectedDeterminantId = this.determinants[0].id;
-    }
-  }
+  ngOnInit() {}
 
   onAddDeterminant(e) {
     e.stopPropagation();
@@ -96,7 +93,7 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
       this.determinants,
       newDeterminantId
     );
-    this.selectedDeterminantIdUpdate.emit(this.selectedDeterminantId);
+    this.selectDeterminant.emit(this.selectedDeterminantId);
   }
 
   onSetCurrentDeterminant(currentDeterminant, e) {
@@ -108,7 +105,7 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
       this.selectedDeterminantId = currentDeterminant.id;
     }
 
-    this.selectedDeterminantIdUpdate.emit(this.selectedDeterminantId);
+    this.selectDeterminant.emit(this.selectedDeterminantId);
   }
 
   onSetCurrentDeterminantMember(currentDeterminantMember: any, e) {
@@ -182,16 +179,27 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
     this.emitDeterminants();
   }
 
-  onOpenDataSelection(e) {
+  onOpenDataSelection(determinantId: string, e) {
     e.stopPropagation();
     this.showDataSelection = true;
+    this.selectDeterminant.emit(determinantId);
+  }
+
+  onCloseDataSelection() {
+    this.showDataSelection = false;
   }
 
   onSetDataFilterGroup(dataFilterGroup: any) {
     this.setDataFilterGroup.emit(dataFilterGroup);
   }
+
   onToggleDataFilterType(dataFilterTypes: DataFilterType[]) {
     this.toggleDataFilterType.emit(dataFilterTypes);
+  }
+
+  onSelectDataItem(dataItem: any) {
+    this.showDataSelection = false;
+    this.selectDataItem.emit(dataItem);
   }
 
   ngOnDestroy() {

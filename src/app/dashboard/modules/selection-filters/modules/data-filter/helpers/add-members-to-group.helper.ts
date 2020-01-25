@@ -1,73 +1,83 @@
 import { Determinant } from 'src/app/models';
 import * as _ from 'lodash';
 
-export function addMembersToGroups(
-  dataGroups: Determinant[],
-  selectedGroupId: string,
+export function addMembersToDeterminants(
+  determinants: Determinant[],
+  selectedDeterminantId: string,
   members: any[],
-  dataGroupPreferences: any
+  dataDeterminantPreferences: any
 ): Determinant[] {
-  const maximumItemPerGroup = dataGroupPreferences
-    ? dataGroupPreferences.maximumItemPerGroup
+  const maximumItemPerDeterminant = dataDeterminantPreferences
+    ? dataDeterminantPreferences.maximumItemPerDeterminant
     : (members || []).length;
   let availableMembers = _.differenceBy(
     members,
     _.flatten(
-      _.map(dataGroups, (dataGroup: Determinant) =>
-        dataGroup ? dataGroup.members || [] : []
+      _.map(determinants, (dataDeterminant: Determinant) =>
+        dataDeterminant ? dataDeterminant.members || [] : []
       )
     ),
     'id'
   );
 
   // Assign to the selected group first until maximum number is reached
-  let selectedGroup = _.find(dataGroups || [], ['id', selectedGroupId]);
-  const selectedGroupIndex = (dataGroups || []).indexOf(selectedGroup);
+  let selectedDeterminant = _.find(determinants || [], [
+    'id',
+    selectedDeterminantId,
+  ]);
+  const selectedDeterminantIndex = (determinants || []).indexOf(
+    selectedDeterminant
+  );
 
-  if (selectedGroup) {
-    const membersForSelectedGroup = _.slice(
+  if (selectedDeterminant) {
+    const membersForSelectedDeterminant = _.slice(
       availableMembers,
       0,
-      maximumItemPerGroup - selectedGroup.members.length
+      maximumItemPerDeterminant - selectedDeterminant.members.length
     );
 
-    selectedGroup = {
-      ...selectedGroup,
-      members: [...selectedGroup.members, ...membersForSelectedGroup],
+    selectedDeterminant = {
+      ...selectedDeterminant,
+      members: [
+        ...selectedDeterminant.members,
+        ...membersForSelectedDeterminant,
+      ],
     };
 
     availableMembers = _.differenceBy(
       availableMembers,
-      membersForSelectedGroup
+      membersForSelectedDeterminant
     );
   }
 
   return _.map(
-    selectedGroupIndex > -1
+    selectedDeterminantIndex > -1
       ? [
-          ..._.slice(dataGroups, 0, selectedGroupIndex),
-          selectedGroup,
-          ..._.slice(dataGroups, selectedGroupIndex + 1),
+          ..._.slice(determinants, 0, selectedDeterminantIndex),
+          selectedDeterminant,
+          ..._.slice(determinants, selectedDeterminantIndex + 1),
         ]
-      : dataGroups,
-    (dataGroup: any) => {
-      if (!dataGroup) {
+      : determinants,
+    (dataDeterminant: any) => {
+      if (!dataDeterminant) {
         return null;
       }
-      const membersForCurrentGroup = _.slice(
+      const membersForCurrentDeterminant = _.slice(
         availableMembers,
         0,
-        maximumItemPerGroup - (dataGroup.members || []).length
+        maximumItemPerDeterminant - (dataDeterminant.members || []).length
       );
 
       availableMembers = _.differenceBy(
         availableMembers,
-        membersForCurrentGroup
+        membersForCurrentDeterminant
       );
 
+      console.log(membersForCurrentDeterminant);
+
       return {
-        ...dataGroup,
-        members: [...dataGroup.members, ...membersForCurrentGroup],
+        ...dataDeterminant,
+        members: [...dataDeterminant.members, ...membersForCurrentDeterminant],
       };
     }
   );

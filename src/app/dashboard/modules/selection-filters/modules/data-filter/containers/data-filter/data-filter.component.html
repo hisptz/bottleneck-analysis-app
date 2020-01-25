@@ -149,12 +149,11 @@
 
   <!-- data filter groups -->
   <div class="data-filter-groups-container" *ngIf="showGroupingPanel">
-    <app-determinant-list [determinants]="selectedDeterminants" [selectedDeterminantId]="selectedDeterminantId"
+    <app-determinant-list [determinants]="determinants" [selectedDeterminantId]="selectedDeterminantId"
       [selectedItems]="selectedItems" [determinantPreferences]="determinantPreferences"
       [dataFilterGroups]="dataFilterGroups$ | async" (determinantsUpdate)="onDataGroupsUpdate($event)"
-      (selectedDeterminantIdUpdate)="onSelectedDeterminantIdUpdate($event)"
-      (updateSelectedItems)="onUpdateSelectedItems($event)" (removeMember)="onRemoveDataItem($event)"
-      (updateMember)="onUpdateDataItem($event)"></app-determinant-list>
+      (selectedDeterminantIdUpdate)="onSelectDeterminant($event)" (updateSelectedItems)="onUpdateSelectedItems($event)"
+      (removeMember)="onRemoveDataItem($event)" (updateMember)="onUpdateDataItem($event)"></app-determinant-list>
   </div>
   <!-- end of data filter groups -->
 </div>
@@ -180,17 +179,15 @@
   <div class="determinant-selection-container">
     <app-determinant-list [determinants]="determinants" [dataFilterTypes]="dataFilterTypes"
       [dataFilterGroups]="dataFilterGroups$ | async" (setDataFilterGroup)="onSetDataFilterGroup($event)"
-      [currentDataFilterGroup]="currentDataFilterGroup$ | async"
-      (toggleDataFilterType)="onToggleDataFilterType($event)">
+      [currentDataFilterGroup]="currentDataFilterGroup$ | async" [dataFilterItems]="dataFilterItems$ | async"
+      [selectedItems]="selectedItems" [selectedDeterminantId]="selectedDeterminantId"
+      [determinantPreferences]="determinantPreferences" (toggleDataFilterType)="onToggleDataFilterType($event)"
+      (selectDataItem)="onSelectDataItem($event)" (selectDeterminant)="onSelectDeterminant($event)">
     </app-determinant-list>
   </div>
 </div>
 
 <div class="data-filter-btns">
-  <button mat-stroked-button [disabled]="selectedItems.length === 0" (click)="onDeselectAllItems($event)"
-    title="Unselect all selected items">
-    Empty
-  </button>
   <button mat-stroked-button title="Close data filter" (click)="close($event)">
     Close
   </button>

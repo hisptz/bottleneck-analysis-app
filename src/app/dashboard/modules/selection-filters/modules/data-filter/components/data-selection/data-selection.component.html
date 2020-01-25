@@ -1,7 +1,12 @@
 <div class="data-selection-container">
     <!-- data item type selector section -->
-    <app-data-filter-type-selector [dataFilterTypes]="dataFilterTypes"
-        (toggleDataFilterType)="onToggleDataFilterType($event)"></app-data-filter-type-selector>
+    <div class="d-flex justify-content-between">
+        <app-data-filter-type-selector [dataFilterTypes]="dataFilterTypes"
+            (toggleDataFilterType)="onToggleDataFilterType($event)"></app-data-filter-type-selector>
+        <button mat-icon-button (click)="onClose($event)">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
     <!-- end of data item type selector section -->
 
     <!-- data filter group selection section -->
@@ -11,6 +16,8 @@
     <!-- end of data filter group selection section -->
 
     <!-- data filter item selection section -->
-    <app-data-filter-item-selector></app-data-filter-item-selector>
+    <app-data-filter-item-selector [dataFilterItems]="dataFilterItems" [selectedItems]="selectedItems"
+        (selectDataItem)="onSelectDataItem($event)">
+    </app-data-filter-item-selector>
     <!-- end of data filter item selection section -->
 </div>
