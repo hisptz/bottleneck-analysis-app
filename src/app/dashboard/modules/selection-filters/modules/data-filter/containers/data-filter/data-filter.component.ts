@@ -134,12 +134,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.currentPageForAvailableDataItems = 1;
   }
 
-  onSetDataFilterGroup(dataFilterGroup: any, e) {
-    e.stopPropagation();
+  onSetDataFilterGroup(dataFilterGroup: any) {
     this.dataFilterStore.dispatch(
       new fromDataFilterActions.SetCurrentDataFilterGroup(dataFilterGroup.id)
     );
-    this.showGroups = false;
   }
 
   // this will add a selected item in a list function

@@ -19,9 +19,17 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 300px;
     mat-form-field {
       width: 100%;
     }
+  }
+
+  .data-filter-group__viewport {
+    height: 250px;
+    overflow: auto;
+  }
+
+  .selected-data-filter-group {
+    background-color: #eeeeee;
   }
 }

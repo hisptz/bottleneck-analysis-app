@@ -88,6 +88,7 @@
       </th>
       <th width="40%">{{currentDeterminantMember?.name}}</th>
     </tr>
+
     <tr *ngFor="let determinant of determinants; let i = index;">
       <td>
         <div class="determinant-title">
@@ -96,7 +97,13 @@
           <span>{{determinant.name}}</span>
         </div>
       </td>
-      <td class="p-0 determinant-member-td">
+      <td *ngIf="i === 0 && showDataSelection" [attr.rowspan]="determinants.length">
+        <app-data-selection [dataFilterTypes]="dataFilterTypes" [dataFilterGroups]="dataFilterGroups"
+          [currentDataFilterGroup]="currentDataFilterGroup" (setDataFilterGroup)="onSetDataFilterGroup($event)"
+          (toggleDataFilterType)="onToggleDataFilterType($event)">
+        </app-data-selection>
+      </td>
+      <td class="p-0 determinant-member-td" *ngIf="!showDataSelection">
         <div class="determinant-member-list">
           <div
             [ngClass]="{'determinant-member': true, 'active-determinant-member': currentDeterminantMember && currentDeterminantMember.id === determinantMember.id}"

@@ -62,7 +62,7 @@
 }
 
 .add-determinant-member mat-icon {
-  font-size: 70px;
+  font-size: 40px;
 }
 
 .determinant-member:hover .determinant-delete-btn {

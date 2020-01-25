@@ -151,7 +151,7 @@
   <div class="data-filter-groups-container" *ngIf="showGroupingPanel">
     <app-determinant-list [determinants]="selectedDeterminants" [selectedDeterminantId]="selectedDeterminantId"
       [selectedItems]="selectedItems" [determinantPreferences]="determinantPreferences"
-      (determinantsUpdate)="onDataGroupsUpdate($event)"
+      [dataFilterGroups]="dataFilterGroups$ | async" (determinantsUpdate)="onDataGroupsUpdate($event)"
       (selectedDeterminantIdUpdate)="onSelectedDeterminantIdUpdate($event)"
       (updateSelectedItems)="onUpdateSelectedItems($event)" (removeMember)="onRemoveDataItem($event)"
       (updateMember)="onUpdateDataItem($event)"></app-determinant-list>
@@ -176,25 +176,13 @@
     </div>
     <!-- end of data configuration section -->
 
-    <div *ngIf="false">
-      <!-- data item type selector section -->
-      <app-data-filter-type-selector [dataFilterTypes]="dataFilterTypes"
-        (toggleDataFilterType)="onToggleDataFilterType($event)"></app-data-filter-type-selector>
-      <!-- end of data item type selector section -->
-
-      <!-- data filter group selection section -->
-      <app-data-filter-group-selector></app-data-filter-group-selector>
-      <!-- end of data filter group selection section -->
-
-      <!-- data filter item selection section -->
-      <app-data-filter-item-selector></app-data-filter-item-selector>
-      <!-- end of data filter item selection section -->
-    </div>
-
-
   </div>
   <div class="determinant-selection-container">
-    <app-determinant-list [determinants]="determinants"></app-determinant-list>
+    <app-determinant-list [determinants]="determinants" [dataFilterTypes]="dataFilterTypes"
+      [dataFilterGroups]="dataFilterGroups$ | async" (setDataFilterGroup)="onSetDataFilterGroup($event)"
+      [currentDataFilterGroup]="currentDataFilterGroup$ | async"
+      (toggleDataFilterType)="onToggleDataFilterType($event)">
+    </app-determinant-list>
   </div>
 </div>
 

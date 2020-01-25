@@ -4,6 +4,7 @@ import { DeterminantMemberFormComponent } from './determinant-member-form/determ
 import { DataFilterTypeSelectorComponent } from './data-filter-type-selector/data-filter-type-selector.component';
 import { DataFilterGroupSelectorComponent } from './data-filter-group-selector/data-filter-group-selector.component';
 import { DataFilterItemSelectorComponent } from './data-filter-item-selector/data-filter-item-selector.component';
+import { DataSelectionComponent } from './data-selection/data-selection.component';
 
 export const components: any[] = [
   DeterminantListComponent,
@@ -12,4 +13,5 @@ export const components: any[] = [
   DataFilterTypeSelectorComponent,
   DataFilterGroupSelectorComponent,
   DataFilterItemSelectorComponent,
+  DataSelectionComponent,
 ];

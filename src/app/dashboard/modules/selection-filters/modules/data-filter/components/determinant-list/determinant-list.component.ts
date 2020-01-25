@@ -15,6 +15,7 @@ import { addDefaultDeterminantInList } from '../../helpers/add-default-determina
 import { removeDeterminantFromList } from '../../helpers/remove-determinant-from-list.helper';
 import { updateDeterminantInList } from '../../helpers/update-data-determinant-in-list.helper';
 import { ARROW_DOWN_ICON, DRAG_ICON } from '../../icons';
+import { DataFilterType } from '../../models/data-filter-type.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -24,12 +25,12 @@ import { ARROW_DOWN_ICON, DRAG_ICON } from '../../icons';
 })
 export class DeterminantListComponent implements OnInit, OnDestroy {
   determinantList: Determinant[];
-  @Input()
-  determinants: any[];
-  @Input()
-  selectedItems: any[];
-  @Input()
-  selectedDeterminantId: string;
+  @Input() determinants: any[];
+  @Input() selectedItems: any[];
+  @Input() selectedDeterminantId: string;
+  @Input() dataFilterTypes: DataFilterType[];
+  @Input() dataFilterGroups: any[];
+  @Input() currentDataFilterGroup: any;
 
   currentDeterminantMember: any;
   showDataSelection: boolean;
@@ -55,6 +56,13 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
 
   @Output()
   updateSelectedItems: EventEmitter<any[]> = new EventEmitter<any[]>();
+
+  @Output()
+  toggleDataFilterType: EventEmitter<DataFilterType[]> = new EventEmitter<
+    DataFilterType[]
+  >();
+
+  @Output() setDataFilterGroup: EventEmitter<any> = new EventEmitter<any>();
   // icons
   dragIcon: string;
   arrowDownIcon: string;
@@ -177,6 +185,13 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   onOpenDataSelection(e) {
     e.stopPropagation();
     this.showDataSelection = true;
+  }
+
+  onSetDataFilterGroup(dataFilterGroup: any) {
+    this.setDataFilterGroup.emit(dataFilterGroup);
+  }
+  onToggleDataFilterType(dataFilterTypes: DataFilterType[]) {
+    this.toggleDataFilterType.emit(dataFilterTypes);
   }
 
   ngOnDestroy() {
