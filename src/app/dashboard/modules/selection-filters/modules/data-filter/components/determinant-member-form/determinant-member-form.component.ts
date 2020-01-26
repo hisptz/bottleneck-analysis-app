@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Determinant } from 'src/app/models';
+import { Legend } from 'src/app/models/legend.model';
 
 @Component({
   selector: 'app-determinant-member-form',
@@ -42,6 +43,13 @@ export class DeterminantMemberFormComponent implements OnInit {
     this.updateMember.emit({
       ...this.determinantMember,
       [attribute]: e.target ? e.target.value : this.determinantMember.label,
+    });
+  }
+
+  onLegendUpdate(legends: Legend[]) {
+    this.updateMember.emit({
+      ...this.determinantMember,
+      legendSet: { ...this.determinantMember.legendSet, legends },
     });
   }
 }

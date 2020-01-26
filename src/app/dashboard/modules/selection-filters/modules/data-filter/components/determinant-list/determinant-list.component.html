@@ -56,7 +56,8 @@
         <!-- current determinant member form -->
         <div class="determinant-member-form" *ngIf="currentDeterminantMember">
           <app-determinant-member-form [determinantMember]="currentDeterminantMember"
-            [generalDataConfiguration]="generalDataConfiguration"></app-determinant-member-form>
+            [generalDataConfiguration]="generalDataConfiguration" (updateMember)="onUpdateMember($event)">
+          </app-determinant-member-form>
         </div>
         <!-- current determinant member form -->
       </td>

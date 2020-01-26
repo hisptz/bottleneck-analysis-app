@@ -4,7 +4,6 @@ import { Dashboard } from '../models';
 import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
 import { getDashboardAccess } from './get-dashboard-access.helper';
 import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
-import { DEFAULT_LEGEND_DEFINITIONS } from '../constants/default-legend-definitions.constant';
 
 export function getStandardizedDashboard(
   dashboard: any,

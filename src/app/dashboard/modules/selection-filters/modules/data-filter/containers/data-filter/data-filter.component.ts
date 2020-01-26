@@ -30,7 +30,7 @@ import { DataFilterType } from '../../models/data-filter-type.model';
   templateUrl: './data-filter.component.html',
   styleUrls: ['./data-filter.component.css'],
 })
-export class DataFilterComponent implements OnInit, OnDestroy {
+export class DataFilterComponent implements OnInit {
   @Input() selectedItems: any[] = [];
   @Input() selectedGroups: any[] = [];
   @Input() determinants: Determinant[] = [];
@@ -344,9 +344,5 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       ...this.generalDataConfiguration,
       [attributeName]: value,
     };
-  }
-
-  ngOnDestroy() {
-    this.dataFilterClose.emit(this.emit());
   }
 }

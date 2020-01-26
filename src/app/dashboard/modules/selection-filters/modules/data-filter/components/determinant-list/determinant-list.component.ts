@@ -114,8 +114,10 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
     this.selectDeterminant.emit(this.selectedDeterminantId);
   }
 
-  onSetCurrentDeterminantMember(id: string, e) {
-    e.stopPropagation();
+  onSetCurrentDeterminantMember(id: string, e?) {
+    if (e) {
+      e.stopPropagation();
+    }
 
     const determinantMemberFromSelected = _.find(this.selectedItems, [
       'id',
@@ -125,13 +127,34 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
       'id',
       id,
     ]);
+
     this.currentDeterminantMember = {
-      ...(determinantMemberFromSelected || {}),
+      ...({
+        ...determinantMemberFromSelected,
+        legendSet: this.getDeterminantMemberLegendSet(
+          determinantMemberFromSelected || determinantMemberFromDataFilterList
+        ),
+      } || {}),
       ...(determinantMemberFromDataFilterList || {}),
     };
   }
 
+  getDeterminantMemberLegendSet(determinantMember: any) {
+    const legendSet = determinantMember ? determinantMember.legendSet : null;
+
+    if (!legendSet) {
+      return {
+        id: determinantMember.id,
+        name: determinantMember.name,
+        legends: this.generalDataConfiguration.legendDefinitions,
+      };
+    }
+
+    return legendSet;
+  }
+
   onUpdateMember(member: any) {
+    this.currentDeterminantMember = member;
     this.updateMember.emit(member);
   }
 
@@ -217,7 +240,7 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
 
   onSelectDataItem(dataItem: any) {
     this.showDataSelection = false;
-    this.currentDeterminantMember = dataItem;
+    this.onSetCurrentDeterminantMember(dataItem.id);
     this.selectDataItem.emit(dataItem);
   }
 
