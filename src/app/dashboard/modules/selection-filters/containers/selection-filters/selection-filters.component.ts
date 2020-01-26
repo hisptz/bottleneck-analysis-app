@@ -16,6 +16,7 @@ import { SelectionFilterConfig } from '../../models/selected-filter-config.model
 import { MatDialog } from '@angular/material/dialog';
 import { SelectionFilterDialogComponent } from '../../components/selection-filter-dialog/selection-filter-dialog.component';
 import { SelectionDialogData } from '../../models/selection-dialog-data.model';
+import { DEFAULT_LEGEND_DEFINITIONS } from 'src/app/dashboard/constants/default-legend-definitions.constant';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -74,6 +75,20 @@ export class SelectionFiltersComponent implements OnInit {
   get selectedData(): any[] {
     const dataObject = _.find(this.dataSelections, ['dimension', 'dx']);
     return dataObject ? dataObject.items : [];
+  }
+
+  get generalDataConfiguration(): any {
+    const dataObject = _.find(this.dataSelections, ['dimension', 'dx']);
+    return dataObject
+      ? {
+          useShortNameAsLabel: dataObject.useShortNameAsLabel,
+          legendDefinitions:
+            dataObject.legendDefinitions || DEFAULT_LEGEND_DEFINITIONS,
+        }
+      : {
+          useShortNameAsLabel: true,
+          legendDefinitions: DEFAULT_LEGEND_DEFINITIONS,
+        };
   }
 
   get selectedDataGroups(): any[] {
@@ -144,6 +159,7 @@ export class SelectionFiltersComponent implements OnInit {
       selectedOrgUnits: this.selectedOrgUnits,
       selectedPeriods: this.selectedPeriods,
       periodFilterConfig: this.periodFilterConfig,
+      generalDataConfiguration: this.generalDataConfiguration,
     };
 
     const width = selectedFilter === 'DATA' ? '95%' : '800px';

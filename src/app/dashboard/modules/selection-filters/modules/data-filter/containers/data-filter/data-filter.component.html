@@ -160,19 +160,16 @@
 
 <div class="data-filter-container">
   <div class="data-item-selection-container">
-    <h4 class="mb-3">General Configuration</h4>
+    <h5 class="mb-3">General Configuration</h5>
     <!-- data configuration section -->
-    <mat-checkbox>Use short names as labels</mat-checkbox>
+    <mat-checkbox [ngModel]="generalDataConfiguration.useShortNameAsLabel"
+      (change)="onUpdateGeneralDataConfiguration($event.checked, 'useShortNameAsLabel')">Use
+      short names as labels</mat-checkbox>
 
-    <div class="mt-4">Legend Definition</div>
-    <div class="legend-list">
-      <div *ngFor="let item of [1,2,3,4]">
-        <input class="legend-set-color" [(colorPicker)]="color" [style.background]="'green'">
-        <mat-form-field class="w-75">
-          <input matInput>
-        </mat-form-field>
-      </div>
-    </div>
+    <div class="mt-4">Legend Definitions <small>(Applicable across all indicators)</small></div>
+    <app-legend-definition-list [legendDefinitions]="generalDataConfiguration.legendDefinitions"
+      (updateLegendDefinitions)="onUpdateGeneralDataConfiguration($event, 'legendDefinitions')">
+    </app-legend-definition-list>
     <!-- end of data configuration section -->
 
   </div>
@@ -181,9 +178,10 @@
       [dataFilterGroups]="dataFilterGroups$ | async" (setDataFilterGroup)="onSetDataFilterGroup($event)"
       [currentDataFilterGroup]="currentDataFilterGroup$ | async" [dataFilterItems]="dataFilterItems$ | async"
       [selectedItems]="selectedItems" [selectedDeterminantId]="selectedDeterminantId"
-      [determinantPreferences]="determinantPreferences" (toggleDataFilterType)="onToggleDataFilterType($event)"
-      (selectDataItem)="onSelectDataItem($event)" (selectDeterminant)="onSelectDeterminant($event)"
-      (removeDeterminantMember)="onRemoveDataItem($event)" (removeAllDeterminantMembers)="onDeselectAllItems()">
+      [determinantPreferences]="determinantPreferences" [generalDataConfiguration]="generalDataConfiguration"
+      (toggleDataFilterType)="onToggleDataFilterType($event)" (selectDataItem)="onSelectDataItem($event)"
+      (selectDeterminant)="onSelectDeterminant($event)" (removeDeterminantMember)="onRemoveDataItem($event)"
+      (removeAllDeterminantMembers)="onDeselectAllItems()">
     </app-determinant-list>
   </div>
 </div>

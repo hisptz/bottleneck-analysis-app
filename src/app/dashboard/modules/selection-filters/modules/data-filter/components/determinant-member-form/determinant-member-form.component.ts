@@ -7,20 +7,23 @@ import { Determinant } from 'src/app/models';
   styleUrls: ['./determinant-member-form.component.scss'],
 })
 export class DeterminantMemberFormComponent implements OnInit {
-  @Input()
-  determinantMember: any;
+  @Input() determinantMember: any;
+  @Input() determinant: Determinant;
+  @Input() generalDataConfiguration: any;
 
-  @Input()
-  determinant: Determinant;
-
-  @Output()
-  removeMember: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
-  updateMember: EventEmitter<any> = new EventEmitter<any>();
+  @Output() removeMember: EventEmitter<any> = new EventEmitter<any>();
+  @Output() updateMember: EventEmitter<any> = new EventEmitter<any>();
 
   isFormOpen: boolean;
   constructor() {}
+
+  get memberLabel(): string {
+    return this.determinantMember
+      ? this.generalDataConfiguration.useShortNameAsLabel
+        ? this.determinantMember.shortName
+        : this.determinantMember.label
+      : this.determinantMember.shortName;
+  }
 
   ngOnInit() {}
 
@@ -34,8 +37,11 @@ export class DeterminantMemberFormComponent implements OnInit {
     this.isFormOpen = !this.isFormOpen;
   }
 
-  onInputChange(e) {
+  onInputChange(e, attribute: string) {
     e.stopPropagation();
-    this.updateMember.emit(this.determinantMember);
+    this.updateMember.emit({
+      ...this.determinantMember,
+      [attribute]: e.target ? e.target.value : this.determinantMember.label,
+    });
   }
 }

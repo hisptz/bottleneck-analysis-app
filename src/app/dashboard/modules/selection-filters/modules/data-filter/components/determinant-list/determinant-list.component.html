@@ -1,81 +1,3 @@
-<div class="data-filter-group" *ngIf="false">
-  <div class="data-filter-group-header">
-    <div class="data-filter-group-header__title">Data Dimension Determinants</div>
-    <div class="data-filter-group-header__description">
-      Create your prefered groups for your selected data dimensions
-    </div>
-  </div>
-
-  <div class="data-filter-group__list" dragula="GROUPS" [dragulaModel]="determinants"
-    (dragulaModelChange)="onSortDeterminants($event)">
-    <!-- data filter group item -->
-    <div [ngClass]="{
-        'data-filter-group__item': true,
-        'active-data-filter-group': determinant.id === selectedDeterminantId
-      }" *ngFor="let determinant of determinants">
-      <!-- title -->
-      <div [ngClass]="{
-          'data-filter-group__item-header': true,
-          'active-data-filter-group-item': determinant.id === selectedDeterminantId
-        }" (click)="onSetCurrentDeterminant(group, $event)">
-        <div class="data-filter-group__item-header-title">
-          <button>
-            <img class="group-handle" [src]="dragIcon" alt="" />
-          </button>
-          <div [style.background-color]="determinant.color" class="data-filter-group_color-item">
-            &nbsp;
-          </div>
-          {{ determinant.name }}&nbsp;
-          <small>({{ determinant.members.length }} selected)</small>
-        </div>
-        <div class="data-filter-group__item-header-btns">
-          <button title="Delete this group" class="data-filter-group-delete-btn text-danger"
-            (click)="onDeleteDeterminant(group, $event)">
-            <i class="icon-trash-empty"></i>
-          </button>
-          <a class="data-filter-group__item-header-icon">
-            <i class="{{
-                determinant.id === selectedDeterminantId ? 'icon-up-open' : 'icon-down-open'
-              }}"></i>
-          </a>
-        </div>
-      </div>
-      <!-- end of title -->
-
-      <!-- content -->
-      <div class="data-filter-group__item-content" *ngIf="determinant.id === selectedDeterminantId">
-        <app-determinant-item [determinant]="group" [determinants]="determinants"
-          (updateDeterminant)="onUpdateDeterminant($event)"></app-determinant-item>
-        <div class="data-filter-group__item-member-list">
-          <div class="data-filter-group__item-label">Members</div>
-          <div dragula="MEMBERS" [dragulaModel]="determinant.members"
-            (dragulaModelChange)="onSortDeterminantMembers($event, group)">
-            <div class="data-filter-group__item-member-item" *ngFor="let member of determinant.members">
-              <!-- <app-determinant-member [determinantMember]="member" [determinant]="determinant"
-                (removeMember)="onRemoveMember($event)" (updateMember)="onUpdateMember($event)">
-              </app-determinant-member> -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- end of content -->
-    </div>
-    <!-- end of data filter group item -->
-  </div>
-
-  <div class="data-filter-group_add-new">
-    <button title="Add new group" [disabled]="
-        determinants.length >= determinantPreferences.maximumNumberOfDeterminants
-      " class="data-filter-group_add-button" (click)="onAddDeterminant($event)">
-      <i class="icon-plus"></i>
-    </button>
-  </div>
-
-  <div class="data-filter-group-notification">
-    Determinants with empty names or without members will be removed
-  </div>
-</div>
-
 <div class="determinant-list-container">
   <table class="table table-bordered determinant-table">
     <tr>
@@ -115,7 +37,7 @@
         <div class="determinant-member-list">
           <div
             [ngClass]="{'determinant-member': true, 'active-determinant-member': currentDeterminantMember && currentDeterminantMember.id === determinantMember.id}"
-            (click)="onSetCurrentDeterminantMember(determinantMember, $event)"
+            (click)="onSetCurrentDeterminantMember(determinantMember.id, $event)"
             *ngFor="let determinantMember of determinant.members">
             <a class="determinant-delete-btn" title="Remove member"
               (click)="onRemoveDeterminantMember(determinantMember, determinant, $event)">
@@ -133,7 +55,8 @@
       <td *ngIf="i === 0" [attr.rowspan]="determinants.length">
         <!-- current determinant member form -->
         <div class="determinant-member-form" *ngIf="currentDeterminantMember">
-          <app-determinant-member-form [determinantMember]="currentDeterminantMember"></app-determinant-member-form>
+          <app-determinant-member-form [determinantMember]="currentDeterminantMember"
+            [generalDataConfiguration]="generalDataConfiguration"></app-determinant-member-form>
         </div>
         <!-- current determinant member form -->
       </td>

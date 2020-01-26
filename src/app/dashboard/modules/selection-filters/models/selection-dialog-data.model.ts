@@ -5,4 +5,5 @@ export interface SelectionDialogData {
   selectedPeriods: any[];
   periodFilterConfig: any;
   selectedOrgUnits: any[];
+  generalDataConfiguration: any;
 }

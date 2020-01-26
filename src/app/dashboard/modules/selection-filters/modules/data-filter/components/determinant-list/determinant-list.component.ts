@@ -32,15 +32,15 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   @Input() dataFilterGroups: any[];
   @Input() currentDataFilterGroup: any;
   @Input() dataFilterItems: any[];
+  @Input() generalDataConfiguration: any;
+  @Input() determinantPreferences: {
+    maximumNumberOfDeterminants: number;
+    maximumItemPerDeterminant: number;
+  };
 
   currentDeterminantMember: any;
   showDataSelection: boolean;
 
-  @Input()
-  determinantPreferences: {
-    maximumNumberOfDeterminants: number;
-    maximumItemPerDeterminant: number;
-  };
   @Output()
   determinantsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
 
@@ -114,9 +114,21 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
     this.selectDeterminant.emit(this.selectedDeterminantId);
   }
 
-  onSetCurrentDeterminantMember(currentDeterminantMember: any, e) {
+  onSetCurrentDeterminantMember(id: string, e) {
     e.stopPropagation();
-    this.currentDeterminantMember = currentDeterminantMember;
+
+    const determinantMemberFromSelected = _.find(this.selectedItems, [
+      'id',
+      id,
+    ]);
+    const determinantMemberFromDataFilterList = _.find(this.dataFilterItems, [
+      'id',
+      id,
+    ]);
+    this.currentDeterminantMember = {
+      ...(determinantMemberFromSelected || {}),
+      ...(determinantMemberFromDataFilterList || {}),
+    };
   }
 
   onUpdateMember(member: any) {
@@ -205,6 +217,7 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
 
   onSelectDataItem(dataItem: any) {
     this.showDataSelection = false;
+    this.currentDeterminantMember = dataItem;
     this.selectDataItem.emit(dataItem);
   }
 

@@ -4,6 +4,7 @@ import { Dashboard } from '../models';
 import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
 import { getDashboardAccess } from './get-dashboard-access.helper';
 import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
+import { DEFAULT_LEGEND_DEFINITIONS } from '../constants/default-legend-definitions.constant';
 
 export function getStandardizedDashboard(
   dashboard: any,
@@ -27,9 +28,9 @@ export function getStandardizedDashboard(
     userAccesses: dashboard.userAccesses || [],
     user: dashboard.user || {
       id: currentUser.id,
-      name: currentUser.name
+      name: currentUser.name,
     },
     access: getDashboardAccess(dashboard, currentUser),
-    globalSelections: dashboard.globalSelections || dataSelections
+    globalSelections: dashboard.globalSelections || dataSelections,
   };
 }

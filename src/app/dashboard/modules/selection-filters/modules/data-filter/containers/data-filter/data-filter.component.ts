@@ -19,7 +19,6 @@ import { removeMemberFromGroup } from '../../helpers/remove-member-from-group.he
 import { updateDeterminantInList } from '../../helpers/update-data-determinant-in-list.helper';
 import { ARROW_LEFT_ICON, ARROW_RIGHT_ICON, LIST_ICON } from '../../icons';
 import { DataFilterPreference } from '../../model/data-filter-preference.model';
-import * as fromModels from '../../models';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
@@ -32,27 +31,19 @@ import { DataFilterType } from '../../models/data-filter-type.model';
   styleUrls: ['./data-filter.component.css'],
 })
 export class DataFilterComponent implements OnInit, OnDestroy {
-  @Input()
-  selectedItems: any[] = [];
-  @Input()
-  selectedGroups: any[] = [];
-  @Input()
-  determinants: Determinant[] = [];
-
-  @Input()
-  dataFilterPreferences: DataFilterPreference;
-
-  @Output()
-  dataFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output()
-  dataFilterClose: EventEmitter<any> = new EventEmitter<any>();
-
-  @Input()
-  determinantPreferences: {
+  @Input() selectedItems: any[] = [];
+  @Input() selectedGroups: any[] = [];
+  @Input() determinants: Determinant[] = [];
+  @Input() dataFilterPreferences: DataFilterPreference;
+  @Input() generalDataConfiguration: any;
+  @Input() determinantPreferences: {
     maximumNumberOfDeterminants: number;
     maximumItemPerDeterminant: number;
     ignoreMaximumRestrictions: boolean;
   };
+
+  @Output() dataFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output() dataFilterClose: EventEmitter<any> = new EventEmitter<any>();
 
   showGroupingPanel: boolean;
   selectedItems$: Observable<any>;
@@ -275,6 +266,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
         (determinant: Determinant) => determinant.name !== ''
       ),
       dimension: 'dx',
+      useShortNameAsLabel: this.generalDataConfiguration.useShortNameAsLabel,
+      legendDefinitions: this.generalDataConfiguration.legendDefinitions,
     };
   }
 
@@ -344,6 +337,13 @@ export class DataFilterComponent implements OnInit, OnDestroy {
 
   onUpdateSelectedItems(selectedItems: any[]) {
     this.selectedItems = [...selectedItems];
+  }
+
+  onUpdateGeneralDataConfiguration(value: any, attributeName: string) {
+    this.generalDataConfiguration = {
+      ...this.generalDataConfiguration,
+      [attributeName]: value,
+    };
   }
 
   ngOnDestroy() {

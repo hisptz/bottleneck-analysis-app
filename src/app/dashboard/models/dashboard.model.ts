@@ -1,4 +1,6 @@
 import { DashboardAccess } from './dashboard-access.model';
+import { Legend } from 'src/app/models/legend.model';
+import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
 
 export interface Dashboard {
   id: string;
@@ -22,7 +24,7 @@ export interface Dashboard {
   hasError?: boolean;
   namespace?: string;
   unSaved?: boolean;
-  globalSelections?: any[];
+  globalSelections?: VisualizationDataSelection[];
   publicAccess: string;
   externalAccess: boolean;
   userGroupAccesses: any[];

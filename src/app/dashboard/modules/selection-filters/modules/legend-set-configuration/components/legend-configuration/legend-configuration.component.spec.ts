@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { LegendConfigurationComponent } from './legend-configuration.component';
-import { LegendColorPickerComponent } from '../legend-color-picker/legend-color-picker.component';
+import { LegendColorPickerComponent } from '../../../data-filter/components/legend-color-picker/legend-color-picker.component';
 import { FormsModule } from '@angular/forms';
 import { ColorPickerModule } from 'ngx-color-picker';
 
@@ -15,7 +15,7 @@ describe('LegendConfigurationComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ColorPickerModule],
-      declarations: [LegendConfigurationComponent, LegendColorPickerComponent]
+      declarations: [LegendConfigurationComponent, LegendColorPickerComponent],
     }).compileComponents();
   }));
 
