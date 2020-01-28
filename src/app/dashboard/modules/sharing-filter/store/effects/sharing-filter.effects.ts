@@ -11,7 +11,7 @@ import {
   AddSharingFilterItemAction,
   SaveSharingFilterItemAction,
   SaveSharingFilterItemSuccessAction,
-  SaveSharingFilterItemFailAction
+  SaveSharingFilterItemFailAction,
 } from '../actions/sharing-filter.actions';
 import { tap, take, exhaustMap, map, catchError } from 'rxjs/operators';
 import { SharingFilterState } from '../reducers/sharing-filter.reducer';
@@ -45,7 +45,7 @@ export class SharingFilterEffects {
                     const sharingFilterItem: SharingFilter = {
                       id: action.id,
                       type: action.itemType,
-                      user: sharingFilterObject.user
+                      user: sharingFilterObject.user,
                     };
                     this.store.dispatch(
                       new AddSharingFilterItemAction(

@@ -3,7 +3,7 @@ import { EntityAdapter, EntityState, createEntityAdapter } from '@ngrx/entity';
 import { SharingSearchList } from '../../models/sharing-search-list.model';
 import {
   SharingSearchListActions,
-  SharingSearchListActionTypes
+  SharingSearchListActionTypes,
 } from '../actions/sharing-search-list.actions';
 
 export interface SharingSearchListState extends EntityState<SharingSearchList> {
@@ -11,18 +11,20 @@ export interface SharingSearchListState extends EntityState<SharingSearchList> {
   loaded: boolean;
   hasError: boolean;
   error: any;
+  initiated: boolean;
 }
 
-export const sharingSearchListAdapter: EntityAdapter<
+export const sharingSearchListAdapter: EntityAdapter<SharingSearchList> = createEntityAdapter<
   SharingSearchList
-> = createEntityAdapter<SharingSearchList>();
+>();
 
 const initialState: SharingSearchListState = sharingSearchListAdapter.getInitialState(
   {
     loading: false,
     loaded: false,
     hasError: false,
-    error: null
+    error: null,
+    initiated: false,
   }
 );
 
@@ -37,22 +39,28 @@ export function sharingSearchListReducer(
         loading: true,
         loaded: false,
         hasError: false,
-        error: null
+        error: null,
       };
     }
     case SharingSearchListActionTypes.AddSharingSearchList: {
       return sharingSearchListAdapter.addMany(action.sharingSearchList, {
         ...state,
         loading: false,
-        loaded: true
+        loaded: true,
       });
     }
 
     case SharingSearchListActionTypes.LoadSharingSearchListFail: {
       return { ...state, loading: false, hasError: true, error: action.error };
     }
+
+    case SharingSearchListActionTypes.InitiateLoadingSharingList: {
+      return { ...state, initiated: true };
+    }
+
+    default:
+      return state;
   }
-  return state;
 }
 
 export const getSharingSearchListState = createFeatureSelector<
@@ -71,6 +79,10 @@ export const getSharingSearchListHasErrorState = (
   state: SharingSearchListState
 ) => state.hasError;
 
+export const getSharingSearchListInitiatedState = (
+  state: SharingSearchListState
+) => state.initiated;
+
 export const {
-  selectAll: getSharingSearchList
+  selectAll: getSharingSearchList,
 } = sharingSearchListAdapter.getSelectors(getSharingSearchListState);

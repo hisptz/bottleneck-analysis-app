@@ -81,6 +81,7 @@ export class DataFilterComponent implements OnInit {
       maximumItemPerDeterminant: 3,
       ignoreMaximumRestrictions: false,
     };
+
     // Load data filter items
     dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
 

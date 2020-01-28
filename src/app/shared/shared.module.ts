@@ -9,7 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 import { directives } from './directives';
 import { pipes } from './pipes';
 
@@ -27,6 +28,8 @@ import { pipes } from './pipes';
     MatProgressBarModule,
     MatChipsModule,
     ScrollingModule,
+    MatListModule,
+    MatMenuModule,
   ],
   imports: [
     CommonModule,
@@ -39,6 +42,8 @@ import { pipes } from './pipes';
     MatProgressBarModule,
     MatChipsModule,
     ScrollingModule,
+    MatListModule,
+    MatMenuModule,
   ],
 })
 export class SharedModule {}

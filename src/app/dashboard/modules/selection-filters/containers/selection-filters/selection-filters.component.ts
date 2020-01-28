@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectionFilterDialogComponent } from '../../components/selection-filter-dialog/selection-filter-dialog.component';
 import { SelectionDialogData } from '../../models/selection-dialog-data.model';
 import { DEFAULT_LEGEND_DEFINITIONS } from 'src/app/dashboard/constants/default-legend-definitions.constant';
+import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -40,6 +41,7 @@ export class SelectionFiltersComponent implements OnInit {
   saving: boolean;
 
   periodFilterConfig: PeriodFilterConfig;
+  orgUnitFilterConfig: OrgUnitFilterConfig;
   @Output()
   filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
 
@@ -69,7 +71,8 @@ export class SelectionFiltersComponent implements OnInit {
     this.periodIcon = PERIOD_ICON;
     this.orgUnitIcon = TREE_ICON;
 
-    this.periodFilterConfig = { singleSelection: true };
+    this.periodFilterConfig = { singleSelection: true, emitOnDestroy: false };
+    this.orgUnitFilterConfig = { singleSelection: true, closeOnDestroy: false };
   }
 
   get selectedData(): any[] {
@@ -159,6 +162,7 @@ export class SelectionFiltersComponent implements OnInit {
       selectedOrgUnits: this.selectedOrgUnits,
       selectedPeriods: this.selectedPeriods,
       periodFilterConfig: this.periodFilterConfig,
+      orgUnitFilterConfig: this.orgUnitFilterConfig,
       generalDataConfiguration: this.generalDataConfiguration,
     };
 
@@ -171,8 +175,12 @@ export class SelectionFiltersComponent implements OnInit {
       data: selectionDialogData,
     });
 
-    selectionDialog.afterClosed().subscribe(data => {
-      console.log(data);
+    selectionDialog.afterClosed().subscribe((dialogData: any) => {
+      if (dialogData.action === 'UPDATE') {
+        this.onFilterUpdate(dialogData.selectionItems);
+      } else {
+        this.onFilterClose(dialogData.selectionItems);
+      }
     });
   }
 
@@ -181,7 +189,7 @@ export class SelectionFiltersComponent implements OnInit {
     this.showFilterBody = false;
   }
 
-  onFilterClose(selectedItems, selectedFilter) {
+  onFilterClose(selectedItems) {
     if (selectedItems && selectedItems.items.length > 0) {
       this.dataSelections = !_.find(this.dataSelections, [
         'dimension',
@@ -195,13 +203,9 @@ export class SelectionFiltersComponent implements OnInit {
             ),
           ];
     }
-
-    if (this.selectedFilter === selectedFilter) {
-      this.showFilterBody = false;
-    }
   }
 
-  onFilterUpdate(selectedItems, selectedFilter) {
+  onFilterUpdate(selectedItems) {
     this.dataSelections = !_.find(this.dataSelections, [
       'dimension',
       selectedItems.dimension,

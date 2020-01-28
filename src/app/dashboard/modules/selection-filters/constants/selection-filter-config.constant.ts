@@ -5,5 +5,5 @@ export const SELECTION_FILTER_CONFIG: SelectionFilterConfig = {
   showPeriodFilter: true,
   showOrgUnitFilter: true,
   showLayout: false,
-  showFilterButton: false
+  showFilterButton: false,
 };

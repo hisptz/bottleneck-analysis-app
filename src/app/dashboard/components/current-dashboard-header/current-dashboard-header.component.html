@@ -20,10 +20,6 @@
         </div>
       </div>
 
-      <div class="current-dashboard-share-button" *ngIf="dashboardLoaded && currentDashboard?.access?.manageSharing">
-        <app-current-dashboard-sharing [id]="currentDashboard?.id"></app-current-dashboard-sharing>
-      </div>
-
       <div class="current-dashboard-bookmark-button" *ngIf="dashboardLoaded">
         <app-current-dashboard-bookmark [dashboardBookmarked]="currentDashboard?.bookmarked"
           [dashboardBookmarkPending]="currentDashboard?.bookmarkPending"

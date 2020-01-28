@@ -1,16 +1,33 @@
 <div class="data-filter-container">
   <div class="data-item-selection-container">
-    <h5 class="mb-3">General Configuration</h5>
-    <!-- data configuration section -->
-    <mat-checkbox [ngModel]="generalDataConfiguration.useShortNameAsLabel"
-      (change)="onUpdateGeneralDataConfiguration($event.checked, 'useShortNameAsLabel')">Use
-      short names as labels</mat-checkbox>
+    <table class="table table-bordered">
+      <tr>
+        <th><span class="d-flex align-items-center pt-1 pb-1">Settings</span></th>
+      </tr>
+      <tr>
+        <td class="position-relative">
+          <!-- sharing section -->
+          <app-sharing-card></app-sharing-card>
+          <!-- end of sharing section -->
 
-    <div class="mt-4">Legend Definitions <small>(Applicable across all indicators)</small></div>
-    <app-legend-definition-list [legendDefinitions]="generalDataConfiguration.legendDefinitions"
-      (updateLegendDefinitions)="onUpdateGeneralDataConfiguration($event, 'legendDefinitions')">
-    </app-legend-definition-list>
-    <!-- end of data configuration section -->
+          <!-- data configuration section -->
+          <div class="mt-3">
+            <mat-checkbox [ngModel]="generalDataConfiguration.useShortNameAsLabel"
+              (change)="onUpdateGeneralDataConfiguration($event.checked, 'useShortNameAsLabel')">Use
+              short names as labels</mat-checkbox>
+          </div>
+
+          <div class="mt-4 mb-3">Legend Definitions <small>(Only applicable to sub level analysis)</small></div>
+          <mat-divider></mat-divider>
+          <div class="mt-3">
+            <app-legend-definition-list [legendDefinitions]="generalDataConfiguration.legendDefinitions"
+              (updateLegendDefinitions)="onUpdateGeneralDataConfiguration($event, 'legendDefinitions')">
+            </app-legend-definition-list>
+          </div>
+          <!-- end of data configuration section -->
+        </td>
+      </tr>
+    </table>
 
   </div>
   <div class="determinant-selection-container">

@@ -33,7 +33,7 @@
     "@iapps/ngx-dhis2-dictionary": "^1.1.5",
     "@iapps/ngx-dhis2-http-client": "^2.0.8-beta.5",
     "@iapps/ngx-dhis2-org-unit-filter": "^1.1.21-beta.6",
-    "@iapps/ngx-dhis2-period-filter": "^1.0.0-beta.21",
+    "@iapps/ngx-dhis2-period-filter": "^1.0.0-beta.22",
     "@mapbox/geojson-area": "^0.2.2",
     "@ng-select/ng-select": "^3.7.0",
     "@ngrx/effects": "^8.6.0",
@@ -77,7 +77,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.21",
+    "@angular-devkit/build-angular": "^0.803.23",
     "@angular/cli": "^8.3.21",
     "@angular/compiler-cli": "^9.0.0-next.1",
     "@angular/language-service": "^9.0.0-next.1",

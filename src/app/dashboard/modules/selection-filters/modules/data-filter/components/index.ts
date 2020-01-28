@@ -8,6 +8,7 @@ import { DataSelectionComponent } from './data-selection/data-selection.componen
 import { LegendDefinitionListComponent } from './legend-definition-list/legend-definition-list.component';
 import { LegendColorPickerComponent } from './legend-color-picker/legend-color-picker.component';
 import { LegendListComponent } from './legend-list/legend-list.component';
+import { SharingCardComponent } from './sharing-card/sharing-card.component';
 
 export const components: any[] = [
   DeterminantListComponent,
@@ -20,4 +21,5 @@ export const components: any[] = [
   LegendDefinitionListComponent,
   LegendColorPickerComponent,
   LegendListComponent,
+  SharingCardComponent,
 ];

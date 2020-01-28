@@ -1,0 +1,46 @@
+<div class="position-relative">
+    <div class="d-flex align-items-center">
+        <div>Share with:</div>
+        <button class="ml-4 w-100" mat-raised-button>
+            <div class="d-flex justify-content-between align-items-center" (click)="onToggleSharing($event)">
+                <span>Only me</span>
+                <mat-icon>arrow_drop_down</mat-icon>
+            </div>
+        </button>
+    </div>
+    <mat-card class="sharing-card" *ngIf="showSharing">
+        <div class="mb-2 d-flex justify-content-between align-items-center">
+            <div class="text-muted pl-2">Who has access</div>
+            <button mat-icon-button (click)="onToggleSharing($event)">
+                <mat-icon inline=true>close</mat-icon>
+            </button>
+        </div>
+        <mat-divider></mat-divider>
+        <cdk-virtual-scroll-viewport itemSize="20" class="sharing-items__viewport">
+            <mat-list>
+                <mat-list-item>
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div class="d-flex align-items-center">
+                            <span class="ml-1">Public</span>
+                        </div>
+                        <div class="position-relative">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>edit</mat-icon>
+                                <!-- <mat-icon>remove_red_eye</mat-icon> -->
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button *ngFor="let sharingAccess of sharingAccesses"
+                                    mat-menu-item>{{sharingAccess.name}}</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+        </cdk-virtual-scroll-viewport>
+        <div class="sharing-item-search">
+            <h6 class="text-muted">Add users and user groups</h6>
+            <app-sharing-filter (addSharingItem)="onAddSharingItem($event)"></app-sharing-filter>
+        </div>
+    </mat-card>
+</div>

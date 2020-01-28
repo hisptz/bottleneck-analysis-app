@@ -10,7 +10,7 @@ import {
   switchMap,
   take,
   tap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import * as fromRootHelpers from '../../../helpers';
@@ -149,8 +149,8 @@ export class DashboardEffects {
       (action: fromDashboardActions.SetCurrentVisualizationAction) =>
         new fromRootActions.Go({
           path: [
-            `/dashboards/${action.dashboardId}/fullScreen/${action.visualizationId}`
-          ]
+            `/dashboards/${action.dashboardId}/fullScreen/${action.visualizationId}`,
+          ],
         })
     )
   );
@@ -180,7 +180,7 @@ export class DashboardEffects {
                 new fromDashboardActions.ToggleDashboardBookmarkSuccessAction(
                   action.id,
                   {
-                    bookmarkPending: false
+                    bookmarkPending: false,
                   }
                 )
             ),
@@ -190,7 +190,7 @@ export class DashboardEffects {
                   action.id,
                   {
                     bookmarkPending: false,
-                    bookmarked: !action.changes.bookmarked
+                    bookmarked: !action.changes.bookmarked,
                   },
                   error
                 )
@@ -244,7 +244,7 @@ export class DashboardEffects {
                         {
                           ...dashboardResponse.dashboardItem,
                           dashboardId: dashboardResponse.dashboardId,
-                          isOpen: true
+                          isOpen: true,
                         }
                       )
                     )
@@ -256,7 +256,7 @@ export class DashboardEffects {
                         {
                           ...dashboardResponse.dashboardItem,
                           dashboardId: dashboardResponse.dashboardId,
-                          isOpen: true
+                          isOpen: true,
                         }
                       )
                     )
@@ -336,14 +336,14 @@ export class DashboardEffects {
             action.dashboard.dashboardItems || [],
             (dashboardItem: any) =>
               fromDashboardHelpers.getSanitizedDashboardItem(dashboardItem)
-          )
+          ),
         };
         this.store.dispatch(
           new fromDashboardActions.AddDashboardAction(
             _.omit(
               {
                 ...dashboardObject,
-                creating: true
+                creating: true,
               },
               ['dashboardItems']
             )
@@ -357,7 +357,7 @@ export class DashboardEffects {
                 `${action.dashboard.name} intervention created successfully`,
                 'OK',
                 {
-                  duration: 3000
+                  duration: 3000,
                 }
               );
               return [
@@ -365,7 +365,7 @@ export class DashboardEffects {
                   dashboardObject.id,
                   {
                     creating: false,
-                    updatedOrCreated: true
+                    updatedOrCreated: true,
                   }
                 ),
                 new fromDashboardVisualizationActions.LoadDashboardVisualizationsAction(
@@ -375,7 +375,7 @@ export class DashboardEffects {
                 ),
                 new fromDashboardActions.SetCurrentDashboardAction(
                   dashboardObject.id
-                )
+                ),
               ];
             }),
             catchError(error => {
@@ -389,7 +389,7 @@ export class DashboardEffects {
                   {
                     creating: false,
                     updatedOrCreated: false,
-                    error
+                    error,
                   }
                 )
               );
@@ -472,7 +472,7 @@ export class DashboardEffects {
                 `${action.dashboard.name} intervention deleted successfully`,
                 'OK',
                 {
-                  duration: 3000
+                  duration: 3000,
                 }
               );
               return new fromDashboardActions.DeleteDashboardSuccess(
@@ -582,7 +582,7 @@ export class DashboardEffects {
                     ) => {
                       return {
                         visualizationId: dashboardVisualization.id,
-                        visualizationLayers
+                        visualizationLayers,
                       };
                     }
                   )

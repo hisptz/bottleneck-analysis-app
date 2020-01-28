@@ -4,32 +4,23 @@
         [selectedItems]="selectionDialogData.selectedData" [selectedGroups]="selectionDialogData.selectedDataGroups"
         [determinants]="selectionDialogData.selectedDataGroups"
         [generalDataConfiguration]="selectionDialogData.generalDataConfiguration"
-        (dataFilterClose)="onFilterUpdate($event, 'DATA')" (dataFilterUpdate)="onFilterUpdate($event, 'DATA')">
+        (dataFilterClose)="onFilterUpdate($event, 'CLOSE')" (dataFilterUpdate)="onFilterUpdate($event, 'UPDATE')">
     </app-data-filter>
     <!--end of data filter-->
-
-    <!-- legend configguration -->
-    <app-legend-set-configuration *ngIf="selectionDialogData.selectedFilter === 'LEGEND_CONFIGURATION'"
-        [selectedItems]="selectionDialogData.selectedData" [selectedGroups]="selectionDialogData.selectedDataGroups"
-        (legendSetConfigurationClose)="
-        onFilterUpdate($event, 'LEGEND_CONFIGURATION')
-      " (legendSetConfigurationUpdate)="
-        onFilterUpdate($event, 'LEGEND_CONFIGURATION')
-      "></app-legend-set-configuration>
-    <!-- end of legend configuration -->
 
     <!--period filter-->
     <ngx-dhis2-period-filter *ngIf="selectionDialogData.selectedFilter === 'PERIOD'"
         [selectedPeriods]="selectionDialogData.selectedPeriods"
-        [periodFilterConfig]="selectionDialogData.periodFilterConfig" (close)="onFilterUpdate($event, 'PERIOD')"
-        (update)="onFilterUpdate($event, 'PERIOD')">
+        [periodFilterConfig]="selectionDialogData.periodFilterConfig" (close)="onFilterUpdate($event, 'CLOSE')"
+        (update)="onFilterUpdate($event, 'UPDATE')">
     </ngx-dhis2-period-filter>
     <!--end of period filter-->
 
     <!--org unit filter-->
     <ngx-dhis2-org-unit-filter *ngIf="selectionDialogData.selectedFilter === 'ORG_UNIT'"
         [selectedOrgUnitItems]="selectionDialogData.selectedOrgUnits"
-        (orgUnitClose)="onFilterUpdate($event, 'ORG_UNIT')" (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')">
+        [orgUnitFilterConfig]="selectionDialogData.orgUnitFilterConfig" (orgUnitClose)="onFilterUpdate($event, 'CLOSE')"
+        (orgUnitUpdate)="onFilterUpdate($event, 'UPDATE')">
     </ngx-dhis2-org-unit-filter>
     <!--end of org unit filter-->
 </div>

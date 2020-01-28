@@ -21,25 +21,25 @@ import { SystemInfo, LegendSet } from '../../../models';
 import {
   WELCOMING_DESCRIPTION,
   WELCOMING_TITLE,
-  EMPTY_VISUALIZATION
+  EMPTY_VISUALIZATION,
 } from '../../constants/welcoming-messages.constants';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
 import {
   getCurrentDashboardVisualizationLoadingProgress,
-  getDashboardMenuHeight
+  getDashboardMenuHeight,
 } from '../../store/selectors';
 import { User } from '@iapps/ngx-dhis2-http-client';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 import {
   getCurrentGlobalDataSelections,
-  getGlobalDataSelectionSummary
+  getGlobalDataSelectionSummary,
 } from '../../store/selectors/data-selections.selectors';
 
 @Component({
   selector: 'app-current-dashboard',
   templateUrl: './current-dashboard.component.html',
   styleUrls: ['./current-dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrentDashboardComponent implements OnInit {
   currentDashboardVisualizationItems$: Observable<any[]>;
@@ -136,7 +136,7 @@ export class CurrentDashboardComponent implements OnInit {
           dashboardDetails.supportBookmark,
           {
             bookmarked: dashboardDetails.bookmarked,
-            bookmarkPending: true
+            bookmarkPending: true,
           },
           currentUser
         )
@@ -178,7 +178,7 @@ export class CurrentDashboardComponent implements OnInit {
         globalFilterDetails.id,
         {
           globalSelections: globalFilterDetails.globalSelections,
-          unSaved: true
+          unSaved: true,
         }
       )
     );
@@ -193,7 +193,7 @@ export class CurrentDashboardComponent implements OnInit {
             id: visualizationDetails.visualization.id,
             favorite: visualizationDetails.visualization.favorite,
             deleteFavorite: visualizationDetails.deleteFavorite,
-            isNew: visualizationDetails.visualization.isNew
+            isNew: visualizationDetails.visualization.isNew,
           },
           'DELETE'
         )
@@ -204,7 +204,7 @@ export class CurrentDashboardComponent implements OnInit {
   onToggleDeleteDialog(currentDashboard: Dashboard) {
     this.store.dispatch(
       new fromDashboardActions.UpdateDashboardAction(currentDashboard.id, {
-        showDeleteDialog: !currentDashboard.showDeleteDialog
+        showDeleteDialog: !currentDashboard.showDeleteDialog,
       })
     );
   }
@@ -224,7 +224,7 @@ export class CurrentDashboardComponent implements OnInit {
   onResetDashboard(dashboardId) {
     this.store.dispatch(
       new fromDashboardActions.ResetDashboardAction(dashboardId, {
-        unSaved: false
+        unSaved: false,
       })
     );
   }

@@ -281,3 +281,13 @@
 .data-filter-full-width {
   grid-column: span 2;
 }
+
+.sharing-items__viewport {
+  height: 150px;
+}
+
+.sharing-card {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+}
