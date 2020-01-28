@@ -41,7 +41,12 @@ export class SharingCardComponent implements OnInit {
 
   get sharingItems(): any[] {
     return [
-      { id: 'public', name: 'Public', access: this.publicAccess },
+      {
+        id: 'public',
+        type: 'publicAccess',
+        name: 'Public',
+        access: this.publicAccess,
+      },
       ...this.userAccesses,
       ...this.userGroupAccesses,
     ];
@@ -103,6 +108,43 @@ export class SharingCardComponent implements OnInit {
           ),
         });
         break;
+      }
+    }
+  }
+
+  onUpdateSharingAccess(e, sharingItem: any, sharingAccess: any) {
+    e.stopPropagation();
+
+    switch (sharingItem.type) {
+      case 'user': {
+        this.updateSharing.emit({
+          userAccesses: (this.userAccesses || []).map((userAccess: any) => {
+            if (sharingItem.id === userAccess.id) {
+              return { ...userAccess, access: sharingAccess.access };
+            }
+
+            return userAccess;
+          }),
+        });
+        break;
+      }
+      case 'userGroup': {
+        this.updateSharing.emit({
+          userGroupAccesses: (this.userGroupAccesses || []).map(
+            (userGroupAccess: any) => {
+              if (sharingItem.id === userGroupAccess.id) {
+                return { ...userGroupAccess, access: sharingAccess.access };
+              }
+
+              return userGroupAccess;
+            }
+          ),
+        });
+        break;
+      }
+
+      case 'publicAccess': {
+        this.updateSharing.emit({ publicAccess: sharingAccess.access });
       }
     }
   }

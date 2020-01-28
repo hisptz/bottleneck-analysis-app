@@ -38,7 +38,8 @@
                                 <mat-icon>close</mat-icon>
                             </button>
                             <mat-menu #menu="matMenu">
-                                <button *ngFor="let sharingAccess of sharingAccesses" mat-menu-item>
+                                <button *ngFor="let sharingAccess of sharingAccesses" mat-menu-item
+                                    (click)="onUpdateSharingAccess($event, sharingItem, sharingAccess)">
                                     <mat-icon *ngIf="sharingAccess.access === sharingItem.access">check</mat-icon>
                                     <span>{{sharingAccess.name}}</span>
                                 </button>
