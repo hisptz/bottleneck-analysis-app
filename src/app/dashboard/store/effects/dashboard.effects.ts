@@ -403,12 +403,14 @@ export class DashboardEffects {
   saveDashboard$: Observable<any> = this.actions$.pipe(
     ofType(fromDashboardActions.DashboardActionTypes.SaveDashboard),
     withLatestFrom(
-      this.store.select(fromDashboardSelectors.getDashboardSettings)
+      this.store.select(fromDashboardSelectors.getDashboardSettings),
+      this.store.select(fromDashboardSelectors.getCurrentDashboard)
     ),
     mergeMap(
-      ([action, dashboardSettings]: [
+      ([action, dashboardSettings, currentDashboard]: [
         fromDashboardActions.SaveDashboardAction,
-        fromDashboardModels.DashboardSettings
+        fromDashboardModels.DashboardSettings,
+        fromDashboardModels.Dashboard
       ]) => {
         // Also Update visualization for the current dashboard
         this.store
@@ -422,25 +424,25 @@ export class DashboardEffects {
                 new fromVisualizationActions.SaveVisualizationFavoriteAction(
                   visualization.id,
                   {},
-                  action.dashboard.id
+                  currentDashboard.id
                 )
               );
             });
           });
 
         return this.dashboardService
-          .update(action.dashboard, dashboardSettings)
+          .update(currentDashboard, dashboardSettings)
           .pipe(
             map(
               () =>
                 new fromDashboardActions.SaveDashboardSuccessAction(
-                  action.dashboard
+                  currentDashboard
                 )
             ),
             catchError((error: any) =>
               of(
                 new fromDashboardActions.SaveDashboardFailAction(
-                  action.dashboard,
+                  currentDashboard,
                   error
                 )
               )

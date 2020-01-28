@@ -49,6 +49,7 @@ export class SelectionFiltersComponent implements OnInit {
   selectedFilter: string;
 
   @Output() filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() sharingUpdate: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private dialog: MatDialog) {
     this.showFilters = true;
@@ -171,6 +172,7 @@ export class SelectionFiltersComponent implements OnInit {
     });
 
     selectionDialog.afterClosed().subscribe((dialogData: any) => {
+      this.sharingUpdate.emit(dialogData.sharingDetails);
       if (dialogData.action === 'UPDATE') {
         this.onFilterUpdate(dialogData.selectionItems);
       } else {

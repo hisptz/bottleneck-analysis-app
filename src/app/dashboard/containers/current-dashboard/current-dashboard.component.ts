@@ -215,10 +215,14 @@ export class CurrentDashboardComponent implements OnInit {
     );
   }
 
-  onSaveDashboard(currentDashboard: Dashboard) {
-    this.store.dispatch(
-      new fromDashboardActions.SaveDashboardAction(currentDashboard)
-    );
+  onSaveDashboard() {
+    this.currentDashboard$
+      .pipe(take(1))
+      .subscribe((currentDashboard: Dashboard) => {
+        this.store.dispatch(
+          new fromDashboardActions.SaveDashboardAction(currentDashboard)
+        );
+      });
   }
 
   onResetDashboard(dashboardId) {
@@ -226,6 +230,15 @@ export class CurrentDashboardComponent implements OnInit {
       new fromDashboardActions.ResetDashboardAction(dashboardId, {
         unSaved: false,
       })
+    );
+  }
+
+  onDashboardSharingUpdate({ sharingDetails, currentDashboard }) {
+    this.store.dispatch(
+      new fromDashboardActions.UpdateDashboardAction(
+        currentDashboard.id,
+        sharingDetails
+      )
     );
   }
 
