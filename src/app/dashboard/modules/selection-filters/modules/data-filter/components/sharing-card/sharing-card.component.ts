@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { omit } from 'lodash';
 
 enum SharingAccess {
   CAN_EDIT = 'rw------',
@@ -12,12 +13,15 @@ enum SharingAccess {
   styleUrls: ['./sharing-card.component.scss'],
 })
 export class SharingCardComponent implements OnInit {
-  @Input() usersAccesses: any[];
-  @Input() userGroupsAccesses: any[];
+  @Input() userAccesses: any[];
+  @Input() userGroupAccesses: any[];
   @Input() publicAccess: string;
   showSharing: boolean;
   sharingAccesses: any[];
   sharingAccessEnum: any;
+  sharingList: any[];
+
+  @Output() updateSharing: EventEmitter<any> = new EventEmitter<any>();
   constructor() {
     this.sharingAccesses = [
       {
@@ -28,15 +32,22 @@ export class SharingCardComponent implements OnInit {
         name: 'Can View Only',
         access: SharingAccess.CAN_VIEW_ONLY,
       },
+      {
+        name: 'No Access',
+        access: SharingAccess.NO_ACCESS,
+      },
     ];
   }
 
   get sharingItems(): any[] {
-    return [{ id: 'public', name: 'Public', access: this.publicAccess }];
+    return [
+      { id: 'public', name: 'Public', access: this.publicAccess },
+      ...this.userAccesses,
+      ...this.userGroupAccesses,
+    ];
   }
 
   ngOnInit() {
-    console.log(this.userGroupsAccesses, this.usersAccesses, this.publicAccess);
     this.sharingAccessEnum = SharingAccess;
   }
 
@@ -46,7 +57,54 @@ export class SharingCardComponent implements OnInit {
   }
 
   onAddSharingItem(sharingItem: any) {
-    console.log(sharingItem);
+    switch (sharingItem.type) {
+      case 'user': {
+        this.updateSharing.emit({
+          userAccesses: [
+            ...(this.userAccesses || []),
+            {
+              ...sharingItem,
+              access: SharingAccess.CAN_VIEW_ONLY,
+            },
+          ],
+        });
+        break;
+      }
+      case 'userGroup': {
+        this.updateSharing.emit({
+          userGroupAccesses: [
+            ...(this.userGroupAccesses || []),
+            {
+              ...sharingItem,
+              access: SharingAccess.CAN_VIEW_ONLY,
+            },
+          ],
+        });
+        break;
+      }
+    }
+  }
+
+  onRemoveSharingItem(e, sharingItem: any) {
+    e.stopPropagation();
+    switch (sharingItem.type) {
+      case 'user': {
+        this.updateSharing.emit({
+          userAccesses: (this.userAccesses || []).filter(
+            (userAccess: any) => userAccess.id !== sharingItem.id
+          ),
+        });
+        break;
+      }
+      case 'userGroup': {
+        this.updateSharing.emit({
+          userGroupAccesses: (this.userGroupAccesses || []).filter(
+            (userGroupAccess: any) => userGroupAccess.id !== sharingItem.id
+          ),
+        });
+        break;
+      }
+    }
   }
   trackByFn(id: string, item: any) {
     return id;

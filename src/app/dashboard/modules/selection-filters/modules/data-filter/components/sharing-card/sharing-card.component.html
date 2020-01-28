@@ -21,18 +21,27 @@
                 <mat-list-item *ngFor="let sharingItem of sharingItems; trackBy: trackByFn">
                     <div class="d-flex justify-content-between align-items-center w-100">
                         <div class="d-flex align-items-center">
+                            <mat-icon *ngIf="sharingItem.type === 'userGroup'">supervisor_account</mat-icon>
+                            <mat-icon *ngIf="sharingItem.type === 'user'">perm_identity</mat-icon>
                             <span class="ml-1">{{sharingItem.name}}</span>
                         </div>
                         <div>
                             <button mat-icon-button [matMenuTriggerFor]="menu">
                                 <mat-icon *ngIf="sharingItem.access === sharingAccessEnum.CAN_EDIT">edit</mat-icon>
-                                <mat-icon *ngIf="sharingItem.access === sharingAccessEnum.CAN_VIEW">remove_red_eye
+                                <mat-icon *ngIf="sharingItem.access === sharingAccessEnum.CAN_VIEW_ONLY">remove_red_eye
                                 </mat-icon>
                                 <mat-icon *ngIf="sharingItem.access === sharingAccessEnum.NO_ACCESS">block</mat-icon>
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </button>
+                            <button title="Remove" (click)="onRemoveSharingItem($event, sharingItem)"
+                                *ngIf="sharingItem.id !== 'public'" mat-icon-button>
+                                <mat-icon>close</mat-icon>
                             </button>
                             <mat-menu #menu="matMenu">
-                                <button *ngFor="let sharingAccess of sharingAccesses"
-                                    mat-menu-item>{{sharingAccess.name}}</button>
+                                <button *ngFor="let sharingAccess of sharingAccesses" mat-menu-item>
+                                    <mat-icon *ngIf="sharingAccess.access === sharingItem.access">check</mat-icon>
+                                    <span>{{sharingAccess.name}}</span>
+                                </button>
                             </mat-menu>
                         </div>
                     </div>

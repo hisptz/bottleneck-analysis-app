@@ -47,6 +47,7 @@ export class DataFilterComponent implements OnInit {
 
   @Output() dataFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() dataFilterClose: EventEmitter<any> = new EventEmitter<any>();
+  @Output() updateSharingDetails: EventEmitter<any> = new EventEmitter<any>();
 
   showGroupingPanel: boolean;
   selectedItems$: Observable<any>;
@@ -348,5 +349,8 @@ export class DataFilterComponent implements OnInit {
       ...this.generalDataConfiguration,
       [attributeName]: value,
     };
+  }
+  onUpdateSharingItem(sharingDetails: any) {
+    this.updateSharingDetails.emit(sharingDetails);
   }
 }
