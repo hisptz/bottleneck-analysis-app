@@ -34,6 +34,9 @@ export class DataFilterComponent implements OnInit {
   @Input() selectedItems: any[] = [];
   @Input() selectedGroups: any[] = [];
   @Input() determinants: Determinant[] = [];
+  @Input() userAccesses: any[] = [];
+  @Input() userGroupAccesses: any[] = [];
+  @Input() publicAccess: string;
   @Input() dataFilterPreferences: DataFilterPreference;
   @Input() generalDataConfiguration: any;
   @Input() determinantPreferences: {

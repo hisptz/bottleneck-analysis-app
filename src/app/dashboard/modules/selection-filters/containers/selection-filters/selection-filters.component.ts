@@ -26,29 +26,19 @@ import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
   styleUrls: ['./selection-filters.component.css'],
 })
 export class SelectionFiltersComponent implements OnInit {
-  @Input()
-  dataSelections: any[];
-
-  @Input()
-  layout: any;
-  @Input()
-  selectionFilterConfig: SelectionFilterConfig;
-
-  @Input()
-  currentUserHasAuthorities: boolean;
-
-  @Input()
-  saving: boolean;
+  @Input() dataSelections: any[];
+  @Input() layout: any;
+  @Input() selectionFilterConfig: SelectionFilterConfig;
+  @Input() currentUserHasAuthorities: boolean;
+  @Input() saving: boolean;
+  @Input() userAccesses: any[];
+  @Input() userGroupAccesses: any[];
+  @Input() publicAccess: string;
 
   periodFilterConfig: PeriodFilterConfig;
   orgUnitFilterConfig: OrgUnitFilterConfig;
-  @Output()
-  filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
-
   showFilters: boolean;
   showFilterBody: boolean;
-
-  // icons
   filterIcon: string;
   arrowLeftIcon: string;
   arrowRightIcon: string;
@@ -57,6 +47,8 @@ export class SelectionFiltersComponent implements OnInit {
   periodIcon: string;
   orgUnitIcon: string;
   selectedFilter: string;
+
+  @Output() filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
 
   constructor(private dialog: MatDialog) {
     this.showFilters = true;
@@ -164,6 +156,9 @@ export class SelectionFiltersComponent implements OnInit {
       periodFilterConfig: this.periodFilterConfig,
       orgUnitFilterConfig: this.orgUnitFilterConfig,
       generalDataConfiguration: this.generalDataConfiguration,
+      userAccesses: this.userAccesses,
+      userGroupAccesses: this.userGroupAccesses,
+      publicAccess: this.publicAccess,
     };
 
     const width = selectedFilter === 'DATA' ? '95%' : '800px';

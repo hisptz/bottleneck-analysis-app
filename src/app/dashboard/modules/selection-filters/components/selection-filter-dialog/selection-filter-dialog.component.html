@@ -4,7 +4,9 @@
         [selectedItems]="selectionDialogData.selectedData" [selectedGroups]="selectionDialogData.selectedDataGroups"
         [determinants]="selectionDialogData.selectedDataGroups"
         [generalDataConfiguration]="selectionDialogData.generalDataConfiguration"
-        (dataFilterClose)="onFilterUpdate($event, 'CLOSE')" (dataFilterUpdate)="onFilterUpdate($event, 'UPDATE')">
+        [userAccesses]="selectionDialogData.userAccesses" [userGroupAccesses]="selectionDialogData.userGroupAccesses"
+        [publicAccess]="selectionDialogData.publicAccess" (dataFilterClose)="onFilterUpdate($event, 'CLOSE')"
+        (dataFilterUpdate)="onFilterUpdate($event, 'UPDATE')">
     </app-data-filter>
     <!--end of data filter-->
 

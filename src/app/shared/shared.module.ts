@@ -11,6 +11,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 import { directives } from './directives';
 import { pipes } from './pipes';
 
@@ -30,6 +31,7 @@ import { pipes } from './pipes';
     ScrollingModule,
     MatListModule,
     MatMenuModule,
+    MatSelectModule,
   ],
   imports: [
     CommonModule,
@@ -44,6 +46,7 @@ import { pipes } from './pipes';
     ScrollingModule,
     MatListModule,
     MatMenuModule,
+    MatSelectModule,
   ],
 })
 export class SharedModule {}

@@ -10,4 +10,7 @@ export interface SelectionDialogData {
   orgUnitFilterConfig: OrgUnitFilterConfig;
   selectedOrgUnits: any[];
   generalDataConfiguration: any;
+  userAccesses: any[];
+  userGroupAccesses: any[];
+  publicAccess: string;
 }

@@ -7,7 +7,8 @@
       <tr>
         <td class="position-relative">
           <!-- sharing section -->
-          <app-sharing-card></app-sharing-card>
+          <app-sharing-card [usersAccesses]="userAccesses" [userGroupsAccesses]="userGroupAccesses"
+            [publicAccess]="publicAccess"></app-sharing-card>
           <!-- end of sharing section -->
 
           <!-- data configuration section -->
