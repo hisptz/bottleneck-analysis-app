@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { omit } from 'lodash';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 enum SharingAccess {
   CAN_EDIT = 'rw------',
@@ -50,6 +49,18 @@ export class SharingCardComponent implements OnInit {
       ...this.userAccesses,
       ...this.userGroupAccesses,
     ];
+  }
+
+  get sharingSummary(): string {
+    if (this.publicAccess !== SharingAccess.NO_ACCESS) {
+      return 'Everyone';
+    }
+    const summary =
+      this.publicAccess === SharingAccess.NO_ACCESS ? 'You' : 'Everyone';
+
+    const otherCount = (this.sharingItems || []).length - 1;
+
+    return otherCount > 0 ? `${summary} and ${otherCount} more` : summary;
   }
 
   ngOnInit() {
