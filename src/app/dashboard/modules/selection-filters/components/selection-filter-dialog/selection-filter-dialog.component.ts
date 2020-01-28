@@ -24,6 +24,7 @@ export class SelectionFilterDialogComponent implements OnInit {
     this.dialogRef.close({
       sharingDetails: { userAccesses, userGroupAccesses, publicAccess },
       selectionItems,
+      bottleneckPeriodType: this.selectionDialogData.bottleneckPeriodType,
       action,
     });
   }
@@ -31,6 +32,13 @@ export class SelectionFilterDialogComponent implements OnInit {
     this.selectionDialogData = {
       ...this.selectionDialogData,
       ...sharingDetails,
+    };
+  }
+
+  onUpdateInterventionDetails(interventionDetails: any) {
+    this.selectionDialogData = {
+      ...this.selectionDialogData,
+      ...interventionDetails,
     };
   }
 }

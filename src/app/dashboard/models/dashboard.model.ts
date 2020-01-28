@@ -30,6 +30,7 @@ export interface Dashboard {
   userGroupAccesses: any[];
   dashboardItems?: any[];
   userAccesses: any[];
+  bottleneckPeriodType: string;
   user: {
     id: string;
     name: string;

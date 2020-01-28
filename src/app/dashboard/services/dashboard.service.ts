@@ -77,6 +77,7 @@ export class DashboardService {
       'unSaved',
       'updatedOrCreated',
       'creating',
+      'access',
     ]);
     const sanitizedDashboard: any = dashboardSettings.allowAdditionalAttributes
       ? dashboardWithOmittedItems

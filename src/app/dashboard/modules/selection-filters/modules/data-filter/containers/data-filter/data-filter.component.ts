@@ -23,6 +23,7 @@ import * as fromDataFilterActions from '../../store/actions/data-filter.actions'
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
 import { DataFilterType } from '../../models/data-filter-type.model';
+import { Fn } from '@iapps/function-analytics';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -39,6 +40,7 @@ export class DataFilterComponent implements OnInit {
   @Input() publicAccess: string;
   @Input() dataFilterPreferences: DataFilterPreference;
   @Input() generalDataConfiguration: any;
+  @Input() bottleneckPeriodType = 'Yearly';
   @Input() determinantPreferences: {
     maximumNumberOfDeterminants: number;
     maximumItemPerDeterminant: number;
@@ -48,6 +50,9 @@ export class DataFilterComponent implements OnInit {
   @Output() dataFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() dataFilterClose: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateSharingDetails: EventEmitter<any> = new EventEmitter<any>();
+  @Output() updateInterventionDetails: EventEmitter<any> = new EventEmitter<
+    any
+  >();
 
   showGroupingPanel: boolean;
   selectedItems$: Observable<any>;
@@ -69,6 +74,7 @@ export class DataFilterComponent implements OnInit {
   currentDataFilterGroup$: Observable<any>;
   dataFilterItems$: Observable<any[]>;
   dataFilterLoading$: Observable<boolean>;
+  periodTypes: any[];
 
   constructor(private dataFilterStore: Store<fromDataFilterReducer.State>) {
     // Set default data filter preferences
@@ -110,6 +116,10 @@ export class DataFilterComponent implements OnInit {
     this.icons = { LIST_ICON, ARROW_LEFT_ICON, ARROW_RIGHT_ICON };
 
     this.showGroupingPanel = false;
+
+    const periodTypeInstance = new Fn.PeriodType();
+
+    this.periodTypes = periodTypeInstance.get();
   }
 
   ngOnInit() {
@@ -352,5 +362,9 @@ export class DataFilterComponent implements OnInit {
   }
   onUpdateSharingItem(sharingDetails: any) {
     this.updateSharingDetails.emit(sharingDetails);
+  }
+
+  onSelectBottleneckPeriodType(bottleneckPeriodType: string) {
+    this.updateInterventionDetails.emit({ bottleneckPeriodType });
   }
 }

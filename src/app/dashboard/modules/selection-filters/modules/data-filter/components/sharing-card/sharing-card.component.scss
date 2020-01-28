@@ -1,12 +1,12 @@
 .sharing-items__viewport {
-  height: 200px;
+  height: 250px;
 }
 
 .sharing-card {
   position: absolute;
-  top: 0;
+  top: 30px;
   padding: 5px;
-  z-index: 2;
+  z-index: 100;
   width: 100%;
 }
 

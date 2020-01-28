@@ -26,11 +26,12 @@
           (toggleDashboardBookmark)="onToggleDashboardBookmarkAction($event)"></app-current-dashboard-bookmark>
       </div>
       <div class="current-dashboard-global-filter" *ngIf="dashboardLoaded && currentDashboard">
-        <app-selection-filters (filterUpdate)="onFilterUpdateAction($event)" (sharingUpdate)="onSharingUpdate($event)"
-          [dataSelections]="globalDataSelections" [selectionFilterConfig]="selectionFilterConfig"
-          [currentUserHasAuthorities]="currentDashboard?.access?.manage" [saving]="currentDashboard?.saving"
-          [userAccesses]="currentDashboard.userAccesses" [userGroupAccesses]="currentDashboard.userGroupAccesses"
-          [publicAccess]="currentDashboard.publicAccess">
+        <app-selection-filters (filterUpdate)="onFilterUpdateAction($event)"
+          (interventionSettingsUpdate)="onInterventionSettingsUpdate($event)" [dataSelections]="globalDataSelections"
+          [selectionFilterConfig]="selectionFilterConfig" [currentUserHasAuthorities]="currentDashboard?.access?.manage"
+          [saving]="currentDashboard?.saving" [userAccesses]="currentDashboard.userAccesses"
+          [userGroupAccesses]="currentDashboard.userGroupAccesses" [publicAccess]="currentDashboard.publicAccess"
+          [bottleneckPeriodType]="currentDashboard.bottleneckPeriodType">
         </app-selection-filters>
         <div *ngIf="currentDashboard?.access?.manage && currentDashboard?.unSaved">
           <button mat-stroked-button class="ml-3" color="warn" [disabled]="currentDashboard?.saving"

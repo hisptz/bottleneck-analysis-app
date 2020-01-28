@@ -34,6 +34,7 @@ export class SelectionFiltersComponent implements OnInit {
   @Input() userAccesses: any[];
   @Input() userGroupAccesses: any[];
   @Input() publicAccess: string;
+  @Input() bottleneckPeriodType: string;
 
   periodFilterConfig: PeriodFilterConfig;
   orgUnitFilterConfig: OrgUnitFilterConfig;
@@ -49,7 +50,9 @@ export class SelectionFiltersComponent implements OnInit {
   selectedFilter: string;
 
   @Output() filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
-  @Output() sharingUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output() interventionSettingsUpdate: EventEmitter<any> = new EventEmitter<
+    any
+  >();
 
   constructor(private dialog: MatDialog) {
     this.showFilters = true;
@@ -160,6 +163,7 @@ export class SelectionFiltersComponent implements OnInit {
       userAccesses: this.userAccesses,
       userGroupAccesses: this.userGroupAccesses,
       publicAccess: this.publicAccess,
+      bottleneckPeriodType: this.bottleneckPeriodType,
     };
 
     const width = selectedFilter === 'DATA' ? '95%' : '800px';
@@ -172,7 +176,10 @@ export class SelectionFiltersComponent implements OnInit {
     });
 
     selectionDialog.afterClosed().subscribe((dialogData: any) => {
-      this.sharingUpdate.emit(dialogData.sharingDetails);
+      this.interventionSettingsUpdate.emit({
+        bottleneckPeriodType: dialogData.bottleneckPeriodType,
+        ...dialogData.sharingDetails,
+      });
       if (dialogData.action === 'UPDATE') {
         this.onFilterUpdate(dialogData.selectionItems);
       } else {

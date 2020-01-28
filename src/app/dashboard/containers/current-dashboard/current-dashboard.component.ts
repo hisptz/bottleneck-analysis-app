@@ -233,11 +233,11 @@ export class CurrentDashboardComponent implements OnInit {
     );
   }
 
-  onDashboardSharingUpdate({ sharingDetails, currentDashboard }) {
+  onInterventionSettingsUpdate({ interventionSettings, currentDashboard }) {
     this.store.dispatch(
       new fromDashboardActions.UpdateDashboardAction(
         currentDashboard.id,
-        sharingDetails
+        interventionSettings
       )
     );
   }

@@ -31,5 +31,6 @@ export function getStandardizedDashboard(
     },
     access: getDashboardAccess(dashboard, currentUser),
     globalSelections: dashboard.globalSelections || dataSelections,
+    bottleneckPeriodType: dashboard.bottleneckPeriodType || 'Yearly',
   };
 }

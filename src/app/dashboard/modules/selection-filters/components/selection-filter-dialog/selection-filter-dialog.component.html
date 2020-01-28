@@ -5,8 +5,11 @@
         [determinants]="selectionDialogData.selectedDataGroups"
         [generalDataConfiguration]="selectionDialogData.generalDataConfiguration"
         [userAccesses]="selectionDialogData.userAccesses" [userGroupAccesses]="selectionDialogData.userGroupAccesses"
-        [publicAccess]="selectionDialogData.publicAccess" (dataFilterClose)="onFilterUpdate($event, 'CLOSE')"
-        (dataFilterUpdate)="onFilterUpdate($event, 'UPDATE')" (updateSharingDetails)="onUpdateSharingDetails($event)">
+        [publicAccess]="selectionDialogData.publicAccess"
+        [bottleneckPeriodType]="selectionDialogData.bottleneckPeriodType"
+        (dataFilterClose)="onFilterUpdate($event, 'CLOSE')" (dataFilterUpdate)="onFilterUpdate($event, 'UPDATE')"
+        (updateSharingDetails)="onUpdateSharingDetails($event)"
+        (updateInterventionDetails)="onUpdateInterventionDetails($event)">
     </app-data-filter>
     <!--end of data filter-->
 
