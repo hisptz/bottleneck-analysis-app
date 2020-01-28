@@ -245,6 +245,12 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   }
 
   onRemoveDeterminantMember(dataItem: any, determinant: Determinant, e) {
+    if (
+      this.currentDeterminantMember &&
+      this.currentDeterminantMember.id === dataItem.id
+    ) {
+      this.currentDeterminantMember = null;
+    }
     e.stopPropagation();
     this.removeDeterminantMember.emit({ dataItem, determinant });
   }

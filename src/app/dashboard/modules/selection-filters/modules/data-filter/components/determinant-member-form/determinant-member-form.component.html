@@ -8,7 +8,7 @@
   </mat-form-field>
 </div>
 <div class="determinant-member-legend">
-  <span class="text-muted">Legends</span>
+  <span class="text-muted">Legends <small class="text-muted">(Only applicable to sub level analysis)</small></span>
   <app-legend-list [legends]="determinantMember?.legendSet?.legends"
     [legendDefinitions]="generalDataConfiguration?.legendDefinitions" (legendUpdate)="onLegendUpdate($event)">
   </app-legend-list>
