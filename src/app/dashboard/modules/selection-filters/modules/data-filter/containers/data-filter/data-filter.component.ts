@@ -41,6 +41,7 @@ export class DataFilterComponent implements OnInit {
   @Input() dataFilterPreferences: DataFilterPreference;
   @Input() generalDataConfiguration: any;
   @Input() bottleneckPeriodType = 'Yearly';
+  @Input() interventionName;
   @Input() determinantPreferences: {
     maximumNumberOfDeterminants: number;
     maximumItemPerDeterminant: number;

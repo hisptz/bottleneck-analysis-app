@@ -35,6 +35,7 @@ export class SelectionFiltersComponent implements OnInit {
   @Input() userGroupAccesses: any[];
   @Input() publicAccess: string;
   @Input() bottleneckPeriodType: string;
+  @Input() interventionName: string;
 
   periodFilterConfig: PeriodFilterConfig;
   orgUnitFilterConfig: OrgUnitFilterConfig;
@@ -67,7 +68,11 @@ export class SelectionFiltersComponent implements OnInit {
     this.periodIcon = PERIOD_ICON;
     this.orgUnitIcon = TREE_ICON;
 
-    this.periodFilterConfig = { singleSelection: true, emitOnDestroy: false };
+    this.periodFilterConfig = {
+      singleSelection: true,
+      emitOnDestroy: false,
+      disablePeriodTypeSelection: true,
+    };
     this.orgUnitFilterConfig = { singleSelection: true, closeOnDestroy: false };
   }
 
@@ -164,6 +169,7 @@ export class SelectionFiltersComponent implements OnInit {
       userGroupAccesses: this.userGroupAccesses,
       publicAccess: this.publicAccess,
       bottleneckPeriodType: this.bottleneckPeriodType,
+      interventionName: this.interventionName,
     };
 
     const width = selectedFilter === 'DATA' ? '95%' : '800px';

@@ -14,4 +14,5 @@ export interface SelectionDialogData {
   userGroupAccesses: any[];
   publicAccess: string;
   bottleneckPeriodType: string;
+  interventionName: string;
 }

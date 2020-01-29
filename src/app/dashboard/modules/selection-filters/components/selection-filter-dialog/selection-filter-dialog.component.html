@@ -7,8 +7,8 @@
         [userAccesses]="selectionDialogData.userAccesses" [userGroupAccesses]="selectionDialogData.userGroupAccesses"
         [publicAccess]="selectionDialogData.publicAccess"
         [bottleneckPeriodType]="selectionDialogData.bottleneckPeriodType"
-        (dataFilterClose)="onFilterUpdate($event, 'CLOSE')" (dataFilterUpdate)="onFilterUpdate($event, 'UPDATE')"
-        (updateSharingDetails)="onUpdateSharingDetails($event)"
+        [interventionName]="selectionDialogData.interventionName" (dataFilterClose)="onFilterUpdate($event, 'CLOSE')"
+        (dataFilterUpdate)="onFilterUpdate($event, 'UPDATE')" (updateSharingDetails)="onUpdateSharingDetails($event)"
         (updateInterventionDetails)="onUpdateInterventionDetails($event)">
     </app-data-filter>
     <!--end of data filter-->

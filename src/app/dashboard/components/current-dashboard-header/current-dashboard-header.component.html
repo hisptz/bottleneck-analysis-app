@@ -31,7 +31,7 @@
           [selectionFilterConfig]="selectionFilterConfig" [currentUserHasAuthorities]="currentDashboard?.access?.manage"
           [saving]="currentDashboard?.saving" [userAccesses]="currentDashboard.userAccesses"
           [userGroupAccesses]="currentDashboard.userGroupAccesses" [publicAccess]="currentDashboard.publicAccess"
-          [bottleneckPeriodType]="currentDashboard.bottleneckPeriodType">
+          [bottleneckPeriodType]="currentDashboard.bottleneckPeriodType" [interventionName]="currentDashboard.name">
         </app-selection-filters>
         <div *ngIf="currentDashboard?.access?.manage && currentDashboard?.unSaved">
           <button mat-stroked-button class="ml-3" color="warn" [disabled]="currentDashboard?.saving"
