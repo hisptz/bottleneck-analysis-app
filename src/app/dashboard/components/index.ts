@@ -1,6 +1,5 @@
 import { AddDashboardComponent } from './add-dashboard/add-dashboard.component';
 import { CurrentDashboardBookmarkComponent } from './current-dashboard-bookmark/current-dashboard-bookmark.component';
-import { CurrentDashboardDescriptionComponent } from './current-dashboard-description/current-dashboard-description.component';
 import { CurrentDashboardGlobalFilterComponent } from './current-dashboard-global-filter/current-dashboard-global-filter.component';
 import { CurrentDashboardHeaderComponent } from './current-dashboard-header/current-dashboard-header.component';
 import { CurrentDashboardItemSearchComponent } from './current-dashboard-item-search/current-dashboard-item-search.component';
@@ -17,7 +16,6 @@ export const components: any[] = [
   CurrentDashboardHeaderComponent,
   CurrentDashboardTitleComponent,
   CurrentDashboardBookmarkComponent,
-  CurrentDashboardDescriptionComponent,
   CurrentDashboardGlobalFilterComponent,
   CurrentDashboardItemSearchComponent,
   AddDashboardComponent,

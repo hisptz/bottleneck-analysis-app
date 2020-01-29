@@ -35,7 +35,7 @@ const initialState: State = adapter.getInitialState({
   currentVisualization: '',
   notification: null,
   unSavedDashboards: [],
-  menuHeight: 65,
+  menuHeight: 73,
   menuExpanded: false,
 });
 
@@ -196,7 +196,7 @@ export function reducer(state = initialState, action: DashboardActions): State {
 
       return {
         ...state,
-        menuHeight: state.menuExpanded ? 65 : dashboardLines * 65,
+        menuHeight: state.menuExpanded ? 74 : dashboardLines * 74,
         menuExpanded: !state.menuExpanded,
       };
     }

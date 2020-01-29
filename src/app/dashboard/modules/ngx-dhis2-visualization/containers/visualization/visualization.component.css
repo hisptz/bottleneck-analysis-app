@@ -1,9 +1,8 @@
 .visualization-card {
-  border: solid thin #dddddd;
-  border-radius: 5px;
   background-color: #ffffff;
   width: 100%;
   position: relative;
+  padding: 2px;
 }
 .visualization-card-full-screen {
   position: fixed;
@@ -14,15 +13,12 @@
   right: 0;
   left: 0;
   z-index: 1500;
+  border-radius: 0;
   background-color: #ffffff;
-}
-.visualization-title-block {
-  padding: 5px;
 }
 
 .visualization-body-block {
   position: relative;
-  padding: 2px;
 }
 
 .visualization-body-footer-block {

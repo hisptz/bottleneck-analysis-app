@@ -4,7 +4,8 @@
       <div *ngIf="dashboardLoading" style="height: 34px; width: 200px;">
         <app-dashboard-progress [borderRadius]="'3px'"></app-dashboard-progress>
       </div>
-      <app-current-dashboard-title *ngIf="dashboardLoaded" [currentDashboardTitle]="currentDashboard?.name">
+      <app-current-dashboard-title *ngIf="dashboardLoaded" [currentDashboardTitle]="currentDashboard?.name"
+        [globalDataSelectionSummary]="globalDataSelectionSummary">
       </app-current-dashboard-title>
     </div>
     <div class="dashboard-options">
@@ -63,10 +64,3 @@
     </div>
   </div>
 </div>
-
-<!-- current dashboard description -->
-<div class="current-dashboard-description" *ngIf="dashboardLoaded && visualizationLoadingPercent == 100">
-  <app-current-dashboard-description [dashboardDescription]="currentDashboard?.description"
-    [globalDataSelectionSummary]="globalDataSelectionSummary"></app-current-dashboard-description>
-</div>
-<!-- end of current dashboard description -->

@@ -1,23 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import * as _ from 'lodash';
-
-import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config.constant';
-import {
-  ARROW_DOWN_ICON,
-  ARROW_LEFT_ICON,
-  ARROW_RIGHT_ICON,
-  DATA_ICON,
-  FILTER_ICON,
-  PERIOD_ICON,
-  TREE_ICON,
-} from '../../icons';
-import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
-import { MatDialog } from '@angular/material/dialog';
-import { SelectionFilterDialogComponent } from '../../components/selection-filter-dialog/selection-filter-dialog.component';
-import { SelectionDialogData } from '../../models/selection-dialog-data.model';
 import { DEFAULT_LEGEND_DEFINITIONS } from 'src/app/dashboard/constants/default-legend-definitions.constant';
-import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
+
+import { SelectionFilterDialogComponent } from '../../components/selection-filter-dialog/selection-filter-dialog.component';
+import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config.constant';
+import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
+import { SelectionDialogData } from '../../models/selection-dialog-data.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -41,13 +32,6 @@ export class SelectionFiltersComponent implements OnInit {
   orgUnitFilterConfig: OrgUnitFilterConfig;
   showFilters: boolean;
   showFilterBody: boolean;
-  filterIcon: string;
-  arrowLeftIcon: string;
-  arrowRightIcon: string;
-  arrowDownIcon: string;
-  dataIcon: string;
-  periodIcon: string;
-  orgUnitIcon: string;
   selectedFilter: string;
 
   @Output() filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
@@ -58,16 +42,6 @@ export class SelectionFiltersComponent implements OnInit {
   constructor(private dialog: MatDialog) {
     this.showFilters = true;
     this.showFilterBody = false;
-
-    // icons initializations
-    this.filterIcon = FILTER_ICON;
-    this.arrowLeftIcon = ARROW_LEFT_ICON;
-    this.arrowRightIcon = ARROW_RIGHT_ICON;
-    this.arrowDownIcon = ARROW_DOWN_ICON;
-    this.dataIcon = DATA_ICON;
-    this.periodIcon = PERIOD_ICON;
-    this.orgUnitIcon = TREE_ICON;
-
     this.periodFilterConfig = {
       singleSelection: true,
       emitOnDestroy: false,
