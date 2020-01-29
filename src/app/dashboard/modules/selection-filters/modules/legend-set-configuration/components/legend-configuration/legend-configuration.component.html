@@ -1,23 +1,15 @@
 <div class="legend-configuration-container">
   <div>
-    <app-legend-color-picker
+    <!-- <app-legend-color-picker
       (colorSelect)="onColorSelect($event)"
       [color]="color"
-    ></app-legend-color-picker>
+    ></app-legend-color-picker> -->
   </div>
   <div class="legend-input-container">
-    <input
-      (blur)="onLegendUpdate($event)"
-      type="text"
-      class="legend-input legend-name-input"
-      [(ngModel)]="name"
-    />&nbsp;
-    <input
-      (blur)="onLegendUpdate($event)"
-      type="text"
-      class="legend-input legend-start-end-value-input"
-      [(ngModel)]="startValue"
-    />
+    <input (blur)="onLegendUpdate($event)" type="text" class="legend-input legend-name-input"
+      [(ngModel)]="name" />&nbsp;
+    <input (blur)="onLegendUpdate($event)" type="text" class="legend-input legend-start-end-value-input"
+      [(ngModel)]="startValue" />
     <!-- <button
       title="Set negative infinity on start value"
       class="legend-button"
@@ -33,17 +25,9 @@
     >
       <img [src]="greaterThanIcon" alt="" />
     </button> -->
-    <input
-      (blur)="onLegendUpdate($event)"
-      type="text"
-      class="legend-input legend-start-end-value-input"
-      [(ngModel)]="endValue"
-    />
-    <button
-      title="Delete legend"
-      class="legend-button"
-      (click)="onDeleteLegend($event)"
-    >
+    <input (blur)="onLegendUpdate($event)" type="text" class="legend-input legend-start-end-value-input"
+      [(ngModel)]="endValue" />
+    <button title="Delete legend" class="legend-button" (click)="onDeleteLegend($event)">
       <img [src]="deleteIcon" alt="" />
     </button>
   </div>

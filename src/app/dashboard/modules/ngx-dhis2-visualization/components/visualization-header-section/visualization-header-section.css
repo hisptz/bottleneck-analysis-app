@@ -1,6 +1,6 @@
 .visualization-header-section-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-top: 5px;
 }
 

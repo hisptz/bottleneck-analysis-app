@@ -4,7 +4,8 @@
       <div *ngIf="dashboardLoading" style="height: 34px; width: 200px;">
         <app-dashboard-progress [borderRadius]="'3px'"></app-dashboard-progress>
       </div>
-      <app-current-dashboard-title *ngIf="dashboardLoaded" [currentDashboardTitle]="currentDashboard?.name">
+      <app-current-dashboard-title *ngIf="dashboardLoaded" [currentDashboardTitle]="currentDashboard?.name"
+        [globalDataSelectionSummary]="globalDataSelectionSummary">
       </app-current-dashboard-title>
     </div>
     <div class="dashboard-options">
@@ -20,19 +21,18 @@
         </div>
       </div>
 
-      <div class="current-dashboard-share-button" *ngIf="dashboardLoaded && currentDashboard?.access?.manageSharing">
-        <app-current-dashboard-sharing [id]="currentDashboard?.id"></app-current-dashboard-sharing>
-      </div>
-
       <div class="current-dashboard-bookmark-button" *ngIf="dashboardLoaded">
         <app-current-dashboard-bookmark [dashboardBookmarked]="currentDashboard?.bookmarked"
           [dashboardBookmarkPending]="currentDashboard?.bookmarkPending"
           (toggleDashboardBookmark)="onToggleDashboardBookmarkAction($event)"></app-current-dashboard-bookmark>
       </div>
       <div class="current-dashboard-global-filter" *ngIf="dashboardLoaded && currentDashboard">
-        <app-selection-filters (filterUpdate)="onFilterUpdateAction($event)" [dataSelections]="globalDataSelections"
+        <app-selection-filters (filterUpdate)="onFilterUpdateAction($event)"
+          (interventionSettingsUpdate)="onInterventionSettingsUpdate($event)" [dataSelections]="globalDataSelections"
           [selectionFilterConfig]="selectionFilterConfig" [currentUserHasAuthorities]="currentDashboard?.access?.manage"
-          [saving]="currentDashboard?.saving">
+          [saving]="currentDashboard?.saving" [userAccesses]="currentDashboard.userAccesses"
+          [userGroupAccesses]="currentDashboard.userGroupAccesses" [publicAccess]="currentDashboard.publicAccess"
+          [bottleneckPeriodType]="currentDashboard.bottleneckPeriodType" [interventionName]="currentDashboard.name">
         </app-selection-filters>
         <div *ngIf="currentDashboard?.access?.manage && currentDashboard?.unSaved">
           <button mat-stroked-button class="ml-3" color="warn" [disabled]="currentDashboard?.saving"
@@ -64,10 +64,3 @@
     </div>
   </div>
 </div>
-
-<!-- current dashboard description -->
-<div class="current-dashboard-description" *ngIf="dashboardLoaded && visualizationLoadingPercent == 100">
-  <app-current-dashboard-description [dashboardDescription]="currentDashboard?.description"
-    [globalDataSelectionSummary]="globalDataSelectionSummary"></app-current-dashboard-description>
-</div>
-<!-- end of current dashboard description -->

@@ -33,8 +33,8 @@ export function getStandardizedVisualizationUiConfig(
             switchToMap: true,
             switchToTable: true,
             switchToInfo: true,
-            enableLayoutChangeButton: true
+            enableLayoutChangeButton: true,
           }
-        : null
+        : null,
   };
 }

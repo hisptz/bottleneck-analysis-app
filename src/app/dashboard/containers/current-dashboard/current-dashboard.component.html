@@ -1,6 +1,7 @@
 <div class="current-dashboard-container">
   <!-- current dashboard header -->
-  <div class="current-dashboard-header-block" [style.top]="((menuContainerHeight$ | async) + 38) + 'px'">
+  <div class="mat-elevation-z1 current-dashboard-header-block"
+    [style.top]="((menuContainerHeight$ | async) + 38) + 'px'">
     <app-current-dashboard-header [currentDashboard]="currentDashboard$ | async" [currentUser]="currentUser$ | async"
       (toggleCurrentDashboardBookmark)="
         onToggleCurrentDashboardBookmark($event)
@@ -9,10 +10,11 @@
         onCreateFavoriteForCurrentDashboard($event)
       " (globalFilterChange)="onGlobalFilterChange($event)"
       (toggleDashboardDeleteDialog)="onToggleDeleteDialog($event)" (deleteDashboard)="onDeleteDashboard($event)"
-      (saveDashboard)="onSaveDashboard($event)" [dashboardLoading]="dashboardLoading$ | async"
+      (saveDashboard)="onSaveDashboard()" [dashboardLoading]="dashboardLoading$ | async"
       [dashboardLoaded]="dashboardLoaded$ | async" [globalDataSelections]="currentGlobalDataSelections$ | async"
       [globalDataSelectionSummary]="currentGlobalDataSelectionSummary$ | async"
-      [visualizationLoadingPercent]="(progressMessages$ | async)?.percent" (resetDashboard)="onResetDashboard($event)">
+      [visualizationLoadingPercent]="(progressMessages$ | async)?.percent" (resetDashboard)="onResetDashboard($event)"
+      (updateInterventionSettings)="onInterventionSettingsUpdate($event)">
     </app-current-dashboard-header>
   </div>
   <!-- end of current dashboard header -->

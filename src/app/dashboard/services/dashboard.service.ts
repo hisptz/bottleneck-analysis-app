@@ -76,7 +76,8 @@ export class DashboardService {
       'saving',
       'unSaved',
       'updatedOrCreated',
-      'creating'
+      'creating',
+      'access',
     ]);
     const sanitizedDashboard: any = dashboardSettings.allowAdditionalAttributes
       ? dashboardWithOmittedItems
@@ -107,10 +108,6 @@ export class DashboardService {
           {
             ...dashboardFromServer,
             ...dashboard,
-            publicAccess: dashboardFromServer.publicAccess,
-            externalAccess: dashboardFromServer.externalAccess,
-            userAccesses: dashboardFromServer.userAccesses,
-            userGroupAccesses: dashboardFromServer.userGroupAccesses
           },
           ['saving', 'unSaved', 'updatedOrCreated', 'creating']
         );
@@ -168,7 +165,7 @@ export class DashboardService {
       switchMap((dashboard: any) => {
         const newDashboardItem = {
           ...dashboardItem,
-          id: dashboardItem.id || generateUid()
+          id: dashboardItem.id || generateUid(),
         };
 
         const newDashboardItems = this._manageDasboardItems(
@@ -184,7 +181,7 @@ export class DashboardService {
         return this.httpClient
           .put(dashboardUpdateUrl, {
             ...dashboard,
-            dashboardItems: newDashboardItems
+            dashboardItems: newDashboardItems,
           })
           .pipe(
             map(() => {
@@ -207,7 +204,7 @@ export class DashboardService {
       case 'UPDATE': {
         const correspondingDashboardItem = _.find(dashboardItems, [
           'id',
-          incomingDashboardItem.id
+          incomingDashboardItem.id,
         ]);
         const dashboardItemIndex = dashboardItems.indexOf(
           correspondingDashboardItem
@@ -217,14 +214,14 @@ export class DashboardService {
           ? [
               ..._.slice(dashboardItems, 0, dashboardItemIndex),
               incomingDashboardItem,
-              ..._.slice(dashboardItems, dashboardItemIndex + 1)
+              ..._.slice(dashboardItems, dashboardItemIndex + 1),
             ]
           : dashboardItems;
       }
       case 'DELETE': {
         const correspondingDashboardItem = _.find(dashboardItems, [
           'id',
-          incomingDashboardItem.id
+          incomingDashboardItem.id,
         ]);
         const dashboardItemIndex = dashboardItems.indexOf(
           correspondingDashboardItem
@@ -232,7 +229,7 @@ export class DashboardService {
         return dashboardItemIndex !== -1
           ? [
               ..._.slice(dashboardItems, 0, dashboardItemIndex),
-              ..._.slice(dashboardItems, dashboardItemIndex + 1)
+              ..._.slice(dashboardItems, dashboardItemIndex + 1),
             ]
           : dashboardItems;
       }
@@ -264,13 +261,13 @@ export class DashboardService {
             : _.filter(
                 dashboardBookmarks || [],
                 bookmark => bookmark !== currentUserId
-              )
+              ),
         });
       }),
       catchError((error: any) =>
         this.httpClient.post(`dataStore/dashboards/${dashboardId}`, {
           id: dashboardId,
-          bookmarks: [currentUserId]
+          bookmarks: [currentUserId],
         })
       )
     );

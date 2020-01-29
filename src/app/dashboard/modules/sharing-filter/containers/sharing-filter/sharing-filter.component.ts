@@ -1,54 +1,50 @@
 import {
   Component,
-  OnInit,
   Input,
   OnChanges,
-  SimpleChanges
+  OnInit,
+  SimpleChanges,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { SharingFilterState } from '../../store/reducers/sharing-filter.reducer';
-import { LoadSharingFilterItemAction } from '../../store/actions/sharing-filter.actions';
 import { Observable } from 'rxjs';
-import { SharingItem, SharingFilterVm } from '../../models';
-import { getSharingFilterItemById } from '../../store/selectors/sharing-filter.selectors';
-import { LoadSharingSearchListAction } from '../../store/actions/sharing-search-list.actions';
-import { SharingSearchListState } from '../../store/reducers/sharing-search-list.reducer';
-import {
-  getSharingSearchLoading,
-  getSharingSearchListVm
-} from '../../store/selectors/sharing-search-list.selectors';
-import { WIEW_ICON, EDIT_ICON, TICK_ICON, CLOSE_ICON } from '../../icons';
 import { first } from 'rxjs/operators';
+
+import { CLOSE_ICON, EDIT_ICON, TICK_ICON, WIEW_ICON } from '../../icons';
+import { SharingFilterVm, SharingItem, SharingSearchList } from '../../models';
+import { LoadSharingFilterItemAction } from '../../store/actions/sharing-filter.actions';
+import {
+  RemoveSharingItemAction,
+  UpsertSharingItemAction,
+} from '../../store/actions/sharing-item.actions';
+import { LoadSharingSearchListAction } from '../../store/actions/sharing-search-list.actions';
+import { SharingFilterState } from '../../store/reducers/sharing-filter.reducer';
 import { SharingItemState } from '../../store/reducers/sharing-item.reducer';
 import {
-  UpsertSharingItemAction,
-  RemoveSharingItemAction
-} from '../../store/actions/sharing-item.actions';
-import { SharingSearchListVM } from '../../models/sharing-search-list-vm.model';
+  getSharingSearchList,
+  SharingSearchListState,
+} from '../../store/reducers/sharing-search-list.reducer';
+import { getSharingFilterItemById } from '../../store/selectors/sharing-filter.selectors';
+import {
+  getSharingSearchLoaded,
+  getSharingSearchLoading,
+} from '../../store/selectors/sharing-search-list.selectors';
 
 @Component({
   selector: 'app-sharing-filter',
   templateUrl: './sharing-filter.component.html',
-  styleUrls: ['./sharing-filter.component.scss']
+  styleUrls: ['./sharing-filter.component.scss'],
 })
-export class SharingFilterComponent implements OnInit, OnChanges {
-  /**
-   * sharing type eg. dashboard, favorite like chart, map etc
-   */
-  @Input()
-  type: string;
-
-  /**
-   * Sharing item identifier
-   */
-  @Input()
-  id: string;
-
+export class SharingFilterComponent implements OnInit {
   searchTerm: string;
 
   sharingFilter$: Observable<SharingFilterVm>;
-  sharingSearchList$: Observable<SharingSearchListVM[]>;
+  sharingSearchList$: Observable<SharingSearchList[]>;
   loadingSharingSearch$: Observable<boolean>;
+  loadedSharingSearch$: Observable<boolean>;
+
+  sharingAccesses: any[];
 
   // icons
   viewIcon: string;
@@ -56,40 +52,46 @@ export class SharingFilterComponent implements OnInit, OnChanges {
   tickIcon: string;
   closeIcon: string;
 
+  @Output() addSharingItem: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(
     private sharingFilterStore: Store<SharingFilterState>,
     private sharingItemStore: Store<SharingItemState>,
     private sharingSearchStore: Store<SharingSearchListState>
   ) {
-    sharingFilterStore.dispatch(new LoadSharingSearchListAction());
-    this.loadingSharingSearch$ = sharingFilterStore.select(
-      getSharingSearchLoading
-    );
+    this.sharingFilterStore.dispatch(new LoadSharingSearchListAction());
 
     // icons
     this.viewIcon = WIEW_ICON;
     this.editIcon = EDIT_ICON;
     this.tickIcon = TICK_ICON;
     this.closeIcon = CLOSE_ICON;
+
+    this.sharingAccesses = [
+      {
+        name: 'Can view and edit',
+        access: 'rw------',
+      },
+      {
+        name: 'Can View Only',
+        access: 'r-------',
+      },
+    ];
   }
 
-  ngOnChanges(simpleChanges: SimpleChanges) {
-    if (simpleChanges['id']) {
-      if (this.id && this.type) {
-        this.sharingFilter$ = this.sharingFilterStore.select(
-          getSharingFilterItemById(this.id)
-        );
-        this.sharingSearchList$ = this.sharingSearchStore.select(
-          getSharingSearchListVm(this.id)
-        );
-        this.sharingFilterStore.dispatch(
-          new LoadSharingFilterItemAction(this.id, this.type)
-        );
-      }
-    }
-  }
+  ngOnInit() {
+    this.sharingSearchList$ = this.sharingSearchStore.select(
+      getSharingSearchList
+    );
 
-  ngOnInit() {}
+    this.loadingSharingSearch$ = this.sharingSearchStore.select(
+      getSharingSearchLoading
+    );
+
+    this.loadedSharingSearch$ = this.sharingSearchStore.select(
+      getSharingSearchLoaded
+    );
+  }
 
   changeAccess(e, sharingItem: SharingItem, access?: string) {
     e.stopPropagation();
@@ -98,13 +100,13 @@ export class SharingFilterComponent implements OnInit, OnChanges {
         ? access === 'rw------'
           ? 'r-------'
           : access === 'r-------'
-            ? '--------'
-            : '--------'
+          ? '--------'
+          : '--------'
         : access === 'r-------'
-          ? sharingItem.access === '' || sharingItem.access === '--------'
-            ? access
-            : '--------'
-          : access
+        ? sharingItem.access === '' || sharingItem.access === '--------'
+          ? access
+          : '--------'
+        : access
       : sharingItem.access;
 
     this.sharingFilter$
@@ -120,22 +122,22 @@ export class SharingFilterComponent implements OnInit, OnChanges {
               ? 'Only me'
               : 'Everyone'
             : sharingItem.name,
-          access: sharingItem.isExternal ? !sharingItem.access : newAccess
+          access: sharingItem.isExternal ? !sharingItem.access : newAccess,
         };
         this.sharingItemStore.dispatch(
-          new UpsertSharingItemAction(
-            newSharingItem,
-            sharingFilter.id,
-            this.type
-          )
+          new UpsertSharingItemAction(newSharingItem, sharingFilter.id, '')
         );
       });
   }
 
-  removeSharingItem(e, sharingItem: SharingItem) {
+  onSearchSharing(e) {
     e.stopPropagation();
-    this.sharingItemStore.dispatch(
-      new RemoveSharingItemAction(sharingItem.id, this.id, this.type)
-    );
+    this.searchTerm = e.target.value;
+  }
+
+  onAddSharingItem(e, sharingItem: any) {
+    e.stopPropagation();
+    this.searchTerm = undefined;
+    this.addSharingItem.emit(sharingItem);
   }
 }

@@ -4,6 +4,7 @@ import { VisualizationResizeSectionComponent } from './visualization-resize-sect
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('VisualizationResizeSectionComponent', () => {
   let component: VisualizationResizeSectionComponent;
@@ -16,12 +17,13 @@ describe('VisualizationResizeSectionComponent', () => {
           loader: {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
+            deps: [HttpClient],
+          },
         }),
-        HttpClientModule
+        HttpClientModule,
       ],
-      declarations: [VisualizationResizeSectionComponent]
+      declarations: [VisualizationResizeSectionComponent],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 

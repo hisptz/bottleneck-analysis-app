@@ -9,6 +9,7 @@ import { Determinant, SystemInfo } from 'src/app/models';
 import { getDefaultOrgUnits } from './get-default-org-units.helper';
 import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
 import { User } from '@iapps/ngx-dhis2-http-client';
+import { DEFAULT_LEGEND_DEFINITIONS } from '../constants/default-legend-definitions.constant';
 
 export function getDataSelectionsForDashboardCreation(
   dashboardItems: any[],
@@ -35,6 +36,8 @@ export function getDataSelectionsForDashboardCreation(
         {
           dimension: 'dx',
           layout: 'rows',
+          legendDefinitions: DEFAULT_LEGEND_DEFINITIONS,
+          useShortNameAsLabel: true,
           items: _flatten(
             _map(
               defaultDataGroups || [],

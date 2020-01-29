@@ -1,20 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import * as _ from 'lodash';
+import { DEFAULT_LEGEND_DEFINITIONS } from 'src/app/dashboard/constants/default-legend-definitions.constant';
 
-import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config.constant';
-import {
-  ARROW_DOWN_ICON,
-  ARROW_LEFT_ICON,
-  ARROW_RIGHT_ICON,
-  DATA_ICON,
-  FILTER_ICON,
-  PERIOD_ICON,
-  TREE_ICON,
-} from '../../icons';
-import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
-import { MatDialog } from '@angular/material/dialog';
 import { SelectionFilterDialogComponent } from '../../components/selection-filter-dialog/selection-filter-dialog.component';
+import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config.constant';
+import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
 import { SelectionDialogData } from '../../models/selection-dialog-data.model';
 
 @Component({
@@ -24,56 +17,56 @@ import { SelectionDialogData } from '../../models/selection-dialog-data.model';
   styleUrls: ['./selection-filters.component.css'],
 })
 export class SelectionFiltersComponent implements OnInit {
-  @Input()
-  dataSelections: any[];
-
-  @Input()
-  layout: any;
-  @Input()
-  selectionFilterConfig: SelectionFilterConfig;
-
-  @Input()
-  currentUserHasAuthorities: boolean;
-
-  @Input()
-  saving: boolean;
+  @Input() dataSelections: any[];
+  @Input() layout: any;
+  @Input() selectionFilterConfig: SelectionFilterConfig;
+  @Input() currentUserHasAuthorities: boolean;
+  @Input() saving: boolean;
+  @Input() userAccesses: any[];
+  @Input() userGroupAccesses: any[];
+  @Input() publicAccess: string;
+  @Input() bottleneckPeriodType: string;
+  @Input() interventionName: string;
 
   periodFilterConfig: PeriodFilterConfig;
-  @Output()
-  filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
-
+  orgUnitFilterConfig: OrgUnitFilterConfig;
   showFilters: boolean;
   showFilterBody: boolean;
-
-  // icons
-  filterIcon: string;
-  arrowLeftIcon: string;
-  arrowRightIcon: string;
-  arrowDownIcon: string;
-  dataIcon: string;
-  periodIcon: string;
-  orgUnitIcon: string;
   selectedFilter: string;
+
+  @Output() filterUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() interventionSettingsUpdate: EventEmitter<any> = new EventEmitter<
+    any
+  >();
 
   constructor(private dialog: MatDialog) {
     this.showFilters = true;
     this.showFilterBody = false;
-
-    // icons initializations
-    this.filterIcon = FILTER_ICON;
-    this.arrowLeftIcon = ARROW_LEFT_ICON;
-    this.arrowRightIcon = ARROW_RIGHT_ICON;
-    this.arrowDownIcon = ARROW_DOWN_ICON;
-    this.dataIcon = DATA_ICON;
-    this.periodIcon = PERIOD_ICON;
-    this.orgUnitIcon = TREE_ICON;
-
-    this.periodFilterConfig = { singleSelection: true };
+    this.periodFilterConfig = {
+      singleSelection: true,
+      emitOnDestroy: false,
+      disablePeriodTypeSelection: true,
+    };
+    this.orgUnitFilterConfig = { singleSelection: true, closeOnDestroy: false };
   }
 
   get selectedData(): any[] {
     const dataObject = _.find(this.dataSelections, ['dimension', 'dx']);
     return dataObject ? dataObject.items : [];
+  }
+
+  get generalDataConfiguration(): any {
+    const dataObject = _.find(this.dataSelections, ['dimension', 'dx']);
+    return dataObject
+      ? {
+          useShortNameAsLabel: dataObject.useShortNameAsLabel,
+          legendDefinitions:
+            dataObject.legendDefinitions || DEFAULT_LEGEND_DEFINITIONS,
+        }
+      : {
+          useShortNameAsLabel: true,
+          legendDefinitions: DEFAULT_LEGEND_DEFINITIONS,
+        };
   }
 
   get selectedDataGroups(): any[] {
@@ -144,6 +137,13 @@ export class SelectionFiltersComponent implements OnInit {
       selectedOrgUnits: this.selectedOrgUnits,
       selectedPeriods: this.selectedPeriods,
       periodFilterConfig: this.periodFilterConfig,
+      orgUnitFilterConfig: this.orgUnitFilterConfig,
+      generalDataConfiguration: this.generalDataConfiguration,
+      userAccesses: this.userAccesses,
+      userGroupAccesses: this.userGroupAccesses,
+      publicAccess: this.publicAccess,
+      bottleneckPeriodType: this.bottleneckPeriodType,
+      interventionName: this.interventionName,
     };
 
     const width = selectedFilter === 'DATA' ? '95%' : '800px';
@@ -155,8 +155,16 @@ export class SelectionFiltersComponent implements OnInit {
       data: selectionDialogData,
     });
 
-    selectionDialog.afterClosed().subscribe(data => {
-      console.log(data);
+    selectionDialog.afterClosed().subscribe((dialogData: any) => {
+      this.interventionSettingsUpdate.emit({
+        bottleneckPeriodType: dialogData.bottleneckPeriodType,
+        ...dialogData.sharingDetails,
+      });
+      if (dialogData.action === 'UPDATE') {
+        this.onFilterUpdate(dialogData.selectionItems);
+      } else {
+        this.onFilterClose(dialogData.selectionItems);
+      }
     });
   }
 
@@ -165,7 +173,7 @@ export class SelectionFiltersComponent implements OnInit {
     this.showFilterBody = false;
   }
 
-  onFilterClose(selectedItems, selectedFilter) {
+  onFilterClose(selectedItems) {
     if (selectedItems && selectedItems.items.length > 0) {
       this.dataSelections = !_.find(this.dataSelections, [
         'dimension',
@@ -179,13 +187,9 @@ export class SelectionFiltersComponent implements OnInit {
             ),
           ];
     }
-
-    if (this.selectedFilter === selectedFilter) {
-      this.showFilterBody = false;
-    }
   }
 
-  onFilterUpdate(selectedItems, selectedFilter) {
+  onFilterUpdate(selectedItems) {
     this.dataSelections = !_.find(this.dataSelections, [
       'dimension',
       selectedItems.dimension,

@@ -19,11 +19,11 @@ import { removeMemberFromGroup } from '../../helpers/remove-member-from-group.he
 import { updateDeterminantInList } from '../../helpers/update-data-determinant-in-list.helper';
 import { ARROW_LEFT_ICON, ARROW_RIGHT_ICON, LIST_ICON } from '../../icons';
 import { DataFilterPreference } from '../../model/data-filter-preference.model';
-import * as fromModels from '../../models';
 import * as fromDataFilterActions from '../../store/actions/data-filter.actions';
 import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer';
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
 import { DataFilterType } from '../../models/data-filter-type.model';
+import { Fn } from '@iapps/function-analytics';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -31,28 +31,29 @@ import { DataFilterType } from '../../models/data-filter-type.model';
   templateUrl: './data-filter.component.html',
   styleUrls: ['./data-filter.component.css'],
 })
-export class DataFilterComponent implements OnInit, OnDestroy {
-  @Input()
-  selectedItems: any[] = [];
-  @Input()
-  selectedGroups: any[] = [];
-  @Input()
-  determinants: Determinant[] = [];
-
-  @Input()
-  dataFilterPreferences: DataFilterPreference;
-
-  @Output()
-  dataFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
-  @Output()
-  dataFilterClose: EventEmitter<any> = new EventEmitter<any>();
-
-  @Input()
-  determinantPreferences: {
+export class DataFilterComponent implements OnInit {
+  @Input() selectedItems: any[] = [];
+  @Input() selectedGroups: any[] = [];
+  @Input() determinants: Determinant[] = [];
+  @Input() userAccesses: any[] = [];
+  @Input() userGroupAccesses: any[] = [];
+  @Input() publicAccess: string;
+  @Input() dataFilterPreferences: DataFilterPreference;
+  @Input() generalDataConfiguration: any;
+  @Input() bottleneckPeriodType = 'Yearly';
+  @Input() interventionName;
+  @Input() determinantPreferences: {
     maximumNumberOfDeterminants: number;
     maximumItemPerDeterminant: number;
     ignoreMaximumRestrictions: boolean;
   };
+
+  @Output() dataFilterUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Output() dataFilterClose: EventEmitter<any> = new EventEmitter<any>();
+  @Output() updateSharingDetails: EventEmitter<any> = new EventEmitter<any>();
+  @Output() updateInterventionDetails: EventEmitter<any> = new EventEmitter<
+    any
+  >();
 
   showGroupingPanel: boolean;
   selectedItems$: Observable<any>;
@@ -74,6 +75,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
   currentDataFilterGroup$: Observable<any>;
   dataFilterItems$: Observable<any[]>;
   dataFilterLoading$: Observable<boolean>;
+  periodTypes: any[];
 
   constructor(private dataFilterStore: Store<fromDataFilterReducer.State>) {
     // Set default data filter preferences
@@ -90,6 +92,7 @@ export class DataFilterComponent implements OnInit, OnDestroy {
       maximumItemPerDeterminant: 3,
       ignoreMaximumRestrictions: false,
     };
+
     // Load data filter items
     dataFilterStore.dispatch(new fromDataFilterActions.LoadDataFilters());
 
@@ -114,6 +117,10 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.icons = { LIST_ICON, ARROW_LEFT_ICON, ARROW_RIGHT_ICON };
 
     this.showGroupingPanel = false;
+
+    const periodTypeInstance = new Fn.PeriodType();
+
+    this.periodTypes = periodTypeInstance.get();
   }
 
   ngOnInit() {
@@ -275,6 +282,8 @@ export class DataFilterComponent implements OnInit, OnDestroy {
         (determinant: Determinant) => determinant.name !== ''
       ),
       dimension: 'dx',
+      useShortNameAsLabel: this.generalDataConfiguration.useShortNameAsLabel,
+      legendDefinitions: this.generalDataConfiguration.legendDefinitions,
     };
   }
 
@@ -346,7 +355,36 @@ export class DataFilterComponent implements OnInit, OnDestroy {
     this.selectedItems = [...selectedItems];
   }
 
-  ngOnDestroy() {
-    this.dataFilterClose.emit(this.emit());
+  onUpdateGeneralDataConfiguration(value: any, attributeName: string) {
+    this.generalDataConfiguration = {
+      ...this.generalDataConfiguration,
+      [attributeName]: value,
+    };
+
+    if (attributeName === 'useShortNameAsLabel' && value) {
+      this.dataFilterItems$
+        .pipe(take(1))
+        .subscribe((dataFilterItems: any[]) => {
+          this.selectedItems = (this.selectedItems || []).map(
+            (selectedItem: any) => {
+              const availableItem = _.find(dataFilterItems, [
+                'id',
+                selectedItem.id,
+              ]);
+              return availableItem
+                ? { ...selectedItem, label: availableItem.shortName }
+                : selectedItem;
+            }
+          );
+        });
+    }
+  }
+
+  onUpdateSharingItem(sharingDetails: any) {
+    this.updateSharingDetails.emit(sharingDetails);
+  }
+
+  onSelectBottleneckPeriodType(bottleneckPeriodType: string) {
+    this.updateInterventionDetails.emit({ bottleneckPeriodType });
   }
 }

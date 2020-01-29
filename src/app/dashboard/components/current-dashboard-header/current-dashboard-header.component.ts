@@ -74,8 +74,11 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   @Output()
   saveDashboard: EventEmitter<any> = new EventEmitter<any>();
 
-  @Output()
-  resetDashboard: EventEmitter<any> = new EventEmitter<any>();
+  @Output() resetDashboard: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output() updateInterventionSettings: EventEmitter<any> = new EventEmitter<
+    any
+  >();
 
   constructor(private dialog: MatDialog) {
     this.selectionFilterConfig = {
@@ -167,5 +170,12 @@ export class CurrentDashboardHeaderComponent implements OnInit {
   onResetChanges(e) {
     e.stopPropagation();
     this.resetDashboard.emit(this.currentDashboard.id);
+  }
+
+  onInterventionSettingsUpdate(interventionSettings: any) {
+    this.updateInterventionSettings.emit({
+      interventionSettings,
+      currentDashboard: this.currentDashboard,
+    });
   }
 }

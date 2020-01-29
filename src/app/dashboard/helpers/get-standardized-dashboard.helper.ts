@@ -27,9 +27,10 @@ export function getStandardizedDashboard(
     userAccesses: dashboard.userAccesses || [],
     user: dashboard.user || {
       id: currentUser.id,
-      name: currentUser.name
+      name: currentUser.name,
     },
     access: getDashboardAccess(dashboard, currentUser),
-    globalSelections: dashboard.globalSelections || dataSelections
+    globalSelections: dashboard.globalSelections || dataSelections,
+    bottleneckPeriodType: dashboard.bottleneckPeriodType || 'Yearly',
   };
 }

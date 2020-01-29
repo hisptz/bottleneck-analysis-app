@@ -32,15 +32,15 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
   @Input() dataFilterGroups: any[];
   @Input() currentDataFilterGroup: any;
   @Input() dataFilterItems: any[];
+  @Input() generalDataConfiguration: any;
+  @Input() determinantPreferences: {
+    maximumNumberOfDeterminants: number;
+    maximumItemPerDeterminant: number;
+  };
 
   currentDeterminantMember: any;
   showDataSelection: boolean;
 
-  @Input()
-  determinantPreferences: {
-    maximumNumberOfDeterminants: number;
-    maximumItemPerDeterminant: number;
-  };
   @Output()
   determinantsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
 
@@ -114,12 +114,57 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
     this.selectDeterminant.emit(this.selectedDeterminantId);
   }
 
-  onSetCurrentDeterminantMember(currentDeterminantMember: any, e) {
-    e.stopPropagation();
-    this.currentDeterminantMember = currentDeterminantMember;
+  onSetCurrentDeterminantMember(id: string, e?) {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    const determinantMemberFromSelected = _.find(this.selectedItems, [
+      'id',
+      id,
+    ]);
+    const determinantMemberFromDataFilterList = _.find(this.dataFilterItems, [
+      'id',
+      id,
+    ]);
+
+    this.currentDeterminantMember = {
+      ...({
+        ...determinantMemberFromSelected,
+        legendSet: this.getDeterminantMemberLegendSet(
+          determinantMemberFromSelected || determinantMemberFromDataFilterList
+        ),
+      } || {}),
+      ...(determinantMemberFromDataFilterList || {}),
+    };
+  }
+
+  getDeterminantMemberLegendSet(determinantMember: any) {
+    const legendSet = determinantMember ? determinantMember.legendSet : null;
+
+    if (!legendSet) {
+      return {
+        id: determinantMember.id,
+        name: determinantMember.name,
+        legends: this.generalDataConfiguration.legendDefinitions,
+      };
+    }
+
+    return _.intersectionBy(
+      legendSet.legends,
+      this.generalDataConfiguration.legendDefinitions,
+      'id'
+    ).length === 0
+      ? {
+          id: determinantMember.id,
+          name: determinantMember.name,
+          legends: this.generalDataConfiguration.legendDefinitions,
+        }
+      : legendSet;
   }
 
   onUpdateMember(member: any) {
+    this.currentDeterminantMember = member;
     this.updateMember.emit(member);
   }
 
@@ -205,10 +250,17 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
 
   onSelectDataItem(dataItem: any) {
     this.showDataSelection = false;
+    this.onSetCurrentDeterminantMember(dataItem.id);
     this.selectDataItem.emit(dataItem);
   }
 
   onRemoveDeterminantMember(dataItem: any, determinant: Determinant, e) {
+    if (
+      this.currentDeterminantMember &&
+      this.currentDeterminantMember.id === dataItem.id
+    ) {
+      this.currentDeterminantMember = null;
+    }
     e.stopPropagation();
     this.removeDeterminantMember.emit({ dataItem, determinant });
   }

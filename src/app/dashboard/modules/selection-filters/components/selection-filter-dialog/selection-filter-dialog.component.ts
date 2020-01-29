@@ -15,7 +15,30 @@ export class SelectionFilterDialogComponent implements OnInit {
 
   ngOnInit() {}
 
-  onFilterClose(selectionItems) {
-    this.dialogRef.close(this.selectionDialogData);
+  onFilterUpdate(selectionItems, action: string) {
+    const {
+      userAccesses,
+      userGroupAccesses,
+      publicAccess,
+    } = this.selectionDialogData;
+    this.dialogRef.close({
+      sharingDetails: { userAccesses, userGroupAccesses, publicAccess },
+      selectionItems,
+      bottleneckPeriodType: this.selectionDialogData.bottleneckPeriodType,
+      action,
+    });
+  }
+  onUpdateSharingDetails(sharingDetails: any) {
+    this.selectionDialogData = {
+      ...this.selectionDialogData,
+      ...sharingDetails,
+    };
+  }
+
+  onUpdateInterventionDetails(interventionDetails: any) {
+    this.selectionDialogData = {
+      ...this.selectionDialogData,
+      ...interventionDetails,
+    };
   }
 }

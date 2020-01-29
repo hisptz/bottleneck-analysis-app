@@ -8,7 +8,8 @@ export function getStandardizedIndicators(
     return {
       id: indicator.id,
       name: indicator.name,
-      type: 'INDICATOR'
+      shortName: indicator.shortName,
+      type: 'INDICATOR',
     };
   });
 }
