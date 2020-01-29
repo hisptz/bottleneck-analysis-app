@@ -360,7 +360,26 @@ export class DataFilterComponent implements OnInit {
       ...this.generalDataConfiguration,
       [attributeName]: value,
     };
+
+    if (attributeName === 'useShortNameAsLabel' && value) {
+      this.dataFilterItems$
+        .pipe(take(1))
+        .subscribe((dataFilterItems: any[]) => {
+          this.selectedItems = (this.selectedItems || []).map(
+            (selectedItem: any) => {
+              const availableItem = _.find(dataFilterItems, [
+                'id',
+                selectedItem.id,
+              ]);
+              return availableItem
+                ? { ...selectedItem, label: availableItem.shortName }
+                : selectedItem;
+            }
+          );
+        });
+    }
   }
+
   onUpdateSharingItem(sharingDetails: any) {
     this.updateSharingDetails.emit(sharingDetails);
   }

@@ -23,7 +23,7 @@ export class DeterminantMemberFormComponent implements OnInit {
       ? this.generalDataConfiguration.useShortNameAsLabel
         ? this.determinantMember.shortName
         : this.determinantMember.label
-      : this.determinantMember.shortName;
+      : this.determinantMember.label;
   }
 
   ngOnInit() {}
