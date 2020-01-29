@@ -150,7 +150,17 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
       };
     }
 
-    return legendSet;
+    return _.intersectionBy(
+      legendSet.legends,
+      this.generalDataConfiguration.legendDefinitions,
+      'id'
+    ).length === 0
+      ? {
+          id: determinantMember.id,
+          name: determinantMember.name,
+          legends: this.generalDataConfiguration.legendDefinitions,
+        }
+      : legendSet;
   }
 
   onUpdateMember(member: any) {
