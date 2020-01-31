@@ -76,6 +76,8 @@ export class DataFilterComponent implements OnInit {
   dataFilterItems$: Observable<any[]>;
   dataFilterLoading$: Observable<boolean>;
   periodTypes: any[];
+  openConfirmDialog: boolean;
+  useShortNameAsLabelPlaceholder: any;
 
   constructor(private dataFilterStore: Store<fromDataFilterReducer.State>) {
     // Set default data filter preferences
@@ -378,6 +380,30 @@ export class DataFilterComponent implements OnInit {
           );
         });
     }
+  }
+  onUpdateUseShortNameAsLabel(value: string, attributeName: string) {
+    if (value) {
+      this.openConfirmDialog = true;
+      this.useShortNameAsLabelPlaceholder = { value, attributeName };
+    } else {
+      this.onUpdateGeneralDataConfiguration(value, attributeName);
+    }
+  }
+
+  onConfirmUseShortNameAsLabel(e) {
+    e.stopPropagation();
+    this.onUpdateGeneralDataConfiguration(
+      this.useShortNameAsLabelPlaceholder.value,
+      this.useShortNameAsLabelPlaceholder.attributeName
+    );
+
+    this.useShortNameAsLabelPlaceholder = null;
+    this.openConfirmDialog = false;
+  }
+
+  onCloseConfirmDialog(e) {
+    e.stopPropagation();
+    this.openConfirmDialog = false;
   }
 
   onUpdateSharingItem(sharingDetails: any) {
