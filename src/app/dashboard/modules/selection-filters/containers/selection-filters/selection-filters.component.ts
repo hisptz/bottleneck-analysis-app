@@ -139,8 +139,14 @@ export class SelectionFiltersComponent implements OnInit {
       periodFilterConfig: this.periodFilterConfig,
       orgUnitFilterConfig: this.orgUnitFilterConfig,
       generalDataConfiguration: this.generalDataConfiguration,
-      userAccesses: this.userAccesses,
-      userGroupAccesses: this.userGroupAccesses,
+      userAccesses: this.userAccesses.map((userAccess: any) => ({
+        ...userAccess,
+        type: 'user',
+      })),
+      userGroupAccesses: this.userGroupAccesses.map((userGroupAccess: any) => ({
+        ...userGroupAccess,
+        type: 'userGroup',
+      })),
       publicAccess: this.publicAccess,
       bottleneckPeriodType: this.bottleneckPeriodType,
       interventionName: this.interventionName,

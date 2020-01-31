@@ -37,6 +37,7 @@ import {
   styleUrls: ['./sharing-filter.component.scss'],
 })
 export class SharingFilterComponent implements OnInit {
+  @Input() sharingItems: any[];
   searchTerm: string;
 
   sharingFilter$: Observable<SharingFilterVm>;

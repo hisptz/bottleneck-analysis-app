@@ -54,9 +54,14 @@
                 </mat-list-item>
             </mat-list>
         </cdk-virtual-scroll-viewport>
-        <div class="sharing-item-search">
+        <div class="ml-2 mr-2 sharing-item-search">
             <h6 class="text-muted">Add users and user groups</h6>
-            <app-sharing-filter (addSharingItem)="onAddSharingItem($event)"></app-sharing-filter>
+            <app-sharing-filter [sharingItems]="sharingItems" (addSharingItem)="onAddSharingItem($event)">
+            </app-sharing-filter>
+        </div>
+
+        <div class="d-flex justify-content-end mr-2 mt-2 mb-2">
+            <button mat-flat-button color="primary" (click)="onToggleSharing($event)">Done</button>
         </div>
     </mat-card>
 </div>

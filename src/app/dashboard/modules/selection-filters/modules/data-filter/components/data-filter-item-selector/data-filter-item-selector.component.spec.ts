@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
 
-import { RemoveSelectedItemsPipe } from '../../pipes/remove-selected-items.pipe';
 import { DataFilterItemSelectorComponent } from './data-filter-item-selector.component';
 
 describe('DataFilterItemSelectorComponent', () => {
@@ -12,7 +11,7 @@ describe('DataFilterItemSelectorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DataFilterItemSelectorComponent, RemoveSelectedItemsPipe],
+      declarations: [DataFilterItemSelectorComponent],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [BrowserAnimationsModule, SharedModule],
     }).compileComponents();

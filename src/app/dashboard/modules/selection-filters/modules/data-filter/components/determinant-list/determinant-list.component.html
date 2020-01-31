@@ -35,7 +35,7 @@
       </td>
       <td class="p-0 determinant-member-td" *ngIf="!showDataSelection">
         <div class="determinant-member-list">
-          <div
+          <div [title]="determinantMember.name"
             [ngClass]="{'determinant-member': true, 'active-determinant-member': currentDeterminantMember && currentDeterminantMember.id === determinantMember.id}"
             (click)="onSetCurrentDeterminantMember(determinantMember.id, $event)"
             *ngFor="let determinantMember of determinant.members">

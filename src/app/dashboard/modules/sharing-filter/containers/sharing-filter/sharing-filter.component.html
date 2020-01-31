@@ -7,7 +7,8 @@
 
     <cdk-virtual-scroll-viewport itemSize="20" class="sharing-filter-items__viewport" *ngIf="searchTerm">
       <mat-nav-list>
-        <mat-list-item *cdkVirtualFor="let sharingSearchItem of sharingSearchList$ | async | filterByName: searchTerm"
+        <mat-list-item
+          *cdkVirtualFor="let sharingSearchItem of sharingSearchList$ | async | removeSelectedItems: sharingItems | filterByName: searchTerm"
           (click)="onAddSharingItem($event, sharingSearchItem)">
           <div class="d-flex justify-content-between align-items-center w-100">
             <div class="d-flex align-items-center">
