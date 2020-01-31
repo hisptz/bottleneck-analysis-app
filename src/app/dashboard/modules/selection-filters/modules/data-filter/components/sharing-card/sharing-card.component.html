@@ -1,13 +1,16 @@
 <div class="position-relative">
-    <div class="">
-
-        <mat-label>Share with:</mat-label>
-        <button class="w-100 mt-2" mat-raised-button>
-            <div class="d-flex justify-content-between align-items-center" (click)="onToggleSharing($event)">
-                <span class="text-muted">{{sharingSummary}}</span>
+    <div class="mb-2">
+        <button class="w-100 pl-0 pr-0" mat-flat-button>
+            <div class="d-flex justify-content-between align-items-center sharing-button-content"
+                (click)="onToggleSharing($event)">
+                <div>
+                    <span>Share with:</span>
+                    <span class="ml-3 text-muted">{{sharingSummary}}</span>
+                </div>
                 <mat-icon>arrow_drop_down</mat-icon>
             </div>
         </button>
+        <mat-divider></mat-divider>
     </div>
     <mat-card class="sharing-card" *ngIf="showSharing">
         <div class="mb-2 d-flex justify-content-between align-items-center">

@@ -1,10 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
-enum SharingAccess {
-  CAN_EDIT = 'rw------',
-  CAN_VIEW_ONLY = 'r-------',
-  NO_ACCESS = '--------',
-}
+import { SharingAccess } from 'src/app/shared/constants/sharing-access.constant';
 
 @Component({
   selector: 'app-sharing-card',

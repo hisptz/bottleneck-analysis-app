@@ -19,10 +19,10 @@ export class DeterminantMemberFormComponent implements OnInit {
   constructor() {}
 
   get memberLabel(): string {
-    return this.determinantMember
-      ? this.generalDataConfiguration.useShortNameAsLabel
-        ? this.determinantMember.shortName
-        : this.determinantMember.label
+    return this.determinantMember &&
+      this.generalDataConfiguration &&
+      this.generalDataConfiguration.useShortNameAsLabel
+      ? this.determinantMember.shortName
       : this.determinantMember.label;
   }
 
