@@ -16,6 +16,7 @@
     <!--period filter-->
     <ngx-dhis2-period-filter *ngIf="selectionDialogData.selectedFilter === 'PERIOD'"
         [selectedPeriods]="selectionDialogData.selectedPeriods"
+        [selectedPeriodType]="selectionDialogData.bottleneckPeriodType"
         [periodFilterConfig]="selectionDialogData.periodFilterConfig" (close)="onFilterUpdate($event, 'CLOSE')"
         (update)="onFilterUpdate($event, 'UPDATE')">
     </ngx-dhis2-period-filter>
