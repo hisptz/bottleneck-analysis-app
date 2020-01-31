@@ -43,7 +43,7 @@
               (click)="onRemoveDeterminantMember(determinantMember, determinant, $event)">
               <mat-icon color="warn">delete</mat-icon>
             </a>
-            {{determinantMember.name}}
+            {{determinantMember.name | truncate:60}}
           </div>
           <button mat-flat-button class="add-determinant-member" title="Add Determinant member"
             *ngIf="determinantPreferences && determinant && determinant.members.length < determinantPreferences.maximumItemPerDeterminant"

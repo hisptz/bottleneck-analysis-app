@@ -71,8 +71,8 @@
   <button mat-stroked-button title="Close data filter" (click)="close($event)">
     Close
   </button>
-  <button mat-stroked-button title="Update visualization(s) with selected items" [disabled]="selectedItems.length === 0"
-    (click)="onDataFilterUpdate($event)">
+  <button color="primary" mat-stroked-button title="Update visualization(s) with selected items"
+    [disabled]="selectedItems.length === 0" (click)="onDataFilterUpdate($event)">
     Update
   </button>
 </div>
