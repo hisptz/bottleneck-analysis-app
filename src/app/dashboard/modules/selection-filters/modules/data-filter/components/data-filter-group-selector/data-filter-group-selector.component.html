@@ -14,7 +14,7 @@
         </mat-form-field>
         <cdk-virtual-scroll-viewport itemSize="20" class="data-filter-group__viewport">
             <mat-nav-list>
-                <a mat-list-item *cdkVirtualFor="
+                <a class="data-group-item" mat-list-item *cdkVirtualFor="
                 let dataFilterGroup of dataFilterGroups
                   | filterByName: searchTerm
               " (click)="onSetDataGroup(dataFilterGroup, $event)" [ngClass]="{
