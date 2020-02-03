@@ -181,7 +181,7 @@ export class MapVisualizerComponent implements OnChanges, AfterViewInit {
       const { mapConfiguration, componentId } = this.visualizationObject;
       const fullScreen =
         (mapConfiguration && displayFullScreen) ||
-        itemHeight === '100vh' ||
+        itemHeight === '95vh' ||
         itemHeight === '100%';
       const container = fromUtils.prepareMapContainer(
         componentId,

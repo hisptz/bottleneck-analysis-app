@@ -6,7 +6,7 @@ import { VisualizationUiConfig } from '../../models';
 // actions
 import {
   VisualizationUiConfigurationAction,
-  VisualizationUiConfigurationActionTypes
+  VisualizationUiConfigurationActionTypes,
 } from '../actions';
 
 export interface VisualizationUiConfigurationState
@@ -14,13 +14,13 @@ export interface VisualizationUiConfigurationState
   focusedVisualization: string;
 }
 
-export const visualizationUiConfigurationAdapter: EntityAdapter<
+export const visualizationUiConfigurationAdapter: EntityAdapter<VisualizationUiConfig> = createEntityAdapter<
   VisualizationUiConfig
-> = createEntityAdapter<VisualizationUiConfig>();
+>();
 
 const initialState: VisualizationUiConfigurationState = visualizationUiConfigurationAdapter.getInitialState(
   {
-    focusedVisualization: ''
+    focusedVisualization: '',
   }
 );
 
@@ -53,8 +53,8 @@ export function visualizationUiConfigurationReducer(
               id: action.id,
               changes: {
                 fullScreen: !visualizationUiConfig.fullScreen,
-                height: visualizationUiConfig.fullScreen ? '450px' : '99vh'
-              }
+                height: visualizationUiConfig.fullScreen ? '450px' : '93vh',
+              },
             },
             state
           )

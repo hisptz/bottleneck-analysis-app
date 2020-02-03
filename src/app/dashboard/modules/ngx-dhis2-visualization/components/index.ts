@@ -4,7 +4,6 @@ import { VisualizationDownloadsSectionComponent } from './visualization-download
 import { VisualizationErrorNotifierComponent } from './visualization-error-notifier/visualization-error-notifier.component';
 import { VisualizationFooterSectionComponent } from './visualization-footer-section/visualization-footer-section';
 import { VisualizationHeaderSectionComponent } from './visualization-header-section/visualization-header-section';
-import { VisualizationManagementSectionComponent } from './visualization-management-section/visualization-management-section.component';
 import { VisualizationResizeSectionComponent } from './visualization-resize-section/visualization-resize-section.component';
 import { VisualizationTypesSectionComponent } from './visualization-types-section/visualization-types-section.component';
 import { VisualizationWidgetComponent } from './visualization-widget/visualization-widget.component';
@@ -17,7 +16,6 @@ export const components: any[] = [
   VisualizationHeaderSectionComponent,
   VisualizationResizeSectionComponent,
   VisualizationBodySectionComponent,
-  VisualizationManagementSectionComponent,
   VisualizationWidgetComponent,
   VisualizationDownloadsSectionComponent,
 ];

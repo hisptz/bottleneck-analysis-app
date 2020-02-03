@@ -11,8 +11,7 @@
   <!-- end of visualization notification block -->
 
   <!--visualization body block-->
-  <div class="visualization-body-block" [style.height]="(visualizationUiConfig$ | async)?.height"
-    *ngIf="(visualizationUiConfig$ | async)?.showBody">
+  <div class="visualization-body-block" *ngIf="(visualizationUiConfig$ | async)?.showBody">
     <!--visualization body header-->
     <div class="visualization-body-header-block" *ngIf="!(visualizationUiConfig$ | async)?.hideHeader">
       <visualization-header-section [id]="id" [uiConfigId]="(visualizationUiConfig$ | async)?.id" [hideResizeButtons]="
@@ -74,11 +73,10 @@
     <!--end of visualization body content block-->
 
     <!--visualization body footer block-->
-    <div class="visualization-body-footer-block" *ngIf="
+    <div class="p-2" *ngIf="
         (visualizationProgress$ | async) &&
         (visualizationProgress$ | async).percent === 100 &&
-        (visualizationProgress$ | async).statusCode === 200 &&
-        !(visualizationUiConfig$ | async)?.hideFooter
+        (visualizationProgress$ | async).statusCode === 200
       ">
       <visualization-footer-section [type]="(visualizationConfig$ | async)?.currentType"
         [configId]="(visualizationConfig$ | async)?.id" [name]="(visualizationObject$ | async)?.name"

@@ -14,6 +14,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatRippleModule } from '@angular/material/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { directives } from './directives';
 import { pipes } from './pipes';
 
@@ -36,6 +37,7 @@ import { pipes } from './pipes';
     MatSelectModule,
     MatCardModule,
     MatRippleModule,
+    MatButtonToggleModule,
   ],
   imports: [
     CommonModule,
@@ -53,6 +55,7 @@ import { pipes } from './pipes';
     MatSelectModule,
     MatCardModule,
     MatRippleModule,
+    MatButtonToggleModule,
   ],
 })
 export class SharedModule {}

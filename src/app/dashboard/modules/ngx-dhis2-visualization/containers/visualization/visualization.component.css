@@ -17,19 +17,6 @@
   background-color: #ffffff;
 }
 
-.visualization-body-block {
-  position: relative;
-}
-
-.visualization-body-footer-block {
-  position: absolute;
-  z-index: 900;
-  width: 100%;
-  bottom: 0;
-  margin-bottom: 5px;
-  margin-left: 5px;
-}
-
 .visualization-body-header-block {
   position: absolute;
   top: 0;
