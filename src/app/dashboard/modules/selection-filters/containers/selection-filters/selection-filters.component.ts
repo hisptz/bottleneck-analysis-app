@@ -9,6 +9,9 @@ import { SelectionFilterDialogComponent } from '../../components/selection-filte
 import { SELECTION_FILTER_CONFIG } from '../../constants/selection-filter-config.constant';
 import { SelectionFilterConfig } from '../../models/selected-filter-config.model';
 import { SelectionDialogData } from '../../models/selection-dialog-data.model';
+import { VisualizationDataSelection } from '../../../ngx-dhis2-visualization/models';
+import { Fn } from '@iapps/function-analytics';
+import { SystemInfo } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -27,6 +30,7 @@ export class SelectionFiltersComponent implements OnInit {
   @Input() publicAccess: string;
   @Input() bottleneckPeriodType: string;
   @Input() interventionName: string;
+  @Input() systemInfo: SystemInfo;
 
   periodFilterConfig: PeriodFilterConfig;
   orgUnitFilterConfig: OrgUnitFilterConfig;
@@ -167,7 +171,10 @@ export class SelectionFiltersComponent implements OnInit {
         ...dialogData.sharingDetails,
       });
       if (dialogData.action === 'UPDATE') {
-        this.onFilterUpdate(dialogData.selectionItems);
+        this.onFilterUpdate(
+          dialogData.selectionItems,
+          dialogData.bottleneckPeriodType
+        );
       } else {
         this.onFilterClose(dialogData.selectionItems);
       }
@@ -195,7 +202,10 @@ export class SelectionFiltersComponent implements OnInit {
     }
   }
 
-  onFilterUpdate(selectedItems) {
+  onFilterUpdate(
+    selectedItems: VisualizationDataSelection,
+    bottleneckPeriodType: string
+  ) {
     this.dataSelections = !_.find(this.dataSelections, [
       'dimension',
       selectedItems.dimension,
@@ -207,6 +217,57 @@ export class SelectionFiltersComponent implements OnInit {
             selectedItems
           ),
         ];
+
+    if (selectedItems.dimension === 'dx') {
+      const periodInstance = new Fn.Period();
+
+      periodInstance
+        .setType(bottleneckPeriodType)
+        .setCalendar(this.systemInfo.keyCalendar)
+        .get();
+      let periodList = periodInstance.list();
+      let previousPeriod = null;
+
+      if (periodList.length === 0) {
+        periodInstance.setYear(periodInstance.currentYear() - 1).get();
+
+        periodList = periodInstance.list();
+
+        previousPeriod =
+          periodList && periodList[0]
+            ? _.pick(periodList[0], ['id', 'name', 'type'])
+            : null;
+      } else {
+        previousPeriod =
+          periodList && periodList[0]
+            ? {
+                ...periodList[0].lastPeriod,
+                type: periodList[0].type,
+              }
+            : null;
+      }
+
+      if (previousPeriod) {
+        this.dataSelections = this.dataSelections.map(
+          (dataSelection: VisualizationDataSelection) => {
+            if (dataSelection.dimension === 'pe') {
+              return {
+                ...dataSelection,
+                items: [
+                  {
+                    id: previousPeriod.id,
+                    name: previousPeriod.name,
+                    type: previousPeriod.type,
+                  },
+                ],
+              };
+            }
+
+            return dataSelection;
+          }
+        );
+      }
+    }
 
     this.filterUpdate.emit(this.dataSelections);
     this.selectedFilter = '';

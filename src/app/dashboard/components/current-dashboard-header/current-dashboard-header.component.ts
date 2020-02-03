@@ -14,7 +14,7 @@ import { Dashboard } from '../../models';
 import { SelectionFilterConfig } from '../../modules/selection-filters/models/selected-filter-config.model';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 import { DashboardDeleteDialogComponent } from '../dashboard-delete-dialog/dashboard-delete-dialog.component';
-import { User } from '@iapps/ngx-dhis2-http-client';
+import { User, SystemInfo } from '@iapps/ngx-dhis2-http-client';
 
 @Component({
   selector: 'app-current-dashboard-header',
@@ -25,6 +25,7 @@ import { User } from '@iapps/ngx-dhis2-http-client';
 export class CurrentDashboardHeaderComponent implements OnInit {
   @Input() currentDashboard: Dashboard;
   @Input() currentUser: User;
+  @Input() systemInfo: SystemInfo;
   @Input() currentUserHasAuthorities: boolean;
   @Input() dashboardLoading: boolean;
   @Input() dashboardLoaded: boolean;
