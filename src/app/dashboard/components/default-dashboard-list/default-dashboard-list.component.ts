@@ -20,7 +20,7 @@ interface DefaultDashboard {
 @Component({
   selector: 'app-default-dashboard-list',
   templateUrl: './default-dashboard-list.component.html',
-  styleUrls: ['./default-dashboard-list.component.scss']
+  styleUrls: ['./default-dashboard-list.component.scss'],
 })
 export class DefaultDashboardListComponent implements OnInit {
   @Input()
@@ -74,7 +74,7 @@ export class DefaultDashboardListComponent implements OnInit {
 
     this.create.emit({
       ...dashboard,
-      dashboardItems: dashboard.dashboardItems || DASHBOARD_ITEMS
+      dashboardItems: dashboard.dashboardItems || DASHBOARD_ITEMS,
     });
   }
 
@@ -102,7 +102,7 @@ export class DefaultDashboardListComponent implements OnInit {
 
     this.interventionStore.dispatch(
       new fromInterventionActions.UpdateIntervention(intervention.id, {
-        showEditForm: !intervention.showEditForm
+        showEditForm: !intervention.showEditForm,
       })
     );
   }
@@ -114,7 +114,7 @@ export class DefaultDashboardListComponent implements OnInit {
 
     this.interventionStore.dispatch(
       new fromInterventionActions.UpdateIntervention(intervention.id, {
-        showDeleteDialog: !intervention.showDeleteDialog
+        showDeleteDialog: !intervention.showDeleteDialog,
       })
     );
   }

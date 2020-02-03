@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Determinant } from '../../models/data-group.model';
+import { Determinant } from '../../models/determinant.model';
 import {
   DataGroupActions,
   DataGroupActionTypes,

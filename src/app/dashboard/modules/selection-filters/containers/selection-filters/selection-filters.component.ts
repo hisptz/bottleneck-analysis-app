@@ -137,7 +137,7 @@ export class SelectionFiltersComponent implements OnInit {
     const selectionDialogData: SelectionDialogData = {
       selectedFilter,
       selectedData: this.selectedData,
-      selectedDataGroups: this.selectedDataGroups,
+      selectedDataGroups: _.sortBy(this.selectedDataGroups, 'sortOrder'),
       selectedOrgUnits: this.selectedOrgUnits,
       selectedPeriods: this.selectedPeriods,
       periodFilterConfig: this.periodFilterConfig,

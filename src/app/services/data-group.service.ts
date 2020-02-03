@@ -5,7 +5,7 @@ import { of, zip } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { generateDefaultGroups } from '../helpers/generate-default-groups.helper';
-import { Determinant } from '../models/data-group.model';
+import { Determinant } from '../models/determinant.model';
 
 @Injectable({
   providedIn: 'root',

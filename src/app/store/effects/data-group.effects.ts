@@ -17,7 +17,7 @@ import * as fromDataGroupSelectors from '../selectors/data-group.selectors';
 import { DataGroupService } from '../../services/data-group.service';
 
 // models
-import { Determinant } from '../../models/data-group.model';
+import { Determinant } from '../../models/determinant.model';
 import { LoadDashboardsAction } from '../../dashboard/store/actions';
 
 @Injectable()

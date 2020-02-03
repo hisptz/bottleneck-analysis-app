@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { Dashboard } from '../../models/dashboard.model';
 import { SystemInfo } from '../../../models';
 import { DashboardSettings } from '../../models/dashboard-settings.model';
-import { Determinant } from '../../../models/data-group.model';
+import { Determinant } from '../../../models/determinant.model';
 import { User, ErrorMessage } from '@iapps/ngx-dhis2-http-client';
 
 export enum DashboardActionTypes {

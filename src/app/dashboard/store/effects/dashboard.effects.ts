@@ -323,6 +323,8 @@ export class DashboardEffects {
           action.currentUser
         );
 
+        console.log(dataSelections);
+
         const dashboard = fromDashboardHelpers.getStandardizedDashboard(
           action.dashboard,
           action.currentUser,

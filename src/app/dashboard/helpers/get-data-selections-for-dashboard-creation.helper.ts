@@ -2,6 +2,7 @@ import {
   map as _map,
   camelCase as _camelCase,
   flatten as _flatten,
+  sortBy,
 } from 'lodash';
 import { getMergedGlobalDataSelectionsFromVisualizationLayers } from './get-merged-global-data-selections.helper';
 import { getSelectionDimensionsFromFavorite } from '../modules/ngx-dhis2-visualization/helpers';
@@ -44,7 +45,7 @@ export function getDataSelectionsForDashboardCreation(
               (dataGroup: Determinant) => dataGroup.members
             )
           ),
-          groups: defaultDataGroups,
+          groups: sortBy(defaultDataGroups, 'sortOrder'),
         },
         {
           dimension: 'pe',

@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Dashboard, DashboardGroups } from '../../models';
-import { Determinant } from '../../../models/data-group.model';
+import { Determinant } from '../../../models/determinant.model';
 import { User, SystemInfo } from '@iapps/ngx-dhis2-http-client';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 
