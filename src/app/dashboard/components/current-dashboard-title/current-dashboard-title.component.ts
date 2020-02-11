@@ -2,17 +2,18 @@ import {
   Component,
   OnInit,
   Input,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 @Component({
   selector: 'app-current-dashboard-title',
   templateUrl: './current-dashboard-title.component.html',
   styleUrls: ['./current-dashboard-title.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrentDashboardTitleComponent implements OnInit {
   @Input() currentDashboardTitle: string;
+  @Input() globalDataSelectionSummary: string;
   constructor() {}
 
   ngOnInit() {}

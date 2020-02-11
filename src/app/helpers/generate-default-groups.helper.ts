@@ -1,4 +1,5 @@
 import { generateUid } from './generate-uid.helper';
+import { Determinant } from '../models';
 
 const DEFAULT_GROUP_COLORS: string[] = [
   '#7DB2E8',
@@ -17,76 +18,82 @@ const DEFAULT_GROUP_COLORS: string[] = [
   '#E09485',
   '#808080',
   '#B2B24D',
-  '#525214'
+  '#525214',
 ];
 
-export function generateDefaultGroups() {
+export function generateDefaultGroups(): Determinant[] {
   return [
     {
       name: 'Commodities',
+      sortOrder: 1,
       id: generateUid(),
       members: [
         {
           id: generateUid(),
-          name: 'Indicator 1'
-        }
+          name: 'Indicator 1',
+        },
       ],
-      color: DEFAULT_GROUP_COLORS[0]
+      color: DEFAULT_GROUP_COLORS[0],
     },
     {
       name: 'Human Resources',
+      sortOrder: 2,
       id: generateUid(),
       members: [
         {
           id: generateUid(),
-          name: 'Indicator 1'
-        }
+          name: 'Indicator 1',
+        },
       ],
-      color: DEFAULT_GROUP_COLORS[1]
+      color: DEFAULT_GROUP_COLORS[1],
     },
     {
       name: 'Geographic Accessibility',
+      sortOrder: 3,
       id: generateUid(),
       members: [
         {
           id: generateUid(),
-          name: 'Indicator 1'
-        }
+          name: 'Indicator 1',
+        },
       ],
-      color: DEFAULT_GROUP_COLORS[2]
+      color: DEFAULT_GROUP_COLORS[2],
     },
     {
       name: 'Initial Utilisation',
+      sortOrder: 4,
       id: generateUid(),
       members: [
         {
           id: generateUid(),
-          name: 'Indicator 1'
-        }
+          name: 'Indicator 1',
+        },
       ],
-      color: DEFAULT_GROUP_COLORS[3]
+      color: DEFAULT_GROUP_COLORS[3],
     },
     {
       name: 'Continuous Utilisation',
+      sortOrder: 5,
       id: generateUid(),
       members: [
         {
           id: generateUid(),
-          name: 'Indicator 1'
-        }
+          name: 'Indicator 1',
+        },
       ],
-      color: DEFAULT_GROUP_COLORS[4]
+      color: DEFAULT_GROUP_COLORS[4],
     },
     {
       name: 'Effective Coverage',
+      sortOrder: 6,
       id: generateUid(),
       members: [
         {
           id: generateUid(),
-          name: 'Indicator 1'
-        }
+          name: 'Indicator 1',
+        },
       ],
-      color: DEFAULT_GROUP_COLORS[5]
-    }
+      color: DEFAULT_GROUP_COLORS[5],
+    },
   ];
 }

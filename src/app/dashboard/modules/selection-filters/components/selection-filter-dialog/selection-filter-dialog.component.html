@@ -1,0 +1,32 @@
+<div *ngIf="selectionDialogData">
+    <!--data filter-->
+    <app-data-filter *ngIf="selectionDialogData.selectedFilter === 'DATA'"
+        [selectedItems]="selectionDialogData.selectedData" [selectedGroups]="selectionDialogData.selectedDataGroups"
+        [determinants]="selectionDialogData.selectedDataGroups"
+        [generalDataConfiguration]="selectionDialogData.generalDataConfiguration"
+        [userAccesses]="selectionDialogData.userAccesses" [userGroupAccesses]="selectionDialogData.userGroupAccesses"
+        [publicAccess]="selectionDialogData.publicAccess"
+        [bottleneckPeriodType]="selectionDialogData.bottleneckPeriodType"
+        [interventionName]="selectionDialogData.interventionName" (dataFilterClose)="onFilterUpdate($event, 'CLOSE')"
+        (dataFilterUpdate)="onFilterUpdate($event, 'UPDATE')" (updateSharingDetails)="onUpdateSharingDetails($event)"
+        (updateInterventionDetails)="onUpdateInterventionDetails($event)">
+    </app-data-filter>
+    <!--end of data filter-->
+
+    <!--period filter-->
+    <ngx-dhis2-period-filter *ngIf="selectionDialogData.selectedFilter === 'PERIOD'"
+        [selectedPeriods]="selectionDialogData.selectedPeriods"
+        [selectedPeriodType]="selectionDialogData.bottleneckPeriodType"
+        [periodFilterConfig]="selectionDialogData.periodFilterConfig" (close)="onFilterUpdate($event, 'CLOSE')"
+        (update)="onFilterUpdate($event, 'UPDATE')">
+    </ngx-dhis2-period-filter>
+    <!--end of period filter-->
+
+    <!--org unit filter-->
+    <ngx-dhis2-org-unit-filter *ngIf="selectionDialogData.selectedFilter === 'ORG_UNIT'"
+        [selectedOrgUnitItems]="selectionDialogData.selectedOrgUnits"
+        [orgUnitFilterConfig]="selectionDialogData.orgUnitFilterConfig" (orgUnitClose)="onFilterUpdate($event, 'CLOSE')"
+        (orgUnitUpdate)="onFilterUpdate($event, 'UPDATE')">
+    </ngx-dhis2-org-unit-filter>
+    <!--end of org unit filter-->
+</div>

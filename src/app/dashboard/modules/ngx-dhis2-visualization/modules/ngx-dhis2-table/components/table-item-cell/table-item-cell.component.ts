@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { LegendSet } from '../../../../models';
-import { Legend } from '../../../../../../../models';
+import { Legend } from 'src/app/models/legend.model';
 
 @Component({
   selector: 'app-table-item-cell',
   templateUrl: './table-item-cell.component.html',
-  styleUrls: ['./table-item-cell.component.scss']
+  styleUrls: ['./table-item-cell.component.scss'],
 })
 export class TableItemCellComponent implements OnInit {
   @Input()
@@ -55,7 +55,7 @@ export class TableItemCellComponent implements OnInit {
     const dxDataSelection = _.find(this.dataSelections, ['dimension', 'dx']);
     const currentDxItem = _.find(dxDataSelection ? dxDataSelection.items : [], [
       'id',
-      dxId
+      dxId,
     ]);
 
     const legends: Legend[] =
@@ -89,7 +89,7 @@ export class TableItemCellComponent implements OnInit {
             this.analyticsObject.metaData.names
               ? this.analyticsObject.metaData.names[dataId]
               : null
-          )
+          ),
         ],
         ' - '
       ) +

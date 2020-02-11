@@ -27,7 +27,7 @@ export class AnalyticsEffects {
         const requestParams = [
           ...layer.dataSelections.rows,
           ...layer.dataSelections.columns,
-          ...layer.dataSelections.filters
+          ...layer.dataSelections.filters,
         ];
         const noAnalyticsLayers = ['boundary', 'facility', 'external', 'event'];
         const layerName = layer.type;
@@ -35,7 +35,9 @@ export class AnalyticsEffects {
           layerIds.push(layer.id);
           return requestParams
             .map((param, paramIndex) => {
-              return `dimension=${param.dimension}:${param.items.map(item => item.id).join(';')}`;
+              return `dimension=${param.dimension}:${param.items
+                .map(item => item.id)
+                .join(';')}`;
             })
             .join('&');
         }
@@ -46,14 +48,14 @@ export class AnalyticsEffects {
             .map((param, paramIndex) => {
               const dimension = `dimension=${param.dimension}`;
               if (param.items.length) {
-                return `${dimension}:${param.items.map(item => item.id).join(';')}`;
+                return `${dimension}:${param.items
+                  .map(item => item.id)
+                  .join(';')}`;
               }
               return dimension;
             })
             .join('&');
-          let url = `/events/query/${layer.dataSelections.program.id}.json?stage=${
-            layer.dataSelections.programStage.id
-          }&${data}`;
+          let url = `/events/query/${layer.dataSelections.program.id}.json?stage=${layer.dataSelections.programStage.id}&${data}`;
           if (layer.dataSelections.endDate) {
             url += `&endDate=${layer.dataSelections.endDate.split('T')[0]}`;
           }
@@ -80,22 +82,26 @@ export class AnalyticsEffects {
         map((data, index) => {
           let analytics = {};
           if (data.length) {
-            const analyticObj = data.reduce((obj, cur, i) => {
+            const analyticObj: any = data.reduce((obj, cur, i) => {
               obj[layerIds[i]] = cur;
               return obj;
             }, {});
             analytics = {
               ...action.payload.analytics,
-              ...analyticObj
+              ...analyticObj,
             };
           }
           const vizObject = {
             ...action.payload,
-            analytics
+            analytics,
           };
           return new visualizationObjectActions.UpdateVizAnalytics(vizObject);
         }),
-        catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+        catchError(error =>
+          of(
+            new visualizationObjectActions.UpdateVisualizationObjectFail(error)
+          )
+        )
       );
     })
   );
@@ -117,13 +123,19 @@ export class AnalyticsEffects {
         map(
           analytics =>
             new visualizationObjectActions.UpdateFilterAnalytics({
-              analytics: { [layer.id]: standardizeIncomingAnalytics(analytics, true) },
+              analytics: {
+                [layer.id]: standardizeIncomingAnalytics(analytics, true),
+              },
               componentId,
-              layer: newLayer
+              layer: newLayer,
             })
         ),
 
-        catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+        catchError(error =>
+          of(
+            new visualizationObjectActions.UpdateVisualizationObjectFail(error)
+          )
+        )
       );
     })
   );
@@ -134,8 +146,12 @@ export class AnalyticsEffects {
     const { rows, columns, filters } = layer.dataSelections;
     const d = { rows, columns, filters };
 
-    const _filters: { rows?: any; columns?: any; filters?: any } = Object.keys(d).reduce((acc, key) => {
-      const dimensions = d[key].map(item => (item.dimension === filterType ? { ...newdimension } : item));
+    const _filters: { rows?: any; columns?: any; filters?: any } = Object.keys(
+      d
+    ).reduce((acc, key) => {
+      const dimensions = d[key].map(item =>
+        item.dimension === filterType ? { ...newdimension } : item
+      );
       acc[key] = dimensions;
       return acc;
     }, {});
@@ -143,15 +159,24 @@ export class AnalyticsEffects {
     const arrayToObject = (arr, keyField) =>
       Object.assign(
         {},
-        ...arr.map(item => ({ [item[keyField]]: item.items.map(_item => _item.dimensionItem || _item.id).join(';') }))
+        ...arr.map(item => ({
+          [item[keyField]]: item.items
+            .map(_item => _item.dimensionItem || _item.id)
+            .join(';'),
+        }))
       );
     const dataSelections = { ...layer.dataSelections, ..._filters };
 
-    const filtObj = arrayToObject([..._filters.rows, ..._filters.columns, ..._filters.filters], 'dimension');
+    const filtObj = arrayToObject(
+      [..._filters.rows, ..._filters.columns, ..._filters.filters],
+      'dimension'
+    );
 
     const paramUrl = ['dx', 'ou', 'pe']
       .map(dimension =>
-        filtObj[dimension] && filtObj[dimension] !== '' ? `dimension=${dimension}:${filtObj[dimension]}` : ''
+        filtObj[dimension] && filtObj[dimension] !== ''
+          ? `dimension=${dimension}:${filtObj[dimension]}`
+          : ''
       )
       .join('&');
 
@@ -178,18 +203,26 @@ export class AnalyticsEffects {
     const noAnalyticsLayers = ['boundary', 'facility', 'external'];
     return {
       newLayer: { ...layer, dataSelections },
-      url: noAnalyticsLayers.includes(type) ? null : url
+      url: noAnalyticsLayers.includes(type) ? null : url,
     };
   }
 
-  getAnalyticsCallStrategies(visualizationType, layerType: string = null): string {
+  getAnalyticsCallStrategies(
+    visualizationType,
+    layerType: string = null
+  ): string {
     let strategies = '';
     strategies +=
-      visualizationType === 'EVENT_CHART' || visualizationType === 'EVENT_REPORT' || visualizationType === 'EVENT_MAP'
+      visualizationType === 'EVENT_CHART' ||
+      visualizationType === 'EVENT_REPORT' ||
+      visualizationType === 'EVENT_MAP'
         ? '&outputType=EVENT'
         : '';
     strategies += '&displayProperty=NAME';
-    strategies += layerType !== null && layerType === 'event' ? '&coordinatesOnly=true' : '';
+    strategies +=
+      layerType !== null && layerType === 'event'
+        ? '&coordinatesOnly=true'
+        : '';
     return strategies;
   }
 

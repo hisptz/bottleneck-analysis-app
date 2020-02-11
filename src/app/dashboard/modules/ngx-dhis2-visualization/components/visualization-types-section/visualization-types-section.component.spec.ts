@@ -4,6 +4,7 @@ import { VisualizationTypesSectionComponent } from './visualization-types-sectio
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('VisualizationTypesSectionComponent', () => {
   let component: VisualizationTypesSectionComponent;
@@ -16,12 +17,13 @@ describe('VisualizationTypesSectionComponent', () => {
           loader: {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
+            deps: [HttpClient],
+          },
         }),
-        HttpClientModule
+        HttpClientModule,
       ],
-      declarations: [VisualizationTypesSectionComponent]
+      declarations: [VisualizationTypesSectionComponent],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 

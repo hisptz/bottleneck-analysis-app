@@ -1,22 +1,24 @@
 import {
   map as _map,
   camelCase as _camelCase,
-  flatten as _flatten
+  flatten as _flatten,
+  sortBy,
 } from 'lodash';
 import { getMergedGlobalDataSelectionsFromVisualizationLayers } from './get-merged-global-data-selections.helper';
 import { getSelectionDimensionsFromFavorite } from '../modules/ngx-dhis2-visualization/helpers';
-import { DataGroup, SystemInfo } from 'src/app/models';
+import { Determinant, SystemInfo } from 'src/app/models';
 import { getDefaultOrgUnits } from './get-default-org-units.helper';
 import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
 import { User } from '@iapps/ngx-dhis2-http-client';
+import { DEFAULT_LEGEND_DEFINITIONS } from '../constants/default-legend-definitions.constant';
 
 export function getDataSelectionsForDashboardCreation(
   dashboardItems: any[],
-  defaultDataGroups: DataGroup[],
+  defaultDataGroups: Determinant[],
   systemInfo: SystemInfo,
   currentUser: User,
   dashboardPreferences: { startWithDynamicOrgUnits: boolean } = {
-    startWithDynamicOrgUnits: true
+    startWithDynamicOrgUnits: true,
   }
 ): VisualizationDataSelection[] {
   const orgUnits = getDefaultOrgUnits(currentUser, dashboardPreferences);
@@ -35,27 +37,29 @@ export function getDataSelectionsForDashboardCreation(
         {
           dimension: 'dx',
           layout: 'rows',
+          legendDefinitions: DEFAULT_LEGEND_DEFINITIONS,
+          useShortNameAsLabel: true,
           items: _flatten(
             _map(
               defaultDataGroups || [],
-              (dataGroup: DataGroup) => dataGroup.members
+              (dataGroup: Determinant) => dataGroup.members
             )
           ),
-          groups: defaultDataGroups
+          groups: sortBy(defaultDataGroups, 'sortOrder'),
         },
         {
           dimension: 'pe',
           layout: 'filters',
           items: [
             {
-              id: systemInfo.analysisRelativePeriod
-            }
-          ]
+              id: systemInfo.analysisRelativePeriod,
+            },
+          ],
         },
         {
           dimension: 'ou',
           layout: 'columns',
-          items: orgUnits
-        }
+          items: orgUnits,
+        },
       ];
 }

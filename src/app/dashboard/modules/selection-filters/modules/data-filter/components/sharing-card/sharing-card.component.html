@@ -1,0 +1,70 @@
+<div class="position-relative">
+    <div class="mb-2">
+        <button class="w-100 pl-0 pr-0" mat-flat-button>
+            <div class="d-flex justify-content-between align-items-center sharing-button-content"
+                (click)="onToggleSharing($event)">
+                <div>
+                    <span>Share with:</span>
+                    <span class="ml-3 text-muted">{{sharingSummary}}</span>
+                </div>
+                <mat-icon>arrow_drop_down</mat-icon>
+            </div>
+        </button>
+        <mat-divider></mat-divider>
+    </div>
+    <mat-card class="sharing-card" *ngIf="showSharing">
+        <div class="mb-2 d-flex justify-content-between align-items-center">
+            <div class="text-muted pl-2">Who has access</div>
+            <button title="Close sharing settings" mat-icon-button (click)="onToggleSharing($event)">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <mat-divider></mat-divider>
+        <cdk-virtual-scroll-viewport itemSize="20" class="sharing-items__viewport">
+            <mat-list>
+                <mat-list-item *ngFor="let sharingItem of sharingItems; trackBy: trackByFn">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div class="d-flex align-items-center">
+                            <mat-icon *ngIf="sharingItem.type === 'userGroup'">supervisor_account</mat-icon>
+                            <mat-icon *ngIf="sharingItem.type === 'user'">perm_identity</mat-icon>
+                            <mat-icon *ngIf="sharingItem.type === 'publicAccess'">apartment</mat-icon>
+                            <span class="ml-1">{{sharingItem.name}}</span>
+                        </div>
+                        <div>
+                            <button class="text-muted" mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon *ngIf="sharingItem.access === sharingAccessEnum.CAN_EDIT">edit</mat-icon>
+                                <mat-icon *ngIf="sharingItem.access === sharingAccessEnum.CAN_VIEW_ONLY">remove_red_eye
+                                </mat-icon>
+                                <mat-icon *ngIf="sharingItem.access === sharingAccessEnum.NO_ACCESS">block</mat-icon>
+                                <mat-icon>arrow_drop_down</mat-icon>
+                            </button>
+                            <button class="text-muted ml-2" title="Remove"
+                                (click)="onRemoveSharingItem($event, sharingItem)" *ngIf="sharingItem.id !== 'public'"
+                                mat-icon-button>
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button *ngFor="let sharingAccess of sharingAccesses" mat-menu-item
+                                    (click)="onUpdateSharingAccess($event, sharingItem, sharingAccess)">
+                                    <mat-icon *ngIf="sharingAccess.access === sharingItem.access">check</mat-icon>
+                                    <span *ngIf="sharingAccess.access !== sharingItem.access">&nbsp;</span>
+                                    <span>{{sharingAccess.name}}</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+        </cdk-virtual-scroll-viewport>
+        <div class="ml-2 mr-2 sharing-item-search">
+            <h6 class="text-muted">Add users and user groups</h6>
+            <app-sharing-filter [sharingItems]="sharingItems" (addSharingItem)="onAddSharingItem($event)">
+            </app-sharing-filter>
+        </div>
+
+        <div class="d-flex justify-content-end mr-2 mt-2 mb-2">
+            <button mat-flat-button color="primary" (click)="onToggleSharing($event)">Done</button>
+        </div>
+    </mat-card>
+</div>

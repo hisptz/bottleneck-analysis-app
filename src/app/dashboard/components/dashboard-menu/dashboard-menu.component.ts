@@ -4,10 +4,10 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { Dashboard, DashboardGroups } from '../../models';
-import { DataGroup } from '../../../models/data-group.model';
+import { Determinant } from '../../../models/determinant.model';
 import { User, SystemInfo } from '@iapps/ngx-dhis2-http-client';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 
@@ -15,7 +15,7 @@ import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualizatio
   selector: 'app-dashboard-menu',
   templateUrl: './dashboard-menu.component.html',
   styleUrls: ['./dashboard-menu.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardMenuComponent implements OnInit {
   @Input()
@@ -35,7 +35,7 @@ export class DashboardMenuComponent implements OnInit {
   activeDashboardGroupId: string;
 
   @Input()
-  dataGroups: DataGroup[];
+  dataGroups: Determinant[];
 
   @Input()
   currentUserHasAuthorities: boolean;
@@ -84,7 +84,7 @@ export class DashboardMenuComponent implements OnInit {
       dashboard,
       currentUser: this.currentUser,
       systemInfo: this.systemInfo,
-      dataGroups: this.dataGroups
+      dataGroups: this.dataGroups,
     });
   }
 

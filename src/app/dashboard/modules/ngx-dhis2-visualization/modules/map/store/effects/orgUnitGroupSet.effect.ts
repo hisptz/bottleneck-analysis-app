@@ -9,7 +9,10 @@ import * as fromServices from '../../services';
 
 @Injectable()
 export class OrganizationUnitGroupSetEffects {
-  constructor(private actions$: Actions, private orgUnitService: fromServices.OrgUnitService) {}
+  constructor(
+    private actions$: Actions,
+    private orgUnitService: fromServices.OrgUnitService
+  ) {}
 
   @Effect()
   addOrgUnitGroupSet$ = this.actions$.pipe(
@@ -34,22 +37,28 @@ export class OrganizationUnitGroupSetEffects {
         map(data => {
           let orgUnitGroupSet = {};
           if (data.length) {
-            const groupSetObj = data.reduce((obj, cur, i) => {
+            const groupSetObj: any = data.reduce((obj, cur, i) => {
               obj[layerIds[i]] = cur;
               return obj;
             }, {});
             orgUnitGroupSet = {
               ...action.payload.analytics,
-              ...groupSetObj
+              ...groupSetObj,
             };
           }
           const vizObject = {
             ...action.payload,
-            orgUnitGroupSet
+            orgUnitGroupSet,
           };
-          return new visualizationObjectActions.UpdateVisualizationObjectSuccess(vizObject);
+          return new visualizationObjectActions.UpdateVisualizationObjectSuccess(
+            vizObject
+          );
         }),
-        catchError(error => of(new visualizationObjectActions.UpdateVisualizationObjectFail(error)))
+        catchError(error =>
+          of(
+            new visualizationObjectActions.UpdateVisualizationObjectFail(error)
+          )
+        )
       );
     })
   );

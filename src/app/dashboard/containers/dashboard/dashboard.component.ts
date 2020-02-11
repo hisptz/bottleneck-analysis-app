@@ -2,7 +2,7 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  HostListener
+  HostListener,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -20,24 +20,24 @@ import * as fromDashboardActions from '../../store/actions';
 
 // models
 import { Dashboard, DashboardGroups } from '../../models';
-import { SystemInfo, DataGroup } from '../../../models';
+import { SystemInfo, Determinant } from '../../../models';
 import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
 import {
   getDashboardMenuHeight,
   getDashboardMenuExpanded,
-  getDashboardContentMarginTop
+  getDashboardContentMarginTop,
 } from '../../store/selectors';
 import { ChangeDashboardMenuHeight } from '../../store/actions';
 import { User } from '@iapps/ngx-dhis2-http-client';
 import { getCurrentGlobalDataSelections } from '../../store/selectors/data-selections.selectors';
 import { getRootCauseDataIds } from 'src/app/store/selectors/root-cause-data.selectors';
-import { LoadFunctions } from '../../modules/ngx-dhis2-data-selection-filter/modules/data-filter/store/actions/function.actions';
+import { LoadFunctions } from '../../modules/selection-filters/modules/data-filter/store/actions/function.actions';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
   dashboards$: Observable<Dashboard[]>;
@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   dashboardGroups$: Observable<DashboardGroups[]>;
   currentUser$: Observable<User>;
   systemInfo$: Observable<SystemInfo>;
-  dataGroups$: Observable<DataGroup[]>;
+  dataGroups$: Observable<Determinant[]>;
   currentUserHasManagementAuthorities$: Observable<boolean>;
   unSavedDashboardsExist: boolean;
   menuExpanded$: Observable<boolean>;
@@ -161,7 +161,7 @@ export class DashboardComponent implements OnInit {
           dashboardDetails.supportBookmark,
           {
             bookmarked: dashboardDetails.bookmarked,
-            bookmarkPending: true
+            bookmarkPending: true,
           },
           currentUser
         )

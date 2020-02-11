@@ -1,0 +1,11 @@
+<div class="legend-list">
+    <div class="d-flex align-items-center" *ngFor="let legendDefinition of legendDefinitions">
+        <app-legend-color-picker [color]="legendDefinition.color"
+            (colorSelect)="onSetColor($event, legendDefinition.id)">
+        </app-legend-color-picker>
+        <mat-form-field class="ml-1 w-75">
+            <input style="font-size: 14px;" matInput [value]="legendDefinition.name"
+                (change)="onSetName($event, legendDefinition.id)">
+        </mat-form-field>
+    </div>
+</div>

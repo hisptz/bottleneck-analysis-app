@@ -1,50 +1,79 @@
-import * as _ from "lodash";
-import { User } from "@iapps/ngx-dhis2-http-client";
-import { isSuperUser } from "./is-super-user.helper";
+import { User } from '@iapps/ngx-dhis2-http-client';
+import * as _ from 'lodash';
+import { SharingAccess } from 'src/app/shared/constants/sharing-access.constant';
+
+import { isDashboardUser } from './is-dashboard-user.helper';
+import { isSuperUser } from './is-super-user.helper';
 
 export function getDashboardAccess(dashboard: any, currentUser: User) {
-  let hasAccess = false;
-  let manageSharing = false;
-  let canRead = false;
-  if (dashboard && currentUser) {
-    // check if user can manage sharing
-    manageSharing =
-      isSuperUser(currentUser) ||
-      (dashboard.user && dashboard.user.id === currentUser.id);
+  const dashboardUser = isDashboardUser(dashboard.user, currentUser);
 
-    if (dashboard.user && dashboard.user.id === currentUser.id) {
-      hasAccess = canRead = true;
-    } else if (dashboard.publicAccess === "r-------") {
-      canRead = true;
-    } else if (
-      dashboard.publicAccess === "rw------" ||
-      _.some(
-        dashboard.userAccesses || [],
-        (userAccess: any) =>
-          userAccess.id === currentUser.id && userAccess.access === "rw------"
-      ) ||
-      _.some(
-        dashboard.userGroupAccesses || [],
-        (userGroupAccess: any) =>
-          _.filter(
-            currentUser.userGroups || [],
-            (userGroup: any) =>
-              userGroup.id === userGroupAccess.id &&
-              userGroup.access === "rw------"
-          ).length > 0
-      )
-    ) {
-      hasAccess = true;
+  if (dashboardUser || isSuperUser(currentUser)) {
+    return {
+      delete: true,
+      externalize: true,
+      manage: true,
+      manageSharing: true,
+      read: true,
+      update: true,
+      write: true,
+    };
+  }
+
+  let accessEntity = {
+    delete: false,
+    externalize: false,
+    manage: false,
+    manageSharing: false,
+    read: false,
+    update: false,
+    write: false,
+  };
+
+  const currentUserFromUserList = _.find(dashboard.userAccesses, [
+    'id',
+    currentUser.id,
+  ]);
+
+  if (currentUserFromUserList) {
+    if (currentUserFromUserList.access === SharingAccess.CAN_VIEW_ONLY) {
+      accessEntity = { ...accessEntity, read: true };
+    } else if (currentUserFromUserList.access === SharingAccess.CAN_EDIT) {
+      accessEntity = {
+        ...accessEntity,
+        read: true,
+        manage: true,
+        delete: true,
+      };
     }
   }
 
-  return {
-    delete: hasAccess,
-    externalize: hasAccess,
-    manage: hasAccess,
-    manageSharing,
-    read: canRead,
-    update: hasAccess,
-    write: hasAccess
-  };
+  _.forEach(
+    _.intersectionBy(dashboard.userGroupAccesses, currentUser.userGroups, 'id'),
+    (userGroupAccess: any, index: number) => {
+      if (userGroupAccess.access === SharingAccess.CAN_EDIT) {
+        accessEntity = {
+          ...accessEntity,
+          read: true,
+          manage: true,
+          delete: true,
+        };
+      } else if (userGroupAccess.access === SharingAccess.CAN_VIEW_ONLY) {
+        accessEntity = { ...accessEntity, read: true };
+      }
+    }
+  );
+
+  if (dashboard.publicAccess === SharingAccess.CAN_EDIT) {
+    accessEntity = {
+      ...accessEntity,
+      read: true,
+      manage: true,
+      delete: true,
+    };
+  } else if (dashboard.publicAccess === SharingAccess.CAN_VIEW_ONLY) {
+    accessEntity = { ...accessEntity, read: true };
+  }
+
+  return accessEntity;
 }

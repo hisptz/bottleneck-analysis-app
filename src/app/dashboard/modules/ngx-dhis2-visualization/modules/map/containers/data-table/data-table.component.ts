@@ -1,14 +1,13 @@
 import {
-  Component,
-  OnInit,
-  Input,
-  OnDestroy,
   ChangeDetectionStrategy,
+  Component,
+  Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
-  SimpleChange
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import * as fromStore from '../../store';
 
 @Component({
@@ -22,8 +21,8 @@ import * as fromStore from '../../store';
       width: 100%;
       height: 100%;
     }
-  }`
-  ]
+  }`,
+  ],
 })
 export class DataTableComponent implements OnInit, OnChanges {
   @Input() mapVisualizationObject;
@@ -39,6 +38,8 @@ export class DataTableComponent implements OnInit, OnChanges {
 
   toggleDataTableView(event) {
     event.stopPropagation();
-    this.store.dispatch(new fromStore.ToggleDataTable(this._mapVisualizationObject.componentId));
+    this.store.dispatch(
+      new fromStore.ToggleDataTable(this._mapVisualizationObject.componentId)
+    );
   }
 }

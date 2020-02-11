@@ -4,7 +4,8 @@ import { SharingSearchList } from '../../models/sharing-search-list.model';
 export enum SharingSearchListActionTypes {
   LoadSharingSearchList = '[SharingSearchList] Load sharing search list',
   AddSharingSearchList = '[SharingSearchList] Add sharing search list',
-  LoadSharingSearchListFail = '[SharingSearchList] Load sharing search list fail'
+  LoadSharingSearchListFail = '[SharingSearchList] Load sharing search list fail',
+  InitiateLoadingSharingList = '[SharingSearchList] Initiate Loading sharing list',
 }
 
 export class LoadSharingSearchListAction implements Action {
@@ -21,7 +22,12 @@ export class LoadSharingSearchListFailAction implements Action {
   constructor(public error: any) {}
 }
 
+export class InitiateLoadingSharingListAction implements Action {
+  readonly type = SharingSearchListActionTypes.InitiateLoadingSharingList;
+}
+
 export type SharingSearchListActions =
   | LoadSharingSearchListAction
   | AddSharingSearchListAction
-  | LoadSharingSearchListFailAction;
+  | LoadSharingSearchListFailAction
+  | InitiateLoadingSharingListAction;

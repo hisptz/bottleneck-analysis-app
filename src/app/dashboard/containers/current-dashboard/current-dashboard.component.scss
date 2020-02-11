@@ -7,8 +7,7 @@
     padding: 15px;
     background-color: #fff;
     z-index: 950;
-    height: 100px;
-    border-bottom: solid thin #dddddd;
+    height: 70px;
   }
   .current-dashboard-notification-block {
     position: absolute;
@@ -26,7 +25,7 @@
     border-radius: 3px;
   }
   .current-dashboard-visualizations {
-    margin-top: 220px;
+    margin-top: -30px;
     margin-bottom: 10px;
     display: grid;
     width: 100%;

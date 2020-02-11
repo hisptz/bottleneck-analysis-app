@@ -1,0 +1,13 @@
+<mat-card class="data-filter-item-selection-card">
+    <mat-form-field>
+        <input matInput placeholder="Search Data item" (keyup)="onDataItemSearch($event)">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <cdk-virtual-scroll-viewport itemSize="20" class="data-filter-items__viewport">
+        <mat-nav-list>
+            <a class="data-filter-item" mat-list-item
+                *cdkVirtualFor="let dataFilterItem of dataFilterItems | removeSelectedItems: selectedItems | filterByName: searchTerm"
+                (click)="onSelectDataItem(dataFilterItem, $event)">{{dataFilterItem.name}}</a>
+        </mat-nav-list>
+    </cdk-virtual-scroll-viewport>
+</mat-card>
