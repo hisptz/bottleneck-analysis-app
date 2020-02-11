@@ -1,4 +1,4 @@
-<div [@open] [ngClass]="{
+<mat-card [@open] [ngClass]="{
     'visualization-card': true,
     'visualization-card-full-screen': (visualizationUiConfig$ | async)
       ?.fullScreen
@@ -10,33 +10,13 @@
   </div>
   <!-- end of visualization notification block -->
 
-  <!--visualization title block-->
-  <div class="visualization-title-block" *ngIf="(visualizationUiConfig$ | async)?.showTitleBlock">
-    <visualization-title-section [id]="id" [uiConfigId]="(visualizationUiConfig$ | async)?.id"
-      [showBody]="(visualizationUiConfig$ | async)?.showBody"
-      [fullScreen]="(visualizationUiConfig$ | async)?.fullScreen" [type]="(visualizationConfig$ | async)?.currentType"
-      [name]="
-        (visualizationObject$ | async)?.title ||
-        (visualizationObject$ | async)?.name
-      " (toggleVisualization)="onToggleVisualizationBody($event)"></visualization-title-section>
-  </div>
-  <!--end of visualization title block-->
-
   <!--visualization body block-->
-  <div class="visualization-body-block" [style.height]="(visualizationUiConfig$ | async)?.height"
-    *ngIf="(visualizationUiConfig$ | async)?.showBody">
+  <div class="visualization-body-block" *ngIf="(visualizationUiConfig$ | async)?.showBody">
     <!--visualization body header-->
     <div class="visualization-body-header-block" *ngIf="!(visualizationUiConfig$ | async)?.hideHeader">
-      <visualization-header-section [id]="id" [uiConfigId]="(visualizationUiConfig$ | async)?.id"
-        [showFilters]="(visualizationUiConfig$ | async)?.showFilters" [hideResizeButtons]="
+      <visualization-header-section [id]="id" [uiConfigId]="(visualizationUiConfig$ | async)?.id" [hideResizeButtons]="
           (visualizationUiConfig$ | async)?.hideResizeButtons
-        " [fullScreen]="(visualizationUiConfig$ | async)?.fullScreen" [isNew]="(visualizationObject$ | async)?.isNew"
-        [visualizationLayer]="
-          (visualizationLayers$ | async)
-            ? (visualizationLayers$ | async)[0]
-            : null
-        " (fullScreenAction)="onFullScreenAction($event)"
-        (visualizationLayerUpdate)="onLoadVisualizationAnalytics($event)" (savefavorite)="onSaveFavorite($event)">
+        " [fullScreen]="(visualizationUiConfig$ | async)?.fullScreen" (fullScreenAction)="onFullScreenAction($event)">
       </visualization-header-section>
     </div>
     <!--end of visualization body header-->
@@ -93,11 +73,10 @@
     <!--end of visualization body content block-->
 
     <!--visualization body footer block-->
-    <div class="visualization-body-footer-block" *ngIf="
+    <div class="p-2" *ngIf="
         (visualizationProgress$ | async) &&
         (visualizationProgress$ | async).percent === 100 &&
-        (visualizationProgress$ | async).statusCode === 200 &&
-        !(visualizationUiConfig$ | async)?.hideFooter
+        (visualizationProgress$ | async).statusCode === 200
       ">
       <visualization-footer-section [type]="(visualizationConfig$ | async)?.currentType"
         [configId]="(visualizationConfig$ | async)?.id" [name]="(visualizationObject$ | async)?.name"
@@ -114,4 +93,4 @@
     <!-- end of visualization body footer block-->
   </div>
   <!--end of visualization body block-->
-</div>
+</mat-card>

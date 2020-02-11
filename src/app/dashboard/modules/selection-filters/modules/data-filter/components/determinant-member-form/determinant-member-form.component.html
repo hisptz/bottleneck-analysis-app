@@ -1,0 +1,15 @@
+<div class="determinant-member-details" *ngIf="determinantMember">
+  <mat-form-field class="w-100">
+    <input matInput disabled placeholder="Name" [value]="determinantMember.name">
+  </mat-form-field>
+  <mat-form-field class="w-100">
+    <input matInput [disabled]="generalDataConfiguration.useShortNameAsLabel" [value]="memberLabel || ''"
+      (change)="onInputChange($event, 'label')" placeholder="Display Label">
+  </mat-form-field>
+</div>
+<div class="determinant-member-legend">
+  <span class="text-muted">Legends <small class="text-muted">(Only applicable to sub level analysis)</small></span>
+  <app-legend-list [legends]="determinantMember?.legendSet?.legends"
+    [legendDefinitions]="generalDataConfiguration?.legendDefinitions" (legendUpdate)="onLegendUpdate($event)">
+  </app-legend-list>
+</div>

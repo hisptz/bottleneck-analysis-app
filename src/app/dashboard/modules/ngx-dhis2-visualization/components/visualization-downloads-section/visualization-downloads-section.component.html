@@ -1,99 +1,15 @@
-<div class="visualization-download-section-container">
-  <button
-    class="visualization-download-btn"
-    title="View download options"
-    (click)="toggleDownloadOptions($event)"
-  >
-    <img src="assets/icons/download.png" alt="" />
-  </button>
-  <div class="visualization-download-list" *ngIf="showDownloadOptions">
-    <button
-      class="visualization-download-btn-list-item"
-      title="Download as image in png"
-      *ngIf="visualizationType === 'CHART' || visualizationType === 'MAP'"
-      (click)="download($event, 'PNG')"
-    >
-      <img src="assets/icons/png.png" alt="" />
-    </button>
-    <button
-      class="visualization-download-btn-list-item"
-      title="Download as image in jpeg"
-      *ngIf="visualizationType === 'CHART'"
-      (click)="download($event, 'JPEG')"
-    >
-      <img src="assets/icons/jpg.png" alt="" />
-    </button>
-    <button
-      class="visualization-download-btn-list-item"
-      title="Download as image in svg"
-      *ngIf="visualizationType === 'CHART'"
-      (click)="download($event, 'SVG')"
-    >
-      <img src="assets/icons/image.png" alt="" />
-    </button>
-    <button
-      class="visualization-download-btn-list-item"
-      title="Download csv document"
-      *ngIf="
-        visualizationType === 'CHART' ||
-        visualizationType === 'MAP' ||
-        visualizationType === 'APP'
-      "
-      (click)="download($event, 'CSV')"
-    >
-      <img src="assets/icons/csv.png" alt="" />
-    </button>
-    <button
-      class="visualization-download-btn-list-item"
-      title="Download excel document"
-      *ngIf="
-        visualizationType === 'CHART' ||
-        visualizationType === 'TABLE' ||
-        visualizationType === 'APP'
-      "
-      (click)="download($event, 'XLS')"
-    >
-      <img src="assets/icons/xls.png" alt="" />
-    </button>
-    <button
-      class="visualization-download-btn-list-item"
-      title="Download pdf"
-      *ngIf="visualizationType === 'CHART'"
-      (click)="download($event, 'PDF')"
-    >
-      <img src="assets/icons/pdf.png" alt="" />
-    </button>
-    <button
-      class="visualization-download-btn-list-item"
-      title="Download gml"
-      *ngIf="visualizationType === 'MAP'"
-      (click)="download($event, 'GML')"
-    >
-      <img src="assets/icons/gml.png" alt="" />
-    </button>
-    <button
-      class="visualization-download-btn-list-item"
-      title="Download shapefile"
-      *ngIf="visualizationType === 'MAP'"
-      (click)="download($event, 'SHAPEFILE')"
-    >
-      <img src="assets/icons/shape.png" alt="" />
-    </button>
-    <button
-      class="visualization-download-btn-list-item"
-      title="Download geoJson"
-      *ngIf="visualizationType === 'MAP'"
-      (click)="download($event, 'GEOJSON')"
-    >
-      <img src="assets/icons/json.png" alt="" />
-    </button>
-    <button
-      class="visualization-download-btn-list-item"
-      title="Download kml"
-      *ngIf="visualizationType === 'MAP'"
-      (click)="download($event, 'KMLM')"
-    >
-      <img src="assets/icons/kml.png" alt="" />
-    </button>
-  </div>
-</div>
+<mat-button-toggle-group>
+  <mat-button-toggle title="Download as image" *ngIf="visualizationType === 'CHART'" (click)="download($event, 'PNG')">
+    <mat-icon>image</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle title="Download excel document" *ngIf="
+  visualizationType === 'CHART' ||
+  visualizationType === 'TABLE' ||
+  visualizationType === 'APP'
+" (click)="download($event, 'XLS')">
+    <mat-icon>insert_drive_file</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle title="Download pdf" *ngIf="visualizationType === 'CHART'" (click)="download($event, 'PDF')">
+    <mat-icon>picture_as_pdf</mat-icon>
+  </mat-button-toggle>
+</mat-button-toggle-group>

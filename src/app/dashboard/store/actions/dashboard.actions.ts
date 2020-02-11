@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { Dashboard } from '../../models/dashboard.model';
 import { SystemInfo } from '../../../models';
 import { DashboardSettings } from '../../models/dashboard-settings.model';
-import { DataGroup } from '../../../models/data-group.model';
+import { Determinant } from '../../../models/determinant.model';
 import { User, ErrorMessage } from '@iapps/ngx-dhis2-http-client';
 
 export enum DashboardActionTypes {
@@ -33,7 +33,7 @@ export enum DashboardActionTypes {
   AddNewUnsavedFavorite = '[Dashboard] Add new unsaved favorite',
   GlobalFilterChange = '[Dashboard] Global filter change',
   ResetDashboard = '[Dashboard] Reset dashboard changes',
-  ChangeDashboardMenuHeight = '[Dashboard] change dashboard menu height'
+  ChangeDashboardMenuHeight = '[Dashboard] change dashboard menu height',
 }
 
 export class LoadDashboardsAction implements Action {
@@ -43,7 +43,7 @@ export class LoadDashboardsAction implements Action {
     public currentUser: User,
     public dashboardSettings: DashboardSettings,
     public systemInfo: SystemInfo,
-    public dataGroups: DataGroup[]
+    public dataGroups: Determinant[]
   ) {}
 }
 
@@ -70,7 +70,7 @@ export class CreateDashboardAction implements Action {
     public dashboard: any,
     public currentUser: User,
     public systemInfo: SystemInfo,
-    public dataGroups: DataGroup[]
+    public dataGroups: Determinant[]
   ) {}
 }
 

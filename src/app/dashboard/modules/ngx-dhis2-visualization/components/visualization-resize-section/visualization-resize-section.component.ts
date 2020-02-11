@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { RESIZE_ICON, FULL_SCREEN_ICON } from '../../icons';
+
+import { RESIZE_ICON } from '../../icons';
 
 @Component({
   selector: 'app-visualization-resize-section',
   templateUrl: './visualization-resize-section.component.html',
-  styleUrls: ['./visualization-resize-section.component.css']
+  styleUrls: ['./visualization-resize-section.component.css'],
 })
 export class VisualizationResizeSectionComponent implements OnInit {
   @Input() id: string;
@@ -19,7 +20,6 @@ export class VisualizationResizeSectionComponent implements OnInit {
 
   constructor() {
     this.resizeIcon = RESIZE_ICON;
-    this.fullScreenIcon = FULL_SCREEN_ICON;
   }
 
   ngOnInit() {}

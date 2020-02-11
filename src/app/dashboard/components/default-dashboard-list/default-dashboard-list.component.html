@@ -3,7 +3,7 @@
       class="icon-plus"></i></button>
 
   <!-- default dashboard list -->
-  <ul class="default-dashboard-list" *ngIf="showDefaultList">
+  <ul class="mat-elevation-z1 default-dashboard-list" *ngIf="showDefaultList">
     <li class="intervention-notification-block" *ngIf="interventionNotification$ | async">
       {{(interventionNotification$ | async).message}}
     </li>

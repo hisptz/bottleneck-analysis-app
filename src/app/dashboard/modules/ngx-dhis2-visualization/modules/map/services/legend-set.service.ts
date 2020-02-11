@@ -1,11 +1,11 @@
-import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { throwError as observableThrowError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class LegendSetService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: NgxDhis2HttpClientService) {}
 
   getMapLegendSet(legendId: string) {
     const fields = [
@@ -16,11 +16,13 @@ export class LegendSetService {
       '!displayName',
       '!externalAccess',
       '!access',
-      '!userGroupAccesses'
+      '!userGroupAccesses',
     ];
-    const url = `../../../api/legendSets/${legendId}.json?fields=${fields.join(',')}`;
+    const url = `legendSets/${legendId}.json?fields=${fields.join(',')}`;
 
-    return this.httpClient.get(url).pipe(catchError((error: any) => observableThrowError(error.json())));
+    return this.httpClient
+      .get(url)
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 
   getAllLegendSets() {
@@ -32,9 +34,11 @@ export class LegendSetService {
       '!displayName',
       '!externalAccess',
       '!access',
-      '!userGroupAccesses'
+      '!userGroupAccesses',
     ];
-    const url = `../../../api/legendSets.json?fields=${fields.join(',')}&paging=false`;
-    return this.httpClient.get(url).pipe(catchError((error: any) => observableThrowError(error.json())));
+    const url = `legendSets.json?fields=${fields.join(',')}&paging=false`;
+    return this.httpClient
+      .get(url)
+      .pipe(catchError((error: any) => observableThrowError(error.json())));
   }
 }

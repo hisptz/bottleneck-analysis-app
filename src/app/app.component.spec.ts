@@ -5,21 +5,27 @@ import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from './app.module';
+import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
         NgxDhis2MenuModule,
+        NgxDhis2HttpClientModule.forRoot({
+          version: 1,
+          namespace: 'bottleneck',
+          models: {},
+        }),
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
             useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
-        })
+            deps: [HttpClient],
+          },
+        }),
       ],
-      declarations: [AppComponent]
+      declarations: [AppComponent],
     }).compileComponents();
   }));
   it('should create the app', async(() => {

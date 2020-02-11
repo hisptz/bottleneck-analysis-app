@@ -77,7 +77,7 @@ export const checkIfUnSavedDashboardsExist = createSelector(
 
 export const getDashboardMenuHeight = createSelector(
   fromDashboardReducer.getDashboardState,
-  (state: fromDashboardReducer.State) => (state ? state.menuHeight : 60)
+  (state: fromDashboardReducer.State) => (state ? state.menuHeight : 74)
 );
 
 export const getDashboardMenuExpanded = createSelector(

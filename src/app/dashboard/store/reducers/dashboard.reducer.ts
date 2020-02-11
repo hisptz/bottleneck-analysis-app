@@ -4,7 +4,7 @@ import { createFeatureSelector } from '@ngrx/store';
 import { Dashboard } from '../../models';
 import {
   DashboardActions,
-  DashboardActionTypes
+  DashboardActionTypes,
 } from '../actions/dashboard.actions';
 
 export interface State extends EntityState<Dashboard> {
@@ -35,8 +35,8 @@ const initialState: State = adapter.getInitialState({
   currentVisualization: '',
   notification: null,
   unSavedDashboards: [],
-  menuHeight: 65,
-  menuExpanded: false
+  menuHeight: 73,
+  menuExpanded: false,
 });
 
 export function reducer(state = initialState, action: DashboardActions): State {
@@ -60,13 +60,13 @@ export function reducer(state = initialState, action: DashboardActions): State {
       return adapter.updateOne(
         {
           id: action.dashboard.id,
-          changes: { showDeleteDialog: false, deleting: true }
+          changes: { showDeleteDialog: false, deleting: true },
         },
         {
           ...state,
           notification: {
-            message: `Deleting dashboard with name ${action.dashboard.name}...`
-          }
+            message: `Deleting dashboard with name ${action.dashboard.name}...`,
+          },
         }
       );
     }
@@ -74,14 +74,16 @@ export function reducer(state = initialState, action: DashboardActions): State {
     case DashboardActionTypes.RemoveDashboard: {
       return adapter.removeOne(action.dashboard.id, {
         ...state,
-        notification: null
+        notification: null,
       });
     }
 
     case DashboardActionTypes.DeleteDashboardFail: {
       return {
         ...state,
-        notification: { message: `Could not delete dashboard: ${action.error}` }
+        notification: {
+          message: `Could not delete dashboard: ${action.error}`,
+        },
       };
     }
 
@@ -91,7 +93,7 @@ export function reducer(state = initialState, action: DashboardActions): State {
         loading: true,
         loaded: false,
         hasError: false,
-        error: null
+        error: null,
       };
     }
 
@@ -100,13 +102,13 @@ export function reducer(state = initialState, action: DashboardActions): State {
         ? adapter.addMany(action.dashboards, {
             ...state,
             loading: false,
-            loaded: true
+            loaded: true,
           })
         : {
             ...state,
             loading: false,
             hasError: true,
-            error: 'Could not read dashboard list'
+            error: 'Could not read dashboard list',
           };
     }
 
@@ -156,7 +158,7 @@ export function reducer(state = initialState, action: DashboardActions): State {
         { id: action.dashboard.id, changes: { saving: true } },
         {
           ...state,
-          notification: { message: `Updating ${action.dashboard.name}....` }
+          notification: { message: `Updating ${action.dashboard.name}....` },
         }
       );
     }
@@ -166,7 +168,7 @@ export function reducer(state = initialState, action: DashboardActions): State {
         { id: action.dashboard.id, changes: { saving: false, unSaved: false } },
         {
           ...state,
-          notification: null
+          notification: null,
         }
       );
     }
@@ -175,11 +177,11 @@ export function reducer(state = initialState, action: DashboardActions): State {
       return adapter.updateOne(
         {
           id: action.dashboard.id,
-          changes: { saving: false, hasError: true, error: action.error }
+          changes: { saving: false, hasError: true, error: action.error },
         },
         {
           ...state,
-          notification: null
+          notification: null,
         }
       );
     }
@@ -194,8 +196,8 @@ export function reducer(state = initialState, action: DashboardActions): State {
 
       return {
         ...state,
-        menuHeight: state.menuExpanded ? 65 : dashboardLines * 65,
-        menuExpanded: !state.menuExpanded
+        menuHeight: state.menuExpanded ? 74 : dashboardLines * 74,
+        menuExpanded: !state.menuExpanded,
       };
     }
   }
@@ -207,7 +209,7 @@ export const getDashboardState = createFeatureSelector<State>('dashboard');
 
 export const {
   selectEntities: getDashboardObjectEntities,
-  selectAll: getAllDashboards
+  selectAll: getAllDashboards,
 } = adapter.getSelectors(getDashboardState);
 
 // additional entities parameters

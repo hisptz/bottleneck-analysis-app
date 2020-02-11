@@ -1,6 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MapVisualizerComponent } from './map-visualizer.component';
+import { VisualizationLegendComponent } from '../../containers';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MapFilterSectionComponent } from '../map-filter-section/map-filter-section.component';
+import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
+import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
+import { MapStyleComponent } from '../map-style/map-style.component';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 
 describe('MapVisualizerComponent', () => {
   let component: MapVisualizerComponent;
@@ -8,9 +18,26 @@ describe('MapVisualizerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MapVisualizerComponent ]
-    })
-    .compileComponents();
+      imports: [
+        NgxPaginationModule,
+        NgxDhis2OrgUnitFilterModule,
+        NgxDhis2PeriodFilterModule,
+        ColorPickerModule,
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        NgxDhis2HttpClientModule.forRoot({
+          version: 1,
+          namespace: 'bottleneck',
+          models: {},
+        }),
+      ],
+      declarations: [
+        MapVisualizerComponent,
+        VisualizationLegendComponent,
+        MapFilterSectionComponent,
+        MapStyleComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

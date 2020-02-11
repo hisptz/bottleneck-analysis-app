@@ -7,7 +7,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-
+import { MatChipsModule } from '@angular/material/chips';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatRippleModule } from '@angular/material/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { directives } from './directives';
 import { pipes } from './pipes';
 
@@ -22,7 +29,15 @@ import { pipes } from './pipes';
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatChipsModule,
+    ScrollingModule,
+    MatListModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatCardModule,
+    MatRippleModule,
+    MatButtonToggleModule,
   ],
   imports: [
     CommonModule,
@@ -32,7 +47,15 @@ import { pipes } from './pipes';
     MatSnackBarModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressBarModule
-  ]
+    MatProgressBarModule,
+    MatChipsModule,
+    ScrollingModule,
+    MatListModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatCardModule,
+    MatRippleModule,
+    MatButtonToggleModule,
+  ],
 })
 export class SharedModule {}

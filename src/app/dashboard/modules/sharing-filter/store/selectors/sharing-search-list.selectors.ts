@@ -3,13 +3,25 @@ import * as _ from 'lodash';
 import {
   getSharingSearchListState,
   getSharingSearchList,
-  getSharingSearchListLoadingState
+  getSharingSearchListLoadingState,
+  getSharingSearchListInitiatedState,
+  getSharingSearchListLoadedState,
 } from '../reducers/sharing-search-list.reducer';
 import { getSharingItemEntities } from '../reducers/sharing-item.reducer';
 
 export const getSharingSearchLoading = createSelector(
   getSharingSearchListState,
   getSharingSearchListLoadingState
+);
+
+export const getSharingSearchLoaded = createSelector(
+  getSharingSearchListState,
+  getSharingSearchListLoadedState
+);
+
+export const getSharingSearchInitiated = createSelector(
+  getSharingSearchListState,
+  getSharingSearchListInitiatedState
 );
 
 export const getSharingSearchListVm = (currentSharingFilterId: string) =>
@@ -20,7 +32,7 @@ export const getSharingSearchListVm = (currentSharingFilterId: string) =>
       return _.map(
         [
           { id: 'publicAccess', name: '', displayName: '', isPublic: true },
-          ..._.sortBy(sharingSearchList, 'name')
+          ..._.sortBy(sharingSearchList, 'name'),
         ],
         sharingSearchItem => {
           const availableSharingItem =
@@ -34,7 +46,7 @@ export const getSharingSearchListVm = (currentSharingFilterId: string) =>
             name: availableSharingItem
               ? availableSharingItem.name
               : sharingSearchItem.name,
-            access: availableSharingItem ? availableSharingItem.access : ''
+            access: availableSharingItem ? availableSharingItem.access : '',
           };
         }
       );

@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
 import { getUniqueDataSelectionItems } from './get-unique-data-selection-items.helper';
 import { generateUid } from 'src/app/helpers';
-import { DataGroup } from 'src/app/models';
+import { Determinant } from 'src/app/models';
 
 export function getMergedGlobalDataSelectionsFromVisualizationLayers(
   dataSelectionsArray: Array<VisualizationDataSelection[]>
@@ -16,7 +16,7 @@ export function getMergedGlobalDataSelectionsFromVisualizationLayers(
       _.each(dataSelections, (dataSelection: VisualizationDataSelection) => {
         const availableDataSelection = _.find(mergedDataSelections, [
           'dimension',
-          dataSelection.dimension
+          dataSelection.dimension,
         ]);
 
         if (availableDataSelection) {
@@ -31,10 +31,10 @@ export function getMergedGlobalDataSelectionsFromVisualizationLayers(
               ...dataSelection,
               items: getUniqueDataSelectionItems([
                 ...availableDataSelection.items,
-                ...dataSelection.items
-              ])
+                ...dataSelection.items,
+              ]),
             },
-            ..._.slice(mergedDataSelections, availableDataSelectionIndex + 1)
+            ..._.slice(mergedDataSelections, availableDataSelectionIndex + 1),
           ];
         } else {
           mergedDataSelections = [...mergedDataSelections, dataSelection];
@@ -59,7 +59,7 @@ export function getMergedGlobalDataSelectionsFromVisualizationLayers(
               ? _.filter(dataSelection.items, (item: any) => {
                   return item.id !== 'USER_ORGUNIT';
                 })
-              : dataSelection.items
+              : dataSelection.items,
           };
         case 'dx':
           const dataSelectionItems = _.map(
@@ -67,7 +67,7 @@ export function getMergedGlobalDataSelectionsFromVisualizationLayers(
             (dataSelectionItem: any) => {
               return {
                 ...dataSelectionItem,
-                id: dataSelectionItem.id || generateUid()
+                id: dataSelectionItem.id || generateUid(),
               };
             }
           );
@@ -76,7 +76,7 @@ export function getMergedGlobalDataSelectionsFromVisualizationLayers(
             items: dataSelectionItems,
             groups: _.map(
               dataSelection.groups || [],
-              (dataSelectionGroup: DataGroup) => {
+              (dataSelectionGroup: Determinant) => {
                 return {
                   ...dataSelectionGroup,
                   id: dataSelectionGroup.id || generateUid(),
@@ -85,7 +85,7 @@ export function getMergedGlobalDataSelectionsFromVisualizationLayers(
                     (groupMember: any) => {
                       const correspondingMember = _.find(dataSelectionItems, [
                         'name',
-                        groupMember.name
+                        groupMember.name,
                       ]);
 
                       return {
@@ -94,13 +94,13 @@ export function getMergedGlobalDataSelectionsFromVisualizationLayers(
                           groupMember.id ||
                           (correspondingMember
                             ? correspondingMember.id
-                            : generateUid())
+                            : generateUid()),
                       };
                     }
-                  )
+                  ),
                 };
               }
-            )
+            ),
           };
         default:
           return dataSelection;

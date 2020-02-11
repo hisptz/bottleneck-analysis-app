@@ -6,8 +6,9 @@
     "start": "ng serve",
     "build": "ng build --prod --aot && cd dist/idashboard && zip -r -D bottleneck-analysis.zip .",
     "test": "ng test",
+    "test:travis": "ng test -- --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
-    "e2e": "ng e2e",
+    "e2e": "ng e2e --protractor-config=e2e/protractor-ci.conf.js",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -w -s",
     "serve-docs": "./node_modules/.bin/compodoc -s -d docs"
   },
@@ -20,11 +21,19 @@
     "@angular/core": "^9.0.0-rc.7",
     "@angular/forms": "^9.0.0-rc.7",
     "@angular/material": "^8.2.3",
+<<<<<<< HEAD
     "@angular/platform-browser": "^9.0.0-rc.7",
     "@angular/platform-browser-dynamic": "^9.0.0-rc.7",
     "@angular/pwa": "^0.803.21",
     "@angular/router": "^9.0.0-rc.7",
     "@angular/service-worker": "^9.0.0-rc.7",
+=======
+    "@angular/platform-browser": "^9.0.0-next.1",
+    "@angular/platform-browser-dynamic": "^9.0.0-next.1",
+    "@angular/pwa": "^0.803.21",
+    "@angular/router": "^9.0.0-next.1",
+    "@angular/service-worker": "^9.0.0-next.1",
+>>>>>>> 1.0.0-rc.3
     "@hisptz/ngx-dhis2-http-client": "^2.0.2",
     "@hisptz/ngx-dhis2-menu": "^1.0.9",
     "@hisptz/ngx-dhis2-table": "^1.0.0",
@@ -32,9 +41,15 @@
     "@iapps/ngx-dhis2-dictionary": "^1.1.7",
     "@iapps/ngx-dhis2-http-client": "^2.0.8-beta.5",
     "@iapps/ngx-dhis2-org-unit-filter": "^1.1.21-beta.6",
+<<<<<<< HEAD
     "@iapps/ngx-dhis2-period-filter": "^1.0.0-beta.21",
     "@mapbox/geojson-area": "^0.2.2",
     "@ng-select/ng-select": "^3.7.1",
+=======
+    "@iapps/ngx-dhis2-period-filter": "^1.0.0-beta.23",
+    "@mapbox/geojson-area": "^0.2.2",
+    "@ng-select/ng-select": "^3.7.0",
+>>>>>>> 1.0.0-rc.3
     "@ngrx/effects": "^8.6.0",
     "@ngrx/entity": "^8.6.0",
     "@ngrx/router-store": "^8.6.0",
@@ -46,7 +61,11 @@
     "@types/geojson": "^7946.0.7",
     "@types/polylabel": "^1.0.5",
     "bootstrap": "^4.4.1",
+<<<<<<< HEAD
     "core-js": "^3.6.2",
+=======
+    "core-js": "^3.6.1",
+>>>>>>> 1.0.0-rc.3
     "d2-utilizr": "^0.2.16",
     "d3-color": "^1.4.0",
     "d3-scale": "^3.2.1",
@@ -76,16 +95,27 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@angular-devkit/build-angular": "~0.803.21",
     "@angular/cli": "^8.3.21",
     "@angular/compiler-cli": "^9.0.0-rc.7",
     "@angular/language-service": "^9.0.0-rc.7",
+=======
+    "@angular-devkit/build-angular": "^0.803.23",
+    "@angular/cli": "^8.3.21",
+    "@angular/compiler-cli": "^9.0.0-next.1",
+    "@angular/language-service": "^9.0.0-next.1",
+>>>>>>> 1.0.0-rc.3
     "@compodoc/compodoc": "^1.1.11",
     "@ngrx/schematics": "^8.6.0",
     "@ngrx/store-devtools": "^8.6.0",
     "@types/jasmine": "^3.5.0",
     "@types/jasminewd2": "^2.0.8",
+<<<<<<< HEAD
     "@types/node": "~13.1.4",
+=======
+    "@types/node": "~13.1.1",
+>>>>>>> 1.0.0-rc.3
     "codelyzer": "^5.2.1",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.0.2",
@@ -96,7 +126,11 @@
     "karma": "^4.4.1",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage-istanbul-reporter": "~2.1.1",
+<<<<<<< HEAD
     "karma-jasmine": "~3.0.1",
+=======
+    "karma-jasmine": "~2.0.1",
+>>>>>>> 1.0.0-rc.3
     "karma-jasmine-html-reporter": "^1.5.1",
     "ngrx-store-freeze": "^0.2.4",
     "protractor": "^6.0.0",

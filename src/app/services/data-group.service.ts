@@ -5,10 +5,10 @@ import { of, zip } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { generateDefaultGroups } from '../helpers/generate-default-groups.helper';
-import { DataGroup } from '../models/data-group.model';
+import { Determinant } from '../models/determinant.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataGroupService {
   dataStoreUrl: string;
@@ -34,24 +34,24 @@ export class DataGroupService {
         }
 
         return zip(
-          ..._.map(generateDefaultGroups(), (dataGroup: DataGroup) =>
+          ..._.map(generateDefaultGroups(), (dataGroup: Determinant) =>
             this.createDataGroup(dataGroup)
           )
         ).pipe(
-          map((dataGroups: DataGroup[]) => dataGroups),
+          map((dataGroups: Determinant[]) => dataGroups),
           catchError(() => of([]))
         );
       })
     );
   }
 
-  createDataGroup(dataGroup: DataGroup) {
+  createDataGroup(dataGroup: Determinant) {
     return this.http
       .post(`${this.dataStoreUrl}/${dataGroup.id}`, dataGroup)
       .pipe(map(() => dataGroup));
   }
 
-  updateDataGroup(dataGroup: DataGroup) {
+  updateDataGroup(dataGroup: Determinant) {
     return this.http.put(
       `${this.dataStoreUrl}/${dataGroup.id}`,
       _.omit(dataGroup, ['showEditForm', 'showDeleteDialog', 'deleting'])

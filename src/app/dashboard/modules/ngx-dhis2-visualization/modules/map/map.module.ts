@@ -19,7 +19,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
 // Filters Modules
-import { filterModules } from '../../../ngx-dhis2-data-selection-filter/modules';
+import { filterModules } from '../../../selection-filters/modules';
 
 @NgModule({
   imports: [
@@ -29,10 +29,10 @@ import { filterModules } from '../../../ngx-dhis2-data-selection-filter/modules'
     NgxDnDModule,
     ...filterModules,
     StoreModule.forFeature('map', reducers),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
   ],
   providers: [...fromServices.services],
   declarations: [...fromContainers.containers, ...fromComponents.components],
-  exports: [...fromContainers.containers, ...fromComponents.components]
+  exports: [...fromContainers.containers, ...fromComponents.components],
 })
 export class MapModule {}

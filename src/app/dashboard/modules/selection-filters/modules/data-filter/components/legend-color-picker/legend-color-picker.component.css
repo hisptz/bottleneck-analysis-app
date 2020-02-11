@@ -1,0 +1,10 @@
+.color-picker {
+  height: 30px;
+  position: relative !important;
+  width: 50px;
+  border-radius: 2px;
+  border: solid thin #eeeeee;
+  outline: none;
+  margin-bottom: 10px;
+  margin-right: 5px;
+}

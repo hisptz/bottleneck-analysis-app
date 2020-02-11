@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VisualizationDownloadsSectionComponent } from './visualization-downloads-section.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('VisualizationDownloadsSectionComponent', () => {
   let component: VisualizationDownloadsSectionComponent;
@@ -8,9 +9,9 @@ describe('VisualizationDownloadsSectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VisualizationDownloadsSectionComponent ]
-    })
-    .compileComponents();
+      declarations: [VisualizationDownloadsSectionComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
