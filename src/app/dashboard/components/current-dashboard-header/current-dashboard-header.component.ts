@@ -152,7 +152,7 @@ export class CurrentDashboardHeaderComponent implements OnInit {
       disableClose: true,
     });
 
-    dialogRef.beforeClose().subscribe((action: string) => {
+    dialogRef.beforeClosed().subscribe((action: string) => {
       if (action === 'DELETE') {
         this.onDeleteDashboard();
       }
