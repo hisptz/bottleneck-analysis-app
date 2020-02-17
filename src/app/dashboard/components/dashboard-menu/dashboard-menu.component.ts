@@ -35,7 +35,7 @@ export class DashboardMenuComponent implements OnInit {
   activeDashboardGroupId: string;
 
   @Input()
-  dataGroups: Determinant[];
+  determinants: Determinant[];
 
   @Input()
   currentUserHasAuthorities: boolean;
@@ -84,7 +84,7 @@ export class DashboardMenuComponent implements OnInit {
       dashboard,
       currentUser: this.currentUser,
       systemInfo: this.systemInfo,
-      dataGroups: this.dataGroups,
+      determinants: this.determinants,
     });
   }
 

@@ -12,7 +12,7 @@ export function getStandardizedDimensions(
   return _.map(dimensions, dimensionObject => {
     const dimensionObjectInfo = _.find(dataElements, [
       'id',
-      dimensionObject.dimension
+      dimensionObject.dimension,
     ]);
 
     const dimensionItems = getSanitizedDimensionItems(dimensionObject);
@@ -28,7 +28,7 @@ export function getStandardizedDimensions(
       groups: getSanitizedDimensionGroups(
         dimensionObject.groups || [],
         dimensionItems
-      )
+      ),
     };
   });
 }

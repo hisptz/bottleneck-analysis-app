@@ -11,7 +11,7 @@ import {
   switchMap,
   take,
   tap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import { generateUid } from '../../../../../helpers/generate-uid.helper';
@@ -23,7 +23,7 @@ import {
   getStandardizedVisualizationObject,
   getStandardizedVisualizationType,
   getStandardizedVisualizationUiConfig,
-  getVisualizationLayerType
+  getVisualizationLayerType,
 } from '../../helpers';
 import { getDefaultVisualizationLayer } from '../../helpers/get-default-visualization-layer.helper';
 import { getFavoritePayload } from '../../helpers/get-favorite-payload.helpers';
@@ -31,7 +31,7 @@ import { updateDataSelectionBasedOnPreferences } from '../../helpers/update-data
 import {
   Visualization,
   VisualizationDataSelection,
-  VisualizationLayer
+  VisualizationLayer,
 } from '../../models';
 import { FavoriteService } from '../../services/favorite.service';
 import {
@@ -53,11 +53,11 @@ import {
   UpdateVisualizationConfigurationAction,
   UpdateVisualizationLayerAction,
   UpdateVisualizationObjectAction,
-  VisualizationObjectActionTypes
+  VisualizationObjectActionTypes,
 } from '../actions';
 import {
   getVisualizationObjectEntities,
-  VisualizationState
+  VisualizationState,
 } from '../reducers';
 import { getCombinedVisualizationObjectById } from '../selectors';
 
@@ -79,6 +79,7 @@ export class VisualizationObjectEffects {
       ]) => {
         const visualizationObject: Visualization =
           visualizationObjectEntities[action.id];
+
         if (visualizationObject) {
           if (
             visualizationObject.progress &&
@@ -104,7 +105,7 @@ export class VisualizationObjectEffects {
                 ),
                 name: visualizationObject.favorite
                   ? visualizationObject.favorite.name
-                  : ''
+                  : '',
               })
             );
 
@@ -125,7 +126,7 @@ export class VisualizationObjectEffects {
               id: action.id,
               name: action.name,
               type: action.visualizationType,
-              isNew: true
+              isNew: true,
             }
           );
 
@@ -139,7 +140,7 @@ export class VisualizationObjectEffects {
             new AddVisualizationUiConfigurationAction(
               getStandardizedVisualizationUiConfig({
                 id: action.id,
-                type: action.visualizationType
+                type: action.visualizationType,
               })
             )
           );
@@ -157,7 +158,7 @@ export class VisualizationObjectEffects {
               ),
               name: initialVisualizationObject.favorite
                 ? initialVisualizationObject.favorite.name
-                : ''
+                : '',
             })
           );
 
@@ -170,7 +171,7 @@ export class VisualizationObjectEffects {
                     getDefaultVisualizationLayer(
                       action.currentUser,
                       action.systemInfo
-                    )
+                    ),
                   ],
                   visualizationLayer => visualizationLayer
                 ),
@@ -188,7 +189,7 @@ export class VisualizationObjectEffects {
                             true
                           )
                         : null,
-                      dataSelections: visualizationLayer.dataSelections || []
+                      dataSelections: visualizationLayer.dataSelections || [],
                     }
                   : null;
               }
@@ -215,8 +216,8 @@ export class VisualizationObjectEffects {
                     statusCode: 200,
                     statusText: 'OK',
                     percent: 100,
-                    message: 'Analytics has been loaded'
-                  }
+                    message: 'Analytics has been loaded',
+                  },
                 })
               );
 
@@ -227,7 +228,7 @@ export class VisualizationObjectEffects {
                     ...visualizationLayer,
                     dataSelections: getSelectionDimensionsFromAnalytics(
                       visualizationLayer.analytics
-                    )
+                    ),
                   })
                 );
               });
@@ -251,8 +252,8 @@ export class VisualizationObjectEffects {
                     statusCode: 200,
                     statusText: 'OK',
                     percent: 50,
-                    message: 'Favorite has been loaded'
-                  }
+                    message: 'Favorite has been loaded',
+                  },
                 })
               );
 
@@ -302,8 +303,8 @@ export class VisualizationObjectEffects {
                 statusCode: error.status,
                 statusText: 'Error',
                 percent: 100,
-                message: error.message
-              }
+                message: error.message,
+              },
             })
           )
         )
@@ -337,7 +338,7 @@ export class VisualizationObjectEffects {
                   basemap: action.favorite.basemap,
                   zoom: action.favorite.zoom,
                   latitude: action.favorite.latitude,
-                  longitude: action.favorite.longitude
+                  longitude: action.favorite.longitude,
                 }
               )
             );
@@ -361,7 +362,7 @@ export class VisualizationObjectEffects {
                     {
                       reportTable: { includeOrgUnitChildren: true },
                       chart: { includeOrgUnitChildren: false },
-                      app: { includeOrgUnitChildren: false }
+                      app: { includeOrgUnitChildren: false },
                     }
                   );
                 }
@@ -379,8 +380,8 @@ export class VisualizationObjectEffects {
                   ...favoriteLayer,
                   type: favoriteLayer.type ? favoriteLayer.type : 'COLUMN',
                   spatialSupport,
-                  visualizationType: action.visualization.type
-                }
+                  visualizationType: action.visualization.type,
+                },
               };
             }
           );
@@ -403,8 +404,8 @@ export class VisualizationObjectEffects {
                 statusCode: 200,
                 statusText: 'OK',
                 percent: 50,
-                message: 'Favorite information has been loaded'
-              }
+                message: 'Favorite information has been loaded',
+              },
             })
           );
 
@@ -422,7 +423,7 @@ export class VisualizationObjectEffects {
               action.currentUser,
               action.systemInfo
             ),
-            id: generateUid()
+            id: generateUid(),
           };
           this.store.dispatch(
             new AddVisualizationLayerAction(visualizationLayer)
@@ -435,8 +436,8 @@ export class VisualizationObjectEffects {
                 statusCode: 200,
                 statusText: 'OK',
                 percent: 100,
-                message: 'Information has been loaded'
-              }
+                message: 'Information has been loaded',
+              },
             })
           );
         }
@@ -466,8 +467,8 @@ export class VisualizationObjectEffects {
                   ...visualizationObject.favorite,
                   name:
                     action.favoriteDetails.name ||
-                    visualizationObject.favorite.name
-                }
+                    visualizationObject.favorite.name,
+                },
               })
             );
 
@@ -479,8 +480,8 @@ export class VisualizationObjectEffects {
                   ...visualizationLayer,
                   config: {
                     ...(visualizationLayer.config || {}),
-                    ...action.favoriteDetails
-                  }
+                    ...action.favoriteDetails,
+                  },
                 };
               }
             );
@@ -500,7 +501,7 @@ export class VisualizationObjectEffects {
                       favoriteDetails.favorite,
                       {
                         useDataStoreAsSource: true,
-                        autoCreateFavorite: true
+                        autoCreateFavorite: true,
                       },
                       'favorites'
                     )
@@ -509,7 +510,7 @@ export class VisualizationObjectEffects {
                       favoriteDetails.favorite,
                       {
                         useDataStoreAsSource: true,
-                        autoCreateFavorite: true
+                        autoCreateFavorite: true,
                       },
                       'favorites'
                     );
@@ -530,7 +531,7 @@ export class VisualizationObjectEffects {
                 // Update visualization object with new favorite
                 this.store.dispatch(
                   new UpdateVisualizationObjectAction(action.id, {
-                    isNew: false
+                    isNew: false,
                   })
                 );
 
@@ -556,7 +557,7 @@ export class VisualizationObjectEffects {
     switchMap((action: RemoveVisualizationObjectAction) => [
       new RemoveVisualizationConfigurationAction(action.id),
       new RemoveVisualizationLayerAction(action.id),
-      new RemoveVisualizationUiConfigurationAction(action.id)
+      new RemoveVisualizationUiConfigurationAction(action.id),
     ])
   );
 

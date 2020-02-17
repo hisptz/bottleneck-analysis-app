@@ -3,13 +3,14 @@ import * as _ from 'lodash';
 
 import { Dashboard } from '../models';
 import { getStandardizedDashboard } from './get-standardized-dashboard.helper';
+import { Determinant } from 'src/app/models';
 
 export function getStandardizedDashboards(
   dashboards: any[],
   currentUser: User,
-  dataGroups?: any[]
+  determinants: Determinant[]
 ): Dashboard[] {
   return _.map(dashboards || [], dashboard =>
-    getStandardizedDashboard(dashboard, currentUser, dataGroups)
+    getStandardizedDashboard(dashboard, currentUser, [], determinants)
   );
 }
