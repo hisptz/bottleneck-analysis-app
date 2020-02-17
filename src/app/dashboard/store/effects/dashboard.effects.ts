@@ -48,7 +48,8 @@ export class DashboardEffects {
                   dashboards,
                   action.currentUser
                 ),
-                action.currentUser
+                action.currentUser,
+                action.determinants
               ),
               action.currentUser
             )
@@ -325,7 +326,8 @@ export class DashboardEffects {
         const dashboard = fromDashboardHelpers.getStandardizedDashboard(
           action.dashboard,
           action.currentUser,
-          dataSelections
+          dataSelections,
+          action.determinants
         );
 
         const dashboardObject = {
