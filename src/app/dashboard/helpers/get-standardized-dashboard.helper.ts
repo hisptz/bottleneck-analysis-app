@@ -4,11 +4,14 @@ import { Dashboard } from '../models';
 import { VisualizationDataSelection } from '../modules/ngx-dhis2-visualization/models';
 import { getDashboardAccess } from './get-dashboard-access.helper';
 import { getDashboardBookmarkStatus } from './get-dashboard-bookmark-status.helper';
+import { Determinant } from 'src/app/models';
+import { find, sortBy } from 'lodash';
 
 export function getStandardizedDashboard(
   dashboard: any,
   currentUser: User,
-  dataSelections?: VisualizationDataSelection[]
+  dataSelections?: VisualizationDataSelection[],
+  determinants?: Determinant[]
 ): Dashboard {
   return {
     id: dashboard.id,
@@ -30,7 +33,40 @@ export function getStandardizedDashboard(
       name: currentUser.name,
     },
     access: getDashboardAccess(dashboard, currentUser),
-    globalSelections: dashboard.globalSelections || dataSelections,
+    globalSelections: sortDeterminantsInDataSelections(
+      dashboard.globalSelections || dataSelections,
+      determinants
+    ),
     bottleneckPeriodType: dashboard.bottleneckPeriodType || 'Yearly',
   };
+}
+
+function sortDeterminantsInDataSelections(
+  dataSelections: VisualizationDataSelection[],
+  determinants: Determinant[]
+) {
+  return (dataSelections || []).map(
+    (dataSelection: VisualizationDataSelection) => {
+      switch (dataSelection.dimension) {
+        case 'dx':
+          return {
+            ...dataSelection,
+            groups: sortBy(
+              (dataSelection.groups || []).map((group: Determinant) => {
+                const determinant =
+                  find(determinants, ['code', group.code]) ||
+                  find(determinants, ['name', group.name]);
+
+                return determinant
+                  ? { ...group, sortOrder: determinant.sortOrder }
+                  : group;
+              }),
+              'sortOrder'
+            ),
+          };
+        default:
+          return dataSelection;
+      }
+    }
+  );
 }

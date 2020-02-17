@@ -8,17 +8,17 @@ import {
   tap,
   switchMap,
   filter,
-  take
+  take,
 } from 'rxjs/operators';
 
 import { DashboardSettingsService } from '../../services/dashboard-settings.service';
 
 import * as fromDashboardSettingsActions from '../actions/dashboard-settings.action';
-import { LoadDataGroups } from '../../../store/actions/data-group.actions';
 import { Action, Store } from '@ngrx/store';
 import { State, getCurrentUser, getSystemInfo } from '../../../store';
 import { SystemInfo } from '../../../models';
 import { User } from '@iapps/ngx-dhis2-http-client';
+import { LoadDeterminants } from 'src/app/store/actions/determinant.actions';
 
 @Injectable()
 export class DashboardSettingsEffects {
@@ -97,7 +97,7 @@ export class DashboardSettingsEffects {
     ),
     map(
       (action: fromDashboardSettingsActions.AddDashboardSettingsAction) =>
-        new LoadDataGroups(
+        new LoadDeterminants(
           action.dashboardSettings,
           action.currentUser,
           action.systemInfo
