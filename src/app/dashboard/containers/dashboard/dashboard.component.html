@@ -12,7 +12,7 @@
     <app-dashboard-menu *ngIf="(dashboardLoaded$ | async)" [dashboardMenuList]="dashboards$ | async"
       [currentDashboardId]="currentDashboardId$ | async" [currentUser]="currentUser$ | async"
       [currentUserHasAuthorities]="currentUserHasManagementAuthorities$ | async" [systemInfo]="systemInfo$ | async"
-      [dataGroups]="dataGroups$ | async" [dataSelections]="currentGlobalDataSelectionsFromAnalytics$ | async"
+      [determinants]="determinants$ | async" [dataSelections]="currentGlobalDataSelectionsFromAnalytics$ | async"
       [rootCauseDataIds]="rootCauseDataIds$ | async" (setCurrentDashboard)="onSetCurrentDashboardAction($event)"
       (toggleDashboardBookmark)="onToggleDashboardBookmark($event)" (createDashboard)="onCreateDashboardAction($event)"
       [dashboardGroups]="dashboardGroups$ | async" [activeDashboardGroupId]="currentDashboardGroupId$ | async"

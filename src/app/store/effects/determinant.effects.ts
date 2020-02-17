@@ -8,42 +8,40 @@ import { Store } from '@ngrx/store';
 import { State } from '../reducers';
 
 // actions
-import * as fromDataGroupActions from '../actions/data-group.actions';
+import * as fromDeterminantActions from '../actions/determinant.actions';
 
 // selectors
-import * as fromDataGroupSelectors from '../selectors/data-group.selectors';
-
-// services
-import { DataGroupService } from '../../services/data-group.service';
+import * as fromDeterminantSelectors from '../selectors/determinant.selectors';
 
 // models
 import { Determinant } from '../../models/determinant.model';
 import { LoadDashboardsAction } from '../../dashboard/store/actions';
+import { DeterminantService } from 'src/app/services/determinant.service';
 
 @Injectable()
-export class DataGroupEffects {
+export class DeterminantEffects {
   @Effect({ dispatch: false })
-  loadDataGroups$: Observable<any> = this.actions$.pipe(
-    ofType(fromDataGroupActions.DataGroupActionTypes.LoadDataGroups),
+  loadDeterminants$: Observable<any> = this.actions$.pipe(
+    ofType(fromDeterminantActions.DeterminantActionTypes.LoadDeterminants),
     withLatestFrom(
       this.store.select(
-        fromDataGroupSelectors.getDataGroupLoadInitializedStatus
+        fromDeterminantSelectors.getDeterminantLoadInitializedStatus
       )
     ),
     tap(
-      ([action, dataGroupInitiated]: [
-        fromDataGroupActions.LoadDataGroups,
+      ([action, determinantInitiated]: [
+        fromDeterminantActions.LoadDeterminants,
         boolean
       ]) => {
-        if (!dataGroupInitiated) {
+        if (!determinantInitiated) {
           this.store.dispatch(
-            new fromDataGroupActions.LoadDataGroupsInitiated()
+            new fromDeterminantActions.LoadDeterminantsInitiated()
           );
-          this.dataGroupService.getDataGroups().subscribe(
-            (dataGroups: Determinant[]) => {
+          this.determinantService.getDeterminants().subscribe(
+            (determinants: Determinant[]) => {
               this.store.dispatch(
-                new fromDataGroupActions.AddDataGroups(
-                  dataGroups,
+                new fromDeterminantActions.AddDeterminants(
+                  determinants,
                   action.dashboardSettings,
                   action.currentUser,
                   action.systemInfo
@@ -52,7 +50,7 @@ export class DataGroupEffects {
             },
             (error: any) => {
               this.store.dispatch(
-                new fromDataGroupActions.LoadDataGroupsFail(error)
+                new fromDeterminantActions.LoadDeterminantsFail(error)
               );
             }
           );
@@ -63,15 +61,15 @@ export class DataGroupEffects {
 
   // TODO: rethink of this approach to achieve a generic app
   @Effect()
-  dataGroupsLoaded$: Observable<any> = this.actions$.pipe(
-    ofType(fromDataGroupActions.DataGroupActionTypes.AddDataGroups),
+  determinantsLoaded$: Observable<any> = this.actions$.pipe(
+    ofType(fromDeterminantActions.DeterminantActionTypes.AddDeterminants),
     map(
-      (action: fromDataGroupActions.AddDataGroups) =>
+      (action: fromDeterminantActions.AddDeterminants) =>
         new LoadDashboardsAction(
           action.currentUser,
           action.dashboardSettings,
           action.systemInfo,
-          action.dataGroups
+          action.determinants
         )
     )
   );
@@ -79,6 +77,6 @@ export class DataGroupEffects {
   constructor(
     private actions$: Actions,
     private store: Store<State>,
-    private dataGroupService: DataGroupService
+    private determinantService: DeterminantService
   ) {}
 }

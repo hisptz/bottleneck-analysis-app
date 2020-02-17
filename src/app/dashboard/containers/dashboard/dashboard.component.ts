@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   dashboardGroups$: Observable<DashboardGroups[]>;
   currentUser$: Observable<User>;
   systemInfo$: Observable<SystemInfo>;
-  dataGroups$: Observable<Determinant[]>;
+  determinants$: Observable<Determinant[]>;
   currentUserHasManagementAuthorities$: Observable<boolean>;
   unSavedDashboardsExist: boolean;
   menuExpanded$: Observable<boolean>;
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
     );
     this.currentUser$ = this.store.select(fromRootSelectors.getCurrentUser);
     this.systemInfo$ = this.store.select(fromRootSelectors.getSystemInfo);
-    this.dataGroups$ = this.store.select(fromRootSelectors.getDataGroups);
+    this.determinants$ = this.store.select(fromRootSelectors.getDeterminants);
 
     this.currentUserHasManagementAuthorities$ = this.store.select(
       getCurrentUserManagementAuthoritiesStatus
@@ -144,7 +144,7 @@ export class DashboardComponent implements OnInit {
         dashboardDetails.dashboard,
         dashboardDetails.currentUser,
         dashboardDetails.systemInfo,
-        dashboardDetails.dataGroups
+        dashboardDetails.determinants
       )
     );
   }
