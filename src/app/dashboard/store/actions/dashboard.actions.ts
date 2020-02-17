@@ -43,7 +43,7 @@ export class LoadDashboardsAction implements Action {
     public currentUser: User,
     public dashboardSettings: DashboardSettings,
     public systemInfo: SystemInfo,
-    public dataGroups: Determinant[]
+    public determinants: Determinant[]
   ) {}
 }
 
@@ -70,7 +70,7 @@ export class CreateDashboardAction implements Action {
     public dashboard: any,
     public currentUser: User,
     public systemInfo: SystemInfo,
-    public dataGroups: Determinant[]
+    public determinants: Determinant[]
   ) {}
 }
 

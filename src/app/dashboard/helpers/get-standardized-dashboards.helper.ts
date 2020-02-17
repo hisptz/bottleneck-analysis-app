@@ -6,10 +6,9 @@ import { getStandardizedDashboard } from './get-standardized-dashboard.helper';
 
 export function getStandardizedDashboards(
   dashboards: any[],
-  currentUser: User,
-  dataGroups?: any[]
+  currentUser: User
 ): Dashboard[] {
   return _.map(dashboards || [], dashboard =>
-    getStandardizedDashboard(dashboard, currentUser, dataGroups)
+    getStandardizedDashboard(dashboard, currentUser)
   );
 }
