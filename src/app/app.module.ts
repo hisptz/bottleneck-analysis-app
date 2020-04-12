@@ -1,36 +1,31 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
+import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 import { EffectsModule } from '@ngrx/effects';
-import { environment } from '../environments/environment';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
   RouterStateSerializer,
-  StoreRouterConnectingModule, DefaultRouterStateSerializer,
+  StoreRouterConnectingModule,
 } from '@ngrx/router-store';
-
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DragulaModule } from 'ng2-dragula';
+
+import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { effects, metaReducers, reducers } from './store';
+import { RouteSerializer } from './utils';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
-import { reducers, metaReducers, effects } from './store';
-import { RouteSerializer } from './utils';
-
-import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
-import { DragulaModule } from 'ng2-dragula';
-import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
-import { SelectionFilterDialogComponent } from './dashboard/modules/selection-filters/components/selection-filter-dialog/selection-filter-dialog.component';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [AppComponent],
@@ -75,7 +70,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     /**
      * @ngrx/router-store keeps router state up-to-date in the store
      */
-    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
+    StoreRouterConnectingModule.forRoot(),
 
     /**
      * Module for registering ngrx store side effects
