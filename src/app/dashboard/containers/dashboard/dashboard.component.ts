@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   HostListener,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -21,7 +21,10 @@ import * as fromDashboardActions from '../../store/actions';
 // models
 import { Dashboard, DashboardGroups } from '../../models';
 import { SystemInfo, Determinant } from '../../../models';
-import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
+import {
+  getCurrentUserManagementAuthoritiesStatus,
+  getCurrentUserManagementAuthorities,
+} from '../../../store/selectors';
 import {
   getDashboardMenuHeight,
   getDashboardMenuExpanded,
@@ -57,6 +60,7 @@ export class DashboardComponent implements OnInit {
   currentGlobalDataSelections$: Observable<any>;
   currentGlobalDataSelectionsFromAnalytics$: Observable<any>;
   rootCauseDataIds$: Observable<string[]>;
+  appAuthorities$: Observable<any>;
 
   @HostListener('window:beforeunload')
   unloadAppToSave() {
@@ -124,6 +128,10 @@ export class DashboardComponent implements OnInit {
     );
 
     this.rootCauseDataIds$ = this.store.select(getRootCauseDataIds);
+
+    this.appAuthorities$ = this.store.pipe(
+      select(getCurrentUserManagementAuthorities)
+    );
   }
 
   onSetCurrentDashboardAction(dashboardId: string) {

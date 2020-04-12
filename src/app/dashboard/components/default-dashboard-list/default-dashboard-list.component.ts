@@ -8,6 +8,7 @@ import * as fromInterventionSelectors from '../../store/selectors/intervention.s
 import { Observable } from 'rxjs';
 import { Intervention } from '../../models/intervention.model';
 import { DASHBOARD_ITEMS } from '../../constants/default-dashboard-items.constant';
+import { AppAuthorities } from '../../models/app-authority.model';
 
 interface DefaultDashboard {
   id: string;
@@ -23,8 +24,8 @@ interface DefaultDashboard {
   styleUrls: ['./default-dashboard-list.component.scss'],
 })
 export class DefaultDashboardListComponent implements OnInit {
-  @Input()
-  defaultDashboardList: DefaultDashboard[];
+  @Input() defaultDashboardList: DefaultDashboard[];
+  @Input() appAuthorities: AppAuthorities;
   showDefaultList: boolean;
   showInterventionForm: boolean;
   newInterventionName: string;
