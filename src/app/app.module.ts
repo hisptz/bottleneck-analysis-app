@@ -52,7 +52,11 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     NgxDhis2HttpClientModule.forRoot({
       version: 1,
       namespace: 'bottleneck',
-      models: {},
+      models: {
+        organisationUnits: 'id,level',
+        organisationUnitLevels: 'id,level',
+        organisationUnitGroups: 'id',
+      },
     }),
     /**
      * Menu  module
