@@ -73,10 +73,15 @@ export class DefaultDashboardListComponent implements OnInit {
     }
     this.showDefaultList = false;
 
-    this.create.emit({
-      ...dashboard,
-      dashboardItems: dashboard.dashboardItems || DASHBOARD_ITEMS,
-    });
+    if (
+      this.appAuthorities &&
+      (this.appAuthorities.All || this.appAuthorities.AddIntervention)
+    ) {
+      this.create.emit({
+        ...dashboard,
+        dashboardItems: dashboard.dashboardItems || DASHBOARD_ITEMS,
+      });
+    }
   }
 
   onToggleInterventionList(e) {
