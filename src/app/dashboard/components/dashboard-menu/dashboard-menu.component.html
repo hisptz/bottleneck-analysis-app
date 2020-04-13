@@ -1,8 +1,9 @@
 <div class="dashboard-menu">
   <ul class="dashboard-menu-list">
     <!-- Hide add dashboard actions -->
-    <li *ngIf="currentUserHasAuthorities">
-      <app-default-dashboard-list (create)="onCreateDashboard($event)"></app-default-dashboard-list>
+    <li *ngIf="appAuthorities.All || appAuthorities.AddIntervention">
+      <app-default-dashboard-list [appAuthorities]="appAuthorities" (create)="onCreateDashboard($event)">
+      </app-default-dashboard-list>
     </li>
     <li>
       <input type="text" size="25" class="dashboard-search-input" (keyup)="onSearchDashboard($event)"

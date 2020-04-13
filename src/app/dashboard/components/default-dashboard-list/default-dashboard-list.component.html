@@ -20,7 +20,9 @@
       <input type="text" (focus)="onOpenInterventionList($event)" (keyup)="onSearchDashboard($event)"
         class="default-dashboard-search-input" size="41" placeholder="Search intervention">
       <!-- end of default dashboard search -->
-      <button mat-stroked-button title="Create new intervention" (click)="onToggleInterventionForm($event)">
+      <button mat-stroked-button title="Create new intervention"
+        *ngIf="appAuthorities?.All || appAuthorities?.CreateDefaultIntervention"
+        (click)="onToggleInterventionForm($event)">
         New
       </button>
     </li>
@@ -38,10 +40,12 @@
         title="Click to add intervention" (click)="onAddDashboard(intervention, $event)">
         {{ intervention.name }}
         <div class="intervention-actions">
-          <button (click)="onToggleInterventionEditForm(intervention, $event)" title="Edit intervention"
+          <button *ngIf="appAuthorities?.All || appAuthorities?.EditDefaultIntervention"
+            (click)="onToggleInterventionEditForm(intervention, $event)" title="Edit intervention"
             class="btn btn-sm intervention-btn intervention-btn-actions"><i class="icon-pencil"></i></button>
-          <button style="margin-left: 3px;" (click)="onToggleInterventionDelete(intervention, $event)"
-            title="Delete intervention" class="btn btn-sm intervention-btn intervention-btn-actions text-danger"><i
+          <button style="margin-left: 3px;" *ngIf="appAuthorities?.All || appAuthorities?.DeleteDefaultIntervention"
+            (click)="onToggleInterventionDelete(intervention, $event)" title="Delete intervention"
+            class="btn btn-sm intervention-btn intervention-btn-actions text-danger"><i
               class="icon-trash-empty"></i></button>
         </div>
       </a>

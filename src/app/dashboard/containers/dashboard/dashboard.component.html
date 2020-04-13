@@ -16,7 +16,8 @@
       [rootCauseDataIds]="rootCauseDataIds$ | async" (setCurrentDashboard)="onSetCurrentDashboardAction($event)"
       (toggleDashboardBookmark)="onToggleDashboardBookmark($event)" (createDashboard)="onCreateDashboardAction($event)"
       [dashboardGroups]="dashboardGroups$ | async" [activeDashboardGroupId]="currentDashboardGroupId$ | async"
-      (setActiveDashboardGroup)="onSetActiveDashboardGroupAction($event)"></app-dashboard-menu>
+      [appAuthorities]="appAuthorities$ | async" (setActiveDashboardGroup)="onSetActiveDashboardGroupAction($event)">
+    </app-dashboard-menu>
 
     <a class="more-btn"
       (click)="onToggleDashboardMenuView($event)">{{(menuExpanded$ | async) ? 'SHOW LESS' : 'SHOW MORE'}}</a>

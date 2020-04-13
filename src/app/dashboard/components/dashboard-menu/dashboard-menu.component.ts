@@ -10,6 +10,7 @@ import { Dashboard, DashboardGroups } from '../../models';
 import { Determinant } from '../../../models/determinant.model';
 import { User, SystemInfo } from '@iapps/ngx-dhis2-http-client';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
+import { AppAuthorities } from '../../models/app-authority.model';
 
 @Component({
   selector: 'app-dashboard-menu',
@@ -18,31 +19,17 @@ import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualizatio
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardMenuComponent implements OnInit {
-  @Input()
-  dashboardMenuList: Dashboard[];
-  @Input()
-  currentDashboardId: string;
-  @Input()
-  dashboardGroups: DashboardGroups[];
-
-  @Input()
-  currentUser: User;
-
-  @Input()
-  systemInfo: SystemInfo;
-
-  @Input()
-  activeDashboardGroupId: string;
-
-  @Input()
-  determinants: Determinant[];
-
-  @Input()
-  currentUserHasAuthorities: boolean;
-
+  @Input() dashboardMenuList: Dashboard[];
+  @Input() currentDashboardId: string;
+  @Input() dashboardGroups: DashboardGroups[];
+  @Input() currentUser: User;
+  @Input() systemInfo: SystemInfo;
+  @Input() activeDashboardGroupId: string;
+  @Input() determinants: Determinant[];
+  @Input() currentUserHasAuthorities: boolean;
   @Input() dataSelections: VisualizationDataSelection[];
-
   @Input() rootCauseDataIds: string[];
+  @Input() appAuthorities: AppAuthorities;
 
   searchTerm: string;
 
