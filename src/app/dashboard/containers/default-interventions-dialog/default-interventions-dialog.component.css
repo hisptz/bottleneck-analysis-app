@@ -1,0 +1,46 @@
+.default-intervention-container {
+  position: relative;
+  height: 82vh;
+}
+
+.intervention-row {
+  cursor: pointer;
+}
+
+.intervention-list {
+  height: calc(80vh - 90px);
+  overflow: auto;
+}
+
+.intervention-btns {
+  padding-top: 5px;
+  background-color: #ffffff;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 100;
+}
+
+.intervention-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.intervention-btn {
+  height: 40px;
+}
+
+.intervention-delete-block {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  background-color: #ffffff;
+}
+
+.intervention-delete-btns {
+  display: flex;
+}

@@ -11,6 +11,8 @@ import { Determinant } from '../../../models/determinant.model';
 import { User, SystemInfo } from '@iapps/ngx-dhis2-http-client';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 import { AppAuthorities } from '../../models/app-authority.model';
+import { MatDialog } from '@angular/material/dialog';
+import { DefaultInterventionsDialogComponent } from '../../containers/default-interventions-dialog/default-interventions-dialog.component';
 
 @Component({
   selector: 'app-dashboard-menu',
@@ -50,7 +52,7 @@ export class DashboardMenuComponent implements OnInit {
     bookmarked: boolean;
     supportBookmark: boolean;
   }> = new EventEmitter();
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit() {}
 
@@ -78,5 +80,23 @@ export class DashboardMenuComponent implements OnInit {
   onSearchDashboard(e) {
     e.stopPropagation();
     this.searchTerm = e.target.value.trim();
+  }
+
+  onOpenInterventionDialog(e) {
+    e.stopPropagation();
+    const interventionDialog = this.dialog.open(
+      DefaultInterventionsDialogComponent,
+      {
+        data: { appAuthorities: this.appAuthorities },
+        height: '87vh',
+        width: '700px',
+      }
+    );
+
+    interventionDialog.afterClosed().subscribe((data) => {
+      if (data.action === 'ADD') {
+        this.onCreateDashboard(data.dashboard);
+      }
+    });
   }
 }

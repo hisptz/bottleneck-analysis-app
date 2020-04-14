@@ -7,14 +7,12 @@ import { DASHBOARD_ITEMS } from '../../constants/default-dashboard-items.constan
 @Component({
   selector: 'app-intervention-form',
   templateUrl: './intervention-form.component.html',
-  styleUrls: ['./intervention-form.component.scss']
+  styleUrls: ['./intervention-form.component.scss'],
 })
 export class InterventionFormComponent implements OnInit {
-  @Input()
-  intervention: Intervention;
-
-  @Input()
-  availableInterventions: any[];
+  @Input() intervention: Intervention;
+  @Input() availableInterventions: any[];
+  @Input() isNew: boolean;
 
   interventionName: string;
 
@@ -26,14 +24,14 @@ export class InterventionFormComponent implements OnInit {
   constructor() {
     this.intervention = {
       id: generateUid(),
-      dashboardItems: DASHBOARD_ITEMS
+      dashboardItems: DASHBOARD_ITEMS,
     };
   }
 
   get isNotUnique() {
     return _.some(
       this.availableInterventions || [],
-      intervention =>
+      (intervention) =>
         intervention &&
         intervention.name &&
         intervention.id &&
