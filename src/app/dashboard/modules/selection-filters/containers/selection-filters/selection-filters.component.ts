@@ -50,6 +50,9 @@ export class SelectionFiltersComponent implements OnInit {
       singleSelection: true,
       emitOnDestroy: false,
       disablePeriodTypeSelection: true,
+      allowDateRangeSelection: false,
+      allowFixedPeriodSelection: false,
+      allowRelativePeriodSelection: false,
     };
     this.orgUnitFilterConfig = { singleSelection: true, closeOnDestroy: false };
   }
@@ -94,7 +97,7 @@ export class SelectionFiltersComponent implements OnInit {
 
   get layoutItem(): any {
     return _.groupBy(
-      _.map(this.dataSelections, dataSelection => {
+      _.map(this.dataSelections, (dataSelection) => {
         return {
           name: dataSelection.name,
           value: dataSelection.dimension,

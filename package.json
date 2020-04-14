@@ -33,7 +33,7 @@
     "@iapps/ngx-dhis2-dictionary": "^1.5.0",
     "@iapps/ngx-dhis2-http-client": "^2.0.8-rc.2",
     "@iapps/ngx-dhis2-org-unit-filter": "^1.1.21-rc.6",
-    "@iapps/ngx-dhis2-period-filter": "^2.0.0-beta.1",
+    "@iapps/ngx-dhis2-period-filter": "^2.0.0-beta.3",
     "@mapbox/geojson-area": "^0.2.2",
     "@ng-select/ng-select": "^4.0.0",
     "@ngrx/effects": "^9.1.0",
