@@ -39,7 +39,9 @@ export class DefaultDashboardListComponent implements OnInit {
 
   @Output()
   create: EventEmitter<any> = new EventEmitter<any>();
-  constructor(private interventionStore: Store<fromInterventionReducer.State>) {
+  constructor(
+    private interventionStore: Store<fromInterventionReducer.InterventionState>
+  ) {
     interventionStore.dispatch(new fromInterventionActions.LoadInterventions());
 
     this.loadingInterventions$ = interventionStore.select(
