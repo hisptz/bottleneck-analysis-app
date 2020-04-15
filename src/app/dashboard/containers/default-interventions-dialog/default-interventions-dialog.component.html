@@ -28,7 +28,7 @@
                     <td>
                         <ng-container>
                             <button class="float-right" [matMenuTriggerFor]="interventionMenu" mat-icon-button
-                                matTooltip="Click for more options">
+                                matTooltip="Click for more options" (click)="$event.stopPropagation()">
                                 <mat-icon>more_vert</mat-icon>
                             </button>
                             <mat-menu #interventionMenu="matMenu">
