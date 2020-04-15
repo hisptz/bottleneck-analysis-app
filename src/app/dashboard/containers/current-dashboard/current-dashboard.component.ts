@@ -29,7 +29,6 @@ import {
   getDashboardMenuHeight,
 } from '../../store/selectors';
 import { User } from '@iapps/ngx-dhis2-http-client';
-import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 import {
   getCurrentGlobalDataSelections,
   getGlobalDataSelectionSummary,

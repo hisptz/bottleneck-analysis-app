@@ -2,11 +2,11 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Intervention } from '../../models/intervention.model';
 import {
   InterventionActions,
-  InterventionActionTypes
+  InterventionActionTypes,
 } from '../actions/intervention.actions';
 import { createFeatureSelector } from '@ngrx/store';
 
-export interface State extends EntityState<Intervention> {
+export interface InterventionState extends EntityState<Intervention> {
   // additional entities state properties
   loading: boolean;
   loaded: boolean;
@@ -17,29 +17,29 @@ export const adapter: EntityAdapter<Intervention> = createEntityAdapter<
   Intervention
 >();
 
-export const initialState: State = adapter.getInitialState({
+export const initialState: InterventionState = adapter.getInitialState({
   // additional entity state properties
   loading: false,
   loaded: false,
-  notification: null
+  notification: null,
 });
 
 export function reducer(
   state = initialState,
   action: InterventionActions
-): State {
+): InterventionState {
   switch (action.type) {
     case InterventionActionTypes.CreateIntervention: {
       return {
         ...state,
-        notification: { message: `Adding ${action.intervention.name}...` }
+        notification: { message: `Adding ${action.intervention.name}...` },
       };
     }
 
     case InterventionActionTypes.CreateInterventionSuccess: {
       return adapter.addOne(action.intervention, {
         ...state,
-        notification: null
+        notification: null,
       });
     }
 
@@ -47,7 +47,7 @@ export function reducer(
       return adapter.addMany(action.interventions, {
         ...state,
         loading: false,
-        loaded: true
+        loaded: true,
       });
     }
 
@@ -62,13 +62,13 @@ export function reducer(
       return adapter.updateOne(
         {
           id: action.intervention.id,
-          changes: { showEditForm: !action.intervention.showEditForm }
+          changes: { showEditForm: !action.intervention.showEditForm },
         },
         {
           ...state,
           notification: {
-            message: `Updating intervention to ${action.intervention.name}...`
-          }
+            message: `Updating intervention to ${action.intervention.name}...`,
+          },
         }
       );
     }
@@ -77,11 +77,11 @@ export function reducer(
       return adapter.updateOne(
         {
           id: action.intervention.id,
-          changes: { name: action.intervention.name }
+          changes: { name: action.intervention.name },
         },
         {
           ...state,
-          notification: null
+          notification: null,
         }
       );
     }
@@ -90,8 +90,8 @@ export function reducer(
       return {
         ...state,
         notification: {
-          message: `Could not update interventation ${action.error.message}`
-        }
+          message: `Could not update interventation ${action.error.message}`,
+        },
       };
     }
 
@@ -103,11 +103,11 @@ export function reducer(
       return adapter.updateOne(
         {
           id: action.intervention.id,
-          changes: { showDeleteDialog: false, deleting: true }
+          changes: { showDeleteDialog: false, deleting: true },
         },
         {
           ...state,
-          notification: { message: `Deleting ${action.intervention.name}...` }
+          notification: { message: `Deleting ${action.intervention.name}...` },
         }
       );
     }
@@ -115,7 +115,7 @@ export function reducer(
     case InterventionActionTypes.DeleteInterventionSuccess: {
       return adapter.removeOne(action.id, {
         ...state,
-        notification: null
+        notification: null,
       });
     }
 
@@ -125,10 +125,8 @@ export function reducer(
         {
           ...state,
           notification: {
-            message: `Could not delete ${action.intervention.name}: ${
-              action.error.message
-            }`
-          }
+            message: `Could not delete ${action.intervention.name}: ${action.error.message}`,
+          },
         }
       );
     }
@@ -136,7 +134,7 @@ export function reducer(
     case InterventionActionTypes.LoadInterventions: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
 
@@ -150,11 +148,11 @@ export function reducer(
   }
 }
 
-export const getInterventionState = createFeatureSelector<State>(
+export const getInterventionState = createFeatureSelector<InterventionState>(
   'intervention'
 );
 
 export const {
   selectEntities: getInterventionEntities,
-  selectAll: getInterventions
+  selectAll: getInterventions,
 } = adapter.getSelectors(getInterventionState);

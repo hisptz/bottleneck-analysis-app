@@ -10,7 +10,10 @@ export class FilterByNamePipe implements PipeTransform {
     }
 
     return list.filter(
-      (item: any) => item.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+      (item: any) =>
+        (item ? item.name || '' : '')
+          .toLowerCase()
+          .indexOf((name || '').toLowerCase()) !== -1
     );
   }
 }

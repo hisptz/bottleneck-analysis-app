@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
+import { UnSavedDashboardGuard } from './guards/un-saved-dashboard.guard';
 import {
   DashboardComponent,
   DashboardHomeComponent,
+  CurrentDashboardVisualizationComponent,
   CurrentDashboardComponent,
-  CurrentDashboardVisualizationComponent
 } from './containers';
-import { UnSavedDashboardGuard } from './guards/un-saved-dashboard.guard';
 
 const routes: Routes = [
   {
@@ -15,23 +16,23 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: DashboardHomeComponent
+        component: DashboardHomeComponent,
       },
       {
         path: ':id/fullScreen/:visualizationId',
-        component: CurrentDashboardVisualizationComponent
+        component: CurrentDashboardVisualizationComponent,
       },
       {
         path: ':id',
         canDeactivate: [UnSavedDashboardGuard],
-        component: CurrentDashboardComponent
-      }
-    ]
-  }
+        component: CurrentDashboardComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class DashboardRoutingModule {}

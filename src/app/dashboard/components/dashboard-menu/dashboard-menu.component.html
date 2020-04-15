@@ -1,8 +1,11 @@
 <div class="dashboard-menu">
   <ul class="dashboard-menu-list">
     <!-- Hide add dashboard actions -->
-    <li *ngIf="currentUserHasAuthorities">
-      <app-default-dashboard-list (create)="onCreateDashboard($event)"></app-default-dashboard-list>
+    <li *ngIf="appAuthorities.All || appAuthorities.AddIntervention">
+      <button mat-icon-button class="default-intervention-btn"
+        matTooltip="Click to open and add from default interventions" (click)="onOpenInterventionDialog($event)">
+        <mat-icon>add</mat-icon>
+      </button>
     </li>
     <li>
       <input type="text" size="25" class="dashboard-search-input" (keyup)="onSearchDashboard($event)"

@@ -8,6 +8,7 @@ import * as fromInterventionSelectors from '../../store/selectors/intervention.s
 import { Observable } from 'rxjs';
 import { Intervention } from '../../models/intervention.model';
 import { DASHBOARD_ITEMS } from '../../constants/default-dashboard-items.constant';
+import { AppAuthorities } from '../../models/app-authority.model';
 
 interface DefaultDashboard {
   id: string;
@@ -23,8 +24,8 @@ interface DefaultDashboard {
   styleUrls: ['./default-dashboard-list.component.scss'],
 })
 export class DefaultDashboardListComponent implements OnInit {
-  @Input()
-  defaultDashboardList: DefaultDashboard[];
+  @Input() defaultDashboardList: DefaultDashboard[];
+  @Input() appAuthorities: AppAuthorities;
   showDefaultList: boolean;
   showInterventionForm: boolean;
   newInterventionName: string;
@@ -38,7 +39,9 @@ export class DefaultDashboardListComponent implements OnInit {
 
   @Output()
   create: EventEmitter<any> = new EventEmitter<any>();
-  constructor(private interventionStore: Store<fromInterventionReducer.State>) {
+  constructor(
+    private interventionStore: Store<fromInterventionReducer.InterventionState>
+  ) {
     interventionStore.dispatch(new fromInterventionActions.LoadInterventions());
 
     this.loadingInterventions$ = interventionStore.select(
@@ -72,10 +75,15 @@ export class DefaultDashboardListComponent implements OnInit {
     }
     this.showDefaultList = false;
 
-    this.create.emit({
-      ...dashboard,
-      dashboardItems: dashboard.dashboardItems || DASHBOARD_ITEMS,
-    });
+    if (
+      this.appAuthorities &&
+      (this.appAuthorities.All || this.appAuthorities.AddIntervention)
+    ) {
+      this.create.emit({
+        ...dashboard,
+        dashboardItems: dashboard.dashboardItems || DASHBOARD_ITEMS,
+      });
+    }
   }
 
   onToggleInterventionList(e) {
