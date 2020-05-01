@@ -1,19 +1,17 @@
-import { TableConfiguration } from '../models/table-configuration';
 import * as _ from 'lodash';
-import { Intervention } from 'src/app/dashboard/models';
+
+import { TableConfiguration } from '../models/table-configuration';
+
 export function getTableConfiguration(
   favoriteObject: any,
   visualizationLayout: any,
   type: string,
   dataSelections: any[],
-  intervention: Intervention
+  interventionName: string
 ): TableConfiguration {
   return {
     id: `${favoriteObject ? favoriteObject.id : _.random(1000, 1000)}_table`,
-    title: getTableTitle(
-      favoriteObject,
-      intervention ? intervention.name : undefined
-    ),
+    title: getTableTitle(favoriteObject, interventionName),
     subtitle: favoriteObject.hasOwnProperty('subtitle')
       ? favoriteObject.subtitle
       : '',
@@ -80,5 +78,5 @@ function checkForEventDataType(favoriteObject, favoriteType): boolean {
 function getTableTitle(favoriteObject: any, interventionName: string): string {
   return `${
     favoriteObject.title || favoriteObject.displayName || favoriteObject.name
-  }${interventionName ? ` for ${interventionName}` : ''}`;
+  }${interventionName ? ` : ${interventionName}` : ''}`;
 }

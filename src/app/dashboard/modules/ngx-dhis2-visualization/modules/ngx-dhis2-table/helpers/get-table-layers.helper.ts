@@ -1,11 +1,10 @@
-import { getTableConfiguration } from './get-table-configuration.helper';
 import { VisualizationLayer } from '../../../models';
-import { Intervention } from 'src/app/dashboard/models';
+import { getTableConfiguration } from './get-table-configuration.helper';
 
 export function getTableLayers(
   visualizationLayers: VisualizationLayer[],
   visualizationType: string,
-  intervention: Intervention
+  interventionName: string
 ) {
   return (visualizationLayers || []).map((layer: any) => {
     return {
@@ -14,7 +13,7 @@ export function getTableLayers(
         layer.layout,
         visualizationType,
         layer.dataSelections,
-        intervention
+        interventionName
       ),
       analyticsObject: layer.analytics,
     };

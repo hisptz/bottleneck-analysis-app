@@ -30,7 +30,7 @@ export class TableListComponent implements OnInit {
   @Input() visualizationLayers: any[];
   @Input() visualizationType: string;
   @Input() legendDefinitions: Legend[];
-  @Input() intervention: Intervention;
+  @Input() interventionName: string;
 
   tableLayers: Array<{
     tableConfiguration: TableConfiguration;
@@ -47,7 +47,7 @@ export class TableListComponent implements OnInit {
     this.tableLayers = getTableLayers(
       this.visualizationLayers,
       this.visualizationType,
-      this.intervention
+      this.interventionName
     );
   }
 
@@ -61,7 +61,7 @@ export class TableListComponent implements OnInit {
     this.tableLayers = getTableLayers(
       visualizationLayers,
       this.visualizationType,
-      this.intervention
+      this.interventionName
     );
   }
 }
