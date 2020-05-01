@@ -7,7 +7,7 @@ import {
   Output,
   ViewChild,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
 import { getTableConfiguration } from '../../helpers';
@@ -22,7 +22,7 @@ import { VisualizationLayer } from '../../../../models';
   selector: 'ngx-dhis2-table-list',
   templateUrl: './table-list.component.html',
   styleUrls: ['./table-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableListComponent implements OnInit {
   @Input()
@@ -30,8 +30,7 @@ export class TableListComponent implements OnInit {
 
   @Input()
   visualizationType: string;
-  @Input()
-  legendSets: LegendSet[];
+
   tableLayers: Array<{
     tableConfiguration: TableConfiguration;
     analyticsObject: any;

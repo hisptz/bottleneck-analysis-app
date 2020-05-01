@@ -1,10 +1,7 @@
 <div class="table-container">
   <div class="table-item" *ngFor="let tableLayer of tableLayers">
-    <ngx-dhis2-table-item
-      [analyticsObject]="tableLayer.analyticsObject"
-      [tableConfiguration]="tableLayer.tableConfiguration"
-      [legendSets]="legendSets"
-    >
+    <ngx-dhis2-table-item [analyticsObject]="tableLayer.analyticsObject"
+      [tableConfiguration]="tableLayer.tableConfiguration">
     </ngx-dhis2-table-item>
   </div>
 </div>

@@ -5,12 +5,12 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 import {
   listEnterAnimation,
-  openAnimation
+  openAnimation,
 } from '../../../../../../../animations';
 import { VisualizationExportService } from '../../../../services';
 import { drawBnaTable } from '../../helpers/draw-bna-table.helper';
@@ -22,19 +22,11 @@ import { TableConfiguration } from '../../models/table-configuration';
   selector: 'ngx-dhis2-table-item',
   templateUrl: './table-item.component.html',
   styleUrls: ['./table-item.component.css'],
-  animations: [listEnterAnimation, openAnimation]
+  animations: [listEnterAnimation, openAnimation],
 })
 export class TableItemComponent implements OnInit {
-  @Input()
-  tableConfiguration: TableConfiguration;
-
-  @Input()
-  analyticsObject: any;
-  @Input()
-  legendSets: LegendSet[];
-
-  @Output()
-  layoutUpdate: EventEmitter<any> = new EventEmitter<any>();
+  @Input() tableConfiguration: TableConfiguration;
+  @Input() analyticsObject: any;
 
   @ViewChild('table', { static: true })
   table: ElementRef;
@@ -42,6 +34,9 @@ export class TableItemComponent implements OnInit {
   sort_direction: string[] = [];
   current_sorting: boolean[] = [];
   tableData: any;
+
+  @Output() layoutUpdate: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(private visualizationExportService: VisualizationExportService) {
     this.tableObject = null;
   }
