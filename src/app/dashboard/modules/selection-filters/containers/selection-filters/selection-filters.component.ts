@@ -252,13 +252,19 @@ export class SelectionFiltersComponent implements OnInit {
               ? _.pick(periodList[0], ['id', 'name', 'type'])
               : null;
         } else {
-          selectedPeriod =
-            periodList && periodList[0]
-              ? {
-                  ...periodList[0].lastPeriod,
-                  type: periodList[0].type,
-                }
-              : null;
+          if (bottleneckPeriodType.indexOf('Relative') !== -1) {
+            selectedPeriod = (periodList || []).filter(
+              (period: any) => period.id.indexOf('THIS_') !== -1
+            )[0];
+          } else {
+            selectedPeriod =
+              periodList && periodList[0]
+                ? {
+                    ...periodList[0].lastPeriod,
+                    type: periodList[0].type,
+                  }
+                : null;
+          }
         }
 
         if (selectedPeriod) {
