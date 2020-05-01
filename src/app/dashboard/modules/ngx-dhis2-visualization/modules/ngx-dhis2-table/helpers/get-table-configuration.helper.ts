@@ -1,15 +1,19 @@
 import { TableConfiguration } from '../models/table-configuration';
 import * as _ from 'lodash';
+import { Intervention } from 'src/app/dashboard/models';
 export function getTableConfiguration(
   favoriteObject: any,
   visualizationLayout: any,
   type: string,
-  dataSelections: any[]
+  dataSelections: any[],
+  intervention: Intervention
 ): TableConfiguration {
   return {
     id: `${favoriteObject ? favoriteObject.id : _.random(1000, 1000)}_table`,
-    title:
-      favoriteObject.title || favoriteObject.displayName || favoriteObject.name,
+    title: getTableTitle(
+      favoriteObject,
+      intervention ? intervention.name : undefined
+    ),
     subtitle: favoriteObject.hasOwnProperty('subtitle')
       ? favoriteObject.subtitle
       : '',
@@ -56,7 +60,7 @@ export function getTableConfiguration(
     legendSet: favoriteObject.legendSet,
     legendDisplayStrategy: favoriteObject.legendDisplayStrategy,
     styles: null,
-    dataSelections
+    dataSelections,
   };
 }
 
@@ -71,4 +75,10 @@ function checkForEventDataType(favoriteObject, favoriteType): boolean {
     }
   }
   return displayList;
+}
+
+function getTableTitle(favoriteObject: any, interventionName: string): string {
+  return `${
+    favoriteObject.title || favoriteObject.displayName || favoriteObject.name
+  }${interventionName ? ` for ${interventionName}` : ''}`;
 }

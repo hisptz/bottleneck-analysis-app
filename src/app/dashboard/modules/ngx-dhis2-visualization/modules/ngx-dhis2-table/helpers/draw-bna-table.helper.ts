@@ -53,6 +53,6 @@ export function drawBnaTable(
         tableColumnsArray
       ),
       dataSelectionGroupMembers
-    )
+    ),
   };
 }

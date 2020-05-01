@@ -17,6 +17,7 @@ import { TableItemComponent } from '../table-item/table-item.component';
 import { getTableLayers } from '../../helpers/get-table-layers.helper';
 import { VisualizationLayer } from '../../../../models';
 import { Legend } from 'src/app/models/legend.model';
+import { Intervention } from 'src/app/dashboard/models';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -29,6 +30,7 @@ export class TableListComponent implements OnInit {
   @Input() visualizationLayers: any[];
   @Input() visualizationType: string;
   @Input() legendDefinitions: Legend[];
+  @Input() intervention: Intervention;
 
   tableLayers: Array<{
     tableConfiguration: TableConfiguration;
@@ -44,7 +46,8 @@ export class TableListComponent implements OnInit {
   ngOnInit() {
     this.tableLayers = getTableLayers(
       this.visualizationLayers,
-      this.visualizationType
+      this.visualizationType,
+      this.intervention
     );
   }
 
@@ -57,7 +60,8 @@ export class TableListComponent implements OnInit {
   onLayoutChange(visualizationLayers: VisualizationLayer[]) {
     this.tableLayers = getTableLayers(
       visualizationLayers,
-      this.visualizationType
+      this.visualizationType,
+      this.intervention
     );
   }
 }
