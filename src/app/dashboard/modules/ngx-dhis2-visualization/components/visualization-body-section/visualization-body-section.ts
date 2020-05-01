@@ -14,6 +14,7 @@ import { VisualizationLayer } from '../../models/visualization-layer.model';
 import { TableListComponent } from '../../modules/ngx-dhis2-table/components/table-list/table-list.component';
 import { ChartListComponent } from '../../modules/ngx-dhis-chart/components/chart-list/chart-list.component';
 import { VisualizationWidgetComponent } from '../visualization-widget/visualization-widget.component';
+import { Legend } from 'src/app/models/legend.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -33,6 +34,7 @@ export class VisualizationBodySectionComponent {
   @Input() focusedVisualization: string;
   @Input() currentUser: any;
   @Input() downloadFilename: string;
+  @Input() legendDefinitions: Legend[];
 
   @ViewChild(TableListComponent, { static: false })
   tableList: TableListComponent;

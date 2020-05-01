@@ -16,6 +16,7 @@ import { VisualizationExportService } from '../../../../services';
 import { drawBnaTable } from '../../helpers/draw-bna-table.helper';
 import { LegendSet } from '../../models/legend-set.model';
 import { TableConfiguration } from '../../models/table-configuration';
+import { Legend } from 'src/app/models/legend.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -27,6 +28,7 @@ import { TableConfiguration } from '../../models/table-configuration';
 export class TableItemComponent implements OnInit {
   @Input() tableConfiguration: TableConfiguration;
   @Input() analyticsObject: any;
+  @Input() legendDefinitions: Legend[];
 
   @ViewChild('table', { static: true })
   table: ElementRef;

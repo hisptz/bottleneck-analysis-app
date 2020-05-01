@@ -16,6 +16,7 @@ import { TableConfiguration } from '../../models/table-configuration';
 import { TableItemComponent } from '../table-item/table-item.component';
 import { getTableLayers } from '../../helpers/get-table-layers.helper';
 import { VisualizationLayer } from '../../../../models';
+import { Legend } from 'src/app/models/legend.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -25,11 +26,9 @@ import { VisualizationLayer } from '../../../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableListComponent implements OnInit {
-  @Input()
-  visualizationLayers: any[];
-
-  @Input()
-  visualizationType: string;
+  @Input() visualizationLayers: any[];
+  @Input() visualizationType: string;
+  @Input() legendDefinitions: Legend[];
 
   tableLayers: Array<{
     tableConfiguration: TableConfiguration;

@@ -49,6 +49,8 @@ import {
   getCurrentVisualizationUiConfig,
   getFocusedVisualization,
 } from '../../store/selectors/visualization-ui-configuration.selectors';
+import { Legend } from 'src/app/models/legend.model';
+import { getLegendDefinitionsFromSelections } from '../../helpers/get-legend-definitions-from-selections.helper';
 
 @Component({
   selector: 'ngx-dhis2-visualization',
@@ -84,6 +86,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
   visualizationProgress$: Observable<VisualizationProgress>;
   visualizationConfig$: Observable<VisualizationConfig>;
   focusedVisualization$: Observable<string>;
+  legendDefinitions: Legend[];
 
   get downloadFilename(): string {
     return this.dashboard
@@ -145,7 +148,11 @@ export class VisualizationComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.legendDefinitions = getLegendDefinitionsFromSelections(
+      this.dashboard ? this.dashboard.globalSelections : []
+    );
+  }
 
   onToggleVisualizationBody(uiConfig) {
     this.store.dispatch(

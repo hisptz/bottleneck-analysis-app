@@ -35,8 +35,34 @@
   background-color: #eeeeee;
 }
 
+.table-title-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .table-item-title {
   font-size: 16px;
+}
+
+.legend-definition-list,
+.legend-definition-item {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.legend-definition-color {
+  height: 30px;
+  width: 50px;
+  border: solid thin #dddddd;
+}
+
+.legend-definition-name {
+  font-size: 12px;
+  margin-left: 10px;
 }
 
 .reshuffle-icon {

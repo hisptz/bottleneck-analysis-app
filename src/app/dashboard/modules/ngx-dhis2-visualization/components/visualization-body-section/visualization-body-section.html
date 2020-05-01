@@ -10,7 +10,8 @@
   <!--table visualization-->
   <div *ngIf="visualizationConfig.currentType === 'TABLE'">
     <ngx-dhis2-table-list [visualizationLayers]="visualizationLayers" [visualizationType]="visualizationConfig.type"
-      (updateTableVisualizationLayer)="onVisualizationLayerUpdate($event)"></ngx-dhis2-table-list>
+      [legendDefinitions]="legendDefinitions" (updateTableVisualizationLayer)="onVisualizationLayerUpdate($event)">
+    </ngx-dhis2-table-list>
   </div>
   <!--end of table visualization-->
 
