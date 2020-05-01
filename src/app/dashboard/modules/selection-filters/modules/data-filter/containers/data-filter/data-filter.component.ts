@@ -24,6 +24,7 @@ import * as fromDataFilterReducer from '../../store/reducers/data-filter.reducer
 import * as fromDataFilterSelectors from '../../store/selectors/data-filter.selectors';
 import { DataFilterType } from '../../models/data-filter-type.model';
 import { Fn } from '@iapps/function-analytics';
+import { updateDeterminantMembersWithLegends } from '../../helpers/update-determinant-members-with-legends.helper';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -276,7 +277,10 @@ export class DataFilterComponent implements OnInit {
 
   emit() {
     return {
-      items: this.selectedItems,
+      items: updateDeterminantMembersWithLegends(
+        this.selectedItems,
+        this.generalDataConfiguration.legendDefinitions
+      ),
       groups: _.filter(
         _.map(this.determinants, (determinant: any) => {
           return _.omit(determinant, ['current']);
