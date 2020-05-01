@@ -2,7 +2,8 @@
   <!--chart visualization-->
   <div class="chart-visualization-block" *ngIf="visualizationConfig.currentType === 'CHART'">
     <ngx-dhis2-chart-list [visualizationId]="id" [visualizationLayers]="visualizationLayers"
-      [chartHeight]="visualizationUiConfig.height" (updateChartVisualizationLayer)="onVisualizationLayerUpdate($event)">
+      [chartHeight]="visualizationUiConfig.height" [interventionName]="dashboard?.name"
+      (updateChartVisualizationLayer)="onVisualizationLayerUpdate($event)">
     </ngx-dhis2-chart-list>
   </div>
   <!--end of chart visualization-->
@@ -10,7 +11,8 @@
   <!--table visualization-->
   <div *ngIf="visualizationConfig.currentType === 'TABLE'">
     <ngx-dhis2-table-list [visualizationLayers]="visualizationLayers" [visualizationType]="visualizationConfig.type"
-      [legendDefinitions]="legendDefinitions" (updateTableVisualizationLayer)="onVisualizationLayerUpdate($event)">
+      [legendDefinitions]="legendDefinitions" [interventionName]="dashboard?.name"
+      (updateTableVisualizationLayer)="onVisualizationLayerUpdate($event)">
     </ngx-dhis2-table-list>
   </div>
   <!--end of table visualization-->

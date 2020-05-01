@@ -4,6 +4,7 @@ export function getChartConfiguration(
   visualizationSettings: any,
   renderId: string,
   visualizationLayout: any,
+  interventionName: string,
   customChartType: string = '',
   dataSelections: any[] = []
 ): ChartConfiguration {
@@ -11,15 +12,12 @@ export function getChartConfiguration(
     customChartType !== ''
       ? customChartType.toLowerCase()
       : visualizationSettings.type
-        ? visualizationSettings.type.toLowerCase()
-        : 'column';
+      ? visualizationSettings.type.toLowerCase()
+      : 'column';
   return {
     renderId: renderId,
     type: chartType,
-    title:
-      visualizationSettings.title ||
-      visualizationSettings.displayName ||
-      visualizationSettings.name,
+    title: getChartTitle(visualizationSettings, interventionName),
     subtitle: visualizationSettings.hasOwnProperty('subtitle')
       ? visualizationSettings.subtitle
       : '',
@@ -85,6 +83,12 @@ export function getChartConfiguration(
     zAxisType: visualizationLayout.filters
       ? _.map(visualizationLayout.filters, (filter: any) => filter.dimension)
       : ['pe'],
-    dataSelections
+    dataSelections,
   };
+}
+
+function getChartTitle(favoriteObject: any, interventionName: string): string {
+  return `${
+    favoriteObject.title || favoriteObject.displayName || favoriteObject.name
+  }${interventionName ? ` : ${interventionName}` : ''}`;
 }
