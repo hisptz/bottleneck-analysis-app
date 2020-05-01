@@ -51,7 +51,6 @@ export class CurrentDashboardComponent implements OnInit {
   dashboardLoading$: Observable<boolean>;
   dashboardLoaded$: Observable<boolean>;
   visualizationsReady$: Observable<boolean>;
-  legendSets$: Observable<LegendSet[]>;
   menuContainerHeight$: Observable<number>;
 
   currentGlobalDataSelections$: Observable<any>;
@@ -98,7 +97,6 @@ export class CurrentDashboardComponent implements OnInit {
     this.visualizationsReady$ = this.store.select(
       fromDashboardSelectors.getVisualizationReady
     );
-    this.legendSets$ = this.store.select(fromRootSelectors.getAllLegendSets);
 
     this.currentUserHasManagementAuthorities$ = this.store.select(
       getCurrentUserManagementAuthoritiesStatus

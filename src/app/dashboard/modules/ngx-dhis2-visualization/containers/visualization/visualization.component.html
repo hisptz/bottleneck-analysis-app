@@ -65,7 +65,8 @@
           [visualizationLayers]="visualizationLayers$ | async" [visualizationConfig]="visualizationConfig$ | async"
           [dashboard]="dashboard" [focusedVisualization]="focusedVisualization$ | async"
           [downloadFilename]="downloadFilename" (updateVisualizationLayer)="onVisualizationLayerConfigUpdate($event)"
-          [appKey]="(visualizationObject$ | async)?.appKey" [legendSets]="legendSets" [currentUser]="currentUser">
+          [appKey]="(visualizationObject$ | async)?.appKey" [currentUser]="currentUser"
+          [legendDefinitions]="legendDefinitions">
         </visualization-body-section>
       </div>
       <!--end of visualization content-->
