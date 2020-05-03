@@ -11,11 +11,19 @@ import { DashboardSettings } from '../models/dashboard-settings.model';
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   dashboardUrlFields: string;
+  private attributesToOmit: string[];
   constructor(private httpClient: NgxDhis2HttpClientService) {
     this.dashboardUrlFields =
       '?fields=id,name,description,publicAccess,access,externalAccess,created,lastUpdated,favorite,' +
       'user[id,name],dashboardItems[id,type,created,lastUpdated,shape,appKey,chart[id,displayName],' +
       'map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName]]&paging=false';
+    this.attributesToOmit = [
+      'saving',
+      'unSaved',
+      'updatedOrCreated',
+      'creating',
+      'access',
+    ];
   }
 
   loadAll(dashboardSettings: DashboardSettings): Observable<Dashboard[]> {
@@ -50,7 +58,7 @@ export class DashboardService {
           return of([]);
         }
         return zip(
-          ..._.map(filteredDashboardIds, dashboardId => {
+          ..._.map(filteredDashboardIds, (dashboardId) => {
             return this.httpClient.get(`dataStore/dashboards/${dashboardId}`);
           })
         );
@@ -72,13 +80,7 @@ export class DashboardService {
   }
 
   create(dashboard: Dashboard, dashboardSettings: DashboardSettings) {
-    const dashboardWithOmittedItems = _.omit(dashboard, [
-      'saving',
-      'unSaved',
-      'updatedOrCreated',
-      'creating',
-      'access',
-    ]);
+    const dashboardWithOmittedItems = _.omit(dashboard, this.attributesToOmit);
     const sanitizedDashboard: any = dashboardSettings.allowAdditionalAttributes
       ? dashboardWithOmittedItems
       : _.omit(
@@ -109,7 +111,7 @@ export class DashboardService {
             ...dashboardFromServer,
             ...dashboard,
           },
-          ['saving', 'unSaved', 'updatedOrCreated', 'creating']
+          this.attributesToOmit
         );
         return dashboardSettings && dashboardSettings.useDataStoreAsSource
           ? this.httpClient.put(
@@ -260,7 +262,7 @@ export class DashboardService {
               : [...dashboardBookmarks]
             : _.filter(
                 dashboardBookmarks || [],
-                bookmark => bookmark !== currentUserId
+                (bookmark) => bookmark !== currentUserId
               ),
         });
       }),
