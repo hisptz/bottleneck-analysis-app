@@ -7,7 +7,7 @@ import {
   Output,
   ViewChild,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
 import { getTableConfiguration } from '../../helpers';
@@ -16,22 +16,22 @@ import { TableConfiguration } from '../../models/table-configuration';
 import { TableItemComponent } from '../table-item/table-item.component';
 import { getTableLayers } from '../../helpers/get-table-layers.helper';
 import { VisualizationLayer } from '../../../../models';
+import { Legend } from 'src/app/models/legend.model';
+import { Intervention } from 'src/app/dashboard/models';
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'ngx-dhis2-table-list',
   templateUrl: './table-list.component.html',
   styleUrls: ['./table-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableListComponent implements OnInit {
-  @Input()
-  visualizationLayers: any[];
+  @Input() visualizationLayers: any[];
+  @Input() visualizationType: string;
+  @Input() legendDefinitions: Legend[];
+  @Input() interventionName: string;
 
-  @Input()
-  visualizationType: string;
-  @Input()
-  legendSets: LegendSet[];
   tableLayers: Array<{
     tableConfiguration: TableConfiguration;
     analyticsObject: any;
@@ -46,7 +46,8 @@ export class TableListComponent implements OnInit {
   ngOnInit() {
     this.tableLayers = getTableLayers(
       this.visualizationLayers,
-      this.visualizationType
+      this.visualizationType,
+      this.interventionName
     );
   }
 
@@ -59,7 +60,8 @@ export class TableListComponent implements OnInit {
   onLayoutChange(visualizationLayers: VisualizationLayer[]) {
     this.tableLayers = getTableLayers(
       visualizationLayers,
-      this.visualizationType
+      this.visualizationType,
+      this.interventionName
     );
   }
 }

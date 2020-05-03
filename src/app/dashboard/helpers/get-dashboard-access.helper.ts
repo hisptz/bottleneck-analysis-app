@@ -44,6 +44,9 @@ export function getDashboardAccess(dashboard: any, currentUser: User) {
         read: true,
         manage: true,
         delete: true,
+        manageSharing: true,
+        update: true,
+        write: true,
       };
     }
   }

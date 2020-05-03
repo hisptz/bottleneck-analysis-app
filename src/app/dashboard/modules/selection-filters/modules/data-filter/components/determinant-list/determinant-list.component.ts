@@ -16,6 +16,7 @@ import { removeDeterminantFromList } from '../../helpers/remove-determinant-from
 import { updateDeterminantInList } from '../../helpers/update-data-determinant-in-list.helper';
 import { ARROW_DOWN_ICON, DRAG_ICON } from '../../icons';
 import { DataFilterType } from '../../models/data-filter-type.model';
+import { getDeterminantMemberLegendSet } from '../../helpers/get-determinant-member-legend-set.helper';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -131,36 +132,13 @@ export class DeterminantListComponent implements OnInit, OnDestroy {
     this.currentDeterminantMember = {
       ...({
         ...determinantMemberFromSelected,
-        legendSet: this.getDeterminantMemberLegendSet(
-          determinantMemberFromSelected || determinantMemberFromDataFilterList
+        legendSet: getDeterminantMemberLegendSet(
+          determinantMemberFromSelected || determinantMemberFromDataFilterList,
+          this.generalDataConfiguration.legendDefinitions
         ),
       } || {}),
       ...(determinantMemberFromDataFilterList || {}),
     };
-  }
-
-  getDeterminantMemberLegendSet(determinantMember: any) {
-    const legendSet = determinantMember ? determinantMember.legendSet : null;
-
-    if (!legendSet) {
-      return {
-        id: determinantMember.id,
-        name: determinantMember.name,
-        legends: this.generalDataConfiguration.legendDefinitions,
-      };
-    }
-
-    return _.intersectionBy(
-      legendSet.legends,
-      this.generalDataConfiguration.legendDefinitions,
-      'id'
-    ).length === 0
-      ? {
-          id: determinantMember.id,
-          name: determinantMember.name,
-          legends: this.generalDataConfiguration.legendDefinitions,
-        }
-      : legendSet;
   }
 
   onUpdateMember(member: any) {

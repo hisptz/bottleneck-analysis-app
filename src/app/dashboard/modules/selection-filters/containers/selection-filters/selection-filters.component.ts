@@ -222,53 +222,71 @@ export class SelectionFiltersComponent implements OnInit {
         ];
 
     if (selectedItems.dimension === 'dx') {
-      const periodInstance = new Fn.Period();
+      const periodDataSelection = (this.dataSelections || []).find(
+        (dataSelection: VisualizationDataSelection) =>
+          dataSelection.dimension === 'pe'
+      );
 
-      periodInstance
-        .setType(bottleneckPeriodType)
-        .setCalendar(this.systemInfo.keyCalendar)
-        .get();
-      let periodList = periodInstance.list();
-      let previousPeriod = null;
+      const isValidPeriodBasedOnBottleneckPeriodType = (periodDataSelection
+        ? periodDataSelection.items
+        : []
+      ).some((periodItem: any) => periodItem.type === bottleneckPeriodType);
 
-      if (periodList.length === 0) {
-        periodInstance.setYear(periodInstance.currentYear() - 1).get();
+      if (!isValidPeriodBasedOnBottleneckPeriodType) {
+        const periodInstance = new Fn.Period();
 
-        periodList = periodInstance.list();
+        periodInstance
+          .setType(bottleneckPeriodType)
+          .setCalendar(this.systemInfo.keyCalendar)
+          .get();
+        let periodList = periodInstance.list();
+        let selectedPeriod = null;
 
-        previousPeriod =
-          periodList && periodList[0]
-            ? _.pick(periodList[0], ['id', 'name', 'type'])
-            : null;
-      } else {
-        previousPeriod =
-          periodList && periodList[0]
-            ? {
-                ...periodList[0].lastPeriod,
-                type: periodList[0].type,
-              }
-            : null;
-      }
+        if (periodList.length === 0) {
+          periodInstance.setYear(periodInstance.currentYear() - 1).get();
 
-      if (previousPeriod) {
-        this.dataSelections = this.dataSelections.map(
-          (dataSelection: VisualizationDataSelection) => {
-            if (dataSelection.dimension === 'pe') {
-              return {
-                ...dataSelection,
-                items: [
-                  {
-                    id: previousPeriod.id,
-                    name: previousPeriod.name,
-                    type: previousPeriod.type,
-                  },
-                ],
-              };
-            }
+          periodList = periodInstance.list();
 
-            return dataSelection;
+          selectedPeriod =
+            periodList && periodList[0]
+              ? _.pick(periodList[0], ['id', 'name', 'type'])
+              : null;
+        } else {
+          if (bottleneckPeriodType.indexOf('Relative') !== -1) {
+            selectedPeriod = (periodList || []).filter(
+              (period: any) => period.id.indexOf('THIS_') !== -1
+            )[0];
+          } else {
+            selectedPeriod =
+              periodList && periodList[0]
+                ? {
+                    ...periodList[0].lastPeriod,
+                    type: periodList[0].type,
+                  }
+                : null;
           }
-        );
+        }
+
+        if (selectedPeriod) {
+          this.dataSelections = this.dataSelections.map(
+            (dataSelection: VisualizationDataSelection) => {
+              if (dataSelection.dimension === 'pe') {
+                return {
+                  ...dataSelection,
+                  items: [
+                    {
+                      id: selectedPeriod.id,
+                      name: selectedPeriod.name,
+                      type: selectedPeriod.type,
+                    },
+                  ],
+                };
+              }
+
+              return dataSelection;
+            }
+          );
+        }
       }
     }
 
