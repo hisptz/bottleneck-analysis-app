@@ -6,7 +6,6 @@ import { isDashboardUser } from './is-dashboard-user.helper';
 import { isSuperUser } from './is-super-user.helper';
 
 export function getDashboardAccess(dashboard: any, currentUser: User) {
-  console.log(JSON.stringify(dashboard));
   const dashboardUser = isDashboardUser(dashboard.user, currentUser);
 
   if (dashboardUser || isSuperUser(currentUser)) {
