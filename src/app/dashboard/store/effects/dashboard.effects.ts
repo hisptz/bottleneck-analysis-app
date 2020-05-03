@@ -44,7 +44,7 @@ export class DashboardEffects {
           (dashboards: any[]) =>
             new fromDashboardActions.LoadDashboardsSuccessAction(
               getStandardizedDashboards(
-                fromDashboardHelpers.getFilteredDashboardBasedOnSharing(
+                fromDashboardHelpers.getDashboardsBasedOnSharing(
                   dashboards,
                   action.currentUser
                 ),
@@ -184,7 +184,7 @@ export class DashboardEffects {
                   }
                 )
             ),
-            catchError(error =>
+            catchError((error) =>
               of(
                 new fromDashboardActions.ToggleDashboardBookmarkFailAction(
                   action.id,
@@ -289,7 +289,7 @@ export class DashboardEffects {
                 }
               }
             },
-            error => {
+            (error) => {
               this.store.dispatch(
                 new fromDashboardActions.ManageDashboardItemFailAction(
                   '',
@@ -379,7 +379,7 @@ export class DashboardEffects {
                 ),
               ];
             }),
-            catchError(error => {
+            catchError((error) => {
               this.snackBar.open(
                 `Fail to create ${action.dashboard.name} intervention, Error (Code: ${error.status}): ${error.message}`,
                 'OK'
@@ -570,7 +570,7 @@ export class DashboardEffects {
       ]) => {
         from(dashboardVisualizations)
           .pipe(
-            mergeMap(dashboardVisualization =>
+            mergeMap((dashboardVisualization) =>
               this.store
                 .select(
                   fromVisualizationSelectors.getCurrentVisualizationObjectLayers(
