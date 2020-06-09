@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
@@ -173,7 +173,7 @@ export class VisualizationObjectEffects {
                       action.systemInfo
                     ),
                   ],
-                  visualizationLayer => visualizationLayer
+                  (visualizationLayer) => visualizationLayer
                 ),
               (visualizationLayer: VisualizationLayer) => {
                 return visualizationLayer.analytics ||
@@ -194,7 +194,7 @@ export class VisualizationObjectEffects {
                   : null;
               }
             ),
-            visualizationLayer => visualizationLayer
+            (visualizationLayer) => visualizationLayer
           );
 
           // update visualization object with layers
@@ -203,14 +203,14 @@ export class VisualizationObjectEffects {
             if (
               _.some(
                 visualizationLayers,
-                visualizationLayer => visualizationLayer.analytics
+                (visualizationLayer) => visualizationLayer.analytics
               )
             ) {
               this.store.dispatch(
                 new UpdateVisualizationObjectAction(action.id, {
                   layers: _.map(
                     visualizationLayers,
-                    visualizationLayer => visualizationLayer.id
+                    (visualizationLayer) => visualizationLayer.id
                   ),
                   progress: {
                     statusCode: 200,
@@ -222,7 +222,7 @@ export class VisualizationObjectEffects {
               );
 
               // Add visualization Layers
-              _.each(visualizationLayers, visualizationLayer => {
+              _.each(visualizationLayers, (visualizationLayer) => {
                 this.store.dispatch(
                   new AddVisualizationLayerAction({
                     ...visualizationLayer,
@@ -235,18 +235,18 @@ export class VisualizationObjectEffects {
             } else if (
               !_.some(
                 visualizationLayers,
-                visualizationLayer => visualizationLayer.analytics
+                (visualizationLayer) => visualizationLayer.analytics
               ) &&
               _.some(
                 visualizationLayers,
-                visualizationLayer => visualizationLayer.dataSelections
+                (visualizationLayer) => visualizationLayer.dataSelections
               )
             ) {
               this.store.dispatch(
                 new UpdateVisualizationObjectAction(action.id, {
                   layers: _.map(
                     visualizationLayers,
-                    visualizationLayer => visualizationLayer.id
+                    (visualizationLayer) => visualizationLayer.id
                   ),
                   progress: {
                     statusCode: 200,
@@ -258,7 +258,7 @@ export class VisualizationObjectEffects {
               );
 
               // Add visualization Layers
-              _.each(visualizationLayers, visualizationLayer => {
+              _.each(visualizationLayers, (visualizationLayer) => {
                 this.store.dispatch(
                   new AddVisualizationLayerAction(visualizationLayer)
                 );
@@ -296,7 +296,7 @@ export class VisualizationObjectEffects {
               action.systemInfo
             )
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new UpdateVisualizationObjectAction(action.visualization.id, {
               progress: {
@@ -315,7 +315,7 @@ export class VisualizationObjectEffects {
   @Effect({ dispatch: false })
   loadFavoriteSuccess$: Observable<any> = this.actions$.pipe(
     ofType(VisualizationObjectActionTypes.LOAD_VISUALIZATION_FAVORITE_SUCCESS),
-    withLatestFrom(this.systemInfoService.getSystemInfo()),
+    withLatestFrom(this.httpClient.systemInfo()),
     tap(
       ([action, systemInfo]: [LoadVisualizationFavoriteSuccessAction, any]) => {
         const spatialSupport =
@@ -387,7 +387,7 @@ export class VisualizationObjectEffects {
           );
 
           // Add visualization Layers
-          _.each(visualizationLayers, visualizationLayer => {
+          _.each(visualizationLayers, (visualizationLayer) => {
             this.store.dispatch(
               new AddVisualizationLayerAction(visualizationLayer)
             );
@@ -398,7 +398,7 @@ export class VisualizationObjectEffects {
             new UpdateVisualizationObjectAction(action.visualization.id, {
               layers: _.map(
                 visualizationLayers,
-                visualizationLayer => visualizationLayer.id
+                (visualizationLayer) => visualizationLayer.id
               ),
               progress: {
                 statusCode: 200,
@@ -475,7 +475,7 @@ export class VisualizationObjectEffects {
             // Get updated visualization layer based on new changes
             const visualizationLayers: VisualizationLayer[] = _.map(
               visualizationObject.layers,
-              visualizationLayer => {
+              (visualizationLayer) => {
                 return {
                   ...visualizationLayer,
                   config: {
@@ -515,7 +515,7 @@ export class VisualizationObjectEffects {
                       'favorites'
                     );
 
-              favoritePromise.subscribe(favoriteResult => {
+              favoritePromise.subscribe((favoriteResult) => {
                 // Save favorite as dashboard item
 
                 this.store.dispatch(
@@ -536,7 +536,7 @@ export class VisualizationObjectEffects {
                 );
 
                 // Update visualization layers in the store
-                _.each(visualizationLayers, visualizationLayer => {
+                _.each(visualizationLayers, (visualizationLayer) => {
                   this.store.dispatch(
                     new UpdateVisualizationLayerAction(
                       visualizationLayer.id,
@@ -575,6 +575,6 @@ export class VisualizationObjectEffects {
     private actions$: Actions,
     private store: Store<VisualizationState>,
     private favoriteService: FavoriteService,
-    private systemInfoService: SystemInfoService
+    private httpClient: NgxDhis2HttpClientService
   ) {}
 }
