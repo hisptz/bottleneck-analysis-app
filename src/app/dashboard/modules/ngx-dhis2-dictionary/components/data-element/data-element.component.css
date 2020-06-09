@@ -1,0 +1,12 @@
+
+li {
+    margin-bottom: 0.4rem;
+}
+
+.ordered-list-in-table {
+    height: 120px; overflow: auto;
+}
+
+.ordered-list-in-table-print {
+    height: auto !important;
+}

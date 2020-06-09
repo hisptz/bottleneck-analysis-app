@@ -1,0 +1,53 @@
+/**
+ * Copyright (C) 2020 Rajab Mkomwa
+ * 
+ * ngx-dhis2-components is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * ngx-dhis2-components is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with ngx-dhis2-components. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.indicator-container ol {
+  padding-left: 20px;
+}
+
+.indicator-name-block {
+  display: flex;
+  align-items: center;
+}
+
+.indicator-title {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.2rem;
+}
+
+.indicator-link {
+  margin-top: -5px;
+}
+
+.indicator-introduction {
+  margin-top: 10px;
+}
+
+.indicator-link-color {
+  color: #3f51b5;
+}
+
+.indicator-inline-non-link-list {
+  margin-bottom: 10px;
+}
+
+.indicator-inline-list {
+  cursor: pointer;
+  margin-bottom: 10px;
+  color: #3f51b5;
+}

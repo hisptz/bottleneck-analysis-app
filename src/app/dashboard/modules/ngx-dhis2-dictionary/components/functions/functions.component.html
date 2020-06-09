@@ -1,0 +1,167 @@
+<div class="metadata-name"><h3 style="color: #355E7F; margin-bottom: 1.5rem">{{functionsDetails.data.metadata.name}}</h3></div>
+<div class="introduction"><h3 style="color: #464646;">Introduction</h3></div>
+<div class="description">
+  <p>
+    Function <span style="color: #325E80;">{{functionsDetails.data.metadata.name}}
+      <!-- <a title="View this program indicator in maintanance"  target="_blank" href="../../../dhis-web-maintenance/#/edit/indicatorSection/programIndicator/{{programIndicatorInfo.data.metadata.id}}">
+        <svg class="" viewBox="0 0 24 24" 
+        style="display: inline-block; color: rgba(0, 0, 0, 0.87); fill: rgb(117, 117, 117); height: 16px; width: 16px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; margin-left: -3px; margin-top: -10px; cursor: pointer;">
+        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path>
+        </svg>
+      </a> -->
+    </span>
+    can be described as 
+    <span style="color: #325E80;">
+      {{functionsDetails.data.metadata.description}}
+    </span>
+  </p>
+  <p style="color: #464646; font-size: 0.7em; margin-top: -15px;"><i>Identifed by: <a target="_blank" href="../../../api/dataStore/functions/{{functionsDetails.data.metadata.id}}/metaData">{{functionsDetails.data.metadata.id}} </a></i></p> 
+</div>
+
+<div>
+    <h4 style="color: #464646;">Function Facts</h4>
+    <ul>
+      <li>It is approximately <strong>{{getSizeOfTheFunction(functionsDetails.data.metadata.function)}}</strong> 
+        <span *ngIf="functionsDetails.data.metadata.function.length < 1000"> bytes </span>
+         <span *ngIf="functionsDetails.data.metadata.function.length >= 1000 && functionsDetails.data.metadata.function.length < 1000000"> kilobytes </span>
+         <span *ngIf="functionsDetails.data.metadata.function.length >= 1000000"> megabytes </span>
+         in size
+      </li>
+      <li>It has <strong>{{ functionsDetails.data.metadata.rules.length}}</strong> associated rules</li>
+      <li *ngIf="functionsDetails.data.metadata.function.indexOf('Fn.') > -1">It’s using <span style="color: #325E80;">function analytics</span> library</li>
+      <li *ngIf="functionsDetails.data.metadata.function.indexOf('$.') > -1">It’s using jquery api library</li>
+      <li *ngIf="functionsDetails.data.metadata.function.indexOf('$.ajax') > -1">Performs ajax promises</li>
+      <li *ngIf="functionsDetails.data.metadata.function.indexOf('../../../api/') > -1">Fetches from DHIS2 API without <span style="color: #325E80;">function analytics</span></li>
+    </ul>
+      <!-- It has {{ rules count}} associated rules
+      It’s using function analytics library {{If function string contains “Fn.” as substring}}
+      It’s using jquery api library {{ If function string contains “$.” as substring}}
+      Performs ajax promises {{If function string contains “$.ajax” as substring}}
+      Fetches from DHIS2 API without function analytics {{ If function string contains “../../../api/” as substring}}
+      Running on API version: {{dhis2 version from system info }} -->
+      
+  </div>
+<div *ngIf="functionsDetails.data.metadataWithinFunctionDetails" style="margin-bottom: 20px;">
+  <h4 style="color: #464646;">Data sources</h4>
+  <p>Function have rules calculating from multiple data sources. Here are few data sources observed</p>
+    
+    <!-- {{parse expressions on rules JSON for 11chars uid phrases, in object keys and values to search their identifiable objects and list them here}} -->
+  <div style="width: 100%; overflow: auto; max-height: 350px;">
+    <table class="table table-bordered">
+      <thead>
+        <tr style="background-color: #f5f5f5; color: #555;">
+          <th style="padding: 0.45em;">Id</th>
+          <th style="padding: 0.45em;">Name</th>
+          <th style="padding: 0.45em;">Description</th>
+          <th style="padding: 0.45em;">Code</th>
+          <th style="padding: 0.45em;">Type</th>
+          <th style="padding: 0.45em;">More details</th>
+          <th style="padding: 0.45em;">Last updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="functionsDetails.data.metadataWithinFunctionDetails.length == 0">
+          <td colspan="7"><app-dictionary-progress></app-dictionary-progress></td>
+        </tr>
+        <tr *ngFor="let detailsInFunction of functionsDetails.data.metadataWithinFunctionDetails">
+          <td>
+              <a target="_blank" href="{{detailsInFunction.info.href}}.json">
+                <i>{{detailsInFunction.info.id}} </i></a>
+            </td>
+          <td>
+              <span 
+              (click)="setActiveItem($event, detailsInFunction.info.id)"
+              style="color: #325E80; cursor: pointer;text-decoration: underline"
+              >{{detailsInFunction.info.name}}</span>
+            </td>
+          <td>
+            <span *ngIf="detailsInFunction.info.description">{{detailsInFunction.info.description}}</span>
+          </td>
+          <td><span *ngIf="detailsInFunction.info.code">{{detailsInFunction.info.code}}</span></td>
+          <td>{{formatToUppercase(detailsInFunction.type)}}</td>
+          <td>
+            <span *ngIf="detailsInFunction.type == 'dataSet'">
+              It is <strong>{{detailsInFunction.info.formType}}</strong> form reported <strong>{{detailsInFunction.info.periodType}}</strong>
+            </span>
+            <span *ngIf="detailsInFunction.type == 'category option combination'">
+              It has the following category options
+              <ul>
+                <li *ngFor="let option of detailsInFunction.info.categoryOptions">{{option.name}}</li>
+              </ul>
+            </span>
+            <span *ngIf="detailsInFunction.type == 'dataElement'">
+                It has <strong>{{detailsInFunction.info.aggregationType}}</strong> aggregation
+                 and accepts only {{detailsInFunction.info.valueType}} to enforce validation.
+              </span>
+          </td>
+          <td>
+            <span *ngIf="detailsInFunction.lastUpdated">
+              {{detailsInFunction.lastUpdated | date}}
+            </span>
+          </td>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div *ngIf="functionsDetails.data.metadata.rules" style="margin-bottom: 20px;">
+  <h4 style="color: #464646;">Function Rules</h4>
+  <p>The following are available rules used for data analytics</p>
+  <div style="width: 100%; overflow: auto; max-height: 350px;">
+      <table class="table table-bordered">
+        <thead>
+          <tr style="background-color: #f5f5f5; color: #555;">
+            <th style="padding: 0.45em;">Id</th>
+            <th style="padding: 0.45em;">Name</th>
+            <th style="padding: 0.45em;">Description</th>
+            <th style="padding: 0.45em;">Default Rule</th>
+            <th style="padding: 0.45em;">JSON</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rule of functionsDetails.data.metadata.rules">
+            <td>{{rule.id}}</td>
+            <td>{{rule.name}}</td>
+            <td><span *ngIf="rule.description">{{rule.description}}</span></td>
+            <td>
+              <span *ngIf="rule.isDefault">{{rule.isDefault}}</span>
+              <span *ngIf="!rule.isDefault">false</span>
+            </td>
+            <td><span *ngIf="rule.json"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+<div *ngIf="functionsDetails.data.metadata">
+  <h4 style="color: #464646;">Accessibility & Sharing settings</h4>
+  <p>This function was first created on <strong>{{functionsDetails.data.metadata.created | date}}</strong>
+    <span *ngIf="functionsDetails.data.metadata.user"> by 
+      <strong>{{functionsDetails.data.metadata.user.name}}</strong> 
+    </span>
+    <span *ngIf="functionsDetails.data.metadata.lastUpdated">and last updated on <strong>{{functionsDetails.data.metadata.lastUpdated | date}}</strong></span> 
+    <span *ngIf="functionsDetails.data.metadata.lastUpdatedBy"> by <strong>{{functionsDetails.data.metadata.lastUpdatedBy.name}}</strong>.</span>
+  </p>
+  <div *ngIf="functionsDetails.data.metadata.publicAccess">
+    <p>Function accessible with the following accesses:</p>
+    <div style="width: 100%; overflow: auto;">
+      <table class="table table-bordered">
+        <thead>
+          <tr style="background-color: #f5f5f5; color: #555;">
+            <th style="padding: 0.45em;"></th>
+            <th style="padding: 0.45em;">Accesses</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 0.45em;background-color: #f5f5f5; color: #555;">Public Access</td>
+            <td>
+              <ul>
+                <li>{{functionsDetails.data.metadata.publicAccess}}</li>
+              </ul>
+            </td>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<p style="float: right;">Dictionary generated on <strong>{{getTodayDate() | date}}</strong></p>

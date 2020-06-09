@@ -1,0 +1,211 @@
+<div class="indicator-name"><h3 style="color: #355E7F; margin-bottom: 1.5rem">{{dataSetInfo.data.metadata.name}}
+    <a title="View this dataset in maintanance"  target="_blank" href="../../../dhis-web-maintenance/#/edit/dataSetSection/dataSet/{{dataSetInfo.data.metadata.id}}">
+      <svg class="" viewBox="0 0 24 24" 
+      style="display: inline-block; color: rgba(0, 0, 0, 0.87); fill: rgb(117, 117, 117); height: 16px; width: 16px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; margin-left: -3px; margin-top: -10px; cursor: pointer;">
+      <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path>
+      </svg>
+    </a>
+  </h3></div>
+<div class="introduction"><h3 style="color: #464646;">Introduction</h3></div>
+<div class="description">
+  <p class="dataset">
+    Data set <span style="color: #325E80;">
+      {{dataSetInfo.data.metadata.name}}
+    </span> of the  
+    <span style="font-weight: 600">
+        {{dataSetInfo.data.metadata.formType}}
+    </span> form created on 
+    <span style="font-weight: 600">
+      {{dataSetInfo.data.metadata.created  | date}}
+    </span> by 
+    <span style="font-weight: 600">
+        {{dataSetInfo.data.metadata.user.name}}
+      </span>
+  </p>
+  <p style="color: #464646; font-size: 0.7em; margin-top: -15px;"><i>Identifed by: <a target="_blank" href="../../../api/dataSets/{{dataSetInfo.data.metadata.id}}.json">{{dataSetInfo.data.metadata.id}} </a></i></p> 
+</div>
+<div>
+  <h4 style="color: #464646;">Dataset facts</h4>
+  <p>The dataset has <strong>{{dataSetInfo.data.metadata.dataSetElements.length}}</strong> data elements summarized below:</p>
+  <div style="width: 100%; overflow: auto; max-height: 300px; margin-bottom: 15px;" *ngIf="dataSetInfo.data.dataElements">
+    <table class="table table-bordered">
+      <thead>
+        <tr style="background-color: #f5f5f5; color: #555;">
+          <th style="padding: 0.45em;">Data Element</th>
+          <th style="padding: 0.45em;">Aggregation</th>
+          <th style="padding: 0.45em;">Value Type</th>
+          <th style="padding: 0.45em;">Zero Significance</th>
+          <th style="padding: 0.45em;">Categories</th>
+          <th style="padding: 0.45em;">Datasets/ Programs</th>
+          <th style="padding: 0.45em;">Groups</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dataElement of dataSetInfo.data.dataElements">
+          <td style="padding: 0.45em;">
+            <span 
+            (click)="setActiveItem($event, dataElement.id)"
+            style="color: #325E80; cursor: pointer;text-decoration: underline"
+            >{{dataElement.name}}</span>  
+          </td>
+          <td style="padding: 0.45em;">{{dataElement.aggregationType}}</td> 
+          <td style="padding: 0.45em;">{{dataElement.valueType}}</td>
+          <td style="padding: 0.45em;">{{dataElement.zeroIsSignificant}}</td>
+          <td style="padding: 0.45em;">
+            <ul>
+              <li *ngFor="let category of dataElement.categoryCombo.categories">
+                {{category.name}}
+              </li>
+            </ul>
+          </td>
+          <td style="padding: 0.45em;">
+            <ul>
+              <li *ngFor="let dataSetElement of dataElement.dataSetElements">
+                  <span 
+                  (click)="setActiveItem($event, dataSetElement.dataSet.id)"
+                  style="color: #325E80; cursor: pointer;text-decoration: underline"
+                  >{{dataSetElement.dataSet.name}}</span>
+              </li>
+            </ul>
+          </td>
+          <td style="padding: 0.45em;">
+            <ul>
+              <li *ngFor="let dataElementGroup of dataElement.dataElementGroups">
+                <span
+                  (click)="setActiveItem($event, dataElementGroup.id)"
+                  style="color: #325E80; cursor: pointer;text-decoration: underline"
+                  >{{dataElementGroup.name}}</span>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Other details are described below:</p>
+  <div style="width: 100%; overflow: auto;" >
+    <table class="table table-bordered">
+      <thead>
+        <tr style="background-color: #f5f5f5; color: #555;">
+          <th style="padding: 0.45em;">Form type</th>
+          <th style="padding: 0.45em;" *ngIf="dataSetInfo.data.metadata.formType == 'SECTION'">Sections</th>
+          <th style="padding: 0.45em;">Reporting period type</th>
+          <th style="padding: 0.45em;">Timely days</th>
+          <th style="padding: 0.45em;">Valid complete only</th>
+          <th style="padding: 0.45em;">Compulsory fields complete only</th>
+          <th style="padding: 0.45em;">Compulsory data element operands</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 0.45em;">{{dataSetInfo.data.metadata.formType}}</td>
+          <td style="padding: 0.45em;" *ngIf="dataSetInfo.data.metadata.formType == 'SECTION'">
+            <ul>
+              <li *ngFor="let section of dataSetInfo.data.metadata.sections">{{section.name}}</li>
+            </ul>
+          </td>
+          <td style="padding: 0.45em;">{{dataSetInfo.data.metadata.periodType}}</td> 
+          <td style="padding: 0.45em;">{{dataSetInfo.data.metadata.timelyDays}}</td>
+          <td style="padding: 0.45em;">{{dataSetInfo.data.metadata.validCompleteOnly}}</td>
+          <td style="padding: 0.45em;">{{dataSetInfo.data.metadata.compulsoryFieldsCompleteOnly}}</td>
+          <td style="padding: 0.45em;">
+            <ul>
+              <li *ngFor="let compulsoryDataElementOperand of dataSetInfo.data.metadata.compulsoryDataElementOperands">
+                {{compulsoryDataElementOperand.name}} 
+                <span *ngIf="dataSetInfo.data.dataElements && dataSetInfo.data.dataElements.length > 0">
+                    for data element <span
+                    (click)="setActiveItem($event, compulsoryDataElementOperand.dataElement.id)"
+                    style="color: #325E80; cursor: pointer;text-decoration: underline">{{getDataElement(compulsoryDataElementOperand.dataElement.id,dataSetInfo.data.dataElements)}}</span>
+                </span>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+  </table>
+</div>
+</div>
+<div *ngIf="dataSetInfo.data.metadata.categoryCombo && dataSetInfo.data.metadata.categoryCombo.name !== 'default'">
+  <h4 style="color: #464646;">Category Combination</h4>
+  <p>The form has <span style="color: #325E80;">{{dataSetInfo.data.metadata.categoryCombo.name}}</span>
+      dimension which is divided into :-
+  </p>
+  <table class="table table-bordered">
+    <thead>
+      <tr style="background-color: #f5f5f5; color: #555;">
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of dataSetInfo.data.metadata.categoryCombo.categories">
+        <td>{{category.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="dataSetInfo.data && dataSetInfo.data.legendSetsInformation">
+    <h4 style="color: #464646;">Legend for analysis</h4>
+    <p>Uses <strong>{{dataSetInfo.data.legendSetsInformation.length}} </strong>legend for analysis, spread accross multiple cut-off points of interest, existing legends are:</p>
+    <div style="width: 100%; overflow: auto;" *ngFor="let legendSetInformation of dataSetInfo.data.legendSetsInformation">
+        <div *ngFor="let legendSet of legendSetInformation.legendSets">
+          {{legendSet.name}}
+          <table class="table table-bordered">
+              <thead>
+                <tr style="background-color: #f5f5f5; color: #555;">
+                  <th style="padding: 0.45em;">Class</th>
+                  <th style="padding: 0.45em;">Lower</th>
+                  <th style="padding: 0.45em;">Upper</th>
+                  <th style="padding: 0.45em;">Color</th>
+                </tr>
+              </thead>
+              <tbody class="legends-list">
+                <tr *ngFor="let legend of sortLegends(legendSet.legends)">
+                  <td style="padding: 0.45em;"> {{legend.name}}  </td>
+                  <td style="padding: 0.45em;">  {{legend.startValue}} </td> 
+                  <td style="padding: 0.45em;"> {{legend.endValue}} </td>
+                  <td style="padding: 0.45em;" [ngStyle]="{'background-color': legend.color}"><span>{{legend.color}}</span></td>
+                </tr>
+              </tbody>
+          </table>
+        </div>
+    </div>
+</div>
+<div *ngIf="dataSetInfo.data.metadata">
+    <h4 style="color: #464646;">Accessibility & Sharing settings</h4>
+    <p>This indicator was first created on <strong>{{dataSetInfo.data.metadata.created | date}}</strong> by 
+      <strong>{{dataSetInfo.data.metadata.user.name}}</strong> 
+      <span *ngIf="dataSetInfo.data.metadata.lastUpdated">and last updated on <strong>{{dataSetInfo.data.metadata.lastUpdated | date}}</strong></span> 
+      <span *ngIf="dataSetInfo.data.metadata.lastUpdatedBy"> by <strong>{{dataSetInfo.data.metadata.lastUpdatedBy.name}}</strong>.</span>
+    </p>
+    <div *ngIf="dataSetInfo.data.metadata.userAccesses.length > 0 || dataSetInfo.data.metadata.userGroupAccesses.length > 0">
+      <p>Indicator will be visible for users with the following access:</p>
+      <div style="width: 100%; overflow: auto;">
+        <table class="table table-bordered">
+          <thead>
+            <tr style="background-color: #f5f5f5; color: #555;">
+              <th style="padding: 0.45em;"></th>
+              <th style="padding: 0.45em;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="dataSetInfo.data.metadata.userAccesses.length > 0">
+              <td style="padding: 0.45em;background-color: #f5f5f5; color: #555;">User Access</td>
+              <td>
+                <ul>
+                  <li *ngFor="let userAccess of dataSetInfo.data.metadata.userAccesses">{{formatTextToSentenceFormat(userAccess.displayName)}}({{userAccess.access}})</li>
+                </ul>
+              </td>
+            <tr *ngIf="dataSetInfo.data.metadata.userGroupAccesses.length > 0">
+              <td style="padding: 0.45em;background-color: #f5f5f5; color: #555;">User Group Access</td>
+              <td>
+                <ul>
+                  <li *ngFor="let userGroupAccess of dataSetInfo.data.metadata.userGroupAccesses">{{formatTextToSentenceFormat(userGroupAccess.displayName)}} ({{userGroupAccess.access}})</li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p style="float: right;">Dictionary generated on <strong>{{getTodayDate() | date}}</strong></p>
+</div>

@@ -1,0 +1,228 @@
+<div class="indicator-name"><h3 style="color: #355E7F; margin-bottom: 1.5rem">{{dataElementInfo.data.metadata.name}}
+    <a title="View this data element in maintanance" target="_blank" href="../../../dhis-web-maintenance/#/edit/dataElementSection/dataElement/{{dataElementInfo.data.metadata.id}}">
+      <svg class="" viewBox="0 0 24 24" 
+      style="display: inline-block; color: rgba(0, 0, 0, 0.87); fill: rgb(117, 117, 117); height: 16px; width: 16px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; margin-left: -3px; margin-top: -10px; cursor: pointer;">
+      <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path>
+      </svg>
+    </a>
+  </h3></div>
+<div class="introduction"><h3 style="color: #464646;">Introduction</h3></div>
+<div class="description">
+  <p>
+    Data element <span style="color: #325E80;">{{dataElementInfo.data.metadata.name}}
+    </span>
+    <span *ngIf="dataElementInfo.data.metadata.description">can be described as <span style="color: #325E80;">{{dataElementInfo.data.metadata.description}}</span></span>
+  </p>
+  <p>
+    It’s labelled in short as <span style="color: #325E80;">{{dataElementInfo.data.metadata.shortName}}</span> <span *ngIf="dataElementInfo.data.metadata.code">and has a code of <strong>{{dataElementInfo.data.metadata.code}}</strong></span>.
+    <span *ngIf="dataElementInfo.data.metadata.formName">In data entry form, it’s named “{{dataElementInfo.data.metadata.formName}}” </span>   
+  </p>
+  <p style="color: #464646; font-size: 0.7em; margin-top: -15px;"><i>Identifed by: <a target="_blank" href="../../../api/dataElements/{{dataElementInfo.data.metadata.id}}.json">{{dataElementInfo.data.metadata.id}} </a></i></p> 
+</div>
+<div>
+  <h4 style="color: #464646;">Data sources (Datasets/Programs)</h4>
+  <p>Data element is captured from 
+    <span *ngIf="dataElementInfo.data.metadata.domainType== 'AGGREGATE'">Routine data source</span>
+    <span *ngIf="dataElementInfo.data.metadata.domainType !== 'AGGREGATE'">Event based data source</span>
+     with following sources
+     <ul *ngIf="dataElementInfo.data.metadata.domainType== 'AGGREGATE'">
+       <li *ngFor="let dataSetElement of dataElementInfo.data.metadata.dataSetElements">
+          <span style="cursor: pointer;color: #325E80;text-decoration: underline;" (click)="setActiveItem($event, dataSetElement.dataSet.id)">
+            {{dataSetElement.dataSet.name}}
+          </span>
+          submitting
+          <strong>{{dataSetElement.dataSet.periodType}}</strong> after every 
+          <strong>{{dataSetElement.dataSet.timelyDays}}</strong> days for timely submission
+       </li>
+     </ul>
+    Other Details
+    <div>
+      <div>
+        <div style="width: 100%; overflow: auto;">
+          <table class="table table-bordered">
+            <thead>
+              <tr style="background-color: #f5f5f5; color: #555;">
+                <th style="padding: 0.45em;"></th>
+                <th style="padding: 0.45em;">Color</th>
+                <th style="padding: 0.45em;">Icon</th>
+                <th style="padding: 0.45em;">Option Set</th>
+                <th style="padding: 0.45em;">Optionset for Comments</th>
+                <th style="padding: 0.45em;">Legends</th>
+                <th style="padding: 0.45em;">Aggregation Levels</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td  style="background-color: #f5f5f5; color: #555;">Details</td>
+                <td style="padding: 0.45em;"></td>
+                <td style="padding: 0.45em;"></td> 
+                <td style="padding: 0.45em;">{{dataElementInfo.data.metadata.optionSetValue}}</td>
+                <td style="padding: 0.45em;"></td>
+                <td style="padding: 0.45em;">
+                  <span *ngIf="dataElementInfo.data.legendSetsInformation && dataElementInfo.data.legendSetsInformation.length > 0">
+                    <div *ngFor="let legendSetInformation of dataElementInfo.data.legendSetsInformation">
+                      <div *ngFor="let legendSet of legendSetInformation.legendSets">
+                        {{legendSet.name}}
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr style="background-color: #f5f5f5; color: #555;">
+                                <th style="padding: 0.45em;">Class</th>
+                                <th style="padding: 0.45em;">Lower</th>
+                                <th style="padding: 0.45em;">Upper</th>
+                                <th style="padding: 0.45em;">Color</th>
+                              </tr>
+                            </thead>
+                            <tbody class="legends-list">
+                              <tr *ngFor="let legend of sortLegends(legendSet.legends)">
+                                <td style="padding: 0.45em;"> {{legend.name}}  </td>
+                                <td style="padding: 0.45em;">  {{legend.startValue}} </td> 
+                                <td style="padding: 0.45em;"> {{legend.endValue}} </td>
+                                <td style="padding: 0.45em;" [ngStyle]="{'background-color': legend.color}"><span>{{legend.color}}</span></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                    </div>
+                  </span>
+                </td>
+                <td style="padding: 0.45em;">
+                  <ul *ngIf="dataElementInfo.data.metadata.aggregationLevels">
+                    <li *ngFor="let aggregationLevel of dataElementInfo.data.metadata.aggregationLevels">
+                      {{aggregationLevel}}
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+<div>
+  <h4 style="color: #464646;">Data element Facts</h4>
+  <ul>
+    <li>Accepts only <strong>{{dataElementInfo.data.metadata.valueType}}</strong> to enforce validation</li>
+    <!-- <li>Has {{validationRulesMatchCount}} related validation rules</li> -->
+    <!-- <li>Part of numerators of {{indicatorNumeratorExpressionMatchCount}} indicators</li>
+    <li>Part of denominators of {{indicatorDenominatorExpressionMatchCount}} indicators</li> -->
+    <li *ngIf="dataElementInfo.data && dataElementInfo.data.dataElementGroups">
+        <p>It belongs to the following data element groups :-</p>
+        <div>
+          <table class="table table-bordered">
+            <thead>
+              <tr style="background-color: #f5f5f5; color: #555;">
+                <th style="padding: 0.45em;">Data element group</th>
+                <th style="padding: 0.45em;">Data elements</th>
+                <th style="padding: 0.45em;">Data elements list</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let dataElementGroup of dataElementInfo.data.dataElementGroups">
+                <td style="padding: 0.45em;">
+                    <span style="cursor: pointer;color: #325E80;text-decoration: underline;" (click)="setActiveItem($event, dataElementGroup.id)">
+                      {{dataElementGroup.name}}
+                    </span>
+                </td>
+                <td style="padding: 0.45em;">{{dataElementGroup.dataElements.length}}</td>
+                <td>
+                  <ol 
+                  [ngClass]="{
+                    'ordered-list-in-table-print': isprintSet,
+                    'ordered-list-in-table': !isprintSet
+                  }">
+                    <li *ngFor="let dataElement of getOtherMetadata(dataElementGroup.dataElements, listAllMetadataInGroup)">
+                      <span 
+                      id={{dataElement.id}} 
+                      (click)="setActiveItem($event, dataElement.id)" 
+                      style="color: #325E80; cursor: pointer;text-decoration: underline">
+                      {{dataElement.name}}
+                      </span>
+                    </li>
+                    <a
+                    style="text-decoration: underline; color:#007bff; font-size: 0.7em;" 
+                    *ngIf="dataElementGroup.dataElements.length > 3 && !listAllMetadataInGroup"
+                    (click)="getOtherMetadata(dataElementGroup.dataElements, listAllMetadataInGroup = true)"
+                    >more</a>
+                </ol>
+                <a 
+                style="text-decoration: underline; color:#007bff; font-size: 0.7em;"
+                *ngIf="listAllMetadataInGroup"
+                (click)="getOtherMetadata(dataElementGroup.dataElements, listAllMetadataInGroup = false)"
+                >less</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </li>
+  </ul>
+</div>
+<div>
+  <h4 style="color: #464646;">Analytics Details</h4>
+  <ul>
+    <li>It's aggregated by <strong>{{dataElementInfo.data.metadata.aggregationType}}</strong> through period and hierarchy</li>
+    <li>Captured through <strong>{{dataElementInfo.data.metadata.domainType}}</strong> data sources</li>
+    <li>
+      <span *ngIf="dataElementInfo.data.metadata.zeroIsSignificant">Stores zero data value</span>
+      <span *ngIf="!dataElementInfo.data.metadata.zeroIsSignificant">Does not store zero data value</span>
+    </li>
+    <li *ngIf="dataElementInfo.data.metadata.categoryCombo">It uses category combination <strong>{{dataElementInfo.data.metadata.categoryCombo.name}}</strong> with cross-tabulation between {{dataElementInfo.data.metadata.categoryCombo.categories.length}} categories with the following details
+        <ul>
+          <li *ngFor="let category of dataElementInfo.data.metadata.categoryCombo.categories">
+            Category <strong>{{category.name}}</strong> which has <strong>{{category.categoryOptions.length}}</strong> <span style="color: #325E80;"> option<span *ngIf="category.categoryOptions.length > 1">s</span></span> listed below:
+            <div *ngIf="showOptions">
+              <ol class="list-of-options">
+                <li *ngFor="let option of category.categoryOptions">{{option.name}}</li>
+              </ol>
+            </div>
+          </li>
+        </ul>
+    </li>
+  </ul>
+</div>
+<div>
+  <h4 style="color: #464646;">Accessibility & Sharing settings</h4>
+  <p>This data element was first created on 
+    <strong>{{dataElementInfo.data.metadata.created  | date}}</strong> 
+    by <strong>{{dataElementInfo.data.metadata.user.name}}</strong>
+    and last updated on <strong>{{dataElementInfo.data.metadata.lastUpdated | date}}</strong>
+    <span *ngIf="dataElementInfo.data.metadata.lastUpdatedBy">
+        by <strong>{{dataElementInfo.data.metadata.lastUpdatedBy.name}}</strong>
+    </span>.
+  </p>
+  
+  <div *ngIf="dataElementInfo.data.metadata.userAccesses.length > 0 || dataElementInfo.data.metadata.userGroupAccesses.length > 0">
+    <p>Data element group will be visible for users with the following access:</p>
+    <div style="width: 100%; overflow: auto;">
+      <table class="table table-bordered">
+        <thead>
+          <tr style="background-color: #f5f5f5; color: #555;">
+            <th style="padding: 0.45em;"></th>
+            <th style="padding: 0.45em;">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="dataElementInfo.data.metadata.userAccesses.length > 0">
+            <td style="padding: 0.45em;background-color: #f5f5f5; color: #555;">User Access</td>
+            <td>
+              <ul>
+                <li *ngFor="let userAccess of dataElementInfo.data.metadata.userAccesses">{{formatTextToSentenceFormat(userAccess.displayName)}}({{userAccess.access}})</li>
+              </ul>
+            </td>
+          <tr *ngIf="dataElementInfo.data.metadata.userGroupAccesses.length > 0">
+            <td style="padding: 0.45em;background-color: #f5f5f5; color: #555;">User Group Access</td>
+            <td>
+              <ul>
+                <li *ngFor="let userGroupAccess of dataElementInfo.data.metadata.userGroupAccesses">{{formatTextToSentenceFormat(userGroupAccess.displayName)}} ({{userGroupAccess.access}})</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+  <p style="float: right;">Dictionary generated on <strong>{{getTodayDate() | date}}</strong></p>
+    <!-- Data element will be visible for users with the following access: -->
+    
+</div>

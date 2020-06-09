@@ -1,0 +1,69 @@
+<!--
+ Copyright (C) 2020 Rajab Mkomwa
+ 
+ ngx-dhis2-components is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ ngx-dhis2-components is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+ 
+ You should have received a copy of the GNU Lesser General Public License
+ along with ngx-dhis2-components. If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="dictionary-menu">
+    <!-- <input id="searching-input" placeholder="Search " [(ngModel)]="searchingText" /> -->
+    <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="onSearchItem($event)">
+        <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+    <div class="dictionary-menu-list">
+        <mat-chip-list>
+            <mat-chip *ngIf="dictionaryConfig?.showAllBlock" class="dictionary-chip"
+                (click)="onSetActiveItem($event, 'all')" [ngClass]="selectedItem === 'all' ? 'active-item' : ''">
+                All
+            </mat-chip>
+            <ng-template ngFor let-dictionaryItem [ngForOf]="dictionaryList | filterBySearchInput: searchingText"
+                let-i="index">
+                <mat-chip *ngIf="dictionaryItem.name.indexOf('not found') < 0"
+                    class="dictionary-chip dictionary-title indicator-btn"
+                    (click)="onSetActiveItem($event, dictionaryItem.id)"
+                    [ngClass]="dictionaryItem.id === selectedItem ? 'active-item' : ''">
+                    <span class="dictionary-prefix-icon"
+                        *ngIf="dictionaryItem.category && dictionaryItem.category == 'in'"
+                        style="color:#FFF;background-color: #e36e40">{{ dictionaryItem.category }}</span>
+                    <span class="dictionary-prefix-icon"
+                        *ngIf="dictionaryItem.category && dictionaryItem.category == 'pi'"
+                        style="color:#FFF; background-color: #5c9d18">{{ dictionaryItem.category }}</span>
+                    <span class="dictionary-prefix-icon"
+                        *ngIf="dictionaryItem.category && dictionaryItem.category == 'ds'"
+                        style="color:#FFF; background-color: #2d2d30">{{ dictionaryItem.category }}</span>
+                    <span class="dictionary-prefix-icon"
+                        *ngIf="dictionaryItem.category && dictionaryItem.category == 'de'"
+                        style="color:#FFF; background-color: #27cec8">{{ dictionaryItem.category }}</span>
+                    <span class="dictionary-prefix-icon"
+                        *ngIf="dictionaryItem.category && dictionaryItem.category == 'fn'"
+                        style="color:#FFF; background-color: #a763d8">{{ dictionaryItem.category }}</span>
+                    <span class="dictionary-prefix-icon"
+                        *ngIf="dictionaryItem.category && dictionaryItem.category == 'dg'"
+                        style="color:#FFF; background-color: #43b59b">{{ dictionaryItem.category }}</span>
+
+                    <span class="dictionary-title" title="{{ dictionaryItem.name }}">{{
+                    dictionaryItem.name | shortenName
+                  }}</span>
+                    <mat-icon title="Remove item" *ngIf="dictionaryItem.name !== ''"
+                        (click)="onRemoveItem($event, dictionaryItem.id)">
+                        cancel
+                    </mat-icon>
+                    <span *ngIf="dictionaryItem.name == ''">Loading ...</span>
+                </mat-chip>
+            </ng-template>
+        </mat-chip-list>
+    </div>
+
+</div>
