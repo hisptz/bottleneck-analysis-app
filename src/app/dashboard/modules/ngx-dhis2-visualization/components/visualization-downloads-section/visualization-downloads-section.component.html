@@ -1,15 +1,15 @@
 <mat-button-toggle-group>
   <mat-button-toggle title="Download as image" *ngIf="visualizationType === 'CHART'" (click)="download($event, 'PNG')">
-    <mat-icon>image</mat-icon>
+    <mat-icon class="text-muted">image</mat-icon>
   </mat-button-toggle>
   <mat-button-toggle title="Download excel document" *ngIf="
   visualizationType === 'CHART' ||
   visualizationType === 'TABLE' ||
   visualizationType === 'APP'
 " (click)="download($event, 'XLS')">
-    <mat-icon>insert_drive_file</mat-icon>
+    <mat-icon class="text-muted">insert_drive_file</mat-icon>
   </mat-button-toggle>
   <mat-button-toggle title="Download pdf" *ngIf="visualizationType === 'CHART'" (click)="download($event, 'PDF')">
-    <mat-icon>picture_as_pdf</mat-icon>
+    <mat-icon class="text-muted">picture_as_pdf</mat-icon>
   </mat-button-toggle>
 </mat-button-toggle-group>

@@ -60,3 +60,7 @@ button:focus,
 button:active {
   outline: none;
 }
+
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  line-height: 40px;
+}

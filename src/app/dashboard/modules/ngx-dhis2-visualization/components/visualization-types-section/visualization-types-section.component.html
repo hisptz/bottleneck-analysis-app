@@ -4,30 +4,30 @@
       [ngClass]="{ 'active-visualization': currentVisualization === 'TABLE' }"
       [disabled]="currentVisualization === 'TABLE'" [title]="'View Table' | translate"
       (click)="onVisualizationSelect($event, 'TABLE')">
-      <mat-icon>view_list</mat-icon>
+      <mat-icon class="text-muted">view_list</mat-icon>
     </mat-button-toggle>
     <mat-button-toggle aria-label="Chart" *ngIf="visualizationTypesConfig?.switchToChart"
       [ngClass]="{ 'active-visualization': currentVisualization === 'CHART' }"
       [disabled]="currentVisualization === 'CHART'" [title]="'View Chart' | translate"
       (click)="onVisualizationSelect($event, 'CHART')">
-      <mat-icon>bar_chart</mat-icon>
+      <mat-icon class="text-muted">bar_chart</mat-icon>
     </mat-button-toggle>
     <mat-button-toggle aria-label="Map" *ngIf="visualizationTypesConfig?.switchToMap"
       [ngClass]="{ 'active-visualization': currentVisualization === 'MAP' }" [disabled]="currentVisualization === 'MAP'"
       [title]="'View Map' | translate" (click)="onVisualizationSelect($event, 'MAP')">
-      <mat-icon>map</mat-icon>
+      <mat-icon class="text-muted">map</mat-icon>
     </mat-button-toggle>
     <mat-button-toggle aria-label="Info" *ngIf="visualizationTypesConfig?.switchToInfo"
       [ngClass]="{ 'active-visualization': currentVisualization === 'INFO' }"
       [disabled]="currentVisualization === 'INFO'" [title]="'View Information' | translate"
       (click)="onVisualizationSelect($event, 'INFO')">
-      <mat-icon>info</mat-icon>
+      <mat-icon class="text-muted">info</mat-icon>
     </mat-button-toggle>
   </mat-button-toggle-group>
 
   <mat-button-toggle class="ml-2" [title]="'Switch layout' | translate"
     *ngIf="currentVisualization === 'TABLE' && visualizationTypesConfig?.enableLayoutChangeButton"
     (click)="onLayoutChange($event)">
-    <mat-icon>repeat</mat-icon>
+    <mat-icon class="text-muted">repeat</mat-icon>
   </mat-button-toggle>
 </div>
