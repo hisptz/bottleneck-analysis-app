@@ -10,7 +10,7 @@ export class VisualizationErrorNotifierComponent implements OnInit {
   @Input() titleMessage: string;
   constructor() {
     this.titleMessage =
-      'Aw, Snap. We are sorry for this inconvenience, our server tells us that';
+      'There was a problem processing the data and it can\'t be displayed. Please try again later';
   }
 
   ngOnInit() {}
