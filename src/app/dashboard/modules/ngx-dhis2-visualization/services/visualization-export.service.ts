@@ -10,15 +10,22 @@ export class VisualizationExportService {
     const contents = (items || []).forEach((item) => {
       let htmlContents;
       switch (item.visualizationType) {
-        case 'CHART':
+        case 'CHART': {
+          const tableElement = document.getElementById(item.id + '_table');
+          if (tableElement) {
+            const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(tableElement);
+            XLSX.utils.book_append_sheet(wb, ws, 'BNA');
+          }
           break;
-        case 'REPORT_TABLE':
-          const tableElement = document.getElementById(item.id);
+        }
+        case 'REPORT_TABLE': {
+          const tableElement = document.getElementById(item.id + '_table');
           if (tableElement) {
             const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(tableElement);
             XLSX.utils.book_append_sheet(wb, ws, 'Sublevel analysis');
           }
           break;
+        }
         case 'APP':
           const iframeElement: any = document.getElementById(item.id);
           if (iframeElement) {

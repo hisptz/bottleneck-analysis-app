@@ -10,7 +10,7 @@ export function getTableConfiguration(
   interventionName: string
 ): TableConfiguration {
   return {
-    id: `${favoriteObject ? favoriteObject.id : _.random(1000, 1000)}`,
+    id: `${favoriteObject ? favoriteObject.id : _.random(1000, 1000)}_table`,
     title: getTableTitle(favoriteObject, interventionName),
     subtitle: favoriteObject.hasOwnProperty('subtitle')
       ? favoriteObject.subtitle
