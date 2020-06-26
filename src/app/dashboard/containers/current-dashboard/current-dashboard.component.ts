@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { take, first } from 'rxjs/operators';
+import { Observable, of, from, zip } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { take, first, switchMap, mergeMap, map } from 'rxjs/operators';
 
 // root state
 import { State } from '../../../store/reducers';
@@ -33,6 +33,8 @@ import {
   getCurrentGlobalDataSelections,
   getGlobalDataSelectionSummary,
 } from '../../store/selectors/data-selections.selectors';
+import { VisualizationExportService } from '../../modules/ngx-dhis2-visualization/services';
+import { getCurrentVisualizationObjectLayers } from '../../modules/ngx-dhis2-visualization/store';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -64,7 +66,10 @@ export class CurrentDashboardComponent implements OnInit {
   welcomingDescription: string;
   emptyVisualizationMessage: string;
 
-  constructor(private store: Store<State>) {}
+  constructor(
+    private store: Store<State>,
+    private visualizationExportService: VisualizationExportService
+  ) {}
 
   ngOnInit() {
     this.currentDashboardVisualizationItems$ = this.store.select(
@@ -239,6 +244,33 @@ export class CurrentDashboardComponent implements OnInit {
     );
   }
 
+  onDownload(dashboard: Dashboard) {
+    this.currentDashboardVisualizationItems$
+      .pipe(
+        switchMap((visualizationItems) => {
+          return zip(
+            ...visualizationItems.map((visualizationItem) =>
+              this.store
+                .pipe(
+                  select(
+                    getCurrentVisualizationObjectLayers(visualizationItem.id)
+                  )
+                )
+                .pipe(map((layers: any[]) => layers[0]))
+            )
+          );
+        }),
+        take(1)
+      )
+      .subscribe((visualizations: any[]) => {
+        this.visualizationExportService.exportAll(
+          visualizations.map(({ id, visualizationType }: any) => ({
+            id,
+            visualizationType,
+          }))
+        );
+      });
+  }
   confirm(message?: string): Observable<boolean> {
     const confirmation = window.confirm(message || 'Is it OK?');
 

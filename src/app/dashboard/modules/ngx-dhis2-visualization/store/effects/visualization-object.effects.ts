@@ -371,6 +371,9 @@ export class VisualizationObjectEffects {
               return {
                 id: favoriteLayer.id,
                 dataSelections,
+                visualizationType: action.visualization
+                  ? action.visualization.type
+                  : '',
                 layerType: getVisualizationLayerType(
                   action.visualization.favorite.type,
                   favoriteLayer

@@ -1,25 +1,13 @@
 <div class="widget-container" [id]="widgetId">
   <div *ngIf="loading">
-    <app-visualization-card-loader
-      [visualizationType]="'APP'"
-      [height]="height"
-      [name]="appKey"
-    ></app-visualization-card-loader>
+    <app-visualization-card-loader [visualizationType]="'APP'" [height]="height" [name]="appKey">
+    </app-visualization-card-loader>
   </div>
-  <iframe
-    *ngIf="!loading && !errorMessage"
-    id="widget_{{ visualizationId }}"
-    class="visualization-widget"
-    [style.height]="'calc(' + height + ' - 15px)'"
-    frameborder="0"
-    allowfullscreen
-    [src]="appUrl | safe: 'url'"
-  >
+  <iframe *ngIf="!loading && !errorMessage" id="{{ visualizationLayerId }}" class="visualization-widget"
+    [style.height]="'calc(' + height + ' - 15px)'" frameborder="0" allowfullscreen [src]="appUrl | safe: 'url'">
   </iframe>
   <div *ngIf="errorMessage" [style.height]="height" class="widget-error-block">
-    <visualization-error-notifier
-      [errorMessage]="errorMessage"
-      [titleMessage]="'Application not yet installed, or missing in action!'"
-    ></visualization-error-notifier>
+    <visualization-error-notifier [errorMessage]="errorMessage"
+      [titleMessage]="'Application not yet installed, or missing in action!'"></visualization-error-notifier>
   </div>
 </div>

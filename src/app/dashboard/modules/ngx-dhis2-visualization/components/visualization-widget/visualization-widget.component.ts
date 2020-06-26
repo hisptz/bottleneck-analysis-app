@@ -3,7 +3,7 @@ import {
   OnInit,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationLayer, VisualizationDataSelection } from '../../models';
@@ -14,7 +14,7 @@ import { getSelectionDimensionsFromAnalytics } from '../../helpers';
 @Component({
   selector: 'app-visualization-widget',
   templateUrl: './visualization-widget.component.html',
-  styleUrls: ['./visualization-widget.component.scss']
+  styleUrls: ['./visualization-widget.component.scss'],
 })
 export class VisualizationWidgetComponent implements OnInit, OnChanges {
   @Input()
@@ -42,6 +42,11 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
 
   constructor(private httpClient: HttpClient) {
     this.loading = true;
+  }
+
+  get visualizationLayerId(): string {
+    const visualizationLayer = (this.visualizationLayers || [])[0];
+    return visualizationLayer ? visualizationLayer.id : '';
   }
 
   get appUrl(): string {
@@ -95,7 +100,7 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
       () => {
         this.loading = false;
       },
-      error => {
+      (error) => {
         this.loading = false;
         // TODO: Find ways to solve 200 error response as it is success
         if (error.status >= 400) {
@@ -109,7 +114,7 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
                   '<a target="_blank" href="' +
                   this.contextPath +
                   '/dhis-web-app-management/#">App Management<a> to' +
-                  ' install the widget and then reload this app again</small>'
+                  ' install the widget and then reload this app again</small>',
           };
         }
       }
@@ -126,7 +131,7 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
               name: group.name,
               members: _.map(group.members || [], (member: any) => {
                 return { id: member.id, name: member.name };
-              })
+              }),
             };
           })
         : []
@@ -143,7 +148,7 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
       _.map(
         _.filter(
           dataSelections,
-          dataSelection => dataSelection.dimension === dimension
+          (dataSelection) => dataSelection.dimension === dimension
         ),
         (dataSelection: any) => dataSelection.items
       )

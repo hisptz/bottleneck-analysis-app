@@ -1,9 +1,52 @@
 import { Injectable } from '@angular/core';
+import * as XLSX from 'xlsx';
 
 declare var unescape: any;
 
 @Injectable({ providedIn: 'root' })
 export class VisualizationExportService {
+  exportAll(items) {
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const contents = (items || []).forEach((item) => {
+      let htmlContents;
+      switch (item.visualizationType) {
+        case 'CHART':
+          break;
+        case 'REPORT_TABLE':
+          const tableElement = document.getElementById(item.id);
+          if (tableElement) {
+            const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(tableElement);
+            XLSX.utils.book_append_sheet(wb, ws, 'Sublevel analysis');
+          }
+          break;
+        case 'APP':
+          const iframeElement: any = document.getElementById(item.id);
+          if (iframeElement) {
+            const innerContent =
+              iframeElement.contentDocument ||
+              iframeElement.contentWindow.document;
+
+            if (innerContent) {
+              const widgetTableElements = innerContent.getElementsByTagName(
+                'table'
+              );
+              if (widgetTableElements && widgetTableElements[0]) {
+                const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
+                  widgetTableElements[0]
+                );
+                XLSX.utils.book_append_sheet(wb, ws, 'Root cause analysis');
+              }
+            }
+          }
+          break;
+        default:
+          break;
+      }
+      return htmlContents;
+    });
+
+    XLSX.writeFile(wb, 'intervention.xlsx');
+  }
   exportXLS(fileName: string, htmlTable: any) {
     if (this._getMsieVersion() || this._isFirefox()) {
       console.warn('Not supported browser');
@@ -18,7 +61,7 @@ export class VisualizationExportService {
           '<x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
           '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->' +
           '</head><body><table border="1">{table}</table><br /><table border="1">{table}</table></body></html>',
-        base64 = s => window.btoa(unescape(encodeURIComponent(s))),
+        base64 = (s) => window.btoa(unescape(encodeURIComponent(s))),
         format = (s, c) => s.replace(/{(\w+)}/g, (m, p) => c[p]);
 
       const ctx = { worksheet: 'Sheet 1', filename: fileName };
@@ -129,10 +172,10 @@ export class VisualizationExportService {
 
     return slice
       .call(table.rows)
-      .map(function(row) {
+      .map(function (row) {
         return slice
           .call(row.cells)
-          .map(function(cell) {
+          .map(function (cell) {
             return '"t"'.replace('t', cell.textContent);
           })
           .join(',');
