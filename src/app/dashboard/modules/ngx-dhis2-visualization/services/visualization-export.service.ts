@@ -5,10 +5,9 @@ declare var unescape: any;
 
 @Injectable({ providedIn: 'root' })
 export class VisualizationExportService {
-  exportAll(items) {
+  exportAll(items, filename) {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    const contents = (items || []).forEach((item) => {
-      let htmlContents;
+    (items || []).forEach((item) => {
       switch (item.visualizationType) {
         case 'CHART': {
           const tableElement = document.getElementById(item.id + '_table');
@@ -49,10 +48,9 @@ export class VisualizationExportService {
         default:
           break;
       }
-      return htmlContents;
     });
 
-    XLSX.writeFile(wb, 'intervention.xlsx');
+    XLSX.writeFile(wb, `${filename}.xlsx`);
   }
   exportXLS(fileName: string, htmlTable: any) {
     if (this._getMsieVersion() || this._isFirefox()) {

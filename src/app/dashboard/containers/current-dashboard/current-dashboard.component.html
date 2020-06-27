@@ -15,7 +15,7 @@
       [globalDataSelectionSummary]="currentGlobalDataSelectionSummary$ | async"
       [visualizationLoadingPercent]="(progressMessages$ | async)?.percent" [systemInfo]="systemInfo$ | async"
       (resetDashboard)="onResetDashboard($event)" (updateInterventionSettings)="onInterventionSettingsUpdate($event)"
-      (downloadDashboard)="onDownload($event)">
+      (downloadDashboard)="onDownload()">
     </app-current-dashboard-header>
   </div>
   <!-- end of current dashboard header -->
@@ -62,7 +62,8 @@
         [systemInfo]="systemInfo$ | async" [dashboard]="currentDashboard$ | async"
         (toggleFullScreen)="onToggleVisualizationFullScreen($event)"
         (deleteVisualization)="onDeleteVisualizationAction($event)"
-        [selectionSummary]="currentGlobalDataSelectionSummary$ | async"></ngx-dhis2-visualization>
+        [selectionSummary]="currentGlobalDataSelectionSummary$ | async"
+        [downloadFilename]="dashboardDownloadFilename$ | async"></ngx-dhis2-visualization>
     </div>
   </div>
   <!-- end of current dashboard visualizations -->

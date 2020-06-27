@@ -69,6 +69,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
   @Input() currentUser: any;
   @Input() systemInfo: any;
   @Input() selectionSummary: string;
+  @Input() downloadFilename: string;
 
   cardFocused: boolean;
 
@@ -87,14 +88,6 @@ export class VisualizationComponent implements OnInit, OnChanges {
   visualizationConfig$: Observable<VisualizationConfig>;
   focusedVisualization$: Observable<string>;
   legendDefinitions: Legend[];
-
-  get downloadFilename(): string {
-    return this.dashboard
-      ? `${this.dashboard.name}${
-          this.selectionSummary ? ' - ' + this.selectionSummary : ''
-        }`
-      : '';
-  }
 
   constructor(private store: Store<VisualizationState>) {
     this.cardFocused = false;

@@ -32,6 +32,7 @@ import { User } from '@iapps/ngx-dhis2-http-client';
 import {
   getCurrentGlobalDataSelections,
   getGlobalDataSelectionSummary,
+  getCurrentDashboardDownloadFilename,
 } from '../../store/selectors/data-selections.selectors';
 import { VisualizationExportService } from '../../modules/ngx-dhis2-visualization/services';
 import { getCurrentVisualizationObjectLayers } from '../../modules/ngx-dhis2-visualization/store';
@@ -57,6 +58,7 @@ export class CurrentDashboardComponent implements OnInit {
 
   currentGlobalDataSelections$: Observable<any>;
   currentGlobalDataSelectionSummary$: Observable<string>;
+  dashboardDownloadFilename$: Observable<string>;
 
   currentUserHasManagementAuthorities$: Observable<boolean>;
 
@@ -120,6 +122,10 @@ export class CurrentDashboardComponent implements OnInit {
     );
 
     this.menuContainerHeight$ = this.store.select(getDashboardMenuHeight);
+
+    this.dashboardDownloadFilename$ = this.store.select(
+      getCurrentDashboardDownloadFilename
+    );
 
     this.welcomingTitle = WELCOMING_TITLE;
     this.welcomingDescription = WELCOMING_DESCRIPTION;
@@ -244,7 +250,7 @@ export class CurrentDashboardComponent implements OnInit {
     );
   }
 
-  onDownload(dashboard: Dashboard) {
+  onDownload() {
     this.currentDashboardVisualizationItems$
       .pipe(
         switchMap((visualizationItems) => {
@@ -263,12 +269,17 @@ export class CurrentDashboardComponent implements OnInit {
         take(1)
       )
       .subscribe((visualizations: any[]) => {
-        this.visualizationExportService.exportAll(
-          visualizations.map(({ id, visualizationType }: any) => ({
-            id,
-            visualizationType,
-          }))
-        );
+        this.dashboardDownloadFilename$
+          .pipe(take(1))
+          .subscribe((filename: string) => {
+            this.visualizationExportService.exportAll(
+              visualizations.map(({ id, visualizationType }: any) => ({
+                id,
+                visualizationType,
+              })),
+              filename
+            );
+          });
       });
   }
   confirm(message?: string): Observable<boolean> {
