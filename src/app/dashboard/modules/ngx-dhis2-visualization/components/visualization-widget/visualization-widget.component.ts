@@ -10,6 +10,7 @@ import { VisualizationLayer, VisualizationDataSelection } from '../../models';
 import { environment } from '../../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { getSelectionDimensionsFromAnalytics } from '../../helpers';
+import { VisualizationExportService } from '../../services';
 
 @Component({
   selector: 'app-visualization-widget',
@@ -17,22 +18,15 @@ import { getSelectionDimensionsFromAnalytics } from '../../helpers';
   styleUrls: ['./visualization-widget.component.scss'],
 })
 export class VisualizationWidgetComponent implements OnInit, OnChanges {
-  @Input()
-  contextPath: string;
-  @Input()
-  dashboard: any;
-  @Input()
-  focusedDashboardItem: string;
-  @Input()
-  appKey: string;
-  @Input()
-  visualizationId: string;
-  @Input()
-  height: string;
-  @Input()
-  visualizationLayers: VisualizationLayer[];
-  @Input()
-  currentUser: any;
+  @Input() contextPath: string;
+  @Input() dashboard: any;
+  @Input() focusedDashboardItem: string;
+  @Input() appKey: string;
+  @Input() visualizationId: string;
+  @Input() height: string;
+  @Input() visualizationLayers: VisualizationLayer[];
+  @Input() currentUser: any;
+  @Input() dashboardFilename: string;
 
   errorMessage: any;
   loading: boolean;
@@ -40,7 +34,10 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
   download: boolean;
   downloadFormat: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private visualizationExportService: VisualizationExportService
+  ) {
     this.loading = true;
   }
 
@@ -159,8 +156,25 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
       : JSON.stringify(selectionItems);
   }
 
-  onDownloadEvent(downloadFormat: string) {
-    this.downloadFormat = downloadFormat;
-    this.download = true;
+  onDownloadEvent(downloadFormat: string, filename) {
+    const iframeElement: any = document.getElementById(
+      this.visualizationLayerId
+    );
+
+    if (iframeElement) {
+      const innerContent =
+        iframeElement.contentDocument || iframeElement.contentWindow.document;
+
+      if (innerContent) {
+        const widgetTableElements = innerContent.getElementsByTagName('table');
+
+        if (widgetTableElements && widgetTableElements[0]) {
+          this.visualizationExportService.exportXLS(
+            `root cause analysis - ${filename}`,
+            widgetTableElements[0]
+          );
+        }
+      }
+    }
   }
 }
