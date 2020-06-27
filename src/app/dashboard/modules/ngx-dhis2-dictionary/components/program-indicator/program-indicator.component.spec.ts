@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProgramIndicatorComponent } from './program-indicator.component';
+import { StoreModule } from '@ngrx/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ProgramIndicatorComponent', () => {
   let component: ProgramIndicatorComponent;
@@ -8,9 +10,10 @@ describe('ProgramIndicatorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProgramIndicatorComponent ]
-    })
-    .compileComponents();
+      imports: [StoreModule.forRoot({})],
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [ProgramIndicatorComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

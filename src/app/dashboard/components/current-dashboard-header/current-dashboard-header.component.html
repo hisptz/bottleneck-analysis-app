@@ -53,8 +53,9 @@
     <div style="height: 40px; width: 100%;" *ngIf="dashboardLoading">
       <app-dashboard-progress [borderRadius]="'5px'"></app-dashboard-progress>
     </div>
-    <button mat-icon-button class="download-btn" *ngIf="dashboardLoaded" (click)="onDownloadDashboard($event)">
-      <mat-icon>publish</mat-icon>
+    <button mat-icon-button class="download-btn" *ngIf="dashboardLoaded" (click)="onDownloadDashboard($event)"
+      matTooltip="Download contents in excel">
+      <mat-icon class="text-muted">publish</mat-icon>
     </button>
     <div class="dashboard-delete-block" *ngIf="dashboardLoaded">
       <button [disabled]="currentDashboard?.saving || currentDashboard?.deleting" title="Delete this dashboard"

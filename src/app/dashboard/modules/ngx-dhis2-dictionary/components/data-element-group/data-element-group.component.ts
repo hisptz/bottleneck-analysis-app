@@ -20,7 +20,7 @@ export class DataElementGroupComponent implements OnInit {
 
   getDistinctDataSetsCount(dataElements) {
     const dataSets = [];
-    dataElements.forEach((dataElement) => {
+    (dataElements || []).forEach((dataElement) => {
       dataSets.push(dataElement.dataSetElements[0].dataSet);
     });
     return _.uniqBy(dataSets, 'id');
