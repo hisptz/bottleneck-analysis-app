@@ -19,6 +19,9 @@ export enum DashboardActionTypes {
   SaveDashboard = '[Dashboard] Save Dashboard',
   SaveDashboardSuccess = '[Dashboard] Save Dashboard success',
   SaveDashboardFail = '[Dashboard] Save Dashboard fail',
+  ArchiveDashboard = '[Dashboard] Archive Dashboard',
+  ArchiveDashboardSuccess = '[Dashboard] Archive Dashboard success',
+  ArchiveDashboardFail = '[Dashboard] Archive Dashboard fail',
   UpdateDashboards = '[Dashboard] Update Dashboards',
   DeleteDashboard = '[Dashboard] Delete Dashboard',
   DeleteDashboardSuccess = '[Dashboard] Delete Dashboard success',
@@ -190,6 +193,20 @@ export class SaveDashboardFailAction implements Action {
   constructor(public dashboard: Dashboard, public error: any) {}
 }
 
+export class ArchiveDashboardAction implements Action {
+  readonly type = DashboardActionTypes.ArchiveDashboard;
+  constructor(public dashboard: Dashboard) {}
+}
+
+export class ArchiveDashboardSuccessAction implements Action {
+  readonly type = DashboardActionTypes.ArchiveDashboardSuccess;
+  constructor(public dashboard: Dashboard) {}
+}
+
+export class ArchiveDashboardFailAction implements Action {
+  readonly type = DashboardActionTypes.ArchiveDashboardFail;
+  constructor(public dashboard: Dashboard, public error: any) {}
+}
 export class ResetDashboardAction implements Action {
   readonly type = DashboardActionTypes.ResetDashboard;
   constructor(public id: string, public changes: Partial<Dashboard>) {}
@@ -212,6 +229,9 @@ export type DashboardActions =
   | SaveDashboardAction
   | SaveDashboardSuccessAction
   | SaveDashboardFailAction
+  | ArchiveDashboardAction
+  | ArchiveDashboardSuccessAction
+  | ArchiveDashboardFailAction
   | DeleteDashboard
   | DeleteDashboardSuccess
   | DeleteDashboardFail
