@@ -3,7 +3,7 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { InterventionArchive } from '../models/intervention-archive.model';
 
 @Injectable({ providedIn: 'root' })
-export class DashboardArchiveService {
+export class InterventionArchiveService {
   private dataStoreNamespace = 'dataStore/intervention-archives';
   constructor(private httpClient: NgxDhis2HttpClientService) {}
 

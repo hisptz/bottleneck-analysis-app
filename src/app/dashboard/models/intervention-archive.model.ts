@@ -1,8 +1,9 @@
 import { Intervention } from './intervention.model';
+import { Dashboard } from './dashboard.model';
 
 export interface InterventionArchive {
   id: string;
-  intervention: Intervention;
+  intervention: Dashboard;
   favorites: any[];
   analysticsList: any[];
 }

@@ -32,6 +32,7 @@ import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-vis
 import { getStandardizedDashboards } from '../../helpers';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '@iapps/ngx-dhis2-http-client';
+import { InterventionArchiveService } from '../../services/intervention-archive.service';
 
 @Injectable()
 export class DashboardEffects {
@@ -454,6 +455,43 @@ export class DashboardEffects {
   );
 
   @Effect()
+  archiveDashboard$: Observable<any> = this.actions$.pipe(
+    ofType(fromDashboardActions.DashboardActionTypes.ArchiveDashboard),
+    withLatestFrom(
+      this.store.select(fromDashboardSelectors.getCurrentDashboard)
+    ),
+    mergeMap(([{}, currentDashboard]) => {
+      this.snackBar.open(`Archiving ${currentDashboard.name} intervention....`);
+      return this.interventionArchiveService
+        .save(
+          {
+            id: '',
+            intervention: currentDashboard,
+            favorites: [],
+            analysticsList: [],
+          },
+          ''
+        )
+        .pipe(
+          map(
+            () =>
+              new fromDashboardActions.ArchiveDashboardSuccessAction(
+                currentDashboard
+              )
+          ),
+          catchError((error) =>
+            of(
+              new fromDashboardActions.ArchiveDashboardFailAction(
+                currentDashboard,
+                error
+              )
+            )
+          )
+        );
+    })
+  );
+
+  @Effect()
   deleteDashboard$: Observable<any> = this.actions$.pipe(
     ofType(fromDashboardActions.DashboardActionTypes.DeleteDashboard),
     withLatestFrom(
@@ -622,6 +660,7 @@ export class DashboardEffects {
     private actions$: Actions,
     private store: Store<fromRootReducer.State>,
     private dashboardService: DashboardService,
+    private interventionArchiveService: InterventionArchiveService,
     private snackBar: MatSnackBar
   ) {}
 }
