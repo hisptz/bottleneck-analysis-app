@@ -282,6 +282,10 @@ export class CurrentDashboardComponent implements OnInit {
           });
       });
   }
+
+  onArchive(dashboard: Dashboard) {
+    console.log(dashboard);
+  }
   confirm(message?: string): Observable<boolean> {
     const confirmation = window.confirm(message || 'Is it OK?');
 

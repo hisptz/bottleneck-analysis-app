@@ -15,7 +15,7 @@
       [globalDataSelectionSummary]="currentGlobalDataSelectionSummary$ | async"
       [visualizationLoadingPercent]="(progressMessages$ | async)?.percent" [systemInfo]="systemInfo$ | async"
       (resetDashboard)="onResetDashboard($event)" (updateInterventionSettings)="onInterventionSettingsUpdate($event)"
-      (downloadDashboard)="onDownload()">
+      (downloadDashboard)="onDownload()" (archiveDashboard)="onArchive($event)">
     </app-current-dashboard-header>
   </div>
   <!-- end of current dashboard header -->

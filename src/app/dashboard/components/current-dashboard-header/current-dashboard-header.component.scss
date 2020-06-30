@@ -21,7 +21,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  flex: 1;
 }
 
 .dashboard-options {
@@ -48,22 +47,6 @@
   display: flex;
   align-items: center;
   padding-top: 5px;
-}
-
-.dashboard-delete-block,
-.dashboard-save-block {
-  margin-left: 10px;
-}
-
-.dashboard-delete-btn,
-.dashboard-save-btn {
-  outline: none;
-  cursor: pointer;
-}
-
-.dashboard-delete-btn:focus,
-.dashboard-delete-btn:active {
-  outline: none !important;
 }
 
 .dashboard-delete-confirmation {
