@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Injectable } from '@angular/core';
 import {
   InterventionArchiveAction,
-  archiveInterventionSuccess,
+  upsertInterventionArchive,
   archiveInterventionFail,
 } from '../actions/intervention-archive.actions';
 import {
@@ -20,9 +20,24 @@ import { of } from 'rxjs';
 import * as _ from 'lodash';
 import { User } from '@iapps/ngx-dhis2-http-client';
 import { DASHBOARD_ATTRIBUTE_TO_OMIT } from '../../constants/dashboard-attributes-to-omit.constant';
+import { InterventionArchive } from '../../models/intervention-archive.model';
 
 @Injectable()
 export class InterventionArchiveEffects {
+  loadInterventionArchive$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(InterventionArchiveAction.LoadInterventionArchives),
+      mergeMap(({ id }) =>
+        this.interventionArchiveService
+          .findOne(id)
+          .pipe(
+            map((interventionArchive: InterventionArchive) =>
+              upsertInterventionArchive({ interventionArchive })
+            )
+          )
+      )
+    )
+  );
   archiveIntervention$ = createEffect(() =>
     this.actions$.pipe(
       ofType(InterventionArchiveAction.ArchiveIntervention),
@@ -70,7 +85,7 @@ export class InterventionArchiveEffects {
                 duration: 3000,
               }
             );
-            return archiveInterventionSuccess({
+            return upsertInterventionArchive({
               interventionArchive,
             });
           }),

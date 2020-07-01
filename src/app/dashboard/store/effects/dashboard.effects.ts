@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from '@iapps/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
@@ -12,12 +14,12 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-
 import * as fromRootHelpers from '../../../helpers';
 import * as fromRootActions from '../../../store/actions';
 import * as fromRootReducer from '../../../store/reducers';
 import * as fromRootSelectors from '../../../store/selectors';
 import * as fromDashboardHelpers from '../../helpers';
+import { getStandardizedDashboards } from '../../helpers';
 import { getDataSelectionsForDashboardCreation } from '../../helpers/get-data-selections-for-dashboard-creation.helper';
 import * as fromDashboardModels from '../../models';
 import * as fromVisualizationHelpers from '../../modules/ngx-dhis2-visualization/helpers';
@@ -25,16 +27,11 @@ import * as fromVisualizationModels from '../../modules/ngx-dhis2-visualization/
 import * as fromVisualizationActions from '../../modules/ngx-dhis2-visualization/store/actions';
 import * as fromVisualizationSelectors from '../../modules/ngx-dhis2-visualization/store/selectors';
 import { DashboardService } from '../../services/dashboard.service';
+import { InterventionArchiveService } from '../../services/intervention-archive.service';
 import * as fromDashboardVisualizationActions from '../actions/dashboard-visualization.actions';
 import * as fromDashboardActions from '../actions/dashboard.actions';
 import * as fromDashboardSelectors from '../selectors';
 import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-visualization.selectors';
-import { getStandardizedDashboards } from '../../helpers';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { User } from '@iapps/ngx-dhis2-http-client';
-import { InterventionArchiveService } from '../../services/intervention-archive.service';
-import { getCurrentUser } from '../../../store/selectors';
-import { DASHBOARD_ATTRIBUTE_TO_OMIT } from '../../constants/dashboard-attributes-to-omit.constant';
 
 @Injectable()
 export class DashboardEffects {

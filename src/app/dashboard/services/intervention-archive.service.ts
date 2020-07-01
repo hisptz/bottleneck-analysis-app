@@ -37,4 +37,6 @@ export class InterventionArchiveService {
         )
       );
   }
+
+  findByIntervention(interventionId: string) {}
 }
