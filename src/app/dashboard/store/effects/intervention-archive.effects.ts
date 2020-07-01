@@ -52,36 +52,36 @@ export class InterventionArchiveEffects {
 
         const date = new Date();
 
-        return this.interventionArchiveService
-          .save({
-            id: `${intervention.id}_${selectionObject.ou}_${selectionObject.pe}`,
-            created: date.toISOString(),
-            lastUpdated: date.toISOString(),
-            intervention: _.omit(intervention, DASHBOARD_ATTRIBUTE_TO_OMIT),
-            visualizationLayers,
-            user: { id: currentUser.id },
+        const interventionArchive = {
+          id: `${intervention.id}_${selectionObject.ou}_${selectionObject.pe}`,
+          created: date.toISOString(),
+          lastUpdated: date.toISOString(),
+          intervention: _.omit(intervention, DASHBOARD_ATTRIBUTE_TO_OMIT),
+          visualizationLayers,
+          user: { id: currentUser.id },
+        };
+
+        return this.interventionArchiveService.save(interventionArchive).pipe(
+          map(() => {
+            this.snackBar.open(
+              `${intervention.name} intervention archived successfully`,
+              'OK',
+              {
+                duration: 3000,
+              }
+            );
+            return archiveInterventionSuccess({
+              interventionArchive,
+            });
+          }),
+          catchError((error) => {
+            this.snackBar.open(
+              `Fail to archive ${intervention.name} intervention, Error (Code: ${error.status}): ${error.message}`,
+              'OK'
+            );
+            return of(archiveInterventionFail({ error }));
           })
-          .pipe(
-            map(() => {
-              this.snackBar.open(
-                `${intervention.name} intervention archived successfully`,
-                'OK',
-                {
-                  duration: 3000,
-                }
-              );
-              return archiveInterventionSuccess({
-                interventionArchive: null,
-              });
-            }),
-            catchError((error) => {
-              this.snackBar.open(
-                `Fail to archive ${intervention.name} intervention, Error (Code: ${error.status}): ${error.message}`,
-                'OK'
-              );
-              return of(archiveInterventionFail({ error }));
-            })
-          );
+        );
       })
     )
   );
