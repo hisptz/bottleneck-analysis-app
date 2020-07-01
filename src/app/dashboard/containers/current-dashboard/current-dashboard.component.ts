@@ -14,7 +14,7 @@ import * as fromDashboardSelectors from '../../store/selectors';
 import * as fromDashboardActions from '../../store/actions';
 
 // models
-import { Dashboard } from '../../models';
+import { Dashboard, Intervention } from '../../models';
 import { SystemInfo, LegendSet } from '../../../models';
 
 // constant
@@ -37,6 +37,7 @@ import {
 import { VisualizationExportService } from '../../modules/ngx-dhis2-visualization/services';
 import { getCurrentVisualizationObjectLayers } from '../../modules/ngx-dhis2-visualization/store';
 import { ArchiveDashboardAction } from '../../store/actions';
+import { archiveIntervention } from '../../store/actions/intervention-archive.actions';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -284,7 +285,7 @@ export class CurrentDashboardComponent implements OnInit {
       });
   }
 
-  onArchive(dashboard: Dashboard) {
+  onArchive(intervention: Intervention) {
     this.currentDashboardVisualizationItems$
       .pipe(
         switchMap((visualizationItems) => {
@@ -304,7 +305,7 @@ export class CurrentDashboardComponent implements OnInit {
       )
       .subscribe((visualizationLayers: any[]) => {
         this.store.dispatch(
-          new ArchiveDashboardAction(dashboard, visualizationLayers)
+          archiveIntervention({ intervention, visualizationLayers })
         );
       });
   }
