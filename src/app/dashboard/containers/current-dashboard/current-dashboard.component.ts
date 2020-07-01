@@ -36,6 +36,7 @@ import {
 } from '../../store/selectors/data-selections.selectors';
 import { VisualizationExportService } from '../../modules/ngx-dhis2-visualization/services';
 import { getCurrentVisualizationObjectLayers } from '../../modules/ngx-dhis2-visualization/store';
+import { ArchiveDashboardAction } from '../../store/actions';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -284,7 +285,28 @@ export class CurrentDashboardComponent implements OnInit {
   }
 
   onArchive(dashboard: Dashboard) {
-    console.log(dashboard);
+    this.currentDashboardVisualizationItems$
+      .pipe(
+        switchMap((visualizationItems) => {
+          return zip(
+            ...visualizationItems.map((visualizationItem) =>
+              this.store
+                .pipe(
+                  select(
+                    getCurrentVisualizationObjectLayers(visualizationItem.id)
+                  )
+                )
+                .pipe(map((layers: any[]) => layers[0]))
+            )
+          );
+        }),
+        take(1)
+      )
+      .subscribe((visualizationLayers: any[]) => {
+        this.store.dispatch(
+          new ArchiveDashboardAction(dashboard, visualizationLayers)
+        );
+      });
   }
   confirm(message?: string): Observable<boolean> {
     const confirmation = window.confirm(message || 'Is it OK?');

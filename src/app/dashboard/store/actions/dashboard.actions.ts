@@ -4,6 +4,7 @@ import { SystemInfo } from '../../../models';
 import { DashboardSettings } from '../../models/dashboard-settings.model';
 import { Determinant } from '../../../models/determinant.model';
 import { User, ErrorMessage } from '@iapps/ngx-dhis2-http-client';
+import { VisualizationLayer } from '../../modules/ngx-dhis2-visualization/models';
 
 export enum DashboardActionTypes {
   LoadDashboards = '[Dashboard] Load Dashboards',
@@ -195,7 +196,10 @@ export class SaveDashboardFailAction implements Action {
 
 export class ArchiveDashboardAction implements Action {
   readonly type = DashboardActionTypes.ArchiveDashboard;
-  constructor(public dashboard: Dashboard) {}
+  constructor(
+    public dashboard: Dashboard,
+    public visualizationLayers: VisualizationLayer[]
+  ) {}
 }
 
 export class ArchiveDashboardSuccessAction implements Action {

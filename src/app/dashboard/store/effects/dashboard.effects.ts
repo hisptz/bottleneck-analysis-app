@@ -33,6 +33,8 @@ import { getStandardizedDashboards } from '../../helpers';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '@iapps/ngx-dhis2-http-client';
 import { InterventionArchiveService } from '../../services/intervention-archive.service';
+import { getCurrentUser } from '../../../store/selectors';
+import { DASHBOARD_ATTRIBUTE_TO_OMIT } from '../../constants/dashboard-attributes-to-omit.constant';
 
 @Injectable()
 export class DashboardEffects {
@@ -457,36 +459,65 @@ export class DashboardEffects {
   @Effect()
   archiveDashboard$: Observable<any> = this.actions$.pipe(
     ofType(fromDashboardActions.DashboardActionTypes.ArchiveDashboard),
-    withLatestFrom(
-      this.store.select(fromDashboardSelectors.getCurrentDashboard)
-    ),
-    mergeMap(([{}, currentDashboard]) => {
-      this.snackBar.open(`Archiving ${currentDashboard.name} intervention....`);
+    withLatestFrom(this.store.select(getCurrentUser)),
+    mergeMap(([action, currentUser]: [any, User]) => {
+      const { dashboard, visualizationLayers } = action;
+      this.snackBar.open(`Archiving ${dashboard.name} intervention....`);
+      const chartVisualizationLayer = _.find(visualizationLayers, [
+        'visualizationType',
+        'CHART',
+      ]);
+
+      const selectionObject = { pe: '', ou: '' };
+
+      (chartVisualizationLayer
+        ? chartVisualizationLayer.dataSelections
+        : []
+      ).forEach((selection: any) => {
+        if (selection.dimension === 'dx') {
+          return undefined;
+        }
+        selectionObject[selection.dimension] = selection.items
+          .map((item) => item.id)
+          .join(';');
+      });
+
+      const date = new Date();
+
       return this.interventionArchiveService
-        .save(
-          {
-            id: '',
-            intervention: currentDashboard,
-            favorites: [],
-            analysticsList: [],
-          },
-          ''
-        )
+        .save({
+          id: `${dashboard.id}_${selectionObject.ou}_${selectionObject.pe}`,
+          created: date.toISOString(),
+          lastUpdated: date.toISOString(),
+          intervention: _.omit(dashboard, DASHBOARD_ATTRIBUTE_TO_OMIT),
+          visualizationLayers,
+          user: { id: currentUser.id },
+        })
         .pipe(
-          map(
-            () =>
-              new fromDashboardActions.ArchiveDashboardSuccessAction(
-                currentDashboard
-              )
-          ),
-          catchError((error) =>
-            of(
+          map(() => {
+            this.snackBar.open(
+              `${dashboard.name} intervention archived successfully`,
+              'OK',
+              {
+                duration: 3000,
+              }
+            );
+            return new fromDashboardActions.ArchiveDashboardSuccessAction(
+              dashboard
+            );
+          }),
+          catchError((error) => {
+            this.snackBar.open(
+              `Fail to archive ${dashboard.name} intervention, Error (Code: ${error.status}): ${error.message}`,
+              'OK'
+            );
+            return of(
               new fromDashboardActions.ArchiveDashboardFailAction(
-                currentDashboard,
+                dashboard,
                 error
               )
-            )
-          )
+            );
+          })
         );
     })
   );
