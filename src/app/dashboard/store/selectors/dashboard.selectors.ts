@@ -108,9 +108,16 @@ export const getDashboardLoading = createSelector(
     dashboardLoadingStatus || interventionArchiveLoadingStatus
 );
 
-export const getDashboardLoaded = createSelector(
+export const getDashboardLoadedStatus = createSelector(
   fromDashboardReducer.getDashboardState,
   (state: fromDashboardReducer.State) => (state ? state.loaded : false)
+);
+
+export const getDashboardLoaded = createSelector(
+  getDashboardLoadedStatus,
+  getInterventionArchiveLoadingStatus,
+  (dashboardLoaded, interventionArchiveLoading) =>
+    dashboardLoaded && !interventionArchiveLoading
 );
 export const getDashboardNotification = createSelector(
   fromDashboardReducer.getDashboardState,
