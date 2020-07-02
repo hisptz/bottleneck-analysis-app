@@ -5,7 +5,7 @@ import {
 } from '@iapps/ngx-dhis2-http-client';
 import { InterventionArchive } from '../models/intervention-archive.model';
 import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
-import { of, throwError } from 'rxjs';
+import { of, throwError, zip } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class InterventionArchiveService {
@@ -38,5 +38,18 @@ export class InterventionArchiveService {
       );
   }
 
-  findByIntervention(interventionId: string) {}
+  findByIntervention(interventionId: string) {
+    return this.httpClient.get(this.dataStoreNamespace).pipe(
+      catchError(() => of([])),
+      mergeMap((interventionArchiveIds: string[]) => {
+        const filteredInterventionArchiveIds = interventionArchiveIds.filter(
+          (id) => id.indexOf(interventionId) !== -1
+        );
+
+        return zip(
+          ...filteredInterventionArchiveIds.map((id) => this.findOne(id))
+        );
+      })
+    );
+  }
 }

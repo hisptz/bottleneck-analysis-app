@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '@iapps/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as _ from 'lodash';
 import { from, Observable, of } from 'rxjs';
 import {
@@ -13,6 +13,7 @@ import {
   take,
   tap,
   withLatestFrom,
+  concatMap,
 } from 'rxjs/operators';
 import * as fromRootHelpers from '../../../helpers';
 import * as fromRootActions from '../../../store/actions';
@@ -32,6 +33,9 @@ import * as fromDashboardVisualizationActions from '../actions/dashboard-visuali
 import * as fromDashboardActions from '../actions/dashboard.actions';
 import * as fromDashboardSelectors from '../selectors';
 import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-visualization.selectors';
+import { loadInterventionArchives } from '../actions/intervention-archive.actions';
+import { getInterventionArchivesByInterventionId } from '../selectors/intervention-archive.selectors';
+import { InterventionArchive } from '../../models/intervention-archive.model';
 
 @Injectable()
 export class DashboardEffects {
@@ -86,17 +90,34 @@ export class DashboardEffects {
   @Effect({ dispatch: false })
   setCurrentDashboard$: Observable<any> = this.actions$.pipe(
     ofType(fromDashboardActions.DashboardActionTypes.SetCurrentDashboard),
-    withLatestFrom(this.store.select(fromRootSelectors.getCurrentUser)),
+    concatMap((action: any) =>
+      of(action).pipe(
+        withLatestFrom(
+          this.store.pipe(select(fromRootSelectors.getCurrentUser)),
+          this.store.pipe(
+            select(getInterventionArchivesByInterventionId(action.id))
+          )
+        )
+      )
+    ),
     tap(
-      ([action, currentUser]: [
+      ([action, currentUser, interventionArchives]: [
         fromDashboardActions.SetCurrentDashboardAction,
-        User
+        User,
+        InterventionArchive[]
       ]) => {
         // Set selected dashboard id into local storage
         localStorage.setItem(
           'dhis2.dashboard.current.' + currentUser.userCredentials.username,
           action.id
         );
+
+        // Load archive information for current intervention
+        if (interventionArchives.length === 0) {
+          this.store.dispatch(
+            loadInterventionArchives({ interventionId: action.id })
+          );
+        }
 
         // Decide on the route to take
         const splitedRouteUrl = action.routeUrl

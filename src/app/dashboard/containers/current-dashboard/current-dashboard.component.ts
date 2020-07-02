@@ -1,43 +1,37 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable, of, from, zip } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { take, first, switchMap, mergeMap, map } from 'rxjs/operators';
-
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { User } from '@iapps/ngx-dhis2-http-client';
+import { select, Store } from '@ngrx/store';
+import { Observable, of, zip } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
+import { SystemInfo } from '../../../models';
 // root state
 import { State } from '../../../store/reducers';
-
 // selectors
 import * as fromRootSelectors from '../../../store/selectors';
-import * as fromDashboardSelectors from '../../store/selectors';
-
-// actions
-import * as fromDashboardActions from '../../store/actions';
-
-// models
-import { Dashboard, Intervention } from '../../models';
-import { SystemInfo, LegendSet } from '../../../models';
-
+import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
 // constant
 import {
+  EMPTY_VISUALIZATION,
   WELCOMING_DESCRIPTION,
   WELCOMING_TITLE,
-  EMPTY_VISUALIZATION,
 } from '../../constants/welcoming-messages.constants';
-import { getCurrentUserManagementAuthoritiesStatus } from '../../../store/selectors';
+// models
+import { Dashboard, Intervention } from '../../models';
+import { VisualizationExportService } from '../../modules/ngx-dhis2-visualization/services';
+import { getCurrentVisualizationObjectLayers } from '../../modules/ngx-dhis2-visualization/store';
+// actions
+import * as fromDashboardActions from '../../store/actions';
+import { archiveIntervention } from '../../store/actions/intervention-archive.actions';
+import * as fromDashboardSelectors from '../../store/selectors';
 import {
   getCurrentDashboardVisualizationLoadingProgress,
   getDashboardMenuHeight,
 } from '../../store/selectors';
-import { User } from '@iapps/ngx-dhis2-http-client';
 import {
+  getCurrentDashboardDownloadFilename,
   getCurrentGlobalDataSelections,
   getGlobalDataSelectionSummary,
-  getCurrentDashboardDownloadFilename,
 } from '../../store/selectors/data-selections.selectors';
-import { VisualizationExportService } from '../../modules/ngx-dhis2-visualization/services';
-import { getCurrentVisualizationObjectLayers } from '../../modules/ngx-dhis2-visualization/store';
-import { ArchiveDashboardAction } from '../../store/actions';
-import { archiveIntervention } from '../../store/actions/intervention-archive.actions';
 
 @Component({
   selector: 'app-current-dashboard',

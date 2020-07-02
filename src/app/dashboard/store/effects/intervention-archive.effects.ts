@@ -8,6 +8,7 @@ import {
   InterventionArchiveAction,
   upsertInterventionArchive,
   archiveInterventionFail,
+  upsertInterventionArchives,
 } from '../actions/intervention-archive.actions';
 import {
   concatMap,
@@ -24,15 +25,15 @@ import { InterventionArchive } from '../../models/intervention-archive.model';
 
 @Injectable()
 export class InterventionArchiveEffects {
-  loadInterventionArchive$ = createEffect(() =>
+  loadInterventionArchives$ = createEffect(() =>
     this.actions$.pipe(
       ofType(InterventionArchiveAction.LoadInterventionArchives),
-      mergeMap(({ id }) =>
+      mergeMap(({ interventionId }) =>
         this.interventionArchiveService
-          .findOne(id)
+          .findByIntervention(interventionId)
           .pipe(
-            map((interventionArchive: InterventionArchive) =>
-              upsertInterventionArchive({ interventionArchive })
+            map((interventionArchives: InterventionArchive[]) =>
+              upsertInterventionArchives({ interventionArchives })
             )
           )
       )

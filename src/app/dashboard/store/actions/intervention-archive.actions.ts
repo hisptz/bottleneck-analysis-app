@@ -35,7 +35,7 @@ export const archiveInterventionFail = createAction(
   props<{ error: ErrorMessage }>()
 );
 
-export const loadInterventionArchive = createAction(
+export const loadInterventionArchives = createAction(
   InterventionArchiveAction.LoadInterventionArchives,
   props<{ interventionId: string }>()
 );

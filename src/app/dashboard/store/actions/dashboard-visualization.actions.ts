@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { DashboardVisualization } from '../../models';
-import { DashboardSettings } from '../../models/dashboard-settings.model';
 import { VisualizationDataSelection } from '../../modules/ngx-dhis2-visualization/models';
 
 export enum DashboardVisualizationActionTypes {
@@ -11,7 +10,7 @@ export enum DashboardVisualizationActionTypes {
   UpsertDashboardVisualization = '[DashboardVisualization] Add or Update dashboard visualization',
   AddDashboardVisualizationItem = '[DashboardVisualization] Add dashboard visualization item',
   RemoveDashboardVisualizationItem = '[DashboardVisualization] Remove dashboard visualization item',
-  LoadDashboardVisualizationSuccess = '[DashboardVisualization] Load dashboard visualization success'
+  LoadDashboardVisualizationSuccess = '[DashboardVisualization] Load dashboard visualization success',
 }
 
 export class LoadDashboardVisualizationsAction implements Action {

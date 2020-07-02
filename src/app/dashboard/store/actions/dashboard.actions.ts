@@ -1,10 +1,9 @@
+import { ErrorMessage, User } from '@iapps/ngx-dhis2-http-client';
 import { Action } from '@ngrx/store';
-import { Dashboard } from '../../models/dashboard.model';
 import { SystemInfo } from '../../../models';
-import { DashboardSettings } from '../../models/dashboard-settings.model';
 import { Determinant } from '../../../models/determinant.model';
-import { User, ErrorMessage } from '@iapps/ngx-dhis2-http-client';
-import { VisualizationLayer } from '../../modules/ngx-dhis2-visualization/models';
+import { DashboardSettings } from '../../models/dashboard-settings.model';
+import { Dashboard } from '../../models/dashboard.model';
 
 export enum DashboardActionTypes {
   LoadDashboards = '[Dashboard] Load Dashboards',
@@ -191,23 +190,6 @@ export class SaveDashboardFailAction implements Action {
   constructor(public dashboard: Dashboard, public error: any) {}
 }
 
-export class ArchiveDashboardAction implements Action {
-  readonly type = DashboardActionTypes.ArchiveDashboard;
-  constructor(
-    public dashboard: Dashboard,
-    public visualizationLayers: VisualizationLayer[]
-  ) {}
-}
-
-export class ArchiveDashboardSuccessAction implements Action {
-  readonly type = DashboardActionTypes.ArchiveDashboardSuccess;
-  constructor(public dashboard: Dashboard) {}
-}
-
-export class ArchiveDashboardFailAction implements Action {
-  readonly type = DashboardActionTypes.ArchiveDashboardFail;
-  constructor(public dashboard: Dashboard, public error: any) {}
-}
 export class ResetDashboardAction implements Action {
   readonly type = DashboardActionTypes.ResetDashboard;
   constructor(public id: string, public changes: Partial<Dashboard>) {}
@@ -230,9 +212,6 @@ export type DashboardActions =
   | SaveDashboardAction
   | SaveDashboardSuccessAction
   | SaveDashboardFailAction
-  | ArchiveDashboardAction
-  | ArchiveDashboardSuccessAction
-  | ArchiveDashboardFailAction
   | DeleteDashboard
   | DeleteDashboardSuccess
   | DeleteDashboardFail

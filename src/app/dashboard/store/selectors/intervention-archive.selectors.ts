@@ -14,6 +14,12 @@ const {
   selectAll: getAllInterventionArchives,
 } = interventionArchiveAdapter.getSelectors(getInterventionArchiveState);
 
+export const getInterventionArchiveLoadingStatus = createSelector(
+  getInterventionArchiveState,
+  (interventionArchiveState: InterventionArchiveState) =>
+    interventionArchiveState.loading
+);
+
 export const getInterventionArchiveById = (id: string) =>
   createSelector(getInterventionArchiveEntities, (entities) =>
     entities ? entities[id] : null
