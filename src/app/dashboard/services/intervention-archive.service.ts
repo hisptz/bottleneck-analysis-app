@@ -46,6 +46,10 @@ export class InterventionArchiveService {
           (id) => id.indexOf(interventionId) !== -1
         );
 
+        if (filteredInterventionArchiveIds.length === 0) {
+          return of([]);
+        }
+
         return zip(
           ...filteredInterventionArchiveIds.map((id) => this.findOne(id))
         );

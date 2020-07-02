@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Visualization, VisualizationLayer } from '../../models';
+import { InterventionArchive } from 'src/app/dashboard/models/intervention-archive.model';
 
 export enum VisualizationObjectActionTypes {
   AddVisualizationObjects = '[Visualization] Add all visualization objects',
@@ -12,7 +13,7 @@ export enum VisualizationObjectActionTypes {
   SaveVisualizationFavorite = '[Visualization] Save visualization favorite',
   SaveVisualizationFavoriteSuccess = '[Visualization] Save visualization favorite success',
   RemoveVisualizationFavorite = '[Visualization] Remove visualization favorite',
-  RemoveVisualizationObject = '[Visualization] Remove visualization object'
+  RemoveVisualizationObject = '[Visualization] Remove visualization object',
 }
 
 export class AddVisualizationObjectAction implements Action {
@@ -37,7 +38,8 @@ export class InitializeVisualizationObjectAction implements Action {
     public visualizationType: string,
     public visualizationLayers: VisualizationLayer[],
     public currentUser: any,
-    public systemInfo: any
+    public systemInfo: any,
+    public interventionArchive: InterventionArchive
   ) {}
 }
 
@@ -53,7 +55,8 @@ export class LoadVisualizationFavoriteAction implements Action {
   constructor(
     public visualization: Visualization,
     public currentUser: any,
-    public systemInfo: any
+    public systemInfo: any,
+    public archivedVisualizationLayer: VisualizationLayer
   ) {}
 }
 
@@ -65,7 +68,8 @@ export class LoadVisualizationFavoriteSuccessAction implements Action {
     public visualization: Visualization,
     public favorite: any,
     public currentUser: any,
-    public systemInfo: any
+    public systemInfo: any,
+    public archivedVisualizationLayer: VisualizationLayer
   ) {}
 }
 

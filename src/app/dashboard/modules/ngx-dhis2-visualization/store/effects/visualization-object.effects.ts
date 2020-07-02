@@ -109,13 +109,21 @@ export class VisualizationObjectEffects {
               })
             );
 
+            const archivedVisualizationLayer = _.find(
+              action.interventionArchive
+                ? action.interventionArchive.visualizationLayers
+                : [],
+              ['id', visualizationObject.favorite.id]
+            );
+
             // Load favorite information
             if (visualizationObject.favorite) {
               this.store.dispatch(
                 new LoadVisualizationFavoriteAction(
                   visualizationObject,
                   action.currentUser,
-                  action.systemInfo
+                  action.systemInfo,
+                  archivedVisualizationLayer
                 )
               );
             }
@@ -285,15 +293,20 @@ export class VisualizationObjectEffects {
   @Effect()
   loadFavorite$: Observable<any> = this.actions$.pipe(
     ofType(VisualizationObjectActionTypes.LOAD_VISUALIZATION_FAVORITE),
-    mergeMap((action: LoadVisualizationFavoriteAction) =>
-      this.favoriteService.getFavorite(action.visualization.favorite).pipe(
+    mergeMap((action: LoadVisualizationFavoriteAction) => {
+      return (action.archivedVisualizationLayer &&
+      action.archivedVisualizationLayer.config
+        ? of(action.archivedVisualizationLayer.config)
+        : this.favoriteService.getFavorite(action.visualization.favorite)
+      ).pipe(
         map(
           (favorite: any) =>
             new LoadVisualizationFavoriteSuccessAction(
               action.visualization,
               favorite,
               action.currentUser,
-              action.systemInfo
+              action.systemInfo,
+              action.archivedVisualizationLayer
             )
         ),
         catchError((error) =>
@@ -308,8 +321,8 @@ export class VisualizationObjectEffects {
             })
           )
         )
-      )
-    )
+      );
+    })
   );
 
   @Effect({ dispatch: false })
@@ -350,6 +363,12 @@ export class VisualizationObjectEffects {
               ? action.favorite.mapViews || [action.favorite]
               : [visualizationFavoriteOptions],
             (favoriteLayer: any) => {
+              const analytics =
+                action.archivedVisualizationLayer &&
+                action.archivedVisualizationLayer.id === favoriteLayer.id
+                  ? action.archivedVisualizationLayer.analytics
+                  : null;
+
               const dataSelections = _.map(
                 favoriteLayer.dataSelections
                   ? favoriteLayer.dataSelections
@@ -378,7 +397,7 @@ export class VisualizationObjectEffects {
                   action.visualization.favorite.type,
                   favoriteLayer
                 ),
-                analytics: null,
+                analytics,
                 config: {
                   ...favoriteLayer,
                   type: favoriteLayer.type ? favoriteLayer.type : 'COLUMN',
@@ -403,22 +422,31 @@ export class VisualizationObjectEffects {
                 visualizationLayers,
                 (visualizationLayer) => visualizationLayer.id
               ),
-              progress: {
-                statusCode: 200,
-                statusText: 'OK',
-                percent: 50,
-                message: 'Favorite information has been loaded',
-              },
+              progress: action.archivedVisualizationLayer
+                ? {
+                    statusCode: 200,
+                    statusText: 'OK',
+                    percent: 100,
+                    message: 'Analytics has been loaded',
+                  }
+                : {
+                    statusCode: 200,
+                    statusText: 'OK',
+                    percent: 50,
+                    message: 'Favorite information has been loaded',
+                  },
             })
           );
 
           // Load analytics for visualization layers
-          this.store.dispatch(
-            new LoadVisualizationAnalyticsAction(
-              action.visualization.id,
-              visualizationLayers
-            )
-          );
+          if (!action.archivedVisualizationLayer) {
+            this.store.dispatch(
+              new LoadVisualizationAnalyticsAction(
+                action.visualization.id,
+                visualizationLayers
+              )
+            );
+          }
         } else {
           // Update visualization layers
           const visualizationLayer: VisualizationLayer = {

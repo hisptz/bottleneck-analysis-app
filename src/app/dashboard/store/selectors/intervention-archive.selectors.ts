@@ -1,15 +1,15 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import {
-  InterventionArchiveState,
-  interventionArchiveAdapter,
-} from '../reducers/intervention-archive.reducer';
 import { InterventionArchive } from '../../models/intervention-archive.model';
+import {
+  interventionArchiveAdapter,
+  InterventionArchiveState,
+} from '../reducers/intervention-archive.reducer';
 
 const getInterventionArchiveState = createFeatureSelector<
   InterventionArchiveState
 >('interventionArchive');
 
-const {
+export const {
   selectEntities: getInterventionArchiveEntities,
   selectAll: getAllInterventionArchives,
 } = interventionArchiveAdapter.getSelectors(getInterventionArchiveState);

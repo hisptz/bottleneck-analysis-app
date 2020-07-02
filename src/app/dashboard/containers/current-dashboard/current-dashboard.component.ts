@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { User } from '@iapps/ngx-dhis2-http-client';
 import { select, Store } from '@ngrx/store';
+import * as _ from 'lodash';
 import { Observable, of, zip } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { SystemInfo } from '../../../models';
@@ -17,6 +18,7 @@ import {
 } from '../../constants/welcoming-messages.constants';
 // models
 import { Dashboard, Intervention } from '../../models';
+import { InterventionArchive } from '../../models/intervention-archive.model';
 import { VisualizationExportService } from '../../modules/ngx-dhis2-visualization/services';
 import { getCurrentVisualizationObjectLayers } from '../../modules/ngx-dhis2-visualization/store';
 // actions
@@ -26,12 +28,14 @@ import * as fromDashboardSelectors from '../../store/selectors';
 import {
   getCurrentDashboardVisualizationLoadingProgress,
   getDashboardMenuHeight,
+  getInterventionArchiveByCurrentIntervention,
 } from '../../store/selectors';
 import {
   getCurrentDashboardDownloadFilename,
   getCurrentGlobalDataSelections,
   getGlobalDataSelectionSummary,
 } from '../../store/selectors/data-selections.selectors';
+import { getInterventionArchiveLoadingStatus } from '../../store/selectors/intervention-archive.selectors';
 
 @Component({
   selector: 'app-current-dashboard',
@@ -51,6 +55,8 @@ export class CurrentDashboardComponent implements OnInit {
   dashboardLoaded$: Observable<boolean>;
   visualizationsReady$: Observable<boolean>;
   menuContainerHeight$: Observable<number>;
+  currentInterventionArchive$: Observable<InterventionArchive>;
+  interventionArchiveLoading$: Observable<boolean>;
 
   currentGlobalDataSelections$: Observable<any>;
   currentGlobalDataSelectionSummary$: Observable<string>;
@@ -121,6 +127,14 @@ export class CurrentDashboardComponent implements OnInit {
 
     this.dashboardDownloadFilename$ = this.store.select(
       getCurrentDashboardDownloadFilename
+    );
+
+    this.currentInterventionArchive$ = this.store.pipe(
+      select(getInterventionArchiveByCurrentIntervention)
+    );
+
+    this.interventionArchiveLoading$ = this.store.pipe(
+      select(getInterventionArchiveLoadingStatus)
     );
 
     this.welcomingTitle = WELCOMING_TITLE;
@@ -291,7 +305,12 @@ export class CurrentDashboardComponent implements OnInit {
                     getCurrentVisualizationObjectLayers(visualizationItem.id)
                   )
                 )
-                .pipe(map((layers: any[]) => layers[0]))
+                .pipe(
+                  map((layers: any[]) => {
+                    console.log(layers[0]);
+                    return layers[0];
+                  })
+                )
             )
           );
         }),

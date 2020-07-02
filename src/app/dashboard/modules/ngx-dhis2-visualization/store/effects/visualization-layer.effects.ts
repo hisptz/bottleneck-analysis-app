@@ -85,7 +85,7 @@ export class VisualizationLayerEffects {
               )
               .subscribe((functions: any[]) => {
                 const functionRules = _.flatten(
-                  _.map(functions, functionObject => functionObject.items)
+                  _.map(functions, (functionObject) => functionObject.items)
                 );
 
                 const newVisualizationLayers: VisualizationLayer[] = _.map(
@@ -137,7 +137,7 @@ export class VisualizationLayerEffects {
                     }
                   )
                 ).subscribe(
-                  analyticsResponse => {
+                  (analyticsResponse) => {
                     // Save visualizations layers
                     _.each(analyticsResponse, (analytics, analyticsIndex) => {
                       this.store.dispatch(
@@ -170,7 +170,7 @@ export class VisualizationLayerEffects {
                       )
                     );
                   },
-                  error => {
+                  (error) => {
                     this.store.dispatch(
                       new UpdateVisualizationObjectAction(
                         action.visualizationId,
@@ -188,7 +188,7 @@ export class VisualizationLayerEffects {
                 );
               });
           } else {
-            _.each(action.visualizationLayers, visualizationLayer => {
+            _.each(action.visualizationLayers, (visualizationLayer) => {
               this.store.dispatch(
                 new UpdateVisualizationLayerAction(
                   visualizationLayer.id,

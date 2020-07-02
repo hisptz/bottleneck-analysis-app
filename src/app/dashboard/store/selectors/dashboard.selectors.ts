@@ -1,9 +1,18 @@
 import { createSelector } from '@ngrx/store';
 import * as _ from 'lodash';
 
-import { Dashboard, DashboardGroups } from '../../models';
+import { Dashboard, DashboardGroups, Intervention } from '../../models';
 import * as fromDashboardReducer from '../reducers/dashboard.reducer';
 import { getCurrentDashboardGroup } from './dashboard-groups.selectors';
+import {
+  getInterventionArchiveLoadingStatus,
+  getInterventionArchivesByInterventionId,
+  getAllInterventionArchives,
+} from './intervention-archive.selectors';
+import { InterventionArchive } from '../../models/intervention-archive.model';
+import { getInterventionArchiveId } from '../../helpers/get-intervention-archive-id.helper';
+import { getCurrentUser } from 'src/app/store';
+import { User } from '@iapps/ngx-dhis2-http-client';
 
 export const getAllGroupDashboards = createSelector(
   fromDashboardReducer.getAllDashboards,
@@ -30,8 +39,47 @@ export const getCurrentDashboardId = createSelector(
 export const getCurrentDashboard = createSelector(
   fromDashboardReducer.getDashboardObjectEntities,
   getCurrentDashboardId,
-  (dashboardEntities, currentDashboardId) =>
-    dashboardEntities ? dashboardEntities[currentDashboardId] : null
+  getCurrentUser,
+  (dashboardEntities, currentDashboardId, currentUser) => {
+    const currentDashboard = dashboardEntities
+      ? dashboardEntities[currentDashboardId]
+      : null;
+
+    if (!currentDashboard) {
+      return null;
+    }
+
+    const interventionArchiveId = getInterventionArchiveId(
+      currentDashboard.globalSelections,
+      currentDashboard.id,
+      currentUser
+    );
+
+    return currentDashboard;
+  }
+);
+
+export const getInterventionArchiveByCurrentIntervention = createSelector(
+  getAllInterventionArchives,
+  getCurrentDashboard,
+  getCurrentUser,
+  (
+    interventionArchives: InterventionArchive[],
+    currentDashboard: Dashboard,
+    currentUser: User
+  ) => {
+    if (!currentDashboard) {
+      return null;
+    }
+
+    const interventionArchiveId = getInterventionArchiveId(
+      currentDashboard.globalSelections,
+      currentDashboard.id,
+      currentUser
+    );
+
+    return _.find(interventionArchives, ['id', interventionArchiveId]);
+  }
 );
 
 export const getCurrentDashboardGlobalSelections = createSelector(
@@ -39,15 +87,25 @@ export const getCurrentDashboardGlobalSelections = createSelector(
   (dashboard: Dashboard) => (dashboard ? dashboard.globalSelections : [])
 );
 
-export const getDashboardById = id =>
+export const getDashboardById = (id) =>
   createSelector(
     fromDashboardReducer.getDashboardObjectEntities,
-    (dashboardEntities: any) => dashboardEntities[id]
+    getInterventionArchivesByInterventionId(id),
+    (dashboardEntities: any, interventionArchives) => {
+      return dashboardEntities[id];
+    }
   );
 
-export const getDashboardLoading = createSelector(
+const getDashboardLoadingStatus = createSelector(
   fromDashboardReducer.getDashboardState,
   (state: fromDashboardReducer.State) => (state ? state.loading : false)
+);
+
+export const getDashboardLoading = createSelector(
+  getDashboardLoadingStatus,
+  getInterventionArchiveLoadingStatus,
+  (dashboardLoadingStatus, interventionArchiveLoadingStatus) =>
+    dashboardLoadingStatus || interventionArchiveLoadingStatus
 );
 
 export const getDashboardLoaded = createSelector(
