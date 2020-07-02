@@ -34,8 +34,13 @@ import * as fromDashboardActions from '../actions/dashboard.actions';
 import * as fromDashboardSelectors from '../selectors';
 import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-visualization.selectors';
 import { loadInterventionArchives } from '../actions/intervention-archive.actions';
-import { getInterventionArchivesByInterventionId } from '../selectors/intervention-archive.selectors';
+import {
+  getInterventionArchivesByInterventionId,
+  getAllInterventionArchives,
+} from '../selectors/intervention-archive.selectors';
 import { InterventionArchive } from '../../models/intervention-archive.model';
+import { getInterventionArchiveId } from '../../helpers/get-intervention-archive-id.helper';
+import { getCurrentUser } from '../../../store/selectors';
 
 @Injectable()
 export class DashboardEffects {
@@ -582,51 +587,69 @@ export class DashboardEffects {
     withLatestFrom(
       this.store.select(
         fromDashboardVisualizationSelectors.getCurrentDashboardVisualizationItems
-      )
+      ),
+      this.store.pipe(select(getAllInterventionArchives)),
+      this.store.pipe(select(getCurrentUser))
     ),
     tap(
-      ([action, dashboardVisualizations]: [
+      ([action, dashboardVisualizations, interventionArchives, currentUser]: [
         fromDashboardActions.GlobalFilterChangeAction,
-        any[]
+        any[],
+        InterventionArchive[],
+        User
       ]) => {
-        from(dashboardVisualizations)
-          .pipe(
-            mergeMap((dashboardVisualization) =>
-              this.store
-                .select(
-                  fromVisualizationSelectors.getCurrentVisualizationObjectLayers(
-                    dashboardVisualization.id
+        const interventionArchiveId = getInterventionArchiveId(
+          action.changes.globalSelections,
+          action.id,
+          currentUser
+        );
+        const currentInterventionArchive = _.find(interventionArchives, [
+          'id',
+          interventionArchiveId,
+        ]);
+
+        if (!currentInterventionArchive) {
+          from(dashboardVisualizations)
+            .pipe(
+              mergeMap((dashboardVisualization) =>
+                this.store
+                  .select(
+                    fromVisualizationSelectors.getCurrentVisualizationObjectLayers(
+                      dashboardVisualization.id
+                    )
                   )
-                )
-                .pipe(
-                  take(1),
-                  map(
-                    (
-                      visualizationLayers: fromVisualizationModels.VisualizationLayer[]
-                    ) => {
-                      return {
-                        visualizationId: dashboardVisualization.id,
-                        visualizationLayers,
-                      };
-                    }
+                  .pipe(
+                    take(1),
+                    map(
+                      (
+                        visualizationLayers: fromVisualizationModels.VisualizationLayer[]
+                      ) => {
+                        return {
+                          visualizationId: dashboardVisualization.id,
+                          visualizationLayers,
+                        };
+                      }
+                    )
                   )
-                )
+              )
             )
-          )
-          .subscribe(
-            (visualizationDetails: {
-              visualizationId: string;
-              visualizationLayers: fromVisualizationModels.VisualizationLayer[];
-            }) => {
-              this.store.dispatch(
-                new fromVisualizationActions.LoadVisualizationAnalyticsAction(
-                  visualizationDetails.visualizationId,
-                  visualizationDetails.visualizationLayers,
-                  action.changes.globalSelections
-                )
-              );
-            }
-          );
+            .subscribe(
+              (visualizationDetails: {
+                visualizationId: string;
+                visualizationLayers: fromVisualizationModels.VisualizationLayer[];
+              }) => {
+                this.store.dispatch(
+                  new fromVisualizationActions.LoadVisualizationAnalyticsAction(
+                    visualizationDetails.visualizationId,
+                    visualizationDetails.visualizationLayers,
+                    action.changes.globalSelections
+                  )
+                );
+              }
+            );
+        } else {
+          this.snackBar.open('You are already viewing archived data', 'OK');
+        }
       }
     )
   );
