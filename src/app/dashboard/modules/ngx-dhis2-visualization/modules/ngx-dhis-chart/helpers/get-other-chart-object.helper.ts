@@ -15,7 +15,7 @@ export function getOtherChartObject(
   chartConfiguration: any
 ): any {
   const yAxisSeriesItems: any[] = getChartAxisItems(analyticsObject, [
-    chartConfiguration.yAxisType
+    chartConfiguration.yAxisType,
   ]);
 
   /**
@@ -43,10 +43,10 @@ export function getOtherChartObject(
    * Update colors by considering if series has data
    */
   const newColors: any[] = _.filter(
-    _.map(seriesWithAxisOptions, seriesObject =>
+    _.map(seriesWithAxisOptions, (seriesObject) =>
       seriesObject.data[0] ? seriesObject.data[0].color : undefined
     ),
-    color => color
+    (color) => color
   );
 
   const xAxisItems = getXAxisItemsFromChartConfiguration(chartConfiguration);
@@ -61,6 +61,6 @@ export function getOtherChartObject(
     yAxis: getChartYAxisOptions(chartConfiguration),
     xAxis: getChartXAxisOptions(xAxisCategories, chartConfiguration.type),
     colors: newColors.length > 0 ? newColors : initialChartObject.colors,
-    series: seriesWithAxisOptions
+    series: seriesWithAxisOptions,
   };
 }

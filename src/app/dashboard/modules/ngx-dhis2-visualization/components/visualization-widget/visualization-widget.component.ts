@@ -3,36 +3,30 @@ import {
   OnInit,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import * as _ from 'lodash';
 import { VisualizationLayer, VisualizationDataSelection } from '../../models';
 import { environment } from '../../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { getSelectionDimensionsFromAnalytics } from '../../helpers';
+import { VisualizationExportService } from '../../services';
 
 @Component({
   selector: 'app-visualization-widget',
   templateUrl: './visualization-widget.component.html',
-  styleUrls: ['./visualization-widget.component.scss']
+  styleUrls: ['./visualization-widget.component.scss'],
 })
 export class VisualizationWidgetComponent implements OnInit, OnChanges {
-  @Input()
-  contextPath: string;
-  @Input()
-  dashboard: any;
-  @Input()
-  focusedDashboardItem: string;
-  @Input()
-  appKey: string;
-  @Input()
-  visualizationId: string;
-  @Input()
-  height: string;
-  @Input()
-  visualizationLayers: VisualizationLayer[];
-  @Input()
-  currentUser: any;
+  @Input() contextPath: string;
+  @Input() dashboard: any;
+  @Input() focusedDashboardItem: string;
+  @Input() appKey: string;
+  @Input() visualizationId: string;
+  @Input() height: string;
+  @Input() visualizationLayers: VisualizationLayer[];
+  @Input() currentUser: any;
+  @Input() dashboardFilename: string;
 
   errorMessage: any;
   loading: boolean;
@@ -40,8 +34,16 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
   download: boolean;
   downloadFormat: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private visualizationExportService: VisualizationExportService
+  ) {
     this.loading = true;
+  }
+
+  get visualizationLayerId(): string {
+    const visualizationLayer = (this.visualizationLayers || [])[0];
+    return visualizationLayer ? visualizationLayer.id : '';
   }
 
   get appUrl(): string {
@@ -95,7 +97,7 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
       () => {
         this.loading = false;
       },
-      error => {
+      (error) => {
         this.loading = false;
         // TODO: Find ways to solve 200 error response as it is success
         if (error.status >= 400) {
@@ -109,7 +111,7 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
                   '<a target="_blank" href="' +
                   this.contextPath +
                   '/dhis-web-app-management/#">App Management<a> to' +
-                  ' install the widget and then reload this app again</small>'
+                  ' install the widget and then reload this app again</small>',
           };
         }
       }
@@ -126,7 +128,7 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
               name: group.name,
               members: _.map(group.members || [], (member: any) => {
                 return { id: member.id, name: member.name };
-              })
+              }),
             };
           })
         : []
@@ -143,7 +145,7 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
       _.map(
         _.filter(
           dataSelections,
-          dataSelection => dataSelection.dimension === dimension
+          (dataSelection) => dataSelection.dimension === dimension
         ),
         (dataSelection: any) => dataSelection.items
       )
@@ -154,8 +156,25 @@ export class VisualizationWidgetComponent implements OnInit, OnChanges {
       : JSON.stringify(selectionItems);
   }
 
-  onDownloadEvent(downloadFormat: string) {
-    this.downloadFormat = downloadFormat;
-    this.download = true;
+  onDownloadEvent(downloadFormat: string, filename) {
+    const iframeElement: any = document.getElementById(
+      this.visualizationLayerId
+    );
+
+    if (iframeElement) {
+      const innerContent =
+        iframeElement.contentDocument || iframeElement.contentWindow.document;
+
+      if (innerContent) {
+        const widgetTableElements = innerContent.getElementsByTagName('table');
+
+        if (widgetTableElements && widgetTableElements[0]) {
+          this.visualizationExportService.exportXLS(
+            `root cause analysis - ${filename}`,
+            widgetTableElements[0]
+          );
+        }
+      }
+    }
   }
 }

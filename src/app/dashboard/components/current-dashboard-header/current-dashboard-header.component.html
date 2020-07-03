@@ -53,15 +53,21 @@
     <div style="height: 40px; width: 100%;" *ngIf="dashboardLoading">
       <app-dashboard-progress [borderRadius]="'5px'"></app-dashboard-progress>
     </div>
-    <div class="dashboard-delete-block" *ngIf="dashboardLoaded">
-      <button [disabled]="currentDashboard?.saving || currentDashboard?.deleting" title="Delete this dashboard"
-        class="dashboard-delete-btn" mat-icon-button (click)="onOpenDashboardDeleteDialog($event)" *ngIf="
-          currentDashboard?.access?.manage &&
-          !currentDashboard?.showDeleteDialog &&
-          !currentDashboard?.deleting
-        ">
-        <mat-icon class="text-muted">delete</mat-icon>
-      </button>
-    </div>
+    <button mat-icon-button *ngIf="dashboardLoaded" (click)="onArchiveDashboard($event)"
+      matTooltip="archive this intervention">
+      <mat-icon class="text-muted">archive</mat-icon>
+    </button>
+    <button mat-icon-button class="download-btn" *ngIf="dashboardLoaded" (click)="onDownloadDashboard($event)"
+      matTooltip="Download contents in excel">
+      <mat-icon class="text-muted">publish</mat-icon>
+    </button>
+    <button [disabled]="currentDashboard?.saving || currentDashboard?.deleting" matTooltip="Delete this intervention"
+      mat-icon-button (click)="onOpenDashboardDeleteDialog($event)" *ngIf="
+      currentDashboard?.access?.manage &&
+      !currentDashboard?.showDeleteDialog &&
+      !currentDashboard?.deleting
+    ">
+      <mat-icon class="text-muted">delete</mat-icon>
+    </button>
   </div>
 </div>

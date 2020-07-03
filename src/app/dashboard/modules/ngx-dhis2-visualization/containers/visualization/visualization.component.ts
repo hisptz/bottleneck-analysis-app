@@ -51,6 +51,7 @@ import {
 } from '../../store/selectors/visualization-ui-configuration.selectors';
 import { Legend } from 'src/app/models/legend.model';
 import { getLegendDefinitionsFromSelections } from '../../helpers/get-legend-definitions-from-selections.helper';
+import { InterventionArchive } from 'src/app/dashboard/models/intervention-archive.model';
 
 @Component({
   selector: 'ngx-dhis2-visualization',
@@ -69,6 +70,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
   @Input() currentUser: any;
   @Input() systemInfo: any;
   @Input() selectionSummary: string;
+  @Input() downloadFilename: string;
+  @Input() currentInterventionArchive: InterventionArchive;
 
   cardFocused: boolean;
 
@@ -88,14 +91,6 @@ export class VisualizationComponent implements OnInit, OnChanges {
   focusedVisualization$: Observable<string>;
   legendDefinitions: Legend[];
 
-  get downloadFilename(): string {
-    return this.dashboard
-      ? `${this.dashboard.name}${
-          this.selectionSummary ? ' - ' + this.selectionSummary : ''
-        }`
-      : '';
-  }
-
   constructor(private store: Store<VisualizationState>) {
     this.cardFocused = false;
     this.type = 'REPORT_TABLE';
@@ -111,7 +106,8 @@ export class VisualizationComponent implements OnInit, OnChanges {
               visualizationInputs.type,
               visualizationInputs.visualizationLayers,
               visualizationInputs.currentUser,
-              visualizationInputs.systemInfo
+              visualizationInputs.systemInfo,
+              visualizationInputs.interventionArchive
             )
           );
 
@@ -145,6 +141,7 @@ export class VisualizationComponent implements OnInit, OnChanges {
       name: this.name,
       currentUser: this.currentUser,
       systemInfo: this.systemInfo,
+      interventionArchive: this.currentInterventionArchive,
     });
   }
 

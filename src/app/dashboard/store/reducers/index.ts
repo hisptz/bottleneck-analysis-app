@@ -5,6 +5,7 @@ import * as fromDashboardReducer from './dashboard.reducer';
 import * as fromDashboardVisualizationReducer from './dashboard-visualization.reducer';
 import * as fromDashboardSettingsReducer from './dashboard-settings.reducer';
 import * as fromDashboardGroupReducer from './dashboard-groups.reducer';
+import { interventionArchiveReducer } from './intervention-archive.reducer';
 
 export const reducers: any[] = [
   StoreModule.forFeature('intervention', fromInterventionReducer.reducer),
@@ -17,5 +18,6 @@ export const reducers: any[] = [
     'dashboardSettings',
     fromDashboardSettingsReducer.reducer
   ),
-  StoreModule.forFeature('dashboardGroup', fromDashboardGroupReducer.reducer)
+  StoreModule.forFeature('dashboardGroup', fromDashboardGroupReducer.reducer),
+  StoreModule.forFeature('interventionArchive', interventionArchiveReducer),
 ];
