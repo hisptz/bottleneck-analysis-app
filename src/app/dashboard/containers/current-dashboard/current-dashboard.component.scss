@@ -68,6 +68,16 @@
     height: 400px;
   }
 
+  .dashboard-notice-box-container {
+    grid-column: auto / span 12;
+  }
+
+  .dashboard-notice-card {
+    display: flex;
+    background-color: #fff8e1;
+    padding: 15px;
+  }
+
   @media print {
     .current-dashboard-visualizations {
       grid-template-columns: repeat(2, 1fr);
