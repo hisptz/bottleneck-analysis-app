@@ -41,6 +41,12 @@ import {
 import { InterventionArchive } from '../../models/intervention-archive.model';
 import { getInterventionArchiveId } from '../../helpers/get-intervention-archive-id.helper';
 import { getCurrentUser } from '../../../store/selectors';
+import {
+  UpdateVisualizationObjectAction,
+  UpdateVisualizationLayerAction,
+} from '../../modules/ngx-dhis2-visualization/store/actions';
+import { getCurrentVisualizationObjectLayers } from '../../modules/ngx-dhis2-visualization/store/selectors';
+import { VisualizationLayer } from '../../modules/ngx-dhis2-visualization/models';
 
 @Injectable()
 export class DashboardEffects {
@@ -648,7 +654,85 @@ export class DashboardEffects {
               }
             );
         } else {
-          this.snackBar.open('You are already viewing archived data', 'OK');
+          dashboardVisualizations.forEach((dashboardVisualization) => {
+            this.store.dispatch(
+              new UpdateVisualizationObjectAction(dashboardVisualization.id, {
+                progress: {
+                  statusCode: 200,
+                  statusText: 'OK',
+                  percent: 50,
+                  message: 'Favorite information has been loaded',
+                },
+              })
+            );
+
+            setTimeout(() => {
+              this.store
+                .pipe(
+                  select(
+                    getCurrentVisualizationObjectLayers(
+                      dashboardVisualization.id
+                    )
+                  )
+                )
+                .pipe(take(1))
+                .subscribe((visualizationLayers: VisualizationLayer[]) => {
+                  visualizationLayers.forEach(
+                    (visualizationLayer: VisualizationLayer) => {
+                      const archivedVisualizationLayer = _.find(
+                        currentInterventionArchive.visualizationLayers,
+                        ['id', visualizationLayer.id]
+                      );
+
+                      if (archivedVisualizationLayer) {
+                        const {
+                          config,
+                          analytics,
+                        } = archivedVisualizationLayer;
+                        this.store.dispatch(
+                          new UpdateVisualizationLayerAction(
+                            visualizationLayer.id,
+                            { config, analytics }
+                          )
+                        );
+                      } else {
+                        const widgetArchivedVisualizationLayer = _.find(
+                          currentInterventionArchive.visualizationLayers,
+                          ['visualizationType', 'CHART']
+                        );
+
+                        if (widgetArchivedVisualizationLayer) {
+                          const {
+                            config,
+                            analytics,
+                          } = widgetArchivedVisualizationLayer;
+                          this.store.dispatch(
+                            new UpdateVisualizationLayerAction(
+                              visualizationLayer.id,
+                              { config, analytics }
+                            )
+                          );
+                        }
+                      }
+
+                      this.store.dispatch(
+                        new UpdateVisualizationObjectAction(
+                          dashboardVisualization.id,
+                          {
+                            progress: {
+                              statusCode: 200,
+                              statusText: 'OK',
+                              percent: 100,
+                              message: 'Analytics information has been loaded',
+                            },
+                          }
+                        )
+                      );
+                    }
+                  );
+                });
+            }, 20);
+          });
         }
       }
     )
