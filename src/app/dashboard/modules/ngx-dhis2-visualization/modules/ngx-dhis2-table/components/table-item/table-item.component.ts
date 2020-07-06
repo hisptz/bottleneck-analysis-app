@@ -54,15 +54,11 @@ export class TableItemComponent implements OnInit {
 
   downloadTable(downloadFormat, filename) {
     if (this.tableData && this.tableConfiguration) {
-      const date = new Date();
-      const title = `Sublevel Analysis - ${filename}  generated on ${date.toUTCString()}`;
+      const title = `sublevel analysis - ${filename}`;
       if (this.table) {
         const el = this.table.nativeElement;
         if (downloadFormat === 'XLS') {
-          this.visualizationExportService.exportXLS(
-            title,
-            el ? el.outerHTML : ''
-          );
+          this.visualizationExportService.exportXLS(title, el);
         } else if (downloadFormat === 'CSV') {
           if (el) {
             this.visualizationExportService.exportCSV(title, el);

@@ -92,8 +92,7 @@ export class ChartItemComponent implements OnInit {
   }
 
   downloadChart(downloadFormat, downloadFilename) {
-    const date = new Date();
-    const filename = `Bottleneck Chart - ${downloadFilename} generated on ${date.toUTCString()}`;
+    const filename = `bottleneck chart - ${downloadFilename}`;
     if (this.chart) {
       if (downloadFormat === 'PDF') {
         this.chart.exportChartLocal({
@@ -116,10 +115,10 @@ export class ChartItemComponent implements OnInit {
           this.chart.getCSV()
         );
       } else if (downloadFormat === 'XLS') {
-        this.visualizationExportService.exportXLS(
-          filename,
-          this.chart.getTable()
-        );
+        const tableElement = document.getElementById(this.renderId + '_table');
+        if (tableElement) {
+          this.visualizationExportService.exportXLS(filename, tableElement);
+        }
       }
     }
   }

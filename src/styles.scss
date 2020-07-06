@@ -70,4 +70,8 @@ button:active {
   
   .mat-checkbox-checked.mat-accent.mat-checkbox-disabled .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
     background-color:  #ccc !important;
+  }
+
+.download-btn mat-icon {
+  transform: rotate(180deg);
 }

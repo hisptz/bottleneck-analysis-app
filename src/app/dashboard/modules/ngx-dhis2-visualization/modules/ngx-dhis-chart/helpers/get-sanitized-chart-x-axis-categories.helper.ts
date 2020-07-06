@@ -12,64 +12,68 @@ export function getSanitizedChartXAxisCategories(
     );
 
     if (seriesDataObjects) {
-      const seriesCategoryNamesArray = _.map(seriesDataObjects, seriesData => {
-        return _.map(seriesData, data => {
-          const idArray = data.id.split('_');
-          const newCategoryArray = [];
-          if (idArray) {
-            const reversedIdArray = _.reverse(idArray);
-            _.times(idArray.length, (num: number) => {
-              if (num === 0) {
-                const parentCategoryItem = _.find(
-                  reversedXAxisItems[num] || [],
-                  ['id', reversedIdArray[num]]
-                );
-
-                newCategoryArray.push({
-                  id: reversedIdArray[num],
-                  name: parentCategoryItem
-                    ? parentCategoryItem.label || parentCategoryItem.name
-                    : reversedIdArray[num],
-                });
-              } else {
-                const parentCategory: any = _.find(newCategoryArray, [
-                  'id',
-                  reversedIdArray[num - 1],
-                ]);
-
-                if (parentCategory) {
-                  const parentCategoryIndex = _.findIndex(
-                    newCategoryArray,
-                    parentCategory
-                  );
-                  let newChildrenCategories: any[] = parentCategory.categories
-                    ? parentCategory.categories
-                    : [];
-                  const childrenCategoryItem = _.find(
+      const seriesCategoryNamesArray = _.map(
+        seriesDataObjects,
+        (seriesData) => {
+          return _.map(seriesData, (data) => {
+            const idArray = data.id.split('_');
+            const newCategoryArray = [];
+            if (idArray) {
+              const reversedIdArray = _.reverse(idArray);
+              _.times(idArray.length, (num: number) => {
+                if (num === 0) {
+                  const parentCategoryItem = _.find(
                     reversedXAxisItems[num] || [],
                     ['id', reversedIdArray[num]]
                   );
 
-                  newChildrenCategories = [
-                    ...newChildrenCategories,
-                    childrenCategoryItem
-                      ? childrenCategoryItem.label || childrenCategoryItem.name
+                  newCategoryArray.push({
+                    id: reversedIdArray[num],
+                    name: parentCategoryItem
+                      ? parentCategoryItem.label || parentCategoryItem.name
                       : reversedIdArray[num],
-                  ];
+                  });
+                } else {
+                  const parentCategory: any = _.find(newCategoryArray, [
+                    'id',
+                    reversedIdArray[num - 1],
+                  ]);
 
-                  parentCategory.categories = _.assign(
-                    [],
-                    newChildrenCategories
-                  );
+                  if (parentCategory) {
+                    const parentCategoryIndex = _.findIndex(
+                      newCategoryArray,
+                      parentCategory
+                    );
+                    let newChildrenCategories: any[] = parentCategory.categories
+                      ? parentCategory.categories
+                      : [];
+                    const childrenCategoryItem = _.find(
+                      reversedXAxisItems[num] || [],
+                      ['id', reversedIdArray[num]]
+                    );
 
-                  newCategoryArray[parentCategoryIndex] = parentCategory;
+                    newChildrenCategories = [
+                      ...newChildrenCategories,
+                      childrenCategoryItem
+                        ? childrenCategoryItem.label ||
+                          childrenCategoryItem.name
+                        : reversedIdArray[num],
+                    ];
+
+                    parentCategory.categories = _.assign(
+                      [],
+                      newChildrenCategories
+                    );
+
+                    newCategoryArray[parentCategoryIndex] = parentCategory;
+                  }
                 }
-              }
-            });
-          }
-          return newCategoryArray[0];
-        });
-      });
+              });
+            }
+            return newCategoryArray[0];
+          });
+        }
+      );
 
       if (seriesCategoryNamesArray) {
         const groupedCategoryNames = _.groupBy(
@@ -78,7 +82,7 @@ export function getSanitizedChartXAxisCategories(
         );
         const categoryNameGroupKeys = _.map(
           seriesCategoryNamesArray[0],
-          category => category.name
+          (category) => category.name
         );
         const sanitizedCategoryNames: any[] = [];
         _.forEach(categoryNameGroupKeys, (key: any) => {
