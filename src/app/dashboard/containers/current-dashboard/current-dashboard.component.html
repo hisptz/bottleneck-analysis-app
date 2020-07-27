@@ -27,6 +27,8 @@
       [systemInfo]="systemInfo$ | async"
       (resetDashboard)="onResetDashboard($event)"
       (updateInterventionSettings)="onInterventionSettingsUpdate($event)"
+      (downloadDashboard)="onDownload()"
+      (archiveDashboard)="onArchive($event)"
     >
     </app-current-dashboard-header>
   </div>
@@ -35,7 +37,10 @@
   <!-- current dashboard visualization loader -->
   <div
     class="current-dashboard-visualizations"
-    *ngIf="currentDashboardVisualizationLoading$ | async"
+    *ngIf="
+      (currentDashboardVisualizationLoading$ | async) &&
+      (interventionArchiveLoading$ | async)
+    "
   >
     <div
       class="visualization-card-block"
@@ -82,8 +87,30 @@
   <!-- current dashboard visualizations -->
   <div
     class="current-dashboard-visualizations"
-    *ngIf="currentDashboardVisualizationLoaded$ | async"
+    *ngIf="
+      (currentDashboardVisualizationLoaded$ | async) &&
+      !(interventionArchiveLoading$ | async)
+    "
   >
+    <!-- dashboard notice box -->
+    <div
+      class="dashboard-notice-box-container"
+      *ngIf="currentInterventionArchive$ | async"
+    >
+      <div class="card-outline-warning dashboard-notice-card">
+        <div class="notice-icon">
+          <mat-icon color="warn">warning</mat-icon>
+        </div>
+        <div class="notice-content ml-3">
+          <b>You are viewing archived data</b>
+          <p class="mt-2">
+            Data shown in this intervention for the selected period, orgunit is
+            the archived version.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- end of dashboard notice box -->
     <div
       class="visualization-card-block"
       [style.grid-column]="visualization.width"
@@ -95,9 +122,11 @@
         [currentUser]="currentUser$ | async"
         [systemInfo]="systemInfo$ | async"
         [dashboard]="currentDashboard$ | async"
+        [currentInterventionArchive]="currentInterventionArchive$ | async"
         (toggleFullScreen)="onToggleVisualizationFullScreen($event)"
         (deleteVisualization)="onDeleteVisualizationAction($event)"
         [selectionSummary]="currentGlobalDataSelectionSummary$ | async"
+        [downloadFilename]="dashboardDownloadFilename$ | async"
       ></ngx-dhis2-visualization>
     </div>
   </div>

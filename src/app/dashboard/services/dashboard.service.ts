@@ -7,23 +7,16 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { generateUid } from '../../helpers/generate-uid.helper';
 import { Dashboard } from '../models';
 import { DashboardSettings } from '../models/dashboard-settings.model';
+import { DASHBOARD_ATTRIBUTE_TO_OMIT } from '../constants/dashboard-attributes-to-omit.constant';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   dashboardUrlFields: string;
-  private attributesToOmit: string[];
   constructor(private httpClient: NgxDhis2HttpClientService) {
     this.dashboardUrlFields =
       '?fields=id,name,description,publicAccess,access,externalAccess,created,lastUpdated,favorite,' +
       'user[id,name],dashboardItems[id,type,created,lastUpdated,shape,appKey,chart[id,displayName],' +
       'map[id,displayName],reportTable[id,displayName],eventReport[id,displayName],eventChart[id,displayName]]&paging=false';
-    this.attributesToOmit = [
-      'saving',
-      'unSaved',
-      'updatedOrCreated',
-      'creating',
-      'access',
-    ];
   }
 
   loadAll(dashboardSettings: DashboardSettings): Observable<Dashboard[]> {
@@ -80,7 +73,10 @@ export class DashboardService {
   }
 
   create(dashboard: Dashboard, dashboardSettings: DashboardSettings) {
-    const dashboardWithOmittedItems = _.omit(dashboard, this.attributesToOmit);
+    const dashboardWithOmittedItems = _.omit(
+      dashboard,
+      DASHBOARD_ATTRIBUTE_TO_OMIT
+    );
     const sanitizedDashboard: any = dashboardSettings.allowAdditionalAttributes
       ? dashboardWithOmittedItems
       : _.omit(
@@ -111,7 +107,7 @@ export class DashboardService {
             ...dashboardFromServer,
             ...dashboard,
           },
-          this.attributesToOmit
+          DASHBOARD_ATTRIBUTE_TO_OMIT
         );
         return dashboardSettings && dashboardSettings.useDataStoreAsSource
           ? this.httpClient.put(

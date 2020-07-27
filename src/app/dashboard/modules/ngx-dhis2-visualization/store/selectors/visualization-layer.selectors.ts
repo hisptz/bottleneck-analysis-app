@@ -3,16 +3,16 @@ import * as _ from 'lodash';
 import {
   getVisualizationObjectEntities,
   getVisualizationLayerEntities,
-  getVisualizationUiConfigurationEntities
+  getVisualizationUiConfigurationEntities,
 } from '../reducers';
 import {
   Visualization,
   VisualizationUiConfig,
-  VisualizationLayer
+  VisualizationLayer,
 } from '../../models';
 import {
   getVisualizationMetadataIdentifiers,
-  getVisualizationLayout
+  getVisualizationLayout,
 } from '../../helpers';
 
 export const getCurrentVisualizationObjectLayers = (visualizationId: string) =>
@@ -40,7 +40,9 @@ export const getCurrentVisualizationObjectLayers = (visualizationId: string) =>
             metadataIdentifiers: getVisualizationMetadataIdentifiers(
               visualizationLayer.dataSelections
             ),
-            layout: getVisualizationLayout(visualizationLayer.dataSelections)
+            layout:
+              visualizationLayer.layout ||
+              getVisualizationLayout(visualizationLayer.dataSelections),
           };
         }
       );

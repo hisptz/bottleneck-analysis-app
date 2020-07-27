@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from '@iapps/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as _ from 'lodash';
 import { from, Observable, of } from 'rxjs';
 import {
@@ -11,13 +13,14 @@ import {
   take,
   tap,
   withLatestFrom,
+  concatMap,
 } from 'rxjs/operators';
-
 import * as fromRootHelpers from '../../../helpers';
 import * as fromRootActions from '../../../store/actions';
 import * as fromRootReducer from '../../../store/reducers';
 import * as fromRootSelectors from '../../../store/selectors';
 import * as fromDashboardHelpers from '../../helpers';
+import { getStandardizedDashboards } from '../../helpers';
 import { getDataSelectionsForDashboardCreation } from '../../helpers/get-data-selections-for-dashboard-creation.helper';
 import * as fromDashboardModels from '../../models';
 import * as fromVisualizationHelpers from '../../modules/ngx-dhis2-visualization/helpers';
@@ -25,13 +28,25 @@ import * as fromVisualizationModels from '../../modules/ngx-dhis2-visualization/
 import * as fromVisualizationActions from '../../modules/ngx-dhis2-visualization/store/actions';
 import * as fromVisualizationSelectors from '../../modules/ngx-dhis2-visualization/store/selectors';
 import { DashboardService } from '../../services/dashboard.service';
+import { InterventionArchiveService } from '../../services/intervention-archive.service';
 import * as fromDashboardVisualizationActions from '../actions/dashboard-visualization.actions';
 import * as fromDashboardActions from '../actions/dashboard.actions';
 import * as fromDashboardSelectors from '../selectors';
 import * as fromDashboardVisualizationSelectors from '../selectors/dashboard-visualization.selectors';
-import { getStandardizedDashboards } from '../../helpers';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { User } from '@iapps/ngx-dhis2-http-client';
+import { loadInterventionArchives } from '../actions/intervention-archive.actions';
+import {
+  getInterventionArchivesByInterventionId,
+  getAllInterventionArchives,
+} from '../selectors/intervention-archive.selectors';
+import { InterventionArchive } from '../../models/intervention-archive.model';
+import { getInterventionArchiveId } from '../../helpers/get-intervention-archive-id.helper';
+import { getCurrentUser } from '../../../store/selectors';
+import {
+  UpdateVisualizationObjectAction,
+  UpdateVisualizationLayerAction,
+} from '../../modules/ngx-dhis2-visualization/store/actions';
+import { getCurrentVisualizationObjectLayers } from '../../modules/ngx-dhis2-visualization/store/selectors';
+import { VisualizationLayer } from '../../modules/ngx-dhis2-visualization/models';
 
 @Injectable()
 export class DashboardEffects {
@@ -86,17 +101,34 @@ export class DashboardEffects {
   @Effect({ dispatch: false })
   setCurrentDashboard$: Observable<any> = this.actions$.pipe(
     ofType(fromDashboardActions.DashboardActionTypes.SetCurrentDashboard),
-    withLatestFrom(this.store.select(fromRootSelectors.getCurrentUser)),
+    concatMap((action: any) =>
+      of(action).pipe(
+        withLatestFrom(
+          this.store.pipe(select(fromRootSelectors.getCurrentUser)),
+          this.store.pipe(
+            select(getInterventionArchivesByInterventionId(action.id))
+          )
+        )
+      )
+    ),
     tap(
-      ([action, currentUser]: [
+      ([action, currentUser, interventionArchives]: [
         fromDashboardActions.SetCurrentDashboardAction,
-        User
+        User,
+        InterventionArchive[]
       ]) => {
         // Set selected dashboard id into local storage
         localStorage.setItem(
           'dhis2.dashboard.current.' + currentUser.userCredentials.username,
           action.id
         );
+
+        // Load archive information for current intervention
+        if (interventionArchives.length === 0) {
+          this.store.dispatch(
+            loadInterventionArchives({ interventionId: action.id })
+          );
+        }
 
         // Decide on the route to take
         const splitedRouteUrl = action.routeUrl
@@ -561,51 +593,147 @@ export class DashboardEffects {
     withLatestFrom(
       this.store.select(
         fromDashboardVisualizationSelectors.getCurrentDashboardVisualizationItems
-      )
+      ),
+      this.store.pipe(select(getAllInterventionArchives)),
+      this.store.pipe(select(getCurrentUser))
     ),
     tap(
-      ([action, dashboardVisualizations]: [
+      ([action, dashboardVisualizations, interventionArchives, currentUser]: [
         fromDashboardActions.GlobalFilterChangeAction,
-        any[]
+        any[],
+        InterventionArchive[],
+        User
       ]) => {
-        from(dashboardVisualizations)
-          .pipe(
-            mergeMap((dashboardVisualization) =>
-              this.store
-                .select(
-                  fromVisualizationSelectors.getCurrentVisualizationObjectLayers(
-                    dashboardVisualization.id
+        const interventionArchiveId = getInterventionArchiveId(
+          action.changes.globalSelections,
+          action.id,
+          currentUser
+        );
+        const currentInterventionArchive = _.find(interventionArchives, [
+          'id',
+          interventionArchiveId,
+        ]);
+
+        if (!currentInterventionArchive) {
+          from(dashboardVisualizations)
+            .pipe(
+              mergeMap((dashboardVisualization) =>
+                this.store
+                  .select(
+                    fromVisualizationSelectors.getCurrentVisualizationObjectLayers(
+                      dashboardVisualization.id
+                    )
                   )
-                )
-                .pipe(
-                  take(1),
-                  map(
-                    (
-                      visualizationLayers: fromVisualizationModels.VisualizationLayer[]
-                    ) => {
-                      return {
-                        visualizationId: dashboardVisualization.id,
-                        visualizationLayers,
-                      };
-                    }
+                  .pipe(
+                    take(1),
+                    map(
+                      (
+                        visualizationLayers: fromVisualizationModels.VisualizationLayer[]
+                      ) => {
+                        return {
+                          visualizationId: dashboardVisualization.id,
+                          visualizationLayers,
+                        };
+                      }
+                    )
                   )
-                )
+              )
             )
-          )
-          .subscribe(
-            (visualizationDetails: {
-              visualizationId: string;
-              visualizationLayers: fromVisualizationModels.VisualizationLayer[];
-            }) => {
-              this.store.dispatch(
-                new fromVisualizationActions.LoadVisualizationAnalyticsAction(
-                  visualizationDetails.visualizationId,
-                  visualizationDetails.visualizationLayers,
-                  action.changes.globalSelections
+            .subscribe(
+              (visualizationDetails: {
+                visualizationId: string;
+                visualizationLayers: fromVisualizationModels.VisualizationLayer[];
+              }) => {
+                this.store.dispatch(
+                  new fromVisualizationActions.LoadVisualizationAnalyticsAction(
+                    visualizationDetails.visualizationId,
+                    visualizationDetails.visualizationLayers,
+                    action.changes.globalSelections
+                  )
+                );
+              }
+            );
+        } else {
+          dashboardVisualizations.forEach((dashboardVisualization) => {
+            this.store.dispatch(
+              new UpdateVisualizationObjectAction(dashboardVisualization.id, {
+                progress: {
+                  statusCode: 200,
+                  statusText: 'OK',
+                  percent: 50,
+                  message: 'Favorite information has been loaded',
+                },
+              })
+            );
+
+            setTimeout(() => {
+              this.store
+                .pipe(
+                  select(
+                    getCurrentVisualizationObjectLayers(
+                      dashboardVisualization.id
+                    )
+                  )
                 )
-              );
-            }
-          );
+                .pipe(take(1))
+                .subscribe((visualizationLayers: VisualizationLayer[]) => {
+                  visualizationLayers.forEach(
+                    (visualizationLayer: VisualizationLayer) => {
+                      const archivedVisualizationLayer = _.find(
+                        currentInterventionArchive.visualizationLayers,
+                        ['id', visualizationLayer.id]
+                      );
+
+                      if (archivedVisualizationLayer) {
+                        const {
+                          config,
+                          analytics,
+                        } = archivedVisualizationLayer;
+                        this.store.dispatch(
+                          new UpdateVisualizationLayerAction(
+                            visualizationLayer.id,
+                            { config, analytics }
+                          )
+                        );
+                      } else {
+                        const widgetArchivedVisualizationLayer = _.find(
+                          currentInterventionArchive.visualizationLayers,
+                          ['visualizationType', 'CHART']
+                        );
+
+                        if (widgetArchivedVisualizationLayer) {
+                          const {
+                            config,
+                            analytics,
+                          } = widgetArchivedVisualizationLayer;
+                          this.store.dispatch(
+                            new UpdateVisualizationLayerAction(
+                              visualizationLayer.id,
+                              { config, analytics }
+                            )
+                          );
+                        }
+                      }
+
+                      this.store.dispatch(
+                        new UpdateVisualizationObjectAction(
+                          dashboardVisualization.id,
+                          {
+                            progress: {
+                              statusCode: 200,
+                              statusText: 'OK',
+                              percent: 100,
+                              message: 'Analytics information has been loaded',
+                            },
+                          }
+                        )
+                      );
+                    }
+                  );
+                });
+            }, 20);
+          });
+        }
       }
     )
   );
@@ -622,6 +750,7 @@ export class DashboardEffects {
     private actions$: Actions,
     private store: Store<fromRootReducer.State>,
     private dashboardService: DashboardService,
+    private interventionArchiveService: InterventionArchiveService,
     private snackBar: MatSnackBar
   ) {}
 }

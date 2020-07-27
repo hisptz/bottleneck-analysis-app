@@ -81,6 +81,14 @@ export class CurrentDashboardHeaderComponent implements OnInit {
     any
   >();
 
+  @Output() downloadDashboard: EventEmitter<Dashboard> = new EventEmitter<
+    Dashboard
+  >();
+
+  @Output() archiveDashboard: EventEmitter<Dashboard> = new EventEmitter<
+    Dashboard
+  >();
+
   constructor(private dialog: MatDialog) {
     this.selectionFilterConfig = {
       showLayout: false,
@@ -178,5 +186,15 @@ export class CurrentDashboardHeaderComponent implements OnInit {
       interventionSettings,
       currentDashboard: this.currentDashboard,
     });
+  }
+
+  onDownloadDashboard(e) {
+    e.stopPropagation();
+    this.downloadDashboard.emit(this.currentDashboard);
+  }
+
+  onArchiveDashboard(e) {
+    e.stopPropagation();
+    this.archiveDashboard.emit(this.currentDashboard);
   }
 }

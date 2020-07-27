@@ -1,51 +1,62 @@
 import { Injectable } from '@angular/core';
+import * as XLSX from 'xlsx';
 
 declare var unescape: any;
 
 @Injectable({ providedIn: 'root' })
 export class VisualizationExportService {
-  exportXLS(fileName: string, htmlTable: any) {
-    if (this._getMsieVersion() || this._isFirefox()) {
-      console.warn('Not supported browser');
-    }
+  exportAll(items, filename) {
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    (items || []).forEach((item) => {
+      switch (item.visualizationType) {
+        case 'CHART': {
+          const tableElement = document.getElementById(item.id + '_table');
+          if (tableElement) {
+            const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(tableElement);
+            XLSX.utils.book_append_sheet(wb, ws, 'BNA');
+          }
+          break;
+        }
+        case 'REPORT_TABLE': {
+          const tableElement = document.getElementById(item.id + '_table');
+          if (tableElement) {
+            const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(tableElement);
+            XLSX.utils.book_append_sheet(wb, ws, 'Sublevel Analysis');
+          }
+          break;
+        }
+        case 'APP':
+          const iframeElement: any = document.getElementById(item.id);
+          if (iframeElement) {
+            const innerContent =
+              iframeElement.contentDocument ||
+              iframeElement.contentWindow.document;
 
-    // Other Browser can download xls
-    if (htmlTable) {
-      const uri = 'data:application/vnd.ms-excel;base64,',
-        template =
-          '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:' +
-          'office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook>' +
-          '<x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
-          '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->' +
-          '</head><body><table border="1">{table}</table><br /><table border="1">{table}</table></body></html>',
-        base64 = s => window.btoa(unescape(encodeURIComponent(s))),
-        format = (s, c) => s.replace(/{(\w+)}/g, (m, p) => c[p]);
+            if (innerContent) {
+              const widgetTableElements = innerContent.getElementsByTagName(
+                'table'
+              );
+              if (widgetTableElements && widgetTableElements[0]) {
+                const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
+                  widgetTableElements[0]
+                );
+                XLSX.utils.book_append_sheet(wb, ws, 'Root Cause Analysis');
+              }
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    });
 
-      const ctx = { worksheet: 'Sheet 1', filename: fileName };
-      let str =
-        '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office' +
-        ':excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook>' +
-        '<x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' +
-        '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>';
-
-      const matchedTableContent = htmlTable.match(
-        /<table[^>]*>([\w|\W]*)<\/table>/im
-      );
-      ctx['table1'] =
-        matchedTableContent && matchedTableContent.length > 1
-          ? matchedTableContent[1]
-          : '';
-
-      str +=
-        '<b>{filename}</b><br/><table border="1">{table1}</table></body></html>';
-
-      setTimeout(() => {
-        const link = document.createElement('a');
-        link.download = fileName + '.xls';
-        link.href = uri + base64(format(str, ctx));
-        link.click();
-      }, 100);
-    }
+    XLSX.writeFile(wb, `${filename}.xlsx`);
+  }
+  exportXLS(filename: string, htmlTableElement: any) {
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(htmlTableElement);
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
+    XLSX.writeFile(wb, `${filename}.xlsx`);
   }
 
   exportCSV(filename: string, htmlTable: any, csv?: any) {
@@ -129,10 +140,10 @@ export class VisualizationExportService {
 
     return slice
       .call(table.rows)
-      .map(function(row) {
+      .map(function (row) {
         return slice
           .call(row.cells)
-          .map(function(cell) {
+          .map(function (cell) {
             return '"t"'.replace('t', cell.textContent);
           })
           .join(',');
