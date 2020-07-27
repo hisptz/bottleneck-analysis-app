@@ -1,44 +1,74 @@
 <div class="current-dashboard-container">
   <!-- current dashboard header -->
-  <div class="mat-elevation-z1 current-dashboard-header-block"
-    [style.top]="((menuContainerHeight$ | async) + 38) + 'px'">
-    <app-current-dashboard-header [currentDashboard]="currentDashboard$ | async" [currentUser]="currentUser$ | async"
+  <div
+    class="mat-elevation-z1 current-dashboard-header-block"
+    [style.top]="(menuContainerHeight$ | async) + 38 + 'px'"
+  >
+    <app-current-dashboard-header
+      [currentDashboard]="currentDashboard$ | async"
+      [currentUser]="currentUser$ | async"
       (toggleCurrentDashboardBookmark)="
         onToggleCurrentDashboardBookmark($event)
-      " (addDashboardItem)="onAddDashboardItem($event)"
-      [currentUserHasAuthorities]="currentUserHasManagementAuthorities$ | async" (createFavoriteForCurrentDashboard)="
+      "
+      (addDashboardItem)="onAddDashboardItem($event)"
+      [currentUserHasAuthorities]="currentUserHasManagementAuthorities$ | async"
+      (createFavoriteForCurrentDashboard)="
         onCreateFavoriteForCurrentDashboard($event)
-      " (globalFilterChange)="onGlobalFilterChange($event)"
-      (toggleDashboardDeleteDialog)="onToggleDeleteDialog($event)" (deleteDashboard)="onDeleteDashboard($event)"
-      (saveDashboard)="onSaveDashboard()" [dashboardLoading]="dashboardLoading$ | async"
-      [dashboardLoaded]="dashboardLoaded$ | async" [globalDataSelections]="currentGlobalDataSelections$ | async"
+      "
+      (globalFilterChange)="onGlobalFilterChange($event)"
+      (toggleDashboardDeleteDialog)="onToggleDeleteDialog($event)"
+      (deleteDashboard)="onDeleteDashboard($event)"
+      (saveDashboard)="onSaveDashboard()"
+      [dashboardLoading]="dashboardLoading$ | async"
+      [dashboardLoaded]="dashboardLoaded$ | async"
+      [globalDataSelections]="currentGlobalDataSelections$ | async"
       [globalDataSelectionSummary]="currentGlobalDataSelectionSummary$ | async"
-      [visualizationLoadingPercent]="(progressMessages$ | async)?.percent" [systemInfo]="systemInfo$ | async"
-      (resetDashboard)="onResetDashboard($event)" (updateInterventionSettings)="onInterventionSettingsUpdate($event)"
-      (downloadDashboard)="onDownload()" (archiveDashboard)="onArchive($event)">
+      [visualizationLoadingPercent]="(progressMessages$ | async)?.percent"
+      [systemInfo]="systemInfo$ | async"
+      (resetDashboard)="onResetDashboard($event)"
+      (updateInterventionSettings)="onInterventionSettingsUpdate($event)"
+      (downloadDashboard)="onDownload()"
+      (archiveDashboard)="onArchive($event)"
+    >
     </app-current-dashboard-header>
   </div>
   <!-- end of current dashboard header -->
 
   <!-- current dashboard visualization loader -->
-  <div class="current-dashboard-visualizations"
-    *ngIf="(currentDashboardVisualizationLoading$ | async) && (interventionArchiveLoading$ | async)">
-    <div class="visualization-card-block" [style.grid-column]="'span 12'" [style.height]="'450px'"
-      *ngFor="let count of [1, 2, 3]">
+  <div
+    class="current-dashboard-visualizations"
+    *ngIf="
+      (currentDashboardVisualizationLoading$ | async) &&
+      (interventionArchiveLoading$ | async)
+    "
+  >
+    <div
+      class="visualization-card-block"
+      [style.grid-column]="'span 12'"
+      [style.height]="'450px'"
+      *ngFor="let count of [1, 2, 3]"
+    >
       <app-dashboard-progress [borderRadius]="'3px'"></app-dashboard-progress>
     </div>
   </div>
   <!-- end of current dashboard visualization loader -->
 
   <!-- empty visualization placeholder -->
-  <div class="welcoming-block" *ngIf="
+  <div
+    class="welcoming-block"
+    *ngIf="
       (currentDashboardVisualizationLoaded$ | async) &&
       (currentDashboardVisualizationItems$ | async).length === 0
-    ">
+    "
+  >
     <div>
       <!--Welcoming image-->
       <div class="welcome-img-block">
-        <img src="assets/icons/icon-128x128.png" class="img-fluid welcome-img" alt="" />
+        <img
+          src="assets/icons/icon-128x128.png"
+          class="img-fluid welcome-img"
+          alt=""
+        />
       </div>
       <!--end of welcoming image-->
       <div class="col-md-8 offset-md-2">
@@ -55,31 +85,49 @@
   <!-- end of empty visualization placeholder -->
 
   <!-- current dashboard visualizations -->
-  <div class="current-dashboard-visualizations"
-    *ngIf="(currentDashboardVisualizationLoaded$ | async) && !(interventionArchiveLoading$ | async)">
+  <div
+    class="current-dashboard-visualizations"
+    *ngIf="
+      (currentDashboardVisualizationLoaded$ | async) &&
+      !(interventionArchiveLoading$ | async)
+    "
+  >
     <!-- dashboard notice box -->
-    <div class="dashboard-notice-box-container" *ngIf="currentInterventionArchive$ | async">
+    <div
+      class="dashboard-notice-box-container"
+      *ngIf="currentInterventionArchive$ | async"
+    >
       <div class="card-outline-warning dashboard-notice-card">
         <div class="notice-icon">
           <mat-icon color="warn">warning</mat-icon>
         </div>
         <div class="notice-content ml-3">
           <b>You are viewing archived data</b>
-          <p class="mt-2">Data shown in this intervention for the selected period, orgunit is the archived version. </p>
+          <p class="mt-2">
+            Data shown in this intervention for the selected period, orgunit is
+            the archived version.
+          </p>
         </div>
       </div>
     </div>
     <!-- end of dashboard notice box -->
-    <div class="visualization-card-block" [style.grid-column]="visualization.width" [style.grid-row]="'span 1'" *ngFor="
-        let visualization of (currentDashboardVisualizationItems$ | async)
-      ">
-      <ngx-dhis2-visualization [id]="visualization.id" [currentUser]="currentUser$ | async"
-        [systemInfo]="systemInfo$ | async" [dashboard]="currentDashboard$ | async"
+    <div
+      class="visualization-card-block"
+      [style.grid-column]="visualization.width"
+      [style.grid-row]="'span 1'"
+      *ngFor="let visualization of currentDashboardVisualizationItems$ | async"
+    >
+      <ngx-dhis2-visualization
+        [id]="visualization.id"
+        [currentUser]="currentUser$ | async"
+        [systemInfo]="systemInfo$ | async"
+        [dashboard]="currentDashboard$ | async"
         [currentInterventionArchive]="currentInterventionArchive$ | async"
         (toggleFullScreen)="onToggleVisualizationFullScreen($event)"
         (deleteVisualization)="onDeleteVisualizationAction($event)"
         [selectionSummary]="currentGlobalDataSelectionSummary$ | async"
-        [downloadFilename]="dashboardDownloadFilename$ | async"></ngx-dhis2-visualization>
+        [downloadFilename]="dashboardDownloadFilename$ | async"
+      ></ngx-dhis2-visualization>
     </div>
   </div>
   <!-- end of current dashboard visualizations -->
