@@ -71,7 +71,7 @@
     "rxjs": "^6.5.5",
     "shp-write": "^0.3.2",
     "tslib": "^1.11.1",
-    "xlsx": "^0.16.3",
+    "xlsx": "^0.16.4",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
