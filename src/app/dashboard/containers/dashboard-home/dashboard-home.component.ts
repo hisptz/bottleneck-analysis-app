@@ -7,15 +7,17 @@ import { State } from '../../../store/reducers';
 
 // selectors
 import * as fromDashboardSelectors from '../../store/selectors';
+import { getCurrentUserManagementAuthoritiesStatus } from 'src/app/store/selectors/user.selectors';
 
 @Component({
   selector: 'app-dashboard-home',
   templateUrl: './dashboard-home.component.html',
-  styleUrls: ['./dashboard-home.component.scss']
+  styleUrls: ['./dashboard-home.component.scss'],
 })
 export class DashboardHomeComponent implements OnInit {
   dashboardsLoading$: Observable<boolean>;
   dashboardsLoaded$: Observable<boolean>;
+  currentUserHasManagementAuthorities$: Observable<boolean>;
   welcomingMessage: { title: string; description: string };
   welcomingMessageObject: {
     [id: number]: { title: string; description: string };
@@ -27,20 +29,25 @@ export class DashboardHomeComponent implements OnInit {
     this.dashboardsLoaded$ = store.select(
       fromDashboardSelectors.getDashboardLoaded
     );
+
+    this.currentUserHasManagementAuthorities$ = this.store.select(
+      getCurrentUserManagementAuthoritiesStatus
+    );
+
     this.welcomingMessageObject = {
       0: {
         title: 'Intuitive design patterns',
-        description: 'Enjoy simple, elegant and improved look and feel'
+        description: 'Enjoy simple, elegant and improved look and feel',
       },
       1: {
         title: 'Impressive data visualizations',
         description:
-          'Interactively visualize you data in charts, table and maps'
+          'Interactively visualize you data in charts, table and maps',
       },
       2: {
         title: 'Impressive data dictionary',
-        description: 'Do not just look on your data, know more about your data'
-      }
+        description: 'Do not just look on your data, know more about your data',
+      },
     };
   }
 
