@@ -50,13 +50,13 @@
 
   <!-- hide search and add dashboard item. to revert remove ngif=false -->
   <div class="dashboard-search-block no-print">
-    <div style="height: 40px; width: 100%;" *ngIf="dashboardLoading">
+    <div style="height: 40px; width: 50px;" *ngIf="dashboardLoading">
       <app-dashboard-progress [borderRadius]="'5px'"></app-dashboard-progress>
     </div>
-    <button mat-icon-button *ngIf="dashboardLoaded" (click)="onArchiveDashboard($event)"
+    <!-- <button mat-icon-button *ngIf="dashboardLoaded" (click)="onArchiveDashboard($event)"
       matTooltip="archive this intervention">
       <mat-icon class="text-muted">archive</mat-icon>
-    </button>
+    </button> -->
     <button mat-icon-button class="download-btn" *ngIf="dashboardLoaded" (click)="onDownloadDashboard($event)"
       matTooltip="Download contents in excel">
       <mat-icon class="text-muted">publish</mat-icon>

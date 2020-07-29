@@ -56,9 +56,7 @@ export function getChartConfiguration(
     reverseLegend: false,
     showLabels: true,
     axes: visualizationSettings.axes ? visualizationSettings.axes : [],
-    rangeAxisMaxValue: visualizationSettings.rangeAxisMaxValue
-      ? visualizationSettings.rangeAxisMaxValue
-      : undefined,
+    rangeAxisMaxValue: 100,
     rangeAxisMinValue: visualizationSettings.rangeAxisMinValue
       ? visualizationSettings.rangeAxisMinValue
       : undefined,
