@@ -6,6 +6,12 @@
       (updateChartVisualizationLayer)="onVisualizationLayerUpdate($event)">
     </ngx-dhis2-chart-list>
   </div>
+  <div *ngIf="visualizationConfig.currentType === 'CHART'" style="display: none;">
+    <ngx-dhis2-table-list [visualizationLayers]="visualizationLayers" [visualizationType]="visualizationConfig.type"
+      [legendDefinitions]="legendDefinitions" [interventionName]="dashboard?.name"
+      (updateTableVisualizationLayer)="onVisualizationLayerUpdate($event)">
+    </ngx-dhis2-table-list>
+  </div>
   <!--end of chart visualization-->
 
   <!--table visualization-->

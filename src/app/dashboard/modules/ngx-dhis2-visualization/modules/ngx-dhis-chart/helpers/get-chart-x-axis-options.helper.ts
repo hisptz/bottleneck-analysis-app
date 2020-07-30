@@ -13,7 +13,7 @@ export function getChartXAxisOptions(
         {
           categories: xAxisCategories,
           tickmarkPlacement: 'on',
-          lineWidth: 0
+          lineWidth: 0,
         }
       );
       break;
@@ -24,14 +24,16 @@ export function getChartXAxisOptions(
           categories: xAxisCategories,
           labels: {
             rotation: 0,
+            useHTML: true,
+            allowOverlap: true,
             style: {
               color: '#000000',
               fontWeight: 'normal',
               fontSize: '12px',
-              lineHeight: '10',
-              textOverflow: 'none'
-            }
-          }
+              wordBreak: 'break-all',
+              textOverflow: 'allow',
+            },
+          },
         }
       );
       break;

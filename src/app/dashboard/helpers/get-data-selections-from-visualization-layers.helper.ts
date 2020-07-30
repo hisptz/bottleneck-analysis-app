@@ -1,7 +1,7 @@
 import { map as _map } from 'lodash';
 import {
   VisualizationLayer,
-  VisualizationDataSelection
+  VisualizationDataSelection,
 } from '../modules/ngx-dhis2-visualization/models';
 import { getSelectionDimensionsFromAnalytics } from '../modules/ngx-dhis2-visualization/helpers';
 
@@ -9,9 +9,16 @@ export function getDataSelectionsFromVisualizationLayers(
   visualizationLayers: VisualizationLayer[],
   retrieveFromAnalytics?: boolean
 ): Array<VisualizationDataSelection[]> {
-  return _map(visualizationLayers, (visualizationLayer: VisualizationLayer) =>
-    retrieveFromAnalytics
+  if (!visualizationLayers) {
+    return [];
+  }
+
+  return _map(visualizationLayers, (visualizationLayer: VisualizationLayer) => {
+    if (!visualizationLayer) {
+      return null;
+    }
+    return retrieveFromAnalytics
       ? getSelectionDimensionsFromAnalytics(visualizationLayer.analytics)
-      : visualizationLayer.dataSelections
-  );
+      : visualizationLayer.dataSelections;
+  }).filter((visualizationLayer) => visualizationLayer);
 }

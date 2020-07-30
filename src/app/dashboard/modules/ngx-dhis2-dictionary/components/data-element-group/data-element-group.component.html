@@ -1,0 +1,160 @@
+<div class="indicator-name">
+  <h3 style="color: #355E7F; margin-bottom: 1.5rem">{{dataElementGroupInfo?.data.metadata.name}}
+    <a title="View this data element group in maintanance" target="_blank"
+      href="../../../dhis-web-maintenance/#/edit/dataElementSection/dataElementGroup/{{dataElementGroupInfo?.data.metadata.id}}">
+      <svg class="" viewBox="0 0 24 24"
+        style="display: inline-block; color: rgba(0, 0, 0, 0.87); fill: rgb(117, 117, 117); height: 16px; width: 16px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; margin-left: -3px; margin-top: -10px; cursor: pointer;">
+        <path
+          d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z">
+        </path>
+      </svg>
+    </a>
+  </h3>
+</div>
+<div class="introduction">
+  <h3 style="color: #464646;">Introduction</h3>
+</div>
+<div class="description">
+  <p>
+    Data element group <span style="color: #325E80;">{{dataElementGroupInfo?.data.metadata.name}}
+    </span>
+    <span *ngIf="dataElementGroupInfo?.data.metadata.description">can be described as
+      <strong>{{dataElementGroupInfo?.data.metadata.description}}</strong>.</span>
+  </p>
+  <p>
+    It’s labelled in short as {{dataElementGroupInfo?.data.metadata.shortName}}
+    <span *ngIf="dataElementGroupInfo?.data.metadata.code">and has a code of
+      {{dataElementGroupInfo?.data.metadata.code}}.</span>
+  </p>
+  <p style="color: #464646; font-size: 0.7em; margin-top: -15px;"><i>Identifed by: <a target="_blank"
+        href="../../../api/dataElementGroups/{{dataElementGroupInfo?.data.metadata.id}}.json">{{dataElementGroupInfo?.data.metadata.id}}
+      </a></i></p>
+</div>
+<div>
+  <h4 style="color: #464646;">Data sources (Datasets/Programs)</h4>
+  <p>Data elements in this group are captured from routine data collection with following sources</p>
+  <ul>
+    <li *ngFor="let dataSet of getDistinctDataSetsCount(dataElementGroupInfo?.data.metadata?.dataElements)">
+      <span (click)="setActiveItem($event, dataSet.id)"
+        style="color: #325E80; cursor: pointer;text-decoration: underline">{{dataSet.name}} </span>
+      submitting <strong>{{dataSet.periodType}}</strong> after every <strong>{{dataSet.timelyDays}}</strong> days for
+      timely submission</li>
+  </ul>
+  <!--
+    {{programName}} submitting records on every event(case or individual) -->
+</div>
+<div>
+  <h4 style="color: #464646;">Data element group Facts</h4>
+  <ul>
+    <li>It has <strong>{{dataElementGroupInfo?.data.metadata?.dataElements.length}}</strong> data Elements</li>
+    <li>It’s data elements belongs to
+      <strong>{{getDistinctDataSetsCount(dataElementGroupInfo?.data.metadata?.dataElements).length}}</strong> dataset
+      source of data</li>
+    <!-- <li>It’s data elements belongs to {{indicatorCount}} indicators using it as numerator/denominator</li> -->
+  </ul>
+</div>
+<div *ngIf="dataElementGroupInfo?.data?.dataElements">
+  <h4 style="color: #464646;">Related Data elements</h4>
+  <p>The following is the summary of the data elements used in the group:- </p>
+  <div [ngClass]="{
+    'ordered-list-in-table-print': isprintSet,
+    'ordered-list-in-table': !isprintSet
+  }" style="width: 100%; margin-bottom: 15px;">
+    <table class="table table-bordered">
+      <thead>
+        <tr style="background-color: #f5f5f5; color: #555;">
+          <th style="padding: 0.45em;">Data Element</th>
+          <th style="padding: 0.45em;">Aggregation</th>
+          <th style="padding: 0.45em;">Value Type</th>
+          <th style="padding: 0.45em;">Zero Significance</th>
+          <th style="padding: 0.45em;">Categories</th>
+          <th style="padding: 0.45em;">Datasets/ Programs</th>
+          <th style="padding: 0.45em;">Groups</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dataElement of dataElementGroupInfo?.data?.dataElements">
+          <td style="padding: 0.45em;">
+            <span (click)="setActiveItem($event, dataElement.id)"
+              style="color: #325E80; cursor: pointer;text-decoration: underline">{{dataElement.name}}</span>
+          </td>
+          <td style="padding: 0.45em;">{{dataElement.aggregationType}}</td>
+          <td style="padding: 0.45em;">{{dataElement.valueType}}</td>
+          <td style="padding: 0.45em;">{{dataElement.zeroIsSignificant}}</td>
+          <td style="padding: 0.45em;">
+            <ul>
+              <li *ngFor="let category of dataElement.categoryCombo.categories">
+                {{category.name}}
+              </li>
+            </ul>
+          </td>
+          <td style="padding: 0.45em;">
+            <ul>
+              <li *ngFor="let dataSetElement of dataElement?.dataSetElements">
+                <span (click)="setActiveItem($event, dataSetElement?.dataSet.id)"
+                  style="color: #325E80; cursor: pointer;text-decoration: underline">{{dataSetElement?.dataSet.name}}</span>
+              </li>
+            </ul>
+          </td>
+          <td style="padding: 0.45em;">
+            <ul>
+              <li *ngFor="let dataElementGroup of dataElement?.dataElementGroups">
+                <span *ngIf="dataElementGroup.id !== dataElementGroupInfo?.data.metadata.id"
+                  (click)="setActiveItem($event, dataElementGroup.id)"
+                  style="color: #325E80; cursor: pointer;text-decoration: underline">{{dataElementGroup.name}}</span>
+                <span *ngIf="dataElementGroup.id == dataElementGroupInfo?.data.metadata.id"
+                  style="color: #325E80;">{{dataElementGroup.name}}</span>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div>
+  <h4 style="color: #464646;">Accessibility & Sharing settings</h4>
+  <p>This data element group was first created on
+    <strong>{{dataElementGroupInfo?.data.metadata.created | date}}</strong> by
+    <strong>{{dataElementGroupInfo?.data.metadata.user.name}}</strong>
+    <span *ngIf="dataElementGroupInfo?.data.metadata.lastUpdated">and last updated on
+      <strong>{{dataElementGroupInfo?.data.metadata.lastUpdated | date}}</strong> </span>
+    <span *ngIf="dataElementGroupInfo?.data.metadata.lastUpdatedBy"> by
+      <strong>{{dataElementGroupInfo?.data.metadata.lastUpdatedBy.name}}.</strong></span>
+  </p>
+
+  <div
+    *ngIf="dataElementGroupInfo?.data.metadata.userAccesses.length > 0 || dataElementGroupInfo?.data.metadata.userGroupAccesses.length > 0">
+    <p>Data element group will be visible for users with the following access:</p>
+    <div style="width: 100%; overflow: auto;">
+      <table class="table table-bordered">
+        <thead>
+          <tr style="background-color: #f5f5f5; color: #555;">
+            <th style="padding: 0.45em;"></th>
+            <th style="padding: 0.45em;">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="dataElementGroupInfo?.data.metadata.userAccesses.length > 0">
+            <td style="padding: 0.45em;background-color: #f5f5f5; color: #555;">User Access</td>
+            <td>
+              <ul>
+                <li *ngFor="let userAccess of dataElementGroupInfo?.data.metadata.userAccesses">
+                  {{formatTextToSentenceFormat(userAccess.displayName)}}({{userAccess.access}})</li>
+              </ul>
+            </td>
+          <tr *ngIf="dataElementGroupInfo?.data.metadata.userGroupAccesses.length > 0">
+            <td style="padding: 0.45em;background-color: #f5f5f5; color: #555;">User Group Access</td>
+            <td>
+              <ul>
+                <li *ngFor="let userGroupAccess of dataElementGroupInfo?.data.metadata.userGroupAccesses">
+                  {{formatTextToSentenceFormat(userGroupAccess.displayName)}} ({{userGroupAccess.access}})</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p style="float: right;">Dictionary generated on <strong>{{getTodayDate() | date}}</strong></p>
+</div>

@@ -5,7 +5,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { catchError } from 'rxjs/operators';
 import { Action } from '@ngrx/store';
 
-import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 import * as fromSystemInfoActions from '../actions/system-info.actions';
 import { getSanitizedSystemInfo } from '../../helpers';
@@ -14,20 +14,20 @@ import { getSanitizedSystemInfo } from '../../helpers';
 export class SystemInfoEffects {
   constructor(
     private actions$: Actions,
-    private systemInfoService: SystemInfoService
+    private httpClient: NgxDhis2HttpClientService
   ) {}
 
   @Effect()
   loadSystemInfo$: Observable<any> = this.actions$.pipe(
     ofType(fromSystemInfoActions.SystemInfoActionTypes.LoadSystemInfo),
-    switchMap(() => this.systemInfoService.getSystemInfo()),
+    switchMap(() => this.httpClient.systemInfo()),
     map((systemInfo: any) => {
       const sanitizedSystemInfo: any = getSanitizedSystemInfo(systemInfo);
       if (!sanitizedSystemInfo) {
         return new fromSystemInfoActions.LoadSystemInfoFail({
           statusCode: 500,
           statusText: 'Error',
-          message: 'Failed to read system information'
+          message: 'Failed to read system information',
         });
       }
       return new fromSystemInfoActions.AddSystemInfo(sanitizedSystemInfo);

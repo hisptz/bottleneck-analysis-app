@@ -1,0 +1,228 @@
+<div class="indicator-name">
+  <h3 style="color: #355E7F; margin-bottom: 1.5rem">{{programIndicatorInfo?.data?.metadata?.name}}
+    <a title="View this program indicator in maintanance" target="_blank"
+      href="../../../dhis-web-maintenance/#/edit/indicatorSection/programIndicator/{{programIndicatorInfo?.data?.metadata?.id}}">
+      <svg class="" viewBox="0 0 24 24"
+        style="display: inline-block; color: rgba(0, 0, 0, 0.87); fill: rgb(117, 117, 117); height: 16px; width: 16px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; margin-left: -3px; margin-top: -10px; cursor: pointer;">
+        <path
+          d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z">
+        </path>
+      </svg>
+    </a></h3>
+</div>
+<div class="introduction">
+  <h3 style="color: #464646;">Introduction</h3>
+</div>
+<div class="description">
+  <p>
+    <span style="color: #325E80;">{{programIndicatorInfo?.data?.metadata?.name}}
+    </span>
+    is a <strong>{{programIndicatorInfo?.data?.metadata?.aggregationType}}</strong> program indicator,
+    <span *ngIf="programIndicatorInfo?.data?.metadata?.description"> described as
+      {{programIndicatorInfo?.data?.metadata?.description}} and</span>
+    whose expression is
+    <span> the {{programIndicatorInfo?.data?.metadata?.aggregationType}} of </span>
+    <span style="color: #325E80;">
+      {{programIndicatorInfo?.data?.programIndicatorDescriptionExpression}}
+      <span *ngIf="programIndicatorInfo?.data?.filter &&
+      programIndicatorInfo?.data?.programStages &&
+      programIndicatorInfo?.data?.dataElements &&
+      programIndicatorInfo?.data?.trackedEntityAttributes"><b>where by</b>
+        {{formatFilter(programIndicatorInfo?.data?.filter)}}
+      </span>
+    </span>
+  </p>
+  <p>
+    <span>It’s labelled in short as <strong>{{programIndicatorInfo?.data?.metadata?.shortName}}</strong> </span>
+    <span *ngIf="programIndicatorInfo?.data?.metadata?.code">and has a code of
+      {{programIndicatorInfo?.data?.metadata?.code}}</span>
+    <!-- In analytics it displays up to {{decimal In Data Output}} decimals. {{It’s set to display in form}} -->
+  </p>
+  <p style="color: #464646; font-size: 0.7em; margin-top: -15px;"><i>Identifed by: <a target="_blank"
+        href="../../../api/programIndicators/{{programIndicatorInfo?.data?.metadata?.id}}.json">{{programIndicatorInfo?.data?.metadata?.id}}
+      </a></i></p>
+</div>
+<div>
+  <h3 style="color: #464646;"> Data sources (Datasets/Programs)</h3>
+  <p>Indicator is captured from event based data collection with following program</p>
+  <ul>
+    <li><span style="color: #325E80;">{{getProgramName(programIndicatorInfo.data)}}</span> submitting records on every
+      event(case or individual)</li>
+  </ul>
+</div>
+<div
+  *ngIf="programIndicatorInfo?.data?.metadata?.programIndicatorGroups && programIndicatorInfo?.data?.metadata?.programIndicatorGroups?.length > 0">
+  <h3 style="color: #464646;">Program Indicator Facts</h3>
+  <p>Belongs to the following program groups of indicators</p>
+  <div>
+    <table class="table table-bordered">
+      <thead>
+        <tr style="background-color: #f5f5f5; color: #555;">
+          <th style="padding: 0.45em;">Name</th>
+          <th style="padding: 0.45em;">Code</th>
+          <th style="padding: 0.45em;">Indicator</th>
+          <th style="padding: 0.45em;">Indicators List</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let group of programIndicatorInfo?.data?.metadata?.programIndicatorGroups">
+          <td style="padding: 0.45em;">{{group.name}}</td>
+          <td style="padding: 0.45em;"><span *ngIf="group.code">{{group.code}}</span></td>
+          <td style="padding: 0.45em;"></td>
+          <td style="padding: 0.45em;"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div
+  *ngIf="programIndicatorInfo?.data?.legendSetsInformation && programIndicatorInfo?.data?.legendSetsInformation?.length > 0">
+  <h4 style="color: #464646;">Legend for analysis</h4>
+  <div *ngFor="let legendSetInformation of programIndicatorInfo.data.legendSetsInformation">
+    <h6>
+      Uses <span style="color: #325E80;">
+        {{programIndicatorInfo.data.legendSetsInformation.length}}
+      </span> legend for analysis, spread accross multiple cut-off points of interest, existing legends are:
+    </h6>
+    <div style="margin-left: 10px;">
+      <li>
+        <span>{{legendSetInformation.legendSets[0].name}}</span>
+        spread accross
+        <span style="color: #325E80;">
+          {{legendSetInformation.legendSets[0].legends.length}}
+        </span> classes for analysis.
+      </li>
+      <div *ngIf="legendSetInformation.legendSets[0].legends.length > 0">
+        <div style="width: 100%; overflow: auto;">
+          <table class="table table-bordered">
+            <thead>
+              <tr style="background-color: #f5f5f5; color: #555;">
+                <th style="padding: 0.45em;">Class</th>
+                <th style="padding: 0.45em;">Lower</th>
+                <th style="padding: 0.45em;">Upper</th>
+                <th style="padding: 0.45em;">Color</th>
+              </tr>
+            </thead>
+            <tbody class="legends-list">
+              <tr *ngFor="let legend of sortLegends(legendSetInformation.legendSets[0].legends)">
+                <td style="padding: 0.45em;"> {{legend.name}} </td>
+                <td style="padding: 0.45em;"> {{legend.startValue}} </td>
+                <td style="padding: 0.45em;"> {{legend.endValue}} </td>
+                <td style="padding: 0.45em;" [ngStyle]="{'background-color': legend.color}">
+                  <span>{{legend.color}}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <h4 style="color: #464646;">Calculation details</h4>
+  <p>Calculation of the values will be {{programIndicatorInfo?.data?.metadata?.aggregationType}} of values across
+    orgunit
+    and period. </p>
+  <p *ngIf="programIndicatorInfo?.data?.metadata?.analyticsType">Program indicator calculation will be based on
+    {{programIndicatorInfo?.data?.metadata?.analyticsType}}, for distinction purposes: </p>
+  <ul>
+    <li>Events implies, each event from data source is considered as independent row to be counted, and properties and
+      details of the event are used to filter events.</li>
+    <li>Enrollment implies, each enrollment from data source is considered as independent row to be counted, and events
+      from any stage and other properties and details of enrollment are used to filter enrollments.</li>
+  </ul>
+  <p>
+    Below are expression details on computing program indicator and it’s related data source
+  </p>
+  <div>
+    <table class="table table-bordered">
+      <thead>
+        <tr style="background-color: #f5f5f5; color: #555;">
+          <th style="padding: 0.45em;"></th>
+          <th style="padding: 0.45em;">Expression</th>
+          <th style="padding: 0.45em;">Filter</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 0.45em;background-color: #f5f5f5; color: #555;">Details</td>
+          <td style="padding: 0.45em;">{{programIndicatorInfo?.data?.metadata?.aggregationType}} of
+            {{programIndicatorInfo?.data?.programIndicatorDescriptionExpression}}</td>
+          <td style="padding: 0.45em;" *ngIf="programIndicatorInfo?.data?.programStages &&
+          programIndicatorInfo?.data?.trackedEntityAttributes">{{formatFilter(programIndicatorInfo.data.filter)}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <p>Below are period boundaries that determines which events or enrollments will be included in calculations of the
+      program indicators, where for event analytics, event date will be used and for enrollment analytics, enrollment
+      analytics will be used.</p>
+    <div>
+      <table class="table table-bordered">
+        <thead>
+          <tr style="background-color: #f5f5f5; color: #555;">
+            <th style="padding: 0.45em;">Boundary target</th>
+            <th style="padding: 0.45em;">Analytics period boundary type</th>
+            <th style="padding: 0.45em;">Offset period by amount</th>
+            <th style="padding: 0.45em;">Period type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let analyticsPeriodBoundary of programIndicatorInfo?.data?.metadata?.analyticsPeriodBoundaries">
+            <td style="padding: 0.45em;">{{formatTextToSentenceFormat(analyticsPeriodBoundary.boundaryTarget)}}</td>
+            <td style="padding: 0.45em;">
+              {{formatTextToSentenceFormat(analyticsPeriodBoundary.analyticsPeriodBoundaryType)}}</td>
+            <td style="padding: 0.45em;"></td>
+            <td style="padding: 0.45em;"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div>
+  <h4 style="color: #464646;">Accessibility & Sharing settings</h4>
+  <p>This indicator was first created on
+    <strong>{{programIndicatorInfo?.data?.metadata?.created | date}} </strong>
+    by <strong>{{programIndicatorInfo?.data?.metadata?.user?.name}} </strong>
+    <span *ngIf="programIndicatorInfo?.data?.metadata?.lastUpdated"> and last updated on
+      <strong>{{programIndicatorInfo?.data?.metadata?.lastUpdated | date}}</strong> </span>
+    <span *ngIf="programIndicatorInfo?.data?.metadata?.lastUpdatedBy"> by
+      <strong>{{programIndicatorInfo?.data?.metadata?.lastUpdatedBy?.name}}</strong></span>
+  </p>
+  <div
+    *ngIf="programIndicatorInfo?.data?.metadata?.userAccesses?.length > 0 || programIndicatorInfo?.data?.metadata?.userGroupAccesses?.length > 0">
+    <h6>Indicator will be visible for users with the following access:</h6>
+    <div style="width: 100%; overflow: auto;">
+      <table class="table table-bordered">
+        <thead>
+          <tr style="background-color: #f5f5f5; color: #555;">
+            <th style="padding: 0.45em;"></th>
+            <th style="padding: 0.45em;">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="programIndicatorInfo?.data?.metadata?.userAccesses?.length > 0">
+            <td style="padding: 0.45em;background-color: #f5f5f5; color: #555;">User Access</td>
+            <td>
+              <ul>
+                <li *ngFor="let userAccess of programIndicatorInfo?.data?.metadata?.userAccesses">
+                  {{formatTextToSentenceFormat(userAccess.displayName)}}({{userAccess.access}})</li>
+              </ul>
+            </td>
+          <tr *ngIf="programIndicatorInfo?.data?.metadata?.userGroupAccesses?.length > 0">
+            <td style="padding: 0.45em;background-color: #f5f5f5; color: #555;">User Group Access</td>
+            <td>
+              <ul>
+                <li *ngFor="let userGroupAccess of programIndicatorInfo?.data?.metadata?.userGroupAccesses">
+                  {{formatTextToSentenceFormat(userGroupAccess.displayName)}} ({{userGroupAccess.access}})</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p style="float: right;">Dictionary generated on <strong>{{getTodayDate() | date}}</strong></p>
+</div>

@@ -8,7 +8,7 @@ export function getChartSeriesValue(
   dataIndex
 ) {
   let finalValue = 0;
-  const seriesValues = _.map(analyticsRows, row => {
+  const seriesValues = _.map(analyticsRows, (row) => {
     let seriesValue = 0;
     let xAxisRowId = '';
     _.forEach(xAxisItemIndex.split('_'), (axisIndex: any) => {
@@ -24,26 +24,28 @@ export function getChartSeriesValue(
       seriesValue += value;
     }
     return seriesValue;
-  }).filter(value => value !== 0);
+  }).filter((value) => value !== 0);
 
   if (seriesValues) {
     // Check if series values have non numeric content
-    if (_.some(seriesValues, seriesValue => isNaN(seriesValue))) {
+    if (_.some(seriesValues, (seriesValue) => isNaN(seriesValue))) {
       return '';
     }
     // TODO find best way to identify ratios
     const isRatio = _.some(
       seriesValues,
-      seriesValue => seriesValue.toString().split('.')[1]
+      (seriesValue) => seriesValue.toString().split('.')[1]
     );
 
     const valueSum =
       seriesValues.length > 0
-        ? seriesValues.reduce((sum, count) => sum + count)
+        ? seriesValues.reduce(
+            (sum, count) => parseFloat(sum) + parseFloat(count)
+          )
         : 0;
 
     if (isRatio) {
-      finalValue = parseFloat((valueSum / seriesValues.length).toFixed(2));
+      finalValue = valueSum / seriesValues.length;
     } else {
       finalValue = valueSum;
     }

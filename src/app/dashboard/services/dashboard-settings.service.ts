@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
-import {
-  ManifestService,
-  NgxDhis2HttpClientService
-} from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { throwError } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardSettingsService {
   private _dataStoreUrl: string;
-  constructor(
-    private httpClient: NgxDhis2HttpClientService,
-    private manifestService: ManifestService
-  ) {
+  constructor(private httpClient: NgxDhis2HttpClientService) {
     this._dataStoreUrl = 'dataStore/dashboard-settings';
   }
 
   load() {
-    return this.manifestService.getManifest().pipe(
+    return this.httpClient.manifest().pipe(
       mergeMap(() => {
         const namespace = 'bna-dashboard';
         return this.httpClient.get(this._dataStoreUrl).pipe(
@@ -46,7 +40,7 @@ export class DashboardSettingsService {
       id: namespace,
       useDataStoreAsSource: true,
       allowAdditionalAttributes: true,
-      additionalAttributes: ['globalSelections']
+      additionalAttributes: ['globalSelections'],
     };
     return this.httpClient
       .post(`${this._dataStoreUrl}/${namespace}`, dashboardSettings)

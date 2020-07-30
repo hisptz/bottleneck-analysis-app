@@ -1,0 +1,15 @@
+<div class="btn-group">
+  <button class="first-btn" 
+  (click)="switchMetadata('indicator')"
+  [ngClass]="activeType=='indicator' ? 'active-btn': ''"
+  >Indicators</button>
+  <button class="last-btn"
+  (click)="switchMetadata('programIndicator')"
+  [ngClass]="activeType=='programIndicator' ? 'active-btn': ''"
+  >Program indicators</button>
+  <!-- <button
+  (click)="switchMetadata('function')"
+  [ngClass]="activeType=='functions' ? 'active-btn': ''"
+  >Functions</button> -->
+</div>
+  

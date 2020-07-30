@@ -10,7 +10,7 @@ export enum VisualizationLayerActionTypes {
   LOAD_VISUALIZATION_ANALYTICS_SUCCESS = '[VisualizationLayer] Load visualization analytics success',
   LOAD_VISUALIZATION_ANALYTICS_FAIL = '[VisualizationLayer] Load visualization analytics fail',
   ReplaceVisualizationLayerId = '[VisualizationLayer] Replace visualization layer id',
-  RemoveVisualizationLayer = '[VisualizationLayer] Remove visualization layer'
+  RemoveVisualizationLayer = '[VisualizationLayer] Remove visualization layer',
 }
 
 export class AddVisualizationLayerAction implements Action {
