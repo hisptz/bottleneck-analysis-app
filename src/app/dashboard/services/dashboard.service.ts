@@ -52,8 +52,14 @@ export class DashboardService {
         }
         return zip(
           ..._.map(filteredDashboardIds, (dashboardId) => {
-            return this.httpClient.get(`dataStore/dashboards/${dashboardId}`);
+            return this.httpClient
+              .get(`dataStore/dashboards/${dashboardId}`)
+              .pipe(catchError(() => of(null)));
           })
+        ).pipe(
+          map((dashboards) =>
+            (dashboards || []).filter((dashboard) => dashboard)
+          )
         );
       }),
       catchError(() => of([]))

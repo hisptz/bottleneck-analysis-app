@@ -143,6 +143,7 @@
   },
   "defaultProject": "idashboard",
   "cli": {
-    "defaultCollection": "@ngrx/schematics"
+    "defaultCollection": "@ngrx/schematics",
+    "analytics": "a3ef72a9-da9b-45f2-bf00-5fa96b76af8b"
   }
 }
