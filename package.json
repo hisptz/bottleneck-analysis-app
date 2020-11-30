@@ -15,17 +15,17 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^9.1.1",
-    "@angular/cdk": "~9.2.0",
-    "@angular/common": "^9.1.1",
-    "@angular/compiler": "^9.1.1",
-    "@angular/core": "^9.1.1",
-    "@angular/forms": "^9.1.1",
+    "@angular/animations": "^11.0.2",
+    "@angular/cdk": "~11.0.1",
+    "@angular/common": "^11.0.2",
+    "@angular/compiler": "^11.0.2",
+    "@angular/core": "^11.0.2",
+    "@angular/forms": "^11.0.2",
     "@angular/material": "^9.2.0",
-    "@angular/platform-browser": "^9.1.1",
-    "@angular/platform-browser-dynamic": "^9.1.1",
-    "@angular/router": "^9.1.1",
-    "@angular/service-worker": "^9.1.1",
+    "@angular/platform-browser": "^11.0.2",
+    "@angular/platform-browser-dynamic": "^11.0.2",
+    "@angular/router": "^11.0.2",
+    "@angular/service-worker": "^11.0.2",
     "@iapps/function-analytics": "^1.0.0-beta.21",
     "@iapps/ngx-dhis2-http-client": "^2.0.8-rc.2",
     "@iapps/ngx-dhis2-menu": "^1.0.11-beta.8",
@@ -77,8 +77,8 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.1",
     "@angular/cli": "^9.1.1",
-    "@angular/compiler-cli": "^9.1.1",
-    "@angular/language-service": "^9.1.1",
+    "@angular/compiler-cli": "^11.0.2",
+    "@angular/language-service": "^11.0.2",
     "@compodoc/compodoc": "^1.1.11",
     "@ngrx/schematics": "^9.1.0",
     "@ngrx/store-devtools": "^9.1.0",
@@ -102,7 +102,7 @@
     "puppeteer": "^2.1.1",
     "ts-node": "~8.8.2",
     "tslint": "^6.1.1",
-    "typescript": "^3.8.3"
+    "typescript": "^4.0.5"
   },
   "config": {
     "commitizen": {
