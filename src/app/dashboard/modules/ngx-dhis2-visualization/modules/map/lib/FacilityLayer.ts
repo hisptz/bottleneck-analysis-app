@@ -2,8 +2,16 @@ import * as L from 'leaflet';
 import { toGeoJson, isValidCoordinate, geoJsonOptions } from './GeoJson';
 import * as _ from 'lodash';
 
-export const facility = options => {
-  const { geofeature, layerOptions, displaySettings, opacity, areaRadius, dataSelections, orgUnitGroupSet } = options;
+export const facility = (options) => {
+  const {
+    geofeature,
+    layerOptions,
+    displaySettings,
+    opacity,
+    areaRadius,
+    dataSelections,
+    orgUnitGroupSet,
+  } = options;
   const { organisationUnitGroupSet } = dataSelections;
   const { radiusLow } = layerOptions;
 
@@ -19,44 +27,49 @@ export const facility = options => {
     const facilities = parseFacilities(geofeature, groupSetId);
     const groupSet = parseGroupSet(organisationUnitGroups);
 
-    features = facilities.map(data => {
+    features = facilities.map((data) => {
       const id = data.dimensions[groupSetId];
       return toFacilityGeoJson(data, groupSet[id], contextPath);
     });
 
-    const otherOptions = facilityGeoJsonOptions(options.id, displaySettings, areaRadius, opacity);
+    const otherOptions = facilityGeoJsonOptions(
+      options.id,
+      displaySettings,
+      areaRadius,
+      opacity
+    );
 
     geoJsonLayer = L.geoJSON(features, otherOptions);
     legend = {
       title: 'Facilities',
       type: 'facility',
-      items: Object.keys(groupSet).map(id => ({
+      items: Object.keys(groupSet).map((id) => ({
         image: `${contextPath}/images/orgunitgroup/${groupSet[id].symbol}`,
-        name: groupSet[id].name
-      }))
+        name: groupSet[id].name,
+      })),
     };
   }
   const bounds = geoJsonLayer.getBounds();
   geoJsonLayer.setStyle({
     opacity: 0.2,
-    fillOpacity: 0.2
+    fillOpacity: 0.2,
   });
   const _legendSet = {
     layer: options.id,
     opacity,
     hidden: false,
-    legend
+    legend,
   };
   const optionsToReturn = {
     ...options,
     features,
     legendSet: _legendSet,
-    geoJsonLayer
+    geoJsonLayer,
   };
   if (bounds.isValid()) {
     return {
       ...optionsToReturn,
-      bounds
+      bounds,
     };
   }
   return optionsToReturn;
@@ -64,7 +77,7 @@ export const facility = options => {
 
 const parseFacilities = (facilities, groupSetId) =>
   facilities.filter(
-    data =>
+    (data) =>
       data.ty === 1 &&
       _.isPlainObject(data.dimensions) &&
       data.dimensions[groupSetId] &&
@@ -80,16 +93,16 @@ const toFacilityGeoJson = (data, group, contextPath) => ({
     label: `${data.na} (${group.name})`,
     icon: {
       iconUrl: `${contextPath}/images/orgunitgroup/${group.symbol}`,
-      iconSize: [16, 16]
-    }
+      iconSize: [16, 16],
+    },
   },
   geometry: {
     type: 'Point',
-    coordinates: JSON.parse(data.co)
-  }
+    coordinates: JSON.parse(data.co),
+  },
 });
 
-const parseGroupSet = organisationUnitGroups =>
+const parseGroupSet = (organisationUnitGroups) =>
   organisationUnitGroups.reduce((symbols = {}, group, index) => {
     // Easier lookup of unit group symbols
     const symbol = group.symbol || 21 + index + '.png'; // Default symbol 21-25 are coloured circles
@@ -97,13 +110,24 @@ const parseGroupSet = organisationUnitGroups =>
       ...symbols,
       [group.id]: {
         ...group,
-        symbol
-      }
+        symbol,
+      },
     };
   }, {});
 
-export const facilityGeoJsonOptions = (id, displaySettings, areaRadius, opacity) => {
-  const { labelFontStyle, labelFontSize, labelFontColor, labelFontWeight, labels } = displaySettings;
+export const facilityGeoJsonOptions = (
+  id,
+  displaySettings,
+  areaRadius,
+  opacity
+) => {
+  const {
+    labelFontStyle,
+    labelFontSize,
+    labelFontColor,
+    labelFontWeight,
+    labels,
+  } = displaySettings;
   const onEachFeature = (feature, layer) => {
     if (labels) {
       feature.properties.label = feature.properties.name;
@@ -112,18 +136,21 @@ export const facilityGeoJsonOptions = (id, displaySettings, areaRadius, opacity)
         fontStyle: labelFontStyle,
         fontColor: labelFontColor,
         fontWeight: labelFontWeight,
-        paddingTop: '10px'
+        paddingTop: '10px',
       };
     }
   };
   const pane = id;
   const pointToLayer = (feature, latlng) => {
     const iconProperty = 'icon';
-    const markerOptions = L.extend({}, { riseOnHover: true, strokeColor: '#fff' });
+    const markerOptions = L.extend(
+      {},
+      { riseOnHover: true, strokeColor: '#fff' }
+    );
     const { labelStyle } = feature.properties;
     const title = L.Util.template('{name}', feature.properties);
     const icon = L.icon({
-      ...feature.properties.icon
+      ...feature.properties.icon,
     });
 
     // NOTE: include pane to every Marker to make it them in different pane.
@@ -133,7 +160,7 @@ export const facilityGeoJsonOptions = (id, displaySettings, areaRadius, opacity)
       iconProperty,
       title,
       labelStyle,
-      pane
+      pane,
     });
 
     if (areaRadius) {
@@ -142,7 +169,7 @@ export const facilityGeoJsonOptions = (id, displaySettings, areaRadius, opacity)
         weight: 0.5,
         opacity: opacity || 0.8,
         fillOpacity: opacity || 0.8,
-        pane: `${id}-area`
+        pane: `${id}-area`,
       };
       const circle = new L.CircleMarker(latlng, geojsonMarkerOptions);
       const featureGroup = new L.featureGroup([circle, marker], { pane });
@@ -153,22 +180,22 @@ export const facilityGeoJsonOptions = (id, displaySettings, areaRadius, opacity)
     return marker;
   };
 
-  const setOpacity = op => {
-    this.eachLayer(layer => {
-      layer.setOpacity(op);
-    });
+  const setOpacity = (op) => {
+    // this.eachLayer(layer => {
+    //   layer.setOpacity(op);
+    // });
   };
 
   return {
     pane,
     onEachFeature,
     pointToLayer,
-    setOpacity
+    setOpacity,
   };
 };
 
 const featureGroupEvents = {
-  mouseover: evt => {
+  mouseover: (evt) => {
     evt.layer.closeTooltip();
     const name = evt.target.feature.properties.name;
     evt.layer
@@ -177,17 +204,17 @@ const featureGroupEvents = {
         permanent: false,
         sticky: true,
         interactive: true,
-        opacity: 1
+        opacity: 1,
       })
       .openTooltip();
   },
-  click: evt => {
+  click: (evt) => {
     const attr = evt.target.feature.properties;
     let content = `<div class="leaflet-popup-orgunit">${attr.name}`;
 
     if (_.isPlainObject(attr.dimensions)) {
       content += `<br/>Groups: ${Object.keys(attr.dimensions)
-        .map(id => attr.dimensions[id])
+        .map((id) => attr.dimensions[id])
         .join(', ')}`;
     }
 
@@ -202,5 +229,5 @@ const featureGroupEvents = {
     evt.layer.bindPopup(content);
     // Open the binded popup
     evt.layer.openPopup();
-  }
+  },
 };
