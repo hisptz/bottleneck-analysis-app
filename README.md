@@ -1,41 +1,45 @@
-# Bottleneck Analysis app
+This project was bootstrapped with [DHIS2 Application Platform](https://github.com/dhis2/app-platform).
 
-The Bottleneck analysis app is a DHIS2 based application which is envisioned to provide real-time access to data to facilitate decision making at all levels and allow end-users to conduct bottleneck analysis, produce meaningful visualizations, and archive identified bottlenecks, root causes, and solutions; with the aim of guiding operational planning, tracking progress and performance over time and strengthening accountability for better results
+## Available Scripts
 
-## Setup
+In the project directory, you can run:
 
-Run `npm install` to install all required dependencies for the app
+### `yarn start`
 
-## Development server
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`.
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-This command will require proxy-config.json file available in the root of your source code, usually this file has this format
+### `yarn test`
 
-```
-{
-  "/api": {
-    "target": "https://play.dhis2.org/2.29/",
-    "secure": "false",
-    "auth": "admin:district",
-    "changeOrigin": "true"
-  },
-  "/": {
-    "target": "https://play.dhis2.org/2.29/",
-    "secure": "false",
-    "auth": "admin:district",
-    "changeOrigin": "true"
-  }
-}
+Launches the test runner and runs all available tests found in `/src`.<br />
 
-```
+See the section about [running tests](https://platform.dhis2.nu/#/scripts/test) for more information.
 
-We have provided `proxy-config.example.json` file as an example, make a copy and rename to `proxy-config.json`
+### `yarn build`
 
-## Build
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/`, this will included a zip file ready for deploying to any DHIS2 instance.
+The build is minified and the filenames include the hashes.<br />
+A deployable `.zip` file can be found in `build/bundle`!
 
-## Further help
+See the section about [building](https://platform.dhis2.nu/#/scripts/build) for more information.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### `yarn deploy`
+
+Deploys the built app in the `build` folder to a running DHIS2 instance.<br />
+This command will prompt you to enter a server URL as well as the username and password of a DHIS2 user with the App Management authority.<br/>
+You must run `yarn build` before running `yarn deploy`.<br />
+
+See the section about [deploying](https://platform.dhis2.nu/#/scripts/deploy) for more information.
+
+## Learn More
+
+You can learn more about the platform in the [DHIS2 Application Platform Documentation](https://platform.dhis2.nu/).
+
+You can learn more about the runtime in the [DHIS2 Application Runtime Documentation](https://runtime.dhis2.nu/).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
