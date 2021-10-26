@@ -116,3 +116,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+.d2
+locales
+
+cypress.env.json
