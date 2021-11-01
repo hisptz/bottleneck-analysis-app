@@ -7,7 +7,7 @@ export default function DashboardHeader() {
   return (
     <div className="header-container">
       <InterventionList />
-      <Divider />
+      <Divider margin={"0"} />
       <InterventionHeader />
     </div>
   );

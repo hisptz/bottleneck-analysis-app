@@ -14,7 +14,7 @@ export default function InterventionList() {
     <div className="column center align-center w-100">
       <div className="intervention-list-container w-100 align-start">
         <div className="column flex">
-          <div className="row gap flex align-start">
+          <div className="row gap align-start">
             <AddButton />
             <Search />
             <InterventionChips showAll={showAll} />
