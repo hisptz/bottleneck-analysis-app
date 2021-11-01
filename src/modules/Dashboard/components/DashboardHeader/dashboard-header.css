@@ -1,0 +1,7 @@
+.header-container {
+    min-width: 100%;
+    background: #FFFFFF;
+    min-height: 100px;
+    border-bottom: 1px solid #A0ADBA;
+    box-shadow: 0 3px 8px #A0ADBA;
+}
