@@ -4,17 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Intervention Layout  ): Implementation&#10;&#10;- Implemented intervention layout">
-      <change afterPath="$PROJECT_DIR$/public/android-chrome-192x192.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/android-chrome-384x384.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/apple-touch-icon-precomposed.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/apple-touch-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/dhis2-app-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/favicon-16x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/favicon-32x32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/mstile-150x150.png" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Favicon): Implementation&#10;&#10;- Added BNA favicon and DHIS2 Icon">
+      <change afterPath="$PROJECT_DIR$/src/assets/images/bna-logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/constants/dataStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/hooks/initDataEngine.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/state/dataEngine.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/components/DashboardChips.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/state/dashboard.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/state/intervention.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Landing/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/components/loaders/FullPageLoader/full-page-loader.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/components/loaders/FullPageLoader/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/components/loaders/InitialAppLoader/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/components/loaders/InitialAppLoader/initial-page-loader.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/services/getDashboards.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/services/getInterventions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/types/dashboardConfig.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/types/interventionConfig.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/d2.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/d2.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionList/components/AddButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/components/AddButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionList/components/InterventionChips.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionList/components/Search.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/components/Search.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionList/intervention-list.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/intervention-list.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionList/styles.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/styles.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Router/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +46,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="CSS File" />
+        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
       </list>
     </option>
@@ -49,6 +71,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/intervention-list-logic" />
+                    <option name="lastUsedInstant" value="1635837903" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
                     <option name="lastUsedInstant" value="1635831606" />
@@ -79,7 +105,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/images" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -95,13 +121,17 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets/images" />
+      <recent name="$PROJECT_DIR$/src/shared/components/loaders" />
+      <recent name="$PROJECT_DIR$/src/shared/services" />
+      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RunManager" selected="npm.start --proxy https://hisp.apps.dhis2.org/dev">
     <configuration name="format" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -112,19 +142,24 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="start --proxy https://hisp.apps.dhis2.org/dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
         <script value="start" />
       </scripts>
+      <arguments value="--proxy https://hisp.apps.dhis2.org/dev" />
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="npm.format" />
+      <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start" />
+        <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
         <item itemvalue="npm.format" />
       </list>
     </recent_temporary>
@@ -145,6 +180,8 @@
       <workItem from="1635753735772" duration="3929000" />
       <workItem from="1635757757895" duration="15051000" />
       <workItem from="1635831049281" duration="302000" />
+      <workItem from="1635840163523" duration="6478000" />
+      <workItem from="1635846934397" duration="2405000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -174,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635835953265</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat(Favicon): Implementation&#10;&#10;- Added BNA favicon and DHIS2 Icon">
+      <created>1635837866387</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1635837866387</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -196,7 +240,8 @@
     <MESSAGE value="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling" />
     <MESSAGE value="feat(Intervention Name  ): Implementation&#10;&#10;- Implemented Intervention name view &#10; - Improved sytling for dashboard&#10;header" />
     <MESSAGE value="feat(Intervention Layout  ): Implementation&#10;&#10;- Implemented intervention layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(Intervention Layout  ): Implementation&#10;&#10;- Implemented intervention layout" />
+    <MESSAGE value="feat(Favicon): Implementation&#10;&#10;- Added BNA favicon and DHIS2 Icon" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(Favicon): Implementation&#10;&#10;- Added BNA favicon and DHIS2 Icon" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
