@@ -1,33 +1,24 @@
 {
-	"compilerOptions": {
-		"baseUrl": "src",
-		"target": "es5",
-		/* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-		"module": "commonjs",
-		/* Specify what module code is generated. */
-		"esModuleInterop": true,
-		/* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
-		"forceConsistentCasingInFileNames": true,
-		"strict": true,
-		/* Enable all strict type-checking options. */
-		"skipLibCheck": true,
-		"allowJs": true,
-		"noFallthroughCasesInSwitch": true,
-		"moduleResolution": "node",
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"jsx": "react-jsx",
-		"typeRoots": [
-			"node_modules/@types",
-			"src/types"
-		],
-		"lib": [
-			"dom",
-			"dom.iterable",
-			"esnext"
-		]
-	},
-	"include": [
-		"src"
-	]
+  "compilerOptions": {
+    "baseUrl": "src",
+    "target": "es5",
+    /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "module": "commonjs",
+    /* Specify what module code is generated. */
+    "esModuleInterop": true,
+    /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    /* Enable all strict type-checking options. */
+    "skipLibCheck": true,
+    "allowJs": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "typeRoots": ["node_modules/@types", "src/types"],
+    "lib": ["dom", "dom.iterable", "esnext"]
+  },
+  "include": ["src"]
 }
