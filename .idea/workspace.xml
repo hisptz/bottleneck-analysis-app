@@ -5,18 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Intervention Layout  ): Implementation&#10;&#10;- Implemented intervention layout">
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/dashboard-card.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/bottleneck-analysis-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bottleneck-analysis-app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/RootCauseAnalysis/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/dashboard-header.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/dashboard-header.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionHeader/intervention-header.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionHeader/intervention-header.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/dashboard.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/spacing.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/spacing.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +25,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript File" />
-        <option value="TypeScript JSX File" />
         <option value="CSS File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -52,12 +50,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/intervention-layout" />
-                    <option name="lastUsedInstant" value="1635749876" />
-                  </RecentBranch>
-                  <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1635749875" />
+                    <option name="lastUsedInstant" value="1635831606" />
                   </RecentBranch>
                 </list>
               </option>

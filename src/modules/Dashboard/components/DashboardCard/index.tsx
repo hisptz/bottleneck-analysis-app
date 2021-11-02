@@ -10,12 +10,12 @@ export type DashboardMenu = {
 
 export type DashboardCardProps = {
   title: string | JSX.Element;
-  content: JSX.Element;
+  children: JSX.Element | Array<JSX.Element> | React.ReactElement | string;
   actions?: JSX.Element;
   menu?: Array<DashboardMenu>;
 };
 
-export default function DashboardCard({ title, content, actions, menu }: DashboardCardProps) {
+export default function DashboardCard({ title, children, actions, menu }: DashboardCardProps) {
   const actionButtonRef = useRef<HTMLDivElement | null>(null);
   return (
     <div className="card-container">
@@ -27,7 +27,7 @@ export default function DashboardCard({ title, content, actions, menu }: Dashboa
           </div>
         )}
       </div>
-      <div className="card-content column align-center center">{content}</div>
+      <div className="card-content column align-center center">{children}</div>
       <div className="card-actions">{actions}</div>
     </div>
   );
