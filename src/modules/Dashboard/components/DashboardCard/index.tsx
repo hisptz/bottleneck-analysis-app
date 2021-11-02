@@ -1,5 +1,5 @@
-import { Button, IconMore24 } from "@dhis2/ui";
-import React, { useRef } from "react";
+import { Button, IconMore24, Menu, MenuItem, Popover } from "@dhis2/ui";
+import React, { useState } from "react";
 import "./dashboard-card.css";
 
 export type DashboardMenu = {
@@ -16,18 +16,27 @@ export type DashboardCardProps = {
 };
 
 export default function DashboardCard({ title, children, actions, menu }: DashboardCardProps) {
-  const actionButtonRef = useRef<HTMLDivElement | null>(null);
+  const [actionButtonRef, setActionButtonRef] = useState<any>();
   return (
     <div className="card-container">
       <div className="row space-between align-center">
         <div className="card-header">{typeof title === "string" ? <h4>{title}</h4> : title}</div>
         {menu && (
-          <div ref={actionButtonRef}>
-            <Button icon={<IconMore24 />} />
-          </div>
+          <>
+            <Button icon={<IconMore24 />} onClick={(_: any, e: MouseEvent) => setActionButtonRef(e.target)} />
+            {actionButtonRef && (
+              <Popover onClickOutside={() => setActionButtonRef(undefined)} placement="left-start" reference={actionButtonRef}>
+                <Menu>
+                  {menu?.map(({ label, icon, callback }) => (
+                    <MenuItem onClick={callback} key={`${label}-${title}-menu`} label={label} icon={icon} />
+                  ))}
+                </Menu>
+              </Popover>
+            )}
+          </>
         )}
       </div>
-      <div className="card-content column align-center center">{children}</div>
+      <div className={`card-content column`}>{children}</div>
       <div className="card-actions">{actions}</div>
     </div>
   );

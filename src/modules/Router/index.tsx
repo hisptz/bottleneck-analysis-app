@@ -1,8 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { HashRouter, Route } from "react-router-dom";
 import useDataEngineInit from "../../core/hooks/initDataEngine";
-import Dashboard from "../Dashboard";
+import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
 import Landing from "../Landing";
+
+const Dashboard = React.lazy(() => import("../Dashboard"));
 
 const routes = [
   {
@@ -19,8 +21,12 @@ export default function Router() {
   useDataEngineInit();
   return (
     <HashRouter>
-      {routes?.map(({ pathname, component }) => (
-        <Route key={`${pathname}-route`} path={pathname} component={component} />
+      {routes?.map(({ pathname, component: Component }) => (
+        <Route exact key={`${pathname}-route`} path={pathname}>
+          <Suspense fallback={<FullPageLoader />}>
+            <Component />
+          </Suspense>
+        </Route>
       ))}
     </HashRouter>
   );

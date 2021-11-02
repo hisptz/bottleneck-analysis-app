@@ -1,6 +1,6 @@
 import { DataStoreProvider } from "@dhis2/app-service-datastore";
 import React, { Suspense } from "react";
-import "./App.module.css";
+import "./App.css";
 import "./styles/spacing.css";
 import "./styles/layout.css";
 import { RecoilRoot } from "recoil";
