@@ -1,9 +1,24 @@
 import i18n from "@dhis2/d2-i18n";
-import { DataTable, TableHead, DataTableRow, DataTableColumnHeader, TableBody, DataTableCell, TableFoot, Button, IconMore16 } from "@dhis2/ui";
+import {
+  DataTable,
+  IconDelete16,
+  IconEdit16,
+  TableHead,
+  DataTableRow,
+  DataTableColumnHeader,
+  MenuItem,
+  TableBody,
+  DataTableCell,
+  TableFoot,
+  Button,
+  IconMore16,
+} from "@dhis2/ui";
 import React from "react";
 import "./rootCauseTable.css";
 
 export default function RootCausseTable() {
+  const [showSubMenuState, setSubMenuState] = React.useState(false);
+
   return (
     <DataTable>
       <TableHead>
@@ -36,7 +51,19 @@ export default function RootCausseTable() {
           <DataTableCell bordered>Lack of human resources</DataTableCell>
           <DataTableCell bordered>Hire and train new midwives</DataTableCell>
           <DataTableCell bordered>
-            <Button icon={<IconMore16 color="#212529" />} name="Icon large button" small value="default" />
+            <MenuItem
+              // chevron={false}
+              showSubMenu={showSubMenuState}
+              toggleSubMenu={() => {
+                setSubMenuState(!showSubMenuState);
+              }}
+              icon={<IconMore16 color="#212529" />}>
+              {" "}
+              <MenuItem icon={<IconEdit16 color="#212529" />} label="Edit" />
+              <MenuItem icon={<IconDelete16 color="red" />} label="Delete" />
+            </MenuItem>
+
+            {/* <Button icon={<IconMore16 color="#212529" />} name="Icon large button" small value="default" /> */}
           </DataTableCell>
         </DataTableRow>
         <DataTableRow>
@@ -55,7 +82,15 @@ export default function RootCausseTable() {
           <DataTableCell bordered>Lack of human resources</DataTableCell>
           <DataTableCell bordered>Hire and train new midwives</DataTableCell>
           <DataTableCell bordered>
-            <Button icon={<IconMore16 color="#212529" />} name="Icon large button" small value="default" />
+            <MenuItem
+              // chevron={false}
+              showSubMenu={false}
+              toggleSubMenu={() => {}}
+              icon={<IconMore16 color="#212529" />}>
+              {" "}
+              <MenuItem icon={<IconEdit16 color="#212529" />} label="Edit" />
+              <MenuItem icon={<IconDelete16 color="red" />} label="Delete" />
+            </MenuItem>
           </DataTableCell>
         </DataTableRow>
         <DataTableRow>
@@ -74,7 +109,15 @@ export default function RootCausseTable() {
           <DataTableCell bordered>Lack of human resources</DataTableCell>
           <DataTableCell bordered>Hire and train new midwives</DataTableCell>
           <DataTableCell bordered>
-            <Button icon={<IconMore16 color="#212529" />} name="Icon large button" small value="default" />
+            <MenuItem
+              // chevron={false}
+              showSubMenu={false}
+              toggleSubMenu={() => {}}
+              icon={<IconMore16 color="#212529" />}>
+              {" "}
+              <MenuItem icon={<IconEdit16 color="#212529" />} label="Edit" />
+              <MenuItem icon={<IconDelete16 color="red" />} label="Delete" />
+            </MenuItem>
           </DataTableCell>
         </DataTableRow>
       </TableBody>
