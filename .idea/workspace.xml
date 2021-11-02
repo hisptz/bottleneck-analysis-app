@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Intervention Layout  ): Implementation&#10;&#10;- Implemented intervention layout">
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/RootCauseAnalysis/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/index.tsx" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu">
+      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardDetails/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/dashboard-card.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/dashboard-card.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionHeader/intervention-header.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionHeader/intervention-header.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionHeader/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/state/dashboard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/state/dashboard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Router/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="CSS File" />
+        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
       </list>
     </option>
@@ -50,8 +48,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="feature/intervention" />
+                    <option name="lastUsedInstant" value="1635850075" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1635831606" />
+                    <option name="lastUsedInstant" value="1635849620" />
                   </RecentBranch>
                 </list>
               </option>
@@ -79,7 +81,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/images" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -95,13 +97,17 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets/images" />
+      <recent name="$PROJECT_DIR$/src/shared/components/loaders" />
+      <recent name="$PROJECT_DIR$/src/shared/services" />
+      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RunManager" selected="npm.start --proxy https://hisp.apps.dhis2.org/dev">
     <configuration name="format" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -112,19 +118,24 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="start --proxy https://hisp.apps.dhis2.org/dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
         <script value="start" />
       </scripts>
+      <arguments value="--proxy https://hisp.apps.dhis2.org/dev" />
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="npm.format" />
+      <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start" />
+        <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
         <item itemvalue="npm.format" />
       </list>
     </recent_temporary>
@@ -145,6 +156,8 @@
       <workItem from="1635753735772" duration="3929000" />
       <workItem from="1635757757895" duration="15051000" />
       <workItem from="1635831049281" duration="302000" />
+      <workItem from="1635840163523" duration="6478000" />
+      <workItem from="1635846934397" duration="9818000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -167,7 +180,35 @@
       <option name="project" value="LOCAL" />
       <updated>1635831332593</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat(Intervention Layout  ): Implementation&#10;&#10;- Implemented intervention layout">
+      <created>1635835953265</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1635835953265</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat(Favicon): Implementation&#10;&#10;- Added BNA favicon and DHIS2 Icon">
+      <created>1635837866387</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1635837866387</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat(Dashboard List): Implementation&#10;&#10;- Implemented dashboard list data fetch and logic&#10;- Implemented initial&#10;app loading page&#10;- Implemented initial navigation">
+      <created>1635849568146</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1635849568146</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu">
+      <created>1635853250725</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1635853250725</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,7 +230,10 @@
     <MESSAGE value="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling" />
     <MESSAGE value="feat(Intervention Name  ): Implementation&#10;&#10;- Implemented Intervention name view &#10; - Improved sytling for dashboard&#10;header" />
     <MESSAGE value="feat(Intervention Layout  ): Implementation&#10;&#10;- Implemented intervention layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(Intervention Layout  ): Implementation&#10;&#10;- Implemented intervention layout" />
+    <MESSAGE value="feat(Favicon): Implementation&#10;&#10;- Added BNA favicon and DHIS2 Icon" />
+    <MESSAGE value="feat(Dashboard List): Implementation&#10;&#10;- Implemented dashboard list data fetch and logic&#10;- Implemented initial&#10;app loading page&#10;- Implemented initial navigation" />
+    <MESSAGE value="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

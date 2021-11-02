@@ -1,19 +1,32 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { HashRouter, Route } from "react-router-dom";
-import Dashboard from "../Dashboard";
+import useDataEngineInit from "../../core/hooks/initDataEngine";
+import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
+import Landing from "../Landing";
+
+const Dashboard = React.lazy(() => import("../Dashboard"));
 
 const routes = [
   {
     pathname: "/dashboards/:id",
     component: Dashboard,
   },
+  {
+    pathname: "/",
+    component: Landing,
+  },
 ];
 
 export default function Router() {
+  useDataEngineInit();
   return (
     <HashRouter>
-      {routes?.map(({ pathname, component }) => (
-        <Route key={`${pathname}-route`} path={pathname} component={component} />
+      {routes?.map(({ pathname, component: Component }) => (
+        <Route exact key={`${pathname}-route`} path={pathname}>
+          <Suspense fallback={<FullPageLoader />}>
+            <Component />
+          </Suspense>
+        </Route>
       ))}
     </HashRouter>
   );

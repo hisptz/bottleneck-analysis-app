@@ -5,6 +5,7 @@ const config = {
   entryPoints: {
     app: "./src/App.tsx",
   },
+  namespace: "hisptz-bna",
 };
 
 module.exports = config;
