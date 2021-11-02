@@ -22,9 +22,15 @@ export default function RootCausseTable() {
       <TableBody>
         <DataTableRow>
           <DataTableCell bordered>1</DataTableCell>
-          <DataTableCell bordered>Animal Region</DataTableCell>
-          <DataTableCell bordered>2019</DataTableCell>
-          <DataTableCell bordered>Focused ANC coverage</DataTableCell>
+          <DataTableCell bordered tag="th">
+            Animal Region
+          </DataTableCell>
+          <DataTableCell bordered tag="th">
+            2019
+          </DataTableCell>
+          <DataTableCell bordered tag="th">
+            Focused ANC coverage
+          </DataTableCell>
           <DataTableCell bordered>Continouss Utilisation</DataTableCell>
           <DataTableCell bordered>Continous Utilization ANC Visits</DataTableCell>
           <DataTableCell bordered>Lack of human resources</DataTableCell>
@@ -35,9 +41,15 @@ export default function RootCausseTable() {
         </DataTableRow>
         <DataTableRow>
           <DataTableCell bordered>2</DataTableCell>
-          <DataTableCell bordered>Animal Region</DataTableCell>
-          <DataTableCell bordered>2019</DataTableCell>
-          <DataTableCell bordered>Focused ANC coverage</DataTableCell>
+          <DataTableCell bordered tag="th">
+            Animal Region
+          </DataTableCell>
+          <DataTableCell bordered tag="th">
+            2019
+          </DataTableCell>
+          <DataTableCell bordered tag="th">
+            Focused ANC coverage
+          </DataTableCell>
           <DataTableCell bordered>Continouss Utilisation</DataTableCell>
           <DataTableCell bordered>Continous Utilization ANC Visits</DataTableCell>
           <DataTableCell bordered>Lack of human resources</DataTableCell>
@@ -48,9 +60,15 @@ export default function RootCausseTable() {
         </DataTableRow>
         <DataTableRow>
           <DataTableCell bordered>3</DataTableCell>
-          <DataTableCell bordered>Animal Region</DataTableCell>
-          <DataTableCell bordered>2019</DataTableCell>
-          <DataTableCell bordered>Focused ANC coverage</DataTableCell>
+          <DataTableCell bordered tag="th">
+            Animal Region
+          </DataTableCell>
+          <DataTableCell bordered tag="th">
+            2019
+          </DataTableCell>
+          <DataTableCell bordered tag="th">
+            Focused ANC coverage
+          </DataTableCell>
           <DataTableCell bordered>Continouss Utilisation</DataTableCell>
           <DataTableCell bordered>Continous Utilization ANC Visits</DataTableCell>
           <DataTableCell bordered>Lack of human resources</DataTableCell>
