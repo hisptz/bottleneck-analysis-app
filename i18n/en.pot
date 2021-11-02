@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-02T09:34:37.007Z\n"
-"PO-Revision-Date: 2021-11-02T09:34:37.007Z\n"
+"POT-Creation-Date: 2021-11-02T18:14:35.662Z\n"
+"PO-Revision-Date: 2021-11-02T18:14:35.662Z\n"
 
 msgid "Search"
 msgstr "Search"
@@ -22,3 +22,15 @@ msgstr "Archive"
 
 msgid "Configure"
 msgstr "Configure"
+
+msgid "Bottleneck Sublevel Analysises"
+msgstr "Bottleneck Sublevel Analysises"
+
+msgid "Table View"
+msgstr "Table View"
+
+msgid "Map View"
+msgstr "Map View"
+
+msgid "Dictionary View"
+msgstr "Dictionary View"
