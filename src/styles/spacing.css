@@ -11,3 +11,30 @@
 .p-16{
     padding: 16px;
 }
+
+.ph-16{
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.pv-16{
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+.p-8{
+    padding: 8px;
+}
+
+.ph-8{
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.pv-8{
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.pt-8{
+    padding-top: 8px
+}

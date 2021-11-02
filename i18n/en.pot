@@ -5,8 +5,35 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-01T09:09:31.991Z\n"
-"PO-Revision-Date: 2021-11-01T09:09:31.991Z\n"
+"POT-Creation-Date: 2021-11-02T05:33:55.509Z\n"
+"PO-Revision-Date: 2021-11-02T05:33:55.509Z\n"
+
+msgid "Add Filter"
+msgstr "Add Filter"
+
+msgid "Archive"
+msgstr "Archive"
+
+msgid "Configure"
+msgstr "Configure"
+
+msgid "Search"
+msgstr "Search"
 
 msgid "View Archives"
 msgstr "View Archives"
+
+msgid "Bottleneck Analysis Chart"
+msgstr "Bottleneck Analysis Chart"
+
+msgid "Download"
+msgstr "Download"
+
+msgid "View Full Screen"
+msgstr "View Full Screen"
+
+msgid "Bottleneck Sublevel Analysis "
+msgstr "Bottleneck Sublevel Analysis "
+
+msgid "Root Cause Analysis "
+msgstr "Root Cause Analysis "
