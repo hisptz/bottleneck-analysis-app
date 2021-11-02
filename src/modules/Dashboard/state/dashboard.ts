@@ -1,4 +1,5 @@
-import { atom, selector } from "recoil";
+import { find } from "lodash";
+import { atom, selector, selectorFamily } from "recoil";
 import { EngineState } from "../../../core/state/dataEngine";
 import getDashboards from "../../../shared/services/getDashboards";
 import { DashboardConfig } from "../../../shared/types/dashboardConfig";
@@ -15,4 +16,16 @@ export const DashboardsState = atom<DashboardConfig | undefined | any>({
       return [];
     },
   }),
+});
+
+export const DashboardState = selectorFamily({
+  key: "selected-dashboard-state",
+  get:
+    (id: string) =>
+    ({ get }) => {
+      const dashboards = get(DashboardsState);
+      if (dashboards) {
+        return find(dashboards, ["id", id]);
+      }
+    },
 });
