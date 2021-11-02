@@ -3,12 +3,15 @@ import { Button, IconChevronDown24, IconChevronUp24 } from "@dhis2/ui";
 import { IconButton } from "@material-ui/core";
 import React, { useState } from "react";
 import "./intervention-list.css";
+import { useRecoilValue } from "recoil";
+import { DashboardsState } from "../../../../state/dashboard";
 import AddButton from "./components/AddButton";
-import InterventionChips from "./components/InterventionChips";
+import DashboardChips from "./components/DashboardChips";
 import Search from "./components/Search";
 
-export default function InterventionList() {
+export default function DashboardList() {
   const [showAll, setShowAll] = useState<boolean>(false);
+  const dashboards = useRecoilValue(DashboardsState);
 
   return (
     <div className="column center align-center w-100">
@@ -17,7 +20,7 @@ export default function InterventionList() {
           <div className="row gap align-start">
             <AddButton />
             <Search />
-            <InterventionChips showAll={showAll} />
+            {dashboards && <DashboardChips dashboards={dashboards} showAll={showAll} />}
           </div>
         </div>
         <div className="column ">
