@@ -1,0 +1,50 @@
+
+.gap {
+    gap: 16px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.center {
+    justify-content: center;
+}
+
+.end {
+    justify-content: end;
+}
+
+.start {
+    justify-content: start;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.align-start {
+    align-items: start;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.align-end {
+    align-items: end;
+}
+
+.flex {
+    flex: 1;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
