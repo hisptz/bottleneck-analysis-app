@@ -1,5 +1,5 @@
 import { find } from "lodash";
-import { atom, selector, selectorFamily } from "recoil";
+import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import { EngineState } from "../../../core/state/dataEngine";
 import getDashboards from "../../../shared/services/getDashboards";
 import { DashboardConfig } from "../../../shared/types/dashboardConfig";
@@ -28,4 +28,9 @@ export const DashboardState = selectorFamily({
         return find(dashboards, ["id", id]);
       }
     },
+});
+
+export const DashboardDetailsState = atomFamily<boolean, string>({
+  key: "dashboard-details-state",
+  default: false,
 });

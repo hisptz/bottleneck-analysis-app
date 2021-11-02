@@ -22,7 +22,7 @@ export default function Router() {
   return (
     <HashRouter>
       {routes?.map(({ pathname, component: Component }) => (
-        <Route key={`${pathname}-route`} path={pathname}>
+        <Route exact key={`${pathname}-route`} path={pathname}>
           <Suspense fallback={<FullPageLoader />}>
             <Component />
           </Suspense>

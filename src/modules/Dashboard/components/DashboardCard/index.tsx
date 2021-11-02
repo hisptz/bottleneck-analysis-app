@@ -36,7 +36,7 @@ export default function DashboardCard({ title, children, actions, menu }: Dashbo
           </>
         )}
       </div>
-      <div className="card-content column align-center center">{children}</div>
+      <div className={`card-content column`}>{children}</div>
       <div className="card-actions">{actions}</div>
     </div>
   );
