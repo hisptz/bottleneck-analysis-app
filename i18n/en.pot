@@ -5,11 +5,35 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-10-26T18:02:38.118Z\n"
-"PO-Revision-Date: 2021-10-26T18:02:38.118Z\n"
+"POT-Creation-Date: 2021-11-02T05:33:55.509Z\n"
+"PO-Revision-Date: 2021-11-02T05:33:55.509Z\n"
 
-msgid "Hello {{name}}"
-msgstr "Hello {{name}}"
+msgid "Add Filter"
+msgstr "Add Filter"
 
-msgid "Welcome to DHIS2!"
-msgstr "Welcome to DHIS2!"
+msgid "Archive"
+msgstr "Archive"
+
+msgid "Configure"
+msgstr "Configure"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "View Archives"
+msgstr "View Archives"
+
+msgid "Bottleneck Analysis Chart"
+msgstr "Bottleneck Analysis Chart"
+
+msgid "Download"
+msgstr "Download"
+
+msgid "View Full Screen"
+msgstr "View Full Screen"
+
+msgid "Bottleneck Sublevel Analysis "
+msgstr "Bottleneck Sublevel Analysis "
+
+msgid "Root Cause Analysis "
+msgstr "Root Cause Analysis "
