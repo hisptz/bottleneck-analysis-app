@@ -1,6 +1,22 @@
 /* eslint-disable react/jsx-key */
 import i18n from "@dhis2/d2-i18n";
-import { DataTable, IconDelete16, IconEdit16, DataTableRow, MenuItem, Menu, TableBody, DataTableCell, TableFoot, Button, Popover, IconMore16 } from "@dhis2/ui";
+import {
+  TextAreaField,
+  DataTable,
+  IconDelete16,
+  IconEdit16,
+  DataTableRow,
+  MenuItem,
+  Menu,
+  TableBody,
+  DataTableCell,
+  TableFoot,
+  Button,
+  Popover,
+  IconMore16,
+  SingleSelect,
+  SingleSelectOption,
+} from "@dhis2/ui";
 import React, { useRef, useState } from "react";
 import "./rootCauseTable.css";
 import RootCauseTableHeaderComponent from "./rootCauseTableHeaderComponent";
@@ -101,10 +117,29 @@ export default function RootCausseTable() {
           <DataTableCell bordered tag="th">
             Focused ANC coverage
           </DataTableCell>
-          <DataTableCell bordered>Continouss Utilisation</DataTableCell>
-          <DataTableCell bordered>Continous Utilization ANC Visits</DataTableCell>
-          <DataTableCell bordered>Lack of human resources</DataTableCell>
-          <DataTableCell bordered>Hire and train new midwives</DataTableCell>
+          <DataTableCell bordered>
+            {" "}
+            <SingleSelect placeholder={"Bottleneck"}>
+              <SingleSelectOption value="1" label="BottleNeck one" />
+              <SingleSelectOption value="2" label="BottleNeck two" />
+              <SingleSelectOption value="3" label="BottleNeck three" />
+            </SingleSelect>
+          </DataTableCell>
+          <DataTableCell bordered>
+            {" "}
+            <SingleSelect placeholder={"Indicator"}>
+              <SingleSelectOption value="1" label="Indicator one" />
+              <SingleSelectOption value="2" label="Indicator two" />
+              <SingleSelectOption value="3" label="Indicator three" />
+            </SingleSelect>
+          </DataTableCell>
+          <DataTableCell bordered>
+            {" "}
+            <TextAreaField name="textareaName" />
+          </DataTableCell>
+          <DataTableCell bordered>
+            <TextAreaField name="textareaName" />
+          </DataTableCell>
           <DataTableCell bordered>
             <Button icon={<IconMore16 color="#212529" />} name="Icon large button" small value="default" />
           </DataTableCell>
