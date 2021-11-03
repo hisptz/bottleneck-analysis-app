@@ -1,4 +1,4 @@
-import { Button, Chip, IconDownload24, Tooltip } from "@dhis2/ui";
+import { Chip, Tooltip } from "@dhis2/ui";
 import React from "react";
 import { useRecoilState } from "recoil";
 import { tabs } from "../constants/tabs";
@@ -18,11 +18,6 @@ export default function SubLevelActions() {
             </Tooltip>
           ))}
         </div>
-      </div>
-      <div className="column">
-        <Tooltip content={"Download XLS File"}>
-          <Button icon={<IconDownload24 />} />
-        </Tooltip>
       </div>
     </div>
   );

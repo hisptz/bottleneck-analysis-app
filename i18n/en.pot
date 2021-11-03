@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-02T18:14:35.662Z\n"
-"PO-Revision-Date: 2021-11-02T18:14:35.662Z\n"
+"POT-Creation-Date: 2021-11-03T14:04:35.521Z\n"
+"PO-Revision-Date: 2021-11-03T14:04:35.521Z\n"
 
 msgid "Search"
 msgstr "Search"
@@ -23,8 +23,14 @@ msgstr "Archive"
 msgid "Configure"
 msgstr "Configure"
 
-msgid "Bottleneck Sublevel Analysises"
-msgstr "Bottleneck Sublevel Analysises"
+msgid "Add New"
+msgstr "Add New"
+
+msgid "Root Cause Analysis"
+msgstr "Root Cause Analysis"
+
+msgid "Bottleneck Sublevel Analysis"
+msgstr "Bottleneck Sublevel Analysis"
 
 msgid "Table View"
 msgstr "Table View"
@@ -34,3 +40,9 @@ msgstr "Map View"
 
 msgid "Dictionary View"
 msgstr "Dictionary View"
+
+msgid "Download Excel"
+msgstr "Download Excel"
+
+msgid "View Full Screen"
+msgstr "View Full Screen"

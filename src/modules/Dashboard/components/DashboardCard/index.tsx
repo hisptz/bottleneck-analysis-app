@@ -13,13 +13,15 @@ export type DashboardCardProps = {
   children: JSX.Element | Array<JSX.Element> | React.ReactElement | string;
   actions?: JSX.Element;
   menu?: Array<DashboardMenu>;
+  maxHeight?: number;
+  minHeight?: number;
 };
 
-export default function DashboardCard({ title, children, actions, menu }: DashboardCardProps) {
+export default function DashboardCard({ title, children, actions, menu, minHeight, maxHeight }: DashboardCardProps) {
   const [actionButtonRef, setActionButtonRef] = useState<any>();
   return (
     <div className="card-container">
-      <div className="row space-between align-center">
+      <div className="row space-between align-center gap">
         <div className="card-header">{typeof title === "string" ? <h4>{title}</h4> : title}</div>
         {menu && (
           <>
@@ -36,7 +38,9 @@ export default function DashboardCard({ title, children, actions, menu }: Dashbo
           </>
         )}
       </div>
-      <div className={`card-content column`}>{children}</div>
+      <div className={`card-content column mt-16 mb-16`} style={{ maxHeight, minHeight, overflow: "auto" }}>
+        {children}
+      </div>
       <div className="card-actions">{actions}</div>
     </div>
   );

@@ -4,25 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Dashboard View): Implementation&#10;&#10;- Implemented intervention name view&#10; - Implemented intervention details&#10;name and view logic">
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Dictionary/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Map/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelActions.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader/components/LegendsDefinition.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/constants/tabs.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/state/layout.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/state/tabs.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/sub-level-analysis.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/hooks/useDashboard.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/types/layout.ts" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented Sublevel tabs&#10; - Implemented Sublevel header">
+      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/Table.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/components/TableBody.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/components/TableHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/components/DashboardChips.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/components/DashboardChips.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelActions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader/components/LegendsDefinition.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader/components/LegendsDefinition.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/state/layout.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/state/layout.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/types/interventionConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/types/interventionConfig.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/spacing.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/spacing.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,9 +29,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -170,7 +167,11 @@
       <workItem from="1635840163523" duration="6478000" />
       <workItem from="1635846934397" duration="14709000" />
       <workItem from="1635868766062" duration="14000" />
-      <workItem from="1635872781988" duration="4219000" />
+      <workItem from="1635872781988" duration="5184000" />
+      <workItem from="1635914884549" duration="8614000" />
+      <workItem from="1635929437334" duration="4018000" />
+      <workItem from="1635941383225" duration="4917000" />
+      <workItem from="1635946760009" duration="1104000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -228,7 +229,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635858857777</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented Sublevel tabs&#10; - Implemented Sublevel header">
+      <created>1635877324121</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1635877324121</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -254,7 +262,8 @@
     <MESSAGE value="feat(Dashboard List): Implementation&#10;&#10;- Implemented dashboard list data fetch and logic&#10;- Implemented initial&#10;app loading page&#10;- Implemented initial navigation" />
     <MESSAGE value="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu" />
     <MESSAGE value="feat(Dashboard View): Implementation&#10;&#10;- Implemented intervention name view&#10; - Implemented intervention details&#10;name and view logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(Dashboard View): Implementation&#10;&#10;- Implemented intervention name view&#10; - Implemented intervention details&#10;name and view logic" />
+    <MESSAGE value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented Sublevel tabs&#10; - Implemented Sublevel header" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented Sublevel tabs&#10; - Implemented Sublevel header" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
