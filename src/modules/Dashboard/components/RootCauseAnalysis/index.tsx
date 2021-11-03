@@ -1,6 +1,26 @@
+import i18n from "@dhis2/d2-i18n";
+import { IconDownload24, IconView24 } from "@dhis2/ui";
 import React from "react";
 import DashboardCard from "../DashboardCard";
+import RootCauseTable from "../RootCauseAnalysis/components/rootCauseTable/rootCauseTable";
 
 export default function RootCauseAnalysis() {
-  return <DashboardCard title={"Root Cause Analysis"}>Root cause here</DashboardCard>;
+  return (
+    <DashboardCard
+      menu={[
+        {
+          label: "Download",
+          callback: () => {},
+          icon: <IconDownload24 />,
+        },
+        {
+          label: "View Full Page",
+          icon: <IconView24 />,
+          callback: () => {},
+        },
+      ]}
+      title={i18n.t("Root Cause Analysis")}>
+      <RootCauseTable />
+    </DashboardCard>
+  );
 }

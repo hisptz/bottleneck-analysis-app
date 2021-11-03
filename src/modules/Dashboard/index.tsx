@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import React from "react";
 import "./dashboard.css";
 import { useParams } from "react-router-dom";
