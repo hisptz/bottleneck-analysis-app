@@ -2,7 +2,7 @@ import i18n from "@dhis2/d2-i18n";
 import { IconDownload24, IconView24 } from "@dhis2/ui";
 import React from "react";
 import DashboardCard from "../DashboardCard";
-import RootCauseTable from "../RootCauseAnalysis/components/rootCauseTable/rootCauseTable";
+import RootCauseTable from "./components/RootCauseTable";
 
 export default function RootCauseAnalysis() {
   return (

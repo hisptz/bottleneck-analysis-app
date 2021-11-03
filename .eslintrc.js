@@ -12,4 +12,7 @@ module.exports = {
   globals: {
     JSX: true,
   },
+  rules: {
+    "no-console": "error",
+  },
 };

@@ -27,7 +27,7 @@ export default function DashboardChips({ showAll, dashboards }: InterventionChip
       <div className="row w-100">
         {slice(dashboards, 0, 5)?.map((dashboard) => (
           <Chip
-            icon={dashboard.bookmarked && <IconStarFilled24 />}
+            icon={dashboard.bookmarked ? <IconStarFilled24 /> : null}
             selected={id === dashboard.id}
             onClick={onChipClick(dashboard?.id)}
             key={`${dashboard?.id}-chip`}>
