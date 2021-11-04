@@ -1,4 +1,4 @@
-import { IconDownload24, IconView24 } from "@dhis2/ui";
+import { IconDownload24, IconFullscreen24 } from "@dhis2/ui";
 import React from "react";
 import DashboardCard from "../DashboardCard";
 import AnalysiChart from "./components";
@@ -16,7 +16,7 @@ export default function AnalysisChart() {
         },
         {
           label: "View Full Page",
-          icon: <IconView24 />,
+          icon: <IconFullscreen24 />,
           callback: () => {
             console.log("full page");
           },
