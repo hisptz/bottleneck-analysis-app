@@ -1,6 +1,6 @@
 import { map } from "async";
 import { BNA_INTERVENTIONS_NAMESPACE } from "../../constants/dataStore";
-import { InterventionConfig } from "../types/interventionConfig";
+import { InterventionTemplateConfig } from "../interfaces/interventionTemplateConfig";
 
 const keyQuery = {
   interventionKeys: {
@@ -28,7 +28,7 @@ const interventionQuery = {
 };
 
 export default async function getInterventions(engine: any) {
-  async function getIntervention(key: string): Promise<InterventionConfig | undefined> {
+  async function getIntervention(key: string): Promise<InterventionTemplateConfig | undefined> {
     try {
       const response = await engine.query(interventionQuery, { variables: { id: key } });
       return response.intervention;

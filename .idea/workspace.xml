@@ -4,22 +4,98 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented Sublevel tabs&#10; - Implemented Sublevel header">
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/Table.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/components/TableBody.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/components/TableHeader.tsx" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented sublevel UI">
+      <change afterPath="$PROJECT_DIR$/src/modules/Migration/hooks/useMigrate.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Migration/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/interfaces/interventionConfig.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/interfaces/interventionTemplateConfig.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/interfaces/orgUnit.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/utils/generators.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelActions.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader/components/LegendsDefinition.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader/components/LegendsDefinition.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/state/layout.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/state/layout.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/types/interventionConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/types/interventionConfig.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/spacing.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/spacing.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/components/ChartItemComponent/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/components/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-allowed-chart-types.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-allowed-chart-types.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-attribute-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-attribute-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-axis-items.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-axis-items.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-colors.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-colors.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-configuration.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-configuration.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-credit-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-credit-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-exporting-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-exporting-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-object.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-object.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-pane-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-pane-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-plot-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-plot-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-series-data-label-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-series-data-label-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-series-data.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-series-data.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-series-value.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-series-value.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-series-with-axis-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-series-with-axis-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-series.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-series.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-subtitle.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-subtitle.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-title-object.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-title-object.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-tooltip-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-tooltip-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-x-axis-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-x-axis-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-chart-y-axis-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-y-axis-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-combined-chart-series-data.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-combined-chart-series-data.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-cumulative-format-for-analytics.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-cumulative-format-for-analytics.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-drilldown-parent-data-from-children-chart-series.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-drilldown-parent-data-from-children-chart-series.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-drilldowned-chart-series.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-drilldowned-chart-series.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-initial-chart-object.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-initial-chart-object.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-other-chart-object.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-other-chart-object.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-pie-chart-object.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-pie-chart-object.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-sanitized-analytics-based-on-chart-configuration.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-sanitized-analytics-based-on-chart-configuration.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-sanitized-chart-object.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-sanitized-chart-object.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-sanitized-chart-x-axis-categories.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-sanitized-chart-x-axis-categories.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-solid-gauge-chart-object.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-solid-gauge-chart-object.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-sorted-chart-series.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-sorted-chart-series.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-spider-web-chart-object.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-spider-web-chart-object.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/helper/get-x-axis-items-from-chart-configuration.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-x-axis-items-from-chart-configuration.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/AnalysisChart/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/dashboard-card.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Card/dashboard-card.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardCard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Card/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardDetails/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Details/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/components/AddButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/DashboardList/components/AddButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/components/DashboardChips.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/DashboardList/components/DashboardChips.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/components/Search.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/DashboardList/components/Search.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/DashboardList/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/intervention-list.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/DashboardList/intervention-list.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/DashboardList/styles.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/DashboardList/styles.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components/InterventionHeader/intervention-header.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/intervention-header.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/dashboard-header.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/dashboard-header.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/RootCauseAnalysis/components/RootCauseTable/RootCauseTableHeaderComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/RootCauseTableHeaderComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/RootCauseAnalysis/components/RootCauseTable/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/RootCauseAnalysis/components/RootCauseTable/rootCauseTable.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/rootCauseTable.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/RootCauseAnalysis/components/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/RootCauseAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Dictionary/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Map/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Map/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelActions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader/components/LegendsDefinition.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelHeader/components/LegendsDefinition.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelHeader/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/Table.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/Table.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/components/TableBody.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableBody.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/components/TableHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/constants/tabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/constants/tabs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/state/layout.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/layout.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/state/tabs.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/tabs.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/sub-level-analysis.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/sub-level-analysis.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/state/dashboard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/state/dashboard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Dashboard/state/intervention.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/state/intervention.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Landing/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Landing/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Router/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/hooks/useDashboard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/hooks/useDashboard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/services/getDashboards.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/services/getDashboards.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/services/getInterventions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/services/getInterventions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/types/dashboardConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces/oldInterventionConfig.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/types/interventionConfig.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/types/layout.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces/layout.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,9 +105,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
-        <option value="TypeScript JSX File" />
         <option value="CSS File" />
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -55,12 +131,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/sub-level-analysis" />
-                    <option name="lastUsedInstant" value="1635858954" />
+                    <option name="branchName" value="feature/sublevel-analysis-logic" />
+                    <option name="lastUsedInstant" value="1636000314" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1635858878" />
+                    <option name="lastUsedInstant" value="1635951214" />
                   </RecentBranch>
                 </list>
               </option>
@@ -171,7 +247,9 @@
       <workItem from="1635914884549" duration="8614000" />
       <workItem from="1635929437334" duration="4018000" />
       <workItem from="1635941383225" duration="4917000" />
-      <workItem from="1635946760009" duration="1104000" />
+      <workItem from="1635946760009" duration="4474000" />
+      <workItem from="1635999417810" duration="14713000" />
+      <workItem from="1636022517691" duration="357000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -236,7 +314,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635877324121</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented sublevel UI">
+      <created>1635951182896</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1635951182896</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,7 +348,24 @@
     <MESSAGE value="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu" />
     <MESSAGE value="feat(Dashboard View): Implementation&#10;&#10;- Implemented intervention name view&#10; - Implemented intervention details&#10;name and view logic" />
     <MESSAGE value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented Sublevel tabs&#10; - Implemented Sublevel header" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented Sublevel tabs&#10; - Implemented Sublevel header" />
+    <MESSAGE value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented sublevel UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented sublevel UI" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
+          <line>20</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
+          <line>74</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

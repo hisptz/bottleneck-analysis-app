@@ -4,7 +4,7 @@ import useDataEngineInit from "../../core/hooks/initDataEngine";
 import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
 import Landing from "../Landing";
 
-const Dashboard = React.lazy(() => import("../Dashboard"));
+const Dashboard = React.lazy(() => import("../Intervention"));
 
 const routes = [
   {

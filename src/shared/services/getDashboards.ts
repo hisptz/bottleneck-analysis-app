@@ -1,7 +1,7 @@
 import { map } from "async";
 import { filter } from "lodash";
 import { BNA_DASHBOARDS_NAMESPACE, BNA_DASHBOARDS_PREFIX } from "../../constants/dataStore";
-import { DashboardConfig } from "../types/dashboardConfig";
+import { OldInterventionConfig } from "../interfaces/oldInterventionConfig";
 
 const keyQuery = {
   dashboardKeys: {
@@ -28,8 +28,8 @@ const dashboardQuery = {
   },
 };
 
-export default async function getDashboards(engine: any) {
-  async function getDashboard(key: string): Promise<DashboardConfig | undefined> {
+export default async function getDashboards(engine: any): Promise<Array<OldInterventionConfig>> {
+  async function getDashboard(key: string): Promise<OldInterventionConfig | undefined> {
     try {
       const response = await engine.query(dashboardQuery, { variables: { id: key } });
       return response?.dashboard;
