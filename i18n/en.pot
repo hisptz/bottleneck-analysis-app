@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-02T09:34:37.007Z\n"
-"PO-Revision-Date: 2021-11-02T09:34:37.007Z\n"
+"POT-Creation-Date: 2021-11-03T11:31:43.839Z\n"
+"PO-Revision-Date: 2021-11-03T11:31:43.839Z\n"
 
 msgid "Search"
 msgstr "Search"
@@ -22,3 +22,9 @@ msgstr "Archive"
 
 msgid "Configure"
 msgstr "Configure"
+
+msgid "Add New"
+msgstr "Add New"
+
+msgid "Root Cause Analysis"
+msgstr "Root Cause Analysis"
