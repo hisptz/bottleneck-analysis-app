@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import "./intervention-list.css";
 import { useRecoilValue } from "recoil";
 import { InterventionSummary } from "../../../../../../core/state/intervention";
-import { UserState } from "../../../../../../core/state/user";
 import AddButton from "./components/AddButton";
 import InterventionChips from "./components/InterventionChips";
 import Search from "./components/Search";

@@ -1,6 +1,6 @@
 import { find } from "lodash";
 import React from "react";
-import useDashboardConfig from "../../../../../../../shared/hooks/useDashboard";
+import useDashboardConfig from "../../../../../../../shared/hooks/useIntervention";
 import { LegendDefinition as LegendDefinitionType } from "../../../../../../../shared/interfaces/oldInterventionConfig";
 
 function LegendDefinition({ color, name }: LegendDefinitionType) {
