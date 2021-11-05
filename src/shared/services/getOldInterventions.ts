@@ -10,7 +10,7 @@ const keyQuery = {
   },
 };
 
-async function getDashboardKeys(engine: any): Promise<Array<string>> {
+export async function getOldInterventionKeys(engine: any): Promise<Array<string>> {
   try {
     const response = await engine.query(keyQuery);
     return filter(response.dashboardKeys ?? [], (key: string) => key.startsWith(BNA_DASHBOARDS_PREFIX));
@@ -28,8 +28,8 @@ const dashboardQuery = {
   },
 };
 
-export default async function getDashboards(engine: any): Promise<Array<OldInterventionConfig>> {
-  async function getDashboard(key: string): Promise<OldInterventionConfig | undefined> {
+export default async function getOldInterventions(engine: any, keys?: Array<string>): Promise<Array<OldInterventionConfig>> {
+  async function getOldIntervention(key: string): Promise<OldInterventionConfig | undefined> {
     try {
       const response = await engine.query(dashboardQuery, { variables: { id: key } });
       return response?.dashboard;
@@ -38,7 +38,8 @@ export default async function getDashboards(engine: any): Promise<Array<OldInter
       console.error(e.message ?? e.toString());
     }
   }
-
-  const keys = await getDashboardKeys(engine);
-  return await map(keys, getDashboard);
+  if (!keys) {
+    keys = await getOldInterventionKeys(engine);
+  }
+  return await map(keys, getOldIntervention);
 }

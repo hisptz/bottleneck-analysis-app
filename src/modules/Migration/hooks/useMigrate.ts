@@ -1,10 +1,62 @@
 import { useDataEngine } from "@dhis2/app-runtime";
-import { useEffect } from "react";
-import { migrateIntervention } from "../services/migrate";
+import { queue } from "async";
+import { filter, isEmpty, uniqBy } from "lodash";
+import { useEffect, useRef, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { BNA_DASHBOARDS_PREFIX } from "../../../constants/dataStore";
+import { InterventionSummary } from "../../../core/state/intervention";
+import { InterventionConfig } from "../../../shared/interfaces/interventionConfig";
+import { OldInterventionConfig } from "../../../shared/interfaces/oldInterventionConfig";
+import { getInterventionKeys } from "../../../shared/services/getInterventions";
+import getOldInterventions, { getOldInterventionKeys } from "../../../shared/services/getOldInterventions";
+import { createInterventionSummaries, uploadInterventionSummary } from "../../../shared/services/interventionSummary";
+import { convertIntervention, migrateIntervention } from "../services/migrate";
 
-export default function useMigrate() {
+export default function useMigrate(onComplete: () => void) {
+  const interventionSummary = useRecoilValue(InterventionSummary);
+  const [error, setError] = useState<any>();
+  const [progress, setProgress] = useState<number>(0);
+  const [totalMigration, setTotalMigration] = useState<number>(0);
+  const migrate = async (intervention: InterventionConfig) => await migrateIntervention(intervention, engine);
+  const q = useRef(queue(migrate));
   const engine = useDataEngine();
   useEffect(() => {
-    migrateIntervention(engine);
+    async function effect() {
+      try {
+        const interventionKeys: Array<string> = await getInterventionKeys(engine);
+        const oldInterventionsKeys: Array<string> = await getOldInterventionKeys(engine);
+        const filteredKeys: Array<string> = filter(oldInterventionsKeys, (key: string) => {
+          const sanitizedKey = key.replace(BNA_DASHBOARDS_PREFIX, "");
+          return !interventionKeys.includes(sanitizedKey);
+        });
+        if (!isEmpty(filteredKeys)) {
+          setTotalMigration(filteredKeys.length);
+          const oldInterventions: Array<OldInterventionConfig> = await getOldInterventions(engine, filteredKeys);
+          const newInterventions = oldInterventions.map(convertIntervention);
+          const summaries = createInterventionSummaries(newInterventions);
+          q.current.push(newInterventions, (err) => {
+            if (!err) {
+              setProgress((prevState) => prevState + 1);
+            }
+          });
+          q.current.drain(async () => {
+            await uploadInterventionSummary(uniqBy([...(interventionSummary ?? []), ...summaries], "id"), engine);
+            onComplete();
+          });
+        } else {
+          onComplete();
+        }
+      } catch (e) {
+        setError(e);
+      }
+    }
+
+    effect();
   }, []);
+
+  return {
+    error,
+    progress,
+    totalMigration,
+  };
 }

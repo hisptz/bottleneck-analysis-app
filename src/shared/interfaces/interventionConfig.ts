@@ -45,17 +45,33 @@ export interface PeriodSelection {
   type: string;
 }
 
+export interface Access {
+  id: string;
+  access: string;
+}
+
 export interface InterventionConfig {
   id: string;
   name: string;
-  user: { id: string };
+  user: User;
   bookmarks?: Array<string>;
   publicAccess: string;
   externalAccess: boolean;
-  userAccess: Array<{ id: string }>;
-  useGroupAccess: Array<{ id: string }>;
+  userAccess: Array<Access>;
+  userGroupAccess: Array<Access>;
   dataSelection: DataSelection;
   periodSelection: PeriodSelection;
   periodType: string;
   orgUnitSelection: OrgUnitSelection;
+}
+
+export interface InterventionSummary {
+  id: string;
+  name: string;
+  user: User;
+  publicAccess: string;
+  externalAccess: boolean;
+  userAccess: Array<Access>;
+  userGroupAccess: Array<Access>;
+  bookmarks?: Array<string>;
 }

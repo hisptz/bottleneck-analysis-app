@@ -1,7 +1,7 @@
 import { IconDownload24, IconFullscreen24 } from "@dhis2/ui";
 import React from "react";
 import DashboardCard from "../Card";
-import AnalysisChart from "./components";
+import Chart from "./components";
 
 export default function AnalysisChart() {
   return (
@@ -23,7 +23,7 @@ export default function AnalysisChart() {
         },
       ]}
       title={"Analysis Analysis"}>
-      <AnalysisChart />
+      <Chart />
     </DashboardCard>
   );
 }

@@ -4,14 +4,15 @@ import { IconButton } from "@material-ui/core";
 import React, { useState } from "react";
 import "./intervention-list.css";
 import { useRecoilValue } from "recoil";
-import { DashboardsState } from "../../../../state/dashboard";
+import { InterventionSummary } from "../../../../../../core/state/intervention";
+import { UserState } from "../../../../../../core/state/user";
 import AddButton from "./components/AddButton";
-import DashboardChips from "./components/DashboardChips";
+import InterventionChips from "./components/InterventionChips";
 import Search from "./components/Search";
 
 export default function DashboardList() {
   const [showAll, setShowAll] = useState<boolean>(false);
-  const dashboards = useRecoilValue(DashboardsState);
+  const interventions = useRecoilValue(InterventionSummary);
 
   return (
     <div className="column center align-center w-100">
@@ -20,7 +21,7 @@ export default function DashboardList() {
           <div className="row gap align-start">
             <AddButton />
             <Search />
-            {dashboards && <DashboardChips dashboards={dashboards} showAll={showAll} />}
+            {interventions && <InterventionChips interventions={interventions} showAll={showAll} />}
           </div>
         </div>
         <div className="column ">

@@ -1,4 +1,5 @@
 import { compact, find } from "lodash";
+import { BNA_NAMESPACE } from "../../../constants/dataStore";
 import {
   DataItem,
   DataSelection,
@@ -9,13 +10,24 @@ import {
   PeriodSelection,
 } from "../../../shared/interfaces/interventionConfig";
 import { GlobalSelection, Legend, OldInterventionConfig, SelectionGroupMember } from "../../../shared/interfaces/oldInterventionConfig";
-import getDashboards from "../../../shared/services/getDashboards";
+import getOldInterventions from "../../../shared/services/getOldInterventions";
 
-export async function migrateIntervention(engine: any) {
-  const oldInterventions: Array<OldInterventionConfig> = await getDashboards(engine);
+export async function getInterventions(engine: any) {
+  const oldInterventions: Array<OldInterventionConfig> = await getOldInterventions(engine);
+  return oldInterventions.map(convertIntervention);
+}
 
-  const newInterventions = oldInterventions.map(convertIntervention);
-  console.log(newInterventions);
+const generateSaveMutation = (id: string) => {
+  return {
+    resource: `dataStore/${BNA_NAMESPACE}/${id}`,
+    type: "create",
+    data: ({ data }: { data: InterventionConfig }) => data,
+  };
+};
+
+export async function migrateIntervention(intervention: InterventionConfig, engine: any) {
+  const mutation = generateSaveMutation(intervention.id);
+  return await engine.mutate(mutation, { variables: { data: intervention } });
 }
 
 function convertData(dataConfig?: GlobalSelection): DataSelection {
@@ -62,8 +74,8 @@ function convertOrgUnit(orgUnitConfig?: GlobalSelection): OrgUnitSelection {
   if (orgUnitConfig) {
     const [oldOrgUnit, levelOrgUnit] = orgUnitConfig?.items;
     return {
-      orgUnit: { id: oldOrgUnit.id, type: oldOrgUnit.type ?? "" },
-      subLevelAnalysisOrgUnitLevel: { id: levelOrgUnit.id, type: levelOrgUnit.type ?? "" },
+      orgUnit: { id: oldOrgUnit?.id, type: oldOrgUnit?.type ?? "" },
+      subLevelAnalysisOrgUnitLevel: { id: levelOrgUnit?.id, type: levelOrgUnit?.type ?? "" },
     };
   }
 
@@ -97,9 +109,12 @@ export function convertIntervention(config: OldInterventionConfig): Intervention
     id,
     name,
     bookmarks,
-    user,
-    userAccess: userAccesses,
-    useGroupAccess: userGroupAccesses,
+    user: { id: user.id },
+    userAccess: userAccesses?.map((userAccess) => ({ id: userAccess.id, access: userAccess.access })),
+    userGroupAccess: userGroupAccesses.map((userGroupAccess) => ({
+      id: userGroupAccess.id,
+      access: userGroupAccess.access,
+    })),
     externalAccess,
     periodType: bottleneckPeriodType,
     publicAccess,

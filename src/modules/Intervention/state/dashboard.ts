@@ -2,7 +2,7 @@ import { find } from "lodash";
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import { EngineState } from "../../../core/state/dataEngine";
 import { OldInterventionConfig } from "../../../shared/interfaces/oldInterventionConfig";
-import getDashboards from "../../../shared/services/getDashboards";
+import getOldInterventions from "../../../shared/services/getOldInterventions";
 
 export const DashboardsState = atom<OldInterventionConfig | undefined | any>({
   key: "dashboards-state",
@@ -11,7 +11,7 @@ export const DashboardsState = atom<OldInterventionConfig | undefined | any>({
     get: async ({ get }) => {
       const engine = get(EngineState);
       if (engine) {
-        return await getDashboards(engine);
+        return await getOldInterventions(engine);
       }
       return [];
     },

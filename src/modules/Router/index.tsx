@@ -3,6 +3,7 @@ import { HashRouter, Route } from "react-router-dom";
 import useDataEngineInit from "../../core/hooks/initDataEngine";
 import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
 import Landing from "../Landing";
+import Migration from "../Migration";
 
 const Dashboard = React.lazy(() => import("../Intervention"));
 
@@ -14,6 +15,10 @@ const routes = [
   {
     pathname: "/",
     component: Landing,
+  },
+  {
+    pathname: "/migrate",
+    component: Migration,
   },
 ];
 

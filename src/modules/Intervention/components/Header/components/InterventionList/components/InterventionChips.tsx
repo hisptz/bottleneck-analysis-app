@@ -2,14 +2,17 @@ import { Chip, IconStarFilled24 } from "@dhis2/ui";
 import { slice } from "lodash";
 import React, { useCallback } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { OldInterventionConfig } from "../../../../../../../shared/interfaces/oldInterventionConfig";
+import { useRecoilValue } from "recoil";
+import { UserState } from "../../../../../../../core/state/user";
+import { InterventionSummary } from "../../../../../../../shared/interfaces/interventionConfig";
 
 type InterventionChipsProps = {
-  dashboards: Array<OldInterventionConfig>;
+  interventions: Array<InterventionSummary>;
   showAll: boolean;
 };
 
-export default function DashboardChips({ showAll, dashboards }: InterventionChipsProps) {
+export default function InterventionChips({ showAll, interventions }: InterventionChipsProps) {
+  const user = useRecoilValue(UserState);
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
 
@@ -25,19 +28,19 @@ export default function DashboardChips({ showAll, dashboards }: InterventionChip
   return (
     <div className="column w-100" style={{ maxWidth: "100%" }}>
       <div className="row w-100">
-        {slice(dashboards, 0, 5)?.map((dashboard) => (
+        {slice(interventions, 0, 5)?.map((intervention) => (
           <Chip
-            icon={dashboard.bookmarked ? <IconStarFilled24 /> : null}
-            selected={id === dashboard.id}
-            onClick={onChipClick(dashboard?.id)}
-            key={`${dashboard?.id}-chip`}>
-            {dashboard?.name}
+            icon={intervention?.bookmarks?.includes(user.id) ? <IconStarFilled24 /> : null}
+            selected={id === intervention.id}
+            onClick={onChipClick(intervention?.id)}
+            key={`${intervention?.id}-chip`}>
+            {intervention?.name}
           </Chip>
         ))}
       </div>
       {showAll && (
         <div className="row wrap w-100">
-          {slice(dashboards, 5, dashboards.length)?.map((dashboard) => (
+          {slice(interventions, 5, interventions.length)?.map((dashboard) => (
             <Chip selected={id === dashboard.id} onClick={onChipClick(dashboard?.id)} key={`${dashboard?.id}-chip`}>
               {dashboard?.name}
             </Chip>
