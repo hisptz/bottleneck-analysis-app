@@ -1,7 +1,6 @@
-import { find } from "lodash";
 import React from "react";
-import useDashboardConfig from "../../../../../../../shared/hooks/useIntervention";
-import { LegendDefinition as LegendDefinitionType } from "../../../../../../../shared/interfaces/oldInterventionConfig";
+import useInterventionConfig from "../../../../../../../shared/hooks/useInterventionConfig";
+import { LegendDefinition as LegendDefinitionType } from "../../../../../../../shared/interfaces/interventionConfig";
 
 function LegendDefinition({ color, name }: LegendDefinitionType) {
   return (
@@ -13,9 +12,9 @@ function LegendDefinition({ color, name }: LegendDefinitionType) {
 }
 
 export default function LegendsDefinition() {
-  const dashboard = useDashboardConfig();
-  const { globalSelections } = dashboard ?? {};
-  const legendDefinitions: Array<LegendDefinitionType> = find(globalSelections, ["dimension", "dx"])?.legendDefinitions ?? [];
+  const dashboard = useInterventionConfig();
+  const { dataSelection } = dashboard ?? {};
+  const legendDefinitions: Array<LegendDefinitionType> = dataSelection.legendDefinitions;
   return (
     <div className="row gap">
       {legendDefinitions?.map((definition) => (

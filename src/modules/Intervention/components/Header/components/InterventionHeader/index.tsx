@@ -5,13 +5,15 @@ import React from "react";
 import "./intervention-header.css";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { OldInterventionConfig } from "../../../../../../shared/interfaces/oldInterventionConfig";
-import { DashboardDetailsState, DashboardState } from "../../../../state/dashboard";
+import { CurrentInterventionSummary } from "../../../../../../core/state/intervention";
+import { UserState } from "../../../../../../core/state/user";
+import { DashboardDetailsState } from "../../../../state/dashboard";
 
 export default function InterventionHeader() {
+  const { id: userId } = useRecoilValue(UserState) ?? {};
   const { id } = useParams<{ id: string }>();
-  const dashboard = useRecoilValue<OldInterventionConfig>(DashboardState(id));
-  const { name, bookmarked } = dashboard;
+  const intervention = useRecoilValue(CurrentInterventionSummary(id));
+  const { name, bookmarks } = intervention ?? {};
   const setShowDetails = useSetRecoilState(DashboardDetailsState(id));
 
   return (
@@ -19,7 +21,7 @@ export default function InterventionHeader() {
       <div className="column flex">
         <div className="row gap align-center">
           <h2 className="intervention-header-text">{name}</h2>
-          <IconButton style={{ padding: 2, color: "#000000" }}>{bookmarked ? <IconStarFilled24 /> : <IconStar24 />}</IconButton>
+          <IconButton style={{ padding: 2, color: "#000000" }}>{bookmarks?.includes(userId) ? <IconStarFilled24 /> : <IconStar24 />}</IconButton>
           <IconButton onClick={() => setShowDetails((currentVal: boolean) => !currentVal)} style={{ padding: 2, color: "#000000" }}>
             <IconInfo24 />
           </IconButton>

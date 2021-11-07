@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import { InterventionState } from "../../modules/Intervention/state/intervention";
 import { InterventionConfig } from "../interfaces/interventionConfig";
 
-export default function useIntervention(): InterventionConfig {
+export default function useInterventionConfig(): InterventionConfig {
   const { id } = useParams<{ id: string }>();
   return useRecoilValue<InterventionConfig>(InterventionState(id));
 }

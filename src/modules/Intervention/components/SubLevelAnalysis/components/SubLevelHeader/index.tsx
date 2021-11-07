@@ -1,6 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import React from "react";
-import useDashboardConfig from "../../../../../../shared/hooks/useIntervention";
+import useDashboardConfig from "../../../../../../shared/hooks/useInterventionConfig";
 import LegendsDefinition from "./components/LegendsDefinition";
 
 export default function SubLevelHeader() {
