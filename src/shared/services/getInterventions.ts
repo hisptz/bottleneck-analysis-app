@@ -15,7 +15,6 @@ async function getInterventionKeys(engine: any): Promise<Array<string>> {
     return response.interventionKeys ?? [];
   } catch (e) {
     // @ts-ignore
-    console.error(e.message ?? e.toString);
     return [];
   }
 }
@@ -34,7 +33,6 @@ export default async function getInterventions(engine: any) {
       return response.intervention;
     } catch (e) {
       // @ts-ignore
-      console.error(e.message ?? e.toString());
     }
   }
   const keys = await getInterventionKeys(engine);

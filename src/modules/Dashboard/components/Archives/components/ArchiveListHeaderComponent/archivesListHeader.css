@@ -1,0 +1,17 @@
+div > .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 100px;
+    padding-top: 30px;
+    padding-left: 17px;
+    padding-right: 17px;
+    background-color: transparent;
+}
+
+.archiveListTitle{
+    font-weight: bold;
+    font-size: 24px;
+    color: #212934;
+}
