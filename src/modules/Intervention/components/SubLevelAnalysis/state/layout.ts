@@ -9,8 +9,8 @@ import { SubLevelAnalyticsData } from "./data";
 export const TableLayout = atomFamily<Layout, string>({
   key: "sub-level-layout-state",
   default: () => ({
-    columns: ["ou"],
-    rows: ["dx"],
+    columns: ["dx"],
+    rows: ["ou"],
     filter: ["pe"],
   }),
 });
@@ -85,6 +85,22 @@ type TableConfigType = {
   height: number;
 };
 
+function getTableWidth(columns: any[]) {
+  const count = columns.reduce((acc: any, column: { children: any[] }) => {
+    const childrenCount =
+      column.children?.reduce((acc: number, child: any) => {
+        if (child) return acc + 1;
+        return acc;
+      }, 0) ?? 0;
+    if (childrenCount > 0) {
+      return acc + childrenCount;
+    }
+    return acc + 1;
+  }, 0);
+
+  return count * 200 + 400;
+}
+
 export const TableConfig = selectorFamily<TableConfigType, string>({
   key: "table-config-state",
   get:
@@ -97,13 +113,15 @@ export const TableConfig = selectorFamily<TableConfigType, string>({
       const columns = assignValuesToLayout("columns", { layout, intervention, data });
       const rows = assignValuesToLayout("rows", { layout, intervention, data });
       const dataValues = data.rows;
+
+      const width = getTableWidth(columns);
       return {
         columns,
         rows,
         filter,
         data: dataValues,
-        width: data?.width,
         height: data?.height,
+        width,
       };
     },
 });

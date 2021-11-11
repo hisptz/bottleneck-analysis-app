@@ -27,7 +27,7 @@ export default function SubLevelAnalysis() {
   const activeTabKey = useRecoilValue(ActiveTab);
   const activeTab = find(tabs, ["key", activeTabKey]);
   return (
-    <DashboardCard maxHeight={500} minHeight={500} menu={menus} actions={<SubLevelActions />} title={<SubLevelHeader />}>
+    <DashboardCard maxHeight={800} minHeight={500} menu={menus} actions={<SubLevelActions />} title={<SubLevelHeader />}>
       <div className="sub-level-container">{activeTab?.component}</div>
     </DashboardCard>
   );

@@ -13,54 +13,48 @@ export default function TableHeader() {
   const layout = useRecoilValue(TableLayout(id));
   const { columns, filter } = tableConfig ?? {};
 
-  console.log(columns);
   return (
     <DataTableHead>
       <DataTableRow>
-        <DataTableColumnHeader colSpan={"100"} fixed className={classes["table-header-cell"]}>
+        <DataTableColumnHeader colSpan={"100"} fixed top={"2px"} className={classes["table-header-cell"]}>
           {head(filter)?.name ?? ""}
         </DataTableColumnHeader>
       </DataTableRow>
-      <DataTableRow>
+      <DataTableRow className={classes["header-row"]}>
         {layout.columns.includes("ou") ? (
           <>
-            <DataTableColumnHeader fixed left={"0"} width={"120px"} className={classes["table-header-cell"]}>
+            <DataTableColumnHeader fixed left={"0"} top={"40px"} className={classes["table-header-cell"]}>
               {i18n.t("Determinant")}
             </DataTableColumnHeader>
-            <DataTableColumnHeader fixed left={"120px"} width={"200px"} className={classes["table-header-cell"]}>
+            <DataTableColumnHeader fixed left={"200px"} className={classes["table-header-cell"]}>
               {i18n.t("Indicator")}
             </DataTableColumnHeader>
           </>
         ) : (
-          <DataTableColumnHeader rowSpan={2} fixed left={"0"} width={"200px"} className={classes["table-header-cell"]}>
+          <DataTableColumnHeader rowSpan={2} fixed top={"40px"} left={"0"} className={classes["table-header-cell"]}>
             {i18n.t("Organisation Units")}
           </DataTableColumnHeader>
         )}
         {columns?.map(({ name, id, children }) => (
-          <td className={classes["nesting-cell"]} key={`${id}-header-table`}>
-            <table className={classes["nested-table"]}>
-              <tr className={classes["nesting-row"]}>
-                <DataTableColumnHeader
-                  colSpan={children?.length}
-                  align={"center"}
-                  key={`${id}-col-header`}
-                  fixed
-                  width={"120px"}
-                  className={classes["table-header-cell"]}>
-                  {name}
-                </DataTableColumnHeader>
-              </tr>
-              <tr className={classes["nesting-row"]}>
-                {children?.map(({ name, id }) => (
-                  <DataTableColumnHeader align={"center"} key={`${id}-col-header`} fixed width={"120px"} className={classes["table-header-children-cell"]}>
-                    {name}
-                  </DataTableColumnHeader>
-                ))}
-              </tr>
-            </table>
-          </td>
+          <DataTableColumnHeader
+            width={"200px"}
+            colSpan={children?.length}
+            align={"center"}
+            key={`${id}-col-header`}
+            fixed
+            top={"40px"}
+            className={classes["table-data-header-cell"]}>
+            {name}
+          </DataTableColumnHeader>
         ))}
       </DataTableRow>
+      {columns.map(({ children }) =>
+        children?.map(({ name, id }) => (
+          <DataTableColumnHeader width={"200px"} align={"center"} key={`${id}-col-header`} fixed top={"90px"} className={classes["table-data-header-cell"]}>
+            {name}
+          </DataTableColumnHeader>
+        ))
+      )}
     </DataTableHead>
   );
 }

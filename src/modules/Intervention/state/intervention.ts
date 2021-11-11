@@ -1,3 +1,4 @@
+import { get as _get } from "lodash";
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import { EngineState } from "../../../core/state/dataEngine";
 import { InterventionTemplateConfig } from "../../../shared/interfaces/interventionTemplateConfig";
@@ -29,4 +30,14 @@ export const InterventionState = atomFamily({
         return await getIntervention(engine, id);
       },
   }),
+});
+
+export const InterventionStateSelector = selectorFamily({
+  key: "intervention-config-selector",
+  get:
+    ({ id, path }: { id: string; path: Array<string> }) =>
+    ({ get }) => {
+      const config = get(InterventionState(id));
+      return _get(config, path);
+    },
 });
