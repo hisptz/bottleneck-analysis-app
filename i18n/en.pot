@@ -5,8 +5,17 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-11T07:00:44.298Z\n"
-"PO-Revision-Date: 2021-11-11T07:00:44.298Z\n"
+"POT-Creation-Date: 2021-11-10T15:27:10.000Z\n"
+"PO-Revision-Date: 2021-11-10T15:27:10.000Z\n"
+
+msgid "Back to Intervention"
+msgstr "Back to Intervention"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "View Archives"
+msgstr "View Archives"
 
 msgid "Add Filter"
 msgstr "Add Filter"
@@ -17,12 +26,6 @@ msgstr "Archive"
 msgid "Configure"
 msgstr "Configure"
 
-msgid "Search"
-msgstr "Search"
-
-msgid "View Archives"
-msgstr "View Archives"
-
 msgid "Add New"
 msgstr "Add New"
 
@@ -31,15 +34,6 @@ msgstr "Root Cause Analysis"
 
 msgid "Bottleneck Sublevel Analysis"
 msgstr "Bottleneck Sublevel Analysis"
-
-msgid "Determinant"
-msgstr "Determinant"
-
-msgid "Indicator"
-msgstr "Indicator"
-
-msgid "Organisation Units"
-msgstr "Organisation Units"
 
 msgid "Table View"
 msgstr "Table View"
@@ -55,6 +49,3 @@ msgstr "Download Excel"
 
 msgid "View Full Screen"
 msgstr "View Full Screen"
-
-msgid "Something went wrong with the migration"
-msgstr "Something went wrong with the migration"

@@ -5,7 +5,8 @@ import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
 import Landing from "../Landing";
 import Migration from "../Migration";
 
-const Dashboard = React.lazy(() => import("../Intervention"));
+const Dashboard = React.lazy(() => import("../Dashboard"));
+const Archive = React.lazy(() => import("../Dashboard/components/Archives/"));
 
 const routes = [
   {
@@ -19,6 +20,10 @@ const routes = [
   {
     pathname: "/migrate",
     component: Migration,
+  },
+  {
+    pathname: "/intervention-list",
+    component: Archive,
   },
 ];
 

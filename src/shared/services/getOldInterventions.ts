@@ -16,7 +16,6 @@ export async function getOldInterventionKeys(engine: any): Promise<Array<string>
     return filter(response.dashboardKeys ?? [], (key: string) => key.startsWith(BNA_DASHBOARDS_PREFIX));
   } catch (e) {
     // @ts-ignore
-    console.error(e.message ?? e.toString);
     return [];
   }
 }
@@ -35,7 +34,6 @@ export default async function getOldInterventions(engine: any, keys?: Array<stri
       return response?.dashboard;
     } catch (e) {
       // @ts-ignore
-      console.error(e.message ?? e.toString());
     }
   }
   if (!keys) {

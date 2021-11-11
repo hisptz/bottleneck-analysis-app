@@ -1,0 +1,10 @@
+.archiveList-table{
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.paginationCell{
+    height: fit-content;
+    width: 20%;
+    margin-left: 80%;
+}

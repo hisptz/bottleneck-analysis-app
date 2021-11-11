@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IconDownload24, IconFullscreen24 } from "@dhis2/ui";
 import React from "react";
 import DashboardCard from "../Card";
@@ -10,7 +11,6 @@ export default function AnalysisChart() {
         {
           label: "Download",
           callback: () => {
-            console.log("download");
           },
           icon: <IconDownload24 />,
         },
@@ -18,7 +18,6 @@ export default function AnalysisChart() {
           label: "View Full Page",
           icon: <IconFullscreen24 />,
           callback: () => {
-            console.log("full page");
           },
         },
       ]}
