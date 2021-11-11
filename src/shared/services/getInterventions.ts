@@ -1,11 +1,8 @@
-import { map } from "async";
-import { BNA_INTERVENTIONS_NAMESPACE } from "../../constants/dataStore";
-import { InterventionConfig } from "../types/interventionConfig";
+import { BNA_NAMESPACE } from "../../constants/dataStore";
 
-const keyQuery = {
-  interventionKeys: {
-    resource: "dataStore",
-    id: BNA_INTERVENTIONS_NAMESPACE,
+const keysQuery = {
+  keys: {
+    resource: `dataStore/${BNA_NAMESPACE}`,
   },
 };
 
@@ -21,7 +18,7 @@ async function getInterventionKeys(engine: any): Promise<Array<string>> {
 
 const interventionQuery = {
   intervention: {
-    resource: `dataStore/${BNA_INTERVENTIONS_NAMESPACE}`,
+    resource: `dataStore/${BNA_NAMESPACE}`,
     id: ({ id }: { id: string }) => id,
   },
 };

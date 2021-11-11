@@ -14,5 +14,6 @@ module.exports = {
   },
   rules: {
     "no-console": "error",
+    "import/order": "warn",
   },
 };

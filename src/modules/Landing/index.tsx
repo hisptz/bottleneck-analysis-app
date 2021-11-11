@@ -1,25 +1,29 @@
-import { head } from "lodash";
+import { CircularLoader } from "@dhis2/ui";
+import { head, isEmpty } from "lodash";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { DashboardConfig } from "../../shared/types/dashboardConfig";
-import { DashboardsState } from "../Dashboard/state/dashboard";
+import { InterventionSummary } from "../../core/state/intervention";
+import { InterventionSummary as InterventionSummaryType } from "../../shared/interfaces/interventionConfig";
 
 export default function Landing() {
   const history = useHistory();
-  const dashboard = useRecoilValue(DashboardsState);
-
+  const interventionSummary = useRecoilValue(InterventionSummary);
   useEffect(() => {
     function navigate() {
-      if (dashboard) {
-        const firstDashboard: DashboardConfig | undefined = head(dashboard);
+      if (interventionSummary && !isEmpty(interventionSummary)) {
+        const firstDashboard: InterventionSummaryType | undefined = head(interventionSummary);
         if (firstDashboard) {
           history.replace(`/dashboards/${firstDashboard?.id}`);
         }
       }
     }
     navigate();
-  }, [dashboard]);
+  }, [interventionSummary]);
 
-  return <div className="w-100 h-100 column center align-center">Loading...</div>;
+  return (
+    <div className="w-100 h-100 column center align-center">
+      <CircularLoader />
+    </div>
+  );
 }
