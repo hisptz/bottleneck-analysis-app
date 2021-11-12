@@ -6,14 +6,14 @@ import React, { useState } from "react";
 import "./intervention-list.css";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { InterventionSummary } from "../../../../../../core/state/intervention";
 import AddButton from "./components/AddButton";
 import InterventionChips from "./components/InterventionChips";
 import Search from "./components/Search";
+import { FilteredInterventions } from "./state/search";
 
 export default function DashboardList() {
   const [showAll, setShowAll] = useState<boolean>(false);
-  const interventions = useRecoilValue(InterventionSummary);
+  const interventions = useRecoilValue(FilteredInterventions);
   const history = useHistory();
   function onToArchivesList(_: any, e: Event) {
     history.push("/intervention-list");
@@ -26,7 +26,7 @@ export default function DashboardList() {
           <div className="row gap align-start">
             <AddButton />
             <Search />
-            {interventions && <InterventionChips interventions={interventions} showAll={showAll} />}
+            {interventions ? <InterventionChips interventions={interventions} showAll={showAll} /> : null}
           </div>
         </div>
         <div className="column ">
