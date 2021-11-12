@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Button, IconMore16, TableBody, Menu, MenuItem, Popover, DataTableRow, DataTableCell } from "@dhis2/ui";
 import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -27,7 +28,7 @@ export default function ArchiveListTableBodyComponent() {
                   <Menu>
                     <MenuItem
                       onClick={(_: any, _e: Event) => {
-                        history.push("/archive/dashboard");
+                        history.push("/UyVdbo21UJs/archives/UyVdbo21UJs");
                       }}
                       label="View"
                     />

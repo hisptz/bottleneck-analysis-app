@@ -19,11 +19,11 @@ const routes = [
     component: Landing,
   },
   {
-    pathname: "/archives-list",
+    pathname: "/:id/archives",
     component: Archive,
   },
   {
-    pathname: "/archive/dashboard",
+    pathname: "/:id/archives/:id",
     component: DashboardArchive,
   },
 ];
