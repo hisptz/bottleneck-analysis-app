@@ -2,16 +2,17 @@ import React, { Suspense } from "react";
 import { HashRouter, Route } from "react-router-dom";
 import useDataEngineInit from "../../core/hooks/initDataEngine";
 import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
+import EmptyInterventions from "../EmptyInterventions";
 import Landing from "../Landing";
 import Migration from "../Migration";
 
-const Dashboard = React.lazy(() => import("../Dashboard"));
-const Archive = React.lazy(() => import("../Dashboard/components/Archives/"));
+const Intervention = React.lazy(() => import("../Intervention"));
+const Archive = React.lazy(() => import("../Intervention/components/Archives/"));
 
 const routes = [
   {
     pathname: "/dashboards/:id",
-    component: Dashboard,
+    component: Intervention,
   },
   {
     pathname: "/",
@@ -24,6 +25,10 @@ const routes = [
   {
     pathname: "/intervention-list",
     component: Archive,
+  },
+  {
+    pathname: "/no-interventions",
+    component: EmptyInterventions,
   },
 ];
 

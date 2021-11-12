@@ -15,7 +15,11 @@ export default function Landing() {
         const firstDashboard: InterventionSummaryType | undefined = head(interventionSummary);
         if (firstDashboard) {
           history.replace(`/dashboards/${firstDashboard?.id}`);
+        } else {
+          history.replace("/no-interventions");
         }
+      } else {
+        history.replace("/no-interventions");
       }
     }
     navigate();

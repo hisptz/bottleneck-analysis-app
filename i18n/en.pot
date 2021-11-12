@@ -5,17 +5,32 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-10T15:27:10.000Z\n"
-"PO-Revision-Date: 2021-11-10T15:27:10.000Z\n"
+"POT-Creation-Date: 2021-11-12T11:28:28.581Z\n"
+"PO-Revision-Date: 2021-11-12T11:28:28.581Z\n"
+
+msgid "Welcome to the Bottleneck Analysis App!"
+msgstr "Welcome to the Bottleneck Analysis App!"
+
+msgid "Create a new Intervention"
+msgstr "Create a new Intervention"
+
+msgid "Create Intervention"
+msgstr "Create Intervention"
+
+msgid "Place indicators of intervention in their determinants in settings"
+msgstr "Place indicators of intervention in their determinants in settings"
+
+msgid "Add different data sources to a group"
+msgstr "Add different data sources to a group"
+
+msgid "Select period and organisation unit and save changes"
+msgstr "Select period and organisation unit and save changes"
+
+msgid "Add New Intervention"
+msgstr "Add New Intervention"
 
 msgid "Back to Intervention"
 msgstr "Back to Intervention"
-
-msgid "Search"
-msgstr "Search"
-
-msgid "View Archives"
-msgstr "View Archives"
 
 msgid "Add Filter"
 msgstr "Add Filter"
@@ -26,6 +41,12 @@ msgstr "Archive"
 msgid "Configure"
 msgstr "Configure"
 
+msgid "Search"
+msgstr "Search"
+
+msgid "View Archives"
+msgstr "View Archives"
+
 msgid "Add New"
 msgstr "Add New"
 
@@ -34,6 +55,15 @@ msgstr "Root Cause Analysis"
 
 msgid "Bottleneck Sublevel Analysis"
 msgstr "Bottleneck Sublevel Analysis"
+
+msgid "Determinant"
+msgstr "Determinant"
+
+msgid "Indicator"
+msgstr "Indicator"
+
+msgid "Organisation Units"
+msgstr "Organisation Units"
 
 msgid "Table View"
 msgstr "Table View"
@@ -49,3 +79,6 @@ msgstr "Download Excel"
 
 msgid "View Full Screen"
 msgstr "View Full Screen"
+
+msgid "Something went wrong with the migration"
+msgstr "Something went wrong with the migration"

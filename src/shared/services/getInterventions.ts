@@ -1,4 +1,6 @@
+import { map } from "async";
 import { BNA_NAMESPACE } from "../../constants/dataStore";
+import { InterventionConfig } from "../interfaces/interventionConfig";
 
 const keysQuery = {
   keys: {
@@ -6,9 +8,9 @@ const keysQuery = {
   },
 };
 
-async function getInterventionKeys(engine: any): Promise<Array<string>> {
+export async function getInterventionKeys(engine: any): Promise<Array<string>> {
   try {
-    const response = await engine.query(keyQuery);
+    const response = await engine.query(keysQuery);
     return response.interventionKeys ?? [];
   } catch (e) {
     // @ts-ignore
@@ -32,6 +34,12 @@ export default async function getInterventions(engine: any) {
       // @ts-ignore
     }
   }
+
   const keys = await getInterventionKeys(engine);
   return await map(keys, getIntervention);
+}
+
+export async function getIntervention(engine: any, id: string) {
+  const { intervention } = await engine.query(interventionQuery, { variables: { id } });
+  return intervention;
 }

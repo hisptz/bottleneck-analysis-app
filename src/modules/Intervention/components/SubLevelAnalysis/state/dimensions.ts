@@ -29,7 +29,7 @@ export const Period = selectorFamily({
     },
 });
 
-export const OrgUnit = selectorFamily({
+export const SubLevelOrgUnit = selectorFamily({
   key: "sub-level-items",
   get:
     (id: string) =>
@@ -40,6 +40,17 @@ export const OrgUnit = selectorFamily({
         orgUnits.push(orgUnitSelection.subLevelAnalysisOrgUnitLevel?.id);
       }
 
+      return compact(orgUnits);
+    },
+});
+
+export const OrgUnit = selectorFamily({
+  key: "sub-level-items",
+  get:
+    (id: string) =>
+    ({ get }) => {
+      const { orgUnitSelection } = get<InterventionConfig>(InterventionState(id)) ?? {};
+      const orgUnits = [orgUnitSelection.orgUnit?.id];
       return compact(orgUnits);
     },
 });

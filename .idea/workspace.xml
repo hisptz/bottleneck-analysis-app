@@ -4,20 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Sublevel analysis ): Implementation&#10;&#10;- Implemented sublevel analysis logic">
-      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableCell.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/constants/tableLayouts.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/utils/index.ts" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Sublevel analysis ): Implementation&#10;&#10;- Fixed issues with table view&#10;- Implemented legends">
+      <change afterPath="$PROJECT_DIR$/src/modules/EmptyInterventions/empty-intervention.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/EmptyInterventions/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/services/getChartAnalytics.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/state/data.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/interfaces/analytics.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/Table.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/Table.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableBody.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableBody.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/layout.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/layout.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/state/intervention.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/state/intervention.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/dimensions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/dimensions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Landing/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Landing/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Router/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/services/analytics.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/services/analytics.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/services/getInterventions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/services/getInterventions.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +30,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -58,12 +60,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/sublevel-analysis-logic" />
-                    <option name="lastUsedInstant" value="1636000314" />
-                  </RecentBranch>
-                  <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1635951214" />
+                    <option name="lastUsedInstant" value="1636631168" />
                   </RecentBranch>
                 </list>
               </option>
@@ -91,7 +89,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/shared/components/loaders" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/modules/EmptyInterventions" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -107,18 +105,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/modules/EmptyInterventions" />
       <recent name="$PROJECT_DIR$/src/shared/components/loaders" />
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components" />
       <recent name="$PROJECT_DIR$/src/assets/images" />
       <recent name="$PROJECT_DIR$/src/shared/services" />
-      <recent name="$PROJECT_DIR$/public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader" />
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start --proxy https://hisp.apps.dhis2.org/dev">
+  <component name="RunManager" selected="npm.start --proxy https://hisptz.com/unicefapps">
     <configuration name="format" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -129,24 +127,24 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="start --proxy https://hisp.apps.dhis2.org/dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="start --proxy https://hisptz.com/unicefapps" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
         <script value="start" />
       </scripts>
-      <arguments value="--proxy https://hisp.apps.dhis2.org/dev" />
+      <arguments value="--proxy https://hisptz.com/unicefapps" />
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="npm.format" />
-      <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
+      <item itemvalue="npm.start --proxy https://hisptz.com/unicefapps" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
+        <item itemvalue="npm.start --proxy https://hisptz.com/unicefapps" />
         <item itemvalue="npm.format" />
       </list>
     </recent_temporary>
@@ -180,7 +178,12 @@
       <workItem from="1636096754158" duration="24261000" />
       <workItem from="1636266893920" duration="6778000" />
       <workItem from="1636442793467" duration="656000" />
-      <workItem from="1636614026780" duration="9504000" />
+      <workItem from="1636614026780" duration="11601000" />
+      <workItem from="1636645972657" duration="1470000" />
+      <workItem from="1636690476552" duration="1323000" />
+      <workItem from="1636696107662" duration="1327000" />
+      <workItem from="1636703949485" duration="3244000" />
+      <workItem from="1636711805358" duration="4036000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -273,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636276526860</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="feat(Sublevel analysis ): Implementation&#10;&#10;- Fixed issues with table view&#10;- Implemented legends">
+      <created>1636630691822</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1636630691822</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -304,7 +314,8 @@
     <MESSAGE value="feat(Migration): Implementation&#10;&#10;- Summary implementation" />
     <MESSAGE value="feat(New Data Flow): Implementation&#10;&#10;- Implemented intervention state based on new data model" />
     <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Implemented sublevel analysis logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(Sublevel analysis ): Implementation&#10;&#10;- Implemented sublevel analysis logic" />
+    <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Fixed issues with table view&#10;- Implemented legends" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(Sublevel analysis ): Implementation&#10;&#10;- Fixed issues with table view&#10;- Implemented legends" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -327,7 +338,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/utils/index.ts</url>
           <line>3</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>

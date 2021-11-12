@@ -1,7 +1,7 @@
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { getSubLevelAnalytics } from "../../../../../shared/services/analytics";
-import { DataItems, OrgUnit, Period } from "./dimensions";
+import { DataItems, SubLevelOrgUnit, Period } from "./dimensions";
 
 export const SubLevelAnalyticsData = selectorFamily({
   key: "analytics-data",
@@ -11,7 +11,7 @@ export const SubLevelAnalyticsData = selectorFamily({
       const engine = get(EngineState);
       const dataItems = get(DataItems(id));
       const period = get(Period(id));
-      const orgUnit = get(OrgUnit(id));
+      const orgUnit = get(SubLevelOrgUnit(id));
       return await getSubLevelAnalytics({ dx: dataItems, ou: orgUnit, pe: period }, engine);
     },
 });

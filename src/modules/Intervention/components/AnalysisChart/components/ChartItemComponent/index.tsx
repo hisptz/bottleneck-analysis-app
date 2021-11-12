@@ -3,10 +3,15 @@
 import HighCharts from "highcharts";
 import HightChartsReact from "highcharts-react-official";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { getChartConfiguration } from "../../helper/get-chart-configuration.helper";
 import { getCharObject } from "../../helper/get-chart-object.helper";
+import { ChartData } from "../../state/data";
 
 export default function ChartItemComponent() {
+  const { id } = useParams<{ id: string }>();
+  const data = useRecoilValue(ChartData(id));
   const chartConfiguration = {
     layout: {
       column: ["dx"],
@@ -94,6 +99,7 @@ export default function ChartItemComponent() {
       }
     }
   }
+
   function chartConfigurationSelector(layout: any, currentChartType: any) {
     return getChartConfiguration({}, "", layout, "Data", currentChartType, []);
   }
