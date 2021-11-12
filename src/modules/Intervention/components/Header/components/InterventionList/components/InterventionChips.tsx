@@ -19,7 +19,7 @@ export default function InterventionChips({ showAll, interventions }: Interventi
   const onChipClick = useCallback(
     (selectedId: string) => () => {
       if (id !== selectedId) {
-        history.replace(`/dashboards/${selectedId}`);
+        history.replace(`/interventions/${selectedId}`);
       }
     },
     [id]
@@ -40,9 +40,9 @@ export default function InterventionChips({ showAll, interventions }: Interventi
       </div>
       {showAll && (
         <div className="row wrap w-100">
-          {slice(interventions, 5, interventions.length)?.map((dashboard) => (
-            <Chip selected={id === dashboard.id} onClick={onChipClick(dashboard?.id)} key={`${dashboard?.id}-chip`}>
-              {dashboard?.name}
+          {slice(interventions, 5, interventions.length)?.map((intervention) => (
+            <Chip selected={id === intervention.id} onClick={onChipClick(intervention?.id)} key={`${intervention?.id}-chip`}>
+              {intervention?.name}
             </Chip>
           ))}
         </div>

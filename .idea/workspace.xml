@@ -4,12 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(*): &#10;- Merge issues">
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(*): &#10;- Implemented chart analytics query logic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/EmptyInterventions/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/EmptyInterventions/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/state/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/state/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/dataStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/dataStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-sanitized-chart-object.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-sanitized-chart-object.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Archives/ArchiveDashboard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Archives/ArchiveDashboard/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Card/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Card/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Details/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Details/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/InterventionChips.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/InterventionChips.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/dashboard-header.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/intervention-header.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelHeader/components/LegendsDefinition.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelHeader/components/LegendsDefinition.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelHeader/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/intervention.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/state/dashboard.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/state/intervention.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/state/intervention.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Landing/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Landing/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Router/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/interfaces/interventionTemplateConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces/interventionTemplateConfig.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/interfaces/oldInterventionConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces/oldInterventionConfig.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/services/getOldInterventions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/services/getOldInterventions.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,12 +70,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/chart-analysis-logic" />
-                    <option name="lastUsedInstant" value="1636717299" />
-                  </RecentBranch>
-                  <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1636631168" />
+                    <option name="lastUsedInstant" value="1636720912" />
                   </RecentBranch>
                 </list>
               </option>
@@ -79,6 +95,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -177,7 +194,7 @@
       <workItem from="1636690476552" duration="1323000" />
       <workItem from="1636696107662" duration="1327000" />
       <workItem from="1636703949485" duration="3244000" />
-      <workItem from="1636711805358" duration="7812000" />
+      <workItem from="1636711805358" duration="8113000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -284,7 +301,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636716938855</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fix(*): &#10;- Implemented chart analytics query logic">
+      <created>1636720768179</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1636720768179</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -317,7 +341,8 @@
     <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Implemented sublevel analysis logic" />
     <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Fixed issues with table view&#10;- Implemented legends" />
     <MESSAGE value="fix(*): &#10;- Merge issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(*): &#10;- Merge issues" />
+    <MESSAGE value="fix(*): &#10;- Implemented chart analytics query logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(*): &#10;- Implemented chart analytics query logic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

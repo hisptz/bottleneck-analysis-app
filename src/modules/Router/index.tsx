@@ -4,16 +4,16 @@ import { HashRouter, Route } from "react-router-dom";
 import useDataEngineInit from "../../core/hooks/initDataEngine";
 import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
 import EmptyInterventions from "../EmptyInterventions";
+import InterventionArchive from "../Intervention/components/Archives/ArchiveDashboard";
 import Landing from "../Landing";
 import Migration from "../Migration";
 
 const Intervention = React.lazy(() => import("../Intervention"));
 const Archive = React.lazy(() => import("../Intervention/components/Archives/"));
-const DashboardArchive = React.lazy(() => import("../Dashboard/components/Archives/ArchiveDashboard"));
 
 const routes = [
   {
-    pathname: "/dashboards/:id",
+    pathname: "/interventions/:id",
     component: Intervention,
   },
   {
@@ -34,7 +34,7 @@ const routes = [
   },
   {
     pathname: "/:id/archives/:id",
-    component: DashboardArchive,
+    component: InterventionArchive,
   },
 ];
 

@@ -8,19 +8,19 @@ import React, { useState } from "react";
 import "./intervention-list.css";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { DashboardConfig } from "shared/types/dashboardConfig";
 import { InterventionSummary } from "../../../../../../core/state/intervention";
+import { InterventionSummary as InterventionSummaryType } from "../../../../../../shared/interfaces/interventionConfig";
 import AddButton from "./components/AddButton";
 import InterventionChips from "./components/InterventionChips";
 import Search from "./components/Search";
 
-export default function DashboardList() {
+export default function InterventionList() {
   const [showAll, setShowAll] = useState<boolean>(false);
   const interventions = useRecoilValue(InterventionSummary);
-  const firstDashboard: DashboardConfig | undefined = head(dashboards);
+  const firstIntervention: InterventionSummaryType | undefined = head(interventions);
   const history = useHistory();
   function onToArchivesList(_: any, e: Event) {
-    history.push("/" + firstDashboard?.id + "/archives");
+    history.push("/" + firstIntervention?.id + "/archives");
   }
 
   return (

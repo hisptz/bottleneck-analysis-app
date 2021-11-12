@@ -12,8 +12,8 @@ function LegendDefinition({ color, name }: LegendDefinitionType) {
 }
 
 export default function LegendsDefinition() {
-  const dashboard = useInterventionConfig();
-  const { dataSelection } = dashboard ?? {};
+  const intervention = useInterventionConfig();
+  const { dataSelection } = intervention ?? {};
   const legendDefinitions: Array<LegendDefinitionType> = dataSelection.legendDefinitions;
   return (
     <div className="row gap">

@@ -1,14 +1,15 @@
 import { Divider } from "@dhis2/ui";
 import React from "react";
-import InterventionHeader from "./components/InterventionHeader";
-import DashboardList from "./components/InterventionList";
-import "./dashboard-header.css";
-export default function DashboardHeader() {
+import Header from "./components/InterventionHeader";
+import InterventionList from "./components/InterventionList";
+import "./intervention-header.css";
+
+export default function InterventionHeader() {
   return (
     <div className="header-container">
-      <DashboardList />
+      <InterventionList />
       <Divider margin={"0"} />
-      <InterventionHeader />
+      <Header />
     </div>
   );
 }
