@@ -1,4 +1,4 @@
-import { DashboardItem } from "./interventionTemplateConfig";
+import { InterventionItem } from "./interventionTemplateConfig";
 
 export interface LegendDefinition {
   id: string;
@@ -67,6 +67,6 @@ export interface OldInterventionConfig {
   showDeleteDialog: boolean;
   userGroupAccesses: Array<{ id: string; name: string; type: string; access: string; displayName: string }>;
   bottleneckPeriodType: string;
-  dashboardItems: Array<DashboardItem>;
+  interventionItems: Array<InterventionItem>;
   globalSelections: Array<GlobalSelection>;
 }

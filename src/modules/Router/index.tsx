@@ -1,8 +1,10 @@
+/* eslint-disable import/no-unresolved */
 import React, { Suspense } from "react";
 import { HashRouter, Route } from "react-router-dom";
 import useDataEngineInit from "../../core/hooks/initDataEngine";
 import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
 import EmptyInterventions from "../EmptyInterventions";
+import InterventionArchive from "../Intervention/components/Archives/ArchiveDashboard";
 import Landing from "../Landing";
 import Migration from "../Migration";
 
@@ -11,7 +13,7 @@ const Archive = React.lazy(() => import("../Intervention/components/Archives/"))
 
 const routes = [
   {
-    pathname: "/dashboards/:id",
+    pathname: "/interventions/:id",
     component: Intervention,
   },
   {
@@ -23,12 +25,16 @@ const routes = [
     component: Migration,
   },
   {
-    pathname: "/intervention-list",
+    pathname: "/:id/archives",
     component: Archive,
   },
   {
     pathname: "/no-interventions",
     component: EmptyInterventions,
+  },
+  {
+    pathname: "/:id/archives/:id",
+    component: InterventionArchive,
   },
 ];
 

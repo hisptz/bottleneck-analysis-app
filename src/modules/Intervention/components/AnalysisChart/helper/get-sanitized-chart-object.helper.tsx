@@ -44,6 +44,7 @@ export function getSanitizedChartObject(chartObject: any, chartConfiguration: an
           const associatedGroup = find(dataSelectionGroups, ["id", splitedDataItemId[1]]);
 
           // TODO: Need to find a way to generically handle color assignment from click event
+          // @ts-ignore
           const clickedChart = (window["clickedCharts"] || {})[dataItem.id];
 
           if (clickedChart) {

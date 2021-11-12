@@ -1,23 +1,24 @@
 import { Button, IconMore24, Menu, MenuItem, Popover } from "@dhis2/ui";
-import React, { useState } from "react";
-import "./dashboard-card.css";
+import React, { Suspense, useState } from "react";
+import "./intervention-card.css";
+import CardLoader from "../../../../shared/components/loaders/CardLoader";
 
-export type DashboardMenu = {
+export type InterventionMenu = {
   label: string | JSX.Element;
   icon?: JSX.Element;
   callback: () => void;
 };
 
-export type DashboardCardProps = {
+export type InterventionCardProps = {
   title: string | JSX.Element;
   children: JSX.Element | Array<JSX.Element> | React.ReactElement | string;
   actions?: JSX.Element;
-  menu?: Array<DashboardMenu>;
+  menu?: Array<InterventionMenu>;
   maxHeight?: number;
   minHeight?: number;
 };
 
-export default function DashboardCard({ title, children, actions, menu, minHeight, maxHeight }: DashboardCardProps) {
+export default function InterventionCard({ title, children, actions, menu, minHeight, maxHeight }: InterventionCardProps) {
   const [actionButtonRef, setActionButtonRef] = useState<any>();
   return (
     <div className="card-container">
@@ -39,7 +40,7 @@ export default function DashboardCard({ title, children, actions, menu, minHeigh
         )}
       </div>
       <div className={`card-content column mt-16 mb-16`} style={{ maxHeight, minHeight, overflow: "auto" }}>
-        {children}
+        <Suspense fallback={<CardLoader />}>{children}</Suspense>
       </div>
       <div className="card-actions">{actions}</div>
     </div>

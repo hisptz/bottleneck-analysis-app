@@ -1,4 +1,4 @@
-export interface DashboardItem {
+export interface InterventionItem {
   interface: "CHART" | "REPORT_TABLE" | "APP";
   shape: "FULL_WIDTH";
   chart?: { id: string };
@@ -9,5 +9,5 @@ export interface DashboardItem {
 export interface InterventionTemplateConfig {
   name: string;
   id: string;
-  dashboardItems: Array<DashboardItem>;
+  interventionItems: Array<InterventionItem>;
 }

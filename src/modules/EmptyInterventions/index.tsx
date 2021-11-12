@@ -25,7 +25,9 @@ export default function EmptyInterventions() {
             </div>
           </div>
         </div>
-        <Button icon={<IconAdd24 />}>{i18n.t("Add New Intervention")}</Button>
+        <Button primary icon={<IconAdd24 />}>
+          {i18n.t("Add New Intervention")}
+        </Button>
       </div>
     </div>
   );

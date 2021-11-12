@@ -12,9 +12,9 @@ export default function Landing() {
   useEffect(() => {
     function navigate() {
       if (interventionSummary && !isEmpty(interventionSummary)) {
-        const firstDashboard: InterventionSummaryType | undefined = head(interventionSummary);
-        if (firstDashboard) {
-          history.replace(`/dashboards/${firstDashboard?.id}`);
+        const firstIntervention: InterventionSummaryType | undefined = head(interventionSummary);
+        if (firstIntervention) {
+          history.replace(`/interventions/${firstIntervention?.id}`);
         } else {
           history.replace("/no-interventions");
         }
