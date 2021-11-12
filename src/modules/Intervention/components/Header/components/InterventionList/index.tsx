@@ -1,11 +1,14 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-unused-vars */
 import i18n from "@dhis2/d2-i18n";
 import { Button, IconChevronDown24, IconChevronUp24 } from "@dhis2/ui";
 import { IconButton } from "@material-ui/core";
+import { head } from "lodash";
 import React, { useState } from "react";
 import "./intervention-list.css";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { DashboardConfig } from "shared/types/dashboardConfig";
 import { InterventionSummary } from "../../../../../../core/state/intervention";
 import AddButton from "./components/AddButton";
 import InterventionChips from "./components/InterventionChips";
@@ -14,9 +17,10 @@ import Search from "./components/Search";
 export default function DashboardList() {
   const [showAll, setShowAll] = useState<boolean>(false);
   const interventions = useRecoilValue(InterventionSummary);
+  const firstDashboard: DashboardConfig | undefined = head(dashboards);
   const history = useHistory();
   function onToArchivesList(_: any, e: Event) {
-    history.push("/intervention-list");
+    history.push("/" + firstDashboard?.id + "/archives");
   }
 
   return (
