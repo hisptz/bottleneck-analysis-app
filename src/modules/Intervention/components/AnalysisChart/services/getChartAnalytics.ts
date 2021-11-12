@@ -4,8 +4,7 @@ const analyticsQuery = {
   analytics: {
     resource: "analytics",
     params: ({ pe, dx, ou }: AnalyticsDimension) => ({
-      dimension: [`dx:${dx.join(";")}`, `ou:${ou.join(";")}`],
-      filter: `pe:${pe}`,
+      dimension: [`dx:${dx.join(";")}`, `ou:${ou.join(";")}`, `pe:${pe}`],
     }),
   },
 };

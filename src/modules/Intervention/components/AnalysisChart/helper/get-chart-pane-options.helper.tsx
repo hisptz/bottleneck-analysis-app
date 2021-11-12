@@ -1,6 +1,6 @@
 import { assign } from "lodash";
 
-export function getChartPaneOptions(chartType:string) {
+export function getChartPaneOptions(chartType: string) {
   let paneOptions = {};
 
   switch (chartType) {

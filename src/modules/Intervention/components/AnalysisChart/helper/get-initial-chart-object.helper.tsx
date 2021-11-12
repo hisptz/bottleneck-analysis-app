@@ -13,7 +13,7 @@ export function getInitialChartObject(analyticsObject: any, chartConfiguration: 
     title: getChartTitleObject(chartConfiguration),
     subtitle: getChartSubtitleObject(chartConfiguration, analyticsObject),
     credits: getChartCreditsOptions(),
-    colors: getChartColors(),
+    colors: getChartColors()[3],
     plotOptions: getPlotOptions(chartConfiguration),
     tooltip: getTooltipOptions(chartConfiguration),
   };

@@ -35,7 +35,6 @@ export function getOtherChartObject(initialChartObject: any, analyticsObject: an
   const xAxisItems = getXAxisItemsFromChartConfiguration(chartConfiguration);
 
   const xAxisCategories = getSanitizedChartXAxisCategories(seriesWithAxisOptions, xAxisItems);
-
   return {
     ...initialChartObject,
     yAxis: getChartYAxisOptions(chartConfiguration),
