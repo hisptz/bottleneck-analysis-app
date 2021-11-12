@@ -16,7 +16,7 @@ export default function DashboardList() {
   const dashboards = useRecoilValue(DashboardsState);
   const history = useHistory();
   function onToArchivesList(_: any, e: Event) {
-    history.push("/intervention-list");
+    history.push("/archives-list");
   }
 
   return (

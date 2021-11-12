@@ -1,8 +1,10 @@
 import { Button, IconMore16, TableBody, Menu, MenuItem, Popover, DataTableRow, DataTableCell } from "@dhis2/ui";
 import React, { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 export default function ArchiveListTableBodyComponent() {
   const ref = useRef<HTMLDivElement | null>(null);
   const [stateActionRef, setStateActionRef] = useState<any>();
+  const history = useHistory();
   return (
     <>
       <TableBody>
@@ -23,7 +25,12 @@ export default function ArchiveListTableBodyComponent() {
               {stateActionRef && (
                 <Popover onClickOutside={() => setStateActionRef(undefined)} placement="bottom-start" reference={ref}>
                   <Menu>
-                    <MenuItem label="View" />
+                    <MenuItem
+                      onClick={(_: any, _e: Event) => {
+                        history.push("/archive/dashboard");
+                      }}
+                      label="View"
+                    />
                     <MenuItem label="Remove" />
                     <MenuItem label="Refresh" />
                   </Menu>

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React, { Suspense } from "react";
 import { HashRouter, Route } from "react-router-dom";
 import useDataEngineInit from "../../core/hooks/initDataEngine";
@@ -6,6 +7,7 @@ import Landing from "../Landing";
 
 const Dashboard = React.lazy(() => import("../Dashboard"));
 const Archive = React.lazy(() => import("../Dashboard/components/Archives/"));
+const DashboardArchive = React.lazy(() => import("../Dashboard/components/Archives/ArchiveDashboard"));
 
 const routes = [
   {
@@ -17,8 +19,12 @@ const routes = [
     component: Landing,
   },
   {
-    pathname: "/intervention-list",
+    pathname: "/archives-list",
     component: Archive,
+  },
+  {
+    pathname: "/archive/dashboard",
+    component: DashboardArchive,
   },
 ];
 
