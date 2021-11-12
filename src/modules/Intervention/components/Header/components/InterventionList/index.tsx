@@ -9,11 +9,13 @@ import { useRecoilValue } from "recoil";
 import AddButton from "./components/AddButton";
 import InterventionChips from "./components/InterventionChips";
 import Search from "./components/Search";
-import { FilteredInterventions } from "./state/search";
+import SearchedInterventionNotFoundMessage from "./components/SearchedInterventionNotFoundMessage";
+import { FilteredInterventions, SearchState } from "./state/search";
 
 export default function DashboardList() {
   const [showAll, setShowAll] = useState<boolean>(false);
   const interventions = useRecoilValue(FilteredInterventions);
+  const searchKeyword = useRecoilValue(SearchState);
   const history = useHistory();
   function onToArchivesList(_: any, e: Event) {
     history.push("/intervention-list");
@@ -26,7 +28,11 @@ export default function DashboardList() {
           <div className="row gap align-start">
             <AddButton />
             <Search />
-            {interventions ? <InterventionChips interventions={interventions} showAll={showAll} /> : null}
+            {interventions?.length > 0 ? (
+              <InterventionChips interventions={interventions} showAll={showAll} />
+            ) : searchKeyword != "" ? (
+              <SearchedInterventionNotFoundMessage />
+            ) : null}
           </div>
         </div>
         <div className="column ">
