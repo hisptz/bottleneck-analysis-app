@@ -1,6 +1,7 @@
 import { Button, IconMore24, Menu, MenuItem, Popover } from "@dhis2/ui";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import "./dashboard-card.css";
+import CardLoader from "../../../../shared/components/loaders/CardLoader";
 
 export type DashboardMenu = {
   label: string | JSX.Element;
@@ -39,7 +40,7 @@ export default function DashboardCard({ title, children, actions, menu, minHeigh
         )}
       </div>
       <div className={`card-content column mt-16 mb-16`} style={{ maxHeight, minHeight, overflow: "auto" }}>
-        {children}
+        <Suspense fallback={<CardLoader />}>{children}</Suspense>
       </div>
       <div className="card-actions">{actions}</div>
     </div>
