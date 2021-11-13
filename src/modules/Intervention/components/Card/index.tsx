@@ -1,6 +1,9 @@
 import { Button, IconMore24, Menu, MenuItem, Popover } from "@dhis2/ui";
 import React, { Suspense, useState } from "react";
 import "./intervention-card.css";
+import { ErrorBoundary } from "react-error-boundary";
+import { useParams } from "react-router-dom";
+import CardError from "../../../../shared/components/errors/CardError";
 import CardLoader from "../../../../shared/components/loaders/CardLoader";
 
 export type InterventionMenu = {
@@ -16,9 +19,11 @@ export type InterventionCardProps = {
   menu?: Array<InterventionMenu>;
   maxHeight?: number;
   minHeight?: number;
+  onReset?: () => void;
 };
 
-export default function InterventionCard({ title, children, actions, menu, minHeight, maxHeight }: InterventionCardProps) {
+export default function InterventionCard({ title, children, actions, menu, minHeight, maxHeight, onReset }: InterventionCardProps) {
+  const { id } = useParams<{ id: string }>();
   const [actionButtonRef, setActionButtonRef] = useState<any>();
   return (
     <div className="card-container">
@@ -40,7 +45,9 @@ export default function InterventionCard({ title, children, actions, menu, minHe
         )}
       </div>
       <div className={`card-content column mt-16 mb-16`} style={{ maxHeight, minHeight, overflow: "auto" }}>
-        <Suspense fallback={<CardLoader />}>{children}</Suspense>
+        <ErrorBoundary resetKeys={[id]} onReset={onReset} FallbackComponent={CardError}>
+          <Suspense fallback={<CardLoader />}>{children}</Suspense>
+        </ErrorBoundary>
       </div>
       <div className="card-actions">{actions}</div>
     </div>
