@@ -1,8 +1,8 @@
 import { assign, map } from "lodash";
 
-export function getChartYAxisOptions(chartConfiguration:any) {
-  const yAxes:any[] = chartConfiguration.axes;
-  let newYAxes:any[] = [];
+export function getChartYAxisOptions(chartConfiguration: any) {
+  const yAxes: any[] = chartConfiguration.axes;
+  let newYAxes: any[] = [];
 
   if (yAxes.length == 0) {
     newYAxes = assign(

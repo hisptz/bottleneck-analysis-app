@@ -19,7 +19,8 @@ export default function AnalysisChart() {
           callback: () => {},
         },
       ]}
-      title={"Analysis Analysis"}>
+      title={"Analysis Analysis"}
+    >
       <Chart />
     </InterventionCard>
   );

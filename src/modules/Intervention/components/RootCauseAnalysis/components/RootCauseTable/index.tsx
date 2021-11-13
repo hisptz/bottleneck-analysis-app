@@ -30,7 +30,8 @@ export default function RootCauseTable() {
                       onClick={() => {
                         setstateRef(row);
                         ref.current?.scrollIntoView({ behavior: "smooth" });
-                      }}>
+                      }}
+                    >
                       <IconMore24 />
                     </Button>
                   </DataTableCell>

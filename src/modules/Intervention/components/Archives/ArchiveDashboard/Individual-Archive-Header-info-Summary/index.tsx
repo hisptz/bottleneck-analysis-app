@@ -12,7 +12,8 @@ export default function IndividualArchiveHeaderInfoSummary() {
             fontSize: "13px",
             fontWeight: "bold",
             marginTop: "0.8%",
-          }}>
+          }}
+        >
           You are current viewing archived intervention
         </p>
         <p>
@@ -23,7 +24,8 @@ export default function IndividualArchiveHeaderInfoSummary() {
           style={{
             fontSize: "13px",
             textDecoration: "underline",
-          }}>
+          }}
+        >
           Go to live Focus ANC Coverage Intervention
         </p>
       </div>

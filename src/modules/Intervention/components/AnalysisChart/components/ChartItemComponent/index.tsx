@@ -111,7 +111,8 @@ export default function ChartItemComponent() {
         style={{
           height: "calc(" + 1000 + "px-20px",
           width: "100%",
-        }}>
+        }}
+      >
         <HightChartsReact highcharts={HighCharts} options={chartOptions} />
       </div>
     </div>

@@ -14,7 +14,8 @@ export default function IndividualArchiveHeader() {
             fontSize: 22,
             marginBottom: "0",
             fontWeight: "bold",
-          }}>
+          }}
+        >
           Focused ANC Coverage
         </p>
         <p>Animal Region - 2019</p>
@@ -23,12 +24,14 @@ export default function IndividualArchiveHeader() {
         style={{
           padding: 6,
           marginTop: "3px",
-        }}>
+        }}
+      >
         <ButtonStrip end>
           <Button
             onClick={(_: any, e: Event) => {
               history.goBack();
-            }}>
+            }}
+          >
             Back to archives
           </Button>
           <Button>Refresh</Button>

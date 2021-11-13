@@ -19,7 +19,8 @@ export default function RootCauseAnalysis() {
           callback: () => {},
         },
       ]}
-      title={i18n.t("Root Cause Analysis")}>
+      title={i18n.t("Root Cause Analysis")}
+    >
       <RootCauseTable />
     </InterventionCard>
   );
