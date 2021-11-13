@@ -1,123 +1,50 @@
-/* eslint-disable react/jsx-key */
 import i18n from "@dhis2/d2-i18n";
-import {
-  Button,
-  DataTable,
-  DataTableCell,
-  DataTableRow,
-  IconDelete16,
-  IconEdit16,
-  IconMore16,
-  Menu,
-  MenuItem,
-  Popover,
-  SingleSelect,
-  SingleSelectOption,
-  TableBody,
-  TableFoot,
-  TextAreaField,
-} from "@dhis2/ui";
+import { Button, DataTable, DataTableCell, DataTableRow, IconMore24, TableBody, TableFoot } from "@dhis2/ui";
 import React, { useRef, useState } from "react";
 import "./rootCauseTable.css";
-import RootCauseTableHeaderComponent from "./RootCauseTableHeaderComponent";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { RootCauseTableConfig } from "../../state/config";
+import RootCauseTableHeaderComponent from "./components/RootCauseTableHeaderComponent";
+import classes from "./RootCauseTable.module.css";
+import { find } from "lodash";
 
 export default function RootCauseTable() {
+  const { id } = useParams<{ id: string }>();
+  const { columns, rows } = useRecoilValue(RootCauseTableConfig(id));
   const ref = useRef<HTMLDivElement | null>(null);
   const [stateRef, setstateRef] = useState<any>();
 
   return (
-    <DataTable>
-      <RootCauseTableHeaderComponent />
+    <DataTable className={classes["table"]} bordered>
+      <RootCauseTableHeaderComponent columns={columns} />
       <TableBody>
-        <DataTableRow>
-          <DataTableCell bordered>1</DataTableCell>
-          <DataTableCell bordered tag="th">
-            Animal Region
-          </DataTableCell>
-          <DataTableCell bordered tag="th">
-            2019
-          </DataTableCell>
-          <DataTableCell bordered tag="th">
-            Focused ANC coverage
-          </DataTableCell>
-          <DataTableCell bordered>Continouss Utilisation</DataTableCell>
-          <DataTableCell bordered>Continous Utilization ANC Visits</DataTableCell>
-          <DataTableCell bordered>Lack of human resources</DataTableCell>
-          <DataTableCell bordered>Hire and train new midwives</DataTableCell>
-          <DataTableCell bordered>
-            <div ref={ref}>
-              <Button
-                onClick={(_: any, e: MouseEvent) => setstateRef(e.target)}
-                icon={<IconMore16 color="#212529" />}
-                name="Icon large button"
-                small
-                value="default"
-              />
-            </div>
-            {stateRef && (
-              <Popover onClickOutside={() => setstateRef(undefined)} placement="bottom" reference={ref}>
-                <Menu>
-                  <MenuItem icon={<IconEdit16 color="#212529" />} label="Edit" />
-                  <MenuItem icon={<IconDelete16 color="red" />} label="Delete" />
-                </Menu>
-              </Popover>
-            )}
-          </DataTableCell>
-        </DataTableRow>
-        <DataTableRow>
-          <DataTableCell bordered>2</DataTableCell>
-          <DataTableCell bordered tag="th">
-            Animal Region
-          </DataTableCell>
-          <DataTableCell bordered tag="th">
-            2019
-          </DataTableCell>
-          <DataTableCell bordered tag="th">
-            Focused ANC coverage
-          </DataTableCell>
-          <DataTableCell bordered>Continouss Utilisation</DataTableCell>
-          <DataTableCell bordered>Continous Utilization ANC Visits</DataTableCell>
-          <DataTableCell bordered>Lack of human resources</DataTableCell>
-          <DataTableCell bordered>Hire and train new midwives</DataTableCell>
-          <DataTableCell bordered>
-            <Button icon={<IconMore16 color="#212529" />} name="Icon large button" small value="default" />
-          </DataTableCell>
-        </DataTableRow>
-        <DataTableRow>
-          <DataTableCell bordered>3</DataTableCell>
-          <DataTableCell bordered tag="th">
-            Animal Region
-          </DataTableCell>
-          <DataTableCell bordered tag="th">
-            2019
-          </DataTableCell>
-          <DataTableCell bordered tag="th">
-            Focused ANC coverage
-          </DataTableCell>
-          <DataTableCell bordered>
-            <SingleSelect placeholder={"Bottleneck"}>
-              <SingleSelectOption value="1" label="BottleNeck one" />
-              <SingleSelectOption value="2" label="BottleNeck two" />
-              <SingleSelectOption value="3" label="BottleNeck three" />
-            </SingleSelect>
-          </DataTableCell>
-          <DataTableCell bordered>
-            <SingleSelect placeholder={"Indicator"}>
-              <SingleSelectOption value="1" label="Indicator one" />
-              <SingleSelectOption value="2" label="Indicator two" />
-              <SingleSelectOption value="3" label="Indicator three" />
-            </SingleSelect>
-          </DataTableCell>
-          <DataTableCell bordered>
-            <TextAreaField name="textareaName" />
-          </DataTableCell>
-          <DataTableCell bordered>
-            <TextAreaField name="textareaName" />
-          </DataTableCell>
-          <DataTableCell bordered>
-            <Button icon={<IconMore16 color="#212529" />} name="Icon large button" small value="default" />
-          </DataTableCell>
-        </DataTableRow>
+        {rows.map((row, index) => (
+          <DataTableRow key={index}>
+            {row.map(({ key, value }, index) => {
+              if (key === "Actions") {
+                return (
+                  <DataTableCell className={classes["table-cell"]} key={index} align="center">
+                    <Button
+                      className={classes["button"]}
+                      onClick={() => {
+                        setstateRef(row);
+                        ref.current?.scrollIntoView({ behavior: "smooth" });
+                      }}>
+                      <IconMore24 />
+                    </Button>
+                  </DataTableCell>
+                );
+              }
+              const { disabled } = find(columns, ["key", key]) ?? {};
+              return (
+                <DataTableCell fixed={disabled} align="center" className={classes["table-cell"]} key={index}>
+                  {value}
+                </DataTableCell>
+              );
+            })}
+          </DataTableRow>
+        ))}
       </TableBody>
       <TableFoot>
         <DataTableRow>

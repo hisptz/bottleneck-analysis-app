@@ -11,7 +11,7 @@ export default function ArchivesListHeader() {
     history.goBack();
   }
   return (
-    <div className="row">
+    <div className="archive-list-row">
       <div className="archiveListTitle">BNA Archives</div>
       <div>
         <Button onClick={backtoHomePage}>{i18n.t("Back to Intervention")}</Button>

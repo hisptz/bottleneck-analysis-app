@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-12T11:28:28.581Z\n"
-"PO-Revision-Date: 2021-11-12T11:28:28.581Z\n"
+"POT-Creation-Date: 2021-11-12T15:52:46.503Z\n"
+"PO-Revision-Date: 2021-11-12T15:52:46.503Z\n"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -50,6 +50,30 @@ msgstr "View Archives"
 msgid "Add New"
 msgstr "Add New"
 
+msgid "Organisation Unit"
+msgstr "Organisation Unit"
+
+msgid "Period"
+msgstr "Period"
+
+msgid "Intervention"
+msgstr "Intervention"
+
+msgid "Bottleneck"
+msgstr "Bottleneck"
+
+msgid "Indicator"
+msgstr "Indicator"
+
+msgid "Possible Root Cause"
+msgstr "Possible Root Cause"
+
+msgid "Possible Solutions"
+msgstr "Possible Solutions"
+
+msgid "Actions"
+msgstr "Actions"
+
 msgid "Root Cause Analysis"
 msgstr "Root Cause Analysis"
 
@@ -58,9 +82,6 @@ msgstr "Bottleneck Sublevel Analysis"
 
 msgid "Determinant"
 msgstr "Determinant"
-
-msgid "Indicator"
-msgstr "Indicator"
 
 msgid "Organisation Units"
 msgstr "Organisation Units"
