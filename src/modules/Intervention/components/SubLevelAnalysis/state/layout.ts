@@ -9,8 +9,8 @@ import { SubLevelAnalyticsData } from "./data";
 export const TableLayout = atomFamily<Layout, string>({
   key: "sub-level-layout-state",
   default: () => ({
-    columns: ["dx"],
-    rows: ["ou"],
+    columns: ["ou"],
+    rows: ["dx"],
     filter: ["pe"],
   }),
 });
@@ -98,7 +98,7 @@ function getTableWidth(columns: any[]) {
     return acc + 1;
   }, 0);
 
-  return count * 200 + 400;
+  return count * 100 + 400;
 }
 
 export const TableConfig = selectorFamily<TableConfigType, string>({

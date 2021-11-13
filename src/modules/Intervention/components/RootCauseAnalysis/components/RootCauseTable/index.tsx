@@ -38,7 +38,7 @@ export default function RootCauseTable() {
               }
               const { disabled } = find(columns, ["key", key]) ?? {};
               return (
-                <DataTableCell fixed={disabled} align="center" className={classes["table-cell"]} key={index}>
+                <DataTableCell fixed={disabled ? disabled : undefined} align="center" className={classes["table-cell"]} key={index}>
                   {value}
                 </DataTableCell>
               );
@@ -48,7 +48,7 @@ export default function RootCauseTable() {
       </TableBody>
       <TableFoot>
         <DataTableRow>
-          <DataTableCell align={"end"} colSpan="9">
+          <DataTableCell align={"right"} colSpan={`${columns.length}`}>
             <Button>{i18n.t("Add New")}</Button>
           </DataTableCell>
         </DataTableRow>

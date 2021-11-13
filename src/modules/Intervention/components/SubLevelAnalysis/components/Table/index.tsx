@@ -38,7 +38,7 @@ export default function Table() {
         <div className="row end p-8">
           <Button onClick={onLayoutChange}>Switch Layout</Button>
         </div>
-        <DataTable width={`${tableWidth}px`} scrollWidth={"5000px"} scrollHeight={"500px"} className={classes["table"]} bordered>
+        <DataTable fixed width={`${tableWidth}px`} scrollWidth={"5000px"} scrollHeight={"500px"} className={classes["table"]} bordered>
           <TableHeader />
           <TableBody />
         </DataTable>
