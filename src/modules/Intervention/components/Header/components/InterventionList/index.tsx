@@ -8,15 +8,17 @@ import React, { useState } from "react";
 import "./intervention-list.css";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { InterventionSummary } from "../../../../../../core/state/intervention";
 import { InterventionSummary as InterventionSummaryType } from "../../../../../../shared/interfaces/interventionConfig";
 import AddButton from "./components/AddButton";
 import InterventionChips from "./components/InterventionChips";
 import Search from "./components/Search";
+import SearchedInterventionNotFoundMessage from "./components/SearchedInterventionNotFoundMessage";
+import { FilteredInterventions, SearchState } from "./state/search";
 
 export default function InterventionList() {
   const [showAll, setShowAll] = useState<boolean>(false);
-  const interventions = useRecoilValue(InterventionSummary);
+  const searchKeyword = useRecoilValue(SearchState);
+  const interventions = useRecoilValue(FilteredInterventions);
   const firstIntervention: InterventionSummaryType | undefined = head(interventions);
   const history = useHistory();
   function onToArchivesList(_: any, e: Event) {
@@ -30,7 +32,11 @@ export default function InterventionList() {
           <div className="row gap align-start">
             <AddButton />
             <Search />
-            {interventions && <InterventionChips interventions={interventions} showAll={showAll} />}
+            {interventions && interventions?.length > 0 ? (
+              <InterventionChips interventions={interventions} showAll={showAll} />
+            ) : searchKeyword != "" ? (
+              <SearchedInterventionNotFoundMessage />
+            ) : null}
           </div>
         </div>
         <div className="column ">
