@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(*): &#10; - Merge fixes">
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(*): &#10; - Migration fixes">
       <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/dataStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/dataStore.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Archives/components/ArchiveListHeaderComponent/ArchiveListHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Archives/components/ArchiveListHeaderComponent/ArchiveListHeader.tsx" afterDir="false" />
@@ -167,10 +166,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="npm.format" />
-      <item itemvalue="npm.start --proxy https://dhis2.nnkogift.me" />
       <item itemvalue="npm.build" />
       <item itemvalue="npm.deploy" />
+      <item itemvalue="npm.format" />
+      <item itemvalue="npm.start --proxy https://dhis2.nnkogift.me" />
     </list>
     <recent_temporary>
       <list>
@@ -401,7 +400,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
           <line>78</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
