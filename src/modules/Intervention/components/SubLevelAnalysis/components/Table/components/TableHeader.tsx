@@ -31,14 +31,14 @@ export default function TableHeader() {
             </DataTableColumnHeader>
           </>
         ) : (
-          <DataTableColumnHeader rowSpan={2} fixed top={"40px"} left={"0"} className={classes["table-header-cell"]}>
+          <DataTableColumnHeader rowSpan={"2"} fixed top={"40px"} left={"0"} className={classes["table-header-cell"]}>
             {i18n.t("Organisation Units")}
           </DataTableColumnHeader>
         )}
         {columns?.map(({ name, id, children }) => (
           <DataTableColumnHeader
             width={"200px"}
-            colSpan={children?.length}
+            colSpan={`${children?.length}`}
             align={"center"}
             key={`${id}-col-header`}
             fixed
@@ -48,13 +48,15 @@ export default function TableHeader() {
           </DataTableColumnHeader>
         ))}
       </DataTableRow>
-      {columns.map(({ children }) =>
-        children?.map(({ name, id }) => (
-          <DataTableColumnHeader width={"200px"} align={"center"} key={`${id}-col-header`} fixed top={"90px"} className={classes["table-data-header-cell"]}>
-            {name}
-          </DataTableColumnHeader>
-        ))
-      )}
+      <DataTableRow>
+        {columns.map(({ children }) =>
+          children?.map(({ name, id }) => (
+            <DataTableColumnHeader width={"200px"} align={"center"} key={`${id}-col-header`} fixed top={"90px"} className={classes["table-data-header-cell"]}>
+              {name}
+            </DataTableColumnHeader>
+          ))
+        )}
+      </DataTableRow>
     </DataTableHead>
   );
 }

@@ -15,7 +15,7 @@ export default function TableBody() {
       {layout.rows.includes("dx")
         ? rows.map(({ id, name, children }) => (
             <DataTableRow key={`${id}-row`}>
-              <DataTableCell colSpan={1} fixed left={"0"} rowSpan={children?.length} className={classes["table-name-cell"]}>
+              <DataTableCell colSpan={"1"} fixed left={"0"} rowSpan={`${children?.length}`} className={classes["table-name-cell"]}>
                 {name}
               </DataTableCell>
               <td className={classes["nesting-cell"]} colSpan={100}>
@@ -26,7 +26,7 @@ export default function TableBody() {
                         {name}
                       </DataTableCell>
                       {columns?.map(({ id: colId }) => (
-                        <TableCell id={rowId} colId={colId} data={data} legends={legend ?? []} />
+                        <TableCell key={`${rowId}-${colId}-cell`} id={rowId} colId={colId} data={data} legends={legend ?? []} />
                       ))}
                     </tr>
                   ))}

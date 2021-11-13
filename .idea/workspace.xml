@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Error boundaries ): Implementation&#10;&#10;- Added error boundaries on error-prone components of app">
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(Search Intervention Message): Improvements&#10;&#10;- Added styling and icon to search error message">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/SearchedInterventionNotFoundMessage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/SearchedInterventionNotFoundMessage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components/RootCauseTableHeaderComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components/RootCauseTableHeaderComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/services/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/services/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableBody.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableBody.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableHeader.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +50,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="bugfix/sub-level-analysis-ui" />
+                    <option name="lastUsedInstant" value="1636788728" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
                     <option name="lastUsedInstant" value="1636787947" />
@@ -200,7 +208,7 @@
       <workItem from="1636711805358" duration="8113000" />
       <workItem from="1636780735045" duration="354000" />
       <workItem from="1636781102078" duration="2006000" />
-      <workItem from="1636784360609" duration="4314000" />
+      <workItem from="1636784360609" duration="5150000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -335,7 +343,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636787814935</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="fix(Search Intervention Message): Improvements&#10;&#10;- Added styling and icon to search error message">
+      <created>1636788681881</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1636788681881</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -372,7 +387,8 @@
     <MESSAGE value="fix(*): &#10; - Merge fixes" />
     <MESSAGE value="fix(*): &#10; - Migration fixes" />
     <MESSAGE value="feat(Error boundaries ): Implementation&#10;&#10;- Added error boundaries on error-prone components of app" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(Error boundaries ): Implementation&#10;&#10;- Added error boundaries on error-prone components of app" />
+    <MESSAGE value="fix(Search Intervention Message): Improvements&#10;&#10;- Added styling and icon to search error message" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(Search Intervention Message): Improvements&#10;&#10;- Added styling and icon to search error message" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
