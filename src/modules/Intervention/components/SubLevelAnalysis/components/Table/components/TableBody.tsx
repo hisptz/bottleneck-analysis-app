@@ -13,30 +13,26 @@ export default function TableBody() {
   return (
     <DataTableBody>
       {layout.rows.includes("dx")
-        ? rows.map(({ id, name, children }) => (
-            <DataTableRow key={`${id}-row`}>
-              <DataTableCell colSpan={"1"} fixed left={"0"} rowSpan={`${children?.length}`} className={classes["table-name-cell"]}>
-                {name}
-              </DataTableCell>
-              <td className={classes["nesting-cell"]} colSpan={100}>
-                <table className={classes["nested-table"]}>
-                  {children?.map(({ id: rowId, name, legend }) => (
-                    <tr className="h-100" key={`${rowId}-data`}>
-                      <DataTableCell fixed left={"200px"} className={classes["table-cell"]}>
-                        {name}
-                      </DataTableCell>
-                      {columns?.map(({ id: colId }) => (
-                        <TableCell key={`${rowId}-${colId}-cell`} id={rowId} colId={colId} data={data} legends={legend ?? []} />
-                      ))}
-                    </tr>
-                  ))}
-                </table>
-              </td>
-            </DataTableRow>
-          ))
+        ? rows.map(({ id: groupId, name: groupName, children }) =>
+            children?.map(({ id: indicatorId, name: indicatorName, legend }, index) => (
+              <DataTableRow key={`${groupId}-${indicatorId}-row`}>
+                {index === 0 ? (
+                  <DataTableCell fixed left={"0"} rowSpan={`${children?.length}`} className={classes["table-name-cell"]}>
+                    {groupName}
+                  </DataTableCell>
+                ) : null}
+                <DataTableCell fixed left={"200px"} className={classes["table-name-cell"]}>
+                  {indicatorName}
+                </DataTableCell>
+                {columns?.map(({ id: orgUnitId }) => (
+                  <TableCell key={`${indicatorId}-${orgUnitId}-cell`} id={indicatorId} colId={orgUnitId} data={data} legends={legend ?? []} />
+                ))}
+              </DataTableRow>
+            ))
+          )
         : rows.map(({ name, id }) => (
             <DataTableRow key={`${id}-row`}>
-              <DataTableCell fixed left={"0"} className={classes["table-cell"]}>
+              <DataTableCell fixed left={"0"} className={classes["table-name-cell"]}>
                 {name}
               </DataTableCell>
               {columns?.map(({ children }) =>
