@@ -70,6 +70,8 @@
     text-align: center;
     padding: 14px 6px;
     height: 100%;
+    font-size: 14px;
+
 }
 
 .table-name-cell{
@@ -81,6 +83,7 @@
     height: 100%;
     font-weight: bold !important;
     min-width: 200px !important;
+    vertical-align: middle;
 }
 
 .table-cell:last-child {
