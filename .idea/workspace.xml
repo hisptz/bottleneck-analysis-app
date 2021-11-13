@@ -4,22 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(*): &#10; - Migration fixes">
-      <change afterPath="$PROJECT_DIR$/src/shared/components/errors/CardError/card-error.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/components/errors/CardError/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/components/errors/InterventionError/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/components/errors/InterventionError/intervention-error.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/components/errors/InterventionListError/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/components/errors/InterventionListError/intervention-list-error.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/interfaces/error.ts" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Error boundaries ): Implementation&#10;&#10;- Added error boundaries on error-prone components of app">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Card/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Card/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Migration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/components/loaders/CardLoader/card-loader.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/loaders/CardLoader/card-loader.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/SearchedInterventionNotFoundMessage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/SearchedInterventionNotFoundMessage.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,12 +47,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/error-boundaries" />
-                    <option name="lastUsedInstant" value="1636785989" />
-                  </RecentBranch>
-                  <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1636784484" />
+                    <option name="lastUsedInstant" value="1636787947" />
                   </RecentBranch>
                 </list>
               </option>
@@ -217,7 +200,7 @@
       <workItem from="1636711805358" duration="8113000" />
       <workItem from="1636780735045" duration="354000" />
       <workItem from="1636781102078" duration="2006000" />
-      <workItem from="1636784360609" duration="3275000" />
+      <workItem from="1636784360609" duration="4314000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -345,7 +328,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636784467192</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="feat(Error boundaries ): Implementation&#10;&#10;- Added error boundaries on error-prone components of app">
+      <created>1636787814935</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1636787814935</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -381,7 +371,8 @@
     <MESSAGE value="fix(*): &#10;- Implemented chart analytics query logic" />
     <MESSAGE value="fix(*): &#10; - Merge fixes" />
     <MESSAGE value="fix(*): &#10; - Migration fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(*): &#10; - Migration fixes" />
+    <MESSAGE value="feat(Error boundaries ): Implementation&#10;&#10;- Added error boundaries on error-prone components of app" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(Error boundaries ): Implementation&#10;&#10;- Added error boundaries on error-prone components of app" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
