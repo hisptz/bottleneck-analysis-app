@@ -1,8 +1,8 @@
-/* eslint-disable prettier/prettier */
 import { IconDownload24, IconFullscreen24 } from "@dhis2/ui";
 import React from "react";
 import DashboardCard from "../Card";
 import Chart from "./components";
+import ChartLabelComponent from "./components/ChartLabelComponent";
 
 export default function AnalysisChart() {
   return (
@@ -10,19 +10,18 @@ export default function AnalysisChart() {
       menu={[
         {
           label: "Download",
-          callback: () => {
-          },
+          callback: () => {},
           icon: <IconDownload24 />,
         },
         {
           label: "View Full Page",
           icon: <IconFullscreen24 />,
-          callback: () => {
-          },
+          callback: () => {},
         },
       ]}
       title={"Analysis Analysis"}>
       <Chart />
+      <ChartLabelComponent />
     </DashboardCard>
   );
 }

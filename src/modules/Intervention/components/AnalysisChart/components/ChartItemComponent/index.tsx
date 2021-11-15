@@ -22,94 +22,13 @@ export default function ChartItemComponent() {
     },
     currentChartType: "column",
   };
-  const dydata = {
-    headers: [
-      {
-        name: "dx",
-        column: "Data",
-        valueType: "TEXT",
-        type: "java.lang.String",
-        hidden: false,
-        meta: true,
-      },
-      {
-        name: "ou",
-        column: "Organisation unit",
-        valueType: "TEXT",
-        type: "java.lang.String",
-        hidden: false,
-        meta: true,
-      },
-      {
-        name: "value",
-        column: "Value",
-        valueType: "NUMBER",
-        type: "java.lang.Double",
-        hidden: false,
-        meta: false,
-      },
-    ],
-    metaData: {
-      items: {
-        "2020": {
-          name: "2020",
-        },
-        ImspTQPwCqd: {
-          name: "Sierra Leone",
-        },
-        sB79w2hiLp8: {
-          name: "ANC 3 Coverage",
-        },
-        c8fABiNpT0B: {
-          name: "ANC IPT 2 Coverage",
-        },
-        dx: {
-          name: "Data",
-        },
-        dy1a1mseGR7: {
-          name: "ANC visits total",
-        },
-        iCBpPh3ehjg: {
-          name: "BCG Coverage - Adjusted for reporting",
-        },
-        pe: {
-          name: "Period",
-        },
-        ou: {
-          name: "Organisation unit",
-        },
-        Uvn6LCg7dVU: {
-          name: "ANC 1 Coverage",
-        },
-        OdiHJayrsKo: {
-          name: "ANC 2 Coverage",
-        },
-      },
-      dimensions: {
-        dx: ["Uvn6LCg7dVU", "OdiHJayrsKo", "sB79w2hiLp8", "c8fABiNpT0B", "dy1a1mseGR7", "iCBpPh3ehjg"],
-        pe: ["2020"],
-        ou: ["ImspTQPwCqd"],
-        co: [],
-      },
-    },
-    rows: [
-      ["Uvn6LCg7dVU", "ImspTQPwCqd", "103.5"],
-      ["OdiHJayrsKo", "ImspTQPwCqd", "95.7"],
-      ["sB79w2hiLp8", "ImspTQPwCqd", "67.0"],
-      ["c8fABiNpT0B", "ImspTQPwCqd", "96.9"],
-      ["dy1a1mseGR7", "ImspTQPwCqd", "651184.0"],
-      ["iCBpPh3ehjg", "ImspTQPwCqd", "88.7"],
-    ],
-    height: 6,
-    width: 3,
-    headerWidth: 3,
-  };
+
   const analysisData = {
     _data: {
-      ...dydata,
+      ...data,
       metaData:{
-       names:{ ...restructureMetaData(dydata.metaData)      },
-       ...dydata.metaData.dimensions
+       names:{ ...restructureMetaData(data.metaData)      },
+       ...data.metaData.dimensions
       
       }
     },
