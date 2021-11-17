@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { assign } from "lodash";
 // import { ChartConfiguration } from "../interfaces/props";
 

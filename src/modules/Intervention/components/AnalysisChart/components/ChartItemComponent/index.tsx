@@ -16,8 +16,8 @@ export default function ChartItemComponent() {
   const data = useRecoilValue(ChartData(id));
   const chartConfiguration = {
     layout: {
-      column: ["dx"],
-      row: ["ou"],
+      column: "ou",
+      row: ["dx"],
       filter: ["pe"],
     },
     currentChartType: "column",
@@ -51,7 +51,7 @@ export default function ChartItemComponent() {
   }
   useEffect(() => {
     drawChart(analysisData["_data"], chartConfigurationSelector(chartConfiguration.layout, "column"));
-  }, []);
+  }, [data]);
 
   function drawChart(analyticsObject: any, drawChartConfiguration: any) {
     if (drawChartConfiguration && analyticsObject) {
@@ -65,17 +65,16 @@ export default function ChartItemComponent() {
   function chartConfigurationSelector(layout: any, currentChartType: any) {
     return getChartConfiguration({}, "", layout, "Data", currentChartType, []);
   }
+  console.log("chart options ", chartOptions);
 
   return (
-    <div className="chart-item-container" style={{ width: "100%" }}>
       <div
         className="chart-block"
         style={{
           height: "calc(" + 1000 + "px-20px",
           width: "100%",
         }}>
-        <HightChartsReact highcharts={HighCharts} options={chartOptions} />
+        <HightChartsReact  highcharts={HighCharts} options={chartOptions} />
       </div>
-    </div>
   );
 }

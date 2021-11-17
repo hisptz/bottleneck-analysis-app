@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { assign, clone } from "lodash";
 import { getChartAxisItems } from "./get-chart-axis-items.helper";
 import { getChartPaneOptions } from "./get-chart-pane-options.helper";
@@ -11,7 +12,7 @@ import { getXAxisItemsFromChartConfiguration } from "./get-x-axis-items-from-cha
 export function getSpiderWebChartObject(initialChartObject: any, analyticsObject: any, chartConfiguration: any) {
   //getChartAxisItems
   const newChartObject = clone(initialChartObject);
-  const yAxisSeriesItems: any[] = getChartAxisItems(analyticsObject, chartConfiguration.yAxisType);
+  const yAxisSeriesItems: any[] = getChartAxisItems(analyticsObject, [chartConfiguration.yAxisType]);
 
   /**
    * Get pane attribute

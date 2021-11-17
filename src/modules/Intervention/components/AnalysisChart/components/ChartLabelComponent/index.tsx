@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { DataItem, Group } from "../../../../../../shared/interfaces/interventionConfig";
 import { InterventionStateSelector } from "../../../../state/intervention";
+import classes from "./ChartLabelComponent.module.css";
 
 export default function ChartLabelComponent() {
   const { id: interventionId } = useParams<{ id: string }>();
@@ -15,15 +16,18 @@ export default function ChartLabelComponent() {
       path: ["dataSelection", "groups"],
     })
   );
-  console.log("labels ", chartLabelDefinition);
   return (
-    <div>
-      <DataTable>
+    <div className={classes["tableContainer"]}>
+      <DataTable className={classes["tableHeader-h"]}>
         <DataTableHead>
           <DataTableRow>
             {chartLabelDefinition?.map((group: Group) => {
               return group.items?.map((dataItem: DataItem) => {
-                return <DataTableColumnHeader key={dataItem.id}>{dataItem.name}</DataTableColumnHeader>;
+                return (
+                  <DataTableColumnHeader className={classes["tableHeader"]} key={dataItem.id}>
+                    {dataItem.name}
+                  </DataTableColumnHeader>
+                );
               });
             })}
           </DataTableRow>

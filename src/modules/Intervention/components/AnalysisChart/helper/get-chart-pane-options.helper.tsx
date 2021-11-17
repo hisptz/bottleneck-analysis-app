@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { assign } from "lodash";
 
 export function getChartPaneOptions(chartType: string) {

@@ -1,0 +1,15 @@
+.tableHeader {
+    border: 1px solid #e8edf2 !important;
+    background-color:#ffffff !important;
+    font-size: 13px;
+    padding: 7px;
+}
+
+.tableHeader-h {
+  width: 100%;
+}
+
+.tableContainer{
+    margin-left: 3%;
+    width: 100%;
+}
