@@ -1,0 +1,37 @@
+.tableHeader {
+    border: 1px solid #e8edf2 !important;
+    background-color:#ffffff !important;
+    font-size: 13px!important;
+    padding: 7px !important;
+    table-layout:fixed !important;
+    width:30px !important;
+    overflow:hidden !important;
+    word-wrap:break-word!important;
+}
+
+.tableHeader-h {
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.tableContainer{
+    margin-left: 3%;
+    width: 100%;
+}
+
+.analytic-orgUnit{
+    width: 100%;
+    background-color:"white";
+    display:flex;
+    justify-content: center;
+    height: 50px;
+    margin-top:40px;
+}
+
+.analytic-orgUnit-icon{
+    height:0% !important;
+    margin-right: 10px !important;
+    background-color: #cccccc !important;
+    color: #cccccc !important;
+    font-size: 10px !important;
+}

@@ -105,7 +105,6 @@ export function convertIntervention(config: OldInterventionConfig): Intervention
   const dataConfig = find(globalSelections, ["dimension", "dx"]);
   const periodConfig = find(globalSelections, ["dimension", "pe"]);
   const orgUnitConfig = find(globalSelections, ["dimension", "ou"]);
-  console.log(dataConfig);
   return {
     id,
     name,

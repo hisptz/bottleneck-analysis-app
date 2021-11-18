@@ -1,8 +1,8 @@
-/* eslint-disable prettier/prettier */
 import { IconDownload24, IconFullscreen24 } from "@dhis2/ui";
 import React from "react";
 import InterventionCard from "../Card";
 import Chart from "./components";
+import ChartLabelComponent from "./components/ChartLabelComponent";
 
 export default function AnalysisChart() {
   return (
@@ -19,9 +19,9 @@ export default function AnalysisChart() {
           callback: () => {},
         },
       ]}
-      title={"Analysis Analysis"}
-    >
+      title={"Analysis Analysis"}>
       <Chart />
+      <ChartLabelComponent />
     </InterventionCard>
   );
 }

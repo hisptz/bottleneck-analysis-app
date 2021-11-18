@@ -30,11 +30,10 @@ export default function InterventionChips({ showAll, interventions }: Interventi
       <div className="row w-100">
         {slice(interventions, 0, 5)?.map((intervention) => (
           <Chip
-            icon={intervention?.bookmarks?.includes(user.id) ? <IconStarFilled24 /> : null}
-            selected={id === intervention.id}
+            icon={intervention?.bookmarks?.includes(user?.id) ? <IconStarFilled24 /> : null}
+            selected={id === intervention?.id}
             onClick={onChipClick(intervention?.id)}
-            key={`${intervention?.id}-chip`}
-          >
+            key={`${intervention?.id}-chip`}>
             {intervention?.name}
           </Chip>
         ))}

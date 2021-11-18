@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { assign, map } from "lodash";
 
 export function getChartYAxisOptions(chartConfiguration: any) {
@@ -76,7 +77,7 @@ export function getChartYAxisOptions(chartConfiguration: any) {
             },
           },
           {
-            color: "#000000",
+            color: "#bbbbbb",
             dashStyle: "Solid",
             value: chartConfiguration.baseLineValue,
             zIndex: 1000,
@@ -88,6 +89,7 @@ export function getChartYAxisOptions(chartConfiguration: any) {
         ];
         break;
     }
+console.log("options ", yAxis);
     return yAxis;
   });
 }
