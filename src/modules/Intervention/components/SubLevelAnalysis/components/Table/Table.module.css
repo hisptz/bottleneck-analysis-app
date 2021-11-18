@@ -1,28 +1,28 @@
 .table {
-    border: 1px solid #D5DDE5 !important;
     max-height: 400px;
     height: 100%;
     overflow: auto;
+    border: 1px solid #D5DDE5 !important;
 }
 
 .table-header-cell {
-    border-right: 2px solid #D5DDE5 !important;
-    border-bottom: 2px solid #D5DDE5 !important;
+    border-right: 1px solid #D5DDE5 !important;
+    border-bottom: 1px solid #D5DDE5 !important;
     background: #FFFFFF !important;
     width: auto !important;
 }
 
 .table-data-header-cell {
-    border-right: 2px solid #D5DDE5 !important;
-    border-bottom: 2px solid #D5DDE5 !important;
+    border-right: 1px solid #D5DDE5 !important;
+    border-bottom: 1px solid #D5DDE5 !important;
     background: #FFFFFF !important;
     width: 200px !important;
 
 }
 
 .table-header-children-cell {
-    border-right: 2px solid #D5DDE5 !important;
-    border-bottom: 2px solid #D5DDE5 !important;
+    border-right: 1px solid #D5DDE5 !important;
+    border-bottom: 1px solid #D5DDE5 !important;
     background: #FFFFFF !important;
     height: 100%;
 }
@@ -63,30 +63,27 @@
     height: 100%;
 }
 
-.nesting-row {
-    padding-top: 6px;
-    padding-bottom: 6px;
-    width: 200px !important;
-}
-
 .table-cell {
-    border-right: 2px solid #D5DDE5 !important;
-    border-bottom: 2px solid #D5DDE5 !important;
+    border-right: 1px solid #D5DDE5 !important;
+    border-bottom: 1px solid #D5DDE5 !important;
     left: auto;
     text-align: center;
     padding: 14px 6px;
     height: 100%;
+    font-size: 14px;
+
 }
 
 .table-name-cell{
-    border-right: 2px solid #D5DDE5 !important;
-    border-bottom: 2px solid #D5DDE5 !important;
+    border-right: 1px solid #D5DDE5 !important;
+    border-bottom: 1px solid #D5DDE5 !important;
     left: auto;
     text-align: center;
     padding: 14px 6px;
     height: 100%;
-    font-weight: bold;
+    font-weight: bold !important;
     min-width: 200px !important;
+    vertical-align: middle;
 }
 
 .table-cell:last-child {

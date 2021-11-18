@@ -1,10 +1,6 @@
-
 import { find, map, reduce } from "lodash";
 
-export function getDrilldownParentDataFromChildrenSeries(
-  drilldownSeries:any[],
-  parentId:any
-) {
+export function getDrilldownParentDataFromChildrenSeries(drilldownSeries: any[], parentId: any) {
   let parentData = 0;
   const correspondingSeriesObject = find(drilldownSeries, ["id", parentId]);
 

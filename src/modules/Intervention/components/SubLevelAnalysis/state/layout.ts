@@ -9,8 +9,8 @@ import { SubLevelAnalyticsData } from "./data";
 export const TableLayout = atomFamily<Layout, string>({
   key: "sub-level-layout-state",
   default: () => ({
-    columns: ["dx"],
-    rows: ["ou"],
+    columns: ["ou"],
+    rows: ["dx"],
     filter: ["pe"],
   }),
 });
@@ -38,15 +38,15 @@ function assignValuesToLayout(
   for (const dimension of dimensions) {
     if (dimension === "dx") {
       const { dataSelection } = intervention;
-      return dataSelection.groups.map((group: Group) => {
+      return dataSelection?.groups?.map((group: Group) => {
         return {
-          id: group.id,
-          name: group.name,
-          children: group.items.map((item: DataItem) => {
+          id: group?.id,
+          name: group?.name,
+          children: group?.items?.map((item: DataItem) => {
             return {
-              id: item.id,
-              name: item.name,
-              legend: item.legends,
+              id: item?.id,
+              name: item?.name,
+              legend: item?.legends,
             };
           }),
         };
@@ -54,11 +54,11 @@ function assignValuesToLayout(
     }
     if (dimension === "pe") {
       const { periodSelection } = intervention;
-      const period = new Period().setType(periodSelection.type);
+      const period = new Period()?.setType(periodSelection.type);
       return [
         {
           id: periodSelection.id,
-          name: period.getById(periodSelection.id).name,
+          name: period?.getById(periodSelection.id)?.name,
         },
       ];
     }
@@ -98,7 +98,7 @@ function getTableWidth(columns: any[]) {
     return acc + 1;
   }, 0);
 
-  return count * 200 + 400;
+  return count * 100 + 400;
 }
 
 export const TableConfig = selectorFamily<TableConfigType, string>({

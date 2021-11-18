@@ -33,17 +33,17 @@ export async function migrateIntervention(intervention: InterventionConfig, engi
 function convertData(dataConfig?: GlobalSelection): DataSelection {
   if (dataConfig) {
     const { groups, items, legendDefinitions } = dataConfig;
-    const newGroups: Array<Group> = groups.map(({ id, name, color, members, sortOrder }) => {
+    const newGroups: Array<Group> = groups?.map(({ id, name, color, members, sortOrder }) => {
       const groupItems: Array<DataItem | undefined> = members?.map(({ id, type }: SelectionGroupMember) => {
         const member = find(items, ["id", id]);
         if (member) {
-          const { name, legendSet, label } = member;
+          const { name, legendSet, label } = member ?? { legendSet: [] };
           return {
             type,
             id,
             name,
             label,
-            legends: legendSet?.legends.map(({ id, endValue, startValue }: Legend) => ({ id, endValue, startValue })),
+            legends: legendSet?.legends?.map(({ id, endValue, startValue }: Legend) => ({ id, endValue, startValue })),
           };
         }
       });
@@ -55,7 +55,7 @@ function convertData(dataConfig?: GlobalSelection): DataSelection {
         items: compact(groupItems),
       };
     });
-    const newLegendDefinitions: Array<LegendDefinition> = legendDefinitions.map(({ id, name, color }) => ({
+    const newLegendDefinitions: Array<LegendDefinition> = legendDefinitions?.map(({ id, name, color }) => ({
       id,
       name,
       color,
@@ -101,10 +101,10 @@ function convertPeriod(periodConfig?: GlobalSelection): PeriodSelection {
 
 export function convertIntervention(config: OldInterventionConfig): InterventionConfig {
   const { id, name, bookmarks, user, userAccesses, userGroupAccesses, publicAccess, externalAccess, globalSelections, bottleneckPeriodType } = config;
+
   const dataConfig = find(globalSelections, ["dimension", "dx"]);
   const periodConfig = find(globalSelections, ["dimension", "pe"]);
   const orgUnitConfig = find(globalSelections, ["dimension", "ou"]);
-
   return {
     id,
     name,

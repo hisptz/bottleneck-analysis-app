@@ -1,12 +1,12 @@
 import { IconDownload24, IconFullscreen24 } from "@dhis2/ui";
 import React from "react";
-import DashboardCard from "../Card";
+import InterventionCard from "../Card";
 import Chart from "./components";
 import ChartLabelComponent from "./components/ChartLabelComponent";
 
 export default function AnalysisChart() {
   return (
-    <DashboardCard
+    <InterventionCard
       menu={[
         {
           label: "Download",
@@ -22,6 +22,6 @@ export default function AnalysisChart() {
       title={"Analysis Analysis"}>
       <Chart />
       <ChartLabelComponent />
-    </DashboardCard>
+    </InterventionCard>
   );
 }

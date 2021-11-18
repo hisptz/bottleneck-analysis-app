@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(*): &#10;- Merge issues">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/EmptyInterventions/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/EmptyInterventions/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/state/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/state/data.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Card/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Card/index.tsx" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues">
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/RootCauseTable.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/RootCauseTable.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/Table.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/Table.module.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,8 +17,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -50,12 +47,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/chart-analysis-logic" />
-                    <option name="lastUsedInstant" value="1636717299" />
+                    <option name="branchName" value="bugfix/sub-level-analysis-ui" />
+                    <option name="lastUsedInstant" value="1636788728" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1636631168" />
+                    <option name="lastUsedInstant" value="1636787947" />
                   </RecentBranch>
                 </list>
               </option>
@@ -79,11 +76,12 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/modules/EmptyInterventions" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/shared/components/errors" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -99,18 +97,40 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/shared/components/errors" />
+      <recent name="$PROJECT_DIR$/src/shared/components/errors/CardError" />
       <recent name="$PROJECT_DIR$/src/modules/EmptyInterventions" />
       <recent name="$PROJECT_DIR$/src/shared/components/loaders" />
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components" />
-      <recent name="$PROJECT_DIR$/src/assets/images" />
-      <recent name="$PROJECT_DIR$/src/shared/services" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components" />
+      <recent name="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state" />
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader" />
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start --proxy https://hisptz.com/unicefapps">
+  <component name="RunManager" selected="npm.start --proxy https://dhis2.nnkogift.me">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="deploy" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="deploy" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="format" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -121,24 +141,28 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="start --proxy https://hisptz.com/unicefapps" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="start --proxy https://dhis2.nnkogift.me" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
         <script value="start" />
       </scripts>
-      <arguments value="--proxy https://hisptz.com/unicefapps" />
+      <arguments value="--proxy https://dhis2.nnkogift.me" />
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="npm.build" />
+      <item itemvalue="npm.deploy" />
       <item itemvalue="npm.format" />
-      <item itemvalue="npm.start --proxy https://hisptz.com/unicefapps" />
+      <item itemvalue="npm.start --proxy https://dhis2.nnkogift.me" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start --proxy https://hisptz.com/unicefapps" />
+        <item itemvalue="npm.start --proxy https://dhis2.nnkogift.me" />
+        <item itemvalue="npm.deploy" />
+        <item itemvalue="npm.build" />
         <item itemvalue="npm.format" />
       </list>
     </recent_temporary>
@@ -177,7 +201,10 @@
       <workItem from="1636690476552" duration="1323000" />
       <workItem from="1636696107662" duration="1327000" />
       <workItem from="1636703949485" duration="3244000" />
-      <workItem from="1636711805358" duration="7812000" />
+      <workItem from="1636711805358" duration="8113000" />
+      <workItem from="1636780735045" duration="354000" />
+      <workItem from="1636781102078" duration="2006000" />
+      <workItem from="1636784360609" duration="10832000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -284,7 +311,56 @@
       <option name="project" value="LOCAL" />
       <updated>1636716938855</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fix(*): &#10;- Implemented chart analytics query logic">
+      <created>1636720768179</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1636720768179</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix(*): &#10; - Merge fixes">
+      <created>1636725880122</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1636725880122</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix(*): &#10; - Migration fixes">
+      <created>1636784467191</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1636784467192</updated>
+    </task>
+    <task id="LOCAL-00019" summary="feat(Error boundaries ): Implementation&#10;&#10;- Added error boundaries on error-prone components of app">
+      <created>1636787814935</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1636787814935</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fix(Search Intervention Message): Improvements&#10;&#10;- Added styling and icon to search error message">
+      <created>1636788681881</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1636788681881</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fix(Tables): Fixes&#10;&#10;- Fixed table warning issues">
+      <created>1636789519479</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1636789519479</updated>
+    </task>
+    <task id="LOCAL-00022" summary="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues">
+      <created>1636794897571</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1636794897571</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -317,19 +393,26 @@
     <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Implemented sublevel analysis logic" />
     <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Fixed issues with table view&#10;- Implemented legends" />
     <MESSAGE value="fix(*): &#10;- Merge issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(*): &#10;- Merge issues" />
+    <MESSAGE value="fix(*): &#10;- Implemented chart analytics query logic" />
+    <MESSAGE value="fix(*): &#10; - Merge fixes" />
+    <MESSAGE value="fix(*): &#10; - Migration fixes" />
+    <MESSAGE value="feat(Error boundaries ): Implementation&#10;&#10;- Added error boundaries on error-prone components of app" />
+    <MESSAGE value="fix(Search Intervention Message): Improvements&#10;&#10;- Added styling and icon to search error message" />
+    <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed table warning issues" />
+    <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>32</line>
+          <line>37</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>86</line>
+          <line>92</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -341,6 +424,11 @@
           <url>file://$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/utils/index.ts</url>
           <line>3</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
+          <line>78</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

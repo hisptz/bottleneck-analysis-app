@@ -18,7 +18,7 @@ export default function TableCell({ id, colId, data, legends }: { id: string; co
   );
   const color = useMemo(() => generateCellColor({ value, legends, legendDefinitions }), [value, legends]);
   return (
-    <td style={{ background: color }} width={"200px"} className={classes["table-cell"]} align="center" key={`${colId}-cell`}>
+    <td style={{ background: color }} width={"100px"} className={classes["table-cell"]} align="center" key={`${colId}-cell`}>
       {value}
     </td>
   );

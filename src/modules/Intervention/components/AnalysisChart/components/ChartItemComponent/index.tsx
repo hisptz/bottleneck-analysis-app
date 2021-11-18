@@ -1,6 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-empty */
 import HighCharts from "highcharts";
 import HightChartsReact from "highcharts-react-official";
@@ -14,6 +11,7 @@ import { ChartData } from "../../state/data";
 export default function ChartItemComponent() {
   const { id } = useParams<{ id: string }>();
   const data = useRecoilValue(ChartData(id));
+
   const chartConfiguration = {
     layout: {
       column: "ou",
@@ -26,11 +24,10 @@ export default function ChartItemComponent() {
   const analysisData = {
     _data: {
       ...data,
-      metaData:{
-       names:{ ...restructureMetaData(data.metaData)      },
-       ...data.metaData.dimensions
-      
-      }
+      metaData: {
+        names: { ...restructureMetaData(data.metaData) },
+        ...data.metaData.dimensions,
+      },
     },
   };
   //   const [currentChartType, setCurrentChartType] = useState(chartConfiguration.currentChartType);
@@ -44,7 +41,6 @@ export default function ChartItemComponent() {
           restructure[itemKey] = metaData[key][itemKey]["name"];
         });
       } else {
-        
       }
     });
     return restructure;
@@ -65,16 +61,14 @@ export default function ChartItemComponent() {
   function chartConfigurationSelector(layout: any, currentChartType: any) {
     return getChartConfiguration({}, "", layout, "Data", currentChartType, []);
   }
-  console.log("chart options ", chartOptions);
-
   return (
-      <div
-        className="chart-block"
-        style={{
-          height: "calc(" + 1000 + "px-20px",
-          width: "100%",
-        }}>
-        <HightChartsReact  highcharts={HighCharts} options={chartOptions} />
-      </div>
+    <div
+      className="chart-block"
+      style={{
+        height: "calc(" + 1000 + "px-20px",
+        width: "100%",
+      }}>
+      <HightChartsReact highcharts={HighCharts} options={chartOptions} />
+    </div>
   );
 }

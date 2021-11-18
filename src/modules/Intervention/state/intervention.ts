@@ -6,9 +6,9 @@ import { getIntervention } from "../../../shared/services/getInterventions";
 import getInterventionTemplates from "../../../shared/services/getInterventionTemplates";
 
 export const InterventionTemplateState = atom<Array<InterventionTemplateConfig> | undefined | any>({
-  key: "dashboard-intervention-state",
+  key: "intervention-intervention-state",
   default: selector<Array<InterventionTemplateConfig> | undefined | Promise<any>>({
-    key: "dashboard-intervention-getter",
+    key: "intervention-intervention-getter",
     get: async ({ get }) => {
       const engine = get(EngineState);
       if (engine) {
@@ -40,4 +40,9 @@ export const InterventionStateSelector = selectorFamily({
       const config = get(InterventionState(id));
       return _get(config, path);
     },
+});
+
+export const InterventionDetailsState = atomFamily<boolean, string>({
+  key: "intervention-details-state",
+  default: false,
 });

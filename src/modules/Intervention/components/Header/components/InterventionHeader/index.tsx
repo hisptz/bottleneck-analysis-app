@@ -7,14 +7,14 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { CurrentInterventionSummary } from "../../../../../../core/state/intervention";
 import { UserState } from "../../../../../../core/state/user";
-import { DashboardDetailsState } from "../../../../state/dashboard";
+import { InterventionDetailsState } from "../../../../state/intervention";
 
 export default function InterventionHeader() {
   const { id: userId } = useRecoilValue(UserState) ?? {};
   const { id } = useParams<{ id: string }>();
   const intervention = useRecoilValue(CurrentInterventionSummary(id));
   const { name, bookmarks } = intervention ?? {};
-  const setShowDetails = useSetRecoilState(DashboardDetailsState(id));
+  const setShowDetails = useSetRecoilState(InterventionDetailsState(id));
 
   return (
     <div className="intervention-header-container">
