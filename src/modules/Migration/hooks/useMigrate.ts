@@ -10,14 +10,19 @@ import { OldInterventionConfig } from "../../../shared/interfaces/oldInterventio
 import { getInterventionKeys } from "../../../shared/services/getInterventions";
 import getOldInterventions, { getOldInterventionKeys } from "../../../shared/services/getOldInterventions";
 import { createInterventionSummaries, uploadInterventionSummary } from "../../../shared/services/interventionSummary";
-import { convertIntervention, migrateIntervention } from "../services/migrate";
+import { RootCauseConfig } from "../../Intervention/components/RootCauseAnalysis/state/config";
+import { convertIntervention, migrateIntervention, migrateRootCauseDataByIntervention } from "../services/migrate";
 
 export default function useMigrate(onComplete: () => void) {
   const interventionSummary = useRecoilValue(InterventionSummary);
   const [error, setError] = useState<any>();
   const [progress, setProgress] = useState<number>(0);
   const [totalMigration, setTotalMigration] = useState<number>(0);
-  const migrate = async (intervention: InterventionConfig) => await migrateIntervention(intervention, engine);
+  const rootCauseConfig = useRecoilValue(RootCauseConfig);
+  const migrate = async (intervention: InterventionConfig) => {
+    await migrateIntervention(intervention, engine);
+    await migrateRootCauseDataByIntervention(engine, intervention.id, rootCauseConfig);
+  };
   const q = useRef(queue(migrate));
   const engine = useDataEngine();
   useEffect(() => {

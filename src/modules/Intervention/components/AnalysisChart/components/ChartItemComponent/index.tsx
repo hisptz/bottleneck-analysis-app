@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-empty */
 import HighCharts from "highcharts";
 import HightChartsReact from "highcharts-react-official";

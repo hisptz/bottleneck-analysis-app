@@ -4,9 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues">
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/RootCauseTable.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/RootCauseTable.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/Table.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/Table.module.css" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool">
+      <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-y-axis-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-y-axis-options.helper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/state/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/state/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state/config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/dimensions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/dimensions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Migration/hooks/useMigrate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/hooks/useMigrate.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Migration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,12 +57,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="bugfix/sub-level-analysis-ui" />
-                    <option name="lastUsedInstant" value="1636788728" />
+                    <option name="branchName" value="feature/root-cause-migration" />
+                    <option name="lastUsedInstant" value="1637308935" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1636787947" />
+                    <option name="lastUsedInstant" value="1636795467" />
                   </RecentBranch>
                 </list>
               </option>
@@ -80,6 +90,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/.env" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/shared/components/errors" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -91,7 +102,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
-    <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -110,7 +121,7 @@
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start --proxy https://dhis2.nnkogift.me">
+  <component name="RunManager" selected="npm.start --proxy https://hisp.apps.dhis2.org/dev">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -141,13 +152,13 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="start --proxy https://dhis2.nnkogift.me" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="start --proxy https://hisp.apps.dhis2.org/dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
         <script value="start" />
       </scripts>
-      <arguments value="--proxy https://dhis2.nnkogift.me" />
+      <arguments value="--proxy https://hisp.apps.dhis2.org/dev" />
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
@@ -156,11 +167,11 @@
       <item itemvalue="npm.build" />
       <item itemvalue="npm.deploy" />
       <item itemvalue="npm.format" />
-      <item itemvalue="npm.start --proxy https://dhis2.nnkogift.me" />
+      <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start --proxy https://dhis2.nnkogift.me" />
+        <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.build" />
         <item itemvalue="npm.format" />
@@ -204,7 +215,12 @@
       <workItem from="1636711805358" duration="8113000" />
       <workItem from="1636780735045" duration="354000" />
       <workItem from="1636781102078" duration="2006000" />
-      <workItem from="1636784360609" duration="10832000" />
+      <workItem from="1636784360609" duration="14591000" />
+      <workItem from="1636829125516" duration="71000" />
+      <workItem from="1637043769886" duration="850000" />
+      <workItem from="1637221954303" duration="467000" />
+      <workItem from="1637307103894" duration="406000" />
+      <workItem from="1637397599534" duration="8112000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -360,7 +376,21 @@
       <option name="project" value="LOCAL" />
       <updated>1636794897571</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="fix(Tables): Fixes&#10;&#10;- Fixed root cause analysis table issues">
+      <created>1636795397297</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1636795397297</updated>
+    </task>
+    <task id="LOCAL-00024" summary="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool">
+      <created>1636795579746</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1636795579746</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -400,19 +430,21 @@
     <MESSAGE value="fix(Search Intervention Message): Improvements&#10;&#10;- Added styling and icon to search error message" />
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed table warning issues" />
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues" />
+    <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed root cause analysis table issues" />
+    <MESSAGE value="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>37</line>
+          <line>39</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>92</line>
+          <line>94</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -427,8 +459,62 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>78</line>
+          <line>80</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
+          <line>77</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
+          <line>106</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
+          <line>107</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
+          <line>108</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
+          <line>20</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
+          <line>21</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
+          <line>17</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
+          <line>16</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
+          <line>15</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
