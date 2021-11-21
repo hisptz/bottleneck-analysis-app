@@ -37,12 +37,12 @@ export default function Migration() {
       {totalMigration ? (
         <>
           <LinearLoader amount={(progress / totalMigration) * 100} width={"300px"} />
-          <p style={{ margin: 4 }}> Migrating configurations...</p>
+          <p style={{ margin: 4 }}>{i18n.t("Migrating configurations...")}</p>
         </>
       ) : (
         <>
           <CircularLoader small />
-          <p style={{ margin: 4 }}>Performing some housekeeping. Please wait...</p>
+          <p style={{ margin: 4 }}>{i18n.t("Performing some housekeeping. Please wait...")}</p>
         </>
       )}
     </div>

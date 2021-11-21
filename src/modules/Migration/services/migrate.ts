@@ -1,10 +1,12 @@
-import { compact, find } from "lodash";
+import { map, queue } from "async";
+import { compact, filter, find, isEmpty } from "lodash";
 import { BNA_NAMESPACE } from "../../../constants/dataStore";
 import {
   DataItem,
   DataSelection,
   Group,
   InterventionConfig,
+  InterventionSummary,
   LegendDefinition,
   OrgUnitSelection,
   PeriodSelection,
@@ -122,4 +124,76 @@ export function convertIntervention(config: OldInterventionConfig): Intervention
     orgUnitSelection: convertOrgUnit(orgUnitConfig),
     periodSelection: convertPeriod(periodConfig),
   };
+}
+
+const query = {
+  config: {
+    resource: "dataStore/rca-config/rcaconfig",
+  },
+};
+
+export async function getRootCauseConfig(engine: any) {
+  const { config } = await engine.query(query);
+  return config;
+}
+
+const rootCauseDataKeys = {
+  keys: {
+    resource: "dataStore/rca-data",
+  },
+};
+
+async function getRootCauseDataKeys(engine: any) {
+  const { keys } = await engine.query(rootCauseDataKeys);
+  return keys;
+}
+
+async function getRootCauseDataByKey(engine: any, key: string) {
+  const { data } = await engine.query(
+    {
+      data: {
+        resource: `dataStore/rca-data`,
+        id: ({ id }: { id: string }) => id,
+      },
+    },
+    { variables: { id: key } }
+  );
+  return data;
+}
+
+export async function getRootCausesData(engine: any, interventionId: string) {
+  const keys = await getRootCauseDataKeys(engine);
+  const interventionKeys = filter(keys, (key: string) => key.match(RegExp(interventionId)));
+  return await map(interventionKeys, async (key: string) => {
+    return await getRootCauseDataByKey(engine, key);
+  });
+}
+
+export async function migrateRootCauseData(engine: any, key: string, data: any) {
+  const mutation = generateSaveMutation(key);
+  return await engine.mutate(mutation, { variables: { data } });
+}
+
+function convertRootCauseData(data: any, config: any) {
+  const orgUnit = data.dataValues[find(config.dataElements, ["name", "OrgUnit"])?.id];
+  const period = data.dataValues[find(config.dataElements, ["name", "Period"])?.id];
+  return { ...data, id: `${period}_${orgUnit}` };
+}
+
+export async function migrateRootCauses(engine: any, interventions: Array<InterventionSummary>) {
+  const config = await getRootCauseConfig(engine);
+  const q = queue(async (interventionId: string) => migrateRootCauseDataByIntervention(engine, interventionId, config), 5);
+  const interventionIds = interventions.map(({ id }: { id: string }) => id);
+  await q.push(interventionIds);
+  q.drain(() => {
+    console.log("done");
+  });
+}
+
+export async function migrateRootCauseDataByIntervention(engine: any, interventionId: string, config: any) {
+  const rootCauseData = await getRootCausesData(engine, interventionId);
+  if (!isEmpty(rootCauseData)) {
+    const convertedData = rootCauseData.map((data: any) => convertRootCauseData(data, config));
+    return await migrateRootCauseData(engine, `${interventionId}_rcadata`, convertedData);
+  }
 }

@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import * as _ from "lodash";
+import { get as _get } from "lodash";
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { DataItems, OrgUnit, Period } from "../../SubLevelAnalysis/state/dimensions";
@@ -15,6 +16,16 @@ export const ChartData = selectorFamily({
       const orgUnits = get(OrgUnit(id));
       const dataItems = get(DataItems(id));
       return await getChartAnalytics({ dx: dataItems, ou: orgUnits, pe: period }, engine);
+    },
+});
+
+export const ChartDataOrgUnit = selectorFamily({
+  key: "chart-data-org-unit",
+  get:
+    (id: string) =>
+    ({ get }) => {
+      const data = get(ChartData(id));
+      return _get(data, "metaData.ou.items", []);
     },
 });
 

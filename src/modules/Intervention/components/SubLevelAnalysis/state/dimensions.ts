@@ -50,7 +50,12 @@ export const OrgUnit = selectorFamily({
     (id: string) =>
     ({ get }) => {
       const { orgUnitSelection } = get<InterventionConfig>(InterventionState(id)) ?? {};
-      const orgUnits = [orgUnitSelection.orgUnit?.id];
+      let orgUnits;
+      if (orgUnitSelection?.orgUnit?.type === "USER_ORGANISATION_UNIT") {
+        orgUnits = ["USER_ORGUNIT"];
+      } else {
+        orgUnits = [orgUnitSelection.orgUnit?.id];
+      }
       return compact(orgUnits);
     },
 });

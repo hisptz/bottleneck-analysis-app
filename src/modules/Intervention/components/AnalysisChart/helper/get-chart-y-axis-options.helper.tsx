@@ -32,7 +32,7 @@ export function getChartYAxisOptions(chartConfiguration: any) {
           text: yAxis.name,
           style: { color: "#000000", fontWeight: "normal", fontSize: "14px" },
         },
-        opposite: yAxis.orientation === "left" ? false : true,
+        opposite: yAxis.orientation !== "left",
       };
     });
   }
@@ -89,7 +89,6 @@ export function getChartYAxisOptions(chartConfiguration: any) {
         ];
         break;
     }
-console.log("options ", yAxis);
     return yAxis;
   });
 }
