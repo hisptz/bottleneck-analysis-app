@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Root Cause Data): Implementation&#10;&#10;- Implemented root cause data migration to the new model">
-      <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state/config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Migration/hooks/useMigrate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/hooks/useMigrate.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" afterDir="false" />
-    </list>
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore(*): Code Cleaning&#10;&#10;- Removed temporary code&#10; - Removed unnecessary console logs" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,8 +45,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/root-cause-migration" />
-                    <option name="lastUsedInstant" value="1637308935" />
+                    <option name="branchName" value="feature/indicator-dictionary" />
+                    <option name="lastUsedInstant" value="1637562663" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
@@ -217,7 +209,7 @@
       <workItem from="1637221954303" duration="467000" />
       <workItem from="1637307103894" duration="406000" />
       <workItem from="1637397599534" duration="8565000" />
-      <workItem from="1637556098492" duration="2178000" />
+      <workItem from="1637556098492" duration="2257000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -394,7 +386,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637520891224</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="chore(*): Code Cleaning&#10;&#10;- Removed temporary code&#10; - Removed unnecessary console logs">
+      <created>1637562627886</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1637562627886</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -437,7 +436,8 @@
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed root cause analysis table issues" />
     <MESSAGE value="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool" />
     <MESSAGE value="feat(Root Cause Data): Implementation&#10;&#10;- Implemented root cause data migration to the new model" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(Root Cause Data): Implementation&#10;&#10;- Implemented root cause data migration to the new model" />
+    <MESSAGE value="chore(*): Code Cleaning&#10;&#10;- Removed temporary code&#10; - Removed unnecessary console logs" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore(*): Code Cleaning&#10;&#10;- Removed temporary code&#10; - Removed unnecessary console logs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

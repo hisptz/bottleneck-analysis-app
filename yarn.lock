@@ -2381,12 +2381,13 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hisptz/react-ui@^1.0.0-alpha-07":
-  version "1.0.0-alpha-07"
-  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.0-alpha-07.tgz#33aedeb28f55dd96f36d617c24d90ae7ebbad45d"
-  integrity sha512-fOv92Z8jrTw8xQ5IaO2TIpUqoiEy1TXh2/CD8XgGz7klAkCaLw2wWuJgyeTDC4wnvOqgQI6JBErjPHCfCt0M5w==
+"@hisptz/react-ui@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.5.tgz#2ded929d92d38dcb409573a8fc8129bca42115ad"
+  integrity sha512-Eq+tDZwV1IWw7FKgm5gDsA/5V9kz5MSIlOd+4p/0KhkSrkFbUlG4EzM8eaveWcubxDrhmugliJ2OQFsvDieHEg==
   dependencies:
     "@iapps/period-utilities" "^1.0.0-beta.4"
+    "@material-ui/core" "^4.12.3"
     highcharts "^9.3.0"
     highcharts-react-official "^3.1.0"
     jodit-react "^1.1.10"
