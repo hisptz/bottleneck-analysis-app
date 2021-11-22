@@ -185,9 +185,6 @@ export async function migrateRootCauses(engine: any, interventions: Array<Interv
   const q = queue(async (interventionId: string) => migrateRootCauseDataByIntervention(engine, interventionId, config), 5);
   const interventionIds = interventions.map(({ id }: { id: string }) => id);
   await q.push(interventionIds);
-  q.drain(() => {
-    console.log("done");
-  });
 }
 
 export async function migrateRootCauseDataByIntervention(engine: any, interventionId: string, config: any) {

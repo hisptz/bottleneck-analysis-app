@@ -4,18 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool">
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Root Cause Data): Implementation&#10;&#10;- Implemented root cause data migration to the new model">
       <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-y-axis-options.helper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/helper/get-chart-y-axis-options.helper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/state/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/state/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state/config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/dimensions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/dimensions.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Migration/hooks/useMigrate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/hooks/useMigrate.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Migration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,6 +44,7 @@
     </file-type-list>
   </component>
   <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="4" />
     <option name="recentBranches">
       <RecentBranches>
         <option name="branchesForRepo">
@@ -220,7 +216,8 @@
       <workItem from="1637043769886" duration="850000" />
       <workItem from="1637221954303" duration="467000" />
       <workItem from="1637307103894" duration="406000" />
-      <workItem from="1637397599534" duration="8112000" />
+      <workItem from="1637397599534" duration="8565000" />
+      <workItem from="1637556098492" duration="2178000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -390,7 +387,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636795579746</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="feat(Root Cause Data): Implementation&#10;&#10;- Implemented root cause data migration to the new model">
+      <created>1637520891224</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1637520891224</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -432,7 +436,8 @@
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues" />
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed root cause analysis table issues" />
     <MESSAGE value="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool" />
+    <MESSAGE value="feat(Root Cause Data): Implementation&#10;&#10;- Implemented root cause data migration to the new model" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(Root Cause Data): Implementation&#10;&#10;- Implemented root cause data migration to the new model" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -465,55 +470,46 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
           <line>77</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
           <line>106</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
           <line>107</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
           <line>108</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
           <line>20</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
           <line>21</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
           <line>17</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
           <line>16</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
           <line>15</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>

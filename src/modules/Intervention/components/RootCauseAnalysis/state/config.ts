@@ -20,7 +20,6 @@ export const RootCauseTableConfig = selectorFamily({
     ({ get }) => {
       const config = get(RootCauseConfig);
       const data = get(RootCauseData(id));
-      console.log(data);
       const rows = data.map(({ dataValues }: any) => {
         return compact(
           ROOT_CAUSE_TABLE_COLUMNS.map(({ key }) => {

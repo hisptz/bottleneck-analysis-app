@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-13T08:05:56.176Z\n"
-"PO-Revision-Date: 2021-11-13T08:05:56.176Z\n"
+"POT-Creation-Date: 2021-11-22T06:03:59.799Z\n"
+"PO-Revision-Date: 2021-11-22T06:03:59.799Z\n"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -49,6 +49,9 @@ msgstr "Searched Intervention is not found"
 
 msgid "View Archives"
 msgstr "View Archives"
+
+msgid "Migrate Data"
+msgstr "Migrate Data"
 
 msgid "Add New"
 msgstr "Add New"
@@ -106,6 +109,12 @@ msgstr "View Full Screen"
 
 msgid "Something went wrong with the migration"
 msgstr "Something went wrong with the migration"
+
+msgid "Migrating configurations..."
+msgstr "Migrating configurations..."
+
+msgid "Performing some housekeeping. Please wait..."
+msgstr "Performing some housekeeping. Please wait..."
 
 msgid "Something went wrong. Please check the console for more details"
 msgstr "Something went wrong. Please check the console for more details"

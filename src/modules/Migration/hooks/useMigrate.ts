@@ -52,7 +52,6 @@ export default function useMigrate(onComplete: () => void) {
           onComplete();
         }
       } catch (e) {
-        console.log(e);
         setError(e);
       }
     }
