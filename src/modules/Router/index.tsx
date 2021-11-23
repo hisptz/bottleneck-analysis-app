@@ -5,6 +5,7 @@ import useDataEngineInit from "../../core/hooks/initDataEngine";
 import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
 import EmptyInterventions from "../EmptyInterventions";
 import InterventionArchive from "../Intervention/components/Archives/ArchiveDashboard";
+import InterventionConfiguration from "../Intervention/components/InterventionConfiguration/index";
 import Landing from "../Landing";
 import Migration from "../Migration";
 
@@ -35,6 +36,10 @@ const routes = [
   {
     pathname: "/:id/archives/:id",
     component: InterventionArchive,
+  },
+  {
+    pathname: "/:id/configuration",
+    component: InterventionConfiguration,
   },
 ];
 

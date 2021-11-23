@@ -1,9 +1,6 @@
+import ConfigurationStepperProps from "@hisptz/react-ui";
 import React from "react";
 
 export default function InterventionConfiguration() {
-  return (
-    <div>
-      <h1>Intervention Configuration</h1>
-    </div>
-  );
+  return <ConfigurationStepperProps />;
 }
