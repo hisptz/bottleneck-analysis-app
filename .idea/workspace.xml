@@ -4,7 +4,61 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore(*): Code Cleaning&#10;&#10;- Removed temporary code&#10; - Removed unnecessary console logs" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore(deps): Bump up @hisptz/react-ui to v1.0.5">
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/AccesibilityAndSharing/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/CompletenessDataSource/completenessDataSources.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/DataSetReportingRate/DataCellStyle.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/DataSetReportingRate/Row.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/DataSetReportingRate/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/DataSource/dataSource.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/Error/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/Loader/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/ProgramIndicator/Row.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/ProgramIndicator/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/SingleDictionary/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Components/Row/Components/DataSourceCellStyle.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Components/Row/Components/DisplaySourceDataElement.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Components/Row/Components/DisplaySourceDataSet.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Components/Row/Components/DisplaySourceProgramDataElementOrAttribute.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Components/Row/Components/DisplaySourceProgramIndicator.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Components/Row/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/dataElementsInIndicator/dataElementsIndicator.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/dataElementsInIndicator/row.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/indicatorFacts/indicatorFacts.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/indicatorFacts/indicatorGroupRow.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/indicatorFacts/indicatorGroupRow.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/introduction/Introduction.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/introduction/introduction.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/legendsAnalysis/legend.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/legendsAnalysis/legendsAnalysis.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/legendsAnalysis/table.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/interfaces/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/state/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/dataElementDictionaryFunctions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/dataElementGroupSetFunctions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/formulaFunctions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/formulaTopBar.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/functionDictionary.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/indicatorDataSourceFunction.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/shared.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/hooks/AllMetaDataPage/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/hooks/DataSource/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/hooks/FunctionDictionary/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/hooks/Indicator/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/hooks/TopBar/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/hooks/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/models/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Landing/hooks/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Landing/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Landing/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/components/errors/CardError/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/components/errors/CardError/index.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,8 +68,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -80,7 +134,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/.env" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/shared/components/errors" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -96,13 +150,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary" />
+      <recent name="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/Components" />
       <recent name="$PROJECT_DIR$/src/shared/components/errors" />
       <recent name="$PROJECT_DIR$/src/shared/components/errors/CardError" />
       <recent name="$PROJECT_DIR$/src/modules/EmptyInterventions" />
-      <recent name="$PROJECT_DIR$/src/shared/components/loaders" />
-      <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/SingleDictionary" />
       <recent name="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components" />
       <recent name="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state" />
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader" />
@@ -160,9 +215,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
+        <item itemvalue="npm.format" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.build" />
-        <item itemvalue="npm.format" />
       </list>
     </recent_temporary>
   </component>
@@ -210,6 +265,10 @@
       <workItem from="1637307103894" duration="406000" />
       <workItem from="1637397599534" duration="8565000" />
       <workItem from="1637556098492" duration="2257000" />
+      <workItem from="1637655070859" duration="1469000" />
+      <workItem from="1637660033714" duration="2479000" />
+      <workItem from="1637666721173" duration="1182000" />
+      <workItem from="1637672463486" duration="9057000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -511,6 +570,16 @@
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
           <line>15</line>
           <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/indicatorDataSourceFunction.ts</url>
+          <line>13</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/hooks/Indicator/index.ts</url>
+          <line>72</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

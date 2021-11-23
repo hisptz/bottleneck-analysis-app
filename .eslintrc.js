@@ -16,4 +16,6 @@ module.exports = {
     "no-console": "error",
     "import/order": "warn",
   },
+
+  parser: "@typescript-eslint/parser",
 };

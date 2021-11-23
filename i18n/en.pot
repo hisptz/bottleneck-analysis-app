@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-22T06:03:59.799Z\n"
-"PO-Revision-Date: 2021-11-22T06:03:59.799Z\n"
+"POT-Creation-Date: 2021-11-23T14:38:12.353Z\n"
+"PO-Revision-Date: 2021-11-23T14:38:12.353Z\n"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -50,9 +50,6 @@ msgstr "Searched Intervention is not found"
 msgid "View Archives"
 msgstr "View Archives"
 
-msgid "Migrate Data"
-msgstr "Migrate Data"
-
 msgid "Add New"
 msgstr "Add New"
 
@@ -82,6 +79,205 @@ msgstr "Actions"
 
 msgid "Root Cause Analysis"
 msgstr "Root Cause Analysis"
+
+msgid "Accessibility & Sharing Settings"
+msgstr "Accessibility & Sharing Settings"
+
+msgid "This"
+msgstr "This"
+
+msgid "was first created on"
+msgstr "was first created on"
+
+msgid "by"
+msgstr "by"
+
+msgid "and last updated on"
+msgstr "and last updated on"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "User Access"
+msgstr "User Access"
+
+msgid "can"
+msgstr "can"
+
+msgid "User Group Access"
+msgstr "User Group Access"
+
+msgid "Datasets (Reporting rates) in indicator"
+msgstr "Datasets (Reporting rates) in indicator"
+
+msgid "There were no Datasets (Reporting rates) in the Indicator Calculations"
+msgstr "There were no Datasets (Reporting rates) in the Indicator Calculations"
+
+msgid "Dataset"
+msgstr "Dataset"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Timely Submission"
+msgstr "Timely Submission"
+
+msgid "Expiry days"
+msgstr "Expiry days"
+
+msgid "Period type"
+msgstr "Period type"
+
+msgid "Assigned orgunits"
+msgstr "Assigned orgunits"
+
+msgid "Data elements"
+msgstr "Data elements"
+
+msgid "Legends"
+msgstr "Legends"
+
+msgid " There are no data sources associated with this indicator"
+msgstr " There are no data sources associated with this indicator"
+
+msgid "Data sources (Datasets/Programs)"
+msgstr "Data sources (Datasets/Programs)"
+
+msgid "Indicator is captured from the following sources,"
+msgstr "Indicator is captured from the following sources,"
+
+msgid "Datasets"
+msgstr "Datasets"
+
+msgid "submitting {{variables1}} after every {{variables2}} days"
+msgstr "submitting {{variables1}} after every {{variables2}} days"
+
+msgid "Program Indicators in indicator"
+msgstr "Program Indicators in indicator"
+
+msgid "There were no Program Indicators in the Indicator Calculations"
+msgstr "There were no Program Indicators in the Indicator Calculations"
+
+msgid "Program Indicator"
+msgstr "Program Indicator"
+
+msgid "Expression part"
+msgstr "Expression part"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Aggregation type"
+msgstr "Aggregation type"
+
+msgid "Analytics type"
+msgstr "Analytics type"
+
+msgid "Period boundaries"
+msgstr "Period boundaries"
+
+msgid "Groups"
+msgstr "Groups"
+
+msgid "Calculation details"
+msgstr "Calculation details"
+
+msgid ""
+"Below are expression computing numerator and denominator, and related "
+"sources"
+msgstr ""
+"Below are expression computing numerator and denominator, and related "
+"sources"
+
+msgid "Expression"
+msgstr "Expression"
+
+msgid "Formula"
+msgstr "Formula"
+
+msgid "Sources"
+msgstr "Sources"
+
+msgid "Numerator"
+msgstr "Numerator"
+
+msgid "Denominator"
+msgstr "Denominator"
+
+msgid "Data elements in indicator"
+msgstr "Data elements in indicator"
+
+msgid "There were no Data Elements in the Indicator Calculations"
+msgstr "There were no Data Elements in the Indicator Calculations"
+
+msgid "Data Element"
+msgstr "Data Element"
+
+msgid "Expression part (Numerator/ Denominator)"
+msgstr "Expression part (Numerator/ Denominator)"
+
+msgid "Value Type"
+msgstr "Value Type"
+
+msgid "Zero Significance"
+msgstr "Zero Significance"
+
+msgid "Categories"
+msgstr "Categories"
+
+msgid "Datasets/ Programs"
+msgstr "Datasets/ Programs"
+
+msgid " There are no indicator facts associated with this indicator"
+msgstr " There are no indicator facts associated with this indicator"
+
+msgid "Indicator facts"
+msgstr "Indicator facts"
+
+msgid "Belongs to the following groups of indicators"
+msgstr "Belongs to the following groups of indicators"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Indicators"
+msgstr "Indicators"
+
+msgid "Introduction"
+msgstr "Introduction"
+
+msgid "is a"
+msgstr "is a"
+
+msgid "indicator, measured by"
+msgstr "indicator, measured by"
+
+msgid "to"
+msgstr "to"
+
+msgid "Its described as {{variable}}"
+msgstr "Its described as {{variable}}"
+
+msgid "Class"
+msgstr "Class"
+
+msgid "Upper"
+msgstr "Upper"
+
+msgid "Lower"
+msgstr "Lower"
+
+msgid "Color"
+msgstr "Color"
+
+msgid "There are no legends associated with these indicator"
+msgstr "There are no legends associated with these indicator"
+
+msgid "Legends for analysis"
+msgstr "Legends for analysis"
 
 msgid "Bottleneck Sublevel Analysis"
 msgstr "Bottleneck Sublevel Analysis"
