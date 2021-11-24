@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import React, { Suspense } from "react";
 import { HashRouter, Route } from "react-router-dom";
 import useDataEngineInit from "../../core/hooks/initDataEngine";

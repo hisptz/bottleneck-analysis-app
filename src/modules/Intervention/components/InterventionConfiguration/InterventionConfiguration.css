@@ -1,0 +1,58 @@
+#stepper {
+    color: yellow;
+    height: 50px;
+    width: 15%;
+}
+
+.stepper-config-header{
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+width: 100%;
+}
+
+.stepper-config-header> Button{
+    margin-top:2%;
+    margin-right: 3%;
+    padding: 10px 10px;
+}
+.stepper-config-header> h2{
+    margin-right: 3%;
+    padding: 10px 10px;
+}
+.stepper-config-buttom{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2%;
+}
+
+.stepConfig{
+    width: 100%;
+}
+
+
+.stepper-config-buttom>Button{
+    margin-right: 2%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
