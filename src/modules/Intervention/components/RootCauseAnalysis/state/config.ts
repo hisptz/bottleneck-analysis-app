@@ -1,4 +1,4 @@
-import { compact, find } from "lodash";
+import { compact, find, flattenDeep } from "lodash";
 import { selector, selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { ROOT_CAUSE_TABLE_COLUMNS } from "../constants/table";
@@ -20,13 +20,13 @@ export const RootCauseTableConfig = selectorFamily({
     ({ get }) => {
       const config = get(RootCauseConfig);
       const data = get(RootCauseData(id));
-      const rows = data.map(({ dataValues }: any) => {
+      const rows = flattenDeep(data).map(({ dataValues }: any) => {
         return compact(
           ROOT_CAUSE_TABLE_COLUMNS.map(({ key }) => {
             const id = find(config.dataElements, ["name", key])?.id;
             return {
               key,
-              value: dataValues[id],
+              value: dataValues ? dataValues[id] : "",
             };
           })
         );
