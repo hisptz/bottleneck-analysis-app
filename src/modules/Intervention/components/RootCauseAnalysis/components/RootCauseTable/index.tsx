@@ -1,5 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, DataTable, DataTableCell, DataTableRow, IconMore24, TableBody, TableFoot } from "@dhis2/ui";
+import { find } from "lodash";
 import React, { useRef, useState } from "react";
 import "./rootCauseTable.css";
 import { useParams } from "react-router-dom";
@@ -7,13 +8,13 @@ import { useRecoilValue } from "recoil";
 import { RootCauseTableConfig } from "../../state/config";
 import RootCauseTableHeaderComponent from "./components/RootCauseTableHeaderComponent";
 import classes from "./RootCauseTable.module.css";
-import { find } from "lodash";
+
 
 export default function RootCauseTable() {
   const { id } = useParams<{ id: string }>();
   const { columns, rows } = useRecoilValue(RootCauseTableConfig(id));
   const ref = useRef<HTMLDivElement | null>(null);
-  const [stateRef, setstateRef] = useState<any>();
+  const [stateRef, setStateRef] = useState<any>();
 
   return (
     <DataTable className={classes["table"]} bordered>
@@ -28,7 +29,7 @@ export default function RootCauseTable() {
                     <Button
                       className={classes["button"]}
                       onClick={() => {
-                        setstateRef(row);
+                        setStateRef(row);
                         ref.current?.scrollIntoView({ behavior: "smooth" });
                       }}>
                       <IconMore24 />
