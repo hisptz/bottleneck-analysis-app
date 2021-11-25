@@ -31,9 +31,7 @@ export default function ChartItemComponent() {
       },
     },
   };
-  //   const [currentChartType, setCurrentChartType] = useState(chartConfiguration.currentChartType);
   const [chartOptions, setChartOptions] = useState();
-  //   const [drawChartConfiguration, setDrawChartConfiguration] = useState(chartConfigurationSelector(chartConfiguration.layout, currentChartType));
   function restructureMetaData(metaData: any): any {
     const restructure: { [key: string]: any } = {};
     Object.keys(metaData).forEach((key) => {
