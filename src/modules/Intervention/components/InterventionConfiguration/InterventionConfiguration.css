@@ -1,7 +1,6 @@
 #stepper {
     color: yellow;
-    height: 50px;
-    width: 15%;
+    height: fit-content
 }
 
 .stepper-config-header{
