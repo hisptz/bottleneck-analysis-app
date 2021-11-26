@@ -1,0 +1,29 @@
+.accessConfig{
+    width: 100%;
+    display: flex;
+    flex-direction:row;
+    justify-content: start;
+}
+p{
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    line-height: 24px;
+    margin-bottom:0.7%
+
+}
+.div.jsx-2944291715{
+position: fixed;
+height: 0vh;
+width: 0vw;
+top: 0px;
+left: 0px;
+min-height: 0vh;
+min-width: 0vw;
+z-index: 1px;
+}
+
+.access-config-body{
+    width:100%;
+    height: 100px;
+    background-color: transparent;
+}
