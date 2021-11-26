@@ -2,13 +2,13 @@ const query = {
   user: {
     resource: "me",
     params: {
-      fields: ["id", "name"],
+      fields: ["id", "name", "organisationUnits[displayName, id]"],
     },
   },
 };
 
 export async function getUser(engine: any) {
-  const { user } = engine.query(query);
+  const { user } = await engine.query(query);
 
   return user;
 }

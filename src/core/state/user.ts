@@ -12,3 +12,12 @@ export const UserState = atom({
     },
   }),
 });
+
+export const UserOrganisationUnits = selector({
+  key: "user-organisation-units-getter",
+  get: ({ get }) => {
+    const user = get(UserState);
+    const organisationUnits = user?.organisationUnits || [];
+    return organisationUnits.length > 1 ? organisationUnits : organisationUnits[0] || {};
+  },
+});
