@@ -39,7 +39,7 @@ async function getRootCauseDataByKey(engine: any, key: string) {
 
 export async function getRootCausesData(engine: any, interventionId: string) {
   const keys = await getRootCauseDataKeys(engine);
-  const interventionKeys = filter(keys, (key: string) => key.match(RegExp(`${interventionId}_rca_data`)));
+  const interventionKeys = filter(keys, (key: string) => key.match(RegExp(`${interventionId}_rcadata`)));
   return await map(interventionKeys, async (key: string) => {
     return await getRootCauseDataByKey(engine, key);
   });
