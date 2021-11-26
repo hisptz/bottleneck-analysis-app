@@ -2,9 +2,7 @@
     border: 1px solid #e8edf2 !important;
     background-color:#ffffff !important;
     font-size: 13px!important;
-    padding: 7px !important;
-    table-layout:fixed !important;
-    width:30px !important;
+    padding: 12 !important;
     overflow:hidden !important;
     word-wrap:break-word!important;
 }
@@ -12,11 +10,14 @@
 .tableHeader-h {
   width: 100% !important;
   overflow: hidden !important;
+  table-layout:fixed !important;
+
 }
 
 .tableContainer{
-    margin-left: 3%;
-    width: 100%;
+    margin-left: 4%;
+    width: auto;
+    min-width: 1196px;
 }
 
 .analytic-orgUnit{

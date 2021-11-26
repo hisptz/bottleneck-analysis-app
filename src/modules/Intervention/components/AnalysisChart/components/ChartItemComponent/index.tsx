@@ -58,14 +58,18 @@ export default function ChartItemComponent() {
   }
 
   function chartConfigurationSelector(layout: any, currentChartType: any) {
-    return getChartConfiguration({}, "", layout, "Data", currentChartType, []);
+    return getChartConfiguration({}, id, layout, "Data", currentChartType, []);
   }
+  const dta: any = chartOptions;
+  //["plotOptions"]["series"]["pointWidth"];
+  console.log("chart options \n ,", dta);
   return (
     <div
       className="chart-block"
       style={{
         height: "calc(" + 1000 + "px-20px",
-        width: "100%",
+        minWidth: "1196px",
+        width: "auto",
       }}>
       <HightChartsReact highcharts={HighCharts} options={chartOptions} />
     </div>

@@ -7,6 +7,11 @@ export function getPlotOptions(chartConfiguration: any) {
   const plotOptions: any = {
     series: {
       cursor: "pointer",
+      pointWidth: 160,
+      pointPadding: 1,
+      borderWidth: 0,
+      groupPadding: 10,
+      shadow: false,
       point: {
         events: {
           click: function () {
