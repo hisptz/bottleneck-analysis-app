@@ -4,23 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(Indicator Dictionary): Fixes&#10;&#10;- Fixed formula and data elements section of dictionary">
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore: workspace config">
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/state/selections.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/utils/download.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/DataSource/dataSource.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/DataSource/dataSource.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/SingleDictionary/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/SingleDictionary/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Components/Row/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Components/Row/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/dataElementsInIndicator/dataElementsIndicator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/dataElementsInIndicator/dataElementsIndicator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/dataElementsInIndicator/row.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/dataElementsInIndicator/row.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/indicatorFacts/indicatorFacts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/indicatorFacts/indicatorFacts.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/introduction/Introduction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/introduction/Introduction.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/legendsAnalysis/legendsAnalysis.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/legendsAnalysis/legendsAnalysis.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/state/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/state/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/formulaFunctions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/formulaFunctions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/hooks/Indicator/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/hooks/Indicator/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/services/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/services/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +24,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -62,12 +55,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/indicator-dictionary" />
-                    <option name="lastUsedInstant" value="1637562663" />
+                    <option name="branchName" value="feature/sub-level-download" />
+                    <option name="lastUsedInstant" value="1637992528" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1636795467" />
+                    <option name="lastUsedInstant" value="1637992419" />
                   </RecentBranch>
                 </list>
               </option>
@@ -127,7 +120,7 @@
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start --proxy https://hisp.apps.dhis2.org/dev">
+  <component name="RunManager" selected="npm.start">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -158,13 +151,12 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="start --proxy https://hisp.apps.dhis2.org/dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
         <script value="start" />
       </scripts>
-      <arguments value="--proxy https://hisp.apps.dhis2.org/dev" />
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
@@ -184,11 +176,10 @@
       <item itemvalue="npm.deploy" />
       <item itemvalue="npm.format" />
       <item itemvalue="npm.start" />
-      <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
+        <item itemvalue="npm.start" />
         <item itemvalue="npm.format" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.build" />
@@ -251,6 +242,7 @@
       <workItem from="1637923496017" duration="960000" />
       <workItem from="1637932859685" duration="1555000" />
       <workItem from="1637987672567" duration="4308000" />
+      <workItem from="1637993676417" duration="2722000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
