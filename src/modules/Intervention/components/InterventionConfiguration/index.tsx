@@ -3,6 +3,7 @@ import { ConfigurationStepper } from "@hisptz/react-ui";
 import React from "react";
 import GeneralConfigurationComponent from "./components";
 import AccessConfigurationComponent from "./components/AccessConfigurationComponent";
+import DeterminantsConfigurationComponent from "./components/DeterminantsConfigurationComponent";
 import "./InterventionConfiguration.css";
 
 export default function InterventionConfiguration() {
@@ -21,13 +22,7 @@ export default function InterventionConfiguration() {
           },
           {
             label: "Determinants",
-            component: () => (
-              <div className="container">
-                <div className="column text-center">
-                  <h1>2</h1>
-                </div>
-              </div>
-            ),
+            component: DeterminantsConfigurationComponent,
             helpSteps: [],
           },
           {
