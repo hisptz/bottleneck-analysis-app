@@ -9,7 +9,7 @@ export interface Tab {
   key: string;
   label: string;
   icon: JSX.Element;
-  component: JSX.Element;
+  component: any;
 }
 
 export const tabs: Array<Tab> = [
@@ -17,18 +17,18 @@ export const tabs: Array<Tab> = [
     key: "table",
     icon: <IconList24 />,
     label: i18n.t("Table View"),
-    component: <Table />,
+    component: Table,
   },
   {
     key: "map",
     icon: <IconWorld24 />,
     label: i18n.t("Map View"),
-    component: <Map />,
+    component: Map,
   },
   {
     key: "dictionary",
     icon: <IconInfo24 />,
     label: i18n.t("Dictionary View"),
-    component: <Dictionary />,
+    component: Dictionary,
   },
 ];
