@@ -10,6 +10,8 @@ import { ActiveTab } from "./state/tabs";
 import { find } from "lodash";
 import i18n from "@dhis2/d2-i18n";
 import { IconDownload24, IconFullscreen24 } from "@dhis2/ui";
+import { ErrorBoundary } from "react-error-boundary";
+import CardError from "../../../../shared/components/errors/CardError";
 
 const menus: Array<InterventionMenu> = [
   {
@@ -29,7 +31,9 @@ export default function SubLevelAnalysis() {
   const activeTab = find(tabs, ["key", activeTabKey]);
   return (
     <InterventionCard maxHeight={800} minHeight={500} menu={menus} actions={<SubLevelActions />} title={<SubLevelHeader />}>
-      <div className="sub-level-container">{activeTab?.component}</div>
+      <ErrorBoundary resetKeys={[activeTabKey]} FallbackComponent={CardError}>
+        <div className="sub-level-container">{activeTab?.component}</div>
+      </ErrorBoundary>
     </InterventionCard>
   );
 }
