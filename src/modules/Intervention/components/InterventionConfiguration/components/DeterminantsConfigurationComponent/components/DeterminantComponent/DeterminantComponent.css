@@ -1,0 +1,11 @@
+.determinant{
+    background-color: transparent;
+    width: 50%;
+    border: black 1px solid;
+}
+p{
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    line-height: 24px;
+    margin-bottom:0.7%
+}
