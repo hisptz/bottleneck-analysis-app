@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(SubLevelAnalysis): Implementation&#10;&#10;- Implemented download excel functionality for sub level analysis table">
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards">
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/state/config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelHeader/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/constants/tabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/constants/tabs.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop" />
+        <entry key="$PROJECT_DIR$" value="feature/download-chart" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -51,12 +50,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/sub-level-download" />
-                    <option name="lastUsedInstant" value="1637992528" />
+                    <option name="branchName" value="feature/view-full-page" />
+                    <option name="lastUsedInstant" value="1637998468" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1637992419" />
+                    <option name="lastUsedInstant" value="1637998355" />
                   </RecentBranch>
                 </list>
               </option>
@@ -147,6 +146,17 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="start --proxy https://hisp.apps.dhis2.org/dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <arguments value="--proxy https://hisp.apps.dhis2.org/dev" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -172,14 +182,15 @@
       <item itemvalue="npm.deploy" />
       <item itemvalue="npm.format" />
       <item itemvalue="npm.start" />
+      <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="npm.start" />
+        <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
         <item itemvalue="npm.format" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.build" />
-        <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
   </component>
@@ -443,7 +454,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637996698676</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards">
+      <created>1638003378455</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1638003378455</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -462,7 +480,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat(Favicon): Implementation&#10;&#10;- Added BNA favicon and DHIS2 Icon" />
     <MESSAGE value="feat(Dashboard List): Implementation&#10;&#10;- Implemented dashboard list data fetch and logic&#10;- Implemented initial&#10;app loading page&#10;- Implemented initial navigation" />
     <MESSAGE value="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu" />
     <MESSAGE value="feat(Dashboard View): Implementation&#10;&#10;- Implemented intervention name view&#10; - Implemented intervention details&#10;name and view logic" />
@@ -487,7 +504,8 @@
     <MESSAGE value="feat(Indicator Dictionary): Implementation&#10;&#10;- Implemented dictionary UI and logic" />
     <MESSAGE value="fix(Indicator Dictionary): Fixes&#10;&#10;- Fixed formula and data elements section of dictionary" />
     <MESSAGE value="feat(SubLevelAnalysis): Implementation&#10;&#10;- Implemented download excel functionality for sub level analysis table" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(SubLevelAnalysis): Implementation&#10;&#10;- Implemented download excel functionality for sub level analysis table" />
+    <MESSAGE value="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -561,16 +579,6 @@
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
           <line>15</line>
           <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/functions/indicatorDataSourceFunction.ts</url>
-          <line>13</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/utils/hooks/Indicator/index.ts</url>
-          <line>96</line>
-          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

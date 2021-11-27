@@ -4,7 +4,7 @@ import React from "react";
 import useInterventionConfig from "../../../../../../shared/hooks/useInterventionConfig";
 import LegendsDefinition from "./components/LegendsDefinition";
 
-export default function SubLevelHeader() {
+export default function SubLevelHeader({ activeTab }: { activeTab: any }) {
   const intervention = useInterventionConfig();
   return (
     <div className="column pt-8">
@@ -13,9 +13,7 @@ export default function SubLevelHeader() {
           <h4 style={{ margin: 0 }}>{`${i18n.t("Bottleneck Sub-level Analysis")}:`}</h4>
           <h4 style={{ margin: 0, color: colors.grey700 }}>{`${intervention.name}`}</h4>
         </div>
-        <div className="column">
-          <LegendsDefinition />
-        </div>
+        <div className="column">{activeTab.key === "table" && <LegendsDefinition />}</div>
       </div>
     </div>
   );
