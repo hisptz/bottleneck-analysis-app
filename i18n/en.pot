@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-27T06:15:49.152Z\n"
-"PO-Revision-Date: 2021-11-27T06:15:49.152Z\n"
+"POT-Creation-Date: 2021-11-27T07:34:58.691Z\n"
+"PO-Revision-Date: 2021-11-27T07:34:58.691Z\n"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -270,8 +270,8 @@ msgstr "Color"
 msgid "Legends for analysis"
 msgstr "Legends for analysis"
 
-msgid "Bottleneck Sublevel Analysis"
-msgstr "Bottleneck Sublevel Analysis"
+msgid "Bottleneck Sub-level Analysis"
+msgstr "Bottleneck Sub-level Analysis"
 
 msgid "Determinant"
 msgstr "Determinant"
@@ -282,9 +282,6 @@ msgstr "Organisation Units"
 msgid "Switch Layout"
 msgstr "Switch Layout"
 
-msgid "Download Excel"
-msgstr "Download Excel"
-
 msgid "Table View"
 msgstr "Table View"
 
@@ -293,6 +290,9 @@ msgstr "Map View"
 
 msgid "Dictionary View"
 msgstr "Dictionary View"
+
+msgid "Download Excel"
+msgstr "Download Excel"
 
 msgid "View Full Screen"
 msgstr "View Full Screen"

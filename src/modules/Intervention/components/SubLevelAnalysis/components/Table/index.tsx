@@ -40,7 +40,7 @@ export default function Table({ tableRef }: { tableRef: any }) {
         <div className="row end p-8">
           <Button onClick={onLayoutChange}>{i18n.t("Switch Layout")}</Button>
         </div>
-        <DataTable ref={tableRef} fixed width={`${tableWidth}px`} scrollWidth={"5000px"} scrollHeight={"500px"} className={classes["table"]} bordered>
+        <DataTable ref={tableRef} fixed width={`${tableWidth}px`} scrollWidth={"5000px"} scrollHeight={"100%"} className={classes["table"]} bordered>
           <TableHeader />
           <TableBody />
         </DataTable>
