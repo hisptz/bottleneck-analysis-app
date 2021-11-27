@@ -4,20 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(SubLevelAnalysis): Implementation&#10;&#10;- Implemented download excel functionality for sub level analysis table">
-      <change beforePath="$PROJECT_DIR$/.idea/bottleneck-analysis-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bottleneck-analysis-app.iml" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards">
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/state/config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Card/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Card/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Card/intervention-card.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Card/intervention-card.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/SubLevelHeader/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/sub-level-analysis.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/sub-level-analysis.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -463,7 +454,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637996698676</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards">
+      <created>1638003378455</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1638003378455</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -482,7 +480,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat(Favicon): Implementation&#10;&#10;- Added BNA favicon and DHIS2 Icon" />
     <MESSAGE value="feat(Dashboard List): Implementation&#10;&#10;- Implemented dashboard list data fetch and logic&#10;- Implemented initial&#10;app loading page&#10;- Implemented initial navigation" />
     <MESSAGE value="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu" />
     <MESSAGE value="feat(Dashboard View): Implementation&#10;&#10;- Implemented intervention name view&#10; - Implemented intervention details&#10;name and view logic" />
@@ -507,7 +504,8 @@
     <MESSAGE value="feat(Indicator Dictionary): Implementation&#10;&#10;- Implemented dictionary UI and logic" />
     <MESSAGE value="fix(Indicator Dictionary): Fixes&#10;&#10;- Fixed formula and data elements section of dictionary" />
     <MESSAGE value="feat(SubLevelAnalysis): Implementation&#10;&#10;- Implemented download excel functionality for sub level analysis table" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(SubLevelAnalysis): Implementation&#10;&#10;- Implemented download excel functionality for sub level analysis table" />
+    <MESSAGE value="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

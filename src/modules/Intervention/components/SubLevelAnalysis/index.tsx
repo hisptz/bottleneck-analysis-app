@@ -1,9 +1,9 @@
 /* eslint-disable import/order */
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import InterventionCard, { InterventionMenu } from "../Card";
 import "./sub-level-analysis.css";
 import SubLevelActions from "./components/SubLevelActions";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import SubLevelHeader from "./components/SubLevelHeader";
 import { tabs } from "./constants/tabs";
 import { ActiveTab } from "./state/tabs";
@@ -17,10 +17,12 @@ import { InterventionStateSelector } from "../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../state/selections";
 import { useParams } from "react-router-dom";
 import { useFullScreenHandle } from "react-full-screen";
+import { FullPageState } from "../../state/config";
 
 export default function SubLevelAnalysis() {
   const { id } = useParams<{ id: string }>();
   const activeTabKey = useRecoilValue(ActiveTab);
+  const setFullPageState = useSetRecoilState(FullPageState("subLevelAnalysis"));
   const interventionName = useRecoilValue<string>(InterventionStateSelector({ id, path: ["name"] }));
   const { name: periodName } = useRecoilValue(InterventionPeriodState(id));
   const { displayName: orgUnitName } = useRecoilValue(InterventionOrgUnitState(id));
@@ -42,6 +44,10 @@ export default function SubLevelAnalysis() {
   ];
 
   const ActiveComponent = activeTab?.component;
+
+  useEffect(() => {
+    setFullPageState(handle.active);
+  }, [handle]);
 
   return (
     <InterventionCard
