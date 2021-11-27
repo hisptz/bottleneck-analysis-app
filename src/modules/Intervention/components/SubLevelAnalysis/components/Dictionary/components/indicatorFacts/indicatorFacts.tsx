@@ -16,7 +16,7 @@ export default function IndicatorFacts({ id }: { id: string }) {
   );
 
   if (isEmpty(indicatorGroups)) {
-    return <p>{i18n.t(" There are no indicator facts associated with this indicator")}</p>;
+    return <div />;
   }
 
   let count = 0;

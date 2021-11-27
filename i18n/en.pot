@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-24T07:30:13.579Z\n"
-"PO-Revision-Date: 2021-11-24T07:30:13.579Z\n"
+"POT-Creation-Date: 2021-11-26T13:44:42.718Z\n"
+"PO-Revision-Date: 2021-11-26T13:44:42.718Z\n"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -137,9 +137,6 @@ msgstr "Data elements"
 msgid "Legends"
 msgstr "Legends"
 
-msgid " There are no data sources associated with this indicator"
-msgstr " There are no data sources associated with this indicator"
-
 msgid "Data sources (Datasets/Programs)"
 msgstr "Data sources (Datasets/Programs)"
 
@@ -207,9 +204,6 @@ msgstr "Denominator"
 msgid "Data elements in indicator"
 msgstr "Data elements in indicator"
 
-msgid "There were no Data Elements in the Indicator Calculations"
-msgstr "There were no Data Elements in the Indicator Calculations"
-
 msgid "Data Element"
 msgstr "Data Element"
 
@@ -228,9 +222,6 @@ msgstr "Categories"
 msgid "Datasets/ Programs"
 msgstr "Datasets/ Programs"
 
-msgid " There are no indicator facts associated with this indicator"
-msgstr " There are no indicator facts associated with this indicator"
-
 msgid "Indicator facts"
 msgstr "Indicator facts"
 
@@ -245,6 +236,9 @@ msgstr "Code"
 
 msgid "Indicators"
 msgstr "Indicators"
+
+msgid "View in maintenance"
+msgstr "View in maintenance"
 
 msgid "Introduction"
 msgstr "Introduction"
@@ -272,9 +266,6 @@ msgstr "Lower"
 
 msgid "Color"
 msgstr "Color"
-
-msgid "There are no legends associated with these indicator"
-msgstr "There are no legends associated with these indicator"
 
 msgid "Legends for analysis"
 msgstr "Legends for analysis"

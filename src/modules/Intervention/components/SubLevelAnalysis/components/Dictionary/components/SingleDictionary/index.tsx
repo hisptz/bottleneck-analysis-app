@@ -24,13 +24,13 @@ export default function SingleDictionary({ id }: { id: string }) {
   }, [id]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <Introduction id={id} />
       <DataSource id={id} />
       <IndicatorFacts id={id} />
       <LegendsAnalysis id={id} />
       <CalculationDetails id={id} />
-      <DataElementsIndicator />
+      <DataElementsIndicator id={id} />
       <ProgramIndicatorIndicator />
       <DatasetsReportingRates />
       <AccessibilityAndSharing id={id} resourceType={"indicators"} />

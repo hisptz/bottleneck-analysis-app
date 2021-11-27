@@ -9,7 +9,7 @@ export default function DataSource({ id }: { id: string }) {
   const dataSets: Array<DataSet> = useRecoilValue(DictionaryIndicatorSelector({ id, path: ["dataSets"] }));
 
   if (isEmpty(dataSets)) {
-    return <p>{i18n.t(" There are no data sources associated with this indicator")}</p>;
+    return <div />;
   }
 
   return (
@@ -17,7 +17,6 @@ export default function DataSource({ id }: { id: string }) {
       <h3>{i18n.t("Data sources (Datasets/Programs)")}</h3>
       <p>{i18n.t("Indicator is captured from the following sources,")}</p>
       <h5>{i18n.t("Datasets")}</h5>
-
       <ul>
         {dataSets.map((dataSet) => {
           return (

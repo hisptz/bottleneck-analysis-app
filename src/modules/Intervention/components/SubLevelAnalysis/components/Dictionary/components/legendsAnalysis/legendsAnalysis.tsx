@@ -10,14 +10,14 @@ export default function LegendsAnalysis({ id }: { id: string }) {
   const legendSets = useRecoilValue<Array<LegendSet>>(DictionaryIndicatorSelector({ id, path: ["legendSets"] }));
 
   if (isEmpty(legendSets)) {
-    return <p>{i18n.t("There are no legends associated with these indicator")}</p>; //no legends sets
+    return <div />;
   }
 
   return (
     <div>
       <h3>{i18n.t("Legends for analysis")}</h3>
       <p>
-        {i18n.t("Uses {{variables}} legends for for analysis, spread accross multiple cut-off points of interest, existing legends are:", {
+        {i18n.t("Uses {{variables}} legends for for analysis, spread across multiple cut-off points of interest, existing legends are:", {
           variables: legendSets?.length,
         })}{" "}
       </p>

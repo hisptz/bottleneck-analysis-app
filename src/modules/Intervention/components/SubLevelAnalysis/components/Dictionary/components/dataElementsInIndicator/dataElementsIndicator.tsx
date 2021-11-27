@@ -3,22 +3,38 @@ import { DataTable, DataTableColumnHeader, DataTableRow, TableBody, TableHead } 
 import { isEmpty } from "lodash";
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { DataElementsStateDictionary } from "../../state";
+import { DataStateDictionary, DictionaryIndicatorSelector } from "../../state";
+import { dataTypes, dataTypesInitials } from "../../utils/models";
 import Row from "./row";
 
-export default function DataElementsIndicator() {
-  const dataElements = useRecoilValue(DataElementsStateDictionary);
+export default function DataElementsIndicator({ id }: { id: string }) {
+  const numerator = useRecoilValue(DictionaryIndicatorSelector({ id, path: ["numerator"] }));
+  const denominator = useRecoilValue(DictionaryIndicatorSelector({ id, path: ["denominator"] }));
+
+  const numeratorDataElements: Array<any> = useRecoilValue(
+    DataStateDictionary({
+      location: "numerator",
+      formula: numerator,
+      dataType: dataTypes.DATA_ELEMENT,
+      dataFormulaType: dataTypesInitials.DATA_ELEMENT,
+    })
+  );
+
+  const denominatorDataElements: Array<any> = useRecoilValue(
+    DataStateDictionary({
+      location: "denominator",
+      formula: denominator,
+      dataType: dataTypes.DATA_ELEMENT,
+      dataFormulaType: dataTypesInitials.DATA_ELEMENT,
+    })
+  );
+
+  const dataElements = [...numeratorDataElements, ...denominatorDataElements];
 
   if (isEmpty(dataElements)) {
-    return (
-      <div>
-        <h3> {i18n.t("Data elements in indicator")} </h3>
-        <p>{i18n.t("There were no Data Elements in the Indicator Calculations")} </p>
-      </div>
-    );
+    return <div />;
   }
 
-  let i = 0;
   return (
     <div>
       <h3>{i18n.t("Data elements in indicator")} </h3>
@@ -37,9 +53,8 @@ export default function DataElementsIndicator() {
           </DataTableRow>
         </TableHead>
         <TableBody>
-          {dataElements?.map((dtEle) => {
-            i++;
-            return <Row key={i} datEl={dtEle} />;
+          {dataElements?.map((dataElement: any) => {
+            return <Row key={dataElement?.id} dataElement={dataElement} />;
           })}
         </TableBody>
       </DataTable>

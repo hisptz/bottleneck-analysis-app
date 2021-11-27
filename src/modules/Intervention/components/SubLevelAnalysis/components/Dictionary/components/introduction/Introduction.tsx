@@ -1,18 +1,28 @@
+import { useConfig } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
+import { colors, IconLaunch16, Tooltip } from "@dhis2/ui";
+import { IconButton } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { DictionaryIndicator } from "../../state";
-import classes from "./introduction.module.css";
 
 export default function Introduction({ id }: { id: string }) {
+  const { baseUrl, apiVersion } = useConfig();
   const indicatorDetails = useRecoilValue(DictionaryIndicator(id));
   return (
     <div>
-      <h2 id={"test-indicator-details"}>{indicatorDetails?.name} </h2>
-
+      <div className="row gap align-center">
+        <h2 id={"test-indicator-details"}>{indicatorDetails?.name} </h2>
+        <Tooltip content={i18n.t("View in maintenance")}>
+          <IconButton
+            onClick={() => window.open(`${baseUrl}/dhis-web-maintenance/index.html#/edit/indicatorSection/indicator/${id}`, "_blank")}
+            style={{ padding: 2, color: "#000000" }}>
+            <IconLaunch16 color={colors.grey600} />
+          </IconButton>
+        </Tooltip>
+      </div>
       <h3>{i18n.t("Introduction")}</h3>
-
       <p>
         <b id={"test-indicator-details"}>{indicatorDetails?.name} </b>
         {i18n.t("is a")}
@@ -30,11 +40,10 @@ export default function Introduction({ id }: { id: string }) {
       </p>
       <p>
         <span>
-          {i18n.t("Identified by:")}{" "}
-          <span id={"test-indicator-details"} className={classes.identifylink}>
-            {" "}
-            {indicatorDetails?.id}{" "}
-          </span>{" "}
+          {i18n.t("Identified by:")}
+          <a target="_blank" href={`${baseUrl}/api/${apiVersion}/indicators/${id}.json`} rel="noreferrer">
+            {indicatorDetails?.id}
+          </a>
         </span>
       </p>
     </div>

@@ -2,6 +2,17 @@ import { get as _get } from "lodash";
 import { atom, atomFamily, selectorFamily } from "recoil";
 import { EngineState } from "../../../../../../../core/state/dataEngine";
 import { Indicator as IndicatorInterface } from "../interfaces";
+import { getFormulaSources, getWordData } from "../utils/functions/formulaFunctions";
+
+export const DataStateDictionary = selectorFamily({
+  key: "dataStateDictionary",
+  get:
+    ({ dataFormulaType, dataType, formula, location }: { dataFormulaType: string; dataType: string; formula: string; location: string }) =>
+    async ({ get }) => {
+      const engine = get(EngineState);
+      return await getWordData(engine, getFormulaSources(formula, dataFormulaType), dataType, location);
+    },
+});
 
 export const DataElementsStateDictionary = atom({
   key: "dataElementsStoreDictionary", // unique ID (with respect to other atoms/selectors)

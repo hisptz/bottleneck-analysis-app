@@ -190,22 +190,32 @@ export function getFormulaInWordsFromFullSources(formula: string, arrOfSources: 
 // eslint-disable-next-line max-params
 export function getFinalWordFormula(
   formula: string,
-  dataElementsArray: Array<any>,
-  programIndicatorArray: string | any[],
-  dataSetReportingRatesArray: string | any[],
-  attributes: string | any[],
-  constants: string | any[],
-  programDtElement: string | any[],
-  orgUnitCount: string | any[]
+  {
+    dataElements,
+    programIndicators,
+    dataSetReportingRates,
+    attributes,
+    constants,
+    programDataElements,
+    orgUnitCount,
+  }: {
+    dataElements: Array<any>;
+    programIndicators: string | any[];
+    dataSetReportingRates: string | any[];
+    attributes: string | any[];
+    constants: string | any[];
+    programDataElements: string | any[];
+    orgUnitCount: string | any[];
+  }
 ) {
   //need to be reduced to a loop
-  let final = getFormulaInWordsFromFullSources(formula, dataElementsArray);
-  final = getFormulaInWordsFromFullSources(final, programIndicatorArray);
-  final = getFormulaInWordsFromFullSources(final, dataSetReportingRatesArray);
+  let final = getFormulaInWordsFromFullSources(formula, dataElements);
+  final = getFormulaInWordsFromFullSources(final, programIndicators);
+  final = getFormulaInWordsFromFullSources(final, dataSetReportingRates);
   final = getFormulaInWordsFromFullSources(final, attributes);
   final = getFormulaInWordsFromFullSources(final, constants);
   final = getFormulaInWordsFromFullSources(final, orgUnitCount);
-  final = getFormulaInWordsFromFullSources(final, programDtElement);
+  final = getFormulaInWordsFromFullSources(final, programDataElements);
 
   //replacing all occurrence of the following globally
   final = final?.replace(/#{/g, "{");
@@ -217,7 +227,7 @@ export function getFinalWordFormula(
   final = final?.replace(/R{/g, "{");
   final = final?.replace(/OUG{/g, "{");
 
-  if (dataSetReportingRatesArray?.length !== 0) {
+  if (dataSetReportingRates?.length !== 0) {
     //replace those caps
     //has to be fixed later
     final = final?.replace(/ACTUAL_REPORTS/g, "Actual_Reports");

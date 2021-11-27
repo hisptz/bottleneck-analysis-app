@@ -30,7 +30,6 @@ export default function CalculationDetails({ id }: { id: string }) {
           </DataTableRow>
           <DataTableRow>
             <DataTableCell bordered>{i18n.t("Denominator")}</DataTableCell>
-
             <CalculationDetailRow formula={denominator} location="denominator" />
           </DataTableRow>
         </TableBody>
