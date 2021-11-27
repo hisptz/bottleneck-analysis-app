@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards">
-      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/state/config.ts" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/bottleneck-analysis-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bottleneck-analysis-app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,12 +49,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/view-full-page" />
-                    <option name="lastUsedInstant" value="1637998468" />
-                  </RecentBranch>
-                  <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1637998355" />
+                    <option name="lastUsedInstant" value="1638005451" />
                   </RecentBranch>
                 </list>
               </option>
@@ -461,7 +456,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638003378455</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table">
+      <created>1638005238098</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1638005238098</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,7 +482,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat(Dashboard List): Implementation&#10;&#10;- Implemented dashboard list data fetch and logic&#10;- Implemented initial&#10;app loading page&#10;- Implemented initial navigation" />
     <MESSAGE value="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu" />
     <MESSAGE value="feat(Dashboard View): Implementation&#10;&#10;- Implemented intervention name view&#10; - Implemented intervention details&#10;name and view logic" />
     <MESSAGE value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented Sublevel tabs&#10; - Implemented Sublevel header" />
@@ -505,7 +506,8 @@
     <MESSAGE value="fix(Indicator Dictionary): Fixes&#10;&#10;- Fixed formula and data elements section of dictionary" />
     <MESSAGE value="feat(SubLevelAnalysis): Implementation&#10;&#10;- Implemented download excel functionality for sub level analysis table" />
     <MESSAGE value="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards" />
+    <MESSAGE value="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
