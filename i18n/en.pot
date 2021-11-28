@@ -5,8 +5,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+ion-Date: 2021-11-22T14:26:12.956Z\n"
 "POT-Creation-Date: 2021-11-27T07:34:58.691Z\n"
 "PO-Revision-Date: 2021-11-27T07:34:58.691Z\n"
+
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"

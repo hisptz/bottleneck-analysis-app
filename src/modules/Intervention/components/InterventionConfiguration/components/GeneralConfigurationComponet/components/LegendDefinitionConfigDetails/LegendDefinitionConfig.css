@@ -1,0 +1,11 @@
+.legendDefinitonConfig{
+    background-color: transparent;
+    width: 50%;
+    padding-left: 10%;
+}
+p{
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    line-height: 24px;
+    margin-bottom:0.7%
+}

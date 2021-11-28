@@ -1,12 +1,17 @@
 import { getAllowedChartType } from "./get-allowed-chart-types.helper";
 
-export function getPlotOptions(chartConfiguration: any) {
+export function getPlotOptions(chartConfiguration: any, chartConfigDefinitions: any) {
   const plotOptionChartType = getAllowedChartType(chartConfiguration.type);
 
   // TODO: Find best way to attach custom events into the chart
   const plotOptions: any = {
     series: {
       cursor: "pointer",
+      pointWidth: chartConfigDefinitions["pointWidth"],
+      pointPadding: 51,
+      borderWidth: 0,
+      groupPadding: 1,
+      shadow: false,
       point: {
         events: {
           click: function () {

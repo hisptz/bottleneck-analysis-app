@@ -7,14 +7,14 @@ import { getChartSubtitleObject } from "./get-chart-subtitle.helper";
 import { getChartTitleObject } from "./get-chart-title-object.helper";
 import { getTooltipOptions } from "./get-chart-tooltip-options.helper";
 
-export function getInitialChartObject(analyticsObject: any, chartConfiguration: any) {
+export function getInitialChartObject(analyticsObject: any, chartConfiguration: any, chartConfigDefinitions: any) {
   return {
     chart: getChartAttributeOptions(chartConfiguration),
     title: getChartTitleObject(chartConfiguration),
     subtitle: getChartSubtitleObject(chartConfiguration, analyticsObject),
     credits: getChartCreditsOptions(),
     colors: getChartColors(),
-    plotOptions: getPlotOptions(chartConfiguration),
+    plotOptions: getPlotOptions(chartConfiguration, chartConfigDefinitions),
     tooltip: getTooltipOptions(chartConfiguration),
   };
 }
