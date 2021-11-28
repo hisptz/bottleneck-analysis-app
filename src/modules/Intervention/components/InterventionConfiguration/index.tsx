@@ -22,13 +22,7 @@ export default function InterventionConfiguration() {
           },
           {
             label: "Determinants",
-            component: () => (
-              <div className="container">
-                <div className="column text-center">
-                  <h1>Generalconfiguration</h1>
-                </div>
-              </div>
-            ),
+            component: DeterminantsConfigurationComponent,
             helpSteps: [],
           },
           {
@@ -36,7 +30,7 @@ export default function InterventionConfiguration() {
             component: () => (
               <div className="container">
                 <div className="column text-center">
-                  <h1>Access </h1>
+                  <h1>2</h1>
                 </div>
               </div>
             ),
