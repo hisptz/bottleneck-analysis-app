@@ -2,9 +2,12 @@ import { IconDimensionIndicator16, IconDimensionProgramIndicator16, Button, Icon
 import { DataConfigurationArea } from "@hisptz/react-ui";
 import { DataConfigurationAreaGroupProps } from "@hisptz/react-ui/build/types/components/DataConfigurationArea";
 import React from "react";
+import { useSetRecoilState } from "recoil";
+import { InterventionConfiguationDeterminant } from "../../../../../../../state/intervention";
 import "./GroupDeterminantComponent.module.css";
 
 export default function GroupDeterminantComponent() {
+  const setInterventinoLegendDefintionConfigState = useSetRecoilState(InterventionConfiguationDeterminant);
   const groups: Array<DataConfigurationAreaGroupProps> = [
     {
       id: "group-1",
@@ -84,7 +87,11 @@ export default function GroupDeterminantComponent() {
     <div>
       <DataConfigurationArea
         groups={groups}
+        deletableItems
         onItemClick={function (groupId: string, itemId: string): void {
+          setInterventinoLegendDefintionConfigState(true);
+        }}
+        onItemDelete={function (groupId: string, itemId: string): void {
           throw new Error("Function not implemented.");
         }}
         groupFooter={

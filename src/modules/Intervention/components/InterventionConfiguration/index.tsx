@@ -27,7 +27,13 @@ export default function InterventionConfiguration() {
           },
           {
             label: "Access",
-            component: AccessConfigurationComponent,
+            component: () => (
+              <div className="container">
+                <div className="column text-center">
+                  <h1>2</h1>
+                </div>
+              </div>
+            ),
             helpSteps: [],
           },
         ]}

@@ -1,4 +1,18 @@
 .selected-item{
-    background-color: yellow;
-    width: 58%;
+    background-color: white;
+    width: 59%;
+    border: 1px solid rgb(109, 103, 103);
+    min-height: 624px;
+}
+.selected-item-header>h3{
+    padding-left: 4%;
+    margin-bottom: 0px;
+}
+.selected-item-header{
+    margin-bottom: 0px;
+}
+.selected-item-body{
+    padding-left: 4%;
+    padding-bottom: 4%;
+    padding-right: 2%;
 }
