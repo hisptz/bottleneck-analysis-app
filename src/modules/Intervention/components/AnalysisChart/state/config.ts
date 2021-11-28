@@ -1,10 +1,10 @@
-import { selectorFamily } from "recoil";
+import { atomFamily } from "recoil";
 
-export const ChartConfigState = selectorFamily<any, string>({
+export const ChartConfigState = atomFamily<any, string>({
   key: "chartConfig",
-  get: (interventionId: string) => () => {
+  default: (interventionId: string) => {
     return {
-      pointWidth: 160,
+      pointWidth: 100,
       interventionId,
     };
   },

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { DataTable, DataTableHead, DataTableBody, DataTableRow, DataTableCell, DataTableColumnHeader, IconDimensionOrgUnit16 } from "@dhis2/ui";
 import React from "react";
 import { useParams } from "react-router-dom";
@@ -21,7 +20,8 @@ export default function ChartLabelComponent() {
   //InterventionStateSelector
   const chartConfigurationDefinition = useRecoilValue(ChartConfigState(interventionId));
   // const orgUnitDefinition = useRecoilValue(
-  //   InterventionStateSelector({
+  //   InterventionStateSelector({      <HightChartsReact highcharts={HighCharts} options={chartOptions} />
+
   //     id: interventionId,
   //     path: ["orgUnitSelection", "orgUnit"],
   //   })

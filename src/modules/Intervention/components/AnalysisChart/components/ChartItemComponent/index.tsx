@@ -4,14 +4,16 @@ import HighCharts from "highcharts";
 import HightChartsReact from "highcharts-react-official";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { getChartConfiguration } from "../../helper/get-chart-configuration.helper";
 import { getCharObject } from "../../helper/get-chart-object.helper";
+import { ChartConfigState } from "../../state/config";
 import { ChartData } from "../../state/data";
 
 export default function ChartItemComponent() {
   const { id } = useParams<{ id: string }>();
   const data = useRecoilValue(ChartData(id));
+  const [chartConfigDefinitions, setChartConfigDefinitions] = useRecoilState(ChartConfigState(id));
 
   const chartConfiguration = {
     layout: {
@@ -50,19 +52,17 @@ export default function ChartItemComponent() {
 
   function drawChart(analyticsObject: any, drawChartConfiguration: any) {
     if (drawChartConfiguration && analyticsObject) {
-      const chartObject = getCharObject(analyticsObject, drawChartConfiguration);
+      const chartObject = getCharObject(analyticsObject, drawChartConfiguration, chartConfigDefinitions);
       if (chartObject) {
         setChartOptions(chartObject);
       }
+      setChartConfigDefinitions({ pointWidth: chartObject["plotOptions"]["series"]["pointWidth"] });
     }
   }
 
   function chartConfigurationSelector(layout: any, currentChartType: any) {
     return getChartConfiguration({}, id, layout, "Data", currentChartType, []);
   }
-  const dta: any = chartOptions;
-  //["plotOptions"]["series"]["pointWidth"];
-  console.log("chart options \n ,", dta);
   return (
     <div
       className="chart-block"

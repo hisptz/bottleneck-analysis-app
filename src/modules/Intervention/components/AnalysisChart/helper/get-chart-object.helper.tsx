@@ -8,10 +8,10 @@ import { getSanitizedChartObject } from "./get-sanitized-chart-object.helper";
 import { getSolidGaugeChartObject } from "./get-solid-gauge-chart-object.helper";
 import { getSpiderWebChartObject } from "./get-spider-web-chart-object.helper";
 
-export function getCharObject(incommingAnalyticObject: any, chartConfiguration: any) {
+export function getCharObject(incommingAnalyticObject: any, chartConfiguration: any, chartConfigDefinitions: any) {
   const analyticsObject = getSanitizedanalyticsBasedOnConfiguration(incommingAnalyticObject, chartConfiguration);
 
-  let chartObject: any = getInitialChartObject(analyticsObject, chartConfiguration);
+  let chartObject: any = getInitialChartObject(analyticsObject, chartConfiguration, chartConfigDefinitions);
 
   /**
    * Extend chart options depending on type
