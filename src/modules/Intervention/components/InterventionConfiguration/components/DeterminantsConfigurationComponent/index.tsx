@@ -6,9 +6,7 @@ import "./DeterminantConfigrationComponent.css";
 export default function DeterminantsConfigurationComponent() {
   return (
     <div className="determinantMain">
-      <div>
-        <DeterminantComponent />
-      </div>
+      <DeterminantComponent />
       <SelectedItermComponent />
     </div>
   );
