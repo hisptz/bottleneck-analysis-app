@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore(*): Code Cleaning&#10;&#10;- Removed temporary code&#10; - Removed unnecessary console logs" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/bottleneck-analysis-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bottleneck-analysis-app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop" />
+        <entry key="$PROJECT_DIR$" value="feature/download-chart" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -45,12 +49,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/indicator-dictionary" />
-                    <option name="lastUsedInstant" value="1637562663" />
-                  </RecentBranch>
-                  <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1636795467" />
+                    <option name="lastUsedInstant" value="1638005451" />
                   </RecentBranch>
                 </list>
               </option>
@@ -80,7 +80,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/.env" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/shared/components/errors" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -96,20 +96,21 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary" />
+      <recent name="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/Components" />
       <recent name="$PROJECT_DIR$/src/shared/components/errors" />
       <recent name="$PROJECT_DIR$/src/shared/components/errors/CardError" />
       <recent name="$PROJECT_DIR$/src/modules/EmptyInterventions" />
-      <recent name="$PROJECT_DIR$/src/shared/components/loaders" />
-      <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/SingleDictionary" />
       <recent name="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components" />
       <recent name="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state" />
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader" />
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start --proxy https://hisp.apps.dhis2.org/dev">
+  <component name="RunManager" selected="npm.start">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -151,18 +152,40 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="npm.build" />
       <item itemvalue="npm.deploy" />
       <item itemvalue="npm.format" />
+      <item itemvalue="npm.start" />
       <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.start" />
         <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
+        <item itemvalue="npm.format" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.build" />
-        <item itemvalue="npm.format" />
       </list>
     </recent_temporary>
   </component>
@@ -210,6 +233,18 @@
       <workItem from="1637307103894" duration="406000" />
       <workItem from="1637397599534" duration="8565000" />
       <workItem from="1637556098492" duration="2257000" />
+      <workItem from="1637655070859" duration="1469000" />
+      <workItem from="1637660033714" duration="2479000" />
+      <workItem from="1637666721173" duration="1182000" />
+      <workItem from="1637672463486" duration="9057000" />
+      <workItem from="1637684387322" duration="753000" />
+      <workItem from="1637747944215" duration="23000" />
+      <workItem from="1637785623325" duration="6294000" />
+      <workItem from="1637916191048" duration="100000" />
+      <workItem from="1637923496017" duration="960000" />
+      <workItem from="1637932859685" duration="1555000" />
+      <workItem from="1637987672567" duration="4308000" />
+      <workItem from="1637993676417" duration="3787000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -393,7 +428,42 @@
       <option name="project" value="LOCAL" />
       <updated>1637562627886</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="feat(Indicator Dictionary): Implementation&#10;&#10;- Implemented dictionary UI and logic">
+      <created>1637684461527</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1637684461527</updated>
+    </task>
+    <task id="LOCAL-00028" summary="fix(Indicator Dictionary): Fixes&#10;&#10;- Fixed formula and data elements section of dictionary">
+      <created>1637992147269</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1637992147269</updated>
+    </task>
+    <task id="LOCAL-00029" summary="feat(SubLevelAnalysis): Implementation&#10;&#10;- Implemented download excel functionality for sub level analysis table">
+      <created>1637996698676</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1637996698676</updated>
+    </task>
+    <task id="LOCAL-00030" summary="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards">
+      <created>1638003378455</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1638003378455</updated>
+    </task>
+    <task id="LOCAL-00031" summary="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table">
+      <created>1638005238098</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1638005238098</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,11 +482,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling" />
-    <MESSAGE value="feat(Intervention Name  ): Implementation&#10;&#10;- Implemented Intervention name view &#10; - Improved sytling for dashboard&#10;header" />
-    <MESSAGE value="feat(Intervention Layout  ): Implementation&#10;&#10;- Implemented intervention layout" />
-    <MESSAGE value="feat(Favicon): Implementation&#10;&#10;- Added BNA favicon and DHIS2 Icon" />
-    <MESSAGE value="feat(Dashboard List): Implementation&#10;&#10;- Implemented dashboard list data fetch and logic&#10;- Implemented initial&#10;app loading page&#10;- Implemented initial navigation" />
     <MESSAGE value="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu" />
     <MESSAGE value="feat(Dashboard View): Implementation&#10;&#10;- Implemented intervention name view&#10; - Implemented intervention details&#10;name and view logic" />
     <MESSAGE value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented Sublevel tabs&#10; - Implemented Sublevel header" />
@@ -437,7 +502,12 @@
     <MESSAGE value="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool" />
     <MESSAGE value="feat(Root Cause Data): Implementation&#10;&#10;- Implemented root cause data migration to the new model" />
     <MESSAGE value="chore(*): Code Cleaning&#10;&#10;- Removed temporary code&#10; - Removed unnecessary console logs" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore(*): Code Cleaning&#10;&#10;- Removed temporary code&#10; - Removed unnecessary console logs" />
+    <MESSAGE value="feat(Indicator Dictionary): Implementation&#10;&#10;- Implemented dictionary UI and logic" />
+    <MESSAGE value="fix(Indicator Dictionary): Fixes&#10;&#10;- Fixed formula and data elements section of dictionary" />
+    <MESSAGE value="feat(SubLevelAnalysis): Implementation&#10;&#10;- Implemented download excel functionality for sub level analysis table" />
+    <MESSAGE value="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards" />
+    <MESSAGE value="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
