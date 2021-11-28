@@ -5,10 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-ion-Date: 2021-11-22T14:26:12.956Z\n"
-"POT-Creation-Date: 2021-11-27T07:34:58.691Z\n"
-"PO-Revision-Date: 2021-11-27T07:34:58.691Z\n"
-
+"POT-Creation-Date: 2021-11-28T10:31:07.045Z\n"
+"PO-Revision-Date: 2021-11-28T10:31:07.045Z\n"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -31,8 +29,14 @@ msgstr "Select period and organisation unit and save changes"
 msgid "Add New Intervention"
 msgstr "Add New Intervention"
 
+msgid "Bottleneck Analysis Chart"
+msgstr "Bottleneck Analysis Chart"
+
 msgid "Back to Intervention"
 msgstr "Back to Intervention"
+
+msgid "View in Full Screen"
+msgstr "View in Full Screen"
 
 msgid "Add Filter"
 msgstr "Add Filter"
@@ -295,9 +299,6 @@ msgstr "Dictionary View"
 
 msgid "Download Excel"
 msgstr "Download Excel"
-
-msgid "View Full Screen"
-msgstr "View Full Screen"
 
 msgid "Something went wrong with the migration"
 msgstr "Something went wrong with the migration"

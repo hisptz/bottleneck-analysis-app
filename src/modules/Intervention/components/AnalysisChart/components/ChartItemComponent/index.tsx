@@ -4,7 +4,7 @@ import HighCharts from "highcharts";
 import HightChartsReact from "highcharts-react-official";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { getChartConfiguration } from "../../helper/get-chart-configuration.helper";
 import { getCharObject } from "../../helper/get-chart-object.helper";
 import { ChartConfigState } from "../../state/config";
