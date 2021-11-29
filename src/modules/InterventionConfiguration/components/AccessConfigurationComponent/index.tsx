@@ -1,3 +1,4 @@
+import { ACCESS_NONE } from "../../../../constants/constants";
 import React from "react";
 import "./AccessConfigurationComponent.css";
 import classes from "./AccessConfigurationComponent.module.css";
@@ -22,7 +23,17 @@ export default function AccessConfigurationComponent() {
       </div>
 
       <div className="access-config-body">
-        <TabbedContent />
+        <TabbedContent
+          id={""}
+          users={[]}
+          groups={[]}
+          publicAccess={ACCESS_NONE}
+          allowPublicAccess={true}
+          type={""}
+          onAdd={() => {}}
+          onChange={() => {}}
+          onRemove={() => {}}
+        />
       </div>
     </div>
   );
