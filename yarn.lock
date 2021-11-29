@@ -13889,6 +13889,11 @@ react-full-screen@^1.1.0:
   dependencies:
     fscreen "^1.0.2"
 
+react-hook@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-hook/-/react-hook-0.0.1.tgz#decb8a9f8cedcc88223d3c45853f32366f8cb4a5"
+  integrity sha512-2/Guf88/dGyFgUT7QDtBJ1l7V5yqTcAHlNRIZNTu2xg0KkDjaiYZp79ah49NDaLMI/J7voWcKLU8wMONG4A/1g==
+
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"

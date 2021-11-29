@@ -1,7 +1,7 @@
-import { SharingDialog } from "@dhis2/ui";
 import React from "react";
 import "./AccessConfigurationComponent.css";
 import classes from "./AccessConfigurationComponent.module.css";
+import TabbedContent from "./component/TabbedContent";
 
 // export default function AccessConfigurationComponent() {
 //   return (
@@ -17,10 +17,12 @@ import classes from "./AccessConfigurationComponent.module.css";
 export default function AccessConfigurationComponent() {
   return (
     <div className="accessConfig">
-      <p>Sharing & Access</p>
+      <div>
+        <p>Sharing & Access</p>
+      </div>
 
       <div className="access-config-body">
-        <h5>Access config body</h5>
+        <TabbedContent />
       </div>
     </div>
   );
