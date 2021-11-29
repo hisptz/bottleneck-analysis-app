@@ -4,7 +4,7 @@ import "./SelectedItemComponent.css";
 
 export default function IndicatorConfiguration() {
   return (
-    <div className="selected-item">
+    <div className="indicator-configuration-area">
       <div className="selected-item-header">
         <h3>Availability of Iron Follic Acid</h3>
       </div>

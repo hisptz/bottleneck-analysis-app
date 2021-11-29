@@ -8,9 +8,11 @@ import "./Determinant.css";
 export default function DeterminantsConfiguration() {
   const useSelectectedItemConfigState = useRecoilValue(InterventionConfiguationDeterminant);
   return (
-    <div className="determinantMain">
-      <DeterminantArea />
-      {useSelectectedItemConfigState && <IndicatorConfiguration />}
+    <div className="determinant-main-container">
+      <div className="determinant-area-container">
+        <DeterminantArea />
+      </div>
+      <div className="indicator-configuration-container">{useSelectectedItemConfigState && <IndicatorConfiguration />}</div>
     </div>
   );
 }
