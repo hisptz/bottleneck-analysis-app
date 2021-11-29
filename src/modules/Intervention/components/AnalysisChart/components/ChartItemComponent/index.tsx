@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-empty */
 import HighCharts from "highcharts";
-import HightChartsReact from "highcharts-react-official";
+import HighChartsReact from "highcharts-react-official";
+import HighChartsExport from "highcharts/modules/exporting";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -10,11 +9,11 @@ import { getCharObject } from "../../helper/get-chart-object.helper";
 import { ChartConfigState } from "../../state/config";
 import { ChartData } from "../../state/data";
 
-export default function ChartItemComponent() {
+export default function ChartItemComponent({ chartRef }: { chartRef: any }) {
   const { id } = useParams<{ id: string }>();
   const data = useRecoilValue(ChartData(id));
   const [chartConfigDefinitions, setChartConfigDefinitions] = useRecoilState(ChartConfigState(id));
-
+  HighChartsExport(HighCharts);
   const chartConfiguration = {
     layout: {
       column: "ou",
@@ -34,6 +33,7 @@ export default function ChartItemComponent() {
     },
   };
   const [chartOptions, setChartOptions] = useState();
+
   function restructureMetaData(metaData: any): any {
     const restructure: { [key: string]: any } = {};
     Object.keys(metaData).forEach((key) => {
@@ -46,6 +46,7 @@ export default function ChartItemComponent() {
     });
     return restructure;
   }
+
   useEffect(() => {
     drawChart(analysisData["_data"], chartConfigurationSelector(chartConfiguration.layout, "column"));
   }, [data]);
@@ -63,6 +64,7 @@ export default function ChartItemComponent() {
   function chartConfigurationSelector(layout: any, currentChartType: any) {
     return getChartConfiguration({}, id, layout, "Data", currentChartType, []);
   }
+
   return (
     <div
       className="chart-block"
@@ -71,7 +73,7 @@ export default function ChartItemComponent() {
         minWidth: "1196px",
         width: "auto",
       }}>
-      <HightChartsReact highcharts={HighCharts} options={chartOptions} />
+      <HighChartsReact ref={chartRef} highcharts={HighCharts} options={{ ...(chartOptions ?? {}), navigation: { buttonOptions: false } }} />
     </div>
   );
 }

@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(InterventionConfiguration): Implementation&#10;- Implemented General configuration logic">
-      <change afterPath="$PROJECT_DIR$/src/shared/utils/indicators.tsx" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(ChartAnalysisDownload): Implementation&#10;&#10;- Implemented chart data excel download">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/component/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/component/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="bugfix/chart-alignement" />
+        <entry key="$PROJECT_DIR$" value="feature/download-chart" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -49,12 +50,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/intervention-configuration" />
-                    <option name="lastUsedInstant" value="1638170687" />
+                    <option name="branchName" value="feature/chart-analysis-download" />
+                    <option name="lastUsedInstant" value="1638205880" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1638161687" />
+                    <option name="lastUsedInstant" value="1638005451" />
                   </RecentBranch>
                 </list>
               </option>
@@ -107,11 +108,11 @@
       <recent name="$PROJECT_DIR$/src/modules/EmptyInterventions" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/General" />
-      <recent name="$PROJECT_DIR$/src/modules" />
       <recent name="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/SingleDictionary" />
       <recent name="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components" />
       <recent name="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state" />
+      <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader" />
+      <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
   <component name="RunManager" selected="npm.start --proxy https://hisp.apps.dhis2.org/dev">
@@ -263,8 +264,6 @@
       <workItem from="1638009367643" duration="676000" />
       <workItem from="1638107075407" duration="2967000" />
       <workItem from="1638159654704" duration="1313000" />
-      <workItem from="1638185365830" duration="5978000" />
-      <workItem from="1638205268986" duration="406000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -497,35 +496,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638160167441</updated>
     </task>
-    <task id="LOCAL-00034" summary="chore(InterventionConfiguration): Refactor&#10;&#10;- Changed location of the InterventionConfiguration">
-      <created>1638167724599</created>
+    <task id="LOCAL-00034" summary="feat(ChartAnalysisDownload): Implementation&#10;&#10;- Implemented chart data excel download">
+      <created>1638209501799</created>
       <option name="number" value="00034" />
       <option name="presentableId" value="LOCAL-00034" />
       <option name="project" value="LOCAL" />
-      <updated>1638167724599</updated>
+      <updated>1638209501799</updated>
     </task>
-    <task id="LOCAL-00035" summary="chore(InterventionConfiguration): Refactor&#10;&#10;- Refactored names and location of files and components in the&#10;InterventionConfig module">
-      <created>1638168895910</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1638168895910</updated>
-    </task>
-    <task id="LOCAL-00036" summary="fix(InterventionConfiguration): Fixes and Improvements&#10;&#10;- Improved styling of configuration pages&#10; - Implemented responsiveness&#10;for configuration pages">
-      <created>1638175886461</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1638175886461</updated>
-    </task>
-    <task id="LOCAL-00037" summary="feat(InterventionConfiguration): Implementation&#10;- Implemented General configuration logic">
-      <created>1638190843912</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1638190843912</updated>
-    </task>
-    <option name="localTasksCounter" value="38" />
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,6 +522,9 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented sublevel UI" />
+    <MESSAGE value="feat(Migration): Implementation&#10;&#10;- Summary implementation" />
+    <MESSAGE value="feat(New Data Flow): Implementation&#10;&#10;- Implemented intervention state based on new data model" />
     <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Implemented sublevel analysis logic" />
     <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Fixed issues with table view&#10;- Implemented legends" />
     <MESSAGE value="fix(*): &#10;- Merge issues" />
@@ -565,11 +546,8 @@
     <MESSAGE value="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table" />
     <MESSAGE value="chore(gitignore): addition&#10;&#10;- Added build to gitignore file" />
     <MESSAGE value="feat(intervention configuration): routing&#10;&#10;- Added routes for configuring and adding new intervention" />
-    <MESSAGE value="chore(InterventionConfiguration): Refactor&#10;&#10;- Changed location of the InterventionConfiguration" />
-    <MESSAGE value="chore(InterventionConfiguration): Refactor&#10;&#10;- Refactored names and location of files and components in the&#10;InterventionConfig module" />
-    <MESSAGE value="fix(InterventionConfiguration): Fixes and Improvements&#10;&#10;- Improved styling of configuration pages&#10; - Implemented responsiveness&#10;for configuration pages" />
-    <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;- Implemented General configuration logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(InterventionConfiguration): Implementation&#10;- Implemented General configuration logic" />
+    <MESSAGE value="feat(ChartAnalysisDownload): Implementation&#10;&#10;- Implemented chart data excel download" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(ChartAnalysisDownload): Implementation&#10;&#10;- Implemented chart data excel download" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
