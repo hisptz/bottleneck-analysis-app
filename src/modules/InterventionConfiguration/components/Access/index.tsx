@@ -1,13 +1,12 @@
 import { SharingDialog } from "@dhis2/ui";
 import React from "react";
-import "./AccessConfigurationComponent.css";
-import classes from "./AccessConfigurationComponent.module.css";
+import "./Access.css";
+import classes from "./AccessConfiguration.module.css";
 
-export default function AccessConfigurationComponent() {
+export default function AccessConfiguration() {
   return (
     <div className="accessConfig">
       <p>Sharing & Access</p>
-
       <div className="access-config-body">
         <SharingDialog className={classes["root"]} id="sharing-test" onClose={() => {}} />
       </div>
