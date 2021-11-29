@@ -1,6 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
 import { colors, IconDownload24, IconFileDocument24, IconImage24 } from "@dhis2/ui";
-import React from "react";
+import HighchartsReact from "highcharts-react-official";
+import React, { useRef } from "react";
 import { useFullScreenHandle } from "react-full-screen";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -19,15 +20,19 @@ export default function AnalysisChart() {
   const groups = useRecoilValue(InterventionStateSelector({ id, path: ["dataSelection", "groups"] }));
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
 
-  console.log(orgUnit);
+  const chartRef = useRef<HighchartsReact.RefObject>(null);
 
   const handle = useFullScreenHandle();
 
   const onExcelDownload = () => {
     downloadExcelFromAnalytics({ analytics: data, groups, orgUnit }, interventionName);
   };
-  const onPDFDownload = () => {};
-  const onImageDownload = () => {};
+  const onPDFDownload = () => {
+    chartRef?.current?.chart.exportChart({ type: "application/pdf" }, {});
+  };
+  const onImageDownload = () => {
+    chartRef?.current?.chart.exportChart({ type: "image/png" }, {});
+  };
 
   return (
     <InterventionCard
@@ -56,7 +61,7 @@ export default function AnalysisChart() {
           <h4 style={{ color: colors.grey700 }}>{`${interventionName}`}</h4>
         </div>
       }>
-      <Chart />
+      <Chart chartRef={chartRef} />
       <ChartLabelComponent />
     </InterventionCard>
   );
