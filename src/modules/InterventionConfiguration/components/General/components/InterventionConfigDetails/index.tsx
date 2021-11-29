@@ -1,34 +1,51 @@
 import i18n from "@dhis2/d2-i18n";
-import { CheckboxField, InputField, NoticeBox, SingleSelectField, SingleSelectOption, TextAreaField } from "@dhis2/ui";
-import React from "react";
+import { InputField, SingleSelectField, SingleSelectOption, TextAreaField } from "@dhis2/ui";
+import { Period } from "@iapps/period-utilities";
+import React, { useMemo } from "react";
 import "./InterventionConfigDetails.css";
+import { useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { InterventionDirtySelector } from "../../../../state/data";
+import OrgUnitLevelSelector from "../OrgUnitLevelSelector";
 
 export default function InterventionConfigDetails() {
+  const { id } = useParams<{ id: string }>();
+  const [name, setName] = useRecoilState(InterventionDirtySelector({ id, path: ["name"] }));
+  const [description, setDescription] = useRecoilState(InterventionDirtySelector({ id, path: ["description"] }));
+
+  const [periodType, setPeriodType] = useRecoilState(
+    InterventionDirtySelector({
+      id,
+      path: ["periodSelection", "type"],
+    })
+  );
+  const periodTypes = useMemo(() => {
+    const periodInstance = new Period();
+    // @ts-ignore
+    return periodInstance?._periodType?._periodTypes;
+  }, []);
   return (
     <div className="interventionConfig">
-      <InputField name={"name"} label={"Intervention Name"} />
-      <TextAreaField label={i18n.t("Description")} name="description" onBlur={() => {}} onChange={() => {}} onFocus={() => {}} placeholder="Content" />
+      <InputField value={name} onChange={({ value }: { value: string }) => setName(value)} name={"name"} label={"Intervention Name"} />
+      <TextAreaField
+        value={description}
+        label={i18n.t("Description")}
+        name="description"
+        onChange={({ value }: { value: string }) => setDescription(value)}
+        placeholder={i18n.t("Enter a description")}
+      />
 
-      <SingleSelectField name={"periodType"} label={i18n.t("Bottleneck Period Type")} onChange={() => {}} placeholder="Yearly">
-        <SingleSelectOption label="2021" value="1" />
-        <SingleSelectOption label="2022" value="2" />
-        <SingleSelectOption label="2023" value="3" />
+      <SingleSelectField
+        selected={periodType}
+        name={"periodType"}
+        label={i18n.t("Bottleneck Period Type")}
+        onChange={({ selected }: { selected: string }) => setPeriodType(selected)}
+        placeholder="Yearly">
+        {periodTypes.map(({ id, name }: { id: string; name: string }) => (
+          <SingleSelectOption key={`${id}-option`} value={id} label={name} />
+        ))}
       </SingleSelectField>
-      <div className={"pt-16"}>
-        <NoticeBox title={i18n.t("Sub level analysis notice")}>
-          {i18n.t(
-            "By Default sub level analysis will display data for the immediate user sub organisation unit, however given implementation this may not be the case and\n" +
-              "        specific level can be selected instead."
-          )}
-        </NoticeBox>
-      </div>
-      <CheckboxField label={i18n.t("Set specific level for sub level analysis")} name={"specific-sub-level-check"} />
-
-      <SingleSelectField label={i18n.t("Sub level analysis level")} className="select" onChange={() => {}} placeholder="Facility">
-        <SingleSelectOption label="MOH" value="1" />
-        <SingleSelectOption label="HHIS" value="2" />
-        <SingleSelectOption label="CIR" value="3" />
-      </SingleSelectField>
+      <OrgUnitLevelSelector />
     </div>
   );
 }

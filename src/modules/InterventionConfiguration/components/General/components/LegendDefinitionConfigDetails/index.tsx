@@ -1,81 +1,43 @@
+import { Field } from "@dhis2/ui";
+import { CustomInput } from "@hisptz/react-ui";
 import React from "react";
 import "./LegendDefinitionConfig.css";
-import { CustomInput } from "@hisptz/react-ui";
+import { useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { InterventionDirtySelector } from "../../../../state/data";
 
 export function LegendDefinitionConfigDetails() {
+  const { id } = useParams<{ id: string }>();
+  const [legendDefinitions, setLegendDefinitions] = useRecoilState(
+    InterventionDirtySelector({
+      id,
+      path: ["dataSelection", "legendDefinitions"],
+    })
+  );
+
+  const onChange = (index: number, value: any) => {
+    setLegendDefinitions((prevState: any) => {
+      const newState = [...prevState];
+      newState[index].value = value;
+      return newState;
+    });
+  };
+
   return (
-    <div className="legendDefinitonConfig">
-      <p>Legend Definitions(Applicable across all indicators)</p>
-      <CustomInput
-        input={{
-          onChange: function (payload: { value: any; name: string }): void {
-            throw new Error("Function not implemented.");
-          },
-          value: {
-            name: "Target achieved/ on track",
-            color: "#147e14",
-          },
-          name: "legend-definition",
-          label: "",
-        }}
-        valueType={"LEGEND_DEFINITION"}
-      />
-      <CustomInput
-        input={{
-          onChange: function (payload: { value: any; name: string }): void {
-            throw new Error("Function not implemented.");
-          },
-          value: {
-            name: "Progress, but more effort required",
-            color: "#fafa75",
-          },
-          name: "legend-definition",
-          label: "",
-        }}
-        valueType={"LEGEND_DEFINITION"}
-      />
-      <CustomInput
-        input={{
-          onChange: function (payload: { value: any; name: string }): void {
-            throw new Error("Function not implemented.");
-          },
-          value: {
-            name: "Not on track",
-            color: "#ff0303",
-          },
-          name: "legend-definition",
-          label: "",
-        }}
-        valueType={"LEGEND_DEFINITION"}
-      />
-      <CustomInput
-        input={{
-          onChange: function (payload: { value: any; name: string }): void {
-            throw new Error("Function not implemented.");
-          },
-          value: {
-            name: "Not Applicable",
-            color: "#838c80",
-          },
-          name: "legend-definition",
-          label: "",
-        }}
-        valueType={"LEGEND_DEFINITION"}
-      />
-      <CustomInput
-        input={{
-          onChange: function (payload: { value: any; name: string }): void {
-            throw new Error("Function not implemented.");
-          },
-          value: {
-            name: "No data",
-            color: "#cfd4cd",
-          },
-          name: "legend-definition",
-          label: "",
-        }}
-        valueType={"LEGEND_DEFINITION"}
-      />
+    <div className="legend-definition-config">
+      <Field>
+        {legendDefinitions?.map((legendDefinition: { name: any }, index: number) => (
+          <CustomInput
+            key={`${legendDefinition.name}-legendDefinitionConfig`}
+            input={{
+              onChange: ({ value }) => onChange(index, value),
+              value: legendDefinition,
+              name: legendDefinition.name,
+            }}
+            valueType={"LEGEND_DEFINITION"}
+          />
+        ))}
+      </Field>
     </div>
   );
 }

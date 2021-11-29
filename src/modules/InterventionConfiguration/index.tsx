@@ -5,8 +5,14 @@ import React from "react";
 import DeterminantsConfigurationComponent from "./components/Determinants";
 import GeneralConfigurationComponent from "./components/General";
 import "./InterventionConfiguration.css";
+import { useHistory } from "react-router-dom";
 
 export default function InterventionConfiguration() {
+  const history = useHistory();
+
+  const onExit = () => {
+    history.goBack();
+  };
   return (
     <div className="configuration-main-container">
       <div className="stepper-config-header">
@@ -50,7 +56,7 @@ export default function InterventionConfiguration() {
       </div>
       <ButtonStrip middle>
         <Button color={"blue"}>{i18n.t("Save and exit")}</Button>
-        <Button>{i18n.t("Exit Without saving")}</Button>
+        <Button onClick={onExit}>{i18n.t("Exit Without saving")}</Button>
       </ButtonStrip>
     </div>
   );
