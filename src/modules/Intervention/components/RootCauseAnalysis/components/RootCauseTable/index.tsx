@@ -9,15 +9,14 @@ import { RootCauseTableConfig } from "../../state/config";
 import RootCauseTableHeaderComponent from "./components/RootCauseTableHeaderComponent";
 import classes from "./RootCauseTable.module.css";
 
-
-export default function RootCauseTable() {
+export default function RootCauseTable({ tableRef }: { tableRef: any }) {
   const { id } = useParams<{ id: string }>();
   const { columns, rows } = useRecoilValue(RootCauseTableConfig(id));
   const ref = useRef<HTMLDivElement | null>(null);
   const [stateRef, setStateRef] = useState<any>();
 
   return (
-    <DataTable className={classes["table"]} bordered>
+    <DataTable ref={tableRef} className={classes["table"]} bordered>
       <RootCauseTableHeaderComponent columns={columns} />
       <TableBody>
         {rows.map((row, index) => (

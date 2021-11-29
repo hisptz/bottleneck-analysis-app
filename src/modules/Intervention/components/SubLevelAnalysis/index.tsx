@@ -1,4 +1,3 @@
-/* eslint-disable import/order */
 import React, { useEffect, useRef } from "react";
 import InterventionCard, { InterventionMenu } from "../Card";
 import "./sub-level-analysis.css";
@@ -12,7 +11,7 @@ import i18n from "@dhis2/d2-i18n";
 import { IconDownload24 } from "@dhis2/ui";
 import { ErrorBoundary } from "react-error-boundary";
 import CardError from "../../../../shared/components/errors/CardError";
-import { downloadSubLevelExcelData } from "../../../../shared/utils/download";
+import { downloadExcelFromTable } from "../../../../shared/utils/download";
 import { InterventionStateSelector } from "../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../state/selections";
 import { useParams } from "react-router-dom";
@@ -23,16 +22,16 @@ export default function SubLevelAnalysis() {
   const { id } = useParams<{ id: string }>();
   const activeTabKey = useRecoilValue(ActiveTab);
   const setFullPageState = useSetRecoilState(FullPageState("subLevelAnalysis"));
-  const interventionName = useRecoilValue<string>(InterventionStateSelector({ id, path: ["name"] }));
-  const { name: periodName } = useRecoilValue(InterventionPeriodState(id));
-  const { displayName: orgUnitName } = useRecoilValue(InterventionOrgUnitState(id));
+  const interventionName = useRecoilValue<string>(InterventionStateSelector({ id, path: ["name"] })) ?? "";
+  const { name: periodName } = useRecoilValue(InterventionPeriodState(id)) ?? {};
+  const { displayName: orgUnitName } = useRecoilValue(InterventionOrgUnitState(id)) ?? {};
   const activeTab = find(tabs, ["key", activeTabKey]);
   const tableRef = useRef(null);
 
   const handle = useFullScreenHandle();
 
   const onDownloadExcel = () => {
-    downloadSubLevelExcelData(tableRef, `${interventionName}_${orgUnitName}_${periodName}`);
+    downloadExcelFromTable(tableRef, `${interventionName}_${orgUnitName}_${periodName}`);
   };
 
   const menus: Array<InterventionMenu> = [

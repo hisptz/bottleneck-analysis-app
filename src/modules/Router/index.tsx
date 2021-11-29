@@ -40,6 +40,10 @@ const routes = [
     pathname: "/:id/configuration",
     component: InterventionConfiguration,
   },
+  {
+    pathname: "/new-intervention",
+    component: InterventionConfiguration,
+  },
 ];
 
 export default function Router() {
