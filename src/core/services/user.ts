@@ -8,7 +8,7 @@ const query = {
 };
 
 export async function getUser(engine: any) {
-  const { user } = engine.query(query);
+  const { user } = await engine.query(query);
 
   return user;
 }

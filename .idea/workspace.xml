@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(intervention configuration): routing&#10;&#10;- Added routes for configuring and adding new intervention">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/state/selections.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/state/selections.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/utils/download.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/utils/download.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,8 +50,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/download-root-cause" />
-                    <option name="lastUsedInstant" value="1638160109" />
+                    <option name="branchName" value="feature/chart-analysis-download" />
+                    <option name="lastUsedInstant" value="1638205880" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
