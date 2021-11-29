@@ -3,7 +3,7 @@ import { DataConfigurationArea } from "@hisptz/react-ui";
 import { DataConfigurationAreaGroupProps } from "@hisptz/react-ui/build/types/components/DataConfigurationArea";
 import React from "react";
 import { useSetRecoilState } from "recoil";
-import { InterventionConfiguationDeterminant } from "../../../../../../../state/intervention";
+import { InterventionConfiguationDeterminant } from "../../../../../../Intervention/state/intervention";
 import "./GroupDeterminantComponent.module.css";
 
 export default function GroupDeterminantComponent() {
