@@ -1,87 +1,38 @@
-import { IconDimensionIndicator16, IconDimensionProgramIndicator16, Button, IconAdd24 } from "@dhis2/ui";
+import { Button, IconAdd24 } from "@dhis2/ui";
 import { DataConfigurationArea } from "@hisptz/react-ui";
-import { DataConfigurationAreaGroupProps } from "@hisptz/react-ui/build/types/components/DataConfigurationArea";
-import React from "react";
-import { useSetRecoilState } from "recoil";
+import React, { useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { DataItem, Group } from "../../../../../../../shared/interfaces/interventionConfig";
+import { getIcon } from "../../../../../../../shared/utils/indicators";
 import { InterventionConfiguationDeterminant } from "../../../../../../Intervention/state/intervention";
 import "./GroupDeterminantComponent.module.css";
+import { InterventionDirtySelector } from "../../../../../state/data";
 
 export default function GroupDeterminantComponent() {
+  const { id } = useParams<{ id: string }>();
   const setInterventinoLegendDefintionConfigState = useSetRecoilState(InterventionConfiguationDeterminant);
-  const groups: Array<DataConfigurationAreaGroupProps> = [
-    {
-      id: "group-1",
-      name: "Commodities (2)",
-      items: [
-        {
-          id: "item-1",
-          name: "Item 1",
-          icon: <IconDimensionIndicator16 />,
-          subLabel: "Indicator",
-        },
-        {
-          id: "item-2",
-          name: "Item 2",
-          icon: <IconDimensionProgramIndicator16 />,
-          subLabel: "Program Indicator",
-        },
-      ],
-    },
-    {
-      id: "group-2",
-      name: "Human Resources",
-      items: [
-        {
-          id: "item-1",
-          name: "Item 1",
-          icon: <IconDimensionIndicator16 />,
-          subLabel: "Indicator",
-        },
-        {
-          id: "item-2",
-          name: "Item 2",
-          icon: <IconDimensionProgramIndicator16 />,
-          subLabel: "Program Indicator",
-        },
-      ],
-    },
-    {
-      id: "group-3",
-      name: "Geographical Accesibility",
-      items: [
-        {
-          id: "item-1",
-          name: "Item 1",
-          icon: <IconDimensionIndicator16 />,
-          subLabel: "Indicator",
-        },
-        {
-          id: "item-2",
-          name: "Item 2",
-          icon: <IconDimensionProgramIndicator16 />,
-          subLabel: "Program Indicator",
-        },
-      ],
-    },
-    {
-      id: "group-4",
-      name: "Initial Utilization",
-      items: [
-        {
-          id: "item-1",
-          name: "Item 1",
-          icon: <IconDimensionIndicator16 />,
-          subLabel: "Indicator",
-        },
-        {
-          id: "item-2",
-          name: "Item 2",
-          icon: <IconDimensionProgramIndicator16 />,
-          subLabel: "Program Indicator",
-        },
-      ],
-    },
-  ];
+  const [determinants, setDeterminants] = useRecoilState(
+    InterventionDirtySelector({
+      id,
+      path: ["dataSelection", "groups"],
+    })
+  );
+  const groups: Array<any> = useMemo(
+    () =>
+      determinants.map(({ id, name, items }: Group) => {
+        return {
+          id,
+          name: `${name} (${items.length})`,
+          items: items?.map(({ id, name, type }: DataItem) => ({
+            id,
+            name,
+            icon: getIcon(type),
+          })),
+        };
+      }),
+    [determinants]
+  );
 
   return (
     <div>
