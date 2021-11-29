@@ -24,12 +24,16 @@ export default function InterventionList() {
     history.push("/" + firstIntervention?.id + "/archives");
   }
 
+  function onAddIntervention() {
+    history.replace(`/new-intervention`);
+  }
+
   return (
     <div className="column center align-center w-100">
       <div className="intervention-list-container w-100 align-start">
         <div className="column flex">
           <div className="row gap align-start">
-            <AddButton />
+            <AddButton onClick={onAddIntervention} />
             <Search />
             {interventions && interventions?.length > 0 ? (
               <InterventionChips interventions={interventions} showAll={showAll} />

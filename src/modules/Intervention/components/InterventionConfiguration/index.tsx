@@ -2,9 +2,8 @@ import { Button } from "@dhis2/ui";
 import { ConfigurationStepper } from "@hisptz/react-ui";
 import React from "react";
 import GeneralConfigurationComponent from "./components";
-import AccessConfigurationComponent from "./components/AccessConfigurationComponent";
-import DeterminantsConfigurationComponent from "./components/DeterminantsConfigurationComponent";
 import "./InterventionConfiguration.css";
+import DeterminantsConfigurationComponent from "./components/DeterminantsConfigurationComponent";
 
 export default function InterventionConfiguration() {
   return (

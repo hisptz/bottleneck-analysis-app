@@ -23,9 +23,9 @@ export default function SubLevelAnalysis() {
   const { id } = useParams<{ id: string }>();
   const activeTabKey = useRecoilValue(ActiveTab);
   const setFullPageState = useSetRecoilState(FullPageState("subLevelAnalysis"));
-  const interventionName = useRecoilValue<string>(InterventionStateSelector({ id, path: ["name"] }));
-  const { name: periodName } = useRecoilValue(InterventionPeriodState(id));
-  const { displayName: orgUnitName } = useRecoilValue(InterventionOrgUnitState(id));
+  const interventionName = useRecoilValue<string>(InterventionStateSelector({ id, path: ["name"] })) ?? "";
+  const { name: periodName } = useRecoilValue(InterventionPeriodState(id)) ?? {};
+  const { displayName: orgUnitName } = useRecoilValue(InterventionOrgUnitState(id)) ?? {};
   const activeTab = find(tabs, ["key", activeTabKey]);
   const tableRef = useRef(null);
 

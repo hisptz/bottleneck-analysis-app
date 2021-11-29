@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/bottleneck-analysis-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bottleneck-analysis-app.iml" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore(gitignore): addition&#10;&#10;- Added build to gitignore file">
+      <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/AddButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/AddButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/InterventionConfiguration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/InterventionConfiguration/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Router/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +114,7 @@
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RunManager" selected="npm.start --proxy https://hisp.apps.dhis2.org/dev">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -152,6 +156,17 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="start --proxy https://hisp.apps.dhis2.org/dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <arguments value="--proxy https://hisp.apps.dhis2.org/dev" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -173,16 +188,16 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
       <item itemvalue="npm.build" />
       <item itemvalue="npm.deploy" />
       <item itemvalue="npm.format" />
       <item itemvalue="npm.start" />
-      <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start" />
         <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
+        <item itemvalue="npm.start" />
         <item itemvalue="npm.format" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.build" />
@@ -245,6 +260,9 @@
       <workItem from="1637932859685" duration="1555000" />
       <workItem from="1637987672567" duration="4308000" />
       <workItem from="1637993676417" duration="3787000" />
+      <workItem from="1638009367643" duration="676000" />
+      <workItem from="1638107075407" duration="2967000" />
+      <workItem from="1638159654704" duration="301000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -463,7 +481,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638005238098</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="chore(gitignore): addition&#10;&#10;- Added build to gitignore file">
+      <created>1638006265146</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1638006265146</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -482,7 +507,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat(Intervention): Implementation&#10;&#10;- Implemented current intervention state&#10; - Implemented intervention&#10;name&#10; - Implemented Dashboard card menu" />
     <MESSAGE value="feat(Dashboard View): Implementation&#10;&#10;- Implemented intervention name view&#10; - Implemented intervention details&#10;name and view logic" />
     <MESSAGE value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented Sublevel tabs&#10; - Implemented Sublevel header" />
     <MESSAGE value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented sublevel UI" />
@@ -507,7 +531,8 @@
     <MESSAGE value="feat(SubLevelAnalysis): Implementation&#10;&#10;- Implemented download excel functionality for sub level analysis table" />
     <MESSAGE value="feat(ViewFullPage): Implementation&#10;&#10;- Implemented view full page feature for intervention cards" />
     <MESSAGE value="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(ViewFullPage): Fixes&#10;&#10;- Improved styling for sub-level- analysis table" />
+    <MESSAGE value="chore(gitignore): addition&#10;&#10;- Added build to gitignore file" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore(gitignore): addition&#10;&#10;- Added build to gitignore file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
