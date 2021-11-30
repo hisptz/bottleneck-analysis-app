@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-29T22:01:08.966Z\n"
-"PO-Revision-Date: 2021-11-29T22:01:08.966Z\n"
+"POT-Creation-Date: 2021-11-30T07:08:35.623Z\n"
+"PO-Revision-Date: 2021-11-30T07:08:35.623Z\n"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -302,9 +302,6 @@ msgstr "Dictionary View"
 
 msgid "Download Excel"
 msgstr "Download Excel"
-
-msgid "Remove access"
-msgstr "Remove access"
 
 msgid "Something went wrong with the migration"
 msgstr "Something went wrong with the migration"

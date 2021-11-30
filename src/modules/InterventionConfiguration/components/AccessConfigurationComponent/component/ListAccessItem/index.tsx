@@ -1,13 +1,14 @@
 import { useOnlineStatus } from "@dhis2/app-runtime";
 import { SingleSelectField, SingleSelectOption, Divider } from "@dhis2/ui";
-import { isRemovableTarget } from "../../../../helper/index";
 import React, { useContext, useState } from "react";
+import { isRemovableTarget } from "../../../../helper/index";
 import DestructiveSelectOption from "../DestructiveSelectOption";
 import ListItemIcon from "../ListAccessItemIcon";
 import ListItemContext from "../ListItemContext";
+import "./ListAccessItem.css";
 
 export default function ListItem({ name, target, access, accessOptions = [], disabled, onChange, onRemove }) {
-  const [isFetching,setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const { offline } = useOnlineStatus();
   const valueToLabel: any = {
     ACCESS_NONE: "No access",
@@ -19,7 +20,9 @@ export default function ListItem({ name, target, access, accessOptions = [], dis
     <>
       <div className="wrapper">
         <div className="details">
-          <ListItemIcon target={target} name={name} />
+          <div className="details-logo">
+            <ListItemIcon target={target} name={name} />
+          </div>
           <div className="details-text">
             <p className="details-name">{name}</p>
             <ListItemContext access={access} />
@@ -35,7 +38,7 @@ export default function ListItem({ name, target, access, accessOptions = [], dis
             {accessOptions?.map((value) => (
               <SingleSelectOption key={value} label={valueToLabel[value]} value={value} active={value === access} />
             ))}
-            {isRemovableTarget(target) && <DestructiveSelectOption onClick={onRemove} label={i18n.t("Remove access")} />}
+            {isRemovableTarget(target) && <DestructiveSelectOption onClick={onRemove} label={"Remove access"} />}
           </SingleSelectField>
         </div>
       </div>

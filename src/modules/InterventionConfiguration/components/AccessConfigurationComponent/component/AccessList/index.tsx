@@ -9,6 +9,7 @@ import {
 } from "../../../../../../constants/constants";
 import ListItem from "../ListAccessItem";
 import Title from "../Title";
+import "./accesslist.css";
 
 export default function AccessList({ onChange, onRemove, publicAccess, allowPublicAccess, users = [], groups = [] }) {
   return (
