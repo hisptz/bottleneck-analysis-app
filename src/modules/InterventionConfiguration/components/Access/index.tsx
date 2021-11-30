@@ -1,13 +1,12 @@
 import React from "react";
 import { ACCESS_NONE } from "../../../../constants/constants";
-import "./AccessConfigurationComponent.css";
 import TabbedContent from "./component/TabbedContent";
+import "./Access.css";
 
-export default function AccessConfigurationComponent() {
+export default function AccessConfiguration() {
   return (
     <div className="accessConfig">
       <p>Sharing & Access</p>
-
       <div className="access-config-body">
         <TabbedContent
           id={""}

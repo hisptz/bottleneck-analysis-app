@@ -1,9 +1,9 @@
 import { Button } from "@dhis2/ui";
 import React from "react";
 import GroupDeterminantComponent from "./component";
-import "./DeterminantComponent.css";
+import "./DeterminantArea.css";
 
-export default function DeterminantComponent() {
+export default function DeterminantArea() {
   return (
     <div className="determinant">
       <div className="determinant-main">

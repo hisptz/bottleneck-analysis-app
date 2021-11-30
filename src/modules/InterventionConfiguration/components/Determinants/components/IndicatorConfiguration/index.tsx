@@ -2,7 +2,7 @@ import { CustomInput } from "@hisptz/react-ui";
 import React from "react";
 import "./SelectedItemComponent.css";
 
-export default function SelectedItermComponent() {
+export default function IndicatorConfiguration() {
   return (
     <div className="selected-item">
       <div className="selected-item-header">
@@ -38,7 +38,7 @@ export default function SelectedItermComponent() {
           valueType={"LEGEND_MIN_MAX"}
           legendDefinition={{ name: "Target Achieved/ on Track", id: "legend-defn-id", color: "#147e14" }}
         />
-         <CustomInput
+        <CustomInput
           input={{
             onChange: function (payload: { value: any; name: string }): void {
               throw new Error("Function not implemented.");
@@ -55,7 +55,7 @@ export default function SelectedItermComponent() {
           valueType={"LEGEND_MIN_MAX"}
           legendDefinition={{ name: "Progress ,but more effort required", id: "legend-defn-id", color: "#fcef72" }}
         />
-         <CustomInput
+        <CustomInput
           input={{
             onChange: function (payload: { value: any; name: string }): void {
               throw new Error("Function not implemented.");

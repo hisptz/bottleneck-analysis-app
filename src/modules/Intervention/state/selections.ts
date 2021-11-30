@@ -31,7 +31,8 @@ export const InterventionOrgUnitState = selectorFamily({
     async ({ get }) => {
       const { orgUnitSelection } = get(InterventionState(interventionId));
       if (orgUnitSelection.orgUnit.id.includes("USER")) {
-        return get(UserState)?.organisationUnits[0];
+        const user = get(UserState);
+        return user?.organisationUnits[0];
       }
       const engine = get(EngineState);
       const { orgUnit } = (await engine.query(query, { variables: { id: orgUnitSelection.orgUnit.id } })) ?? {};
