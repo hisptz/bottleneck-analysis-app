@@ -11,7 +11,21 @@ import ListItem from "../ListAccessItem";
 import Title from "../Title";
 import "./accesslist.css";
 
-export default function AccessList({ onChange, onRemove, publicAccess, allowPublicAccess, users = [], groups = [] }) {
+export default function AccessList({
+  onChange,
+  onRemove,
+  publicAccess,
+  allowPublicAccess,
+  users = [],
+  groups = [],
+}: {
+  onChange: any;
+  onRemove: any;
+  publicAccess: any;
+  allowPublicAccess: any;
+  users: any[];
+  groups: any[];
+}) {
   return (
     <>
       <Title title={"Users and groups that currently have access"} />

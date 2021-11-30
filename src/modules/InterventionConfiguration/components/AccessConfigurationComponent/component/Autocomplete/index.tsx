@@ -1,10 +1,29 @@
-/* eslint-disable max-params */
 import { useOnlineStatus } from "@dhis2/app-runtime";
 import { InputField, Menu, MenuItem } from "@dhis2/ui";
 import React, { useRef } from "react";
 import MenuPopup from "../Menu-Popup";
 
-export default function AutoComplete({ inputWidth, label, loading, onSearch, onClose, placeholder, onSelect, search1, searchResults = [] }) {
+export default function AutoComplete({
+  inputWidth,
+  label,
+  loading,
+  onSearch,
+  onClose,
+  placeholder,
+  onSelect,
+  search1,
+  searchResults = [],
+}: {
+  inputWidth: string;
+  label: string;
+  loading: boolean;
+  onSearch: any;
+  onClose: any;
+  placeholder: string;
+  onSelect: any;
+  search1: string;
+  searchResults: any[];
+}) {
   const wrapper = useRef(null);
   const { offline } = useOnlineStatus();
   return (
@@ -15,9 +34,9 @@ export default function AutoComplete({ inputWidth, label, loading, onSearch, onC
           loading={loading}
           placeholder={placeholder}
           onChange={() => {}}
+          type={"text"}
           value={search1}
           inputWidth={inputWidth}
-          disabled={offline}
           helpText={offline ? "Not available offline" : ""}
         />
       </div>
@@ -33,4 +52,3 @@ export default function AutoComplete({ inputWidth, label, loading, onSearch, onC
     </>
   );
 }
-

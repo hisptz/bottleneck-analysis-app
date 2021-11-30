@@ -7,7 +7,23 @@ import ListItemIcon from "../ListAccessItemIcon";
 import ListItemContext from "../ListItemContext";
 import "./ListAccessItem.css";
 
-export default function ListItem({ name, target, access, accessOptions = [], disabled, onChange, onRemove }) {
+export default function ListItem({
+  name,
+  target,
+  access,
+  accessOptions = [],
+  disabled,
+  onChange,
+  onRemove,
+}: {
+  name: string;
+  target: any;
+  access: any;
+  accessOptions: any[];
+  disabled: boolean;
+  onChange: any;
+  onRemove: any;
+}) {
   const [isFetching, setIsFetching] = useState(false);
   const { offline } = useOnlineStatus();
   const valueToLabel: any = {

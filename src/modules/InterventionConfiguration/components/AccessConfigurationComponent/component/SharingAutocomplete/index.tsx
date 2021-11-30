@@ -11,9 +11,13 @@ const query = {
     }),
   },
 };
-export default function SharingAutoComplete({ selected, onSelection }) {
+export default function SharingAutoComplete({ selected, onSelection }: { selected: string; onSelection: any }) {
   const [search, setSearch] = useState("");
   const [showResults, setShowResults] = useState(false);
+  /**
+   * NOTE:
+   * HOW WE WILL FETCH DATA USING DATA QUERY TO SHARING/SEARCH AS RESOURCE
+   */
   const { data, refetch, fetching } = useDataQuery(query, {
     lazy: true,
     onComplete: () => setShowResults(true),
