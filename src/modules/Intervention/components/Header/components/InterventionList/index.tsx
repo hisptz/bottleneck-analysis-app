@@ -25,7 +25,7 @@ export default function InterventionList() {
   }
 
   function onAddIntervention() {
-    history.replace(`/new-intervention`);
+    history.push(`/new-intervention`);
   }
 
   return (
