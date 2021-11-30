@@ -1,14 +1,24 @@
-import { SharingDialog } from "@dhis2/ui";
 import React from "react";
+import { ACCESS_NONE } from "../../../../constants/constants";
+import TabbedContent from "./component/TabbedContent";
 import "./Access.css";
-import classes from "./AccessConfiguration.module.css";
 
 export default function AccessConfiguration() {
   return (
     <div className="accessConfig">
       <p>Sharing & Access</p>
       <div className="access-config-body">
-        <SharingDialog className={classes["root"]} id="sharing-test" onClose={() => {}} />
+        <TabbedContent
+          id={""}
+          users={[]}
+          groups={[]}
+          publicAccess={ACCESS_NONE}
+          allowPublicAccess={true}
+          type={""}
+          onAdd={() => {}}
+          onChange={() => {}}
+          onRemove={() => {}}
+        />
       </div>
     </div>
   );

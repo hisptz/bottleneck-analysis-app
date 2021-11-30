@@ -1,9 +1,10 @@
 import { Button } from "@dhis2/ui";
 import { ConfigurationStepper } from "@hisptz/react-ui";
 import React from "react";
-import GeneralConfigurationComponent from "./components/General";
 import "./InterventionConfiguration.css";
+import AccessConfigurationComponent from "./components/Access";
 import DeterminantsConfigurationComponent from "./components/Determinants";
+import GeneralConfigurationComponent from "./components/General";
 
 export default function InterventionConfiguration() {
   return (
@@ -26,13 +27,7 @@ export default function InterventionConfiguration() {
           },
           {
             label: "Access",
-            component: () => (
-              <div className="container">
-                <div className="column text-center">
-                  <h1>2</h1>
-                </div>
-              </div>
-            ),
+            component: AccessConfigurationComponent,
             helpSteps: [],
           },
         ]}
