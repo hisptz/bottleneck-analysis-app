@@ -1,6 +1,7 @@
 import { map } from "async";
-import { filter } from "lodash";
+import { filter, flattenDeep } from "lodash";
 import { BNA_NAMESPACE } from "../../../../../constants/dataStore";
+import { RootCauseData } from "../interfaces/rootCauseData";
 
 const query = {
   config: {
@@ -37,10 +38,30 @@ async function getRootCauseDataByKey(engine: any, key: string) {
   return data;
 }
 
-export async function getRootCausesData(engine: any, interventionId: string) {
+export async function getRootCausesData(engine: any, interventionId: string): Promise<RootCauseData[]> {
   const keys = await getRootCauseDataKeys(engine);
   const interventionKeys = filter(keys, (key: string) => key.match(RegExp(`${interventionId}_rcadata`)));
   return await map(interventionKeys, async (key: string) => {
     return await getRootCauseDataByKey(engine, key);
   });
+}
+
+export async function addOrUpdateRootCauseData(engine: any, interventionId: string, data: RootCauseData) {
+  try {
+    const rcaDataFromStore: RootCauseData[] = await getRootCausesData(engine, interventionId);
+    const dataStoreUrl = `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`;
+    const rootCauseDataToSave = flattenDeep([data, ...rcaDataFromStore]);
+    await saveRootCauseData(engine, dataStoreUrl, rootCauseDataToSave);
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+}
+
+async function saveRootCauseData(engine: any, dataStoreUrl: string, data: RootCauseData[]) {
+  const mutation = {
+    resource: dataStoreUrl,
+    type: "update",
+    data: ({ data }: { data: any }) => data,
+  };
+  await engine.mutate(mutation, { variables: { data } });
 }
