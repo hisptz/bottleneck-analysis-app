@@ -5,8 +5,15 @@ import { map, find } from "lodash";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { EngineState } from "../../../../../../../core/state/dataEngine";
+import { CurrentInterventionSummary } from "../../../../../../../core/state/intervention";
 import { UserOrganisationUnits } from "../../../../../../../core/state/user";
+import { InterventionSummary } from "../../../../../../../shared/interfaces/interventionConfig";
+import { uid } from "../../../../../../../shared/utils/generators";
 import { InterventionStateSelector } from "../../../../../state/intervention";
+import { RootCauseData } from "../../../interfaces/rootCauseData";
+import { addOrUpdateRootCauseData } from "../../../services/data";
+import { RootCauseConfig } from "../../../state/config";
 
 type RootCauseFormCProps = {
   onDismissRootCauseForm?: any;
@@ -15,6 +22,11 @@ type RootCauseFormCProps = {
 
 export default function RootCauseFormComponent({ onDismissRootCauseForm, hideModal }: RootCauseFormCProps) {
   const { id: interventionId } = useParams<{ id: string }>();
+  const { dataElements } = useRecoilValue(RootCauseConfig);
+  const intervention: InterventionSummary | undefined = useRecoilValue(CurrentInterventionSummary(interventionId));
+  const interventionName = intervention?.name || "";
+
+  const engine = useRecoilValue(EngineState);
 
   let bottleneckMetadata = useRecoilValue(
     InterventionStateSelector({
@@ -42,24 +54,18 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
   const orgUnitName = orgUnitSelection.type === "USER_ORGANISATION_UNIT" ? displayName : orgUnitSelection.orgUnit.id;
 
   const hiddenFields = {
-    // orgunit
-    pQtxdfQ6Jum: orgUnitName,
-    // orgunitId
-    qOvrGMTGBee: orgUnitId,
-    // period
-    yzYKWac02lm: period,
-    // periodId
-    skBBrbmML4S: periodId,
-    // intervention
-    YPfJQu6sCSZ: "Full Immunization",
-    // interventionId
-    GXqfW1B2McT: interventionId,
+    [getDataElementId("orgunit")]: orgUnitName,
+    [getDataElementId("orgunitId")]: orgUnitId,
+    [getDataElementId("period")]: period,
+    [getDataElementId("periodId")]: periodId,
+    [getDataElementId("Intervention")]: interventionName,
+    [getDataElementId("interventionId")]: interventionId,
   };
 
   bottleneckMetadata = map(bottleneckMetadata, (group) => ({
     id: group.id,
     name: group.name,
-    indicators: map(group?.items, (item) => ({ label: item.label, name: item.name })),
+    indicators: map(group?.items, (item) => ({ label: item.name, name: item.id })),
   }));
 
   const bottleneckOptions = map(bottleneckMetadata, (bottleneck) => ({ label: bottleneck?.name, id: bottleneck?.id }));
@@ -67,20 +73,43 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
   const [rootCauseData, setRootCauseData] = useState(hiddenFields);
   const [interventionOptions, setInterventionOptions] = useState([]);
 
+  function getDataElementId(name: string): string {
+    return find(dataElements, (dataElement) => dataElement.name.replace(/\s+/g, "").toLowerCase() === name.replace(/\s+/g, "").toLowerCase())?.id || "";
+  }
+
   function onUpdateBottleneck(e: any) {
     const { selected: bottleneckId } = e;
     const bottleneck: any = find(bottleneckMetadata, (item: any) => item?.id === bottleneckId);
-    setRootCauseData({ ...rootCauseData, fZCEB7Euppr: bottleneck?.name, xf7L8ioFiC5: bottleneckId, gE2BDDC0e0V: "" });
+    setRootCauseData({
+      ...rootCauseData,
+      [getDataElementId("Bottleneck")]: bottleneck?.name,
+      [getDataElementId("bottleneckId")]: bottleneckId,
+      [getDataElementId("Indicator")]: "",
+      [getDataElementId("IndicatorId")]: "",
+    });
     setInterventionOptions(bottleneck?.indicators);
   }
 
   function onUpdateIndicator(e: any) {
     const { selected: indicator } = e;
-    setRootCauseData({ ...rootCauseData, gE2BDDC0e0V: indicator });
+    const { label: indicatorName } = find(interventionOptions, (item: any) => item?.name === indicator);
+    setRootCauseData({ ...rootCauseData, [getDataElementId("Indicator")]: indicatorName, [getDataElementId("IndicatorId")]: indicator });
   }
 
-  function saveRootCause() {
-    // todo add method for uploading root cause data
+  async function saveRootCause() {
+    const data: RootCauseData = {
+      id: `${periodId}_${orgUnitId}_${uid()}`,
+      isOrphaned: false,
+      isTrusted: true,
+      configurationId: "rcaconfig",
+      dataValues: rootCauseData,
+    };
+    try {
+      await addOrUpdateRootCauseData(engine, interventionId, data);
+    } catch (error) {
+      // error
+      // TODO Handle errors
+    }
     setRootCauseData({});
     onDismissRootCauseForm();
   }
@@ -98,9 +127,9 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
       <ModalContent>
         <div>
           <SingleSelectField
-            selected={rootCauseData["xf7L8ioFiC5"] || ""}
+            selected={rootCauseData[getDataElementId("bottleneckId")] || ""}
             label={i18n.t("Bottleneck")}
-            name="bottleneck"
+            name={getDataElementId("bottleneckId")}
             className="select"
             onChange={onUpdateBottleneck}>
             {bottleneckOptions.map((option, index) => (
@@ -108,9 +137,9 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
             ))}
           </SingleSelectField>
           <SingleSelectField
-            selected={rootCauseData["gE2BDDC0e0V"] || ""}
-            name="intevention"
-            label={i18n.t("Intervention")}
+            selected={rootCauseData[getDataElementId("indicatorId")] || ""}
+            name={getDataElementId("indicatorId")}
+            label={i18n.t("Indicator")}
             className="select"
             onChange={onUpdateIndicator}>
             {interventionOptions.map((option: any, index) => (
@@ -119,10 +148,10 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
           </SingleSelectField>
 
           <Field label={i18n.t("Possible root cause")}>
-            <TextArea name="HwElwZJ9Oyc" rows="2" resize="vertical" onBlur={onValueChange} />
+            <TextArea name={getDataElementId("Root cause")} resize="vertical" onBlur={onValueChange} />
           </Field>
           <Field label={i18n.t("Possible solution")}>
-            <TextArea name="PS29TQkElZL" rows="2" resize="vertical" onBlur={onValueChange} />
+            <TextArea name={getDataElementId("Solution")} resize="vertical" onBlur={onValueChange} />
           </Field>
         </div>
       </ModalContent>
