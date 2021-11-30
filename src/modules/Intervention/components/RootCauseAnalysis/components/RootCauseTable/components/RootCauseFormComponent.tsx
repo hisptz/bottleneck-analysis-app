@@ -72,6 +72,7 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
 
   const [rootCauseData, setRootCauseData] = useState(hiddenFields);
   const [interventionOptions, setInterventionOptions] = useState([]);
+  const [rootCauseSaveButton, setRootCauseSaveButton] = useState(false);
 
   function getDataElementId(name: string): string {
     return find(dataElements, (dataElement) => dataElement.name.replace(/\s+/g, "").toLowerCase() === name.replace(/\s+/g, "").toLowerCase())?.id || "";
@@ -97,6 +98,7 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
   }
 
   async function saveRootCause() {
+    setRootCauseSaveButton(true);
     const data: RootCauseData = {
       id: `${periodId}_${orgUnitId}_${uid()}`,
       isOrphaned: false,
@@ -111,6 +113,7 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
       // TODO Handle errors
     }
     setRootCauseData({});
+    setRootCauseSaveButton(false);
     onDismissRootCauseForm();
   }
 
@@ -157,10 +160,10 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
       </ModalContent>
       <ModalActions>
         <ButtonStrip end>
-          <Button secondary onClick={onDismissRootCauseForm}>
+          <Button disabled={rootCauseSaveButton} secondary onClick={onDismissRootCauseForm}>
             Cancel
           </Button>
-          <Button primary onClick={saveRootCause}>
+          <Button primary disabled={rootCauseSaveButton} onClick={saveRootCause}>
             Save
           </Button>
         </ButtonStrip>
