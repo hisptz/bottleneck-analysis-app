@@ -1,5 +1,17 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, SingleSelectField, SingleSelectOption, TextArea, Field, Modal, ModalTitle, ModalContent, ModalActions, ButtonStrip } from "@dhis2/ui";
+import {
+  Button,
+  CircularLoader,
+  SingleSelectField,
+  SingleSelectOption,
+  TextArea,
+  Field,
+  Modal,
+  ModalTitle,
+  ModalContent,
+  ModalActions,
+  ButtonStrip,
+} from "@dhis2/ui";
 import { Period } from "@iapps/period-utilities";
 import { map, find } from "lodash";
 import React, { useState } from "react";
@@ -16,14 +28,16 @@ import { addOrUpdateRootCauseData } from "../../../services/data";
 import { RootCauseConfig } from "../../../state/config";
 
 type RootCauseFormCProps = {
-  onDismissRootCauseForm?: any;
+  onSuccessfullySaveRootCause?: any;
   onSavingError?: any;
+  onCancelForm?: any;
   hideModal: boolean;
 };
 
-export default function RootCauseFormComponent({ onDismissRootCauseForm, hideModal, onSavingError }: RootCauseFormCProps) {
+export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hideModal, onSavingError, onCancelForm }: RootCauseFormCProps) {
   const { id: interventionId } = useParams<{ id: string }>();
   const { dataElements } = useRecoilValue(RootCauseConfig);
+
   const intervention: InterventionSummary | undefined = useRecoilValue(CurrentInterventionSummary(interventionId));
   const interventionName = intervention?.name || "";
 
@@ -109,12 +123,12 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
     };
     try {
       await addOrUpdateRootCauseData(engine, interventionId, data);
+      onSuccessfullySaveRootCause();
+      setRootCauseData({});
     } catch (error) {
       onSavingError(error);
     }
-    setRootCauseData({});
     setRootCauseSaveButton(false);
-    onDismissRootCauseForm();
   }
 
   function onValueChange(e: any) {
@@ -125,7 +139,7 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
   }
 
   return (
-    <Modal large={true} hide={!hideModal} onClose={saveRootCause} position="middle" small>
+    <Modal large={true} hide={!hideModal} onClose={onCancelForm} position="middle" small>
       <ModalTitle>{i18n.t("Root Cause form")}</ModalTitle>
       <ModalContent>
         <div>
@@ -160,11 +174,11 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
       </ModalContent>
       <ModalActions>
         <ButtonStrip end>
-          <Button disabled={rootCauseSaveButton} secondary onClick={onDismissRootCauseForm}>
+          <Button disabled={rootCauseSaveButton} secondary onClick={onCancelForm}>
             Cancel
           </Button>
           <Button primary disabled={rootCauseSaveButton} onClick={saveRootCause}>
-            Save
+            {rootCauseSaveButton ? <CircularLoader extrasmall={true} /> : "Save"}
           </Button>
         </ButtonStrip>
       </ModalActions>

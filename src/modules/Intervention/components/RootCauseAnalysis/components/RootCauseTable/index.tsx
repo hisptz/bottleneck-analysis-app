@@ -4,14 +4,16 @@ import { find } from "lodash";
 import React, { useRef, useState } from "react";
 import "./rootCauseTable.css";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { RootCauseTableConfig } from "../../state/config";
+import { RootCauseDataRequestId } from "../../state/data";
 import RootCauseFormComponent from "./components/RootCauseFormComponent";
 import RootCauseTableHeaderComponent from "./components/RootCauseTableHeaderComponent";
 import classes from "./RootCauseTable.module.css";
 
 export default function RootCauseTable() {
   const { id } = useParams<{ id: string }>();
+  const [rootCauseDataRequestId, setRootCauseDataRequestId] = useRecoilState(RootCauseDataRequestId);
   const { columns, rows } = useRecoilValue(RootCauseTableConfig(id));
   const ref = useRef<HTMLDivElement | null>(null);
   const [stateRef, setStateRef] = useState<any>();
@@ -19,6 +21,15 @@ export default function RootCauseTable() {
 
   function onUpdateRootCauseFormDisplayStatus() {
     setRootCauseFormDisplayStatus(!rootCauseFormDisplayStatus);
+  }
+
+  function onSaveRootCauseSuccessfully() {
+    setRootCauseDataRequestId(rootCauseDataRequestId + 1);
+    onUpdateRootCauseFormDisplayStatus();
+  }
+
+  function onSaveRootCauseFailed() {
+    // Error exists
   }
 
   return (
@@ -62,7 +73,11 @@ export default function RootCauseTable() {
         </TableFoot>
       </DataTable>
 
-      <RootCauseFormComponent hideModal={rootCauseFormDisplayStatus} onDismissRootCauseForm={onUpdateRootCauseFormDisplayStatus}></RootCauseFormComponent>
+      <RootCauseFormComponent
+        hideModal={rootCauseFormDisplayStatus}
+        onSavingError={onSaveRootCauseFailed}
+        onCancelForm={onUpdateRootCauseFormDisplayStatus}
+        onSuccessfullySaveRootCause={onSaveRootCauseSuccessfully}></RootCauseFormComponent>
     </div>
   );
 }
