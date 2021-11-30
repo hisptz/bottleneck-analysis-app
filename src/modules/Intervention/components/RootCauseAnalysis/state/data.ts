@@ -25,13 +25,13 @@ export const RootCauseData = selectorFamily({
           path: ["orgUnitSelection", "orgUnit"],
         })
       );
-      const { id: selectedOrgUnit } = orgUnitSelection;
+      const { id: selectedOrgUnit, type } = orgUnitSelection;
       const { id: organisationUnitId } = get(UserOrganisationUnits);
       const rootCauseData = await getRootCausesData(engine, id);
 
       return filter(flattenDeep(rootCauseData), (data: any) => {
         const { id: rootCauseId } = data;
-        return rootCauseId.match(`${selectedPeriod}_${selectedOrgUnit == "USER_ORGUNIT" ? organisationUnitId : selectedOrgUnit}`);
+        return rootCauseId.match(`${selectedPeriod}_${type == "USER_ORGANISATION_UNIT" ? organisationUnitId : selectedOrgUnit}`);
       });
     },
 });
