@@ -53,6 +53,19 @@ export async function addOrUpdateRootCauseData(engine: any, interventionId: stri
     const rootCauseDataToSave = flattenDeep([data, ...rcaDataFromStore]);
     await saveRootCauseData(engine, dataStoreUrl, rootCauseDataToSave);
   } catch (error) {
+    if (`${error}`.includes("404")) {
+      // If the root cause key doesn't exist, create it
+      const mutation = {
+        resource: `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`,
+        type: "create",
+        data: ({ data }: { data: RootCauseData }) => data,
+      };
+      try {
+        await engine.mutate(mutation, { variables: { data: [data] } });
+      } catch (e) {
+        throw new Error(`${e}`);
+      }
+    }
     throw new Error(`${error}`);
   }
 }

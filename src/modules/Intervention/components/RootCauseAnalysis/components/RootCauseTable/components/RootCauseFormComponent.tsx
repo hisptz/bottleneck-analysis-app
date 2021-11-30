@@ -17,10 +17,11 @@ import { RootCauseConfig } from "../../../state/config";
 
 type RootCauseFormCProps = {
   onDismissRootCauseForm?: any;
+  onSavingError?: any;
   hideModal: boolean;
 };
 
-export default function RootCauseFormComponent({ onDismissRootCauseForm, hideModal }: RootCauseFormCProps) {
+export default function RootCauseFormComponent({ onDismissRootCauseForm, hideModal, onSavingError }: RootCauseFormCProps) {
   const { id: interventionId } = useParams<{ id: string }>();
   const { dataElements } = useRecoilValue(RootCauseConfig);
   const intervention: InterventionSummary | undefined = useRecoilValue(CurrentInterventionSummary(interventionId));
@@ -109,8 +110,7 @@ export default function RootCauseFormComponent({ onDismissRootCauseForm, hideMod
     try {
       await addOrUpdateRootCauseData(engine, interventionId, data);
     } catch (error) {
-      // error
-      // TODO Handle errors
+      onSavingError(error);
     }
     setRootCauseData({});
     setRootCauseSaveButton(false);
