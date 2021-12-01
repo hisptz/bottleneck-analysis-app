@@ -24,8 +24,8 @@ export default function RootCauseTable() {
   }
 
   function onSaveRootCauseSuccessfully() {
-    setRootCauseDataRequestId(rootCauseDataRequestId + 1);
     onUpdateRootCauseFormDisplayStatus();
+    setRootCauseDataRequestId(rootCauseDataRequestId + 1);
   }
 
   function onSaveRootCauseFailed() {
@@ -77,6 +77,7 @@ export default function RootCauseTable() {
         hideModal={rootCauseFormDisplayStatus}
         onSavingError={onSaveRootCauseFailed}
         onCancelForm={onUpdateRootCauseFormDisplayStatus}
+        rootCauseData={{}}
         onSuccessfullySaveRootCause={onSaveRootCauseSuccessfully}></RootCauseFormComponent>
     </div>
   );
