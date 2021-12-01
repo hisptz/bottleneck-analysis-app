@@ -5,7 +5,9 @@ import React from "react";
 import DeterminantsConfigurationComponent from "./components/Determinants";
 import GeneralConfigurationComponent from "./components/General";
 import "./InterventionConfiguration.css";
+import AccessConfigurationComponent from "./components/Access";
 import { useHistory } from "react-router-dom";
+import GeneralConfigurationComponent from "./components/General";
 
 export default function InterventionConfiguration() {
   const history = useHistory();
@@ -34,13 +36,7 @@ export default function InterventionConfiguration() {
             },
             {
               label: "Access",
-              component: () => (
-                <div className="container">
-                  <div className="column text-center">
-                    <h1>2</h1>
-                  </div>
-                </div>
-              ),
+              component: AccessConfigurationComponent,
               helpSteps: [],
             },
           ]}
