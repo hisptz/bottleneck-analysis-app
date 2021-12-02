@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-02T11:47:49.523Z\n"
-"PO-Revision-Date: 2021-12-02T11:47:49.523Z\n"
+"POT-Creation-Date: 2021-12-02T14:00:32.821Z\n"
+"PO-Revision-Date: 2021-12-02T14:00:32.821Z\n"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -56,6 +56,12 @@ msgstr "Searched Intervention is not found"
 msgid "View Archives"
 msgstr "View Archives"
 
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Delete"
+msgstr "Delete"
+
 msgid "Root Cause form"
 msgstr "Root Cause form"
 
@@ -70,12 +76,6 @@ msgstr "Possible root cause"
 
 msgid "Possible solution"
 msgstr "Possible solution"
-
-msgid "Edit"
-msgstr "Edit"
-
-msgid "Delete"
-msgstr "Delete"
 
 msgid "Add New"
 msgstr "Add New"
