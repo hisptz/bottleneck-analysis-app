@@ -1,0 +1,26 @@
+.accessConfig{
+    width: 70%;
+    display: flex;
+    flex-direction:column;
+    justify-content: start;
+    background-color: transparent;
+    
+}
+.accessConfig > p{
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    line-height: 24px;
+    margin-bottom:0.7%;
+    padding-left: 3%;
+
+}
+
+.access-config-body{
+    width:80%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 3%;
+    
+}

@@ -13,7 +13,7 @@ export function getChartYAxisOptions(chartConfiguration: any) {
           min: chartConfiguration.rangeAxisMinValue,
           max: chartConfiguration.rangeAxisMaxValue,
           title: {
-            text: "",
+            text: " . ",
             style: {
               color: "#000000",
               fontWeight: "normal",

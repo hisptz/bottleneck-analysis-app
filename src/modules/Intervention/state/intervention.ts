@@ -46,3 +46,13 @@ export const InterventionDetailsState = atomFamily<boolean, string>({
   key: "intervention-details-state",
   default: false,
 });
+
+/**
+ * TODO:
+ * CHANGE THIS STATE INTO FAMILY
+ * TO RECEIVE GROUP ID(INTERVENTION OPTIONAL), then a particular item clicked and change it state
+ */
+export const InterventionConfiguationDeterminant = atom<boolean>({
+  key: "determinantConfiguration",
+  default: false,
+});

@@ -1,0 +1,23 @@
+.details{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    width: 50%;
+    padding-left: 2%;
+    gap: 10px;
+    background-color: transparent;
+}
+.wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+.details-name{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.details-logo{
+    padding-top: 5%;
+}

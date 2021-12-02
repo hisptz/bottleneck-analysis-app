@@ -11,7 +11,7 @@ import RootCauseFormComponent from "./components/RootCauseFormComponent";
 import RootCauseTableHeaderComponent from "./components/RootCauseTableHeaderComponent";
 import classes from "./RootCauseTable.module.css";
 
-export default function RootCauseTable() {
+export default function RootCauseTable({ tableRef }: { tableRef: any }) {
   const { id } = useParams<{ id: string }>();
   const [rootCauseDataRequestId, setRootCauseDataRequestId] = useRecoilState(RootCauseDataRequestId);
   const { columns, rows, rowIds } = useRecoilValue(RootCauseTableConfig(id));
@@ -19,19 +19,6 @@ export default function RootCauseTable() {
   const ref = useRef<HTMLDivElement | null>(null);
   const [stateRef, setStateRef] = useState<any>();
   const [rootCauseFormDisplayStatus, setRootCauseFormDisplayStatus] = useState(false);
-
-  // const menu = [
-  //   {
-  //     label: "Edit",
-  //     callback: () => {},
-  //     icon: <IconEdit24 />,
-  //   },
-  //   {
-  //     label: "Delete",
-  //     icon: <IconDelete24 />,
-  //     callback: () => {},
-  //   },
-  // ];
 
   function onUpdateRootCauseFormDisplayStatus() {
     setRootCauseFormDisplayStatus(!rootCauseFormDisplayStatus);
@@ -57,7 +44,7 @@ export default function RootCauseTable() {
   }
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <DataTable className={classes["table"]} bordered>
         <RootCauseTableHeaderComponent columns={columns} />
         <TableBody>

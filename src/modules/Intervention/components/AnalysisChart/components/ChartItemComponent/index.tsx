@@ -1,18 +1,19 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-empty */
 import HighCharts from "highcharts";
-import HightChartsReact from "highcharts-react-official";
+import HighChartsReact from "highcharts-react-official";
+import HighChartsExport from "highcharts/modules/exporting";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { getChartConfiguration } from "../../helper/get-chart-configuration.helper";
 import { getCharObject } from "../../helper/get-chart-object.helper";
+import { ChartConfigState } from "../../state/config";
 import { ChartData } from "../../state/data";
 
-export default function ChartItemComponent() {
+export default function ChartItemComponent({ chartRef }: { chartRef: any }) {
   const { id } = useParams<{ id: string }>();
   const data = useRecoilValue(ChartData(id));
-
+  const [chartConfigDefinitions, setChartConfigDefinitions] = useRecoilState(ChartConfigState(id));
+  HighChartsExport(HighCharts);
   const chartConfiguration = {
     layout: {
       column: "ou",
@@ -31,9 +32,8 @@ export default function ChartItemComponent() {
       },
     },
   };
-  //   const [currentChartType, setCurrentChartType] = useState(chartConfiguration.currentChartType);
   const [chartOptions, setChartOptions] = useState();
-  //   const [drawChartConfiguration, setDrawChartConfiguration] = useState(chartConfigurationSelector(chartConfiguration.layout, currentChartType));
+
   function restructureMetaData(metaData: any): any {
     const restructure: { [key: string]: any } = {};
     Object.keys(metaData).forEach((key) => {
@@ -46,30 +46,34 @@ export default function ChartItemComponent() {
     });
     return restructure;
   }
+
   useEffect(() => {
     drawChart(analysisData["_data"], chartConfigurationSelector(chartConfiguration.layout, "column"));
   }, [data]);
 
   function drawChart(analyticsObject: any, drawChartConfiguration: any) {
     if (drawChartConfiguration && analyticsObject) {
-      const chartObject = getCharObject(analyticsObject, drawChartConfiguration);
+      const chartObject = getCharObject(analyticsObject, drawChartConfiguration, chartConfigDefinitions);
       if (chartObject) {
         setChartOptions(chartObject);
       }
+      setChartConfigDefinitions({ pointWidth: chartObject["plotOptions"]["series"]["pointWidth"] });
     }
   }
 
   function chartConfigurationSelector(layout: any, currentChartType: any) {
-    return getChartConfiguration({}, "", layout, "Data", currentChartType, []);
+    return getChartConfiguration({}, id, layout, "Data", currentChartType, []);
   }
+
   return (
     <div
       className="chart-block"
       style={{
         height: "calc(" + 1000 + "px-20px",
-        width: "100%",
+        minWidth: "1196px",
+        width: "auto",
       }}>
-      <HightChartsReact highcharts={HighCharts} options={chartOptions} />
+      <HighChartsReact ref={chartRef} highcharts={HighCharts} options={{ ...(chartOptions ?? {}), navigation: { buttonOptions: false } }} />
     </div>
   );
 }

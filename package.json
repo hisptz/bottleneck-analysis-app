@@ -28,7 +28,7 @@
   "dependencies": {
     "@dhis2/app-runtime": "^3.2.4",
     "@dhis2/app-service-datastore": "^1.0.0-alpha.2",
-    "@hisptz/react-ui": "^1.0.5",
+    "@hisptz/react-ui": "^1.0.9",
     "@iapps/period-utilities": "^1.0.0-beta.4",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
@@ -40,9 +40,12 @@
     "highcharts-react-official": "^3.1.0",
     "react-error-boundary": "^3.1.4",
     "react-final-form-listeners": "^1.0.3",
+    "react-full-screen": "^1.1.0",
+    "react-hook": "^0.0.1",
     "react-router-dom": "^5.3.0",
     "recoil": "^0.4.1",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "xlsx": "^0.17.4"
   },
   "eslintConfig": {
     "extends": [
