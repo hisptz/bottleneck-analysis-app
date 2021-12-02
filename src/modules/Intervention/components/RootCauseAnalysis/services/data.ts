@@ -46,11 +46,20 @@ export async function getRootCausesData(engine: any, interventionId: string): Pr
   });
 }
 
+export async function deleteRootCauseData(engine: any, interventionId: string, rootCauseId: string) {
+  try {
+    const rcaDataFromStore: RootCauseData[] = await getRootCausesData(engine, interventionId);
+    const sanitizedRcaData = filter(rcaDataFromStore, (rcaData: RootCauseData) => rcaData.id !== rootCauseId);
+    await saveRootCauseData(engine, `dataStore/${BNA_NAMESPACE}`, sanitizedRcaData);
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+}
 export async function addOrUpdateRootCauseData(engine: any, interventionId: string, data: RootCauseData) {
   try {
     const rcaDataFromStore: RootCauseData[] = await getRootCausesData(engine, interventionId);
     const dataStoreUrl = `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`;
-    const rootCauseDataToSave = flattenDeep([data, ...rcaDataFromStore]);
+    const rootCauseDataToSave = flattenDeep([data, ...filter(rcaDataFromStore, (rcaData: RootCauseData) => rcaData.id !== data.id)]);
     await saveRootCauseData(engine, dataStoreUrl, rootCauseDataToSave);
   } catch (error) {
     if (`${error}`.includes("404")) {
