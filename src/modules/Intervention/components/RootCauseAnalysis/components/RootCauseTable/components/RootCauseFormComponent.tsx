@@ -1,9 +1,9 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, CircularLoader, ReactFinalForm, SingleSelectFieldFF, TextAreaFieldFF, Modal, ModalTitle, ModalContent, ButtonStrip } from "@dhis2/ui";
+import { Button, ReactFinalForm, SingleSelectFieldFF, TextAreaFieldFF, Modal, ModalTitle, ModalContent, ButtonStrip } from "@dhis2/ui";
 import { Period } from "@iapps/period-utilities";
 import { map, find } from "lodash";
 import React, { useState } from "react";
-import { FormSpy } from "react-final-form";
+import { OnChange } from "react-final-form-listeners";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { EngineState } from "../../../../../../../core/state/dataEngine";
@@ -100,15 +100,15 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
     setSelectedIndicatorName("");
   }
 
-  function onClosingFormModal() {
-    // TODO clear form
+  function onClosingFormModal(form: any) {
+    form.reset();
     onCancelForm();
   }
 
   async function saveRootCause(dataValues: any, form: any) {
     setRootCauseSaveButton(true);
     const data: RootCauseData = {
-      id: `${periodId}_${orgUnitId}_${uid()}`,
+      id: rootCauseData && rootCauseData.id ? rootCauseData.id : `${periodId}_${orgUnitId}_${uid()}`,
       isOrphaned: false,
       isTrusted: true,
       configurationId: "rcaconfig",
@@ -131,7 +131,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
   }
 
   return (
-    <Modal large={true} hide={!hideModal} onClose={onClosingFormModal} position="middle" small>
+    <Modal large={true} hide={!hideModal} position="middle">
       <ModalTitle>{i18n.t("Root Cause form")}</ModalTitle>
       <ModalContent>
         <ReactFinalForm.Form onSubmit={saveRootCause}>
@@ -142,20 +142,18 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                 onSubmit={(event) => {
                   handleSubmit(event, form);
                 }}>
-                <FormSpy
-                  subscription={{ values: true }}
-                  onChange={({ values }) => {
-                    if (values[getDataElementId("bottleneckId")]) {
-                      // if (selectedIndicatorName !== "") {
-                      //   onClearIndicator(form);
-                      // }
-                      onUpdateBottleneck(values[getDataElementId("bottleneckId")]);
-                    }
-                    if (values[getDataElementId("indicatorId")]) {
-                      onUpdateIndicator(values[getDataElementId("indicatorId")]);
-                    }
+                <OnChange name={getDataElementId("bottleneckId")}>
+                  {(value: string) => {
+                    onUpdateBottleneck(value);
+                    onClearIndicator(form);
                   }}
-                />
+                </OnChange>
+                <OnChange name={getDataElementId("indicatorId")}>
+                  {(value: string) => {
+                    onUpdateIndicator(value);
+                  }}
+                </OnChange>
+
                 <ReactFinalForm.Field
                   name={getDataElementId("bottleneckId")}
                   label={i18n.t("Bottleneck")}
@@ -176,10 +174,17 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                 <ReactFinalForm.Field
                   required
                   name={getDataElementId("Possible root cause")}
+                  initialValue={rootCauseData[getDataElementId("Possible root cause")] || ""}
                   label={i18n.t("Possible root cause")}
                   component={TextAreaFieldFF}
                 />
-                <ReactFinalForm.Field required name={getDataElementId("Possible solution")} label={i18n.t("Possible solution")} component={TextAreaFieldFF} />
+                <ReactFinalForm.Field
+                  required
+                  name={getDataElementId("Possible solution")}
+                  initialValue={rootCauseData[getDataElementId("Possible solution")] || ""}
+                  label={i18n.t("Possible solution")}
+                  component={TextAreaFieldFF}
+                />
 
                 <div className="column">
                   <ButtonStrip end>
@@ -187,12 +192,12 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                       disabled={rootCauseSaveButton}
                       secondary
                       onClick={() => {
-                        onCancelForm();
+                        onClosingFormModal(form);
                       }}>
                       Cancel
                     </Button>
                     <Button primary disabled={rootCauseSaveButton} type="submit">
-                      {rootCauseSaveButton ? <CircularLoader extrasmall={true} /> : "Save"}
+                      {rootCauseSaveButton ? "Saving..." : "Save"}
                     </Button>
                   </ButtonStrip>
                 </div>
