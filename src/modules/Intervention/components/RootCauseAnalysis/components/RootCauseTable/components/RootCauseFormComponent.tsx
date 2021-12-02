@@ -74,7 +74,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
   }));
 
   const bottleneckOptions = map(bottleneckMetadata, (bottleneck) => ({ label: bottleneck?.name, id: bottleneck?.id }));
-  const [interventionOptions, setInterventionOptions] = useState([]);
+  const [interventionOptions, setInterventionOptions] = useState<any[]>([]);
   const [selectedBottleneckName, setSelectedBottleneckName] = useState("");
   const [selectedIndicatorName, setSelectedIndicatorName] = useState("");
   const [rootCauseSaveButton, setRootCauseSaveButton] = useState(false);
@@ -82,6 +82,17 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
   function getDataElementId(name: string): string {
     return find(dataElements, (dataElement) => dataElement.name.replace(/\s+/g, "").toLowerCase() === name.replace(/\s+/g, "").toLowerCase())?.id || "";
   }
+
+  // function getDefaultInterventionOptions(): any[] {
+  //   const bottleneckId = rootCauseData[getDataElementId("bottleneckId")];
+  //   if (bottleneckId) {
+  //     return [];
+  //   }
+  //   const bottleneck = find(bottleneckMetadata, (item: any) => item?.id === bottleneckId);
+  //   const indicators = bottleneck?.indicators || [];
+
+  //   return indicators;
+  // }
 
   function onUpdateBottleneck(bottleneckId: string) {
     const bottleneck: any = find(bottleneckMetadata, (item: any) => item?.id === bottleneckId);
@@ -167,7 +178,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                   name={getDataElementId("indicatorId")}
                   label={i18n.t("Indicator")}
                   component={SingleSelectFieldFF}
-                  initialValue={rootCauseData[getDataElementId("indicatorId")] || ""}
+                  // initialValue={rootCauseData[getDataElementId("indicatorId")] || ""}
                   className="select"
                   options={(interventionOptions || []).map((option: any) => ({ label: option?.label, value: option?.name }))}
                 />
@@ -175,14 +186,14 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                 <ReactFinalForm.Field
                   required
                   name={getDataElementId("Root cause")}
-                  initialValue={rootCauseData[getDataElementId("Possible root cause")] || ""}
+                  initialValue={rootCauseData[getDataElementId("Root cause")] || ""}
                   label={i18n.t("Possible root cause")}
                   component={TextAreaFieldFF}
                 />
                 <ReactFinalForm.Field
                   required
                   name={getDataElementId("Solution")}
-                  initialValue={rootCauseData[getDataElementId("Possible solution")] || ""}
+                  initialValue={rootCauseData[getDataElementId("solution")] || ""}
                   label={i18n.t("Possible solution")}
                   component={TextAreaFieldFF}
                 />

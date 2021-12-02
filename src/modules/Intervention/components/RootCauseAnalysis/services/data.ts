@@ -59,7 +59,8 @@ export async function addOrUpdateRootCauseData(engine: any, interventionId: stri
   try {
     const rcaDataFromStore: RootCauseData[] = await getRootCausesData(engine, interventionId);
     const dataStoreUrl = `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`;
-    const rootCauseDataToSave = flattenDeep([data, ...filter(rcaDataFromStore, (rcaData: RootCauseData) => rcaData.id !== data.id)]);
+    const filteredRcaData = filter(flattenDeep(rcaDataFromStore), (rcaData: RootCauseData) => rcaData.id !== data.id);
+    const rootCauseDataToSave = flattenDeep([...filteredRcaData, data]);
     await saveRootCauseData(engine, dataStoreUrl, rootCauseDataToSave);
   } catch (error) {
     if (`${error}`.includes("404")) {
