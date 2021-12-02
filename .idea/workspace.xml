@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(ChartAnalysisDownload): Implementation&#10;&#10;- Implemented chart data excel download">
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(InterventionConfiguration): Fixes &amp; Improvements&#10;&#10;- Pushed instead of replace new route on new intervention click&#10;- Removed unnecessary placeholders in configuration">
+      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/IndicatorSelector/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/General/components/InterventionConfigDetails/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/General/components/InterventionConfigDetails/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/component/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/component/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/state/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/state/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +24,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -70,6 +75,9 @@
     <setting file="file://$PROJECT_DIR$/src/App.tsx" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/types/index.d.ts" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="204irCeg0FIJAmrNgPjXVdG1vIv" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -83,7 +91,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="add_unversioned_files" value="$PROJECT_DIR$/.env" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/.env&#10;/home/gnnko/projects/hisptz/bottleneck-analysis-app/node_modules/esprima/dist/esprima.js" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -95,7 +103,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -264,7 +272,13 @@
       <workItem from="1638009367643" duration="676000" />
       <workItem from="1638107075407" duration="2967000" />
       <workItem from="1638159654704" duration="1313000" />
-      <workItem from="1638246678531" duration="304000" />
+      <workItem from="1638246678531" duration="498000" />
+      <workItem from="1638257749430" duration="353000" />
+      <workItem from="1638258117677" duration="2201000" />
+      <workItem from="1638260776206" duration="176000" />
+      <workItem from="1638261368782" duration="4519000" />
+      <workItem from="1638349496903" duration="3568000" />
+      <workItem from="1638380557885" duration="669000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -504,7 +518,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638209501799</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="fix(InterventionConfiguration): Fixes &amp; Improvements&#10;&#10;- Pushed instead of replace new route on new intervention click&#10;- Removed unnecessary placeholders in configuration">
+      <created>1638247162429</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1638247162429</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -523,7 +544,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat(SubLevel Analysis): Implementation&#10;&#10;- Implemented sublevel UI" />
     <MESSAGE value="feat(Migration): Implementation&#10;&#10;- Summary implementation" />
     <MESSAGE value="feat(New Data Flow): Implementation&#10;&#10;- Implemented intervention state based on new data model" />
     <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Implemented sublevel analysis logic" />
@@ -548,7 +568,8 @@
     <MESSAGE value="chore(gitignore): addition&#10;&#10;- Added build to gitignore file" />
     <MESSAGE value="feat(intervention configuration): routing&#10;&#10;- Added routes for configuring and adding new intervention" />
     <MESSAGE value="feat(ChartAnalysisDownload): Implementation&#10;&#10;- Implemented chart data excel download" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(ChartAnalysisDownload): Implementation&#10;&#10;- Implemented chart data excel download" />
+    <MESSAGE value="fix(InterventionConfiguration): Fixes &amp; Improvements&#10;&#10;- Pushed instead of replace new route on new intervention click&#10;- Removed unnecessary placeholders in configuration" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(InterventionConfiguration): Fixes &amp; Improvements&#10;&#10;- Pushed instead of replace new route on new intervention click&#10;- Removed unnecessary placeholders in configuration" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

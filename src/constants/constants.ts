@@ -21,3 +21,7 @@ export const SHARE_TARGET_GROUP = "SHARE_TARGET_GROUP";
 
 export const VISUALIZATION = "visualization";
 export const DASHBOARD = "dashboard";
+
+// indicators per determinant
+
+export const INDICATORS_PER_DETERMINANT = 3;

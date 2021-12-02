@@ -2,14 +2,17 @@ import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip } from "@dhis2/ui";
 import { ConfigurationStepper } from "@hisptz/react-ui";
 import React from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import AccessConfigurationComponent from "./components/Access";
 import DeterminantsConfigurationComponent from "./components/Determinants";
 import GeneralConfigurationComponent from "./components/General";
 import "./InterventionConfiguration.css";
-import AccessConfigurationComponent from "./components/Access";
-import { useHistory } from "react-router-dom";
-import GeneralConfigurationComponent from "./components/General";
+import { InterventionDirtySelector } from "./state/data";
 
-export default function InterventionConfiguration() {
+export default function InterventionConfiguration(): React.ReactElement {
+  const { id } = useParams<{ id: string }>();
+  const interventionName = useRecoilValue(InterventionDirtySelector({ id, path: ["name"] }));
   const history = useHistory();
 
   const onExit = () => {
@@ -18,7 +21,7 @@ export default function InterventionConfiguration() {
   return (
     <div className="configuration-main-container">
       <div className="stepper-config-header">
-        <h2 style={{ margin: 4 }}>Manage Focused ANC Coverage</h2>
+        <h2 style={{ margin: 4 }}>{`${i18n.t("Manage")} ${interventionName}`}</h2>
         <Button>{i18n.t("Delete")}</Button>
       </div>
       <div className="flex">

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-30T07:08:35.623Z\n"
-"PO-Revision-Date: 2021-11-30T07:08:35.623Z\n"
+"POT-Creation-Date: 2021-12-01T18:52:50.967Z\n"
+"PO-Revision-Date: 2021-12-01T18:52:50.967Z\n"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -302,6 +302,48 @@ msgstr "Dictionary View"
 
 msgid "Download Excel"
 msgstr "Download Excel"
+
+msgid "Add Indicator"
+msgstr "Add Indicator"
+
+msgid "Determinants"
+msgstr "Determinants"
+
+msgid "Clear All"
+msgstr "Clear All"
+
+msgid "Select Indicator(s)"
+msgstr "Select Indicator(s)"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "Enter a description"
+msgstr "Enter a description"
+
+msgid "Bottleneck Period Type"
+msgstr "Bottleneck Period Type"
+
+msgid "Sub level analysis notice"
+msgstr "Sub level analysis notice"
+
+msgid "Set specific level for sub level analysis"
+msgstr "Set specific level for sub level analysis"
+
+msgid "Sub level analysis level"
+msgstr "Sub level analysis level"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Save and exit"
+msgstr "Save and exit"
+
+msgid "Exit Without saving"
+msgstr "Exit Without saving"
 
 msgid "Something went wrong with the migration"
 msgstr "Something went wrong with the migration"

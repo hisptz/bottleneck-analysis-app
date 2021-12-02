@@ -1,10 +1,10 @@
+import i18n from "@dhis2/d2-i18n";
 import { Button } from "@dhis2/ui";
 import React from "react";
 import GroupDeterminantComponent from "./component";
 import "./DeterminantArea.css";
-import i18n from "@dhis2/d2-i18n";
 
-export default function DeterminantArea() {
+export default function DeterminantArea(): React.ReactElement {
   return (
     <div className="determinant-container">
       <div className="determinant-main">

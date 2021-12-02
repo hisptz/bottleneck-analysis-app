@@ -1,7 +1,14 @@
 const { config } = require("@dhis2/cli-style");
 
 module.exports = {
-  extends: [config.eslintReact, "plugin:prettier/recommended"],
+  plugins: ["@typescript-eslint"],
+  extends: [
+    config.eslintReact,
+    "plugin:prettier/recommended",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+  ],
   settings: {
     "import/resolver": {
       node: {
