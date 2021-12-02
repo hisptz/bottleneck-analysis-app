@@ -1,10 +1,12 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, DataTable, DataTableCell, DataTableRow, TableBody, TableFoot } from "@dhis2/ui";
+import { Button, DataTable, DataTableCell, DataTableRow, TableBody, TableFoot, Modal, ModalTitle, ModalActions, ModalContent, ButtonStrip } from "@dhis2/ui";
 import { find } from "lodash";
 import React, { useState } from "react";
 import "./rootCauseTable.css";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { EngineState } from "../../../../../../core/state/dataEngine";
+import { deleteRootCauseData } from "../../services/data";
 import { RootCauseTableConfig } from "../../state/config";
 import { RootCauseData, RootCauseDataRequestId } from "../../state/data";
 import RootCauseActionsProps from "./components/RootCauseActionsComponent";
@@ -15,19 +17,41 @@ import classes from "./RootCauseTable.module.css";
 export default function RootCauseTable({ tableRef }: { tableRef: any }) {
   const { id } = useParams<{ id: string }>();
   const [rootCauseDataRequestId, setRootCauseDataRequestId] = useRecoilState(RootCauseDataRequestId);
+  const engine = useRecoilValue(EngineState);
   const { columns, rows, rowIds } = useRecoilValue(RootCauseTableConfig(id));
   const rootCauseData = useRecoilValue(RootCauseData(id));
   const [rootCauseFormDisplayStatus, setRootCauseFormDisplayStatus] = useState(false);
+  const [rootCauseDeleteStatus, setRootCauseDeleteStatus] = useState(false);
+  const [rootCauseDeleteId, setRootCauseDeleteId] = useState<string>("");
+  const [rootCauseDeleteButton, setRootCauseDeleteButton] = useState(false);
   const [selectedRootCauseData, setSelectedRootCauseData] = useState<any>({});
 
   function onUpdateRootCauseFormDisplayStatus() {
     setRootCauseFormDisplayStatus(!rootCauseFormDisplayStatus);
   }
 
+  function onUpdateRootCauseDeleteStatus() {
+    setRootCauseDeleteStatus(!rootCauseDeleteStatus);
+  }
+
+  async function onConfirmDeleteRootCause() {
+    setRootCauseDeleteButton(true);
+    try {
+      await deleteRootCauseData(engine, id, rootCauseDeleteId);
+      onUpdateRootCauseDeleteStatus();
+      setRootCauseDataRequestId(rootCauseDataRequestId + 1);
+    } catch (error) {
+      // show error
+      onUpdateRootCauseDeleteStatus();
+    }
+    setRootCauseDeleteButton(false);
+  }
+
   async function onDeleteRootCause(rootCauseIndex: number) {
     setSelectedRootCauseData({});
     const rootCauseId = rowIds[rootCauseIndex];
-    console.log("onDeleteRootCause", rootCauseId);
+    setRootCauseDeleteId(rootCauseId);
+    onUpdateRootCauseDeleteStatus();
   }
 
   async function onUpdateRootCause(rootCauseIndex: number) {
@@ -84,6 +108,23 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
           </DataTableRow>
         </TableFoot>
       </DataTable>
+
+      <Modal small={true} hide={!rootCauseDeleteStatus} position="middle">
+        <ModalTitle>{i18n.t("Delete Root Cause")}</ModalTitle>
+        <ModalContent>
+          <p>{i18n.t("Are you sure you want to delete this root cause?")}</p>
+        </ModalContent>
+        <ModalActions>
+          <ButtonStrip end>
+            <Button disabled={rootCauseDeleteButton} onClick={onUpdateRootCauseDeleteStatus} secondary>
+              Cancel
+            </Button>
+            <Button disabled={rootCauseDeleteButton} onClick={onConfirmDeleteRootCause} destructive>
+              {rootCauseDeleteButton ? "Deleting..." : "Delete"}
+            </Button>
+          </ButtonStrip>
+        </ModalActions>
+      </Modal>
 
       <RootCauseFormComponent
         hideModal={rootCauseFormDisplayStatus}

@@ -49,8 +49,8 @@ export async function getRootCausesData(engine: any, interventionId: string): Pr
 export async function deleteRootCauseData(engine: any, interventionId: string, rootCauseId: string) {
   try {
     const rcaDataFromStore: RootCauseData[] = await getRootCausesData(engine, interventionId);
-    const sanitizedRcaData = filter(rcaDataFromStore, (rcaData: RootCauseData) => rcaData.id !== rootCauseId);
-    await saveRootCauseData(engine, `dataStore/${BNA_NAMESPACE}`, sanitizedRcaData);
+    const sanitizedRcaData = filter(flattenDeep(rcaDataFromStore), (rcaData: RootCauseData) => rcaData.id !== rootCauseId);
+    await saveRootCauseData(engine, `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`, sanitizedRcaData);
   } catch (error) {
     throw new Error(`${error}`);
   }
