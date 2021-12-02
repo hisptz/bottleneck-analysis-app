@@ -122,12 +122,13 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
     try {
       await addOrUpdateRootCauseData(engine, interventionId, data);
       form.reset();
+      setRootCauseSaveButton(false);
       onSuccessfullySaveRootCause();
     } catch (error) {
       form.reset();
+      setRootCauseSaveButton(false);
       onSavingError(error);
     }
-    setRootCauseSaveButton(false);
   }
 
   return (
@@ -160,7 +161,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                   component={SingleSelectFieldFF}
                   initialValue={rootCauseData[getDataElementId("bottleneckId")] || ""}
                   className="select"
-                  options={bottleneckOptions.map((option: any) => ({ label: option?.label, value: option?.id }))}
+                  options={(bottleneckOptions || []).map((option: any) => ({ label: option?.label, value: option?.id }))}
                 />
                 <ReactFinalForm.Field
                   name={getDataElementId("indicatorId")}
@@ -168,19 +169,19 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                   component={SingleSelectFieldFF}
                   initialValue={rootCauseData[getDataElementId("indicatorId")] || ""}
                   className="select"
-                  options={interventionOptions?.map((option: any) => ({ label: option?.label, value: option?.name }))}
+                  options={(interventionOptions || []).map((option: any) => ({ label: option?.label, value: option?.name }))}
                 />
 
                 <ReactFinalForm.Field
                   required
-                  name={getDataElementId("Possible root cause")}
+                  name={getDataElementId("Root cause")}
                   initialValue={rootCauseData[getDataElementId("Possible root cause")] || ""}
                   label={i18n.t("Possible root cause")}
                   component={TextAreaFieldFF}
                 />
                 <ReactFinalForm.Field
                   required
-                  name={getDataElementId("Possible solution")}
+                  name={getDataElementId("Solution")}
                   initialValue={rootCauseData[getDataElementId("Possible solution")] || ""}
                   label={i18n.t("Possible solution")}
                   component={TextAreaFieldFF}
