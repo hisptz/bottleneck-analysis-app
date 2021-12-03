@@ -1,5 +1,5 @@
-import i18n from "@dhis2/d2-i18n";
 import { useAlert } from "@dhis2/app-runtime";
+import i18n from "@dhis2/d2-i18n";
 import { Button, DataTable, DataTableCell, DataTableRow, TableBody, TableFoot, Modal, ModalTitle, ModalActions, ModalContent, ButtonStrip } from "@dhis2/ui";
 import { find } from "lodash";
 import React, { useEffect, useState } from "react";
