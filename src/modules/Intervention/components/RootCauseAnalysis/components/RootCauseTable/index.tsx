@@ -34,6 +34,11 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
     setRootCauseDeleteStatus(!rootCauseDeleteStatus);
   }
 
+  function onCancelRootCauseForm() {
+    setSelectedRootCauseData({});
+    onUpdateRootCauseFormDisplayStatus();
+  }
+
   async function onConfirmDeleteRootCause() {
     setRootCauseDeleteButton(true);
     try {
@@ -129,7 +134,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
       <RootCauseFormComponent
         hideModal={rootCauseFormDisplayStatus}
         onSavingError={onSaveRootCauseFailed}
-        onCancelForm={onUpdateRootCauseFormDisplayStatus}
+        onCancelForm={onCancelRootCauseForm}
         rootCauseData={selectedRootCauseData}
         onSuccessfullySaveRootCause={onSaveRootCauseSuccessfully}></RootCauseFormComponent>
     </div>

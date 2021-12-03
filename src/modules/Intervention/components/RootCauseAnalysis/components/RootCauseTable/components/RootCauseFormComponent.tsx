@@ -2,7 +2,7 @@ import i18n from "@dhis2/d2-i18n";
 import { Button, ReactFinalForm, SingleSelectFieldFF, TextAreaFieldFF, Modal, ModalTitle, ModalContent, ButtonStrip } from "@dhis2/ui";
 import { Period } from "@iapps/period-utilities";
 import { map, find } from "lodash";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { OnChange } from "react-final-form-listeners";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -78,21 +78,25 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
   const [selectedBottleneckName, setSelectedBottleneckName] = useState("");
   const [selectedIndicatorName, setSelectedIndicatorName] = useState("");
   const [rootCauseSaveButton, setRootCauseSaveButton] = useState(false);
+  const [shouldClearIndicator, setShouldClearIndicator] = useState(false);
+
+  useEffect(() => {
+    setInterventionOptions(getDefaultInterventionOptions());
+  }, [rootCauseData]);
 
   function getDataElementId(name: string): string {
     return find(dataElements, (dataElement) => dataElement.name.replace(/\s+/g, "").toLowerCase() === name.replace(/\s+/g, "").toLowerCase())?.id || "";
   }
 
-  // function getDefaultInterventionOptions(): any[] {
-  //   const bottleneckId = rootCauseData[getDataElementId("bottleneckId")];
-  //   if (bottleneckId) {
-  //     return [];
-  //   }
-  //   const bottleneck = find(bottleneckMetadata, (item: any) => item?.id === bottleneckId);
-  //   const indicators = bottleneck?.indicators || [];
-
-  //   return indicators;
-  // }
+  function getDefaultInterventionOptions(): any[] {
+    const bottleneckId = rootCauseData[getDataElementId("bottleneckId")];
+    if (!bottleneckId) {
+      return [];
+    }
+    const bottleneck = find(bottleneckMetadata, (item: any) => item?.id === bottleneckId);
+    const indicators = bottleneck?.indicators || [];
+    return indicators;
+  }
 
   function onUpdateBottleneck(bottleneckId: string) {
     const bottleneck: any = find(bottleneckMetadata, (item: any) => item?.id === bottleneckId);
@@ -106,13 +110,17 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
   }
 
   function onClearIndicator(form: any) {
-    form.change(getDataElementId("indicatorId"), "");
+    form.change(getDataElementId("indicatorId"), shouldClearIndicator ? "" : rootCauseData[getDataElementId("indicatorId")] || "");
     form.resetFieldState(getDataElementId("indicatorId"));
-    setSelectedIndicatorName("");
+    setSelectedIndicatorName(shouldClearIndicator ? "" : rootCauseData[getDataElementId("indicator")] || "");
+    if (hideModal) {
+      setShouldClearIndicator(true);
+    }
   }
 
   function onClosingFormModal(form: any) {
-    form.reset();
+    setShouldClearIndicator(false);
+    form.restart();
     onCancelForm();
   }
 
@@ -140,6 +148,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
       setRootCauseSaveButton(false);
       onSavingError(error);
     }
+    setShouldClearIndicator(false);
   }
 
   return (
@@ -157,7 +166,9 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                 <OnChange name={getDataElementId("bottleneckId")}>
                   {(value: string) => {
                     onUpdateBottleneck(value);
-                    onClearIndicator(form);
+                    if (hideModal || shouldClearIndicator) {
+                      onClearIndicator(form);
+                    }
                   }}
                 </OnChange>
                 <OnChange name={getDataElementId("indicatorId")}>
@@ -178,7 +189,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                   name={getDataElementId("indicatorId")}
                   label={i18n.t("Indicator")}
                   component={SingleSelectFieldFF}
-                  // initialValue={rootCauseData[getDataElementId("indicatorId")] || ""}
+                  initialValue={hideModal ? "" : rootCauseData[getDataElementId("indicatorId")] || ""}
                   className="select"
                   options={(interventionOptions || []).map((option: any) => ({ label: option?.label, value: option?.name }))}
                 />
