@@ -27,7 +27,7 @@ const generateSaveMutation = (id: string) => {
   };
 };
 
-export async function migrateIntervention(intervention: InterventionConfig, engine: any) {
+export async function migrateIntervention(intervention: InterventionConfig, engine: any): Promise<any> {
   const mutation = generateSaveMutation(intervention.id);
   return await engine.mutate(mutation, { variables: { data: intervention } });
 }
@@ -57,10 +57,11 @@ function convertData(dataConfig?: GlobalSelection): DataSelection {
         items: compact(groupItems),
       };
     });
-    const newLegendDefinitions: Array<LegendDefinition> = legendDefinitions?.map(({ id, name, color }) => ({
+    const newLegendDefinitions: Array<LegendDefinition> = legendDefinitions?.map(({ id, name, color, startValue, endValue }) => ({
       id,
       name,
       color,
+      default: startValue === undefined && endValue === undefined,
     }));
 
     return {

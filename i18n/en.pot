@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-01T18:52:50.967Z\n"
-"PO-Revision-Date: 2021-12-01T18:52:50.967Z\n"
+"POT-Creation-Date: 2021-12-02T18:52:15.493Z\n"
+"PO-Revision-Date: 2021-12-02T18:52:15.493Z\n"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -312,6 +312,9 @@ msgstr "Determinants"
 msgid "Clear All"
 msgstr "Clear All"
 
+msgid "Legends (Only applicable to sub level analysis)"
+msgstr "Legends (Only applicable to sub level analysis)"
+
 msgid "Select Indicator(s)"
 msgstr "Select Indicator(s)"
 
@@ -335,6 +338,9 @@ msgstr "Set specific level for sub level analysis"
 
 msgid "Sub level analysis level"
 msgstr "Sub level analysis level"
+
+msgid "Manage"
+msgstr "Manage"
 
 msgid "Delete"
 msgstr "Delete"

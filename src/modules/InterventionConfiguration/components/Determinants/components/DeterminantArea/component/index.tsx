@@ -9,7 +9,7 @@ import { DataItem, Group } from "../../../../../../../shared/interfaces/interven
 import { getIcon } from "../../../../../../../shared/utils/indicators";
 import "./GroupDeterminantComponent.module.css";
 import { InterventionDirtySelector } from "../../../../../state/data";
-import { SelectedDeterminant, SelectedIndicator } from "../../../../../state/edit";
+import { SelectedDeterminantId, SelectedIndicatorId } from "../../../../../state/edit";
 import IndicatorSelector from "../../IndicatorSelector";
 import useItemOperations from "../hooks/useItemOperations";
 
@@ -17,8 +17,8 @@ export default function GroupDeterminantComponent(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const [indicatorSelectorHide, setIndicatorSelectorHide] = useState(true);
   const [selectedGroupIndex, setSelectedGroupIndex] = useState<number | undefined>();
-  const selectedGroup = useRecoilValue(SelectedDeterminant(id));
-  const selectedIndicator = useRecoilValue(SelectedIndicator(id));
+  const selectedGroup = useRecoilValue(SelectedDeterminantId(id));
+  const selectedIndicator = useRecoilValue(SelectedIndicatorId(id));
   const [determinants, setDeterminants] = useRecoilState(
     InterventionDirtySelector({
       id,
@@ -36,9 +36,9 @@ export default function GroupDeterminantComponent(): React.ReactElement {
       return {
         id,
         name: `${name} (${items.length})`,
-        items: items?.map(({ id, name, type }: DataItem) => ({
+        items: items?.map(({ id, type, label }: DataItem) => ({
           id,
-          name,
+          name: label,
           icon: getIcon(type),
         })),
       };
@@ -47,7 +47,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
 
   const selectedItems = useMemo(() => {
     if (selectedIndicator && selectedGroup) {
-      return [{ groupId: selectedGroup?.id, itemId: selectedIndicator?.id }];
+      return [{ groupId: selectedGroup, itemId: selectedIndicator }];
     }
     return [];
   }, [selectedGroup, selectedIndicator]);

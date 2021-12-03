@@ -4,16 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(InterventionConfiguration): Fixes &amp; Improvements&#10;&#10;- Pushed instead of replace new route on new intervention click&#10;- Removed unnecessary placeholders in configuration">
-      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/IndicatorSelector/index.tsx" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="fix(InterventionConfiguration): Implementations&#10;&#10;- Implemented Data configuration area logic">
       <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableBody.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Table/components/TableBody.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/component/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/component/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/state/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/state/data.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/hooks/useItemOperations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/hooks/useItemOperations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/IndicatorConfiguration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/IndicatorConfiguration/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/state/edit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/state/edit.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/interfaces/interventionConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces/interventionConfig.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +27,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -279,6 +282,10 @@
       <workItem from="1638261368782" duration="4519000" />
       <workItem from="1638349496903" duration="3568000" />
       <workItem from="1638380557885" duration="669000" />
+      <workItem from="1638454776370" duration="229000" />
+      <workItem from="1638461575463" duration="667000" />
+      <workItem from="1638471131483" duration="2799000" />
+      <workItem from="1638515535482" duration="10574000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -525,7 +532,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638247162429</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="fix(InterventionConfiguration): Implementations&#10;&#10;- Implemented Data configuration area logic">
+      <created>1638427953168</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1638427953168</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,7 +558,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat(Migration): Implementation&#10;&#10;- Summary implementation" />
     <MESSAGE value="feat(New Data Flow): Implementation&#10;&#10;- Implemented intervention state based on new data model" />
     <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Implemented sublevel analysis logic" />
     <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Fixed issues with table view&#10;- Implemented legends" />
@@ -569,7 +582,8 @@
     <MESSAGE value="feat(intervention configuration): routing&#10;&#10;- Added routes for configuring and adding new intervention" />
     <MESSAGE value="feat(ChartAnalysisDownload): Implementation&#10;&#10;- Implemented chart data excel download" />
     <MESSAGE value="fix(InterventionConfiguration): Fixes &amp; Improvements&#10;&#10;- Pushed instead of replace new route on new intervention click&#10;- Removed unnecessary placeholders in configuration" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(InterventionConfiguration): Fixes &amp; Improvements&#10;&#10;- Pushed instead of replace new route on new intervention click&#10;- Removed unnecessary placeholders in configuration" />
+    <MESSAGE value="fix(InterventionConfiguration): Implementations&#10;&#10;- Implemented Data configuration area logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(InterventionConfiguration): Implementations&#10;&#10;- Implemented Data configuration area logic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -581,12 +595,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>94</line>
+          <line>95</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/shared/interfaces/interventionConfig.ts</url>
-          <line>24</line>
+          <line>25</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -596,27 +610,27 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>80</line>
+          <line>81</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>77</line>
+          <line>78</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>106</line>
+          <line>107</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>107</line>
+          <line>108</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Migration/services/migrate.ts</url>
-          <line>108</line>
+          <line>109</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">

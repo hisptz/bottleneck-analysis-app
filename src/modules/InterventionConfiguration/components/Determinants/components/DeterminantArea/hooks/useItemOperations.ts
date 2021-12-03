@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { DataItem, Group } from "../../../../../../../shared/interfaces/interventionConfig";
-import { SelectedDeterminant, SelectedIndicator } from "../../../../../state/edit";
+import { SelectedDeterminantId, SelectedIndicatorId } from "../../../../../state/edit";
 
 export default function useItemOperations(
   setDeterminants: (determinants: (prevDeterminants: Array<Group>) => Array<Group> | undefined) => void,
@@ -17,8 +17,8 @@ export default function useItemOperations(
 } {
   const { id } = useParams<{ id: string }>();
 
-  const setSelectedDeterminant = useSetRecoilState(SelectedDeterminant(id));
-  const setSelectedIndicator = useSetRecoilState(SelectedIndicator(id));
+  const setSelectedDeterminant = useSetRecoilState(SelectedDeterminantId(id));
+  const setSelectedIndicator = useSetRecoilState(SelectedIndicatorId(id));
 
   const onItemDragEnd = useCallback(
     (groupId: string, result: { destination: any; source: any }) => {
@@ -62,8 +62,8 @@ export default function useItemOperations(
 
   const onItemClick = (groupId: string, itemId: string) => {
     const selectedGroup = find(groups, { id: groupId });
-    setSelectedDeterminant(selectedGroup);
-    setSelectedIndicator(find(selectedGroup?.items, { id: itemId }));
+    setSelectedDeterminant(selectedGroup?.id);
+    setSelectedIndicator(find(selectedGroup?.items, { id: itemId })?.id);
   };
 
   const onItemDelete = (groupId: string, itemId: string) => {

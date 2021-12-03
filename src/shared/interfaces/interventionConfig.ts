@@ -6,6 +6,7 @@ export interface LegendDefinition {
   id: string;
   color: string;
   name: string;
+  default?: boolean;
 }
 
 export interface Legend {

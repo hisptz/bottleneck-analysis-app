@@ -6,7 +6,7 @@ import { TableConfig, TableLayout } from "../../../state/layout";
 import classes from "../Table.module.css";
 import TableCell from "./TableCell";
 
-export default function TableBody() {
+export default function TableBody(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const { rows, columns, data } = useRecoilValue(TableConfig(id)) ?? {};
   const layout = useRecoilValue(TableLayout(id));
