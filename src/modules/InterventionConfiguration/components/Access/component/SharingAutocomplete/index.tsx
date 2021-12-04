@@ -1,7 +1,10 @@
 import { useDataQuery } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
-import { debounce } from "lodash";
-import React, { useCallback, useEffect, useState } from "react";
+import { debounce, filter, find } from "lodash";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { InterventionDirtySelector } from "../../../../state/data";
 import AutoComplete from "../Autocomplete";
 
 const query = {
@@ -12,9 +15,18 @@ const query = {
     }),
   },
 };
-export default function SharingAutoComplete({ selected, onSelection }: { selected: string; onSelection: any }): React.ReactElement {
+export default function SharingAutoComplete({
+  selected,
+  onSelection,
+}: {
+  selected?: { id: string; displayName?: string; name?: string };
+  onSelection: (selected: any) => void;
+}): React.ReactElement {
+  const { id } = useParams<{ id: string }>();
   const [search, setSearch] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const userAccess = useRecoilValue(InterventionDirtySelector({ id, path: ["userAccess"] }));
+  const userGroupAccess = useRecoilValue(InterventionDirtySelector({ id, path: ["userGroupAccess"] }));
   /**
    * NOTE:
    * HOW WE WILL FETCH DATA USING DATA QUERY TO SHARING/SEARCH AS RESOURCE
@@ -25,45 +37,63 @@ export default function SharingAutoComplete({ selected, onSelection }: { selecte
   });
 
   useEffect(() => {
-    if (selected) {
-      setSearch(selected);
-    }
+    setSearch(selected?.name ?? selected?.displayName ?? "");
   }, [selected]);
 
   const debouncedRefetch = useCallback(debounce(refetch, 250), [refetch]);
 
   useEffect(() => {
     if (search) {
-      debouncedRefetch({ search });
+      if (!selected) {
+        debouncedRefetch({ search });
+      }
     } else {
-      onSelection(null);
+      onSelection(undefined);
       setShowResults(false);
     }
-  }, [search]);
+  }, [debouncedRefetch, onSelection, search, selected]);
 
   // Concatenate all the results
 
-  let results: any = [];
+  const filteredResults: Array<any> = useMemo(() => {
+    const searchResults = data?.search as unknown as { users: any[]; userGroups: any[] };
 
-  if (data?.search?.users) {
-    const mapped = data.search.users.map((user) => ({
-      ...user,
-      type: "user",
-    }));
-    results = results.concat(mapped);
-  }
+    if (selected || !search) {
+      return [];
+    }
+    const all = [
+      ...(searchResults?.users?.map((user) => ({
+        ...user,
+        type: "user",
+      })) ?? []),
+      ...(searchResults?.userGroups?.map((userGroup) => ({
+        ...userGroup,
+        type: "userGroup",
+      })) ?? []),
+    ];
+    return filter(all, (item) => {
+      if (item.type === "user") {
+        return !find(userAccess, (access) => access.id === item.id);
+      } else if (item.type === "userGroup") {
+        return !find(userGroupAccess, (access) => access.id === item.id);
+      }
+      return true;
+    });
+  }, [data?.search, search, selected, userAccess, userGroupAccess]);
+
   return (
     <AutoComplete
-      inputWidth="400px"
+      showResults={showResults}
+      inputWidth="auto"
       label={i18n.t("User, group or role")}
       loading={fetching}
       placeholder={i18n.t("Search")}
       search1={search}
-      searchResults={showResults ? results : []}
+      searchResults={showResults ? filteredResults : []}
       onClose={() => setShowResults(false)}
       onSearch={setSearch}
       onSelect={(id: string) => {
-        onSelection(results.find((result: any) => result.id === id));
+        onSelection(filteredResults.find((result: any) => result.id === id));
         setShowResults(false);
       }}
     />

@@ -8,7 +8,7 @@ export default function SubLevelActions() {
   const [activeTab, setActiveTab] = useRecoilState(ActiveTab);
   return (
     <div className="row">
-      <div className="column flex">
+      <div className="column flex-1">
         <div className="row">
           {tabs?.map(({ label, icon, key }) => (
             <Tooltip key={`${key}-tooltip`} content={label}>

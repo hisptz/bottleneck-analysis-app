@@ -1,74 +1,14 @@
 import i18n from "@dhis2/d2-i18n";
-import React, { useMemo } from "react";
-import {
-  ACCESS_NONE,
-  ACCESS_TYPES,
-  ACCESS_VIEW_AND_EDIT,
-  ACCESS_VIEW_ONLY,
-  SHARE_TARGET_GROUP,
-  SHARE_TARGET_PUBLIC,
-  SHARE_TARGET_USER,
-} from "../../../../../../constants/constants";
-import ListItem from "../ListAccessItem";
+import React, { Suspense } from "react";
+import { ACCESS_TYPES, SHARE_TARGET_GROUP, SHARE_TARGET_PUBLIC, SHARE_TARGET_USER } from "../../../../../../constants/constants";
+import ListItem, { ListItemLoader } from "../ListAccessItem";
 import Title from "../Title";
 import "./accesslist.css";
-import { cloneDeep, find, findIndex, has, set } from "lodash";
-import { useSetRecoilState } from "recoil";
-import { InterventionDirtySelector } from "../../../../state/data";
-import { useParams } from "react-router-dom";
+import { find } from "lodash";
+import useManageAccess from "./hooks/manage";
 
-export default function AccessList({
-  onChange,
-  onRemove,
-  publicAccess,
-  allowPublicAccess,
-  users = [],
-  groups = [],
-}: {
-  onChange: any;
-  onRemove: any;
-  publicAccess: any;
-  allowPublicAccess: any;
-  users: any[];
-  groups: any[];
-}): React.ReactElement {
-  const { id } = useParams<{ id: string }>();
-  const allUsersAccess = useMemo(() => find(ACCESS_TYPES, ["value", publicAccess]), [publicAccess]);
-  const setUserGroupAccess = useSetRecoilState(InterventionDirtySelector({ id, path: ["userGroupAccess"] }));
-  const setPublicAccess = useSetRecoilState(InterventionDirtySelector({ id, path: ["publicAccess"] }));
-  const setUserAccess = useSetRecoilState(InterventionDirtySelector({ id, path: ["publicAccess"] }));
-  const onChangeAccess = (type: string, access: string | { id: string; access: string }) => {
-    if (type === "publicAccess") {
-      setPublicAccess(access);
-      return;
-    }
-    if (type === "userAccess") {
-      if (typeof access !== "string" && has(access, "id")) {
-        setUserAccess((prevState: any) => {
-          const newState = cloneDeep(prevState);
-          const updatedUserGroupIndex = findIndex(newState, ["id", access.id]);
-          if (newState[updatedUserGroupIndex]) {
-            set(newState[updatedUserGroupIndex], "access", access.access);
-          }
-          return newState;
-        });
-      }
-      return;
-    }
-    if (type === "userGroupAccess") {
-      if (typeof access !== "string" && has(access, "id")) {
-        setUserGroupAccess((prevState: any) => {
-          const newState = cloneDeep(prevState);
-          const updatedUserGroupIndex = findIndex(newState, ["id", access.id]);
-          if (newState[updatedUserGroupIndex]) {
-            set(newState[updatedUserGroupIndex], "access", access.access);
-          }
-          return newState;
-        });
-      }
-      return;
-    }
-  };
+export default function AccessList(): React.ReactElement {
+  const { allUsersAccess, userGroupAccess, userAccess, onChangeAccess, onRemove, publicAccess } = useManageAccess();
 
   return (
     <>
@@ -77,46 +17,46 @@ export default function AccessList({
         <div className="header-left-column">{i18n.t("User / Group / Role")}</div>
         <div className="header-right-column">{i18n.t("Access level")}</div>
       </div>
-      <div className="list">
+      <div className="access-list">
         <ListItem
           name={i18n.t("All users")}
           target={SHARE_TARGET_PUBLIC}
           accessLabel={allUsersAccess?.label}
           access={publicAccess}
-          accessOptions={[ACCESS_NONE, ACCESS_VIEW_ONLY, ACCESS_VIEW_AND_EDIT]}
-          disabled={!allowPublicAccess}
+          accessOptions={ACCESS_TYPES}
+          disabled={false}
           onChange={(newAccess: string) => onChangeAccess("publicAccess", newAccess)}
-          onRemove={() => onRemove({ type: "group", id: "id" })}
+          onRemove={() => onRemove({ type: "publicAccess", id: "id" })}
         />
-        {groups.map(({ id, name, access }) => (
-          <ListItem
-            key={id}
-            name={name}
-            target={SHARE_TARGET_GROUP}
-            access={access}
-            accessLabel={find(ACCESS_TYPES, ["value", access])?.label}
-            accessOptions={[ACCESS_VIEW_ONLY, ACCESS_VIEW_AND_EDIT]}
-            onChange={(newAccess: string) => onChangeAccess("userGroupAccess", { id, access: newAccess })}
-            onRemove={() => onRemove({ type: "group", id })}
-            disabled={false}
-          />
+        {userGroupAccess.map(({ id, access }: { id: string; name: string; access: string }) => (
+          <Suspense key={`${id}-access-list`} fallback={<ListItemLoader />}>
+            <ListItem
+              id={id}
+              target={SHARE_TARGET_GROUP}
+              access={access}
+              accessLabel={find(ACCESS_TYPES, ["value", access])?.label}
+              accessOptions={ACCESS_TYPES}
+              onChange={(newAccess: string) => onChangeAccess("userGroupAccess", { id, access: newAccess })}
+              onRemove={() => onRemove({ type: "userGroupAccess", id })}
+              disabled={false}
+            />
+          </Suspense>
         ))}
-        {users.map(
-          ({ id, name, access }) =>
-            access && (
-              <ListItem
-                key={id}
-                name={name}
-                accessLabel={find(ACCESS_TYPES, ["value", access])?.label}
-                target={SHARE_TARGET_USER}
-                access={access}
-                accessOptions={[ACCESS_VIEW_ONLY, ACCESS_VIEW_AND_EDIT]}
-                onChange={(newAccess: string) => onChangeAccess("userAccess", { id, access: newAccess })}
-                onRemove={() => onRemove({ type: "user", id })}
-                disabled={false}
-              />
-            )
-        )}
+        {userAccess.map(({ id, access }: { id: string; name: string; access: string }) => (
+          <Suspense key={`${id}-access-list`} fallback={<ListItemLoader />}>
+            <ListItem
+              key={id}
+              id={id}
+              accessLabel={find(ACCESS_TYPES, ["value", access])?.label}
+              target={SHARE_TARGET_USER}
+              access={access}
+              accessOptions={ACCESS_TYPES}
+              onChange={(newAccess: string) => onChangeAccess("userAccess", { id, access: newAccess })}
+              onRemove={() => onRemove({ type: "userAccess", id })}
+              disabled={false}
+            />
+          </Suspense>
+        ))}
       </div>
     </>
   );

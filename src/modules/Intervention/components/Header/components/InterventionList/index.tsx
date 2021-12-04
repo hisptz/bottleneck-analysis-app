@@ -31,7 +31,7 @@ export default function InterventionList() {
   return (
     <div className="column center align-center w-100">
       <div className="intervention-list-container w-100 align-start">
-        <div className="column flex">
+        <div className="column flex-1">
           <div className="row gap align-start">
             <AddButton onClick={onAddIntervention} />
             <Search />

@@ -23,7 +23,7 @@ export default function InterventionHeader() {
 
   return (
     <div className="intervention-header-container">
-      <div className="column flex">
+      <div className="column flex-1">
         <div className="row gap align-center">
           <h2 className="intervention-header-text">{name}</h2>
           <IconButton style={{ padding: 2, color: "#000000" }}>{bookmarks?.includes(userId) ? <IconStarFilled24 /> : <IconStar24 />}</IconButton>

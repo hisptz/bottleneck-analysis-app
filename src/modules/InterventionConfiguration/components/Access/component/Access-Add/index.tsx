@@ -1,41 +1,65 @@
 import { useOnlineStatus } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import { Button, colors, SingleSelectField, SingleSelectOption } from "@dhis2/ui";
+import { cloneDeep, uniqBy } from "lodash";
 import React, { useState } from "react";
-import { ACCESS_VIEW_AND_EDIT, ACCESS_VIEW_ONLY } from "../../../../../../constants/constants";
+import { useParams } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { ACCESS_TYPES } from "../../../../../../constants/constants";
+import { InterventionDirtySelector } from "../../../../state/data";
 import SharingAutoComplete from "../SharingAutocomplete";
 import Title from "../Title";
 
-export default function AccessAdd({ onAdd }: any): React.ReactElement {
+export default function AccessAdd(): React.ReactElement {
+  const { id } = useParams<{ id: string }>();
   const { offline } = useOnlineStatus();
-  const [entity, setEntity] = useState({ type: "", id: "", name: "", displayName: "" });
+  const [entity, setEntity] = useState<{ id: string; type: string; name?: string; displayName?: string } | undefined>();
   const [access, setAccess] = useState("");
+  const setUserAccess = useSetRecoilState(InterventionDirtySelector({ id, path: ["userAccess"] }));
+  const setUserGroupAccess = useSetRecoilState(InterventionDirtySelector({ id, path: ["userGroupAccess"] }));
+
   const onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    onAdd({
-      type: entity.type,
-      id: entity.id,
-      name: entity.displayName || entity.name,
-      access,
-    });
-    setEntity({ type: "", id: "", name: "", displayName: "" });
+    if (entity?.type === "user") {
+      setUserAccess((prevState: Array<any>) => {
+        const newValue = cloneDeep(prevState);
+        return uniqBy(
+          [
+            ...newValue,
+            {
+              id: entity.id,
+              access,
+            },
+          ],
+          "id"
+        );
+      });
+    }
+    if (entity?.type === "userGroup") {
+      setUserGroupAccess((prevState: Array<any>) => {
+        const newValue = cloneDeep(prevState);
+        return uniqBy(
+          [
+            ...newValue,
+            {
+              id: entity.id,
+              access,
+            },
+          ],
+          "id"
+        );
+      });
+    }
+    setEntity(undefined);
     setAccess("");
   };
-  const accessOptions = [
-    {
-      value: ACCESS_VIEW_ONLY,
-      label: "View only",
-    },
-    {
-      value: ACCESS_VIEW_AND_EDIT,
-      label: "view and edit",
-    },
-  ];
   return (
     <>
       <Title title={i18n.t("Give Access to a user , group or role")} />
       <form style={{ display: "flex", gap: 16 }} onSubmit={onSubmit}>
-        <SharingAutoComplete selected={entity?.displayName || entity?.name} onSelection={setEntity} />
+        <div className="flex-1">
+          <SharingAutoComplete selected={entity} onSelection={setEntity} />
+        </div>
         <div className="select-wrapper">
           <SingleSelectField
             label={i18n.t("Access level")}
@@ -44,7 +68,7 @@ export default function AccessAdd({ onAdd }: any): React.ReactElement {
             selected={access}
             helpText={offline ? i18n.t("Not available offline") : ""}
             onChange={({ selected }: any) => setAccess(selected)}>
-            {accessOptions.map(({ value, label }) => (
+            {ACCESS_TYPES.map(({ value, label }) => (
               <SingleSelectOption key={value} label={label} value={value} active={value === access} />
             ))}
           </SingleSelectField>

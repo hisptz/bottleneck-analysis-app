@@ -1,32 +1,20 @@
-import React from "react";
+import { CircularLoader } from "@dhis2/ui";
+import React, { Suspense } from "react";
 import AccessAdd from "../Access-Add";
 import AccessList from "../AccessList";
 
-export default function TabbedContent({
-  id,
-  users,
-  groups,
-  publicAccess,
-  allowPublicAccess,
-  type,
-  onAdd,
-  onChange,
-  onRemove,
-}: {
-  id: string;
-  users: any[];
-  groups: any[];
-  publicAccess: any;
-  allowPublicAccess: any;
-  type: string;
-  onAdd: any;
-  onChange: any;
-  onRemove: any;
-}) {
+export default function TabbedContent(): React.ReactElement {
   return (
     <div>
-      <AccessAdd onAdd={onAdd} />
-      <AccessList users={users} groups={groups} publicAccess={publicAccess} allowPublicAccess={allowPublicAccess} onChange={onChange} onRemove={onRemove} />
+      <AccessAdd />
+      <Suspense
+        fallback={
+          <div style={{ minHeight: 300 }} className="column center align-items-center">
+            <CircularLoader small />
+          </div>
+        }>
+        <AccessList />
+      </Suspense>
     </div>
   );
 }

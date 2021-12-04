@@ -24,7 +24,7 @@ export default function InterventionConfiguration(): React.ReactElement {
         <h2 style={{ margin: 4 }}>{`${i18n.t("Manage")} ${interventionName}`}</h2>
         <Button>{i18n.t("Delete")}</Button>
       </div>
-      <div className="flex">
+      <div className="flex-1">
         <ConfigurationStepper
           stepsManagement={[
             {

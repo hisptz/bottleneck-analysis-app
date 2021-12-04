@@ -1,10 +1,10 @@
-.root{
+.root {
     position: fixed;
-    height: 0vh;
-    width: 0vw;
-    top: 0px;
-    left: 0px;
-    min-height: 0vh;
-    min-width: 0vw;
-    z-index: 1px;
+}
+
+.search-menu {
+    width: 400px;
+    padding: 2px;
+    max-height: 400px;
+    overflow-y: auto;
 }
