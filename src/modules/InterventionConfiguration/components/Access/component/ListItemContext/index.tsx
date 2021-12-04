@@ -1,27 +1,10 @@
 import { colors } from "@dhis2/ui";
 import React from "react";
-import { ACCESS_NONE, ACCESS_VIEW_ONLY, ACCESS_VIEW_AND_EDIT } from "../../../../../../constants/constants";
 
-export default function ListItemContext({ access }) {
-  let message;
-
-  switch (access) {
-    case ACCESS_NONE:
-      message = "No access";
-      break;
-    case ACCESS_VIEW_ONLY:
-      message = "Can view";
-      break;
-    case ACCESS_VIEW_AND_EDIT:
-      message = "Can view and edit";
-      break;
-    default:
-      message = "";
-  }
-
+export default function ListItemContext({ access }: { access: any }): React.ReactElement {
   return (
     <p>
-      {message}
+      {access}
       <style>{`
         p {
           font-size: 14px;

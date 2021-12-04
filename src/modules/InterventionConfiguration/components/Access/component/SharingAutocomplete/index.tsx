@@ -1,4 +1,5 @@
 import { useDataQuery } from "@dhis2/app-runtime";
+import i18n from "@dhis2/d2-i18n";
 import { debounce } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import AutoComplete from "../Autocomplete";
@@ -6,12 +7,12 @@ import AutoComplete from "../Autocomplete";
 const query = {
   search: {
     resource: "sharing/search",
-    params: ({ search }) => ({
+    params: ({ search }: any) => ({
       key: search,
     }),
   },
 };
-export default function SharingAutoComplete({ selected, onSelection }: { selected: string; onSelection: any }) {
+export default function SharingAutoComplete({ selected, onSelection }: { selected: string; onSelection: any }): React.ReactElement {
   const [search, setSearch] = useState("");
   const [showResults, setShowResults] = useState(false);
   /**
@@ -54,9 +55,9 @@ export default function SharingAutoComplete({ selected, onSelection }: { selecte
   return (
     <AutoComplete
       inputWidth="400px"
-      label="User, group or role"
+      label={i18n.t("User, group or role")}
       loading={fetching}
-      placeholder={"Search"}
+      placeholder={i18n.t("Search")}
       search1={search}
       searchResults={showResults ? results : []}
       onClose={() => setShowResults(false)}

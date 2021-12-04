@@ -1,12 +1,23 @@
 import { Card, Layer, Popper } from "@dhis2/ui";
 import React from "react";
-import { Node } from "typescript";
 
-export default function MenuPopup(children: Node, maxHeight: string = "280px", menuWidth: string, onClick: Function, menuRef: object) {
+export default function MenuPopup({
+  children,
+  maxHeight,
+  menuWidth,
+  onClick,
+  menuRef,
+}: {
+  children: React.ReactElement;
+  menuWidth?: string;
+  maxHeight?: string;
+  onClick: () => void;
+  menuRef: React.Ref<any>;
+}): React.ReactElement {
   return (
     <Layer onClick={onClick} transparent>
       <Popper reference={menuRef} placement="bottom" observeReferencesize>
-        <div className="card">
+        <div style={{ width: "100%" }}>
           <Card>{children}</Card>
         </div>
       </Popper>

@@ -1,10 +1,22 @@
 /**
  * Access types
  */
+import i18n from "@dhis2/d2-i18n";
 
-export const ACCESS_NONE = "ACCESS_NONE";
-export const ACCESS_VIEW_ONLY = "ACCESS_VIEW_ONLY";
-export const ACCESS_VIEW_AND_EDIT = "ACCESS_VIEW_AND_EDIT";
+export const ACCESS_NONE = {
+  value: "--------",
+  label: i18n.t("No Access"),
+};
+export const ACCESS_VIEW_ONLY = {
+  value: "r-------",
+  label: i18n.t("View Only"),
+};
+export const ACCESS_VIEW_AND_EDIT = {
+  value: "rw------",
+  label: i18n.t("View and Edit"),
+};
+
+export const ACCESS_TYPES = [ACCESS_NONE, ACCESS_VIEW_ONLY, ACCESS_VIEW_AND_EDIT];
 
 /**
  * Sharing targets

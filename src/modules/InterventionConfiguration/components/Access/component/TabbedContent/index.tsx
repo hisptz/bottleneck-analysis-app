@@ -23,10 +23,6 @@ export default function TabbedContent({
   onChange: any;
   onRemove: any;
 }) {
-  function onAdd() {
-    return "";
-  }
-
   return (
     <div>
       <AccessAdd onAdd={onAdd} />

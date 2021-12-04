@@ -1,11 +1,12 @@
 import { useOnlineStatus } from "@dhis2/app-runtime";
-import { SingleSelectField, SingleSelectOption, Divider } from "@dhis2/ui";
-import React, { useContext, useState } from "react";
+import { Divider, SingleSelectField, SingleSelectOption } from "@dhis2/ui";
+import React, { useState } from "react";
 import { isRemovableTarget } from "../../../../helper/index";
-import DestructiveSelectOption from "../DestructiveSelectOption";
 import ListItemIcon from "../ListAccessItemIcon";
 import ListItemContext from "../ListItemContext";
 import "./ListAccessItem.css";
+import i18n from "@dhis2/d2-i18n";
+import { ACCESS_NONE } from "../../../../../../constants/constants";
 
 export default function ListItem({
   name,
@@ -15,6 +16,7 @@ export default function ListItem({
   disabled,
   onChange,
   onRemove,
+  accessLabel,
 }: {
   name: string;
   target: any;
@@ -23,14 +25,10 @@ export default function ListItem({
   disabled: boolean;
   onChange: any;
   onRemove: any;
+  accessLabel?: string;
 }) {
   const [isFetching, setIsFetching] = useState(false);
   const { offline } = useOnlineStatus();
-  const valueToLabel: any = {
-    ACCESS_NONE: "No access",
-    ACCESS_VIEW_ONLY: "View only",
-    ACCESS_VIEW_AND_EDIT: "View and edit",
-  };
 
   return (
     <>
@@ -41,20 +39,20 @@ export default function ListItem({
           </div>
           <div className="details-text">
             <p className="details-name">{name}</p>
-            <ListItemContext access={access} />
+            <ListItemContext access={accessLabel} />
           </div>
         </div>
         <div className="select">
           <SingleSelectField
+            fullWidth
             disabled={disabled || offline || isFetching}
-            prefix={"Metadata"}
             selected={access}
-            helpText={offline ? "Not available offline" : ""}
-            onChange={({ selected }) => onChange(selected)}>
-            {accessOptions?.map((value) => (
-              <SingleSelectOption key={value} label={valueToLabel[value]} value={value} active={value === access} />
+            helpText={offline ? i18n.t("Not available offline") : ""}
+            onChange={({ selected }: { selected: any }) => onChange(selected)}>
+            {accessOptions?.map(({ value, label }) => (
+              <SingleSelectOption key={value} label={label} value={value} active={value === access} />
             ))}
-            {isRemovableTarget(target) && <DestructiveSelectOption onClick={onRemove} label={"Remove access"} />}
+            {isRemovableTarget(target) && <SingleSelectOption value={ACCESS_NONE.value} onClick={onRemove} label={i18n.t("Remove access")} />}
           </SingleSelectField>
         </div>
       </div>
