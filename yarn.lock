@@ -3348,6 +3348,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-final-form-listeners@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-final-form-listeners/-/react-final-form-listeners-1.0.0.tgz#f45e91665d40792c16129429c4709650f0dcccf4"
+  integrity sha512-DovKaDfBqBzPnThFV8mGXL4iAbMCObEFIPUkH7wbD/EN3jZEjpDuPibrqY+w4W1dzicO109YP1LT9KsDDxdYnw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router-dom@^5.3.2":
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.3.2.tgz#ebd8e145cf056db5c66eb1dac63c72f52e8542ee"
@@ -13875,6 +13882,13 @@ react-fast-compare@^3.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
 
+react-final-form-listeners@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-final-form-listeners/-/react-final-form-listeners-1.0.3.tgz#88e0bd6af06edc9a74b81ddad2ce0ded53f3331e"
+  integrity sha512-OrdCNxSS4JQS/EXD+R530kZKFqaPfa+WcXPgVro/h4BpaBDF/Ja+BtHyCzDezCIb5rWaGGdOJIj+tN2YdtvrXg==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+
 react-final-form@^6.5.3:
   version "6.5.7"
   resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-6.5.7.tgz#0c1098accf0f0011adee5a46076ed1b99ed1b1ea"
@@ -16777,10 +16791,8 @@ watchpack@^1.7.4:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
-    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
-    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"

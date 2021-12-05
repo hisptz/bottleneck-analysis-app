@@ -22,7 +22,6 @@ export default function RootCauseAnalysis() {
 
   return (
     <InterventionCard
-      minHeight={500}
       allowFullScreen
       fullScreenHandle={handle}
       menu={[
