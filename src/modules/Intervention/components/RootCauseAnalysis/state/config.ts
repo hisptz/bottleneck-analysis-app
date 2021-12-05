@@ -18,9 +18,11 @@ export const RootCauseTableConfig = selectorFamily({
   get:
     (id: string) =>
     ({ get }) => {
+      const rowIds: string[] = [];
       const config = get(RootCauseConfig);
       const data = get(RootCauseData(id));
-      const rows = flattenDeep(data).map(({ dataValues }: any) => {
+      const rows = flattenDeep(data).map(({ dataValues, id: rootCauseId }: any) => {
+        rowIds.push(rootCauseId);
         return compact(
           ROOT_CAUSE_TABLE_COLUMNS.map(({ key }) => {
             const id = find(config.dataElements, ["name", key])?.id;
@@ -34,6 +36,7 @@ export const RootCauseTableConfig = selectorFamily({
 
       return {
         columns: ROOT_CAUSE_TABLE_COLUMNS,
+        rowIds,
         rows,
       };
     },
