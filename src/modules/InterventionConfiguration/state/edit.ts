@@ -4,17 +4,17 @@ import { DataItem, Group } from "../../../shared/interfaces/interventionConfig";
 import { InterventionDirtySelector } from "./data";
 
 export const SelectedDeterminantId = atomFamily<string | undefined, string>({
-  key: "selected-determinant",
+  key: "selected-determinant-id",
   default: undefined,
 });
 
 export const SelectedIndicatorId = atomFamily<string | undefined, string>({
-  key: "selected-indicator",
+  key: "selected-indicator-id",
   default: undefined,
 });
 
 export const SelectedIndicator = selectorFamily<DataItem | undefined, string>({
-  key: "selected-intervention",
+  key: "selected-indicator",
   get:
     (id: string) =>
     ({ get }) => {
@@ -23,6 +23,7 @@ export const SelectedIndicator = selectorFamily<DataItem | undefined, string>({
       const determinants: Array<Group> = get(InterventionDirtySelector({ id, path: ["dataSelection", "groups"] }));
       const groupIndex = findIndex(determinants, (group) => group.id === selectedDeterminantId);
       const indicatorIndex = findIndex(determinants[groupIndex].items, (item) => item.id === selectedIndicatorId);
+      if (indicatorIndex === -1) return undefined;
       return get(
         InterventionDirtySelector({
           id,

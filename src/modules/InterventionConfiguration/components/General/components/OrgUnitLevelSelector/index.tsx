@@ -6,9 +6,9 @@ import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { OrgUnitLevels } from "../../../../../../core/state/orgUnit";
 import { InterventionDirtySelector } from "../../../../state/data";
 
-export default function OrgUnitLevelSelector() {
+export default function OrgUnitLevelSelector(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
-  const [customPeriodType, setCustomPeriodType] = useState<boolean>(false);
+  const [customSubUnitLevel, setCustomSubUnitLevel] = useState<boolean>(false);
   const [orgUnitLevel, setOrgUnitLevel] = useRecoilState<string>(
     InterventionDirtySelector({
       id,
@@ -27,17 +27,16 @@ export default function OrgUnitLevelSelector() {
         </NoticeBox>
       </div>
       <CheckboxField
-        onChange={({ checked }: { checked: boolean }) => setCustomPeriodType(checked)}
-        checked={customPeriodType}
+        onChange={({ checked }: { checked: boolean }) => setCustomSubUnitLevel(checked)}
+        checked={customSubUnitLevel}
         label={i18n.t("Set specific level for sub level analysis")}
         name={"specific-sub-level-check"}
       />
       <SingleSelectField
         selected={orgUnitLevel}
         loading={orgUnitLevelState.state === "loading"}
-        disabled={!customPeriodType || orgUnitLevelState.state !== "hasValue"}
+        disabled={!customSubUnitLevel || orgUnitLevelState.state !== "hasValue"}
         label={i18n.t("Sub level analysis level")}
-        className="select"
         onChange={({ selected }: { selected: string }) => {
           setOrgUnitLevel(selected);
         }}>

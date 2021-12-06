@@ -4,12 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(InterventionConfiguration): Implementation&#10;&#10;- Setup Access Logic&#10;- Implemented access change for already configured access">
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(InterventionConfiguration): Implementation&#10;&#10;- Setup Access Logic&#10;- Implemented new access add logic&#10;- Improved styling for the access page">
+      <change afterPath="$PROJECT_DIR$/src/constants/defaults.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/utils/indicators.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/component/Access-Add/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/component/Access-Add/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/component/AccessList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/component/AccessList/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/component/TabbedContent/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/component/TabbedContent/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components/RootCauseFormComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components/RootCauseFormComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/ProgramIndicator/Row.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/ProgramIndicator/Row.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/Access.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/Access.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/component/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/component/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/hooks/useItemOperations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/DeterminantArea/hooks/useItemOperations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/IndicatorConfiguration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/IndicatorConfiguration/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/IndicatorSelector/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/components/IndicatorSelector/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Determinants/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/General/components/OrgUnitLevelSelector/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/General/components/OrgUnitLevelSelector/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/state/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/state/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/state/edit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/state/edit.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +118,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
-    <property name="settings.editor.selected.configurable" value="gitflow.GitflowConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -206,10 +221,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
-        <item itemvalue="npm.start" />
-        <item itemvalue="npm.format" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.build" />
+        <item itemvalue="npm.start" />
+        <item itemvalue="npm.format" />
       </list>
     </recent_temporary>
   </component>
@@ -284,7 +299,10 @@
       <workItem from="1638471131483" duration="2799000" />
       <workItem from="1638515535482" duration="14602000" />
       <workItem from="1638541886577" duration="3103000" />
-      <workItem from="1638601054490" duration="5062000" />
+      <workItem from="1638601054490" duration="29091000" />
+      <workItem from="1638723386021" duration="1019000" />
+      <workItem from="1638763367513" duration="2090000" />
+      <workItem from="1638766444629" duration="549000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -552,7 +570,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638604371389</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="feat(InterventionConfiguration): Implementation&#10;&#10;- Setup Access Logic&#10;- Implemented new access add logic&#10;- Improved styling for the access page">
+      <created>1638619733232</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1638619733232</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -571,7 +596,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat(Sublevel analysis ): Implementation&#10;&#10;- Fixed issues with table view&#10;- Implemented legends" />
     <MESSAGE value="fix(*): &#10;- Merge issues" />
     <MESSAGE value="fix(*): &#10;- Implemented chart analytics query logic" />
     <MESSAGE value="fix(*): &#10; - Merge fixes" />
@@ -596,7 +620,8 @@
     <MESSAGE value="fix(InterventionConfiguration): Implementations&#10;&#10;- Implemented Data configuration area logic" />
     <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;&#10;- Implemented determinant configuration" />
     <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;&#10;- Setup Access Logic&#10;- Implemented access change for already configured access" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(InterventionConfiguration): Implementation&#10;&#10;- Setup Access Logic&#10;- Implemented access change for already configured access" />
+    <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;&#10;- Setup Access Logic&#10;- Implemented new access add logic&#10;- Improved styling for the access page" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(InterventionConfiguration): Implementation&#10;&#10;- Setup Access Logic&#10;- Implemented new access add logic&#10;- Improved styling for the access page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -673,8 +698,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/state/data.ts</url>
-          <line>25</line>
-          <properties lambdaOrdinal="-1" />
+          <line>2</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>

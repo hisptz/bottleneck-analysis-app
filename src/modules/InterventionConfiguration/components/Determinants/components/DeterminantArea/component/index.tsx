@@ -4,7 +4,7 @@ import { DataConfigurationArea } from "@hisptz/react-ui";
 import { isArray } from "lodash";
 import React, { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { DataItem, Group } from "../../../../../../../shared/interfaces/interventionConfig";
 import { getIcon } from "../../../../../../../shared/utils/indicators";
 import "./GroupDeterminantComponent.module.css";
@@ -19,14 +19,14 @@ export default function GroupDeterminantComponent(): React.ReactElement {
   const [selectedGroupIndex, setSelectedGroupIndex] = useState<number | undefined>();
   const selectedGroup = useRecoilValue(SelectedDeterminantId(id));
   const selectedIndicator = useRecoilValue(SelectedIndicatorId(id));
-  const [determinants, setDeterminants] = useRecoilState(
+  const determinants = useRecoilValue(
     InterventionDirtySelector({
       id,
       path: ["dataSelection", "groups"],
     })
   );
 
-  const { onItemDragEnd, onItemDelete, onItemsAdd, onItemClick } = useItemOperations(setDeterminants, setIndicatorSelectorHide, determinants);
+  const { onItemDragEnd, onItemDelete, onItemsAdd, onItemClick } = useItemOperations(setIndicatorSelectorHide);
 
   const groups: Array<any> = useMemo(() => {
     return determinants?.map(({ id, name, items }: Group) => {
@@ -77,7 +77,12 @@ export default function GroupDeterminantComponent(): React.ReactElement {
         )}
       />
       {!indicatorSelectorHide && selectedGroupIndex !== undefined ? (
-        <IndicatorSelector onSave={onItemsAdd} group={groups[selectedGroupIndex]} onClose={() => setIndicatorSelectorHide(true)} hide={indicatorSelectorHide} />
+        <IndicatorSelector
+          onSave={onItemsAdd}
+          group={determinants[selectedGroupIndex]}
+          onClose={() => setIndicatorSelectorHide(true)}
+          hide={indicatorSelectorHide}
+        />
       ) : null}
     </div>
   );

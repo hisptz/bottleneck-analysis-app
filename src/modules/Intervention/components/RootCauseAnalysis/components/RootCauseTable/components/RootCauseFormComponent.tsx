@@ -1,7 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ReactFinalForm, SingleSelectFieldFF, TextAreaFieldFF, Modal, ModalTitle, ModalContent, ButtonStrip } from "@dhis2/ui";
+import { Button, ButtonStrip, Modal, ModalContent, ModalTitle, ReactFinalForm, SingleSelectFieldFF, TextAreaFieldFF } from "@dhis2/ui";
 import { Period } from "@iapps/period-utilities";
-import { map, find } from "lodash";
+import { find, map } from "lodash";
 import React, { useEffect, useState } from "react";
 import { OnChange } from "react-final-form-listeners";
 import { useParams } from "react-router-dom";
@@ -156,7 +156,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
       <ModalTitle>{i18n.t("Root Cause form")}</ModalTitle>
       <ModalContent>
         <ReactFinalForm.Form onSubmit={saveRootCause}>
-          {({ handleSubmit, form }) => {
+          {({ handleSubmit, form }: { handleSubmit: any; form: any }) => {
             return (
               <form
                 style={{ display: "flex", flexDirection: "column", gap: 16 }}
@@ -182,7 +182,6 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                   label={i18n.t("Bottleneck")}
                   component={SingleSelectFieldFF}
                   initialValue={rootCauseData[getDataElementId("bottleneckId")] || ""}
-                  className="select"
                   options={(bottleneckOptions || []).map((option: any) => ({ label: option?.label, value: option?.id }))}
                 />
                 <ReactFinalForm.Field
@@ -190,7 +189,6 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                   label={i18n.t("Indicator")}
                   component={SingleSelectFieldFF}
                   initialValue={hideModal ? "" : rootCauseData[getDataElementId("indicatorId")] || ""}
-                  className="select"
                   options={(interventionOptions || []).map((option: any) => ({ label: option?.label, value: option?.name }))}
                 />
 

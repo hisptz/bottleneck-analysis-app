@@ -1,5 +1,6 @@
 import { cloneDeep, get as _get, set as _set } from "lodash";
 import { atomFamily, selectorFamily } from "recoil";
+import { DEFAULT_INTERVENTION_CONFIG } from "../../../constants/defaults";
 import { InterventionConfig } from "../../../shared/interfaces/interventionConfig";
 import { InterventionState } from "../../Intervention/state/intervention";
 
@@ -8,9 +9,12 @@ export const InterventionDirtyState = atomFamily<InterventionConfig, string>({
   default: selectorFamily({
     key: "interventionDirtySelector",
     get:
-      (id: string) =>
+      (id?: string) =>
       ({ get }) => {
-        return get(InterventionState(id));
+        if (id) {
+          return get(InterventionState(id));
+        }
+        return DEFAULT_INTERVENTION_CONFIG;
       },
   }),
 });

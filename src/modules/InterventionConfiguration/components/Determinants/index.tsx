@@ -9,6 +9,7 @@ import { SelectedIndicatorId } from "../../state/edit";
 export default function DeterminantsConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const selectedIndicator = useRecoilValue(SelectedIndicatorId(id));
+  console.log(selectedIndicator);
   return (
     <div className="determinant-main-container">
       <div className="determinant-area-container">

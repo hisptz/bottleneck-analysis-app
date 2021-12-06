@@ -56,9 +56,10 @@ export default function IndicatorConfiguration(): React.ReactElement {
           const legendIndex = findIndex(selectedIndicator?.legends, (legend) => legend.id === legendDefinition.id);
           const legend = {
             ...selectedIndicator?.legends[legendIndex],
-            legendDefinitionId: legendDefinition.id,
-            startValue: `${selectedIndicator?.legends[legendIndex].startValue}`,
-            endValue: `${selectedIndicator?.legends[legendIndex].endValue}`,
+            legendDefinitionId: legendDefinition?.id,
+            id: legendDefinition?.id,
+            startValue: `${selectedIndicator?.legends[legendIndex]?.startValue}`,
+            endValue: `${selectedIndicator?.legends[legendIndex]?.endValue}`,
           };
           return (
             <CustomInput
@@ -68,8 +69,8 @@ export default function IndicatorConfiguration(): React.ReactElement {
                   const modifiedLegendList = [...(selectedIndicator?.legends ?? [])];
                   modifiedLegendList[legendIndex] = {
                     id: value.id,
-                    startValue: parseInt(value.startValue),
-                    endValue: parseInt(value.endValue),
+                    startValue: parseInt(value?.startValue),
+                    endValue: parseInt(value?.endValue),
                   };
                   onChange("legends", modifiedLegendList);
                 },
