@@ -7,28 +7,15 @@ import { useRecoilValue } from "recoil";
 import { TableConfig, TableLayout } from "../../../state/layout";
 import classes from "../Table.module.css";
 
-export default function TableHeader() {
+export default function TableHeader(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const tableConfig = useRecoilValue(TableConfig(id));
   const layout = useRecoilValue(TableLayout(id));
-  const { columns, filter } = tableConfig ?? {};
-
-  const colSpan = useMemo(() => {
-    if (layout.columns.includes("ou")) {
-      return columns.length + 2;
-    }
-    return columns.length + 1;
-  }, []);
-
-  const topRowHeight = "38px";
+  const { columns } = tableConfig ?? {};
+  const topRowHeight = "0";
 
   return (
     <DataTableHead>
-      <DataTableRow>
-        <DataTableColumnHeader fixed top={"1px"} align="left" colSpan={`${colSpan}`} className={classes["table-header-cell"]}>
-          {head(filter)?.name ?? ""}
-        </DataTableColumnHeader>
-      </DataTableRow>
       <DataTableRow className={classes["header-row"]}>
         {layout.columns.includes("ou") ? (
           <>
@@ -61,7 +48,7 @@ export default function TableHeader() {
       <DataTableRow>
         {columns.map(({ children }) =>
           children?.map(({ name, id }) => (
-            <DataTableColumnHeader fixed top={"75px"} width={"100px"} align={"center"} key={`${id}-col-header`} className={classes["table-data-header-cell"]}>
+            <DataTableColumnHeader fixed top={"40px"} width={"100px"} align={"center"} key={`${id}-col-header`} className={classes["table-data-header-cell"]}>
               {name}
             </DataTableColumnHeader>
           ))

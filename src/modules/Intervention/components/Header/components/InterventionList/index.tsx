@@ -4,7 +4,7 @@ import { IconButton } from "@material-ui/core";
 import { head } from "lodash";
 import React, { useState } from "react";
 import "./intervention-list.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { InterventionSummary as InterventionSummaryType } from "../../../../../../shared/interfaces/interventionConfig";
 import AddButton from "./components/AddButton";
@@ -13,10 +13,11 @@ import Search from "./components/Search";
 import SearchedInterventionNotFoundMessage from "./components/SearchedInterventionNotFoundMessage";
 import { FilteredInterventions, SearchState } from "./state/search";
 
-export default function InterventionList() {
+export default function InterventionList(): React.ReactElement {
+  const { id } = useParams<{ id: string }>();
   const [showAll, setShowAll] = useState<boolean>(false);
   const searchKeyword = useRecoilValue(SearchState);
-  const interventions = useRecoilValue(FilteredInterventions);
+  const interventions = useRecoilValue(FilteredInterventions(id));
   const firstIntervention: InterventionSummaryType | undefined = head(interventions);
   const history = useHistory();
 
@@ -25,13 +26,13 @@ export default function InterventionList() {
   }
 
   function onAddIntervention() {
-    history.replace(`/new-intervention`);
+    history.push(`/new-intervention`);
   }
 
   return (
     <div className="column center align-center w-100">
       <div className="intervention-list-container w-100 align-start">
-        <div className="column flex">
+        <div className="column flex-1">
           <div className="row gap align-start">
             <AddButton onClick={onAddIntervention} />
             <Search />

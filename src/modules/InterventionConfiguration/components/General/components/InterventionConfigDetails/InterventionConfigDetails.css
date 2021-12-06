@@ -1,10 +1,14 @@
-.interventionConfig{
+.interventionConfig {
     background-color: transparent;
-    width: 50%;
+    width: 100%;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
 }
-p{
+
+p {
     font-size: 14px;
     font-family: Roboto, sans-serif;
     line-height: 24px;
-    margin-bottom:0.7%
+    margin-bottom: 0.7%
 }

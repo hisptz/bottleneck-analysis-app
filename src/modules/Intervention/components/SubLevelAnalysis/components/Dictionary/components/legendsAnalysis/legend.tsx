@@ -19,8 +19,7 @@ export default function Legend(props) {
   return (
     <li key={legendSet?.id}>
       <p>
-        {legendSet?.displayName} spread accross {legendSet?.legends?.length}{" "}
-        classes of for analysis
+        {legendSet?.displayName} spread accross {legendSet?.legends?.length} classes of for analysis
       </p>
 
       <div>

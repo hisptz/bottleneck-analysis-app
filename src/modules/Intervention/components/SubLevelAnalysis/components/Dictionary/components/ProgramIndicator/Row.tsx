@@ -113,7 +113,6 @@ export default function Row({ programIndicator }: { programIndicator: any }) {
 
       if (wordDtEl.length === arr.length) {
         //array is full so we reload to update UI
-        // console.log(wordDtEl)
         setDataElementArray(wordDtEl);
       }
       if (attributes.length === arr.length) {

@@ -8,7 +8,7 @@ import { BNA_NAMESPACE } from "./constants/dataStore";
 import Router from "./modules/Router";
 import InitialAppLoader from "./shared/components/loaders/InitialAppLoader";
 
-const MyApp = () => {
+const MyApp = (): React.ReactElement => {
   return (
     <DataStoreProvider namespace={BNA_NAMESPACE} loadingComponent={<InitialAppLoader />}>
       <RecoilRoot>

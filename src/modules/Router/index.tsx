@@ -3,12 +3,12 @@ import { HashRouter, Route } from "react-router-dom";
 import useDataEngineInit from "../../core/hooks/initDataEngine";
 import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
 import EmptyInterventions from "../EmptyInterventions";
-import InterventionArchive from "../Intervention/components/Archives/ArchiveDashboard";
-import InterventionConfiguration from "../InterventionConfiguration/index";
 import Landing from "../Landing";
 import Migration from "../Migration";
 
 const Intervention = React.lazy(() => import("../Intervention"));
+const InterventionArchive = React.lazy(() => import("../Intervention/components/Archives/ArchiveDashboard"));
+const InterventionConfiguration = React.lazy(() => import("../InterventionConfiguration/index"));
 const Archive = React.lazy(() => import("../Intervention/components/Archives/"));
 
 const routes = [
@@ -46,7 +46,7 @@ const routes = [
   },
 ];
 
-export default function Router() {
+export default function Router(): React.ReactElement {
   useDataEngineInit();
   return (
     <HashRouter>

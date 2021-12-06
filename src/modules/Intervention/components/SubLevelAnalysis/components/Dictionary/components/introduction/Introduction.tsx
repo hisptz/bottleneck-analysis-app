@@ -17,7 +17,8 @@ export default function Introduction({ id }: { id: string }) {
         <Tooltip content={i18n.t("View in maintenance")}>
           <IconButton
             onClick={() => window.open(`${baseUrl}/dhis-web-maintenance/index.html#/edit/indicatorSection/indicator/${id}`, "_blank")}
-            style={{ padding: 2, color: "#000000" }}>
+            style={{ padding: 2, color: "#000000" }}
+          >
             <IconLaunch16 color={colors.grey600} />
           </IconButton>
         </Tooltip>

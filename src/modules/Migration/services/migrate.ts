@@ -1,5 +1,5 @@
 import { map, queue } from "async";
-import { compact, filter, find, isEmpty } from "lodash";
+import { compact, filter, find, isEmpty, last } from "lodash";
 import { BNA_NAMESPACE } from "../../../constants/dataStore";
 import {
   DataItem,
@@ -27,7 +27,7 @@ const generateSaveMutation = (id: string) => {
   };
 };
 
-export async function migrateIntervention(intervention: InterventionConfig, engine: any) {
+export async function migrateIntervention(intervention: InterventionConfig, engine: any): Promise<any> {
   const mutation = generateSaveMutation(intervention.id);
   return await engine.mutate(mutation, { variables: { data: intervention } });
 }
@@ -57,10 +57,11 @@ function convertData(dataConfig?: GlobalSelection): DataSelection {
         items: compact(groupItems),
       };
     });
-    const newLegendDefinitions: Array<LegendDefinition> = legendDefinitions?.map(({ id, name, color }) => ({
+    const newLegendDefinitions: Array<LegendDefinition> = legendDefinitions?.map(({ id, name, color, startValue, endValue }) => ({
       id,
       name,
       color,
+      default: startValue === undefined && endValue === undefined,
     }));
 
     return {
@@ -75,9 +76,11 @@ function convertData(dataConfig?: GlobalSelection): DataSelection {
 function convertOrgUnit(orgUnitConfig?: GlobalSelection): OrgUnitSelection {
   if (orgUnitConfig) {
     const [oldOrgUnit, levelOrgUnit] = orgUnitConfig?.items;
+
+    const level = parseInt(last(levelOrgUnit?.id?.split("-")) ?? "");
     return {
-      orgUnit: { id: oldOrgUnit?.id, type: oldOrgUnit?.type ?? "" },
-      subLevelAnalysisOrgUnitLevel: { id: levelOrgUnit?.id, type: levelOrgUnit?.type ?? "" },
+      orgUnit: { id: oldOrgUnit?.id, type: oldOrgUnit?.type },
+      subLevel: levelOrgUnit ? { id: levelOrgUnit?.id, level } : undefined,
     };
   }
 
@@ -111,6 +114,7 @@ export function convertIntervention(config: OldInterventionConfig): Intervention
     id,
     name,
     bookmarks,
+    description: "",
     user: { id: user.id },
     userAccess: userAccesses?.map((userAccess) => ({ id: userAccess.id, access: userAccess.access })),
     userGroupAccess: userGroupAccesses.map((userGroupAccess) => ({

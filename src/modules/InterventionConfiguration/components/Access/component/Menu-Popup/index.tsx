@@ -1,21 +1,39 @@
-import { Card, Layer, Popper } from "@dhis2/ui";
+import { Layer, Popper } from "@dhis2/ui";
 import React from "react";
-import { Node } from "typescript";
 
-export default function MenuPopup(children: Node, maxHeight: string = "280px", menuWidth: string, onClick: Function, menuRef: object) {
+export default function MenuPopup({
+  children,
+  menuRef,
+  onClose,
+}: {
+  children: React.ReactElement;
+  menuRef: React.Ref<any>;
+  onClose: () => void;
+}): React.ReactElement {
+  const sameWidth = {
+    name: "sameWidth",
+    enabled: true,
+    phase: "beforeWrite",
+    requires: ["computeStyles"],
+    fn: ({ state }: { state: any }) => {
+      state.styles.popper.width = `${state.rects.reference.width}px`;
+    },
+    effect: ({ state }: { state: any }) => {
+      state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
+    },
+  };
+
   return (
-    <Layer onClick={onClick} transparent>
-      <Popper reference={menuRef} placement="bottom" observeReferencesize>
-        <div className="card">
-          <Card>{children}</Card>
-        </div>
+    <Layer onClick={onClose}>
+      <Popper
+        modifiers={[sameWidth, { name: "offset", options: { offset: [0, 8] } }]}
+        observePopperResize
+        observeReferenceResize
+        reference={menuRef}
+        placement="bottom-start"
+      >
+        {children}
       </Popper>
-      <style>{`
-        .card {
-          width: ${menuWidth};
-          max-height: ${maxHeight};
-        }
-      `}</style>
     </Layer>
   );
 }

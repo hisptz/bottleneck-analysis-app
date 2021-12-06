@@ -3,37 +3,54 @@
     height: fit-content
 }
 
-.stepper-config-header{
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-width: 100%;
+.stepper-config-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
-.stepper-config-header> Button{
-    margin-top:2%;
-    margin-right: 3%;
-    padding: 10px 10px;
-}
-.stepper-config-header> h2{
-    margin-right: 3%;
-    padding: 10px 10px;
-}
-.stepper-config-buttom{
+.stepper-config-button {
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: 100%;
-    margin-top: 2%;
 }
 
-.stepConfig{
+.configuration-main-container {
     width: 100%;
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+@media screen
+and (min-device-width: 1200px)
+and (-webkit-min-device-pixel-ratio: 1) {
+    .configuration-main-container {
+        width: 100%;
+        padding: 32px 64px;
+    }
 }
 
 
-.stepper-config-buttom>Button{
-    margin-right: 2%;
+@media screen and (max-device-height: 800px ) {
+    .configuration-main-container {
+        padding-top: 16px;
+        padding-bottom: 16px;
+    }
+}
+
+@media screen
+and (min-device-width: 2000px)
+and (-webkit-min-device-pixel-ratio: 1) {
+    .configuration-main-container {
+        width: 100%;
+        padding: 32px 256px;
+    }
 }
 
 

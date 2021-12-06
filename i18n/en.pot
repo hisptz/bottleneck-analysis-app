@@ -5,8 +5,17 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-02T17:23:14.109Z\n"
-"PO-Revision-Date: 2021-12-02T17:23:14.109Z\n"
+"POT-Creation-Date: 2021-12-06T12:49:50.011Z\n"
+"PO-Revision-Date: 2021-12-06T12:49:50.011Z\n"
+
+msgid "No Access"
+msgstr "No Access"
+
+msgid "View Only"
+msgstr "View Only"
+
+msgid "View and Edit"
+msgstr "View and Edit"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -37,6 +46,30 @@ msgstr "Back to Intervention"
 
 msgid "View in Full Screen"
 msgstr "View in Full Screen"
+
+msgid "No description provided"
+msgstr "No description provided"
+
+msgid "An error occurred while adding/removing bookmark"
+msgstr "An error occurred while adding/removing bookmark"
+
+msgid "{{type}} bookmark"
+msgstr "{{type}} bookmark"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "Remove"
+msgstr "Remove"
+
+msgid "{{type}} description"
+msgstr "{{type}} description"
+
+msgid "Hide"
+msgstr "Hide"
+
+msgid "Show"
+msgstr "Show"
 
 msgid "Add Filter"
 msgstr "Add Filter"
@@ -76,6 +109,12 @@ msgstr "Possible root cause"
 
 msgid "Possible solution"
 msgstr "Possible solution"
+
+msgid "Failed to delete root cause"
+msgstr "Failed to delete root cause"
+
+msgid "Failed to save root cause"
+msgstr "Failed to save root cause"
 
 msgid "Add New"
 msgstr "Add New"
@@ -315,14 +354,95 @@ msgstr "Switch Layout"
 msgid "Table View"
 msgstr "Table View"
 
-msgid "Map View"
-msgstr "Map View"
-
 msgid "Dictionary View"
 msgstr "Dictionary View"
 
 msgid "Download Excel"
 msgstr "Download Excel"
+
+msgid "Give Access to a user , group or role"
+msgstr "Give Access to a user , group or role"
+
+msgid "Access level"
+msgstr "Access level"
+
+msgid "Select a level"
+msgstr "Select a level"
+
+msgid "Not available offline"
+msgstr "Not available offline"
+
+msgid "Give access"
+msgstr "Give access"
+
+msgid "Are you sure you want to delete this access?"
+msgstr "Are you sure you want to delete this access?"
+
+msgid "Users and groups that currently have access"
+msgstr "Users and groups that currently have access"
+
+msgid "User / Group / Role"
+msgstr "User / Group / Role"
+
+msgid "All users"
+msgstr "All users"
+
+msgid "User, group or role"
+msgstr "User, group or role"
+
+msgid "Add Indicator"
+msgstr "Add Indicator"
+
+msgid "Determinants"
+msgstr "Determinants"
+
+msgid "Clear All"
+msgstr "Clear All"
+
+msgid "Legends (Only applicable to sub level analysis)"
+msgstr "Legends (Only applicable to sub level analysis)"
+
+msgid "Select Indicator(s)"
+msgstr "Select Indicator(s)"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Enter a description"
+msgstr "Enter a description"
+
+msgid "Bottleneck Period Type"
+msgstr "Bottleneck Period Type"
+
+msgid "Sub level analysis notice"
+msgstr "Sub level analysis notice"
+
+msgid "Set specific level for sub level analysis"
+msgstr "Set specific level for sub level analysis"
+
+msgid "Sub level analysis level"
+msgstr "Sub level analysis level"
+
+msgid "Intervention created successfully"
+msgstr "Intervention created successfully"
+
+msgid "Changes saved successfully"
+msgstr "Changes saved successfully"
+
+msgid "Manage"
+msgstr "Manage"
+
+msgid "Saving"
+msgstr "Saving"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Save and Exit"
+msgstr "Save and Exit"
+
+msgid "Exit Without Saving"
+msgstr "Exit Without Saving"
 
 msgid "Something went wrong with the migration"
 msgstr "Something went wrong with the migration"

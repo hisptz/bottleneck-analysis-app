@@ -47,7 +47,7 @@ export default function Dictionary() {
           </Chip>
         ))}
       </div>
-      <div style={{ overflow: "auto" }} className="w-100 h-100 flex center align-center ">
+      <div style={{ overflow: "auto" }} className="w-100 h-100 flex-1 center align-center ">
         {selectedIndicator && (
           <Suspense fallback={<CardLoader />}>
             <SingleDictionary id={selectedIndicator} />

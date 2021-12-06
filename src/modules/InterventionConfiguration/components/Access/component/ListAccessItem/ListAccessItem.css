@@ -1,23 +1,75 @@
-.details{
+.details {
     display: flex;
     flex-direction: row;
     justify-content: start;
-    width: 50%;
-    padding-left: 2%;
+    flex: 1;
     gap: 10px;
     background-color: transparent;
 }
-.wrapper{
+
+.wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 20px;
+    padding: 4px 8px;
+    align-items: center;
 }
-.details-name{
+
+.details-name {
     font-size: 15px;
     font-weight: bold;
 }
 
-.details-logo{
-    padding-top: 5%;
+.details-logo {
+    margin: auto;
+}
+
+.select {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    min-width: 300px;
+}
+
+
+.logo-shimmer {
+    width: 40px;
+    height: 40px;
+    background-color: #F6F7F8;
+    border-radius: 100%;
+}
+
+.title-shimmer {
+    width: 80%;
+    height: 16px;
+    background-color: #F6F7F8;
+}
+
+.subtitle-shimmer {
+    width: 40%;
+    height: 8px;
+    background-color: #F6F7F8;
+}
+
+.details-text {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.shimmer {
+    background: #f6f7f8;
+    background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+    background-repeat: no-repeat;
+    background-size: 800px 104px;
+    display: inline-block;
+    position: relative;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: placeholderShimmer;
+    -webkit-animation-timing-function: linear;
 }

@@ -3,12 +3,18 @@ import { atom, selector, selectorFamily } from "recoil";
 import { getInterventionSummary } from "../../shared/services/interventionSummary";
 import { EngineState } from "./dataEngine";
 
+export const RequestId = atom({
+  key: "request-id",
+  default: 0,
+});
+
 export const InterventionSummary = atom({
   key: "intervention-summary-state",
   default: selector({
     key: "intervention-summary-getter",
     get: async ({ get }) => {
       const engine = get(EngineState);
+      get(RequestId);
       return await getInterventionSummary(engine);
     },
   }),

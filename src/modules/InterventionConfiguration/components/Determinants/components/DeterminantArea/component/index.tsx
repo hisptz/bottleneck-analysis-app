@@ -1,105 +1,90 @@
-import { IconDimensionIndicator16, IconDimensionProgramIndicator16, Button, IconAdd24 } from "@dhis2/ui";
+import i18n from "@dhis2/d2-i18n";
+import { Button, IconAdd24 } from "@dhis2/ui";
 import { DataConfigurationArea } from "@hisptz/react-ui";
-import { DataConfigurationAreaGroupProps } from "@hisptz/react-ui/build/types/components/DataConfigurationArea";
-import React from "react";
-import { useSetRecoilState } from "recoil";
-import { InterventionConfiguationDeterminant } from "../../../../../../Intervention/state/intervention";
+import { isArray } from "lodash";
+import React, { useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { DataItem, Group } from "../../../../../../../shared/interfaces/interventionConfig";
+import { getIcon } from "../../../../../../../shared/utils/indicators";
 import "./GroupDeterminantComponent.module.css";
+import { InterventionDirtySelector } from "../../../../../state/data";
+import { SelectedDeterminantId, SelectedIndicatorId } from "../../../../../state/edit";
+import IndicatorSelector from "../../IndicatorSelector";
+import useItemOperations from "../hooks/useItemOperations";
 
-export default function GroupDeterminantComponent() {
-  const setInterventinoLegendDefintionConfigState = useSetRecoilState(InterventionConfiguationDeterminant);
-  const groups: Array<DataConfigurationAreaGroupProps> = [
-    {
-      id: "group-1",
-      name: "Commodities (2)",
-      items: [
-        {
-          id: "item-1",
-          name: "Item 1",
-          icon: <IconDimensionIndicator16 />,
-          subLabel: "Indicator",
-        },
-        {
-          id: "item-2",
-          name: "Item 2",
-          icon: <IconDimensionProgramIndicator16 />,
-          subLabel: "Program Indicator",
-        },
-      ],
-    },
-    {
-      id: "group-2",
-      name: "Human Resources",
-      items: [
-        {
-          id: "item-1",
-          name: "Item 1",
-          icon: <IconDimensionIndicator16 />,
-          subLabel: "Indicator",
-        },
-        {
-          id: "item-2",
-          name: "Item 2",
-          icon: <IconDimensionProgramIndicator16 />,
-          subLabel: "Program Indicator",
-        },
-      ],
-    },
-    {
-      id: "group-3",
-      name: "Geographical Accesibility",
-      items: [
-        {
-          id: "item-1",
-          name: "Item 1",
-          icon: <IconDimensionIndicator16 />,
-          subLabel: "Indicator",
-        },
-        {
-          id: "item-2",
-          name: "Item 2",
-          icon: <IconDimensionProgramIndicator16 />,
-          subLabel: "Program Indicator",
-        },
-      ],
-    },
-    {
-      id: "group-4",
-      name: "Initial Utilization",
-      items: [
-        {
-          id: "item-1",
-          name: "Item 1",
-          icon: <IconDimensionIndicator16 />,
-          subLabel: "Indicator",
-        },
-        {
-          id: "item-2",
-          name: "Item 2",
-          icon: <IconDimensionProgramIndicator16 />,
-          subLabel: "Program Indicator",
-        },
-      ],
-    },
-  ];
+export default function GroupDeterminantComponent(): React.ReactElement {
+  const { id } = useParams<{ id: string }>();
+  const [indicatorSelectorHide, setIndicatorSelectorHide] = useState(true);
+  const [selectedGroupIndex, setSelectedGroupIndex] = useState<number | undefined>();
+  const selectedGroup = useRecoilValue(SelectedDeterminantId(id));
+  const selectedIndicator = useRecoilValue(SelectedIndicatorId(id));
+  const determinants = useRecoilValue(
+    InterventionDirtySelector({
+      id,
+      path: ["dataSelection", "groups"],
+    })
+  );
+
+  const { onItemDragEnd, onItemDelete, onItemsAdd, onItemClick } = useItemOperations(setIndicatorSelectorHide);
+
+  const groups: Array<any> = useMemo(() => {
+    return determinants?.map(({ id, name, items }: Group) => {
+      if (!isArray(determinants)) {
+        return [];
+      }
+      return {
+        id,
+        name: `${name} (${items.length})`,
+        items: items?.map(({ id, type, label }: DataItem) => ({
+          id,
+          name: label,
+          icon: getIcon(type),
+        })),
+      };
+    });
+  }, [determinants]);
+
+  const selectedItems = useMemo(() => {
+    if (selectedIndicator && selectedGroup) {
+      return [{ groupId: selectedGroup, itemId: selectedIndicator }];
+    }
+    return [];
+  }, [selectedGroup, selectedIndicator]);
 
   return (
     <div>
       <DataConfigurationArea
+        selectedItems={selectedItems}
         groups={groups}
+        draggableItems
+        onItemDragEnd={onItemDragEnd}
         deletableItems
-        onItemClick={function (groupId: string, itemId: string): void {
-          setInterventinoLegendDefintionConfigState(true);
-        }}
-        onItemDelete={function (groupId: string, itemId: string): void {
-          throw new Error("Function not implemented.");
-        }}
-        groupFooter={
-          <div>
-            <Button icon={<IconAdd24 />}>Add Item</Button>
-          </div>
-        }
+        onItemClick={onItemClick}
+        onItemDelete={onItemDelete}
+        groupFooter={(group, groupIndex) => (
+          <>
+            <Button
+              icon={<IconAdd24 />}
+              onClick={() => {
+                setSelectedGroupIndex(groupIndex);
+                setIndicatorSelectorHide(false);
+              }}
+              className="add-button"
+            >
+              {i18n.t("Add Indicator")}
+            </Button>
+          </>
+        )}
       />
+      {!indicatorSelectorHide && selectedGroupIndex !== undefined ? (
+        <IndicatorSelector
+          onSave={onItemsAdd}
+          group={determinants[selectedGroupIndex]}
+          onClose={() => setIndicatorSelectorHide(true)}
+          hide={indicatorSelectorHide}
+        />
+      ) : null}
     </div>
   );
 }

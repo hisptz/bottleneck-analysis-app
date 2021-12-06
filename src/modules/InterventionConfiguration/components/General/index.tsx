@@ -6,7 +6,7 @@ import { LegendDefinitionConfigDetails } from "./components/LegendDefinitionConf
 export default function GeneralConfigurationComponent() {
   return (
     <>
-      <div className="generalConfig">
+      <div className="general-config-container">
         <InterventionConfigDetails />
         <LegendDefinitionConfigDetails />
       </div>

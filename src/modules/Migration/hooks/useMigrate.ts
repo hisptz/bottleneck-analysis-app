@@ -13,7 +13,7 @@ import { createInterventionSummaries, uploadInterventionSummary } from "../../..
 import { RootCauseConfig } from "../../Intervention/components/RootCauseAnalysis/state/config";
 import { convertIntervention, migrateIntervention, migrateRootCauseDataByIntervention } from "../services/migrate";
 
-export default function useMigrate(onComplete: () => void) {
+export default function useMigrate(onComplete: () => void): { error: any; progress: number; totalMigration: number } {
   const interventionSummary = useRecoilValue(InterventionSummary);
   const [error, setError] = useState<any>();
   const [progress, setProgress] = useState<number>(0);
@@ -45,7 +45,7 @@ export default function useMigrate(onComplete: () => void) {
             }
           });
           q.current.drain(async () => {
-            await uploadInterventionSummary(uniqBy([...(interventionSummary ?? []), ...summaries], "id"), engine);
+            await uploadInterventionSummary(engine, uniqBy([...(interventionSummary ?? []), ...summaries], "id"));
             onComplete();
           });
         } else {
@@ -57,7 +57,7 @@ export default function useMigrate(onComplete: () => void) {
     }
 
     effect();
-  }, []);
+  }, [engine, interventionSummary, onComplete]);
 
   return {
     error,

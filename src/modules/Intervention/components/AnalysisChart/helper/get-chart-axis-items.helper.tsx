@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { assign, map } from "lodash";
 
-export function getChartAxisItems(analyticsObject: any, axisTypeArray: Array<any>, isCategory: boolean = false) {
+export function getChartAxisItems(analyticsObject: any, axisTypeArray: Array<any>, isCategory = false) {
   let items: Array<any> = [];
   const metadataNames = analyticsObject.metaData.names;
   axisTypeArray?.forEach((axisType, axisIndex) => {

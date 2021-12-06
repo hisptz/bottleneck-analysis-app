@@ -6,6 +6,7 @@ export interface LegendDefinition {
   id: string;
   color: string;
   name: string;
+  default?: boolean;
 }
 
 export interface Legend {
@@ -36,8 +37,8 @@ export interface DataSelection {
 }
 
 export interface OrgUnitSelection {
-  orgUnit?: { id: string; type: string };
-  subLevelAnalysisOrgUnitLevel?: { id: string; type: string };
+  orgUnit?: { id: string; type?: string };
+  subLevel?: { id: string; level: number };
 }
 
 export interface PeriodSelection {
@@ -53,6 +54,7 @@ export interface Access {
 export interface InterventionConfig {
   id: string;
   name: string;
+  description: string;
   user: User;
   bookmarks?: Array<string>;
   publicAccess: string;

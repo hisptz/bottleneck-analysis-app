@@ -1,5 +1,6 @@
-import { compact } from "lodash";
+import { compact, find } from "lodash";
 import { selectorFamily } from "recoil";
+import { OrgUnitLevels } from "../../../../../core/state/orgUnit";
 import { DataItem, InterventionConfig } from "../../../../../shared/interfaces/interventionConfig";
 import { InterventionState } from "../../../state/intervention";
 
@@ -35,12 +36,15 @@ export const SubLevelOrgUnit = selectorFamily({
     (id: string) =>
     ({ get }) => {
       const { orgUnitSelection } = get<InterventionConfig>(InterventionState(id)) ?? {};
-      const orgUnits = [orgUnitSelection.orgUnit?.id];
-      if (orgUnitSelection.subLevelAnalysisOrgUnitLevel) {
-        orgUnits.push(orgUnitSelection.subLevelAnalysisOrgUnitLevel?.id);
+      if (orgUnitSelection.subLevel) {
+        const levels = get(OrgUnitLevels);
+        const orgUnitLevel = find(levels, ["id", orgUnitSelection.subLevel?.id]);
+        if (orgUnitLevel) {
+          return [`LEVEL-${orgUnitLevel?.level}`];
+        }
+        return [`LEVEL-${orgUnitSelection.subLevel?.level}`];
       }
-
-      return compact(orgUnits);
+      return ["USER_ORGUNIT_CHILDREN"];
     },
 });
 

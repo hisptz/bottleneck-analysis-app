@@ -1,7 +1,7 @@
 import { colors, spacers } from "@dhis2/ui";
 import React from "react";
 
-export default function DestructiveSelectOption({ label, onClick }) {
+export default function DestructiveSelectOption({ label, onClick }: { label: string; onClick: () => void }): React.ReactElement {
   return (
     <div onClick={onClick}>
       {label}
