@@ -67,7 +67,8 @@ export default function AccessAdd(): React.ReactElement {
             disabled={offline}
             selected={access}
             helpText={offline ? i18n.t("Not available offline") : ""}
-            onChange={({ selected }: any) => setAccess(selected)}>
+            onChange={({ selected }: any) => setAccess(selected)}
+          >
             {ACCESS_TYPES.map(({ value, label }) => (
               <SingleSelectOption key={value} label={label} value={value} active={value === access} />
             ))}

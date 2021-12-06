@@ -70,7 +70,8 @@ export default function GroupDeterminantComponent(): React.ReactElement {
                 setSelectedGroupIndex(groupIndex);
                 setIndicatorSelectorHide(false);
               }}
-              className="add-button">
+              className="add-button"
+            >
               {i18n.t("Add Indicator")}
             </Button>
           </>

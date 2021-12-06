@@ -39,7 +39,8 @@ export default function TableHeader(): React.ReactElement {
             colSpan={`${children?.length}`}
             align={"center"}
             key={`${id}-col-header`}
-            className={classes["table-data-header-cell"]}>
+            className={classes["table-data-header-cell"]}
+          >
             {name}
           </DataTableColumnHeader>
         ))}

@@ -50,7 +50,8 @@ export default function OrgUnitLevelSelector(): React.ReactElement {
             id: subLevel?.id,
             level: subLevel?.level,
           });
-        }}>
+        }}
+      >
         {orgUnitLevelState.state === "hasValue" &&
           orgUnitLevelState?.contents?.map(({ displayName: label, id }) => <SingleSelectOption value={id} label={label} key={`${id}-level-option`} />)}
       </SingleSelectField>

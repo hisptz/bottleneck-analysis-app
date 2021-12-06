@@ -162,7 +162,8 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                 style={{ display: "flex", flexDirection: "column", gap: 16 }}
                 onSubmit={(event) => {
                   handleSubmit(event, form);
-                }}>
+                }}
+              >
                 <OnChange name={getDataElementId("bottleneckId")}>
                   {(value: string) => {
                     onUpdateBottleneck(value);
@@ -214,7 +215,8 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                       secondary
                       onClick={() => {
                         onClosingFormModal(form);
-                      }}>
+                      }}
+                    >
                       Cancel
                     </Button>
                     <Button primary disabled={rootCauseSaveButton} type="submit">

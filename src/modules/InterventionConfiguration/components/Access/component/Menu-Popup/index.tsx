@@ -30,7 +30,8 @@ export default function MenuPopup({
         observePopperResize
         observeReferenceResize
         reference={menuRef}
-        placement="bottom-start">
+        placement="bottom-start"
+      >
         {children}
       </Popper>
     </Layer>

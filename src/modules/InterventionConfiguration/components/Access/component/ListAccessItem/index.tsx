@@ -51,7 +51,8 @@ export default function ListItem({
               disabled={disabled || offline}
               selected={access}
               helpText={offline ? i18n.t("Not available offline") : ""}
-              onChange={({ selected }: { selected: any }) => onChange(selected)}>
+              onChange={({ selected }: { selected: any }) => onChange(selected)}
+            >
               {accessOptions?.map(({ value, label }) => (
                 <SingleSelectOption key={value} label={label} value={value} active={value === access} />
               ))}

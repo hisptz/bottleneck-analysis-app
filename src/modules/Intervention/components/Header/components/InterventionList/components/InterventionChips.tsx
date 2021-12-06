@@ -33,7 +33,8 @@ export default function InterventionChips({ showAll, interventions }: Interventi
             icon={intervention?.bookmarks?.includes(user?.id) ? <IconStarFilled24 /> : null}
             selected={id === intervention?.id}
             onClick={onChipClick(intervention?.id)}
-            key={`${intervention?.id}-chip`}>
+            key={`${intervention?.id}-chip`}
+          >
             {intervention?.name}
           </Chip>
         ))}

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-06T07:38:16.809Z\n"
-"PO-Revision-Date: 2021-12-06T07:38:16.810Z\n"
+"POT-Creation-Date: 2021-12-06T12:46:25.931Z\n"
+"PO-Revision-Date: 2021-12-06T12:46:25.931Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -46,6 +46,30 @@ msgstr "Back to Intervention"
 
 msgid "View in Full Screen"
 msgstr "View in Full Screen"
+
+msgid "No description provided"
+msgstr "No description provided"
+
+msgid "An error occurred while adding/removing bookmark"
+msgstr "An error occurred while adding/removing bookmark"
+
+msgid "{{type}} bookmark"
+msgstr "{{type}} bookmark"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "Remove"
+msgstr "Remove"
+
+msgid "{{type}} description"
+msgstr "{{type}} description"
+
+msgid "Hide"
+msgstr "Hide"
+
+msgid "Show"
+msgstr "Show"
 
 msgid "Add Filter"
 msgstr "Add Filter"
@@ -387,9 +411,6 @@ msgstr "Select Indicator(s)"
 msgid "Cancel"
 msgstr "Cancel"
 
-msgid "Add"
-msgstr "Add"
-
 msgid "Enter a description"
 msgstr "Enter a description"
 
@@ -405,8 +426,11 @@ msgstr "Set specific level for sub level analysis"
 msgid "Sub level analysis level"
 msgstr "Sub level analysis level"
 
-msgid "Changes Saved Successfully"
-msgstr "Changes Saved Successfully"
+msgid "Intervention created successfully"
+msgstr "Intervention created successfully"
+
+msgid "Changes saved successfully"
+msgstr "Changes saved successfully"
 
 msgid "Manage"
 msgstr "Manage"

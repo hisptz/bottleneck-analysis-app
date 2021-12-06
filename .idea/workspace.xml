@@ -4,17 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(InterventionConfiguration): Implementation&#10;&#10;- Displayed description on description icon click">
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(InterventionConfiguration): Implementation&#10;&#10;- Implemented bookmarking">
       <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/hooks/bookmark.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/services/bookmark.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/state/intervention.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/state/intervention.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/dimensions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/dimensions.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/hooks/save.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/hooks/save.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/services/save.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/services/save.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Migration/hooks/useMigrate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/hooks/useMigrate.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Migration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Migration/services/migrate.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/shared/services/interventionSummary.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/services/interventionSummary.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -129,7 +131,7 @@
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start --proxy https://hisp.apps.dhis2.org/dev">
+  <component name="RunManager" selected="npm.format">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -211,11 +213,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
+        <item itemvalue="npm.format" />
         <item itemvalue="npm.build" />
+        <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.start" />
-        <item itemvalue="npm.format" />
       </list>
     </recent_temporary>
   </component>
@@ -294,7 +296,7 @@
       <workItem from="1638723386021" duration="1019000" />
       <workItem from="1638763367513" duration="2090000" />
       <workItem from="1638766444629" duration="1236000" />
-      <workItem from="1638767693940" duration="21495000" />
+      <workItem from="1638767693940" duration="21872000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -597,7 +599,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638788559957</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="feat(InterventionConfiguration): Implementation&#10;&#10;- Implemented bookmarking">
+      <created>1638794747205</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1638794747205</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -616,7 +625,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat(Error boundaries ): Implementation&#10;&#10;- Added error boundaries on error-prone components of app" />
     <MESSAGE value="fix(Search Intervention Message): Improvements&#10;&#10;- Added styling and icon to search error message" />
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed table warning issues" />
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues" />
@@ -641,7 +649,8 @@
     <MESSAGE value="fix(SelectedIndicator): Fixes&#10;&#10; - Unselect indicator on Clear all" />
     <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;&#10;- Implemented saving of intervention&#10; - Implemented sorting on&#10;intervention list" />
     <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;&#10;- Displayed description on description icon click" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(InterventionConfiguration): Implementation&#10;&#10;- Displayed description on description icon click" />
+    <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;&#10;- Implemented bookmarking" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(InterventionConfiguration): Implementation&#10;&#10;- Implemented bookmarking" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

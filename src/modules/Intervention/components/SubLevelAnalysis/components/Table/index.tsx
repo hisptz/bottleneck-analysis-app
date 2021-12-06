@@ -58,7 +58,8 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
           scrollWidth={"5000px"}
           scrollHeight={isFullPage ? "calc(100vh - 200px)" : "800px"}
           className={classes["table"]}
-          bordered>
+          bordered
+        >
           <TableHeader />
           <TableBody />
         </DataTable>

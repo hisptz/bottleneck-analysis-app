@@ -39,7 +39,8 @@ export default function InterventionConfigDetails() {
         selected={periodType}
         name={"periodType"}
         label={i18n.t("Bottleneck Period Type")}
-        onChange={({ selected }: { selected: string }) => setPeriodType(selected)}>
+        onChange={({ selected }: { selected: string }) => setPeriodType(selected)}
+      >
         {periodTypes.map(({ id, name }: { id: string; name: string }) => (
           <SingleSelectOption key={`${id}-option`} value={id} label={`${name}`} />
         ))}

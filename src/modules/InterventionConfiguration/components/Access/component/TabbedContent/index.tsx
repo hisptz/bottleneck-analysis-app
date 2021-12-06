@@ -12,7 +12,8 @@ export default function TabbedContent(): React.ReactElement {
           <div style={{ minHeight: 300 }} className="column center align-items-center">
             <CircularLoader small />
           </div>
-        }>
+        }
+      >
         <AccessList />
       </Suspense>
     </div>

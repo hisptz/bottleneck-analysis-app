@@ -14,7 +14,8 @@ export default function InterventionDetails(): React.ReactElement {
         <div className="p-8">
           <b>{intervention?.name}</b>
         </div>
-      }>
+      }
+    >
       <div className="p-8 w-100">
         <span style={{ width: "100%", textAlign: "justify" }}>{intervention?.description ?? i18n.t("No description provided")}</span>
       </div>

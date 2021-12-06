@@ -103,7 +103,8 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
                       <RootCauseActionsProps
                         key={index}
                         onUpdateRootCause={() => onUpdateRootCause(rowIndex)}
-                        onDeleteRootCause={() => onDeleteRootCause(rowIndex)}></RootCauseActionsProps>
+                        onDeleteRootCause={() => onDeleteRootCause(rowIndex)}
+                      ></RootCauseActionsProps>
                     </DataTableCell>
                   );
                 }
@@ -151,7 +152,8 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
         }}
         onCancelForm={onCancelRootCauseForm}
         rootCauseData={selectedRootCauseData}
-        onSuccessfullySaveRootCause={onSaveRootCauseSuccessfully}></RootCauseFormComponent>
+        onSuccessfullySaveRootCause={onSaveRootCauseSuccessfully}
+      ></RootCauseFormComponent>
     </div>
   );
 }

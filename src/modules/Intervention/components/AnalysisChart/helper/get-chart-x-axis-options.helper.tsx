@@ -4,7 +4,7 @@ import { assign } from "lodash";
 
 export function getChartXAxisOptions(xAxisCategories: any[], chartConfiguration: any) {
   let xAxisOptions = {};
-  const showBna: boolean = true;
+  const showBna = true;
 
   switch (chartConfiguration.type) {
     case "radar":

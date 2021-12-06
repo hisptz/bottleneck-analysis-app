@@ -20,12 +20,6 @@ export const tabs: Array<Tab> = [
     component: Table,
   },
   {
-    key: "map",
-    icon: <IconWorld24 />,
-    label: i18n.t("Map View"),
-    component: Map,
-  },
-  {
     key: "dictionary",
     icon: <IconInfo24 />,
     label: i18n.t("Dictionary View"),

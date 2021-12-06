@@ -54,11 +54,7 @@ export default function Row(props) {
           <div className={classes.sources}>
             <ol>
               {dataSet?.dataSetElements.map((dt) => {
-                return (
-                  <li key={dt?.dataElement?.id}>
-                    {dt?.dataElement?.displayName}
-                  </li>
-                );
+                return <li key={dt?.dataElement?.id}>{dt?.dataElement?.displayName}</li>;
               })}
             </ol>
           </div>
