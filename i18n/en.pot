@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-06T12:46:25.931Z\n"
-"PO-Revision-Date: 2021-12-06T12:46:25.931Z\n"
+"POT-Creation-Date: 2021-12-06T12:49:50.011Z\n"
+"PO-Revision-Date: 2021-12-06T12:49:50.011Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -353,9 +353,6 @@ msgstr "Switch Layout"
 
 msgid "Table View"
 msgstr "Table View"
-
-msgid "Map View"
-msgstr "Map View"
 
 msgid "Dictionary View"
 msgstr "Dictionary View"
