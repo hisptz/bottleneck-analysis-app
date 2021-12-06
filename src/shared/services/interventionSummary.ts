@@ -1,4 +1,4 @@
-import { get, uniqBy } from "lodash";
+import { cloneDeep, findIndex, get, uniqBy } from "lodash";
 import { BNA_INTERVENTIONS_SUMMARY_INCLUDE_KEYS, BNA_INTERVENTIONS_SUMMARY_KEY, BNA_NAMESPACE } from "../../constants/dataStore";
 import { InterventionConfig, InterventionSummary } from "../interfaces/interventionConfig";
 
@@ -51,6 +51,16 @@ export function addInterventionSummary(summary: InterventionSummary, summaries: 
 
 export function addInterventionSummaries(newSummaries: Array<InterventionSummary>, summaries: Array<InterventionSummary>): Array<InterventionSummary> {
   return uniqBy([...summaries, ...newSummaries], "id");
+}
+
+export function updateInterventionSummary(summary: InterventionSummary, summaries: Array<InterventionSummary>): Array<InterventionSummary> {
+  const updatedSummaries = cloneDeep(summaries);
+  const index = findIndex(summaries, { id: summary.id });
+  if (index > -1) {
+    updatedSummaries[index] = summary;
+    return updatedSummaries;
+  }
+  return summaries;
 }
 
 const summaryMutation = {

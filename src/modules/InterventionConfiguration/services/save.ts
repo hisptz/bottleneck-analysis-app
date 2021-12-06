@@ -1,6 +1,11 @@
 import { BNA_NAMESPACE, ROOT_CAUSE_SUFFIX } from "../../../constants/dataStore";
 import { InterventionConfig, InterventionSummary } from "../../../shared/interfaces/interventionConfig";
-import { addInterventionSummary, createInterventionSummary, uploadInterventionSummary } from "../../../shared/services/interventionSummary";
+import {
+  addInterventionSummary,
+  createInterventionSummary,
+  updateInterventionSummary,
+  uploadInterventionSummary,
+} from "../../../shared/services/interventionSummary";
 
 const mutation = {
   resource: `dataStore/${BNA_NAMESPACE}`,
@@ -9,8 +14,12 @@ const mutation = {
   data: ({ data }: any) => data,
 };
 
-export async function updateIntervention(engine: any, intervention: InterventionConfig): Promise<any> {
-  return await engine.mutate(mutation, { variables: { id: intervention.id, data: intervention } });
+export async function updateIntervention(engine: any, intervention: InterventionConfig, summaries: Array<InterventionSummary>): Promise<any> {
+  return await engine.mutate(mutation, { variables: { id: intervention.id, data: intervention } }).then(async () => {
+    const summary = createInterventionSummary(intervention);
+    const updatedSummaries = updateInterventionSummary(summary, summaries);
+    await uploadInterventionSummary(engine, updatedSummaries);
+  });
 }
 
 const generateCreateMutation = (id: string) => {

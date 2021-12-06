@@ -3,13 +3,13 @@ import i18n from "@dhis2/d2-i18n";
 import { CircularLoader, LinearLoader } from "@dhis2/ui";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useResetRecoilState } from "recoil";
+import { useRecoilRefresher_UNSTABLE } from "recoil";
 import { InterventionSummary } from "../../core/state/intervention";
 import useMigrate from "./hooks/useMigrate";
 
-export default function Migration() {
+export default function Migration(): React.ReactElement {
   const history = useHistory();
-  const resetSummary = useResetRecoilState(InterventionSummary);
+  const resetSummary = useRecoilRefresher_UNSTABLE(InterventionSummary);
 
   const onComplete = () => {
     resetSummary();

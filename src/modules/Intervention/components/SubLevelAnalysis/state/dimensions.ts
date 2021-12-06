@@ -39,7 +39,10 @@ export const SubLevelOrgUnit = selectorFamily({
       if (orgUnitSelection.subLevel) {
         const levels = get(OrgUnitLevels);
         const orgUnitLevel = find(levels, ["id", orgUnitSelection.subLevel?.id]);
-        return [`LEVEL-${orgUnitLevel?.level}`];
+        if (orgUnitLevel) {
+          return [`LEVEL-${orgUnitLevel?.level}`];
+        }
+        return [`LEVEL-${orgUnitSelection.subLevel?.level}`];
       }
       return ["USER_ORGUNIT_CHILDREN"];
     },

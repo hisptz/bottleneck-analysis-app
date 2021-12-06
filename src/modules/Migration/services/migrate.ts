@@ -114,6 +114,7 @@ export function convertIntervention(config: OldInterventionConfig): Intervention
     id,
     name,
     bookmarks,
+    description: "",
     user: { id: user.id },
     userAccess: userAccesses?.map((userAccess) => ({ id: userAccess.id, access: userAccess.access })),
     userGroupAccess: userGroupAccesses.map((userGroupAccess) => ({
