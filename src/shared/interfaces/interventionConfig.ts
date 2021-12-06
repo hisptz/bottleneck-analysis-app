@@ -37,8 +37,8 @@ export interface DataSelection {
 }
 
 export interface OrgUnitSelection {
-  orgUnit?: { id: string; type: string };
-  subLevelAnalysisOrgUnitLevel?: { id: string; type: string };
+  orgUnit?: { id: string; type?: string };
+  subLevel?: { id: string; level: number };
 }
 
 export interface PeriodSelection {

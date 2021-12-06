@@ -1,5 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, DataTable } from "@dhis2/ui";
+import { Button, DataTable, DataTableColumnHeader, DataTableRow } from "@dhis2/ui";
+import { head } from "lodash";
 import React, { Suspense, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -12,9 +13,10 @@ import TableBody from "./components/TableBody";
 import TableHeader from "./components/TableHeader";
 import classes from "./Table.module.css";
 
-export default function Table({ tableRef }: { tableRef: any }) {
+export default function Table({ tableRef }: { tableRef: any }): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const switchLayout = useSetRecoilState(TableLayout(id));
+  const { filter } = useRecoilValue(TableConfig(id));
   const { width } = useRecoilValue(TableConfig(id));
   const { width: screenWidth } = useScreenDimension();
   const isFullPage = useRecoilValue(FullPageState("subLevelAnalysis"));
@@ -42,6 +44,13 @@ export default function Table({ tableRef }: { tableRef: any }) {
         <div className="row end p-8">
           <Button onClick={onLayoutChange}>{i18n.t("Switch Layout")}</Button>
         </div>
+        <DataTable className={classes["header-table"]}>
+          <DataTableRow>
+            <DataTableColumnHeader fixed top={"0px"} align="left" className={classes["period-header-cell"]}>
+              {head(filter)?.name ?? ""}
+            </DataTableColumnHeader>
+          </DataTableRow>
+        </DataTable>
         <DataTable
           ref={tableRef}
           fixed

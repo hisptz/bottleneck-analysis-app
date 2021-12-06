@@ -1,5 +1,5 @@
 .table {
-    max-height: 400px;
+    max-height: 500px;
     height: 100%;
     overflow: auto;
     border: 1px solid #D5DDE5 !important;
@@ -12,12 +12,25 @@
     width: auto !important;
 }
 
+.period-header-cell {
+    border-top: 2px solid #D5DDE5 !important;
+    border-bottom: none !important;
+    border-right: 2px solid #D5DDE5 !important;
+    border-left: 2px solid #D5DDE5 !important;
+    background: #FFFFFF !important;
+    font-weight: bold !important;
+    width: auto !important;
+}
+
+.header-table {
+    border: none !important;
+}
+
 .table-data-header-cell {
     border-right: 1px solid #D5DDE5 !important;
     border-bottom: 1px solid #D5DDE5 !important;
     background: #FFFFFF !important;
     width: 200px !important;
-
 }
 
 .table-header-children-cell {
@@ -27,13 +40,14 @@
     height: 100%;
 }
 
-.header-row{
+.header-row {
     height: 100% !important;
 }
 
 .table-header-cell > span > span {
     font-weight: 500;
 }
+
 .table-data-header-cell > span > span {
     font-weight: 500;
 }
@@ -74,7 +88,7 @@
 
 }
 
-.table-name-cell{
+.table-name-cell {
     border-right: 1px solid #D5DDE5 !important;
     border-bottom: 1px solid #D5DDE5 !important;
     left: auto;

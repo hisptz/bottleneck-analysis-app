@@ -60,6 +60,6 @@ const summaryMutation = {
   data: ({ data }: { data: Array<InterventionSummary> }) => data,
 };
 
-export async function uploadInterventionSummary(summaries: Array<InterventionSummary>, engine: any) {
+export async function uploadInterventionSummary(engine: any, summaries: Array<InterventionSummary>) {
   return await engine.mutate(summaryMutation, { variables: { data: summaries } });
 }

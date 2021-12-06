@@ -1,7 +1,5 @@
-import { InterventionConfig, LegendDefinition } from "../shared/interfaces/interventionConfig";
+import { InterventionConfig } from "../shared/interfaces/interventionConfig";
 import { uid } from "../shared/utils/generators";
-
-export const DEFAULT_LEGEND_DEFINITIONS: Array<LegendDefinition> = [];
 
 export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
   id: uid(),
@@ -111,12 +109,8 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
   userGroupAccess: [],
   orgUnitSelection: {
     orgUnit: {
-      id: "USER_ORGUNIT_GRANDCHILDREN",
-      type: "USER_ORGANISATION_UNIT",
+      id: "USER_ORGUNIT",
     },
-    subLevelAnalysisOrgUnitLevel: {
-      id: "",
-      type: "",
-    },
+    subLevel: undefined,
   },
 };

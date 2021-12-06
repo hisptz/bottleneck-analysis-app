@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-06T04:05:54.837Z\n"
-"PO-Revision-Date: 2021-12-06T04:05:54.837Z\n"
+"POT-Creation-Date: 2021-12-06T07:38:16.809Z\n"
+"PO-Revision-Date: 2021-12-06T07:38:16.810Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -405,14 +405,23 @@ msgstr "Set specific level for sub level analysis"
 msgid "Sub level analysis level"
 msgstr "Sub level analysis level"
 
+msgid "Changes Saved Successfully"
+msgstr "Changes Saved Successfully"
+
 msgid "Manage"
 msgstr "Manage"
 
-msgid "Save and exit"
-msgstr "Save and exit"
+msgid "Saving"
+msgstr "Saving"
 
-msgid "Exit Without saving"
-msgstr "Exit Without saving"
+msgid "Save"
+msgstr "Save"
+
+msgid "Save and Exit"
+msgstr "Save and Exit"
+
+msgid "Exit Without Saving"
+msgstr "Exit Without Saving"
 
 msgid "Something went wrong with the migration"
 msgstr "Something went wrong with the migration"

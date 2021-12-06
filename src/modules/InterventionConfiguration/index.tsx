@@ -8,12 +8,14 @@ import AccessConfigurationComponent from "./components/Access";
 import DeterminantsConfigurationComponent from "./components/Determinants";
 import GeneralConfigurationComponent from "./components/General";
 import "./InterventionConfiguration.css";
+import useSaveIntervention from "./hooks/save";
 import { InterventionDirtySelector } from "./state/data";
 
 export default function InterventionConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const interventionName = useRecoilValue(InterventionDirtySelector({ id, path: ["name"] }));
   const history = useHistory();
+  const { saving, onSave } = useSaveIntervention();
 
   const onExit = () => {
     history.goBack();
@@ -43,19 +45,17 @@ export default function InterventionConfiguration(): React.ReactElement {
               helpSteps: [],
             },
           ]}
-          onLastAction={function (value?: any): void {
-            throw new Error("Function not implemented.");
-          }}
+          onLastAction={onSave}
           activeStepperBackGroundColor={"#00695c"}
-          onCancelLastAction={function (value?: any): void {
-            throw new Error("Function not implemented.");
-          }}
-          onLastActionButtonName={"Save"}
+          onCancelLastAction={onExit}
+          onLastActionButtonName={saving ? `${i18n.t("Saving")}...` : i18n.t("Save")}
         />
       </div>
       <ButtonStrip middle>
-        <Button color={"blue"}>{i18n.t("Save and exit")}</Button>
-        <Button onClick={onExit}>{i18n.t("Exit Without saving")}</Button>
+        <Button onClick={onSave} disabled={saving} color={"blue"}>
+          {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and Exit")}
+        </Button>
+        <Button onClick={onExit}>{i18n.t("Exit Without Saving")}</Button>
       </ButtonStrip>
     </div>
   );

@@ -46,7 +46,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
       path: ["periodSelection"],
     })
   );
-  const { id: periodId, name: period } = new Period().getById(periodSelection.id);
+  const { id: periodId, name: period } = new Period()?.setPreferences({ allowFuturePeriods: true }).getById(periodSelection?.id);
 
   const orgUnitSelection = useRecoilValue(
     InterventionStateSelector({

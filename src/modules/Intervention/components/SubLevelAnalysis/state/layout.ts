@@ -54,7 +54,7 @@ function assignValuesToLayout(
     }
     if (dimension === "pe") {
       const { periodSelection } = intervention;
-      const period = new Period()?.setType(periodSelection.type);
+      const period = new Period().setPreferences({ allowFuturePeriods: true })?.setType(periodSelection.type);
       return [
         {
           id: periodSelection.id,

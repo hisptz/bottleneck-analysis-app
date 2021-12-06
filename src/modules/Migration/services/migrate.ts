@@ -1,5 +1,5 @@
 import { map, queue } from "async";
-import { compact, filter, find, isEmpty } from "lodash";
+import { compact, filter, find, isEmpty, last } from "lodash";
 import { BNA_NAMESPACE } from "../../../constants/dataStore";
 import {
   DataItem,
@@ -76,9 +76,11 @@ function convertData(dataConfig?: GlobalSelection): DataSelection {
 function convertOrgUnit(orgUnitConfig?: GlobalSelection): OrgUnitSelection {
   if (orgUnitConfig) {
     const [oldOrgUnit, levelOrgUnit] = orgUnitConfig?.items;
+
+    const level = parseInt(last(levelOrgUnit?.id?.split("-")) ?? "");
     return {
-      orgUnit: { id: oldOrgUnit?.id, type: oldOrgUnit?.type ?? "" },
-      subLevelAnalysisOrgUnitLevel: { id: levelOrgUnit?.id, type: levelOrgUnit?.type ?? "" },
+      orgUnit: { id: oldOrgUnit?.id, type: oldOrgUnit?.type },
+      subLevel: levelOrgUnit ? { id: levelOrgUnit?.id, level } : undefined,
     };
   }
 
