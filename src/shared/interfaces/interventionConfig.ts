@@ -54,6 +54,7 @@ export interface Access {
 export interface InterventionConfig {
   id: string;
   name: string;
+  description: string;
   user: User;
   bookmarks?: Array<string>;
   publicAccess: string;

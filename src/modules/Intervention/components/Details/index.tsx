@@ -1,17 +1,23 @@
+import i18n from "@dhis2/d2-i18n";
 import React from "react";
+import { useFullScreenHandle } from "react-full-screen";
 import useInterventionConfig from "../../../../shared/hooks/useInterventionConfig";
 import InterventionCard from "../Card";
 
-export default function InterventionDetails() {
+export default function InterventionDetails(): React.ReactElement {
   const intervention = useInterventionConfig();
-
+  const fullScreenHandle = useFullScreenHandle();
   return (
-    <InterventionCard title={<h3 style={{ margin: 2, fontWeight: 500 }}>{intervention.name}</h3>}>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In in finibus lacus, non imperdiet nulla. Suspendisse potenti. Nunc mattis finibus arcu, non
-        mattis purus dapibus id. Donec eu ultrices lorem, at luctus sem. Etiam interdum dui eu sodales posuere. Nulla facilisi. Donec cursus commodo ex, ut
-        sodales erat commodo non.
-      </p>
+    <InterventionCard
+      fullScreenHandle={fullScreenHandle}
+      title={
+        <div className="p-8">
+          <b>{intervention?.name}</b>
+        </div>
+      }>
+      <div className="p-8 w-100">
+        <span style={{ width: "100%", textAlign: "justify" }}>{intervention?.description ?? i18n.t("No description provided")}</span>
+      </div>
     </InterventionCard>
   );
 }
