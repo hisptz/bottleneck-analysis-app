@@ -1,4 +1,4 @@
-import { get as _get } from "lodash";
+import { cloneDeep, get as _get, set as _set } from "lodash";
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import { EngineState } from "../../../core/state/dataEngine";
 import { InterventionTemplateConfig } from "../../../shared/interfaces/interventionTemplateConfig";
@@ -32,13 +32,23 @@ export const InterventionState = atomFamily({
   }),
 });
 
-export const InterventionStateSelector = selectorFamily({
+export const InterventionStateSelector = selectorFamily<any, { id: string; path: Array<string> }>({
   key: "intervention-config-selector",
   get:
     ({ id, path }: { id: string; path: Array<string> }) =>
     ({ get }) => {
       const config = get(InterventionState(id));
       return _get(config, path);
+    },
+
+  set:
+    ({ id, path }: { id: string; path: Array<string> }) =>
+    ({ set }, newValue) => {
+      set(InterventionState(id), (config) => {
+        const newConfig = cloneDeep(config);
+        _set(newConfig, path, newValue);
+        return newConfig;
+      });
     },
 });
 

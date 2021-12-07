@@ -1,8 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
-import PropTypes from "prop-types";
 import React from "react";
 
-export default function DisplaySourceProgramDataElementOrAttribute({ title, data }) {
+export default function DisplaySourceProgramDataElementOrAttribute({ data }: { data: Array<any> }): React.ReactElement {
   return (
     <>
       <ul>
@@ -17,8 +16,3 @@ export default function DisplaySourceProgramDataElementOrAttribute({ title, data
     </>
   );
 }
-
-DisplaySourceProgramDataElementOrAttribute.PropTypes = {
-  title: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
