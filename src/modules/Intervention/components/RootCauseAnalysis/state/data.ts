@@ -1,7 +1,7 @@
 import { filter, flattenDeep } from "lodash";
 import { atom, selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
-import { UserOrganisationUnits } from "../../../../../core/state/user";
+import { UserOrganisationUnit } from "../../../../../core/state/user";
 import { PeriodSelection } from "../../../../../shared/interfaces/interventionConfig";
 import { InterventionStateSelector } from "../../../state/intervention";
 import { getRootCausesData } from "../services/data";
@@ -32,7 +32,7 @@ export const RootCauseData = selectorFamily({
         })
       );
       const { id: selectedOrgUnit, type } = orgUnitSelection;
-      const { id: organisationUnitId } = get(UserOrganisationUnits);
+      const { id: organisationUnitId } = get(UserOrganisationUnit);
       const rootCauseData = await getRootCausesData(engine, id);
 
       return filter(flattenDeep(rootCauseData), (data: any) => {
