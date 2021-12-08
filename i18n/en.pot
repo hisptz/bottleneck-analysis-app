@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-08T03:52:41.222Z\n"
-"PO-Revision-Date: 2021-12-08T03:52:41.222Z\n"
+"POT-Creation-Date: 2021-12-08T10:34:38.506Z\n"
+"PO-Revision-Date: 2021-12-08T10:34:38.506Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -55,6 +55,9 @@ msgstr "Period"
 
 msgid "Organisation Unit"
 msgstr "Organisation Unit"
+
+msgid "Clear Filters"
+msgstr "Clear Filters"
 
 msgid "An error occurred while adding/removing bookmark"
 msgstr "An error occurred while adding/removing bookmark"
@@ -419,6 +422,21 @@ msgstr "All users"
 
 msgid "User, group or role"
 msgstr "User, group or role"
+
+msgid "Intervention deleted successfully"
+msgstr "Intervention deleted successfully"
+
+msgid "An error occurred while deleting the configuration"
+msgstr "An error occurred while deleting the configuration"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "This will delete all data associated with this intervention."
+msgstr "This will delete all data associated with this intervention."
+
+msgid "Deleting"
+msgstr "Deleting"
 
 msgid "Add Indicator"
 msgstr "Add Indicator"

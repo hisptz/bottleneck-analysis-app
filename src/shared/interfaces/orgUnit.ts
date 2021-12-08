@@ -1,5 +1,8 @@
 export interface OrgUnit {
   id: string;
+  displayName: string;
+  level: number;
+  path: string;
 }
 
 export interface OrgUnitSelection {

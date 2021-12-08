@@ -4,14 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Duplicate Implementation): Implementation&#10;&#10;- Implemented cloning of intervention feature">
-      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/ConfirmDeleteDialog/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/hooks/delete.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/services/delete.ts" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore(ide config files): ignore&#10;&#10;added ide config files to ignore">
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/FiltersArea/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/state/filter.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/interfaces/user.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/dataStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/dataStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/services/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/services/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/state/orgUnit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/state/orgUnit.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/state/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/state/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/components/FilterMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/components/FilterMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/hooks/bookmark.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/hooks/bookmark.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/services/bookmark.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/services/bookmark.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components/RootCauseFormComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components/RootCauseFormComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/dimensions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/dimensions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/layout.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/state/layout.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/state/intervention.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/state/intervention.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/state/selections.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/state/selections.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/General/components/InterventionConfigDetails/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/General/components/InterventionConfigDetails/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/interfaces/interventionConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces/interventionConfig.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/interfaces/orgUnit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/interfaces/orgUnit.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,15 +40,15 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/download-chart" />
+        <entry key="$PROJECT_DIR$" value="feature/duplicate-intervention" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,12 +71,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/duplicate-intervention" />
-                    <option name="lastUsedInstant" value="1638795955" />
+                    <option name="branchName" value="feature/selectors" />
+                    <option name="lastUsedInstant" value="1638947677" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1638795249" />
+                    <option name="lastUsedInstant" value="1638947482" />
                   </RecentBranch>
                 </list>
               </option>
@@ -208,10 +226,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
+        <item itemvalue="npm.start" />
+        <item itemvalue="npm.format" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.build" />
-        <item itemvalue="npm.format" />
-        <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
   </component>
@@ -296,6 +314,7 @@
       <workItem from="1638883128038" duration="6639000" />
       <workItem from="1638901867176" duration="30000" />
       <workItem from="1638935503152" duration="6613000" />
+      <workItem from="1638958755736" duration="1996000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -736,33 +755,44 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
-          <line>20</line>
+          <line>21</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
-          <line>21</line>
+          <line>22</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
-          <line>17</line>
+          <line>18</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
-          <line>16</line>
+          <line>17</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/Intervention/index.tsx</url>
-          <line>15</line>
+          <line>16</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/InterventionConfiguration/components/Access/state/data.ts</url>
           <line>2</line>
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Intervention/state/intervention.ts</url>
+          <line>31</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/Intervention/components/FiltersArea/index.tsx</url>
+          <line>12</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

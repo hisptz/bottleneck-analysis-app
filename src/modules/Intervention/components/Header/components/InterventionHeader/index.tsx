@@ -1,5 +1,5 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, DropdownButton, IconFilter24, IconInfo24, IconInfoFilled24, IconStar24, IconStarFilled24, Tooltip } from "@dhis2/ui";
+import { Button, ButtonStrip, colors, DropdownButton, IconFilter24, IconInfo24, IconInfoFilled24, IconStar24, IconStarFilled24, Tooltip } from "@dhis2/ui";
 import { IconButton } from "@material-ui/core";
 import React, { useState } from "react";
 import "./intervention-header.css";
@@ -7,12 +7,15 @@ import { useHistory, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentInterventionSummary } from "../../../../../../core/state/intervention";
 import { InterventionDetailsState } from "../../../../state/intervention";
+import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../state/selections";
 import FilterMenu from "./components/FilterMenu";
 import useBookmark from "./hooks/bookmark";
 
 export default function InterventionHeader(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const intervention = useRecoilValue(CurrentInterventionSummary(id));
+  const period = useRecoilValue(InterventionPeriodState(id));
+  const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
   const { bookmarked, toggleBookmark } = useBookmark();
   const { name } = intervention ?? {};
   const [showDetails, setShowDetails] = useRecoilState(InterventionDetailsState(id));
@@ -28,6 +31,7 @@ export default function InterventionHeader(): React.ReactElement {
       <div className="column flex-1">
         <div className="row gap align-center">
           <h2 className="intervention-header-text">{name}</h2>
+          <span style={{ color: colors.grey700 }}>({`${orgUnit?.displayName ?? ""} - ${period?.name ?? ""}`})</span>
           <Tooltip content={i18n.t("{{type}} bookmark", { type: bookmarked ? i18n.t("Add") : i18n.t("Remove") })}>
             <IconButton onClick={toggleBookmark} style={{ padding: 2, color: "#000000" }}>
               {bookmarked ? <IconStarFilled24 /> : <IconStar24 />}

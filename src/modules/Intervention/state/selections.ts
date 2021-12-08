@@ -1,41 +1,40 @@
-import { Period } from "@iapps/period-utilities";
-import { selectorFamily } from "recoil";
-import { EngineState } from "../../../core/state/dataEngine";
-import { UserState } from "../../../core/state/user";
-import { InterventionState } from "./intervention";
+import { Period, PeriodInterface } from "@iapps/period-utilities";
+import { atomFamily, selectorFamily } from "recoil";
+import { CurrentInterventionSummary } from "../../../core/state/intervention";
+import { OrgUnit } from "../../../core/state/orgUnit";
+import { UserOrganisationUnit } from "../../../core/state/user";
+import { OrgUnit as OrgUnitType } from "../../../shared/interfaces/orgUnit";
 
-export const InterventionPeriodState = selectorFamily({
-  key: "activePeriodState",
-  get:
-    (interventionId: string) =>
-    ({ get }) => {
-      const { periodSelection } = get(InterventionState(interventionId));
-      return new Period().getById(periodSelection.id);
-    },
+export const InterventionPeriodState = atomFamily<PeriodInterface, string>({
+  key: "intervention-period",
+  default: selectorFamily<PeriodInterface, string>({
+    key: "activePeriodState",
+    get:
+      (interventionId: string) =>
+      ({ get }) => {
+        const { periodSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
+        if (periodSelection) {
+          return new Period().setPreferences({ allowFuturePeriods: true }).getById(periodSelection?.id) as PeriodInterface;
+        }
+        return new Period().setPreferences({ allowFuturePeriods: true }).get() as unknown as PeriodInterface;
+      },
+  }),
 });
 
-const query = {
-  orgUnit: {
-    resource: "organisationUnits",
-    id: ({ id }: any) => id,
-    params: {
-      fields: ["id", "displayName", "level"],
-    },
-  },
-};
-
-export const InterventionOrgUnitState = selectorFamily({
-  key: "activeOrgUnitState",
-  get:
-    (interventionId: string) =>
-    async ({ get }) => {
-      const { orgUnitSelection } = get(InterventionState(interventionId));
-      if (orgUnitSelection.orgUnit.id.includes("USER")) {
-        const user = get(UserState);
-        return user?.organisationUnits[0];
-      }
-      const engine = get(EngineState);
-      const { orgUnit } = (await engine.query(query, { variables: { id: orgUnitSelection.orgUnit.id } })) ?? {};
-      return orgUnit;
-    },
+export const InterventionOrgUnitState = atomFamily<OrgUnitType, string>({
+  key: "intervention-orgUnit",
+  default: selectorFamily({
+    key: "activeOrgUnitState",
+    get:
+      (interventionId: string) =>
+      async ({ get }) => {
+        const { orgUnitSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
+        if (orgUnitSelection) {
+          if (orgUnitSelection?.orgUnit?.id && !orgUnitSelection?.orgUnit?.id?.includes("USER")) {
+            return get(OrgUnit(orgUnitSelection?.orgUnit?.id));
+          }
+        }
+        return get(UserOrganisationUnit);
+      },
+  }),
 });
