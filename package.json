@@ -6,15 +6,16 @@
   "private": true,
   "scripts": {
     "build": "d2-app-scripts build",
-    "start": "d2-app-scripts start",
+    "start": "d2-app-scripts start --proxy https://hisp.apps.dhis2.org/dev",
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy",
-    "format": "yarn d2-style apply"
+    "format": "yarn d2-style apply",
+    "e2e":"cypress run"
   },
   "devDependencies": {
-    "@dhis2/cli-app-scripts": "^8.3.0",
+    "@dhis2/cli-app-scripts": "^8.3.2",
     "@dhis2/cli-style": "^9.3.1",
-    "@dhis2/cli-utils-cypress": "^8.0.4",
+    "@dhis2/cli-utils-cypress": "^9.0.1",
     "@dhis2/cypress-commands": "^8.0.4",
     "@dhis2/cypress-plugins": "^8.0.4",
     "@types/async": "^3.2.9",
@@ -37,6 +38,11 @@
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "async": "^3.2.2",
+    "cucumber": "^7.0.0-rc.0",
+    "cypress": "^9.1.1",
+    "cypress-cucumber-preprocessor": "^4.3.1",
+    "cypress-multi-reporters": "^1.5.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "highcharts": "^9.3.0",
     "highcharts-react-official": "^3.1.0",
     "react-error-boundary": "^3.1.4",
@@ -47,6 +53,9 @@
     "recoil": "^0.5.2",
     "typescript": "^4.4.4",
     "xlsx": "^0.17.4"
+  },
+  "cypress-cucumber-processor": {
+    "nonGlobalStepDefinitions": true
   },
   "eslintConfig": {
     "extends": [
