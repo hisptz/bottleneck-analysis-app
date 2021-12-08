@@ -4,26 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore(*): Formatting&#10; - auto-formatted code">
-      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/components/FilterMenu.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/AddButton/components/CloningSelector/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/AddButton/components/TemplateSelector/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/AddButton/index.tsx" afterDir="false" />
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Duplicate Implementation): Implementation&#10;&#10;- Implemented cloning of intervention feature">
+      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/ConfirmDeleteDialog/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/hooks/delete.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/services/delete.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/EmptyInterventions/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/EmptyInterventions/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/ChartItemComponent/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/components/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/AnalysisChart/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionHeader/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/AddButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/styles.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/styles.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Components/Row/Components/DisplaySourceProgramDataElementOrAttribute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/calculationDetails/Components/Row/Components/DisplaySourceProgramDataElementOrAttribute.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Intervention/state/intervention.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Intervention/state/intervention.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +22,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -305,6 +293,9 @@
       <workItem from="1638767693940" duration="34790000" />
       <workItem from="1638858650395" duration="2205000" />
       <workItem from="1638870727598" duration="1199000" />
+      <workItem from="1638883128038" duration="6639000" />
+      <workItem from="1638901867176" duration="30000" />
+      <workItem from="1638935503152" duration="6613000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -642,7 +633,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638795216965</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="feat(Duplicate Implementation): Implementation&#10;&#10;- Implemented cloning of intervention feature">
+      <created>1638887317674</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1638887317674</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -661,7 +659,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed table warning issues" />
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues" />
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed root cause analysis table issues" />
     <MESSAGE value="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool" />
@@ -686,7 +683,8 @@
     <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;&#10;- Displayed description on description icon click" />
     <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;&#10;- Implemented bookmarking" />
     <MESSAGE value="chore(*): Formatting&#10; - auto-formatted code" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore(*): Formatting&#10; - auto-formatted code" />
+    <MESSAGE value="feat(Duplicate Implementation): Implementation&#10;&#10;- Implemented cloning of intervention feature" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(Duplicate Implementation): Implementation&#10;&#10;- Implemented cloning of intervention feature" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

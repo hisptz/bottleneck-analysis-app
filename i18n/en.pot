@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-07T13:20:10.613Z\n"
-"PO-Revision-Date: 2021-12-07T13:20:10.613Z\n"
+"POT-Creation-Date: 2021-12-08T03:52:41.222Z\n"
+"PO-Revision-Date: 2021-12-08T03:52:41.222Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -86,6 +86,12 @@ msgstr "Archive"
 msgid "Configure"
 msgstr "Configure"
 
+msgid "Intervention not found"
+msgstr "Intervention not found"
+
+msgid "Failed to Clone Intervention"
+msgstr "Failed to Clone Intervention"
+
 msgid "Clone Intervention"
 msgstr "Clone Intervention"
 
@@ -98,14 +104,14 @@ msgstr "Name of the new intervention"
 msgid "Cancel"
 msgstr "Cancel"
 
+msgid "Cloning..."
+msgstr "Cloning..."
+
 msgid "Clone"
 msgstr "Clone"
 
 msgid "Create new"
 msgstr "Create new"
-
-msgid "Create new from a template"
-msgstr "Create new from a template"
 
 msgid "Clone an existing intervention"
 msgstr "Clone an existing intervention"
