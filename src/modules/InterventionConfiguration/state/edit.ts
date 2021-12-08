@@ -46,3 +46,8 @@ export const SelectedIndicator = selectorFamily<DataItem | undefined, string>({
       });
     },
 });
+
+export const ErrorState = atomFamily({
+  key: "intervention-config-error-state",
+  default: undefined,
+});

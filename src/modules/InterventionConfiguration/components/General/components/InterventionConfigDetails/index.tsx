@@ -1,10 +1,13 @@
 import i18n from "@dhis2/d2-i18n";
 import { InputField, SingleSelectField, SingleSelectOption, TextAreaField } from "@dhis2/ui";
-import { Period } from "@iapps/period-utilities";
+import { PeriodType } from "@iapps/period-utilities";
+import { filter } from "lodash";
 import React, { useMemo } from "react";
 import "./InterventionConfigDetails.css";
 import { useParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { InterventionSummary } from "../../../../../../core/state/intervention";
+import classes from "../../../../General.module.css";
 import { InterventionDirtySelector } from "../../../../state/data";
 import OrgUnitLevelSelector from "../OrgUnitLevelSelector";
 
@@ -12,6 +15,7 @@ export default function InterventionConfigDetails(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const [name, setName] = useRecoilState(InterventionDirtySelector({ id, path: ["name"] }));
   const [description, setDescription] = useRecoilState(InterventionDirtySelector({ id, path: ["description"] }));
+  const summaries = useRecoilValue(InterventionSummary);
 
   const [periodType, setPeriodType] = useRecoilState(
     InterventionDirtySelector({
@@ -20,9 +24,14 @@ export default function InterventionConfigDetails(): React.ReactElement {
     })
   );
   const periodTypes = useMemo(() => {
-    const periodInstance = new Period().setPreferences({ allowFuturePeriods: true });
-    // @ts-ignore
-    return periodInstance?._periodType?._periodTypes;
+    const periodTypes = new PeriodType().get();
+    const relativePeriodTypes = filter(periodTypes, (type) => type.name.includes("Relative"));
+    const fixedPeriodTypes = filter(periodTypes, (type) => !type.name.includes("Relative"));
+
+    return {
+      relative: relativePeriodTypes,
+      fixed: fixedPeriodTypes,
+    };
   }, []);
 
   return (
@@ -36,11 +45,17 @@ export default function InterventionConfigDetails(): React.ReactElement {
         placeholder={i18n.t("Enter a description")}
       />
       <SingleSelectField
+        filterable
         selected={periodType}
         name={"periodType"}
         label={i18n.t("Bottleneck Period Type")}
         onChange={({ selected }: { selected: string }) => setPeriodType(selected)}>
-        {periodTypes.map(({ id, name }: { id: string; name: string }) => (
+        <SingleSelectOption className={classes["single-select-header"]} disabled label={i18n.t("Fixed Periods")} />
+        {periodTypes?.fixed?.map(({ id, name }: { id: string; name: string }) => (
+          <SingleSelectOption key={`${id}-option`} value={id} label={`${name}`} />
+        ))}
+        <SingleSelectOption className={classes["single-select-header"]} disabled label={i18n.t("Relative Periods")} />
+        {periodTypes?.relative?.map(({ id, name }: { id: string; name: string }) => (
           <SingleSelectOption key={`${id}-option`} value={id} label={`${name}`} />
         ))}
       </SingleSelectField>
