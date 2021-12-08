@@ -71,9 +71,8 @@ export default function ChartItemComponent({ chartRef }: { chartRef: any }) {
       style={{
         height: "calc(" + 1000 + "px-20px",
         minWidth: "1196px",
-        width: "auto",
-      }}
-    >
+        width: "100%",
+      }}>
       <HighChartsReact ref={chartRef} highcharts={HighCharts} options={{ ...(chartOptions ?? {}), navigation: { buttonOptions: false } }} />
     </div>
   );

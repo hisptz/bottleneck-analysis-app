@@ -60,8 +60,7 @@ export default function AnalysisChart() {
           <h4>{i18n.t("Bottleneck Analysis Chart")}: </h4>
           <h4 style={{ color: colors.grey700 }}>{`${interventionName}`}</h4>
         </div>
-      }
-    >
+      }>
       <Chart chartRef={chartRef} />
       <ChartLabelComponent />
     </InterventionCard>
