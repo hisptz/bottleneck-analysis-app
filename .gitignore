@@ -121,3 +121,5 @@ locales
 
 cypress.env.json
 /build/
+
+.idea
