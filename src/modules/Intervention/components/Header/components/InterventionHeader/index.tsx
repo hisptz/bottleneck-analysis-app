@@ -1,12 +1,13 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, DropdownButton, IconFilter24, IconInfo24, IconInfoFilled24, IconStar24, IconStarFilled24, Tooltip } from "@dhis2/ui";
 import { IconButton } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import "./intervention-header.css";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentInterventionSummary } from "../../../../../../core/state/intervention";
 import { InterventionDetailsState } from "../../../../state/intervention";
+import FilterMenu from "./components/FilterMenu";
 import useBookmark from "./hooks/bookmark";
 
 export default function InterventionHeader(): React.ReactElement {
@@ -15,6 +16,7 @@ export default function InterventionHeader(): React.ReactElement {
   const { bookmarked, toggleBookmark } = useBookmark();
   const { name } = intervention ?? {};
   const [showDetails, setShowDetails] = useRecoilState(InterventionDetailsState(id));
+  const [openFilterMenu, setOpenFilterMenu] = useState<boolean>(false);
   const history = useHistory();
 
   function onToInterventionConfiguration() {
@@ -36,7 +38,15 @@ export default function InterventionHeader(): React.ReactElement {
               {showDetails ? <IconInfoFilled24 /> : <IconInfo24 />}
             </IconButton>
           </Tooltip>
-          <DropdownButton icon={<IconFilter24 />}>{i18n.t("Add Filter")}</DropdownButton>
+          <DropdownButton
+            open={openFilterMenu}
+            onClick={() => {
+              setOpenFilterMenu(true);
+            }}
+            component={<FilterMenu onClose={() => setOpenFilterMenu(false)} />}
+            icon={<IconFilter24 />}>
+            {i18n.t("Add Filter")}
+          </DropdownButton>
         </div>
       </div>
       <div className="column">

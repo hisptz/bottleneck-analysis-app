@@ -6,7 +6,7 @@ import "./empty-intervention.css";
 
 export default function EmptyInterventions() {
   return (
-    <div className="container">
+    <div className="main-container">
       <div className="column align-center" style={{ gap: 32 }}>
         <img width={"120px"} alt="BNA" src={BNALogo} />
         <h1>{i18n.t("Welcome to the Bottleneck Analysis App!")}</h1>

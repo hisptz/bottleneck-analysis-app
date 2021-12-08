@@ -19,17 +19,17 @@ export async function initializeSummaryKey(engine: any) {
   return await engine.mutate(initSummaryMutation);
 }
 
-export async function getInterventionSummary(engine: any): Promise<Array<InterventionSummary> | undefined> {
+export async function getInterventionSummary(engine: any): Promise<Array<InterventionSummary>> {
   try {
     const { summary } = await engine.query(summaryQuery);
-    return summary;
-  } catch (e) {
-    // @ts-ignore
+    return summary ?? [];
+  } catch (e: any) {
     if (e?.details?.httpStatusCode === 404) {
       await initializeSummaryKey(engine);
       return getInterventionSummary(engine);
     }
   }
+  return [];
 }
 
 export function createInterventionSummary(intervention: InterventionConfig): InterventionSummary {

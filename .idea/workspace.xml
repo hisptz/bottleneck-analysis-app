@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="chore(*): Formatting&#10; - auto-formatted code">
+    <list default="true" id="706abaf2-c53d-41e2-b8b8-867376166559" name="Changes" comment="feat(Duplicate Implementation): Implementation&#10;&#10;- Implemented cloning of intervention feature">
+      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/components/ConfirmDeleteDialog/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/hooks/delete.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/services/delete.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.pot" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.pot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/InterventionConfiguration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/InterventionConfiguration/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,12 +53,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/chart-analysis-download" />
-                    <option name="lastUsedInstant" value="1638205880" />
+                    <option name="branchName" value="feature/duplicate-intervention" />
+                    <option name="lastUsedInstant" value="1638795955" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1638005451" />
+                    <option name="lastUsedInstant" value="1638795249" />
                   </RecentBranch>
                 </list>
               </option>
@@ -113,14 +118,14 @@
       <recent name="$PROJECT_DIR$/src/modules/EmptyInterventions" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/modules/Intervention/components/Header/components/InterventionList/components/AddButton" />
       <recent name="$PROJECT_DIR$/src/modules/Intervention/components/SubLevelAnalysis/components/Dictionary/components/SingleDictionary" />
       <recent name="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/components/RootCauseTable/components" />
       <recent name="$PROJECT_DIR$/src/modules/Intervention/components/RootCauseAnalysis/state" />
       <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/SubLevelAnalysis/components/SubLevelHeader" />
-      <recent name="$PROJECT_DIR$/src/modules/Dashboard/components/DashboardHeader/components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.deploy">
+  <component name="RunManager" selected="npm.start --proxy https://hisp.apps.dhis2.org/dev">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -202,10 +207,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.build" />
         <item itemvalue="npm.format" />
-        <item itemvalue="npm.start --proxy https://hisp.apps.dhis2.org/dev" />
         <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
@@ -285,7 +290,12 @@
       <workItem from="1638723386021" duration="1019000" />
       <workItem from="1638763367513" duration="2090000" />
       <workItem from="1638766444629" duration="1236000" />
-      <workItem from="1638767693940" duration="22227000" />
+      <workItem from="1638767693940" duration="34790000" />
+      <workItem from="1638858650395" duration="2205000" />
+      <workItem from="1638870727598" duration="1199000" />
+      <workItem from="1638883128038" duration="6639000" />
+      <workItem from="1638901867176" duration="30000" />
+      <workItem from="1638935503152" duration="6613000" />
     </task>
     <task id="LOCAL-00001" summary="feat(Intervention List ): Implementation&#10;&#10;- Implemented app routing&#10; - Implemented intervention list UI &#10; -&#10;Implemented intervention list expand and collapse UI and logic&#10; -&#10;Modified add button styling">
       <created>1635763434049</created>
@@ -609,7 +619,28 @@
       <option name="project" value="LOCAL" />
       <updated>1638794979049</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="chore(*): Formatting&#10; - auto-formatted code">
+      <created>1638795188196</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1638795188196</updated>
+    </task>
+    <task id="LOCAL-00048" summary="chore(*): Formatting&#10; - auto-formatted code">
+      <created>1638795216965</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1638795216965</updated>
+    </task>
+    <task id="LOCAL-00049" summary="feat(Duplicate Implementation): Implementation&#10;&#10;- Implemented cloning of intervention feature">
+      <created>1638887317674</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1638887317674</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -628,7 +659,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed table warning issues" />
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed sub level analysis table UI issues" />
     <MESSAGE value="fix(Tables): Fixes&#10;&#10;- Fixed root cause analysis table issues" />
     <MESSAGE value="chore(*): Format&#10;&#10;- Formatted code using the DHIS2 format tool" />
@@ -653,7 +683,8 @@
     <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;&#10;- Displayed description on description icon click" />
     <MESSAGE value="feat(InterventionConfiguration): Implementation&#10;&#10;- Implemented bookmarking" />
     <MESSAGE value="chore(*): Formatting&#10; - auto-formatted code" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore(*): Formatting&#10; - auto-formatted code" />
+    <MESSAGE value="feat(Duplicate Implementation): Implementation&#10;&#10;- Implemented cloning of intervention feature" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(Duplicate Implementation): Implementation&#10;&#10;- Implemented cloning of intervention feature" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

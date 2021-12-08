@@ -1,5 +1,6 @@
 import { find } from "lodash";
 import { atom, selector, selectorFamily } from "recoil";
+import { InterventionSummary as InterventionSummaryType } from "../../shared/interfaces/interventionConfig";
 import { getInterventionSummary } from "../../shared/services/interventionSummary";
 import { EngineState } from "./dataEngine";
 
@@ -8,7 +9,7 @@ export const RequestId = atom({
   default: 0,
 });
 
-export const InterventionSummary = atom({
+export const InterventionSummary = atom<Array<InterventionSummaryType>>({
   key: "intervention-summary-state",
   default: selector({
     key: "intervention-summary-getter",
