@@ -60,7 +60,7 @@ export default function InterventionConfiguration(): React.ReactElement {
         />
       </div>
       <ButtonStrip middle>
-        <Button onClick={onSave} disabled={saving} color={"blue"}>
+        <Button dataTest={"save-exit-intervention-button"} onClick={onSave} disabled={saving} color={"blue"}>
           {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and Exit")}
         </Button>
         <Button onClick={onExit}>{i18n.t("Exit Without Saving")}</Button>

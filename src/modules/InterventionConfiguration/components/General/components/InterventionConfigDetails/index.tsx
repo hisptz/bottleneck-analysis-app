@@ -27,21 +27,29 @@ export default function InterventionConfigDetails(): React.ReactElement {
 
   return (
     <div className="interventionConfig">
-      <InputField value={name} onChange={({ value }: { value: string }) => setName(value)} name={"name"} label={"Intervention Name"} />
+      <InputField
+        dataTest={"interventionName"}
+        value={name}
+        onChange={({ value }: { value: string }) => setName(value)}
+        name={"name"}
+        label={"Intervention Name"}
+      />
       <TextAreaField
         value={description}
         label={i18n.t("Description")}
+        dataTest={"interventionDescription"}
         name="description"
         onChange={({ value }: { value: string }) => setDescription(value)}
         placeholder={i18n.t("Enter a description")}
       />
       <SingleSelectField
         selected={periodType}
+        dataTest={"periodType-selection-menu"}
         name={"periodType"}
         label={i18n.t("Bottleneck Period Type")}
         onChange={({ selected }: { selected: string }) => setPeriodType(selected)}>
         {periodTypes.map(({ id, name }: { id: string; name: string }) => (
-          <SingleSelectOption key={`${id}-option`} value={id} label={`${name}`} />
+          <SingleSelectOption key={`${id}-option`} value={id} label={`${name}`} dataTest={"periodType-selection-menu-item"} />
         ))}
       </SingleSelectField>
       <OrgUnitLevelSelector />
