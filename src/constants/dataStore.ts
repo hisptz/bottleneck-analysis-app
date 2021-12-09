@@ -4,6 +4,7 @@ export const BNA_DASHBOARDS_NAMESPACE = "dashboards";
 export const BNA_DASHBOARDS_PREFIX = "bna-dashboard_";
 export const BNA_INTERVENTIONS_SUMMARY_KEY = "interventions-summary";
 export const ROOT_CAUSE_SUFFIX = "rcadata";
+export const BNA_ARCHIVES_NAMESPACE = "hisptz-bna-archives";
 export const BNA_INTERVENTIONS_SUMMARY_INCLUDE_KEYS: Array<{ key: string; path: string }> = [
   {
     key: "id",

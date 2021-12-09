@@ -1,11 +1,11 @@
-import { DataTable, Card, TableFoot, DataTableCell, DataTableRow, Pagination } from "@dhis2/ui";
+import { Card, DataTable, DataTableCell, DataTableRow, Pagination, TableFoot } from "@dhis2/ui";
 import React from "react";
 import ArchivesListHeader from "./components/ArchiveListHeaderComponent/ArchiveListHeader";
 import "./index.css";
 import ArchiveListTableBodyComponent from "./components/ArchiveListTableBodyComponent/ArchiveListTableBodyComponent";
 import ArchiveListHeaderComponent from "./components/ArchiveListTableHeaderComponent/ArchiveListTableHeaderComponent";
 
-export default function Archive() {
+export default function Archive(): React.ReactElement {
   return (
     <div className="column">
       <ArchivesListHeader />

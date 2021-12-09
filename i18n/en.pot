@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-09T09:27:03.909Z\n"
-"PO-Revision-Date: 2021-12-09T09:27:03.909Z\n"
+"POT-Creation-Date: 2021-12-09T13:27:33.010Z\n"
+"PO-Revision-Date: 2021-12-09T13:27:33.010Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -16,6 +16,9 @@ msgstr "View Only"
 
 msgid "View and Edit"
 msgstr "View and Edit"
+
+msgid "Back to Intervention"
+msgstr "Back to Intervention"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -47,9 +50,6 @@ msgstr "There are no indicators configured for this intervention"
 msgid "There are no organisation units or periods configured for this intervention"
 msgstr "There are no organisation units or periods configured for this intervention"
 
-msgid "Back to Intervention"
-msgstr "Back to Intervention"
-
 msgid "View in Full Screen"
 msgstr "View in Full Screen"
 
@@ -65,8 +65,42 @@ msgstr "Organisation Unit"
 msgid "Clear Filter"
 msgstr "Clear Filter"
 
-msgid "Clear Filters"
-msgstr "Clear Filters"
+msgid "Intervention successfully archived"
+msgstr "Intervention successfully archived"
+
+msgid "Archive intervention"
+msgstr "Archive intervention"
+
+msgid "Archiving the intervention"
+msgstr "Archiving the intervention"
+
+msgid "for the organisation unit"
+msgstr "for the organisation unit"
+
+msgid "and period"
+msgstr "and period"
+
+msgid "Archive Exists"
+msgstr "Archive Exists"
+
+msgid ""
+"An archive with the same configuration, period and organisation unit "
+"already exists. Proceeding to archiving will overwrite the existing archive"
+msgstr ""
+"An archive with the same configuration, period and organisation unit "
+"already exists. Proceeding to archiving will overwrite the existing archive"
+
+msgid "Remarks"
+msgstr "Remarks"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Archiving..."
+msgstr "Archiving..."
+
+msgid "Archive"
+msgstr "Archive"
 
 msgid "An error occurred while adding/removing bookmark"
 msgstr "An error occurred while adding/removing bookmark"
@@ -92,9 +126,6 @@ msgstr "Show"
 msgid "Add Filter"
 msgstr "Add Filter"
 
-msgid "Archive"
-msgstr "Archive"
-
 msgid "Configure"
 msgstr "Configure"
 
@@ -112,9 +143,6 @@ msgstr "Select the intervention you want to clone"
 
 msgid "Name of the new intervention"
 msgstr "Name of the new intervention"
-
-msgid "Cancel"
-msgstr "Cancel"
 
 msgid "Cloning..."
 msgstr "Cloning..."

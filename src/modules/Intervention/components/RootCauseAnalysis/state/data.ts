@@ -32,9 +32,8 @@ export const RootCauseData = selectorFamily({
         })
       );
       const { id: selectedOrgUnit, type } = orgUnitSelection;
-      const { id: organisationUnitId } = get(UserOrganisationUnit);
+      const { id: organisationUnitId } = get(UserOrganisationUnit) ?? {};
       const rootCauseData = await getRootCausesData(engine, id);
-
       return filter(flattenDeep(rootCauseData), (data: any) => {
         const { id: rootCauseId } = data;
         return rootCauseId.match(`${selectedPeriod}_${type == "USER_ORGANISATION_UNIT" ? organisationUnitId : selectedOrgUnit}`);

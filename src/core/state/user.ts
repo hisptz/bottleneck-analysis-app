@@ -5,7 +5,7 @@ import { User } from "../../shared/interfaces/user";
 import { getUser } from "../services/user";
 import { EngineState } from "./dataEngine";
 
-export const UserState = atom<User | undefined>({
+export const UserState = atom<User>({
   key: "user-state",
   default: selector({
     key: "user-state-getter",
