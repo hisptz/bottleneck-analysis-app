@@ -3,8 +3,10 @@ import { Button, IconAdd24 } from "@dhis2/ui";
 import React from "react";
 import BNALogo from "../../assets/images/bna-logo.png";
 import "./empty-intervention.css";
+import { useHistory } from "react-router-dom";
 
 export default function EmptyInterventions() {
+  const history = useHistory();
   return (
     <div className="main-container">
       <div className="column align-center" style={{ gap: 32 }}>
@@ -25,7 +27,7 @@ export default function EmptyInterventions() {
             </div>
           </div>
         </div>
-        <Button primary icon={<IconAdd24 />}>
+        <Button onClick={() => history.replace("/new-intervention")} primary icon={<IconAdd24 />}>
           {i18n.t("Add New Intervention")}
         </Button>
       </div>

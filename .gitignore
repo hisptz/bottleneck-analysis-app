@@ -124,3 +124,4 @@ cypress.env.json
 
 .idea/workspace.xml
 .idea/codestream.xml
+/xunit.xml

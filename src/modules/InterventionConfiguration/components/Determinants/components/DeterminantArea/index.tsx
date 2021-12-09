@@ -13,6 +13,7 @@ export default function DeterminantArea(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const determinants = useRecoilValue(InterventionDirtySelector({ id, path: ["dataSelection", "groups"] }));
   const allDeterminantsEmpty: boolean = reduce(determinants, (acc, determinant) => acc && isEmpty(determinant.items), true as boolean);
+
   const onClearAll = useRecoilCallback(
     ({ set, reset }) =>
       () => {

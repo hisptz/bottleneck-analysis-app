@@ -7,3 +7,7 @@ export interface ErrorBoundaryComponentProps {
   error: Error;
   resetErrorBoundary?: () => void;
 }
+
+export interface FormError {
+  message: string;
+}
