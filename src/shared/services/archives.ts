@@ -40,14 +40,21 @@ export function createArchive({
   };
 }
 
+const updateArchiveMutation = {
+  type: "update",
+  resource: `dataStore/${BNA_ARCHIVES_NAMESPACE}`,
+  id: ({ id }: any) => id,
+  data: ({ data }: any) => data,
+};
+
 const generateArchiveMutation = (id: string) => ({
   type: "create",
   resource: `dataStore/${BNA_ARCHIVES_NAMESPACE}/${id}`,
   data: ({ data }: any) => data,
 });
 
-export async function uploadArchive(engine: any, archive: Archive) {
-  return await engine.mutate(generateArchiveMutation(archive.id), { variables: { data: archive } });
+export async function uploadArchive(engine: any, archive: Archive, update?: boolean) {
+  return await engine.mutate(update ? updateArchiveMutation : generateArchiveMutation(archive.id), { variables: { data: archive, id: archive.id } });
 }
 
 const archiveKeysQuery = {

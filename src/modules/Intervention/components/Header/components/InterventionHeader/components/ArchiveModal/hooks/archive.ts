@@ -56,7 +56,7 @@ export default function useArchive(onClose: () => void) {
               remarks,
               rootCauseData,
             });
-            await uploadArchive(engine, archive);
+            await uploadArchive(engine, archive, archiveExists);
             show({
               message: i18n.t("Intervention successfully archived"),
               type: { success: true },
