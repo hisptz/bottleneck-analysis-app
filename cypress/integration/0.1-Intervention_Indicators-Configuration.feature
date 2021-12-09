@@ -6,6 +6,8 @@ Feature: Interventions and Indicators Configuration
 
 
       @focus
-      Scenario: Create a New Intervention 
+      Scenario: Create a New Intervention by General Configuration
       Given authorized user with administrative access
-      When 
+      When click intervention search button
+      And Choose to create a new Intervention
+      Then Stepper Configuration should be displayed

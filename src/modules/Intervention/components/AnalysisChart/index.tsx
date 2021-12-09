@@ -10,10 +10,9 @@ import { InterventionStateSelector } from "../../state/intervention";
 import { InterventionOrgUnitState } from "../../state/selections";
 import InterventionCard from "../Card";
 import Chart from "./components";
-import ChartLabelComponent from "./components/ChartLabelComponent";
 import { ChartData } from "./state/data";
 
-export default function AnalysisChart() {
+export default function AnalysisChart(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const interventionName = useRecoilValue(InterventionStateSelector({ id, path: ["name"] }));
   const data = useRecoilValue(ChartData(id));
@@ -60,10 +59,9 @@ export default function AnalysisChart() {
           <h4>{i18n.t("Bottleneck Analysis Chart")}: </h4>
           <h4 style={{ color: colors.grey700 }}>{`${interventionName}`}</h4>
         </div>
-      }
-    >
+      }>
       <Chart chartRef={chartRef} />
-      <ChartLabelComponent />
+      {/*<ChartLabelComponent />*/}
     </InterventionCard>
   );
 }

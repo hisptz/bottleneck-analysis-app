@@ -1,8 +1,10 @@
-import { compact, find } from "lodash";
+import { find } from "lodash";
 import { selectorFamily } from "recoil";
 import { OrgUnitLevels } from "../../../../../core/state/orgUnit";
+import { UserOrganisationUnit } from "../../../../../core/state/user";
 import { DataItem, InterventionConfig } from "../../../../../shared/interfaces/interventionConfig";
 import { InterventionState } from "../../../state/intervention";
+import { InterventionOrgUnitState, InterventionPeriodState } from "../../../state/selections";
 
 export const DataItems = selectorFamily<Array<string>, string>({
   key: "sub-level-data-items",
@@ -25,8 +27,8 @@ export const Period = selectorFamily({
   get:
     (id: string) =>
     ({ get }) => {
-      const { periodSelection } = get<InterventionConfig>(InterventionState(id)) ?? {};
-      return periodSelection.id;
+      const periodSelection = get(InterventionPeriodState(id));
+      return periodSelection?.id;
     },
 });
 
@@ -35,16 +37,22 @@ export const SubLevelOrgUnit = selectorFamily({
   get:
     (id: string) =>
     ({ get }) => {
-      const { orgUnitSelection } = get<InterventionConfig>(InterventionState(id)) ?? {};
-      if (orgUnitSelection.subLevel) {
-        const levels = get(OrgUnitLevels);
-        const orgUnitLevel = find(levels, ["id", orgUnitSelection.subLevel?.id]);
-        if (orgUnitLevel) {
-          return [`LEVEL-${orgUnitLevel?.level}`];
+      const userOrgUnit = get(UserOrganisationUnit);
+      const orgUnit = get(InterventionOrgUnitState(id));
+      if (!orgUnit || orgUnit.id === userOrgUnit?.id) {
+        const { orgUnitSelection } = get<InterventionConfig>(InterventionState(id)) ?? {};
+        if (orgUnitSelection.subLevel) {
+          const levels = get(OrgUnitLevels);
+          const orgUnitLevel = find(levels, ["id", orgUnitSelection.subLevel?.id]);
+          if (orgUnitLevel) {
+            return [`LEVEL-${orgUnitLevel?.level}`];
+          }
+          return [`LEVEL-${orgUnitSelection.subLevel?.level}`];
         }
-        return [`LEVEL-${orgUnitSelection.subLevel?.level}`];
+        return ["USER_ORGUNIT_CHILDREN"];
       }
-      return ["USER_ORGUNIT_CHILDREN"];
+      console.log(orgUnit);
+      return [`LEVEL-${orgUnit?.level + 1}`];
     },
 });
 
@@ -53,13 +61,10 @@ export const OrgUnit = selectorFamily({
   get:
     (id: string) =>
     ({ get }) => {
-      const { orgUnitSelection } = get<InterventionConfig>(InterventionState(id)) ?? {};
-      let orgUnits;
-      if (orgUnitSelection?.orgUnit?.type === "USER_ORGANISATION_UNIT") {
-        orgUnits = ["USER_ORGUNIT"];
-      } else {
-        orgUnits = [orgUnitSelection.orgUnit?.id];
+      const orgUnitSelection = get(InterventionOrgUnitState(id));
+      if (orgUnitSelection) {
+        return [orgUnitSelection.id];
       }
-      return compact(orgUnits);
+      return ["USER_ORGUNIT"];
     },
 });

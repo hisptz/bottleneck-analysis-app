@@ -20,7 +20,7 @@ export default function useBookmark(): {
     ({ message }) => message,
     ({ type }) => ({ ...type, duration: 3000 })
   );
-  const bookmarked: boolean | undefined = bookmarks?.includes(userId) ?? false;
+  const bookmarked: boolean | undefined = bookmarks?.includes(userId ?? "") ?? false;
 
   const toggleBookmark = () => {
     try {
@@ -32,7 +32,12 @@ export default function useBookmark(): {
           updateSummary: updateSummaries,
         });
       } else {
-        addBookmark(engine, { userId, interventionId: intervention?.id, interventionSummaries: interventionSummaries ?? [], updateSummary: updateSummaries });
+        addBookmark(engine, {
+          userId,
+          interventionId: intervention?.id,
+          interventionSummaries: interventionSummaries ?? [],
+          updateSummary: updateSummaries,
+        });
       }
     } catch (e: any) {
       show({

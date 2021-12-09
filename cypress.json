@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://localhost:3000",
+  "testFiles": "**/*.feature",
   "video": false,
   "projectId": "a5ip5k",
   "chromeWebSecurity": true,
@@ -12,21 +13,9 @@
   },
   "waitForAnimations":true,
   "experimentalInteractiveRunEvents": true,
-  "testFiles": "**/*.feature",
   "exeperimentalStudio": true,
   "viewportWidth":1366,
   "viewportHeight":768,
   "defaultCommandTimeout": 200000,
-  "watchForFileChanges": true,
-  "component":{
-    "baseUrl": "http://localhost:8080",
-    "testFiles": "**/*.test.{js,ts,jsx,tsx}",
-    "componentFolder": "src",
-    "env":{
-      "dhis2Username": "admin",
-      "dhis2Password": "District1#",
-      "dhis2BaseUrl": "http://localhost:8080",
-      "dhis2DatatestPrefix": "dhis2-BNA"
-    }
-  }
+  "watchForFileChanges": true
 }

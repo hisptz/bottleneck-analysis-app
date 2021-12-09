@@ -1,9 +1,10 @@
-import { Period } from "@iapps/period-utilities";
+import { Period, PeriodInterface } from "@iapps/period-utilities";
 import { isEmpty } from "lodash";
 import { atomFamily, selectorFamily } from "recoil";
 import { DataItem, Group, InterventionConfig, Legend } from "../../../../../shared/interfaces/interventionConfig";
 import { TableLayout as Layout } from "../../../../../shared/interfaces/layout";
 import { InterventionState } from "../../../state/intervention";
+import { InterventionPeriodState } from "../../../state/selections";
 import { SubLevelAnalyticsData } from "./data";
 
 export const TableLayout = atomFamily<Layout, string>({
@@ -28,10 +29,12 @@ function assignValuesToLayout(
     layout,
     intervention,
     data,
+    period,
   }: {
     layout: Layout;
     intervention: InterventionConfig;
     data: any;
+    period?: PeriodInterface;
   }
 ) {
   const dimensions = layout[type];
@@ -53,14 +56,19 @@ function assignValuesToLayout(
       });
     }
     if (dimension === "pe") {
-      const { periodSelection } = intervention;
-      const period = new Period().setPreferences({ allowFuturePeriods: true })?.setType(periodSelection.type);
-      return [
-        {
-          id: periodSelection.id,
-          name: period?.getById(periodSelection.id)?.name,
-        },
-      ];
+      if (period) {
+        return [
+          {
+            id: period.id,
+            name: period.name,
+          },
+        ];
+      }
+      const currentPeriod = new Period().setPreferences({ allowFuturePeriods: true }).getById(`${new Date().getFullYear()}`);
+      return {
+        id: currentPeriod.id,
+        name: currentPeriod.name,
+      };
     }
     if (dimension === "ou") {
       const orgUnitKeys = data?.metaData?.dimensions?.ou;
@@ -109,9 +117,10 @@ export const TableConfig = selectorFamily<TableConfigType, string>({
       const layout = get(TableLayout(id));
       const data = get(SubLevelAnalyticsData(id));
       const intervention: InterventionConfig = get(InterventionState(id));
-      const filter = assignValuesToLayout("filter", { layout, intervention, data });
-      const columns = assignValuesToLayout("columns", { layout, intervention, data });
-      const rows = assignValuesToLayout("rows", { layout, intervention, data });
+      const period = get(InterventionPeriodState(id));
+      const filter = assignValuesToLayout("filter", { layout, intervention, data, period });
+      const columns = assignValuesToLayout("columns", { layout, intervention, data, period });
+      const rows = assignValuesToLayout("rows", { layout, intervention, data, period });
       const dataValues = data.rows;
 
       const width = getTableWidth(columns);

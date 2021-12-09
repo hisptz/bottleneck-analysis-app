@@ -10,7 +10,8 @@
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy",
     "format": "yarn d2-style apply",
-    "e2e":"cypress run"
+    "e2e:run": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress run' --kill-others --success first ",
+    "e2e:open": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress open' --kill-others --success first "
   },
   "devDependencies": {
     "@dhis2/cli-app-scripts": "^8.3.2",
@@ -22,15 +23,17 @@
     "@types/lodash": "^4.14.176",
     "@types/react-final-form-listeners": "^1.0.0",
     "@types/react-router-dom": "^5.3.2",
+    "concurrently": "^6.4.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "wait-on": "^6.0.0"
   },
   "dependencies": {
     "@dhis2/app-runtime": "^3.2.4",
     "@dhis2/app-service-datastore": "^1.0.0-alpha.2",
-    "@hisptz/react-ui": "^1.0.16",
+    "@hisptz/react-ui": "^1.0.17",
     "@iapps/period-utilities": "^1.0.0-beta.4",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",

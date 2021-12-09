@@ -19,20 +19,17 @@ export const InterventionTemplateState = atom<Array<InterventionTemplateConfig> 
   }),
 });
 
-export const InterventionState = atomFamily({
+export const InterventionState = selectorFamily({
   key: "intervention-state",
-  default: selectorFamily({
-    key: "intervention-state-setter",
-    get:
-      (id: string) =>
-      async ({ get }) => {
-        const engine = get(EngineState);
-        return await getIntervention(engine, id);
-      },
-  }),
+  get:
+    (id: string) =>
+    async ({ get }) => {
+      const engine = get(EngineState);
+      return await getIntervention(engine, id);
+    },
 });
 
-export const InterventionStateSelector = selectorFamily({
+export const InterventionStateSelector = selectorFamily<any, { id: string; path: Array<string> }>({
   key: "intervention-config-selector",
   get:
     ({ id, path }: { id: string; path: Array<string> }) =>
