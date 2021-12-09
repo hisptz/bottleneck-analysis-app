@@ -9,9 +9,10 @@ function AddMenu({ reference, onClose, onCloneClick }: { reference: any; onClose
   const history = useHistory();
   return (
     <Layer onClick={onClose}>
-      <Popover onClickOutside={onClose} placement="bottom-start" reference={reference}>
+      <Popover onClickOutside={onClose} placement="bottom-start" dataTest={"intervention-selection-menu"} reference={reference}>
         <FlyoutMenu>
           <MenuItem
+            dataTest={"create-intervention-menu"}
             onClick={() => {
               onClose();
               history.replace("/new-intervention");
@@ -37,7 +38,7 @@ export default function AddButton({ onClick }: { onClick: () => void }): React.R
 
   return (
     <>
-      <Button onClick={(_: any, e: any) => setReference(e.target)} className={styles.circular} icon={<IconAdd24 />} />
+      <Button dataTest={"addIntervntionButton"} onClick={(_: any, e: any) => setReference(e.target)} className={styles.circular} icon={<IconAdd24 />} />
       {reference && <AddMenu onCloneClick={() => setCloningModalOpen(true)} reference={reference} onClose={() => setReference(null)} />}
       {cloningModalOpen && <CloningSelector hide={!cloningModalOpen} onClose={() => setCloningModalOpen(false)} />}
     </>

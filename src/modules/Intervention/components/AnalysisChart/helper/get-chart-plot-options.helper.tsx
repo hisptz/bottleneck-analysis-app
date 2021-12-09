@@ -10,6 +10,7 @@ export function getPlotOptions(chartConfiguration: any, chartConfigDefinitions: 
     series: {
       cursor: "pointer",
       pointWidth: chartConfigDefinitions["pointWidth"],
+      width: 100,
       pointPadding: 51,
       borderWidth: 0,
       groupPadding: 1,

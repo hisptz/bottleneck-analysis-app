@@ -66,7 +66,14 @@ export default function ChartItemComponent({ chartRef }: { chartRef: any }): Rea
   }
 
   return (
-    <div className="chart-block">
+    <div
+      className="chart-block"
+      style={{
+        height: "calc(" + 1000 + "px-20px",
+        minWidth: "1196px",
+        width: "100%",
+      }}>
+
       <HighChartsReact ref={chartRef} highcharts={HighCharts} options={{ ...(chartOptions ?? {}), navigation: { buttonOptions: false } }} />
     </div>
   );
