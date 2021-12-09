@@ -46,3 +46,20 @@ Then("Intervention should be created Successfully", () => {
   cy.get("#intervention-search").type("Test Intervention");
   cy.get(".gap > .column > .row > :nth-child(1)").should("be.visible").and("is.not.empty");
 });
+/**
+ * cy.get('.MuiPaper-root > :nth-child(3)')
+ */
+/**
+ * Scenario: Display Indicators to the New Intervention in Determinant Configuration
+ */
+And("Determinant Configuration is displayed", () => {
+  cy.get(".MuiPaper-root > :nth-child(3)").click();
+  cy.get(".determinant-main").should("be.visible");
+});
+And("Clear Button is Disabled", () => {
+  cy.get("[data-test='clear-determinant-button']").should("be.disabled");
+});
+Then("Determinant Configuration should be displayed with Add Button in Each Determinant", () => {
+  cy.get(":nth-child(1) > .MuiAccordionSummary-root").click();
+  cy.get("[data-test='add-indicator-button']").should("be.visible");
+});

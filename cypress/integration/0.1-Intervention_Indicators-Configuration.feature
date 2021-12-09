@@ -21,3 +21,18 @@ Feature: Interventions and Indicators Configuration
       And Choose the Period type of the intervention
       And Save the Intervention and Exit 
       Then Intervention should be created Successfully
+ 
+    # TODO
+    #  Scenario: Set Settings of New Intervention in General Configuration with Sub Level Analysis
+
+    @focus
+    Scenario: Display Indicators to the New Intervention in Determinant Configuration
+      Given authorized user with administrative access
+      When Stepper Configuration is displayed
+      And Determinant Configuration is displayed
+      And Clear Button is Disabled
+      Then Determinant Configuration should be displayed with Add Button in Each Determinantet Settings of New Intervention in General Configuration without Sub Level Analysis
+
+
+      # @focus
+      # Scenario: Add Indicators to the New Intervention in Determinant Configuration
