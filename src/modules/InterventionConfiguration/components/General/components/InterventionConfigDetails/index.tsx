@@ -49,6 +49,7 @@ export default function InterventionConfigDetails(): React.ReactElement {
           <InputField
             required
             error={fieldState?.error}
+            dataTest={"interventionName"}
             validationText={fieldState?.error?.message}
             value={field.value}
             onChange={({ value }: { value: string }) => field.onChange(value)}
@@ -62,6 +63,7 @@ export default function InterventionConfigDetails(): React.ReactElement {
           <TextAreaField
             value={field.value}
             label={i18n.t("Description")}
+            dataTest={"interventionDescription"}
             name={field.name}
             onChange={({ value }: { value: string }) => field.onChange(value)}
             placeholder={i18n.t("Enter a description")}
@@ -77,17 +79,18 @@ export default function InterventionConfigDetails(): React.ReactElement {
             error={fieldState.error}
             validationText={fieldState.error?.message}
             filterable
+            dataTest={"periodType-selection-menu"}
             selected={field.value}
             name={field.name}
             label={i18n.t("Bottleneck Period Type")}
             onChange={({ selected }: { selected: string }) => field.onChange(selected)}>
             <SingleSelectOption className={classes["single-select-header"]} disabled label={i18n.t("Fixed Periods")} />
             {periodTypes?.fixed?.map(({ id, name }: { id: string; name: string }) => (
-              <SingleSelectOption key={`${id}-option`} value={id} label={`${name}`} />
+              <SingleSelectOption dataTest={"periodType-selection-menu-item"} key={`${id}-option`} value={id} label={`${name}`} />
             ))}
             <SingleSelectOption className={classes["single-select-header"]} disabled label={i18n.t("Relative Periods")} />
             {periodTypes?.relative?.map(({ id, name }: { id: string; name: string }) => (
-              <SingleSelectOption key={`${id}-option`} value={id} label={`${name}`} />
+              <SingleSelectOption dataTest={"periodType-selection-menu-item"} key={`${id}-option`} value={id} label={`${name}`} />
             ))}
           </SingleSelectField>
         )}
