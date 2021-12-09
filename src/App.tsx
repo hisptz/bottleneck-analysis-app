@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 import "./App.css";
 import "./styles/spacing.css";
 import "./styles/layout.css";
+import "./styles/icons.css";
 import { RecoilRoot } from "recoil";
 import { BNA_NAMESPACE } from "./constants/dataStore";
 import Router from "./modules/Router";
