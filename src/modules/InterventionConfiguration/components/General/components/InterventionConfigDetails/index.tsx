@@ -8,7 +8,7 @@ import { useRecoilState } from "recoil";
 import { InterventionDirtySelector } from "../../../../state/data";
 import OrgUnitLevelSelector from "../OrgUnitLevelSelector";
 
-export default function InterventionConfigDetails() {
+export default function InterventionConfigDetails(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const [name, setName] = useRecoilState(InterventionDirtySelector({ id, path: ["name"] }));
   const [description, setDescription] = useRecoilState(InterventionDirtySelector({ id, path: ["description"] }));
@@ -20,7 +20,7 @@ export default function InterventionConfigDetails() {
     })
   );
   const periodTypes = useMemo(() => {
-    const periodInstance = new Period();
+    const periodInstance = new Period().setPreferences({ allowFuturePeriods: true });
     // @ts-ignore
     return periodInstance?._periodType?._periodTypes;
   }, []);
@@ -39,8 +39,7 @@ export default function InterventionConfigDetails() {
         selected={periodType}
         name={"periodType"}
         label={i18n.t("Bottleneck Period Type")}
-        onChange={({ selected }: { selected: string }) => setPeriodType(selected)}
-      >
+        onChange={({ selected }: { selected: string }) => setPeriodType(selected)}>
         {periodTypes.map(({ id, name }: { id: string; name: string }) => (
           <SingleSelectOption key={`${id}-option`} value={id} label={`${name}`} />
         ))}

@@ -9,7 +9,7 @@ import { getCharObject } from "../../helper/get-chart-object.helper";
 import { ChartConfigState } from "../../state/config";
 import { ChartData } from "../../state/data";
 
-export default function ChartItemComponent({ chartRef }: { chartRef: any }) {
+export default function ChartItemComponent({ chartRef }: { chartRef: any }): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const data = useRecoilValue(ChartData(id));
   const [chartConfigDefinitions, setChartConfigDefinitions] = useRecoilState(ChartConfigState(id));
@@ -73,6 +73,7 @@ export default function ChartItemComponent({ chartRef }: { chartRef: any }) {
         minWidth: "1196px",
         width: "100%",
       }}>
+
       <HighChartsReact ref={chartRef} highcharts={HighCharts} options={{ ...(chartOptions ?? {}), navigation: { buttonOptions: false } }} />
     </div>
   );

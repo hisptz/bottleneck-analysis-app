@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { EngineState } from "../../../../../../../core/state/dataEngine";
 import { CurrentInterventionSummary } from "../../../../../../../core/state/intervention";
-import { UserOrganisationUnits } from "../../../../../../../core/state/user";
+import { UserOrganisationUnit } from "../../../../../../../core/state/user";
 import { InterventionSummary } from "../../../../../../../shared/interfaces/interventionConfig";
 import { uid } from "../../../../../../../shared/utils/generators";
 import { InterventionStateSelector } from "../../../../../state/intervention";
@@ -54,7 +54,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
       path: ["orgUnitSelection", "orgUnit"],
     })
   );
-  const { id, displayName } = useRecoilValue(UserOrganisationUnits);
+  const { id, displayName } = useRecoilValue(UserOrganisationUnit);
   const orgUnitId = orgUnitSelection.type === "USER_ORGANISATION_UNIT" ? id : orgUnitSelection.id;
   const orgUnitName = orgUnitSelection.type === "USER_ORGANISATION_UNIT" ? displayName : orgUnitSelection.id;
 
@@ -162,8 +162,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                 style={{ display: "flex", flexDirection: "column", gap: 16 }}
                 onSubmit={(event) => {
                   handleSubmit(event, form);
-                }}
-              >
+                }}>
                 <OnChange name={getDataElementId("bottleneckId")}>
                   {(value: string) => {
                     onUpdateBottleneck(value);
@@ -215,8 +214,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                       secondary
                       onClick={() => {
                         onClosingFormModal(form);
-                      }}
-                    >
+                      }}>
                       Cancel
                     </Button>
                     <Button primary disabled={rootCauseSaveButton} type="submit">

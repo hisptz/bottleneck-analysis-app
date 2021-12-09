@@ -121,3 +121,6 @@ locales
 
 cypress.env.json
 /build/
+
+.idea/workspace.xml
+.idea/codestream.xml

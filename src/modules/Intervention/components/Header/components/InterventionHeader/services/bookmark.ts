@@ -12,12 +12,15 @@ export async function addBookmark(
     interventionSummaries,
     updateSummary,
   }: {
-    userId: string;
+    userId?: string;
     interventionId?: string;
     interventionSummaries: Array<InterventionSummary>;
     updateSummary: (summaries: Array<InterventionSummary>) => void;
   }
 ): Promise<void> {
+  if (!userId) {
+    return;
+  }
   if (!interventionId) {
     return;
   }
@@ -38,12 +41,15 @@ export async function removeBookmark(
     interventionSummaries,
     updateSummary,
   }: {
-    userId: string;
+    userId?: string;
     interventionId?: string;
     interventionSummaries: Array<InterventionSummary>;
     updateSummary: (summaries: Array<InterventionSummary>) => void;
   }
 ): Promise<void> {
+  if (!userId) {
+    return;
+  }
   if (!interventionId) {
     return;
   }

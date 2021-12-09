@@ -76,4 +76,6 @@ export interface InterventionSummary {
   userAccess: Array<Access>;
   userGroupAccess: Array<Access>;
   bookmarks?: Array<string>;
+  orgUnitSelection: OrgUnitSelection;
+  periodSelection: PeriodSelection;
 }

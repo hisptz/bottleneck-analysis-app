@@ -37,4 +37,12 @@ export const BNA_INTERVENTIONS_SUMMARY_INCLUDE_KEYS: Array<{ key: string; path: 
     key: "bookmarks",
     path: "bookmarks",
   },
+  {
+    key: "orgUnitSelection",
+    path: "orgUnitSelection",
+  },
+  {
+    key: "periodSelection",
+    path: "periodSelection",
+  },
 ];
