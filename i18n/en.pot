@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-08T11:03:48.223Z\n"
-"PO-Revision-Date: 2021-12-08T11:03:48.223Z\n"
+"POT-Creation-Date: 2021-12-08T13:57:52.648Z\n"
+"PO-Revision-Date: 2021-12-08T13:57:52.648Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -461,6 +461,12 @@ msgstr "Enter a description"
 
 msgid "Bottleneck Period Type"
 msgstr "Bottleneck Period Type"
+
+msgid "Fixed Periods"
+msgstr "Fixed Periods"
+
+msgid "Relative Periods"
+msgstr "Relative Periods"
 
 msgid "Sub level analysis notice"
 msgstr "Sub level analysis notice"
