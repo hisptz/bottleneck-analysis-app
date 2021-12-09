@@ -19,7 +19,12 @@ export default function InterventionConfiguration(): React.ReactElement {
   const interventionName = useRecoilValue(InterventionDirtySelector({ id, path: ["name"] }));
   const intervention = useRecoilValue(InterventionDirtyState(id));
   const form = useForm({
-    defaultValues: intervention,
+    defaultValues: {
+      name: intervention.name,
+      description: intervention.description,
+      periodType: intervention.periodType,
+      orgUnitSelection: intervention.orgUnitSelection,
+    },
     mode: "onSubmit",
     reValidateMode: "onChange",
     shouldFocusError: true,
