@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-08T13:57:52.648Z\n"
-"PO-Revision-Date: 2021-12-08T13:57:52.648Z\n"
+"POT-Creation-Date: 2021-12-09T09:27:03.909Z\n"
+"PO-Revision-Date: 2021-12-09T09:27:03.909Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -40,6 +40,12 @@ msgstr "Add New Intervention"
 
 msgid "Bottleneck Analysis Chart"
 msgstr "Bottleneck Analysis Chart"
+
+msgid "There are no indicators configured for this intervention"
+msgstr "There are no indicators configured for this intervention"
+
+msgid "There are no organisation units or periods configured for this intervention"
+msgstr "There are no organisation units or periods configured for this intervention"
 
 msgid "Back to Intervention"
 msgstr "Back to Intervention"
@@ -456,6 +462,21 @@ msgstr "Legends (Only applicable to sub level analysis)"
 msgid "Select Indicator(s)"
 msgstr "Select Indicator(s)"
 
+msgid "Name is required"
+msgstr "Name is required"
+
+msgid ""
+"An intervention with this name already exists. Please provide a different "
+"name. For related interventions, consider using differentiating "
+"keywords/version numbers (e.g v2 )"
+msgstr ""
+"An intervention with this name already exists. Please provide a different "
+"name. For related interventions, consider using differentiating "
+"keywords/version numbers (e.g v2 )"
+
+msgid "Intervention Name"
+msgstr "Intervention Name"
+
 msgid "Enter a description"
 msgstr "Enter a description"
 
@@ -482,6 +503,9 @@ msgstr "Intervention created successfully"
 
 msgid "Changes saved successfully"
 msgstr "Changes saved successfully"
+
+msgid "Intervention name is required. Please provide on in the general page."
+msgstr "Intervention name is required. Please provide on in the general page."
 
 msgid "Manage"
 msgstr "Manage"
@@ -512,3 +536,9 @@ msgstr "Something went wrong. Please check the console for more details"
 
 msgid "Try again"
 msgstr "Try again"
+
+msgid "This resource was not found in the server"
+msgstr "This resource was not found in the server"
+
+msgid "There is a problem with the server"
+msgstr "There is a problem with the server"

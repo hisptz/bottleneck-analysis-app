@@ -35,7 +35,11 @@ export default function InterventionConfiguration(): React.ReactElement {
   const { openDeleteConfirm, onDelete, onConfirmDelete, onDeleteCancel } = useDelete();
 
   const onExit = () => {
-    history.goBack();
+    if (id) {
+      history.replace(`/interventions/${id}`);
+    } else {
+      window.location.replace("/");
+    }
   };
 
   return (
@@ -76,7 +80,7 @@ export default function InterventionConfiguration(): React.ReactElement {
           />
         </div>
         <ButtonStrip middle>
-          <Button onClick={onSave} disabled={saving} color={"blue"}>
+          <Button loading={saving} onClick={onSave} disabled={saving} color={"blue"}>
             {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and Exit")}
           </Button>
           <Button onClick={onExit}>{i18n.t("Exit Without Saving")}</Button>
