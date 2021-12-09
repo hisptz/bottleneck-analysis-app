@@ -16,7 +16,7 @@
 }
 
 .tableContainer{
-    margin-left: 6%;
+    margin-left: 2% !important;
     width: auto;
     min-width: 1196px;
 }
