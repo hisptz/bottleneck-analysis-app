@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
+import i18n from "@dhis2/d2-i18n";
 import * as _ from "lodash";
-import { get as _get } from "lodash";
+import { get as _get, isEmpty } from "lodash";
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { DataItems, OrgUnit, Period } from "../../SubLevelAnalysis/state/dimensions";
@@ -15,6 +15,15 @@ export const ChartData = selectorFamily({
       const period = get(Period(id));
       const orgUnits = get(OrgUnit(id));
       const dataItems = get(DataItems(id));
+
+      if (isEmpty(dataItems)) {
+        throw Error(i18n.t("There are no indicators configured for this intervention"));
+      }
+
+      if (isEmpty(period) || isEmpty(orgUnits)) {
+        throw Error(i18n.t("There are no organisation units or periods configured for this intervention"));
+      }
+
       return await getChartAnalytics({ dx: dataItems, ou: orgUnits, pe: period }, engine);
     },
 });

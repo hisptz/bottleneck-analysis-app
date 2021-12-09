@@ -1,10 +1,13 @@
 import i18n from "@dhis2/d2-i18n";
 import { CheckboxField, NoticeBox, SingleSelectField, SingleSelectOption } from "@dhis2/ui";
-import { find } from "lodash";
-import React, { useState } from "react";
+import { filter, find } from "lodash";
+import React, { useMemo, useState } from "react";
+import { Controller } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValueLoadable } from "recoil";
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { OrgUnitLevels } from "../../../../../../core/state/orgUnit";
+import { UserOrganisationUnit } from "../../../../../../core/state/user";
+import { OrgUnit } from "../../../../../../shared/interfaces/orgUnit";
 import { InterventionDirtySelector } from "../../../../state/data";
 
 export default function OrgUnitLevelSelector(): React.ReactElement {
@@ -15,9 +18,21 @@ export default function OrgUnitLevelSelector(): React.ReactElement {
       path: ["orgUnitSelection", "subLevel"],
     })
   );
+  const userOrgUnit = useRecoilValue(UserOrganisationUnit);
   const [customSubUnitLevel, setCustomSubUnitLevel] = useState<boolean>(Boolean(orgUnitLevel));
-
   const orgUnitLevelState = useRecoilValueLoadable(OrgUnitLevels);
+
+  // @ts-ignore
+  const filteredLevels: Array<OrgUnit> = useMemo(() => {
+    if (orgUnitLevelState.state === "hasValue") {
+      if (userOrgUnit) {
+        return filter(orgUnitLevelState.contents, (orgUnit: OrgUnit) => orgUnit.level >= userOrgUnit?.level);
+      }
+      return [];
+    }
+    return [];
+  }, [orgUnitLevelState, userOrgUnit]);
+
   return (
     <div className="column" style={{ gap: 16 }}>
       <div className={"pt-16"}>
@@ -39,22 +54,32 @@ export default function OrgUnitLevelSelector(): React.ReactElement {
         label={i18n.t("Set specific level for sub level analysis")}
         name={"specific-sub-level-check"}
       />
-      <SingleSelectField
-        selected={orgUnitLevel?.id}
-        loading={orgUnitLevelState.state === "loading"}
-        disabled={!customSubUnitLevel || orgUnitLevelState.state !== "hasValue"}
-        label={i18n.t("Sub level analysis level")}
-        onChange={({ selected }: { selected: string }) => {
-          const subLevel = find(orgUnitLevelState?.contents, ["id", selected]);
-          setOrgUnitLevel({
-            id: subLevel?.id,
-            level: subLevel?.level,
-          });
-        }}
-      >
-        {orgUnitLevelState.state === "hasValue" &&
-          orgUnitLevelState?.contents?.map(({ displayName: label, id }) => <SingleSelectOption value={id} label={label} key={`${id}-level-option`} />)}
-      </SingleSelectField>
+      <Controller
+        name={"orgUnitSelection"}
+        render={({ field, fieldState }) => (
+          <SingleSelectField
+            name={field.name}
+            error={fieldState.error}
+            validationText={fieldState.error?.message}
+            selected={field.value?.subLevel?.id}
+            loading={orgUnitLevelState.state === "loading"}
+            disabled={!customSubUnitLevel || orgUnitLevelState.state !== "hasValue"}
+            label={i18n.t("Sub level analysis level")}
+            onChange={({ selected }: { selected: string }) => {
+              const subLevel = find(orgUnitLevelState?.contents, ["id", selected]);
+              field.onChange({
+                ...field.value,
+                subLevel: {
+                  id: subLevel?.id,
+                  level: subLevel?.level,
+                },
+              });
+            }}>
+            {orgUnitLevelState.state === "hasValue" &&
+              filteredLevels?.map(({ displayName: label, id }) => <SingleSelectOption value={id} label={label} key={`${id}-level-option`} />)}
+          </SingleSelectField>
+        )}
+      />
     </div>
   );
 }

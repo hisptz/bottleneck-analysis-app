@@ -1,0 +1,11 @@
+
+.single-select-header {
+    background: #E8EDF2;
+    color: #4A5768 !important;
+    font-weight: bold;
+}
+
+.single-select-header:hover {
+    background: #E8EDF2 !important;
+    color: #4A5768 !important;
+}

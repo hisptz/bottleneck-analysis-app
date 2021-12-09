@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useFullScreenHandle } from "react-full-screen";
 import { useParams } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState } from "recoil";
 import CardError from "../../../../shared/components/errors/CardError";
 import { downloadExcelFromTable } from "../../../../shared/utils/download";
 import { FullPageState } from "../../state/config";
@@ -16,6 +16,7 @@ import "./sub-level-analysis.css";
 import SubLevelActions from "./components/SubLevelActions";
 import SubLevelHeader from "./components/SubLevelHeader";
 import { tabs } from "./constants/tabs";
+import { SubLevelAnalyticsData } from "./state/data";
 import { ActiveTab } from "./state/tabs";
 
 export default function SubLevelAnalysis(): React.ReactElement {
@@ -27,6 +28,7 @@ export default function SubLevelAnalysis(): React.ReactElement {
   const { displayName: orgUnitName } = useRecoilValue(InterventionOrgUnitState(id)) ?? {};
   const activeTab = find(tabs, ["key", activeTabKey]);
   const tableRef = useRef(null);
+  const resetData = useRecoilRefresher_UNSTABLE(SubLevelAnalyticsData(id));
 
   const handle = useFullScreenHandle();
 
@@ -46,7 +48,7 @@ export default function SubLevelAnalysis(): React.ReactElement {
 
   useEffect(() => {
     setFullPageState(handle.active);
-  }, [handle]);
+  }, [handle, setFullPageState]);
 
   return (
     <InterventionCard
@@ -56,7 +58,7 @@ export default function SubLevelAnalysis(): React.ReactElement {
       menu={menus}
       actions={<SubLevelActions />}
       title={<SubLevelHeader activeTab={activeTab} />}>
-      <ErrorBoundary resetKeys={[activeTabKey]} FallbackComponent={CardError}>
+      <ErrorBoundary onReset={resetData} resetKeys={[activeTabKey, id]} FallbackComponent={CardError}>
         <div style={{ overflow: "auto", maxHeight: handle.active ? "calc(100vh - 120px)" : "100%" }} className="sub-level-container">
           <ActiveComponent tableRef={tableRef} />
         </div>
