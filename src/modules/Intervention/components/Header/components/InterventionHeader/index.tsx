@@ -131,7 +131,9 @@ export default function InterventionHeader(): React.ReactElement {
             icon={<IconQuestion16 color="#212529" />}>
             {i18n.t("Help")}
           </DropdownButton>
-          <Button className={"archive-intervention"}>{i18n.t("Archive")}</Button>
+          <Button className={"archive-intervention"} onClick={() => setArchiveModalOpen(true)}>
+            {i18n.t("Archive")}
+          </Button>
           <Button className={"configure-intervention"} onClick={onToInterventionConfiguration}>
             {i18n.t("Configure")}
           </Button>
