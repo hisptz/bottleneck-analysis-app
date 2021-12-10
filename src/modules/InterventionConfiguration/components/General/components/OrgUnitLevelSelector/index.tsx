@@ -1,10 +1,10 @@
 import i18n from "@dhis2/d2-i18n";
 import { CheckboxField, NoticeBox, SingleSelectField, SingleSelectOption } from "@dhis2/ui";
-import { filter, find } from "lodash";
+import { filter, find, isEmpty } from "lodash";
 import React, { useMemo, useState } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { OrgUnitLevels } from "../../../../../../core/state/orgUnit";
 import { UserOrganisationUnit } from "../../../../../../core/state/user";
 import { OrgUnit } from "../../../../../../shared/interfaces/orgUnit";
@@ -12,7 +12,8 @@ import { InterventionDirtySelector } from "../../../../state/data";
 
 export default function OrgUnitLevelSelector(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
-  const [orgUnitLevel, setOrgUnitLevel] = useRecoilState<{ id: string; level?: number } | undefined>(
+  const { setValue, getValues } = useFormContext();
+  const orgUnitLevel = useRecoilValue<{ id: string; level?: number } | undefined>(
     InterventionDirtySelector({
       id,
       path: ["orgUnitSelection", "subLevel"],
@@ -47,7 +48,8 @@ export default function OrgUnitLevelSelector(): React.ReactElement {
         onChange={({ checked }: { checked: boolean }) => {
           setCustomSubUnitLevel(checked);
           if (!checked) {
-            setOrgUnitLevel(undefined);
+            const orgUnitSelection = getValues("orgUnitSelection");
+            setValue("orgUnitSelection", { ...orgUnitSelection, subLevel: undefined });
           }
         }}
         checked={customSubUnitLevel}
@@ -61,7 +63,7 @@ export default function OrgUnitLevelSelector(): React.ReactElement {
             name={field.name}
             error={fieldState.error}
             validationText={fieldState.error?.message}
-            selected={field.value?.subLevel?.id}
+            selected={!isEmpty(filteredLevels) && field.value?.subLevel?.id}
             loading={orgUnitLevelState.state === "loading"}
             disabled={!customSubUnitLevel || orgUnitLevelState.state !== "hasValue"}
             label={i18n.t("Sub level analysis level")}

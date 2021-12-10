@@ -2,7 +2,8 @@ import { Period, PeriodInterface, PeriodType } from "@iapps/period-utilities";
 import { filter, head, isEmpty } from "lodash";
 import React, { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilRefresher_UNSTABLE, useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { SystemSettingsState } from "../../../../../../../core/state/system";
 import { OrgUnit } from "../../../../../../../shared/interfaces/orgUnit";
 import { InterventionState } from "../../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../../state/selections";
@@ -20,6 +21,7 @@ export default function useFilter(): {
   onOrgUnitSelect: ({ orgUnits }: any) => void;
 } {
   const { id } = useParams<{ id: string }>();
+  const { calendar } = useRecoilValue(SystemSettingsState);
   const setFilterActiveState = useSetRecoilState(ActiveFilters(id));
   const [periodSelectorOpen, setPeriodSelectorOpen] = React.useState(false);
   const [orgUnitSelectorOpen, setOrgUnitSelectorOpen] = React.useState(false);
@@ -34,10 +36,10 @@ export default function useFilter(): {
   }, [periodSelection?.type]);
   const selectedPeriod = useMemo(() => {
     if (periodSelection) {
-      return new Period().setPreferences({ allowFuturePeriods: true })?.getById(periodSelection?.id);
+      return new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true })?.getById(periodSelection?.id);
     }
-    return new Period().setPreferences({ allowFuturePeriods: true });
-  }, [periodSelection]);
+    return new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true });
+  }, [calendar, periodSelection]);
 
   const onPeriodSelect = (periods: Array<PeriodInterface>) => {
     const selectedPeriod = head(periods);

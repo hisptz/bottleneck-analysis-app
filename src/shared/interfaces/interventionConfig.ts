@@ -63,7 +63,6 @@ export interface InterventionConfig {
   userGroupAccess: Array<Access>;
   dataSelection: DataSelection;
   periodSelection: PeriodSelection;
-  periodType: string;
   orgUnitSelection: OrgUnitSelection;
 }
 

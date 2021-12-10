@@ -1,6 +1,7 @@
 import { Period, PeriodInterface } from "@iapps/period-utilities";
 import { isEmpty } from "lodash";
 import { atomFamily, selectorFamily } from "recoil";
+import { SystemSettingsState } from "../../../../../core/state/system";
 import { DataItem, Group, InterventionConfig, Legend } from "../../../../../shared/interfaces/interventionConfig";
 import { TableLayout as Layout } from "../../../../../shared/interfaces/layout";
 import { InterventionState } from "../../../state/intervention";
@@ -30,11 +31,13 @@ function assignValuesToLayout(
     intervention,
     data,
     period,
+    calendar,
   }: {
     layout: Layout;
     intervention: InterventionConfig;
     data: any;
     period?: PeriodInterface;
+    calendar: string;
   }
 ) {
   const dimensions = layout[type];
@@ -64,7 +67,7 @@ function assignValuesToLayout(
           },
         ];
       }
-      const currentPeriod = new Period().setPreferences({ allowFuturePeriods: true }).getById(`${new Date().getFullYear()}`);
+      const currentPeriod = new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true }).getById(`${new Date().getFullYear()}`);
       return {
         id: currentPeriod.id,
         name: currentPeriod.name,
@@ -114,13 +117,14 @@ export const TableConfig = selectorFamily<TableConfigType, string>({
   get:
     (id: string) =>
     ({ get }): TableConfigType => {
+      const { calendar } = get(SystemSettingsState);
       const layout = get(TableLayout(id));
       const data = get(SubLevelAnalyticsData(id));
       const intervention: InterventionConfig = get(InterventionState(id));
       const period = get(InterventionPeriodState(id));
-      const filter = assignValuesToLayout("filter", { layout, intervention, data, period });
-      const columns = assignValuesToLayout("columns", { layout, intervention, data, period });
-      const rows = assignValuesToLayout("rows", { layout, intervention, data, period });
+      const filter = assignValuesToLayout("filter", { layout, intervention, data, period, calendar });
+      const columns = assignValuesToLayout("columns", { layout, intervention, data, period, calendar });
+      const rows = assignValuesToLayout("rows", { layout, intervention, data, period, calendar });
       const dataValues = data.rows;
 
       const width = getTableWidth(columns);

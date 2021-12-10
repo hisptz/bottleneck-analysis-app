@@ -1,22 +1,24 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, IconDelete24 } from "@dhis2/ui";
+import { Period } from "@iapps/period-utilities";
 import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import "./index.css";
 import { useRecoilValue } from "recoil";
 import { OrgUnit } from "../../../../../core/state/orgUnit";
+import { SystemSettingsState } from "../../../../../core/state/system";
 import { OrgUnit as OrgUnitType } from "../../../../../shared/interfaces/orgUnit";
 import { Archive } from "../../../state/data";
-import { Period } from "@iapps/period-utilities";
 import DeleteConfirmModal from "../../ArchiveMenuCell/components/DeleteConfirmModal";
 
 export default function IndividualArchiveHeader(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const archive = useRecoilValue(Archive(id));
+  const { calendar } = useRecoilValue(SystemSettingsState);
   const { config, period: periodId, orgUnit: orgUnitId } = archive ?? {};
   const [deleteOpen, setDeleteOpen] = useState(false);
   const orgUnit: OrgUnitType = useRecoilValue(OrgUnit(orgUnitId));
-  const period = new Period().getById(periodId);
+  const period = new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true }).getById(periodId);
   const history = useHistory();
   return (
     <div className="archive-header w-100 row space-between p-16 align-center">

@@ -5,8 +5,9 @@ import "./LegendDefinitionConfig.css";
 import { useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { InterventionDirtySelector } from "../../../../state/data";
+import { cloneDeep } from "lodash";
 
-export function LegendDefinitionConfigDetails() {
+export function LegendDefinitionConfigDetails(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const [legendDefinitions, setLegendDefinitions] = useRecoilState(
     InterventionDirtySelector({
@@ -17,8 +18,8 @@ export function LegendDefinitionConfigDetails() {
 
   const onChange = (index: number, value: any) => {
     setLegendDefinitions((prevState: any) => {
-      const newState = [...prevState];
-      newState[index].value = value;
+      const newState = cloneDeep(prevState);
+      newState[index] = value;
       return newState;
     });
   };
@@ -30,7 +31,7 @@ export function LegendDefinitionConfigDetails() {
           <CustomInput
             key={`${legendDefinition.name}-legendDefinitionConfig`}
             input={{
-              onChange: ({ value }) => onChange(index, value),
+              onChange: (value) => onChange(index, value),
               value: legendDefinition,
               name: legendDefinition.name,
             }}

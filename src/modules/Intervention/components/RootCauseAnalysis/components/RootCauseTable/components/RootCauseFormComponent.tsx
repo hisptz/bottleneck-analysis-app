@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { EngineState } from "../../../../../../../core/state/dataEngine";
 import { CurrentInterventionSummary } from "../../../../../../../core/state/intervention";
+import { SystemSettingsState } from "../../../../../../../core/state/system";
 import { UserOrganisationUnit } from "../../../../../../../core/state/user";
 import { InterventionSummary } from "../../../../../../../shared/interfaces/interventionConfig";
 import { uid } from "../../../../../../../shared/utils/generators";
@@ -26,6 +27,7 @@ type RootCauseFormCProps = {
 
 export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hideModal, onSavingError, onCancelForm, rootCauseData }: RootCauseFormCProps) {
   const { id: interventionId } = useParams<{ id: string }>();
+  const { calendar } = useRecoilValue(SystemSettingsState);
   const { dataElements } = useRecoilValue(RootCauseConfig);
 
   const intervention: InterventionSummary | undefined = useRecoilValue(CurrentInterventionSummary(interventionId));
@@ -46,7 +48,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
       path: ["periodSelection"],
     })
   );
-  const { id: periodId, name: period } = new Period()?.setPreferences({ allowFuturePeriods: true }).getById(periodSelection?.id);
+  const { id: periodId, name: period } = new Period().setCalendar(calendar)?.setPreferences({ allowFuturePeriods: true }).getById(periodSelection?.id);
 
   const orgUnitSelection = useRecoilValue(
     InterventionStateSelector({
@@ -54,7 +56,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
       path: ["orgUnitSelection", "orgUnit"],
     })
   );
-  const { id, displayName } = useRecoilValue(UserOrganisationUnit);
+  const { id, displayName } = useRecoilValue(UserOrganisationUnit) ?? {};
   const orgUnitId = orgUnitSelection.type === "USER_ORGANISATION_UNIT" ? id : orgUnitSelection.id;
   const orgUnitName = orgUnitSelection.type === "USER_ORGANISATION_UNIT" ? displayName : orgUnitSelection.id;
 

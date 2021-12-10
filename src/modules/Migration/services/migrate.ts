@@ -89,13 +89,13 @@ function convertOrgUnit(orgUnitConfig?: GlobalSelection): OrgUnitSelection {
   };
 }
 
-function convertPeriod(periodConfig?: GlobalSelection): PeriodSelection {
+function convertPeriod(periodType: string, periodConfig?: GlobalSelection): PeriodSelection {
   if (periodConfig) {
     const oldPeriod = periodConfig.items[0];
 
     return {
-      id: oldPeriod.id,
-      type: oldPeriod.type ?? "Yearly",
+      id: oldPeriod?.id,
+      type: periodType,
     };
   }
   return {
@@ -122,11 +122,10 @@ export function convertIntervention(config: OldInterventionConfig): Intervention
       access: userGroupAccess.access,
     })),
     externalAccess,
-    periodType: bottleneckPeriodType,
     publicAccess,
     dataSelection: convertData(dataConfig),
     orgUnitSelection: convertOrgUnit(orgUnitConfig),
-    periodSelection: convertPeriod(periodConfig),
+    periodSelection: convertPeriod(bottleneckPeriodType, periodConfig),
   };
 }
 

@@ -1,15 +1,14 @@
 import i18n from "@dhis2/d2-i18n";
-import { InputField, SingleSelectField, SingleSelectOption, TextAreaField } from "@dhis2/ui";
-import { PeriodType } from "@iapps/period-utilities";
+import { InputField, TextAreaField } from "@dhis2/ui";
 import { filter, find } from "lodash";
-import React, { useMemo } from "react";
+import React from "react";
 import "./InterventionConfigDetails.css";
 import { Controller, useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { InterventionSummary } from "../../../../../../core/state/intervention";
-import classes from "../../../../General.module.css";
 import OrgUnitLevelSelector from "../OrgUnitLevelSelector";
+import PeriodSelector from "../PeriodSelector";
 
 export default function InterventionConfigDetails(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
@@ -17,17 +16,6 @@ export default function InterventionConfigDetails(): React.ReactElement {
 
   const summaries = useRecoilValue(InterventionSummary);
   const filteredSummaries = filter(summaries, (summary) => summary.id !== id);
-
-  const periodTypes = useMemo(() => {
-    const periodTypes = new PeriodType().get();
-    const relativePeriodTypes = filter(periodTypes, (type) => type.name.includes("Relative"));
-    const fixedPeriodTypes = filter(periodTypes, (type) => !type.name.includes("Relative"));
-
-    return {
-      relative: relativePeriodTypes,
-      fixed: fixedPeriodTypes,
-    };
-  }, []);
 
   return (
     <div className="interventionConfig">
@@ -73,29 +61,7 @@ export default function InterventionConfigDetails(): React.ReactElement {
         )}
         name={"description"}
       />
-      <Controller
-        render={({ field, fieldState }) => (
-          <SingleSelectField
-            error={fieldState.error}
-            validationText={fieldState.error?.message}
-            filterable
-            dataTest={"periodType-selection-menu"}
-            selected={field.value}
-            name={field.name}
-            label={i18n.t("Bottleneck Period Type")}
-            onChange={({ selected }: { selected: string }) => field.onChange(selected)}>
-            <SingleSelectOption className={classes["single-select-header"]} disabled label={i18n.t("Fixed Periods")} />
-            {periodTypes?.fixed?.map(({ id, name }: { id: string; name: string }) => (
-              <SingleSelectOption dataTest={"periodType-selection-menu-item"} key={`${id}-option`} value={id} label={`${name}`} />
-            ))}
-            <SingleSelectOption className={classes["single-select-header"]} disabled label={i18n.t("Relative Periods")} />
-            {periodTypes?.relative?.map(({ id, name }: { id: string; name: string }) => (
-              <SingleSelectOption dataTest={"periodType-selection-menu-item"} key={`${id}-option`} value={id} label={`${name}`} />
-            ))}
-          </SingleSelectField>
-        )}
-        name={"periodType"}
-      />
+      <Controller render={({ field, fieldState }) => <PeriodSelector field={field} fieldState={fieldState} />} name={"periodSelection"} />
       <OrgUnitLevelSelector />
     </div>
   );

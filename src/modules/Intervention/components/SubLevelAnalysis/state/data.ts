@@ -5,7 +5,8 @@ import { EngineState } from "../../../../../core/state/dataEngine";
 import { getSubLevelAnalytics } from "../../../../../shared/services/analytics";
 import { isArchiveId } from "../../../../../shared/utils/archives";
 import { Archive } from "../../../../Archives/state/data";
-import { DataItems, Period, SubLevelOrgUnit } from "./dimensions";
+import { InterventionPeriodState } from "../../../state/selections";
+import { DataItems, SubLevelOrgUnit } from "./dimensions";
 
 export const SubLevelAnalyticsData = selectorFamily({
   key: "analytics-data",
@@ -18,7 +19,7 @@ export const SubLevelAnalyticsData = selectorFamily({
       }
       const engine = get(EngineState);
       const dataItems = get(DataItems(id));
-      const period = get(Period(id));
+      const period = get(InterventionPeriodState(id))?.id;
       const orgUnit = get(SubLevelOrgUnit(id));
 
       if (isEmpty(dataItems)) {
