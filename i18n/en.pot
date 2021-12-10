@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-09T09:27:03.909Z\n"
-"PO-Revision-Date: 2021-12-09T09:27:03.909Z\n"
+"POT-Creation-Date: 2021-12-10T07:53:59.293Z\n"
+"PO-Revision-Date: 2021-12-10T07:53:59.293Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -16,6 +16,57 @@ msgstr "View Only"
 
 msgid "View and Edit"
 msgstr "View and Edit"
+
+msgid "Back to archives"
+msgstr "Back to archives"
+
+msgid "Refresh"
+msgstr "Refresh"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "You are currently viewing an archived intervention"
+msgstr "You are currently viewing an archived intervention"
+
+msgid "Data shown is based on archive of "
+msgstr "Data shown is based on archive of "
+
+msgid "for"
+msgstr "for"
+
+msgid "organisation unit"
+msgstr "organisation unit"
+
+msgid "and"
+msgstr "and"
+
+msgid "period"
+msgstr "period"
+
+msgid "Go to live"
+msgstr "Go to live"
+
+msgid "Back to Intervention"
+msgstr "Back to Intervention"
+
+msgid "Intervention"
+msgstr "Intervention"
+
+msgid "Organisation Unit"
+msgstr "Organisation Unit"
+
+msgid "Period"
+msgstr "Period"
+
+msgid "Date Archived"
+msgstr "Date Archived"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "View"
+msgstr "View"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -47,26 +98,51 @@ msgstr "There are no indicators configured for this intervention"
 msgid "There are no organisation units or periods configured for this intervention"
 msgstr "There are no organisation units or periods configured for this intervention"
 
-msgid "Back to Intervention"
-msgstr "Back to Intervention"
-
 msgid "View in Full Screen"
 msgstr "View in Full Screen"
 
 msgid "No description provided"
 msgstr "No description provided"
 
-msgid "Period"
-msgstr "Period"
-
-msgid "Organisation Unit"
-msgstr "Organisation Unit"
-
 msgid "Clear Filter"
 msgstr "Clear Filter"
 
-msgid "Clear Filters"
-msgstr "Clear Filters"
+msgid "Intervention successfully archived"
+msgstr "Intervention successfully archived"
+
+msgid "Archive intervention"
+msgstr "Archive intervention"
+
+msgid "Archiving the intervention"
+msgstr "Archiving the intervention"
+
+msgid "for the organisation unit"
+msgstr "for the organisation unit"
+
+msgid "and period"
+msgstr "and period"
+
+msgid "Archive Exists"
+msgstr "Archive Exists"
+
+msgid ""
+"An archive with the same configuration, period and organisation unit "
+"already exists. Proceeding will overwrite the existing archive."
+msgstr ""
+"An archive with the same configuration, period and organisation unit "
+"already exists. Proceeding will overwrite the existing archive."
+
+msgid "Remarks"
+msgstr "Remarks"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Archiving..."
+msgstr "Archiving..."
+
+msgid "Archive"
+msgstr "Archive"
 
 msgid "An error occurred while adding/removing bookmark"
 msgstr "An error occurred while adding/removing bookmark"
@@ -92,9 +168,6 @@ msgstr "Show"
 msgid "Add Filter"
 msgstr "Add Filter"
 
-msgid "Archive"
-msgstr "Archive"
-
 msgid "Configure"
 msgstr "Configure"
 
@@ -112,9 +185,6 @@ msgstr "Select the intervention you want to clone"
 
 msgid "Name of the new intervention"
 msgstr "Name of the new intervention"
-
-msgid "Cancel"
-msgstr "Cancel"
 
 msgid "Cloning..."
 msgstr "Cloning..."
@@ -139,9 +209,6 @@ msgstr "View Archives"
 
 msgid "Edit"
 msgstr "Edit"
-
-msgid "Delete"
-msgstr "Delete"
 
 msgid "Root Cause form"
 msgstr "Root Cause form"
@@ -172,9 +239,6 @@ msgstr "Delete Root Cause"
 
 msgid "Are you sure you want to delete this root cause?"
 msgstr "Are you sure you want to delete this root cause?"
-
-msgid "Intervention"
-msgstr "Intervention"
 
 msgid "Possible Root Cause"
 msgstr "Possible Root Cause"

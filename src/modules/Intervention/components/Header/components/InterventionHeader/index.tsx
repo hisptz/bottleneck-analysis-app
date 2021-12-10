@@ -1,5 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, colors, DropdownButton, IconFilter24, IconInfo24, IconInfoFilled24, IconStar24, IconStarFilled24, Tooltip } from "@dhis2/ui";
+import { OrgUnitSelectorModal, PeriodSelectorModal } from "@hisptz/react-ui";
 import { IconButton } from "@material-ui/core";
 import React, { useState } from "react";
 import "./intervention-header.css";
@@ -8,8 +9,10 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentInterventionSummary } from "../../../../../../core/state/intervention";
 import { InterventionDetailsState } from "../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../state/selections";
+import ArchiveModal from "./components/ArchiveModal";
 import FilterMenu from "./components/FilterMenu";
 import useBookmark from "./hooks/bookmark";
+import useFilter from "./hooks/filter";
 
 export default function InterventionHeader(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +24,19 @@ export default function InterventionHeader(): React.ReactElement {
   const [showDetails, setShowDetails] = useRecoilState(InterventionDetailsState(id));
   const [openFilterMenu, setOpenFilterMenu] = useState<boolean>(false);
   const history = useHistory();
+  const [archiveModalOpen, setArchiveModalOpen] = useState(false);
+
+  const {
+    selectedPeriod,
+    excludedPeriodTypes,
+    periodSelectorOpen,
+    setPeriodSelectorOpen,
+    orgUnitSelectorOpen,
+    setOrgUnitSelectorOpen,
+    onPeriodSelect,
+    onOrgUnitSelect,
+    orgUnitSelection,
+  } = useFilter();
 
   function onToInterventionConfiguration() {
     history.push(`/${id}/configuration`);
@@ -47,17 +63,43 @@ export default function InterventionHeader(): React.ReactElement {
             onClick={() => {
               setOpenFilterMenu(true);
             }}
-            component={<FilterMenu onClose={() => setOpenFilterMenu(false)} />}
+            component={
+              <FilterMenu
+                onPeriodSelect={() => setPeriodSelectorOpen(true)}
+                onOrgUnitSelect={() => setOrgUnitSelectorOpen(true)}
+                onClose={() => setOpenFilterMenu(false)}
+              />
+            }
             icon={<IconFilter24 />}>
             {i18n.t("Add Filter")}
           </DropdownButton>
+          {periodSelectorOpen && (
+            <PeriodSelectorModal
+              singleSelection
+              selectedPeriods={[selectedPeriod] as unknown as any}
+              excludedPeriodTypes={excludedPeriodTypes}
+              onClose={() => setPeriodSelectorOpen(false)}
+              hide={!periodSelectorOpen}
+              onUpdate={onPeriodSelect}
+            />
+          )}
+          {orgUnitSelectorOpen && (
+            <OrgUnitSelectorModal
+              value={{ orgUnits: [orgUnitSelection] }}
+              singleSelection
+              onClose={() => setOrgUnitSelectorOpen(false)}
+              hide={!orgUnitSelectorOpen}
+              onUpdate={onOrgUnitSelect}
+            />
+          )}
         </div>
       </div>
       <div className="column">
         <ButtonStrip>
-          <Button>{i18n.t("Archive")}</Button>
+          <Button onClick={() => setArchiveModalOpen(true)}>{i18n.t("Archive")}</Button>
           <Button onClick={onToInterventionConfiguration}>{i18n.t("Configure")}</Button>
         </ButtonStrip>
+        {archiveModalOpen && <ArchiveModal hide={!archiveModalOpen} onClose={() => setArchiveModalOpen(false)} />}
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import { EngineState } from "../../../core/state/dataEngine";
 import { InterventionTemplateConfig } from "../../../shared/interfaces/interventionTemplateConfig";
 import { getIntervention } from "../../../shared/services/getInterventions";
 import getInterventionTemplates from "../../../shared/services/getInterventionTemplates";
+import { isArchiveId } from "../../../shared/utils/archives";
+import { Archive } from "../../Archives/state/data";
 
 export const InterventionTemplateState = atom<Array<InterventionTemplateConfig> | undefined | any>({
   key: "intervention-intervention-state",
@@ -24,6 +26,10 @@ export const InterventionState = selectorFamily({
   get:
     (id: string) =>
     async ({ get }) => {
+      if (isArchiveId(id)) {
+        const { config } = get(Archive(id)) ?? {};
+        return config;
+      }
       const engine = get(EngineState);
       return await getIntervention(engine, id);
     },

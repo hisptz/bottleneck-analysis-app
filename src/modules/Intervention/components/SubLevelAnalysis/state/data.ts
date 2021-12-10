@@ -3,6 +3,8 @@ import { isEmpty } from "lodash";
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { getSubLevelAnalytics } from "../../../../../shared/services/analytics";
+import { isArchiveId } from "../../../../../shared/utils/archives";
+import { Archive } from "../../../../Archives/state/data";
 import { DataItems, Period, SubLevelOrgUnit } from "./dimensions";
 
 export const SubLevelAnalyticsData = selectorFamily({
@@ -10,6 +12,10 @@ export const SubLevelAnalyticsData = selectorFamily({
   get:
     (id: string) =>
     async ({ get }) => {
+      if (isArchiveId(id)) {
+        const { subLevelData } = get(Archive(id)) ?? {};
+        return subLevelData;
+      }
       const engine = get(EngineState);
       const dataItems = get(DataItems(id));
       const period = get(Period(id));

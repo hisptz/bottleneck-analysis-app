@@ -1,4 +1,5 @@
 import { DataStoreProvider } from "@dhis2/app-service-datastore";
+import { CssReset } from "@dhis2/ui";
 import React, { Suspense } from "react";
 import "./App.css";
 import "./styles/spacing.css";
@@ -12,6 +13,7 @@ import InitialAppLoader from "./shared/components/loaders/InitialAppLoader";
 const MyApp = (): React.ReactElement => {
   return (
     <DataStoreProvider namespace={BNA_NAMESPACE} loadingComponent={<InitialAppLoader />}>
+      <CssReset />
       <RecoilRoot>
         <Suspense fallback={<InitialAppLoader />}>
           <Router />

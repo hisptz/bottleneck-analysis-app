@@ -120,6 +120,8 @@ dist
 locales
 
 cypress.env.json
+cypress/screenshots
+
 /build/
 
 .idea/workspace.xml
