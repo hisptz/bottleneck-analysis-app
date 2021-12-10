@@ -1,7 +1,19 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, colors, DropdownButton, IconFilter24, IconInfo24, IconInfoFilled24, IconStar24, IconStarFilled24, Tooltip } from "@dhis2/ui";
+import {
+  Button,
+  ButtonStrip,
+  colors,
+  DropdownButton,
+  IconFilter24,
+  IconInfo24,
+  IconInfoFilled24,
+  IconStar24,
+  IconStarFilled24,
+  IconQuestion16,
+  Tooltip,
+} from "@dhis2/ui";
 import { IconButton } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./intervention-header.css";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -9,10 +21,13 @@ import { CurrentInterventionSummary } from "../../../../../../core/state/interve
 import { InterventionDetailsState } from "../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../state/selections";
 import FilterMenu from "./components/FilterMenu";
+import HelperMenu from "./components/HelperMenu";
 import useBookmark from "./hooks/bookmark";
 
 export default function InterventionHeader(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [stateActionRef, setStateActionRef] = useState<any>();
   const intervention = useRecoilValue(CurrentInterventionSummary(id));
   const period = useRecoilValue(InterventionPeriodState(id));
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
@@ -20,6 +35,7 @@ export default function InterventionHeader(): React.ReactElement {
   const { name } = intervention ?? {};
   const [showDetails, setShowDetails] = useRecoilState(InterventionDetailsState(id));
   const [openFilterMenu, setOpenFilterMenu] = useState<boolean>(false);
+  const [openHelperMenu, setOpenHelperMenu] = useState<boolean>(false);
   const history = useHistory();
 
   function onToInterventionConfiguration() {
@@ -55,6 +71,15 @@ export default function InterventionHeader(): React.ReactElement {
       </div>
       <div className="column">
         <ButtonStrip>
+          <DropdownButton
+            open={openHelperMenu}
+            onClick={() => {
+              setOpenHelperMenu(!openHelperMenu);
+            }}
+            component={<HelperMenu onClose={() => setOpenHelperMenu(false)} />}
+            icon={<IconQuestion16 color="#212529" />}>
+            {i18n.t("Help")}
+          </DropdownButton>
           <Button>{i18n.t("Archive")}</Button>
           <Button onClick={onToInterventionConfiguration}>{i18n.t("Configure")}</Button>
         </ButtonStrip>

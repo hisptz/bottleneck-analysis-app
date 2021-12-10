@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-09T09:27:03.909Z\n"
-"PO-Revision-Date: 2021-12-09T09:27:03.909Z\n"
+"POT-Creation-Date: 2021-12-10T10:43:07.588Z\n"
+"PO-Revision-Date: 2021-12-10T10:43:07.588Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -16,6 +16,33 @@ msgstr "View Only"
 
 msgid "View and Edit"
 msgstr "View and Edit"
+
+msgid "Welcome to Bottleneck Analysis App (BNA)"
+msgstr "Welcome to Bottleneck Analysis App (BNA)"
+
+msgid ""
+"BNA is a structured analysis of the determinants of coverage for a wide "
+"range of interventions delivered through the health sector, useful to "
+"supporting targeted operational planning"
+msgstr ""
+"BNA is a structured analysis of the determinants of coverage for a wide "
+"range of interventions delivered through the health sector, useful to "
+"supporting targeted operational planning"
+
+msgid "This is the list of Interventions in the system"
+msgstr "This is the list of Interventions in the system"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "Previous"
+msgstr "Previous"
+
+msgid "Skip"
+msgstr "Skip"
+
+msgid "Done"
+msgstr "Done"
 
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
@@ -68,6 +95,12 @@ msgstr "Clear Filter"
 msgid "Clear Filters"
 msgstr "Clear Filters"
 
+msgid "Take a Tour"
+msgstr "Take a Tour"
+
+msgid "User Manual"
+msgstr "User Manual"
+
 msgid "An error occurred while adding/removing bookmark"
 msgstr "An error occurred while adding/removing bookmark"
 
@@ -91,6 +124,9 @@ msgstr "Show"
 
 msgid "Add Filter"
 msgstr "Add Filter"
+
+msgid "Help"
+msgstr "Help"
 
 msgid "Archive"
 msgstr "Archive"

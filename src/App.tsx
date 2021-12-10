@@ -1,5 +1,7 @@
 import { DataStoreProvider } from "@dhis2/app-service-datastore";
 import React, { Suspense } from "react";
+import "intro.js/introjs.css";
+import "./intro-dhis2.css";
 import "./App.css";
 import "./styles/spacing.css";
 import "./styles/layout.css";

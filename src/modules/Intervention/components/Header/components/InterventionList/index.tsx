@@ -1,12 +1,14 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, IconChevronDown24, IconChevronUp24 } from "@dhis2/ui";
 import { IconButton } from "@material-ui/core";
+import { Steps } from "intro.js-react";
 import { head } from "lodash";
 import React, { useState } from "react";
 import "./intervention-list.css";
 import { useHistory, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { InterventionSummary as InterventionSummaryType } from "../../../../../../shared/interfaces/interventionConfig";
+
 import AddButton from "./components/AddButton";
 import InterventionChips from "./components/InterventionChips";
 import Search from "./components/Search";
@@ -21,6 +23,9 @@ export default function InterventionList(): React.ReactElement {
   const firstIntervention: InterventionSummaryType | undefined = head(interventions);
   const history = useHistory();
 
+  const onHelpExit = () => {
+    // setHelpEnabled(false);
+  };
   function onToArchivesList() {
     history.push("/" + firstIntervention?.id + "/archives");
   }
