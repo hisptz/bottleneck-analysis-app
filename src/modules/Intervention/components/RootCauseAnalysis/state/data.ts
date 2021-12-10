@@ -3,6 +3,8 @@ import { atom, selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { UserOrganisationUnit } from "../../../../../core/state/user";
 import { PeriodSelection } from "../../../../../shared/interfaces/interventionConfig";
+import { isArchiveId } from "../../../../../shared/utils/archives";
+import { Archive } from "../../../../Archives/state/data";
 import { InterventionStateSelector } from "../../../state/intervention";
 import { getRootCausesData } from "../services/data";
 
@@ -16,6 +18,11 @@ export const RootCauseData = selectorFamily({
   get:
     (id: string) =>
     async ({ get }) => {
+      if (isArchiveId(id)) {
+        const { rootCauseData } = get(Archive(id)) ?? {};
+        return rootCauseData;
+      }
+
       const engine = get(EngineState);
       get(RootCauseDataRequestId);
       const periodSelection: PeriodSelection = get(

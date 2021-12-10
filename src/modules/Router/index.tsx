@@ -21,11 +21,11 @@ const routes = [
     component: Migration,
   },
   {
-    pathname: "/:id/archives",
+    pathname: "/archives",
     component: Archive,
   },
   {
-    pathname: "/:id/archives/:archiveId",
+    pathname: "/archives/:id",
     component: InterventionArchive,
   },
   {

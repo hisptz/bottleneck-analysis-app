@@ -1,34 +1,37 @@
-import { IconInfo24 } from "@dhis2/ui";
+import i18n from "@dhis2/d2-i18n";
+import { NoticeBox } from "@dhis2/ui";
+import { Period } from "@iapps/period-utilities";
 import React from "react";
 import "./index.css";
+import { useHistory, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { OrgUnit } from "../../../../../core/state/orgUnit";
+import { Archive } from "../../../state/data";
 
-export default function IndividualArchiveHeaderInfoSummary() {
+export default function IndividualArchiveHeaderInfoSummary(): React.ReactElement {
+  const { id } = useParams<{ id: string }>();
+  const history = useHistory();
+  const { config, orgUnit: orgUnitId, period: periodId } = useRecoilValue(Archive(id));
+  const orgUnit = useRecoilValue(OrgUnit(orgUnitId));
+  const period = new Period().setPreferences({ allowFuturePeriods: true }).getById(periodId);
+
+  const onLiveLinkClick = () => {
+    history.push(`/interventions/${config?.id}`);
+  };
+
   return (
-    <div className="archive-intervention-info">
-      <IconInfo24 />
-      <div className="archive-info-summary">
-        <p
-          style={{
-            fontSize: "13px",
-            fontWeight: "bold",
-            marginTop: "0.8%",
-          }}
-        >
-          You are current viewing archived intervention
-        </p>
-        <p>
-          Data shown is based on archive of 04 Aug 2020 for Focused ANC Coverage from Animal Region on 2019 . You can still view latest snapshot of this
-          intervention
-        </p>
-        <p
-          style={{
-            fontSize: "13px",
-            textDecoration: "underline",
-          }}
-        >
-          Go to live Focus ANC Coverage Intervention
-        </p>
-      </div>
+    <div className="w-100">
+      <NoticeBox title={i18n.t("You are currently viewing an archived intervention")}>
+        <div style={{ gap: 8 }} className="column ">
+          <span>
+            {i18n.t("Data shown is based on archive of ")}
+            <strong>{config.name}</strong>
+            {` ${i18n.t("for")} ${i18n.t("organisation unit")} `} <strong>{orgUnit?.displayName}</strong> {` ${i18n.t("and")} ${i18n.t("period")} `}{" "}
+            <strong>{period.name}</strong>.
+          </span>
+          <span onClick={onLiveLinkClick} className="notice-box-link">{`${i18n.t("Go to live")} ${config.name}`}</span>
+        </div>
+      </NoticeBox>
     </div>
   );
 }

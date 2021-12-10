@@ -10,6 +10,7 @@ import { InterventionStateSelector } from "../../state/intervention";
 import { InterventionOrgUnitState } from "../../state/selections";
 import InterventionCard from "../Card";
 import Chart from "./components";
+import ChartLabelComponent from "./components/ChartLabelComponent";
 import { ChartData } from "./state/data";
 
 export default function AnalysisChart(): React.ReactElement {
@@ -61,7 +62,7 @@ export default function AnalysisChart(): React.ReactElement {
         </div>
       }>
       <Chart chartRef={chartRef} />
-      {/*<ChartLabelComponent />*/}
+      <ChartLabelComponent />
     </InterventionCard>
   );
 }

@@ -12,25 +12,23 @@ export default function FilterMenu({
   onOrgUnitSelect: () => void;
 }): React.ReactElement {
   return (
-    <>
-      <FlyoutMenu>
-        <MenuItem
-          onClick={() => {
-            onPeriodSelect();
-            onClose();
-          }}
-          icon={<IconClock24 />}
-          label={i18n.t("Period")}
-        />
-        <MenuItem
-          onClick={() => {
-            onOrgUnitSelect();
-            onClose();
-          }}
-          icon={<IconDimensionOrgUnit16 />}
-          label={i18n.t("Organisation Unit")}
-        />
-      </FlyoutMenu>
-    </>
+    <FlyoutMenu>
+      <MenuItem
+        onClick={() => {
+          onPeriodSelect();
+          onClose();
+        }}
+        icon={<IconClock24 />}
+        label={i18n.t("Period")}
+      />
+      <MenuItem
+        onClick={() => {
+          onOrgUnitSelect();
+          onClose();
+        }}
+        icon={<IconDimensionOrgUnit16 />}
+        label={i18n.t("Organisation Unit")}
+      />
+    </FlyoutMenu>
   );
 }

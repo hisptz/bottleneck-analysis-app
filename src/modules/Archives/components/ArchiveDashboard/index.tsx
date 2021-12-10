@@ -6,12 +6,12 @@ import "./ArchiveIntervention.css";
 import IndividualArchiveHeader from "./Individual-Archive-Header";
 import IndividualArchiveHeaderInfoSummary from "./Individual-Archive-Header-info-Summary";
 
-export default function InterventionArchive() {
+export default function InterventionArchive(): React.ReactElement {
   return (
     <div className="main-container">
       <IndividualArchiveHeader />
-      <IndividualArchiveHeaderInfoSummary />
       <div className="cards">
+        <IndividualArchiveHeaderInfoSummary />
         <AnalysisChart />
         <SubLevelAnalysis />
         <RootCauseAnalysis />

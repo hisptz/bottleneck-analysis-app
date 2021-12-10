@@ -29,6 +29,11 @@ body {
     outline: 0.5px solid #E8EDF2;
 }
 
+.notice-box-link{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 
 
 
