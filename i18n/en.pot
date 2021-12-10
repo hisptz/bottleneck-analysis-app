@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-10T09:37:12.027Z\n"
-"PO-Revision-Date: 2021-12-10T09:37:12.027Z\n"
+"POT-Creation-Date: 2021-12-10T14:29:57.124Z\n"
+"PO-Revision-Date: 2021-12-10T14:29:57.124Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -553,6 +553,15 @@ msgstr "Intervention Name"
 msgid "Enter a description"
 msgstr "Enter a description"
 
+msgid "Sub level analysis notice"
+msgstr "Sub level analysis notice"
+
+msgid "Set specific level for sub level analysis"
+msgstr "Set specific level for sub level analysis"
+
+msgid "Sub level analysis level"
+msgstr "Sub level analysis level"
+
 msgid "Bottleneck Period Type"
 msgstr "Bottleneck Period Type"
 
@@ -562,14 +571,8 @@ msgstr "Fixed Periods"
 msgid "Relative Periods"
 msgstr "Relative Periods"
 
-msgid "Sub level analysis notice"
-msgstr "Sub level analysis notice"
-
-msgid "Set specific level for sub level analysis"
-msgstr "Set specific level for sub level analysis"
-
-msgid "Sub level analysis level"
-msgstr "Sub level analysis level"
+msgid "Select Period"
+msgstr "Select Period"
 
 msgid "Intervention created successfully"
 msgstr "Intervention created successfully"
