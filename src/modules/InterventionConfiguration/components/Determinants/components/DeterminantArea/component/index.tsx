@@ -66,12 +66,12 @@ export default function GroupDeterminantComponent(): React.ReactElement {
           <>
             <Button
               icon={<IconAdd24 />}
+              dataTest={"add-indicator-button"}
               onClick={() => {
                 setSelectedGroupIndex(groupIndex);
                 setIndicatorSelectorHide(false);
               }}
-              className="add-button"
-            >
+              className="add-button">
               {i18n.t("Add Indicator")}
             </Button>
           </>
