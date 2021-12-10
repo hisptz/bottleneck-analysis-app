@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-10T09:37:12.027Z\n"
-"PO-Revision-Date: 2021-12-10T09:37:12.027Z\n"
+"POT-Creation-Date: 2021-12-10T14:37:52.091Z\n"
+"PO-Revision-Date: 2021-12-10T14:37:52.091Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -16,6 +16,40 @@ msgstr "View Only"
 
 msgid "View and Edit"
 msgstr "View and Edit"
+
+msgid "Welcome to Bottleneck Analysis App (BNA)"
+msgstr "Welcome to Bottleneck Analysis App (BNA)"
+
+msgid ""
+"BNA is a structured analysis of the determinants of coverage for a wide "
+"range of interventions delivered through the health sector, useful to "
+"supporting targeted operational planning"
+msgstr ""
+"BNA is a structured analysis of the determinants of coverage for a wide "
+"range of interventions delivered through the health sector, useful to "
+"supporting targeted operational planning"
+
+msgid "This is the list of Interventions in the system"
+msgstr "This is the list of Interventions in the system"
+
+msgid ""
+"Here is where you can add a new intervention or clone from an existing one "
+",also you can access your intervention of interests through searching intput"
+msgstr ""
+"Here is where you can add a new intervention or clone from an existing one "
+",also you can access your intervention of interests through searching intput"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "Previous"
+msgstr "Previous"
+
+msgid "Skip"
+msgstr "Skip"
+
+msgid "Done"
+msgstr "Done"
 
 msgid "Back to archives"
 msgstr "Back to archives"
@@ -159,6 +193,12 @@ msgstr "Archiving..."
 msgid "Archive"
 msgstr "Archive"
 
+msgid "Take a Tour"
+msgstr "Take a Tour"
+
+msgid "User Manual"
+msgstr "User Manual"
+
 msgid "An error occurred while adding/removing bookmark"
 msgstr "An error occurred while adding/removing bookmark"
 
@@ -182,6 +222,9 @@ msgstr "Show"
 
 msgid "Add Filter"
 msgstr "Add Filter"
+
+msgid "Help"
+msgstr "Help"
 
 msgid "Configure"
 msgstr "Configure"
@@ -553,6 +596,15 @@ msgstr "Intervention Name"
 msgid "Enter a description"
 msgstr "Enter a description"
 
+msgid "Sub level analysis notice"
+msgstr "Sub level analysis notice"
+
+msgid "Set specific level for sub level analysis"
+msgstr "Set specific level for sub level analysis"
+
+msgid "Sub level analysis level"
+msgstr "Sub level analysis level"
+
 msgid "Bottleneck Period Type"
 msgstr "Bottleneck Period Type"
 
@@ -562,14 +614,8 @@ msgstr "Fixed Periods"
 msgid "Relative Periods"
 msgstr "Relative Periods"
 
-msgid "Sub level analysis notice"
-msgstr "Sub level analysis notice"
-
-msgid "Set specific level for sub level analysis"
-msgstr "Set specific level for sub level analysis"
-
-msgid "Sub level analysis level"
-msgstr "Sub level analysis level"
+msgid "Select Period"
+msgstr "Select Period"
 
 msgid "Intervention created successfully"
 msgstr "Intervention created successfully"

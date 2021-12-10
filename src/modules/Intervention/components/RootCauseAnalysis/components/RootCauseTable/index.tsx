@@ -90,7 +90,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
   }
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%" }} className="root-cause-widget-table">
       <DataTable className={classes["table"]} bordered>
         <RootCauseTableHeaderComponent columns={columns} />
         <TableBody>
@@ -103,8 +103,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
                       <RootCauseActionsProps
                         key={index}
                         onUpdateRootCause={() => onUpdateRootCause(rowIndex)}
-                        onDeleteRootCause={() => onDeleteRootCause(rowIndex)}
-                      ></RootCauseActionsProps>
+                        onDeleteRootCause={() => onDeleteRootCause(rowIndex)}></RootCauseActionsProps>
                     </DataTableCell>
                   );
                 }
@@ -121,7 +120,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
         <TableFoot>
           <DataTableRow>
             <DataTableCell align={"right"} colSpan={`${columns.length}`}>
-              <Button onClick={onUpdateRootCauseFormDisplayStatus}>{i18n.t("Add New")}</Button>
+              <Button className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>{i18n.t("Add New")}</Button>
             </DataTableCell>
           </DataTableRow>
         </TableFoot>
@@ -137,7 +136,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
             <Button disabled={rootCauseDeleteButton} onClick={onUpdateRootCauseDeleteStatus} secondary>
               Cancel
             </Button>
-            <Button disabled={rootCauseDeleteButton} onClick={onConfirmDeleteRootCause} destructive>
+            <Button className={"delete-root-cause"} disabled={rootCauseDeleteButton} onClick={onConfirmDeleteRootCause} destructive>
               {rootCauseDeleteButton ? "Deleting..." : "Delete"}
             </Button>
           </ButtonStrip>
@@ -152,8 +151,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
         }}
         onCancelForm={onCancelRootCauseForm}
         rootCauseData={selectedRootCauseData}
-        onSuccessfullySaveRootCause={onSaveRootCauseSuccessfully}
-      ></RootCauseFormComponent>
+        onSuccessfullySaveRootCause={onSaveRootCauseSuccessfully}></RootCauseFormComponent>
     </div>
   );
 }

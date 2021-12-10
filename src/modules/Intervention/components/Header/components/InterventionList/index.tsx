@@ -1,10 +1,14 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, IconChevronDown24, IconChevronUp24 } from "@dhis2/ui";
 import { IconButton } from "@material-ui/core";
+import { Steps } from "intro.js-react";
+import { head } from "lodash";
 import React, { useState } from "react";
 import "./intervention-list.css";
 import { useHistory, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { InterventionSummary as InterventionSummaryType } from "../../../../../../shared/interfaces/interventionConfig";
+
 import AddButton from "./components/AddButton";
 import InterventionChips from "./components/InterventionChips";
 import Search from "./components/Search";
@@ -29,8 +33,8 @@ export default function InterventionList(): React.ReactElement {
   return (
     <div className="column center align-center w-100">
       <div className="intervention-list-container w-100 align-start">
-        <div className="column flex-1">
-          <div className="row gap align-start">
+        <div className="column flex-1 intervention-list">
+          <div className="row gap align-start add-search-action">
             <AddButton onClick={onAddIntervention} />
             <Search />
             {interventions && interventions?.length > 0 ? (
@@ -40,7 +44,7 @@ export default function InterventionList(): React.ReactElement {
             ) : null}
           </div>
         </div>
-        <div className="row gap ">
+        <div className="row gap view-archive ">
           <Button onClick={onToArchivesList}>{i18n.t("View Archives")}</Button>
         </div>
       </div>

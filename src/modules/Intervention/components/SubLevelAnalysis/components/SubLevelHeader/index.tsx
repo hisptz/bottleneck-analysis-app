@@ -7,7 +7,7 @@ import LegendsDefinition from "./components/LegendsDefinition";
 export default function SubLevelHeader({ activeTab }: { activeTab: any }) {
   const intervention = useInterventionConfig();
   return (
-    <div className="column pt-8">
+    <div className="column pt-8 sub-level-header">
       <div className="row space-between align-items-center">
         <div className="row" style={{ gap: 8 }}>
           <h4 style={{ margin: 0 }}>{`${i18n.t("Bottleneck Sub-level Analysis")}:`}</h4>
