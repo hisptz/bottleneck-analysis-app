@@ -31,8 +31,7 @@ export default function RootCauseAnalysis() {
           icon: <IconDownload24 />,
         },
       ]}
-      title={i18n.t("Root Cause Analysis")}
-    >
+      title={i18n.t("Root Cause Analysis")}>
       <RootCauseTable tableRef={tableRef} />
     </InterventionCard>
   );

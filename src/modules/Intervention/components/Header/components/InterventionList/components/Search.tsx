@@ -7,7 +7,7 @@ import { SearchState } from "../state/search";
 export default function Search() {
   const [searchKeyword, setSearchKeyWord] = useRecoilState(SearchState);
   return (
-    <div style={{ minWidth: 240 }}>
+    <div style={{ minWidth: 240 }} className="search-button">
       <Input
         value={searchKeyword}
         onChange={({ value }: { name: string; value: string }) => {

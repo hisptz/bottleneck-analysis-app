@@ -47,21 +47,27 @@ export default function InterventionHeader(): React.ReactElement {
       <div className="column flex-1">
         <div className="row gap align-center">
           <h2 className="intervention-header-text">{name}</h2>
-          <span style={{ color: colors.grey700 }}>({`${orgUnit?.displayName ?? ""} - ${period?.name ?? ""}`})</span>
+          <span className="intervention-org-unit" style={{ color: colors.grey700 }}>
+            ({`${orgUnit?.displayName ?? ""} - ${period?.name ?? ""}`})
+          </span>
           <Tooltip content={i18n.t("{{type}} bookmark", { type: bookmarked ? i18n.t("Add") : i18n.t("Remove") })}>
-            <IconButton onClick={toggleBookmark} style={{ padding: 2, color: "#000000" }}>
+            <IconButton className="intervention-bookmark" onClick={toggleBookmark} style={{ padding: 2, color: "#000000" }}>
               {bookmarked ? <IconStarFilled24 /> : <IconStar24 />}
             </IconButton>
           </Tooltip>
           <Tooltip content={i18n.t("{{type}} description", { type: showDetails ? i18n.t("Hide") : i18n.t("Show") })}>
-            <IconButton onClick={() => setShowDetails((currentVal: boolean) => !currentVal)} style={{ padding: 2, color: "#000000" }}>
+            <IconButton
+              className="intervention-show-description"
+              onClick={() => setShowDetails((currentVal: boolean) => !currentVal)}
+              style={{ padding: 2, color: "#000000" }}>
               {showDetails ? <IconInfoFilled24 /> : <IconInfo24 />}
             </IconButton>
           </Tooltip>
           <DropdownButton
+            className="intervention-header-dropdown"
             open={openFilterMenu}
             onClick={() => {
-              setOpenFilterMenu(true);
+              setOpenFilterMenu(!openFilterMenu);
             }}
             component={<FilterMenu onClose={() => setOpenFilterMenu(false)} />}
             icon={<IconFilter24 />}>
@@ -80,8 +86,8 @@ export default function InterventionHeader(): React.ReactElement {
             icon={<IconQuestion16 color="#212529" />}>
             {i18n.t("Help")}
           </DropdownButton>
-          <Button>{i18n.t("Archive")}</Button>
-          <Button onClick={onToInterventionConfiguration}>{i18n.t("Configure")}</Button>
+          <Button className={"archive-intervention"}>{i18n.t("Archive")}</Button>
+          <Button className={"configure-intervention"} onClick={onToInterventionConfiguration}>{i18n.t("Configure")}</Button>
         </ButtonStrip>
       </div>
     </div>

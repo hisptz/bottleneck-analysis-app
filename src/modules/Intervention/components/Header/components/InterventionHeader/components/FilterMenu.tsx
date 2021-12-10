@@ -40,7 +40,7 @@ export default function FilterMenu({ onClose }: { onClose: () => void }): React.
   });
 
   return (
-    <>
+    <div>
       <FlyoutMenu>
         <MenuItem
           onClick={() => {
@@ -114,6 +114,6 @@ export default function FilterMenu({ onClose }: { onClose: () => void }): React.
           }}
         />
       )}
-    </>
+    </div>
   );
 }

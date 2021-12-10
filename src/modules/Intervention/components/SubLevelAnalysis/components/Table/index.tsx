@@ -40,9 +40,11 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
 
   return (
     <Suspense fallback={<CardLoader />}>
-      <div className="column">
+      <div className="column sub-level-analysis-table">
         <div className="row end p-8">
-          <Button onClick={onLayoutChange}>{i18n.t("Switch Layout")}</Button>
+          <Button className={"sub-level-analysis-table-switch"} onClick={onLayoutChange}>
+            {i18n.t("Switch Layout")}
+          </Button>
         </div>
         <DataTable className={classes["header-table"]}>
           <DataTableRow>
@@ -58,8 +60,7 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
           scrollWidth={"5000px"}
           scrollHeight={isFullPage ? "calc(100vh - 200px)" : "800px"}
           className={classes["table"]}
-          bordered
-        >
+          bordered>
           <TableHeader />
           <TableBody />
         </DataTable>

@@ -37,10 +37,10 @@ export default function AddButton({ onClick }: { onClick: () => void }): React.R
   const [cloningModalOpen, setCloningModalOpen] = useState(false);
 
   return (
-    <>
+    <div className="add-button">
       <Button dataTest={"addIntervntionButton"} onClick={(_: any, e: any) => setReference(e.target)} className={styles.circular} icon={<IconAdd24 />} />
       {reference && <AddMenu onCloneClick={() => setCloningModalOpen(true)} reference={reference} onClose={() => setReference(null)} />}
       {cloningModalOpen && <CloningSelector hide={!cloningModalOpen} onClose={() => setCloningModalOpen(false)} />}
-    </>
+    </div>
   );
 }

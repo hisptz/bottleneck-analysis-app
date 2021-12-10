@@ -54,7 +54,7 @@ export default function InterventionCard({
           <div className="card-header">{typeof title === "string" ? <h4>{title}</h4> : title}</div>
           {menu && !fullScreenHandle?.active && (
             <>
-              <Button icon={<IconMore24 />} onClick={(_: any, e: MouseEvent) => setActionButtonRef(e.target)} />
+              <Button className={"downloadOptions-menu"} icon={<IconMore24 />} onClick={(_: any, e: MouseEvent) => setActionButtonRef(e.target)} />
               {actionButtonRef && (
                 <Popover onClickOutside={() => setActionButtonRef(undefined)} placement="left-start" reference={actionButtonRef}>
                   <Menu>

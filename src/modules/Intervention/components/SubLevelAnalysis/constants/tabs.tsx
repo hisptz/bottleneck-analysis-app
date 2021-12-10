@@ -15,13 +15,21 @@ export interface Tab {
 export const tabs: Array<Tab> = [
   {
     key: "table",
-    icon: <IconList24 />,
+    icon: (
+      <div className={"intervention-table-view-option"}>
+        <IconList24 />
+      </div>
+    ),
     label: i18n.t("Table View"),
     component: Table,
   },
   {
     key: "dictionary",
-    icon: <IconInfo24 />,
+    icon: (
+      <div className={"intervention-dictionary-view-option"}>
+        <IconInfo24 />
+      </div>
+    ),
     label: i18n.t("Dictionary View"),
     component: Dictionary,
   },

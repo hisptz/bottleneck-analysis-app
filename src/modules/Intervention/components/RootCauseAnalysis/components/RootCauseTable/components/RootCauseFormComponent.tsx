@@ -152,7 +152,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
   }
 
   return (
-    <Modal large={true} hide={!hideModal} position="middle">
+    <Modal className={"root-cause-form"} large={true} hide={!hideModal} position="middle">
       <ModalTitle>{i18n.t("Root Cause form")}</ModalTitle>
       <ModalContent>
         <ReactFinalForm.Form onSubmit={saveRootCause}>
