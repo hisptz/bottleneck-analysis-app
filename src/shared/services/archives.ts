@@ -67,3 +67,13 @@ export async function getInterventionArchives(engine: any, interventionId: strin
   const { archiveKeys } = await engine.query(archiveKeysQuery);
   return filter(archiveKeys, (key: string) => key.match(RegExp(interventionId))) as unknown as Array<string>;
 }
+
+export const deleteMutation = {
+  type: "delete",
+  resource: `dataStore/${BNA_ARCHIVES_NAMESPACE}`,
+  id: ({ id }: any) => id,
+};
+
+export async function deleteArchive(engine: any, id: string) {
+  return await engine.mutate(deleteMutation, { variables: { id } });
+}

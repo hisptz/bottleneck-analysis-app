@@ -1,6 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip } from "@dhis2/ui";
-import React from "react";
+import { Button, ButtonStrip, IconDelete24 } from "@dhis2/ui";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import "./index.css";
 import { useRecoilValue } from "recoil";
@@ -8,10 +8,13 @@ import { OrgUnit } from "../../../../../core/state/orgUnit";
 import { OrgUnit as OrgUnitType } from "../../../../../shared/interfaces/orgUnit";
 import { Archive } from "../../../state/data";
 import { Period } from "@iapps/period-utilities";
+import DeleteConfirmModal from "../../ArchiveMenuCell/components/DeleteConfirmModal";
 
 export default function IndividualArchiveHeader(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
-  const { config, period: periodId, orgUnit: orgUnitId } = useRecoilValue(Archive(id));
+  const archive = useRecoilValue(Archive(id));
+  const { config, period: periodId, orgUnit: orgUnitId } = archive ?? {};
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const orgUnit: OrgUnitType = useRecoilValue(OrgUnit(orgUnitId));
   const period = new Period().getById(periodId);
   const history = useHistory();
@@ -27,13 +30,18 @@ export default function IndividualArchiveHeader(): React.ReactElement {
         <ButtonStrip end>
           <Button
             onClick={(_: any, e: Event) => {
-              history.goBack();
+              history.push("/archives");
             }}>
             {i18n.t("Back to archives")}
           </Button>
-          <Button>{i18n.t("Refresh")}</Button>
-          <Button>{i18n.t("Delete")}</Button>
+          {/*<Button>{i18n.t("Refresh")}</Button>*/}
+          <Button onClick={() => setDeleteOpen(true)} icon={<IconDelete24 />}>
+            {i18n.t("Delete")}
+          </Button>
         </ButtonStrip>
+        {deleteOpen && (
+          <DeleteConfirmModal onDeleteComplete={() => history.replace("/archives")} archive={archive} hide={!deleteOpen} onClose={() => setDeleteOpen(false)} />
+        )}
       </div>
     </div>
   );

@@ -23,7 +23,7 @@ export default function ArchiveRow({ archive }: { archive: Archive }): React.Rea
       <DataTableCell>{orgUnitState?.state !== "hasValue" ? "" : orgUnitState?.contents?.displayName}</DataTableCell>
       <DataTableCell>{period.name}</DataTableCell>
       <DataTableCell>{dateCreated}</DataTableCell>
-      <ArchiveMenuCell id={id} />
+      <ArchiveMenuCell archive={archive} />
     </DataTableRow>
   );
 }

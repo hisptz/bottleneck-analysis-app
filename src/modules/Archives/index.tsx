@@ -1,9 +1,9 @@
 import { Card, DataTable, DataTableCell, DataTableRow, Pagination, TableFoot } from "@dhis2/ui";
 import React, { Suspense } from "react";
-import ArchivesListHeader from "./components/ArchiveListHeaderComponent";
+import ArchivesListHeader from "./components/ArchiveListHeader";
 import "./index.css";
-import ArchiveListTableBodyComponent from "./components/ArchiveListTableBodyComponent/ArchiveListTableBodyComponent";
-import ArchiveListHeaderComponent from "./components/ArchiveListTableHeaderComponent/ArchiveListTableHeaderComponent";
+import ArchiveListTableBodyComponent from "./components/ArchiveListTableBody/ArchiveListTableBodyComponent";
+import ArchiveListHeaderComponent from "./components/ArchiveListTableHeader/ArchiveListTableHeaderComponent";
 import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
 import { useRecoilCallback, useRecoilValue, useSetRecoilState } from "recoil";
 import { Page, PageSize, PaginationState } from "./state/pagination";
