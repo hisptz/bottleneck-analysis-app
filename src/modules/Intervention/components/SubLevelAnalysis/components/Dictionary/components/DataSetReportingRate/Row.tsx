@@ -1,11 +1,12 @@
 import { useDataQuery } from "@dhis2/app-runtime";
-import { DataTableRow, DataTableCell, CircularLoader } from "@dhis2/ui";
+import { DataTableCell, DataTableRow } from "@dhis2/ui";
+import React from "react";
 import classes from "../calculationDetails/Components/Row/Components/DataSourceCellStyle.module.css";
 
 const query = {
   dataSets: {
     resource: "dataSets",
-    id: ({ id }) => id,
+    id: ({ id }: any) => id,
     params: {
       fields: [
         "id",
@@ -22,20 +23,12 @@ const query = {
   },
 };
 
-export default function Row(props) {
-  const dataSet = props.dataSet;
-
+export default function Row({ dataSet }: { dataSet: any }): React.ReactElement {
   const id = dataSet.id;
 
   const { loading, error, data } = useDataQuery(query, { variables: { id } });
-  // if(loading){
-  //     return <CircularLoader />
-  // }
-  // if(error){
-  //     return <i>Something went wrong</i>
-  // }
 
-  function OtherCells(dataSet) {
+  function OtherCells(dataSet: any) {
     return (
       <>
         <DataTableCell bordered>{dataSet?.timelyDays}</DataTableCell>
@@ -62,7 +55,7 @@ export default function Row(props) {
         <DataTableCell bordered>
           <div className={classes.sources}>
             <ol>
-              {dataSet?.legendSets.map((leg) => {
+              {dataSet?.legendSets.map((leg: any) => {
                 return <li key={leg.id}>{leg.displayName}</li>;
               })}
             </ol>

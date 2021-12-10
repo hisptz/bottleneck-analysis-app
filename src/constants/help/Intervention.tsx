@@ -143,16 +143,4 @@ export const INTERVENTION_HELP_STEPS = [
     ),
     element: ".add-new-root-cause",
   },
-  {
-    intro: i18n.t(
-      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
-    ),
-    element: ".delete-root-cause",
-  },
-  {
-    intro: i18n.t(
-      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
-    ),
-    element: ".root-cause-form",
-  },
 ];

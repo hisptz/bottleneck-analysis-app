@@ -12,19 +12,25 @@ import {
   IconQuestion16,
   Tooltip,
 } from "@dhis2/ui";
+import { OrgUnitSelectorModal, PeriodSelectorModal } from "@hisptz/react-ui";
 import { IconButton } from "@material-ui/core";
 import React, { useRef, useState } from "react";
 import "./intervention-header.css";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { CalendarTypes } from "../../../../../../constants/calendar";
 import { CurrentInterventionSummary } from "../../../../../../core/state/intervention";
+import { SystemSettingsState } from "../../../../../../core/state/system";
 import { InterventionDetailsState } from "../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../state/selections";
+import ArchiveModal from "./components/ArchiveModal";
 import FilterMenu from "./components/FilterMenu";
 import HelperMenu from "./components/HelperMenu";
 import useBookmark from "./hooks/bookmark";
+import useFilter from "./hooks/filter";
 
 export default function InterventionHeader(): React.ReactElement {
+  const { calendar } = useRecoilValue(SystemSettingsState);
   const { id } = useParams<{ id: string }>();
   const ref = useRef<HTMLDivElement | null>(null);
   const [stateActionRef, setStateActionRef] = useState<any>();
@@ -37,6 +43,19 @@ export default function InterventionHeader(): React.ReactElement {
   const [openFilterMenu, setOpenFilterMenu] = useState<boolean>(false);
   const [openHelperMenu, setOpenHelperMenu] = useState<boolean>(false);
   const history = useHistory();
+  const [archiveModalOpen, setArchiveModalOpen] = useState(false);
+
+  const {
+    selectedPeriod,
+    excludedPeriodTypes,
+    periodSelectorOpen,
+    setPeriodSelectorOpen,
+    orgUnitSelectorOpen,
+    setOrgUnitSelectorOpen,
+    onPeriodSelect,
+    onOrgUnitSelect,
+    orgUnitSelection,
+  } = useFilter();
 
   function onToInterventionConfiguration() {
     history.push(`/${id}/configuration`);
@@ -69,10 +88,36 @@ export default function InterventionHeader(): React.ReactElement {
             onClick={() => {
               setOpenFilterMenu(!openFilterMenu);
             }}
-            component={<FilterMenu onClose={() => setOpenFilterMenu(false)} />}
+            component={
+              <FilterMenu
+                onPeriodSelect={() => setPeriodSelectorOpen(true)}
+                onOrgUnitSelect={() => setOrgUnitSelectorOpen(true)}
+                onClose={() => setOpenFilterMenu(false)}
+              />
+            }
             icon={<IconFilter24 />}>
             {i18n.t("Add Filter")}
           </DropdownButton>
+          {periodSelectorOpen && (
+            <PeriodSelectorModal
+              calendar={calendar === CalendarTypes.ETHIOPIAN ? CalendarTypes.ETHIOPIAN : CalendarTypes.GREGORIAN}
+              singleSelection
+              selectedPeriods={[selectedPeriod] as unknown as any}
+              excludedPeriodTypes={excludedPeriodTypes}
+              onClose={() => setPeriodSelectorOpen(false)}
+              hide={!periodSelectorOpen}
+              onUpdate={onPeriodSelect}
+            />
+          )}
+          {orgUnitSelectorOpen && (
+            <OrgUnitSelectorModal
+              value={{ orgUnits: [orgUnitSelection] }}
+              singleSelection
+              onClose={() => setOrgUnitSelectorOpen(false)}
+              hide={!orgUnitSelectorOpen}
+              onUpdate={onOrgUnitSelect}
+            />
+          )}
         </div>
       </div>
       <div className="column">
@@ -87,8 +132,11 @@ export default function InterventionHeader(): React.ReactElement {
             {i18n.t("Help")}
           </DropdownButton>
           <Button className={"archive-intervention"}>{i18n.t("Archive")}</Button>
-          <Button className={"configure-intervention"} onClick={onToInterventionConfiguration}>{i18n.t("Configure")}</Button>
+          <Button className={"configure-intervention"} onClick={onToInterventionConfiguration}>
+            {i18n.t("Configure")}
+          </Button>
         </ButtonStrip>
+        {archiveModalOpen && <ArchiveModal hide={!archiveModalOpen} onClose={() => setArchiveModalOpen(false)} />}
       </div>
     </div>
   );

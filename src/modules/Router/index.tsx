@@ -7,9 +7,9 @@ import Landing from "../Landing";
 import Migration from "../Migration";
 
 const Intervention = React.lazy(() => import("../Intervention"));
-const InterventionArchive = React.lazy(() => import("../Intervention/components/Archives/ArchiveDashboard"));
+const InterventionArchive = React.lazy(() => import("../Archives/components/ArchiveDashboard"));
 const InterventionConfiguration = React.lazy(() => import("../InterventionConfiguration/index"));
-const Archive = React.lazy(() => import("../Intervention/components/Archives/"));
+const Archive = React.lazy(() => import("../Archives"));
 
 const routes = [
   {
@@ -17,24 +17,20 @@ const routes = [
     component: Intervention,
   },
   {
-    pathname: "/",
-    component: Landing,
-  },
-  {
     pathname: "/migrate",
     component: Migration,
   },
   {
-    pathname: "/:id/archives",
+    pathname: "/archives",
     component: Archive,
+  },
+  {
+    pathname: "/archives/:id",
+    component: InterventionArchive,
   },
   {
     pathname: "/no-interventions",
     component: EmptyInterventions,
-  },
-  {
-    pathname: "/:id/archives/:id",
-    component: InterventionArchive,
   },
   {
     pathname: "/:id/configuration",
@@ -43,6 +39,10 @@ const routes = [
   {
     pathname: "/new-intervention",
     component: InterventionConfiguration,
+  },
+  {
+    pathname: "/",
+    component: Landing,
   },
 ];
 

@@ -3,7 +3,10 @@ import * as _ from "lodash";
 import { get as _get, isEmpty } from "lodash";
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
-import { DataItems, OrgUnit, Period } from "../../SubLevelAnalysis/state/dimensions";
+import { isArchiveId } from "../../../../../shared/utils/archives";
+import { Archive } from "../../../../Archives/state/data";
+import { InterventionPeriodState } from "../../../state/selections";
+import { DataItems, OrgUnit } from "../../SubLevelAnalysis/state/dimensions";
 import { getChartAnalytics } from "../services/getChartAnalytics";
 
 export const ChartData = selectorFamily({
@@ -11,8 +14,12 @@ export const ChartData = selectorFamily({
   get:
     (id: string) =>
     async ({ get }) => {
+      if (isArchiveId(id)) {
+        const { chartData } = get(Archive(id)) ?? {};
+        return chartData;
+      }
       const engine = get(EngineState);
-      const period = get(Period(id));
+      const period = get(InterventionPeriodState(id))?.id;
       const orgUnits = get(OrgUnit(id));
       const dataItems = get(DataItems(id));
 

@@ -2,13 +2,13 @@ import { InterventionConfig } from "../shared/interfaces/interventionConfig";
 import { uid } from "../shared/utils/generators";
 
 export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
+  description: "",
   id: uid(),
   name: "",
   user: {
     id: "",
   },
   bookmarks: [],
-  periodType: "",
   userAccess: [],
   publicAccess: "r-------",
   dataSelection: {

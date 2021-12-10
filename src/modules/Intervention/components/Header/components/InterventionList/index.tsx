@@ -20,14 +20,10 @@ export default function InterventionList(): React.ReactElement {
   const [showAll, setShowAll] = useState<boolean>(false);
   const searchKeyword = useRecoilValue(SearchState);
   const interventions = useRecoilValue(FilteredInterventions(id));
-  const firstIntervention: InterventionSummaryType | undefined = head(interventions);
   const history = useHistory();
 
-  const onHelpExit = () => {
-    // setHelpEnabled(false);
-  };
   function onToArchivesList() {
-    history.push("/" + firstIntervention?.id + "/archives");
+    history.push("/archives");
   }
 
   function onAddIntervention() {
