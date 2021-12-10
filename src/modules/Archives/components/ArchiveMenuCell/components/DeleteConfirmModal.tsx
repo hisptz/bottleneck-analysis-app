@@ -5,6 +5,7 @@ import { Period } from "@iapps/period-utilities";
 import React, { useState } from "react";
 import { useRecoilRefresher_UNSTABLE, useRecoilValue } from "recoil";
 import { OrgUnit } from "../../../../../core/state/orgUnit";
+import { SystemSettingsState } from "../../../../../core/state/system";
 import { Archive } from "../../../../../shared/interfaces/archive";
 import { deleteArchive } from "../../../../../shared/services/archives";
 import { Archives } from "../../../state/data";
@@ -25,7 +26,8 @@ export default function DeleteConfirmModal({
   const engine = useDataEngine();
   const [deleting, setDeleting] = useState(false);
   const orgUnit = useRecoilValue(OrgUnit(orgUnitId));
-  const period = new Period().getById(periodId);
+  const { calendar } = useRecoilValue(SystemSettingsState);
+  const period = new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true }).getById(periodId);
   const { show } = useAlert(
     ({ message }) => message,
     ({ type }) => ({ ...type, duration: 3000 })

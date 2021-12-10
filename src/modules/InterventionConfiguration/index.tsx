@@ -22,7 +22,7 @@ export default function InterventionConfiguration(): React.ReactElement {
     defaultValues: {
       name: intervention.name,
       description: intervention.description,
-      periodType: intervention.periodType,
+      periodSelection: intervention.periodSelection,
       orgUnitSelection: intervention.orgUnitSelection,
     },
     mode: "onSubmit",
@@ -80,7 +80,7 @@ export default function InterventionConfiguration(): React.ReactElement {
           />
         </div>
         <ButtonStrip middle>
-          <Button dataTest={"save-exit-intervention-button"} onClick={onSave} disabled={saving} color={"blue"}>
+          <Button loading={saving} dataTest={"save-exit-intervention-button"} onClick={onSave} disabled={saving} color={"blue"}>
             {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and Exit")}
           </Button>
           <Button onClick={onExit}>{i18n.t("Exit Without Saving")}</Button>

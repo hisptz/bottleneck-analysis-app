@@ -6,7 +6,9 @@ import React, { useState } from "react";
 import "./intervention-header.css";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { CalendarTypes } from "../../../../../../constants/calendar";
 import { CurrentInterventionSummary } from "../../../../../../core/state/intervention";
+import { SystemSettingsState } from "../../../../../../core/state/system";
 import { InterventionDetailsState } from "../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../state/selections";
 import ArchiveModal from "./components/ArchiveModal";
@@ -15,6 +17,7 @@ import useBookmark from "./hooks/bookmark";
 import useFilter from "./hooks/filter";
 
 export default function InterventionHeader(): React.ReactElement {
+  const { calendar } = useRecoilValue(SystemSettingsState);
   const { id } = useParams<{ id: string }>();
   const intervention = useRecoilValue(CurrentInterventionSummary(id));
   const period = useRecoilValue(InterventionPeriodState(id));
@@ -75,6 +78,7 @@ export default function InterventionHeader(): React.ReactElement {
           </DropdownButton>
           {periodSelectorOpen && (
             <PeriodSelectorModal
+              calendar={calendar === CalendarTypes.ETHIOPIAN ? CalendarTypes.ETHIOPIAN : CalendarTypes.GREGORIAN}
               singleSelection
               selectedPeriods={[selectedPeriod] as unknown as any}
               excludedPeriodTypes={excludedPeriodTypes}

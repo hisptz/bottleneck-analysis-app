@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-10T07:53:59.293Z\n"
-"PO-Revision-Date: 2021-12-10T07:53:59.293Z\n"
+"POT-Creation-Date: 2021-12-10T09:37:12.027Z\n"
+"PO-Revision-Date: 2021-12-10T09:37:12.027Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -64,6 +64,24 @@ msgstr "Date Archived"
 
 msgid "Action"
 msgstr "Action"
+
+msgid "Archive deleted successfully"
+msgstr "Archive deleted successfully"
+
+msgid "Could not delete archive"
+msgstr "Could not delete archive"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you sure you want to delete this archive?"
+msgstr "Are you sure you want to delete this archive?"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Deleting"
+msgstr "Deleting"
 
 msgid "View"
 msgstr "View"
@@ -134,9 +152,6 @@ msgstr ""
 
 msgid "Remarks"
 msgstr "Remarks"
-
-msgid "Cancel"
-msgstr "Cancel"
 
 msgid "Archiving..."
 msgstr "Archiving..."
@@ -502,14 +517,8 @@ msgstr "Intervention deleted successfully"
 msgid "An error occurred while deleting the configuration"
 msgstr "An error occurred while deleting the configuration"
 
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
 msgid "This will delete all data associated with this intervention."
 msgstr "This will delete all data associated with this intervention."
-
-msgid "Deleting"
-msgstr "Deleting"
 
 msgid "Add Indicator"
 msgstr "Add Indicator"

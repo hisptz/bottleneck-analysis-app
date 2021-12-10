@@ -2,8 +2,10 @@ import { Period, PeriodInterface } from "@iapps/period-utilities";
 import { atomFamily, selectorFamily } from "recoil";
 import { CurrentInterventionSummary } from "../../../core/state/intervention";
 import { OrgUnit } from "../../../core/state/orgUnit";
+import { SystemSettingsState } from "../../../core/state/system";
 import { UserOrganisationUnit } from "../../../core/state/user";
 import { OrgUnit as OrgUnitType } from "../../../shared/interfaces/orgUnit";
+import { getCurrentPeriod } from "../../../shared/utils/period";
 
 export const InterventionPeriodState = atomFamily<PeriodInterface, string>({
   key: "intervention-period",
@@ -12,11 +14,17 @@ export const InterventionPeriodState = atomFamily<PeriodInterface, string>({
     get:
       (interventionId: string) =>
       ({ get }) => {
+        const { calendar } = get(SystemSettingsState);
         const { periodSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
         if (periodSelection) {
-          return new Period().setPreferences({ allowFuturePeriods: true }).getById(periodSelection?.id) as PeriodInterface;
+          if (periodSelection?.id) {
+            return new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true }).getById(periodSelection?.id) as PeriodInterface;
+          }
+          if (periodSelection?.type) {
+            return getCurrentPeriod(periodSelection.type, calendar);
+          }
         }
-        return new Period().setPreferences({ allowFuturePeriods: true }).get() as unknown as PeriodInterface;
+        return getCurrentPeriod("Yearly", calendar);
       },
   }),
 });

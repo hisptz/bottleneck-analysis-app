@@ -2,16 +2,18 @@ import { DataTableCell, DataTableRow } from "@dhis2/ui";
 import { Period } from "@iapps/period-utilities";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useRecoilValueLoadable } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { OrgUnit } from "../../../../core/state/orgUnit";
+import { SystemSettingsState } from "../../../../core/state/system";
 import { Archive } from "../../../../shared/interfaces/archive";
 import ArchiveMenuCell from "../ArchiveMenuCell";
 
 export default function ArchiveRow({ archive }: { archive: Archive }): React.ReactElement {
   const history = useHistory();
+  const { calendar } = useRecoilValue(SystemSettingsState);
   const { id, orgUnit: orgUnitId, config, period: periodId, dateCreated } = archive;
   const orgUnitState = useRecoilValueLoadable(OrgUnit(orgUnitId));
-  const period = new Period().getById(periodId);
+  const period = new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true }).getById(periodId);
 
   const onViewClick = () => {
     history.push(`/archives/${id}`);
