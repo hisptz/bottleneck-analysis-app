@@ -1,3 +1,4 @@
+import { orderBy } from "lodash";
 import { selector, selectorFamily } from "recoil";
 import { EngineState } from "../../../core/state/dataEngine";
 import { Archive as ArchiveType } from "../../../shared/interfaces/archive";
@@ -7,7 +8,8 @@ export const Archives = selector<Array<ArchiveType>>({
   key: "archives-state",
   get: async ({ get }) => {
     const engine = get(EngineState);
-    return (await getArchives(engine)) as unknown as Array<ArchiveType>;
+    const archives = (await getArchives(engine)) as unknown as Array<ArchiveType>;
+    return orderBy(archives, [(archive) => new Date(archive.dateCreated), "config.name"], "desc");
   },
 });
 
