@@ -5,8 +5,18 @@ import "./index.css";
 import ArchiveListTableBodyComponent from "./components/ArchiveListTableBodyComponent/ArchiveListTableBodyComponent";
 import ArchiveListHeaderComponent from "./components/ArchiveListTableHeaderComponent/ArchiveListTableHeaderComponent";
 import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
+import { useRecoilCallback, useRecoilValue, useSetRecoilState } from "recoil";
+import { Page, PageSize, PaginationState } from "./state/pagination";
 
 export default function Archive(): React.ReactElement {
+  const pagination = useRecoilValue(PaginationState);
+  const setPage = useSetRecoilState(Page);
+
+  const onPageSizeChange = useRecoilCallback(({ set, reset }) => (pageSize: number) => {
+    set(PageSize, pageSize);
+    reset(Page);
+  });
+
   return (
     <div className="column">
       <ArchivesListHeader />
@@ -21,15 +31,12 @@ export default function Archive(): React.ReactElement {
                   <DataTableCell colSpan="6">
                     <div className="paginationCell">
                       <Pagination
-                        align={"end"}
-                        hidePageSelect
-                        hidePageSizeSelect
-                        onPageChange={() => {}}
-                        onPageSizeChange={() => {}}
-                        page={3}
-                        pageCount={4}
-                        pageSize={4}
-                        total={8}
+                        onPageChange={setPage}
+                        onPageSizeChange={onPageSizeChange}
+                        page={pagination.page}
+                        pageCount={pagination.pageCount}
+                        pageSize={pagination.pageSize}
+                        total={pagination.total}
                       />
                     </div>
                   </DataTableCell>
