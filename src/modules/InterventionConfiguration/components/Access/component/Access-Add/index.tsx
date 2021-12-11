@@ -2,7 +2,7 @@ import { useOnlineStatus } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import { Button, colors, SingleSelectField, SingleSelectOption } from "@dhis2/ui";
 import { cloneDeep, uniqBy } from "lodash";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { ACCESS_TYPES } from "../../../../../../constants/constants";
@@ -54,27 +54,26 @@ export default function AccessAdd(): React.ReactElement {
     setAccess("");
   };
   return (
-    <>
+    <div className="access-config-add-user">
       <Title title={i18n.t("Give Access to a user , group or role")} />
       <form style={{ display: "flex", gap: 16 }} onSubmit={onSubmit}>
-        <div className="flex-1">
+        <div className="flex-1 access-config-add-user-search">
           <SharingAutoComplete selected={entity} onSelection={setEntity} />
         </div>
-        <div className="select-wrapper">
+        <div className="select-wrapper access-config-add-user-select-wrapper">
           <SingleSelectField
             label={i18n.t("Access level")}
             placeholder={i18n.t("Select a level")}
             disabled={offline}
             selected={access}
             helpText={offline ? i18n.t("Not available offline") : ""}
-            onChange={({ selected }: any) => setAccess(selected)}
-          >
+            onChange={({ selected }: any) => setAccess(selected)}>
             {ACCESS_TYPES.map(({ value, label }) => (
               <SingleSelectOption key={value} label={label} value={value} active={value === access} />
             ))}
           </SingleSelectField>
         </div>
-        <Button type="submit" disabled={!entity || !access}>
+        <Button className={"access-config-add-user-access-action"} type="submit" disabled={!entity || !access}>
           {i18n.t("Give access")}
         </Button>
       </form>
@@ -93,6 +92,6 @@ export default function AccessAdd(): React.ReactElement {
           flex: 1;
         }
       `}</style>
-    </>
+    </div>
   );
 }

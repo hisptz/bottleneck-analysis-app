@@ -5,7 +5,10 @@ import { Button } from "@dhis2/ui";
 import React from "react";
 import "./archivesListHeader.css";
 import { useHistory } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import HelpState from "../../../Intervention/state/help";
 export default function ArchivesListHeader() {
+  const setHelperState = useSetRecoilState(HelpState);
   const history = useHistory();
   function backtoHomePage(_: any, _e: Event) {
     history.goBack();
@@ -13,8 +16,14 @@ export default function ArchivesListHeader() {
   return (
     <div className="archive-list-row">
       <div className="archiveListTitle">BNA Archives</div>
-      <div>
-        <Button onClick={backtoHomePage}>{i18n.t("Back to Intervention")}</Button>
+      <div className="archive-action-button">
+        <Button
+          onClick={() => {
+            setHelperState(true);
+          }}>
+          {i18n.t("Help")}
+        </Button>
+        <Button className={"archive-intervntion-on-back-action"} onClick={backtoHomePage}>{i18n.t("Back to Intervention")}</Button>
       </div>
     </div>
   );

@@ -45,20 +45,19 @@ export default function ListItem({
           </div>
         </div>
         <div className="select">
-          <div className="flex-1">
+          <div className="flex-1 access-lists-access-options">
             <SingleSelectField
               fullWidth
               disabled={disabled || offline}
               selected={access}
               helpText={offline ? i18n.t("Not available offline") : ""}
-              onChange={({ selected }: { selected: any }) => onChange(selected)}
-            >
+              onChange={({ selected }: { selected: any }) => onChange(selected)}>
               {accessOptions?.map(({ value, label }) => (
                 <SingleSelectOption key={value} label={label} value={value} active={value === access} />
               ))}
             </SingleSelectField>
           </div>
-          <Button onClick={onRemove} icon={<IconDelete24 />}>
+          <Button className={"access-lists-access-options-delete-action"} onClick={onRemove} icon={<IconDelete24 />}>
             {i18n.t("Delete")}
           </Button>
         </div>

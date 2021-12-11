@@ -10,7 +10,13 @@
     align-items: center;
     width: 100%;
 }
-
+.config-intial-action{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-width:200px;
+}
 .stepper-config-button {
     display: flex;
     flex-direction: row;

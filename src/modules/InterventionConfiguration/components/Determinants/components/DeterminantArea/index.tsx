@@ -37,7 +37,7 @@ export default function DeterminantArea(): React.ReactElement {
       <div className="determinant-main">
         <div className="determinant-main-header">
           <h3>{i18n.t("Determinants")}</h3>
-          <Button dataTest={"clear-determinant-button"} disabled={allDeterminantsEmpty} onClick={onClearAll}>
+          <Button className={"determinant-clear-all-config"} dataTest={"clear-determinant-button"} disabled={allDeterminantsEmpty} onClick={onClearAll}>
             {i18n.t("Clear All")}
           </Button>
         </div>
