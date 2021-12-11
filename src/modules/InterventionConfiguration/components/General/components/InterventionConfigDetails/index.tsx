@@ -3,11 +3,13 @@ import { InputField, TextAreaField } from "@dhis2/ui";
 import { filter, find } from "lodash";
 import React from "react";
 import "./InterventionConfigDetails.css";
+import { ErrorBoundary } from "react-error-boundary";
 import { Controller, useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { InterventionSummary } from "../../../../../../core/state/intervention";
 import OrgUnitLevelSelector from "../OrgUnitLevelSelector";
+import OrgUnitLevelError from "../OrgUnitLevelSelector/components/Error";
 import PeriodSelector from "../PeriodSelector";
 
 export default function InterventionConfigDetails(): React.ReactElement {
@@ -62,7 +64,9 @@ export default function InterventionConfigDetails(): React.ReactElement {
         name={"description"}
       />
       <Controller render={({ field, fieldState }) => <PeriodSelector field={field} fieldState={fieldState} />} name={"periodSelection"} />
-      <OrgUnitLevelSelector />
+      <ErrorBoundary FallbackComponent={OrgUnitLevelError}>
+        <OrgUnitLevelSelector />
+      </ErrorBoundary>
     </div>
   );
 }

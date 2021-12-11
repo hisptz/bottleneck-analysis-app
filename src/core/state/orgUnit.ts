@@ -1,3 +1,4 @@
+import { reduce } from "lodash";
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import { getOrgUnitLevels } from "../services/orgUnits";
 import { EngineState } from "./dataEngine";
@@ -11,6 +12,14 @@ export const OrgUnitLevels = atom<Array<{ id: string; level: number; displayName
       return await getOrgUnitLevels(engine);
     },
   }),
+});
+
+export const LastOrgUnitLevel = selector({
+  key: "last-org-unit-level",
+  get: ({ get }) => {
+    const orgUnitLevels = get(OrgUnitLevels);
+    return reduce(orgUnitLevels, (acc, level) => (level.level > acc.level ? level : acc));
+  },
 });
 
 const query = {

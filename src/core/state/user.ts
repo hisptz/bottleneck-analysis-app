@@ -1,3 +1,4 @@
+import i18n from "@dhis2/d2-i18n";
 import { head } from "lodash";
 import { atom, selector } from "recoil";
 import { OrgUnit } from "../../shared/interfaces/orgUnit";
@@ -21,6 +22,10 @@ export const UserOrganisationUnit = selector<OrgUnit | undefined>({
   get: ({ get }) => {
     const user = get(UserState);
     const organisationUnits = user?.organisationUnits ?? [];
-    return head(organisationUnits);
+    if (organisationUnits.length > 0) {
+      return head(organisationUnits);
+    } else {
+      throw Error(i18n.t("Error fetching user details"));
+    }
   },
 });
