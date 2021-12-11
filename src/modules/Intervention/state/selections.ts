@@ -37,12 +37,18 @@ export const InterventionOrgUnitState = atomFamily<OrgUnitType, string>({
       (interventionId: string) =>
       async ({ get }) => {
         const { orgUnitSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
+        const userOrgUnit = get(UserOrganisationUnit);
         if (orgUnitSelection) {
           if (orgUnitSelection?.orgUnit?.id && !orgUnitSelection?.orgUnit?.id?.includes("USER")) {
-            return get(OrgUnit(orgUnitSelection?.orgUnit?.id));
+            const orgUnit = get(OrgUnit(orgUnitSelection?.orgUnit?.id));
+            if (userOrgUnit) {
+              if (orgUnit.level > userOrgUnit?.level) {
+                return orgUnit;
+              }
+            }
           }
         }
-        return get(UserOrganisationUnit);
+        return userOrgUnit;
       },
   }),
 });

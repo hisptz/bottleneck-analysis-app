@@ -39,7 +39,6 @@ How the sub-level org units are determined
  - if filter is off and subLevel is set => LEVEL_{selected level}
  - if filter is off and subLevel is set but higher than user's level => ? user's level ?
  - if filter is on => LEVEL_{selectedOrgUnitLevel + 1} (check if  selectedOrgUnitLevel + 1 exists)
-
  */
 
 export const SubLevelOrgUnit = selectorFamily({

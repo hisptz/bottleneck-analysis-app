@@ -9,7 +9,7 @@ import { DataSelection } from "../../../../../../shared/interfaces/interventionC
 import { InterventionStateSelector } from "../../../../state/intervention";
 import SingleDictionary from "./components/SingleDictionary";
 
-export default function Dictionary() {
+export default function Dictionary(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const [searchKeyword, setSearchKeyword] = useState<string | undefined>();
   const dataSelection = useRecoilValue<DataSelection>(InterventionStateSelector({ id, path: ["dataSelection"] }));
@@ -30,22 +30,26 @@ export default function Dictionary() {
       }) as Array<{ name: string; id: string }>;
     }
     return indicators;
-  }, [id, searchKeyword]);
+  }, [dataSelection?.groups, searchKeyword]);
   const [selectedIndicator, setSelectedIndicator] = useState<string | undefined>(head(indicators)?.id);
 
   useEffect(() => {
     setSelectedIndicator(head(indicators)?.id);
-  }, [id, searchKeyword]);
+  }, [id, indicators, searchKeyword]);
 
   return (
     <div className="column h-100 w-100 p-8">
-      <div className="row gap">
-        <Input value={searchKeyword} onChange={({ value }: { value: string }) => setSearchKeyword(value)} placeholder={i18n.t("Search")} />
-        {indicators?.map(({ id, name }) => (
-          <Chip onClick={() => setSelectedIndicator(id)} selected={id === selectedIndicator} key={`${id}-chip`}>
-            {name}
-          </Chip>
-        ))}
+      <div className="row gap pb-8 w-100 ">
+        <div style={{ minWidth: 200 }}>
+          <Input fullWidth value={searchKeyword} onChange={({ value }: { value: string }) => setSearchKeyword(value)} placeholder={i18n.t("Search")} />
+        </div>
+        <div className="row gap w-100" style={{ overflow: "auto" }}>
+          {indicators?.map(({ id, name }) => (
+            <Chip onClick={() => setSelectedIndicator(id)} selected={id === selectedIndicator} key={`${id}-chip`}>
+              {name}
+            </Chip>
+          ))}
+        </div>
       </div>
       <div style={{ overflow: "auto" }} className="w-100 h-100 flex-1 center align-center ">
         {selectedIndicator && (
