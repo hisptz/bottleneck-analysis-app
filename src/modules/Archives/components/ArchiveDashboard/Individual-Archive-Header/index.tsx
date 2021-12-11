@@ -1,5 +1,5 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, IconDelete24 } from "@dhis2/ui";
+import { Button, ButtonStrip, IconDelete24, IconQuestion16 } from "@dhis2/ui";
 import { Period } from "@iapps/period-utilities";
 import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -40,7 +40,7 @@ export default function IndividualArchiveHeader(): React.ReactElement {
             {i18n.t("Back to archives")}
           </Button>
           {/*<Button>{i18n.t("Refresh")}</Button>*/}
-          <Button onClick={() => setHelpState(true)} icon={<IconDelete24 />}>
+          <Button onClick={() => setHelpState(true)} icon={<IconQuestion16 color="#212529" />}>
             {i18n.t("Help")}
           </Button>
           <Button className={"archive-intervention-delete"} onClick={() => setDeleteOpen(true)} icon={<IconDelete24 />}>

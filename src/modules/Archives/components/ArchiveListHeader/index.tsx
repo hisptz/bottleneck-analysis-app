@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/named */
 import i18n from "@dhis2/d2-i18n";
-import { Button } from "@dhis2/ui";
+import { Button, IconQuestion16 } from "@dhis2/ui";
 import React from "react";
 import "./archivesListHeader.css";
 import { useHistory } from "react-router-dom";
@@ -18,6 +18,7 @@ export default function ArchivesListHeader() {
       <div className="archiveListTitle">BNA Archives</div>
       <div className="archive-action-button">
         <Button
+          icon={<IconQuestion16 color="#212529" />}
           onClick={() => {
             setHelperState(true);
           }}>

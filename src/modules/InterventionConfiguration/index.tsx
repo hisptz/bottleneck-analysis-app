@@ -1,5 +1,5 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, IconDelete24 } from "@dhis2/ui";
+import { Button, ButtonStrip, IconDelete24, IconQuestion16 } from "@dhis2/ui";
 import { ConfigurationStepper } from "@hisptz/react-ui";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -55,7 +55,7 @@ export default function InterventionConfiguration(): React.ReactElement {
               onClick={() => {
                 onSetHelper(true);
               }}
-              icon={<IconDelete24 />}>
+              icon={<IconQuestion16 color="#212529" />}>
               {i18n.t("Help")}
             </Button>
             {id && (
