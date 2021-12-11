@@ -16,7 +16,7 @@ export default function TableCell({ id, colId, data, legends }: { id: string; co
       path: ["dataSelection", "legendDefinitions"],
     })
   );
-  const color = useMemo(() => generateCellColor({ value, legends, legendDefinitions }), [value, legends]);
+  const color = useMemo(() => generateCellColor({ value, legends, legendDefinitions }), [value, legends, legendDefinitions]);
   return (
     <td style={{ background: color }} width={"100px"} className={classes["table-cell"]} align="center" key={`${colId}-cell`}>
       {value}
