@@ -7,9 +7,9 @@ import { InterventionStateSelector } from "../../../../../state/intervention";
 import { generateCellColor } from "../../../utils";
 import classes from "../Table.module.css";
 
-export default function TableCell({ id, colId, data, legends }: { id: string; colId: string; data: any; legends: Array<Legend> }) {
+export default function TableCell({ id, colId, data, legends }: { id: string; colId: string; data: any; legends: Array<Legend> }): React.ReactElement {
   const { id: interventionId } = useParams<{ id: string }>();
-  const value: string | undefined = useMemo(() => last(find(data, (value) => value.includes(id) && value.includes(colId))), []);
+  const value: string | undefined = useMemo(() => last(find(data, (value) => value.includes(id) && value.includes(colId))), [colId, data, id]);
   const legendDefinitions = useRecoilValue(
     InterventionStateSelector({
       id: interventionId,
