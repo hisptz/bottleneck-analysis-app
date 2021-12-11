@@ -1,10 +1,11 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, IconDelete24 } from "@dhis2/ui";
+import { Button, ButtonStrip, IconDelete24, IconQuestion16 } from "@dhis2/ui";
 import { ConfigurationStepper } from "@hisptz/react-ui";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import HelpState from "../Intervention/state/help";
 import AccessConfigurationComponent from "./components/Access";
 import ConfirmDeleteDialog from "./components/ConfirmDeleteDialog";
 import DeterminantsConfigurationComponent from "./components/Determinants";
@@ -18,6 +19,8 @@ export default function InterventionConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const interventionName = useRecoilValue(InterventionDirtySelector({ id, path: ["name"] }));
   const intervention = useRecoilValue(InterventionDirtyState(id));
+  const onSetHelper = useSetRecoilState(HelpState);
+
   const form = useForm({
     defaultValues: {
       name: intervention.name,
@@ -47,12 +50,23 @@ export default function InterventionConfiguration(): React.ReactElement {
       <div className="configuration-main-container">
         <div className="stepper-config-header">
           <h2 style={{ margin: 4 }}>{`${i18n.t("Manage")} ${interventionName ?? "new intervention"}`}</h2>
-          {id && (
-            <Button onClick={onDelete} icon={<IconDelete24 />}>
-              {i18n.t("Delete")}
+          <div className="config-intial-action">
+            <Button
+              onClick={() => {
+                onSetHelper(true);
+              }}
+              icon={<IconQuestion16 color="#212529" />}>
+              {i18n.t("Help")}
             </Button>
-          )}
-          {openDeleteConfirm && <ConfirmDeleteDialog name={interventionName} hide={!openDeleteConfirm} onClose={onDeleteCancel} onConfirm={onConfirmDelete} />}
+            {id && (
+              <Button onClick={onDelete} icon={<IconDelete24 />}>
+                {i18n.t("Delete")}
+              </Button>
+            )}
+            {openDeleteConfirm && (
+              <ConfirmDeleteDialog name={interventionName} hide={!openDeleteConfirm} onClose={onDeleteCancel} onConfirm={onConfirmDelete} />
+            )}
+          </div>
         </div>
         <div className="flex-1">
           <ConfigurationStepper

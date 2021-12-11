@@ -55,8 +55,7 @@ export default function IndicatorSelector({ group, hide, onClose, onSave }: Indi
             onClick={() => {
               onSave(group, selectedIndicators);
             }}
-            primary
-          >
+            primary>
             {i18n.t("Add")}
           </Button>
         </ButtonStrip>

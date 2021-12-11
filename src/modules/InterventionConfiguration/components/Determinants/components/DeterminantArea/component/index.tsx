@@ -53,7 +53,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
   }, [selectedGroup, selectedIndicator]);
 
   return (
-    <div>
+    <div className="indicator-data-configuration-area">
       <DataConfigurationArea
         selectedItems={selectedItems}
         groups={groups}
