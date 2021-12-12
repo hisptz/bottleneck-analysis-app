@@ -20,6 +20,11 @@
     background: #FFFFFF !important;
     font-weight: bold !important;
     width: auto !important;
+
+}
+
+.period-header-cell > span > span{
+    margin:auto;
 }
 
 .header-table {
