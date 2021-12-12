@@ -17,8 +17,6 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
   const { id } = useParams<{ id: string }>();
   const switchLayout = useSetRecoilState(TableLayout(id));
   const { filter } = useRecoilValue(TableConfig(id));
-  const { width } = useRecoilValue(TableConfig(id));
-  const { width: screenWidth } = useScreenDimension();
   const isFullPage = useRecoilValue(FullPageState("subLevelAnalysis"));
 
   const onLayoutChange = () => {
@@ -31,12 +29,12 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
     });
   };
 
-  const tableWidth = useMemo(() => {
-    if (width < screenWidth) {
-      return screenWidth - 80;
-    }
-    return width;
-  }, [width, screenWidth]);
+  // const tableWidth = useMemo(() => {
+  //   if (width < screenWidth) {
+  //     return screenWidth - 80;
+  //   }
+  //   return width;
+  // }, [width, screenWidth]);
 
   return (
     <Suspense fallback={<CardLoader />}>
