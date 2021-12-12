@@ -1,7 +1,7 @@
 const { config } = require("@dhis2/cli-style");
 
 module.exports = {
-  plugins: ["@typescript-eslint", "react-hooks"],
+  plugins: ["@typescript-eslint", "react-hooks", "cypress"],
   extends: [
     config.eslintReact,
     "plugin:prettier/recommended",
@@ -18,7 +18,7 @@ module.exports = {
     },
   },
   globals: {
-    JSX: true,
+    JSX: true
   },
   rules: {
     "no-console": "error",
@@ -30,6 +30,8 @@ module.exports = {
       },
     ],
   },
-
   parser: "@typescript-eslint/parser",
+  env: {
+    "cypress/globals": true,
+  }
 };

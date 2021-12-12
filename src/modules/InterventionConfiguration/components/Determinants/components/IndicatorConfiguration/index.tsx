@@ -19,7 +19,7 @@ export default function IndicatorConfiguration(): React.ReactElement {
     })
   );
   const filteredLegendDefinitions = filter(legendDefinitions, (legendDefinition) => {
-    return !legendDefinition.default;
+    return !legendDefinition.isDefault;
   });
 
   const onChange = (key: string, value: any) => {

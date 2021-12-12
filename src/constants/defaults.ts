@@ -1,3 +1,4 @@
+import i18n from "@dhis2/d2-i18n";
 import { InterventionConfig } from "../shared/interfaces/interventionConfig";
 import { uid } from "../shared/utils/generators";
 
@@ -15,7 +16,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
     groups: [
       {
         id: uid(),
-        name: "Commodities",
+        name: i18n.t("Commodities"),
         items: [],
         style: {
           color: "#7DB2E8",
@@ -24,7 +25,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       },
       {
         id: uid(),
-        name: "Human Resources",
+        name: i18n.t("Human Resources"),
         items: [],
         style: {
           color: "#80CC33",
@@ -33,7 +34,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       },
       {
         id: uid(),
-        name: "Geographic Accessibility",
+        name: i18n.t("Geographic Accessibility"),
         items: [],
         style: {
           color: "#40BF80",
@@ -42,7 +43,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       },
       {
         id: uid(),
-        name: "Initial Utilisation",
+        name: i18n.t("Initial Utilisation"),
         items: [],
         style: {
           color: "#75F0F0",
@@ -51,7 +52,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       },
       {
         id: uid(),
-        name: "Continuous Utilisation",
+        name: i18n.t("Continuous Utilisation"),
         items: [],
         style: {
           color: "#9485E0",
@@ -60,7 +61,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       },
       {
         id: uid(),
-        name: "Effective Coverage",
+        name: i18n.t("Effective Coverage"),
         items: [],
         style: {
           color: "#D98CCC",
@@ -71,33 +72,33 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
     legendDefinitions: [
       {
         id: uid(),
-        name: "Target achieved / on track",
+        name: i18n.t("Target achieved / on track"),
         color: "#008000",
-        default: false,
+        isDefault: false,
       },
       {
         id: uid(),
-        name: "Progress, but more effort required",
+        name: i18n.t("Progress, but more effort required"),
         color: "#FFFF00",
-        default: false,
+        isDefault: false,
       },
       {
         id: uid(),
-        name: "Not on track",
+        name: i18n.t("Not on track"),
         color: "#FF0000",
-        default: false,
+        isDefault: false,
       },
       {
-        id: uid(),
-        name: "N/A",
+        id: "not-applicable",
+        name: i18n.t("N/A"),
         color: "#D3D3D3",
-        default: true,
+        isDefault: true,
       },
       {
-        id: uid(),
-        name: "No data",
+        id: "no-data",
+        name: i18n.t("No data"),
         color: "#FFFFFF",
-        default: true,
+        isDefault: true,
       },
     ],
   },

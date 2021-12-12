@@ -57,12 +57,24 @@ function convertData(dataConfig?: GlobalSelection): DataSelection {
         items: compact(groupItems),
       };
     });
-    const newLegendDefinitions: Array<LegendDefinition> = legendDefinitions?.map(({ id, name, color, startValue, endValue }) => ({
-      id,
-      name,
-      color,
-      default: startValue === undefined && endValue === undefined,
-    }));
+    const newLegendDefinitions: Array<LegendDefinition> = legendDefinitions?.map(({ id, name, color, default: isDefault }: Legend) => {
+      const getId = () => {
+        if (isDefault) {
+          if (name.match(RegExp("N/A"))) {
+            return "not-applicable";
+          } else {
+            return "no-data";
+          }
+        }
+        return id;
+      };
+      return {
+        id: getId(),
+        name,
+        color,
+        isDefault,
+      };
+    });
 
     return {
       groups: newGroups,

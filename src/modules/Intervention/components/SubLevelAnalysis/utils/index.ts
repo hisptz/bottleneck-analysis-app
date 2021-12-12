@@ -3,6 +3,7 @@ import { Legend, LegendDefinition } from "../../../../../shared/interfaces/inter
 
 function findLegend(value: string, legends: Array<Legend>, maxValue?: number): Legend | undefined {
   const max = maxValue ?? 100;
+
   return find(legends, ({ startValue, endValue }: Legend) => {
     if (max === endValue) {
       return +value >= startValue && +value <= endValue;
@@ -21,10 +22,15 @@ export function generateCellColor({
   legendDefinitions: Array<LegendDefinition>;
   value?: string;
   maxValue?: number;
-}) {
+}): string {
+  const max = maxValue ?? 100;
   if (!value) {
-    const noDataLegend = find(legendDefinitions, ["name", "No data"]);
+    const noDataLegend = find(legendDefinitions, ["id", "no-data"]);
     return noDataLegend?.color ?? "#FFFFFF";
+  }
+  if (max < +value) {
+    const notApplicableLegend = find(legendDefinitions, ["id", "not-applicable"]);
+    return notApplicableLegend?.color ?? "#FFFFFF";
   }
   const legend = findLegend(value, legends, maxValue);
   const legendDefinition = find(legendDefinitions, ["id", legend?.id]);
