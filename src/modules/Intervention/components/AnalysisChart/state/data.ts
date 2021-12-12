@@ -5,8 +5,8 @@ import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { isArchiveId } from "../../../../../shared/utils/archives";
 import { Archive } from "../../../../Archives/state/data";
-import { InterventionPeriodState } from "../../../state/selections";
-import { DataItems, OrgUnit } from "../../SubLevelAnalysis/state/dimensions";
+import { InterventionOrgUnitState, InterventionPeriodState } from "../../../state/selections";
+import { DataItems } from "../../SubLevelAnalysis/state/dimensions";
 import { getChartAnalytics } from "../services/getChartAnalytics";
 
 export const ChartData = selectorFamily({
@@ -20,7 +20,7 @@ export const ChartData = selectorFamily({
       }
       const engine = get(EngineState);
       const period = get(InterventionPeriodState(id))?.id;
-      const orgUnits = get(OrgUnit(id));
+      const orgUnits = get(InterventionOrgUnitState(id));
       const dataItems = get(DataItems(id));
 
       if (isEmpty(dataItems)) {
@@ -31,7 +31,7 @@ export const ChartData = selectorFamily({
         throw Error(i18n.t("There are no organisation units or periods configured for this intervention"));
       }
 
-      return await getChartAnalytics({ dx: dataItems, ou: orgUnits, pe: period }, engine);
+      return await getChartAnalytics({ dx: dataItems, ou: [orgUnits.id], pe: period }, engine);
     },
 });
 
@@ -45,7 +45,6 @@ export const ChartDataOrgUnit = selectorFamily({
     },
 });
 
-// create a selector famility to get org unit data from the  chartAnalytics
 export const ChartOrgUnits = selectorFamily({
   key: "chart-org-units",
   get:

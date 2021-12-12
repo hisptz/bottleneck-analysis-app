@@ -1,7 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { DataTableColumnHeader, DataTableHead, DataTableRow } from "@dhis2/ui";
-import { head } from "lodash";
-import React, { useMemo } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { TableConfig, TableLayout } from "../../../state/layout";
@@ -39,8 +38,7 @@ export default function TableHeader(): React.ReactElement {
             colSpan={`${children?.length}`}
             align={"center"}
             key={`${id}-col-header`}
-            className={classes["table-data-header-cell"]}
-          >
+            className={classes["table-data-header-cell"]}>
             {name}
           </DataTableColumnHeader>
         ))}

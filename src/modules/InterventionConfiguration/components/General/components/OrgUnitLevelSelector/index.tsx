@@ -27,7 +27,7 @@ export default function OrgUnitLevelSelector(): React.ReactElement {
   const filteredLevels: Array<OrgUnit> = useMemo(() => {
     if (orgUnitLevelState.state === "hasValue") {
       if (userOrgUnit) {
-        return filter(orgUnitLevelState.contents, (orgUnit: OrgUnit) => orgUnit.level >= userOrgUnit?.level);
+        return filter(orgUnitLevelState.contents, (orgUnit: OrgUnit) => orgUnit.level > userOrgUnit?.level);
       }
       return [];
     }

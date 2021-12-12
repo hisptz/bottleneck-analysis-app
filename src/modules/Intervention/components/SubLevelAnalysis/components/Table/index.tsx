@@ -17,8 +17,6 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
   const { id } = useParams<{ id: string }>();
   const switchLayout = useSetRecoilState(TableLayout(id));
   const { filter } = useRecoilValue(TableConfig(id));
-  const { width } = useRecoilValue(TableConfig(id));
-  const { width: screenWidth } = useScreenDimension();
   const isFullPage = useRecoilValue(FullPageState("subLevelAnalysis"));
 
   const onLayoutChange = () => {
@@ -31,12 +29,12 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
     });
   };
 
-  const tableWidth = useMemo(() => {
-    if (width < screenWidth) {
-      return screenWidth - 72;
-    }
-    return width;
-  }, [width, screenWidth]);
+  // const tableWidth = useMemo(() => {
+  //   if (width < screenWidth) {
+  //     return screenWidth - 80;
+  //   }
+  //   return width;
+  // }, [width, screenWidth]);
 
   return (
     <Suspense fallback={<CardLoader />}>
@@ -48,19 +46,12 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
         </div>
         <DataTable className={classes["header-table"]}>
           <DataTableRow>
-            <DataTableColumnHeader fixed top={"0px"} align="left" className={classes["period-header-cell"]}>
+            <DataTableColumnHeader fixed top={"0px"} align="center" className={classes["period-header-cell"]}>
               {head(filter)?.name ?? ""}
             </DataTableColumnHeader>
           </DataTableRow>
         </DataTable>
-        <DataTable
-          ref={tableRef}
-          fixed
-          width={isFullPage ? "calc(100vw - 36px)" : `${tableWidth}px`}
-          scrollWidth={"5000px"}
-          scrollHeight={isFullPage ? "calc(100vh - 200px)" : "800px"}
-          className={classes["table"]}
-          bordered>
+        <DataTable scrollHeight={isFullPage ? "calc(100vh - 200px)" : "800px"} ref={tableRef} fixed className={classes["table"]} bordered>
           <TableHeader />
           <TableBody />
         </DataTable>

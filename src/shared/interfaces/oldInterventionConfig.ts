@@ -14,6 +14,7 @@ export interface Legend {
   color: string;
   endValue: number;
   startValue: number;
+  default?: boolean;
 }
 
 export interface LegendSet {

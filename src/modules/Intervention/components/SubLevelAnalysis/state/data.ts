@@ -29,7 +29,12 @@ export const SubLevelAnalyticsData = selectorFamily({
       if (isEmpty(period) || isEmpty(orgUnit)) {
         throw Error(i18n.t("There are no organisation units or periods configured for this intervention"));
       }
-
-      return await getSubLevelAnalytics({ dx: dataItems, ou: orgUnit, pe: period }, engine);
+      try {
+        return await getSubLevelAnalytics({ dx: dataItems, ou: orgUnit, pe: period }, engine);
+      } catch (e: any) {
+        if (e?.details?.httpStatusCode === 409) {
+          throw Error(`${i18n.t("Error getting data for sub-level analysis")}: ${e?.message ?? ""}`);
+        }
+      }
     },
 });
