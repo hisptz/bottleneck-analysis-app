@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "d2-app-scripts build",
-    "start": "d2-app-scripts start --proxy https://hisp.apps.dhis2.org/dev",
+    "start": "d2-app-scripts start --proxy https://hisptz.com/unicefapps",
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy",
     "format": "yarn d2-style apply",
@@ -49,6 +49,7 @@
     "cypress-multi-reporters": "^1.5.0",
     "eslint-plugin-cypress": "^2.12.1",
     "highcharts": "^9.3.0",
+    "highcharts-grouped-categories": "^1.2.0",
     "highcharts-react-official": "^3.1.0",
     "intro.js": "^4.3.0",
     "intro.js-react": "^0.5.0",

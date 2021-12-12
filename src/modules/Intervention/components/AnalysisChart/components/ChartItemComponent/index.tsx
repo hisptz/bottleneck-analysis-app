@@ -1,80 +1,29 @@
 import HighCharts from "highcharts";
 import HighChartsReact from "highcharts-react-official";
-import HighChartsExport from "highcharts/modules/exporting";
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { getChartConfiguration } from "../../helper/get-chart-configuration.helper";
-import { getCharObject } from "../../helper/get-chart-object.helper";
-import { ChartConfigState } from "../../state/config";
+import { useRecoilValue } from "recoil";
+import { InterventionStateSelector } from "../../../../state/intervention";
 import { ChartData } from "../../state/data";
+import getChartOptions from "../../utils/getChartOptions";
 
 export default function ChartItemComponent({ chartRef }: { chartRef: any }): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const data = useRecoilValue(ChartData(id));
-  const [chartConfigDefinitions, setChartConfigDefinitions] = useRecoilState(ChartConfigState(id));
-  HighChartsExport(HighCharts);
-  const chartConfiguration = {
-    layout: {
-      column: "ou",
-      row: ["dx"],
-      filter: ["pe"],
-    },
-    currentChartType: "column",
-  };
+  const name = useRecoilValue(InterventionStateSelector({ id, path: ["name"] }));
+  const groups = useRecoilValue(InterventionStateSelector({ id, path: ["dataSelection", "groups"] }));
 
-  const analysisData = {
-    _data: {
-      ...data,
-      metaData: {
-        names: { ...restructureMetaData(data.metaData) },
-        ...data.metaData.dimensions,
-      },
-    },
-  };
-  const [chartOptions, setChartOptions] = useState();
-
-  function restructureMetaData(metaData: any): any {
-    const restructure: { [key: string]: any } = {};
-    Object.keys(metaData).forEach((key) => {
-      if (key === "items") {
-        Object.keys(metaData[key]).forEach((itemKey) => {
-          restructure[itemKey] = metaData[key][itemKey]["name"];
-        });
-      } else {
-      }
-    });
-    return restructure;
-  }
-
-  useEffect(() => {
-    drawChart(analysisData["_data"], chartConfigurationSelector(chartConfiguration.layout, "column"));
-  }, [data]);
-
-  function drawChart(analyticsObject: any, drawChartConfiguration: any) {
-    if (drawChartConfiguration && analyticsObject) {
-      const chartObject = getCharObject(analyticsObject, drawChartConfiguration, chartConfigDefinitions);
-      if (chartObject) {
-        setChartOptions(chartObject);
-      }
-      setChartConfigDefinitions({ pointWidth: chartObject["plotOptions"]["series"]["pointWidth"] });
-    }
-  }
-
-  function chartConfigurationSelector(layout: any, currentChartType: any) {
-    return getChartConfiguration({}, id, layout, "Data", currentChartType, []);
-  }
+  const chartOptions = useMemo(() => getChartOptions({ id, data, groups, name }), [id, data, groups, name]);
 
   return (
-    <div
-      className="chart-block"
-      style={{
-        height: "calc(" + 1000 + "px-20px",
-        minWidth: "1196px",
-        width: "100%",
-      }}>
-
-      <HighChartsReact ref={chartRef} highcharts={HighCharts} options={{ ...(chartOptions ?? {}), navigation: { buttonOptions: false } }} />
+    <div style={{ overflow: "auto", width: "100%", height: 500 }}>
+      <HighChartsReact
+        containerProps={{ id: `${id}` }}
+        immutable
+        ref={chartRef}
+        highcharts={HighCharts}
+        options={{ ...(chartOptions ?? {}), navigation: { buttonOptions: false } }}
+      />
     </div>
   );
 }
