@@ -5,6 +5,7 @@ export function getPlotOptions(chartConfiguration: any, chartConfigDefinitions: 
 
   // TODO: Find best way to attach custom events into the chart
   const plotOptions: any = {
+    title: { enabled: false },
     height: "100%",
     width: "100%",
     series: {

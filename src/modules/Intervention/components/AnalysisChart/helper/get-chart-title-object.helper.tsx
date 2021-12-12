@@ -9,5 +9,6 @@ export function getChartTitleObject(chartConfiguration: any): any {
       fontWeight: "500",
       fontSize: "16px",
     },
+    enabled: false,
   };
 }

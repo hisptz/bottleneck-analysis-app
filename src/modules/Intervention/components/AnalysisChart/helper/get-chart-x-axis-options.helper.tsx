@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { assign } from "lodash";
+
 // import { ChartConfiguration } from "../interfaces/props";
 
 export function getChartXAxisOptions(xAxisCategories: any[], chartConfiguration: any) {
@@ -33,6 +34,18 @@ export function getChartXAxisOptions(xAxisCategories: any[], chartConfiguration:
               wordBreak: "break-all",
               textOverflow: "allow",
             },
+            groupedOptions: [
+              {
+                style: {
+                  color: "red", // set red font for labels in 1st-Level
+                  fontWeight: "bold",
+                  borderLeft: "5px solid red",
+                  marginTop: "10px",
+                },
+                text: "<div style='padding-bottom:50px; float: left'>__________________________</div><br/><div style='padding-top:50px;'>${series.name}</div>",
+                useHTML: true,
+              },
+            ],
           },
         }
       );
