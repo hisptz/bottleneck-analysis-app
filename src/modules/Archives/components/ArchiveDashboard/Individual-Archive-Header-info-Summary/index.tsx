@@ -22,7 +22,7 @@ export default function IndividualArchiveHeaderInfoSummary(): React.ReactElement
   };
 
   return (
-    <div className="w-100">
+    <div className="w-100 archive-header-info-summary">
       <NoticeBox title={i18n.t("You are currently viewing an archived intervention")}>
         <div style={{ gap: 8 }} className="column ">
           <span>

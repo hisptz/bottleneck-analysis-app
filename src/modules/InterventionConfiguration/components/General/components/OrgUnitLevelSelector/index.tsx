@@ -35,7 +35,7 @@ export default function OrgUnitLevelSelector(): React.ReactElement {
   }, [orgUnitLevelState, userOrgUnit]);
 
   return (
-    <div className="column" style={{ gap: 16 }}>
+    <div className="column orgUnit-subLevelAnalysis-config" style={{ gap: 16 }}>
       <div className={"pt-16"}>
         <NoticeBox title={i18n.t("Sub level analysis notice")}>
           {i18n.t(

@@ -144,3 +144,93 @@ export const INTERVENTION_HELP_STEPS = [
     element: ".add-new-root-cause",
   },
 ];
+
+export const ARCHIVE_INTERVENTION_CONFIGURATION_HELP = [
+  {
+    intro: i18n.t("This is the list of Interventions in the system"),
+    element: ".archive-interventions",
+  },
+  {
+    intro: i18n.t("This is the list of Interventions in the system"),
+    element: ".archive-intervntion-on-back-action",
+  },
+  {
+    intro: i18n.t("This is the list of Interventions in the system"),
+    element: ".archive-menu-cell-action",
+  },
+  {
+    intro: i18n.t("This is the list of Interventions in the system"),
+    element: ".paginationCell",
+  },
+];
+
+export const ARCHIVE_INDIVIDUAL_INTERVENTION_CONFIGURATION_HELP = [
+  {
+    intro: i18n.t("This is the list of Interventions in the system"),
+    element: ".archive-header",
+  },
+  {
+    intro: i18n.t("This is the list of Interventions in the system"),
+    element: ".archive-header-button",
+  },
+  {
+    intro: i18n.t("This is the list of Interventions in the system"),
+    element: ".archive-intervention-delete",
+  },
+  {
+    intro: i18n.t("This is the list of Interventions in the system"),
+    element: ".archive-header-info-summary",
+  },
+  {
+    intro: i18n.t("This is the list of Interventions in the system"),
+    element: ".chart-block",
+  },
+  {
+    intro: i18n.t(
+      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
+    ),
+    element: ".sub-level-header",
+  },
+  {
+    intro: i18n.t(
+      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
+    ),
+    element: ".sub-level-container",
+  },
+  {
+    intro: i18n.t(
+      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
+    ),
+    element: ".sub-level-analysis-table",
+  },
+  {
+    intro: i18n.t(
+      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
+    ),
+    element: ".sub-level-analysis-table-switch",
+  },
+  {
+    intro: i18n.t(
+      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
+    ),
+    element: ".intervention-table-view-option",
+  },
+  {
+    intro: i18n.t(
+      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
+    ),
+    element: ".intervention-dictionary-view-option",
+  },
+  {
+    intro: i18n.t(
+      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
+    ),
+    element: ".root-cause-widget-table",
+  },
+  {
+    intro: i18n.t(
+      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
+    ),
+    element: ".add-new-root-cause",
+  },
+];

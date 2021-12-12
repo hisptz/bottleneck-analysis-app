@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-11T17:42:28.252Z\n"
-"PO-Revision-Date: 2021-12-11T17:42:28.252Z\n"
+"POT-Creation-Date: 2021-12-11T11:03:16.061Z\n"
+"PO-Revision-Date: 2021-12-11T11:03:16.061Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -16,39 +16,6 @@ msgstr "View Only"
 
 msgid "View and Edit"
 msgstr "View and Edit"
-
-msgid "Commodities"
-msgstr "Commodities"
-
-msgid "Human Resources"
-msgstr "Human Resources"
-
-msgid "Geographic Accessibility"
-msgstr "Geographic Accessibility"
-
-msgid "Initial Utilisation"
-msgstr "Initial Utilisation"
-
-msgid "Continuous Utilisation"
-msgstr "Continuous Utilisation"
-
-msgid "Effective Coverage"
-msgstr "Effective Coverage"
-
-msgid "Target achieved / on track"
-msgstr "Target achieved / on track"
-
-msgid "Progress, but more effort required"
-msgstr "Progress, but more effort required"
-
-msgid "Not on track"
-msgstr "Not on track"
-
-msgid "N/A"
-msgstr "N/A"
-
-msgid "No data"
-msgstr "No data"
 
 msgid "Welcome to Bottleneck Analysis App (BNA)"
 msgstr "Welcome to Bottleneck Analysis App (BNA)"
@@ -72,6 +39,9 @@ msgstr ""
 "Here is where you can add a new intervention or clone from an existing one "
 ",also you can access your intervention of interests through searching intput"
 
+msgid "Welcome to BNA Configuration"
+msgstr "Welcome to BNA Configuration"
+
 msgid "Next"
 msgstr "Next"
 
@@ -84,14 +54,14 @@ msgstr "Skip"
 msgid "Done"
 msgstr "Done"
 
-msgid "Error fetching user details"
-msgstr "Error fetching user details"
-
 msgid "Back to archives"
 msgstr "Back to archives"
 
 msgid "Refresh"
 msgstr "Refresh"
+
+msgid "Help"
+msgstr "Help"
 
 msgid "Delete"
 msgstr "Delete"
@@ -258,9 +228,6 @@ msgstr "Show"
 
 msgid "Add Filter"
 msgstr "Add Filter"
-
-msgid "Help"
-msgstr "Help"
 
 msgid "Configure"
 msgstr "Configure"
@@ -560,9 +527,6 @@ msgstr "Dictionary View"
 msgid "Download Excel"
 msgstr "Download Excel"
 
-msgid "Error getting data for sub-level analysis"
-msgstr "Error getting data for sub-level analysis"
-
 msgid "Give Access to a user , group or role"
 msgstr "Give Access to a user , group or role"
 
@@ -634,16 +598,6 @@ msgstr "Intervention Name"
 
 msgid "Enter a description"
 msgstr "Enter a description"
-
-msgid "Sub-level analysis configuration unavailable"
-msgstr "Sub-level analysis configuration unavailable"
-
-msgid ""
-"Current sub-level analysis configuration were set by a user with higher "
-"organisation unit level access and cannot be modified."
-msgstr ""
-"Current sub-level analysis configuration were set by a user with higher "
-"organisation unit level access and cannot be modified."
 
 msgid "Sub level analysis notice"
 msgstr "Sub level analysis notice"

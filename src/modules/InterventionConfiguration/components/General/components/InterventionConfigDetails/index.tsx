@@ -21,49 +21,55 @@ export default function InterventionConfigDetails(): React.ReactElement {
 
   return (
     <div className="interventionConfig">
-      <Controller
-        rules={{
-          required: i18n.t("Name is required"),
-          validate: (value) => {
-            return (
-              !find(filteredSummaries, (summary) => summary.name === value) ||
-              i18n.t(
-                "An intervention with this name already exists. Please provide a different name. For related interventions, consider using differentiating keywords/version numbers (e.g v2 )"
-              )
-            );
-          },
-        }}
-        control={control}
-        name={"name"}
-        render={({ field, fieldState }) => (
-          <InputField
-            required
-            error={fieldState?.error}
-            dataTest={"interventionName"}
-            validationText={fieldState?.error?.message}
-            value={field.value}
-            onChange={({ value }: { value: string }) => field.onChange(value)}
-            name={field.name}
-            label={i18n.t("Intervention Name")}
-          />
-        )}
-      />
-      <Controller
-        render={({ field, fieldState }) => (
-          <TextAreaField
-            value={field.value}
-            label={i18n.t("Description")}
-            dataTest={"interventionDescription"}
-            name={field.name}
-            onChange={({ value }: { value: string }) => field.onChange(value)}
-            placeholder={i18n.t("Enter a description")}
-            error={fieldState.error}
-            validationText={fieldState.error?.message}
-          />
-        )}
-        name={"description"}
-      />
-      <Controller render={({ field, fieldState }) => <PeriodSelector field={field} fieldState={fieldState} />} name={"periodSelection"} />
+      <div className="interventionConfigName">
+        <Controller
+          rules={{
+            required: i18n.t("Name is required"),
+            validate: (value) => {
+              return (
+                !find(filteredSummaries, (summary) => summary.name === value) ||
+                i18n.t(
+                  "An intervention with this name already exists. Please provide a different name. For related interventions, consider using differentiating keywords/version numbers (e.g v2 )"
+                )
+              );
+            },
+          }}
+          control={control}
+          name={"name"}
+          render={({ field, fieldState }) => (
+            <InputField
+              required
+              error={fieldState?.error}
+              dataTest={"interventionName"}
+              validationText={fieldState?.error?.message}
+              value={field.value}
+              onChange={({ value }: { value: string }) => field.onChange(value)}
+              name={field.name}
+              label={i18n.t("Intervention Name")}
+            />
+          )}
+        />
+      </div>
+      <div className="intervnameConfigDesc">
+        <Controller
+          render={({ field, fieldState }) => (
+            <TextAreaField
+              value={field.value}
+              label={i18n.t("Description")}
+              dataTest={"interventionDescription"}
+              name={field.name}
+              onChange={({ value }: { value: string }) => field.onChange(value)}
+              placeholder={i18n.t("Enter a description")}
+              error={fieldState.error}
+              validationText={fieldState.error?.message}
+            />
+          )}
+          name={"description"}
+        />
+      </div>
+      <div className="intervnameConfigPeriodType">
+        <Controller render={({ field, fieldState }) => <PeriodSelector field={field} fieldState={fieldState} />} name={"periodSelection"} />
+      </div>
       <ErrorBoundary FallbackComponent={OrgUnitLevelError}>
         <OrgUnitLevelSelector />
       </ErrorBoundary>
