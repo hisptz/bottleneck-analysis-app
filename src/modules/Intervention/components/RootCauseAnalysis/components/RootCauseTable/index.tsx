@@ -1,19 +1,19 @@
 import { useAlert } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
-import { Button, DataTable, DataTableCell, DataTableRow, TableBody, TableFoot, Modal, ModalTitle, ModalActions, ModalContent, ButtonStrip } from "@dhis2/ui";
+import { Button, ButtonStrip, DataTable, DataTableCell, DataTableRow, Modal, ModalActions, ModalContent, ModalTitle, TableBody, TableFoot } from "@dhis2/ui";
 import { find } from "lodash";
 import React, { useEffect, useState } from "react";
 import "./rootCauseTable.css";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { EngineState } from "../../../../../../core/state/dataEngine";
+import classes from "../../../../../../styles/Table.module.css";
 import { deleteRootCauseData } from "../../services/data";
 import { RootCauseTableConfig } from "../../state/config";
 import { RootCauseData, RootCauseDataRequestId } from "../../state/data";
 import RootCauseActionsProps from "./components/RootCauseActionsComponent";
 import RootCauseFormComponent from "./components/RootCauseFormComponent";
 import RootCauseTableHeaderComponent from "./components/RootCauseTableHeaderComponent";
-import classes from "./RootCauseTable.module.css";
 
 export default function RootCauseTable({ tableRef }: { tableRef: any }) {
   const { id } = useParams<{ id: string }>();
@@ -103,13 +103,23 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
                       <RootCauseActionsProps
                         key={index}
                         onUpdateRootCause={() => onUpdateRootCause(rowIndex)}
-                        onDeleteRootCause={() => onDeleteRootCause(rowIndex)}></RootCauseActionsProps>
+                        onDeleteRootCause={() => onDeleteRootCause(rowIndex)}
+                      />
                     </DataTableCell>
                   );
                 }
                 const { disabled } = find(columns, ["key", key]) ?? {};
+
+                if (disabled) {
+                  return (
+                    <DataTableCell fixed align="center" className={classes["table-name-cell"]} key={index}>
+                      {value}
+                    </DataTableCell>
+                  );
+                }
+
                 return (
-                  <DataTableCell fixed={disabled ? disabled : undefined} align="center" className={classes["table-cell"]} key={index}>
+                  <DataTableCell align="center" className={classes["table-cell"]} key={index}>
                     {value}
                   </DataTableCell>
                 );
@@ -120,7 +130,9 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
         <TableFoot>
           <DataTableRow>
             <DataTableCell align={"right"} colSpan={`${columns.length}`}>
-              <Button className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>{i18n.t("Add New")}</Button>
+              <Button className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>
+                {i18n.t("Add New")}
+              </Button>
             </DataTableCell>
           </DataTableRow>
         </TableFoot>

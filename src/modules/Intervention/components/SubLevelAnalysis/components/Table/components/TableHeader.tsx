@@ -3,8 +3,8 @@ import { DataTableColumnHeader, DataTableHead, DataTableRow } from "@dhis2/ui";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import classes from "../../../../../../../styles/Table.module.css";
 import { TableConfig, TableLayout } from "../../../state/layout";
-import classes from "../Table.module.css";
 
 export default function TableHeader(): React.ReactElement {
   const { id } = useParams<{ id: string }>();

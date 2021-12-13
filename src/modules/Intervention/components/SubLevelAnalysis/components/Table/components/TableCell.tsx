@@ -3,9 +3,9 @@ import React, { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { Legend } from "../../../../../../../shared/interfaces/interventionConfig";
+import classes from "../../../../../../../styles/Table.module.css";
 import { InterventionStateSelector } from "../../../../../state/intervention";
 import { generateCellColor } from "../../../utils";
-import classes from "../Table.module.css";
 
 export default function TableCell({ id, colId, data, legends }: { id: string; colId: string; data: any; legends: Array<Legend> }): React.ReactElement {
   const { id: interventionId } = useParams<{ id: string }>();
