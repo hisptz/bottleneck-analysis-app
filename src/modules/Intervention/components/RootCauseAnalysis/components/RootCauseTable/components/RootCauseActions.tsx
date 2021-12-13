@@ -8,7 +8,7 @@ type RootCauseActionsProps = {
   onDeleteRootCause: any;
 };
 
-export default function RootCauseActionsComponent({ onUpdateRootCause, onDeleteRootCause }: RootCauseActionsProps) {
+export default function RootCauseActions({ onUpdateRootCause, onDeleteRootCause }: RootCauseActionsProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [stateActionRef, setStateActionRef] = useState<any>(null);
   return (

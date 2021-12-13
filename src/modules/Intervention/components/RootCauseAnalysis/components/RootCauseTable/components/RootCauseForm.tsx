@@ -1,6 +1,5 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, Modal, ModalContent, ModalTitle, ReactFinalForm, SingleSelectFieldFF, TextAreaFieldFF } from "@dhis2/ui";
-import { Period } from "@iapps/period-utilities";
 import { find, map } from "lodash";
 import React, { useEffect, useState } from "react";
 import { OnChange } from "react-final-form-listeners";
@@ -8,11 +7,10 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { EngineState } from "../../../../../../../core/state/dataEngine";
 import { CurrentInterventionSummary } from "../../../../../../../core/state/intervention";
-import { SystemSettingsState } from "../../../../../../../core/state/system";
-import { UserOrganisationUnit } from "../../../../../../../core/state/user";
 import { InterventionSummary } from "../../../../../../../shared/interfaces/interventionConfig";
 import { uid } from "../../../../../../../shared/utils/generators";
 import { InterventionStateSelector } from "../../../../../state/intervention";
+import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../../state/selections";
 import { RootCauseData } from "../../../interfaces/rootCauseData";
 import { addOrUpdateRootCauseData } from "../../../services/data";
 import { RootCauseConfig } from "../../../state/config";
@@ -25,9 +23,14 @@ type RootCauseFormCProps = {
   rootCauseData?: any;
 };
 
-export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hideModal, onSavingError, onCancelForm, rootCauseData }: RootCauseFormCProps) {
+export default function RootCauseForm({
+  onSuccessfullySaveRootCause,
+  hideModal,
+  onSavingError,
+  onCancelForm,
+  rootCauseData,
+}: RootCauseFormCProps): React.ReactElement {
   const { id: interventionId } = useParams<{ id: string }>();
-  const { calendar } = useRecoilValue(SystemSettingsState);
   const { dataElements } = useRecoilValue(RootCauseConfig);
 
   const intervention: InterventionSummary | undefined = useRecoilValue(CurrentInterventionSummary(interventionId));
@@ -42,23 +45,11 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
     })
   );
 
-  const periodSelection = useRecoilValue(
-    InterventionStateSelector({
-      id: interventionId,
-      path: ["periodSelection"],
-    })
-  );
-  const { id: periodId, name: period } = new Period().setCalendar(calendar)?.setPreferences({ allowFuturePeriods: true }).getById(periodSelection?.id);
+  const { name: period, id: periodId } = useRecoilValue(InterventionPeriodState(interventionId)) ?? {};
+  const orgUnit = useRecoilValue(InterventionOrgUnitState(interventionId));
 
-  const orgUnitSelection = useRecoilValue(
-    InterventionStateSelector({
-      id: interventionId,
-      path: ["orgUnitSelection", "orgUnit"],
-    })
-  );
-  const { id, displayName } = useRecoilValue(UserOrganisationUnit) ?? {};
-  const orgUnitId = orgUnitSelection.type === "USER_ORGANISATION_UNIT" ? id : orgUnitSelection.id;
-  const orgUnitName = orgUnitSelection.type === "USER_ORGANISATION_UNIT" ? displayName : orgUnitSelection.id;
+  const orgUnitId = orgUnit.id;
+  const orgUnitName = orgUnit.displayName;
 
   const rootCauseHiddenFields = {
     [getDataElementId("orgunit")]: orgUnitName,
@@ -96,8 +87,7 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
       return [];
     }
     const bottleneck = find(bottleneckMetadata, (item: any) => item?.id === bottleneckId);
-    const indicators = bottleneck?.indicators || [];
-    return indicators;
+    return bottleneck?.indicators || [];
   }
 
   function onUpdateBottleneck(bottleneckId: string) {
@@ -219,8 +209,8 @@ export default function RootCauseFormComponent({ onSuccessfullySaveRootCause, hi
                       }}>
                       Cancel
                     </Button>
-                    <Button primary disabled={rootCauseSaveButton} type="submit">
-                      {rootCauseSaveButton ? "Saving..." : "Save"}
+                    <Button loading={rootCauseSaveButton} primary disabled={rootCauseSaveButton} type="submit">
+                      {rootCauseSaveButton ? `${i18n.t("Saving")}...` : i18n.t("Save")}
                     </Button>
                   </ButtonStrip>
                 </div>

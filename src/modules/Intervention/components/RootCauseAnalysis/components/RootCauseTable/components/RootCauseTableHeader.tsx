@@ -1,10 +1,10 @@
-import { DataTableColumnHeader, DataTableRow, DataTableHead } from "@dhis2/ui";
+import { DataTableColumnHeader, DataTableHead, DataTableRow } from "@dhis2/ui";
 import React from "react";
 import "../rootCauseTable.css";
 import classes from "../../../../../../../styles/Table.module.css";
 import { TableColumn } from "../../../interfaces/table";
 
-export default function RootCauseTableHeaderComponent({ columns }: { columns: Array<TableColumn> }) {
+export default function RootCauseTableHeader({ columns }: { columns: Array<TableColumn> }): React.ReactElement {
   return (
     <DataTableHead>
       <DataTableRow className={classes["header-row"]}>
