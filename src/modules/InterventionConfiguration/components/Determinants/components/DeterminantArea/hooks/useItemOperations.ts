@@ -1,10 +1,10 @@
 import { cloneDeep, find, findIndex, set as _set } from "lodash";
 import { useCallback } from "react";
+import { useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { useRecoilCallback, useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilCallback, useRecoilState } from "recoil";
 import { DataItem, Group } from "../../../../../../../shared/interfaces/interventionConfig";
-import { InterventionDirtySelector } from "../../../../../state/data";
-import { SelectedDeterminantId, SelectedIndicatorId } from "../../../../../state/edit";
+import { SelectedDeterminantIndex, SelectedIndicatorIndex } from "../../../../../state/edit";
 
 export default function useItemOperations(setIndicatorSelectorHide: (hide: boolean) => void): {
   onItemDragEnd: (groupId: string, result: { destination: any; source: any }) => void;
@@ -13,14 +13,10 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
   onItemDelete: (groupId: string, itemId: string) => void;
 } {
   const { id } = useParams<{ id: string }>();
-  const setSelectedDeterminant = useSetRecoilState(SelectedDeterminantId(id));
-  const [selectedIndicatorId, setSelectedIndicator] = useRecoilState(SelectedIndicatorId(id));
-  const [determinants, setDeterminants] = useRecoilState(
-    InterventionDirtySelector({
-      id,
-      path: ["dataSelection", "groups"],
-    })
-  );
+  const { getValues, setValue, watch } = useFormContext();
+  const [selectedDeterminantIndex, setSelectedDeterminant] = useRecoilState(SelectedDeterminantIndex(id));
+  const [selectedIndicatorIndex, setSelectedIndicator] = useRecoilState(SelectedIndicatorIndex(id));
+  const determinants = watch("dataSelection.groups");
 
   const onItemDragEnd = useCallback(
     (groupId: string, result: { destination: any; source: any }) => {
@@ -31,72 +27,72 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
       if (destination.droppableId === source.droppableId && destination.index === source.index) {
         return;
       }
-      setDeterminants((prevDeterminants: Array<Group>) => {
-        const newDeterminants = cloneDeep(prevDeterminants);
-        const group: Group | undefined = find(newDeterminants, { id: groupId });
-        if (group) {
-          const items = [...group?.items];
-          items.splice(destination.index, 0, items.splice(source.index, 1)[0]);
-          group.items = items;
-          newDeterminants[findIndex(newDeterminants, { id: groupId })] = group as Group;
-          return newDeterminants;
-        }
-      });
+      const prevDeterminants = getValues("dataSelection.groups");
+      const newDeterminants = cloneDeep(prevDeterminants);
+      const group: Group | undefined = find(newDeterminants, { id: groupId });
+      if (group) {
+        const items = [...group?.items];
+        items.splice(destination.index, 0, items.splice(source.index, 1)[0]);
+        group.items = items;
+        newDeterminants[findIndex(newDeterminants, { id: groupId })] = group as Group;
+        setValue("dataSelection.groups", newDeterminants);
+      }
     },
-    [setDeterminants]
+    [getValues, setValue]
   );
 
   const onItemsAdd = useCallback(
     (group: Group, indicators: Array<DataItem>) => {
-      setDeterminants((prevDeterminants: Array<Group>) => {
-        const newDeterminants = cloneDeep(prevDeterminants);
-        const selectedGroup = find(newDeterminants, { id: group.id });
+      const prevDeterminants = getValues("dataSelection.groups");
+      const newDeterminants = cloneDeep(prevDeterminants);
+      const selectedGroup = find(newDeterminants, { id: group.id });
+      if (selectedGroup) {
+        _set(selectedGroup, "items", [...indicators]);
+        _set(newDeterminants, [findIndex(newDeterminants, ["id", selectedGroup.id])], selectedGroup);
+        setValue("dataSelection.groups", newDeterminants);
+      }
 
-        if (selectedGroup) {
-          _set(selectedGroup, "items", [...indicators]);
-          _set(newDeterminants, [findIndex(newDeterminants, ["id", selectedGroup.id])], selectedGroup);
-          return newDeterminants;
-        }
-      });
       setIndicatorSelectorHide(true);
     },
-    [setDeterminants, setIndicatorSelectorHide]
+    [getValues, setIndicatorSelectorHide, setValue]
   );
 
   const onItemClick = (groupId: string, itemId: string) => {
     const selectedGroup = find(determinants, { id: groupId });
-    setSelectedDeterminant(selectedGroup?.id);
-    setSelectedIndicator(find(selectedGroup?.items, { id: itemId })?.id);
+    setSelectedDeterminant(findIndex(determinants, ["id", groupId]));
+    setSelectedIndicator(findIndex(selectedGroup.items, ["id", itemId]));
   };
 
   const onItemDelete = useRecoilCallback(
-    ({ set, reset }) =>
+    ({ reset }) =>
       (groupId: string, itemId: string) => {
-        if (selectedIndicatorId === itemId) {
-          reset(SelectedIndicatorId(id));
-        }
-        set(
-          InterventionDirtySelector({
-            id,
-            path: ["dataSelection", "groups"],
-          }),
-          (determinants) => {
-            const newDeterminants = cloneDeep(determinants);
-            const selectedGroup = find(newDeterminants, { id: groupId });
-            if (selectedGroup) {
-              const items = [...selectedGroup.items];
-              const index = findIndex(items, { id: itemId });
-              if (index !== -1) {
-                items.splice(index, 1);
-                _set(selectedGroup, "items", items);
-                _set(newDeterminants, [findIndex(newDeterminants, ["id", selectedGroup.id])], selectedGroup);
+        if (selectedDeterminantIndex !== undefined && selectedIndicatorIndex !== undefined) {
+          const selectedGroup = determinants[selectedDeterminantIndex];
+          if (selectedGroup) {
+            const selectedIndicatorId = selectedGroup.items[selectedIndicatorIndex];
+            if (selectedIndicatorId) {
+              if (selectedIndicatorId === itemId) {
+                reset(SelectedIndicatorIndex(id));
+                reset(SelectedDeterminantIndex(id));
               }
             }
-            return newDeterminants;
           }
-        );
+        }
+        const prevDeterminants = getValues("dataSelection.groups");
+        const newDeterminants = cloneDeep(prevDeterminants);
+        const newGroup = find(newDeterminants, { id: groupId });
+        if (newGroup) {
+          const items = [...newGroup.items];
+          const index = findIndex(items, { id: itemId });
+          if (index !== -1) {
+            items.splice(index, 1);
+            _set(newGroup, "items", items);
+            _set(newDeterminants, [findIndex(newDeterminants, ["id", newGroup.id])], newGroup);
+          }
+        }
+        setValue("dataSelection.groups", newDeterminants);
       },
-    [id, selectedIndicatorId]
+    [determinants, getValues, id, selectedDeterminantIndex, selectedIndicatorIndex, setValue]
   );
 
   return {

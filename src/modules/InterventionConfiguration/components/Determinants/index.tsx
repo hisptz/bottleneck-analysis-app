@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { INTERVENTION_DETERMINANT_CONFIGURATION_HELP } from "../../../../constants/help/intervention-configuration";
 import { STEP_OPTIONS } from "../../../../constants/help/options";
-import { SelectedIndicatorId } from "../../state/edit";
+import { SelectedIndicatorIndex } from "../../state/edit";
 import HelpState from "./../../../Intervention/state/help";
 import DeterminantArea from "./components/DeterminantArea";
 import IndicatorConfiguration from "./components/IndicatorConfiguration";
@@ -12,7 +12,7 @@ import "./Determinant.css";
 
 export default function DeterminantsConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
-  const selectedIndicator = useRecoilValue(SelectedIndicatorId(id));
+  const selectedIndicator = useRecoilValue(SelectedIndicatorIndex(id));
 
   const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
 
@@ -27,7 +27,7 @@ export default function DeterminantsConfiguration(): React.ReactElement {
       <div className="determinant-area-container">
         <DeterminantArea />
       </div>
-      <div className="indicator-configuration-container">{selectedIndicator && <IndicatorConfiguration />}</div>
+      <div className="indicator-configuration-container">{selectedIndicator !== undefined && <IndicatorConfiguration />}</div>
     </div>
   );
 }

@@ -1,13 +1,11 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle } from "@dhis2/ui";
 import { DataSourceSelector } from "@hisptz/react-ui";
-import { filter, find, has } from "lodash";
+import { filter, find, uniqBy } from "lodash";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useFormContext } from "react-hook-form";
 import { INDICATORS_PER_DETERMINANT } from "../../../../../../constants/constants";
 import { DataItem, Group } from "../../../../../../shared/interfaces/interventionConfig";
-import { InterventionDirtySelector } from "../../../../state/data";
 import { generateLegendDefaults } from "../DeterminantArea/utils/indicators";
 
 export interface IndicatorSelectorProps {
@@ -18,23 +16,30 @@ export interface IndicatorSelectorProps {
 }
 
 export default function IndicatorSelector({ group, hide, onClose, onSave }: IndicatorSelectorProps): any {
-  const { id } = useParams<{ id: string }>();
+  const { watch } = useFormContext();
   const [selectedIndicators, setSelectedIndicators] = useState<Array<DataItem>>(group?.items ?? []);
-  const legendDefinitions = useRecoilValue(InterventionDirtySelector({ id, path: ["dataSelection", "legendDefinitions"] }));
+  const legendDefinitions = watch("dataSelection.legendDefinitions");
+
+  const onSaveClicked = () => {
+    const newIndicators = selectedIndicators.map((indicator: any) => {
+      return (
+        find(group?.items, { id: indicator.id }) ?? {
+          ...indicator,
+          name: indicator.displayName,
+          label: indicator.displayName,
+          legends: generateLegendDefaults(
+            filter(legendDefinitions, (definition) => !definition.isDefault),
+            100
+          ),
+          type: indicator.type.toUpperCase(),
+        }
+      );
+    });
+    onSave(group, uniqBy(newIndicators, "id"));
+  };
 
   const onSubmit = (dataSources: Array<any>) => {
-    setSelectedIndicators((selected) => {
-      const newIndicators = filter(dataSources, (item) => !find(selected, { id: item.id }));
-      newIndicators.forEach((indicator) => {
-        if (!has(indicator, "legends")) {
-          indicator.legends = generateLegendDefaults(filter(legendDefinitions, ["default", false]), 100);
-          indicator.name = indicator.displayName;
-          indicator.label = indicator.displayName;
-          indicator.type = indicator.type.toUpperCase();
-        }
-      });
-      return [...selected, ...newIndicators];
-    });
+    setSelectedIndicators(dataSources);
   };
 
   return (
@@ -51,11 +56,7 @@ export default function IndicatorSelector({ group, hide, onClose, onSave }: Indi
       <ModalActions>
         <ButtonStrip end>
           <Button onClick={onClose}>{i18n.t("Cancel")}</Button>
-          <Button
-            onClick={() => {
-              onSave(group, selectedIndicators);
-            }}
-            primary>
+          <Button onClick={onSaveClicked} primary>
             {i18n.t("Add")}
           </Button>
         </ButtonStrip>

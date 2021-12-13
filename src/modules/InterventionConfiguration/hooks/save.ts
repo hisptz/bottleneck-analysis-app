@@ -7,7 +7,7 @@ import { InterventionSummary, RequestId } from "../../../core/state/intervention
 import { InterventionState } from "../../Intervention/state/intervention";
 import { createIntervention, updateIntervention } from "../services/save";
 import { InterventionDirtyState } from "../state/data";
-import { SelectedDeterminantId, SelectedIndicatorId } from "../state/edit";
+import { SelectedDeterminantIndex, SelectedIndicatorIndex } from "../state/edit";
 import { validate } from "../utils/validators";
 
 export default function useSaveIntervention(handleSubmit: (fun: (data: any) => void) => () => void): { onSave: () => void; saving: boolean } {
@@ -50,8 +50,8 @@ export default function useSaveIntervention(handleSubmit: (fun: (data: any) => v
             set(RequestId, (prevState) => prevState + 1);
             reset(InterventionSummary);
             reset(InterventionDirtyState(id));
-            reset(SelectedDeterminantId(id));
-            reset(SelectedIndicatorId(id));
+            reset(SelectedDeterminantIndex(id));
+            reset(SelectedIndicatorIndex(id));
             resetIntervention();
             history.replace(`/interventions/${newIntervention.id}`);
           } else {
