@@ -3,54 +3,60 @@ import { Button, IconAdd24 } from "@dhis2/ui";
 import { DataConfigurationArea } from "@hisptz/react-ui";
 import { isArray } from "lodash";
 import React, { useMemo, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { DataItem, Group } from "../../../../../../../shared/interfaces/interventionConfig";
 import { getIcon } from "../../../../../../../shared/utils/indicators";
 import "./GroupDeterminantComponent.module.css";
-import { InterventionDirtySelector } from "../../../../../state/data";
-import { SelectedDeterminantId, SelectedIndicatorId } from "../../../../../state/edit";
+import { SelectedDeterminantIndex, SelectedIndicatorIndex } from "../../../../../state/edit";
 import IndicatorSelector from "../../IndicatorSelector";
 import useItemOperations from "../hooks/useItemOperations";
 
 export default function GroupDeterminantComponent(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
+  const { watch } = useFormContext();
   const [indicatorSelectorHide, setIndicatorSelectorHide] = useState(true);
-  const [selectedGroupIndex, setSelectedGroupIndex] = useState<number | undefined>();
-  const selectedGroup = useRecoilValue(SelectedDeterminantId(id));
-  const selectedIndicator = useRecoilValue(SelectedIndicatorId(id));
-  const determinants = useRecoilValue(
-    InterventionDirtySelector({
-      id,
-      path: ["dataSelection", "groups"],
-    })
-  );
+  const [selectedAddGroupIndex, setSelectedAddGroupIndex] = useState<number | undefined>();
+  const selectedGroupIndex = useRecoilValue(SelectedDeterminantIndex(id));
+  const selectedIndicatorIndex = useRecoilValue(SelectedIndicatorIndex(id));
+  const determinants = watch("dataSelection.groups");
 
   const { onItemDragEnd, onItemDelete, onItemsAdd, onItemClick } = useItemOperations(setIndicatorSelectorHide);
 
-  const groups: Array<any> = useMemo(() => {
-    return determinants?.map(({ id, name, items }: Group) => {
-      if (!isArray(determinants)) {
-        return [];
-      }
-      return {
+  const groups: Array<any> = determinants?.map(({ id, name, items }: Group) => {
+    if (!isArray(determinants)) {
+      return [];
+    }
+    return {
+      id,
+      name: `${name} (${items.length})`,
+      items: items?.map(({ id, type, label }: DataItem) => ({
         id,
-        name: `${name} (${items.length})`,
-        items: items?.map(({ id, type, label }: DataItem) => ({
-          id,
-          name: label,
-          icon: getIcon(type),
-        })),
-      };
-    });
-  }, [determinants]);
+        name: label,
+        icon: getIcon(type),
+      })),
+    };
+  });
 
   const selectedItems = useMemo(() => {
-    if (selectedIndicator && selectedGroup) {
-      return [{ groupId: selectedGroup, itemId: selectedIndicator }];
+    if (selectedGroupIndex !== undefined && selectedIndicatorIndex !== undefined) {
+      const selectedGroup = determinants[selectedGroupIndex];
+      if (selectedGroup) {
+        const selectedIndicatorId = selectedGroup.items[selectedIndicatorIndex]?.id;
+
+        if (selectedIndicatorId) {
+          return [
+            {
+              itemId: selectedIndicatorId,
+              groupId: selectedGroup.id,
+            },
+          ];
+        }
+      }
     }
     return [];
-  }, [selectedGroup, selectedIndicator]);
+  }, [determinants, selectedGroupIndex, selectedIndicatorIndex]);
 
   return (
     <div className="indicator-data-configuration-area">
@@ -68,7 +74,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
               icon={<IconAdd24 />}
               dataTest={"add-indicator-button"}
               onClick={() => {
-                setSelectedGroupIndex(groupIndex);
+                setSelectedAddGroupIndex(groupIndex);
                 setIndicatorSelectorHide(false);
               }}
               className="add-button">
@@ -77,10 +83,10 @@ export default function GroupDeterminantComponent(): React.ReactElement {
           </>
         )}
       />
-      {!indicatorSelectorHide && selectedGroupIndex !== undefined ? (
+      {!indicatorSelectorHide && selectedAddGroupIndex !== undefined ? (
         <IndicatorSelector
           onSave={onItemsAdd}
-          group={determinants[selectedGroupIndex]}
+          group={determinants[selectedAddGroupIndex]}
           onClose={() => setIndicatorSelectorHide(true)}
           hide={indicatorSelectorHide}
         />

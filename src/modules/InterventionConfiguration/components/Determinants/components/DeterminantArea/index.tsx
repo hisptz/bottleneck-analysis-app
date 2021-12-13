@@ -1,36 +1,26 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button } from "@dhis2/ui";
 import { cloneDeep, isEmpty, reduce } from "lodash";
-import React from "react";
+import React, { useCallback } from "react";
 import "./DeterminantArea.css";
-import { useParams } from "react-router-dom";
-import { useRecoilCallback, useRecoilValue } from "recoil";
-import { InterventionDirtySelector } from "../../../../state/data";
-import { SelectedDeterminantId, SelectedIndicatorId } from "../../../../state/edit";
+import { useFormContext } from "react-hook-form";
 import GroupDeterminantComponent from "./component";
 
 export default function DeterminantArea(): React.ReactElement {
-  const { id } = useParams<{ id: string }>();
-  const determinants = useRecoilValue(InterventionDirtySelector({ id, path: ["dataSelection", "groups"] }));
+  const { setValue, getValues, watch } = useFormContext();
+  const determinants = watch("dataSelection.groups");
   const allDeterminantsEmpty: boolean = reduce(determinants, (acc, determinant) => acc && isEmpty(determinant.items), true as boolean);
 
-  const onClearAll = useRecoilCallback(
-    ({ set, reset }) =>
-      () => {
-        if (window.confirm("Are you sure you want to clear all indicators?")) {
-          set(InterventionDirtySelector({ id, path: ["dataSelection", "groups"] }), (prevState: any) => {
-            const newGroups = cloneDeep(prevState);
-            newGroups.forEach((group: any) => {
-              group.items = [];
-            });
-            return newGroups;
-          });
-          reset(SelectedIndicatorId(id));
-          reset(SelectedDeterminantId(id));
-        }
-      },
-    [id]
-  );
+  const onClearAll = useCallback(() => {
+    if (window.confirm("Are you sure you want to clear all indicators?")) {
+      const determinants = getValues("dataSelection.groups");
+      const newGroups = cloneDeep(determinants);
+      newGroups.forEach((group: any) => {
+        group.items = [];
+      });
+      setValue("dataSelection.groups", newGroups);
+    }
+  }, [getValues, setValue]);
 
   return (
     <div className="determinant-container">

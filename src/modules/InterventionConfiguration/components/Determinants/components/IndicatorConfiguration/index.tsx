@@ -4,34 +4,24 @@ import { filter, findIndex } from "lodash";
 import React from "react";
 import { useParams } from "react-router-dom";
 import "./SelectedItemComponent.css";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { uid } from "../../../../../../shared/utils/generators";
-import { InterventionDirtySelector } from "../../../../state/data";
-import { SelectedIndicator } from "../../../../state/edit";
+import { useRecoilValue } from "recoil";
+import { Legend } from "../../../../../../shared/interfaces/interventionConfig";
+import { SelectedDeterminantIndex, SelectedIndicatorIndex } from "../../../../state/edit";
+import { useFormContext } from "react-hook-form";
 
 export default function IndicatorConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
-  const [selectedIndicator, setSelectedIndicator] = useRecoilState(SelectedIndicator(id));
-  const legendDefinitions = useRecoilValue(
-    InterventionDirtySelector({
-      id,
-      path: ["dataSelection", "legendDefinitions"],
-    })
-  );
+  const selectedItemIndex = useRecoilValue(SelectedIndicatorIndex(id));
+  const selectedGroupIndex = useRecoilValue(SelectedDeterminantIndex(id));
+  const { watch, setValue } = useFormContext();
+  const selectedIndicator = watch(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}]`);
+  const legendDefinitions = watch("dataSelection.legendDefinitions");
   const filteredLegendDefinitions = filter(legendDefinitions, (legendDefinition) => {
     return !legendDefinition.isDefault;
   });
 
   const onChange = (key: string, value: any) => {
-    setSelectedIndicator((prevValue) => {
-      if (prevValue) {
-        return {
-          ...prevValue,
-          id: prevValue?.id ?? uid(),
-          [key]: value,
-        };
-      }
-    });
+    setValue(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}].${key}`, value);
   };
 
   return (
@@ -53,7 +43,7 @@ export default function IndicatorConfiguration(): React.ReactElement {
         />
         <p>{i18n.t("Legends (Only applicable to sub level analysis)")}</p>
         {filteredLegendDefinitions?.map((legendDefinition: any | undefined) => {
-          const legendIndex = findIndex(selectedIndicator?.legends, (legend) => legend.id === legendDefinition.id);
+          const legendIndex = findIndex(selectedIndicator?.legends, (legend: Legend) => legend.id === legendDefinition.id);
           const legend = {
             ...selectedIndicator?.legends[legendIndex],
             legendDefinitionId: legendDefinition?.id,

@@ -27,6 +27,7 @@ export default function InterventionConfiguration(): React.ReactElement {
       description: intervention.description,
       periodSelection: intervention.periodSelection,
       orgUnitSelection: intervention.orgUnitSelection,
+      dataSelection: intervention.dataSelection,
     },
     mode: "onSubmit",
     reValidateMode: "onChange",

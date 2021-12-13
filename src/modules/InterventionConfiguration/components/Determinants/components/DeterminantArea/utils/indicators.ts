@@ -18,5 +18,6 @@ export function generateLegendDefaults(legendDefinitions: Array<LegendDefinition
     }
     return values.reverse();
   }
+  console.log("Empty");
   return [];
 }
