@@ -15,15 +15,15 @@ export default function HelperMenu({ onClose }: { onClose: () => void }) {
             setHelpState(true);
             onClose();
           }}
-          icon={<IconEmptyFrame16 />}
-          label={i18n.t("Take a Tour")}
+          label={i18n.t("Start a guided tour")}
         />
         <MenuItem
           onClick={() => {
             onClose();
+            window.location.href =
+              "https://docs.dhis2.org/en/use/optional-apps/bottleneck-analysis-app/app-version-122/introduction-and-usage/dashboard-and-demo.html";
           }}
-          icon={<IconDragHandle16 />}
-          label={i18n.t("User Manual")}
+          label={i18n.t("Documentation")}
         />
       </FlyoutMenu>
     </>
