@@ -4,9 +4,12 @@ import React from "react";
 import BNALogo from "../../assets/images/bna-logo.png";
 import "./empty-intervention.css";
 import { useHistory } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { UserAuthority } from "../../core/state/user";
 
 export default function EmptyInterventions() {
   const history = useHistory();
+  const authorities = useRecoilValue(UserAuthority);
   return (
     <div className="main-container">
       <div className="column align-center" style={{ gap: 32 }}>
@@ -27,9 +30,11 @@ export default function EmptyInterventions() {
             </div>
           </div>
         </div>
-        <Button onClick={() => history.replace("/new-intervention")} primary icon={<IconAdd24 />}>
-          {i18n.t("Add New Intervention")}
-        </Button>
+        {authorities?.intervention?.create && (
+          <Button onClick={() => history.replace("/new-intervention")} primary icon={<IconAdd24 />}>
+            {i18n.t("Add New Intervention")}
+          </Button>
+        )}
       </div>
     </div>
   );

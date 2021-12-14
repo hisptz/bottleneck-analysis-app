@@ -6,6 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { UserAuthority } from "../../core/state/user";
+import AuthorityError from "../../shared/components/errors/AuthorityError";
 import HelpState from "../Intervention/state/help";
 import AccessConfigurationComponent from "./components/Access";
 import ConfirmDeleteDialog from "./components/ConfirmDeleteDialog";
@@ -47,6 +48,10 @@ export default function InterventionConfiguration(): React.ReactElement {
       window.location.replace("/");
     }
   };
+
+  if (!authorities?.intervention?.edit) {
+    return <AuthorityError actionType={"edit"} />;
+  }
 
   return (
     <FormProvider {...form}>
