@@ -1,11 +1,10 @@
 import i18n from "@dhis2/d2-i18n";
-import { find, head } from "lodash";
-import { atom, selector, selectorFamily } from "recoil";
+import { head } from "lodash";
+import { atom, selector } from "recoil";
 import { OrgUnit } from "../../shared/interfaces/orgUnit";
 import { User } from "../../shared/interfaces/user";
-import { getUser, getUserAuthority } from "../services/user";
+import { getUser } from "../services/user";
 import { EngineState } from "./dataEngine";
-import { InterventionSummary } from "./intervention";
 
 export const UserState = atom<User>({
   key: "user-state",
@@ -29,15 +28,4 @@ export const UserOrganisationUnit = selector<OrgUnit | undefined>({
       throw Error(i18n.t("Error fetching user details"));
     }
   },
-});
-
-export const UserAuthorityOnIntervention = selectorFamily({
-  key: "user-scorecard-authority",
-  get:
-    (scorecardId) =>
-    ({ get }) => {
-      const interventionSummary = find(get(InterventionSummary), ["id", scorecardId]);
-      const user = get(UserState);
-      return getUserAuthority(user, interventionSummary);
-    },
 });

@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { UserState } from "../../../../../../../../../core/state/user";
 import { createArchive, uploadArchive } from "../../../../../../../../../shared/services/archives";
-import { Archives } from "../../../../../../../../Archives/state/data";
 import { InterventionArchiveIds } from "../../../../../../../state/archiving";
 import { InterventionState } from "../../../../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../../../../state/selections";
@@ -13,7 +12,7 @@ import { ChartData } from "../../../../../../AnalysisChart/state/data";
 import { RootCauseData } from "../../../../../../RootCauseAnalysis/state/data";
 import { SubLevelAnalyticsData } from "../../../../../../SubLevelAnalysis/state/data";
 
-export default function useArchive(onClose: () => void): any {
+export default function useArchive(onClose: () => void) {
   const { id } = useParams<{ id: string }>();
   const engine = useDataEngine();
   const [archiving, setArchiving] = useState(false);
@@ -23,7 +22,6 @@ export default function useArchive(onClose: () => void): any {
   const intervention = useRecoilValue(InterventionState(id));
   const interventionArchivesState = useRecoilValueLoadable(InterventionArchiveIds(id));
   const resetInterventionArchiveState = useRecoilRefresher_UNSTABLE(InterventionArchiveIds(id));
-  const resetArchiveList = useRecoilRefresher_UNSTABLE(Archives);
 
   const { show } = useAlert(
     ({ message }) => message,
@@ -65,7 +63,6 @@ export default function useArchive(onClose: () => void): any {
             });
             setArchiving(false);
             resetInterventionArchiveState();
-            resetArchiveList();
             onClose();
           } catch (e: any) {
             show({
@@ -76,8 +73,9 @@ export default function useArchive(onClose: () => void): any {
           }
         }
       },
-    [archiveExists, engine, id, onClose, orgUnit.id, period.id, remarks, resetArchiveList, resetInterventionArchiveState, show]
+    [engine, id, onClose, orgUnit.id, period.id, remarks, show]
   );
+  console.log(interventionArchivesState);
 
   return {
     onArchiveClick,
