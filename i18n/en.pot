@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-14T12:59:14.555Z\n"
-"PO-Revision-Date: 2021-12-14T12:59:14.555Z\n"
+"POT-Creation-Date: 2021-12-14T14:02:01.647Z\n"
+"PO-Revision-Date: 2021-12-14T14:02:01.647Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -937,6 +937,15 @@ msgstr "Migrating configurations..."
 
 msgid "Performing some housekeeping. Please wait..."
 msgstr "Performing some housekeeping. Please wait..."
+
+msgid "Access Denied"
+msgstr "Access Denied"
+
+msgid "You do not have authority to "
+msgstr "You do not have authority to "
+
+msgid "interventions"
+msgstr "interventions"
 
 msgid "Something went wrong. Please check the console for more details"
 msgstr "Something went wrong. Please check the console for more details"

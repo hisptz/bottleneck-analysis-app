@@ -4,6 +4,7 @@ import { Authorities } from "../../shared/interfaces/authorities";
 
 const defaultAuthorities = {
   intervention: {
+    view: false,
     delete: false,
     create: false,
     edit: false,
@@ -17,6 +18,7 @@ const defaultAuthorities = {
 
 const allAuthorities = {
   intervention: {
+    view: true,
     delete: true,
     create: true,
     edit: true,
@@ -37,6 +39,9 @@ export function getUserAuthorities(authorities: Array<string>): Authorities {
 
   if (authorities.includes(AuthoritiesEnums.BNA_ADD_INTERVENTION)) {
     set(sanitizedAuthorities, ["intervention", "create"], true);
+  }
+  if (authorities.includes(AuthoritiesEnums.BNA_VIEW_INTERVENTIONS)) {
+    set(sanitizedAuthorities, ["intervention", "view"], true);
   }
   if (authorities.includes(AuthoritiesEnums.BNA_EDIT_INTERVENTION)) {
     set(sanitizedAuthorities, ["intervention", "edit"], true);

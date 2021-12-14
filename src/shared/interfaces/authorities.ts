@@ -1,5 +1,6 @@
 interface GenericAuthorities {
   create: boolean;
+  view?: boolean;
   edit: boolean;
   delete: boolean;
 }
