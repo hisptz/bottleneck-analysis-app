@@ -50,7 +50,7 @@ export default function InterventionConfiguration(): React.ReactElement {
     }
   };
 
-  if (!access.write) {
+  if (id && !access.write) {
     return <InterventionAccessError access={access} />;
   }
 

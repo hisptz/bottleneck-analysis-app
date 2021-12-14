@@ -29,7 +29,7 @@ export default function Intervention(): React.ReactElement {
   const onHelpExit = () => {
     setHelpEnabled(false);
   };
-
+  //
   if (!access.read) {
     return <InterventionAccessError access={access} />;
   }

@@ -1,11 +1,11 @@
 import i18n from "@dhis2/d2-i18n";
-import { find, head } from "lodash";
+import { head } from "lodash";
 import { atom, selector, selectorFamily } from "recoil";
 import { OrgUnit } from "../../shared/interfaces/orgUnit";
 import { User } from "../../shared/interfaces/user";
 import { getUser, getUserAuthority } from "../services/user";
 import { EngineState } from "./dataEngine";
-import { InterventionSummary } from "./intervention";
+import { CurrentInterventionSummary } from "./intervention";
 
 export const UserState = atom<User>({
   key: "user-state",
@@ -34,9 +34,9 @@ export const UserOrganisationUnit = selector<OrgUnit | undefined>({
 export const UserAuthorityOnIntervention = selectorFamily({
   key: "user-scorecard-authority",
   get:
-    (scorecardId) =>
+    (id: string) =>
     ({ get }) => {
-      const interventionSummary = find(get(InterventionSummary), ["id", scorecardId]);
+      const interventionSummary = get(CurrentInterventionSummary(id));
       const user = get(UserState);
       return getUserAuthority(user, interventionSummary);
     },

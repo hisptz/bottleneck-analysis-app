@@ -1,8 +1,8 @@
 import { useAlert } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, DataTable, DataTableCell, DataTableRow, Modal, ModalActions, ModalContent, ModalTitle, TableBody, TableFoot } from "@dhis2/ui";
+import { Button, ButtonStrip, DataTable, DataTableCell, DataTableRow, Modal, ModalActions, ModalContent, ModalTitle, TableBody } from "@dhis2/ui";
 import { find } from "lodash";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import "./rootCauseTable.css";
 import { useParams } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE, useRecoilValue } from "recoil";
@@ -158,16 +158,18 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
       )}
 
       {rootCauseFormDisplayStatus && (
-        <RootCauseForm
-          hideModal={rootCauseFormDisplayStatus}
-          onSavingError={() => {
-            setError("");
-            onSaveRootCauseFailed();
-          }}
-          onCancelForm={onCancelRootCauseForm}
-          rootCauseData={selectedRootCauseData}
-          onSuccessfullySaveRootCause={onSaveRootCauseSuccessfully}
-        />
+        <Suspense fallback={<div />}>
+          <RootCauseForm
+            hideModal={rootCauseFormDisplayStatus}
+            onSavingError={() => {
+              setError("");
+              onSaveRootCauseFailed();
+            }}
+            onCancelForm={onCancelRootCauseForm}
+            rootCauseData={selectedRootCauseData}
+            onSuccessfullySaveRootCause={onSaveRootCauseSuccessfully}
+          />
+        </Suspense>
       )}
     </div>
   );

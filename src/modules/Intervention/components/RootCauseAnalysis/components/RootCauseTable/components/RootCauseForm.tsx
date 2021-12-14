@@ -1,8 +1,8 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, Modal, ModalContent, ModalTitle, ReactFinalForm, SingleSelectFieldFF, TextAreaFieldFF } from "@dhis2/ui";
-import { find, map } from "lodash";
-import React, { useEffect, useState } from "react";
-import { OnChange } from "react-final-form-listeners";
+import { Button, ButtonStrip, Modal, ModalContent, ModalTitle, SingleSelectField, SingleSelectOption, TextAreaField } from "@dhis2/ui";
+import { find, isEmpty, map } from "lodash";
+import React, { useCallback, useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { EngineState } from "../../../../../../../core/state/dataEngine";
@@ -32,6 +32,16 @@ export default function RootCauseForm({
 }: RootCauseFormCProps): React.ReactElement {
   const { id: interventionId } = useParams<{ id: string }>();
   const { dataElements } = useRecoilValue(RootCauseConfig);
+  const { control, handleSubmit, watch, setValue } = useForm({
+    defaultValues: rootCauseData,
+  });
+
+  const getDataElementId = useCallback(
+    (name: string) => {
+      return find(dataElements, (dataElement) => dataElement.name.replace(/\s+/g, "").toLowerCase() === name.replace(/\s+/g, "").toLowerCase())?.id || "";
+    },
+    [dataElements]
+  );
 
   const intervention: InterventionSummary | undefined = useRecoilValue(CurrentInterventionSummary(interventionId));
   const interventionName = intervention?.name || "";
@@ -63,38 +73,21 @@ export default function RootCauseForm({
   bottleneckMetadata = map(bottleneckMetadata, (group) => ({
     id: group.id,
     name: group.name,
-    indicators: map(group?.items, (item) => ({ label: item.name, name: item.id })),
+    indicators: map(group?.items, (item) => ({ label: item.name, id: item.id })),
   }));
 
   const bottleneckOptions = map(bottleneckMetadata, (bottleneck) => ({ label: bottleneck?.name, id: bottleneck?.id }));
-  const [interventionOptions, setInterventionOptions] = useState<any[]>([]);
   const [selectedBottleneckName, setSelectedBottleneckName] = useState("");
   const [selectedIndicatorName, setSelectedIndicatorName] = useState("");
   const [rootCauseSaveButton, setRootCauseSaveButton] = useState(false);
   const [shouldClearIndicator, setShouldClearIndicator] = useState(false);
 
+  const selectedBottleneck = watch(getDataElementId("bottleneckId"));
+  const interventionOptions = find(bottleneckMetadata, (item: any) => item?.id === selectedBottleneck)?.indicators ?? [];
+
   useEffect(() => {
-    setInterventionOptions(getDefaultInterventionOptions());
-  }, [rootCauseData]);
-
-  function getDataElementId(name: string): string {
-    return find(dataElements, (dataElement) => dataElement.name.replace(/\s+/g, "").toLowerCase() === name.replace(/\s+/g, "").toLowerCase())?.id || "";
-  }
-
-  function getDefaultInterventionOptions(): any[] {
-    const bottleneckId = rootCauseData[getDataElementId("bottleneckId")];
-    if (!bottleneckId) {
-      return [];
-    }
-    const bottleneck = find(bottleneckMetadata, (item: any) => item?.id === bottleneckId);
-    return bottleneck?.indicators || [];
-  }
-
-  function onUpdateBottleneck(bottleneckId: string) {
-    const bottleneck: any = find(bottleneckMetadata, (item: any) => item?.id === bottleneckId);
-    setSelectedBottleneckName(bottleneck?.name);
-    setInterventionOptions(bottleneck?.indicators);
-  }
+    setValue(getDataElementId("indicatorId"), undefined);
+  }, [getDataElementId, selectedBottleneck, setValue]);
 
   function onUpdateIndicator(indicatorId: string) {
     const indicator: any = find(interventionOptions, (item: any) => item?.name === indicatorId);
@@ -110,9 +103,8 @@ export default function RootCauseForm({
     }
   }
 
-  function onClosingFormModal(form: any) {
+  function onClosingFormModal() {
     setShouldClearIndicator(false);
-    form.restart();
     onCancelForm();
   }
 
@@ -144,80 +136,88 @@ export default function RootCauseForm({
   }
 
   return (
-    <Modal className={"root-cause-form"} large={true} hide={!hideModal} position="middle">
-      <ModalTitle>{i18n.t("Root Cause form")}</ModalTitle>
+    <Modal onClose={onCancelForm} className={"root-cause-form"} large hide={!hideModal} position="middle">
+      <ModalTitle>{i18n.t("Add Root Cause")}</ModalTitle>
       <ModalContent>
-        <ReactFinalForm.Form onSubmit={saveRootCause}>
-          {({ handleSubmit, form }: { handleSubmit: any; form: any }) => {
-            return (
-              <form
-                style={{ display: "flex", flexDirection: "column", gap: 16 }}
-                onSubmit={(event) => {
-                  handleSubmit(event, form);
-                }}>
-                <OnChange name={getDataElementId("bottleneckId")}>
-                  {(value: string) => {
-                    onUpdateBottleneck(value);
-                    if (hideModal || shouldClearIndicator) {
-                      onClearIndicator(form);
-                    }
-                  }}
-                </OnChange>
-                <OnChange name={getDataElementId("indicatorId")}>
-                  {(value: string) => {
-                    onUpdateIndicator(value);
-                  }}
-                </OnChange>
-
-                <ReactFinalForm.Field
-                  name={getDataElementId("bottleneckId")}
+        <form onSubmit={handleSubmit(console.log)} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div className="column gap p-8">
+            <Controller
+              rules={{ required: i18n.t("Bottleneck is required") }}
+              control={control}
+              name={getDataElementId("bottleneckId")}
+              render={({ field, fieldState }) => (
+                <SingleSelectField
                   label={i18n.t("Bottleneck")}
-                  component={SingleSelectFieldFF}
-                  initialValue={rootCauseData[getDataElementId("bottleneckId")] || ""}
-                  options={(bottleneckOptions || []).map((option: any) => ({ label: option?.label, value: option?.id }))}
-                />
-                <ReactFinalForm.Field
-                  name={getDataElementId("indicatorId")}
+                  error={fieldState.error}
+                  validationText={fieldState?.error?.message}
+                  onChange={({ selected }: any) => field.onChange(selected)}
+                  name={field.name}
+                  selected={!isEmpty(bottleneckOptions) ? field.value : undefined}>
+                  {bottleneckOptions?.map((option) => (
+                    <SingleSelectOption key={`${option.id}-option`} label={option?.label} value={option?.id} />
+                  ))}
+                </SingleSelectField>
+              )}
+            />
+            <Controller
+              rules={{ required: i18n.t("Indicator is required") }}
+              control={control}
+              name={getDataElementId("indicatorId")}
+              render={({ field, fieldState }) => (
+                <SingleSelectField
                   label={i18n.t("Indicator")}
-                  component={SingleSelectFieldFF}
-                  initialValue={hideModal ? "" : rootCauseData[getDataElementId("indicatorId")] || ""}
-                  options={(interventionOptions || []).map((option: any) => ({ label: option?.label, value: option?.name }))}
-                />
-
-                <ReactFinalForm.Field
-                  required
-                  name={getDataElementId("Root cause")}
-                  initialValue={rootCauseData[getDataElementId("Root cause")] || ""}
+                  error={fieldState.error}
+                  validationText={fieldState?.error?.message}
+                  name={field.name}
+                  onChange={({ selected }: any) => field.onChange(selected)}
+                  selected={!isEmpty(interventionOptions) && find(interventionOptions, ["id", field.value]) ? field.value : undefined}>
+                  {interventionOptions?.map((option: any) => (
+                    <SingleSelectOption key={`${option.id}-option`} label={option?.label} value={option?.id} />
+                  ))}
+                </SingleSelectField>
+              )}
+            />
+            <Controller
+              control={control}
+              rules={{ required: i18n.t("Possible root cause is required") }}
+              name={getDataElementId("Root cause")}
+              render={({ field, fieldState }) => (
+                <TextAreaField
                   label={i18n.t("Possible root cause")}
-                  component={TextAreaFieldFF}
+                  error={fieldState.error}
+                  validationText={fieldState?.error?.message}
+                  name={field.name}
+                  value={field.value}
+                  onChange={({ value }: any) => field.onChange(value)}
                 />
-                <ReactFinalForm.Field
+              )}
+            />
+            <Controller
+              control={control}
+              rules={{ required: i18n.t("Possible soluttion is required") }}
+              name={getDataElementId("Solution")}
+              render={({ field, fieldState }) => (
+                <TextAreaField
                   required
-                  name={getDataElementId("Solution")}
-                  initialValue={rootCauseData[getDataElementId("solution")] || ""}
                   label={i18n.t("Possible solution")}
-                  component={TextAreaFieldFF}
+                  error={fieldState.error}
+                  validationText={fieldState?.error?.message}
+                  name={field.name}
+                  value={field.value}
+                  onChange={({ value }: any) => field.onChange(value)}
                 />
-
-                <div className="column">
-                  <ButtonStrip end>
-                    <Button
-                      disabled={rootCauseSaveButton}
-                      secondary
-                      onClick={() => {
-                        onClosingFormModal(form);
-                      }}>
-                      Cancel
-                    </Button>
-                    <Button loading={rootCauseSaveButton} primary disabled={rootCauseSaveButton} type="submit">
-                      {rootCauseSaveButton ? `${i18n.t("Saving")}...` : i18n.t("Save")}
-                    </Button>
-                  </ButtonStrip>
-                </div>
-              </form>
-            );
-          }}
-        </ReactFinalForm.Form>
+              )}
+            />
+            <ButtonStrip end>
+              <Button disabled={rootCauseSaveButton} secondary onClick={onCancelForm}>
+                {i18n.t("Cancel")}
+              </Button>
+              <Button loading={rootCauseSaveButton} primary disabled={rootCauseSaveButton} type="submit">
+                {rootCauseSaveButton ? `${i18n.t("Saving")}...` : i18n.t("Save")}
+              </Button>
+            </ButtonStrip>
+          </div>
+        </form>
       </ModalContent>
     </Modal>
   );
