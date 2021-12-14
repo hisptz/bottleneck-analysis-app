@@ -7,6 +7,7 @@ import "./rootCauseTable.css";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { EngineState } from "../../../../../../core/state/dataEngine";
+import { UserAuthority } from "../../../../../../core/state/user";
 import { deleteRootCauseData } from "../../services/data";
 import { RootCauseTableConfig } from "../../state/config";
 import { RootCauseData, RootCauseDataRequestId } from "../../state/data";
@@ -17,6 +18,7 @@ import classes from "./RootCauseTable.module.css";
 
 export default function RootCauseTable({ tableRef }: { tableRef: any }) {
   const { id } = useParams<{ id: string }>();
+  const authorities = useRecoilValue(UserAuthority);
   const [rootCauseDataRequestId, setRootCauseDataRequestId] = useRecoilState(RootCauseDataRequestId);
   const engine = useRecoilValue(EngineState);
   const { columns, rows, rowIds } = useRecoilValue(RootCauseTableConfig(id));
@@ -120,7 +122,11 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }) {
         <TableFoot>
           <DataTableRow>
             <DataTableCell align={"right"} colSpan={`${columns.length}`}>
-              <Button className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>{i18n.t("Add New")}</Button>
+              {authorities?.rootCause?.create && (
+                <Button className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>
+                  {i18n.t("Add New")}
+                </Button>
+              )}
             </DataTableCell>
           </DataTableRow>
         </TableFoot>
