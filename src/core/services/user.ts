@@ -4,7 +4,7 @@ const query = {
   user: {
     resource: "me",
     params: {
-      fields: ["id", "name", "organisationUnits[id,displayName,level,path]"],
+      fields: ["id", "name", "organisationUnits[id,displayName,level,path]", "authorities"],
     },
   },
 };

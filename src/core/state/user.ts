@@ -1,8 +1,10 @@
 import i18n from "@dhis2/d2-i18n";
 import { head } from "lodash";
 import { atom, selector } from "recoil";
+import { Authorities } from "../../shared/interfaces/authorities";
 import { OrgUnit } from "../../shared/interfaces/orgUnit";
 import { User } from "../../shared/interfaces/user";
+import { getUserAuthorities } from "../services/authorities";
 import { getUser } from "../services/user";
 import { EngineState } from "./dataEngine";
 
@@ -27,5 +29,13 @@ export const UserOrganisationUnit = selector<OrgUnit | undefined>({
     } else {
       throw Error(i18n.t("Error fetching user details"));
     }
+  },
+});
+
+export const UserAuthority = selector<Authorities>({
+  key: "user-authorities",
+  get: ({ get }) => {
+    const { authorities } = get(UserState);
+    return getUserAuthorities(authorities);
   },
 });
