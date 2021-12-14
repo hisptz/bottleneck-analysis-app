@@ -4,5 +4,4 @@ export interface User {
   id: string;
   name: string;
   organisationUnits: Array<OrgUnit>;
-  userGroups: Array<{ id: string; name?: string }>;
 }

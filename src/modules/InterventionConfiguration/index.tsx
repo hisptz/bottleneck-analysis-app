@@ -5,8 +5,6 @@ import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { UserAuthorityOnIntervention } from "../../core/state/user";
-import InterventionAccessError from "../../shared/components/errors/InterventionAccessError";
 import HelpState from "../Intervention/state/help";
 import AccessConfigurationComponent from "./components/Access";
 import ConfirmDeleteDialog from "./components/ConfirmDeleteDialog";
@@ -22,8 +20,6 @@ export default function InterventionConfiguration(): React.ReactElement {
   const interventionName = useRecoilValue(InterventionDirtySelector({ id, path: ["name"] }));
   const intervention = useRecoilValue(InterventionDirtyState(id));
   const onSetHelper = useSetRecoilState(HelpState);
-
-  const access = useRecoilValue(UserAuthorityOnIntervention(id));
 
   const form = useForm({
     defaultValues: {
@@ -49,10 +45,6 @@ export default function InterventionConfiguration(): React.ReactElement {
       window.location.replace("/");
     }
   };
-
-  if (!access.write) {
-    return <InterventionAccessError access={access} />;
-  }
 
   return (
     <FormProvider {...form}>

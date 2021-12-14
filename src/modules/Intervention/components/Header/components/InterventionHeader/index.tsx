@@ -7,21 +7,20 @@ import {
   IconFilter24,
   IconInfo24,
   IconInfoFilled24,
-  IconQuestion16,
   IconStar24,
   IconStarFilled24,
+  IconQuestion16,
   Tooltip,
 } from "@dhis2/ui";
 import { OrgUnitSelectorModal, PeriodSelectorModal } from "@hisptz/react-ui";
 import { IconButton } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./intervention-header.css";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { CalendarTypes } from "../../../../../../constants/calendar";
 import { CurrentInterventionSummary } from "../../../../../../core/state/intervention";
 import { SystemSettingsState } from "../../../../../../core/state/system";
-import { UserAuthorityOnIntervention } from "../../../../../../core/state/user";
 import { InterventionDetailsState } from "../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../state/selections";
 import ArchiveModal from "./components/ArchiveModal";
@@ -33,7 +32,8 @@ import useFilter from "./hooks/filter";
 export default function InterventionHeader(): React.ReactElement {
   const { calendar } = useRecoilValue(SystemSettingsState);
   const { id } = useParams<{ id: string }>();
-  const access = useRecoilValue(UserAuthorityOnIntervention(id));
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [stateActionRef, setStateActionRef] = useState<any>();
   const intervention = useRecoilValue(CurrentInterventionSummary(id));
   const period = useRecoilValue(InterventionPeriodState(id));
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
@@ -134,11 +134,9 @@ export default function InterventionHeader(): React.ReactElement {
           <Button className={"archive-intervention"} onClick={() => setArchiveModalOpen(true)}>
             {i18n.t("Archive")}
           </Button>
-          {access.write && (
-            <Button className={"configure-intervention"} onClick={onToInterventionConfiguration}>
-              {i18n.t("Configure")}
-            </Button>
-          )}
+          <Button className={"configure-intervention"} onClick={onToInterventionConfiguration}>
+            {i18n.t("Configure")}
+          </Button>
         </ButtonStrip>
         {archiveModalOpen && <ArchiveModal hide={!archiveModalOpen} onClose={() => setArchiveModalOpen(false)} />}
       </div>
