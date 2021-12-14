@@ -7,6 +7,7 @@ import "./rootCauseTable.css";
 import { useParams } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE, useRecoilValue } from "recoil";
 import { EngineState } from "../../../../../../core/state/dataEngine";
+import { UserAuthority } from "../../../../../../core/state/user";
 import classes from "../../../../../../styles/Table.module.css";
 import { deleteRootCauseData } from "../../services/data";
 import { RootCauseTableConfig } from "../../state/config";
@@ -17,10 +18,11 @@ import RootCauseTableHeader from "./components/RootCauseTableHeader";
 
 export default function RootCauseTable({ tableRef }: { tableRef: any }): React.ReactElement {
   const { id } = useParams<{ id: string }>();
+  const authorities = useRecoilValue(UserAuthority);
+  const [rootCauseDataRequestId, setRootCauseDataRequestId] = useRecoilState(RootCauseDataRequestId);
   const engine = useRecoilValue(EngineState);
   const { columns, rows, rowIds } = useRecoilValue(RootCauseTableConfig(id));
   const rootCauseData = useRecoilValue(RootCauseData(id));
-  const resetRootCauseData = useRecoilRefresher_UNSTABLE(RootCauseData(id));
   const [rootCauseFormDisplayStatus, setRootCauseFormDisplayStatus] = useState(false);
   const [rootCauseDeleteStatus, setRootCauseDeleteStatus] = useState(false);
   const [rootCauseDeleteId, setRootCauseDeleteId] = useState<string>("");
@@ -55,7 +57,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
     try {
       await deleteRootCauseData(engine, id, rootCauseDeleteId);
       onUpdateRootCauseDeleteStatus();
-      resetRootCauseData();
+      setRootCauseDataRequestId(rootCauseDataRequestId + 1);
     } catch (error) {
       setError(i18n.t("Failed to delete root cause"));
       onUpdateRootCauseDeleteStatus();
@@ -75,12 +77,11 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
     const data = { ...rootCause.dataValues, id: rootCause.id };
     setSelectedRootCauseData(data);
     onUpdateRootCauseFormDisplayStatus();
-    resetRootCauseData();
   }
 
   function onSaveRootCauseSuccessfully() {
     onUpdateRootCauseFormDisplayStatus();
-    resetRootCauseData();
+    setRootCauseDataRequestId(rootCauseDataRequestId + 1);
     setSelectedRootCauseData({});
   }
 
@@ -110,7 +111,6 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
                   );
                 }
                 const { disabled } = find(columns, ["key", key]) ?? {};
-
                 if (disabled) {
                   return (
                     <DataTableCell fixed align="center" className={classes["table-name-cell"]} key={index}>
@@ -129,9 +129,11 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
         </TableBody>
       </DataTable>
       <div className="w-100 row end">
-        <Button className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>
-          {i18n.t("Add New")}
-        </Button>
+        {authorities?.rootCause?.create && (
+          <Button className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>
+            {i18n.t("Add New")}
+          </Button>
+        )}
       </div>
       {rootCauseDeleteStatus && (
         <Modal small hide={!rootCauseDeleteStatus} position="middle">

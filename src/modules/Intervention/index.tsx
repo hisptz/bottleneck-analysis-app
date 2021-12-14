@@ -6,9 +6,9 @@ import { useParams } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from "recoil";
 import { INTERVENTION_HELP_STEPS } from "../../constants/help/Intervention";
 import { STEP_OPTIONS } from "../../constants/help/options";
-import { UserAuthorityOnIntervention } from "../../core/state/user";
+import { UserAuthority } from "../../core/state/user";
 import HelpState from "../../modules/Intervention/state/help";
-import InterventionAccessError from "../../shared/components/errors/InterventionAccessError";
+import AuthorityError from "../../shared/components/errors/AuthorityError";
 import InterventionError from "../../shared/components/errors/InterventionError";
 import FullPageLoader from "../../shared/components/loaders/FullPageLoader";
 import AnalysisChart from "./components/AnalysisChart";
@@ -21,17 +21,16 @@ import { InterventionDetailsState, InterventionState } from "./state/interventio
 
 export default function Intervention(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
-  const access = useRecoilValue(UserAuthorityOnIntervention(id));
+  const authorities = useRecoilValue(UserAuthority);
   const showDetails = useRecoilValue(InterventionDetailsState(id));
   const reset = useRecoilRefresher_UNSTABLE(InterventionState(id));
   const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
-
   const onHelpExit = () => {
     setHelpEnabled(false);
   };
   //
-  if (!access.read) {
-    return <InterventionAccessError access={access} />;
+  if (!authorities?.intervention?.view) {
+    return <AuthorityError actionType={"view"} />;
   }
 
   return (
