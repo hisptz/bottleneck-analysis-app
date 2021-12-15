@@ -12,12 +12,14 @@ import "./GroupDeterminantComponent.module.css";
 import { SelectedDeterminantIndex, SelectedIndicatorIndex } from "../../../../../state/edit";
 import IndicatorSelector from "../../IndicatorSelector";
 import useItemOperations from "../hooks/useItemOperations";
+import ConfirmIndicatorDeleteModal from "./ConfirmIndicatorDeleteModal";
 
 export default function GroupDeterminantComponent(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const { watch } = useFormContext();
   const [indicatorSelectorHide, setIndicatorSelectorHide] = useState(true);
   const [selectedAddGroupIndex, setSelectedAddGroupIndex] = useState<number | undefined>();
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState<{ groupId: string; itemId: string } | undefined>();
   const selectedGroupIndex = useRecoilValue(SelectedDeterminantIndex(id));
   const selectedIndicatorIndex = useRecoilValue(SelectedIndicatorIndex(id));
   const determinants = watch("dataSelection.groups");
@@ -67,7 +69,13 @@ export default function GroupDeterminantComponent(): React.ReactElement {
         onItemDragEnd={onItemDragEnd}
         deletableItems
         onItemClick={onItemClick}
-        onItemDelete={onItemDelete}
+        onItemDelete={(groupId, itemId) => {
+          if (id) {
+            setConfirmDeleteOpen({ groupId, itemId });
+            return;
+          }
+          onItemDelete(groupId, itemId);
+        }}
         groupFooter={(group, groupIndex) => (
           <>
             <Button
@@ -83,6 +91,14 @@ export default function GroupDeterminantComponent(): React.ReactElement {
           </>
         )}
       />
+      {confirmDeleteOpen && (
+        <ConfirmIndicatorDeleteModal
+          hide={!confirmDeleteOpen}
+          onClose={() => setConfirmDeleteOpen(undefined)}
+          onConfirm={onItemDelete}
+          item={confirmDeleteOpen}
+        />
+      )}
       {!indicatorSelectorHide && selectedAddGroupIndex !== undefined ? (
         <IndicatorSelector
           onSave={onItemsAdd}
