@@ -47,7 +47,7 @@ export default function useClone(): { cloning: boolean; onClone: (interventionId
         };
         await createIntervention(engine, newIntervention, summaries);
         show({
-          message: "Intervention cloned successfully",
+          message: i18n.t("Intervention cloned successfully"),
           type: { success: true },
         });
         history.replace(`/${newIntervention.id}/configuration`);
