@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-15T05:15:55.794Z\n"
-"PO-Revision-Date: 2021-12-15T05:15:55.794Z\n"
+"POT-Creation-Date: 2021-12-15T07:46:45.226Z\n"
+"PO-Revision-Date: 2021-12-15T07:46:45.226Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -896,6 +896,12 @@ msgstr "Determinants"
 msgid "Clear All"
 msgstr "Clear All"
 
+msgid "Indicator label is required"
+msgstr "Indicator label is required"
+
+msgid "Display Label"
+msgstr "Display Label"
+
 msgid "Legends (Only applicable to sub level analysis)"
 msgstr "Legends (Only applicable to sub level analysis)"
 
@@ -933,8 +939,8 @@ msgstr ""
 msgid "Sub level analysis notice"
 msgstr "Sub level analysis notice"
 
-msgid "Set specific level for sub level analysis"
-msgstr "Set specific level for sub level analysis"
+msgid "Set Sublevel for Analysis"
+msgstr "Set Sublevel for Analysis"
 
 msgid "Sub level analysis level"
 msgstr "Sub level analysis level"
