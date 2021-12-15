@@ -13,6 +13,7 @@ export const RequestId = atom({
 
 export const InterventionSummary = atom<Array<InterventionSummaryType>>({
   key: "intervention-summary-state",
+  // @ts-ignore
   default: selector({
     key: "intervention-summary-getter",
     get: async ({ get }) => {
