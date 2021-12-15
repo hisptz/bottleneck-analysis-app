@@ -21,7 +21,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { CalendarTypes } from "../../../../../../constants/calendar";
 import { CurrentInterventionSummary } from "../../../../../../core/state/intervention";
 import { SystemSettingsState } from "../../../../../../core/state/system";
-import { UserAuthority } from "../../../../../../core/state/user";
+import { UserAuthority, UserAuthorityOnIntervention } from "../../../../../../core/state/user";
 import { InterventionDetailsState } from "../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../state/selections";
 import ArchiveModal from "./components/ArchiveModal";
@@ -34,6 +34,7 @@ export default function InterventionHeader(): React.ReactElement {
   const { calendar } = useRecoilValue(SystemSettingsState);
   const { id } = useParams<{ id: string }>();
   const authorities = useRecoilValue(UserAuthority);
+  const access = useRecoilValue(UserAuthorityOnIntervention(id));
   const intervention = useRecoilValue(CurrentInterventionSummary(id));
   const period = useRecoilValue(InterventionPeriodState(id));
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
@@ -134,11 +135,11 @@ export default function InterventionHeader(): React.ReactElement {
           <Button className={"archive-intervention"} onClick={() => setArchiveModalOpen(true)}>
             {i18n.t("Archive")}
           </Button>
-          {authorities?.intervention?.edit && (
+          {authorities?.intervention?.edit && access.write ? (
             <Button className={"configure-intervention"} onClick={onToInterventionConfiguration}>
               {i18n.t("Configure")}
             </Button>
-          )}
+          ) : null}
         </ButtonStrip>
         {archiveModalOpen && <ArchiveModal hide={!archiveModalOpen} onClose={() => setArchiveModalOpen(false)} />}
       </div>

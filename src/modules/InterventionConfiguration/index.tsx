@@ -5,8 +5,9 @@ import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { UserAuthority } from "../../core/state/user";
+import { UserAuthority, UserAuthorityOnIntervention } from "../../core/state/user";
 import AuthorityError from "../../shared/components/errors/AuthorityError";
+import InterventionAccessError from "../../shared/components/errors/InterventionAccessError";
 import HelpState from "../Intervention/state/help";
 import AccessConfigurationComponent from "./components/Access";
 import ConfirmDeleteDialog from "./components/ConfirmDeleteDialog";
@@ -20,6 +21,7 @@ import { InterventionDirtySelector, InterventionDirtyState } from "./state/data"
 export default function InterventionConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const authorities = useRecoilValue(UserAuthority);
+  const access = useRecoilValue(UserAuthorityOnIntervention(id));
   const interventionName = useRecoilValue(InterventionDirtySelector({ id, path: ["name"] }));
   const intervention = useRecoilValue(InterventionDirtyState(id));
   const onSetHelper = useSetRecoilState(HelpState);
@@ -45,12 +47,16 @@ export default function InterventionConfiguration(): React.ReactElement {
     if (id) {
       history.replace(`/interventions/${id}`);
     } else {
-      window.location.replace("/");
+      history.replace("/");
     }
   };
 
   if (!authorities?.intervention?.edit) {
     return <AuthorityError actionType={"edit"} />;
+  }
+
+  if (id && !access?.write) {
+    return <InterventionAccessError access={access} />;
   }
 
   return (
