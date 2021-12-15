@@ -18,6 +18,7 @@ export const RootCauseData = atomFamily<Array<RootCauseDataInterface>, string>({
   effects_UNSTABLE: (id: string) => [
     ({ getPromise, trigger, setSelf }) => {
       if (trigger === "get") {
+        // @ts-ignore
         setSelf(async () => {
           if (isArchiveId(id)) {
             const { rootCauseData } = (await getPromise(Archive(id))) ?? {};
