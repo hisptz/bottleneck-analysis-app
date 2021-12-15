@@ -2,8 +2,8 @@ import { DataTableBody, DataTableCell, DataTableRow } from "@dhis2/ui";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import classes from "../../../../../../../styles/Table.module.css";
 import { TableConfig, TableLayout } from "../../../state/layout";
-import classes from "../Table.module.css";
 import TableCell from "./TableCell";
 
 export default function TableBody(): React.ReactElement {

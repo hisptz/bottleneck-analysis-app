@@ -102,7 +102,7 @@
     height: 100%;
     font-weight: bold !important;
     min-width: 200px !important;
-    vertical-align: middle;
+    vertical-align: middle !important;
 }
 
 .table-cell:last-child {

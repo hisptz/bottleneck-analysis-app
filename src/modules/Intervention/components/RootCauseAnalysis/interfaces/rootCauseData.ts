@@ -1,4 +1,4 @@
-export interface RootCauseData {
+export interface RootCauseDataInterface {
   id: string;
   dataValues: any;
   isOrphaned: boolean;

@@ -12,6 +12,7 @@ type RootCauseActionsProps = {
 
 export default function RootCauseActionsComponent({ onUpdateRootCause, onDeleteRootCause }: RootCauseActionsProps) {
   const authorities = useRecoilValue(UserAuthority);
+
   const ref = useRef<HTMLDivElement | null>(null);
   const [stateActionRef, setStateActionRef] = useState<any>(null);
   return (

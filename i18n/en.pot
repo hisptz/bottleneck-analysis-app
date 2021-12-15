@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-14T14:02:01.647Z\n"
-"PO-Revision-Date: 2021-12-14T14:02:01.647Z\n"
+"POT-Creation-Date: 2021-12-14T14:31:56.870Z\n"
+"PO-Revision-Date: 2021-12-14T14:31:56.870Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -543,20 +543,38 @@ msgstr "View Archives"
 msgid "Edit"
 msgstr "Edit"
 
-msgid "Root Cause form"
-msgstr "Root Cause form"
+msgid "Add Root Cause"
+msgstr "Add Root Cause"
+
+msgid "Bottleneck is required"
+msgstr "Bottleneck is required"
 
 msgid "Bottleneck"
 msgstr "Bottleneck"
 
+msgid "Indicator is required"
+msgstr "Indicator is required"
+
 msgid "Indicator"
 msgstr "Indicator"
+
+msgid "Possible root cause is required"
+msgstr "Possible root cause is required"
 
 msgid "Possible root cause"
 msgstr "Possible root cause"
 
+msgid "Possible soluttion is required"
+msgstr "Possible soluttion is required"
+
 msgid "Possible solution"
 msgstr "Possible solution"
+
+msgid "Saving"
+msgstr "Saving"
+
+msgid "Save"
+msgstr "Save"
 
 msgid "Failed to delete root cause"
 msgstr "Failed to delete root cause"
@@ -917,12 +935,6 @@ msgstr "Intervention name is required. Please provide on in the general page."
 msgid "Manage"
 msgstr "Manage"
 
-msgid "Saving"
-msgstr "Saving"
-
-msgid "Save"
-msgstr "Save"
-
 msgid "Save and Exit"
 msgstr "Save and Exit"
 
@@ -952,6 +964,12 @@ msgstr "Something went wrong. Please check the console for more details"
 
 msgid "Try again"
 msgstr "Try again"
+
+msgid "Intuitive design patterns"
+msgstr "Intuitive design patterns"
+
+msgid "Enjoy simple, elegant and improved look and feel"
+msgstr "Enjoy simple, elegant and improved look and feel"
 
 msgid "This resource was not found in the server"
 msgstr "This resource was not found in the server"

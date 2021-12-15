@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { InterventionSummary } from "../../../core/state/intervention";
 import { InterventionSummary as InterventionSummaryType } from "../../../shared/interfaces/interventionConfig";
 
-export function useAppInit() {
+export function useAppInit(): void {
   const history = useHistory();
   const interventionSummary = useRecoilValue(InterventionSummary);
   useEffect(() => {
@@ -23,5 +23,5 @@ export function useAppInit() {
     }
 
     navigate();
-  }, [interventionSummary]);
+  }, [history, interventionSummary]);
 }

@@ -6,12 +6,12 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import useScreenDimension from "../../../../../../core/hooks/useScreenDimension";
 import CardLoader from "../../../../../../shared/components/loaders/CardLoader";
+import classes from "../../../../../../styles/Table.module.css";
 import { FullPageState } from "../../../../state/config";
 import { normalTableLayout, switchedTableLayout } from "../../constants/tableLayouts";
 import { TableConfig, TableLayout } from "../../state/layout";
 import TableBody from "./components/TableBody";
 import TableHeader from "./components/TableHeader";
-import classes from "./Table.module.css";
 
 export default function Table({ tableRef }: { tableRef: any }): React.ReactElement {
   const { id } = useParams<{ id: string }>();
