@@ -24,11 +24,11 @@ export default function ArchiveMenuCell({ archive }: { archive: Archive }): Reac
   return (
     <DataTableCell>
       <div className="archive-menu-cell-action">
-        <Button onClick={(_: any, e: MouseEvent) => setStateActionRef(e.target)} icon={<IconMore24 />} />
+        <Button className="archive-menu-cell-action-test" onClick={(_: any, e: MouseEvent) => setStateActionRef(e.target)} icon={<IconMore24 />} />
         {stateActionRef && (
           <Popover arrow onClickOutside={() => setStateActionRef(undefined)} placement="bottom-start" reference={stateActionRef}>
             <FlyoutMenu>
-              <MenuItem onClick={onViewClick} icon={<IconView24 />} label={i18n.t("View")} />
+              <MenuItem  className="archive-menu-cell-action-delete-test" onClick={onViewClick} icon={<IconView24 />} label={i18n.t("View")} />
               <MenuItem onClick={onDeleteClick} icon={<IconDelete24 />} label={i18n.t("Delete")} />
               {/*<MenuItem icon={<IconSync24 />} label={i18n.t("Refresh")} />*/}
             </FlyoutMenu>

@@ -20,7 +20,7 @@ export default function ArchiveRow({ archive }: { archive: Archive }): React.Rea
   };
 
   return (
-    <DataTableRow onClick={onViewClick}>
+    <DataTableRow className={"InterventionList-test"} onClick={onViewClick}>
       <DataTableCell onClick={onViewClick}>{config.name}</DataTableCell>
       <DataTableCell>{orgUnitState?.state !== "hasValue" ? "" : orgUnitState?.contents?.displayName}</DataTableCell>
       <DataTableCell>{period.name}</DataTableCell>

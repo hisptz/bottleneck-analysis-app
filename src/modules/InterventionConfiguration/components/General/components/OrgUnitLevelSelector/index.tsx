@@ -53,7 +53,7 @@ export default function OrgUnitLevelSelector(): React.ReactElement {
           }
         }}
         checked={customSubUnitLevel}
-        label={i18n.t("Set specific level for sub level analysis")}
+        label={i18n.t("Set Sublevel for Analysis")}
         name={"specific-sub-level-check"}
       />
       <Controller

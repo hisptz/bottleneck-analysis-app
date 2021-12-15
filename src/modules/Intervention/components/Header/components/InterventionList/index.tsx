@@ -43,7 +43,7 @@ export default function InterventionList(): React.ReactElement {
           </div>
         </div>
         <div className="row gap view-archive ">
-          <Button onClick={onToArchivesList}>{i18n.t("View Archives")}</Button>
+          <Button className={"view-archives-test"} onClick={onToArchivesList}>{i18n.t("View Archives")}</Button>
         </div>
       </div>
       {interventions.length > 5 && (
