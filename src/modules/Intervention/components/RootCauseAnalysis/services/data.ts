@@ -1,7 +1,7 @@
 import { map } from "async";
 import { filter, flattenDeep } from "lodash";
-import { BNA_NAMESPACE } from "../../../../../constants/dataStore";
-import { RootCauseData } from "../interfaces/rootCauseData";
+import { BNA_NAMESPACE, ROOT_CAUSE_SUFFIX } from "../../../../../constants/dataStore";
+import { RootCauseDataInterface } from "../interfaces/rootCauseData";
 
 const query = {
   config: {
@@ -38,7 +38,7 @@ async function getRootCauseDataByKey(engine: any, key: string) {
   return data;
 }
 
-export async function getRootCausesData(engine: any, interventionId: string): Promise<RootCauseData[]> {
+export async function getRootCausesData(engine: any, interventionId: string): Promise<RootCauseDataInterface[]> {
   const keys = await getRootCauseDataKeys(engine);
   const interventionKeys = filter(keys, (key: string) => key.match(RegExp(`${interventionId}_rcadata`)));
   return await map(interventionKeys, async (key: string) => {
@@ -48,18 +48,19 @@ export async function getRootCausesData(engine: any, interventionId: string): Pr
 
 export async function deleteRootCauseData(engine: any, interventionId: string, rootCauseId: string) {
   try {
-    const rcaDataFromStore: RootCauseData[] = await getRootCausesData(engine, interventionId);
-    const sanitizedRcaData = filter(flattenDeep(rcaDataFromStore), (rcaData: RootCauseData) => rcaData.id !== rootCauseId);
+    const rcaDataFromStore: RootCauseDataInterface[] = await getRootCausesData(engine, interventionId);
+    const sanitizedRcaData = filter(flattenDeep(rcaDataFromStore), (rcaData: RootCauseDataInterface) => rcaData.id !== rootCauseId);
     await saveRootCauseData(engine, `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`, sanitizedRcaData);
   } catch (error) {
     throw new Error(`${error}`);
   }
 }
-export async function addOrUpdateRootCauseData(engine: any, interventionId: string, data: RootCauseData) {
+
+export async function addOrUpdateRootCauseData(engine: any, interventionId: string, data: RootCauseDataInterface) {
   try {
-    const rcaDataFromStore: RootCauseData[] = await getRootCausesData(engine, interventionId);
+    const rcaDataFromStore: RootCauseDataInterface[] = await getRootCausesData(engine, interventionId);
     const dataStoreUrl = `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`;
-    const filteredRcaData = filter(flattenDeep(rcaDataFromStore), (rcaData: RootCauseData) => rcaData.id !== data.id);
+    const filteredRcaData = filter(flattenDeep(rcaDataFromStore), (rcaData: RootCauseDataInterface) => rcaData.id !== data.id);
     const rootCauseDataToSave = flattenDeep([...filteredRcaData, data]);
     await saveRootCauseData(engine, dataStoreUrl, rootCauseDataToSave);
   } catch (error) {
@@ -68,7 +69,7 @@ export async function addOrUpdateRootCauseData(engine: any, interventionId: stri
       const mutation = {
         resource: `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`,
         type: "create",
-        data: ({ data }: { data: RootCauseData }) => data,
+        data: ({ data }: { data: RootCauseDataInterface }) => data,
       };
       try {
         await engine.mutate(mutation, { variables: { data: [data] } });
@@ -80,11 +81,23 @@ export async function addOrUpdateRootCauseData(engine: any, interventionId: stri
   }
 }
 
-async function saveRootCauseData(engine: any, dataStoreUrl: string, data: RootCauseData[]) {
+async function saveRootCauseData(engine: any, dataStoreUrl: string, data: RootCauseDataInterface[]) {
   const mutation = {
     resource: dataStoreUrl,
     type: "update",
     data: ({ data }: { data: any }) => data,
   };
   await engine.mutate(mutation, { variables: { data } });
+}
+
+const rootCauseDataMutation = {
+  resource: `dataStore/${BNA_NAMESPACE}`,
+  type: "update",
+  id: ({ id }: any) => id,
+  data: ({ data }: any) => data,
+};
+
+export async function uploadRootCauseData(engine: any, interventionId: string, rootCauseData: Array<RootCauseDataInterface>): Promise<any> {
+  const id = `${interventionId}_${ROOT_CAUSE_SUFFIX}`;
+  return await engine.mutate(rootCauseDataMutation, { variables: { id, data: rootCauseData } });
 }

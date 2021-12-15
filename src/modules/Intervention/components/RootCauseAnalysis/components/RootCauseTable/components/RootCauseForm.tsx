@@ -1,40 +1,41 @@
+import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, Modal, ModalContent, ModalTitle, SingleSelectField, SingleSelectOption, TextAreaField } from "@dhis2/ui";
-import { find, isEmpty, map } from "lodash";
+import { cloneDeep, find, get, isEmpty, map, reverse } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { EngineState } from "../../../../../../../core/state/dataEngine";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentInterventionSummary } from "../../../../../../../core/state/intervention";
 import { InterventionSummary } from "../../../../../../../shared/interfaces/interventionConfig";
 import { uid } from "../../../../../../../shared/utils/generators";
 import { InterventionStateSelector } from "../../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../../state/selections";
-import { RootCauseData } from "../../../interfaces/rootCauseData";
-import { addOrUpdateRootCauseData } from "../../../services/data";
+import { RootCauseDataInterface } from "../../../interfaces/rootCauseData";
+import { uploadRootCauseData } from "../../../services/data";
 import { RootCauseConfig } from "../../../state/config";
+import { RootCauseData } from "../../../state/data";
+import { addRootCause, updateRootCause } from "../services/data";
 
 type RootCauseFormCProps = {
-  onSuccessfullySaveRootCause?: any;
-  onSavingError?: any;
   onCancelForm?: any;
   hideModal: boolean;
   rootCauseData?: any;
 };
 
-export default function RootCauseForm({
-  onSuccessfullySaveRootCause,
-  hideModal,
-  onSavingError,
-  onCancelForm,
-  rootCauseData,
-}: RootCauseFormCProps): React.ReactElement {
+export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }: RootCauseFormCProps): React.ReactElement {
   const { id: interventionId } = useParams<{ id: string }>();
+  const engine = useDataEngine();
   const { dataElements } = useRecoilValue(RootCauseConfig);
+  const [saving, setSaving] = useState(false);
+  const [rootCauseInterventionData, updateRootCauseData] = useRecoilState(RootCauseData(interventionId));
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: rootCauseData,
   });
+  const { show } = useAlert(
+    ({ message }) => message,
+    ({ type }) => ({ ...type, duration: 3000 })
+  );
 
   const getDataElementId = useCallback(
     (name: string) => {
@@ -45,8 +46,6 @@ export default function RootCauseForm({
 
   const intervention: InterventionSummary | undefined = useRecoilValue(CurrentInterventionSummary(interventionId));
   const interventionName = intervention?.name || "";
-
-  const engine = useRecoilValue(EngineState);
 
   let bottleneckMetadata = useRecoilValue(
     InterventionStateSelector({
@@ -77,11 +76,6 @@ export default function RootCauseForm({
   }));
 
   const bottleneckOptions = map(bottleneckMetadata, (bottleneck) => ({ label: bottleneck?.name, id: bottleneck?.id }));
-  const [selectedBottleneckName, setSelectedBottleneckName] = useState("");
-  const [selectedIndicatorName, setSelectedIndicatorName] = useState("");
-  const [rootCauseSaveButton, setRootCauseSaveButton] = useState(false);
-  const [shouldClearIndicator, setShouldClearIndicator] = useState(false);
-
   const selectedBottleneck = watch(getDataElementId("bottleneckId"));
   const interventionOptions = find(bottleneckMetadata, (item: any) => item?.id === selectedBottleneck)?.indicators ?? [];
 
@@ -89,57 +83,56 @@ export default function RootCauseForm({
     setValue(getDataElementId("indicatorId"), undefined);
   }, [getDataElementId, selectedBottleneck, setValue]);
 
-  function onUpdateIndicator(indicatorId: string) {
-    const indicator: any = find(interventionOptions, (item: any) => item?.name === indicatorId);
-    setSelectedIndicatorName(indicator?.label);
-  }
-
-  function onClearIndicator(form: any) {
-    form.change(getDataElementId("indicatorId"), shouldClearIndicator ? "" : rootCauseData[getDataElementId("indicatorId")] || "");
-    form.resetFieldState(getDataElementId("indicatorId"));
-    setSelectedIndicatorName(shouldClearIndicator ? "" : rootCauseData[getDataElementId("indicator")] || "");
-    if (hideModal) {
-      setShouldClearIndicator(true);
-    }
-  }
-
-  function onClosingFormModal() {
-    setShouldClearIndicator(false);
-    onCancelForm();
-  }
-
-  async function saveRootCause(dataValues: any, form: any) {
-    setRootCauseSaveButton(true);
-    const data: RootCauseData = {
-      id: rootCauseData && rootCauseData.id ? rootCauseData.id : `${periodId}_${orgUnitId}_${uid()}`,
-      isOrphaned: false,
-      isTrusted: true,
-      configurationId: "rcaconfig",
-      dataValues: {
-        ...dataValues,
-        ...rootCauseHiddenFields,
-        [getDataElementId("bottleneck")]: selectedBottleneckName,
-        [getDataElementId("indicator")]: selectedIndicatorName,
-      },
-    };
+  async function saveRootCause(dataValues: any) {
+    setSaving(true);
     try {
-      await addOrUpdateRootCauseData(engine, interventionId, data);
-      form.reset();
-      setRootCauseSaveButton(false);
-      onSuccessfullySaveRootCause();
-    } catch (error) {
-      form.reset();
-      setRootCauseSaveButton(false);
-      onSavingError(error);
+      const indicator = find(interventionOptions, ["id", get(dataValues, [getDataElementId("indicatorId")])])?.label;
+      const data: RootCauseDataInterface = {
+        id: rootCauseData && rootCauseData.id ? rootCauseData.id : `${periodId}_${orgUnitId}_${uid()}`,
+        isOrphaned: false,
+        isTrusted: true,
+        configurationId: "rcaconfig",
+        dataValues: {
+          ...dataValues,
+          ...rootCauseHiddenFields,
+          [getDataElementId("bottleneck")]: find(bottleneckOptions, ["id", selectedBottleneck])?.label,
+          [getDataElementId("indicator")]: indicator,
+        },
+      };
+
+      let updatedData = cloneDeep(rootCauseInterventionData);
+      if (!isEmpty(rootCauseData)) {
+        updatedData = updateRootCause(data, updatedData);
+      }
+      updatedData = addRootCause(data, updatedData);
+      await uploadRootCauseData(engine, interventionId, reverse(updatedData));
+      updateRootCauseData(reverse(updatedData));
+      if (!isEmpty(rootCauseData)) {
+        show({
+          message: i18n.t("Root cause data updated successfully"),
+          type: { success: true },
+        });
+      } else {
+        show({
+          message: i18n.t("Root cause data saved successfully"),
+          type: { success: true },
+        });
+      }
+      onCancelForm();
+    } catch (e: any) {
+      show({
+        message: `${i18n.t("Error saving root cause data")}: ${e?.message ?? ""}`,
+        type: { info: true },
+      });
     }
-    setShouldClearIndicator(false);
+    setSaving(false);
   }
 
   return (
     <Modal onClose={onCancelForm} className={"root-cause-form"} large hide={!hideModal} position="middle">
       <ModalTitle>{i18n.t("Add Root Cause")}</ModalTitle>
       <ModalContent>
-        <form onSubmit={handleSubmit(console.log)} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <form onSubmit={handleSubmit(saveRootCause)} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="column gap p-8">
             <Controller
               rules={{ required: i18n.t("Bottleneck is required") }}
@@ -194,7 +187,7 @@ export default function RootCauseForm({
             />
             <Controller
               control={control}
-              rules={{ required: i18n.t("Possible soluttion is required") }}
+              rules={{ required: i18n.t("Possible solution is required") }}
               name={getDataElementId("Solution")}
               render={({ field, fieldState }) => (
                 <TextAreaField
@@ -209,11 +202,11 @@ export default function RootCauseForm({
               )}
             />
             <ButtonStrip end>
-              <Button disabled={rootCauseSaveButton} secondary onClick={onCancelForm}>
+              <Button disabled={saving} secondary onClick={onCancelForm}>
                 {i18n.t("Cancel")}
               </Button>
-              <Button loading={rootCauseSaveButton} primary disabled={rootCauseSaveButton} type="submit">
-                {rootCauseSaveButton ? `${i18n.t("Saving")}...` : i18n.t("Save")}
+              <Button disabled={saving} loading={saving} primary type="submit">
+                {saving ? `${i18n.t("Saving")}...` : i18n.t("Save")}
               </Button>
             </ButtonStrip>
           </div>

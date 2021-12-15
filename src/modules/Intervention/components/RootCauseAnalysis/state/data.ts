@@ -1,9 +1,10 @@
 import { filter, flattenDeep } from "lodash";
-import { atom, selectorFamily } from "recoil";
+import { atom, atomFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { isArchiveId } from "../../../../../shared/utils/archives";
 import { Archive } from "../../../../Archives/state/data";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../state/selections";
+import { RootCauseDataInterface } from "../interfaces/rootCauseData";
 import { getRootCausesData } from "../services/data";
 
 export const RootCauseDataRequestId = atom({
@@ -11,23 +12,28 @@ export const RootCauseDataRequestId = atom({
   default: 0,
 });
 
-export const RootCauseData = selectorFamily({
-  key: "root-cause-analysis-data",
-  get:
-    (id: string) =>
-    async ({ get }) => {
-      if (isArchiveId(id)) {
-        const { rootCauseData } = get(Archive(id)) ?? {};
-        return rootCauseData;
-      }
-      const engine = get(EngineState);
-      const period = get(InterventionPeriodState(id));
-      const orgUnit = get(InterventionOrgUnitState(id));
+export const RootCauseData = atomFamily<Array<RootCauseDataInterface>, string>({
+  key: "root-cause-data",
+  default: [],
+  effects_UNSTABLE: (id: string) => [
+    ({ getPromise, trigger, setSelf }) => {
+      if (trigger === "get") {
+        setSelf(async () => {
+          if (isArchiveId(id)) {
+            const { rootCauseData } = (await getPromise(Archive(id))) ?? {};
+            return rootCauseData;
+          }
+          const engine = await getPromise(EngineState);
+          const period = await getPromise(InterventionPeriodState(id));
+          const orgUnit = await getPromise(InterventionOrgUnitState(id));
 
-      const rootCauseData = await getRootCausesData(engine, id);
-      return filter(flattenDeep(rootCauseData), (data: any) => {
-        const { id: rootCauseId } = data;
-        return rootCauseId.match(`${period.id}_${orgUnit.id}`);
-      });
+          const rootCauseData = await getRootCausesData(engine, id);
+          return filter(flattenDeep(rootCauseData), (data: any) => {
+            const { id: rootCauseId } = data;
+            return rootCauseId.match(`${period.id}_${orgUnit.id}`);
+          }) as Array<RootCauseDataInterface>;
+        });
+      }
     },
+  ],
 });

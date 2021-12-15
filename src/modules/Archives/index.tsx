@@ -29,7 +29,6 @@ export default function Archive(): React.ReactElement {
   return (
     <div className="column archive-interventions">
       <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={ARCHIVE_INTERVENTION_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
-
       <ArchivesListHeader />
       <Suspense fallback={<FullPageLoader />}>
         <div className="archiveList-table">

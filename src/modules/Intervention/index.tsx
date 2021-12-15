@@ -28,7 +28,7 @@ export default function Intervention(): React.ReactElement {
   const onHelpExit = () => {
     setHelpEnabled(false);
   };
-  //
+
   if (!authorities?.intervention?.view) {
     return <AuthorityError actionType={"view"} />;
   }
