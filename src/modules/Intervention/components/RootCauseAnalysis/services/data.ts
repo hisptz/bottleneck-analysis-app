@@ -1,17 +1,33 @@
 import { map } from "async";
 import { filter, flattenDeep } from "lodash";
-import { BNA_NAMESPACE, ROOT_CAUSE_SUFFIX } from "../../../../../constants/dataStore";
+import { BNA_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../../../constants/dataStore";
+import { DEFAULT_ROOT_CAUSE_CONFIG } from "../../../../../constants/defaults";
 import { RootCauseDataInterface } from "../interfaces/rootCauseData";
 
-const query = {
+const mutateConfig = {
+  resource: `dataStore/${BNA_NAMESPACE}/${ROOT_CAUSE_CONFIG_KEY}`,
+  type: "create",
+  data: ({ data }: any) => data,
+};
+
+async function initializeRootCauseConfig(engine: any) {
+  return await engine.mutate(mutateConfig, { variables: { data: DEFAULT_ROOT_CAUSE_CONFIG } });
+}
+
+const configQuery = {
   config: {
-    resource: "dataStore/rca-config/rcaconfig",
+    resource: `dataStore/${BNA_NAMESPACE}/${ROOT_CAUSE_CONFIG_KEY}`,
   },
 };
 
-export async function getRootCauseConfig(engine: any) {
-  const { config } = await engine.query(query);
-  return config;
+export async function getRootCauseConfig(engine: any): Promise<any> {
+  try {
+    const { config } = await engine.query(configQuery);
+    return config;
+  } catch (e) {
+    await initializeRootCauseConfig(engine);
+    return getRootCauseConfig(engine);
+  }
 }
 
 const rootCauseDataKeys = {

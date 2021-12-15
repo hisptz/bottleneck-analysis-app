@@ -1,5 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { InterventionConfig } from "../shared/interfaces/interventionConfig";
+import { RootCauseConfigInterface } from "../shared/interfaces/rootCause";
 import { uid } from "../shared/utils/generators";
 
 export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
@@ -114,4 +115,129 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
     },
     subLevel: undefined,
   },
+};
+
+export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
+  id: "rcaconfig",
+  name: "Root Cause Analysis Widget",
+  dataElements: [
+    {
+      id: "pQtxdfQ6Jum",
+      name: "OrgUnit",
+      valueType: "AUTO_FILLED",
+      routerParam: {
+        key: "name",
+        namespace: "orgUnit",
+      },
+      optionSetValue: false,
+      columnMandatory: false,
+    },
+    {
+      id: "qOvrGMTGBee",
+      name: "orgUnitId",
+      isHidden: true,
+      valueType: "AUTO_FILLED",
+      routerParam: {
+        key: "id",
+        namespace: "orgUnit",
+      },
+      optionSetValue: false,
+      columnMandatory: false,
+    },
+    {
+      id: "yzYKWac02lm",
+      name: "Period",
+      valueType: "AUTO_FILLED",
+      routerParam: {
+        key: "name",
+        namespace: "period",
+      },
+      optionSetValue: false,
+      columnMandatory: false,
+    },
+    {
+      id: "skBBrbmML4S",
+      name: "periodId",
+      isHidden: true,
+      valueType: "AUTO_FILLED",
+      routerParam: {
+        key: "id",
+        namespace: "period",
+      },
+      optionSetValue: false,
+      columnMandatory: false,
+    },
+    {
+      id: "YPfJQu6sCSZ",
+      name: "Intervention",
+      valueType: "AUTO_FILLED",
+      routerParam: {
+        key: "name",
+        namespace: "dashboard",
+      },
+      optionSetValue: false,
+      columnMandatory: false,
+    },
+    {
+      id: "GXqfW1B2McT",
+      name: "interventionId",
+      isHidden: true,
+      valueType: "AUTO_FILLED",
+      routerParam: {
+        key: "id",
+        namespace: "dashboard",
+      },
+      optionSetValue: false,
+      columnMandatory: false,
+    },
+    {
+      id: "fZCEB7Euppr",
+      name: "Bottleneck",
+      valueType: "TEXT",
+      associatedId: "xf7L8ioFiC5",
+      optionSetValue: true,
+      columnMandatory: false,
+    },
+    {
+      id: "xf7L8ioFiC5",
+      name: "bottleneckId",
+      isGroup: true,
+      isHidden: true,
+      valueType: "TEXT",
+      optionSetValue: true,
+      columnMandatory: false,
+    },
+    {
+      id: "gE2BDDC0e0V",
+      name: "Indicator",
+      parentId: "xf7L8ioFiC5",
+      valueType: "TEXT",
+      associatedId: "oMCl2j0dIlN",
+      optionSetValue: true,
+      columnMandatory: true,
+    },
+    {
+      id: "oMCl2j0dIlN",
+      name: "indicatorId",
+      isHidden: true,
+      parentId: "xf7L8ioFiC5",
+      valueType: "TEXT",
+      optionSetValue: true,
+      columnMandatory: true,
+    },
+    {
+      id: "HwElwZJ9Oyc",
+      name: "Root cause",
+      valueType: "TEXT",
+      optionSetValue: false,
+      columnMandatory: false,
+    },
+    {
+      id: "PS29TQkElZL",
+      name: "Solution",
+      valueType: "TEXT",
+      optionSetValue: false,
+      columnMandatory: false,
+    },
+  ],
 };
