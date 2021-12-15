@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-14T14:31:56.870Z\n"
-"PO-Revision-Date: 2021-12-14T14:31:56.870Z\n"
+"POT-Creation-Date: 2021-12-15T02:00:44.185Z\n"
+"PO-Revision-Date: 2021-12-15T02:00:44.185Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -543,6 +543,15 @@ msgstr "View Archives"
 msgid "Edit"
 msgstr "Edit"
 
+msgid "Root cause data updated successfully"
+msgstr "Root cause data updated successfully"
+
+msgid "Root cause data saved successfully"
+msgstr "Root cause data saved successfully"
+
+msgid "Error saving root cause data"
+msgstr "Error saving root cause data"
+
 msgid "Add Root Cause"
 msgstr "Add Root Cause"
 
@@ -564,8 +573,8 @@ msgstr "Possible root cause is required"
 msgid "Possible root cause"
 msgstr "Possible root cause"
 
-msgid "Possible soluttion is required"
-msgstr "Possible soluttion is required"
+msgid "Possible solution is required"
+msgstr "Possible solution is required"
 
 msgid "Possible solution"
 msgstr "Possible solution"
@@ -576,11 +585,11 @@ msgstr "Saving"
 msgid "Save"
 msgstr "Save"
 
-msgid "Failed to delete root cause"
-msgstr "Failed to delete root cause"
+msgid "Root cause deleted successfully"
+msgstr "Root cause deleted successfully"
 
-msgid "Failed to save root cause"
-msgstr "Failed to save root cause"
+msgid "Error deleting root cause"
+msgstr "Error deleting root cause"
 
 msgid "Add New"
 msgstr "Add New"
