@@ -1,18 +1,21 @@
 import { useAlert } from "@dhis2/app-runtime";
+import { useSetting } from "@dhis2/app-service-datastore";
 import i18n from "@dhis2/d2-i18n";
 import { CircularLoader, LinearLoader } from "@dhis2/ui";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE } from "recoil";
+import { DATA_MIGRATION_CHECK } from "../../constants/dataStore";
 import { InterventionSummary } from "../../core/state/intervention";
 import useMigrate from "./hooks/useMigrate";
 
 export default function Migration(): React.ReactElement {
   const history = useHistory();
   const resetSummary = useRecoilRefresher_UNSTABLE(InterventionSummary);
-
+  const [, { set }] = useSetting(DATA_MIGRATION_CHECK, { global: true });
   const onComplete = () => {
     resetSummary();
+    set(true);
     history.replace("/");
   };
 
@@ -30,7 +33,7 @@ export default function Migration(): React.ReactElement {
         type: { info: true },
       });
     }
-  }, [error]);
+  }, [error, show]);
 
   return (
     <div className="column w-100 h-100 center align-center">
@@ -42,7 +45,7 @@ export default function Migration(): React.ReactElement {
       ) : (
         <>
           <CircularLoader small />
-          <p style={{ margin: 4 }}>{i18n.t("Performing some housekeeping. Please wait...")}</p>
+          <p style={{ margin: 4 }}>{i18n.t("Checking for previous BNA configurations. Please wait...")}</p>
         </>
       )}
     </div>

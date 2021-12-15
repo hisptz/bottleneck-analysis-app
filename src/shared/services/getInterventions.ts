@@ -11,9 +11,8 @@ const keysQuery = {
 export async function getInterventionKeys(engine: any): Promise<Array<string>> {
   try {
     const response = await engine.query(keysQuery);
-    return response.interventionKeys ?? [];
+    return response.keys ?? [];
   } catch (e) {
-    // @ts-ignore
     return [];
   }
 }
