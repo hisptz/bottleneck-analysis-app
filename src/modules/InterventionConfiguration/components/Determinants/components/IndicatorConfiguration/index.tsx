@@ -1,13 +1,14 @@
 import i18n from "@dhis2/d2-i18n";
+import { InputField } from "@dhis2/ui";
 import { CustomInput } from "@hisptz/react-ui";
 import { filter, findIndex } from "lodash";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import "./SelectedItemComponent.css";
 import { useRecoilValue } from "recoil";
 import { Legend } from "../../../../../../shared/interfaces/interventionConfig";
 import { SelectedDeterminantIndex, SelectedIndicatorIndex } from "../../../../state/edit";
-import { useFormContext } from "react-hook-form";
 
 export default function IndicatorConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
@@ -16,9 +17,19 @@ export default function IndicatorConfiguration(): React.ReactElement {
   const { watch, setValue } = useFormContext();
   const selectedIndicator = watch(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}]`);
   const legendDefinitions = watch("dataSelection.legendDefinitions");
+  const watchLabel = watch(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}].label`);
   const filteredLegendDefinitions = filter(legendDefinitions, (legendDefinition) => {
     return !legendDefinition.isDefault;
   });
+  const [labelError, setLabelError] = useState("");
+
+  useEffect(() => {
+    if (!watchLabel) {
+      setLabelError(i18n.t("Indicator label is required"));
+    } else {
+      setLabelError("");
+    }
+  }, [watchLabel]);
 
   const onChange = (key: string, value: any) => {
     setValue(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}].${key}`, value);
@@ -29,17 +40,17 @@ export default function IndicatorConfiguration(): React.ReactElement {
       <div className="selected-item-header">
         <h3>{selectedIndicator?.name}</h3>
       </div>
-      <div className="selected-item-body">
-        <CustomInput
-          input={{
-            onChange: (value) => {
-              onChange("label", value);
-            },
-            value: selectedIndicator?.label,
-            name: "label",
-            label: "Display Label",
+      <div className="selected-item-body pt-8">
+        <InputField
+          error={Boolean(labelError)}
+          validationText={labelError}
+          value={selectedIndicator?.label}
+          onChange={({ value }: { value: string }) => {
+            onChange("label", value);
           }}
-          valueType={"TEXT"}
+          label={i18n.t("Display Label")}
+          required
+          name={"label"}
         />
         <p>{i18n.t("Legends (Only applicable to sub level analysis)")}</p>
         {filteredLegendDefinitions?.map((legendDefinition: any | undefined) => {
