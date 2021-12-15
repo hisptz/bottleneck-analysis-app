@@ -1,9 +1,10 @@
+import { light } from "@material-ui/core/styles/createPalette";
 import { compact, find, flattenDeep } from "lodash";
 import { selector, selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { ROOT_CAUSE_TABLE_COLUMNS } from "../constants/table";
 import { getRootCauseConfig } from "../services/data";
-import { RootCauseData } from "./data";
+import { RootCauseDataSelector } from "./data";
 
 export const RootCauseConfig = selector({
   key: "root-cause-config",
@@ -20,7 +21,7 @@ export const RootCauseTableConfig = selectorFamily({
     ({ get }) => {
       const rowIds: string[] = [];
       const config = get(RootCauseConfig);
-      const data = get(RootCauseData(id));
+      const data = get(RootCauseDataSelector(id));
       const rows = flattenDeep(data).map(({ dataValues, id: rootCauseId }: any) => {
         rowIds.push(rootCauseId);
         return compact(

@@ -4,7 +4,7 @@ import { cloneDeep, isEmpty, reduce } from "lodash";
 import React, { useCallback } from "react";
 import "./DeterminantArea.css";
 import { useFormContext } from "react-hook-form";
-import GroupDeterminantComponent from "./component";
+import GroupDeterminantComponent from "./component/Determinants";
 
 export default function DeterminantArea(): React.ReactElement {
   const { setValue, getValues, watch } = useFormContext();

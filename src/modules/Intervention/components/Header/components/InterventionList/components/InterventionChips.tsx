@@ -22,7 +22,7 @@ export default function InterventionChips({ showAll, interventions }: Interventi
         history.replace(`/interventions/${selectedId}`);
       }
     },
-    [id]
+    [history, id]
   );
 
   return (

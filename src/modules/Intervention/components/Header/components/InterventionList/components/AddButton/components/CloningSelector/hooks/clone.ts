@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { BNA_NAMESPACE } from "../../../../../../../../../../../constants/dataStore";
 import { InterventionSummary } from "../../../../../../../../../../../core/state/intervention";
+import { UserState } from "../../../../../../../../../../../core/state/user";
 import { InterventionConfig, InterventionSummary as InterventionSummaryType } from "../../../../../../../../../../../shared/interfaces/interventionConfig";
 import { uid } from "../../../../../../../../../../../shared/utils/generators";
 import { createIntervention } from "../../../../../../../../../../InterventionConfiguration/services/save";
@@ -18,6 +19,7 @@ const cloneQuery = {
 export default function useClone(): { cloning: boolean; onClone: (interventionId: string, name: string) => void } {
   const history = useHistory();
   const summaries: Array<InterventionSummaryType> | undefined = useRecoilValue(InterventionSummary);
+  const user = useRecoilValue(UserState);
   const engine = useDataEngine();
   const [cloning, setCloning] = useState(false);
   const { show } = useAlert(
@@ -39,10 +41,13 @@ export default function useClone(): { cloning: boolean; onClone: (interventionId
           ...(intervention as unknown as InterventionConfig),
           id: uid(),
           name,
+          user: {
+            id: user.id,
+          },
         };
         await createIntervention(engine, newIntervention, summaries);
         show({
-          message: "Intervention cloned successfully",
+          message: i18n.t("Intervention cloned successfully"),
           type: { success: true },
         });
         history.replace(`/${newIntervention.id}/configuration`);
@@ -54,7 +59,7 @@ export default function useClone(): { cloning: boolean; onClone: (interventionId
       }
       setCloning(false);
     },
-    [engine, history, show, summaries]
+    [engine, history, show, summaries, user.id]
   );
 
   return {

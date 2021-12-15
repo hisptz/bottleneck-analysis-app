@@ -1,6 +1,7 @@
 import { map, queue } from "async";
 import { compact, filter, find, isEmpty, last } from "lodash";
-import { BNA_NAMESPACE } from "../../../constants/dataStore";
+import { BNA_NAMESPACE, ROOT_CAUSE_CONFIG_KEY } from "../../../constants/dataStore";
+import { DEFAULT_ROOT_CAUSE_CONFIG } from "../../../constants/defaults";
 import {
   DataItem,
   DataSelection,
@@ -12,6 +13,7 @@ import {
   PeriodSelection,
 } from "../../../shared/interfaces/interventionConfig";
 import { GlobalSelection, Legend, OldInterventionConfig, SelectionGroupMember } from "../../../shared/interfaces/oldInterventionConfig";
+import { RootCauseConfigInterface } from "../../../shared/interfaces/rootCause";
 import getOldInterventions from "../../../shared/services/getOldInterventions";
 
 export async function getInterventions(engine: any) {
@@ -141,14 +143,14 @@ export function convertIntervention(config: OldInterventionConfig): Intervention
   };
 }
 
-const query = {
+const oldConfigQuery = {
   config: {
     resource: "dataStore/rca-config/rcaconfig",
   },
 };
 
-export async function getRootCauseConfig(engine: any) {
-  const { config } = await engine.query(query);
+export async function getOldRootCauseConfig(engine: any) {
+  const { config } = await engine.query(oldConfigQuery);
   return config;
 }
 
@@ -184,6 +186,11 @@ export async function getRootCausesData(engine: any, interventionId: string) {
   });
 }
 
+export async function migrateRootCauseConfig(engine: any, config: RootCauseConfigInterface) {
+  const mutation = generateSaveMutation(ROOT_CAUSE_CONFIG_KEY);
+  return await engine.mutate(mutation, { variables: { data: config } });
+}
+
 export async function migrateRootCauseData(engine: any, key: string, data: any) {
   const mutation = generateSaveMutation(key);
   return await engine.mutate(mutation, { variables: { data } });
@@ -196,7 +203,13 @@ function convertRootCauseData(data: any, config: any) {
 }
 
 export async function migrateRootCauses(engine: any, interventions: Array<InterventionSummary>) {
-  const config = await getRootCauseConfig(engine);
+  let config: RootCauseConfigInterface;
+  try {
+    config = await getOldRootCauseConfig(engine);
+  } catch (e) {
+    config = DEFAULT_ROOT_CAUSE_CONFIG;
+  }
+  await migrateRootCauseConfig(engine, config);
   const q = queue(async (interventionId: string) => migrateRootCauseDataByIntervention(engine, interventionId, config), 5);
   const interventionIds = interventions.map(({ id }: { id: string }) => id);
   await q.push(interventionIds);

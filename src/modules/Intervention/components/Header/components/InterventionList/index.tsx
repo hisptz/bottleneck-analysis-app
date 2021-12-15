@@ -1,14 +1,11 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, IconChevronDown24, IconChevronUp24 } from "@dhis2/ui";
 import { IconButton } from "@material-ui/core";
-import { Steps } from "intro.js-react";
-import { head } from "lodash";
 import React, { useState } from "react";
 import "./intervention-list.css";
 import { useHistory, useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { InterventionSummary as InterventionSummaryType } from "../../../../../../shared/interfaces/interventionConfig";
-
+import { useRecoilValue } from "recoil";
+import { UserAuthority } from "../../../../../../core/state/user";
 import AddButton from "./components/AddButton";
 import InterventionChips from "./components/InterventionChips";
 import Search from "./components/Search";
@@ -20,6 +17,7 @@ export default function InterventionList(): React.ReactElement {
   const [showAll, setShowAll] = useState<boolean>(false);
   const searchKeyword = useRecoilValue(SearchState);
   const interventions = useRecoilValue(FilteredInterventions(id));
+  const authorities = useRecoilValue(UserAuthority);
   const history = useHistory();
 
   function onToArchivesList() {
@@ -35,7 +33,7 @@ export default function InterventionList(): React.ReactElement {
       <div className="intervention-list-container w-100 align-start">
         <div className="column flex-1 intervention-list">
           <div className="row gap align-start add-search-action">
-            <AddButton onClick={onAddIntervention} />
+            {authorities?.intervention?.create && <AddButton onClick={onAddIntervention} />}
             <Search />
             {interventions && interventions?.length > 0 ? (
               <InterventionChips interventions={interventions} showAll={showAll} />

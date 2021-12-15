@@ -1,10 +1,11 @@
 import i18n from "@dhis2/d2-i18n";
-import { FlyoutMenu, IconDragHandle16, IconEmptyFrame16, MenuItem } from "@dhis2/ui";
+import { FlyoutMenu, MenuItem } from "@dhis2/ui";
 import React from "react";
 import { useSetRecoilState } from "recoil";
+import { DOCUMENTATION_URL } from "../../../../../../../constants/documentation";
 import HelpState from "../../../../../state/help";
 
-export default function HelperMenu({ onClose }: { onClose: () => void }) {
+export default function HelperMenu({ onClose }: { onClose: () => void }): React.ReactElement {
   const setHelpState = useSetRecoilState(HelpState);
 
   return (
@@ -20,8 +21,7 @@ export default function HelperMenu({ onClose }: { onClose: () => void }) {
         <MenuItem
           onClick={() => {
             onClose();
-            window.location.href =
-              "https://docs.dhis2.org/en/use/optional-apps/bottleneck-analysis-app/app-version-122/introduction-and-usage/dashboard-and-demo.html";
+            window.open(DOCUMENTATION_URL, "_blank");
           }}
           label={i18n.t("Documentation")}
         />

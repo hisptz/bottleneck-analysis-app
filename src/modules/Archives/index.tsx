@@ -1,6 +1,9 @@
-import { Card, DataTable, DataTableCell, DataTableRow, Pagination, TableFoot } from "@dhis2/ui";
+import { Button, Card, colors, DataTable, DataTableCell, DataTableRow, IconArchive24, Pagination, TableFoot } from "@dhis2/ui";
 import { Steps } from "intro.js-react";
+import { isEmpty } from "lodash";
 import React, { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { useHistory } from "react-router-dom";
 import { useRecoilCallback, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { ARCHIVE_INTERVENTION_CONFIGURATION_HELP } from "../../constants/help/Intervention";
 import { STEP_OPTIONS } from "../../constants/help/options";
@@ -10,9 +13,22 @@ import ArchivesListHeader from "./components/ArchiveListHeader";
 import "./index.css";
 import ArchiveListTableBodyComponent from "./components/ArchiveListTableBody/ArchiveListTableBodyComponent";
 import ArchiveListHeaderComponent from "./components/ArchiveListTableHeader/ArchiveListTableHeaderComponent";
+import NoArchivesFound from "./components/NoArchivesFound";
+import { Archives } from "./state/data";
 import { Page, PageSize, PaginationState } from "./state/pagination";
+import i18n from "@dhis2/d2-i18n";
 
 export default function Archive(): React.ReactElement {
+  return (
+    <ErrorBoundary FallbackComponent={NoArchivesFound}>
+      <ArchiveComponent />
+    </ErrorBoundary>
+  );
+}
+
+function ArchiveComponent(): React.ReactElement {
+  const history = useHistory();
+  const archives = useRecoilValue(Archives);
   const pagination = useRecoilValue(PaginationState);
   const setPage = useSetRecoilState(Page);
   const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
@@ -26,10 +42,25 @@ export default function Archive(): React.ReactElement {
     reset(Page);
   });
 
+  const emptyList = isEmpty(archives);
+
+  if (emptyList) {
+    return (
+      <div className="column w-100 h-100 center align-center gap">
+        <span className="icon-72">
+          <IconArchive24 color={colors.grey700} />
+        </span>
+        <h2 style={{ color: colors.grey800, margin: 0 }}>{i18n.t("There are currently no archived interventions")}</h2>
+        <Button primary onClick={() => history.replace("/")}>
+          {i18n.t("Back To Interventions")}
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="column archive-interventions">
       <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={ARCHIVE_INTERVENTION_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
-
       <ArchivesListHeader />
       <Suspense fallback={<FullPageLoader />}>
         <div className="archiveList-table">

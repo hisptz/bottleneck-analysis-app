@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-14T07:46:24.351Z\n"
-"PO-Revision-Date: 2021-12-14T07:46:24.351Z\n"
+"POT-Creation-Date: 2021-12-15T05:15:55.794Z\n"
+"PO-Revision-Date: 2021-12-15T05:15:55.794Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -398,6 +398,12 @@ msgstr "Deleting"
 msgid "View"
 msgstr "View"
 
+msgid "There are currently no archived interventions"
+msgstr "There are currently no archived interventions"
+
+msgid "Back To Interventions"
+msgstr "Back To Interventions"
+
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
 
@@ -507,6 +513,9 @@ msgstr "Configure"
 msgid "Intervention not found"
 msgstr "Intervention not found"
 
+msgid "Intervention cloned successfully"
+msgstr "Intervention cloned successfully"
+
 msgid "Failed to Clone Intervention"
 msgstr "Failed to Clone Intervention"
 
@@ -543,26 +552,53 @@ msgstr "View Archives"
 msgid "Edit"
 msgstr "Edit"
 
-msgid "Root Cause form"
-msgstr "Root Cause form"
+msgid "Root cause data updated successfully"
+msgstr "Root cause data updated successfully"
+
+msgid "Root cause data saved successfully"
+msgstr "Root cause data saved successfully"
+
+msgid "Error saving root cause data"
+msgstr "Error saving root cause data"
+
+msgid "Add Root Cause"
+msgstr "Add Root Cause"
+
+msgid "Bottleneck is required"
+msgstr "Bottleneck is required"
 
 msgid "Bottleneck"
 msgstr "Bottleneck"
 
+msgid "Indicator is required"
+msgstr "Indicator is required"
+
 msgid "Indicator"
 msgstr "Indicator"
+
+msgid "Possible root cause is required"
+msgstr "Possible root cause is required"
 
 msgid "Possible root cause"
 msgstr "Possible root cause"
 
+msgid "Possible solution is required"
+msgstr "Possible solution is required"
+
 msgid "Possible solution"
 msgstr "Possible solution"
 
-msgid "Failed to delete root cause"
-msgstr "Failed to delete root cause"
+msgid "Saving"
+msgstr "Saving"
 
-msgid "Failed to save root cause"
-msgstr "Failed to save root cause"
+msgid "Save"
+msgstr "Save"
+
+msgid "Root cause deleted successfully"
+msgstr "Root cause deleted successfully"
+
+msgid "Error deleting root cause"
+msgstr "Error deleting root cause"
 
 msgid "Add New"
 msgstr "Add New"
@@ -841,6 +877,16 @@ msgstr "An error occurred while deleting the configuration"
 msgid "This will delete all data associated with this intervention."
 msgstr "This will delete all data associated with this intervention."
 
+msgid ""
+"Removing this indicator may affect already existing data for this "
+"intervention."
+msgstr ""
+"Removing this indicator may affect already existing data for this "
+"intervention."
+
+msgid " Are you sure you want to delete this indicator?"
+msgstr " Are you sure you want to delete this indicator?"
+
 msgid "Add Indicator"
 msgstr "Add Indicator"
 
@@ -917,12 +963,6 @@ msgstr "Intervention name is required. Please provide on in the general page."
 msgid "Manage"
 msgstr "Manage"
 
-msgid "Saving"
-msgstr "Saving"
-
-msgid "Save"
-msgstr "Save"
-
 msgid "Save and Exit"
 msgstr "Save and Exit"
 
@@ -938,11 +978,41 @@ msgstr "Migrating configurations..."
 msgid "Performing some housekeeping. Please wait..."
 msgstr "Performing some housekeeping. Please wait..."
 
+msgid "Access Denied"
+msgstr "Access Denied"
+
+msgid "You do not have authority to "
+msgstr "You do not have authority to "
+
+msgid "interventions"
+msgstr "interventions"
+
 msgid "Something went wrong. Please check the console for more details"
 msgstr "Something went wrong. Please check the console for more details"
 
 msgid "Try again"
 msgstr "Try again"
+
+msgid "You do not have access to "
+msgstr "You do not have access to "
+
+msgid "view or edit"
+msgstr "view or edit"
+
+msgid "edit"
+msgstr "edit"
+
+msgid "this intervention"
+msgstr "this intervention"
+
+msgid "Back to Interventions"
+msgstr "Back to Interventions"
+
+msgid "Intuitive design patterns"
+msgstr "Intuitive design patterns"
+
+msgid "Enjoy simple, elegant and improved look and feel"
+msgstr "Enjoy simple, elegant and improved look and feel"
 
 msgid "This resource was not found in the server"
 msgstr "This resource was not found in the server"
