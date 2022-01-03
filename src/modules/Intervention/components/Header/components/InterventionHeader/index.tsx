@@ -136,7 +136,7 @@ export default function InterventionHeader(): React.ReactElement {
             {i18n.t("Archive")}
           </Button>
           {authorities?.intervention?.edit && access.write ? (
-            <Button className={"configure-intervention"} onClick={onToInterventionConfiguration}>
+            <Button dataTest={"configuration-button-test"} className={"configure-intervention"} onClick={onToInterventionConfiguration}>
               {i18n.t("Configure")}
             </Button>
           ) : null}

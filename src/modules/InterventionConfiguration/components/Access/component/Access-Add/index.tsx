@@ -64,12 +64,13 @@ export default function AccessAdd(): React.ReactElement {
           <SingleSelectField
             label={i18n.t("Access level")}
             placeholder={i18n.t("Select a level")}
+            dataTest={"access-level-list-test"}
             disabled={offline}
             selected={access}
             helpText={offline ? i18n.t("Not available offline") : ""}
             onChange={({ selected }: any) => setAccess(selected)}>
             {ACCESS_TYPES.map(({ value, label }) => (
-              <SingleSelectOption key={value} label={label} value={value} active={value === access} />
+              <SingleSelectOption dataTest={"access-level-option-list-test"} key={value} label={label} value={value} active={value === access} />
             ))}
           </SingleSelectField>
         </div>

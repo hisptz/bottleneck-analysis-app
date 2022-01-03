@@ -36,3 +36,20 @@ Feature: Interventions and Indicators Configuration
 
       # @focus
       # Scenario: Add Indicators to the New Intervention in Determinant Configuration
+   @focus
+   Scenario: Display Access Configuation Page
+   Given authorized user with administrative access
+   When Access button is clicked
+   Then Access Configuration page should displayed
+
+   @focus
+   Scenario: Display Access Levels in Access Configuration
+   Given authorized user with administrative access
+   When user select access level
+   Then List of access level should be displayed
+
+   @focus 
+   Scenario: Give Access to view only to all user
+   Given authorized user with administrative access
+   When access level of view only is given to normal user
+   Then user should be able to view only
