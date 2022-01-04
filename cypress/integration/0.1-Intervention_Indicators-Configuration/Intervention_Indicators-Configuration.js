@@ -5,6 +5,7 @@ Given("authorized user with administrative access", () => {
   cy.visit("/");
 });
 When("click intervention search button", () => {
+  cy.wait(5000);
   cy.get("[data-test='addIntervntionButton']").click();
   cy.get("[data-test='intervention-selection-menu']").should("be.visible");
 });
