@@ -1,9 +1,10 @@
 import { useDataEngine } from "@dhis2/app-runtime";
+import { useSetting } from "@dhis2/app-service-datastore";
 import { queue } from "async";
 import { filter, isEmpty, uniqBy } from "lodash";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { BNA_DASHBOARDS_PREFIX } from "../../../constants/dataStore";
+import { BNA_DASHBOARDS_PREFIX, DATA_MIGRATION_CHECK } from "../../../constants/dataStore";
 import { InterventionSummary } from "../../../core/state/intervention";
 import { InterventionConfig } from "../../../shared/interfaces/interventionConfig";
 import { OldInterventionConfig } from "../../../shared/interfaces/oldInterventionConfig";
@@ -25,6 +26,8 @@ export default function useMigrate(onComplete: () => void): { error: any; progre
   };
   const q = useRef(queue(migrate));
   const engine = useDataEngine();
+  const [, { set: setSkipMigration }] = useSetting(DATA_MIGRATION_CHECK, { global: true });
+
   useEffect(() => {
     async function effect() {
       try {
@@ -46,9 +49,11 @@ export default function useMigrate(onComplete: () => void): { error: any; progre
           });
           q.current.drain(async () => {
             await uploadInterventionSummary(engine, uniqBy([...(interventionSummary ?? []), ...summaries], "id"));
+            setSkipMigration(true);
             onComplete();
           });
         } else {
+          setSkipMigration(true);
           onComplete();
         }
       } catch (e) {
@@ -57,7 +62,7 @@ export default function useMigrate(onComplete: () => void): { error: any; progre
     }
 
     effect();
-  }, [engine, interventionSummary, onComplete]);
+  }, [engine, interventionSummary, onComplete, setSkipMigration]);
 
   return {
     error,
