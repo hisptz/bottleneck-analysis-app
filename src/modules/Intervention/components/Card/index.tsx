@@ -12,6 +12,7 @@ export type InterventionMenu = {
   label: string | JSX.Element;
   icon?: JSX.Element;
   callback: () => void;
+  disabled?: boolean;
 };
 
 export type InterventionCardProps = {
@@ -58,8 +59,8 @@ export default function InterventionCard({
               {actionButtonRef && (
                 <Popover onClickOutside={() => setActionButtonRef(undefined)} placement="left-start" reference={actionButtonRef}>
                   <Menu>
-                    {menu?.map(({ label, icon, callback }) => (
-                      <MenuItem onClick={callback} key={`${label}-${title}-menu`} label={label} icon={icon} />
+                    {menu?.map(({ label, icon, callback, disabled }) => (
+                      <MenuItem disabled={disabled} onClick={callback} key={`${label}-${title}-menu`} label={label} icon={icon} />
                     ))}
                     {allowFullScreen && (
                       <MenuItem

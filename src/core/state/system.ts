@@ -17,14 +17,19 @@ export const SystemSettingsState = atom({
   default: selector({
     key: "system-settings-selector",
     get: async ({ get }) => {
-      const engine = get(EngineState);
-      const { system } = await engine.query(systemSettingsQuery, {
-        variables: { keys: systemSettingsKeys },
-      });
-      const { keyCalendar } = system ?? {};
-      return {
-        calendar: keyCalendar,
-      };
+      try {
+        const engine = get(EngineState);
+        const { system } = await engine.query(systemSettingsQuery, {
+          variables: { keys: systemSettingsKeys },
+        });
+        const { keyCalendar } = system ?? {};
+        return {
+          calendar: keyCalendar,
+        };
+      } catch (e) {
+        console.error(e);
+        return {};
+      }
     },
   }),
 });

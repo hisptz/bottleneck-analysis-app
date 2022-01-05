@@ -10,6 +10,7 @@ import "./App.css";
 import "./styles/spacing.css";
 import "./styles/layout.css";
 import "./styles/icons.css";
+import { Helmet } from "react-helmet";
 import { RecoilRoot } from "recoil";
 import { BNA_NAMESPACE } from "./constants/dataStore";
 import Router from "./modules/Router";
@@ -23,6 +24,9 @@ const MyApp = (): React.ReactElement => {
       <CssReset />
       <RecoilRoot>
         <Suspense fallback={<InitialAppLoader />}>
+          <Helmet>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+          </Helmet>
           <Router />
         </Suspense>
       </RecoilRoot>

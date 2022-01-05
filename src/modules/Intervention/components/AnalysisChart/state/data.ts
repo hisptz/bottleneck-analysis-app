@@ -3,6 +3,8 @@ import * as _ from "lodash";
 import { get as _get, isEmpty } from "lodash";
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
+import { getCustomFunctionAnalytics } from "../../../../../shared/services/customFunctionAnalytics";
+import { CustomFunction } from "../../../../../shared/state/customFunctions";
 import { isArchiveId } from "../../../../../shared/utils/archives";
 import { Archive } from "../../../../Archives/state/data";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../state/selections";
@@ -13,25 +15,35 @@ export const ChartData = selectorFamily({
   key: "chart-data",
   get:
     (id: string) =>
-    async ({ get }) => {
+    async ({ get, getCallback }) => {
       if (isArchiveId(id)) {
         const { chartData } = get(Archive(id)) ?? {};
         return chartData;
       }
       const engine = get(EngineState);
       const period = get(InterventionPeriodState(id))?.id;
-      const orgUnits = get(InterventionOrgUnitState(id));
-      const dataItems = get(DataItems(id));
+      const orgUnit = get(InterventionOrgUnitState(id))?.id;
+      const { dataItems, functions } = get(DataItems(id));
 
       if (isEmpty(dataItems)) {
         throw Error(i18n.t("There are no indicators configured for this intervention"));
       }
 
-      if (isEmpty(period) || isEmpty(orgUnits)) {
+      if (isEmpty(period) || isEmpty(orgUnit)) {
         throw Error(i18n.t("There are no organisation units or periods configured for this intervention"));
       }
 
-      return await getChartAnalytics({ dx: dataItems, ou: [orgUnits.id], pe: period }, engine);
+      const getCustomFunction = getCallback(({ snapshot }) => async (functionId: string) => {
+        return await snapshot.getPromise(CustomFunction(functionId));
+      });
+
+      const dataItemsData = await getChartAnalytics({ dx: dataItems, ou: [orgUnit], pe: period }, engine);
+      const functionsData = await getCustomFunctionAnalytics({ functions, getCustomFunction, periods: [period], orgUnits: [orgUnit] });
+
+      return {
+        ...dataItemsData,
+        rows: [...dataItemsData.rows, ...(functionsData ?? [])],
+      };
     },
 });
 

@@ -8,8 +8,13 @@ export const OrgUnitLevels = atom<Array<{ id: string; level: number; displayName
   default: selector({
     key: "orgUnitLevelsSelector",
     get: async ({ get }) => {
-      const engine = get(EngineState);
-      return await getOrgUnitLevels(engine);
+      try {
+        const engine = get(EngineState);
+        return await getOrgUnitLevels(engine);
+      } catch (e) {
+        console.error(e);
+        return [];
+      }
     },
   }),
 });
@@ -39,9 +44,14 @@ export const OrgUnit = atomFamily({
     get:
       (orgUnitId: string) =>
       async ({ get }) => {
-        const engine = get(EngineState);
-        const { orgUnit } = (await engine.query(query, { variables: { id: orgUnitId } })) ?? {};
-        return orgUnit;
+        try {
+          const engine = get(EngineState);
+          const { orgUnit } = (await engine.query(query, { variables: { id: orgUnitId } })) ?? {};
+          return orgUnit;
+        } catch (e) {
+          console.error(e);
+          return null;
+        }
       },
   }),
 });
