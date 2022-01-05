@@ -17,19 +17,14 @@ export const InterventionSummary = atom<Array<InterventionSummaryType>>({
   default: selector({
     key: "intervention-summary-getter",
     get: async ({ get }) => {
-      try {
-        const engine = get(EngineState);
-        get(RequestId);
-        const interventionSummaries = await getInterventionSummary(engine);
-        const user = get(UserState);
-        return filter(interventionSummaries, (summary) => {
-          const { read } = getUserAuthority(user, summary);
-          return read;
-        });
-      } catch (e) {
-        console.error(e);
-        return [];
-      }
+      const engine = get(EngineState);
+      get(RequestId);
+      const interventionSummaries = await getInterventionSummary(engine);
+      const user = get(UserState);
+      return filter(interventionSummaries, (summary) => {
+        const { read } = getUserAuthority(user, summary);
+        return read;
+      });
     },
   }),
 });
