@@ -1,5 +1,6 @@
-import { find, findIndex, head } from "lodash";
-import { CustomFunction, FunctionRule } from "../interfaces/customFunctions";
+import { map } from "async";
+import { compact, find, findIndex, flatten, isEmpty } from "lodash";
+import { CustomFunction as CustomFunctionInterface, FunctionRule } from "../interfaces/customFunctions";
 
 const customFunctionQuery = {
   function: {
@@ -8,8 +9,8 @@ const customFunctionQuery = {
   },
 };
 
-export async function getCustomFunction(engine: any, id: string): Promise<CustomFunction> {
-  return (await engine.query(customFunctionQuery, { variables: { id } }))?.function as CustomFunction;
+export async function getCustomFunction(engine: any, id: string): Promise<CustomFunctionInterface> {
+  return (await engine.query(customFunctionQuery, { variables: { id } }))?.function as CustomFunctionInterface;
 }
 
 export async function runCustomFunction({
@@ -38,16 +39,20 @@ export async function runCustomFunction({
   };
 
   return await new Promise((resolve, reject) => {
-    const customFunction = Function("parameters", `${code}`);
-    customFunction({
-      ...parameters,
-      success: resolve,
-      error: (error: any) => {
-        reject(error);
-      },
-    });
+    try {
+      const customFunction = Function("parameters", `${code}`);
+      customFunction({
+        ...parameters,
+        success: resolve,
+        error: (error: any) => {
+          reject(error);
+        },
+      });
+    } catch (e) {
+      reject(e);
+    }
     setTimeout(() => {
-      reject("Request timed out");
+      reject("Function timed out");
     }, 20000);
   });
 }
@@ -58,37 +63,77 @@ export async function evaluateCustomFunction({
   orgUnits,
   periods,
 }: {
-  customFunction?: CustomFunction;
+  customFunction?: CustomFunctionInterface;
   orgUnits: Array<string>;
   periods: Array<string>;
   ruleId: string;
 }): Promise<Array<Array<string>> | null> {
-  if (customFunction) {
-    const rule: FunctionRule | string | undefined = find(customFunction?.rules, { id: ruleId });
-    if (rule) {
-      const data: any = await runCustomFunction({
-        orgUnits,
-        periods,
-        rule: typeof rule === "string" ? JSON.parse(rule) : rule,
-        code: customFunction?.function ?? "",
-        progress: (progress) => console.log(progress),
-      });
-
-      //This is under the assumption a custom function returns analytics object with only one dx value
-      if (data) {
-        const rows = data?.rows;
-        return rows?.map((row: Array<string>) => {
-          //Replace the dx with the function.rule id
-          const dxIndex = findIndex(data?.headers, { name: "dx" });
-          if (dxIndex >= 0) {
-            const updatedRow = [...row];
-            updatedRow[dxIndex] = `${customFunction.id}.${ruleId}`;
-            return updatedRow;
-          }
+  try {
+    if (customFunction) {
+      const rule: FunctionRule | string | undefined = find(customFunction?.rules, { id: ruleId });
+      if (rule) {
+        const data: any = await runCustomFunction({
+          orgUnits,
+          periods,
+          rule: { ...rule, json: typeof rule.json === "string" ? JSON.parse(rule.json) : rule.json },
+          code: customFunction?.function ?? "",
+          progress: (progress) => console.log(progress),
         });
+
+        //This is under the assumption a custom function returns analytics object with only one dx value
+        if (data) {
+          const rows = data?.rows;
+          return rows?.map((row: Array<string>) => {
+            //Replace the dx with the function.rule id
+            const dxIndex = findIndex(data?.headers, { name: "dx" });
+            if (dxIndex >= 0) {
+              const updatedRow = [...row];
+              updatedRow[dxIndex] = `${customFunction.id}.${ruleId}`;
+              return updatedRow;
+            }
+          });
+        }
       }
     }
+  } catch (error) {
+    console.log(error);
+    return null;
   }
-
   return null;
+}
+
+export async function getCustomFunctionAnalytics({
+  functions,
+  periods,
+  orgUnits,
+  getCustomFunction,
+}: {
+  functions: Array<string>;
+  periods: Array<string>;
+  orgUnits: Array<string>;
+  getCustomFunction: (functionId: string) => Promise<CustomFunctionInterface | undefined>;
+}) {
+  try {
+    if (functions && !isEmpty(functions)) {
+      return compact(
+        flatten(
+          await map(functions, async (id: string) => {
+            try {
+              const [functionId, ruleId] = id.split(".") ?? [];
+              if (functionId) {
+                const customFunction = await getCustomFunction(functionId);
+                console.log(customFunction);
+                return await evaluateCustomFunction({ customFunction, ruleId, periods, orgUnits });
+              }
+            } catch (e) {
+              console.log(e);
+              return;
+            }
+          })
+        )
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
 }

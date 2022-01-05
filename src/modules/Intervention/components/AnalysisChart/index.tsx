@@ -4,8 +4,7 @@ import HighchartsReact from "highcharts-react-official";
 import React, { useRef } from "react";
 import { useFullScreenHandle } from "react-full-screen";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { CustomFunctionsData } from "../../../../shared/state/customFunctions";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { downloadExcelFromAnalytics } from "../../../../shared/utils/download";
 import { InterventionStateSelector } from "../../state/intervention";
 import { InterventionOrgUnitState } from "../../state/selections";
@@ -16,7 +15,7 @@ import { ChartData } from "./state/data";
 export default function AnalysisChart(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const interventionName = useRecoilValue(InterventionStateSelector({ id, path: ["name"] }));
-  const data = useRecoilValue(ChartData(id));
+  const data = useRecoilValueLoadable(ChartData(id));
   const groups = useRecoilValue(InterventionStateSelector({ id, path: ["dataSelection", "groups"] }));
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
 
@@ -25,7 +24,9 @@ export default function AnalysisChart(): React.ReactElement {
   const handle = useFullScreenHandle();
 
   const onExcelDownload = () => {
-    downloadExcelFromAnalytics({ analytics: data, groups, orgUnit }, interventionName);
+    if (data.state === "hasValue") {
+      downloadExcelFromAnalytics({ analytics: data.contents, groups, orgUnit }, interventionName);
+    }
   };
   const onPDFDownload = () => {
     chartRef?.current?.chart.exportChart({ type: "application/pdf" }, {});
@@ -43,16 +44,19 @@ export default function AnalysisChart(): React.ReactElement {
           label: "Download PDF",
           callback: onPDFDownload,
           icon: <IconFileDocument24 />,
+          disabled: data.state !== "hasValue",
         },
         {
           label: "Download Excel",
           callback: onExcelDownload,
           icon: <IconDownload24 />,
+          disabled: data.state !== "hasValue",
         },
         {
           label: "Download PNG",
           callback: onImageDownload,
           icon: <IconImage24 />,
+          disabled: data.state !== "hasValue",
         },
       ]}
       title={

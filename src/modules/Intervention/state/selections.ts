@@ -42,7 +42,7 @@ export const InterventionOrgUnitState = atomFamily<OrgUnitType, string>({
           if (orgUnitSelection?.orgUnit?.id && !orgUnitSelection?.orgUnit?.id?.includes("USER")) {
             const orgUnit = get(OrgUnit(orgUnitSelection?.orgUnit?.id));
             if (userOrgUnit) {
-              if (orgUnit.level > userOrgUnit?.level) {
+              if (orgUnit?.level > userOrgUnit?.level) {
                 return orgUnit;
               }
             }
