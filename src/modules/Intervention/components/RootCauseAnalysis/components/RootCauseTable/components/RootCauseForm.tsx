@@ -129,7 +129,7 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
   }
 
   return (
-    <Modal onClose={onCancelForm} className={"root-cause-form"} large hide={!hideModal} position="middle">
+    <Modal dataTest={"root-cause-form"} onClose={onCancelForm} className={"root-cause-form"} large hide={!hideModal} position="middle">
       <ModalTitle>{i18n.t("Add Root Cause")}</ModalTitle>
       <ModalContent>
         <form onSubmit={handleSubmit(saveRootCause)} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -141,6 +141,7 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
               render={({ field, fieldState }) => (
                 <SingleSelectField
                   label={i18n.t("Bottleneck")}
+                  dataTest={"bootleneck-root-cause"}
                   error={fieldState.error}
                   validationText={fieldState?.error?.message}
                   onChange={({ selected }: any) => field.onChange(selected)}
@@ -162,10 +163,11 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
                   error={fieldState.error}
                   validationText={fieldState?.error?.message}
                   name={field.name}
+                  dataTest={"indicator-root-cause"}
                   onChange={({ selected }: any) => field.onChange(selected)}
                   selected={!isEmpty(interventionOptions) && find(interventionOptions, ["id", field.value]) ? field.value : undefined}>
                   {interventionOptions?.map((option: any) => (
-                    <SingleSelectOption key={`${option.id}-option`} label={option?.label} value={option?.id} />
+                    <SingleSelectOption  key={`${option.id}-option`} label={option?.label} value={option?.id} />
                   ))}
                 </SingleSelectField>
               )}
@@ -177,6 +179,7 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
               render={({ field, fieldState }) => (
                 <TextAreaField
                   label={i18n.t("Possible root cause")}
+                  dataTest={"possible-root-cause-input"}
                   error={fieldState.error}
                   validationText={fieldState?.error?.message}
                   name={field.name}
@@ -193,6 +196,7 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
                 <TextAreaField
                   required
                   label={i18n.t("Possible solution")}
+                  dataTest={"possible-root-solution-input"}
                   error={fieldState.error}
                   validationText={fieldState?.error?.message}
                   name={field.name}
@@ -205,7 +209,7 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
               <Button disabled={saving} secondary onClick={onCancelForm}>
                 {i18n.t("Cancel")}
               </Button>
-              <Button disabled={saving} loading={saving} primary type="submit">
+              <Button dataTest={"save-new-root-cause"} disabled={saving} loading={saving} primary type="submit">
                 {saving ? `${i18n.t("Saving")}...` : i18n.t("Save")}
               </Button>
             </ButtonStrip>

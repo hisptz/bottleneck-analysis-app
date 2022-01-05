@@ -84,7 +84,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
 
   return (
     <div style={{ width: "100%" }} className="root-cause-widget-table column gap">
-      <DataTable ref={tableRef} className={classes["table"]} bordered>
+      <DataTable dataTest={"root-cause-table"} ref={tableRef} className={classes["table"]} bordered>
         <RootCauseTableHeader columns={columns} />
         <TableBody>
           {rows.map((row, rowIndex) => (
@@ -121,7 +121,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
       </DataTable>
       <div className="w-100 row end">
         {authorities?.rootCause?.create && (
-          <Button className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>
+          <Button dataTest={"add-new-root-cause"} className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>
             {i18n.t("Add New")}
           </Button>
         )}

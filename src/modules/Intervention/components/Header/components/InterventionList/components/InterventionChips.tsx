@@ -26,7 +26,7 @@ export default function InterventionChips({ showAll, interventions }: Interventi
   );
 
   return (
-    <div className="column w-100" style={{ maxWidth: "100%" }}>
+    <div className="column w-100" style={{ maxWidth: "100%", overflow: "auto" }}>
       <div className="row w-100">
         {slice(interventions, 0, 5)?.map((intervention) => (
           <Chip
