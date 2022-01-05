@@ -59,7 +59,7 @@ export default function useClone(): { cloning: boolean; onClone: (interventionId
       }
       setCloning(false);
     },
-    [engine, history, show, summaries, user.id]
+    [engine, history, setRequestId, show, summaries, user.id]
   );
 
   return {
