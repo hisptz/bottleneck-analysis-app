@@ -5,6 +5,7 @@ import React, { useRef } from "react";
 import { useFullScreenHandle } from "react-full-screen";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { CustomFunctionsData } from "../../../../shared/state/customFunctions";
 import { downloadExcelFromAnalytics } from "../../../../shared/utils/download";
 import { InterventionStateSelector } from "../../state/intervention";
 import { InterventionOrgUnitState } from "../../state/selections";

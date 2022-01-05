@@ -1,4 +1,4 @@
-import { find } from "lodash";
+import { find, forEach } from "lodash";
 import { selectorFamily } from "recoil";
 import { LastOrgUnitLevel, OrgUnitLevels } from "../../../../../core/state/orgUnit";
 import { UserOrganisationUnit } from "../../../../../core/state/user";
@@ -6,19 +6,31 @@ import { DataItem, InterventionConfig } from "../../../../../shared/interfaces/i
 import { InterventionState } from "../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../state/selections";
 
-export const DataItems = selectorFamily<Array<string>, string>({
+export const DataItems = selectorFamily<{ functions: Array<string>; dataItems: Array<string> }, string>({
   key: "sub-level-data-items",
   get:
     (id: string) =>
-    ({ get }): Array<string> => {
+    ({ get }): { functions: Array<string>; dataItems: Array<string> } => {
       const { dataSelection } = get<InterventionConfig>(InterventionState(id)) ?? {};
       const groups = dataSelection.groups ?? [];
-      return groups
-        .reduce<Array<DataItem>>((acc, group) => {
-          const { items } = group;
-          return [...acc, ...items];
-        }, [])
-        .map(({ id }) => id);
+      const functions: DataItem[] = [];
+      const dataItems: DataItem[] = [];
+
+      forEach(groups, (group) => {
+        const { items } = group ?? {};
+        forEach(items, (item) => {
+          if (item.type === "CUSTOMFUNCTION") {
+            functions.push(item);
+          } else {
+            dataItems.push(item);
+          }
+        });
+      });
+
+      return {
+        dataItems: dataItems.map(({ id }) => id),
+        functions: functions.map(({ id }) => id),
+      };
     },
 });
 

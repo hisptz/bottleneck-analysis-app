@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import { get as _get, isEmpty } from "lodash";
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
+import { CustomFunctionsData } from "../../../../../shared/state/customFunctions";
 import { isArchiveId } from "../../../../../shared/utils/archives";
 import { Archive } from "../../../../Archives/state/data";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../state/selections";
@@ -21,7 +22,7 @@ export const ChartData = selectorFamily({
       const engine = get(EngineState);
       const period = get(InterventionPeriodState(id))?.id;
       const orgUnits = get(InterventionOrgUnitState(id));
-      const dataItems = get(DataItems(id));
+      const { dataItems, functions } = get(DataItems(id));
 
       if (isEmpty(dataItems)) {
         throw Error(i18n.t("There are no indicators configured for this intervention"));
@@ -31,7 +32,13 @@ export const ChartData = selectorFamily({
         throw Error(i18n.t("There are no organisation units or periods configured for this intervention"));
       }
 
-      return await getChartAnalytics({ dx: dataItems, ou: [orgUnits.id], pe: period }, engine);
+      const dataItemsData = await getChartAnalytics({ dx: dataItems, ou: [orgUnits.id], pe: period }, engine);
+      const functionsData = get(CustomFunctionsData(functions));
+      console.log({ functions, functionsData });
+      return {
+        ...dataItemsData,
+        rows: [...dataItemsData.rows],
+      };
     },
 });
 

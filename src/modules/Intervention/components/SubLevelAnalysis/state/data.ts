@@ -18,7 +18,7 @@ export const SubLevelAnalyticsData = selectorFamily({
         return subLevelData;
       }
       const engine = get(EngineState);
-      const dataItems = get(DataItems(id));
+      const { dataItems } = get(DataItems(id));
       const period = get(InterventionPeriodState(id))?.id;
       const orgUnit = get(SubLevelOrgUnit(id));
 
