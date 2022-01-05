@@ -2,9 +2,9 @@ import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { BNA_NAMESPACE } from "../../../../../../../../../../../constants/dataStore";
-import { InterventionSummary } from "../../../../../../../../../../../core/state/intervention";
+import { InterventionSummary, RequestId } from "../../../../../../../../../../../core/state/intervention";
 import { UserState } from "../../../../../../../../../../../core/state/user";
 import { InterventionConfig, InterventionSummary as InterventionSummaryType } from "../../../../../../../../../../../shared/interfaces/interventionConfig";
 import { uid } from "../../../../../../../../../../../shared/utils/generators";
@@ -19,6 +19,7 @@ const cloneQuery = {
 export default function useClone(): { cloning: boolean; onClone: (interventionId: string, name: string) => void } {
   const history = useHistory();
   const summaries: Array<InterventionSummaryType> | undefined = useRecoilValue(InterventionSummary);
+  const setRequestId = useSetRecoilState(RequestId);
   const user = useRecoilValue(UserState);
   const engine = useDataEngine();
   const [cloning, setCloning] = useState(false);
@@ -32,11 +33,9 @@ export default function useClone(): { cloning: boolean; onClone: (interventionId
       setCloning(true);
       try {
         const { intervention } = (await engine.query(cloneQuery, { variables: { id: interventionId } })) ?? {};
-
         if (!intervention) {
           throw new Error(i18n.t("Intervention not found"));
         }
-
         const newIntervention = {
           ...(intervention as unknown as InterventionConfig),
           id: uid(),
@@ -50,6 +49,7 @@ export default function useClone(): { cloning: boolean; onClone: (interventionId
           message: i18n.t("Intervention cloned successfully"),
           type: { success: true },
         });
+        setRequestId((prev) => prev + 1);
         history.replace(`/${newIntervention.id}/configuration`);
       } catch (e: any) {
         show({
