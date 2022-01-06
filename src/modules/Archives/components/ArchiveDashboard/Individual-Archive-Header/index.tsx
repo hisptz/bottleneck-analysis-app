@@ -25,9 +25,9 @@ export default function IndividualArchiveHeader(): React.ReactElement {
   return (
     <div className="archive-header w-100 row space-between p-16 align-center">
       <div className="column">
-        <h2>{config.name}</h2>
+        <h2>{config?.name}</h2>
         <span>
-          {orgUnit.displayName} - {period.name}
+          {orgUnit?.displayName} - {period?.name}
         </span>
       </div>
       <div>

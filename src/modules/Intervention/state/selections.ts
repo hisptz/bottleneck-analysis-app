@@ -5,7 +5,9 @@ import { OrgUnit } from "../../../core/state/orgUnit";
 import { SystemSettingsState } from "../../../core/state/system";
 import { UserOrganisationUnit } from "../../../core/state/user";
 import { OrgUnit as OrgUnitType } from "../../../shared/interfaces/orgUnit";
+import { isArchiveId } from "../../../shared/utils/archives";
 import { getCurrentPeriod } from "../../../shared/utils/period";
+import { Archive } from "../../Archives/state/data";
 
 export const InterventionPeriodState = atomFamily<PeriodInterface, string>({
   key: "intervention-period",
@@ -14,6 +16,9 @@ export const InterventionPeriodState = atomFamily<PeriodInterface, string>({
     get:
       (interventionId: string) =>
       ({ get }) => {
+        if (isArchiveId(interventionId)) {
+          return new Period().getById(get(Archive(interventionId))?.period ?? new Date().getFullYear().toString());
+        }
         const { calendar } = get(SystemSettingsState);
         const { periodSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
         if (periodSelection) {
@@ -36,6 +41,10 @@ export const InterventionOrgUnitState = atomFamily<OrgUnitType, string>({
     get:
       (interventionId: string) =>
       async ({ get }) => {
+        if (isArchiveId(interventionId)) {
+          return get(OrgUnit(get(Archive(interventionId))?.orgUnit));
+        }
+
         const { orgUnitSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
         const userOrgUnit = get(UserOrganisationUnit);
         if (orgUnitSelection) {
