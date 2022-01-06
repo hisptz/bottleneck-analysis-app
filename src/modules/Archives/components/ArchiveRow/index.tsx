@@ -6,6 +6,7 @@ import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { OrgUnit } from "../../../../core/state/orgUnit";
 import { SystemSettingsState } from "../../../../core/state/system";
 import { Archive } from "../../../../shared/interfaces/archive";
+import classes from "../../../../styles/Table.module.css";
 import ArchiveMenuCell from "../ArchiveMenuCell";
 
 export default function ArchiveRow({ archive }: { archive: Archive }): React.ReactElement {
@@ -21,10 +22,18 @@ export default function ArchiveRow({ archive }: { archive: Archive }): React.Rea
 
   return (
     <DataTableRow className={"InterventionList-test"} onClick={onViewClick}>
-      <DataTableCell onClick={onViewClick}>{config.name}</DataTableCell>
-      <DataTableCell>{orgUnitState?.state !== "hasValue" ? "" : orgUnitState?.contents?.displayName}</DataTableCell>
-      <DataTableCell>{period.name}</DataTableCell>
-      <DataTableCell>{dateCreated}</DataTableCell>
+      <DataTableCell className={classes["table-cell"]} onClick={onViewClick}>
+        {config.name}
+      </DataTableCell>
+      <DataTableCell onClick={onViewClick} className={classes["table-cell"]}>
+        {orgUnitState?.state !== "hasValue" ? "" : orgUnitState?.contents?.displayName}
+      </DataTableCell>
+      <DataTableCell onClick={onViewClick} className={classes["table-cell"]}>
+        {period.name}
+      </DataTableCell>
+      <DataTableCell onClick={onViewClick} className={classes["table-cell"]}>
+        {dateCreated}
+      </DataTableCell>
       <ArchiveMenuCell archive={archive} />
     </DataTableRow>
   );

@@ -3,11 +3,9 @@ div > .archive-list-row {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    min-height: 100px;
-    padding-top: 30px;
-    padding-left: 17px;
-    padding-right: 17px;
     background-color: transparent;
+    padding: 16px 0;
+    align-items: center;
 }
 
 .archiveListTitle{
@@ -19,5 +17,5 @@ div > .archive-list-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    min-width: 250px
+    min-width: 256px
 }

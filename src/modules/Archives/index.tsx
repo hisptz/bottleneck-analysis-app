@@ -1,4 +1,4 @@
-import { Button, Card, colors, DataTable, DataTableCell, DataTableRow, IconArchive24, Pagination, TableFoot } from "@dhis2/ui";
+import { Button, Card, colors, DataTable, IconArchive24, Pagination } from "@dhis2/ui";
 import { Steps } from "intro.js-react";
 import { isEmpty } from "lodash";
 import React, { Suspense } from "react";
@@ -46,7 +46,7 @@ function ArchiveComponent(): React.ReactElement {
 
   if (emptyList) {
     return (
-      <div className="column w-100 h-100 center align-center gap">
+      <div className="column w-100 h-100 center align-center gap archive-main-container">
         <span className="icon-72">
           <IconArchive24 color={colors.grey700} />
         </span>
@@ -59,32 +59,28 @@ function ArchiveComponent(): React.ReactElement {
   }
 
   return (
-    <div className="column archive-interventions">
+    <div className="column archive-main-container h-100">
       <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={ARCHIVE_INTERVENTION_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
       <ArchivesListHeader />
       <Suspense fallback={<FullPageLoader />}>
         <div className="archiveList-table">
           <Card>
-            <DataTable>
-              <ArchiveListHeaderComponent />
-              <ArchiveListTableBodyComponent />
-              <TableFoot>
-                <DataTableRow>
-                  <DataTableCell colSpan="6">
-                    <div className="paginationCell">
-                      <Pagination
-                        onPageChange={setPage}
-                        onPageSizeChange={onPageSizeChange}
-                        page={pagination.page}
-                        pageCount={pagination.pageCount}
-                        pageSize={pagination.pageSize}
-                        total={pagination.total}
-                      />
-                    </div>
-                  </DataTableCell>
-                </DataTableRow>
-              </TableFoot>
-            </DataTable>
+            <div className="column gap p-16">
+              <div className="flex-1 h-100">
+                <DataTable>
+                  <ArchiveListHeaderComponent />
+                  <ArchiveListTableBodyComponent />
+                </DataTable>
+              </div>
+              <Pagination
+                onPageChange={setPage}
+                onPageSizeChange={onPageSizeChange}
+                page={pagination.page}
+                pageCount={pagination.pageCount}
+                pageSize={pagination.pageSize}
+                total={pagination.total}
+              />
+            </div>
           </Card>
         </div>
       </Suspense>
