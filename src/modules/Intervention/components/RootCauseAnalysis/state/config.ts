@@ -2,6 +2,7 @@ import { light } from "@material-ui/core/styles/createPalette";
 import { compact, find, flattenDeep } from "lodash";
 import { selector, selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
+import { isArchiveId } from "../../../../../shared/utils/archives";
 import { ROOT_CAUSE_TABLE_COLUMNS } from "../constants/table";
 import { getRootCauseConfig } from "../services/data";
 import { RootCauseDataSelector } from "./data";
@@ -20,12 +21,14 @@ export const RootCauseTableConfig = selectorFamily({
     (id: string) =>
     ({ get }) => {
       const rowIds: string[] = [];
+      const isArchive = isArchiveId(id);
+      const columns = isArchive ? ROOT_CAUSE_TABLE_COLUMNS.filter(({ key }) => key !== "Actions") : ROOT_CAUSE_TABLE_COLUMNS;
       const config = get(RootCauseConfig);
       const data = get(RootCauseDataSelector(id));
-      const rows = flattenDeep(data).map(({ dataValues, id: rootCauseId }: any) => {
-        rowIds.push(rootCauseId);
+      const rows = flattenDeep(data)?.map(({ dataValues, id: rootCauseId }: any) => {
+        rowIds?.push(rootCauseId);
         return compact(
-          ROOT_CAUSE_TABLE_COLUMNS.map(({ key }) => {
+          columns?.map(({ key }) => {
             const id = find(config.dataElements, ["name", key])?.id;
             return {
               key,
@@ -36,7 +39,7 @@ export const RootCauseTableConfig = selectorFamily({
       });
 
       return {
-        columns: ROOT_CAUSE_TABLE_COLUMNS,
+        columns,
         rowIds,
         rows,
       };
