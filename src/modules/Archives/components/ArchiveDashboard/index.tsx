@@ -10,6 +10,7 @@ import IndividualArchiveHeaderInfoSummary from "./Individual-Archive-Header-info
 import { ARCHIVE_INDIVIDUAL_INTERVENTION_CONFIGURATION_HELP } from "../../.././.././constants/help/Intervention";
 import { STEP_OPTIONS } from "../../../../constants/help/options";
 import { useRecoilState } from "recoil";
+import RemarksArea from "./RemarksArea";
 
 export default function InterventionArchive(): React.ReactElement {
   const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
@@ -23,6 +24,7 @@ export default function InterventionArchive(): React.ReactElement {
       <IndividualArchiveHeader />
       <div className="cards">
         <IndividualArchiveHeaderInfoSummary />
+        <RemarksArea />
         <AnalysisChart />
         <SubLevelAnalysis />
         <RootCauseAnalysis />
