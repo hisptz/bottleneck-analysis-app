@@ -1,7 +1,7 @@
 import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, DataTable, DataTableCell, DataTableRow, Modal, ModalActions, ModalContent, ModalTitle, TableBody } from "@dhis2/ui";
-import { find } from "lodash";
+import { Button, ButtonStrip, DataTable, DataTableCell, DataTableRow, Modal, ModalActions, ModalContent, ModalTitle, TableBody, colors } from "@dhis2/ui";
+import { find, isEmpty } from "lodash";
 import React, { Suspense, useState } from "react";
 import "./rootCauseTable.css";
 import { useParams } from "react-router-dom";
@@ -84,49 +84,65 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
   }
 
   return (
-    <div style={{ width: "100%" }} className="root-cause-widget-table column gap">
-      <DataTable dataTest={"root-cause-table"} ref={tableRef} className={classes["table"]} bordered>
-        <RootCauseTableHeader columns={columns} />
-        <TableBody>
-          {rows.map((row, rowIndex) => (
-            <DataTableRow key={rowIndex}>
-              {row.map(({ key, value }, index) => {
-                if (key === "Actions") {
-                  return (
-                    <DataTableCell className={classes["table-cell"]} key={index} align="center">
-                      <RootCauseActionsProps
-                        key={index}
-                        onUpdateRootCause={() => onUpdateRootCause(rowIndex)}
-                        onDeleteRootCause={() => onDeleteRootCause(rowIndex)}
-                      />
-                    </DataTableCell>
-                  );
-                }
-                const { disabled } = find(columns, ["key", key]) ?? {};
-                if (disabled) {
-                  return (
-                    <DataTableCell fixed align="center" className={classes["table-name-cell"]} key={index}>
-                      {value}
-                    </DataTableCell>
-                  );
-                }
-                return (
-                  <DataTableCell align="center" className={classes["table-cell"]} key={index}>
-                    {value}
-                  </DataTableCell>
-                );
-              })}
-            </DataTableRow>
-          ))}
-        </TableBody>
-      </DataTable>
-      <div className="w-100 row end">
-        {authorities?.rootCause?.create && !isArchiveId(interventionId) && (
-          <Button dataTest={"add-new-root-cause"} className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>
-            {i18n.t("Add New")}
-          </Button>
-        )}
-      </div>
+    <div style={{ width: "100%" }} className="root-cause-widget-table column gap w-100">
+      {isEmpty(rows) && (
+        <div className="h-100 w-100 column gap center align-center">
+          <div style={{ color: colors.grey700, fontWeight: 500 }}>
+            {i18n.t("There are no root causes for this intervention, period, and organisation unit")}
+          </div>
+          {authorities?.rootCause?.create && !isArchiveId(interventionId) && (
+            <Button dataTest={"add-new-root-cause"} className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>
+              {i18n.t("Add New")}
+            </Button>
+          )}
+        </div>
+      )}
+      {!isEmpty(rows) && (
+        <>
+          <DataTable dataTest={"root-cause-table"} ref={tableRef} className={classes["table"]} bordered>
+            <RootCauseTableHeader columns={columns} />
+            <TableBody>
+              {rows.map((row, rowIndex) => (
+                <DataTableRow key={rowIndex}>
+                  {row.map(({ key, value }, index) => {
+                    if (key === "Actions") {
+                      return (
+                        <DataTableCell className={classes["table-cell"]} key={index} align="center">
+                          <RootCauseActionsProps
+                            key={index}
+                            onUpdateRootCause={() => onUpdateRootCause(rowIndex)}
+                            onDeleteRootCause={() => onDeleteRootCause(rowIndex)}
+                          />
+                        </DataTableCell>
+                      );
+                    }
+                    const { disabled } = find(columns, ["key", key]) ?? {};
+                    if (disabled) {
+                      return (
+                        <DataTableCell fixed align="center" className={classes["table-name-cell"]} key={index}>
+                          {value}
+                        </DataTableCell>
+                      );
+                    }
+                    return (
+                      <DataTableCell align="center" className={classes["table-cell"]} key={index}>
+                        {value}
+                      </DataTableCell>
+                    );
+                  })}
+                </DataTableRow>
+              ))}
+            </TableBody>
+          </DataTable>
+          <div className="w-100 row end">
+            {authorities?.rootCause?.create && !isArchiveId(interventionId) && (
+              <Button dataTest={"add-new-root-cause"} className={"add-new-root-cause"} onClick={onUpdateRootCauseFormDisplayStatus}>
+                {i18n.t("Add New")}
+              </Button>
+            )}
+          </div>
+        </>
+      )}
       {rootCauseDeleteOpen && (
         <Modal small hide={!rootCauseDeleteOpen} position="middle">
           <ModalTitle>{i18n.t("Delete Root Cause")}</ModalTitle>

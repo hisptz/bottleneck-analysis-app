@@ -1,4 +1,4 @@
-import { filter, flattenDeep } from "lodash";
+import { filter, flatten, flattenDeep } from "lodash";
 import { atom, atomFamily, selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { isArchiveId } from "../../../../../shared/utils/archives";
@@ -30,6 +30,16 @@ export const RootCauseData = atomFamily<Array<RootCauseDataInterface>, string>({
       }
     },
   ],
+});
+
+export const RootCauseDataIsEmpty = selectorFamily<boolean, string>({
+  key: "root-cause-data-is-empty",
+  get:
+    (id: string) =>
+    ({ get }) => {
+      const data = get(RootCauseData(id));
+      return flatten(data).length === 0;
+    },
 });
 
 export const RootCauseDataSelector = selectorFamily<Array<RootCauseDataInterface>, string>({

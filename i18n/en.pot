@@ -5,10 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-
-"POT-Creation-Date: 2021-12-15T09:20:08.620Z\n"
-"PO-Revision-Date: 2021-12-15T09:20:08.620Z\n"
-
+"POT-Creation-Date: 2022-01-06T10:14:58.651Z\n"
+"PO-Revision-Date: 2022-01-06T10:14:58.651Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -328,8 +326,11 @@ msgstr "Done"
 msgid "Error fetching user details"
 msgstr "Error fetching user details"
 
-msgid "Back to archives"
-msgstr "Back to archives"
+msgid "Back to Archives"
+msgstr "Back to Archives"
+
+msgid "Back to Interventions"
+msgstr "Back to Interventions"
 
 msgid "Refresh"
 msgstr "Refresh"
@@ -360,6 +361,15 @@ msgstr "period"
 
 msgid "Go to live"
 msgstr "Go to live"
+
+msgid "Remarks"
+msgstr "Remarks"
+
+msgid "No remarks provided"
+msgstr "No remarks provided"
+
+msgid "BNA Archives"
+msgstr "BNA Archives"
 
 msgid "Back to Intervention"
 msgstr "Back to Intervention"
@@ -469,9 +479,6 @@ msgid ""
 msgstr ""
 "An archive with the same configuration, period and organisation unit "
 "already exists. Proceeding will overwrite the existing archive."
-
-msgid "Remarks"
-msgstr "Remarks"
 
 msgid "Archiving..."
 msgstr "Archiving..."
@@ -1012,9 +1019,6 @@ msgstr "edit"
 
 msgid "this intervention"
 msgstr "this intervention"
-
-msgid "Back to Interventions"
-msgstr "Back to Interventions"
 
 msgid "Intuitive design patterns"
 msgstr "Intuitive design patterns"
