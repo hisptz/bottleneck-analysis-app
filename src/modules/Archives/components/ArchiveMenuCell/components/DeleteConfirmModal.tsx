@@ -3,7 +3,8 @@ import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle } from "@dhis2/ui";
 import { Period } from "@iapps/period-utilities";
 import React, { useState } from "react";
-import { useRecoilRefresher_UNSTABLE, useRecoilValue } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState } from "recoil";
+import { RequestId } from "../../../../../core/state/intervention";
 import { OrgUnit } from "../../../../../core/state/orgUnit";
 import { SystemSettingsState } from "../../../../../core/state/system";
 import { Archive } from "../../../../../shared/interfaces/archive";
@@ -28,6 +29,7 @@ export default function DeleteConfirmModal({
   const orgUnit = useRecoilValue(OrgUnit(orgUnitId));
   const { calendar } = useRecoilValue(SystemSettingsState);
   const period = new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true }).getById(periodId);
+  const setInterventionSummaryRequestId = useSetRecoilState(RequestId);
   const { show } = useAlert(
     ({ message }) => message,
     ({ type }) => ({ ...type, duration: 3000 })
@@ -50,6 +52,7 @@ export default function DeleteConfirmModal({
       });
     }
     setDeleting(false);
+    setInterventionSummaryRequestId((prevState) => prevState + 1);
     onDeleteComplete && onDeleteComplete();
     onClose();
   };

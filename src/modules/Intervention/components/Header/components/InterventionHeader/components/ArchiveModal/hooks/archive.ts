@@ -1,10 +1,11 @@
 import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { UserState } from "../../../../../../../../../core/state/user";
 import { createArchive, uploadArchive } from "../../../../../../../../../shared/services/archives";
+import { Archives } from "../../../../../../../../Archives/state/data";
 import { InterventionArchiveIds } from "../../../../../../../state/archiving";
 import { InterventionState } from "../../../../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../../../../state/selections";
@@ -14,6 +15,7 @@ import { SubLevelAnalyticsData } from "../../../../../../SubLevelAnalysis/state/
 
 export default function useArchive(onClose: () => void) {
   const { id } = useParams<{ id: string }>();
+  const history = useHistory();
   const engine = useDataEngine();
   const [archiving, setArchiving] = useState(false);
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
@@ -21,7 +23,8 @@ export default function useArchive(onClose: () => void) {
   const [remarks, setRemarks] = useState<string | undefined>();
   const intervention = useRecoilValue(InterventionState(id));
   const interventionArchivesState = useRecoilValueLoadable(InterventionArchiveIds(id));
-  const resetInterventionArchiveState = useRecoilRefresher_UNSTABLE(InterventionArchiveIds(id));
+  const resetInterventionArchives = useRecoilRefresher_UNSTABLE(InterventionArchiveIds(id));
+  const resetArchives = useRecoilRefresher_UNSTABLE(Archives);
 
   const { show } = useAlert(
     ({ message }) => message,
@@ -62,7 +65,9 @@ export default function useArchive(onClose: () => void) {
               type: { success: true },
             });
             setArchiving(false);
-            resetInterventionArchiveState();
+            resetArchives();
+            resetInterventionArchives();
+            history.replace(`/archives/${archive.id}`);
             onClose();
           } catch (e: any) {
             show({
@@ -73,10 +78,8 @@ export default function useArchive(onClose: () => void) {
           }
         }
       },
-    [engine, id, onClose, orgUnit.id, period.id, remarks, show]
+    [archiveExists, engine, history, id, onClose, orgUnit.id, period.id, remarks, resetArchives, resetInterventionArchives, show]
   );
-  console.log(interventionArchivesState);
-
   return {
     onArchiveClick,
     archiving,
