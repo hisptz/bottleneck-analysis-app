@@ -23,6 +23,8 @@ export default function AnalysisChart(): React.ReactElement {
 
   const handle = useFullScreenHandle();
 
+  const height = handle.active ? "50%" : 500;
+
   const onExcelDownload = () => {
     if (data.state === "hasValue") {
       downloadExcelFromAnalytics({ analytics: data.contents, groups, orgUnit }, interventionName);
@@ -65,7 +67,7 @@ export default function AnalysisChart(): React.ReactElement {
           <h4 style={{ color: colors.grey700 }}>{`${interventionName}`}</h4>
         </div>
       }>
-      <Chart chartRef={chartRef} />
+      <Chart height={height} chartRef={chartRef} />
     </InterventionCard>
   );
 }

@@ -7,7 +7,7 @@ import { InterventionStateSelector } from "../../../../state/intervention";
 import { ChartData } from "../../state/data";
 import getChartOptions from "../../utils/getChartOptions";
 
-export default function ChartItemComponent({ chartRef }: { chartRef: any }): React.ReactElement {
+export default function ChartItemComponent({ chartRef, height }: { chartRef: any; height: string | number }): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const data = useRecoilValue(ChartData(id));
   const name = useRecoilValue(InterventionStateSelector({ id, path: ["name"] }));
@@ -16,13 +16,13 @@ export default function ChartItemComponent({ chartRef }: { chartRef: any }): Rea
   const chartOptions = useMemo(() => getChartOptions({ id, data, groups, name }), [id, data, groups, name]);
 
   return (
-    <div style={{ overflow: "auto", width: "100%", height: 500 }} className="chart-block">
+    <div style={{ overflow: "auto", width: "100%", height: "100%" }} className="chart-block">
       <HighChartsReact
         containerProps={{ id: `${id}` }}
         immutable
         ref={chartRef}
         highcharts={HighCharts}
-        options={{ ...(chartOptions ?? {}), navigation: { buttonOptions: false } }}
+        options={{ ...(chartOptions ?? {}), navigation: { buttonOptions: false }, chart: { ...chartOptions.chart, height } }}
       />
     </div>
   );
