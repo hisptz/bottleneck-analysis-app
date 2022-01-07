@@ -22,19 +22,12 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
   const onLayoutChange = () => {
     switchLayout((prevLayout) => {
       if (prevLayout.columns.includes("dx")) {
-        return normalTableLayout;
-      } else {
         return switchedTableLayout;
+      } else {
+        return normalTableLayout;
       }
     });
   };
-
-  // const tableWidth = useMemo(() => {
-  //   if (width < screenWidth) {
-  //     return screenWidth - 80;
-  //   }
-  //   return width;
-  // }, [width, screenWidth]);
 
   return (
     <Suspense fallback={<CardLoader />}>

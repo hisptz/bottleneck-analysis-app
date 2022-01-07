@@ -6,15 +6,12 @@ import { DataItem, Group, InterventionConfig, Legend } from "../../../../../shar
 import { TableLayout as Layout } from "../../../../../shared/interfaces/layout";
 import { InterventionState } from "../../../state/intervention";
 import { InterventionPeriodState } from "../../../state/selections";
+import { normalTableLayout } from "../constants/tableLayouts";
 import { SubLevelAnalyticsData } from "./data";
 
 export const TableLayout = atomFamily<Layout, string>({
   key: "sub-level-layout-state",
-  default: () => ({
-    columns: ["ou"],
-    rows: ["dx"],
-    filter: ["pe"],
-  }),
+  default: () => normalTableLayout,
 });
 
 interface TableItem {

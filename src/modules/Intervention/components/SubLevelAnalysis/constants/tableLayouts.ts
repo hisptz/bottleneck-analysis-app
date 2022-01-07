@@ -1,13 +1,13 @@
 import { TableLayout } from "../../../../../shared/interfaces/layout";
 
 export const normalTableLayout: TableLayout = {
-  columns: ["ou"],
-  rows: ["dx"],
+  columns: ["dx"],
+  rows: ["ou"],
   filter: ["pe"],
 };
 
 export const switchedTableLayout: TableLayout = {
-  columns: ["dx"],
-  rows: ["ou"],
+  columns: ["ou"],
+  rows: ["dx"],
   filter: ["pe"],
 };
