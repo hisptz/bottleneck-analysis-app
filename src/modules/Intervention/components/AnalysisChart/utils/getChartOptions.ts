@@ -65,7 +65,6 @@ export default function getChartOptions({ id, data, groups, name }: { id: string
     chart: getChartConfig(id),
     colors: getColors(groups),
     series: getSeriesConfig(data, groups),
-    subtitle: getSubTitle(data),
     title: { text: "" },
     credits: { enabled: false },
     tooltip: { enabled: true },
@@ -73,7 +72,7 @@ export default function getChartOptions({ id, data, groups, name }: { id: string
       {
         max: 100,
         title: { text: " . ", style: { color: "#000000", fontWeight: "normal", fontSize: "14px" } },
-        labels: { style: { color: "#000000", fontWeight: "normal", fontSize: "14px" } },
+        labels: { enable: false, style: { color: "#000000", fontWeight: "normal", fontSize: "14px" } },
         plotLines: [
           { color: "#000000", dashStyle: "Solid", width: 2, zIndex: 1000, label: { text: "" } },
           { color: "#bbbbbb", dashStyle: "Solid", zIndex: 1000, width: 2, label: { text: "" } },
