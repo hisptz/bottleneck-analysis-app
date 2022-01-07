@@ -1,6 +1,7 @@
 import { get as _get } from "lodash";
 import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import { EngineState } from "../../../core/state/dataEngine";
+import { InterventionConfig } from "../../../shared/interfaces/interventionConfig";
 import { InterventionTemplateConfig } from "../../../shared/interfaces/interventionTemplateConfig";
 import { getIntervention } from "../../../shared/services/getInterventions";
 import getInterventionTemplates from "../../../shared/services/getInterventionTemplates";
@@ -21,17 +22,22 @@ export const InterventionTemplateState = atom<Array<InterventionTemplateConfig> 
   }),
 });
 
-export const InterventionState = selectorFamily({
+export const InterventionState = selectorFamily<InterventionConfig | undefined, string>({
   key: "intervention-state",
   get:
     (id: string) =>
     async ({ get }) => {
-      if (isArchiveId(id)) {
-        const { config } = get(Archive(id)) ?? {};
-        return config;
+      try {
+        if (isArchiveId(id)) {
+          const { config } = get(Archive(id)) ?? {};
+          return config;
+        }
+        const engine = get(EngineState);
+        return await getIntervention(engine, id);
+      } catch (e) {
+        console.error(e);
+        return undefined;
       }
-      const engine = get(EngineState);
-      return await getIntervention(engine, id);
     },
 });
 
@@ -41,11 +47,15 @@ export const InterventionStateSelector = selectorFamily<any, { id: string; path:
     ({ id, path }: { id: string; path: Array<string> }) =>
     ({ get }) => {
       const config = get(InterventionState(id));
+      console.log(config);
+      if (!config) {
+        return undefined;
+      }
       return _get(config, path);
     },
 });
 
-export const InterventionDetailsState = atomFamily<boolean, string>({
+export const DisplayInterventionDetailsState = atomFamily<boolean, string>({
   key: "intervention-details-state",
   default: false,
 });

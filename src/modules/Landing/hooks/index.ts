@@ -4,12 +4,12 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { DATA_MIGRATION_CHECK } from "../../../constants/dataStore";
-import { InterventionSummary } from "../../../core/state/intervention";
+import { AuthorizedInterventionSummary } from "../../../core/state/intervention";
 import { InterventionSummary as InterventionSummaryType } from "../../../shared/interfaces/interventionConfig";
 
 export function useAppInit(): void {
   const history = useHistory();
-  const interventionSummary = useRecoilValue(InterventionSummary);
+  const interventionSummary = useRecoilValue(AuthorizedInterventionSummary);
   const [migration] = useSetting(DATA_MIGRATION_CHECK, { global: true });
   useEffect(() => {
     function navigate() {

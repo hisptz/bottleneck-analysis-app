@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-07T10:42:25.352Z\n"
-"PO-Revision-Date: 2022-01-07T10:42:25.352Z\n"
+"POT-Creation-Date: 2022-01-07T13:33:15.762Z\n"
+"PO-Revision-Date: 2022-01-07T13:33:15.762Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -1032,6 +1032,12 @@ msgstr "edit"
 
 msgid "this intervention"
 msgstr "this intervention"
+
+msgid "Intervention Not Found"
+msgstr "Intervention Not Found"
+
+msgid "Intervention with id {{id}} could not be found"
+msgstr "Intervention with id {{id}} could not be found"
 
 msgid "Intuitive design patterns"
 msgstr "Intuitive design patterns"

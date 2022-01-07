@@ -3,14 +3,14 @@ import { Button, ButtonStrip, InputField, Modal, ModalActions, ModalContent, Mod
 import { find } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { InterventionSummary } from "../../../../../../../../../../core/state/intervention";
+import { AuthorizedInterventionSummary } from "../../../../../../../../../../core/state/intervention";
 import { InterventionSummary as InterventionSummaryType } from "../../../../../../../../../../shared/interfaces/interventionConfig";
 import useClone from "./hooks/clone";
 
 export default function CloningSelector({ hide, onClose }: { hide: boolean; onClose: () => void }): React.ReactElement {
   const [newInterventionName, setNewInterventionName] = useState<string | undefined>();
   const [selectedIntervention, setSelectedIntervention] = useState<InterventionSummaryType>();
-  const summaries: Array<InterventionSummaryType> = useRecoilValue(InterventionSummary) ?? [];
+  const summaries: Array<InterventionSummaryType> = useRecoilValue(AuthorizedInterventionSummary) ?? [];
 
   const { cloning, onClone } = useClone();
 

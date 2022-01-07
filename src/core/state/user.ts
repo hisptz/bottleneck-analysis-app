@@ -7,7 +7,7 @@ import { User } from "../../shared/interfaces/user";
 import { getUserAuthorities } from "../services/authorities";
 import { getUser, getUserAuthority } from "../services/user";
 import { EngineState } from "./dataEngine";
-import { InterventionSummary } from "./intervention";
+import { AuthorizedInterventionSummary } from "./intervention";
 
 export const UserState = atom<User>({
   key: "user-state",
@@ -46,7 +46,7 @@ export const UserAuthorityOnIntervention = selectorFamily({
   get:
     (scorecardId) =>
     ({ get }) => {
-      const interventionSummary = find(get(InterventionSummary), ["id", scorecardId]);
+      const interventionSummary = find(get(AuthorizedInterventionSummary), ["id", scorecardId]);
       const user = get(UserState);
       return getUserAuthority(user, interventionSummary);
     },

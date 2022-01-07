@@ -14,11 +14,11 @@ function LegendDefinition({ color, name }: LegendDefinitionType) {
 export default function LegendsDefinition() {
   const intervention = useInterventionConfig();
   const { dataSelection } = intervention ?? {};
-  const legendDefinitions: Array<LegendDefinitionType> = dataSelection.legendDefinitions;
+  const legendDefinitions: Array<LegendDefinitionType> = dataSelection?.legendDefinitions;
   return (
     <div className="row gap">
       {legendDefinitions?.map((definition) => (
-        <LegendDefinition key={definition.id} {...definition} />
+        <LegendDefinition key={definition?.id} {...definition} />
       ))}
     </div>
   );

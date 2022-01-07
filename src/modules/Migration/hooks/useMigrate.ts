@@ -5,7 +5,7 @@ import { filter, isEmpty, uniqBy } from "lodash";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { BNA_DASHBOARDS_PREFIX, DATA_MIGRATION_CHECK } from "../../../constants/dataStore";
-import { InterventionSummary } from "../../../core/state/intervention";
+import { AuthorizedInterventionSummary } from "../../../core/state/intervention";
 import { InterventionConfig } from "../../../shared/interfaces/interventionConfig";
 import { OldInterventionConfig } from "../../../shared/interfaces/oldInterventionConfig";
 import { getInterventionKeys } from "../../../shared/services/getInterventions";
@@ -15,7 +15,7 @@ import { RootCauseConfig } from "../../Intervention/components/RootCauseAnalysis
 import { convertIntervention, migrateIntervention, migrateRootCauseDataByIntervention } from "../services/migrate";
 
 export default function useMigrate(onComplete: () => void): { error: any; progress: number; totalMigration: number } {
-  const interventionSummary = useRecoilValue(InterventionSummary);
+  const interventionSummary = useRecoilValue(AuthorizedInterventionSummary);
   const [error, setError] = useState<any>();
   const [progress, setProgress] = useState<number>(0);
   const [totalMigration, setTotalMigration] = useState<number>(0);

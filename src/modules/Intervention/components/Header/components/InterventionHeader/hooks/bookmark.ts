@@ -2,7 +2,7 @@ import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { CurrentInterventionSummary, InterventionSummary } from "../../../../../../../core/state/intervention";
+import { CurrentInterventionSummary, AuthorizedInterventionSummary } from "../../../../../../../core/state/intervention";
 import { UserState } from "../../../../../../../core/state/user";
 import { addBookmark, removeBookmark } from "../services/bookmark";
 
@@ -15,7 +15,7 @@ export default function useBookmark(): {
   const { id } = useParams<{ id: string }>();
   const intervention = useRecoilValue(CurrentInterventionSummary(id));
   const { bookmarks } = intervention ?? {};
-  const [interventionSummaries, updateSummaries] = useRecoilState(InterventionSummary);
+  const [interventionSummaries, updateSummaries] = useRecoilState(AuthorizedInterventionSummary);
   const { show } = useAlert(
     ({ message }) => message,
     ({ type }) => ({ ...type, duration: 3000 })

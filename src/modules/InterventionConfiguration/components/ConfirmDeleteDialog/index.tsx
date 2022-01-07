@@ -3,8 +3,8 @@ import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, colors, Modal, ModalActions, ModalContent, ModalTitle } from "@dhis2/ui";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useRecoilCallback } from "recoil";
-import { InterventionSummary, RequestId } from "../../../../core/state/intervention";
+import { useRecoilRefresher_UNSTABLE } from "recoil";
+import { AllInterventionSummary } from "../../../../core/state/intervention";
 
 export default function ConfirmDeleteDialog({
   hide,
@@ -19,15 +19,13 @@ export default function ConfirmDeleteDialog({
 }): React.ReactElement {
   const history = useHistory();
   const [deleting, setDeleting] = useState(false);
+  const resetSummary = useRecoilRefresher_UNSTABLE(AllInterventionSummary);
   const { show } = useAlert(
     ({ message }) => message,
     ({ type }) => ({ ...type, duration: 3000 })
   );
 
-  const refresh = useRecoilCallback(({ set, reset }) => () => {
-    set(RequestId, (requestId) => requestId + 1);
-    reset(InterventionSummary);
-  });
+  const refresh = resetSummary;
 
   const onDeleteConfirm = async () => {
     setDeleting(true);

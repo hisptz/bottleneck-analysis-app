@@ -11,7 +11,10 @@ export const DataItems = selectorFamily<{ functions: Array<string>; dataItems: A
   get:
     (id: string) =>
     ({ get }): { functions: Array<string>; dataItems: Array<string> } => {
-      const { dataSelection } = get<InterventionConfig>(InterventionState(id)) ?? {};
+      const { dataSelection } = get<InterventionConfig | undefined>(InterventionState(id)) ?? {};
+      if (!dataSelection) {
+        return { functions: [], dataItems: [] };
+      }
       const groups = dataSelection.groups ?? [];
       const functions: DataItem[] = [];
       const dataItems: DataItem[] = [];
@@ -61,8 +64,15 @@ export const SubLevelOrgUnit = selectorFamily({
       const userOrgUnit = get(UserOrganisationUnit);
       const lastOrgUnitLevel = get(LastOrgUnitLevel)?.level;
       const orgUnit = get(InterventionOrgUnitState(id));
+      if (!orgUnit) {
+        return ["USER_ORGUNIT_CHILDREN"];
+      }
       if (!orgUnit || orgUnit.id === userOrgUnit?.id) {
-        const { orgUnitSelection } = get<InterventionConfig>(InterventionState(id)) ?? {};
+        const { orgUnitSelection } = get<InterventionConfig | undefined>(InterventionState(id)) ?? {};
+        if (!orgUnitSelection) {
+          return ["USER_ORGUNIT_CHILDREN"];
+        }
+
         if (orgUnitSelection.subLevel) {
           if (userOrgUnit) {
             if (userOrgUnit?.level < orgUnitSelection.subLevel.level) {

@@ -3,7 +3,7 @@ import i18n from "@dhis2/d2-i18n";
 import { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilValue } from "recoil";
-import { InterventionSummary, RequestId } from "../../../core/state/intervention";
+import { AllInterventionSummary, AuthorizedInterventionSummary } from "../../../core/state/intervention";
 import { InterventionState } from "../../Intervention/state/intervention";
 import { createIntervention, updateIntervention } from "../services/save";
 import { InterventionDirtyState } from "../state/data";
@@ -15,8 +15,9 @@ export default function useSaveIntervention(handleSubmit: (fun: (data: any) => v
   const [saving, setSaving] = useState(false);
   const engine = useDataEngine();
   const { id } = useParams<{ id: string }>();
-  const interventionSummaries = useRecoilValue(InterventionSummary);
+  const interventionSummaries = useRecoilValue(AuthorizedInterventionSummary);
   const resetIntervention = useRecoilRefresher_UNSTABLE(InterventionState(id));
+  const resetSummary = useRecoilRefresher_UNSTABLE(AllInterventionSummary);
   const { show } = useAlert(
     ({ message }) => message,
     ({ type }) => ({ ...type, duration: 3000 })
@@ -27,7 +28,7 @@ export default function useSaveIntervention(handleSubmit: (fun: (data: any) => v
   };
 
   const onSave = useRecoilCallback(
-    ({ set, reset, snapshot }) =>
+    ({ reset, snapshot }) =>
       async (data: any) => {
         try {
           setSaving(true);
@@ -47,11 +48,11 @@ export default function useSaveIntervention(handleSubmit: (fun: (data: any) => v
                 type: { success: true },
               });
             }
-            set(RequestId, (prevState) => prevState + 1);
-            reset(InterventionSummary);
+            reset(AuthorizedInterventionSummary);
             reset(InterventionDirtyState(id));
             reset(SelectedDeterminantIndex(id));
             reset(SelectedIndicatorIndex(id));
+            resetSummary();
             resetIntervention();
             history.replace(`/interventions/${newIntervention.id}`);
           } else {
