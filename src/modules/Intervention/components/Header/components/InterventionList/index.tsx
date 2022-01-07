@@ -42,15 +42,15 @@ export default function InterventionList(): React.ReactElement {
             ) : null}
           </div>
         </div>
-        <div className="row gap view-archive ">
-          <Button className={"view-archives-test"} onClick={onToArchivesList}>{i18n.t("View Archives")}</Button>
+        <div className="row gap view-archive align-start ">
+          <Button className={"view-archives-test"} onClick={onToArchivesList}>
+            {i18n.t("View Archives")}
+          </Button>
         </div>
       </div>
-      {interventions.length > 5 && (
-        <IconButton style={{ padding: 2 }} onClick={() => setShowAll((prevState) => !prevState)}>
-          {showAll ? <IconChevronUp24 /> : <IconChevronDown24 />}
-        </IconButton>
-      )}
+      <IconButton style={{ padding: 2 }} onClick={() => setShowAll((prevState) => !prevState)}>
+        {showAll ? <IconChevronUp24 /> : <IconChevronDown24 />}
+      </IconButton>
     </div>
   );
 }
