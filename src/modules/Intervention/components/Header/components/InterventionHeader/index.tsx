@@ -29,6 +29,7 @@ import FilterMenu from "./components/FilterMenu";
 import HelperMenu from "./components/HelperMenu";
 import useBookmark from "./hooks/bookmark";
 import useFilter from "./hooks/filter";
+import useZip from "./hooks/zip";
 
 export default function InterventionHeader(): React.ReactElement {
   const { calendar } = useRecoilValue(SystemSettingsState);
@@ -45,6 +46,7 @@ export default function InterventionHeader(): React.ReactElement {
   const [openHelperMenu, setOpenHelperMenu] = useState<boolean>(false);
   const history = useHistory();
   const [archiveModalOpen, setArchiveModalOpen] = useState(false);
+  const { onZipDownload, disabled: zipDisabled, downloading: zipDownloading } = useZip();
 
   const {
     selectedPeriod,
@@ -134,6 +136,9 @@ export default function InterventionHeader(): React.ReactElement {
           </DropdownButton>
           <Button className={"archive-intervention"} onClick={() => setArchiveModalOpen(true)}>
             {i18n.t("Archive")}
+          </Button>
+          <Button loading={zipDownloading} disabled={zipDisabled} className={"archive-intervention"} onClick={onZipDownload}>
+            {zipDownloading ? `${i18n.t("Downloading")}...` : i18n.t("Download Zip")}
           </Button>
           {authorities?.intervention?.edit && access.write ? (
             <Button dataTest={"configuration-button-test"} className={"configure-intervention"} onClick={onToInterventionConfiguration}>
