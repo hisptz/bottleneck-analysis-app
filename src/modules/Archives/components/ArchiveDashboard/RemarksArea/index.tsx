@@ -15,11 +15,11 @@ export default function RemarksArea(): React.ReactElement {
       fullScreenHandle={fullScreenHandle}
       title={
         <div className="p-8">
-          <b>{i18n.t("Remarks")}</b>
+          <b>{i18n.t("Archive Description")}</b>
         </div>
       }>
       <div className="p-8 w-100">
-        <span style={{ width: "100%", textAlign: "justify" }}>{remarks ?? i18n.t("No remarks provided")}</span>
+        <span style={{ width: "100%", textAlign: "justify" }}>{remarks ?? i18n.t("No description provided")}</span>
       </div>
     </InterventionCard>
   );
