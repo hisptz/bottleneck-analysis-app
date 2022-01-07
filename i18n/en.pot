@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-06T12:54:42.996Z\n"
-"PO-Revision-Date: 2022-01-06T12:54:42.996Z\n"
+"POT-Creation-Date: 2022-01-07T10:42:25.352Z\n"
+"PO-Revision-Date: 2022-01-07T10:42:25.352Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -362,11 +362,11 @@ msgstr "period"
 msgid "Go to live"
 msgstr "Go to live"
 
-msgid "Remarks"
-msgstr "Remarks"
+msgid "Archive Description"
+msgstr "Archive Description"
 
-msgid "No remarks provided"
-msgstr "No remarks provided"
+msgid "No description provided"
+msgstr "No description provided"
 
 msgid "BNA Archives"
 msgstr "BNA Archives"
@@ -449,9 +449,6 @@ msgstr "There are no organisation units or periods configured for this intervent
 msgid "View in Full Screen"
 msgstr "View in Full Screen"
 
-msgid "No description provided"
-msgstr "No description provided"
-
 msgid "Clear Filter"
 msgstr "Clear Filter"
 
@@ -495,6 +492,9 @@ msgstr "Documentation"
 msgid "An error occurred while adding/removing bookmark"
 msgstr "An error occurred while adding/removing bookmark"
 
+msgid "Failed to download zip file"
+msgstr "Failed to download zip file"
+
 msgid "{{type}} bookmark"
 msgstr "{{type}} bookmark"
 
@@ -515,6 +515,12 @@ msgstr "Show"
 
 msgid "Add Filter"
 msgstr "Add Filter"
+
+msgid "Downloading"
+msgstr "Downloading"
+
+msgid "Download Zip"
+msgstr "Download Zip"
 
 msgid "Configure"
 msgstr "Configure"

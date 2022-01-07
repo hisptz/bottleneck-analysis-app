@@ -1,9 +1,9 @@
 import i18n from "@dhis2/d2-i18n";
 import { colors, IconDownload24 } from "@dhis2/ui";
-import React, { Suspense, useMemo, useRef } from "react";
+import React, { Suspense, useEffect, useMemo, useRef } from "react";
 import { useFullScreenHandle } from "react-full-screen";
 import { useParams } from "react-router-dom";
-import { useRecoilValue, useRecoilValueLoadable } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import CardLoader from "../../../../shared/components/loaders/CardLoader";
 import { downloadExcelFromTable } from "../../../../shared/utils/download";
 import { InterventionStateSelector } from "../../state/intervention";
@@ -11,6 +11,7 @@ import { InterventionOrgUnitState, InterventionPeriodState } from "../../state/s
 import InterventionCard from "../Card";
 import RootCauseTable from "./components/RootCauseTable";
 import { RootCauseDataIsEmpty } from "./state/data";
+import { RootCauseTableRef } from "./state/table";
 
 export default function RootCauseAnalysis(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +20,7 @@ export default function RootCauseAnalysis(): React.ReactElement {
   const interventionName = useRecoilValue<string>(InterventionStateSelector({ id, path: ["name"] })) ?? "";
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
   const period = useRecoilValue(InterventionPeriodState(id));
-  const tableRef = useRef(null);
+  const tableRef = useSetRecoilState(RootCauseTableRef(id));
 
   const onDownload = () => {
     downloadExcelFromTable(tableRef, `${interventionName}-${i18n.t("Root cause analysis")}`);

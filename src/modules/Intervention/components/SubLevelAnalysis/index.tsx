@@ -1,7 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
 import { IconDownload24 } from "@dhis2/ui";
 import { find } from "lodash";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useFullScreenHandle } from "react-full-screen";
 import { useParams } from "react-router-dom";
@@ -17,6 +17,7 @@ import SubLevelActions from "./components/SubLevelActions";
 import SubLevelHeader from "./components/SubLevelHeader";
 import { tabs } from "./constants/tabs";
 import { SubLevelAnalyticsData } from "./state/data";
+import { SubLevelTableRef } from "./state/table";
 import { ActiveTab } from "./state/tabs";
 
 export default function SubLevelAnalysis(): React.ReactElement {
@@ -27,7 +28,7 @@ export default function SubLevelAnalysis(): React.ReactElement {
   const { name: periodName } = useRecoilValue(InterventionPeriodState(id)) ?? {};
   const { displayName: orgUnitName } = useRecoilValue(InterventionOrgUnitState(id)) ?? {};
   const activeTab = find(tabs, ["key", activeTabKey]);
-  const tableRef = useRef(null);
+  const tableRef = useSetRecoilState(SubLevelTableRef(id));
   const resetData = useRecoilRefresher_UNSTABLE(SubLevelAnalyticsData(id));
 
   const handle = useFullScreenHandle();
