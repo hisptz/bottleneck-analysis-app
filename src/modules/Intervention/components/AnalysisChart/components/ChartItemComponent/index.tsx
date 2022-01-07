@@ -16,7 +16,7 @@ export default function ChartItemComponent({ chartRef, height }: { chartRef: any
   const chartOptions = useMemo(() => getChartOptions({ id, data, groups, name }), [id, data, groups, name]);
 
   return (
-    <div style={{ overflow: "auto", width: "100%", height: "100%" }} className="chart-block">
+    <div style={{ overflow: "hidden", width: "100%", height: "100%" }} className="chart-block">
       <HighChartsReact
         containerProps={{ id: `${id}` }}
         immutable

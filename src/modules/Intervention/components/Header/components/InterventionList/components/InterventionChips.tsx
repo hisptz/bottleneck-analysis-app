@@ -1,5 +1,4 @@
 import { Chip, IconStarFilled24 } from "@dhis2/ui";
-import { slice } from "lodash";
 import React, { useCallback } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -26,9 +25,11 @@ export default function InterventionChips({ showAll, interventions }: Interventi
   );
 
   return (
-    <div className="column w-100" style={{ maxWidth: "100%", overflow: "auto" }}>
-      <div className="row w-100">
-        {slice(interventions, 0, 5)?.map((intervention) => (
+    <div className="column w-100" style={{ maxWidth: "100%" }}>
+      <div
+        className="row w-100 "
+        style={{ maxWidth: "100%", overflowX: "hidden", flexWrap: "wrap", height: showAll ? 84 : 38, overflowY: showAll ? "auto" : "hidden" }}>
+        {interventions?.map((intervention) => (
           <Chip
             dataTest={"intervention-chip"}
             icon={intervention?.bookmarks?.includes(user?.id) ? <IconStarFilled24 /> : null}
@@ -39,15 +40,6 @@ export default function InterventionChips({ showAll, interventions }: Interventi
           </Chip>
         ))}
       </div>
-      {showAll && (
-        <div className="row wrap w-100">
-          {slice(interventions, 5, interventions.length)?.map((intervention) => (
-            <Chip selected={id === intervention.id} onClick={onChipClick(intervention?.id)} key={`${intervention?.id}-chip`}>
-              {intervention?.name}
-            </Chip>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
