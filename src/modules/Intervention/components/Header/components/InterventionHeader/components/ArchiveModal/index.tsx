@@ -18,25 +18,25 @@ export default function ArchiveModal({ hide, onClose }: { hide: boolean; onClose
           <div className="column gap m-8">
             <p>
               {`${i18n.t("Archiving the intervention")}  `}
-              <strong> {`${intervention.name}`}</strong>
+              <strong> {`${intervention?.name}`}</strong>
               {` ${i18n.t("for the organisation unit")} `}
-              <strong>{orgUnit.displayName}</strong>
+              <strong>{orgUnit?.displayName}</strong>
               {` ${i18n.t("and period")} `}
-              <strong>{period.name}</strong>
+              <strong>{period?.name}</strong>
             </p>
             {archiveExists && (
               <NoticeBox title={i18n.t("Archive Exists")} warning>
                 {i18n.t("An archive with the same configuration, period and organisation unit already exists. Proceeding will overwrite the existing archive.")}
               </NoticeBox>
             )}
-            <TextAreaField value={remarks} onChange={({ value }: { value: string }) => setRemarks(value)} label={i18n.t("Remarks")} />
+            <TextAreaField required value={remarks} onChange={({ value }: { value: string }) => setRemarks(value)} label={i18n.t("Archive Description")} />
           </div>
         )}
       </ModalContent>
       <ModalActions>
         <ButtonStrip>
           <Button onClick={onClose}>{i18n.t("Cancel")}</Button>
-          <Button loading={archiving} onClick={onArchiveClick} disabled={!remarks || archiving} primary>
+          <Button loading={archiving} onClick={onArchiveClick} disabled={!remarks?.trim() || archiving} primary>
             {archiving ? i18n.t("Archiving...") : i18n.t("Archive")}
           </Button>
         </ButtonStrip>

@@ -79,10 +79,6 @@ export const INTERVENTION_HELP_STEPS = [
   },
   {
     intro: i18n.t("This is the table component for this intervention with respective indicators highlighted in colors configured in this intervention"),
-    element: ".sub-level-container",
-  },
-  {
-    intro: i18n.t("This is the table component for this intervention with respective indicators highlighted in colors configured in this intervention"),
     element: ".sub-level-analysis-table",
   },
   {
@@ -159,10 +155,6 @@ export const ARCHIVE_INDIVIDUAL_INTERVENTION_CONFIGURATION_HELP = [
   },
   {
     intro: i18n.t("This is the table component for this intervention with respective indicators highlighted in colors configured in this intervention"),
-    element: ".sub-level-container",
-  },
-  {
-    intro: i18n.t("This is the table component for this intervention with respective indicators highlighted in colors configured in this intervention"),
     element: ".sub-level-analysis-table",
   },
   {
@@ -180,11 +172,5 @@ export const ARCHIVE_INDIVIDUAL_INTERVENTION_CONFIGURATION_HELP = [
   {
     intro: i18n.t("This is the component for root cause analysis of this intervention with respective indicators configured in this intervention"),
     element: ".root-cause-widget-table",
-  },
-  {
-    intro: i18n.t(
-      "Here is where you can add a new intervention or clone from an existing one ,also you can access your intervention of interests through searching intput"
-    ),
-    element: ".add-new-root-cause",
   },
 ];
