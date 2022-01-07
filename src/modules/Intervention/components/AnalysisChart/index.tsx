@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { downloadExcelFromAnalytics } from "../../../../shared/utils/download";
 import { InterventionStateSelector } from "../../state/intervention";
-import { InterventionOrgUnitState } from "../../state/selections";
+import { InterventionOrgUnitState, InterventionPeriodState } from "../../state/selections";
 import InterventionCard from "../Card";
 import Chart from "./components";
 import { ChartData } from "./state/data";
@@ -18,6 +18,7 @@ export default function AnalysisChart(): React.ReactElement {
   const data = useRecoilValueLoadable(ChartData(id));
   const groups = useRecoilValue(InterventionStateSelector({ id, path: ["dataSelection", "groups"] }));
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
+  const period = useRecoilValue(InterventionPeriodState(id));
 
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
@@ -65,6 +66,7 @@ export default function AnalysisChart(): React.ReactElement {
         <div className="row" style={{ gap: 8 }}>
           <h4>{i18n.t("Bottleneck Analysis Chart")}: </h4>
           <h4 style={{ color: colors.grey700 }}>{`${interventionName}`}</h4>
+          <h4 style={{ color: colors.grey700 }}>{`${period.name}`}</h4>
         </div>
       }>
       <Chart height={height} chartRef={chartRef} />
