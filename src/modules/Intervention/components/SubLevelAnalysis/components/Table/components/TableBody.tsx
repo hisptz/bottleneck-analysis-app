@@ -12,8 +12,8 @@ export default function TableBody(): React.ReactElement {
   const layout = useRecoilValue(TableLayout(id));
   return (
     <DataTableBody>
-      {layout.rows.includes("dx")
-        ? rows.map(({ id: groupId, name: groupName, children }) =>
+      {layout?.rows?.includes("dx")
+        ? rows?.map(({ id: groupId, name: groupName, children }) =>
             children?.map(({ id: indicatorId, name: indicatorName, legend }, index) => (
               <DataTableRow key={`${groupId}-${indicatorId}-row`}>
                 {index === 0 ? (
@@ -30,7 +30,7 @@ export default function TableBody(): React.ReactElement {
               </DataTableRow>
             ))
           )
-        : rows.map(({ name, id }) => (
+        : rows?.map(({ name, id }) => (
             <DataTableRow key={`${id}-row`}>
               <DataTableCell fixed left={"0"} className={classes["table-name-cell"]}>
                 {name}

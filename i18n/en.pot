@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-07T13:33:15.762Z\n"
-"PO-Revision-Date: 2022-01-07T13:33:15.762Z\n"
+"POT-Creation-Date: 2022-01-10T06:19:42.340Z\n"
+"PO-Revision-Date: 2022-01-10T06:19:42.340Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -455,6 +455,9 @@ msgstr "Clear Filter"
 msgid "Intervention successfully archived"
 msgstr "Intervention successfully archived"
 
+msgid "Intervention not found"
+msgstr "Intervention not found"
+
 msgid "Archive intervention"
 msgstr "Archive intervention"
 
@@ -524,9 +527,6 @@ msgstr "Download Zip"
 
 msgid "Configure"
 msgstr "Configure"
-
-msgid "Intervention not found"
-msgstr "Intervention not found"
 
 msgid "Intervention cloned successfully"
 msgstr "Intervention cloned successfully"
