@@ -17,7 +17,7 @@ export default function DeterminantsConfiguration(): React.ReactElement {
   const intervention = useRecoilValue(InterventionDirtyState(id));
   const form = useForm({
     defaultValues: {
-      dataSelection: intervention?.dataSelection,
+      ...intervention?.dataSelection,
     },
   });
   const selectedIndicator = useRecoilValue(SelectedIndicatorIndex(id));

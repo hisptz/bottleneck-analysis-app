@@ -22,8 +22,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState<{ groupId: string; itemId: string } | undefined>();
   const selectedGroupIndex = useRecoilValue(SelectedDeterminantIndex(id));
   const selectedIndicatorIndex = useRecoilValue(SelectedIndicatorIndex(id));
-  const determinants = watch("dataSelection.groups");
-
+  const determinants = watch("groups");
   const { onItemDragEnd, onItemDelete, onItemsAdd, onItemClick } = useItemOperations(setIndicatorSelectorHide);
 
   const groups: Array<any> = determinants?.map(({ id, name, items }: Group) => {
