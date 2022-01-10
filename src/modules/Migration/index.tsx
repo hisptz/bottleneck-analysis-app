@@ -4,12 +4,12 @@ import { CircularLoader, LinearLoader } from "@dhis2/ui";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE } from "recoil";
-import { InterventionSummary } from "../../core/state/intervention";
+import { AuthorizedInterventionSummary } from "../../core/state/intervention";
 import useMigrate from "./hooks/useMigrate";
 
 export default function Migration(): React.ReactElement {
   const history = useHistory();
-  const resetSummary = useRecoilRefresher_UNSTABLE(InterventionSummary);
+  const resetSummary = useRecoilRefresher_UNSTABLE(AuthorizedInterventionSummary);
   const onComplete = () => {
     resetSummary();
     history.replace("/");

@@ -30,7 +30,7 @@ export default async function getInterventions(engine: any) {
       const response = await engine.query(interventionQuery, { variables: { id: key } });
       return response.intervention;
     } catch (e) {
-      // @ts-ignore
+      console.error(e);
     }
   }
 
@@ -39,6 +39,11 @@ export default async function getInterventions(engine: any) {
 }
 
 export async function getIntervention(engine: any, id: string) {
-  const { intervention } = await engine.query(interventionQuery, { variables: { id } });
-  return intervention;
+  try {
+    const { intervention } = await engine.query(interventionQuery, { variables: { id } });
+    return intervention;
+  } catch (e) {
+    console.error(e);
+    return undefined;
+  }
 }

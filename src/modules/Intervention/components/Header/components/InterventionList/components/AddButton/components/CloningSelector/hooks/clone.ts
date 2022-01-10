@@ -2,9 +2,9 @@ import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilValue } from "recoil";
 import { BNA_NAMESPACE } from "../../../../../../../../../../../constants/dataStore";
-import { InterventionSummary, RequestId } from "../../../../../../../../../../../core/state/intervention";
+import { AllInterventionSummary, AuthorizedInterventionSummary } from "../../../../../../../../../../../core/state/intervention";
 import { UserState } from "../../../../../../../../../../../core/state/user";
 import { InterventionConfig, InterventionSummary as InterventionSummaryType } from "../../../../../../../../../../../shared/interfaces/interventionConfig";
 import { uid } from "../../../../../../../../../../../shared/utils/generators";
@@ -18,8 +18,8 @@ const cloneQuery = {
 };
 export default function useClone(): { cloning: boolean; onClone: (interventionId: string, name: string) => void } {
   const history = useHistory();
-  const summaries: Array<InterventionSummaryType> | undefined = useRecoilValue(InterventionSummary);
-  const setRequestId = useSetRecoilState(RequestId);
+  const summaries: Array<InterventionSummaryType> | undefined = useRecoilValue(AuthorizedInterventionSummary);
+  const resetSummary = useRecoilRefresher_UNSTABLE(AllInterventionSummary);
   const user = useRecoilValue(UserState);
   const engine = useDataEngine();
   const [cloning, setCloning] = useState(false);
@@ -49,7 +49,7 @@ export default function useClone(): { cloning: boolean; onClone: (interventionId
           message: i18n.t("Intervention cloned successfully"),
           type: { success: true },
         });
-        setRequestId((prev) => prev + 1);
+        resetSummary();
         history.replace(`/${newIntervention.id}/configuration`);
       } catch (e: any) {
         show({
@@ -59,7 +59,7 @@ export default function useClone(): { cloning: boolean; onClone: (interventionId
       }
       setCloning(false);
     },
-    [engine, history, setRequestId, show, summaries, user.id]
+    [engine, history, resetSummary, show, summaries, user.id]
   );
 
   return {

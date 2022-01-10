@@ -49,25 +49,32 @@ export default function useArchive(onClose: () => void) {
             const chartAnalytics = await snapshot.getPromise(ChartData(id));
             const subLevelAnalytics = await snapshot.getPromise(SubLevelAnalyticsData(id));
             const rootCauseData = await snapshot.getPromise(RootCauseData(id));
-            const archive = createArchive({
-              intervention,
-              chartAnalytics,
-              subLevelAnalytics,
-              user,
-              orgUnit: orgUnit.id,
-              period: period.id,
-              remarks,
-              rootCauseData,
-            });
-            await uploadArchive(engine, archive, archiveExists);
-            show({
-              message: i18n.t("Intervention successfully archived"),
-              type: { success: true },
-            });
-            setArchiving(false);
-            resetArchives();
-            resetInterventionArchives();
-            history.replace(`/archives/${archive.id}`);
+            if (intervention) {
+              const archive = createArchive({
+                intervention,
+                chartAnalytics,
+                subLevelAnalytics,
+                user,
+                orgUnit: orgUnit.id,
+                period: period.id,
+                remarks,
+                rootCauseData,
+              });
+              await uploadArchive(engine, archive, archiveExists);
+              show({
+                message: i18n.t("Intervention successfully archived"),
+                type: { success: true },
+              });
+              setArchiving(false);
+              resetArchives();
+              resetInterventionArchives();
+              history.replace(`/archives/${archive.id}`);
+            } else {
+              show({
+                message: i18n.t("Intervention not found"),
+                type: { info: true },
+              });
+            }
             onClose();
           } catch (e: any) {
             show({

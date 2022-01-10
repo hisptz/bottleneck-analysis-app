@@ -1,6 +1,6 @@
 import { filter, sortBy } from "lodash";
 import { atom, selectorFamily } from "recoil";
-import { InterventionSummary as InterventionSummaryState } from "../../../../../../../core/state/intervention";
+import { AuthorizedInterventionSummary as InterventionSummaryState } from "../../../../../../../core/state/intervention";
 import { UserState } from "../../../../../../../core/state/user";
 import { InterventionSummary } from "../../../../../../../shared/interfaces/interventionConfig";
 

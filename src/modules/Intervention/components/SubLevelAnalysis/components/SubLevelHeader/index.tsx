@@ -11,7 +11,7 @@ export default function SubLevelHeader({ activeTab }: { activeTab: any }) {
       <div className="row space-between align-items-center">
         <div className="row" style={{ gap: 8 }}>
           <h4 style={{ margin: 0 }}>{`${i18n.t("Bottleneck Sub-level Analysis")}:`}</h4>
-          <h4 style={{ margin: 0, color: colors.grey700 }}>{`${intervention.name}`}</h4>
+          <h4 style={{ margin: 0, color: colors.grey700 }}>{`${intervention?.name}`}</h4>
         </div>
         <div className="column">{activeTab.key === "table" && <LegendsDefinition />}</div>
       </div>
