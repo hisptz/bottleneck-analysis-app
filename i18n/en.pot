@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-11T04:05:50.904Z\n"
-"PO-Revision-Date: 2022-01-11T04:05:50.904Z\n"
+"POT-Creation-Date: 2022-01-11T06:46:35.353Z\n"
+"PO-Revision-Date: 2022-01-11T06:46:35.353Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -911,6 +911,12 @@ msgstr " Are you sure you want to delete this indicator?"
 
 msgid "Add Indicator"
 msgstr "Add Indicator"
+
+msgid "Are you sure you want to clear all indicators?"
+msgstr "Are you sure you want to clear all indicators?"
+
+msgid "This will replace all indicator labels with their short names. Proceed?"
+msgstr "This will replace all indicator labels with their short names. Proceed?"
 
 msgid "Determinants"
 msgstr "Determinants"

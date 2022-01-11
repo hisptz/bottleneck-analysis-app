@@ -21,17 +21,18 @@ export default function IndicatorSelector({ group, hide, onClose, onSave }: Indi
   const legendDefinitions = watch("legendDefinitions");
 
   const onSaveClicked = () => {
-    const newIndicators = selectedIndicators.map((indicator: any) => {
+    const newIndicators = selectedIndicators?.map((indicator: any) => {
       return (
         find(group?.items, { id: indicator.id }) ?? {
           ...indicator,
-          name: indicator.displayName,
-          label: indicator.displayName,
+          shortName: indicator?.shortName,
+          name: indicator?.displayName,
+          label: indicator?.displayName,
           legends: generateLegendDefaults(
-            filter(legendDefinitions, (definition) => !definition.isDefault),
+            filter(legendDefinitions, (definition) => !definition?.isDefault),
             100
           ),
-          type: indicator.type.toUpperCase(),
+          type: indicator?.type?.toUpperCase(),
         }
       );
     });

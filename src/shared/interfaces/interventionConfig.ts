@@ -20,6 +20,7 @@ export interface DataItem {
   name: string;
   label: string;
   type: string;
+  shortName?: string;
   legends: Array<Legend>;
 }
 
