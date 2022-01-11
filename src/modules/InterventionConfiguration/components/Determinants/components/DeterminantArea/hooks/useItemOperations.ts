@@ -36,9 +36,16 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
         group.items = items;
         newDeterminants[findIndex(newDeterminants, { id: groupId })] = group as Group;
         setValue("groups", newDeterminants);
+
+        const groupIndex = findIndex(newDeterminants, { id: groupId });
+        const itemIndex = source.index;
+
+        if (groupIndex === selectedDeterminantIndex && itemIndex === selectedIndicatorIndex) {
+          setSelectedIndicator(destination.index);
+        }
       }
     },
-    [getValues, setValue]
+    [getValues, selectedDeterminantIndex, selectedIndicatorIndex, setSelectedIndicator, setValue]
   );
 
   const onItemsAdd = useCallback(

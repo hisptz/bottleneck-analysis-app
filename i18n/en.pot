@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-10T06:19:42.340Z\n"
-"PO-Revision-Date: 2022-01-10T06:19:42.340Z\n"
+"POT-Creation-Date: 2022-01-11T04:05:50.904Z\n"
+"PO-Revision-Date: 2022-01-11T04:05:50.904Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -917,6 +917,9 @@ msgstr "Determinants"
 
 msgid "Clear All"
 msgstr "Clear All"
+
+msgid "Use short names as labels"
+msgstr "Use short names as labels"
 
 msgid "Indicator label is required"
 msgstr "Indicator label is required"
