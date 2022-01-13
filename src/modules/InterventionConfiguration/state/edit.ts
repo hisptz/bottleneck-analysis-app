@@ -14,3 +14,8 @@ export const UseShortName = atomFamily({
   key: "use-short-name",
   default: false,
 });
+
+export const IsNewConfiguration = atomFamily({
+  key: "is-new-configuration",
+  default: false,
+});

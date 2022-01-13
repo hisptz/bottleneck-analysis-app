@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-11T06:46:35.353Z\n"
-"PO-Revision-Date: 2022-01-11T06:46:35.353Z\n"
+"POT-Creation-Date: 2022-01-11T11:41:42.214Z\n"
+"PO-Revision-Date: 2022-01-11T11:41:42.214Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -1002,6 +1002,9 @@ msgstr "Manage"
 
 msgid "Save and Exit"
 msgstr "Save and Exit"
+
+msgid "Save and Continue"
+msgstr "Save and Continue"
 
 msgid "Exit Without Saving"
 msgstr "Exit Without Saving"

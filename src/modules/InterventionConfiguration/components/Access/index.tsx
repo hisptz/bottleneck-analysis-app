@@ -1,26 +1,14 @@
 import { Steps } from "intro.js-react";
 import React, { Suspense } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import "./Access.css";
-import { useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { INTERVENTION_ACCESS_CONFIGURATION_HELP } from "../../../../constants/help/intervention-configuration";
 import { STEP_OPTIONS } from "../../../../constants/help/options";
-import { InterventionDirtyState } from "../../state/data";
 import HelpState from "./../../../Intervention/state/help";
 import TabbedContent from "./component/TabbedContent";
 
-export default function AccessConfiguration(): React.ReactElement {
-  const { id } = useParams<{ id: string }>();
-  const intervention = useRecoilValue(InterventionDirtyState(id));
-  const form = useForm({
-    defaultValues: {
-      publicAccess: intervention?.publicAccess,
-      userGroupAccess: intervention?.userGroupAccess,
-      userAccess: intervention?.userAccess,
-      user: intervention?.user,
-    },
-  });
+export default function AccessConfiguration({ form }: { form: any }): React.ReactElement {
   const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
 
   const onHelpExit = () => {

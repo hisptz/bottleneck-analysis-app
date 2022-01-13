@@ -2447,10 +2447,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hisptz/react-ui@^1.0.19":
-  version "1.0.19"
-  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.19.tgz#36ca61bae36294e0bd329b560ce9bf93c1506256"
-  integrity sha512-18gqZARTNfJil5y3D+e2WrM5AibAuAkXSdUtrMpS7KzYAYLNE8zvOXxjwc79oXC0UfdukKmbuioJKaBbGJQRQg==
+"@hisptz/react-ui@^1.0.21":
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.21.tgz#0b7a9248e1a88270c1c4149db38c52b0bfa4a5eb"
+  integrity sha512-zkmvlqEVRsDw/8PGZfziIC7w+Yj2nqMd9VsqK/j8nSLG+gNKBiw7YK2eU53GDCXNcxsvVhDsEhXUQXZUhHz2uw==
   dependencies:
     "@iapps/period-utilities" "^1.0.0-beta.4"
     "@material-ui/core" "^4.12.3"

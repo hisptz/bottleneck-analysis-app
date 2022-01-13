@@ -1,25 +1,18 @@
 import { Steps } from "intro.js-react";
 import React from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { INTERVENTION_DETERMINANT_CONFIGURATION_HELP } from "../../../../constants/help/intervention-configuration";
 import { STEP_OPTIONS } from "../../../../constants/help/options";
-import { InterventionDirtyState } from "../../state/data";
 import { SelectedIndicatorIndex } from "../../state/edit";
 import HelpState from "./../../../Intervention/state/help";
 import DeterminantArea from "./components/DeterminantArea";
 import IndicatorConfiguration from "./components/IndicatorConfiguration";
 import "./Determinant.css";
 
-export default function DeterminantsConfiguration(): React.ReactElement {
+export default function DeterminantsConfiguration({ form }: { form: any }): React.ReactElement {
   const { id } = useParams<{ id: string }>();
-  const intervention = useRecoilValue(InterventionDirtyState(id));
-  const form = useForm({
-    defaultValues: {
-      ...intervention?.dataSelection,
-    },
-  });
   const selectedIndicator = useRecoilValue(SelectedIndicatorIndex(id));
   const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
 
