@@ -8,7 +8,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { AuthorizedInterventionSummary } from "../../../../../../core/state/intervention";
-import OrgUnitLevelSelector from "../OrgUnitLevelSelector";
+import OrgUnitField from "../OrgUnitLevelSelector";
 import OrgUnitLevelError from "../OrgUnitLevelSelector/components/Error";
 import PeriodSelector from "../PeriodSelector";
 
@@ -71,7 +71,7 @@ export default function InterventionConfigDetails(): React.ReactElement {
         <Controller render={({ field, fieldState }) => <PeriodSelector field={field} fieldState={fieldState} />} name={"periodSelection"} />
       </div>
       <ErrorBoundary FallbackComponent={OrgUnitLevelError}>
-        <OrgUnitLevelSelector />
+        <OrgUnitField />
       </ErrorBoundary>
     </div>
   );
