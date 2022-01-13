@@ -8,16 +8,17 @@ import { useParams } from "react-router-dom";
 import "./SelectedItemComponent.css";
 import { useRecoilValue } from "recoil";
 import { Legend } from "../../../../../../shared/interfaces/interventionConfig";
-import { SelectedDeterminantIndex, SelectedIndicatorIndex } from "../../../../state/edit";
+import { SelectedDeterminantIndex, SelectedIndicatorIndex, UseShortName } from "../../../../state/edit";
 
 export default function IndicatorConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const selectedItemIndex = useRecoilValue(SelectedIndicatorIndex(id));
   const selectedGroupIndex = useRecoilValue(SelectedDeterminantIndex(id));
+  const useShortName = useRecoilValue(UseShortName(id));
   const { watch, setValue } = useFormContext();
-  const selectedIndicator = watch(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}]`);
-  const legendDefinitions = watch("dataSelection.legendDefinitions");
-  const watchLabel = watch(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}].label`);
+  const selectedIndicator = watch(`groups[${selectedGroupIndex}].items[${selectedItemIndex}]`);
+  const legendDefinitions = watch("legendDefinitions");
+  const watchLabel = watch(`groups[${selectedGroupIndex}].items[${selectedItemIndex}].label`);
   const filteredLegendDefinitions = filter(legendDefinitions, (legendDefinition) => {
     return !legendDefinition.isDefault;
   });
@@ -32,7 +33,7 @@ export default function IndicatorConfiguration(): React.ReactElement {
   }, [watchLabel]);
 
   const onChange = (key: string, value: any) => {
-    setValue(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}].${key}`, value);
+    setValue(`groups[${selectedGroupIndex}].items[${selectedItemIndex}].${key}`, value);
   };
 
   return (
@@ -42,6 +43,7 @@ export default function IndicatorConfiguration(): React.ReactElement {
       </div>
       <div className="selected-item-body pt-8">
         <InputField
+          disabled={useShortName}
           error={Boolean(labelError)}
           validationText={labelError}
           value={selectedIndicator?.label}

@@ -1,5 +1,6 @@
-import { DataTableCell, DataTableRow } from "@dhis2/ui";
+import { DataTableCell, DataTableRow, Tooltip } from "@dhis2/ui";
 import { Period } from "@iapps/period-utilities";
+import { truncate } from "lodash";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue, useRecoilValueLoadable } from "recoil";
@@ -12,7 +13,7 @@ import ArchiveMenuCell from "../ArchiveMenuCell";
 export default function ArchiveRow({ archive }: { archive: Archive }): React.ReactElement {
   const history = useHistory();
   const { calendar } = useRecoilValue(SystemSettingsState);
-  const { id, orgUnit: orgUnitId, config, period: periodId, dateCreated } = archive;
+  const { id, orgUnit: orgUnitId, config, period: periodId, dateCreated, remarks } = archive;
   const orgUnitState = useRecoilValueLoadable(OrgUnit(orgUnitId));
   const period = new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true }).getById(periodId);
 
@@ -30,6 +31,9 @@ export default function ArchiveRow({ archive }: { archive: Archive }): React.Rea
       </DataTableCell>
       <DataTableCell onClick={onViewClick} className={classes["table-cell"]}>
         {period.name}
+      </DataTableCell>
+      <DataTableCell onClick={onViewClick} className={classes["table-cell"]}>
+        <Tooltip content={remarks}>{truncate(remarks, { length: 124 })}</Tooltip>
       </DataTableCell>
       <DataTableCell onClick={onViewClick} className={classes["table-cell"]}>
         {dateCreated}

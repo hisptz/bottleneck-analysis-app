@@ -28,7 +28,7 @@ export default function AccessList(): React.ReactElement {
           onChange={(newAccess: string) => onChangeAccess("publicAccess", newAccess)}
           onRemove={() => onRemove({ type: "publicAccess", id: "id" })}
         />
-        {userGroupAccess.map(({ id, access }: { id: string; name: string; access: string }) => (
+        {userGroupAccess?.map(({ id, access }: { id: string; name: string; access: string }) => (
           <Suspense key={`${id}-access-list`} fallback={<ListItemLoader />}>
             <ListItem
               id={id}
@@ -42,7 +42,7 @@ export default function AccessList(): React.ReactElement {
             />
           </Suspense>
         ))}
-        {userAccess.map(({ id, access }: { id: string; name: string; access: string }) => (
+        {userAccess?.map(({ id, access }: { id: string; name: string; access: string }) => (
           <Suspense key={`${id}-access-list`} fallback={<ListItemLoader />}>
             <ListItem
               key={id}

@@ -5,10 +5,10 @@ import { UserState } from "../../../core/state/user";
 import { InterventionConfig } from "../../../shared/interfaces/interventionConfig";
 import { InterventionState } from "../../Intervention/state/intervention";
 
-export const InterventionDirtyState = atomFamily<InterventionConfig, string>({
-  key: "interventionDirtyState",
+export const InterventionDirtyState = atomFamily<InterventionConfig | undefined, string>({
+  key: "intervention-dirty-state",
   default: selectorFamily({
-    key: "interventionDirtySelector",
+    key: "intervention-dirty-state-default",
     get:
       (id?: string) =>
       ({ get }) => {
@@ -34,7 +34,7 @@ export const InterventionDirtySelector = selectorFamily<any, { id: string; path:
     ({ set }, newValue) => {
       return set(InterventionDirtyState(id), (prevState) => {
         const newState = cloneDeep(prevState);
-        _set(newState, path, newValue);
+        _set(newState ?? {}, path, newValue);
         return newState;
       });
     },

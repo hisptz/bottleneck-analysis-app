@@ -122,7 +122,6 @@ export async function getCustomFunctionAnalytics({
               const [functionId, ruleId] = id.split(".") ?? [];
               if (functionId) {
                 const customFunction = await getCustomFunction(functionId);
-                console.log(customFunction);
                 return await evaluateCustomFunction({ customFunction, ruleId, periods, orgUnits });
               }
             } catch (e) {

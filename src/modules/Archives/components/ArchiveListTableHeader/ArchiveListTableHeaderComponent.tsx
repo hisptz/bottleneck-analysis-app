@@ -10,6 +10,7 @@ export default function ArchiveListHeaderComponent(): React.ReactElement {
         <DataTableColumnHeader className={classes["table-header-cell"]}>{i18n.t("Intervention")}</DataTableColumnHeader>
         <DataTableColumnHeader className={classes["table-header-cell"]}>{i18n.t("Organisation Unit")}</DataTableColumnHeader>
         <DataTableColumnHeader className={classes["table-header-cell"]}>{i18n.t("Period")}</DataTableColumnHeader>
+        <DataTableColumnHeader className={classes["table-header-cell"]}>{i18n.t("Description")}</DataTableColumnHeader>
         <DataTableColumnHeader className={classes["table-header-cell"]}>{i18n.t("Date Archived")}</DataTableColumnHeader>
         <DataTableColumnHeader className={classes["table-header-cell"]}>{i18n.t("Action")}</DataTableColumnHeader>
       </DataTableRow>

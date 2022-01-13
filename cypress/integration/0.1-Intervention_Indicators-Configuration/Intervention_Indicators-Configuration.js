@@ -1,6 +1,7 @@
 /**
  * Scenario: Create a New Intervention by General Configuration
  */
+
 Given("authorized user with administrative access", () => {
   cy.visit("/");
 });
@@ -54,6 +55,7 @@ Then("Intervention should be created Successfully", () => {
  * Scenario: Display Indicators to the New Intervention in Determinant Configuration
  */
 And("Determinant Configuration is displayed", () => {
+  cy.get("[data-test='interventionName']").type("Some random name");
   cy.get(".MuiPaper-root > :nth-child(3)").click();
   cy.get(".determinant-main").should("be.visible");
 });
@@ -79,6 +81,7 @@ Given("Access button is clicked", () => {
   cy.get(".MuiPaper-root").should("be.visible");
   cy.get(".interventionConfig").should("be.visible");
   cy.get(".legend-definition-config").should("be.visible");
+  cy.get("[data-test='interventionName']").type("Some random name");
 
   cy.get(".MuiPaper-root > :nth-child(5)").click();
   //accessConfig-helper

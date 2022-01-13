@@ -16,7 +16,7 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
   const { getValues, setValue, watch } = useFormContext();
   const [selectedDeterminantIndex, setSelectedDeterminant] = useRecoilState(SelectedDeterminantIndex(id));
   const [selectedIndicatorIndex, setSelectedIndicator] = useRecoilState(SelectedIndicatorIndex(id));
-  const determinants = watch("dataSelection.groups");
+  const determinants = watch("groups");
 
   const onItemDragEnd = useCallback(
     (groupId: string, result: { destination: any; source: any }) => {
@@ -27,7 +27,7 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
       if (destination.droppableId === source.droppableId && destination.index === source.index) {
         return;
       }
-      const prevDeterminants = getValues("dataSelection.groups");
+      const prevDeterminants = getValues("groups");
       const newDeterminants = cloneDeep(prevDeterminants);
       const group: Group | undefined = find(newDeterminants, { id: groupId });
       if (group) {
@@ -35,21 +35,28 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
         items.splice(destination.index, 0, items.splice(source.index, 1)[0]);
         group.items = items;
         newDeterminants[findIndex(newDeterminants, { id: groupId })] = group as Group;
-        setValue("dataSelection.groups", newDeterminants);
+        setValue("groups", newDeterminants);
+
+        const groupIndex = findIndex(newDeterminants, { id: groupId });
+        const itemIndex = source.index;
+
+        if (groupIndex === selectedDeterminantIndex && itemIndex === selectedIndicatorIndex) {
+          setSelectedIndicator(destination.index);
+        }
       }
     },
-    [getValues, setValue]
+    [getValues, selectedDeterminantIndex, selectedIndicatorIndex, setSelectedIndicator, setValue]
   );
 
   const onItemsAdd = useCallback(
     (group: Group, indicators: Array<DataItem>) => {
-      const prevDeterminants = getValues("dataSelection.groups");
+      const prevDeterminants = getValues("groups");
       const newDeterminants = cloneDeep(prevDeterminants);
       const selectedGroup = find(newDeterminants, { id: group.id });
       if (selectedGroup) {
         _set(selectedGroup, "items", [...indicators]);
         _set(newDeterminants, [findIndex(newDeterminants, ["id", selectedGroup.id])], selectedGroup);
-        setValue("dataSelection.groups", newDeterminants);
+        setValue("groups", newDeterminants);
       }
 
       setIndicatorSelectorHide(true);
@@ -78,7 +85,7 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
             }
           }
         }
-        const prevDeterminants = getValues("dataSelection.groups");
+        const prevDeterminants = getValues("groups");
         const newDeterminants = cloneDeep(prevDeterminants);
         const newGroup = find(newDeterminants, { id: groupId });
         if (newGroup) {
@@ -90,7 +97,7 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
             _set(newDeterminants, [findIndex(newDeterminants, ["id", newGroup.id])], newGroup);
           }
         }
-        setValue("dataSelection.groups", newDeterminants);
+        setValue("groups", newDeterminants);
       },
     [determinants, getValues, id, selectedDeterminantIndex, selectedIndicatorIndex, setValue]
   );

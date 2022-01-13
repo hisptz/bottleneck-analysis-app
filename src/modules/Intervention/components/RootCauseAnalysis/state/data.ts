@@ -50,7 +50,6 @@ export const RootCauseDataSelector = selectorFamily<Array<RootCauseDataInterface
       const rootCauseData = get(RootCauseData(id));
       const period = get(InterventionPeriodState(id));
       const orgUnit = get(InterventionOrgUnitState(id));
-      console.log({ period, orgUnit });
       return filter(flattenDeep(rootCauseData), (data: any) => {
         const { id: rootCauseId } = data;
         return rootCauseId.match(`${period.id}_${orgUnit.id}`);
