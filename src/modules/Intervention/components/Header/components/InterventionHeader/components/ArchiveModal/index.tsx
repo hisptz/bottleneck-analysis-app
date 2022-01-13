@@ -1,10 +1,10 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, CircularLoader, Modal, ModalActions, ModalContent, ModalTitle, NoticeBox, TextAreaField } from "@dhis2/ui";
+import { Button, ButtonStrip, CircularLoader, Modal, ModalActions, ModalContent, ModalTitle, TextAreaField } from "@dhis2/ui";
 import React from "react";
 import useArchive from "./hooks/archive";
 
 export default function ArchiveModal({ hide, onClose }: { hide: boolean; onClose: () => void }): React.ReactElement {
-  const { loading, archiveExists, intervention, orgUnit, period, remarks, setRemarks, archiving, onArchiveClick } = useArchive(onClose);
+  const { loading, intervention, orgUnit, period, remarks, setRemarks, archiving, onArchiveClick } = useArchive(onClose);
 
   return (
     <Modal position="middle" onClose={onClose} hide={hide}>
@@ -24,11 +24,6 @@ export default function ArchiveModal({ hide, onClose }: { hide: boolean; onClose
               {` ${i18n.t("and period")} `}
               <strong>{period?.name}</strong>
             </p>
-            {archiveExists && (
-              <NoticeBox title={i18n.t("Archive Exists")} warning>
-                {i18n.t("An archive with the same configuration, period and organisation unit already exists. Proceeding will overwrite the existing archive.")}
-              </NoticeBox>
-            )}
             <TextAreaField required value={remarks} onChange={({ value }: { value: string }) => setRemarks(value)} label={i18n.t("Archive Description")} />
           </div>
         )}

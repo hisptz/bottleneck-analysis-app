@@ -3,6 +3,7 @@ import { BNA_ARCHIVES_NAMESPACE } from "../../constants/dataStore";
 import { Archive } from "../interfaces/archive";
 import { InterventionConfig } from "../interfaces/interventionConfig";
 import { User } from "../interfaces/user";
+import { uid } from "../utils/generators";
 
 export function createArchive({
   intervention,
@@ -27,7 +28,7 @@ export function createArchive({
   const userId = user.id;
 
   return {
-    id: `${intervention.id}_${orgUnit}_${period}`,
+    id: `${intervention.id}_${orgUnit}_${period}_${uid()}`,
     user: userId,
     config: intervention,
     remarks,
@@ -40,21 +41,14 @@ export function createArchive({
   };
 }
 
-const updateArchiveMutation = {
-  type: "update",
-  resource: `dataStore/${BNA_ARCHIVES_NAMESPACE}`,
-  id: ({ id }: any) => id,
-  data: ({ data }: any) => data,
-};
-
 const generateArchiveMutation = (id: string) => ({
   type: "create",
   resource: `dataStore/${BNA_ARCHIVES_NAMESPACE}/${id}`,
   data: ({ data }: any) => data,
 });
 
-export async function uploadArchive(engine: any, archive: Archive, update?: boolean) {
-  return await engine.mutate(update ? updateArchiveMutation : generateArchiveMutation(archive.id), { variables: { data: archive, id: archive.id } });
+export async function uploadArchive(engine: any, archive: Archive) {
+  return await engine.mutate(generateArchiveMutation(archive.id), { variables: { data: archive, id: archive.id } });
 }
 
 const archiveKeysQuery = {
