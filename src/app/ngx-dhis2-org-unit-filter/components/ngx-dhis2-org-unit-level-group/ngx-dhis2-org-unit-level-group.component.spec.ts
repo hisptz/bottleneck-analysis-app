@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { NgxDhis2OrgUnitLevelGroupComponent } from "./ngx-dhis2-org-unit-level-group.component";
 import { NgxDhis2OrgUnitProgressComponent } from "../ngx-dhis2-org-unit-progress/ngx-dhis2-org-unit-progress.component";
-import { FilterByOrgUnitGroupLevelPipe } from "../../pipes";
+import { FilterByOrgUnitGroupLevelPipe } from "../../pipes/org-unit-group-level-filter.pipe";
 
 describe("NgxDhis2OrgUnitLevelGroupComponent", () => {
   let component: NgxDhis2OrgUnitLevelGroupComponent;
