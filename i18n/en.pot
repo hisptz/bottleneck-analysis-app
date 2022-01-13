@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-13T08:34:10.909Z\n"
-"PO-Revision-Date: 2022-01-13T08:34:10.909Z\n"
+"POT-Creation-Date: 2022-01-13T12:04:33.212Z\n"
+"PO-Revision-Date: 2022-01-13T12:04:33.212Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -383,6 +383,9 @@ msgstr "Organisation Unit"
 msgid "Period"
 msgstr "Period"
 
+msgid "Description"
+msgstr "Description"
+
 msgid "Date Archived"
 msgstr "Date Archived"
 
@@ -469,16 +472,6 @@ msgstr "for the organisation unit"
 
 msgid "and period"
 msgstr "and period"
-
-msgid "Archive Exists"
-msgstr "Archive Exists"
-
-msgid ""
-"An archive with the same configuration, period and organisation unit "
-"already exists. Proceeding will overwrite the existing archive."
-msgstr ""
-"An archive with the same configuration, period and organisation unit "
-"already exists. Proceeding will overwrite the existing archive."
 
 msgid "Archiving..."
 msgstr "Archiving..."
@@ -681,9 +674,6 @@ msgstr "There were no Datasets (Reporting rates) in the Indicator Calculations"
 
 msgid "Dataset"
 msgstr "Dataset"
-
-msgid "Description"
-msgstr "Description"
 
 msgid "Timely Submission"
 msgstr "Timely Submission"
@@ -918,8 +908,8 @@ msgstr "Are you sure you want to clear all indicators?"
 msgid "This will replace all indicator labels with their short names. Proceed?"
 msgstr "This will replace all indicator labels with their short names. Proceed?"
 
-msgid "Please select at least one indicator per determinant"
-msgstr "Please select at least one indicator per determinant"
+msgid "Please select at least one indicator per each determinant"
+msgstr "Please select at least one indicator per each determinant"
 
 msgid "Determinants"
 msgstr "Determinants"

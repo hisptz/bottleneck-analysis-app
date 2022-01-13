@@ -51,6 +51,17 @@ function ArchiveComponent(): React.ReactElement {
       <Suspense fallback={<FullPageLoader />}>
         <div className="archiveList-table">
           {archives.state === "loading" || pagination.state === "loading" ? <FullPageLoader /> : null}
+          {archives.state === "hasError" && archives.contents.toString().includes("404") && (
+            <div className="column w-100 h-100 center align-center gap">
+              <span className="icon-72">
+                <IconArchive24 color={colors.grey700} />
+              </span>
+              <h2 style={{ color: colors.grey800, margin: 0 }}>{i18n.t("There are currently no archived interventions")}</h2>
+              <Button primary onClick={() => history.replace("/")}>
+                {i18n.t("Back to Interventions")}
+              </Button>
+            </div>
+          )}
           {archives.state === "hasValue" && isEmpty(archives.contents) && (
             <div className="column w-100 h-100 center align-center gap">
               <span className="icon-72">

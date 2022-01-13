@@ -1,6 +1,6 @@
 import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { UserState } from "../../../../../../../../../core/state/user";
@@ -31,13 +31,6 @@ export default function useArchive(onClose: () => void) {
     ({ type }) => ({ ...type, duration: 3000 })
   );
 
-  const archiveExists = useMemo(() => {
-    if (interventionArchivesState.state !== "hasValue") {
-      return;
-    }
-    return interventionArchivesState.contents.includes(`${id}_${orgUnit.id}_${period.id}`);
-  }, [id, interventionArchivesState.contents, interventionArchivesState.state, orgUnit.id, period.id]);
-
   const onArchiveClick = useRecoilCallback(
     ({ snapshot }) =>
       async () => {
@@ -60,7 +53,7 @@ export default function useArchive(onClose: () => void) {
                 remarks,
                 rootCauseData,
               });
-              await uploadArchive(engine, archive, archiveExists);
+              await uploadArchive(engine, archive);
               show({
                 message: i18n.t("Intervention successfully archived"),
                 type: { success: true },
@@ -85,7 +78,7 @@ export default function useArchive(onClose: () => void) {
           }
         }
       },
-    [archiveExists, engine, history, id, onClose, orgUnit.id, period.id, remarks, resetArchives, resetInterventionArchives, show]
+    [engine, history, id, onClose, orgUnit.id, period.id, remarks, resetArchives, resetInterventionArchives, show]
   );
   return {
     onArchiveClick,
@@ -96,6 +89,5 @@ export default function useArchive(onClose: () => void) {
     orgUnit,
     period,
     loading: interventionArchivesState.state === "loading",
-    archiveExists,
   };
 }

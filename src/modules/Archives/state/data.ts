@@ -17,7 +17,7 @@ export const Archives = selector<Array<ArchiveType>>({
       const { read } = getUserAuthority(user, createInterventionSummary(archive?.config));
       return read;
     }) as Array<ArchiveType>;
-    return orderBy(filteredArchives, [(archive) => new Date(archive.dateCreated), "config.name"], "desc");
+    return orderBy(filteredArchives, [(archive) => new Date(archive.dateCreated), "config.name"], "asc");
   },
 });
 
