@@ -25,6 +25,7 @@ export class OrgUnitService {
       ]),
       ","
     );
+    console.log({userOrgUnits});
     return this.httpClient
       .get("organisationUnits.json", {
         useIndexDb: true,
@@ -86,13 +87,19 @@ export class OrgUnitService {
     return this.httpClient.get(
       "organisationUnits.json?fields=" +
         orgUnitFields +
-        "&order=level:asc" +
-        "&order=name:asc&filter=path:ilike:" +
+        "&filter=path:ilike:" +
         userOrgUnits.join(";") +
         "&pageSize=" +
         pageSize +
         (minLevel ? "&filter=level:le:" + minLevel : ""),
       { useIndexDb: true }
+    ).pipe(
+      map((orgUnitResult: any) => {
+        return {
+          pager : orgUnitResult.pager || {},
+          organisationUnits : _.sortBy(orgUnitResult.organisationUnits, ['level','name'])
+        };
+      })
     );
   }
 
@@ -103,7 +110,7 @@ export class OrgUnitService {
       })
       .pipe(
         map((orgUnitResult: any) => {
-          return orgUnitResult.organisationUnits;
+          return _.sortBy(orgUnitResult.organisationUnits, ['level','name']);
         })
       );
   }
