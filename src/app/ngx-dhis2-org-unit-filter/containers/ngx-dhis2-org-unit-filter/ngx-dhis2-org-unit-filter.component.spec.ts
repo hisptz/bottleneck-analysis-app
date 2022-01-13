@@ -7,13 +7,13 @@ import { NgxDhis2UserOrgUnitSelectionComponent } from "../../components/ngx-dhis
 import { NgxDhis2OrgUnitLevelGroupComponent } from "../../components/ngx-dhis2-org-unit-level-group/ngx-dhis2-org-unit-level-group.component";
 import { NgxDhis2OrgUnitProgressComponent } from "../../components/ngx-dhis2-org-unit-progress/ngx-dhis2-org-unit-progress.component";
 import { NgxDhis2OrgUnitTreeItemComponent } from "../../components/ngx-dhis2-org-unit-tree-item/ngx-dhis2-org-unit-tree-item.component";
-import { FilterByOrgUnitGroupLevelPipe } from "../../pipes";
 import { StoreModule } from "@ngrx/store";
 import { reducers, effects } from "src/app/store";
 import { EffectsModule } from "@ngrx/effects";
 import { RouterTestingModule } from "@angular/router/testing";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
+import { FilterByOrgUnitGroupLevelPipe } from "../../pipes/org-unit-group-level-filter.pipe";
 
 describe("NgxDhis2OrgUnitFilterComponent", () => {
   let component: NgxDhis2OrgUnitFilterComponent;
