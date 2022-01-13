@@ -1,8 +1,8 @@
 .determinant-container {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    gap: 24px;
+    flex-direction: column;
+    gap: 8px;
 }
 
 p {
