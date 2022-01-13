@@ -4,13 +4,13 @@ import { MapVisualizerComponent } from './map-visualizer.component';
 import { VisualizationLegendComponent } from '../../containers';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MapFilterSectionComponent } from '../map-filter-section/map-filter-section.component';
-import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 import { MapStyleComponent } from '../map-style/map-style.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
+import { NgxDhis2OrgUnitFilterModule } from 'src/app/ngx-dhis2-org-unit-filter/ngx-dhis2-org-unit-filter.module';
 
 describe('MapVisualizerComponent', () => {
   let component: MapVisualizerComponent;

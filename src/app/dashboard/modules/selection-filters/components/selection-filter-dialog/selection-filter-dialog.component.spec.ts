@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
-import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -18,6 +17,7 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { NgxDhis2OrgUnitFilterModule } from 'src/app/ngx-dhis2-org-unit-filter/ngx-dhis2-org-unit-filter.module';
 
 export class MatDialogMock {
   // When the component calls this.dialog.open(...) we'll return an object
