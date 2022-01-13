@@ -1,0 +1,11 @@
+.selected-badge {
+  padding: 10px;
+  font-weight: 300;
+  font-size: 14px;
+  border-radius: 2px;
+}
+
+.selected-badge > a {
+  text-decoration: underline;
+  cursor: pointer;
+}

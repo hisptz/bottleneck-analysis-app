@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-12">
+    <div
+      class="badge badge-secondary selected-badge"
+      *ngIf="selectedOrgUnits.length > 0"
+    >
+      {{ selectedString }}
+
+      <a
+        (click)="onDeactivateAllOrgUnits($event)"
+        matTooltip="Deselect all Organisation units"
+        >Deselect all</a
+      >
+    </div>
+  </div>
+</div>

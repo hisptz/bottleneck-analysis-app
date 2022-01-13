@@ -1,0 +1,33 @@
+<div class="ngx-dhis2-org-unit-tree-item">
+  <!-- org unit title area -->
+  <div class="ngx-dhis2-org-unit-tree-item-title">
+    <button class="ngx-dhis2-org-unit-tree-item-toggle-btn" (click)="onToggleOrgUnitChildren($event)"
+      *ngIf="(orgUnit$ | async)?.children.length > 0">
+      <mat-icon *ngIf="expanded">arrow_drop_down</mat-icon>
+      <mat-icon *ngIf="!expanded">arrow_right</mat-icon>
+    </button>
+    <mat-checkbox *ngIf="orgUnit$ | async as orgUnit" [name]="orgUnit.id" [ngModel]="selected" [ngClass]="{
+        'ml-3': orgUnit?.children.length === 0,
+        'ngx-dhis2-org-unit-tree-item-name': true
+      }" (ngModelChange)="onToggleOrgUnit(orgUnit)">
+      {{ (orgUnit$ | async)?.name }}
+    </mat-checkbox>
+    <div class="badge badge-secondary ngx-dhis2-org-unit-count" *ngIf="(selectedChildrenCount$ | async) > 0">
+      {{ selectedChildrenCount$ | async }}
+    </div>
+  </div>
+  <!-- end of org unit title area -->
+
+  <!-- org unit children area -->
+  <div [style.margin-left]="'25px'" *ngIf="(orgUnit$ | async)?.children.length > 0 && expanded">
+    <div class="ngx-dhis2-org-unit-tree-item-child-item" *ngFor="
+        let orgUnitChildId of (orgUnit$ | async).children;
+        trackBy: trackByFn
+      ">
+      <ngx-dhis2-org-unit-tree-item [orgUnitId]="orgUnitChildId" (activate)="onActivateOu($event)"
+        (deactivate)="onDeactivateOu($event)" [selectedOrgUnits]="selectedOrgUnits" [parentOrgUnit]="orgUnit$ | async">
+      </ngx-dhis2-org-unit-tree-item>
+    </div>
+  </div>
+  <!-- end of org unit children area -->
+</div>
