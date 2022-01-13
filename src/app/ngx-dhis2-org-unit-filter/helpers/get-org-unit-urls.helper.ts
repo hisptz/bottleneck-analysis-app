@@ -16,7 +16,7 @@ export function getOrgUnitUrls(
       pageNumber +
       "&pageSize=" +
       pageSize +
-      "&order=level:asc&order=name:asc&filter=path:ilike:" +
+      "&filter=path:ilike:" +
       userOrgUnits.join(";") +
       (minLevel ? "&filter=level:le:" + minLevel : "")
   );

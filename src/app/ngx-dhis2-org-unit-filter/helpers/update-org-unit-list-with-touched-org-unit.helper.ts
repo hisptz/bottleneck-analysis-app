@@ -1,5 +1,7 @@
-import { OrgUnit, OrgUnitFilterConfig } from "../models";
+
 import * as _ from "lodash";
+import { OrgUnitFilterConfig } from "../models/org-unit-filter-config.model";
+import { OrgUnit } from "../models/org-unit.model";
 
 export function updateOrgUnitListWithTouchedOrgUnit(
   orgUnits: OrgUnit[],
