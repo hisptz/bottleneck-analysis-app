@@ -1,0 +1,11 @@
+<div class="d-flex align-items-center justify-content-between">
+  <mat-checkbox
+    *ngFor="let userOrgUnit of userOrgUnits"
+    class="user-org-unit-name"
+    [(ngModel)]="userOrgUnit.selected"
+    [matTooltip]="userOrgUnit.description"
+    (click)="onUpdate($event, userOrgUnit)"
+  >
+    {{ userOrgUnit.name }}
+  </mat-checkbox>
+</div>
