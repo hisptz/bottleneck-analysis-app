@@ -36,7 +36,7 @@ function getSubTitle(data: any) {
 }
 
 function getColors(groups: Array<Group>) {
-  return groups.map((group) => group?.style?.color);
+  return flattenDeep(groups.map((group) => group?.items?.map(() => group?.style?.color)));
 }
 
 function getXAxis(groups: Array<Group>) {
@@ -71,7 +71,7 @@ export default function getChartOptions({ id, data, groups, name }: { id: string
     yAxis: [
       {
         max: 100,
-        title: { text: " . ", style: { color: "#000000", fontWeight: "normal", fontSize: "14px" } },
+        title: { text: "", style: { color: "#000000", fontWeight: "normal", fontSize: "14px" } },
         labels: { enable: false, style: { color: "#000000", fontWeight: "normal", fontSize: "14px" } },
         plotLines: [
           { color: "#000000", dashStyle: "Solid", width: 2, zIndex: 1000, label: { text: "" } },
