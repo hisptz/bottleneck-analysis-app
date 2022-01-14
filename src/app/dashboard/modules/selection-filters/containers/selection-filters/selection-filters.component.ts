@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import * as _ from 'lodash';
 import { DEFAULT_LEGEND_DEFINITIONS } from 'src/app/dashboard/constants/default-legend-definitions.constant';
@@ -12,6 +11,7 @@ import { SelectionDialogData } from '../../models/selection-dialog-data.model';
 import { VisualizationDataSelection } from '../../../ngx-dhis2-visualization/models';
 import { Fn } from '@iapps/function-analytics';
 import { SystemInfo } from '@iapps/ngx-dhis2-http-client';
+import { OrgUnitFilterConfig } from 'src/app/ngx-dhis2-org-unit-filter/models/org-unit-filter-config.model';
 
 @Component({
   // tslint:disable-next-line:component-selector

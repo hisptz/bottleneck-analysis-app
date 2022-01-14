@@ -1,0 +1,70 @@
+<div class="row">
+  <mat-form-field class="col-12">
+    <input type="text" matInput (keyup)="onOrgUnitGroupLevelFilter($event)" placeholder="Search levels or groups" />
+  </mat-form-field>
+  <div class="col-12">
+    <div class="card ngx-dhis2-org-unit-level-group__card">
+      <div class="ngx-dhis2-org-unit-level-group__inner-list">
+        <mat-list *ngIf="orgUnitFilterConfig.showOrgUnitLevelSection">
+          <div mat-subheader>
+            Levels
+            <span class="ml-1 badge badge-secondary level-group-badge"
+              *ngIf="selectedLevelsCount > 0">{{ selectedLevelsCount }} selected</span>
+          </div>
+          <mat-list-item *ngIf="loadingLevels">
+            <div style="height: 24px; margin-bottom: 3px; width: 100%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+          </mat-list-item>
+          <mat-list-item *ngIf="loadingLevels">
+            <div style="height: 24px; margin-bottom: 3px; width: 100%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+          </mat-list-item>
+          <mat-list-item *ngIf="loadingLevels">
+            <div style="height: 24px; margin-bottom: 3px; width: 100%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+          </mat-list-item>
+          <mat-list-item *ngFor="
+              let orgUnitLevel of orgUnitLevels
+                | orgUnitGroupLevelFilter: orgUnitGroupLevelSearchQuery:'level'
+            ">
+            <mat-checkbox class="org-unit-list-item" [name]="orgUnitLevel.id" [checked]="orgUnitLevel.selected"
+              (click)="onUpdate($event, orgUnitLevel, 'LEVEL')">{{ orgUnitLevel.name }}</mat-checkbox>
+          </mat-list-item>
+        </mat-list>
+
+        <mat-list *ngIf="orgUnitFilterConfig.showOrgUnitGroupSection">
+          <div mat-subheader>
+            Groups
+            <span class="ml-1 badge badge-secondary level-group-badge"
+              *ngIf="selectedGroupsCount > 0">{{ selectedGroupsCount }} selected</span>
+          </div>
+          <mat-list-item *ngIf="loadingGroups">
+            <div style="height: 24px; margin-bottom: 3px; width: 100%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+          </mat-list-item>
+          <mat-list-item *ngIf="loadingGroups">
+            <div style="height: 24px; margin-bottom: 3px; width: 100%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+          </mat-list-item>
+          <mat-list-item *ngIf="loadingGroups">
+            <div style="height: 24px; margin-bottom: 3px; width: 100%">
+              <app-ngx-dhis2-org-unit-progress></app-ngx-dhis2-org-unit-progress>
+            </div>
+          </mat-list-item>
+          <mat-list-item *ngFor="
+              let orgUnitGroup of orgUnitGroups
+                | orgUnitGroupLevelFilter: orgUnitGroupLevelSearchQuery:'group'
+            ">
+            <mat-checkbox [name]="orgUnitGroup.id" class="org-unit-list-item" [checked]="orgUnitGroup.selected"
+              (click)="onUpdate($event, orgUnitGroup, 'GROUP')">{{ orgUnitGroup.name }}</mat-checkbox>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+  </div>
+</div>

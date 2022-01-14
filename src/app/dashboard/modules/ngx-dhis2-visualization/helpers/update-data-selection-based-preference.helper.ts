@@ -1,9 +1,7 @@
 import * as _ from 'lodash';
+import { getOrgUnitsWithChildren } from 'src/app/ngx-dhis2-org-unit-filter/helpers/get-org-units-with-children.helper';
+import { getOrgUnitsWithoutChildrenAndGroups } from 'src/app/ngx-dhis2-org-unit-filter/helpers/get-org-units-without-children.helper';
 import { VisualizationDataSelection } from '../models';
-import {
-  getOrgUnitsWithoutChildrenAndGroups,
-  getOrgUnitsWithChildren
-} from '@iapps/ngx-dhis2-org-unit-filter';
 
 export function updateDataSelectionBasedOnPreferences(
   dataSelection: VisualizationDataSelection,
