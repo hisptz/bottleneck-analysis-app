@@ -1,12 +1,12 @@
 import i18n from "@dhis2/d2-i18n";
 import {
   Button,
-  ButtonStrip,
   colors,
   DropdownButton,
   IconFilter24,
   IconInfo24,
   IconInfoFilled24,
+  IconMore24,
   IconQuestion16,
   IconStar24,
   IconStarFilled24,
@@ -27,6 +27,7 @@ import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../s
 import ArchiveModal from "./components/ArchiveModal";
 import FilterMenu from "./components/FilterMenu";
 import HelperMenu from "./components/HelperMenu";
+import MoreMenu from "./components/MoreMenu";
 import useBookmark from "./hooks/bookmark";
 import useFilter from "./hooks/filter";
 import useZip from "./hooks/zip";
@@ -44,9 +45,10 @@ export default function InterventionHeader(): React.ReactElement {
   const [showDetails, setShowDetails] = useRecoilState(DisplayInterventionDetailsState(id));
   const [openFilterMenu, setOpenFilterMenu] = useState<boolean>(false);
   const [openHelperMenu, setOpenHelperMenu] = useState<boolean>(false);
+  const [openMoreMenu, setOpenMoreMenu] = useState<boolean>(false);
   const history = useHistory();
   const [archiveModalOpen, setArchiveModalOpen] = useState(false);
-  const { onZipDownload, disabled: zipDisabled, downloading: zipDownloading } = useZip();
+  const { onZipDownload, disabled: zipDisabled } = useZip();
 
   const {
     selectedPeriod,
@@ -90,6 +92,11 @@ export default function InterventionHeader(): React.ReactElement {
                 {showDetails ? <IconInfoFilled24 /> : <IconInfo24 />}
               </IconButton>
             </Tooltip>
+            {authorities?.intervention?.edit && access.write ? (
+              <Button dataTest={"configuration-button-test"} className={"configure-intervention"} onClick={onToInterventionConfiguration}>
+                {i18n.t("Edit")}
+              </Button>
+            ) : null}
             <DropdownButton
               className="intervention-header-dropdown"
               open={openFilterMenu}
@@ -126,31 +133,34 @@ export default function InterventionHeader(): React.ReactElement {
                 onUpdate={onOrgUnitSelect}
               />
             )}
+            <DropdownButton
+              open={openMoreMenu}
+              onClick={() => {
+                setOpenMoreMenu((prevState) => !prevState);
+              }}
+              component={
+                <MoreMenu
+                  zipDisabled={zipDisabled}
+                  onZipDownload={onZipDownload}
+                  onArchive={() => setArchiveModalOpen(true)}
+                  onClose={() => setOpenMoreMenu(false)}
+                />
+              }
+              icon={<IconMore24 />}>
+              {i18n.t("More")}
+            </DropdownButton>
           </div>
         </div>
         <div className="column">
-          <ButtonStrip>
-            <DropdownButton
-              open={openHelperMenu}
-              onClick={() => {
-                setOpenHelperMenu(!openHelperMenu);
-              }}
-              component={<HelperMenu onClose={() => setOpenHelperMenu(false)} />}
-              icon={<IconQuestion16 color="#212529" />}>
-              {i18n.t("Help")}
-            </DropdownButton>
-            <Button className={"archive-intervention"} onClick={() => setArchiveModalOpen(true)}>
-              {i18n.t("Archive")}
-            </Button>
-            <Button loading={zipDownloading} disabled={zipDisabled} className={"archive-intervention"} onClick={onZipDownload}>
-              {zipDownloading ? `${i18n.t("Downloading")}...` : i18n.t("Download Zip")}
-            </Button>
-            {authorities?.intervention?.edit && access.write ? (
-              <Button dataTest={"configuration-button-test"} className={"configure-intervention"} onClick={onToInterventionConfiguration}>
-                {i18n.t("Configure")}
-              </Button>
-            ) : null}
-          </ButtonStrip>
+          <DropdownButton
+            open={openHelperMenu}
+            onClick={() => {
+              setOpenHelperMenu(!openHelperMenu);
+            }}
+            component={<HelperMenu onClose={() => setOpenHelperMenu(false)} />}
+            icon={<IconQuestion16 color="#212529" />}>
+            {i18n.t("Help")}
+          </DropdownButton>
           {archiveModalOpen && <ArchiveModal hide={!archiveModalOpen} onClose={() => setArchiveModalOpen(false)} />}
         </div>
       </div>
