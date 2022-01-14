@@ -1,7 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, IconAdd24 } from "@dhis2/ui";
 import { DataConfigurationArea } from "@hisptz/react-ui";
-import { isArray } from "lodash";
+import { findIndex, isArray } from "lodash";
 import React, { useMemo, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -12,11 +12,12 @@ import "./GroupDeterminantComponent.module.css";
 import { SelectedDeterminantIndex, SelectedIndicatorIndex } from "../../../../../state/edit";
 import IndicatorSelector from "../../IndicatorSelector";
 import useItemOperations from "../hooks/useItemOperations";
+import ColorPicker from "./ColorPicker";
 import ConfirmIndicatorDeleteModal from "./ConfirmIndicatorDeleteModal";
 
 export default function GroupDeterminantComponent(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
-  const { watch } = useFormContext();
+  const { watch, setValue } = useFormContext();
   const [indicatorSelectorHide, setIndicatorSelectorHide] = useState(true);
   const [selectedAddGroupIndex, setSelectedAddGroupIndex] = useState<number | undefined>();
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState<{ groupId: string; itemId: string } | undefined>();
@@ -25,7 +26,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
   const determinants = watch("groups");
   const { onItemDragEnd, onItemDelete, onItemsAdd, onItemClick } = useItemOperations(setIndicatorSelectorHide);
 
-  const groups: Array<any> = determinants?.map(({ id, name, items }: Group) => {
+  const groups: Array<any> = determinants?.map(({ id, name, items, style }: Group) => {
     if (!isArray(determinants)) {
       return [];
     }
@@ -37,6 +38,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
         name: label,
         icon: getIcon(type),
       })),
+      style,
     };
   });
 
@@ -89,6 +91,17 @@ export default function GroupDeterminantComponent(): React.ReactElement {
             </Button>
           </>
         )}
+        titleRightAdornment={({ id }) => {
+          const groupIndex = findIndex(groups, { id });
+          return (
+            <ColorPicker
+              color={groups[groupIndex].style?.color}
+              onChange={(color) => {
+                setValue(`groups.${groupIndex}.style.color`, color);
+              }}
+            />
+          );
+        }}
       />
       {confirmDeleteOpen && (
         <ConfirmIndicatorDeleteModal

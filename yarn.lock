@@ -2447,10 +2447,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hisptz/react-ui@^1.0.21":
-  version "1.0.21"
-  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.21.tgz#0b7a9248e1a88270c1c4149db38c52b0bfa4a5eb"
-  integrity sha512-zkmvlqEVRsDw/8PGZfziIC7w+Yj2nqMd9VsqK/j8nSLG+gNKBiw7YK2eU53GDCXNcxsvVhDsEhXUQXZUhHz2uw==
+"@hisptz/react-ui@^1.0.22":
+  version "1.0.22"
+  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.22.tgz#bace98e6dc2a4aafef113afd774bc5510dfe94f7"
+  integrity sha512-L0RyuXjlGDrAUti8fizBPtIPQXNoxyGHjT6rdxafHUN1fmrzr4fJbbopSlkXjWrQ6Xytp6wA9R88bZWBU4foGA==
   dependencies:
     "@iapps/period-utilities" "^1.0.0-beta.4"
     "@material-ui/core" "^4.12.3"
@@ -3488,6 +3488,14 @@
   resolved "https://registry.yarnpkg.com/@types/raf-schd/-/raf-schd-4.0.1.tgz#1f9e03736f277fe9c7b82102bf18570a6ee19f82"
   integrity sha512-Ha+EnKHFIh9EKW0/XZJPUd3EGDFisEvauaBd4VVCRPKeOqUxNEc9TodiY2Zhk33XCgzJucoFEcaoNcBAPHTQ2A==
 
+"@types/react-color@^3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@types/react-color/-/react-color-3.0.6.tgz#602fed023802b2424e7cd6ff3594ccd3d5055f9a"
+  integrity sha512-OzPIO5AyRmLA7PlOyISlgabpYUa3En74LP8mTMa0veCA719SvYQov4WLMsHvCgXP+L+KI9yGhYnqZafVGG0P4w==
+  dependencies:
+    "@types/react" "*"
+    "@types/reactcss" "*"
+
 "@types/react-dom@^17.0.10":
   version "17.0.11"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.11.tgz#e1eadc3c5e86bdb5f7684e00274ae228e7bcc466"
@@ -3551,6 +3559,13 @@
     "@types/prop-types" "*"
     "@types/scheduler" "*"
     csstype "^3.0.2"
+
+"@types/reactcss@*":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@types/reactcss/-/reactcss-1.2.6.tgz#133c1e7e896f2726370d1d5a26bf06a30a038bcc"
+  integrity sha512-qaIzpCuXNWomGR1Xq8SCFTtF4v8V27Y6f+b9+bzHiv087MylI/nTCqqdChNeWS7tslgROmYB7yeiruWX7WnqNg==
+  dependencies:
+    "@types/react" "*"
 
 "@types/resolve@0.0.8":
   version "0.0.8"
