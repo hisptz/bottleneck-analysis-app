@@ -1,5 +1,5 @@
 import i18n from "@dhis2/d2-i18n";
-import { FlyoutMenu, MenuItem } from "@dhis2/ui";
+import { FlyoutMenu, IconPushRight24, IconQuestionFilled24, MenuItem } from "@dhis2/ui";
 import React from "react";
 import { useSetRecoilState } from "recoil";
 import { DOCUMENTATION_URL } from "../../../../../../../constants/documentation";
@@ -12,6 +12,7 @@ export default function HelperMenu({ onClose }: { onClose: () => void }): React.
     <>
       <FlyoutMenu>
         <MenuItem
+          icon={<IconPushRight24 />}
           onClick={() => {
             setHelpState(true);
             onClose();
@@ -19,6 +20,7 @@ export default function HelperMenu({ onClose }: { onClose: () => void }): React.
           label={i18n.t("Start a guided tour")}
         />
         <MenuItem
+          icon={<IconQuestionFilled24 />}
           onClick={() => {
             onClose();
             window.open(DOCUMENTATION_URL, "_blank");

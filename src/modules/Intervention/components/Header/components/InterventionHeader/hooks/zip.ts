@@ -5,6 +5,7 @@ import JSZip from "jszip";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilCallback } from "recoil";
+import { CHART_EXPORT_URL } from "../../../../../../../constants/chart";
 import useInterventionConfig from "../../../../../../../shared/hooks/useInterventionConfig";
 import { isArchiveId } from "../../../../../../../shared/utils/archives";
 import { getExcelFromAnalytics, getExcelFromTable } from "../../../../../../../shared/utils/download";
@@ -43,7 +44,7 @@ export default function useZip(): { onZipDownload: () => void; disabled: boolean
 
       if (chartRef.chart) {
         const chartSVG = chartRef.chart.getSVG();
-        const chartImage = await fetch("https://export.highcharts.com", {
+        const chartImage = await fetch(CHART_EXPORT_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

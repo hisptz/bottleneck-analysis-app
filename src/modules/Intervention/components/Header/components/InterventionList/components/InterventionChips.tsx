@@ -28,7 +28,7 @@ export default function InterventionChips({ showAll, interventions }: Interventi
     <div className="column w-100" style={{ maxWidth: "100%" }}>
       <div
         className="row w-100 "
-        style={{ maxWidth: "100%", overflowX: "hidden", flexWrap: "wrap", height: showAll ? 84 : 38, overflowY: showAll ? "auto" : "hidden" }}>
+        style={{ maxWidth: "100%", overflowX: "hidden", flexWrap: "wrap", height: showAll ? 120 : 38, overflowY: showAll ? "auto" : "hidden" }}>
         {interventions?.map((intervention) => (
           <Chip
             dataTest={"intervention-chip"}
