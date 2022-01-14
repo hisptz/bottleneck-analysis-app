@@ -1,6 +1,6 @@
+import { colors } from "@dhis2/ui";
 import { find, flattenDeep, last } from "lodash";
 import { Group } from "../../../../../shared/interfaces/interventionConfig";
-
 function getValue(data: Array<Array<string>>, id: string) {
   return parseInt(last(find(data, (datum: Array<string>) => datum.includes(id))) ?? "");
 }
@@ -25,6 +25,13 @@ function getSeriesConfig(data: any, groups: Array<Group>) {
       data: seriesData,
       type: "column",
       showInLegend: true,
+      states: {
+        select: {
+          color: colors.red500,
+          enabled: true,
+        },
+      },
+      allowPointSelect: true,
     },
   ];
 }
