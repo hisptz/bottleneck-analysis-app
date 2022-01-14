@@ -20,10 +20,6 @@ export default function InterventionList(): React.ReactElement {
   const authorities = useRecoilValue(UserAuthority);
   const history = useHistory();
 
-  function onToArchivesList() {
-    history.push("/archives");
-  }
-
   function onAddIntervention() {
     history.push(`/new-intervention`);
   }
@@ -41,11 +37,6 @@ export default function InterventionList(): React.ReactElement {
               <SearchedInterventionNotFoundMessage />
             ) : null}
           </div>
-        </div>
-        <div className="row gap view-archive align-start ">
-          <Button className={"view-archives-test"} onClick={onToArchivesList}>
-            {i18n.t("View All Archives")}
-          </Button>
         </div>
       </div>
       <IconButton style={{ padding: 2, margin: 0 }} onClick={() => setShowAll((prevState) => !prevState)}>

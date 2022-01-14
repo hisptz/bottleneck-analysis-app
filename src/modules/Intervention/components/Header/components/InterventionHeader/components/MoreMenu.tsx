@@ -1,6 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
 import { FlyoutMenu, IconArchive24, IconDownload24, IconView24, MenuItem } from "@dhis2/ui";
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 export default function MoreMenu({
   onClose,
@@ -13,9 +14,23 @@ export default function MoreMenu({
   onZipDownload: () => void;
   zipDisabled: boolean;
 }): React.ReactElement {
+  const history = useHistory();
+
+  function onToArchivesList() {
+    history.push("/archives");
+  }
+
   return (
     <>
       <FlyoutMenu>
+        <MenuItem
+          icon={<IconView24 />}
+          onClick={() => {
+            onToArchivesList();
+            onClose();
+          }}
+          label={i18n.t("View Archives")}
+        />
         <MenuItem
           icon={<IconArchive24 />}
           onClick={() => {

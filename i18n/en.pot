@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-13T13:36:37.727Z\n"
-"PO-Revision-Date: 2022-01-13T13:36:37.727Z\n"
+"POT-Creation-Date: 2022-01-14T12:46:18.194Z\n"
+"PO-Revision-Date: 2022-01-14T12:46:18.194Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -485,6 +485,12 @@ msgstr "Start a guided tour"
 msgid "Documentation"
 msgstr "Documentation"
 
+msgid "View Archives"
+msgstr "View Archives"
+
+msgid "Download zip"
+msgstr "Download zip"
+
 msgid "An error occurred while adding/removing bookmark"
 msgstr "An error occurred while adding/removing bookmark"
 
@@ -509,17 +515,14 @@ msgstr "Hide"
 msgid "Show"
 msgstr "Show"
 
+msgid "Edit"
+msgstr "Edit"
+
 msgid "Add Filter"
 msgstr "Add Filter"
 
-msgid "Downloading"
-msgstr "Downloading"
-
-msgid "Download Zip"
-msgstr "Download Zip"
-
-msgid "Configure"
-msgstr "Configure"
+msgid "More"
+msgstr "More"
 
 msgid "Intervention cloned successfully"
 msgstr "Intervention cloned successfully"
@@ -553,12 +556,6 @@ msgstr "Search"
 
 msgid "Searched Intervention is not found"
 msgstr "Searched Intervention is not found"
-
-msgid "View Archives"
-msgstr "View Archives"
-
-msgid "Edit"
-msgstr "Edit"
 
 msgid "Root cause data updated successfully"
 msgstr "Root cause data updated successfully"
