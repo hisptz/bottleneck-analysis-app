@@ -1,7 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { colors, IconDownload24, IconFileDocument24, IconImage24 } from "@dhis2/ui";
-import HighchartsReact from "highcharts-react-official";
-import React, { useRef } from "react";
+import React from "react";
 import { useFullScreenHandle } from "react-full-screen";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useRecoilValueLoadable } from "recoil";
@@ -10,6 +9,7 @@ import { InterventionStateSelector } from "../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../state/selections";
 import InterventionCard from "../Card";
 import Chart from "./components";
+import { ChartRef } from "./state/chart";
 import { ChartData } from "./state/data";
 
 export default function AnalysisChart(): React.ReactElement {
@@ -19,8 +19,7 @@ export default function AnalysisChart(): React.ReactElement {
   const groups = useRecoilValue(InterventionStateSelector({ id, path: ["dataSelection", "groups"] }));
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
   const period = useRecoilValue(InterventionPeriodState(id));
-
-  const chartRef = useRef<HighchartsReact.RefObject>(null);
+  const chartRef = useRecoilValue(ChartRef(id));
 
   const handle = useFullScreenHandle();
 
@@ -32,10 +31,10 @@ export default function AnalysisChart(): React.ReactElement {
     }
   };
   const onPDFDownload = () => {
-    chartRef?.current?.chart.exportChart({ type: "application/pdf" }, {});
+    chartRef?.chart.exportChart({ type: "application/pdf" }, {});
   };
   const onImageDownload = () => {
-    chartRef?.current?.chart.exportChart({ type: "image/png" }, {});
+    chartRef?.chart.exportChart({ type: "image/png" }, {});
   };
 
   return (
@@ -66,10 +65,10 @@ export default function AnalysisChart(): React.ReactElement {
         <div className="row" style={{ gap: 8 }}>
           <h4>{i18n.t("Bottleneck Analysis Chart")}: </h4>
           <h4 style={{ color: colors.grey700 }}>{`${interventionName}`}</h4>
-          <h4 style={{ color: colors.grey700 }}>{`${period.name}`}</h4>
+          <h4 style={{ color: colors.grey700 }}>{`${period?.name}`}</h4>
         </div>
       }>
-      <Chart height={height} chartRef={chartRef} />
+      <Chart height={height} />
     </InterventionCard>
   );
 }

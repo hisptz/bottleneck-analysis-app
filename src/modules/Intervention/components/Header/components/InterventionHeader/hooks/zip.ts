@@ -6,9 +6,11 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilCallback } from "recoil";
 import useInterventionConfig from "../../../../../../../shared/hooks/useInterventionConfig";
+import { isArchiveId } from "../../../../../../../shared/utils/archives";
 import { getExcelFromAnalytics, getExcelFromTable } from "../../../../../../../shared/utils/download";
 import { InterventionStateSelector } from "../../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../../state/selections";
+import { ChartRef } from "../../../../AnalysisChart/state/chart";
 import { ChartData } from "../../../../AnalysisChart/state/data";
 import { RootCauseTableRef } from "../../../../RootCauseAnalysis/state/table";
 import { SubLevelTableRef } from "../../../../SubLevelAnalysis/state/table";
@@ -30,12 +32,30 @@ export default function useZip(): { onZipDownload: () => void; disabled: boolean
       const period = await snapshot.getPromise(InterventionPeriodState(interventionId));
       const groups = await snapshot.getPromise(InterventionStateSelector({ id: interventionId, path: ["dataSelection", "groups"] }));
       const chartData = await snapshot.getPromise(ChartData(interventionId));
-      const zipName = `${intervention.name}_${orgUnit.displayName}_${period.name}`;
+
+      const zipName = `${intervention.name} (${orgUnit.displayName} - ${period.name}) ${isArchiveId(interventionId) ? ", - Archive" : ""}`;
       const zip = new JSZip();
-      const files = zip.folder(zipName);
+      const files = zip.folder(`${intervention.name}`);
 
       const rootCauseRef = await snapshot.getPromise(RootCauseTableRef(interventionId));
       const subLevelRef = await snapshot.getPromise(SubLevelTableRef(interventionId));
+      const chartRef = await snapshot.getPromise(ChartRef(interventionId));
+
+      if (chartRef.chart) {
+        const chartSVG = chartRef.chart.getSVG();
+        const chartImage = await fetch("https://export.highcharts.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            svg: chartSVG,
+            type: "image/png",
+            scale: 2,
+          }),
+        }).then((res) => res.blob());
+        files?.file(`Bottleneck Analysis Chart.png`, chartImage);
+      }
 
       if (rootCauseRef) {
         files?.file(`Root Cause Data.xlsx`, await getExcelFromTable(rootCauseRef, "Root Cause Data"), {

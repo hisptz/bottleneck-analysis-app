@@ -2,17 +2,18 @@ import HighCharts from "highcharts";
 import HighChartsReact from "highcharts-react-official";
 import React, { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { InterventionStateSelector } from "../../../../state/intervention";
+import { ChartRef } from "../../state/chart";
 import { ChartData } from "../../state/data";
 import getChartOptions from "../../utils/getChartOptions";
 
-export default function ChartItemComponent({ chartRef, height }: { chartRef: any; height: string | number }): React.ReactElement {
+export default function ChartItemComponent({ height }: { height: string | number }): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const data = useRecoilValue(ChartData(id));
   const name = useRecoilValue(InterventionStateSelector({ id, path: ["name"] }));
   const groups = useRecoilValue(InterventionStateSelector({ id, path: ["dataSelection", "groups"] }));
-
+  const chartRef = useSetRecoilState(ChartRef(id));
   const chartOptions = useMemo(() => getChartOptions({ id, data, groups, name }), [id, data, groups, name]);
 
   return (
