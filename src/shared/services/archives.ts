@@ -3,7 +3,6 @@ import { BNA_ARCHIVES_NAMESPACE } from "../../constants/dataStore";
 import { Archive } from "../interfaces/archive";
 import { InterventionConfig } from "../interfaces/interventionConfig";
 import { User } from "../interfaces/user";
-import { uid } from "../utils/generators";
 
 export function createArchive({
   intervention,
@@ -24,11 +23,11 @@ export function createArchive({
   orgUnit: string;
   period: string;
 }): Archive {
-  const dateCreated = new Date().toLocaleDateString("en-GB");
+  const dateCreated = new Date().toLocaleDateString("en-GB", {}).replaceAll("/", "-");
   const userId = user.id;
 
   return {
-    id: `${intervention.id}_${orgUnit}_${period}_${uid()}`,
+    id: `${intervention.id}_${orgUnit}_${period}_${dateCreated}`,
     user: userId,
     config: intervention,
     remarks,

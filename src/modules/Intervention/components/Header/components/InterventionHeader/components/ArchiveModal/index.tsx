@@ -1,10 +1,10 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, CircularLoader, Modal, ModalActions, ModalContent, ModalTitle, TextAreaField } from "@dhis2/ui";
+import { Button, ButtonStrip, CircularLoader, Modal, ModalActions, ModalContent, ModalTitle, NoticeBox, TextAreaField } from "@dhis2/ui";
 import React from "react";
 import useArchive from "./hooks/archive";
 
 export default function ArchiveModal({ hide, onClose }: { hide: boolean; onClose: () => void }): React.ReactElement {
-  const { loading, intervention, orgUnit, period, remarks, setRemarks, archiving, onArchiveClick } = useArchive(onClose);
+  const { loading, intervention, orgUnit, period, remarks, setRemarks, archiving, onArchiveClick, archiveExists } = useArchive(onClose);
 
   return (
     <Modal position="middle" onClose={onClose} hide={hide}>
@@ -13,6 +13,12 @@ export default function ArchiveModal({ hide, onClose }: { hide: boolean; onClose
         {loading ? (
           <div className="column w-100 center align-center" style={{ height: 300 }}>
             <CircularLoader small />
+          </div>
+        ) : archiveExists ? (
+          <div>
+            <NoticeBox error title={i18n.t("Archive Exists")}>
+              {i18n.t("This intervention has already been archived for today")}
+            </NoticeBox>
           </div>
         ) : (
           <div className="column gap m-8">
