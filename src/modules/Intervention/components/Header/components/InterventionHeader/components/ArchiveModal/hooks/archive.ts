@@ -1,6 +1,6 @@
 import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { UserState } from "../../../../../../../../../core/state/user";
@@ -28,8 +28,16 @@ export default function useArchive(onClose: () => void) {
 
   const { show } = useAlert(
     ({ message }) => message,
-    ({ type }) => ({ ...type, duration: 3000 })
+    ({ type }) => ({ ...type, duration: 3000 }),
   );
+
+  const archiveExists = useMemo(() => {
+    if (interventionArchivesState.state !== "hasValue") {
+      return;
+    }
+    const dateCreated = new Date().toLocaleDateString("en-GB").replaceAll("/", "-");
+    return interventionArchivesState.contents.includes(`${id}_${orgUnit.id}_${period.id}_${dateCreated}`);
+  }, [id, interventionArchivesState.contents, interventionArchivesState.state, orgUnit.id, period.id]);
 
   const onArchiveClick = useRecoilCallback(
     ({ snapshot }) =>
@@ -61,7 +69,7 @@ export default function useArchive(onClose: () => void) {
               setArchiving(false);
               resetArchives();
               resetInterventionArchives();
-              history.replace(`/archives/${archive.id}`);
+              history.replace(`/archives/${archive?.id}`);
             } else {
               show({
                 message: i18n.t("Intervention not found"),
@@ -81,6 +89,7 @@ export default function useArchive(onClose: () => void) {
     [engine, history, id, onClose, orgUnit.id, period.id, remarks, resetArchives, resetInterventionArchives, show]
   );
   return {
+    archiveExists,
     onArchiveClick,
     archiving,
     remarks,
