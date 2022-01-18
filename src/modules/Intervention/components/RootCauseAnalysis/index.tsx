@@ -1,6 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { colors, IconDownload24 } from "@dhis2/ui";
-import React, { Suspense, useEffect, useMemo, useRef } from "react";
+import React, { Suspense, useMemo } from "react";
 import { useFullScreenHandle } from "react-full-screen";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from "recoil";
@@ -48,7 +48,7 @@ export default function RootCauseAnalysis(): React.ReactElement {
       title={
         <div className="row" style={{ gap: 8 }}>
           <h4>{i18n.t("Root Cause Analysis")}: </h4>
-          <h4 style={{ color: colors.grey700 }}>{`${orgUnit.displayName ?? ""} - ${period.name ?? ""} `}</h4>
+          <h4 style={{ color: colors.grey700 }}>{`${orgUnit.displayName ?? ""} - ${period?.name ?? ""} `}</h4>
         </div>
       }>
       <Suspense fallback={<CardLoader />}>

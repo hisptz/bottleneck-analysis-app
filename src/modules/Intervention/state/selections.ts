@@ -16,10 +16,14 @@ export const InterventionPeriodState = atomFamily<PeriodInterface, string>({
     get:
       (interventionId: string) =>
       ({ get }) => {
-        if (isArchiveId(interventionId)) {
-          return new Period().getById(get(Archive(interventionId))?.period ?? new Date().getFullYear().toString());
-        }
         const { calendar } = get(SystemSettingsState);
+
+        if (isArchiveId(interventionId)) {
+          return new Period()
+            .setCalendar(calendar)
+            .setPreferences({ allowFuturePeriods: true })
+            .getById(get(Archive(interventionId))?.period ?? new Date().getFullYear().toString());
+        }
         const { periodSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
         if (periodSelection) {
           if (periodSelection?.id) {

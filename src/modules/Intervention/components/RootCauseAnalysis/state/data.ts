@@ -52,7 +52,7 @@ export const RootCauseDataSelector = selectorFamily<Array<RootCauseDataInterface
       const orgUnit = get(InterventionOrgUnitState(id));
       return filter(flattenDeep(rootCauseData), (data: any) => {
         const { id: rootCauseId } = data;
-        return rootCauseId.match(`${period.id}_${orgUnit.id}`);
+        return rootCauseId.match(`${period?.id}_${orgUnit?.id}`);
       }) as Array<RootCauseDataInterface>;
     },
 });

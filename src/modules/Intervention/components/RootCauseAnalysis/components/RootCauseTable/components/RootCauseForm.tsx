@@ -1,7 +1,7 @@
 import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, Modal, ModalContent, ModalTitle, SingleSelectField, SingleSelectOption, TextAreaField } from "@dhis2/ui";
-import { cloneDeep, find, get, isEmpty, map, reverse } from "lodash";
+import { cloneDeep, find, flattenDeep, get, isEmpty, map, reverse } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -104,7 +104,7 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
       if (!isEmpty(rootCauseData)) {
         updatedData = updateRootCause(data, updatedData);
       }
-      updatedData = addRootCause(data, updatedData);
+      updatedData = flattenDeep(addRootCause(data, updatedData));
       await uploadRootCauseData(engine, interventionId, reverse(updatedData));
       updateRootCauseData(reverse(updatedData));
       if (!isEmpty(rootCauseData)) {
@@ -140,6 +140,7 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
               name={getDataElementId("bottleneckId")}
               render={({ field, fieldState }) => (
                 <SingleSelectField
+                  required
                   label={i18n.t("Bottleneck")}
                   dataTest={"bootleneck-root-cause"}
                   error={fieldState.error}
@@ -159,6 +160,7 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
               name={getDataElementId("indicatorId")}
               render={({ field, fieldState }) => (
                 <SingleSelectField
+                  required
                   label={i18n.t("Indicator")}
                   error={fieldState.error}
                   validationText={fieldState?.error?.message}
@@ -167,7 +169,7 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
                   onChange={({ selected }: any) => field.onChange(selected)}
                   selected={!isEmpty(interventionOptions) && find(interventionOptions, ["id", field.value]) ? field.value : undefined}>
                   {interventionOptions?.map((option: any) => (
-                    <SingleSelectOption  key={`${option.id}-option`} label={option?.label} value={option?.id} />
+                    <SingleSelectOption key={`${option.id}-option`} label={option?.label} value={option?.id} />
                   ))}
                 </SingleSelectField>
               )}
@@ -178,6 +180,7 @@ export default function RootCauseForm({ hideModal, onCancelForm, rootCauseData }
               name={getDataElementId("Root cause")}
               render={({ field, fieldState }) => (
                 <TextAreaField
+                  required
                   label={i18n.t("Possible root cause")}
                   dataTest={"possible-root-cause-input"}
                   error={fieldState.error}

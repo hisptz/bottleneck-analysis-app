@@ -31,7 +31,7 @@ const generateCreateMutation = (id: string) => {
 };
 const generateCreateRootCauseMutation = (id: string) => {
   return {
-    resource: `dataStore/${BNA_NAMESPACE}/${id}_${ROOT_CAUSE_SUFFIX}`,
+    resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}/${id}_${ROOT_CAUSE_SUFFIX}`,
     type: "create",
     data: [],
   };
@@ -42,6 +42,6 @@ export async function createIntervention(engine: any, intervention: Intervention
     const summary = createInterventionSummary(intervention);
     const updatedSummaries = addInterventionSummary(summary, summaries);
     await uploadInterventionSummary(engine, updatedSummaries);
-    await engine.mutate(generateCreateRootCauseMutation(intervention?.id), { variables: { data: [] } });
+    await engine.mutate(generateCreateRootCauseMutation(intervention?.id));
   });
 }
