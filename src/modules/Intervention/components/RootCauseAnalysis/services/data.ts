@@ -5,7 +5,7 @@ import { DEFAULT_ROOT_CAUSE_CONFIG } from "../../../../../constants/defaults";
 import { RootCauseDataInterface } from "../interfaces/rootCauseData";
 
 const mutateConfig = {
-  resource: `dataStore/${BNA_NAMESPACE}/${ROOT_CAUSE_CONFIG_KEY}`,
+  resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}/${ROOT_CAUSE_CONFIG_KEY}`,
   type: "create",
   data: ({ data }: any) => data,
 };
@@ -16,7 +16,7 @@ async function initializeRootCauseConfig(engine: any) {
 
 const configQuery = {
   config: {
-    resource: `dataStore/${BNA_NAMESPACE}/${ROOT_CAUSE_CONFIG_KEY}`,
+    resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}/${ROOT_CAUSE_CONFIG_KEY}`,
   },
 };
 
@@ -32,7 +32,7 @@ export async function getRootCauseConfig(engine: any): Promise<any> {
 
 const rootCauseDataKeys = {
   keys: {
-    resource: `dataStore/${BNA_NAMESPACE}`,
+    resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}`,
   },
 };
 
@@ -45,7 +45,7 @@ async function getRootCauseDataByKey(engine: any, key: string) {
   const { data } = await engine.query(
     {
       data: {
-        resource: `dataStore/${BNA_NAMESPACE}`,
+        resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}`,
         id: ({ id }: { id: string }) => id,
       },
     },
@@ -66,7 +66,7 @@ export async function deleteRootCauseData(engine: any, interventionId: string, r
   try {
     const rcaDataFromStore: RootCauseDataInterface[] = await getRootCausesData(engine, interventionId);
     const sanitizedRcaData = filter(flattenDeep(rcaDataFromStore), (rcaData: RootCauseDataInterface) => rcaData.id !== rootCauseId);
-    await saveRootCauseData(engine, `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`, sanitizedRcaData);
+    await saveRootCauseData(engine, `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}/${interventionId}_rcadata`, sanitizedRcaData);
   } catch (error) {
     throw new Error(`${error}`);
   }
@@ -107,7 +107,7 @@ async function saveRootCauseData(engine: any, dataStoreUrl: string, data: RootCa
 }
 
 const rootCauseDataMutation = {
-  resource: `dataStore/${BNA_NAMESPACE}`,
+  resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}`,
   type: "update",
   id: ({ id }: any) => id,
   data: ({ data }: any) => data,
