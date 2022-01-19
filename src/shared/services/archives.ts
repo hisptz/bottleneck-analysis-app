@@ -3,18 +3,18 @@ import { BNA_ARCHIVES_NAMESPACE } from "../../constants/dataStore";
 import { Archive } from "../interfaces/archive";
 import { InterventionConfig } from "../interfaces/interventionConfig";
 import { User } from "../interfaces/user";
-import { uid } from "../utils/generators";
 
 export function createArchive({
-  intervention,
-  user,
-  chartAnalytics,
-  subLevelAnalytics,
-  rootCauseData,
-  remarks,
-  orgUnit,
-  period,
-}: {
+                                intervention,
+                                user,
+                                chartAnalytics,
+                                subLevelAnalytics,
+                                rootCauseData,
+                                remarks,
+                                orgUnit,
+                                period,
+                                selectedIndicators,
+                              }: {
   intervention: InterventionConfig;
   chartAnalytics: any;
   subLevelAnalytics: any;
@@ -23,12 +23,13 @@ export function createArchive({
   remarks: string;
   orgUnit: string;
   period: string;
+  selectedIndicators: string[];
 }): Archive {
-  const dateCreated = new Date().toLocaleDateString("en-GB");
+  const dateCreated = new Date().toLocaleDateString("en-GB", {}).replaceAll("/", "-");
   const userId = user.id;
 
   return {
-    id: `${intervention.id}_${orgUnit}_${period}_${uid()}`,
+    id: `${intervention.id}_${orgUnit}_${period}_${dateCreated}`,
     user: userId,
     config: intervention,
     remarks,
@@ -38,6 +39,7 @@ export function createArchive({
     dateCreated,
     orgUnit,
     period,
+    selectedIndicators,
   };
 }
 
