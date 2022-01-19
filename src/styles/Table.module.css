@@ -45,9 +45,9 @@
     height: 100%;
 }
 
-.header-row {
-    height: 100% !important;
-}
+/*.header-row {*/
+/*    height: 100% !important;*/
+/*}*/
 
 .table-header-cell > span > span {
     font-weight: 500;
