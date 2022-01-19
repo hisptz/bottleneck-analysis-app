@@ -39,7 +39,7 @@ export default function InterventionList(): React.ReactElement {
           </div>
         </div>
       </div>
-      <IconButton style={{ padding: 2, margin: 0 }} onClick={() => setShowAll((prevState) => !prevState)}>
+      <IconButton style={{ padding: 2, margin: 0,}} onClick={() => setShowAll((prevState) => !prevState)}>
         {showAll ? <IconChevronUp24 /> : <IconChevronDown24 />}
       </IconButton>
     </div>

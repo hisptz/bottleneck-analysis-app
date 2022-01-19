@@ -76,13 +76,18 @@ export default function getChartOptions({ id, data, groups, name }: { id: string
     credits: { enabled: false },
     tooltip: {
       enabled: true,
+      // padding: 2,
+      style: {
+        padding: "2px",
+        paddingBottom: "0px",
+      },
       formatter: function () {
         const tooltipFormat = groups.map((group: Group) => {
           return group.items.map((item: DataItem) => {
             if (item.name) {
-              return item.name;
+              return item.name + `<br>` + '<span style="color:' + this.color + '"> ●</span>' + this.series.name + `:<b>` + this.y + `</b>`;
             } else {
-              return item.shortName;
+              return item.shortName + `<br>` + '<span style="color:' + this.color + '"> ●</span>' + this.series.name + `:<b>` + this.y + `</b>`;
             }
           });
         });
