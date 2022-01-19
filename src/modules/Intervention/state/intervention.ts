@@ -47,7 +47,6 @@ export const InterventionStateSelector = selectorFamily<any, { id: string; path:
     ({ id, path }: { id: string; path: Array<string> }) =>
     ({ get }) => {
       const config = get(InterventionState(id));
-      console.log(config);
       if (!config) {
         return undefined;
       }
@@ -57,15 +56,5 @@ export const InterventionStateSelector = selectorFamily<any, { id: string; path:
 
 export const DisplayInterventionDetailsState = atomFamily<boolean, string>({
   key: "intervention-details-state",
-  default: false,
-});
-
-/**
- * TODO:
- * CHANGE THIS STATE INTO FAMILY
- * TO RECEIVE GROUP ID(INTERVENTION OPTIONAL), then a particular item clicked and change it state
- */
-export const InterventionConfiguationDeterminant = atom<boolean>({
-  key: "determinantConfiguration",
   default: false,
 });
