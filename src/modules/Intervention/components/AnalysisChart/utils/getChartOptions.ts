@@ -1,6 +1,6 @@
 import { colors } from "@dhis2/ui";
 import { find, flattenDeep, last } from "lodash";
-import { Group } from "../../../../../shared/interfaces/interventionConfig";
+import { DataItem, Group } from "../../../../../shared/interfaces/interventionConfig";
 function getValue(data: Array<Array<string>>, id: string) {
   return parseInt(last(find(data, (datum: Array<string>) => datum.includes(id))) ?? "");
 }
@@ -74,7 +74,21 @@ export default function getChartOptions({ id, data, groups, name }: { id: string
     series: getSeriesConfig(data, groups),
     title: { text: "" },
     credits: { enabled: false },
-    tooltip: { enabled: true },
+    tooltip: {
+      enabled: true,
+      formatter: function () {
+        const tooltipFormat = groups.map((group: Group) => {
+          return group.items.map((item: DataItem) => {
+            if (item.name) {
+              return item.name;
+            } else {
+              return item.shortName;
+            }
+          });
+        });
+        return tooltipFormat[this.colorIndex];
+      },
+    },
     yAxis: [
       {
         max: 100,
