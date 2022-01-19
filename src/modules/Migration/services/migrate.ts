@@ -1,29 +1,27 @@
-import { map, queue } from "async";
+import { map } from "async";
 import { compact, filter, find, isEmpty, last } from "lodash";
-import { BNA_NAMESPACE, ROOT_CAUSE_CONFIG_KEY } from "../../../constants/dataStore";
-import { DEFAULT_ROOT_CAUSE_CONFIG } from "../../../constants/defaults";
-import {
-  DataItem,
-  DataSelection,
-  Group,
-  InterventionConfig,
-  InterventionSummary,
-  LegendDefinition,
-  OrgUnitSelection,
-  PeriodSelection,
-} from "../../../shared/interfaces/interventionConfig";
+import { BNA_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../constants/dataStore";
+import { DataItem, DataSelection, Group, InterventionConfig, LegendDefinition, OrgUnitSelection, PeriodSelection } from "../../../shared/interfaces/interventionConfig";
 import { GlobalSelection, Legend, OldInterventionConfig, SelectionGroupMember } from "../../../shared/interfaces/oldInterventionConfig";
 import { RootCauseConfigInterface } from "../../../shared/interfaces/rootCause";
 import getOldInterventions from "../../../shared/services/getOldInterventions";
 
 export async function getInterventions(engine: any) {
-  const oldInterventions: Array<OldInterventionConfig> = await getOldInterventions(engine);
-  return oldInterventions.map(convertIntervention);
+  const oldInterventions: Array<OldInterventionConfig> = compact(await getOldInterventions(engine));
+  return oldInterventions?.map(convertIntervention) ?? [];
 }
 
 const generateSaveMutation = (id: string) => {
   return {
     resource: `dataStore/${BNA_NAMESPACE}/${id}`,
+    type: "create",
+    data: ({ data }: { data: InterventionConfig }) => data,
+  };
+};
+
+const generateRootCauseSaveMutation = (id: string) => {
+  return {
+    resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}/${id}`,
     type: "create",
     data: ({ data }: { data: InterventionConfig }) => data,
   };
@@ -192,7 +190,7 @@ export async function migrateRootCauseConfig(engine: any, config: RootCauseConfi
 }
 
 export async function migrateRootCauseData(engine: any, key: string, data: any) {
-  const mutation = generateSaveMutation(key);
+  const mutation = generateRootCauseSaveMutation(key);
   return await engine.mutate(mutation, { variables: { data } });
 }
 
@@ -202,23 +200,10 @@ function convertRootCauseData(data: any, config: any) {
   return { ...data, id: `${period}_${orgUnit}` };
 }
 
-export async function migrateRootCauses(engine: any, interventions: Array<InterventionSummary>) {
-  let config: RootCauseConfigInterface;
-  try {
-    config = await getOldRootCauseConfig(engine);
-  } catch (e) {
-    config = DEFAULT_ROOT_CAUSE_CONFIG;
-  }
-  await migrateRootCauseConfig(engine, config);
-  const q = queue(async (interventionId: string) => migrateRootCauseDataByIntervention(engine, interventionId, config), 5);
-  const interventionIds = interventions.map(({ id }: { id: string }) => id);
-  await q.push(interventionIds);
-}
-
 export async function migrateRootCauseDataByIntervention(engine: any, interventionId: string, config: any) {
   const rootCauseData = await getRootCausesData(engine, interventionId);
   if (!isEmpty(rootCauseData)) {
     const convertedData = rootCauseData.map((data: any) => convertRootCauseData(data, config));
-    return await migrateRootCauseData(engine, `${interventionId}_rcadata`, convertedData);
+    return await migrateRootCauseData(engine, `${interventionId}_${ROOT_CAUSE_SUFFIX}`, convertedData);
   }
 }

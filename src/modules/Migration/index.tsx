@@ -4,18 +4,19 @@ import { CircularLoader, LinearLoader } from "@dhis2/ui";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE } from "recoil";
-import { AuthorizedInterventionSummary } from "../../core/state/intervention";
+import { AllInterventionSummary } from "../../core/state/intervention";
 import useMigrate from "./hooks/useMigrate";
 
 export default function Migration(): React.ReactElement {
   const history = useHistory();
-  const resetSummary = useRecoilRefresher_UNSTABLE(AuthorizedInterventionSummary);
+  const resetSummary = useRecoilRefresher_UNSTABLE(AllInterventionSummary);
   const onComplete = () => {
     resetSummary();
+    console.log("on complete called");
     history.replace("/");
   };
 
-  const { error, progress, totalMigration } = useMigrate(onComplete);
+  const { error, progress, migrationStarted } = useMigrate(onComplete);
 
   const { show } = useAlert(
     ({ message }) => message,
@@ -33,9 +34,9 @@ export default function Migration(): React.ReactElement {
 
   return (
     <div className="column w-100 h-100 center align-center">
-      {totalMigration ? (
+      {migrationStarted ? (
         <>
-          <LinearLoader amount={(progress / totalMigration) * 100} width={"300px"} />
+          <LinearLoader amount={progress * 100} width={"300px"} />
           <p style={{ margin: 4 }}>{i18n.t("Migrating configurations...")}</p>
         </>
       ) : (

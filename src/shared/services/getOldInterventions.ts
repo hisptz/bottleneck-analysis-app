@@ -1,4 +1,3 @@
-import { map } from "async";
 import { filter } from "lodash";
 import { BNA_DASHBOARDS_NAMESPACE, BNA_DASHBOARDS_PREFIX } from "../../constants/dataStore";
 import { OldInterventionConfig } from "../interfaces/oldInterventionConfig";
@@ -27,17 +26,19 @@ const interventionQuery = {
   },
 };
 
-export default async function getOldInterventions(engine: any, keys?: Array<string>): Promise<Array<OldInterventionConfig>> {
+export default async function getOldInterventions(engine: any, keys?: Array<string>): Promise<(OldInterventionConfig | undefined)[]> {
   async function getOldIntervention(key: string): Promise<OldInterventionConfig | undefined> {
     try {
       const response = await engine.query(interventionQuery, { variables: { id: key } });
       return response?.intervention;
     } catch (e) {
       // @ts-ignore
+      console.error("Error getting previous intervention", e);
     }
   }
+
   if (!keys) {
     keys = await getOldInterventionKeys(engine);
   }
-  return await map(keys, getOldIntervention);
+  return await Promise.all(keys.map(getOldIntervention));
 }
