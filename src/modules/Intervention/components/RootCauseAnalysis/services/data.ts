@@ -42,24 +42,27 @@ async function getRootCauseDataKeys(engine: any) {
 }
 
 async function getRootCauseDataByKey(engine: any, key: string) {
-  const { data } = await engine.query(
+  const { data } =
+  (await engine.query(
     {
       data: {
         resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}`,
         id: ({ id }: { id: string }) => id,
       },
     },
-    { variables: { id: key } }
-  );
-  return data;
+    { variables: { id: key } },
+  )) ?? {};
+  return flattenDeep(data) as Array<RootCauseDataInterface>;
 }
 
-export async function getRootCausesData(engine: any, interventionId: string): Promise<RootCauseDataInterface[]> {
+export async function getRootCausesData(engine: any, interventionId: string): Promise<Array<RootCauseDataInterface>> {
   const keys = await getRootCauseDataKeys(engine);
   const interventionKeys = filter(keys, (key: string) => key.match(RegExp(`${interventionId}_rcadata`)));
-  return await map(interventionKeys, async (key: string) => {
-    return await getRootCauseDataByKey(engine, key);
-  });
+  return flattenDeep(
+    await map(interventionKeys, async (key: string) => {
+      return await getRootCauseDataByKey(engine, key);
+    }),
+  );
 }
 
 export async function deleteRootCauseData(engine: any, interventionId: string, rootCauseId: string) {
