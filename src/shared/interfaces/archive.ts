@@ -11,4 +11,5 @@ export interface Archive {
   dateCreated: string;
   orgUnit: string;
   period: string;
+  selectedIndicators?: string[];
 }

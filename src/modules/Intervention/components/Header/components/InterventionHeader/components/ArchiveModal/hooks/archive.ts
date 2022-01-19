@@ -9,6 +9,7 @@ import { Archives } from "../../../../../../../../Archives/state/data";
 import { InterventionArchiveIds } from "../../../../../../../state/archiving";
 import { InterventionState } from "../../../../../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../../../../state/selections";
+import { ChartRef } from "../../../../../../AnalysisChart/state/chart";
 import { ChartData } from "../../../../../../AnalysisChart/state/data";
 import { RootCauseData } from "../../../../../../RootCauseAnalysis/state/data";
 import { SubLevelAnalyticsData } from "../../../../../../SubLevelAnalysis/state/data";
@@ -25,7 +26,6 @@ export default function useArchive(onClose: () => void) {
   const interventionArchivesState = useRecoilValueLoadable(InterventionArchiveIds(id));
   const resetInterventionArchives = useRecoilRefresher_UNSTABLE(InterventionArchiveIds(id));
   const resetArchives = useRecoilRefresher_UNSTABLE(Archives);
-
   const { show } = useAlert(
     ({ message }) => message,
     ({ type }) => ({ ...type, duration: 3000 }),
@@ -50,6 +50,8 @@ export default function useArchive(onClose: () => void) {
             const chartAnalytics = await snapshot.getPromise(ChartData(id));
             const subLevelAnalytics = await snapshot.getPromise(SubLevelAnalyticsData(id));
             const rootCauseData = await snapshot.getPromise(RootCauseData(id));
+            const chartRef = await snapshot.getPromise(ChartRef(id));
+            const selectedIndicators: Array<string> = (chartRef?.chart?.getSelectedPoints() ?? []).map(({ id }: { id: string }) => id);
             if (intervention) {
               const archive = createArchive({
                 intervention,
@@ -60,6 +62,7 @@ export default function useArchive(onClose: () => void) {
                 period: period.id,
                 remarks,
                 rootCauseData,
+                selectedIndicators,
               });
               await uploadArchive(engine, archive);
               show({

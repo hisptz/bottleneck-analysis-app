@@ -5,15 +5,16 @@ import { InterventionConfig } from "../interfaces/interventionConfig";
 import { User } from "../interfaces/user";
 
 export function createArchive({
-  intervention,
-  user,
-  chartAnalytics,
-  subLevelAnalytics,
-  rootCauseData,
-  remarks,
-  orgUnit,
-  period,
-}: {
+                                intervention,
+                                user,
+                                chartAnalytics,
+                                subLevelAnalytics,
+                                rootCauseData,
+                                remarks,
+                                orgUnit,
+                                period,
+                                selectedIndicators,
+                              }: {
   intervention: InterventionConfig;
   chartAnalytics: any;
   subLevelAnalytics: any;
@@ -22,6 +23,7 @@ export function createArchive({
   remarks: string;
   orgUnit: string;
   period: string;
+  selectedIndicators: string[];
 }): Archive {
   const dateCreated = new Date().toLocaleDateString("en-GB", {}).replaceAll("/", "-");
   const userId = user.id;
@@ -37,6 +39,7 @@ export function createArchive({
     dateCreated,
     orgUnit,
     period,
+    selectedIndicators,
   };
 }
 

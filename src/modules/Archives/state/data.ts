@@ -21,12 +21,16 @@ export const Archives = selector<Array<ArchiveType>>({
   },
 });
 
-export const Archive = selectorFamily<ArchiveType, string>({
+export const Archive = selectorFamily<ArchiveType | null, string>({
   key: "archive-state",
   get:
     (id: string) =>
-    async ({ get }) => {
-      const engine = get(EngineState);
-      return await getArchive(engine, id);
-    },
+      async ({ get }) => {
+        try {
+          const engine = get(EngineState);
+          return await getArchive(engine, id);
+        } catch (e) {
+          return null;
+        }
+      },
 });
