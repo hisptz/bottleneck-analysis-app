@@ -14,6 +14,10 @@ const defaultAuthorities = {
     create: false,
     edit: false,
   },
+  archive: {
+    delete: false,
+    create: false,
+  },
 };
 
 const allAuthorities = {
@@ -28,6 +32,10 @@ const allAuthorities = {
     create: true,
     edit: true,
   },
+  archive: {
+    delete: true,
+    create: true,
+  },
 };
 
 export function getUserAuthorities(authorities: Array<string>): Authorities {
@@ -36,7 +44,7 @@ export function getUserAuthorities(authorities: Array<string>): Authorities {
   if (authorities.includes("ALL")) {
     return allAuthorities;
   }
-
+  //Intervention
   if (authorities.includes(AuthoritiesEnums.BNA_ADD_INTERVENTION)) {
     set(sanitizedAuthorities, ["intervention", "create"], true);
   }
@@ -49,7 +57,7 @@ export function getUserAuthorities(authorities: Array<string>): Authorities {
   if (authorities.includes(AuthoritiesEnums.BNA_DELETE_INTERVENTION)) {
     set(sanitizedAuthorities, ["intervention", "delete"], true);
   }
-
+  //RootCause
   if (authorities.includes(AuthoritiesEnums.BNA_ADD_ROOT_CAUSE)) {
     set(sanitizedAuthorities, ["rootCause", "create"], true);
   }
@@ -59,6 +67,12 @@ export function getUserAuthorities(authorities: Array<string>): Authorities {
   if (authorities.includes(AuthoritiesEnums.BNA_DELETE_ROOT_CAUSE)) {
     set(sanitizedAuthorities, ["rootCause", "delete"], true);
   }
-
+  //Archive
+  if (authorities.includes(AuthoritiesEnums.BNA_DELETE_ARCHIVE)) {
+    set(sanitizedAuthorities, ["archive", "delete"], true);
+  }
+  if (authorities.includes(AuthoritiesEnums.BNA_ADD_ARCHIVE)) {
+    set(sanitizedAuthorities, ["archive", "create"], true);
+  }
   return sanitizedAuthorities;
 }

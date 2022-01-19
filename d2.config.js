@@ -14,6 +14,8 @@ const config = {
     "BNA_ADD_ROOT_CAUSE",
     "BNA_EDIT_ROOT_CAUSE",
     "BNA_DELETE_ROOT_CAUSE",
+    "BNA_ADD_ARCHIVE",
+    "BNA_DELETE_ARCHIVE",
   ],
 };
 

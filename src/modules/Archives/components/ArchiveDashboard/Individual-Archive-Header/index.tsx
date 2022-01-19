@@ -7,6 +7,7 @@ import "./index.css";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { OrgUnit } from "../../../../../core/state/orgUnit";
 import { SystemSettingsState } from "../../../../../core/state/system";
+import { UserAuthority } from "../../../../../core/state/user";
 import { OrgUnit as OrgUnitType } from "../../../../../shared/interfaces/orgUnit";
 import HelpState from "../../../.././Intervention/state/help";
 import { Archive } from "../../../state/data";
@@ -22,6 +23,8 @@ export default function IndividualArchiveHeader(): React.ReactElement {
   const orgUnit: OrgUnitType = useRecoilValue(OrgUnit(orgUnitId));
   const period = new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true }).getById(periodId);
   const history = useHistory();
+  const { archive: archiveAuthority } = useRecoilValue(UserAuthority);
+
   return (
     <div className="archive-header w-100 row space-between p-16 align-center">
       <div className="column">
@@ -50,9 +53,11 @@ export default function IndividualArchiveHeader(): React.ReactElement {
           <Button onClick={() => setHelpState(true)} icon={<IconQuestion16 color="#212529" />}>
             {i18n.t("Help")}
           </Button>
-          <Button className={"archive-intervention-delete"} onClick={() => setDeleteOpen(true)} icon={<IconDelete24 />}>
-            {i18n.t("Delete")}
-          </Button>
+          {archiveAuthority.delete && (
+            <Button className={"archive-intervention-delete"} onClick={() => setDeleteOpen(true)} icon={<IconDelete24 />}>
+              {i18n.t("Delete")}
+            </Button>
+          )}
         </ButtonStrip>
         {deleteOpen && (
           <DeleteConfirmModal onDeleteComplete={() => history.replace("/archives")} archive={archive} hide={!deleteOpen} onClose={() => setDeleteOpen(false)} />

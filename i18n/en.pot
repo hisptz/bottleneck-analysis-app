@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-14T12:52:11.229Z\n"
-"PO-Revision-Date: 2022-01-14T12:52:11.229Z\n"
+"POT-Creation-Date: 2022-01-19T06:30:40.135Z\n"
+"PO-Revision-Date: 2022-01-19T06:30:40.135Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -463,6 +463,12 @@ msgstr "Intervention not found"
 
 msgid "Archive intervention"
 msgstr "Archive intervention"
+
+msgid "Archive Exists"
+msgstr "Archive Exists"
+
+msgid "This intervention has already been archived for today"
+msgstr "This intervention has already been archived for today"
 
 msgid "Archiving the intervention"
 msgstr "Archiving the intervention"

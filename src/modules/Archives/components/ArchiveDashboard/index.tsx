@@ -9,11 +9,14 @@ import IndividualArchiveHeader from "./Individual-Archive-Header";
 import IndividualArchiveHeaderInfoSummary from "./Individual-Archive-Header-info-Summary";
 import { ARCHIVE_INDIVIDUAL_INTERVENTION_CONFIGURATION_HELP } from "../../.././.././constants/help/Intervention";
 import { STEP_OPTIONS } from "../../../../constants/help/options";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import RemarksArea from "./RemarksArea";
+import { UserAuthority } from "../../../../core/state/user";
 
 export default function InterventionArchive(): React.ReactElement {
   const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
+
+
 
   const onHelpExit = () => {
     setHelpEnabled(false);
