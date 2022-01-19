@@ -61,7 +61,7 @@ export async function getRootCausesData(engine: any, interventionId: string): Pr
   return flattenDeep(
     await map(interventionKeys, async (key: string) => {
       return await getRootCauseDataByKey(engine, key);
-    })
+    }),
   );
 }
 
