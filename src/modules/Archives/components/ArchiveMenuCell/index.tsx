@@ -27,7 +27,9 @@ export default function ArchiveMenuCell({ archive }: { archive: Archive }): Reac
   return (
     <DataTableCell className={classes["table-cell"]}>
       <div className="archive-menu-cell-action">
-        <Button className="archive-menu-cell-action-test" onClick={(_: any, e: MouseEvent) => setStateActionRef(e.target)} icon={<IconMore24 />} />
+        <Button className="archive-menu-cell-action-test" onClick={(_: any, e: MouseEvent) => setStateActionRef(e.target)} icon={<IconMore24 />}>
+          {i18n.t("More")}
+        </Button>
         {stateActionRef && (
           <Popover arrow onClickOutside={() => setStateActionRef(undefined)} placement="bottom-start" reference={stateActionRef}>
             <FlyoutMenu>

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-19T06:30:40.135Z\n"
-"PO-Revision-Date: 2022-01-19T06:30:40.135Z\n"
+"POT-Creation-Date: 2022-01-19T13:00:28.037Z\n"
+"PO-Revision-Date: 2022-01-19T13:00:28.037Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -410,6 +410,9 @@ msgstr "Cancel"
 msgid "Deleting"
 msgstr "Deleting"
 
+msgid "More"
+msgstr "More"
+
 msgid "View"
 msgstr "View"
 
@@ -526,9 +529,6 @@ msgstr "Edit"
 
 msgid "Add Filter"
 msgstr "Add Filter"
-
-msgid "More"
-msgstr "More"
 
 msgid "Intervention cloned successfully"
 msgstr "Intervention cloned successfully"

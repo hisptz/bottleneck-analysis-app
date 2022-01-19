@@ -23,8 +23,9 @@ export default function RootCauseActionsComponent({ onUpdateRootCause, onDeleteR
           onClick={(_: any, e: MouseEvent) => {
             setStateActionRef(e.target);
             ref.current?.scrollIntoView({ behavior: "smooth" });
-          }}>
-          <IconMore24 />
+          }}
+          icon={<IconMore24 />}>
+          {i18n.t("More")}
         </Button>
       ) : (
         <div />
