@@ -1,6 +1,6 @@
 import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, DataTable, DataTableCell, DataTableRow, Modal, ModalActions, ModalContent, ModalTitle, TableBody, colors } from "@dhis2/ui";
+import { Button, ButtonStrip, colors, DataTable, DataTableCell, DataTableRow, Modal, ModalActions, ModalContent, ModalTitle, TableBody } from "@dhis2/ui";
 import { find, isEmpty } from "lodash";
 import React, { Suspense, useState } from "react";
 import "./rootCauseTable.css";
@@ -11,7 +11,7 @@ import { isArchiveId } from "../../../../../../shared/utils/archives";
 import classes from "../../../../../../styles/Table.module.css";
 import { uploadRootCauseData } from "../../services/data";
 import { RootCauseTableConfig } from "../../state/config";
-import { RootCauseData } from "../../state/data";
+import { RootCauseDataSelector } from "../../state/data";
 import RootCauseActionsProps from "./components/RootCauseActions";
 import RootCauseForm from "./components/RootCauseForm";
 import RootCauseTableHeader from "./components/RootCauseTableHeader";
@@ -21,9 +21,8 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
   const { id: interventionId } = useParams<{ id: string }>();
   const engine = useDataEngine();
   const authorities = useRecoilValue(UserAuthority);
-  const [rootCauseInterventionData, updateRootCauseData] = useRecoilState(RootCauseData(interventionId));
+  const [rootCauseInterventionData, updateRootCauseData] = useRecoilState(RootCauseDataSelector(interventionId));
   const { columns, rows, rowIds } = useRecoilValue(RootCauseTableConfig(interventionId));
-  const rootCauseData = useRecoilValue(RootCauseData(interventionId));
   const [rootCauseFormDisplayStatus, setRootCauseFormDisplayStatus] = useState(false);
   const [rootCauseDeleteOpen, setRootCauseDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -77,7 +76,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
   }
 
   async function onUpdateRootCause(rootCauseIndex: number) {
-    const rootCause: any = rootCauseData[rootCauseIndex];
+    const rootCause: any = rootCauseInterventionData[rootCauseIndex];
     const data = { ...rootCause.dataValues, id: rootCause.id };
     setSelectedRootCauseData(data);
     onUpdateRootCauseFormDisplayStatus();

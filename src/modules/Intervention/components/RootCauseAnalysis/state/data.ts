@@ -1,4 +1,4 @@
-import { filter, flatten, flattenDeep } from "lodash";
+import { filter, flatten, flattenDeep, uniqBy } from "lodash";
 import { atom, atomFamily, selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
 import { isArchiveId } from "../../../../../shared/utils/archives";
@@ -46,13 +46,26 @@ export const RootCauseDataSelector = selectorFamily<Array<RootCauseDataInterface
   key: "root-cause-data-selector",
   get:
     (id: string) =>
-    ({ get }) => {
-      const rootCauseData = get(RootCauseData(id));
-      const period = get(InterventionPeriodState(id));
-      const orgUnit = get(InterventionOrgUnitState(id));
-      return filter(flattenDeep(rootCauseData), (data: any) => {
-        const { id: rootCauseId } = data;
-        return rootCauseId.match(`${period?.id}_${orgUnit?.id}`);
-      }) as Array<RootCauseDataInterface>;
-    },
+      ({ get }) => {
+        const rootCauseData = get(RootCauseData(id));
+        const period = get(InterventionPeriodState(id));
+        const orgUnit = get(InterventionOrgUnitState(id));
+        return filter(flattenDeep(rootCauseData), (data: any) => {
+          const { id: rootCauseId } = data;
+          return rootCauseId.match(`${period?.id}_${orgUnit?.id}`);
+        }) as Array<RootCauseDataInterface>;
+      },
+  set:
+    (id: string) =>
+      ({ set, get }, data) => {
+        const period = get(InterventionPeriodState(id));
+        const orgUnit = get(InterventionOrgUnitState(id));
+        set(RootCauseData(id), (prevState) => {
+          const otherRootCauses = filter(flattenDeep(prevState), (data: any) => {
+            const { id: rootCauseId } = data;
+            return !rootCauseId.match(`${period?.id}_${orgUnit?.id}`);
+          }) as Array<RootCauseDataInterface>;
+          return uniqBy(flattenDeep([...otherRootCauses, ...(data as Array<RootCauseDataInterface>)]), "id");
+        });
+      },
 });

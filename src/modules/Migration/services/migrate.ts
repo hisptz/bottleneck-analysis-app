@@ -5,6 +5,7 @@ import { DataItem, DataSelection, Group, InterventionConfig, LegendDefinition, O
 import { GlobalSelection, Legend, OldInterventionConfig, SelectionGroupMember } from "../../../shared/interfaces/oldInterventionConfig";
 import { RootCauseConfigInterface } from "../../../shared/interfaces/rootCause";
 import getOldInterventions from "../../../shared/services/getOldInterventions";
+import { uid } from "../../../shared/utils/generators";
 
 export async function getInterventions(engine: any) {
   const oldInterventions: Array<OldInterventionConfig> = compact(await getOldInterventions(engine));
@@ -195,9 +196,9 @@ export async function migrateRootCauseData(engine: any, key: string, data: any) 
 }
 
 function convertRootCauseData(data: any, config: any) {
-  const orgUnit = data.dataValues[find(config.dataElements, ["name", "OrgUnit"])?.id];
-  const period = data.dataValues[find(config.dataElements, ["name", "Period"])?.id];
-  return { ...data, id: `${period}_${orgUnit}` };
+  const orgUnit = data.dataValues[find(config.dataElements, ["name", "orgUnitId"])?.id];
+  const period = data.dataValues[find(config.dataElements, ["name", "periodId"])?.id];
+  return { ...data, id: `${period}_${orgUnit}_${uid()}` };
 }
 
 export async function migrateRootCauseDataByIntervention(engine: any, interventionId: string, config: any) {
