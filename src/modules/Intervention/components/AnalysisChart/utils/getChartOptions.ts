@@ -1,6 +1,7 @@
 import { colors } from "@dhis2/ui";
-import { find, flattenDeep, last } from "lodash";
+import { find, last, flattenDeep } from "lodash";
 import { DataItem, Group } from "../../../../../shared/interfaces/interventionConfig";
+
 function getValue(data: Array<Array<string>>, id: string) {
   return parseInt(last(find(data, (datum: Array<string>) => datum.includes(id))) ?? "");
 }
@@ -82,6 +83,7 @@ export default function getChartOptions({ id, data, groups, name }: { id: string
         paddingBottom: "0px",
       },
       formatter: function () {
+        console.log("this ", this, "groups are ", groups);
         const tooltipFormat = groups.map((group: Group) => {
           return group.items.map((item: DataItem) => {
             if (item.name) {
@@ -91,7 +93,9 @@ export default function getChartOptions({ id, data, groups, name }: { id: string
             }
           });
         });
-        return tooltipFormat[this.colorIndex];
+        // console.log([...tooltipFormat[this.colorIndex]][this.colorIndex]);
+        // console.log("fkjd ", tooltipFormat, this.colorIndex);
+        return [...flattenDeep(tooltipFormat)][this.colorIndex];
       },
     },
     yAxis: [
