@@ -6,13 +6,13 @@
   "private": true,
   "scripts": {
     "build": "d2-app-scripts build",
-    "start": "d2-app-scripts start --proxy https://hisp.apps.dhis2.org/training",
+    "start": "d2-app-scripts start --proxy https://hisp.apps.dhis2.org/dev",
     "start:no-proxy": "d2-app-scripts start",
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy",
     "format": "yarn d2-style apply",
-    "e2e:run": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress run' --kill-others --success first ",
-    "e2e:open": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress open' --kill-others --success first "
+    "e2e:run": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3001' && cypress run' --kill-others --success first ",
+    "e2e:open": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3001' && cypress open' --kill-others --success first "
   },
   "resolutions": {
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
