@@ -2,7 +2,7 @@ import { useOnlineStatus } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import { Button, colors, SingleSelectField, SingleSelectOption } from "@dhis2/ui";
 import { cloneDeep, uniqBy } from "lodash";
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { ACCESS_TYPES } from "../../../../../../constants/constants";

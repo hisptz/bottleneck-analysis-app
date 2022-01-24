@@ -1,17 +1,5 @@
 import i18n from "@dhis2/d2-i18n";
-import {
-  Button,
-  colors,
-  DropdownButton,
-  IconFilter24,
-  IconInfo24,
-  IconInfoFilled24,
-  IconMore24,
-  IconQuestion16,
-  IconStar24,
-  IconStarFilled24,
-  Tooltip,
-} from "@dhis2/ui";
+import { Button, colors, DropdownButton, IconFilter24, IconInfo24, IconInfoFilled24, IconMore24, IconQuestion16, IconStar24, IconStarFilled24, Tooltip } from "@dhis2/ui";
 import { OrgUnitSelectorModal, PeriodSelectorModal } from "@hisptz/react-ui";
 import { IconButton } from "@material-ui/core";
 import React, { Suspense, useState } from "react";

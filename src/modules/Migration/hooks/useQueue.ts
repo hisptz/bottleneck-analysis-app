@@ -9,7 +9,7 @@ export default function useQueue({ drain, task }: { drain: () => void; task: (in
       task(variable).then((results) => {
         callback(results);
       });
-    }, 1),
+    }, 1)
   );
 
   queue.current.drain(drain);
