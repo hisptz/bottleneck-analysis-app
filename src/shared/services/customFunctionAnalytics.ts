@@ -96,7 +96,7 @@ export async function evaluateCustomFunction({
       }
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
   return null;
@@ -125,7 +125,7 @@ export async function getCustomFunctionAnalytics({
                 return await evaluateCustomFunction({ customFunction, ruleId, periods, orgUnits });
               }
             } catch (e) {
-              console.log(e);
+              console.error(e);
               return;
             }
           })
@@ -133,6 +133,6 @@ export async function getCustomFunctionAnalytics({
       );
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 }

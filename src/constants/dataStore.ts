@@ -49,3 +49,4 @@ export const BNA_INTERVENTIONS_SUMMARY_INCLUDE_KEYS: Array<{ key: string; path: 
     path: "periodSelection",
   },
 ];
+export const BNA_ROOT_CAUSE_NAMESPACE = `${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}`;
