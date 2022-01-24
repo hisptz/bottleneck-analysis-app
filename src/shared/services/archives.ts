@@ -5,16 +5,16 @@ import { InterventionConfig } from "../interfaces/interventionConfig";
 import { User } from "../interfaces/user";
 
 export function createArchive({
-                                intervention,
-                                user,
-                                chartAnalytics,
-                                subLevelAnalytics,
-                                rootCauseData,
-                                remarks,
-                                orgUnit,
-                                period,
-                                selectedIndicators,
-                              }: {
+  intervention,
+  user,
+  chartAnalytics,
+  subLevelAnalytics,
+  rootCauseData,
+  remarks,
+  orgUnit,
+  period,
+  selectedIndicators,
+}: {
   intervention: InterventionConfig;
   chartAnalytics: any;
   subLevelAnalytics: any;
