@@ -12,8 +12,10 @@ export default function useDelete(): { onDelete: () => void; openDeleteConfirm: 
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState<boolean>(false);
 
   const onConfirmDelete = async () => {
-    await deleteIntervention(engine, id, summaries);
-    setOpenDeleteConfirm(false);
+    if (id) {
+      await deleteIntervention(engine, id, summaries);
+      setOpenDeleteConfirm(false);
+    }
   };
 
   return {
