@@ -1,6 +1,11 @@
 import { BNA_NAMESPACE, BNA_ROOT_CAUSE_NAMESPACE, ROOT_CAUSE_SUFFIX } from "../../../constants/dataStore";
 import { InterventionConfig, InterventionSummary } from "../../../shared/interfaces/interventionConfig";
-import { addInterventionSummary, createInterventionSummary, updateInterventionSummary, uploadInterventionSummary } from "../../../shared/services/interventionSummary";
+import {
+  addInterventionSummary,
+  createInterventionSummary,
+  updateInterventionSummary,
+  uploadInterventionSummary,
+} from "../../../shared/services/interventionSummary";
 
 const mutation = {
   resource: `dataStore/${BNA_NAMESPACE}`,

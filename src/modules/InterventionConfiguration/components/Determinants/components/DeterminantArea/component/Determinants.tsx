@@ -1,6 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, IconAdd24 } from "@dhis2/ui";
-import { DataConfigurationArea } from "@hisptz/react-ui";
+import { DataConfigurationArea, useConfirmDialog } from "@hisptz/react-ui";
 import { findIndex, isArray } from "lodash";
 import React, { useMemo, useState } from "react";
 import { useFormContext } from "react-hook-form";
@@ -13,18 +13,18 @@ import { SelectedDeterminantIndex, SelectedIndicatorIndex } from "../../../../..
 import IndicatorSelector from "../../IndicatorSelector";
 import useItemOperations from "../hooks/useItemOperations";
 import ColorPicker from "./ColorPicker";
-import ConfirmIndicatorDeleteModal from "./ConfirmIndicatorDeleteModal";
 
 export default function GroupDeterminantComponent(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const { watch, setValue } = useFormContext();
   const [indicatorSelectorHide, setIndicatorSelectorHide] = useState(true);
   const [selectedAddGroupIndex, setSelectedAddGroupIndex] = useState<number | undefined>();
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState<{ groupId: string; itemId: string } | undefined>();
   const selectedGroupIndex = useRecoilValue(SelectedDeterminantIndex(id));
   const selectedIndicatorIndex = useRecoilValue(SelectedIndicatorIndex(id));
   const determinants = watch("groups");
   const { onItemDragEnd, onItemDelete, onItemsAdd, onItemClick } = useItemOperations(setIndicatorSelectorHide);
+
+  const { confirm } = useConfirmDialog();
 
   const groups: Array<any> = determinants?.map(({ id, name, items, style }: Group) => {
     if (!isArray(determinants)) {
@@ -72,7 +72,22 @@ export default function GroupDeterminantComponent(): React.ReactElement {
         onItemClick={onItemClick}
         onItemDelete={(groupId, itemId) => {
           if (id) {
-            setConfirmDeleteOpen({ groupId, itemId });
+            confirm({
+              title: i18n.t("Confirm Delete"),
+              message: (
+                <div className="p-8">
+                  {i18n.t("Removing this indicator may affect already existing data for this intervention.")}
+                  {i18n.t(" Are you sure you want to delete this indicator?")}
+                </div>
+              ),
+              onConfirm: () => {
+                onItemDelete(groupId, itemId);
+              },
+              onCancel: () => {
+                return;
+              },
+              confirmButtonText: i18n.t("Delete"),
+            });
             return;
           }
           onItemDelete(groupId, itemId);
@@ -103,14 +118,6 @@ export default function GroupDeterminantComponent(): React.ReactElement {
           );
         }}
       />
-      {confirmDeleteOpen && (
-        <ConfirmIndicatorDeleteModal
-          hide={!confirmDeleteOpen}
-          onClose={() => setConfirmDeleteOpen(undefined)}
-          onConfirm={onItemDelete}
-          item={confirmDeleteOpen}
-        />
-      )}
       {!indicatorSelectorHide && selectedAddGroupIndex !== undefined ? (
         <IndicatorSelector
           onSave={onItemsAdd}

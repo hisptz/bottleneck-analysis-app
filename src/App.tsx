@@ -1,5 +1,6 @@
 import { DataStoreProvider } from "@dhis2/app-service-datastore";
 import { CssReset } from "@dhis2/ui";
+import { ConfirmDialogProvider } from "@hisptz/react-ui";
 import HighCharts from "highcharts";
 import HighChartGroupedCategories from "highcharts-grouped-categories";
 import HighChartsExport from "highcharts/modules/exporting";
@@ -15,6 +16,7 @@ import { RecoilRoot } from "recoil";
 import { BNA_NAMESPACE } from "./constants/dataStore";
 import Router from "./modules/Router";
 import InitialAppLoader from "./shared/components/loaders/InitialAppLoader";
+import "./locales/index.js";
 
 const MyApp = (): React.ReactElement => {
   HighChartsExport(HighCharts);
@@ -23,12 +25,14 @@ const MyApp = (): React.ReactElement => {
     <DataStoreProvider namespace={BNA_NAMESPACE} loadingComponent={<InitialAppLoader />}>
       <CssReset />
       <RecoilRoot>
-        <Suspense fallback={<InitialAppLoader />}>
-          <Helmet>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" />
-          </Helmet>
-          <Router />
-        </Suspense>
+        <ConfirmDialogProvider>
+          <Suspense fallback={<InitialAppLoader />}>
+            <Helmet>
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" />
+            </Helmet>
+            <Router />
+          </Suspense>
+        </ConfirmDialogProvider>
       </RecoilRoot>
     </DataStoreProvider>
   );
