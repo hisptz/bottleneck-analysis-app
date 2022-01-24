@@ -66,7 +66,10 @@ export default function InterventionConfiguration(): React.ReactElement {
   const history = useHistory();
   const { openDeleteConfirm, onDelete, onConfirmDelete, onDeleteCancel } = useDelete();
 
-  const onStepChange = async (from: number) => {
+  const onStepChange = async (from: number, to: number) => {
+    if (from > to) {
+      return true;
+    }
     if (from === 0) {
       return await generalForm.trigger();
     }
@@ -115,6 +118,26 @@ export default function InterventionConfiguration(): React.ReactElement {
     }
   };
 
+  const onSaveAndExit = async () => {
+    if (activeStep.label === "General") {
+      if (await generalForm.trigger()) {
+        onSave();
+      }
+    }
+
+    if (activeStep.label === "Determinants") {
+      if (await determinantsForm.trigger()) {
+        onSave();
+      }
+    }
+
+    if (activeStep.label === "Access") {
+      if (await accessForm.trigger()) {
+        onSave();
+      }
+    }
+  };
+
   if (!authorities?.intervention?.edit) {
     return <AuthorityError actionType={"edit"} />;
   }
@@ -156,7 +179,7 @@ export default function InterventionConfiguration(): React.ReactElement {
         />
       </div>
       <ButtonStrip middle>
-        <Button loading={saving} dataTest={"save-exit-intervention-button"} onClick={onSave} disabled={saving || saveAndContinueLoader}>
+        <Button loading={saving} dataTest={"save-exit-intervention-button"} onClick={onSaveAndExit} disabled={saving || saveAndContinueLoader}>
           {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and Exit")}
         </Button>
         {!isLastStep && (
