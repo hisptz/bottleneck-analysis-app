@@ -1,11 +1,11 @@
 import { atomFamily } from "recoil";
 
-export const SelectedDeterminantIndex = atomFamily<number | undefined, string>({
+export const SelectedDeterminantIndex = atomFamily<number | undefined, string | undefined>({
   key: "selected-determinant-id",
   default: undefined,
 });
 
-export const SelectedIndicatorIndex = atomFamily<number | undefined, string>({
+export const SelectedIndicatorIndex = atomFamily<number | undefined, string | undefined>({
   key: "selected-indicator-id",
   default: undefined,
 });

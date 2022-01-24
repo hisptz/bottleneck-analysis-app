@@ -1,6 +1,6 @@
 import { map } from "async";
 import { compact, filter, find, isEmpty, last } from "lodash";
-import { BNA_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../constants/dataStore";
+import { BNA_NAMESPACE, BNA_ROOT_CAUSE_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../constants/dataStore";
 import { DataItem, DataSelection, Group, InterventionConfig, LegendDefinition, OrgUnitSelection, PeriodSelection } from "../../../shared/interfaces/interventionConfig";
 import { GlobalSelection, Legend, OldInterventionConfig, SelectionGroupMember } from "../../../shared/interfaces/oldInterventionConfig";
 import { RootCauseConfigInterface } from "../../../shared/interfaces/rootCause";
@@ -22,7 +22,7 @@ const generateSaveMutation = (id: string) => {
 
 const generateRootCauseSaveMutation = (id: string) => {
   return {
-    resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}/${id}`,
+    resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}/${id}`,
     type: "create",
     data: ({ data }: { data: InterventionConfig }) => data,
   };
