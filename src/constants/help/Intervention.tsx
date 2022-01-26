@@ -28,10 +28,6 @@ export const INTERVENTION_HELP_STEPS = [
     element: ".search-button",
   },
   {
-    intro: i18n.t("Here is where you can view or see the details of the archive intervention"),
-    element: ".view-archive",
-  },
-  {
     intro: i18n.t(
       "You will find Invervention Name ,and respective details such as Org unit, period, Intervention Bookmark status ,Intervention description and important actions (filters, archive and configuration)"
     ),
@@ -54,21 +50,25 @@ export const INTERVENTION_HELP_STEPS = [
     element: ".intervention-show-description",
   },
   {
+    intro: i18n.t("This is where you can edit your intervention"),
+    element: ".configure-helper-intervention",
+  },
+  {
     intro: i18n.t("This is the filter actions of this intervention, you can see the list of filter actions of this intervention here"),
     element: ".intervention-header-dropdown",
   },
   {
-    intro: i18n.t("This action helps you to archive this intervention"),
-    element: ".archive-intervention",
+    intro: i18n.t("Through this action you can access archive ,download zip and view Archives"),
+    element: ".more-action-helper",
   },
-  {
-    intro: i18n.t("This is the configuration actions of this intervention, you can see the list of configuration actions of this intervention here"),
-    element: ".configure-intervention",
-  },
-  {
-    intro: i18n.t("This menu give you download options of this component"),
-    element: ".downloadOptions-menu",
-  },
+  // {
+  //   intro: i18n.t("This is the configuration actions of this intervention, you can see the list of configuration actions of this intervention here"),
+  //   element: ".configure-intervention",
+  // },
+  // {
+  //   intro: i18n.t("This menu give you download options of this component"),
+  //   element: ".downloadOptions-menu",
+  // },
   {
     intro: i18n.t("This is Chart Component for this intervention with respective indicators configured in this intervention"),
     element: ".chart-block",

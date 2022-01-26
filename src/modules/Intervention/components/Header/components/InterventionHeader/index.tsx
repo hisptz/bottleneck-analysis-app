@@ -93,7 +93,10 @@ export default function InterventionHeader(): React.ReactElement {
               </IconButton>
             </Tooltip>
             {authorities?.intervention?.edit && access.write ? (
-              <Button dataTest={"configuration-button-test"} className={"configure-intervention"} onClick={onToInterventionConfiguration}>
+              <Button
+                dataTest={"configuration-button-test"}
+                className={"configure-intervention configure-helper-intervention"}
+                onClick={onToInterventionConfiguration}>
                 {i18n.t("Edit")}
               </Button>
             ) : null}
@@ -135,6 +138,7 @@ export default function InterventionHeader(): React.ReactElement {
             )}
             <DropdownButton
               open={openMoreMenu}
+              className="more-action-helper"
               onClick={() => {
                 setOpenMoreMenu((prevState) => !prevState);
               }}

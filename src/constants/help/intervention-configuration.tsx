@@ -15,7 +15,7 @@ export const INTERVENTION_CONFIGURATION_HELP = [
     element: ".intervnameConfigPeriodType",
   },
   {
-    intro: i18n.t("This component contains description of your sub level analysis,and how it default configured ,you can use here for custom configuration"),
+    intro: i18n.t("Use this field for selection of your Bottleneck Organisation Unit, and choose your respective Organisation Unit for your Bottleneck"),
     element: ".orgUnit-subLevelAnalysis-config",
   },
   {
