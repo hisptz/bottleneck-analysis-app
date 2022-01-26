@@ -1,5 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, CheckboxField, colors } from "@dhis2/ui";
+import { useConfirmDialog } from "@hisptz/react-ui";
 import { cloneDeep, every, isEmpty } from "lodash";
 import React, { useCallback } from "react";
 import "./DeterminantArea.css";
@@ -17,17 +18,25 @@ export default function DeterminantArea(): React.ReactElement {
   const [useShortName, setUseShortName] = useRecoilState(UseShortName(interventionId));
   const determinants = watch("groups");
   const allEmpty: boolean = allDeterminantsEmpty(determinants);
+  const { confirm } = useConfirmDialog();
 
   const onClearAll = useCallback(() => {
-    if (window.confirm(i18n.t("Are you sure you want to clear all indicators?"))) {
-      const determinants = getValues("groups");
-      const newGroups = cloneDeep(determinants);
-      newGroups.forEach((group: any) => {
-        group.items = [];
-      });
-      setValue("groups", newGroups);
-    }
-  }, [getValues, setValue]);
+    confirm({
+      title: i18n.t("Confirm clear all"),
+      message: i18n.t("Are you sure you want to clear all indicators?"),
+      onCancel: () => {
+        return;
+      },
+      onConfirm: () => {
+        const determinants = getValues("groups");
+        const newGroups = cloneDeep(determinants);
+        newGroups.forEach((group: any) => {
+          group.items = [];
+        });
+        setValue("groups", newGroups);
+      },
+    });
+  }, [confirm, getValues, setValue]);
 
   const setShortNameAsLabels = useCallback(() => {
     const determinants = getValues("groups");
@@ -42,15 +51,23 @@ export default function DeterminantArea(): React.ReactElement {
   const onUseShortNameChange = useCallback(
     ({ checked }: { checked: boolean }) => {
       if (checked) {
-        if (window.confirm(i18n.t("This will replace all indicator labels with their short names. Proceed?"))) {
-          setUseShortName(true);
-          setShortNameAsLabels();
-        }
+        confirm({
+          title: i18n.t("Confirm Action"),
+          message: i18n.t("This will replace all indicator labels with their short names. Proceed?"),
+          onCancel: () => {
+            return;
+          },
+          onConfirm: () => {
+            setShortNameAsLabels();
+            setUseShortName(true);
+          },
+          confirmButtonColor: "primary",
+        });
       } else {
         setUseShortName(false);
       }
     },
-    [setShortNameAsLabels, setUseShortName]
+    [confirm, setShortNameAsLabels, setUseShortName]
   );
 
   const { name: groupFormName } = register("groups", {

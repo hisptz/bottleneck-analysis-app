@@ -19,8 +19,7 @@ export function LegendDefinitionConfigDetails(): React.ReactElement {
                   input: {
                     name: "",
                     value: "",
-                    onChange: () => {
-                    },
+                    onChange: () => {},
                   },
                 }}
                 input={{

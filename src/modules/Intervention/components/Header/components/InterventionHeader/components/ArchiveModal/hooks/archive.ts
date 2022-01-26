@@ -28,7 +28,7 @@ export default function useArchive(onClose: () => void) {
   const resetArchives = useRecoilRefresher_UNSTABLE(Archives);
   const { show } = useAlert(
     ({ message }) => message,
-    ({ type }) => ({ ...type, duration: 3000 }),
+    ({ type }) => ({ ...type, duration: 3000 })
   );
 
   const archiveExists = useMemo(() => {

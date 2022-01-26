@@ -34,7 +34,7 @@ export default function useMigrate(onComplete: () => void): {
         setError(e);
       }
     },
-    [engine, rootCauseConfig],
+    [engine, rootCauseConfig]
   );
 
   const onMigrationComplete = useCallback(() => {

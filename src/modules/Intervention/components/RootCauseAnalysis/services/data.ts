@@ -43,15 +43,15 @@ async function getRootCauseDataKeys(engine: any) {
 
 async function getRootCauseDataByKey(engine: any, key: string) {
   const { data } =
-  (await engine.query(
-    {
-      data: {
-        resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}`,
-        id: ({ id }: { id: string }) => id,
+    (await engine.query(
+      {
+        data: {
+          resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}`,
+          id: ({ id }: { id: string }) => id,
+        },
       },
-    },
-    { variables: { id: key } },
-  )) ?? {};
+      { variables: { id: key } }
+    )) ?? {};
   return flattenDeep(data) as Array<RootCauseDataInterface>;
 }
 
