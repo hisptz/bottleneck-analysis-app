@@ -1,5 +1,5 @@
 import { colors } from "@dhis2/ui";
-import { find, last, flattenDeep } from "lodash";
+import { find, flattenDeep, last } from "lodash";
 import { DataItem, Group } from "../../../../../shared/interfaces/interventionConfig";
 
 function getValue(data: Array<Array<string>>, id: string) {
@@ -83,7 +83,6 @@ export default function getChartOptions({ id, data, groups, name }: { id: string
         paddingBottom: "0px",
       },
       formatter: function () {
-        console.log("this ", this, "groups are ", groups);
         const tooltipFormat = groups.map((group: Group) => {
           return group.items.map((item: DataItem) => {
             if (item.name) {

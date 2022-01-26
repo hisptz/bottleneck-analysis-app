@@ -12,7 +12,6 @@ export default function Migration(): React.ReactElement {
   const resetSummary = useRecoilRefresher_UNSTABLE(AllInterventionSummary);
   const onComplete = () => {
     resetSummary();
-    console.log("on complete called");
     history.replace("/");
   };
 

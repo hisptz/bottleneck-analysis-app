@@ -1,5 +1,4 @@
-import i18n from "@dhis2/d2-i18n";
-import { Button, IconChevronDown24, IconChevronUp24 } from "@dhis2/ui";
+import { IconChevronDown24, IconChevronUp24 } from "@dhis2/ui";
 import { IconButton } from "@material-ui/core";
 import React, { useState } from "react";
 import "./intervention-list.css";
@@ -39,7 +38,7 @@ export default function InterventionList(): React.ReactElement {
           </div>
         </div>
       </div>
-      <IconButton style={{ padding: 2, margin: 0,}} onClick={() => setShowAll((prevState) => !prevState)}>
+      <IconButton style={{ padding: 2, margin: 0 }} onClick={() => setShowAll((prevState) => !prevState)}>
         {showAll ? <IconChevronUp24 /> : <IconChevronDown24 />}
       </IconButton>
     </div>

@@ -1,11 +1,11 @@
 import { map } from "async";
 import { filter, flattenDeep } from "lodash";
-import { BNA_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../../../constants/dataStore";
+import { BNA_NAMESPACE, BNA_ROOT_CAUSE_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../../../constants/dataStore";
 import { DEFAULT_ROOT_CAUSE_CONFIG } from "../../../../../constants/defaults";
 import { RootCauseDataInterface } from "../interfaces/rootCauseData";
 
 const mutateConfig = {
-  resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}/${ROOT_CAUSE_CONFIG_KEY}`,
+  resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}/${ROOT_CAUSE_CONFIG_KEY}`,
   type: "create",
   data: ({ data }: any) => data,
 };
@@ -16,7 +16,7 @@ async function initializeRootCauseConfig(engine: any) {
 
 const configQuery = {
   config: {
-    resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}/${ROOT_CAUSE_CONFIG_KEY}`,
+    resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}/${ROOT_CAUSE_CONFIG_KEY}`,
   },
 };
 
@@ -32,7 +32,7 @@ export async function getRootCauseConfig(engine: any): Promise<any> {
 
 const rootCauseDataKeys = {
   keys: {
-    resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}`,
+    resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}`,
   },
 };
 
@@ -43,15 +43,15 @@ async function getRootCauseDataKeys(engine: any) {
 
 async function getRootCauseDataByKey(engine: any, key: string) {
   const { data } =
-  (await engine.query(
-    {
-      data: {
-        resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}`,
-        id: ({ id }: { id: string }) => id,
+    (await engine.query(
+      {
+        data: {
+          resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}`,
+          id: ({ id }: { id: string }) => id,
+        },
       },
-    },
-    { variables: { id: key } },
-  )) ?? {};
+      { variables: { id: key } }
+    )) ?? {};
   return flattenDeep(data) as Array<RootCauseDataInterface>;
 }
 
@@ -61,7 +61,7 @@ export async function getRootCausesData(engine: any, interventionId: string): Pr
   return flattenDeep(
     await map(interventionKeys, async (key: string) => {
       return await getRootCauseDataByKey(engine, key);
-    }),
+    })
   );
 }
 
@@ -69,7 +69,7 @@ export async function deleteRootCauseData(engine: any, interventionId: string, r
   try {
     const rcaDataFromStore: RootCauseDataInterface[] = await getRootCausesData(engine, interventionId);
     const sanitizedRcaData = filter(flattenDeep(rcaDataFromStore), (rcaData: RootCauseDataInterface) => rcaData.id !== rootCauseId);
-    await saveRootCauseData(engine, `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}/${interventionId}_rcadata`, sanitizedRcaData);
+    await saveRootCauseData(engine, `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}/${interventionId}_rcadata`, sanitizedRcaData);
   } catch (error) {
     throw new Error(`${error}`);
   }
@@ -110,7 +110,7 @@ async function saveRootCauseData(engine: any, dataStoreUrl: string, data: RootCa
 }
 
 const rootCauseDataMutation = {
-  resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}`,
+  resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}`,
   type: "update",
   id: ({ id }: any) => id,
   data: ({ data }: any) => data,

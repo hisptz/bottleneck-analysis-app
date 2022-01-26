@@ -1,4 +1,4 @@
-import { BNA_NAMESPACE, ROOT_CAUSE_SUFFIX } from "../../../constants/dataStore";
+import { BNA_NAMESPACE, BNA_ROOT_CAUSE_NAMESPACE, ROOT_CAUSE_SUFFIX } from "../../../constants/dataStore";
 import { InterventionConfig, InterventionSummary } from "../../../shared/interfaces/interventionConfig";
 import {
   addInterventionSummary,
@@ -31,7 +31,7 @@ const generateCreateMutation = (id: string) => {
 };
 const generateCreateRootCauseMutation = (id: string) => {
   return {
-    resource: `dataStore/${BNA_NAMESPACE}-${ROOT_CAUSE_SUFFIX}/${id}_${ROOT_CAUSE_SUFFIX}`,
+    resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}/${id}_${ROOT_CAUSE_SUFFIX}`,
     type: "create",
     data: [],
   };

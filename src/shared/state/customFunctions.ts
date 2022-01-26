@@ -40,7 +40,7 @@ export const CustomFunctionsData = selectorFamily<Array<Array<string>> | undefin
           );
         }
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     },
 });

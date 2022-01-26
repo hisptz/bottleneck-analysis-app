@@ -1,5 +1,5 @@
 import { Chip, IconStarFilled24 } from "@dhis2/ui";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { UserState } from "../../../../../../../core/state/user";
@@ -24,10 +24,6 @@ export default function InterventionChips({ showAll, interventions }: Interventi
     [history, id]
   );
 
-  useEffect(() => {
-    const el = document.getElementById(id);
-    console.log("sgatus ", el);
-  }, [document.getElementById("check-wrap")]);
   return (
     <div className="column w-100" style={{ maxWidth: "100%" }}>
       <div

@@ -18,7 +18,7 @@ module.exports = {
     },
   },
   globals: {
-    JSX: true
+    JSX: true,
   },
   rules: {
     "no-console": "error",
@@ -33,5 +33,5 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   env: {
     "cypress/globals": true,
-  }
+  },
 };

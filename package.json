@@ -11,8 +11,8 @@
     "test": "d2-app-scripts test",
     "deploy": "d2-app-scripts deploy",
     "format": "yarn d2-style apply",
-    "e2e:run": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3001' && cypress run' --kill-others --success first ",
-    "e2e:open": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3001' && cypress open' --kill-others --success first "
+    "e2e:run": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress run' --kill-others --success first ",
+    "e2e:open": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress open' --kill-others --success first "
   },
   "resolutions": {
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
@@ -44,7 +44,7 @@
   "dependencies": {
     "@dhis2/app-runtime": "^3.2.4",
     "@dhis2/app-service-datastore": "^1.0.0-alpha.2",
-    "@hisptz/react-ui": "^1.0.22",
+    "@hisptz/react-ui": "^1.0.24",
     "@iapps/period-utilities": "^1.0.0-beta.4",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
@@ -58,7 +58,6 @@
     "cypress-multi-reporters": "^1.5.0",
     "eslint-plugin-cypress": "^2.12.1",
     "file-saver": "^2.0.5",
-    "flex-wrap-layout": "^0.10.2",
     "highcharts": "^9.3.0",
     "highcharts-grouped-categories": "^1.2.0",
     "highcharts-react-official": "^3.1.0",

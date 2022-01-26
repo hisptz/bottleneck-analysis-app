@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-19T13:00:28.037Z\n"
-"PO-Revision-Date: 2022-01-19T13:00:28.037Z\n"
+"POT-Creation-Date: 2022-01-24T19:06:12.876Z\n"
+"PO-Revision-Date: 2022-01-24T19:06:12.876Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -905,8 +905,14 @@ msgstr " Are you sure you want to delete this indicator?"
 msgid "Add Indicator"
 msgstr "Add Indicator"
 
+msgid "Confirm clear all"
+msgstr "Confirm clear all"
+
 msgid "Are you sure you want to clear all indicators?"
 msgstr "Are you sure you want to clear all indicators?"
+
+msgid "Confirm Action"
+msgstr "Confirm Action"
 
 msgid "This will replace all indicator labels with their short names. Proceed?"
 msgstr "This will replace all indicator labels with their short names. Proceed?"
@@ -952,6 +958,9 @@ msgstr "Intervention Name"
 
 msgid "Enter a description"
 msgstr "Enter a description"
+
+msgid "Legend Definitions"
+msgstr "Legend Definitions"
 
 msgid "Sub-level analysis configuration unavailable"
 msgstr "Sub-level analysis configuration unavailable"
