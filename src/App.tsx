@@ -16,6 +16,7 @@ import { RecoilRoot } from "recoil";
 import { BNA_NAMESPACE } from "./constants/dataStore";
 import Router from "./modules/Router";
 import InitialAppLoader from "./shared/components/loaders/InitialAppLoader";
+import "mapbox-gl/dist/mapbox-gl.css";
 import "./locales/index.js";
 
 const MyApp = (): React.ReactElement => {
