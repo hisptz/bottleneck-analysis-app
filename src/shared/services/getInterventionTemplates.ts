@@ -1,3 +1,5 @@
+/* eslint-disable no-empty */
+/* eslint-disable no-empty */
 import { map } from "async";
 import { BNA_INTERVENTIONS_NAMESPACE } from "../../constants/dataStore";
 import { InterventionTemplateConfig } from "../interfaces/interventionTemplateConfig";

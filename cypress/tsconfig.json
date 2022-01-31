@@ -11,5 +11,5 @@
   },
   "include": [
     "**/*.ts"
-  ]
+, "integration/1-Intervention_Configuration/1-Intervention_Configuration.js"  ]
 }
