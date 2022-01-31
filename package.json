@@ -66,6 +66,7 @@
     "intro.js-react": "^0.5.0",
     "jquery": "^3.6.0",
     "jszip": "^3.7.1",
+    "leaflet": "^1.7.1",
     "react-color": "^2.19.3",
     "react-error-boundary": "^3.1.4",
     "react-error-overlay": "^6.0.10",
