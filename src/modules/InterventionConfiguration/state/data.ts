@@ -21,7 +21,7 @@ export const InterventionDirtyState = atomFamily<InterventionConfig | undefined,
   }),
 });
 
-export const InterventionDirtySelector = selectorFamily<any, { id: string; path: Array<string | number> }>({
+export const InterventionDirtySelector = selectorFamily<any, { id?: string; path: Array<string | number> }>({
   key: "interventionDirtySelector",
   get:
     ({ id, path }: { id?: string; path: Array<string | number> }) =>
@@ -30,7 +30,7 @@ export const InterventionDirtySelector = selectorFamily<any, { id: string; path:
       return _get(intervention, path);
     },
   set:
-    ({ id, path }: { id: string; path: Array<string | number> }) =>
+    ({ id, path }: { id?: string; path: Array<string | number> }) =>
     ({ set }, newValue) => {
       return set(InterventionDirtyState(id), (prevState) => {
         const newState = cloneDeep(prevState);
