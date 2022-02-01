@@ -1,3 +1,4 @@
+import { colors } from "@dhis2/ui";
 import { LeafletMouseEvent } from "leaflet";
 import React, { useEffect } from "react";
 import { Polygon, Popup, Tooltip, useMap } from "react-leaflet";
@@ -5,8 +6,8 @@ import useMapData from "../../hooks/useMapData";
 
 const defaultStyle = {
   weight: 1,
-  color: "#000",
-  fillColor: "#000",
+  color: colors.grey900,
+  fillColor: colors.grey900,
   fillOpacity: 0.0,
 };
 
@@ -14,9 +15,9 @@ function highlightFeature(e: LeafletMouseEvent) {
   const layer = e.target;
   layer.setStyle({
     weight: 2,
-    color: "#000",
+    color: colors.grey900,
     dashArray: "",
-    fillOpacity: 0.2,
+    fillOpacity: 0.1,
   });
   layer.bringToFront();
 }
