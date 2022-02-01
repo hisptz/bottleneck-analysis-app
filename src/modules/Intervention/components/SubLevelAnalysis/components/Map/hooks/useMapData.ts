@@ -18,8 +18,9 @@ export default function useMapData() {
 
   const sanitizedPoints = useMemo(() => {
     try {
-      return data.map((area: { co: string; id: string }) => ({
+      return data.map((area: { co: string; id: string; na: string }) => ({
         id: area.id,
+        name: area.na,
         co: flatten(JSON.parse(area.co)).map((points: any) => {
           if (typeof points[0] === "number") {
             return convertCoordinates(points);

@@ -1,5 +1,6 @@
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../../../core/state/dataEngine";
+import { InterventionOrgUnitState } from "../../../../../state/selections";
 import { SubLevelOrgUnit } from "../../../state/dimensions";
 import { getBoundaryData } from "../services/data";
 
@@ -9,9 +10,10 @@ export const BoundaryData = selectorFamily<any, string | undefined>({
     (id?: string) =>
     async ({ get }) => {
       if (!id) return null;
-      const orgUnit = get(SubLevelOrgUnit(id));
+      const subLevelOrgUnit = get(SubLevelOrgUnit(id));
+      const selectedOrgUnit = get(InterventionOrgUnitState(id));
       const engine = get(EngineState);
-      if (!orgUnit) return null;
-      return await getBoundaryData(engine, orgUnit);
+      if (!subLevelOrgUnit) return null;
+      return await getBoundaryData(engine, [selectedOrgUnit.id, ...subLevelOrgUnit]);
     },
 });
