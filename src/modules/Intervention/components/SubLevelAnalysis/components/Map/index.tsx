@@ -1,20 +1,22 @@
 import React from "react";
-import { Helmet } from "react-helmet";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Polygon, TileLayer } from "react-leaflet";
+import useMapData from "./hooks/useMapData";
 
 export default function Map() {
+  const { center, data } = useMapData();
+
+  console.log({ center });
   return (
     <>
-      <MapContainer style={{ height: "100%", width: "100%" }} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+      <MapContainer center={center} style={{ height: "100%", width: "100%", minHeight: 900 }} zoom={8} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {center && <Marker position={center} />}
+        {data?.map((area: { co: Array<any>; id: string }) => {
+          return <Polygon interactive bubblingMouseEvents key={`${area.id}-polygon`} pathOptions={{ color: "grey" }} positions={area.co}></Polygon>;
+        })}
       </MapContainer>
     </>
   );
