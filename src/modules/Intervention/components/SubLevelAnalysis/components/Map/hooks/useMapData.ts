@@ -1,6 +1,7 @@
 import { useAlert } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
-import { getCenter } from "geolib";
+import { getBounds, getCenter } from "geolib";
+import { LatLngTuple } from "leaflet";
 import { flatten, flattenDeep } from "lodash";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
@@ -18,10 +19,12 @@ export default function useMapData() {
 
   const sanitizedPoints = useMemo(() => {
     try {
-      return data.map((area: { co: string; id: string; na: string }) => ({
+      return data.map((area: { co: string; id: string; na: string; le: number }) => ({
         id: area.id,
         name: area.na,
+        level: area.le,
         co: flatten(JSON.parse(area.co)).map((points: any) => {
+          if (!points) return [];
           if (typeof points[0] === "number") {
             return convertCoordinates(points);
           }
@@ -38,15 +41,25 @@ export default function useMapData() {
   }, [data, show]);
 
   const center = useMemo(() => {
-    const allPoints: Array<{ lat: number; lng: number }> = flattenDeep(sanitizedPoints.map((area: { co: any }) => area.co));
+    const allPoints: Array<{ lat: number; lng: number }> = flattenDeep(sanitizedPoints?.map((area: { co: any }) => area.co));
     const center = getCenter(allPoints) ?? {};
     if (center) {
       return { lat: center.latitude, lng: center.longitude };
     }
   }, [sanitizedPoints]);
 
+  const bounds: Array<LatLngTuple> = useMemo(() => {
+    const allPoints: Array<{ lat: number; lng: number }> = flattenDeep(sanitizedPoints?.map((area: { co: any }) => area.co));
+    const { minLat, maxLat, minLng, maxLng } = getBounds(allPoints);
+    return [
+      [minLat, minLng],
+      [maxLat, maxLng],
+    ];
+  }, [sanitizedPoints]);
+
   return {
     center,
     data: sanitizedPoints,
+    bounds,
   };
 }
