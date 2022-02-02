@@ -5,7 +5,7 @@ const generateQuery = (ids: Array<string>) => {
     resource: "indicators",
     id,
     params: {
-      fields: ["id", "displayName", "description", "legendSets[displayName,legends[displayName,color,startValue,endValue]]"],
+      fields: ["id", "displayName", "description", "legendSets[displayName,legends[id,displayName,color,startValue,endValue]]"],
     },
   }));
   const queryObject = {};
