@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-01-24T19:06:12.876Z\n"
-"PO-Revision-Date: 2022-01-24T19:06:12.876Z\n"
+"POT-Creation-Date: 2022-02-02T04:58:58.302Z\n"
+"PO-Revision-Date: 2022-02-02T04:58:58.302Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -961,6 +961,15 @@ msgstr "Enter a description"
 
 msgid "Legend Definitions"
 msgstr "Legend Definitions"
+
+msgid "Select Indicator"
+msgstr "Select Indicator"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Map Configuration"
+msgstr "Map Configuration"
 
 msgid "Sub-level analysis configuration unavailable"
 msgstr "Sub-level analysis configuration unavailable"

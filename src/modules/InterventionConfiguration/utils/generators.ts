@@ -7,6 +7,7 @@ export function generateGeneralData(payload: InterventionConfig, data: any) {
   set(payload, "periodSelection", data?.periodSelection);
   set(payload, "orgUnitSelection", data?.orgUnitSelection);
   set(payload, ["dataSelection", "legendDefinitions"], data?.legendDefinitions);
+  set(payload, "map", data?.map);
 }
 
 export function generateDeterminantData(payload: InterventionConfig, data: any) {

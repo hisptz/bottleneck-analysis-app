@@ -115,6 +115,16 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
     },
     subLevel: undefined,
   },
+  map: {
+    indicators: [],
+    config: {
+      enabled: {
+        boundary: true,
+        thematic: true,
+        facility: true,
+      },
+    },
+  },
 };
 
 export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {

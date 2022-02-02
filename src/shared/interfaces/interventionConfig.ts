@@ -2,6 +2,17 @@ export interface User {
   id: string;
 }
 
+export interface Map {
+  indicators: Array<DataItem>;
+  config: {
+    enabled: {
+      boundary: boolean;
+      thematic: boolean;
+      facility: boolean;
+    };
+  };
+}
+
 export interface LegendDefinition {
   id: string;
   color: string;
@@ -65,6 +76,7 @@ export interface InterventionConfig {
   dataSelection: DataSelection;
   periodSelection: PeriodSelection;
   orgUnitSelection: OrgUnitSelection;
+  map?: Map;
 }
 
 export interface InterventionSummary {
