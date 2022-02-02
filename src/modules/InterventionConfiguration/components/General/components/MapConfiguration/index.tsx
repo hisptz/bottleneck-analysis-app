@@ -65,10 +65,10 @@ export default function MapConfiguration() {
             <Controller
               render={({ field }) => {
                 return (
-                  <CheckboxField label={i18n.t("Boundaries")} checked={field.value} onChange={({ checked }: { checked: boolean }) => field.onChange(checked)} />
+                  <CheckboxField label={i18n.t("Boundary")} checked={field.value} onChange={({ checked }: { checked: boolean }) => field.onChange(checked)} />
                 );
               }}
-              name={"map.config.enabled.boundaries"}
+              name={"map.config.enabled.boundary"}
             />
             <Controller
               render={({ field }) => {
@@ -76,7 +76,7 @@ export default function MapConfiguration() {
                   <CheckboxField label={i18n.t("Facility")} checked={field.value} onChange={({ checked }: { checked: boolean }) => field.onChange(checked)} />
                 );
               }}
-              name={"map.config.enabled.facilities"}
+              name={"map.config.enabled.facility"}
             />
           </Field>
         </div>

@@ -2,15 +2,17 @@ export interface User {
   id: string;
 }
 
+export interface LayerConfig {
+  enabled: {
+    boundary: boolean;
+    thematic: boolean;
+    facility: boolean;
+  };
+}
+
 export interface Map {
   indicators: Array<DataItem>;
-  config: {
-    enabled: {
-      boundary: boolean;
-      thematic: boolean;
-      facility: boolean;
-    };
-  };
+  config: LayerConfig;
 }
 
 export interface LegendDefinition {
