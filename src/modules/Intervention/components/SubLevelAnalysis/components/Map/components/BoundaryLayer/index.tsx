@@ -1,12 +1,12 @@
 import i18n from "@dhis2/d2-i18n";
 import { colors } from "@dhis2/ui";
-import { LeafletMouseEvent } from "leaflet";
 import React, { useEffect } from "react";
 import { LayerGroup, LayersControl, Polygon, Popup, Tooltip, useMap } from "react-leaflet";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import useMapData from "../../hooks/useMapData";
 import { MapConfigState } from "../../state/config";
+import { highlightFeature, resetHighlight } from "../../utils/map";
 
 const defaultStyle = {
   weight: 1,
@@ -14,22 +14,12 @@ const defaultStyle = {
   fillColor: colors.grey900,
   fillOpacity: 0.0,
 };
-
-function highlightFeature(e: LeafletMouseEvent) {
-  const layer = e.target;
-  layer.setStyle({
-    weight: 2,
-    color: colors.grey900,
-    dashArray: "",
-    fillOpacity: 0.1,
-  });
-  layer.bringToFront();
-}
-
-function resetHighlight(map: any, e: LeafletMouseEvent) {
-  const layer = e.target;
-  layer.setStyle(defaultStyle);
-}
+const highlightStyle = {
+  weight: 2,
+  color: colors.grey900,
+  dashArray: "",
+  fillOpacity: 0.1,
+};
 
 export default function BoundaryLayer() {
   const { id } = useParams<{ id: string }>();
@@ -40,7 +30,6 @@ export default function BoundaryLayer() {
     },
   };
   const enabled = config?.enabled?.boundary;
-  console.log({ config });
   const map = useMap();
 
   useEffect(() => {
@@ -55,7 +44,7 @@ export default function BoundaryLayer() {
           return (
             <Polygon
               interactive
-              eventHandlers={{ mouseover: highlightFeature, mouseout: (e) => resetHighlight(map, e) }}
+              eventHandlers={{ mouseover: (e) => highlightFeature(e, highlightStyle), mouseout: (e) => resetHighlight(e, defaultStyle) }}
               key={`${area.id}-polygon`}
               pathOptions={defaultStyle}
               positions={area.co}>
