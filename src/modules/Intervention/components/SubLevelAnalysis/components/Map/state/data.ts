@@ -21,11 +21,9 @@ export const MapIndicatorData = selectorFamily<any, string | undefined>({
       const orgUnitBoundaryData = get(BoundaryData(id));
       const period = get(InterventionPeriodState(id));
       const data = await getAnalyticsData({ dx: indicators?.map((indicator) => indicator.id) ?? [], pe: period.id, ou: orgUnits }, engine);
-
       const ouIndex = findIndex(data.headers, (header: any) => header.name === "ou");
       const dxIndex = findIndex(data.headers, (header: any) => header.name === "dx");
       const valueIndex = findIndex(data.headers, (header: any) => header.name === "value");
-
       const allData = data.rows.map((row: Array<string>) => {
         return {
           orgUnit: find(orgUnitBoundaryData, (boundary: any) => boundary.id === row[ouIndex]),
@@ -33,7 +31,6 @@ export const MapIndicatorData = selectorFamily<any, string | undefined>({
           data: parseFloat(row[valueIndex]),
         };
       });
-
       return groupBy(allData, (data: any) => data.indicator.id);
     },
 });

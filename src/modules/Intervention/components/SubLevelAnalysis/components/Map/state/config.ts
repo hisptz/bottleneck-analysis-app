@@ -1,5 +1,6 @@
 import { atomFamily, selectorFamily } from "recoil";
 import { EngineState } from "../../../../../../../core/state/dataEngine";
+import { ThematicMapLayer } from "../../../../../../../shared/interfaces/interventionConfig";
 import { InterventionStateSelector } from "../../../../../state/intervention";
 import { getIndicators } from "../services/config";
 
@@ -28,16 +29,15 @@ export const MapIndicatorState = atomFamily<Array<any> | undefined, string | und
       (id?: string) =>
       async ({ get }) => {
         const engine = get(EngineState);
-        const indicatorConfig = get(
+        const thematicLayers = get(
           InterventionStateSelector({
             id,
-            path: ["map", "indicators"],
+            path: ["map", "coreLayers", "thematicLayers"],
           })
         );
-        return await getIndicators(
-          indicatorConfig?.map(({ id }: { id: string }) => id),
-          engine
-        );
+        const indicatorIds = thematicLayers?.map((layer: ThematicMapLayer) => layer.indicator);
+
+        return await getIndicators(indicatorIds, engine);
       },
   }),
 });

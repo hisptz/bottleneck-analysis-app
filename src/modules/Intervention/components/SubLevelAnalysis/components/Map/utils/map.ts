@@ -19,12 +19,13 @@ export function getOrgUnitBoundaries(points: Array<any>, depth: number): Array<{
 export function highlightFeature(e: LeafletMouseEvent, style: any) {
   const layer = e.target;
   layer.setStyle(style);
-  layer.bringToFront();
+  // layer.bringToFront();
 }
 
 export function resetHighlight(e: LeafletMouseEvent, defaultStyle: any) {
   const layer = e.target;
   layer.setStyle(defaultStyle);
+  // layer.bringToBack();
 }
 
 export function getColorFromLegendSet(legendSet: any, value: number): string {
