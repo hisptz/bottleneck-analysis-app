@@ -1,11 +1,9 @@
-import i18n from "@dhis2/d2-i18n";
 import { colors } from "@dhis2/ui";
 import React from "react";
-import { LayerGroup, LayersControl } from "react-leaflet";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { MapConfigState } from "../../state/config";
-import { MapIndicatorData } from "../../state/data";
+import { MapConfigState, MapIndicatorState } from "../../state/config";
+import IndicatorLayer from "./components/IndicatorLayer";
 
 const defaultStyle = {
   weight: 1,
@@ -21,16 +19,14 @@ export default function ThematicLayer() {
       boundary: false,
     },
   };
-  const indicatorData = useRecoilValue(MapIndicatorData(id)) ?? [];
-  const enabled = config?.enabled?.boundary;
 
-  console.log(indicatorData);
+  const indicators = useRecoilValue(MapIndicatorState(id)) ?? [];
 
   return (
-    <LayersControl.Overlay checked={enabled} name={i18n.t("Boundaries")}>
-      <LayerGroup>
-        <div>Test</div>
-      </LayerGroup>
-    </LayersControl.Overlay>
+    <>
+      {indicators?.map((indicator) => (
+        <IndicatorLayer type={"chloro"} indicatorId={indicator?.id} key={`${indicator?.id}-parent-layer`} />
+      ))}
+    </>
   );
 }

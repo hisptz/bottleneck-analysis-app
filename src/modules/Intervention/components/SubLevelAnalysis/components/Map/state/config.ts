@@ -42,3 +42,13 @@ export const MapIndicatorState = atomFamily<Array<any> | undefined, string | und
       },
   }),
 });
+
+export const MapIndicatorSelector = selectorFamily({
+  key: "map-indicator-selector",
+  get:
+    ({ id, indicatorId }: { id?: string; indicatorId?: string }) =>
+    ({ get }) => {
+      const indicators = get(MapIndicatorState(id));
+      return indicators?.find(({ id }) => id === indicatorId);
+    },
+});

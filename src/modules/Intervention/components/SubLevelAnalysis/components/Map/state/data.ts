@@ -1,4 +1,4 @@
-import { find, findIndex, flatten } from "lodash";
+import { find, findIndex, flatten, groupBy } from "lodash";
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../../../core/state/dataEngine";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../../../state/selections";
@@ -54,12 +54,14 @@ export const MapIndicatorData = selectorFamily<any, string | undefined>({
       const dxIndex = findIndex(data.headers, (header: any) => header.name === "dx");
       const valueIndex = findIndex(data.headers, (header: any) => header.name === "value");
 
-      return data.rows.map((row: Array<string>) => {
+      const allData = data.rows.map((row: Array<string>) => {
         return {
           orgUnit: find(orgUnitBoundaryData, (boundary: any) => boundary.id === row[ouIndex]),
           indicator: find(indicators, (indicator: any) => indicator.id === row[dxIndex]),
           data: parseFloat(row[valueIndex]),
         };
       });
+
+      return groupBy(allData, (data: any) => data.indicator.id);
     },
 });

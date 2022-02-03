@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-02T04:58:58.302Z\n"
-"PO-Revision-Date: 2022-02-02T04:58:58.302Z\n"
+"POT-Creation-Date: 2022-02-02T16:17:16.383Z\n"
+"PO-Revision-Date: 2022-02-02T16:17:16.383Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -829,6 +829,9 @@ msgstr "Color"
 msgid "Legends for analysis"
 msgstr "Legends for analysis"
 
+msgid "Boundaries"
+msgstr "Boundaries"
+
 msgid "Bottleneck Sub-level Analysis"
 msgstr "Bottleneck Sub-level Analysis"
 
@@ -970,6 +973,18 @@ msgstr "Update"
 
 msgid "Map Configuration"
 msgstr "Map Configuration"
+
+msgid "Thematic Layer"
+msgstr "Thematic Layer"
+
+msgid "Other Layers"
+msgstr "Other Layers"
+
+msgid "Boundary"
+msgstr "Boundary"
+
+msgid "Facility"
+msgstr "Facility"
 
 msgid "Sub-level analysis configuration unavailable"
 msgstr "Sub-level analysis configuration unavailable"

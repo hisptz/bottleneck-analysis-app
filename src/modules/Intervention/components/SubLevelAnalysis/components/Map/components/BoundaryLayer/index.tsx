@@ -50,7 +50,7 @@ export default function BoundaryLayer() {
               positions={area.co}>
               <Tooltip>{area.name}</Tooltip>
               <Popup minWidth={80}>
-                <div>{area.name}</div>
+                <h3>{area.name}</h3>
                 <div>
                   <b>Level: </b>
                   {area.level}
