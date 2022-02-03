@@ -116,13 +116,22 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
     subLevel: undefined,
   },
   map: {
-    indicators: [],
-    config: {
-      enabled: {
-        boundary: true,
-        thematic: true,
-        facility: true,
-      },
+    enabled: true,
+    coreLayers: {
+      boundaryLayer: { enabled: true },
+      thematicLayers: [
+        {
+          enabled: true,
+          indicator: "",
+          type: "choropleth",
+        },
+        {
+          enabled: true,
+          indicator: "",
+          type: "bubble",
+        },
+      ],
+      facilityLayer: { enabled: true },
     },
   },
 };

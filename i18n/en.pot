@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-02T16:17:16.383Z\n"
-"PO-Revision-Date: 2022-02-02T16:17:16.383Z\n"
+"POT-Creation-Date: 2022-02-03T18:34:27.423Z\n"
+"PO-Revision-Date: 2022-02-03T18:34:27.423Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -965,18 +965,6 @@ msgstr "Enter a description"
 msgid "Legend Definitions"
 msgstr "Legend Definitions"
 
-msgid "Select Indicator"
-msgstr "Select Indicator"
-
-msgid "Update"
-msgstr "Update"
-
-msgid "Map Configuration"
-msgstr "Map Configuration"
-
-msgid "Thematic Layer"
-msgstr "Thematic Layer"
-
 msgid "Other Layers"
 msgstr "Other Layers"
 
@@ -985,6 +973,33 @@ msgstr "Boundary"
 
 msgid "Facility"
 msgstr "Facility"
+
+msgid "Select Indicator"
+msgstr "Select Indicator"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Choropleth Layer"
+msgstr "Choropleth Layer"
+
+msgid "Bubble Layer"
+msgstr "Bubble Layer"
+
+msgid "Select"
+msgstr "Select"
+
+msgid "Thematic Layers"
+msgstr "Thematic Layers"
+
+msgid "Please select an indicator"
+msgstr "Please select an indicator"
+
+msgid "Map Configuration"
+msgstr "Map Configuration"
+
+msgid "Enable map"
+msgstr "Enable map"
 
 msgid "Sub-level analysis configuration unavailable"
 msgstr "Sub-level analysis configuration unavailable"
@@ -998,9 +1013,6 @@ msgstr ""
 
 msgid "User's organisation unit"
 msgstr "User's organisation unit"
-
-msgid "Select"
-msgstr "Select"
 
 msgid "Change"
 msgstr "Change"

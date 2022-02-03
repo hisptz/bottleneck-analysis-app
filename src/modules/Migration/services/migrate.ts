@@ -1,7 +1,15 @@
 import { map } from "async";
 import { compact, filter, find, isEmpty, last } from "lodash";
 import { BNA_NAMESPACE, BNA_ROOT_CAUSE_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../constants/dataStore";
-import { DataItem, DataSelection, Group, InterventionConfig, LegendDefinition, OrgUnitSelection, PeriodSelection } from "../../../shared/interfaces/interventionConfig";
+import {
+  DataItem,
+  DataSelection,
+  Group,
+  InterventionConfig,
+  LegendDefinition,
+  OrgUnitSelection,
+  PeriodSelection,
+} from "../../../shared/interfaces/interventionConfig";
 import { GlobalSelection, Legend, OldInterventionConfig, SelectionGroupMember } from "../../../shared/interfaces/oldInterventionConfig";
 import { RootCauseConfigInterface } from "../../../shared/interfaces/rootCause";
 import getOldInterventions from "../../../shared/services/getOldInterventions";
@@ -139,6 +147,25 @@ export function convertIntervention(config: OldInterventionConfig): Intervention
     dataSelection: convertData(dataConfig),
     orgUnitSelection: convertOrgUnit(orgUnitConfig),
     periodSelection: convertPeriod(bottleneckPeriodType, periodConfig),
+    map: {
+      enabled: true,
+      coreLayers: {
+        boundaryLayer: { enabled: true },
+        thematicLayers: [
+          {
+            enabled: true,
+            indicator: "",
+            type: "choropleth",
+          },
+          {
+            enabled: true,
+            indicator: "",
+            type: "bubble",
+          },
+        ],
+        facilityLayer: { enabled: true },
+      },
+    },
   };
 }
 

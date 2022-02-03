@@ -1,12 +1,11 @@
 import { atomFamily, selectorFamily } from "recoil";
 import { EngineState } from "../../../../../../../core/state/dataEngine";
-import { LayerConfig } from "../../../../../../../shared/interfaces/interventionConfig";
 import { InterventionStateSelector } from "../../../../../state/intervention";
 import { getIndicators } from "../services/config";
 
-export const MapConfigState = atomFamily<LayerConfig | undefined, string | undefined>({
+export const MapConfigState = atomFamily<any | undefined, string | undefined>({
   key: "map-config-state",
-  default: selectorFamily<LayerConfig | undefined, string | undefined>({
+  default: selectorFamily<any | undefined, string | undefined>({
     key: "map-config-state-getter",
     get:
       (id?: string) =>

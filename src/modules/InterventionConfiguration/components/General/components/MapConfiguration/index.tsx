@@ -1,85 +1,37 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, ButtonStrip, CheckboxField, Field, Modal, ModalActions, ModalContent, ModalTitle } from "@dhis2/ui";
-import { DataSourceSelector } from "@hisptz/react-ui";
-import React, { useCallback, useState } from "react";
-import { Controller } from "react-hook-form";
+import { CheckboxField, Field } from "@dhis2/ui";
+import React from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import OtherLayers from "./components/OtherLayers";
+import ThematicLayerConfig from "./components/ThematicLayer";
 
-function IndicatorSelectorModal({ onUpdate, onClose, hide, selected }: { onUpdate: (data: any) => void; onClose: () => void; hide: boolean; selected: any }) {
-  const [selectedIndicators, setSelectedIndicators] = useState(selected);
+export default function MapConfiguration(): React.ReactElement {
+  const { watch } = useFormContext();
+  const enabled = watch("map.enabled");
 
-  const onUpdateClick = useCallback(() => {
-    onUpdate(selectedIndicators);
-    onClose();
-  }, [onUpdate, selectedIndicators]);
-
-  const onSelect = useCallback((indicators: any) => {
-    setSelectedIndicators(indicators);
-  }, []);
-
-  return (
-    <Modal placement="middle" hide={hide} onClose={onClose}>
-      <ModalTitle>{i18n.t("Select Indicator")}</ModalTitle>
-      <ModalContent>
-        <DataSourceSelector maxSelections={2} selected={selectedIndicators} onSelect={onSelect} />
-      </ModalContent>
-      <ModalActions>
-        <ButtonStrip>
-          <Button onClick={onClose}>{i18n.t("Cancel")}</Button>
-          <Button primary onClick={onUpdateClick}>
-            {i18n.t("Update")}
-          </Button>
-        </ButtonStrip>
-      </ModalActions>
-    </Modal>
-  );
-}
-
-export default function MapConfiguration() {
-  const [openDataSelector, setOpenDataSelector] = useState(false);
   return (
     <Field label={i18n.t("Map Configuration")}>
       <div className="column gap">
-        <div>
-          <Controller
-            name={"map.indicators"}
-            render={({ field }) => {
-              return (
-                <Field label={i18n.t("Thematic Layer")}>
-                  <p>{field.value?.map((value: { name: string; shortName: string }) => value.name || value.shortName)?.join(", ")}</p>
-                  <Button onClick={() => setOpenDataSelector(true)}>Add Indicator</Button>
-                  {openDataSelector && (
-                    <IndicatorSelectorModal
-                      hide={!openDataSelector}
-                      onClose={() => setOpenDataSelector(false)}
-                      onUpdate={field.onChange}
-                      selected={field.value}
-                    />
-                  )}
-                </Field>
-              );
-            }}
-          />
-        </div>
-        <div className="column gap">
-          <Field label={i18n.t("Other Layers")}>
-            <Controller
-              render={({ field }) => {
-                return (
-                  <CheckboxField label={i18n.t("Boundary")} checked={field.value} onChange={({ checked }: { checked: boolean }) => field.onChange(checked)} />
-                );
-              }}
-              name={"map.config.enabled.boundary"}
+        <Controller
+          name={"map.enabled"}
+          render={({ field, fieldState }) => (
+            <CheckboxField
+              {...field}
+              {...fieldState}
+              checked={field.value}
+              error={fieldState.error}
+              validationText={fieldState.error?.message}
+              onChange={({ checked }: { checked: boolean }) => field.onChange(checked)}
+              label={i18n.t("Enable map")}
             />
-            <Controller
-              render={({ field }) => {
-                return (
-                  <CheckboxField label={i18n.t("Facility")} checked={field.value} onChange={({ checked }: { checked: boolean }) => field.onChange(checked)} />
-                );
-              }}
-              name={"map.config.enabled.facility"}
-            />
-          </Field>
-        </div>
+          )}
+        />
+        {enabled && (
+          <>
+            <ThematicLayerConfig />
+            <OtherLayers />
+          </>
+        )}
       </div>
     </Field>
   );

@@ -28,8 +28,6 @@ export function resetHighlight(e: LeafletMouseEvent, defaultStyle: any) {
 }
 
 export function getColorFromLegendSet(legendSet: any, value: number): string {
-  console.log({ value });
   const legend = find(legendSet.legends, (legend: any) => legend.startValue <= value && legend.endValue >= value) ?? {};
-  console.log(legend);
   return legend.color ? legend.color : colors.grey900;
 }

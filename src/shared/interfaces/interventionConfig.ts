@@ -2,17 +2,39 @@ export interface User {
   id: string;
 }
 
-export interface LayerConfig {
-  enabled: {
-    boundary: boolean;
-    thematic: boolean;
-    facility: boolean;
-  };
+export type MapLayerLayout = "basemap" | "overlay";
+export type ThematicLayerType = "choropleth" | "bubble";
+
+export interface MapLayer {
+  id: string;
+  name: string;
+  url?: string;
+  layout: MapLayerLayout;
+  enabled: boolean;
+}
+
+export interface BoundaryMapLayer {
+  enabled: boolean;
+}
+
+export interface FacilityMapLayer {
+  enabled: boolean;
+}
+
+export interface ThematicMapLayer {
+  enabled: boolean;
+  indicator: string;
+  type: ThematicLayerType;
 }
 
 export interface Map {
-  indicators: Array<DataItem>;
-  config: LayerConfig;
+  enabled: boolean;
+  coreLayers: {
+    thematicLayers: ThematicMapLayer[];
+    boundaryLayer: BoundaryMapLayer;
+    facilityLayer: FacilityMapLayer;
+  };
+  externalLayers?: MapLayer[];
 }
 
 export interface LegendDefinition {
