@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { BoundaryData } from "../state/data";
 
-export default function useMapData() {
+export default function useBoundaryData() {
   const { id } = useParams<{ id: string }>();
   const data = useRecoilValue(BoundaryData(id));
 

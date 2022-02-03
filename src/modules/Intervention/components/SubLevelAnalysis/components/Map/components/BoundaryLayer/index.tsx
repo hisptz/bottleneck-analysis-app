@@ -2,11 +2,9 @@ import i18n from "@dhis2/d2-i18n";
 import { colors } from "@dhis2/ui";
 import React, { useEffect } from "react";
 import { LayerGroup, LayersControl, Polygon, Popup, Tooltip, useMap } from "react-leaflet";
-import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import useMapData from "../../hooks/useMapData";
-import { MapConfigState } from "../../state/config";
 import { highlightFeature, resetHighlight } from "../../utils/map";
+import useBoundaryConfig from "./hooks/config";
+import useBoundaryData from "./hooks/data";
 
 const defaultStyle = {
   weight: 1,
@@ -22,14 +20,8 @@ const highlightStyle = {
 };
 
 export default function BoundaryLayer() {
-  const { id } = useParams<{ id: string }>();
-  const { data, bounds } = useMapData();
-  const config = useRecoilValue(MapConfigState(id)) ?? {
-    enabled: {
-      boundary: false,
-    },
-  };
-  const enabled = config?.enabled?.boundary;
+  const { data, bounds } = useBoundaryData();
+  const { enabled } = useBoundaryConfig();
   const map = useMap();
 
   useEffect(() => {
@@ -37,6 +29,7 @@ export default function BoundaryLayer() {
       map.fitBounds(bounds);
     }
   }, [bounds, data, map]);
+
   return (
     <LayersControl.Overlay checked={enabled} name={i18n.t("Boundaries")}>
       <LayerGroup>
