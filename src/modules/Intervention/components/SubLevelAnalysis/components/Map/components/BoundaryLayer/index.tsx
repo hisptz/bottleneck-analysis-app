@@ -2,6 +2,8 @@ import i18n from "@dhis2/d2-i18n";
 import { colors } from "@dhis2/ui";
 import React, { useEffect } from "react";
 import { LayerGroup, LayersControl, Polygon, Popup, Tooltip, useMap } from "react-leaflet";
+import { useRecoilValue } from "recoil";
+import { FullPageState } from "../../../../../../state/config";
 import { highlightFeature, resetHighlight } from "../../utils/map";
 import useBoundaryConfig from "./hooks/config";
 import useBoundaryData from "./hooks/data";
@@ -21,6 +23,7 @@ const highlightStyle = {
 
 export default function BoundaryLayer() {
   const { data, bounds } = useBoundaryData();
+  const fullScreen = useRecoilValue(FullPageState("subLevelAnalysis"));
   const { enabled } = useBoundaryConfig();
   const map = useMap();
 
@@ -28,7 +31,7 @@ export default function BoundaryLayer() {
     if (data) {
       map.fitBounds(bounds);
     }
-  }, [bounds, data, map]);
+  }, [bounds, data, map, fullScreen]);
 
   return (
     <LayersControl.Overlay checked={enabled} name={i18n.t("Boundaries")}>

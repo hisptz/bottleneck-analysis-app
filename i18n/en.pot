@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-03T18:34:27.423Z\n"
-"PO-Revision-Date: 2022-02-03T18:34:27.423Z\n"
+"POT-Creation-Date: 2022-02-03T20:28:28.103Z\n"
+"PO-Revision-Date: 2022-02-03T20:28:28.103Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -831,6 +831,12 @@ msgstr "Legends for analysis"
 
 msgid "Boundaries"
 msgstr "Boundaries"
+
+msgid "Choropleth"
+msgstr "Choropleth"
+
+msgid "Bubble"
+msgstr "Bubble"
 
 msgid "Bottleneck Sub-level Analysis"
 msgstr "Bottleneck Sub-level Analysis"

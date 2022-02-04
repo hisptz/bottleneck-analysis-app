@@ -40,7 +40,7 @@ export const tabs: Array<Tab> = [
         <IconWorld24 />
       </div>
     ),
-    label: i18n.t("Dictionary View"),
+    label: i18n.t("Map View"),
     component: Map,
   },
 ];

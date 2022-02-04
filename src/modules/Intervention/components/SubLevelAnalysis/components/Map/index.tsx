@@ -2,6 +2,7 @@ import React from "react";
 import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import BoundaryLayer from "./components/BoundaryLayer";
 import useBoundaryData from "./components/BoundaryLayer/hooks/data";
+import FacilityLayer from "./components/FacilityLayer";
 import ThematicLayer from "./components/ThematicLayer";
 
 export default function Map() {
@@ -15,6 +16,7 @@ export default function Map() {
         />
         <LayersControl position={"topleft"}>
           <BoundaryLayer />
+          <FacilityLayer />
           <ThematicLayer />
         </LayersControl>
       </MapContainer>
