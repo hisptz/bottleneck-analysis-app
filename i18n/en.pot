@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-03T20:28:28.103Z\n"
-"PO-Revision-Date: 2022-02-03T20:28:28.103Z\n"
+"POT-Creation-Date: 2022-02-04T10:25:42.948Z\n"
+"PO-Revision-Date: 2022-02-04T10:25:42.948Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -128,8 +128,8 @@ msgstr ""
 "This is the configuration actions of this intervention, you can see the "
 "list of configuration actions of this intervention here"
 
-msgid "This menu give you download options of this component"
-msgstr "This menu give you download options of this component"
+msgid "This menu give you download options of this components"
+msgstr "This menu give you download options of this components"
 
 msgid ""
 "This is Chart Component for this intervention with respective indicators "
@@ -139,24 +139,24 @@ msgstr ""
 "configured in this intervention"
 
 msgid ""
-"This is the table header component for this intervention with respective "
+"This is the table header components for this intervention with respective "
 "indicators highlighted in colors configured in this intervention"
 msgstr ""
-"This is the table header component for this intervention with respective "
+"This is the table header components for this intervention with respective "
 "indicators highlighted in colors configured in this intervention"
 
 msgid ""
-"This is the table component for this intervention with respective "
+"This is the table components for this intervention with respective "
 "indicators highlighted in colors configured in this intervention"
 msgstr ""
-"This is the table component for this intervention with respective "
+"This is the table components for this intervention with respective "
 "indicators highlighted in colors configured in this intervention"
 
 msgid ""
-"This action help you to flip table component by exchange the table rows and "
+"This action help you to flip table components by exchange the table rows and "
 "columns"
 msgstr ""
-"This action help you to flip table component by exchange the table rows and "
+"This action help you to flip table components by exchange the table rows and "
 "columns"
 
 msgid "This is the intervention table view options of this intervention"
@@ -166,10 +166,10 @@ msgid "This is an option to view this intervention into dictionary view options"
 msgstr "This is an option to view this intervention into dictionary view options"
 
 msgid ""
-"This is the component for root cause analysis of this intervention with "
+"This is the components for root cause analysis of this intervention with "
 "respective indicators configured in this intervention"
 msgstr ""
-"This is the component for root cause analysis of this intervention with "
+"This is the components for root cause analysis of this intervention with "
 "respective indicators configured in this intervention"
 
 msgid "This is the list of archived Interventions in the system"
@@ -228,14 +228,14 @@ msgstr ""
 "respective period for your Bottleneck"
 
 msgid ""
-"This component contains description of your sub level analysis,and how it "
+"This components contains description of your sub level analysis,and how it "
 "default configured ,you can use here for custom configuration"
 msgstr ""
-"This component contains description of your sub level analysis,and how it "
+"This components contains description of your sub level analysis,and how it "
 "default configured ,you can use here for custom configuration"
 
-msgid "Use this component for your legend configuration to identify your targets"
-msgstr "Use this component for your legend configuration to identify your targets"
+msgid "Use this components for your legend configuration to identify your targets"
+msgstr "Use this components for your legend configuration to identify your targets"
 
 msgid ""
 "This is the list of your intervention determinants, you can add and remove "
@@ -832,6 +832,27 @@ msgstr "Legends for analysis"
 msgid "Boundaries"
 msgstr "Boundaries"
 
+msgid "Facilities"
+msgstr "Facilities"
+
+msgid "Max"
+msgstr "Max"
+
+msgid "Mid"
+msgstr "Mid"
+
+msgid "Min"
+msgstr "Min"
+
+msgid "Group"
+msgstr "Group"
+
+msgid "Filters"
+msgstr "Filters"
+
+msgid "Source"
+msgstr "Source"
+
 msgid "Choropleth"
 msgstr "Choropleth"
 
@@ -855,6 +876,9 @@ msgstr "Table View"
 
 msgid "Dictionary View"
 msgstr "Dictionary View"
+
+msgid "Map View"
+msgstr "Map View"
 
 msgid "Download Excel"
 msgstr "Download Excel"
@@ -968,8 +992,8 @@ msgstr "Intervention Name"
 msgid "Enter a description"
 msgstr "Enter a description"
 
-msgid "Legend Definitions"
-msgstr "Legend Definitions"
+msgid "LegendLayer Definitions"
+msgstr "LegendLayer Definitions"
 
 msgid "Other Layers"
 msgstr "Other Layers"

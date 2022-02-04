@@ -27,7 +27,7 @@ export function LegendDefinitionConfigDetails(): React.ReactElement {
                   value: field.value,
                   name: field.name,
                 }}
-                label={i18n.t("Legend Definitions")}
+                label={i18n.t("LegendLayer Definitions")}
                 valueType={"MULTIPLE_FIELDS"}
               />
             </Field>

@@ -15,11 +15,11 @@ export const INTERVENTION_CONFIGURATION_HELP = [
     element: ".intervnameConfigPeriodType",
   },
   {
-    intro: i18n.t("This component contains description of your sub level analysis,and how it default configured ,you can use here for custom configuration"),
+    intro: i18n.t("This components contains description of your sub level analysis,and how it default configured ,you can use here for custom configuration"),
     element: ".orgUnit-subLevelAnalysis-config",
   },
   {
-    intro: i18n.t("Use this component for your legend configuration to identify your targets"),
+    intro: i18n.t("Use this components for your legend configuration to identify your targets"),
     element: ".legend-definition-config",
   },
 ];

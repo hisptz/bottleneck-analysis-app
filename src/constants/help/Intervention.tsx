@@ -66,7 +66,7 @@ export const INTERVENTION_HELP_STEPS = [
     element: ".configure-intervention",
   },
   {
-    intro: i18n.t("This menu give you download options of this component"),
+    intro: i18n.t("This menu give you download options of this components"),
     element: ".downloadOptions-menu",
   },
   {
@@ -74,15 +74,15 @@ export const INTERVENTION_HELP_STEPS = [
     element: ".chart-block",
   },
   {
-    intro: i18n.t("This is the table header component for this intervention with respective indicators highlighted in colors configured in this intervention"),
+    intro: i18n.t("This is the table header components for this intervention with respective indicators highlighted in colors configured in this intervention"),
     element: ".sub-level-header",
   },
   {
-    intro: i18n.t("This is the table component for this intervention with respective indicators highlighted in colors configured in this intervention"),
+    intro: i18n.t("This is the table components for this intervention with respective indicators highlighted in colors configured in this intervention"),
     element: ".sub-level-analysis-table",
   },
   {
-    intro: i18n.t("This action help you to flip table component by exchange the table rows and columns"),
+    intro: i18n.t("This action help you to flip table components by exchange the table rows and columns"),
     element: ".sub-level-analysis-table-switch",
   },
   {
@@ -94,7 +94,7 @@ export const INTERVENTION_HELP_STEPS = [
     element: ".intervention-dictionary-view-option",
   },
   {
-    intro: i18n.t("This is the component for root cause analysis of this intervention with respective indicators configured in this intervention"),
+    intro: i18n.t("This is the components for root cause analysis of this intervention with respective indicators configured in this intervention"),
     element: ".root-cause-widget-table",
   },
   {
@@ -150,15 +150,15 @@ export const ARCHIVE_INDIVIDUAL_INTERVENTION_CONFIGURATION_HELP = [
     element: ".chart-block",
   },
   {
-    intro: i18n.t("This is the table header component for this intervention with respective indicators highlighted in colors configured in this intervention"),
+    intro: i18n.t("This is the table header components for this intervention with respective indicators highlighted in colors configured in this intervention"),
     element: ".sub-level-header",
   },
   {
-    intro: i18n.t("This is the table component for this intervention with respective indicators highlighted in colors configured in this intervention"),
+    intro: i18n.t("This is the table components for this intervention with respective indicators highlighted in colors configured in this intervention"),
     element: ".sub-level-analysis-table",
   },
   {
-    intro: i18n.t("This action help you to flip table component by exchange the table rows and columns"),
+    intro: i18n.t("This action help you to flip table components by exchange the table rows and columns"),
     element: ".sub-level-analysis-table-switch",
   },
   {
@@ -170,7 +170,7 @@ export const ARCHIVE_INDIVIDUAL_INTERVENTION_CONFIGURATION_HELP = [
     element: ".intervention-dictionary-view-option",
   },
   {
-    intro: i18n.t("This is the component for root cause analysis of this intervention with respective indicators configured in this intervention"),
+    intro: i18n.t("This is the components for root cause analysis of this intervention with respective indicators configured in this intervention"),
     element: ".root-cause-widget-table",
   },
 ];

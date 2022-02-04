@@ -1,5 +1,5 @@
 import React from "react";
-import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
+import { LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 import BoundaryLayer from "./components/BoundaryLayer";
 import useBoundaryData from "./components/BoundaryLayer/hooks/data";
 import FacilityLayer from "./components/FacilityLayer";
@@ -14,6 +14,7 @@ export default function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | &copy; <a href="https://carto.com/attribution">CARTO</a>'
           url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
         />
+        <ScaleControl position={"bottomleft"} />
         <LayersControl position={"topleft"}>
           <BoundaryLayer />
           <FacilityLayer />
