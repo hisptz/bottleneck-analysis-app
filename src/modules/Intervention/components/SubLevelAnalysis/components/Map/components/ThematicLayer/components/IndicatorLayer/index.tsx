@@ -1,8 +1,11 @@
 import i18n from "@dhis2/d2-i18n";
-import { Control } from "leaflet";
-import React, { useEffect, useMemo, useRef } from "react";
-import { LayerGroup, LayersControl, useMap } from "react-leaflet";
+import React from "react";
+import { LayerGroup, LayersControl } from "react-leaflet";
+import Control from "react-leaflet-custom-control";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { ThematicMapLayer } from "../../../../../../../../../../shared/interfaces/interventionConfig";
+import { ShowLegend } from "../../state/legend";
 import Bubble from "./components/Bubble";
 import BubbleLegend from "./components/Bubble/components/BubbleLegend";
 import Choropleth from "./components/Choropleth";
@@ -10,31 +13,9 @@ import ChoroplethLegend from "./components/Choropleth/components/ChoroplethLegen
 import useMapIndicatorData from "./hooks/data";
 
 export default function IndicatorLayer({ config }: { config: ThematicMapLayer }) {
+  const { id } = useParams();
   const { data, indicator } = useMapIndicatorData(config?.indicator);
-  const map = useMap();
-  const legendControl = useMemo(
-    () =>
-      new Control({
-        position: "bottomright",
-      }),
-    []
-  );
-
-  const choroplethLegendRef = useRef<HTMLDivElement>(null);
-  const bubbleLegendRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (choroplethLegendRef.current !== null) {
-      // @ts-ignore
-      legendControl.onAdd = () => choroplethLegendRef?.current;
-      map.addControl(legendControl);
-    }
-    if (bubbleLegendRef.current !== null) {
-      // @ts-ignore
-      legendControl.onAdd = () => bubbleLegendRef?.current;
-      map.addControl(legendControl);
-    }
-  }, [legendControl, map]);
+  const showLegends = useRecoilValue(ShowLegend(id));
 
   if (!data) return null;
 
@@ -55,8 +36,12 @@ export default function IndicatorLayer({ config }: { config: ThematicMapLayer })
           )}
         </LayerGroup>
       </LayersControl.Overlay>
-      {config.type === "choropleth" && <ChoroplethLegend ref={choroplethLegendRef} data={data} indicator={indicator} config={config} />}
-      {config.type === "bubble" && <BubbleLegend ref={bubbleLegendRef} data={data} indicator={indicator} config={config} />}
+      {showLegends && (
+        <Control position="topright">
+          {config.type === "choropleth" && <ChoroplethLegend data={data} indicator={indicator} config={config} />}
+          {config.type === "bubble" && <BubbleLegend data={data} indicator={indicator} config={config} />}
+        </Control>
+      )}
     </>
   );
 }

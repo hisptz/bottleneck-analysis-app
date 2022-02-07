@@ -9,7 +9,7 @@ const style = {
   paddingTop: 10,
 };
 
-const legendWidth = 245;
+const legendWidth = 150;
 const digitWidth = 6.8;
 export const guideLength = 16;
 export const textPadding = 4;
