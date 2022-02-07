@@ -12,7 +12,10 @@ function getRadius(legends: Array<any>) {
   };
 }
 
-function BubbleLegend({ indicator, data, config }: { indicator: any; data: any; config: ThematicMapLayer }, ref: React.LegacyRef<HTMLDivElement> | undefined) {
+function BubbleLegend(
+  { indicator, data, config }: { indicator: { id: string; legendSets: Array<any>; displayName: string }; data: any; config: ThematicMapLayer },
+  ref: React.LegacyRef<HTMLDivElement> | undefined
+) {
   const legends = useMemo(() => {
     return sortBy(head(indicator.legendSets)?.legends ?? [], "startValue").reverse();
   }, [indicator]);

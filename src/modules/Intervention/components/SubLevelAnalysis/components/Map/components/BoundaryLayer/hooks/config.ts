@@ -5,5 +5,5 @@ import { InterventionStateSelector } from "../../../../../../../state/interventi
 
 export default function useBoundaryConfig(): BoundaryMapLayer {
   const { id } = useParams();
-  return useRecoilValue(InterventionStateSelector({ id, path: ["map", "coreLayers", "boundaryLayer"] }));
+  return useRecoilValue(InterventionStateSelector({ id, path: ["map", "coreLayers", "boundaryLayer"] })) ?? {};
 }

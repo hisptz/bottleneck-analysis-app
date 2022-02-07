@@ -12,18 +12,23 @@ export const FacilityMapData = selectorFamily({
     (id?: string) =>
     async ({ get }) => {
       if (id) {
-        const lastLevel = get(LastOrgUnitLevel);
-        const selectedOrgUnit = get(InterventionOrgUnitState(id));
-        const engine = get(EngineState);
-        const boundaryData = await getBoundaryData(engine, [selectedOrgUnit.id, `LEVEL-${lastLevel?.level}`]);
-        return flatten(
-          boundaryData?.map((area: { co: string; id: string; na: string; le: number }) => ({
-            id: area.id,
-            name: area.na,
-            level: area.le,
-            co: convertCoordinates(JSON.parse(area.co)),
-          }))
-        );
+        try {
+          const lastLevel = get(LastOrgUnitLevel);
+          const selectedOrgUnit = get(InterventionOrgUnitState(id));
+          const engine = get(EngineState);
+          const boundaryData = await getBoundaryData(engine, [selectedOrgUnit.id, `LEVEL-${lastLevel?.level}`]);
+          return flatten(
+            boundaryData?.map((area: { co: string; id: string; na: string; le: number }) => ({
+              id: area.id,
+              name: area.na,
+              level: area.le,
+              co: convertCoordinates(JSON.parse(area.co)),
+            }))
+          );
+        } catch (e) {
+          console.error(e);
+          return [];
+        }
       }
     },
 });

@@ -35,9 +35,10 @@ export const MapIndicatorState = atomFamily<Array<any> | undefined, string | und
             path: ["map", "coreLayers", "thematicLayers"],
           })
         );
-        const indicatorIds = thematicLayers?.map((layer: ThematicMapLayer) => layer.indicator);
-
-        return await getIndicators(indicatorIds, engine);
+        if (thematicLayers) {
+          const indicatorIds = thematicLayers?.map((layer: ThematicMapLayer) => layer.indicator);
+          return await getIndicators(indicatorIds, engine);
+        }
       },
   }),
 });

@@ -16,7 +16,7 @@ function LegendItem({ legend, value }: { legend: { startValue: number; endValue:
 }
 
 function ChoroplethLegend(
-  { indicator, data, config }: { indicator: any; data: any; config: ThematicMapLayer },
+  { indicator, data, config }: { indicator: { id: string; legendSets: Array<any>; displayName: string }; data: any; config: ThematicMapLayer },
   ref: React.LegacyRef<HTMLDivElement> | undefined
 ) {
   const legends = useMemo(() => {

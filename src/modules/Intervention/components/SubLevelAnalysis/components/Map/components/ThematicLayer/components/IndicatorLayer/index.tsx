@@ -24,11 +24,13 @@ export default function IndicatorLayer({ config }: { config: ThematicMapLayer })
   const bubbleLegendRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (choroplethLegendRef.current) {
+    if (choroplethLegendRef.current !== null) {
+      // @ts-ignore
       legendControl.onAdd = () => choroplethLegendRef?.current;
       map.addControl(legendControl);
     }
-    if (bubbleLegendRef.current) {
+    if (bubbleLegendRef.current !== null) {
+      // @ts-ignore
       legendControl.onAdd = () => bubbleLegendRef?.current;
       map.addControl(legendControl);
     }

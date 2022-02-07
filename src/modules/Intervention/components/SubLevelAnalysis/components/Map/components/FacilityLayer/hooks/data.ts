@@ -6,7 +6,7 @@ import { FacilityMapData } from "../state/config";
 export default function useFacilityData() {
   const { id } = useParams();
   const data = useRecoilValue(FacilityMapData(id));
-  const config = useRecoilValue(InterventionStateSelector({ id, path: ["map", "coreLayers", "facilityLayer"] }));
+  const config = useRecoilValue(InterventionStateSelector({ id, path: ["map", "coreLayers", "facilityLayer"] })) ?? {};
 
   return { data, config };
 }

@@ -7,7 +7,7 @@ import IndicatorLayer from "./components/IndicatorLayer";
 
 export default function ThematicLayer() {
   const { id } = useParams<{ id: string }>();
-  const thematicLayers: Array<ThematicMapLayer> = useRecoilValue(InterventionStateSelector({ id, path: ["map", "coreLayers", "thematicLayers"] }));
+  const thematicLayers: Array<ThematicMapLayer> = useRecoilValue(InterventionStateSelector({ id, path: ["map", "coreLayers", "thematicLayers"] })) ?? [];
   return (
     <>
       {thematicLayers?.map((layer) => (

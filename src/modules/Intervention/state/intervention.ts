@@ -48,11 +48,16 @@ export const InterventionStateSelector = selectorFamily<any, { id?: string; path
   get:
     ({ id, path }: { id?: string; path: Array<string> }) =>
     ({ get }) => {
-      const config = get(InterventionState(id));
-      if (!config) {
+      try {
+        const config = get(InterventionState(id));
+        if (!config) {
+          return undefined;
+        }
+        return _get(config, path);
+      } catch (e) {
+        console.error(e);
         return undefined;
       }
-      return _get(config, path);
     },
 });
 

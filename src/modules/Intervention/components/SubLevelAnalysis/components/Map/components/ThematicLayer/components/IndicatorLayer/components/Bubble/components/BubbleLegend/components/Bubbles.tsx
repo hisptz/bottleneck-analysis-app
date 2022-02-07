@@ -79,6 +79,7 @@ const Bubbles = ({ radiusLow, radiusHigh, color, classes }: { radiusLow: number;
   // Calculate the total length if numbers are alternate on each side
   const alternateLength = (radiusHigh + guideLength + textPadding + textLength) * 2;
 
+  // @ts-ignore
   let smallestGap = bubbles.reduce((prev, curr, i) => {
     const gap = prev.radius - curr.radius;
     const smallestGap = prev.gap === undefined || gap < prev.gap ? gap : prev.gap;
@@ -93,13 +94,16 @@ const Bubbles = ({ radiusLow, radiusHigh, color, classes }: { radiusLow: number;
 
   const alternateFit = alternateLength < legendWidth;
 
+  // @ts-ignore
   const alternate = alternateFit && smallestGap > 5 && smallestGap < 12;
 
   if (!alternateFit) {
+    // @ts-ignore
     smallestGap = smallestGap / 2;
   }
 
   // Too cramped to show number for each bubble
+  // @ts-ignore
   if (smallestGap < 6) {
     const [maxBubble] = bubbles;
     const minBubble = bubbles[bubbles.length - 1];
@@ -121,6 +125,7 @@ const Bubbles = ({ radiusLow, radiusHigh, color, classes }: { radiusLow: number;
 
     bubbles.forEach((b, i) => {
       if (!showNumbers.includes(i)) {
+        // @ts-ignore
         delete b.text;
       }
     });
