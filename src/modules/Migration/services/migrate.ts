@@ -148,7 +148,7 @@ export function convertIntervention(config: OldInterventionConfig): Intervention
     orgUnitSelection: convertOrgUnit(orgUnitConfig),
     periodSelection: convertPeriod(bottleneckPeriodType, periodConfig),
     map: {
-      enabled: true,
+      enabled: false,
       coreLayers: {
         boundaryLayer: { enabled: true },
         thematicLayers: [

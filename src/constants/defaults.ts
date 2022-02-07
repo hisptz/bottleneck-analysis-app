@@ -116,7 +116,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
     subLevel: undefined,
   },
   map: {
-    enabled: true,
+    enabled: false,
     coreLayers: {
       boundaryLayer: { enabled: true },
       thematicLayers: [
