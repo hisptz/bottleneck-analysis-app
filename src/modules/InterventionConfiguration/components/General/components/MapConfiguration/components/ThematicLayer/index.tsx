@@ -7,7 +7,7 @@ import { useRecoilValueLoadable } from "recoil";
 import { IndicatorState } from "../../../../../../../../core/state/data";
 import { DataItem, ThematicLayerType, ThematicMapLayer } from "../../../../../../../../shared/interfaces/interventionConfig";
 import IndicatorSelectorModal from "./components/IndicatorSelectorModal";
-import { findIndex, head } from "lodash";
+import { compact, findIndex, head } from "lodash";
 
 function SingleThematicLayerConfig({
   type,
@@ -21,7 +21,7 @@ function SingleThematicLayerConfig({
   onChange: (newValue: ThematicMapLayer) => void;
 }) {
   const [openDataSelector, setOpenDataSelector] = useState(false);
-  const indicator = useRecoilValueLoadable(IndicatorState(value?.indicator));
+  const indicatorState = useRecoilValueLoadable(IndicatorState(value?.indicator));
   const onUpdate = useCallback(
     (selectedIndicators: Array<DataItem>) => {
       const newValue = { ...value, indicator: head(selectedIndicators)?.id ?? "" };
@@ -51,12 +51,17 @@ function SingleThematicLayerConfig({
               <div className="row space-between align-center">
                 <div className="row gap align-center">
                   <b style={{ fontSize: 14 }}>{i18n.t("Indicator")}: </b>
-                  {value?.indicator && <Tag>{indicator?.contents?.displayName}</Tag>}
+                  {value?.indicator && <Tag>{indicatorState?.contents?.displayName}</Tag>}
                 </div>
                 <Button onClick={() => setOpenDataSelector(true)}>{value?.indicator ? i18n.t("Update") : i18n.t("Select")}</Button>
               </div>
               {openDataSelector && (
-                <IndicatorSelectorModal onUpdate={onUpdate} onClose={() => setOpenDataSelector(false)} hide={!openDataSelector} selected={[]} />
+                <IndicatorSelectorModal
+                  onUpdate={onUpdate}
+                  onClose={() => setOpenDataSelector(false)}
+                  hide={!openDataSelector}
+                  selected={compact([indicatorState?.contents])}
+                />
               )}
             </>
           )}
