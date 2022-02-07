@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-04T10:25:42.948Z\n"
-"PO-Revision-Date: 2022-02-04T10:25:42.948Z\n"
+"POT-Creation-Date: 2022-02-04T15:07:23.158Z\n"
+"PO-Revision-Date: 2022-02-04T15:07:23.158Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -153,11 +153,11 @@ msgstr ""
 "indicators highlighted in colors configured in this intervention"
 
 msgid ""
-"This action help you to flip table components by exchange the table rows and "
-"columns"
+"This action help you to flip table components by exchange the table rows "
+"and columns"
 msgstr ""
-"This action help you to flip table components by exchange the table rows and "
-"columns"
+"This action help you to flip table components by exchange the table rows "
+"and columns"
 
 msgid "This is the intervention table view options of this intervention"
 msgstr "This is the intervention table view options of this intervention"
@@ -843,15 +843,6 @@ msgstr "Mid"
 
 msgid "Min"
 msgstr "Min"
-
-msgid "Group"
-msgstr "Group"
-
-msgid "Filters"
-msgstr "Filters"
-
-msgid "Source"
-msgstr "Source"
 
 msgid "Choropleth"
 msgstr "Choropleth"

@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useRef } from "react";
 import { LayerGroup, LayersControl, useMap } from "react-leaflet";
 import { ThematicMapLayer } from "../../../../../../../../../../shared/interfaces/interventionConfig";
 import Bubble from "./components/Bubble";
+import BubbleLegend from "./components/Bubble/components/BubbleLegend";
 import Choropleth from "./components/Choropleth";
 import ChoroplethLegend from "./components/Choropleth/components/ChoroplethLegend";
 import useMapIndicatorData from "./hooks/data";
@@ -19,11 +20,16 @@ export default function IndicatorLayer({ config }: { config: ThematicMapLayer })
     []
   );
 
-  const ref = useRef<HTMLDivElement>(null);
+  const choroplethLegendRef = useRef<HTMLDivElement>(null);
+  const bubbleLegendRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (ref.current) {
-      legendControl.onAdd = () => ref?.current;
+    if (choroplethLegendRef.current) {
+      legendControl.onAdd = () => choroplethLegendRef?.current;
+      map.addControl(legendControl);
+    }
+    if (bubbleLegendRef.current) {
+      legendControl.onAdd = () => bubbleLegendRef?.current;
       map.addControl(legendControl);
     }
   }, [legendControl, map]);
@@ -36,18 +42,19 @@ export default function IndicatorLayer({ config }: { config: ThematicMapLayer })
         checked={config.enabled}
         name={`${indicator?.displayName} (${config.type === "choropleth" ? i18n.t("Choropleth") : i18n.t("Bubble")})`}>
         <LayerGroup>
-          {data?.map((d: any) =>
+          {data?.map((d: any, i: number) =>
             d.orgUnit ? (
               config.type === "choropleth" ? (
-                <Choropleth key={`${indicator?.id}-choro-layer`} indicator={indicator} data={d} />
+                <Choropleth key={`${indicator?.id}-${i}-choro-layer`} indicator={indicator} data={d} />
               ) : (
-                <Bubble key={`${indicator?.id}-bubble-layer`} indicator={indicator} data={d} />
+                <Bubble key={`${indicator?.id}-${i}-bubble-layer`} indicator={indicator} data={d} />
               )
             ) : null
           )}
         </LayerGroup>
       </LayersControl.Overlay>
-      {config.type === "choropleth" && <ChoroplethLegend ref={ref} data={data} indicator={indicator} config={config} />}
+      {config.type === "choropleth" && <ChoroplethLegend ref={choroplethLegendRef} data={data} indicator={indicator} config={config} />}
+      {config.type === "bubble" && <BubbleLegend ref={bubbleLegendRef} data={data} indicator={indicator} config={config} />}
     </>
   );
 }

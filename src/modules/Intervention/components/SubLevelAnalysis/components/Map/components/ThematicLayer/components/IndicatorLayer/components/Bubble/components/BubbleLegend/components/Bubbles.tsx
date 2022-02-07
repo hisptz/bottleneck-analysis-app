@@ -1,8 +1,8 @@
 import i18n from "@dhis2/d2-i18n";
 import { scaleSqrt } from "d3-scale";
 import React from "react";
-import { getContrastColor } from "../utils/colors";
-import { getLongestTextLength } from "../utils/helpers";
+import { getContrastColor } from "../../../../../../../../LegendLayer/utils/colors";
+import { getLongestTextLength } from "../../../../../../../../LegendLayer/utils/helpers";
 import Bubble, { BubbleProps } from "./Bubble";
 
 const style = {
