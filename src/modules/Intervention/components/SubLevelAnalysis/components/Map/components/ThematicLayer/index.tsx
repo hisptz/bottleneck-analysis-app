@@ -18,7 +18,7 @@ export default function ThematicLayer() {
       {thematicLayers?.map((layer) => (
         <IndicatorLayer config={layer} key={`${layer.indicator}-parent-layer`} />
       ))}
-      <Control position="topright">
+      <Control position="topleft">
         <Tooltip content={`${showLegend ? i18n.t("Hide") : i18n.t("Show")} Legends`}>
           <Button toggled={showLegend} onClick={() => setShowLegend((prev) => !prev)} icon={<IconLegend24 />} />
         </Tooltip>

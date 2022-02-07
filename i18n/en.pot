@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-04T15:07:23.158Z\n"
-"PO-Revision-Date: 2022-02-04T15:07:23.158Z\n"
+"POT-Creation-Date: 2022-02-07T12:49:19.945Z\n"
+"PO-Revision-Date: 2022-02-07T12:49:19.945Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -831,6 +831,9 @@ msgstr "Legends for analysis"
 
 msgid "Boundaries"
 msgstr "Boundaries"
+
+msgid "Download image"
+msgstr "Download image"
 
 msgid "Facilities"
 msgstr "Facilities"

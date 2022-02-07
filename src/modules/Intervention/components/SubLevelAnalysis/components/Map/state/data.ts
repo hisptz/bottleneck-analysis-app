@@ -34,7 +34,7 @@ export const MapIndicatorData = selectorFamily<any, string | undefined>({
         });
         return groupBy(allData, (data: any) => data.indicator.id);
       } catch (e) {
-        console.log(e);
+        console.error(e);
         return undefined;
       }
     },

@@ -1,6 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { scaleSqrt } from "d3-scale";
-import React from "react";
+import React, { memo } from "react";
 import { getContrastColor } from "../../../../../../../../LegendLayer/utils/colors";
 import { getLongestTextLength } from "../../../../../../../../LegendLayer/utils/helpers";
 import Bubble, { BubbleProps } from "./Bubble";
@@ -148,4 +148,4 @@ const Bubbles = ({ radiusLow, radiusHigh, color, classes }: { radiusLow: number;
   );
 };
 
-export default Bubbles;
+export default memo(Bubbles);
