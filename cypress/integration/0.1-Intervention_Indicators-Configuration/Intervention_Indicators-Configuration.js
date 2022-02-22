@@ -7,11 +7,30 @@ Given("authorized user with administrative access", () => {
 });
 When("click intervention search button", () => {
   cy.wait(5000);
-  cy.get("[data-test='addIntervntionButton']").click();
+  cy.get(".cards").click();
+  cy.get("[data-test=addIntervntionButton]").click();
+
+  // cy.get("[data-test='addIntervntionButton']").click();
   cy.get("[data-test='intervention-selection-menu']").should("be.visible");
 });
 And("Choose to create a new Intervention", () => {
-  cy.get("[data-test='create-intervention-menu']").click();
+  cy.get(".p-16").click();
+  cy.get("#name").click();
+  cy.get("#name").type("Testing Intervention");
+  cy.get("#name").dblclick();
+  cy.get("#name").click();
+  cy.get("#description").click();
+  cy.get("#description").type("{backspace}");
+  cy.get("#description").type("{backspace}");
+  cy.get("#description").type("{backspace}");
+  cy.get("#description").type("{backspace}");
+  cy.get("#description").type("{backspace}");
+  cy.get("#description").type("{backspace}");
+  cy.get("#description").type("{backspace}");
+  cy.get("#description").type("{backspace}");
+  cy.get("#description").type("{backspace}");
+  cy.get("#description").type("Testing Intervention Description");
+  cy.get("[data-test=scorecard-admin-next-button]").click();
 });
 Then("Stepper Configuration should be displayed", () => {
   cy.get(".MuiPaper-root").should("be.visible");
