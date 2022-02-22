@@ -2,6 +2,41 @@ export interface User {
   id: string;
 }
 
+export type MapLayerLayout = "basemap" | "overlay";
+export type ThematicLayerType = "choropleth" | "bubble";
+
+export interface MapLayer {
+  id: string;
+  name: string;
+  url?: string;
+  layout: MapLayerLayout;
+  enabled: boolean;
+}
+
+export interface BoundaryMapLayer {
+  enabled: boolean;
+}
+
+export interface FacilityMapLayer {
+  enabled: boolean;
+}
+
+export interface ThematicMapLayer {
+  enabled: boolean;
+  indicator: string;
+  type: ThematicLayerType;
+}
+
+export interface Map {
+  enabled: boolean;
+  coreLayers: {
+    thematicLayers: ThematicMapLayer[];
+    boundaryLayer: BoundaryMapLayer;
+    facilityLayer: FacilityMapLayer;
+  };
+  externalLayers?: MapLayer[];
+}
+
 export interface LegendDefinition {
   id: string;
   color: string;
@@ -65,6 +100,7 @@ export interface InterventionConfig {
   dataSelection: DataSelection;
   periodSelection: PeriodSelection;
   orgUnitSelection: OrgUnitSelection;
+  map?: Map;
 }
 
 export interface InterventionSummary {

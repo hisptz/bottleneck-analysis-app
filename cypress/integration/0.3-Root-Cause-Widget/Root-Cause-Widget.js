@@ -1,5 +1,5 @@
 /**
- * Scenario:  Show root cause  component
+ * Scenario:  Show root cause  components
  */
 Given("A user who authorized", () => {
   cy.visit("/");
@@ -8,14 +8,14 @@ When("I visit the Root Cause Component", () => {
   cy.wait(2000);
   cy.get("[data-test='root-cause-table']").scrollIntoView();
 });
-Then("I should be able to see list of all the Root cause component", () => {
+Then("I should be able to see list of all the Root cause components", () => {
   cy.get("[data-test='root-cause-table']").should("be.visible");
 });
 
 /**
  * Scenario: Show new root cause form
  */
-And("I navigate to add new root cause component", () => {
+And("I navigate to add new root cause components", () => {
   cy.get("[data-test='add-new-root-cause']").click();
 });
 Then("A form of adding new root cause details should appear", () => {
@@ -29,7 +29,7 @@ And("I visit the Root Cause Component", () => {
   cy.wait("2000");
   cy.get("[data-test='root-cause-table']").scrollIntoView();
 });
-And("I navigate to add new root cause component", () => {
+And("I navigate to add new root cause components", () => {
   cy.get("[data-test='add-new-root-cause']").click();
 });
 And("A form of adding new root cause details appeared", () => {

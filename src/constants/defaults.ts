@@ -115,6 +115,25 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
     },
     subLevel: undefined,
   },
+  map: {
+    enabled: false,
+    coreLayers: {
+      boundaryLayer: { enabled: true },
+      thematicLayers: [
+        {
+          enabled: true,
+          indicator: "",
+          type: "choropleth",
+        },
+        {
+          enabled: true,
+          indicator: "",
+          type: "bubble",
+        },
+      ],
+      facilityLayer: { enabled: true },
+    },
+  },
 };
 
 export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {

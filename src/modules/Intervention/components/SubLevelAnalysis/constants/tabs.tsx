@@ -33,4 +33,14 @@ export const tabs: Array<Tab> = [
     label: i18n.t("Dictionary View"),
     component: Dictionary,
   },
+  {
+    key: "map",
+    icon: (
+      <div className={"intervention-map-view-option"}>
+        <IconWorld24 />
+      </div>
+    ),
+    label: i18n.t("Map View"),
+    component: Map,
+  },
 ];

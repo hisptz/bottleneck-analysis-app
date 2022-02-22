@@ -9,28 +9,30 @@ import { isArchiveId } from "../../../shared/utils/archives";
 import { getCurrentPeriod } from "../../../shared/utils/period";
 import { Archive } from "../../Archives/state/data";
 
-export const InterventionPeriodState = atomFamily<PeriodInterface, string>({
+export const InterventionPeriodState = atomFamily<PeriodInterface, string | undefined>({
   key: "intervention-period",
-  default: selectorFamily<PeriodInterface, string>({
+  default: selectorFamily<PeriodInterface, string | undefined>({
     key: "activePeriodState",
     get:
-      (interventionId: string) =>
+      (interventionId?: string) =>
       ({ get }) => {
         const { calendar } = get(SystemSettingsState);
 
-        if (isArchiveId(interventionId)) {
-          return new Period()
-            .setCalendar(calendar)
-            .setPreferences({ allowFuturePeriods: true })
-            .getById(get(Archive(interventionId))?.period ?? new Date().getFullYear().toString());
-        }
-        const { periodSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
-        if (periodSelection) {
-          if (periodSelection?.id) {
-            return new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true }).getById(periodSelection?.id) as PeriodInterface;
+        if (interventionId) {
+          if (isArchiveId(interventionId)) {
+            return new Period()
+              .setCalendar(calendar)
+              .setPreferences({ allowFuturePeriods: true })
+              .getById(get(Archive(interventionId))?.period ?? new Date().getFullYear().toString());
           }
-          if (periodSelection?.type) {
-            return getCurrentPeriod(periodSelection.type, calendar);
+          const { periodSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
+          if (periodSelection) {
+            if (periodSelection?.id) {
+              return new Period().setCalendar(calendar).setPreferences({ allowFuturePeriods: true }).getById(periodSelection?.id) as PeriodInterface;
+            }
+            if (periodSelection?.type) {
+              return getCurrentPeriod(periodSelection.type, calendar);
+            }
           }
         }
         return getCurrentPeriod("Yearly", calendar);
@@ -45,18 +47,20 @@ export const InterventionOrgUnitState = atomFamily<OrgUnitType, string>({
     get:
       (interventionId: string) =>
       async ({ get }) => {
-        if (isArchiveId(interventionId)) {
-          return get(OrgUnit(get(Archive(interventionId))?.orgUnit));
-        }
-
-        const { orgUnitSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
         const userOrgUnit = get(UserOrganisationUnit);
-        if (orgUnitSelection) {
-          if (orgUnitSelection?.orgUnit?.id && !orgUnitSelection?.orgUnit?.id?.includes("USER")) {
-            const orgUnit = get(OrgUnit(orgUnitSelection?.orgUnit?.id));
-            if (userOrgUnit) {
-              if (orgUnit?.level > userOrgUnit?.level) {
-                return orgUnit;
+        if (interventionId) {
+          if (isArchiveId(interventionId)) {
+            return get(OrgUnit(<string>get(Archive(interventionId))?.orgUnit));
+          }
+
+          const { orgUnitSelection } = get(CurrentInterventionSummary(interventionId)) ?? {};
+          if (orgUnitSelection) {
+            if (orgUnitSelection?.orgUnit?.id && !orgUnitSelection?.orgUnit?.id?.includes("USER")) {
+              const orgUnit = get(OrgUnit(orgUnitSelection?.orgUnit?.id));
+              if (userOrgUnit) {
+                if (orgUnit?.level > userOrgUnit?.level) {
+                  return orgUnit;
+                }
               }
             }
           }

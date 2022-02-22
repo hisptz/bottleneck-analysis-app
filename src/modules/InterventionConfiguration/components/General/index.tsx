@@ -8,6 +8,7 @@ import { STEP_OPTIONS } from "../../../../constants/help/options";
 import HelpState from "./../../../Intervention/state/help";
 import InterventionConfigDetails from "./components/InterventionConfigDetails";
 import { LegendDefinitionConfigDetails } from "./components/LegendDefinitionConfigDetails";
+import MapConfiguration from "./components/MapConfiguration";
 
 export default function GeneralConfigurationComponent({ form }: { form: any }) {
   const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
@@ -21,7 +22,10 @@ export default function GeneralConfigurationComponent({ form }: { form: any }) {
       <div className="general-config-container">
         <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={INTERVENTION_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
         <InterventionConfigDetails />
-        <LegendDefinitionConfigDetails />
+        <div className="column gap w-100 ">
+          <LegendDefinitionConfigDetails />
+          <MapConfiguration />
+        </div>
       </div>
     </FormProvider>
   );

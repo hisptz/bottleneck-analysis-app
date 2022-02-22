@@ -22,35 +22,42 @@ export const InterventionTemplateState = atom<Array<InterventionTemplateConfig> 
   }),
 });
 
-export const InterventionState = selectorFamily<InterventionConfig | undefined, string>({
+export const InterventionState = selectorFamily<InterventionConfig | undefined, string | undefined>({
   key: "intervention-state",
   get:
-    (id: string) =>
+    (id?: string) =>
     async ({ get }) => {
-      try {
-        if (isArchiveId(id)) {
-          const { config } = get(Archive(id)) ?? {};
-          return config;
+      if (id) {
+        try {
+          if (isArchiveId(id)) {
+            const { config } = get(Archive(id)) ?? {};
+            return config;
+          }
+          const engine = get(EngineState);
+          return await getIntervention(engine, id);
+        } catch (e) {
+          console.error(e);
+          return undefined;
         }
-        const engine = get(EngineState);
-        return await getIntervention(engine, id);
-      } catch (e) {
-        console.error(e);
-        return undefined;
       }
     },
 });
 
-export const InterventionStateSelector = selectorFamily<any, { id: string; path: Array<string> }>({
+export const InterventionStateSelector = selectorFamily<any, { id?: string; path: Array<string> }>({
   key: "intervention-config-selector",
   get:
-    ({ id, path }: { id: string; path: Array<string> }) =>
+    ({ id, path }: { id?: string; path: Array<string> }) =>
     ({ get }) => {
-      const config = get(InterventionState(id));
-      if (!config) {
+      try {
+        const config = get(InterventionState(id));
+        if (!config) {
+          return undefined;
+        }
+        return _get(config, path);
+      } catch (e) {
+        console.error(e);
         return undefined;
       }
-      return _get(config, path);
     },
 });
 

@@ -45,6 +45,7 @@ export default function useSaveIntervention(): {
       periodSelection: intervention?.periodSelection,
       orgUnitSelection: intervention?.orgUnitSelection,
       legendDefinitions: intervention?.dataSelection.legendDefinitions,
+      map: intervention?.map,
     },
   });
   const determinantsForm = useForm({
