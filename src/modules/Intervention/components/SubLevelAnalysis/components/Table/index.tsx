@@ -44,7 +44,7 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
             </DataTableColumnHeader>
           </DataTableRow>
         </DataTable>
-        <DataTable scrollHeight={isFullPage ? "calc(100vh - 200px)" : "800px"} ref={tableRef} fixed className={classes["table"]} bordered>
+        <DataTable scrollHeight={isFullPage ? "calc(100vh - 200px)" : "500px"} ref={tableRef} fixed className={classes["table"]} bordered>
           <TableHeader />
           <TableBody />
         </DataTable>

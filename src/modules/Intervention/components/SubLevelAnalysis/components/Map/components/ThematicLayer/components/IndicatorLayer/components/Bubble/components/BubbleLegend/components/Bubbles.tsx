@@ -137,7 +137,7 @@ const Bubbles = ({ radiusLow, radiusHigh, color, classes }: { radiusLow: number;
 
   return (
     <div style={style}>
-      <svg width={legendWidth} height={height + 20}>
+      <svg width={legendWidth} height={height + 50}>
         <g transform={`translate(${alternate ? offset : "2"} 10)`}>
           {bubbles.map((bubble, i) => (
             <Bubble key={i} {...bubble} textAlign={alternate && i % 2 == 0 ? "left" : "right"} />

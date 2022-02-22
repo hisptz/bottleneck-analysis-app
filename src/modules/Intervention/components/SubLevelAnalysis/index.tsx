@@ -60,7 +60,7 @@ export default function SubLevelAnalysis(): React.ReactElement {
       actions={<SubLevelActions />}
       title={<SubLevelHeader activeTab={activeTab} />}>
       <ErrorBoundary onReset={resetData} resetKeys={[activeTabKey, id]} FallbackComponent={CardError}>
-        <div style={{ overflow: "hidden", maxHeight: handle.active ? "calc(100vh - 120px)" : 900 }} className="sub-level-container">
+        <div style={{ overflow: "hidden", maxHeight: handle.active ? "calc(100vh - 120px)" : 500 }} className="sub-level-container">
           <ActiveComponent tableRef={tableRef} />
         </div>
       </ErrorBoundary>

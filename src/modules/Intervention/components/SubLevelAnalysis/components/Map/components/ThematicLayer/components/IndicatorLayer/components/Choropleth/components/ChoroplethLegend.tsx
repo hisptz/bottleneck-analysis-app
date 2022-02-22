@@ -27,7 +27,7 @@ function ChoroplethLegend(
     <div className="legend-card" ref={ref}>
       <h4 className="legend-header">{indicator?.displayName}</h4>
       <Divider margin={"0"} />
-      <div className="legend-list pt-8">
+      <div style={{ width: 150 }} className="legend-list pt-8">
         {legends?.map((legend: any) => (
           <LegendItem key={`${legend?.id}`} legend={legend} value={getLegendCount(legend, data)} />
         ))}

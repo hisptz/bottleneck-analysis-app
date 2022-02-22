@@ -7,8 +7,8 @@ import Bubbles from "./components/Bubbles";
 
 function getRadius(legends: Array<any>) {
   return {
-    radiusHigh: head(legends)?.endValue / 25,
-    radiusLow: last(legends)?.startValue / 25,
+    radiusHigh: head(legends)?.endValue / 2.5,
+    radiusLow: last(legends)?.startValue / 2.5,
   };
 }
 
