@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:3000",
+  "baseUrl": "http://localhost:3001",
   "testFiles": [
     "**/*.feature",
     "**/*.test.{js,ts,jsx,tsx}"
@@ -18,7 +18,7 @@
   "experimentalInteractiveRunEvents": true,
   "experimentalStudio": true,
   "viewportWidth": 1360,
-  "viewportHeight": 750,
+  "viewportHeight": 1050,
   "defaultCommandTimeout": 200000,
   "watchForFileChanges": true
 }
