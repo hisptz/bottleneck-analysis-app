@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-24T15:04:03.434Z\n"
-"PO-Revision-Date: 2022-02-24T15:04:03.434Z\n"
+"POT-Creation-Date: 2022-02-24T15:23:38.293Z\n"
+"PO-Revision-Date: 2022-02-24T15:23:38.293Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -559,9 +559,6 @@ msgstr "Clone an existing intervention"
 
 msgid "Search Interventions"
 msgstr "Search Interventions"
-
-msgid "Searched Intervention is not found"
-msgstr "Searched Intervention is not found"
 
 msgid "Root cause data updated successfully"
 msgstr "Root cause data updated successfully"
