@@ -145,7 +145,6 @@ export default function InterventionConfiguration(): React.ReactElement {
   if (id && !access?.write) {
     return <InterventionAccessError access={access} />;
   }
-  console.log({ interventionName });
 
   return (
     <div className="configuration-main-container">
