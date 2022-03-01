@@ -17,5 +17,6 @@ div > .archive-list-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    min-width: 256px
+    gap: 20px;
+    min-width: 256px;
 }
