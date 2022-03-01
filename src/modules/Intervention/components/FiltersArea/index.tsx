@@ -38,7 +38,7 @@ export default function FiltersArea(): React.ReactElement {
       </div>
       <div>
         <Button onClick={onClearFilter} small>
-          {i18n.t("Clear Filter")}
+          {i18n.t("Clear all filter")}
         </Button>
       </div>
     </div>
