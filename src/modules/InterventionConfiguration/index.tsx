@@ -145,11 +145,12 @@ export default function InterventionConfiguration(): React.ReactElement {
   if (id && !access?.write) {
     return <InterventionAccessError access={access} />;
   }
+  console.log({ interventionName });
 
   return (
     <div className="configuration-main-container">
       <div className="stepper-config-header">
-        <h2 style={{ margin: 4 }}>{`${i18n.t("Manage")} ${interventionName ?? "new intervention"}`}</h2>
+        <h2 style={{ margin: 4 }}>{`${interventionName != "" ? "Edit intervention" : "New intervention"}`}</h2>
         <div className="config-intial-action">
           <Button
             onClick={() => {
