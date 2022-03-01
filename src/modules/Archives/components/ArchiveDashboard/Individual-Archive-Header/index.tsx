@@ -40,14 +40,14 @@ export default function IndividualArchiveHeader(): React.ReactElement {
             onClick={(_: any, e: Event) => {
               history.push("/archives");
             }}>
-            {i18n.t("Back to Archives")}
+            {i18n.t("Back to archives")}
           </Button>
           <Button
             className="archive-header-button"
             onClick={(_: any, e: Event) => {
               history.replace("/");
             }}>
-            {i18n.t("Back to Interventions")}
+            {i18n.t("Back to all interventions")}
           </Button>
           {/*<Button>{i18n.t("Refresh")}</Button>*/}
           <Button onClick={() => setHelpState(true)} icon={<IconQuestion16 color="#212529" />}>
