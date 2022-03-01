@@ -41,7 +41,12 @@ export default function Dictionary(): React.ReactElement {
     <div className="column h-100 w-100 p-8">
       <div className="row gap pb-8 w-100 ">
         <div style={{ minWidth: 200 }}>
-          <Input fullWidth value={searchKeyword} onChange={({ value }: { value: string }) => setSearchKeyword(value)} placeholder={i18n.t("Search")} />
+          <Input
+            fullWidth
+            value={searchKeyword}
+            onChange={({ value }: { value: string }) => setSearchKeyword(value)}
+            placeholder={i18n.t("Search dictionary")}
+          />
         </div>
         <div className="row gap w-100" style={{ overflow: "auto" }}>
           {indicators?.map(({ id, name }) => (
