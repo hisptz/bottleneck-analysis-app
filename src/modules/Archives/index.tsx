@@ -58,7 +58,7 @@ function ArchiveComponent(): React.ReactElement {
               </span>
               <h2 style={{ color: colors.grey800, margin: 0 }}>{i18n.t("There are currently no archived interventions")}</h2>
               <Button primary onClick={() => history.replace("/")}>
-                {i18n.t("Back to Interventions")}
+                {i18n.t("Back to all interventions")}
               </Button>
             </div>
           )}
@@ -69,7 +69,7 @@ function ArchiveComponent(): React.ReactElement {
               </span>
               <h2 style={{ color: colors.grey800, margin: 0 }}>{i18n.t("There are currently no archived interventions")}</h2>
               <Button primary onClick={() => history.replace("/")}>
-                {i18n.t("Back to Interventions")}
+                {i18n.t("Back to all interventions")}
               </Button>
             </div>
           )}
