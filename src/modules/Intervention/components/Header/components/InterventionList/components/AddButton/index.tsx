@@ -17,7 +17,7 @@ function AddMenu({ reference, onClose, onCloneClick }: { reference: any; onClose
               onClose();
               history.replace("/new-intervention");
             }}
-            label={i18n.t("Create new")}
+            label={i18n.t("Duplicate an intervention")}
           />
           <MenuItem
             onClick={() => {

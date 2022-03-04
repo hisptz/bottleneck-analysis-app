@@ -17,16 +17,7 @@ export const FilteredInterventions = selectorFamily({
       return sortBy(
         filter(interventions, (intervention: InterventionSummary) => {
           return intervention.name.toLowerCase().indexOf((searchKeyword || "").toLowerCase()) != -1;
-        }),
-        (intervention: InterventionSummary) => {
-          if (intervention.id === id) {
-            return 0;
-          }
-          if (intervention.bookmarks?.includes(user.id)) {
-            return 1;
-          }
-          return 2;
-        }
+        })
       );
     },
 });

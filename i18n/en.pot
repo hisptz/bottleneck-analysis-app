@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-03-01T08:45:32.707Z\n"
-"PO-Revision-Date: 2022-03-01T08:45:32.707Z\n"
+"POT-Creation-Date: 2022-03-03T16:52:49.501Z\n"
+"PO-Revision-Date: 2022-03-03T16:52:49.501Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -368,11 +368,11 @@ msgstr "Archive Description"
 msgid "No description provided"
 msgstr "No description provided"
 
-msgid "BNA Archives"
-msgstr "BNA Archives"
+msgid "Archived interventions"
+msgstr "Archived interventions"
 
-msgid "Back to Intervention"
-msgstr "Back to Intervention"
+msgid "Back to all intervention"
+msgstr "Back to all intervention"
 
 msgid "Intervention"
 msgstr "Intervention"
@@ -452,8 +452,8 @@ msgstr "There are no organisation units or periods configured for this intervent
 msgid "View in Full Screen"
 msgstr "View in Full Screen"
 
-msgid "Clear Filter"
-msgstr "Clear Filter"
+msgid "Clear all filter"
+msgstr "Clear all filter"
 
 msgid "Intervention successfully archived"
 msgstr "Intervention successfully archived"
@@ -548,8 +548,8 @@ msgstr "Cloning..."
 msgid "Clone"
 msgstr "Clone"
 
-msgid "Create new"
-msgstr "Create new"
+msgid "Duplicate an intervention"
+msgstr "Duplicate an intervention"
 
 msgid "Clone an existing intervention"
 msgstr "Clone an existing intervention"
@@ -823,8 +823,8 @@ msgstr "Color"
 msgid "Legends for analysis"
 msgstr "Legends for analysis"
 
-msgid "Search"
-msgstr "Search"
+msgid "Search dictionary"
+msgstr "Search dictionary"
 
 msgid "Boundaries"
 msgstr "Boundaries"
@@ -906,6 +906,9 @@ msgstr "All users"
 
 msgid "User, group or role"
 msgstr "User, group or role"
+
+msgid "Search"
+msgstr "Search"
 
 msgid "Intervention deleted successfully"
 msgstr "Intervention deleted successfully"
