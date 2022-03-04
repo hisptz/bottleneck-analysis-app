@@ -1,7 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, DataTable, DataTableColumnHeader, DataTableRow } from "@dhis2/ui";
+import { Button, DataTable, DataTableColumnHeader, DataTableRow, SegmentedControl } from "@dhis2/ui";
 import { head } from "lodash";
-import React, { Suspense, useMemo } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import useScreenDimension from "../../../../../../core/hooks/useScreenDimension";
@@ -18,8 +18,10 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
   const switchLayout = useSetRecoilState(TableLayout(id));
   const { filter } = useRecoilValue(TableConfig(id));
   const isFullPage = useRecoilValue(FullPageState("subLevelAnalysis"));
+  const [segmentedState, setSegmentedState] = useState<string>("org_unit_rows");
 
   const onLayoutChange = () => {
+    setSegmentedState(segmentedState === "determinant_rows" ? "org_unit_rows" : "determinant_rows");
     switchLayout((prevLayout) => {
       if (prevLayout.columns.includes("dx")) {
         return switchedTableLayout;
@@ -33,9 +35,21 @@ export default function Table({ tableRef }: { tableRef: any }): React.ReactEleme
     <Suspense fallback={<CardLoader />}>
       <div className="column sub-level-analysis-table">
         <div className="row end p-8">
-          <Button className={"sub-level-analysis-table-switch"} onClick={onLayoutChange}>
-            {i18n.t("Switch Layout")}
-          </Button>
+          <SegmentedControl
+            className={"sub-level-analysis-table-switch"}
+            onChange={onLayoutChange}
+            options={[
+              {
+                label: "Determinant rows",
+                value: "determinant_rows",
+              },
+              {
+                label: "Org unit rows",
+                value: "org_unit_rows",
+              },
+            ]}
+            selected={segmentedState}
+          />
         </div>
         <DataTable className={classes["header-table"]}>
           <DataTableRow>
