@@ -77,9 +77,9 @@ export default function InterventionHeader(): React.ReactElement {
           <div className="row gap align-center">
             <h2 className="intervention-header-text">{name}</h2>
             <span className="intervention-org-unit" style={{ color: colors.grey700 }}>
-              ({`${orgUnit?.displayName ?? ""} - ${period?.name ?? ""}`})
+              {`${orgUnit?.displayName ?? ""} - ${period?.name ?? ""}`}
             </span>
-            <Tooltip content={i18n.t("{{type}} bookmark", { type: bookmarked ? i18n.t("Add") : i18n.t("Remove") })}>
+            <Tooltip content={i18n.t("{{type}} bookmark", { type: !bookmarked ? i18n.t("Add") : i18n.t("Remove") })}>
               <IconButton className="intervention-bookmark" onClick={toggleBookmark} style={{ padding: 2, color: "#000000" }}>
                 {bookmarked ? <IconStarFilled24 /> : <IconStar24 />}
               </IconButton>

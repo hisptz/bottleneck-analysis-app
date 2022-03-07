@@ -149,7 +149,7 @@ export default function InterventionConfiguration(): React.ReactElement {
   return (
     <div className="configuration-main-container">
       <div className="stepper-config-header">
-        <h2 style={{ margin: 4 }}>{`${i18n.t("Manage")} ${interventionName ?? "new intervention"}`}</h2>
+        <h2 style={{ margin: 4 }}>{`${interventionName != "" ? "Edit intervention" : "New intervention"}`}</h2>
         <div className="config-intial-action">
           <Button
             onClick={() => {

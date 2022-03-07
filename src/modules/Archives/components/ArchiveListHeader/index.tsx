@@ -16,7 +16,7 @@ export default function ArchivesListHeader(): React.ReactElement {
 
   return (
     <div className="archive-list-row">
-      <div className="archiveListTitle">{i18n.t("BNA Archives")}</div>
+      <div className="archiveListTitle">{i18n.t("Archived interventions")}</div>
       <div className="archive-action-button">
         <Button
           icon={<IconQuestion16 color="#212529" />}
@@ -26,7 +26,7 @@ export default function ArchivesListHeader(): React.ReactElement {
           {i18n.t("Help")}
         </Button>
         <Button className={"archive-intervntion-on-back-action"} onClick={backToHomePage}>
-          {i18n.t("Back to Intervention")}
+          {i18n.t("Back to all intervention")}
         </Button>
       </div>
     </div>

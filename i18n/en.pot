@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-07T12:49:19.945Z\n"
-"PO-Revision-Date: 2022-02-07T12:49:19.945Z\n"
+"POT-Creation-Date: 2022-03-07T06:16:01.375Z\n"
+"PO-Revision-Date: 2022-03-07T06:16:01.375Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -326,11 +326,11 @@ msgstr "Done"
 msgid "Error fetching user details"
 msgstr "Error fetching user details"
 
-msgid "Back to Archives"
-msgstr "Back to Archives"
+msgid "Back to archives"
+msgstr "Back to archives"
 
-msgid "Back to Interventions"
-msgstr "Back to Interventions"
+msgid "Back to all interventions"
+msgstr "Back to all interventions"
 
 msgid "Refresh"
 msgstr "Refresh"
@@ -368,11 +368,11 @@ msgstr "Archive Description"
 msgid "No description provided"
 msgstr "No description provided"
 
-msgid "BNA Archives"
-msgstr "BNA Archives"
+msgid "Archived interventions"
+msgstr "Archived interventions"
 
-msgid "Back to Intervention"
-msgstr "Back to Intervention"
+msgid "Back to all intervention"
+msgstr "Back to all intervention"
 
 msgid "Intervention"
 msgstr "Intervention"
@@ -419,9 +419,6 @@ msgstr "View"
 msgid "There are currently no archived interventions"
 msgstr "There are currently no archived interventions"
 
-msgid "Back To Interventions"
-msgstr "Back To Interventions"
-
 msgid "Welcome to the Bottleneck Analysis App!"
 msgstr "Welcome to the Bottleneck Analysis App!"
 
@@ -455,8 +452,8 @@ msgstr "There are no organisation units or periods configured for this intervent
 msgid "View in Full Screen"
 msgstr "View in Full Screen"
 
-msgid "Clear Filter"
-msgstr "Clear Filter"
+msgid "Clear all filter"
+msgstr "Clear all filter"
 
 msgid "Intervention successfully archived"
 msgstr "Intervention successfully archived"
@@ -497,8 +494,8 @@ msgstr "Documentation"
 msgid "View Archives"
 msgstr "View Archives"
 
-msgid "Download zip"
-msgstr "Download zip"
+msgid "Download Intervention Data"
+msgstr "Download Intervention Data"
 
 msgid "An error occurred while adding/removing bookmark"
 msgstr "An error occurred while adding/removing bookmark"
@@ -551,17 +548,14 @@ msgstr "Cloning..."
 msgid "Clone"
 msgstr "Clone"
 
-msgid "Create new"
-msgstr "Create new"
+msgid "Duplicate an intervention"
+msgstr "Duplicate an intervention"
 
 msgid "Clone an existing intervention"
 msgstr "Clone an existing intervention"
 
-msgid "Search"
-msgstr "Search"
-
-msgid "Searched Intervention is not found"
-msgstr "Searched Intervention is not found"
+msgid "Search Interventions"
+msgstr "Search Interventions"
 
 msgid "Root cause data updated successfully"
 msgstr "Root cause data updated successfully"
@@ -829,6 +823,9 @@ msgstr "Color"
 msgid "Legends for analysis"
 msgstr "Legends for analysis"
 
+msgid "Search dictionary"
+msgstr "Search dictionary"
+
 msgid "Boundaries"
 msgstr "Boundaries"
 
@@ -861,9 +858,6 @@ msgstr "Determinant"
 
 msgid "Organisation Units"
 msgstr "Organisation Units"
-
-msgid "Switch Layout"
-msgstr "Switch Layout"
 
 msgid "Table View"
 msgstr "Table View"
@@ -910,14 +904,17 @@ msgstr "All users"
 msgid "User, group or role"
 msgstr "User, group or role"
 
+msgid "Search"
+msgstr "Search"
+
 msgid "Intervention deleted successfully"
 msgstr "Intervention deleted successfully"
 
 msgid "An error occurred while deleting the configuration"
 msgstr "An error occurred while deleting the configuration"
 
-msgid "This will delete all data associated with this intervention."
-msgstr "This will delete all data associated with this intervention."
+msgid "Deleting an intervention can’t be undone"
+msgstr "Deleting an intervention can’t be undone"
 
 msgid ""
 "Removing this indicator may affect already existing data for this "
@@ -1065,9 +1062,6 @@ msgstr "Changes saved successfully"
 msgid "Intervention name is required. Please provide on in the general page."
 msgstr "Intervention name is required. Please provide on in the general page."
 
-msgid "Manage"
-msgstr "Manage"
-
 msgid "Save and Exit"
 msgstr "Save and Exit"
 
@@ -1112,6 +1106,9 @@ msgstr "edit"
 
 msgid "this intervention"
 msgstr "this intervention"
+
+msgid "Back to Interventions"
+msgstr "Back to Interventions"
 
 msgid "Intervention Not Found"
 msgstr "Intervention Not Found"

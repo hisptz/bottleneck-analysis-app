@@ -51,7 +51,7 @@ export default function MoreMenu({
             onZipDownload();
             onClose();
           }}
-          label={i18n.t("Download zip")}
+          label={i18n.t("Download Intervention Data")}
         />
       </FlyoutMenu>
     </>

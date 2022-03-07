@@ -13,7 +13,7 @@ export default function Search() {
         onChange={({ value }: { name: string; value: string }) => {
           setSearchKeyWord(value);
         }}
-        placeholder={i18n.t("Search")}
+        placeholder={i18n.t("Search Interventions")}
         name="intervention-search"
       />
     </div>

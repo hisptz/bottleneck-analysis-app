@@ -33,7 +33,7 @@ export default function InterventionList(): React.ReactElement {
             {interventions && interventions?.length > 0 ? (
               <InterventionChips interventions={interventions} showAll={showAll} />
             ) : searchKeyword != "" ? (
-              <SearchedInterventionNotFoundMessage />
+              <SearchedInterventionNotFoundMessage interventionSearchedIndex={searchKeyword} />
             ) : null}
           </div>
         </div>

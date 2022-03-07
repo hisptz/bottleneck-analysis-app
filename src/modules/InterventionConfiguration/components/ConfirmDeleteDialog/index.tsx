@@ -1,6 +1,7 @@
 import { useAlert } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, colors, Modal, ModalActions, ModalContent, ModalTitle } from "@dhis2/ui";
+import { blue } from "@material-ui/core/colors";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE } from "recoil";
@@ -53,10 +54,10 @@ export default function ConfirmDeleteDialog({
     <Modal position="middle" hide={hide} onClose={onClose}>
       <ModalTitle>{i18n.t("Confirm Delete")}</ModalTitle>
       <ModalContent>
-        <div className="column gap align-center">
+        <div className="column gap align-left">
           <span>{`${i18n.t("Are you sure you want to delete the intervention:")} `}</span>
-          <b style={{ margin: "auto", fontSize: 18, color: colors.grey900 }}>{`${name}`}</b>
-          <span style={{ color: colors.grey700 }}>{i18n.t("This will delete all data associated with this intervention.")}</span>
+          <b style={{ fontSize: 18, color: colors.grey900}}>{`${name}`}</b>
+          <span style={{ color: colors.grey700 }}>{i18n.t("Deleting an intervention can’t be undone")}</span>
         </div>
       </ModalContent>
       <ModalActions>
