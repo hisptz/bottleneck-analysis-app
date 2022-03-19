@@ -10,14 +10,15 @@ import { normalTableLayout, switchedTableLayout } from "../../constants/tableLay
 import { TableConfig, TableLayout } from "../../state/layout";
 import TableBody from "./components/TableBody";
 import TableHeader from "./components/TableHeader";
+import { SubLevelTableRef } from "../../state/table";
 
-export default function Table({ tableRef }: { tableRef: any }): React.ReactElement {
+export default function Table(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const switchLayout = useSetRecoilState(TableLayout(id));
   const { filter } = useRecoilValue(TableConfig(id)) ?? {};
   const isFullPage = useRecoilValue(FullPageState("subLevelAnalysis"));
   const [segmentedState, setSegmentedState] = useState<string>("org_unit_rows");
-
+  const tableRef = useSetRecoilState(SubLevelTableRef(id));
   const onLayoutChange = () => {
     setSegmentedState(segmentedState === "determinant_rows" ? "org_unit_rows" : "determinant_rows");
     switchLayout((prevLayout) => {

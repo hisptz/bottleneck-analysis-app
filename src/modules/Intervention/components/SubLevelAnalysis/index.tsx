@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import i18n from "@dhis2/d2-i18n";
 import { IconDownload24 } from "@dhis2/ui";
 import { find } from "lodash";
@@ -29,13 +28,18 @@ export default function SubLevelAnalysis(): React.ReactElement {
   const { name: periodName } = useRecoilValue(InterventionPeriodState(id)) ?? {};
   const { displayName: orgUnitName } = useRecoilValue(InterventionOrgUnitState(id)) ?? {};
   const activeTab = find(tabs, ["key", activeTabKey]);
-  const tableRef = useSetRecoilState(SubLevelTableRef(id));
+  const tableRef = useRecoilValue(SubLevelTableRef(id));
   const resetData = useRecoilRefresher_UNSTABLE(SubLevelAnalyticsData(id));
 
   const handle = useFullScreenHandle();
 
   const onDownloadExcel = () => {
-    downloadExcelFromTable(tableRef, `${interventionName}_${orgUnitName}_${periodName}`);
+    if (tableRef) {
+      console.log(tableRef);
+      downloadExcelFromTable(tableRef, `${interventionName}_${orgUnitName}_${periodName}`);
+    } else {
+      console.error("Table ref is not defined");
+    }
   };
 
   const menus: Array<InterventionMenu> = [
@@ -62,7 +66,7 @@ export default function SubLevelAnalysis(): React.ReactElement {
       title={<SubLevelHeader activeTab={activeTab} />}>
       <ErrorBoundary onReset={resetData} resetKeys={[activeTabKey, id]} FallbackComponent={CardError}>
         <div style={{ overflow: "hidden", maxHeight: handle.active ? "calc(100vh - 120px)" : 500 }} className="sub-level-container">
-          <ActiveComponent tableRef={tableRef} />
+          <ActiveComponent />
         </div>
       </ErrorBoundary>
     </InterventionCard>
