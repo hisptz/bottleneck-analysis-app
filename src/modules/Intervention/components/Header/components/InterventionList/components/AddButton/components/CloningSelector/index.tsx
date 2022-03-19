@@ -22,14 +22,14 @@ export default function CloningSelector({ hide, onClose }: { hide: boolean; onCl
 
   return (
     <Modal position={"middle"} hide={hide} onClose={onClose}>
-      <ModalTitle>{i18n.t("Clone Intervention")}</ModalTitle>
+      <ModalTitle>{i18n.t("Duplicate Intervention")}</ModalTitle>
       <ModalContent>
         <div className="column gap w-100 p-8">
           <SingleSelectField
             onChange={({ selected }: { selected: string }) => setSelectedIntervention(find(summaries, { id: selected }))}
             fullWidth
             selected={selectedIntervention?.id}
-            label={i18n.t("Select the intervention you want to clone")}>
+            label={i18n.t("Select the intervention you want to duplicate")}>
             {summaries?.map((summary) => (
               <SingleSelectOption key={`${summary?.id}-cloning menu`} value={summary?.id} label={summary?.name} />
             ))}
@@ -57,7 +57,7 @@ export default function CloningSelector({ hide, onClose }: { hide: boolean; onCl
             loading={cloning}
             primary
             disabled={!selectedIntervention || !newInterventionName || newInterventionName === selectedIntervention?.name || cloning}>
-            {cloning ? i18n.t("Cloning...") : i18n.t("Clone")}
+            {cloning ? i18n.t("Duplicating...") : i18n.t("Duplicate")}
           </Button>
         </ButtonStrip>
       </ModalActions>

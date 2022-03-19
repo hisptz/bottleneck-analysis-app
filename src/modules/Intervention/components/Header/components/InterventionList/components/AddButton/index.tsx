@@ -1,45 +1,48 @@
 import i18n from "@dhis2/d2-i18n";
-import { Button, FlyoutMenu, IconAdd24, Layer, MenuItem, Popover } from "@dhis2/ui";
+import { DropdownButton, FlyoutMenu, IconAdd24, MenuItem } from "@dhis2/ui";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import styles from "../../styles.module.css";
 import CloningSelector from "./components/CloningSelector";
 
-function AddMenu({ reference, onClose, onCloneClick }: { reference: any; onClose: () => void; onCloneClick: () => void }): React.ReactElement {
+function AddMenu({ onCloneClick, onClose }: { onCloneClick: () => void; onClose: () => void }): React.ReactElement {
   const history = useHistory();
   return (
-    <Layer onClick={onClose}>
-      <Popover onClickOutside={onClose} placement="bottom-start" dataTest={"intervention-selection-menu"} reference={reference}>
-        <FlyoutMenu>
-          <MenuItem
-            dataTest={"create-intervention-menu"}
-            onClick={() => {
-              onClose();
-              history.replace("/new-intervention");
-            }}
-            label={i18n.t("Create new intervention")}
-          />
-          <MenuItem
-            onClick={() => {
-              onClose();
-              onCloneClick();
-            }}
-            label={i18n.t("Duplicate an intervention")}
-          />
-        </FlyoutMenu>
-      </Popover>
-    </Layer>
+    <FlyoutMenu>
+      <MenuItem
+        dataTest={"create-intervention-menu"}
+        onClick={() => {
+          onClose();
+          history.replace("/new-intervention");
+        }}
+        label={i18n.t("Create new intervention")}
+      />
+      <MenuItem
+        onClick={() => {
+          onClose();
+          onCloneClick();
+        }}
+        label={i18n.t("Duplicate an intervention")}
+      />
+    </FlyoutMenu>
   );
 }
 
-export default function AddButton({ onClick }: { onClick: () => void }): React.ReactElement {
-  const [reference, setReference] = React.useState<any>(null);
+export default function AddButton(): React.ReactElement {
+  const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
   const [cloningModalOpen, setCloningModalOpen] = useState(false);
 
   return (
     <div className="add-button">
-      <Button dataTest={"addIntervntionButton"} onClick={(_: any, e: any) => setReference(e.target)} className={styles.circular} icon={<IconAdd24 />} />
-      {reference && <AddMenu onCloneClick={() => setCloningModalOpen(true)} reference={reference} onClose={() => setReference(null)} />}
+      <DropdownButton
+        onClose={() => setMenuOpen(false)}
+        open={menuOpen}
+        onClick={({ open }: { open: boolean }) => {
+          setMenuOpen(open);
+        }}
+        component={<AddMenu onCloneClick={() => setCloningModalOpen(true)} onClose={() => setMenuOpen(false)} />}
+        dataTest={"addIntervntionButton"}
+        icon={<IconAdd24 />}
+      />
       {cloningModalOpen && <CloningSelector hide={!cloningModalOpen} onClose={() => setCloningModalOpen(false)} />}
     </div>
   );

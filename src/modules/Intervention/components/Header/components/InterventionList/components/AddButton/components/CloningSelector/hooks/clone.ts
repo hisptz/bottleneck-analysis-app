@@ -46,14 +46,14 @@ export default function useClone(): { cloning: boolean; onClone: (interventionId
         };
         await createIntervention(engine, newIntervention, summaries);
         show({
-          message: i18n.t("Intervention cloned successfully"),
+          message: i18n.t("Intervention duplicated successfully"),
           type: { success: true },
         });
         resetSummary();
         history.replace(`/${newIntervention.id}/configuration`);
       } catch (e: any) {
         show({
-          message: e?.message ?? i18n.t("Failed to Clone Intervention"),
+          message: e?.message ?? i18n.t("Failed to duplicate intervention"),
           type: { info: true },
         });
       }
