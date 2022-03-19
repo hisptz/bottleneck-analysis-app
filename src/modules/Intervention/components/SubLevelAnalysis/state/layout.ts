@@ -97,7 +97,9 @@ function getTableWidth(columns: any[]) {
   const count = columns.reduce((acc: any, column: { children: any[] }) => {
     const childrenCount =
       column.children?.reduce((acc: number, child: any) => {
-        if (child) return acc + 1;
+        if (child) {
+          return acc + 1;
+        }
         return acc;
       }, 0) ?? 0;
     if (childrenCount > 0) {
@@ -109,29 +111,31 @@ function getTableWidth(columns: any[]) {
   return count * 100 + 400;
 }
 
-export const TableConfig = selectorFamily<TableConfigType, string>({
+export const TableConfig = selectorFamily<TableConfigType | undefined, string>({
   key: "table-config-state",
   get:
     (id: string) =>
-    ({ get }): TableConfigType => {
+    ({ get }): TableConfigType | undefined => {
       const { calendar } = get(SystemSettingsState);
       const layout = get(TableLayout(id));
       const data = get(SubLevelAnalyticsData(id));
-      const intervention: InterventionConfig = get(InterventionState(id));
-      const period = get(InterventionPeriodState(id));
-      const filter = assignValuesToLayout("filter", { layout, intervention, data, period, calendar });
-      const columns = assignValuesToLayout("columns", { layout, intervention, data, period, calendar });
-      const rows = assignValuesToLayout("rows", { layout, intervention, data, period, calendar });
-      const dataValues = data.rows;
+      const intervention: InterventionConfig | undefined = get(InterventionState(id));
+      if (intervention) {
+        const period = get(InterventionPeriodState(id));
+        const filter = assignValuesToLayout("filter", { layout, intervention, data, period, calendar });
+        const columns = assignValuesToLayout("columns", { layout, intervention, data, period, calendar });
+        const rows = assignValuesToLayout("rows", { layout, intervention, data, period, calendar });
+        const dataValues = data.rows;
 
-      const width = getTableWidth(columns);
-      return {
-        columns,
-        rows,
-        filter,
-        data: dataValues,
-        height: data?.height,
-        width,
-      };
+        const width = getTableWidth(columns);
+        return {
+          columns,
+          rows,
+          filter,
+          data: dataValues,
+          height: data?.height,
+          width,
+        };
+      }
     },
 });
