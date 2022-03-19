@@ -1,10 +1,8 @@
-import i18n from "@dhis2/d2-i18n";
-import { Button, DataTable, DataTableColumnHeader, DataTableRow, SegmentedControl } from "@dhis2/ui";
+import { DataTable, DataTableColumnHeader, DataTableRow, SegmentedControl } from "@dhis2/ui";
 import { head } from "lodash";
-import React, { Suspense, useMemo, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import useScreenDimension from "../../../../../../core/hooks/useScreenDimension";
 import CardLoader from "../../../../../../shared/components/loaders/CardLoader";
 import classes from "../../../../../../styles/Table.module.css";
 import { FullPageState } from "../../../../state/config";
@@ -16,7 +14,7 @@ import TableHeader from "./components/TableHeader";
 export default function Table({ tableRef }: { tableRef: any }): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const switchLayout = useSetRecoilState(TableLayout(id));
-  const { filter } = useRecoilValue(TableConfig(id));
+  const { filter } = useRecoilValue(TableConfig(id)) ?? {};
   const isFullPage = useRecoilValue(FullPageState("subLevelAnalysis"));
   const [segmentedState, setSegmentedState] = useState<string>("org_unit_rows");
 
