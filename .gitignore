@@ -127,3 +127,6 @@ cypress/screenshots
 .idea/workspace.xml
 .idea/codestream.xml
 /xunit.xml
+
+
+.env

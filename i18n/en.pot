@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-03-07T06:16:01.375Z\n"
-"PO-Revision-Date: 2022-03-07T06:16:01.375Z\n"
+"POT-Creation-Date: 2022-03-07T08:23:46.320Z\n"
+"PO-Revision-Date: 2022-03-07T08:23:46.320Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -548,11 +548,11 @@ msgstr "Cloning..."
 msgid "Clone"
 msgstr "Clone"
 
+msgid "Create new intervention"
+msgstr "Create new intervention"
+
 msgid "Duplicate an intervention"
 msgstr "Duplicate an intervention"
-
-msgid "Clone an existing intervention"
-msgstr "Clone an existing intervention"
 
 msgid "Search Interventions"
 msgstr "Search Interventions"
