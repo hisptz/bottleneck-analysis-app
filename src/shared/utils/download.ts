@@ -1,9 +1,9 @@
 import { find, flattenDeep, last } from "lodash";
-import { utils as xlsx, writeFile, write } from "xlsx";
+import { utils as xlsx, write, writeFile } from "xlsx";
 import { Group } from "../interfaces/interventionConfig";
 
 export function downloadExcelFromTable(tableRef: any, title: string) {
-  const sheet = xlsx.table_to_sheet(tableRef.current);
+  const sheet = xlsx.table_to_sheet(tableRef);
   const workbook = xlsx.book_new();
   xlsx.book_append_sheet(workbook, sheet, `${title.substring(0, 31)}`); //TODO: Notify user if title is too long
   writeFile(workbook, `${title}.${"xlsx"}`);

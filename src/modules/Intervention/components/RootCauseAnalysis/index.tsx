@@ -3,7 +3,7 @@ import { colors, IconDownload24 } from "@dhis2/ui";
 import React, { Suspense, useMemo } from "react";
 import { useFullScreenHandle } from "react-full-screen";
 import { useParams } from "react-router-dom";
-import { useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import CardLoader from "../../../../shared/components/loaders/CardLoader";
 import { downloadExcelFromTable } from "../../../../shared/utils/download";
 import { InterventionStateSelector } from "../../state/intervention";
@@ -20,7 +20,7 @@ export default function RootCauseAnalysis(): React.ReactElement {
   const interventionName = useRecoilValue<string>(InterventionStateSelector({ id, path: ["name"] })) ?? "";
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
   const period = useRecoilValue(InterventionPeriodState(id));
-  const tableRef = useSetRecoilState(RootCauseTableRef(id));
+  const tableRef = useRecoilValue(RootCauseTableRef(id));
 
   const onDownload = () => {
     downloadExcelFromTable(tableRef, `${interventionName}-${i18n.t("Root cause analysis")}`);
@@ -52,7 +52,7 @@ export default function RootCauseAnalysis(): React.ReactElement {
         </div>
       }>
       <Suspense fallback={<CardLoader />}>
-        <RootCauseTable tableRef={tableRef} />
+        <RootCauseTable />
       </Suspense>
     </InterventionCard>
   );

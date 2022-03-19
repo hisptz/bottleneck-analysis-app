@@ -5,7 +5,7 @@ import { find, isEmpty } from "lodash";
 import React, { Suspense, useState } from "react";
 import "./rootCauseTable.css";
 import { useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { UserAuthority } from "../../../../../../core/state/user";
 import { isArchiveId } from "../../../../../../shared/utils/archives";
 import classes from "../../../../../../styles/Table.module.css";
@@ -16,8 +16,9 @@ import RootCauseActionsProps from "./components/RootCauseActions";
 import RootCauseForm from "./components/RootCauseForm";
 import RootCauseTableHeader from "./components/RootCauseTableHeader";
 import { deleteRootCause } from "./services/data";
+import { RootCauseTableRef } from "../../state/table";
 
-export default function RootCauseTable({ tableRef }: { tableRef: any }): React.ReactElement {
+export default function RootCauseTable(): React.ReactElement {
   const { id: interventionId } = useParams<{ id: string }>();
   const engine = useDataEngine();
   const authorities = useRecoilValue(UserAuthority);
@@ -27,6 +28,7 @@ export default function RootCauseTable({ tableRef }: { tableRef: any }): React.R
   const [rootCauseDeleteOpen, setRootCauseDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [rootCauseDeleteId, setRootCauseDeleteId] = useState<string>("");
+  const tableRef = useSetRecoilState(RootCauseTableRef(interventionId));
   const [selectedRootCauseData, setSelectedRootCauseData] = useState<any>({});
   const { show } = useAlert(
     ({ message }) => message,
