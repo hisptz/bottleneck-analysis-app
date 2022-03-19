@@ -15,8 +15,7 @@
     "e2e:open": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress open' --kill-others --success first "
   },
   "resolutions": {
-    "//": "See https://github.com/facebook/create-react-app/issues/11773",
-    "react-error-overlay": "6.0.10"
+    "react-error-overlay": "6.0.9"
   },
   "devDependencies": {
     "@cypress/browserify-preprocessor": "^3.0.2",
@@ -76,7 +75,7 @@
     "leaflet": "^1.7.1",
     "react-color": "^2.19.3",
     "react-error-boundary": "^3.1.4",
-    "react-error-overlay": "^6.0.10",
+    "react-error-overlay": "6.0.9",
     "react-final-form-listeners": "^1.0.3",
     "react-full-screen": "^1.1.0",
     "react-helmet": "^6.1.0",

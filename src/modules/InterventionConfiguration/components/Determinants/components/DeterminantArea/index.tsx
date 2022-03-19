@@ -1,7 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, CheckboxField, colors } from "@dhis2/ui";
 import { useConfirmDialog } from "@hisptz/react-ui";
-import { cloneDeep, every, isEmpty } from "lodash";
+import { cloneDeep, every, isEmpty, some } from "lodash";
 import React, { useCallback } from "react";
 import "./DeterminantArea.css";
 import { useFormContext } from "react-hook-form";
@@ -72,7 +72,7 @@ export default function DeterminantArea(): React.ReactElement {
 
   const { name: groupFormName } = register("groups", {
     validate: (value) => {
-      return every(value, ({ items }) => !isEmpty(items)) || i18n.t("Please select at least one indicator per each determinant");
+      return some(value, ({ items }) => !isEmpty(items)) || i18n.t("At least one determinant must have at least one indicator");
     },
   });
 
