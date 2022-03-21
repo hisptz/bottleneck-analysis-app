@@ -25,7 +25,7 @@ export default function DeterminantsConfiguration({ form }: { form: any }): Reac
       <div className="determinant-main-container">
         <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={INTERVENTION_DETERMINANT_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
 
-        <div className="determinant-area-container">
+        <div className={`determinant-area-container ${selectedIndicator === undefined ? "w-100" : ""}`}>
           <DeterminantArea />
         </div>
         <div className="indicator-configuration-container">{selectedIndicator !== undefined && <IndicatorConfiguration />}</div>

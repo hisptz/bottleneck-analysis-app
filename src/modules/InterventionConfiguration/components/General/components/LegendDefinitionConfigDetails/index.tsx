@@ -7,30 +7,32 @@ import { Controller } from "react-hook-form";
 
 export function LegendDefinitionConfigDetails(): React.ReactElement {
   return (
-    <div className="legend-definition-config">
+    <div className="legend-definition-config w-100">
       <Controller
         name={"legendDefinitions"}
         render={({ field, fieldState }) => {
           return (
-            <Field error={fieldState.error} validationText={fieldState.error?.message}>
-              <CustomInput
-                multipleField={{
-                  valueType: "LEGEND_DEFINITION",
-                  input: {
-                    name: "",
-                    value: "",
-                    onChange: () => {},
-                  },
-                }}
-                input={{
-                  onChange: field.onChange,
-                  value: field.value,
-                  name: field.name,
-                }}
-                label={i18n.t("LegendLayer Definitions")}
-                valueType={"MULTIPLE_FIELDS"}
-              />
-            </Field>
+            <div className="w-100">
+              <Field error={fieldState.error} validationText={fieldState.error?.message}>
+                <CustomInput
+                  multipleField={{
+                    valueType: "LEGEND_DEFINITION",
+                    input: {
+                      name: "",
+                      value: "",
+                      onChange: () => {},
+                    },
+                  }}
+                  input={{
+                    onChange: field.onChange,
+                    value: field.value,
+                    name: field.name,
+                  }}
+                  label={i18n.t("Legend Definitions")}
+                  valueType={"MULTIPLE_FIELDS"}
+                />
+              </Field>
+            </div>
           );
         }}
       />

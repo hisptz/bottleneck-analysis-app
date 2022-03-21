@@ -21,10 +21,14 @@ export default function GeneralConfigurationComponent({ form }: { form: any }) {
     <FormProvider {...form}>
       <div className="general-config-container">
         <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={INTERVENTION_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
-        <InterventionConfigDetails />
-        <div className="column gap w-100 ">
-          <LegendDefinitionConfigDetails />
-          <MapConfiguration />
+        <div className="general-config-area-1">
+          <InterventionConfigDetails />
+        </div>
+        <div className="general-config-area-2">
+          <div className="column gap">
+            <LegendDefinitionConfigDetails />
+            <MapConfiguration />
+          </div>
         </div>
       </div>
     </FormProvider>
