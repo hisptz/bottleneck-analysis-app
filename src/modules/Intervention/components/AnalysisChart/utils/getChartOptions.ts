@@ -15,7 +15,14 @@ function getSeriesConfig(data: any, groups: Array<Group>) {
   const orgUnitName = data?.metaData?.items?.[orgUnitId]?.name;
 
   const seriesData = flattenDeep(
-    groups.map((group) => group.items.map((item) => ({ id: item.id, name: item.label ?? "", dataLabels: { enabled: true }, y: getValue(data.rows, item.id) })))
+    groups.map((group) =>
+      group.items.map((item) => ({
+        id: item.id,
+        name: item.label ?? "",
+        dataLabels: { enabled: true },
+        y: getValue(data.rows, item.id),
+      }))
+    )
   );
   return [
     {
@@ -56,6 +63,13 @@ function getXAxis(groups: Array<Group>) {
   });
   return {
     categories,
+    labels: {
+      useHTML: true,
+      padding: 8,
+      style: {
+        textOverflow: "none",
+      },
+    },
   };
 }
 
@@ -82,8 +96,8 @@ export default function getChartOptions({ id, data, groups, name }: { id: string
         padding: "2px",
         paddingBottom: "0px",
       },
-      formatter: function () {
-        const tooltipFormat = groups.map((group: Group) => {
+      formatter: function (): any {
+        const tooltipFormat: Array<any> = groups.map((group: Group) => {
           return group.items.map((item: DataItem) => {
             if (item.name) {
               return item.name + `<br>` + '<span style="color:' + this.color + '"> ●</span>' + this.series.name + `:<b>` + this.y + `</b>`;
@@ -92,8 +106,6 @@ export default function getChartOptions({ id, data, groups, name }: { id: string
             }
           });
         });
-        // console.log([...tooltipFormat[this.colorIndex]][this.colorIndex]);
-        // console.log("fkjd ", tooltipFormat, this.colorIndex);
         return [...flattenDeep(tooltipFormat)][this.colorIndex];
       },
     },
