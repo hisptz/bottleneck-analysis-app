@@ -47,4 +47,5 @@
 
 .wrap {
     flex-wrap: wrap;
+    white-space: nowrap;
 }

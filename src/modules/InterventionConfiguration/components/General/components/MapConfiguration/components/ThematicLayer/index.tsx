@@ -79,7 +79,7 @@ export default function ThematicLayerConfig() {
 
   return (
     <Field label={i18n.t("Thematic Layers")}>
-      <div className="row gap">
+      <div className="row wrap gap">
         <Controller
           rules={{
             validate: (value) => {

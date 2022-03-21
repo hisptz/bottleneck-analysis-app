@@ -7,25 +7,13 @@
     gap: 48px;
 }
 
-.subLevelAnalysisInfo {
-    width: 98%;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    margin-left: 1%;
-    margin-right: 1%;
-    height: 130px;
-    background-color: #f5fbff;
-    border: 2px solid #c5e3fc;
-    display: flex;
-    flex-direction: row;
-    padding-left: 3%;
-    padding-top: 1%;
+.general-config-area-2 {
+    width: 50%;
 }
 
-.subLevelAnalysis-info-summary {
-    margin-left: 20px;
+.general-config-area-1 {
+    width: 50%;
 }
-
 
 @media screen and (min-width: 1200px) {
     .general-config-container {
@@ -38,5 +26,13 @@
     .general-config-container {
         flex-direction: column;
         gap: 24px;
+    }
+
+    .general-config-area-2 {
+        width: 100%;
+    }
+
+    .general-config-area-1 {
+        width: 100%;
     }
 }
