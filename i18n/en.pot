@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-03-22T07:38:05.086Z\n"
-"PO-Revision-Date: 2022-03-22T07:38:05.086Z\n"
+"POT-Creation-Date: 2022-03-22T09:13:09.450Z\n"
+"PO-Revision-Date: 2022-03-22T09:13:09.450Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -371,9 +371,6 @@ msgstr "No description provided"
 msgid "Archived interventions"
 msgstr "Archived interventions"
 
-msgid "Back to all intervention"
-msgstr "Back to all intervention"
-
 msgid "Intervention"
 msgstr "Intervention"
 
@@ -491,11 +488,11 @@ msgstr "Start a guided tour"
 msgid "Documentation"
 msgstr "Documentation"
 
+msgid "Download intervention data"
+msgstr "Download intervention data"
+
 msgid "View Archives"
 msgstr "View Archives"
-
-msgid "Download Intervention Data"
-msgstr "Download Intervention Data"
 
 msgid "An error occurred while adding/removing bookmark"
 msgstr "An error occurred while adding/removing bookmark"

@@ -24,7 +24,7 @@ export const SubLevelAnalyticsData = selectorFamily({
       const period = get(InterventionPeriodState(id))?.id;
       const orgUnit = get(SubLevelOrgUnit(id));
 
-      if (isEmpty(dataItems)) {
+      if (isEmpty([...dataItems, ...functions])) {
         throw Error(i18n.t("There are no indicators configured for this intervention"));
       }
 
