@@ -1,5 +1,5 @@
 import i18n from "@dhis2/d2-i18n";
-import { FlyoutMenu, IconArchive24, IconDownload24, IconView24, MenuItem } from "@dhis2/ui";
+import { Divider, FlyoutMenu, IconArchive24, IconDownload24, MenuItem } from "@dhis2/ui";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -27,12 +27,13 @@ export default function MoreMenu({
     <>
       <FlyoutMenu>
         <MenuItem
-          icon={<IconView24 />}
+          icon={<IconDownload24 />}
+          disabled={zipDisabled}
           onClick={() => {
-            onToArchivesList();
+            onZipDownload();
             onClose();
           }}
-          label={i18n.t("View Archives")}
+          label={i18n.t("Download intervention data")}
         />
         {archive.create && (
           <MenuItem
@@ -41,17 +42,16 @@ export default function MoreMenu({
               onArchive();
               onClose();
             }}
-            label={i18n.t("Archive")}
+            label={i18n.t("Archive intervention")}
           />
         )}
+        <Divider />
         <MenuItem
-          icon={<IconDownload24 />}
-          disabled={zipDisabled}
           onClick={() => {
-            onZipDownload();
+            onToArchivesList();
             onClose();
           }}
-          label={i18n.t("Download Intervention Data")}
+          label={i18n.t("View Archives")}
         />
       </FlyoutMenu>
     </>
