@@ -26,7 +26,7 @@ export default function ArchivesListHeader(): React.ReactElement {
           {i18n.t("Help")}
         </Button>
         <Button className={"archive-intervntion-on-back-action"} onClick={backToHomePage}>
-          {i18n.t("Back to all intervention")}
+          {i18n.t("Back to all interventions")}
         </Button>
       </div>
     </div>
