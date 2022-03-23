@@ -25,7 +25,7 @@ export const ChartData = selectorFamily({
       const orgUnit = get(InterventionOrgUnitState(id))?.id;
       const { dataItems, functions } = get(DataItems(id));
 
-      if (isEmpty(dataItems)) {
+      if (isEmpty([...dataItems, ...functions])) {
         throw Error(i18n.t("There are no indicators configured for this intervention"));
       }
 

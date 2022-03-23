@@ -1,4 +1,3 @@
-import { map } from "async";
 import { compact, find, findIndex, flatten, isEmpty } from "lodash";
 import { CustomFunction as CustomFunctionInterface, FunctionRule } from "../interfaces/customFunctions";
 
@@ -53,7 +52,7 @@ export async function runCustomFunction({
     }
     setTimeout(() => {
       reject("Function timed out");
-    }, 20000);
+    }, 60000);
   });
 }
 
@@ -102,6 +101,26 @@ export async function evaluateCustomFunction({
   return null;
 }
 
+async function getCustomFunctionData(
+  id: string,
+  {
+    getCustomFunction,
+    periods,
+    orgUnits,
+  }: { getCustomFunction: (functionId: string) => Promise<CustomFunctionInterface | undefined>; periods: string[]; orgUnits: string[] }
+) {
+  try {
+    const [functionId, ruleId] = id.split(".") ?? [];
+    if (functionId) {
+      const customFunction = await getCustomFunction(functionId);
+      return await evaluateCustomFunction({ customFunction, ruleId, periods, orgUnits });
+    }
+  } catch (e) {
+    console.error(e);
+    return;
+  }
+}
+
 export async function getCustomFunctionAnalytics({
   functions,
   periods,
@@ -117,18 +136,15 @@ export async function getCustomFunctionAnalytics({
     if (functions && !isEmpty(functions)) {
       return compact(
         flatten(
-          await map(functions, async (id: string) => {
-            try {
-              const [functionId, ruleId] = id.split(".") ?? [];
-              if (functionId) {
-                const customFunction = await getCustomFunction(functionId);
-                return await evaluateCustomFunction({ customFunction, ruleId, periods, orgUnits });
-              }
-            } catch (e) {
-              console.error(e);
-              return;
-            }
-          })
+          await Promise.all(
+            functions.map((id) =>
+              getCustomFunctionData(id, {
+                getCustomFunction,
+                periods,
+                orgUnits,
+              })
+            )
+          )
         )
       );
     }
