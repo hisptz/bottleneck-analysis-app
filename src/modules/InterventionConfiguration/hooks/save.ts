@@ -1,6 +1,6 @@
 import { useAlert, useDataEngine } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
-import { cloneDeep } from "lodash";
+import { cloneDeep, findIndex } from "lodash";
 import { useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
@@ -10,8 +10,9 @@ import { InterventionConfig } from "../../../shared/interfaces/interventionConfi
 import { InterventionState } from "../../Intervention/state/intervention";
 import { createIntervention, updateIntervention } from "../services/save";
 import { InterventionDirtyState } from "../state/data";
-import { IsNewConfiguration, SelectedDeterminantIndex, SelectedIndicatorIndex } from "../state/edit";
+import { ActiveStep, IsNewConfiguration, SelectedDeterminantIndex, SelectedIndicatorIndex } from "../state/edit";
 import { validate } from "../utils/validators";
+import { CONFIG_STEPS } from "../constants/steps";
 
 export default function useSaveIntervention(): {
   saving: boolean;
@@ -55,6 +56,7 @@ export default function useSaveIntervention(): {
         reset(SelectedDeterminantIndex(interventionId));
         reset(SelectedIndicatorIndex(interventionId));
         reset(IsNewConfiguration(interventionId));
+        reset(ActiveStep(interventionId));
         form.reset();
       },
     [form, interventionId, resetIntervention, resetSummary]
@@ -107,13 +109,12 @@ export default function useSaveIntervention(): {
   );
 
   const onSaveAndContinue = useRecoilCallback(
-    ({ snapshot, set }) =>
+    ({ snapshot, set, reset }) =>
       async () => {
         await form.handleSubmit(async (data: any) => {
           setSavingAndContinueLoader(true);
 
           try {
-            const data = form.getValues();
             const oldIntervention = cloneDeep(await snapshot.getPromise(InterventionDirtyState(interventionId))) as InterventionConfig;
             const newIntervention = {
               ...oldIntervention,
@@ -124,10 +125,25 @@ export default function useSaveIntervention(): {
               await createIntervention(engine, newIntervention, interventionSummaries ?? []);
               resetIntervention();
               resetSummary();
-              set(IsNewConfiguration(newIntervention?.id), true);
+              const currentStep = await snapshot.getPromise(ActiveStep(interventionId));
+              reset(ActiveStep(interventionId));
+              set(ActiveStep(newIntervention?.id), (prevState) => {
+                const index = findIndex(CONFIG_STEPS, { label: currentStep.label }) + 1;
+                if (index < CONFIG_STEPS.length) {
+                  return CONFIG_STEPS[index];
+                }
+                return prevState;
+              });
               history.replace(`${newIntervention?.id}/configuration`);
             } else {
               await updateIntervention(engine, newIntervention, interventionSummaries ?? []);
+              set(ActiveStep(newIntervention?.id), (prevState) => {
+                const index = findIndex(CONFIG_STEPS, { label: prevState.label }) + 1;
+                if (index < CONFIG_STEPS.length) {
+                  return CONFIG_STEPS[index];
+                }
+                return prevState;
+              });
             }
           } catch (e: any) {
             show({

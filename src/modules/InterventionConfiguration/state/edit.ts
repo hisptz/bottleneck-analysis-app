@@ -1,4 +1,7 @@
 import { atomFamily } from "recoil";
+import { CONFIG_STEPS } from "../constants/steps";
+import { head } from "lodash";
+import { ConfigStep } from "../interfaces";
 
 export const SelectedDeterminantIndex = atomFamily<number | undefined, string | undefined>({
   key: "selected-determinant-id",
@@ -18,4 +21,9 @@ export const UseShortName = atomFamily({
 export const IsNewConfiguration = atomFamily({
   key: "is-new-configuration",
   default: false,
+});
+
+export const ActiveStep = atomFamily<ConfigStep | any, string>({
+  key: "intervention-config-active-step",
+  default: head(CONFIG_STEPS),
 });

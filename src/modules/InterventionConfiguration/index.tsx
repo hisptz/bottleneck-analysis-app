@@ -2,56 +2,37 @@ import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, IconDelete24, IconQuestion16 } from "@dhis2/ui";
 import { ConfigurationStepper } from "@hisptz/react-ui";
 import { findIndex } from "lodash";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { UserAuthority, UserAuthorityOnIntervention } from "../../core/state/user";
 import AuthorityError from "../../shared/components/errors/AuthorityError";
 import InterventionAccessError from "../../shared/components/errors/InterventionAccessError";
 import HelpState from "../Intervention/state/help";
-import AccessConfigurationComponent from "./components/Access";
 import ConfirmDeleteDialog from "./components/ConfirmDeleteDialog";
-import DeterminantsConfigurationComponent from "./components/Determinants";
-import GeneralConfigurationComponent from "./components/General";
 import "./InterventionConfiguration.css";
 import useDelete from "./hooks/delete";
 import useSaveIntervention from "./hooks/save";
 import { InterventionDirtySelector } from "./state/data";
-import { IsNewConfiguration } from "./state/edit";
+import { ActiveStep } from "./state/edit";
 import { FormProvider } from "react-hook-form";
+import { CONFIG_STEPS } from "./constants/steps";
 
 export default function InterventionConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
-  const isNew = useRecoilValue(IsNewConfiguration(id));
   const authorities = useRecoilValue(UserAuthority);
   const access = useRecoilValue(UserAuthorityOnIntervention(id));
   const interventionName = useRecoilValue(InterventionDirtySelector({ id, path: ["name"] }));
   const onSetHelper = useSetRecoilState(HelpState);
   const { form, saving, onSave, onSaveAndContinue: onSaveFormAndContinue, saveAndContinueLoader, onExitReset } = useSaveIntervention();
+  const [activeStep, setActiveStep] = useRecoilState(ActiveStep(id));
 
-  const steps = useMemo(
-    () => [
-      {
-        label: "General",
-        component: () => <GeneralConfigurationComponent />,
-        helpSteps: [],
-      },
-      {
-        label: "Determinants",
-        component: () => <DeterminantsConfigurationComponent />,
-        helpSteps: [],
-      },
-      {
-        label: "Access",
-        component: () => <AccessConfigurationComponent />,
-        helpSteps: [],
-      },
-    ],
-    [form]
-  );
-  const [activeStep, setActiveStep] = useState<any>(isNew ? steps[1] : steps[0]);
+  const steps = CONFIG_STEPS;
 
   const isLastStep = useMemo(() => {
+    if (!activeStep) {
+      return true;
+    }
     return steps.length === findIndex(steps, (step) => step.label === activeStep.label) + 1;
   }, [activeStep, steps]);
 
@@ -79,12 +60,6 @@ export default function InterventionConfiguration(): React.ReactElement {
 
     if (isValid) {
       await onSaveFormAndContinue();
-      setActiveStep((prevStep: any) => {
-        const stepIndex = findIndex(steps, (step: any) => step.label === prevStep.label);
-        if (stepIndex < steps.length - 1) {
-          return steps[stepIndex + 1];
-        }
-      });
     }
   };
 
