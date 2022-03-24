@@ -39,7 +39,7 @@ function SingleThematicLayerConfig({
   );
 
   return (
-    <div className="w-100">
+    <div>
       <Field fullWidth error={!!error} validationText={error?.message}>
         <div style={error ? { borderColor: colors.red600 } : {}} className="thematic-config-card">
           <div className="row space-between align-center">
@@ -79,7 +79,7 @@ export default function ThematicLayerConfig() {
 
   return (
     <Field label={i18n.t("Thematic Layers")}>
-      <div className="row wrap gap">
+      <div style={{ whiteSpace: "normal" }} className="row wrap gap">
         <Controller
           rules={{
             validate: (value) => {

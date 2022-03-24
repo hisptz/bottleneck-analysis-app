@@ -21,7 +21,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
   const [selectedAddGroupIndex, setSelectedAddGroupIndex] = useState<number | undefined>();
   const selectedGroupIndex = useRecoilValue(SelectedDeterminantIndex(id));
   const selectedIndicatorIndex = useRecoilValue(SelectedIndicatorIndex(id));
-  const determinants = watch("groups");
+  const determinants = watch("dataSelection.groups");
   const { onItemDragEnd, onItemDelete, onItemsAdd, onItemClick } = useItemOperations(setIndicatorSelectorHide);
 
   const { confirm } = useConfirmDialog();
@@ -112,7 +112,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
             <ColorPicker
               color={groups[groupIndex].style?.color}
               onChange={(color) => {
-                setValue(`groups.${groupIndex}.style.color`, color);
+                setValue(`dataSelection.groups.${groupIndex}.style.color`, color);
               }}
             />
           );

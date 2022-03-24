@@ -9,7 +9,7 @@ export function LegendDefinitionConfigDetails(): React.ReactElement {
   return (
     <div className="legend-definition-config w-100">
       <Controller
-        name={"legendDefinitions"}
+        name={"dataSelection.legendDefinitions"}
         render={({ field, fieldState }) => {
           return (
             <div className="w-100">

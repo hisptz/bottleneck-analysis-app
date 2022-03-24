@@ -16,9 +16,9 @@ export default function IndicatorConfiguration(): React.ReactElement {
   const selectedGroupIndex = useRecoilValue(SelectedDeterminantIndex(id));
   const useShortName = useRecoilValue(UseShortName(id));
   const { watch, setValue } = useFormContext();
-  const selectedIndicator = watch(`groups[${selectedGroupIndex}].items[${selectedItemIndex}]`);
-  const legendDefinitions = watch("legendDefinitions");
-  const watchLabel = watch(`groups[${selectedGroupIndex}].items[${selectedItemIndex}].label`);
+  const selectedIndicator = watch(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}]`);
+  const legendDefinitions = watch("dataSelection.legendDefinitions");
+  const watchLabel = watch(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}].label`);
   const filteredLegendDefinitions = filter(legendDefinitions, (legendDefinition) => {
     return !legendDefinition.isDefault;
   });
@@ -33,7 +33,7 @@ export default function IndicatorConfiguration(): React.ReactElement {
   }, [watchLabel]);
 
   const onChange = (key: string, value: any) => {
-    setValue(`groups[${selectedGroupIndex}].items[${selectedItemIndex}].${key}`, value);
+    setValue(`dataSelection.groups[${selectedGroupIndex}].items[${selectedItemIndex}].${key}`, value);
   };
 
   return (

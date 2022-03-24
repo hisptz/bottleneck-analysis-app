@@ -2,64 +2,37 @@ import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, IconDelete24, IconQuestion16 } from "@dhis2/ui";
 import { ConfigurationStepper } from "@hisptz/react-ui";
 import { findIndex } from "lodash";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { UserAuthority, UserAuthorityOnIntervention } from "../../core/state/user";
 import AuthorityError from "../../shared/components/errors/AuthorityError";
 import InterventionAccessError from "../../shared/components/errors/InterventionAccessError";
 import HelpState from "../Intervention/state/help";
-import AccessConfigurationComponent from "./components/Access";
 import ConfirmDeleteDialog from "./components/ConfirmDeleteDialog";
-import DeterminantsConfigurationComponent from "./components/Determinants";
-import GeneralConfigurationComponent from "./components/General";
 import "./InterventionConfiguration.css";
 import useDelete from "./hooks/delete";
 import useSaveIntervention from "./hooks/save";
 import { InterventionDirtySelector } from "./state/data";
-import { IsNewConfiguration } from "./state/edit";
+import { ActiveStep } from "./state/edit";
+import { FormProvider } from "react-hook-form";
+import { CONFIG_STEPS } from "./constants/steps";
 
 export default function InterventionConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
-  const isNew = useRecoilValue(IsNewConfiguration(id));
   const authorities = useRecoilValue(UserAuthority);
   const access = useRecoilValue(UserAuthorityOnIntervention(id));
   const interventionName = useRecoilValue(InterventionDirtySelector({ id, path: ["name"] }));
   const onSetHelper = useSetRecoilState(HelpState);
-  const {
-    accessForm,
-    generalForm,
-    determinantsForm,
-    saving,
-    onSave,
-    onSaveAndContinue: onSaveFormAndContinue,
-    saveAndContinueLoader,
-    onExitReset,
-  } = useSaveIntervention();
+  const { form, saving, onSave, onSaveAndContinue: onSaveFormAndContinue, saveAndContinueLoader, onExitReset } = useSaveIntervention();
+  const [activeStep, setActiveStep] = useRecoilState(ActiveStep(id));
 
-  const steps = useMemo(
-    () => [
-      {
-        label: "General",
-        component: () => <GeneralConfigurationComponent form={generalForm} />,
-        helpSteps: [],
-      },
-      {
-        label: "Determinants",
-        component: () => <DeterminantsConfigurationComponent form={determinantsForm} />,
-        helpSteps: [],
-      },
-      {
-        label: "Access",
-        component: () => <AccessConfigurationComponent form={accessForm} />,
-        helpSteps: [],
-      },
-    ],
-    [accessForm, determinantsForm, generalForm]
-  );
-  const [activeStep, setActiveStep] = useState<any>(isNew ? steps[1] : steps[0]);
+  const steps = CONFIG_STEPS;
 
   const isLastStep = useMemo(() => {
+    if (!activeStep) {
+      return true;
+    }
     return steps.length === findIndex(steps, (step) => step.label === activeStep.label) + 1;
   }, [activeStep, steps]);
 
@@ -70,16 +43,7 @@ export default function InterventionConfiguration(): React.ReactElement {
     if (from > to) {
       return true;
     }
-    if (from === 0) {
-      return await generalForm.trigger();
-    }
-    if (from === 1) {
-      return await determinantsForm.trigger();
-    }
-    if (from === 2) {
-      return await accessForm.trigger();
-    }
-    return true;
+    return await form.trigger();
   };
 
   const onExit = () => {
@@ -92,49 +56,16 @@ export default function InterventionConfiguration(): React.ReactElement {
   };
 
   const onSaveAndContinue = async () => {
-    if (activeStep.label === "General") {
-      const isValid = await generalForm.trigger();
-      if (isValid) {
-        await onSaveFormAndContinue(generalForm, "General");
-        setActiveStep((prevStep: any) => {
-          const stepIndex = findIndex(steps, (step: any) => step.label === prevStep.label);
-          if (stepIndex < steps.length - 1) {
-            return steps[stepIndex + 1];
-          }
-        });
-      }
-    }
-    if (activeStep.label === "Determinants") {
-      const isValid = await determinantsForm.trigger();
-      if (isValid) {
-        await onSaveFormAndContinue(determinantsForm, "Determinants");
-        setActiveStep((prevStep: any) => {
-          const stepIndex = findIndex(steps, (step: any) => step.label === prevStep.label);
-          if (stepIndex < steps.length - 1) {
-            return steps[stepIndex + 1];
-          }
-        });
-      }
+    const isValid = await form.trigger();
+
+    if (isValid) {
+      await onSaveFormAndContinue();
     }
   };
 
   const onSaveAndExit = async () => {
-    if (activeStep.label === "General") {
-      if (await generalForm.trigger()) {
-        onSave();
-      }
-    }
-
-    if (activeStep.label === "Determinants") {
-      if (await determinantsForm.trigger()) {
-        onSave();
-      }
-    }
-
-    if (activeStep.label === "Access") {
-      if (await accessForm.trigger()) {
-        onSave();
-      }
+    if (await form.trigger()) {
+      onSave();
     }
   };
 
@@ -167,16 +98,18 @@ export default function InterventionConfiguration(): React.ReactElement {
         </div>
       </div>
       <div className="flex-1">
-        <ConfigurationStepper
-          activeStep={activeStep}
-          setActiveStep={setActiveStep}
-          onStepChange={onStepChange}
-          steps={steps}
-          onLastAction={onSave}
-          activeStepperBackGroundColor={"#00695c"}
-          onCancelLastAction={onExit}
-          onLastActionButtonName={saving ? `${i18n.t("Saving")}...` : i18n.t("Save")}
-        />
+        <FormProvider {...form}>
+          <ConfigurationStepper
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            onStepChange={onStepChange}
+            steps={steps}
+            onLastAction={onSave}
+            activeStepperBackGroundColor={"#00695c"}
+            onCancelLastAction={onExit}
+            onLastActionButtonName={saving ? `${i18n.t("Saving")}...` : i18n.t("Save")}
+          />
+        </FormProvider>
       </div>
       <ButtonStrip middle>
         <Button loading={saving} dataTest={"save-exit-intervention-button"} onClick={onSaveAndExit} disabled={saving || saveAndContinueLoader}>
