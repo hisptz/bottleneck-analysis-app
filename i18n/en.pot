@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-03-22T09:13:09.450Z\n"
-"PO-Revision-Date: 2022-03-22T09:13:09.450Z\n"
+"POT-Creation-Date: 2022-03-24T07:54:01.244Z\n"
+"PO-Revision-Date: 2022-03-24T07:54:01.244Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -867,9 +867,6 @@ msgstr "Map View"
 
 msgid "Download Excel"
 msgstr "Download Excel"
-
-msgid "Error getting data for sub-level analysis"
-msgstr "Error getting data for sub-level analysis"
 
 msgid "Give Access to a user , group or role"
 msgstr "Give Access to a user , group or role"

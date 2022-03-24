@@ -44,7 +44,11 @@ export async function runCustomFunction({
         ...parameters,
         success: resolve,
         error: (error: any) => {
-          reject(error);
+          if (error) {
+            reject(error);
+          } else {
+            reject("Unknown error");
+          }
         },
       });
     } catch (e) {
@@ -102,17 +106,13 @@ export async function evaluateCustomFunction({
 }
 
 async function getCustomFunctionData(
-  id: string,
-  {
-    getCustomFunction,
-    periods,
-    orgUnits,
-  }: { getCustomFunction: (functionId: string) => Promise<CustomFunctionInterface | undefined>; periods: string[]; orgUnits: string[] }
+  item: { id: string; function: CustomFunctionInterface },
+  { periods, orgUnits }: { periods: string[]; orgUnits: string[] }
 ) {
   try {
-    const [functionId, ruleId] = id.split(".") ?? [];
-    if (functionId) {
-      const customFunction = await getCustomFunction(functionId);
+    if (item) {
+      const { id, function: customFunction } = item;
+      const [, ruleId] = id?.split(".") ?? [];
       return await evaluateCustomFunction({ customFunction, ruleId, periods, orgUnits });
     }
   } catch (e) {
@@ -125,21 +125,18 @@ export async function getCustomFunctionAnalytics({
   functions,
   periods,
   orgUnits,
-  getCustomFunction,
 }: {
-  functions: Array<string>;
+  functions: Array<{ id: string; function: CustomFunctionInterface }>;
   periods: Array<string>;
   orgUnits: Array<string>;
-  getCustomFunction: (functionId: string) => Promise<CustomFunctionInterface | undefined>;
 }) {
   try {
     if (functions && !isEmpty(functions)) {
       return compact(
         flatten(
           await Promise.all(
-            functions.map((id) =>
-              getCustomFunctionData(id, {
-                getCustomFunction,
+            functions.map((customFunction) =>
+              getCustomFunctionData(customFunction, {
                 periods,
                 orgUnits,
               })
