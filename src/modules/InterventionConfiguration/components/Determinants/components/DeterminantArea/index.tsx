@@ -1,7 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, CheckboxField, colors } from "@dhis2/ui";
 import { useConfirmDialog } from "@hisptz/react-ui";
-import { cloneDeep, every, isEmpty, some } from "lodash";
+import { cloneDeep, get, isEmpty, some } from "lodash";
 import React, { useCallback } from "react";
 import "./DeterminantArea.css";
 import { useFormContext } from "react-hook-form";
@@ -16,7 +16,7 @@ export default function DeterminantArea(): React.ReactElement {
   const { id: interventionId } = useParams<{ id: string }>();
   const { setValue, getValues, watch, register, formState } = useFormContext();
   const [useShortName, setUseShortName] = useRecoilState(UseShortName(interventionId));
-  const determinants = watch("groups");
+  const determinants = watch("dataSelection.groups");
   const allEmpty: boolean = allDeterminantsEmpty(determinants);
   const { confirm } = useConfirmDialog();
 
@@ -28,25 +28,25 @@ export default function DeterminantArea(): React.ReactElement {
         return;
       },
       onConfirm: () => {
-        const determinants = getValues("groups");
+        const determinants = getValues("dataSelection.groups");
         const newGroups = cloneDeep(determinants);
         newGroups.forEach((group: any) => {
           group.items = [];
         });
-        setValue("groups", newGroups);
+        setValue("dataSelection.groups", newGroups);
       },
     });
   }, [confirm, getValues, setValue]);
 
   const setShortNameAsLabels = useCallback(() => {
-    const determinants = getValues("groups");
+    const determinants = getValues("dataSelection.groups");
     const newGroups = cloneDeep(determinants);
     newGroups.forEach((group: any) => {
       group.items.forEach((item: DataItem) => {
         item.label = item?.shortName ?? item?.name;
       });
     });
-    setValue("groups", newGroups);
+    setValue("dataSelection.groups", newGroups);
   }, [getValues, setValue]);
   const onUseShortNameChange = useCallback(
     ({ checked }: { checked: boolean }) => {
@@ -70,13 +70,13 @@ export default function DeterminantArea(): React.ReactElement {
     [confirm, setShortNameAsLabels, setUseShortName]
   );
 
-  const { name: groupFormName } = register("groups", {
+  const { name: groupFormName } = register("dataSelection.groups", {
     validate: (value) => {
       return some(value, ({ items }) => !isEmpty(items)) || i18n.t("At least one determinant must have at least one indicator");
     },
   });
 
-  const hasError = formState?.errors[groupFormName];
+  const hasError = get(formState?.errors, groupFormName);
   const errorMessage = hasError?.message;
 
   return (

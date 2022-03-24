@@ -11,18 +11,15 @@ import { InterventionState } from "../../Intervention/state/intervention";
 import { createIntervention, updateIntervention } from "../services/save";
 import { InterventionDirtyState } from "../state/data";
 import { IsNewConfiguration, SelectedDeterminantIndex, SelectedIndicatorIndex } from "../state/edit";
-import { generateDeterminantData, generateGeneralData } from "../utils/generators";
 import { validate } from "../utils/validators";
 
 export default function useSaveIntervention(): {
   saving: boolean;
-  onSaveAndContinue: (args: any, key: string) => Promise<void>;
+  onSaveAndContinue: () => Promise<void>;
   saveAndContinueLoader: boolean;
   onSave: () => void;
-  determinantsForm: UseFormReturn<any>;
-  generalForm: UseFormReturn<any>;
+  form: UseFormReturn<any>;
   onExitReset: () => void;
-  accessForm: UseFormReturn<any>;
 } {
   const history = useHistory();
   const [saving, setSaving] = useState(false);
@@ -38,27 +35,9 @@ export default function useSaveIntervention(): {
     ({ type }) => ({ ...type, duration: 3000 })
   );
 
-  const generalForm = useForm({
+  const form = useForm({
     defaultValues: {
-      name: intervention?.name,
-      description: intervention?.description,
-      periodSelection: intervention?.periodSelection,
-      orgUnitSelection: intervention?.orgUnitSelection,
-      legendDefinitions: intervention?.dataSelection.legendDefinitions,
-      map: intervention?.map,
-    },
-  });
-  const determinantsForm = useForm({
-    defaultValues: {
-      ...intervention?.dataSelection,
-    },
-  });
-  const accessForm = useForm({
-    defaultValues: {
-      publicAccess: intervention?.publicAccess,
-      userGroupAccess: intervention?.userGroupAccess,
-      userAccess: intervention?.userAccess,
-      user: intervention?.user,
+      ...intervention,
     },
   });
 
@@ -76,11 +55,9 @@ export default function useSaveIntervention(): {
         reset(SelectedDeterminantIndex(interventionId));
         reset(SelectedIndicatorIndex(interventionId));
         reset(IsNewConfiguration(interventionId));
-        generalForm.reset();
-        determinantsForm.reset();
-        accessForm.reset();
+        form.reset();
       },
-    [accessForm, determinantsForm, generalForm, interventionId, resetIntervention, resetSummary]
+    [form, interventionId, resetIntervention, resetSummary]
   );
 
   const onSave = useRecoilCallback(
@@ -88,12 +65,12 @@ export default function useSaveIntervention(): {
       async () => {
         try {
           setSaving(true);
-          const generalData = generalForm.getValues();
-          const determinantsData = determinantsForm.getValues();
-          const newIntervention = cloneDeep(await snapshot.getPromise(InterventionDirtyState(interventionId))) as InterventionConfig;
-
-          generateGeneralData(newIntervention, generalData);
-          generateDeterminantData(newIntervention, determinantsData);
+          const data = form.getValues();
+          const oldIntervention = cloneDeep(await snapshot.getPromise(InterventionDirtyState(interventionId))) as InterventionConfig;
+          const newIntervention = {
+            ...oldIntervention,
+            ...data,
+          };
 
           if (validate(newIntervention)) {
             if (!interventionId || interventionId !== newIntervention?.id) {
@@ -126,24 +103,22 @@ export default function useSaveIntervention(): {
           setSaving(false);
         }
       },
-    [accessForm, determinantsForm, engine, generalForm, history, interventionId, interventionSummaries, resetIntervention, resetSummary, show]
+    [engine, form, history, interventionId, interventionSummaries, resetIntervention, resetSummary, show]
   );
 
   const onSaveAndContinue = useRecoilCallback(
     ({ snapshot, set }) =>
-      async (form: any, key: string) => {
+      async () => {
         await form.handleSubmit(async (data: any) => {
           setSavingAndContinueLoader(true);
 
           try {
-            const newIntervention = cloneDeep(await snapshot.getPromise(InterventionDirtyState(interventionId))) as InterventionConfig;
-
-            if (key === "Determinants") {
-              generateDeterminantData(newIntervention, data);
-            }
-            if (key === "General") {
-              generateGeneralData(newIntervention, data);
-            }
+            const data = form.getValues();
+            const oldIntervention = cloneDeep(await snapshot.getPromise(InterventionDirtyState(interventionId))) as InterventionConfig;
+            const newIntervention = {
+              ...oldIntervention,
+              ...data,
+            };
 
             if (!interventionId || interventionId !== newIntervention?.id) {
               await createIntervention(engine, newIntervention, interventionSummaries ?? []);
@@ -171,9 +146,7 @@ export default function useSaveIntervention(): {
     saving,
     onSaveAndContinue,
     saveAndContinueLoader,
-    generalForm,
-    determinantsForm,
-    accessForm,
+    form,
     onExitReset,
   };
 }

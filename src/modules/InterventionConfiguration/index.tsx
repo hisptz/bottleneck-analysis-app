@@ -18,6 +18,7 @@ import useDelete from "./hooks/delete";
 import useSaveIntervention from "./hooks/save";
 import { InterventionDirtySelector } from "./state/data";
 import { IsNewConfiguration } from "./state/edit";
+import { FormProvider } from "react-hook-form";
 
 export default function InterventionConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
@@ -26,36 +27,27 @@ export default function InterventionConfiguration(): React.ReactElement {
   const access = useRecoilValue(UserAuthorityOnIntervention(id));
   const interventionName = useRecoilValue(InterventionDirtySelector({ id, path: ["name"] }));
   const onSetHelper = useSetRecoilState(HelpState);
-  const {
-    accessForm,
-    generalForm,
-    determinantsForm,
-    saving,
-    onSave,
-    onSaveAndContinue: onSaveFormAndContinue,
-    saveAndContinueLoader,
-    onExitReset,
-  } = useSaveIntervention();
+  const { form, saving, onSave, onSaveAndContinue: onSaveFormAndContinue, saveAndContinueLoader, onExitReset } = useSaveIntervention();
 
   const steps = useMemo(
     () => [
       {
         label: "General",
-        component: () => <GeneralConfigurationComponent form={generalForm} />,
+        component: () => <GeneralConfigurationComponent />,
         helpSteps: [],
       },
       {
         label: "Determinants",
-        component: () => <DeterminantsConfigurationComponent form={determinantsForm} />,
+        component: () => <DeterminantsConfigurationComponent />,
         helpSteps: [],
       },
       {
         label: "Access",
-        component: () => <AccessConfigurationComponent form={accessForm} />,
+        component: () => <AccessConfigurationComponent />,
         helpSteps: [],
       },
     ],
-    [accessForm, determinantsForm, generalForm]
+    [form]
   );
   const [activeStep, setActiveStep] = useState<any>(isNew ? steps[1] : steps[0]);
 
@@ -70,16 +62,7 @@ export default function InterventionConfiguration(): React.ReactElement {
     if (from > to) {
       return true;
     }
-    if (from === 0) {
-      return await generalForm.trigger();
-    }
-    if (from === 1) {
-      return await determinantsForm.trigger();
-    }
-    if (from === 2) {
-      return await accessForm.trigger();
-    }
-    return true;
+    return await form.trigger();
   };
 
   const onExit = () => {
@@ -92,49 +75,22 @@ export default function InterventionConfiguration(): React.ReactElement {
   };
 
   const onSaveAndContinue = async () => {
-    if (activeStep.label === "General") {
-      const isValid = await generalForm.trigger();
-      if (isValid) {
-        await onSaveFormAndContinue(generalForm, "General");
-        setActiveStep((prevStep: any) => {
-          const stepIndex = findIndex(steps, (step: any) => step.label === prevStep.label);
-          if (stepIndex < steps.length - 1) {
-            return steps[stepIndex + 1];
-          }
-        });
-      }
-    }
-    if (activeStep.label === "Determinants") {
-      const isValid = await determinantsForm.trigger();
-      if (isValid) {
-        await onSaveFormAndContinue(determinantsForm, "Determinants");
-        setActiveStep((prevStep: any) => {
-          const stepIndex = findIndex(steps, (step: any) => step.label === prevStep.label);
-          if (stepIndex < steps.length - 1) {
-            return steps[stepIndex + 1];
-          }
-        });
-      }
+    const isValid = await form.trigger();
+
+    if (isValid) {
+      await onSaveFormAndContinue();
+      setActiveStep((prevStep: any) => {
+        const stepIndex = findIndex(steps, (step: any) => step.label === prevStep.label);
+        if (stepIndex < steps.length - 1) {
+          return steps[stepIndex + 1];
+        }
+      });
     }
   };
 
   const onSaveAndExit = async () => {
-    if (activeStep.label === "General") {
-      if (await generalForm.trigger()) {
-        onSave();
-      }
-    }
-
-    if (activeStep.label === "Determinants") {
-      if (await determinantsForm.trigger()) {
-        onSave();
-      }
-    }
-
-    if (activeStep.label === "Access") {
-      if (await accessForm.trigger()) {
-        onSave();
-      }
+    if (await form.trigger()) {
+      onSave();
     }
   };
 
@@ -167,16 +123,18 @@ export default function InterventionConfiguration(): React.ReactElement {
         </div>
       </div>
       <div className="flex-1">
-        <ConfigurationStepper
-          activeStep={activeStep}
-          setActiveStep={setActiveStep}
-          onStepChange={onStepChange}
-          steps={steps}
-          onLastAction={onSave}
-          activeStepperBackGroundColor={"#00695c"}
-          onCancelLastAction={onExit}
-          onLastActionButtonName={saving ? `${i18n.t("Saving")}...` : i18n.t("Save")}
-        />
+        <FormProvider {...form}>
+          <ConfigurationStepper
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            onStepChange={onStepChange}
+            steps={steps}
+            onLastAction={onSave}
+            activeStepperBackGroundColor={"#00695c"}
+            onCancelLastAction={onExit}
+            onLastActionButtonName={saving ? `${i18n.t("Saving")}...` : i18n.t("Save")}
+          />
+        </FormProvider>
       </div>
       <ButtonStrip middle>
         <Button loading={saving} dataTest={"save-exit-intervention-button"} onClick={onSaveAndExit} disabled={saving || saveAndContinueLoader}>

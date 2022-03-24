@@ -18,7 +18,7 @@ export interface IndicatorSelectorProps {
 export default function IndicatorSelector({ group, hide, onClose, onSave }: IndicatorSelectorProps): any {
   const { watch } = useFormContext();
   const [selectedIndicators, setSelectedIndicators] = useState<Array<DataItem>>(group?.items ?? []);
-  const legendDefinitions = watch("legendDefinitions");
+  const legendDefinitions = watch("dataSelection.legendDefinitions");
 
   const onSaveClicked = () => {
     const newIndicators = selectedIndicators?.map((indicator: any) => {

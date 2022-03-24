@@ -53,6 +53,7 @@ export default function AccessAdd(): React.ReactElement {
     setEntity(undefined);
     setAccess("");
   };
+
   return (
     <div className="access-config-add-user">
       <Title title={i18n.t("Give Access to a user , group or role")} />

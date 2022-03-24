@@ -1,6 +1,5 @@
 import { Steps } from "intro.js-react";
 import React from "react";
-import { FormProvider } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { INTERVENTION_DETERMINANT_CONFIGURATION_HELP } from "../../../../constants/help/intervention-configuration";
@@ -11,7 +10,7 @@ import DeterminantArea from "./components/DeterminantArea";
 import IndicatorConfiguration from "./components/IndicatorConfiguration";
 import "./Determinant.css";
 
-export default function DeterminantsConfiguration({ form }: { form: any }): React.ReactElement {
+export default function DeterminantsConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const selectedIndicator = useRecoilValue(SelectedIndicatorIndex(id));
   const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
@@ -21,15 +20,13 @@ export default function DeterminantsConfiguration({ form }: { form: any }): Reac
   };
 
   return (
-    <FormProvider {...form}>
-      <div className="determinant-main-container">
-        <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={INTERVENTION_DETERMINANT_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
+    <div className="determinant-main-container">
+      <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={INTERVENTION_DETERMINANT_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
 
-        <div className={`determinant-area-container ${selectedIndicator === undefined ? "w-100" : ""}`}>
-          <DeterminantArea />
-        </div>
-        <div className="indicator-configuration-container">{selectedIndicator !== undefined && <IndicatorConfiguration />}</div>
+      <div className={`determinant-area-container ${selectedIndicator === undefined ? "w-100" : ""}`}>
+        <DeterminantArea />
       </div>
-    </FormProvider>
+      <div className="indicator-configuration-container">{selectedIndicator !== undefined && <IndicatorConfiguration />}</div>
+    </div>
   );
 }
