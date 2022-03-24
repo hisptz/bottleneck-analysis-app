@@ -1,53 +1,47 @@
-import i18n from "@dhis2/d2-i18n";
-import { isEmpty } from "lodash";
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../../../../core/state/dataEngine";
-import { getSubLevelAnalytics } from "../../../../../shared/services/analytics";
-import { getCustomFunctionAnalytics } from "../../../../../shared/services/customFunctionAnalytics";
-import { CustomFunction } from "../../../../../shared/state/customFunctions";
 import { isArchiveId } from "../../../../../shared/utils/archives";
 import { Archive } from "../../../../Archives/state/data";
 import { InterventionPeriodState } from "../../../state/selections";
 import { DataItems, SubLevelOrgUnit } from "./dimensions";
+import { getData } from "../../AnalysisChart/services/getChartAnalytics";
+import { CustomFunction } from "../../../../../shared/state/customFunctions";
+import { CustomFunction as CustomFunctionInterface } from "../../../../../shared/interfaces/customFunctions";
+import { compact } from "lodash";
 
 export const SubLevelAnalyticsData = selectorFamily({
   key: "analytics-data",
   get:
     (id: string) =>
-    async ({ get, getCallback }) => {
+    async ({ get }) => {
       if (isArchiveId(id)) {
         const { subLevelData } = get(Archive(id)) ?? {};
         return subLevelData;
       }
       const engine = get(EngineState);
-      const { dataItems, functions } = get(DataItems(id));
+      const { dataItems, functions: functionIds } = get(DataItems(id));
       const period = get(InterventionPeriodState(id))?.id;
       const orgUnit = get(SubLevelOrgUnit(id));
 
-      if (isEmpty([...dataItems, ...functions])) {
-        throw Error(i18n.t("There are no indicators configured for this intervention"));
-      }
+      const functions: Array<{ id: string; function: CustomFunctionInterface }> = compact(
+        functionIds?.map((id) => {
+          const [functionId] = id.split(".") ?? [];
+          if (functionId) {
+            const customFunction = get(CustomFunction(functionId));
+            if (customFunction) {
+              return { id, function: customFunction };
+            }
+          }
+          return;
+        }) ?? []
+      );
 
-      if (isEmpty(period) || isEmpty(orgUnit)) {
-        throw Error(i18n.t("There are no organisation units or periods configured for this intervention"));
-      }
-
-      const getCustomFunction = getCallback(({ snapshot }) => async (functionId: string) => {
-        return await snapshot.getPromise(CustomFunction(functionId));
+      return await getData({
+        dataItems,
+        functions,
+        engine,
+        period,
+        orgUnit,
       });
-
-      try {
-        const dataItemsData = await getSubLevelAnalytics({ dx: dataItems, ou: orgUnit, pe: period }, engine);
-        const functionsData = await getCustomFunctionAnalytics({ functions, getCustomFunction, periods: [period], orgUnits: orgUnit });
-
-        return {
-          ...dataItemsData,
-          rows: [...dataItemsData.rows, ...(functionsData ?? [])],
-        };
-      } catch (e: any) {
-        if (e?.details?.httpStatusCode === 409) {
-          throw Error(`${i18n.t("Error getting data for sub-level analysis")}: ${e?.message ?? ""}`);
-        }
-      }
     },
 });
