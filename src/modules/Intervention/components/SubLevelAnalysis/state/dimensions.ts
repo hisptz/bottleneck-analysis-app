@@ -5,6 +5,7 @@ import { UserOrganisationUnit } from "../../../../../core/state/user";
 import { DataItem, InterventionConfig } from "../../../../../shared/interfaces/interventionConfig";
 import { InterventionState } from "../../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../../state/selections";
+import { INTERVENTION_DATA_TYPES } from "../../../../../constants/intervention";
 
 export const DataItems = selectorFamily<{ functions: Array<string>; dataItems: Array<string> }, string>({
   key: "sub-level-data-items",
@@ -22,7 +23,7 @@ export const DataItems = selectorFamily<{ functions: Array<string>; dataItems: A
       forEach(groups, (group) => {
         const { items } = group ?? {};
         forEach(items, (item) => {
-          if (item.type === "CUSTOMFUNCTION") {
+          if (item.type === INTERVENTION_DATA_TYPES.CUSTOM_FUNCTION) {
             functions.push(item);
           } else {
             dataItems.push(item);
