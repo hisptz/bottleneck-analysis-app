@@ -11,7 +11,7 @@ import { getInterventionKeys } from "../../../shared/services/getInterventions";
 import getOldInterventions, { getOldInterventionKeys } from "../../../shared/services/getOldInterventions";
 import { createInterventionSummaries, uploadInterventionSummary } from "../../../shared/services/interventionSummary";
 import { RootCauseConfig } from "../../Intervention/components/RootCauseAnalysis/state/config";
-import { convertIntervention, migrateIntervention, migrateRootCauseDataByIntervention } from "../services/migrate";
+import { convertIntervention, getAllCustomFunctions, migrateIntervention, migrateRootCauseDataByIntervention } from "../services/migrate";
 import useQueue from "./useQueue";
 
 export default function useMigrate(onComplete: () => void): {
@@ -56,9 +56,10 @@ export default function useMigrate(onComplete: () => void): {
         return !interventionKeys.includes(sanitizedKey);
       });
       if (!isEmpty(filteredKeys)) {
+        const customFunctions = await getAllCustomFunctions(engine);
         const oldInterventions: Array<OldInterventionConfig> = compact(await getOldInterventions(engine, filteredKeys));
         if (oldInterventions) {
-          const newInterventions = oldInterventions.map(convertIntervention);
+          const newInterventions = oldInterventions.map((oldIntervention) => convertIntervention(oldIntervention, customFunctions));
           const summaries = createInterventionSummaries(newInterventions);
           for (const intervention of newInterventions) {
             add(intervention);

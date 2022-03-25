@@ -12,12 +12,36 @@ import {
 } from "../../../shared/interfaces/interventionConfig";
 import { GlobalSelection, Legend, OldInterventionConfig, SelectionGroupMember } from "../../../shared/interfaces/oldInterventionConfig";
 import { RootCauseConfigInterface } from "../../../shared/interfaces/rootCause";
-import getOldInterventions from "../../../shared/services/getOldInterventions";
 import { uid } from "../../../shared/utils/generators";
+import { CustomFunction } from "../../../shared/interfaces/customFunctions";
+import { INTERVENTION_DATA_TYPES } from "../../../constants/intervention";
 
-export async function getInterventions(engine: any) {
-  const oldInterventions: Array<OldInterventionConfig> = compact(await getOldInterventions(engine));
-  return oldInterventions?.map(convertIntervention) ?? [];
+const customFunctionKeys = {
+  customFunctionKeys: {
+    resource: "dataStore/functions",
+  },
+};
+
+const customFunctionQuery = {
+  customFunction: {
+    resource: "dataStore/functions",
+    id: ({ id }: any) => id,
+  },
+};
+
+export async function getAllCustomFunctions(engine: any) {
+  const { customFunctionKeys: keys } = (await engine.query(customFunctionKeys)) ?? { customFunctionKeys: [] };
+  if (isEmpty(keys)) {
+    return [];
+  }
+  return await map(keys, async (key: string) => {
+    try {
+      const { customFunction } = await engine.query(customFunctionQuery, { variables: { id: key } });
+      return customFunction;
+    } catch (e) {
+      return null;
+    }
+  });
 }
 
 const generateSaveMutation = (id: string) => {
@@ -41,19 +65,30 @@ export async function migrateIntervention(intervention: InterventionConfig, engi
   return await engine.mutate(mutation, { variables: { data: intervention } });
 }
 
-function convertData(dataConfig?: GlobalSelection): DataSelection {
+function convertData(customFunctions: Array<CustomFunction>, dataConfig?: GlobalSelection): DataSelection {
   if (dataConfig) {
     const { groups, items, legendDefinitions } = dataConfig;
     const newGroups: Array<Group> = groups?.map(({ id, name, color, members, sortOrder }) => {
       const groupItems: Array<DataItem | undefined> = members?.map(({ id, type }: SelectionGroupMember) => {
         const member = find(items, ["id", id]);
+        let newId = id;
+        if (type === "FUNCTION_RULE") {
+          const customFunction: CustomFunction | undefined = find(customFunctions ?? [], (customFunction: CustomFunction) => {
+            return find(customFunction.rules, (rule: any) => rule.id === id);
+          }) as CustomFunction;
+
+          if (customFunction) {
+            newId = `${customFunction.id}.${id}`;
+          }
+        }
+
         if (member) {
           const { name, legendSet, label } = member ?? { legendSet: [] };
           return {
-            type,
-            id,
+            type: type === "FUNCTION_RULE" ? INTERVENTION_DATA_TYPES.CUSTOM_FUNCTION : type,
+            id: newId,
             name,
-            label,
+            label: label ?? name,
             legends: legendSet?.legends?.map(({ id, endValue, startValue }: Legend) => ({ id, endValue, startValue })),
           };
         }
@@ -125,7 +160,7 @@ function convertPeriod(periodType: string, periodConfig?: GlobalSelection): Peri
   };
 }
 
-export function convertIntervention(config: OldInterventionConfig): InterventionConfig {
+export function convertIntervention(config: OldInterventionConfig, customFunctions: Array<CustomFunction>): InterventionConfig {
   const { id, name, bookmarks, user, userAccesses, userGroupAccesses, publicAccess, externalAccess, globalSelections, bottleneckPeriodType } = config;
 
   const dataConfig = find(globalSelections, ["dimension", "dx"]);
@@ -144,7 +179,7 @@ export function convertIntervention(config: OldInterventionConfig): Intervention
     })),
     externalAccess,
     publicAccess,
-    dataSelection: convertData(dataConfig),
+    dataSelection: convertData(customFunctions, dataConfig),
     orgUnitSelection: convertOrgUnit(orgUnitConfig),
     periodSelection: convertPeriod(bottleneckPeriodType, periodConfig),
     map: {
