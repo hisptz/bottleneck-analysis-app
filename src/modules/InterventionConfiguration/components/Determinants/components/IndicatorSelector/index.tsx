@@ -1,18 +1,31 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, ButtonStrip, Modal, ModalActions, ModalContent, ModalTitle } from "@dhis2/ui";
 import { DataSourceSelector } from "@hisptz/react-ui";
-import { filter, find, uniqBy } from "lodash";
+import { filter, find, snakeCase, uniqBy } from "lodash";
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { INDICATORS_PER_DETERMINANT } from "../../../../../../constants/constants";
 import { DataItem, Group } from "../../../../../../shared/interfaces/interventionConfig";
 import { generateLegendDefaults } from "../DeterminantArea/utils/indicators";
+import { INTERVENTION_DATA_TYPES } from "../../../../../../constants/intervention";
 
 export interface IndicatorSelectorProps {
   group: Group;
   hide: boolean;
   onClose: () => void;
   onSave: (group: Group, indicators: Array<DataItem>) => void;
+}
+
+function getIndicatorType(indicator: DataItem): string {
+  const { type } = indicator ?? {};
+
+  if (type === "indicator") {
+    return INTERVENTION_DATA_TYPES.INDICATOR;
+  }
+  if (type === "customFunction") {
+    return INTERVENTION_DATA_TYPES.CUSTOM_FUNCTION;
+  }
+  return snakeCase(type).toUpperCase();
 }
 
 export default function IndicatorSelector({ group, hide, onClose, onSave }: IndicatorSelectorProps): any {
@@ -32,7 +45,7 @@ export default function IndicatorSelector({ group, hide, onClose, onSave }: Indi
             filter(legendDefinitions, (definition) => !definition?.isDefault),
             100
           ),
-          type: indicator?.type?.toUpperCase(),
+          type: getIndicatorType(indicator),
         }
       );
     });
