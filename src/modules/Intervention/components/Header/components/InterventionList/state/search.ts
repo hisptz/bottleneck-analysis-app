@@ -7,7 +7,7 @@ import { InterventionSummary } from "../../../../../../../shared/interfaces/inte
 export const SearchState = atom<string>({ key: "search-state", default: "" });
 
 export const FilteredInterventions = selectorFamily({
-  key: "filtered-intervention",
+  key: "filtered-interventions",
   get:
     (id: string) =>
     ({ get }) => {
@@ -17,7 +17,14 @@ export const FilteredInterventions = selectorFamily({
       return sortBy(
         filter(interventions, (intervention: InterventionSummary) => {
           return intervention.name.toLowerCase().indexOf((searchKeyword || "").toLowerCase()) != -1;
-        })
+        }),
+        (intervention: InterventionSummary) => {
+          if (intervention.bookmarks?.includes(user.id)) {
+            return 0;
+          }
+          return 1;
+        },
+        "name"
       );
     },
 });
