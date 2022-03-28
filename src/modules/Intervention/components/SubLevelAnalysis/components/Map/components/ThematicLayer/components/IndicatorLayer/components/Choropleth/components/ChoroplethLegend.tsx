@@ -4,6 +4,7 @@ import "../../../../../styles/legends.css";
 import { Divider } from "@dhis2/ui";
 import { head, sortBy } from "lodash";
 import { getLegendCount } from "../../../../../../../utils/map";
+import { defaultLegendSet } from "../../../../../../../constants/legendSet";
 
 function LegendItem({ legend, value }: { legend: { startValue: number; endValue: number; color: string }; value: number }) {
   return (
@@ -20,7 +21,7 @@ function ChoroplethLegend(
   ref: React.LegacyRef<HTMLDivElement> | undefined
 ) {
   const legends = useMemo(() => {
-    return sortBy(head(indicator.legendSets)?.legends ?? [], "startValue").reverse();
+    return sortBy(head(indicator.legendSets)?.legends ?? defaultLegendSet?.legends, "startValue").reverse();
   }, [indicator]);
 
   return (

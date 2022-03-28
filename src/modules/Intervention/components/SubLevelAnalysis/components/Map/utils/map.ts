@@ -1,6 +1,7 @@
 import { colors } from "@dhis2/ui";
 import { LeafletMouseEvent } from "leaflet";
 import { filter, find, flatten, head } from "lodash";
+import { defaultLegendSet } from "../constants/legendSet";
 
 export function convertCoordinates([lng, lat]: [number, number]): { lat: number; lng: number } {
   return {
@@ -29,8 +30,8 @@ export function resetHighlight(e: LeafletMouseEvent, defaultStyle: any) {
 }
 
 export function getColorFromLegendSet(legendSet: any, value: number): string {
-  const legend = find(legendSet?.legends ?? [], (legend: any) => legend?.startValue <= value && legend?.endValue >= value) ?? {};
-
+  const legends = legendSet?.legends ?? defaultLegendSet.legends;
+  const legend = find(legends ?? [], (legend: any) => legend?.startValue <= value && legend?.endValue >= value) ?? {};
   return legend.color ? legend.color : colors.grey900;
 }
 
