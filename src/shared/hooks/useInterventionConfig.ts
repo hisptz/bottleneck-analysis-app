@@ -5,5 +5,5 @@ import { InterventionConfig } from "../interfaces/interventionConfig";
 
 export default function useInterventionConfig(): InterventionConfig {
   const { id } = useParams<{ id: string }>();
-  return useRecoilValue<InterventionConfig>(InterventionState(id));
+  return <InterventionConfig>useRecoilValue<InterventionConfig | undefined>(InterventionState(id));
 }

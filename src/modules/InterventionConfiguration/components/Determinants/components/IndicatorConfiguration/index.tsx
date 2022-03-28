@@ -1,7 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
 import { InputField } from "@dhis2/ui";
 import { CustomInput } from "@hisptz/react-ui";
-import { filter, findIndex } from "lodash";
+import { filter, findIndex, set } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,27 @@ import "./SelectedItemComponent.css";
 import { useRecoilValue } from "recoil";
 import { Legend } from "../../../../../../shared/interfaces/interventionConfig";
 import { SelectedDeterminantIndex, SelectedIndicatorIndex, UseShortName } from "../../../../state/edit";
+
+function autoSetAdjacentValues(data: any, index: number) {
+  const newData = [...data];
+  const updatedValue = newData[index];
+  const previousValueIndex = index - 1;
+  const nextValueIndex = index + 1;
+
+  if (previousValueIndex >= 0) {
+    set(newData, `${previousValueIndex}.startValue`, updatedValue?.endValue);
+  }
+  if (nextValueIndex < newData.length) {
+    set(newData, `${nextValueIndex}.endValue`, updatedValue?.startValue);
+  }
+  return newData;
+}
+
+function editAtIndex(index: number, value: any, data: any) {
+  const newData = [...data];
+  set(newData, index, value);
+  return autoSetAdjacentValues(newData, index);
+}
 
 export default function IndicatorConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
@@ -70,15 +91,10 @@ export default function IndicatorConfiguration(): React.ReactElement {
               input={{
                 onChange: (value: any) => {
                   const modifiedLegendList = [...(selectedIndicator?.legends ?? [])];
-                  modifiedLegendList[legendIndex] = {
-                    id: value.id,
-                    startValue: parseInt(value?.startValue),
-                    endValue: parseInt(value?.endValue),
-                  };
-                  onChange("legends", modifiedLegendList);
+                  onChange("legends", [...editAtIndex(legendIndex, value, modifiedLegendList)]);
                 },
                 value: legend,
-                name: "",
+                name: `legend-${legendDefinition?.id}`,
                 label: "Legend",
               }}
               valueType={"LEGEND_MIN_MAX"}

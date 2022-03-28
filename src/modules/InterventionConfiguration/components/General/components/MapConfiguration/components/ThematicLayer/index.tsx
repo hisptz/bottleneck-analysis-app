@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from "react";
 import "./styles/thematic-config.css";
-import { Button, CheckboxField, colors, Field, Tag } from "@dhis2/ui";
+import { Button, CheckboxField, colors, Field, IconWarning16, Tag } from "@dhis2/ui";
 import i18n from "@dhis2/d2-i18n";
 import { Controller, FieldError, useFormContext } from "react-hook-form";
 import { useRecoilValueLoadable } from "recoil";
 import { IndicatorState } from "../../../../../../../../core/state/data";
 import { DataItem, ThematicLayerType, ThematicMapLayer } from "../../../../../../../../shared/interfaces/interventionConfig";
 import IndicatorSelectorModal from "./components/IndicatorSelectorModal";
-import { compact, findIndex, head } from "lodash";
+import { compact, findIndex, head, isEmpty } from "lodash";
 
 function SingleThematicLayerConfig({
   type,
@@ -39,7 +39,7 @@ function SingleThematicLayerConfig({
   );
 
   return (
-    <div>
+    <div className="h-100">
       <Field fullWidth error={!!error} validationText={error?.message}>
         <div style={error ? { borderColor: colors.red600 } : {}} className="thematic-config-card">
           <div className="row space-between align-center">
@@ -48,13 +48,22 @@ function SingleThematicLayerConfig({
           </div>
           {value?.enabled && (
             <>
-              <div className="row space-between align-center">
-                <div className="row gap align-center">
-                  <b style={{ fontSize: 14 }}>{i18n.t("Indicator")}: </b>
-                  {value?.indicator && <Tag>{indicatorState?.contents?.displayName}</Tag>}
+              <div className="row gap-8 space-between align-center">
+                <div className="column gap-8">
+                  <div className="row gap align-center">
+                    <b style={{ fontSize: 14 }}>{i18n.t("Indicator")}: </b>
+                    {value?.indicator && <Tag>{indicatorState?.contents?.displayName}</Tag>}
+                  </div>
+                  {indicatorState.state === "hasValue" && isEmpty(indicatorState.contents?.legendSets) ? (
+                    <div style={{ fontSize: 12, color: colors.yellow800, alignItems: "center" }} className="gap-4 row">
+                      <IconWarning16 />
+                      {i18n.t("This indicator has no configured legends")}
+                    </div>
+                  ) : null}
                 </div>
                 <Button onClick={() => setOpenDataSelector(true)}>{value?.indicator ? i18n.t("Update") : i18n.t("Select")}</Button>
               </div>
+
               {openDataSelector && (
                 <IndicatorSelectorModal
                   onUpdate={onUpdate}
@@ -79,7 +88,7 @@ export default function ThematicLayerConfig() {
 
   return (
     <Field label={i18n.t("Thematic Layers")}>
-      <div style={{ whiteSpace: "normal" }} className="row wrap gap">
+      <div style={{ whiteSpace: "normal" }} className="row wrap gap h-100">
         <Controller
           rules={{
             validate: (value) => {

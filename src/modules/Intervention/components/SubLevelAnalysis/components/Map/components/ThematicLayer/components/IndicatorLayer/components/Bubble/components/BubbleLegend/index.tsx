@@ -4,6 +4,7 @@ import React, { forwardRef, useMemo } from "react";
 import { ThematicMapLayer } from "../../../../../../../../../../../../../../shared/interfaces/interventionConfig";
 import "../../../../../../styles/legends.css";
 import Bubbles from "./components/Bubbles";
+import { defaultLegendSet } from "../../../../../../../../constants/legendSet";
 
 function getRadius(legends: Array<any>) {
   return {
@@ -17,7 +18,7 @@ function BubbleLegend(
   ref: React.LegacyRef<HTMLDivElement> | undefined
 ) {
   const legends = useMemo(() => {
-    return sortBy(head(indicator.legendSets)?.legends ?? [], "startValue").reverse();
+    return sortBy(head(indicator.legendSets)?.legends ?? defaultLegendSet?.legends, "startValue").reverse();
   }, [indicator]);
 
   const { radiusHigh, radiusLow } = getRadius(legends);

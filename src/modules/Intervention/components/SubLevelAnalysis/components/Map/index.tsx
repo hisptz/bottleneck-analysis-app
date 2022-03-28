@@ -5,9 +5,13 @@ import useBoundaryData from "./components/BoundaryLayer/hooks/data";
 import DownloadControl from "./components/DownloadControl";
 import FacilityLayer from "./components/FacilityLayer";
 import ThematicLayer from "./components/ThematicLayer";
+import useInterventionConfig from "../../../../../../shared/hooks/useInterventionConfig";
+import CardError from "../../../../../../shared/components/errors/CardError";
+import i18n from "@dhis2/d2-i18n";
 
-export default function Map() {
+function MapArea() {
   const { center, bounds } = useBoundaryData();
+
   return (
     <div id="map-container" style={{ height: "100%", width: "100%" }}>
       <MapContainer bounds={bounds} bounceAtZoomLimits center={center} style={{ height: "100%", width: "100%", minHeight: 500 }} scrollWheelZoom={false}>
@@ -25,4 +29,18 @@ export default function Map() {
       </MapContainer>
     </div>
   );
+}
+
+export default function Map() {
+  const { map } = useInterventionConfig();
+
+  if (!map?.enabled) {
+    return (
+      <div>
+        <CardError error={{ message: i18n.t("Map is disabled for this intervention") }} />
+      </div>
+    );
+  }
+
+  return <MapArea />;
 }

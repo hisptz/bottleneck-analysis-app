@@ -13,11 +13,13 @@ import ChoroplethLegend from "./components/Choropleth/components/ChoroplethLegen
 import useMapIndicatorData from "./hooks/data";
 
 export default function IndicatorLayer({ config }: { config: ThematicMapLayer }) {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const { data, indicator } = useMapIndicatorData(config?.indicator);
   const showLegends = useRecoilValue(ShowLegend(id));
 
-  if (!data) return null;
+  if (!data) {
+    return null;
+  }
 
   return (
     <>

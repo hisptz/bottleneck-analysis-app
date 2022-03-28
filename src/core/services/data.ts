@@ -3,7 +3,7 @@ const indicatorQuery = {
     resource: "indicators",
     id: ({ id }: any) => id,
     params: {
-      fields: ["displayName", "name", "shortName", "id"],
+      fields: ["displayName", "name", "shortName", "id", "legendSets"],
     },
   },
 };

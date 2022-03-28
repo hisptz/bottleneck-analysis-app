@@ -6,22 +6,33 @@ import { SubLevelOrgUnit } from "../../../state/dimensions";
 import { BoundaryData } from "../components/BoundaryLayer/state/data";
 import { getAnalyticsData } from "../services/data";
 import { MapIndicatorState } from "./config";
+import { LastOrgUnitLevel } from "../../../../../../../core/state/orgUnit";
 
 export const MapIndicatorData = selectorFamily<any, string | undefined>({
   key: "map-indicator-data",
   get:
     (id?: string) =>
     async ({ get }) => {
-      if (!id) return null;
+      if (!id) {
+        return null;
+      }
       try {
         const subLevelOrgUnit = get(SubLevelOrgUnit(id));
         const selectedOrgUnit = get(InterventionOrgUnitState(id));
         const engine = get(EngineState);
         const indicators = get(MapIndicatorState(id));
-        const orgUnits = [...subLevelOrgUnit, selectedOrgUnit.id];
+        const lastLevel = get(LastOrgUnitLevel);
+        const orgUnits = subLevelOrgUnit.includes(`LEVEL-${lastLevel?.level}`) ? [selectedOrgUnit.id] : [...subLevelOrgUnit, selectedOrgUnit.id];
         const orgUnitBoundaryData = get(BoundaryData(id));
         const period = get(InterventionPeriodState(id));
-        const data = await getAnalyticsData({ dx: indicators?.map((indicator) => indicator.id) ?? [], pe: period.id, ou: orgUnits }, engine);
+        const data = await getAnalyticsData(
+          {
+            dx: indicators?.map((indicator) => indicator.id) ?? [],
+            pe: period.id,
+            ou: orgUnits,
+          },
+          engine
+        );
         const ouIndex = findIndex(data.headers, (header: any) => header.name === "ou");
         const dxIndex = findIndex(data.headers, (header: any) => header.name === "dx");
         const valueIndex = findIndex(data.headers, (header: any) => header.name === "value");

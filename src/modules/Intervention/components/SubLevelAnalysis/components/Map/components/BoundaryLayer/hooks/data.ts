@@ -20,6 +20,7 @@ export default function useBoundaryData() {
 
   const bounds: Array<LatLngTuple> = useMemo(() => {
     const allPoints: Array<{ lat: number; lng: number }> = flattenDeep(data?.map((area: { co: any }) => area.co));
+
     const { minLat, maxLat, minLng, maxLng } = getBounds(allPoints);
     return [
       [minLat, minLng],

@@ -3,6 +3,6 @@ import { useRecoilValue } from "recoil";
 import { InterventionStateSelector } from "../../../../../../../state/intervention";
 
 export default function useThematicLayerConfig() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   return useRecoilValue(InterventionStateSelector({ id, path: ["map", "coreLayers", "thematicLayers"] }));
 }
