@@ -3,6 +3,10 @@
     gap: 16px;
 }
 
+.gap-4 {
+    gap: 4px;
+}
+
 .row {
     display: flex;
     flex-direction: row;
