@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-03-24T07:54:01.244Z\n"
-"PO-Revision-Date: 2022-03-24T07:54:01.244Z\n"
+"POT-Creation-Date: 2022-03-28T08:41:54.443Z\n"
+"PO-Revision-Date: 2022-03-28T08:41:54.443Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -846,6 +846,9 @@ msgstr "Choropleth"
 
 msgid "Bubble"
 msgstr "Bubble"
+
+msgid "Map is disabled for this intervention"
+msgstr "Map is disabled for this intervention"
 
 msgid "Bottleneck Sub-level Analysis"
 msgstr "Bottleneck Sub-level Analysis"

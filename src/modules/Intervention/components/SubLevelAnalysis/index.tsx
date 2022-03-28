@@ -35,7 +35,6 @@ export default function SubLevelAnalysis(): React.ReactElement {
 
   const onDownloadExcel = () => {
     if (tableRef) {
-      console.log(tableRef);
       downloadExcelFromTable(tableRef, `${interventionName}_${orgUnitName}_${periodName}`);
     } else {
       console.error("Table ref is not defined");

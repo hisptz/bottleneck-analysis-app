@@ -80,7 +80,7 @@ export async function evaluateCustomFunction({
           periods,
           rule: { ...rule, json: typeof rule.json === "string" ? JSON.parse(rule.json) : rule.json },
           code: customFunction?.function ?? "",
-          progress: (progress) => console.log(progress),
+          progress: (progress) => {},
         });
 
         //This is under the assumption a custom function returns analytics object with only one dx value
