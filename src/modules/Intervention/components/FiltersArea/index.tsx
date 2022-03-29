@@ -19,12 +19,14 @@ export default function FiltersArea(): React.ReactElement {
     reset(ActiveFilters(id));
   });
 
-  if (!filterActive) return <div />;
+  if (!filterActive) {
+    return <div />;
+  }
 
   return (
     <div className="row space-between p-16 w-100 align-center">
       <div className="row gap">
-        <b>{i18n.t("Active Filters: ")}</b>
+        <b>{i18n.t("Active Filters")}:</b>
         {activeFilters.period && (
           <Tag permanent>
             <b>{`${i18n.t("Period")}: `}</b> {`${period.name}`}

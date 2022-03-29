@@ -23,8 +23,8 @@ export default function DataSource({ id }: { id: string }) {
             <li key={dataSet?.id}>
               <b>{dataSet?.displayName}</b>{" "}
               {i18n.t("submitting {{variables1}} after every {{variables2}} days", {
-                variables1: dataSet?.periodType,
-                variables2: dataSet?.timelyDays,
+                variables1: dataSet ? dataSet.periodType : "",
+                variables2: dataSet ? dataSet.timelyDays : "",
               })}
             </li>
           );
