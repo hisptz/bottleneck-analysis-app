@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-03-28T08:41:54.443Z\n"
-"PO-Revision-Date: 2022-03-28T08:41:54.443Z\n"
+"POT-Creation-Date: 2022-04-05T07:06:30.329Z\n"
+"PO-Revision-Date: 2022-04-05T07:06:30.329Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -1003,6 +1003,9 @@ msgstr "Choropleth Layer"
 
 msgid "Bubble Layer"
 msgstr "Bubble Layer"
+
+msgid "This indicator has no configured legends"
+msgstr "This indicator has no configured legends"
 
 msgid "Select"
 msgstr "Select"
