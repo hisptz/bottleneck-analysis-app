@@ -264,11 +264,7 @@ function convertRootCauseData(data: any, config: any) {
 }
 
 export async function migrateRootCauseDataByIntervention(engine: any, interventionId: string, config: any) {
-  const rootCauseData = await getRootCausesData(engine, interventionId);
-  if (!isEmpty(rootCauseData)) {
-    const convertedData = rootCauseData.map((data: any) => convertRootCauseData(data, config));
-    return await migrateRootCauseData(engine, `${interventionId}_${ROOT_CAUSE_SUFFIX}`, convertedData);
-  } else {
-    return await migrateRootCauseData(engine, `${interventionId}_${ROOT_CAUSE_SUFFIX}`, []);
-  }
+  const rootCauseData = (await getRootCausesData(engine, interventionId)) ?? [];
+  const convertedData = rootCauseData?.map((data: any) => convertRootCauseData(data, config)) ?? [];
+  return await migrateRootCauseData(engine, `${interventionId}_${ROOT_CAUSE_SUFFIX}`, convertedData);
 }
