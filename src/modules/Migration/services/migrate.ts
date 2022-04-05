@@ -268,5 +268,7 @@ export async function migrateRootCauseDataByIntervention(engine: any, interventi
   if (!isEmpty(rootCauseData)) {
     const convertedData = rootCauseData.map((data: any) => convertRootCauseData(data, config));
     return await migrateRootCauseData(engine, `${interventionId}_${ROOT_CAUSE_SUFFIX}`, convertedData);
+  } else {
+    return await migrateRootCauseData(engine, `${interventionId}_${ROOT_CAUSE_SUFFIX}`, []);
   }
 }

@@ -57,7 +57,7 @@ async function getRootCauseDataByKey(engine: any, key: string) {
 
 export async function getRootCausesData(engine: any, interventionId: string): Promise<Array<RootCauseDataInterface>> {
   const keys = await getRootCauseDataKeys(engine);
-  const interventionKeys = filter(keys, (key: string) => key.match(RegExp(`${interventionId}_rcadata`)));
+  const interventionKeys = filter(keys, (key: string) => key.match(RegExp(`${interventionId}_${ROOT_CAUSE_SUFFIX}`)));
   return flattenDeep(
     await map(interventionKeys, async (key: string) => {
       return await getRootCauseDataByKey(engine, key);
@@ -69,33 +69,8 @@ export async function deleteRootCauseData(engine: any, interventionId: string, r
   try {
     const rcaDataFromStore: RootCauseDataInterface[] = await getRootCausesData(engine, interventionId);
     const sanitizedRcaData = filter(flattenDeep(rcaDataFromStore), (rcaData: RootCauseDataInterface) => rcaData.id !== rootCauseId);
-    await saveRootCauseData(engine, `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}/${interventionId}_rcadata`, sanitizedRcaData);
+    await saveRootCauseData(engine, `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}/${interventionId}_${ROOT_CAUSE_SUFFIX}`, sanitizedRcaData);
   } catch (error) {
-    throw new Error(`${error}`);
-  }
-}
-
-export async function addOrUpdateRootCauseData(engine: any, interventionId: string, data: RootCauseDataInterface) {
-  try {
-    const rcaDataFromStore: RootCauseDataInterface[] = await getRootCausesData(engine, interventionId);
-    const dataStoreUrl = `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`;
-    const filteredRcaData = filter(flattenDeep(rcaDataFromStore), (rcaData: RootCauseDataInterface) => rcaData.id !== data.id);
-    const rootCauseDataToSave = flattenDeep([...filteredRcaData, data]);
-    await saveRootCauseData(engine, dataStoreUrl, rootCauseDataToSave);
-  } catch (error) {
-    if (`${error}`.includes("404")) {
-      // If the root cause key doesn't exist, create it
-      const mutation = {
-        resource: `dataStore/${BNA_NAMESPACE}/${interventionId}_rcadata`,
-        type: "create",
-        data: ({ data }: { data: RootCauseDataInterface }) => data,
-      };
-      try {
-        await engine.mutate(mutation, { variables: { data: [data] } });
-      } catch (e) {
-        throw new Error(`${e}`);
-      }
-    }
     throw new Error(`${error}`);
   }
 }
@@ -117,6 +92,22 @@ const rootCauseDataMutation = {
 };
 
 export async function uploadRootCauseData(engine: any, interventionId: string, rootCauseData: Array<RootCauseDataInterface>): Promise<any> {
-  const id = `${interventionId}_${ROOT_CAUSE_SUFFIX}`;
-  return await engine.mutate(rootCauseDataMutation, { variables: { id, data: rootCauseData } });
+  try {
+    const id = `${interventionId}_${ROOT_CAUSE_SUFFIX}`;
+    return await engine.mutate(rootCauseDataMutation, { variables: { id, data: rootCauseData } });
+  } catch (error) {
+    if (`${error}`.includes("404")) {
+      // If the root cause key doesn't exist, create it
+      const mutation = {
+        resource: `dataStore/${BNA_NAMESPACE}/${interventionId}_${ROOT_CAUSE_SUFFIX}`,
+        type: "create",
+        data: ({ data }: { data: RootCauseDataInterface }) => data,
+      };
+      try {
+        await engine.mutate(mutation, { variables: { data: rootCauseData } });
+      } catch (e) {
+        throw new Error(`${e}`);
+      }
+    }
+  }
 }
