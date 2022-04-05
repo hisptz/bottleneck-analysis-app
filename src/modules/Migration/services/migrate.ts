@@ -15,6 +15,7 @@ import { RootCauseConfigInterface } from "../../../shared/interfaces/rootCause";
 import { uid } from "../../../shared/utils/generators";
 import { CustomFunction } from "../../../shared/interfaces/customFunctions";
 import { INTERVENTION_DATA_TYPES } from "../../../constants/intervention";
+import { isOrgUnitId } from "../../../shared/utils/orgUnit";
 
 const customFunctionKeys = {
   customFunctionKeys: {
@@ -134,8 +135,9 @@ function convertOrgUnit(orgUnitConfig?: GlobalSelection): OrgUnitSelection {
     const [oldOrgUnit, levelOrgUnit] = orgUnitConfig?.items;
 
     const level = parseInt(last(levelOrgUnit?.id?.split("-")) ?? "");
+
     return {
-      orgUnit: { id: oldOrgUnit?.id, type: oldOrgUnit?.type },
+      orgUnit: { id: isOrgUnitId(oldOrgUnit?.id) ? oldOrgUnit?.id : "USER_ORGUNIT", type: oldOrgUnit?.type },
       subLevel: levelOrgUnit ? { id: levelOrgUnit?.id, level } : undefined,
     };
   }
