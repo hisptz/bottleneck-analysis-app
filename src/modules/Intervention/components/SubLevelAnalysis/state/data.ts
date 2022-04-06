@@ -21,7 +21,7 @@ export const SubLevelAnalyticsData = selectorFamily({
       const engine = get(EngineState);
       const { dataItems, functions: functionIds } = get(DataItems(id));
       const period = get(InterventionPeriodState(id))?.id;
-      const orgUnit = get(SubLevelOrgUnit(id));
+      const orgUnits = get(SubLevelOrgUnit(id));
 
       const functions: Array<{ id: string; function: CustomFunctionInterface }> = compact(
         functionIds?.map((id) => {
@@ -41,7 +41,7 @@ export const SubLevelAnalyticsData = selectorFamily({
         functions,
         engine,
         period,
-        orgUnit,
+        orgUnits,
       });
     },
 });

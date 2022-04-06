@@ -42,7 +42,7 @@ export const ChartData = selectorFamily({
         engine,
         functions,
         period,
-        orgUnit,
+        orgUnits: [orgUnit],
       });
     },
 });
