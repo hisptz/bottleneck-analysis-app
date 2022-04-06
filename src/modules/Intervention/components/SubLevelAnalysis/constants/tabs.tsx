@@ -1,5 +1,5 @@
 import i18n from "@dhis2/d2-i18n";
-import { IconInfo24, IconList24, IconWorld24 } from "@dhis2/ui";
+import { IconInfo16, IconList16, IconWorld16 } from "@dhis2/ui";
 import React from "react";
 import Dictionary from "../components/Dictionary";
 import Map from "../components/Map";
@@ -15,31 +15,19 @@ export interface Tab {
 export const tabs: Array<Tab> = [
   {
     key: "table",
-    icon: (
-      <div className={"intervention-table-view-option"}>
-        <IconList24 />
-      </div>
-    ),
+    icon: <IconList16 />,
     label: i18n.t("Table View"),
     component: Table,
   },
   {
     key: "dictionary",
-    icon: (
-      <div className={"intervention-dictionary-view-option"}>
-        <IconInfo24 />
-      </div>
-    ),
+    icon: <IconInfo16 />,
     label: i18n.t("Dictionary View"),
     component: Dictionary,
   },
   {
     key: "map",
-    icon: (
-      <div className={"intervention-map-view-option"}>
-        <IconWorld24 />
-      </div>
-    ),
+    icon: <IconWorld16 />,
     label: i18n.t("Map View"),
     component: Map,
   },
