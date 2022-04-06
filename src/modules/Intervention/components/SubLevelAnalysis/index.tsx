@@ -61,7 +61,7 @@ export default function SubLevelAnalysis(): React.ReactElement {
       fullScreenHandle={handle}
       allowFullScreen
       menu={menus}
-      actions={<SubLevelActions />}
+      actions={<div></div>}
       title={<SubLevelHeader activeTab={activeTab} />}>
       <ErrorBoundary onReset={resetData} resetKeys={[activeTabKey, id]} FallbackComponent={CardError}>
         <div style={{ overflow: "hidden", maxHeight: handle.active ? "calc(100vh - 120px)" : 500 }} className="sub-level-container">
