@@ -27,23 +27,35 @@ async function getAnalyticsMetadata(engine: any, { ou, pe }: { ou: string[]; pe:
   return metadata;
 }
 
-export async function getData({ dataItems, engine, functions, orgUnit, period }: { dataItems: any; engine: any; functions: any; orgUnit: any; period: any }) {
+export async function getData({
+  dataItems,
+  engine,
+  functions,
+  orgUnits,
+  period,
+}: {
+  dataItems: any;
+  engine: any;
+  functions: any;
+  orgUnits: any[];
+  period: any;
+}) {
   if (isEmpty([...dataItems, ...functions])) {
     throw Error(i18n.t("There are no indicators configured for this intervention"));
   }
 
-  if (isEmpty(period) || isEmpty(orgUnit)) {
+  if (isEmpty(period) || isEmpty(orgUnits)) {
     throw Error(i18n.t("There are no organisation units or periods configured for this intervention"));
   }
 
   let dataItemsData: any = {};
 
   if (!isEmpty(dataItems)) {
-    dataItemsData = await getAnalytics({ dx: dataItems, ou: [orgUnit], pe: period }, engine);
+    dataItemsData = await getAnalytics({ dx: dataItems, ou: [...orgUnits], pe: period }, engine);
   } else {
-    dataItemsData = await getAnalyticsMetadata(engine, { ou: [orgUnit], pe: period });
+    dataItemsData = await getAnalyticsMetadata(engine, { ou: [...orgUnits], pe: period });
   }
-  const functionsData = await getCustomFunctionAnalytics({ functions, periods: [period], orgUnits: [orgUnit] });
+  const functionsData = await getCustomFunctionAnalytics({ functions, periods: [period], orgUnits: [...orgUnits] });
 
   return {
     ...dataItemsData,

@@ -92,9 +92,9 @@ export const SubLevelOrgUnit = selectorFamily({
         return ["USER_ORGUNIT_CHILDREN"];
       }
       if (orgUnit.level === lastOrgUnitLevel) {
-        return [`LEVEL-${orgUnit?.level}`];
+        return [`${orgUnit?.id}`];
       }
-      return [`LEVEL-${orgUnit?.level + 1}`];
+      return [`${orgUnit.id}`, `LEVEL-${orgUnit?.level + 1}`];
     },
 });
 
