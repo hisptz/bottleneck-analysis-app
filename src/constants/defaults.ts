@@ -12,7 +12,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
   },
   bookmarks: [],
   userAccess: [],
-  publicAccess: "r-------",
+  publicAccess: "--------",
   dataSelection: {
     groups: [
       {
