@@ -1,16 +1,17 @@
 import i18n from "@dhis2/d2-i18n";
-import { colors, IconDownload24, IconFileDocument24, IconImage24 } from "@dhis2/ui";
+import { IconDownload24, IconFileDocument24, IconImage24 } from "@dhis2/ui";
 import React from "react";
 import { useFullScreenHandle } from "react-full-screen";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { downloadExcelFromAnalytics } from "../../../../shared/utils/download";
 import { InterventionStateSelector } from "../../state/intervention";
-import { InterventionOrgUnitState, InterventionPeriodState } from "../../state/selections";
+import { InterventionOrgUnitState } from "../../state/selections";
 import InterventionCard from "../Card";
 import Chart from "./components";
 import { ChartRef } from "./state/chart";
 import { ChartData } from "./state/data";
+import CardHeader from "../CardHeader";
 
 export default function AnalysisChart(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
@@ -18,7 +19,6 @@ export default function AnalysisChart(): React.ReactElement {
   const data = useRecoilValueLoadable(ChartData(id));
   const groups = useRecoilValue(InterventionStateSelector({ id, path: ["dataSelection", "groups"] }));
   const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
-  const period = useRecoilValue(InterventionPeriodState(id));
   const chartRef = useRecoilValue(ChartRef(id));
 
   const handle = useFullScreenHandle();
@@ -64,8 +64,7 @@ export default function AnalysisChart(): React.ReactElement {
       title={
         <div className="row" style={{ gap: 8 }}>
           <h4>{i18n.t("Bottleneck Analysis Chart")}: </h4>
-          <h4 style={{ color: colors.grey700 }}>{`${interventionName}`}</h4>
-          <h4 style={{ color: colors.grey700 }}>{`${period?.name}`}</h4>
+          <CardHeader />
         </div>
       }>
       <Chart height={height} />
