@@ -51,10 +51,10 @@ export default function InterventionCard({
   return (
     <FullScreen handle={fullScreenHandle}>
       <div className="card-container">
-        <div className="row space-between align-center gap">
+        <div className="row space-between align-start gap">
           <div className="card-header">{typeof title === "string" ? <h4>{title}</h4> : title}</div>
           {menu && !fullScreenHandle?.active && (
-            <>
+            <div style={{ paddingTop: 8 }}>
               <Button className={"downloadOptions-menu"} icon={<IconMore24 />} onClick={(_: any, e: MouseEvent) => setActionButtonRef(e.target)} />
               {actionButtonRef && (
                 <Popover onClickOutside={() => setActionButtonRef(undefined)} placement="left-start" reference={actionButtonRef}>
@@ -73,7 +73,7 @@ export default function InterventionCard({
                   </Menu>
                 </Popover>
               )}
-            </>
+            </div>
           )}
           {fullScreenHandle?.active && (
             <Tooltip content={"Exit Full Screen View"}>
