@@ -54,7 +54,7 @@ export async function getAllFunctions(engine: any) {
 
 export async function getIdDetails(engine: any, arr: Array<string>) {
   if (!isEmpty(arr)) {
-    return await map(arr, async (id) =>
+    return await map(arr, async (id: string) =>
       getDetails(engine, id).then((value) => {
         return value.map((val: any) => {
           return val;
