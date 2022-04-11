@@ -74,9 +74,13 @@ export const DictionaryIndicator = atomFamily<undefined | IndicatorInterface, st
     get:
       (id: string) =>
       async ({ get }) => {
-        const engine = get(EngineState);
-        const { indicator } = await engine.query(query, { variables: { id } });
-        return indicator;
+        try {
+          const engine = get(EngineState);
+          const { indicator } = await engine.query(query, { variables: { id } });
+          return indicator;
+        } catch (e) {
+          throw Error(`Could not find details for indicator with id ${id}`);
+        }
       },
   }),
 });

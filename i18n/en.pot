@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-05T07:06:30.329Z\n"
-"PO-Revision-Date: 2022-04-05T07:06:30.329Z\n"
+"POT-Creation-Date: 2022-04-11T04:44:45.915Z\n"
+"PO-Revision-Date: 2022-04-11T04:44:45.915Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -725,6 +725,9 @@ msgstr "Period boundaries"
 
 msgid "Groups"
 msgstr "Groups"
+
+msgid "Dictionary is not currently supported for custom functions"
+msgstr "Dictionary is not currently supported for custom functions"
 
 msgid "Calculation details"
 msgstr "Calculation details"
