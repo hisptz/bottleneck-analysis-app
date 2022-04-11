@@ -26,11 +26,13 @@ export default function GroupDeterminantComponent(): React.ReactElement {
 
   const { confirm } = useConfirmDialog();
 
-  const groups: Array<any> = determinants?.map(({ id, name, items, style }: Group) => {
+  const groups: Array<any> = determinants?.map((group: Group) => {
+    const { id, name, items, style } = group ?? {};
     if (!isArray(determinants)) {
       return [];
     }
     return {
+      ...group,
       id,
       name: `${name} (${items.length})`,
       items: items?.map(({ id, type, label }: DataItem) => ({
@@ -110,7 +112,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
           const groupIndex = findIndex(groups, { id });
           return (
             <ColorPicker
-              color={groups[groupIndex].style?.color}
+              group={groups[groupIndex]}
               onChange={(color) => {
                 setValue(`dataSelection.groups.${groupIndex}.style.color`, color);
               }}

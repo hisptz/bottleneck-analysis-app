@@ -62,6 +62,7 @@ export interface DataItem {
 export interface Group {
   id: string;
   name: string;
+  code: string;
   style?: { color: string };
   items: Array<DataItem>;
   sortOrder: number;

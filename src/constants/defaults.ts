@@ -18,6 +18,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       {
         id: uid(),
         name: i18n.t("Commodities"),
+        code: "commodities",
         items: [],
         style: {
           color: "#7DB2E8",
@@ -26,6 +27,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       },
       {
         id: uid(),
+        code: "humanResources",
         name: i18n.t("Human Resources"),
         items: [],
         style: {
@@ -35,6 +37,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       },
       {
         id: uid(),
+        code: "geographicAccessibility",
         name: i18n.t("Geographic Accessibility"),
         items: [],
         style: {
@@ -44,6 +47,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       },
       {
         id: uid(),
+        code: "initialUtilization",
         name: i18n.t("Initial Utilisation"),
         items: [],
         style: {
@@ -53,6 +57,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       },
       {
         id: uid(),
+        code: "continuousUtilization",
         name: i18n.t("Continuous Utilisation"),
         items: [],
         style: {
@@ -62,6 +67,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
       },
       {
         id: uid(),
+        code: "effectiveCoverage",
         name: i18n.t("Effective Coverage"),
         items: [],
         style: {
