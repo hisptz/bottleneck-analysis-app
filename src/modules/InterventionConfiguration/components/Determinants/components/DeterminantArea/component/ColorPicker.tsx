@@ -47,8 +47,6 @@ function getDefaultColor(group: Group) {
     }
     return g.sortOrder === group.sortOrder;
   });
-
-  console.log({ defaultGroup, group });
   if (defaultGroup) {
     return defaultGroup?.style?.color;
   }
