@@ -1,5 +1,5 @@
 import { map } from "async";
-import { compact, filter, find, isEmpty, last } from "lodash";
+import { camelCase, compact, filter, find, isEmpty, last } from "lodash";
 import { BNA_NAMESPACE, BNA_ROOT_CAUSE_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../constants/dataStore";
 import {
   DataItem,
@@ -100,6 +100,7 @@ function convertData(customFunctions: Array<CustomFunction>, dataConfig?: Global
         sortOrder,
         style: { color },
         items: compact(groupItems),
+        code: camelCase(name),
       };
     });
     const newLegendDefinitions: Array<LegendDefinition> = legendDefinitions?.map(({ id, name, color, default: isDefault }: Legend) => {
