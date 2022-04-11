@@ -7,7 +7,7 @@ function getValue(data: Array<Array<string>>, id: string) {
 }
 
 function getChartConfig(id: string) {
-  return { renderTo: id, zoomType: "xy", type: "column", height: 500, title: { enabled: false } };
+  return { renderTo: id, zoomType: "xy", type: "column", height: 500, title: { enabled: false }, styledMode: false };
 }
 
 function getSeriesConfig(data: any, groups: Array<Group>) {
@@ -64,9 +64,19 @@ function getXAxis(groups: Array<Group>) {
   return {
     categories,
     labels: {
+      groupedOptions: [
+        {
+          useHTML: true,
+          style: {
+            fontFamily: "Roboto, sans-serif",
+            whiteSpace: "nowrap",
+          },
+        },
+      ],
       useHTML: true,
-      padding: 8,
+      step: 0,
       style: {
+        fontFamily: "Roboto, sans-serif",
         textOverflow: "none",
       },
     },
@@ -75,8 +85,7 @@ function getXAxis(groups: Array<Group>) {
 
 function getExporting(name: string) {
   return {
-    scaling: 2,
-    printMaxWidth: 1200,
+    scaling: 1,
     filename: `${name}`,
     sourceWidth: 1200,
   };
