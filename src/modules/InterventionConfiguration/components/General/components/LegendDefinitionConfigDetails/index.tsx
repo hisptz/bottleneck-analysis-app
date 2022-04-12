@@ -1,40 +1,23 @@
-import i18n from "@dhis2/d2-i18n";
-import { Field } from "@dhis2/ui";
-import { CustomInput } from "@hisptz/react-ui";
+import { RHFLegendDefinitionsField } from "@hisptz/react-ui";
 import React from "react";
 import "./LegendDefinitionConfig.css";
-import { Controller } from "react-hook-form";
+import useResetLegends from "./hooks/useResetLegends";
+import { useFormContext } from "react-hook-form";
+import i18n from "@dhis2/d2-i18n";
 
 export function LegendDefinitionConfigDetails(): React.ReactElement {
+  const { shouldVerify, onResetLegends } = useResetLegends();
+  const { control } = useFormContext();
+
   return (
     <div className="legend-definition-config w-100">
-      <Controller
+      <RHFLegendDefinitionsField
+        label={i18n.t("Legend Definitions")}
+        shouldVerify={shouldVerify}
+        onResetLegends={onResetLegends}
         name={"dataSelection.legendDefinitions"}
-        render={({ field, fieldState }) => {
-          return (
-            <div className="w-100">
-              <Field error={fieldState.error} validationText={fieldState.error?.message}>
-                <CustomInput
-                  multipleField={{
-                    valueType: "LEGEND_DEFINITION",
-                    input: {
-                      name: "",
-                      value: "",
-                      onChange: () => {},
-                    },
-                  }}
-                  input={{
-                    onChange: field.onChange,
-                    value: field.value,
-                    name: field.name,
-                  }}
-                  label={i18n.t("Legend Definitions")}
-                  valueType={"MULTIPLE_FIELDS"}
-                />
-              </Field>
-            </div>
-          );
-        }}
+        valueType={""}
+        control={control}
       />
     </div>
   );
