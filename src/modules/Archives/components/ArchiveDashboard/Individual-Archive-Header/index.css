@@ -1,0 +1,11 @@
+.archive-header{
+    display: flex;
+    flex-direction: row;    
+    justify-content: space-between;    width: 100%;
+    box-shadow: 0 7px 5px #D5DDE5;
+    height: 100px;
+    background-color: #ffffff;
+    padding-left: 2%;
+    padding-top: 0%;
+    z-index: 1
+}

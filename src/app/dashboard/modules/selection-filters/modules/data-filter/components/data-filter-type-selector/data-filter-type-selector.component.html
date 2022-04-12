@@ -1,8 +1,0 @@
-<div class="data-filter-type-selector">
-    <mat-chip-list>
-        <mat-chip *ngFor="let dataFilterType of dataFilterTypes"
-            (click)="onToggleDataFilterType(dataFilterType, $event)" [selected]="dataFilterType.selected">
-            {{ dataFilterType.name }}
-        </mat-chip>
-    </mat-chip-list>
-</div>

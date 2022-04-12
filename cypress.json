@@ -1,0 +1,24 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "testFiles": [
+    "**/*.feature",
+    "**/*.test.{js,ts,jsx,tsx}"
+  ],
+  "video": false,
+  "projectId": "a5ip5k",
+  "chromeWebSecurity": true,
+  "reporter": "cypress-multi-reporters",
+  "env": {
+    "dhis2DataTestPrefix": "dhis2-bottleneckanalysis",
+    "networkMode": "live",
+    "dhis2ApiVersion": "36",
+    "apiVersion": "36"
+  },
+  "waitForAnimations": true,
+  "experimentalInteractiveRunEvents": true,
+  "experimentalStudio": true,
+  "viewportWidth": 1360,
+  "viewportHeight": 750,
+  "defaultCommandTimeout": 200000,
+  "watchForFileChanges": true
+}
