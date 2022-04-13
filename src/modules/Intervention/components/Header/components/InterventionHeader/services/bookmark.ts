@@ -10,7 +10,7 @@ export async function addBookmark(
     userId,
     interventionId,
     interventionSummaries,
-    updateSummary,
+    updateSummary
   }: {
     userId?: string;
     interventionId?: string;
@@ -28,7 +28,7 @@ export async function addBookmark(
   if (!intervention) {
     return;
   }
-  const updatedIntervention = { ...intervention, bookmarks: uniq([...intervention.bookmarks, userId]) };
+  const updatedIntervention = { ...intervention, bookmarks: uniq([...(intervention.bookmarks ?? []), userId]) ?? [userId] };
   updateSummary(updateInterventionSummary(createInterventionSummary(updatedIntervention), interventionSummaries));
   await updateIntervention(engine, updatedIntervention, interventionSummaries);
 }
@@ -39,7 +39,7 @@ export async function removeBookmark(
     userId,
     interventionId,
     interventionSummaries,
-    updateSummary,
+    updateSummary
   }: {
     userId?: string;
     interventionId?: string;
@@ -57,7 +57,10 @@ export async function removeBookmark(
   if (!intervention) {
     return;
   }
-  const updatedIntervention = { ...intervention, bookmarks: filter([...intervention.bookmarks], (value) => value !== userId) };
+  const updatedIntervention = {
+    ...intervention,
+    bookmarks: filter([...(intervention.bookmarks ?? [])], (value) => value !== userId) ?? []
+  };
   updateSummary(updateInterventionSummary(createInterventionSummary(updatedIntervention), interventionSummaries));
   await updateIntervention(engine, updatedIntervention, interventionSummaries);
 }
