@@ -10,11 +10,11 @@ import IndicatorSelectorModal from "./components/IndicatorSelectorModal";
 import { compact, findIndex, head, isEmpty } from "lodash";
 
 function SingleThematicLayerConfig({
-  type,
-  value,
-  onChange,
-  error,
-}: {
+                                     type,
+                                     value,
+                                     onChange,
+                                     error
+                                   }: {
   type: ThematicLayerType;
   value: ThematicMapLayer;
   error?: FieldError;
@@ -54,7 +54,7 @@ function SingleThematicLayerConfig({
                     <b style={{ fontSize: 14 }}>{i18n.t("Indicator")}: </b>
                     {value?.indicator && <Tag>{indicatorState?.contents?.displayName}</Tag>}
                   </div>
-                  {indicatorState.state === "hasValue" && isEmpty(indicatorState.contents?.legendSets) ? (
+                  {value?.indicator && indicatorState.state === "hasValue" && isEmpty(indicatorState.contents?.legendSets) ? (
                     <div style={{ fontSize: 12, color: colors.yellow800, alignItems: "center" }} className="gap-4 row">
                       <IconWarning16 />
                       {i18n.t("This indicator has no configured legends")}
@@ -96,7 +96,7 @@ export default function ThematicLayerConfig() {
                 return i18n.t("Please select an indicator");
               }
               return true;
-            },
+            }
           }}
           render={({ field, fieldState }) => {
             return <SingleThematicLayerConfig {...field} {...fieldState} error={fieldState.error} type={"choropleth"} />;
@@ -110,7 +110,7 @@ export default function ThematicLayerConfig() {
                 return i18n.t("Please select an indicator");
               }
               return true;
-            },
+            }
           }}
           render={({ field, fieldState }) => {
             return <SingleThematicLayerConfig {...field} {...fieldState} type={"bubble"} />;
