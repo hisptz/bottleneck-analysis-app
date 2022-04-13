@@ -77,7 +77,6 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
           const selectedGroup = determinants[selectedDeterminantIndex];
           if (selectedGroup) {
             const selectedIndicatorId = selectedGroup?.items[selectedIndicatorIndex]?.id;
-            console.log(selectedIndicatorId);
             if (selectedIndicatorId) {
               if (selectedIndicatorId === itemId) {
                 reset(SelectedIndicatorIndex(id));
