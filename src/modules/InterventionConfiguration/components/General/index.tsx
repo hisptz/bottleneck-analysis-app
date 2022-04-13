@@ -18,6 +18,7 @@ export default function GeneralConfigurationComponent() {
 
   return (
     <div className="general-config-container">
+
       <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={INTERVENTION_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
       <div className="general-config-area-1">
         <InterventionConfigDetails />

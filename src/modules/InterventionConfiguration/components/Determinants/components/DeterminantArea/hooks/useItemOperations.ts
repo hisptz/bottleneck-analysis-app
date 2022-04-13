@@ -76,7 +76,8 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
         if (selectedDeterminantIndex !== undefined && selectedIndicatorIndex !== undefined) {
           const selectedGroup = determinants[selectedDeterminantIndex];
           if (selectedGroup) {
-            const selectedIndicatorId = selectedGroup.items[selectedIndicatorIndex];
+            const selectedIndicatorId = selectedGroup?.items[selectedIndicatorIndex]?.id;
+            console.log(selectedIndicatorId);
             if (selectedIndicatorId) {
               if (selectedIndicatorId === itemId) {
                 reset(SelectedIndicatorIndex(id));
@@ -106,6 +107,6 @@ export default function useItemOperations(setIndicatorSelectorHide: (hide: boole
     onItemDragEnd,
     onItemsAdd,
     onItemClick,
-    onItemDelete,
+    onItemDelete
   };
 }

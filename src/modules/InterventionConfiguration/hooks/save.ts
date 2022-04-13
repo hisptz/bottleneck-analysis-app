@@ -13,6 +13,7 @@ import { InterventionDirtyState } from "../state/data";
 import { ActiveStep, IsNewConfiguration, SelectedDeterminantIndex, SelectedIndicatorIndex } from "../state/edit";
 import { validate } from "../utils/validators";
 import { CONFIG_STEPS } from "../constants/steps";
+import { ConfigStep } from "../interfaces";
 
 export default function useSaveIntervention(): {
   saving: boolean;
@@ -35,11 +36,13 @@ export default function useSaveIntervention(): {
     ({ message }) => message,
     ({ type }) => ({ ...type, duration: 3000 })
   );
+  const activeStep: ConfigStep = useRecoilValue(ActiveStep(interventionId));
 
   const form = useForm({
     defaultValues: {
-      ...intervention,
-    },
+      ...intervention
+    }
+
   });
 
   const onSaveTriggered = () => {
@@ -71,7 +74,7 @@ export default function useSaveIntervention(): {
           const oldIntervention = cloneDeep(await snapshot.getPromise(InterventionDirtyState(interventionId))) as InterventionConfig;
           const newIntervention = {
             ...oldIntervention,
-            ...data,
+            ...data
           };
 
           if (validate(newIntervention)) {
@@ -79,13 +82,13 @@ export default function useSaveIntervention(): {
               await createIntervention(engine, newIntervention, interventionSummaries ?? []);
               show({
                 message: i18n.t("Intervention created successfully"),
-                type: { success: true },
+                type: { success: true }
               });
             } else {
               await updateIntervention(engine, newIntervention, interventionSummaries ?? []);
               show({
                 message: i18n.t("Changes saved successfully"),
-                type: { success: true },
+                type: { success: true }
               });
             }
             onExitReset();
@@ -93,14 +96,14 @@ export default function useSaveIntervention(): {
           } else {
             show({
               message: i18n.t("Intervention name is required. Please provide on in the general page."),
-              type: { info: true },
+              type: { info: true }
             });
           }
           setSaving(false);
         } catch (e: any) {
           show({
             message: e.message ?? e.toString(),
-            type: { info: true },
+            type: { info: true }
           });
           setSaving(false);
         }
@@ -111,6 +114,8 @@ export default function useSaveIntervention(): {
   const onSaveAndContinue = useRecoilCallback(
     ({ snapshot, set, reset }) =>
       async () => {
+        await form.trigger(activeStep?.validationKeys ?? [] as any);
+        console.log(activeStep);
         await form.handleSubmit(async (data: any) => {
           setSavingAndContinueLoader(true);
 
@@ -118,7 +123,7 @@ export default function useSaveIntervention(): {
             const oldIntervention = cloneDeep(await snapshot.getPromise(InterventionDirtyState(interventionId))) as InterventionConfig;
             const newIntervention = {
               ...oldIntervention,
-              ...data,
+              ...data
             };
 
             if (!interventionId || interventionId !== newIntervention?.id) {
@@ -148,7 +153,7 @@ export default function useSaveIntervention(): {
           } catch (e: any) {
             show({
               message: e.message ?? e.toString(),
-              type: { info: true },
+              type: { info: true }
             });
           }
           setSavingAndContinueLoader(false);
@@ -163,6 +168,6 @@ export default function useSaveIntervention(): {
     onSaveAndContinue,
     saveAndContinueLoader,
     form,
-    onExitReset,
+    onExitReset
   };
 }
