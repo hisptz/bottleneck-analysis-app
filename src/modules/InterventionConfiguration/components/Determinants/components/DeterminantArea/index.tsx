@@ -14,7 +14,7 @@ import GroupDeterminantComponent from "./component/Determinants";
 
 export default function DeterminantArea(): React.ReactElement {
   const { id: interventionId } = useParams<{ id: string }>();
-  const { setValue, getValues, watch, register, formState, unregister } = useFormContext();
+  const { setValue, getValues, watch, formState } = useFormContext();
   const [useShortName, setUseShortName] = useRecoilState(UseShortName(interventionId));
   const determinants = watch("dataSelection.groups");
   const allEmpty: boolean = allDeterminantsEmpty(determinants);

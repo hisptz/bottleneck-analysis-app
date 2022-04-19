@@ -38,9 +38,9 @@ export default function GroupDeterminantComponent(): React.ReactElement {
       items: items?.map(({ id, type, label }: DataItem) => ({
         id,
         name: label,
-        icon: getIcon(type),
+        icon: getIcon(type)
       })),
-      style,
+      style
     };
   });
 
@@ -54,8 +54,8 @@ export default function GroupDeterminantComponent(): React.ReactElement {
           return [
             {
               itemId: selectedIndicatorId,
-              groupId: selectedGroup.id,
-            },
+              groupId: selectedGroup.id
+            }
           ];
         }
       }
@@ -66,6 +66,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
   return (
     <div className="indicator-data-configuration-area">
       <DataConfigurationArea
+        defaultExpanded
         selectedItems={selectedItems}
         groups={groups}
         draggableItems
@@ -88,7 +89,7 @@ export default function GroupDeterminantComponent(): React.ReactElement {
               onCancel: () => {
                 return;
               },
-              confirmButtonText: i18n.t("Delete"),
+              confirmButtonText: i18n.t("Delete")
             });
             return;
           }

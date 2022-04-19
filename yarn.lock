@@ -2447,16 +2447,19 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hisptz/react-ui@^1.0.36":
-  version "1.0.36"
-  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.36.tgz#d8393b001a125738405441ceb7891d078e1032a2"
-  integrity sha512-EgfyHO4Xtt92t+V+gBglqJP3A942JRPFbyJR0BgP/0J50nBRsjOpsCE4Cdq5+DK6aeP5PXqRNnQWc7/+G5quTA==
+"@hisptz/react-ui@^1.0.42":
+  version "1.0.42"
+  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.42.tgz#b4943c72df24495b25510e8aa0e8b0d72cdaca17"
+  integrity sha512-nOcFa4bbSr0j1lnaGrhC7a/d6OA5hgyKgQ5sh23OrCXrpUS9FtAs/cWGMzR5jWk85ExNO95b8ekJuM3oXV9K5w==
   dependencies:
     "@iapps/period-utilities" "^1.0.0-beta.5"
     "@material-ui/core" "^4.12.3"
+    "@types/react" "16.14.0"
     highcharts "^9.3.0"
     highcharts-react-official "^3.1.0"
     jodit-react "^1.1.10"
+    luxon "^2.3.1"
+    print-message "^3.0.1"
     react-beautiful-dnd "^13.1.0"
     react-color "^2.19.3"
     react-hook-form "^7.25.1"
@@ -3603,6 +3606,14 @@
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@16.14.0":
+  version "16.14.0"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.0.tgz#bc022cfe1609899b0f2196376b267724e7300f0e"
+  integrity sha512-jJjHo1uOe+NENRIBvF46tJimUvPnmbQ41Ax0pEm7pRvhPg+wuj8VMOHHiMvaGmZRzRrCtm7KnL5OOE/6kHPK8w==
+  dependencies:
+    "@types/prop-types" "*"
     csstype "^3.0.2"
 
 "@types/reactcss@*":
@@ -11541,7 +11552,7 @@ kind-of@^6.0.0, kind-of@^6.0.2, kind-of@^6.0.3:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-kleur@^3.0.3:
+kleur@3.0.3, kleur@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
@@ -11923,6 +11934,11 @@ lru-cache@^6.0.0:
   integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
   dependencies:
     yallist "^4.0.0"
+
+luxon@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-2.3.1.tgz#f276b1b53fd9a740a60e666a541a7f6dbed4155a"
+  integrity sha512-I8vnjOmhXsMSlNMZlMkSOvgrxKJl0uOsEzdGgGNZuZPaS9KlefpE9KV95QFftlJSC+1UyCC9/I69R02cz/zcCA==
 
 lz-string@^1.4.4:
   version "1.4.4"
@@ -14045,6 +14061,13 @@ pretty-format@^27.0.2, pretty-format@^27.4.6:
     ansi-regex "^5.0.1"
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
+
+print-message@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/print-message/-/print-message-3.0.1.tgz#f2331a13df235e275725ddd34eb61988868a73cd"
+  integrity sha512-wsvsI08pLCPL+lHURVmlZ2KjXN/rLKNyeKN/r3FkXAX6ZByE8Fv8ZmvkQFqpdPdyfCPty3PzznrDda+E8DvN8Q==
+  dependencies:
+    kleur "3.0.3"
 
 printj@~1.1.0:
   version "1.1.2"

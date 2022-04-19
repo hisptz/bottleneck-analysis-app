@@ -88,6 +88,7 @@ export default function IndicatorConfiguration(): React.ReactElement {
             };
             return (
               <CustomInput
+
                 key={`${selectedIndicator?.id}-${legendDefinition?.id}`}
                 input={{
                   onChange: (value: any) => {
