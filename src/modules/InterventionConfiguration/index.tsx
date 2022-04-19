@@ -17,6 +17,8 @@ import { InterventionDirtySelector } from "./state/data";
 import { ActiveStep } from "./state/edit";
 import { FormProvider } from "react-hook-form";
 import { CONFIG_STEPS } from "./constants/steps";
+import { DevTool } from "@hookform/devtools";
+import { ConfigStep } from "./interfaces";
 
 export default function InterventionConfiguration(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
@@ -25,7 +27,7 @@ export default function InterventionConfiguration(): React.ReactElement {
   const interventionName = useRecoilValue(InterventionDirtySelector({ id, path: ["name"] }));
   const onSetHelper = useSetRecoilState(HelpState);
   const { form, saving, onSave, onSaveAndContinue: onSaveFormAndContinue, saveAndContinueLoader, onExitReset } = useSaveIntervention();
-  const [activeStep, setActiveStep] = useRecoilState(ActiveStep(id));
+  const [activeStep, setActiveStep] = useRecoilState<ConfigStep | undefined>(ActiveStep(id));
 
   const steps = CONFIG_STEPS;
 
@@ -43,7 +45,7 @@ export default function InterventionConfiguration(): React.ReactElement {
     if (from > to) {
       return true;
     }
-    return await form.trigger();
+    return await form.trigger(activeStep?.validationKeys);
   };
 
   const onExit = () => {
@@ -56,7 +58,7 @@ export default function InterventionConfiguration(): React.ReactElement {
   };
 
   const onSaveAndContinue = async () => {
-    const isValid = await form.trigger();
+    const isValid = await form.trigger(activeStep?.validationKeys);
 
     if (isValid) {
       await onSaveFormAndContinue();
@@ -64,7 +66,7 @@ export default function InterventionConfiguration(): React.ReactElement {
   };
 
   const onSaveAndExit = async () => {
-    if (await form.trigger()) {
+    if (await form.trigger(activeStep?.validationKeys)) {
       onSave();
     }
   };
@@ -94,14 +96,16 @@ export default function InterventionConfiguration(): React.ReactElement {
               {i18n.t("Delete")}
             </Button>
           )}
-          {openDeleteConfirm && <ConfirmDeleteDialog name={interventionName} hide={!openDeleteConfirm} onClose={onDeleteCancel} onConfirm={onConfirmDelete} />}
+          {openDeleteConfirm &&
+            <ConfirmDeleteDialog name={interventionName} hide={!openDeleteConfirm} onClose={onDeleteCancel} onConfirm={onConfirmDelete} />}
         </div>
       </div>
       <div className="flex-1">
         <FormProvider {...form}>
+          <DevTool /> {/* set up the dev tool */}
           <ConfigurationStepper
-            activeStep={activeStep}
-            setActiveStep={setActiveStep}
+            activeStep={activeStep as any}
+            setActiveStep={setActiveStep as any}
             onStepChange={onStepChange}
             steps={steps}
             onLastAction={onSave}
@@ -112,11 +116,13 @@ export default function InterventionConfiguration(): React.ReactElement {
         </FormProvider>
       </div>
       <ButtonStrip middle>
-        <Button loading={saving} dataTest={"save-exit-intervention-button"} onClick={onSaveAndExit} disabled={saving || saveAndContinueLoader}>
+        <Button loading={saving} dataTest={"save-exit-intervention-button"} onClick={onSaveAndExit}
+                disabled={saving || saveAndContinueLoader}>
           {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and Exit")}
         </Button>
         {!isLastStep && (
-          <Button loading={saveAndContinueLoader} dataTest={"save-continue-intervention-button"} onClick={onSaveAndContinue} disabled={saveAndContinueLoader}>
+          <Button loading={saveAndContinueLoader} dataTest={"save-continue-intervention-button"} onClick={onSaveAndContinue}
+                  disabled={saveAndContinueLoader}>
             {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and Continue")}
           </Button>
         )}

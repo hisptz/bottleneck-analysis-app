@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-11T04:44:45.915Z\n"
-"PO-Revision-Date: 2022-04-11T04:44:45.915Z\n"
+"POT-Creation-Date: 2022-04-13T12:47:23.553Z\n"
+"PO-Revision-Date: 2022-04-13T12:47:23.553Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -941,9 +941,6 @@ msgstr "Confirm Action"
 msgid "This will replace all indicator labels with their short names. Proceed?"
 msgstr "This will replace all indicator labels with their short names. Proceed?"
 
-msgid "At least one determinant must have at least one indicator"
-msgstr "At least one determinant must have at least one indicator"
-
 msgid "Determinants"
 msgstr "Determinants"
 
@@ -953,17 +950,20 @@ msgstr "Clear All"
 msgid "Use short names as labels"
 msgstr "Use short names as labels"
 
-msgid "Indicator label is required"
-msgstr "Indicator label is required"
+msgid "Label is required"
+msgstr "Label is required"
 
-msgid "Display Label"
-msgstr "Display Label"
+msgid "Label"
+msgstr "Label"
 
 msgid "Legends (Only applicable to sub level analysis)"
 msgstr "Legends (Only applicable to sub level analysis)"
 
 msgid "Select Indicator(s)"
 msgstr "Select Indicator(s)"
+
+msgid "At least one determinant must have at least one indicator"
+msgstr "At least one determinant must have at least one indicator"
 
 msgid "Name is required"
 msgstr "Name is required"

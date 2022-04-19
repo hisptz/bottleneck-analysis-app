@@ -1,7 +1,7 @@
 import i18n from "@dhis2/d2-i18n";
 import { Button, CheckboxField, colors } from "@dhis2/ui";
 import { useConfirmDialog } from "@hisptz/react-ui";
-import { cloneDeep, get, isEmpty, some } from "lodash";
+import { cloneDeep, get } from "lodash";
 import React, { useCallback } from "react";
 import "./DeterminantArea.css";
 import { useFormContext } from "react-hook-form";
@@ -14,11 +14,13 @@ import GroupDeterminantComponent from "./component/Determinants";
 
 export default function DeterminantArea(): React.ReactElement {
   const { id: interventionId } = useParams<{ id: string }>();
-  const { setValue, getValues, watch, register, formState } = useFormContext();
+  const { setValue, getValues, watch, formState } = useFormContext();
   const [useShortName, setUseShortName] = useRecoilState(UseShortName(interventionId));
   const determinants = watch("dataSelection.groups");
   const allEmpty: boolean = allDeterminantsEmpty(determinants);
   const { confirm } = useConfirmDialog();
+
+  const groupFormName = "dataSelection.groups";
 
   const onClearAll = useCallback(() => {
     confirm({
@@ -34,7 +36,7 @@ export default function DeterminantArea(): React.ReactElement {
           group.items = [];
         });
         setValue("dataSelection.groups", newGroups);
-      },
+      }
     });
   }, [confirm, getValues, setValue]);
 
@@ -61,7 +63,7 @@ export default function DeterminantArea(): React.ReactElement {
             setShortNameAsLabels();
             setUseShortName(true);
           },
-          confirmButtonColor: "primary",
+          confirmButtonColor: "primary"
         });
       } else {
         setUseShortName(false);
@@ -70,11 +72,6 @@ export default function DeterminantArea(): React.ReactElement {
     [confirm, setShortNameAsLabels, setUseShortName]
   );
 
-  const { name: groupFormName } = register("dataSelection.groups", {
-    validate: (value) => {
-      return some(value, ({ items }) => !isEmpty(items)) || i18n.t("At least one determinant must have at least one indicator");
-    },
-  });
 
   const hasError = get(formState?.errors, groupFormName);
   const errorMessage = hasError?.message;
@@ -89,7 +86,8 @@ export default function DeterminantArea(): React.ReactElement {
           </Button>
         </div>
         <div style={{ padding: "8px 16px" }}>
-          <CheckboxField disabled={allEmpty} checked={useShortName} onChange={onUseShortNameChange} label={i18n.t("Use short names as labels")} />
+          <CheckboxField disabled={allEmpty} checked={useShortName} onChange={onUseShortNameChange}
+                         label={i18n.t("Use short names as labels")} />
         </div>
         <div className={"determinant-selector"}>
           <GroupDeterminantComponent />
