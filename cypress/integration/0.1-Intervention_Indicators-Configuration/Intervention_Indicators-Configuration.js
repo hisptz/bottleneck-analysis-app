@@ -6,8 +6,7 @@ Given("authorized user with administrative access", () => {
   cy.visit("/");
 });
 When("click intervention search button", () => {
-  cy.wait(5000);
-  cy.get("[data-test='addIntervntionButton']").click();
+  cy.get("[data-test='add-intervention-button']").click();
   cy.get("[data-test='intervention-selection-menu']").should("be.visible");
 });
 And("Choose to create a new Intervention", () => {
@@ -23,7 +22,7 @@ Then("Stepper Configuration should be displayed", () => {
  * Scenario: Set Settings of New Intervention in General Configuration without Sub Level Analysis
  */
 When("Stepper Configuration is displayed", () => {
-  cy.get("[data-test='addIntervntionButton']").click();
+  cy.get("[data-test='add-intervention-button']").click();
   cy.get("[data-test='intervention-selection-menu']").should("be.visible");
   cy.get("[data-test='create-intervention-menu']").click();
   cy.get(".MuiPaper-root").should("be.visible");
@@ -75,7 +74,7 @@ Then(
  * Scenario: Display Access Configuation Page
  */
 Given("Access button is clicked", () => {
-  cy.get("[data-test='addIntervntionButton']").click();
+  cy.get("[data-test='add-intervention-button']").click();
   cy.get("[data-test='intervention-selection-menu']").should("be.visible");
   cy.get("[data-test='create-intervention-menu']").click();
   cy.get(".MuiPaper-root").should("be.visible");

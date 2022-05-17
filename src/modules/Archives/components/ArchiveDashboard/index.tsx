@@ -19,7 +19,7 @@ export default function InterventionArchive(): React.ReactElement {
     setHelpEnabled(false);
   };
   return (
-    <div className="main-container">
+    <div data-test="archive-container" className="main-container">
       <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={ARCHIVE_INDIVIDUAL_INTERVENTION_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
       <IndividualArchiveHeader />
       <div className="cards">

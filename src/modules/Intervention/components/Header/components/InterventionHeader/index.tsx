@@ -134,6 +134,7 @@ export default function InterventionHeader(): React.ReactElement {
               />
             )}
             <DropdownButton
+              dataTest={`more-menu-button`}
               open={openMoreMenu}
               onClick={() => {
                 setOpenMoreMenu((prevState) => !prevState);
@@ -153,6 +154,7 @@ export default function InterventionHeader(): React.ReactElement {
         </div>
         <div className="column">
           <DropdownButton
+            dataTest="help-menu-button"
             open={openHelperMenu}
             onClick={() => {
               setOpenHelperMenu(!openHelperMenu);

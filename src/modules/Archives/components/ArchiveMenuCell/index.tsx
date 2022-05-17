@@ -34,7 +34,7 @@ export default function ArchiveMenuCell({ archive }: { archive: Archive }): Reac
           <Popover arrow onClickOutside={() => setStateActionRef(undefined)} placement="bottom-start" reference={stateActionRef}>
             <FlyoutMenu>
               <MenuItem className="archive-menu-cell-action-delete-test" onClick={onViewClick} icon={<IconView24 />} label={i18n.t("View")} />
-              {archiveAuthority.delete && <MenuItem onClick={onDeleteClick} icon={<IconDelete24 />} label={i18n.t("Delete")} />}
+              {archiveAuthority.delete && <MenuItem dataTest={"delete-archive-menu-button"} onClick={onDeleteClick} icon={<IconDelete24 />} label={i18n.t("Delete")} />}
             </FlyoutMenu>
           </Popover>
         )}
