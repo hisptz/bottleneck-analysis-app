@@ -7,7 +7,7 @@ import CloningSelector from "./components/CloningSelector";
 function AddMenu({ onCloneClick, onClose }: { onCloneClick: () => void; onClose: () => void }): React.ReactElement {
   const history = useHistory();
   return (
-    <FlyoutMenu>
+    <FlyoutMenu dataTest={"intervention-selection-menu"}>
       <MenuItem
         dataTest={"create-intervention-menu"}
         onClick={() => {
@@ -40,7 +40,7 @@ export default function AddButton(): React.ReactElement {
           setMenuOpen(open);
         }}
         component={<AddMenu onCloneClick={() => setCloningModalOpen(true)} onClose={() => setMenuOpen(false)} />}
-        dataTest={"addIntervntionButton"}
+        dataTest={"add-intervention-button"}
         icon={<IconAdd24 />}
       />
       {cloningModalOpen && <CloningSelector hide={!cloningModalOpen} onClose={() => setCloningModalOpen(false)} />}
