@@ -45,7 +45,7 @@ function ArchiveComponent(): React.ReactElement {
   });
 
   return (
-    <div className="column archive-main-container h-100">
+    <div  className="column archive-main-container h-100">
       <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={ARCHIVE_INTERVENTION_CONFIGURATION_HELP} onExit={onHelpExit} initialStep={0} />
       <ArchivesListHeader />
       <Suspense fallback={<FullPageLoader />}>

@@ -37,6 +37,7 @@ export default function MoreMenu({
         />
         {archive.create && (
           <MenuItem
+            dataTest={"archive-intervention-button"}
             icon={<IconArchive24 />}
             onClick={() => {
               onArchive();
@@ -47,6 +48,7 @@ export default function MoreMenu({
         )}
         <Divider />
         <MenuItem
+          dataTest="view-archives-list-button"
           onClick={() => {
             onToArchivesList();
             onClose();

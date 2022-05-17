@@ -37,7 +37,7 @@ export default function ArchiveModal({ hide, onClose }: { hide: boolean; onClose
       <ModalActions>
         <ButtonStrip>
           <Button onClick={onClose}>{i18n.t("Cancel")}</Button>
-          <Button loading={archiving} onClick={onArchiveClick} disabled={!remarks?.trim() || archiving} primary>
+          <Button dataTest="confirm-archive-intervention-button" loading={archiving} onClick={onArchiveClick} disabled={!remarks?.trim() || archiving} primary>
             {archiving ? i18n.t("Archiving...") : i18n.t("Archive")}
           </Button>
         </ButtonStrip>
