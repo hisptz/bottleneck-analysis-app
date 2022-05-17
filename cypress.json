@@ -11,14 +11,14 @@
   "env": {
     "dhis2DataTestPrefix": "dhis2-bottleneckanalysis",
     "networkMode": "live",
-    "dhis2ApiVersion": "36",
-    "apiVersion": "36"
+    "dhis2ApiVersion": "38",
+    "apiVersion": "38"
   },
   "waitForAnimations": true,
   "experimentalInteractiveRunEvents": true,
   "experimentalStudio": true,
   "viewportWidth": 1360,
   "viewportHeight": 750,
-  "defaultCommandTimeout": 200000,
+  "defaultCommandTimeout": 4000,
   "watchForFileChanges": true
 }
