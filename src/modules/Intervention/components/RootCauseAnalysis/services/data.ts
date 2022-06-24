@@ -99,7 +99,7 @@ export async function uploadRootCauseData(engine: any, interventionId: string, r
     if (`${error}`.includes("404")) {
       // If the root cause key doesn't exist, create it
       const mutation = {
-        resource: `dataStore/${BNA_NAMESPACE}/${interventionId}_${ROOT_CAUSE_SUFFIX}`,
+        resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}/${interventionId}_${ROOT_CAUSE_SUFFIX}`,
         type: "create",
         data: ({ data }: { data: RootCauseDataInterface }) => data,
       };
