@@ -1,0 +1,12 @@
+.intervention-list-container{
+    padding: 16px 16px 8px;
+    display: flex;
+    gap: 16px;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+.intervention-list{
+    max-width: 100%;
+    overflow: auto;
+}

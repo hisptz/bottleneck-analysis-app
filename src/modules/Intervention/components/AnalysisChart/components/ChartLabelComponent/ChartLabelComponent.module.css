@@ -1,0 +1,39 @@
+.tableHeader {
+    border: 1px solid #e8edf2 !important;
+    background-color:#ffffff !important;
+    font-size: 13px!important;
+    position: fixed;
+    padding: 12 !important;
+    overflow:hidden !important;
+    word-wrap:break-word!important;
+}
+
+.tableHeader-h {
+  width: 100% !important;
+  overflow: hidden !important;
+  table-layout:fixed !important;
+
+}
+
+.tableContainer{
+    margin-left: 2% !important;
+    width: auto;
+    min-width: 1196px;
+}
+
+.analytic-orgUnit{
+    width: 100%;
+    background-color:"white";
+    display:flex;
+    justify-content: center;
+    height: 50px;
+    margin-top:40px;
+}
+
+.analytic-orgUnit-icon{
+    height:0% !important;
+    margin-right: 10px !important;
+    background-color: #cccccc !important;
+    color: #cccccc !important;
+    font-size: 10px !important;
+}
