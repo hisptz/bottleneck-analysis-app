@@ -102,7 +102,7 @@ export default function InterventionConfiguration(): React.ReactElement {
       </div>
       <div className="flex-1">
         <FormProvider {...form}>
-          <DevTool /> {/* set up the dev tool */}
+          <DevTool control={form.control} /> {/* set up the dev tool */}
           <ConfigurationStepper
             activeStep={activeStep as any}
             setActiveStep={setActiveStep as any}
