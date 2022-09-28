@@ -55,8 +55,8 @@ export function getOrgUnitSelectionFromOrgUnitList(orgUnits: Array<string>): Org
   if (orgUnits.includes("USER_ORGUNIT_GRANDCHILDREN")) {
     set(orgUnitSelection, "userSubX2Unit", true);
   }
-  const levels = orgUnits.filter(ou => ou.match(/LEVEL-/)).map(level => level.replaceAll(/LEVEL-/, ""));
-  const groups = orgUnits.filter(ou => ou.match(/OU_GROUP-/)).map(level => level.replaceAll(/OU_GROUP-/, ""));
+  const levels = orgUnits.filter(ou => ou.match(/LEVEL-/)).map(level => level.replaceAll(/LEVEL-/g, ""));
+  const groups = orgUnits.filter(ou => ou.match(/OU_GROUP-/)).map(level => level.replaceAll(/OU_GROUP-/g, ""));
   const orgUnitsIds = orgUnits.filter(ou => ![...levels, ...groups, "USER_ORGUNIT", "USER_ORGUNIT_CHILDREN", "USER_ORGUNIT_GRANDCHILDREN"].includes(ou));
 
   set(orgUnitSelection, "levels", levels);

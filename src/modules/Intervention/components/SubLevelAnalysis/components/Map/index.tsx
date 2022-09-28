@@ -58,7 +58,7 @@ export default function Map() {
     legends={{
       enabled: true,
       position: "topright",
-      collapsible: false
+      collapsible: true
     }}
     orgUnitSelection={orgUnitSelection}
     thematicLayers={thematicLayers}
