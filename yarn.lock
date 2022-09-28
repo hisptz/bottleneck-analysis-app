@@ -2978,11 +2978,6 @@
     "@react-hook/passive-layout-effect" "^1.2.0"
     "@react-hook/resize-observer" "^1.2.1"
 
-"@react-leaflet/core@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-1.1.1.tgz#827fd05bb542cf874116176d8ef48d5b12163f81"
-  integrity sha512-7PGLWa9MZ5x/cWy8EH2VzI4T8q5WpuHbixzCDXqixP/WyqwIrg5NDUPgYuFnB4IEIZF+6nA265mYzswFo/h1Pw==
-
 "@react-leaflet/core@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-2.1.0.tgz#383acd31259d7c9ae8fb1b02d5e18fe613c2a13d"
@@ -13225,17 +13220,10 @@ react-is@^18.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-react-leaflet-custom-control@^1.2.2, react-leaflet-custom-control@^1.3.1:
+react-leaflet-custom-control@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-leaflet-custom-control/-/react-leaflet-custom-control-1.3.1.tgz#41ebf71928ce1489984f7bce8f17693f93c6606f"
   integrity sha512-7nmSIglW4NHXmAvEC7VUCi1wopc6n7HZaipKYRWPenFh2e8bW0wPqL3BlnEcAsHD5i5BLmbCWjP6Pj6aweT+/g==
-
-react-leaflet@^3.2.5:
-  version "3.2.5"
-  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-3.2.5.tgz#bec0bfab9dd8c2b030ea630f7a0687a60322ca7d"
-  integrity sha512-Z3KZ+4SijsRbbrt2I1a3ZDY6+V6Pm91eYTdxTN18G6IOkFRsJo1BuSPLFnyFrlF3WDjQFPEcTPkEgD1VEeAoBg==
-  dependencies:
-    "@react-leaflet/core" "^1.1.1"
 
 react-leaflet@^4.0.1:
   version "4.1.0"
