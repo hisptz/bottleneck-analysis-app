@@ -56,6 +56,19 @@ export default function Map() {
   });
 
   return <CustomMap
+    controls={[
+      {
+        type: "scale",
+        position: "bottomleft",
+        options: {
+          imperial: false,
+          metric: true
+        }
+      }, {
+        type: "compass",
+        position: "bottomleft"
+      }
+    ]}
     legends={{
       enabled: true,
       position: "topright",
@@ -68,5 +81,6 @@ export default function Map() {
     periodSelection={{
       periods: [periodSelection]
     }}
+
   />;
 }
