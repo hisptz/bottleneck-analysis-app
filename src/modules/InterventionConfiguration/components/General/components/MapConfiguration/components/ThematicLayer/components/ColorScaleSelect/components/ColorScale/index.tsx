@@ -5,7 +5,6 @@ import { defaultColorScale } from "../../utils/colors";
 
 // Returns one color scale based on a code and number of classes
 const ColorScale = ({ scale, bins, width, onClick }: { scale: string; bins: number; width: number; onClick: (scale: string) => void }) => {
-  console.log({scale, bins, width});
   const colors = (COLOR_PALETTES as any)?.[scale]?.[bins];
   const itemWidth = width ? width / bins : 36;
 

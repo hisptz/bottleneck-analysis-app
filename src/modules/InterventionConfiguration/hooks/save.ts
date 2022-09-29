@@ -115,7 +115,6 @@ export default function useSaveIntervention(): {
     ({ snapshot, set, reset }) =>
       async () => {
         await form.trigger(activeStep?.validationKeys ?? [] as any);
-        console.log(activeStep);
         await form.handleSubmit(async (data: any) => {
           setSavingAndContinueLoader(true);
 

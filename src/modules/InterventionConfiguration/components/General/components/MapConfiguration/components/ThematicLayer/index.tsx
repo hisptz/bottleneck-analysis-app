@@ -300,7 +300,7 @@ export default function ThematicLayerConfig() {
           <Controller
             rules={{
               validate: (value) => {
-                if (value.enabled && !value.indicator) {
+                if (value.enabled && !value.indicator?.id) {
                   return i18n.t("Please select an indicator");
                 }
                 return true;
@@ -316,7 +316,8 @@ export default function ThematicLayerConfig() {
           <Controller
             rules={{
               validate: (value) => {
-                if (value.enabled && !value.indicator) {
+                console.log(value.enabled && !value.indicator?.id);
+                if (value.enabled && !value.indicator?.id) {
                   return i18n.t("Please select an indicator");
                 }
                 return true;
