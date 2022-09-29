@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-13T12:47:23.553Z\n"
-"PO-Revision-Date: 2022-04-13T12:47:23.553Z\n"
+"POT-Creation-Date: 2022-09-29T05:13:24.944Z\n"
+"PO-Revision-Date: 2022-09-29T05:13:24.944Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -1001,17 +1001,44 @@ msgstr "Select Indicator"
 msgid "Update"
 msgstr "Update"
 
+msgid "Classes"
+msgstr "Classes"
+
+msgid "Colors"
+msgstr "Colors"
+
+msgid "Legend set"
+msgstr "Legend set"
+
+msgid "Please wait..."
+msgstr "Please wait..."
+
+msgid "Choropleth Layer Configuration"
+msgstr "Choropleth Layer Configuration"
+
+msgid "Bubble Layer Configuration"
+msgstr "Bubble Layer Configuration"
+
+msgid "Change"
+msgstr "Change"
+
+msgid "Select"
+msgstr "Select"
+
+msgid "Legend"
+msgstr "Legend"
+
+msgid "Custom legend"
+msgstr "Custom legend"
+
 msgid "Choropleth Layer"
 msgstr "Choropleth Layer"
 
 msgid "Bubble Layer"
 msgstr "Bubble Layer"
 
-msgid "This indicator has no configured legends"
-msgstr "This indicator has no configured legends"
-
-msgid "Select"
-msgstr "Select"
+msgid "Configure"
+msgstr "Configure"
 
 msgid "Thematic Layers"
 msgstr "Thematic Layers"
@@ -1037,9 +1064,6 @@ msgstr ""
 
 msgid "User's organisation unit"
 msgstr "User's organisation unit"
-
-msgid "Change"
-msgstr "Change"
 
 msgid "Clear"
 msgstr "Clear"

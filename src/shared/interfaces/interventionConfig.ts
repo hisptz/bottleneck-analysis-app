@@ -19,11 +19,23 @@ export interface BoundaryMapLayer {
 
 export interface FacilityMapLayer {
   enabled: boolean;
+  style: {
+    groupSet?: string;
+    icon?: string;
+  };
 }
 
 export interface ThematicMapLayer {
   enabled: boolean;
-  indicator: string;
+  indicator: {
+    id: string;
+    name: string;
+  };
+  legendConfig: {
+    legendSet?: string;
+    colorClass?: string;
+    scale?: number
+  };
   type: ThematicLayerType;
 }
 
