@@ -165,38 +165,39 @@ function ThematicLayerConfigModal({
         </ModalTitle>
         <ModalContent>
           <div className="column gap-16">
-            <Controller rules={{
-              validate: (value: { id: string; name: string }) => {
-                return Boolean(value.id) || i18n.t("An indicator is required");
-              }
-            }}
-                        render={({ field, fieldState }) => (<>
-                          <div className="row gap-16 align-end">
-                            <div className="flex-1">
-                              <InputField required error={Boolean(fieldState.error)} validationText={fieldState.error?.message} disabled
-                                          inputWidth="100%" label={i18n.t("Indicator")} value={field.value?.name} />
-                            </div>
-                            <Button
-                              onClick={() => setDataSelectorOpen(true)}>{field.value?.id ? i18n.t("Change") : i18n.t("Select")}</Button>
-                          </div>
-                          {
-                            dataSelectorOpen && (<IndicatorSelectorModal
-                              onUpdate={(values: any[]) => {
-                                const [indicator] = values ?? [];
-                                field.onChange({
-                                  id: indicator.id,
-                                  name: indicator.displayName
-                                });
-                              }}
-                              onClose={() => setDataSelectorOpen(false)}
-                              hide={!dataSelectorOpen}
-                              selected={compact([{
-                                id: field.value?.id,
-                                displayName: field.value?.name
-                              }])}
-                            />)
-                          }
-                        </>)} name={"indicator"} />
+            <Controller
+              rules={{
+                validate: (value: { id: string; name: string }) => {
+                  return Boolean(value.id) || i18n.t("An indicator is required");
+                }
+              }}
+              render={({ field, fieldState }) => (<>
+                <div className="row gap-16 align-end">
+                  <div className="flex-1">
+                    <InputField required error={Boolean(fieldState.error)} validationText={fieldState.error?.message} disabled
+                                inputWidth="100%" label={i18n.t("Indicator")} value={field.value?.name} />
+                  </div>
+                  <Button
+                    onClick={() => setDataSelectorOpen(true)}>{field.value?.id ? i18n.t("Change") : i18n.t("Select")}</Button>
+                </div>
+                {
+                  dataSelectorOpen && (<IndicatorSelectorModal
+                    onUpdate={(values: any[]) => {
+                      const [indicator] = values ?? [];
+                      field.onChange({
+                        id: indicator.id,
+                        name: indicator.displayName
+                      });
+                    }}
+                    onClose={() => setDataSelectorOpen(false)}
+                    hide={!dataSelectorOpen}
+                    selected={compact([{
+                      id: field.value?.id,
+                      displayName: field.value?.name
+                    }])}
+                  />)
+                }
+              </>)} name={"indicator"} />
             <div>
               <Field label={i18n.t("Legend")}>
                 <div className="column gap-8">
@@ -316,7 +317,6 @@ export default function ThematicLayerConfig() {
           <Controller
             rules={{
               validate: (value) => {
-                console.log(value.enabled && !value.indicator?.id);
                 if (value.enabled && !value.indicator?.id) {
                   return i18n.t("Please select an indicator");
                 }
