@@ -105,7 +105,7 @@ function LegendSetSelector({
   return (
     <SingleSelectField required={required} error={Boolean(error)} validationText={error?.message} {...props} label={i18n.t("Legend set")}
                        filterable
-                       selected={selected}
+                       selected={!isEmpty(options) ? selected : undefined}
                        loadingText={i18n.t("Please wait...")}
                        onChange={({ selected }: { selected: string }) => onChange(selected)} loading={loading}>
       {
@@ -128,8 +128,8 @@ function ThematicLayerConfigModal({
       ...config,
       legendConfig: config.legendConfig?.legendSet ? config?.legendConfig : {
         ...config.legendConfig,
-        scale: defaultClasses,
-        colorClass: defaultColorScaleName
+        scale: config.legendConfig?.scale ?? defaultClasses,
+        colorClass: config.legendConfig?.colorClass ?? defaultColorScaleName
       }
     }
   });
