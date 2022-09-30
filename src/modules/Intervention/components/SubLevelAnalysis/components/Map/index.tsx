@@ -22,6 +22,7 @@ export default function Map() {
 
   const orgUnitSelection = useMemo(() => getOrgUnitSelectionFromOrgUnitList(subLevelOrgUnit), [subLevelOrgUnit]);
 
+
   if (!map?.enabled) {
     return (
       <div>
@@ -29,6 +30,8 @@ export default function Map() {
       </div>
     );
   }
+
+  const lastLevelSelected = orgUnitSelection.levels?.includes((facilityLevel?.level.toString() ?? ""));
 
   const { coreLayers } = map ?? {};
   const thematicLayers: CustomThematicPrimitiveLayer[] = coreLayers.thematicLayers.map(layer => {
@@ -76,8 +79,8 @@ export default function Map() {
       position: "topright",
       collapsible: true
     }}
-    orgUnitSelection={orgUnitSelection}
-    thematicLayers={thematicLayers}
+    orgUnitSelection={lastLevelSelected ? { ...orgUnitSelection, levels: [] } : orgUnitSelection}
+    thematicLayers={lastLevelSelected ? [] : thematicLayers}
     boundaryLayer={coreLayers.boundaryLayer}
     pointLayer={{
       ...coreLayers.facilityLayer,
