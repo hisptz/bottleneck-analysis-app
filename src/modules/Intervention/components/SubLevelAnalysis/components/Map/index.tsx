@@ -9,12 +9,14 @@ import { SubLevelOrgUnit } from "../../state/dimensions";
 import { useParams } from "react-router-dom";
 import { InterventionPeriodState } from "../../../../state/selections";
 import { getOrgUnitSelectionFromOrgUnitList } from "./utils/map";
+import { LastOrgUnitLevel } from "../../../../../../core/state/orgUnit";
 
 
 export default function Map() {
   const { id } = useParams<{ id: string }>();
   const { map } = useInterventionConfig();
   const periodSelection = useRecoilValue(InterventionPeriodState(id));
+  const facilityLevel = useRecoilValue(LastOrgUnitLevel);
 
   const subLevelOrgUnit = useRecoilValue(SubLevelOrgUnit(id));
 
@@ -77,7 +79,11 @@ export default function Map() {
     orgUnitSelection={orgUnitSelection}
     thematicLayers={thematicLayers}
     boundaryLayer={coreLayers.boundaryLayer}
-    pointLayer={coreLayers.facilityLayer}
+    pointLayer={{
+      ...coreLayers.facilityLayer,
+      label: i18n.t("Facilities"),
+      level: facilityLevel?.level
+    }}
     periodSelection={{
       periods: [periodSelection]
     }}

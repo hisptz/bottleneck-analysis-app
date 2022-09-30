@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-29T05:13:24.944Z\n"
-"PO-Revision-Date: 2022-09-29T05:13:24.944Z\n"
+"POT-Creation-Date: 2022-09-30T06:34:48.645Z\n"
+"PO-Revision-Date: 2022-09-30T06:34:48.645Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -986,14 +986,35 @@ msgstr "Enter a description"
 msgid "Legend Definitions"
 msgstr "Legend Definitions"
 
+msgid "Custom icon"
+msgstr "Custom icon"
+
+msgid "Group set"
+msgstr "Group set"
+
+msgid "Please wait..."
+msgstr "Please wait..."
+
+msgid "Facility Layer Configuration"
+msgstr "Facility Layer Configuration"
+
+msgid "Group set icons"
+msgstr "Group set icons"
+
+msgid "Group set is required"
+msgstr "Group set is required"
+
+msgid "Icon is required"
+msgstr "Icon is required"
+
+msgid "Facility layer"
+msgstr "Facility layer"
+
 msgid "Other Layers"
 msgstr "Other Layers"
 
 msgid "Boundary"
 msgstr "Boundary"
-
-msgid "Facility"
-msgstr "Facility"
 
 msgid "Select Indicator"
 msgstr "Select Indicator"
@@ -1010,14 +1031,14 @@ msgstr "Colors"
 msgid "Legend set"
 msgstr "Legend set"
 
-msgid "Please wait..."
-msgstr "Please wait..."
-
 msgid "Choropleth Layer Configuration"
 msgstr "Choropleth Layer Configuration"
 
 msgid "Bubble Layer Configuration"
 msgstr "Bubble Layer Configuration"
+
+msgid "An indicator is required"
+msgstr "An indicator is required"
 
 msgid "Change"
 msgstr "Change"
@@ -1030,6 +1051,9 @@ msgstr "Legend"
 
 msgid "Custom legend"
 msgstr "Custom legend"
+
+msgid "Legend set is required"
+msgstr "Legend set is required"
 
 msgid "Choropleth Layer"
 msgstr "Choropleth Layer"
