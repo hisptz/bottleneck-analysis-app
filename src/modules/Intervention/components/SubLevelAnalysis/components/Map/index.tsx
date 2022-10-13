@@ -47,11 +47,7 @@ export default function Map() {
         id: layer.indicator?.id,
         type: "indicator",
         displayName: layer.indicator?.name,
-        legendSet: layer.legendConfig.legendSet ? {
-          id: layer.legendConfig.legendSet,
-          name: "",
-          legends: []
-        } : undefined,
+        legendSet: layer.legendConfig.legendSet,
         legendConfig: layer.legendConfig.colorClass ? {
           scale: layer.legendConfig.scale ?? 5,
           colorClass: layer.legendConfig.colorClass
@@ -88,7 +84,7 @@ export default function Map() {
       level: facilityLevel?.level
     }}
     periodSelection={{
-      periods: [periodSelection]
+      periods: [periodSelection.id]
     }}
 
   />;

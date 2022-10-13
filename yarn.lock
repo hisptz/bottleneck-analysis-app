@@ -2454,10 +2454,10 @@
     luxon "^3.0.1"
     typescript "^4.6.3"
 
-"@hisptz/react-ui@^1.0.66":
-  version "1.0.66"
-  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.66.tgz#fd3b955f1e575fe6a48ca3943e94cc5c98d52764"
-  integrity sha512-hjgynM8HQyEJTvNtKumi8t8y+7Ei8TgY3NwQwf0ROCabw35RGfCCYI5zNpQ2mW8EZWu9LDnIS9qn/jx1LmnpBw==
+"@hisptz/react-ui@^1.0.68":
+  version "1.0.68"
+  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.68.tgz#94034ac7f6d88a49a30115c2720f1edb08de084a"
+  integrity sha512-HdsrriKHKtXlw8p2nh4/qMWaMigBnEokAuRuYXiQ09j7E5UUba1KdiBTWr3LJIpLSTFs+3HcfMHFgGBI72n/cg==
   dependencies:
     "@hisptz/dhis2-utils" "^1.0.0-alpha.2"
     "@iapps/period-utilities" "^1.0.0-beta.7"

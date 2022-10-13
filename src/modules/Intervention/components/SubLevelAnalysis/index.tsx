@@ -13,7 +13,6 @@ import { InterventionStateSelector } from "../../state/intervention";
 import { InterventionOrgUnitState, InterventionPeriodState } from "../../state/selections";
 import InterventionCard, { InterventionMenu } from "../Card";
 import "./sub-level-analysis.css";
-import SubLevelActions from "./components/SubLevelActions";
 import SubLevelHeader from "./components/SubLevelHeader";
 import { tabs } from "./constants/tabs";
 import { SubLevelAnalyticsData } from "./state/data";
