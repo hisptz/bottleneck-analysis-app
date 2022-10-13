@@ -4,15 +4,18 @@ import { DataSourceSelector } from "@hisptz/react-ui";
 import React, { useCallback, useState } from "react";
 
 export default function IndicatorSelectorModal({
-  onUpdate,
-  onClose,
-  hide,
-  selected,
-}: {
+                                                 onUpdate,
+                                                 onClose,
+                                                 hide,
+                                                 selected,
+                                                 disabled,
+                                                 ...props
+                                               }: {
   onUpdate: (data: any) => void;
   onClose: () => void;
   hide: boolean;
   selected: any;
+  disabled?: string[]
 }) {
   const [selectedIndicators, setSelectedIndicators] = useState(selected);
 
@@ -29,7 +32,7 @@ export default function IndicatorSelectorModal({
     <Modal placement="middle" hide={hide} onClose={onClose}>
       <ModalTitle>{i18n.t("Select Indicator")}</ModalTitle>
       <ModalContent>
-        <DataSourceSelector maxSelections={1} selected={selectedIndicators} onSelect={onSelect} />
+        <DataSourceSelector {...props} disabled={disabled} maxSelections={1} selected={selectedIndicators} onSelect={onSelect} />
       </ModalContent>
       <ModalActions>
         <ButtonStrip>
