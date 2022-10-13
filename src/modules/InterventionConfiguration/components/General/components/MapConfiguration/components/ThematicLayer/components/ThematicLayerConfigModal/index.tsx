@@ -179,8 +179,10 @@ export function ThematicLayerConfigModal({
               } name={"type"} />
             <Controller
               rules={{
-                validate: (value: { id: string; name: string }) => {
-                  return Boolean(value.id) || i18n.t("An indicator is required");
+                validate: {
+                  required: (value: { id: string; name: string }) => {
+                    return Boolean(value?.id) || i18n.t("An indicator is required");
+                  }
                 }
               }}
               render={({ field, fieldState }) => (<>
