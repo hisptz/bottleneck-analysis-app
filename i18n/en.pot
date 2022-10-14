@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-10-13T12:38:21.159Z\n"
-"PO-Revision-Date: 2022-10-13T12:38:21.159Z\n"
+"POT-Creation-Date: 2022-10-14T08:01:09.522Z\n"
+"PO-Revision-Date: 2022-10-14T08:01:09.522Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -1078,6 +1078,9 @@ msgstr "Add layer"
 
 msgid "Please select an indicator"
 msgstr "Please select an indicator"
+
+msgid "Click on add layer to add thematic layers"
+msgstr "Click on add layer to add thematic layers"
 
 msgid "Map Configuration"
 msgstr "Map Configuration"

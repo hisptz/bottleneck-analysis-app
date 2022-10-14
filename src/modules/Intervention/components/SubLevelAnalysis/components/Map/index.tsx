@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { InterventionPeriodState } from "../../../../state/selections";
 import { getOrgUnitSelectionFromOrgUnitList } from "./utils/map";
 import { LastOrgUnitLevel } from "../../../../../../core/state/orgUnit";
+import { capitalize } from "lodash";
 
 
 export default function Map() {
@@ -46,7 +47,7 @@ export default function Map() {
       dataItem: {
         id: layer.indicator?.id,
         type: "indicator",
-        displayName: layer.indicator?.name,
+        displayName: `${layer.indicator?.name} (${capitalize(layer.type)})`,
         legendSet: layer.legendConfig.legendSet,
         legendConfig: layer.legendConfig.colorClass ? {
           scale: layer.legendConfig.scale ?? 5,
