@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-09-30T06:34:48.645Z\n"
-"PO-Revision-Date: 2022-09-30T06:34:48.645Z\n"
+"POT-Creation-Date: 2022-10-13T12:38:21.159Z\n"
+"PO-Revision-Date: 2022-10-13T12:38:21.159Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -1031,11 +1031,14 @@ msgstr "Colors"
 msgid "Legend set"
 msgstr "Legend set"
 
-msgid "Choropleth Layer Configuration"
-msgstr "Choropleth Layer Configuration"
+msgid "Thematic layer configuration"
+msgstr "Thematic layer configuration"
 
-msgid "Bubble Layer Configuration"
-msgstr "Bubble Layer Configuration"
+msgid "Layer type is required"
+msgstr "Layer type is required"
+
+msgid "Layer type"
+msgstr "Layer type"
 
 msgid "An indicator is required"
 msgstr "An indicator is required"
@@ -1055,6 +1058,9 @@ msgstr "Custom legend"
 msgid "Legend set is required"
 msgstr "Legend set is required"
 
+msgid "Type"
+msgstr "Type"
+
 msgid "Choropleth Layer"
 msgstr "Choropleth Layer"
 
@@ -1066,6 +1072,9 @@ msgstr "Configure"
 
 msgid "Thematic Layers"
 msgstr "Thematic Layers"
+
+msgid "Add layer"
+msgstr "Add layer"
 
 msgid "Please select an indicator"
 msgstr "Please select an indicator"

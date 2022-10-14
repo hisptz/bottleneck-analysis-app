@@ -26,6 +26,7 @@ export interface FacilityMapLayer {
 }
 
 export interface ThematicMapLayer {
+  id: string;
   enabled: boolean;
   indicator: {
     id: string;

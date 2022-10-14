@@ -125,28 +125,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
     enabled: false,
     coreLayers: {
       boundaryLayer: { enabled: true },
-      thematicLayers: [
-        {
-          enabled: true,
-          indicator: {
-            id: "",
-            name: ""
-          },
-          type: "choropleth",
-          legendConfig: {
-            legendSet: ""
-          }
-        },
-        {
-          enabled: true,
-          indicator: {
-            id: "",
-            name: ""
-          },
-          legendConfig: {},
-          type: "bubble"
-        }
-      ],
+      thematicLayers: [],
       facilityLayer: {
         enabled: true, style: {
           icon: "01.png"

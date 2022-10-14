@@ -2445,7 +2445,7 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hisptz/dhis2-utils@^1.0.0-alpha.2":
+"@hisptz/dhis2-utils@^1.0.0-alpha.2", "@hisptz/dhis2-utils@^1.0.0-alpha.4":
   version "1.0.0-alpha.4"
   resolved "https://registry.yarnpkg.com/@hisptz/dhis2-utils/-/dhis2-utils-1.0.0-alpha.4.tgz#8acb81e4e496d0f34f21eaed4eb7e599d794a9a3"
   integrity sha512-pJWrB05gXjk7fGnbePA+EyAHxYl1mPvbcKHbbGBh+IxCwX2ujgLOxTHyrY6BCc3X1Md/IJQWu++nZ22wp1AjjA==
@@ -2454,10 +2454,10 @@
     luxon "^3.0.1"
     typescript "^4.6.3"
 
-"@hisptz/react-ui@^1.0.68":
-  version "1.0.68"
-  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.68.tgz#94034ac7f6d88a49a30115c2720f1edb08de084a"
-  integrity sha512-HdsrriKHKtXlw8p2nh4/qMWaMigBnEokAuRuYXiQ09j7E5UUba1KdiBTWr3LJIpLSTFs+3HcfMHFgGBI72n/cg==
+"@hisptz/react-ui@^1.0.70":
+  version "1.0.70"
+  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.70.tgz#b351b5bccd418be6d3593bf4a0c94d23796fddbf"
+  integrity sha512-05EQGog+VJPo/JW68eL1PZPFqtsvZPVfV9ptoFIX3zV8vti+nAusrqR0a7a9jBUCTSwChMAEsmmOKqnO3GBYZg==
   dependencies:
     "@hisptz/dhis2-utils" "^1.0.0-alpha.2"
     "@iapps/period-utilities" "^1.0.0-beta.7"
