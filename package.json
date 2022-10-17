@@ -1,6 +1,6 @@
 {
   "name": "bottleneck-analysis-app",
-  "version": "1.4.0-alpha.4",
+  "version": "1.4.0-alpha.6",
   "description": "",
   "license": "BSD-3-Clause",
   "private": true,
@@ -57,7 +57,7 @@
     "@dhis2/app-runtime": "^3.4.4",
     "@dhis2/app-service-datastore": "^1.0.0-alpha.2",
     "@hisptz/dhis2-utils": "^1.0.0-alpha.4",
-    "@hisptz/react-ui": "^1.0.70",
+    "@hisptz/react-ui": "^1.0.71",
     "@iapps/period-utilities": "^1.0.0-beta.4",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",

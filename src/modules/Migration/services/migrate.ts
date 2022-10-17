@@ -200,19 +200,8 @@ export function convertIntervention(config: OldInterventionConfig, customFunctio
       enabled: false,
       coreLayers: {
         boundaryLayer: { enabled: true },
-        thematicLayers: [
-          {
-            enabled: true,
-            indicator: "",
-            type: "choropleth"
-          },
-          {
-            enabled: true,
-            indicator: "",
-            type: "bubble"
-          }
-        ],
-        facilityLayer: { enabled: true }
+        thematicLayers: [],
+        facilityLayer: { enabled: true, style: { icon: "01.png" } }
       }
     }
   };
