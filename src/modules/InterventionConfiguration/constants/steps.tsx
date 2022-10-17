@@ -10,7 +10,8 @@ export const CONFIG_STEPS: Array<ConfigStep> = [
     component: GeneralConfigurationComponent,
     helpSteps: [],
     validationKeys: [
-      'name',
+      "name",
+      "map"
     ]
   },
   {
@@ -18,7 +19,7 @@ export const CONFIG_STEPS: Array<ConfigStep> = [
     component: DeterminantsConfigurationComponent,
     helpSteps: [],
     validationKeys: [
-      'dataSelection.groups'
+      "dataSelection.groups"
     ]
   },
   {
@@ -26,5 +27,5 @@ export const CONFIG_STEPS: Array<ConfigStep> = [
     component: AccessConfigurationComponent,
     helpSteps: [],
     validationKeys: []
-  },
+  }
 ];

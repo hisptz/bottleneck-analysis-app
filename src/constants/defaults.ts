@@ -8,7 +8,7 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
   id: uid(),
   name: "",
   user: {
-    id: "",
+    id: ""
   },
   bookmarks: [],
   userAccess: [],
@@ -21,9 +21,9 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
         code: "commodities",
         items: [],
         style: {
-          color: "#7DB2E8",
+          color: "#7DB2E8"
         },
-        sortOrder: 1,
+        sortOrder: 1
       },
       {
         id: uid(),
@@ -31,9 +31,9 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
         name: i18n.t("Human Resources"),
         items: [],
         style: {
-          color: "#80CC33",
+          color: "#80CC33"
         },
-        sortOrder: 2,
+        sortOrder: 2
       },
       {
         id: uid(),
@@ -41,9 +41,9 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
         name: i18n.t("Geographic Accessibility"),
         items: [],
         style: {
-          color: "#40BF80",
+          color: "#40BF80"
         },
-        sortOrder: 3,
+        sortOrder: 3
       },
       {
         id: uid(),
@@ -51,9 +51,9 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
         name: i18n.t("Initial Utilisation"),
         items: [],
         style: {
-          color: "#75F0F0",
+          color: "#75F0F0"
         },
-        sortOrder: 4,
+        sortOrder: 4
       },
       {
         id: uid(),
@@ -61,9 +61,9 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
         name: i18n.t("Continuous Utilisation"),
         items: [],
         style: {
-          color: "#9485E0",
+          color: "#9485E0"
         },
-        sortOrder: 5,
+        sortOrder: 5
       },
       {
         id: uid(),
@@ -71,75 +71,68 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
         name: i18n.t("Effective Coverage"),
         items: [],
         style: {
-          color: "#D98CCC",
+          color: "#D98CCC"
         },
-        sortOrder: 6,
-      },
+        sortOrder: 6
+      }
     ],
     legendDefinitions: [
       {
         id: uid(),
         name: i18n.t("Target achieved / on track"),
         color: "#008000",
-        isDefault: false,
+        isDefault: false
       },
       {
         id: uid(),
         name: i18n.t("Progress, but more effort required"),
         color: "#FFFF00",
-        isDefault: false,
+        isDefault: false
       },
       {
         id: uid(),
         name: i18n.t("Not on track"),
         color: "#FF0000",
-        isDefault: false,
+        isDefault: false
       },
       {
         id: "not-applicable",
         name: i18n.t("N/A"),
         color: "#D3D3D3",
-        isDefault: true,
+        isDefault: true
       },
       {
         id: "no-data",
         name: i18n.t("No data"),
         color: "#FFFFFF",
-        isDefault: true,
-      },
-    ],
+        isDefault: true
+      }
+    ]
   },
   externalAccess: false,
   periodSelection: {
     id: `${new Date().getFullYear()}`,
-    type: "Yearly",
+    type: "Yearly"
   },
   userGroupAccess: [],
   orgUnitSelection: {
     orgUnit: {
-      id: "USER_ORGUNIT",
+      id: "USER_ORGUNIT"
     },
-    subLevel: undefined,
+    subLevel: undefined
   },
   map: {
     enabled: false,
     coreLayers: {
       boundaryLayer: { enabled: true },
-      thematicLayers: [
-        {
-          enabled: true,
-          indicator: "",
-          type: "choropleth",
-        },
-        {
-          enabled: true,
-          indicator: "",
-          type: "bubble",
-        },
-      ],
-      facilityLayer: { enabled: true },
-    },
-  },
+      thematicLayers: [],
+      facilityLayer: {
+        enabled: true, style: {
+          icon: "01.png"
+        }
+      }
+    }
+  }
 };
 
 export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
@@ -152,10 +145,10 @@ export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
       valueType: "AUTO_FILLED",
       routerParam: {
         key: "name",
-        namespace: "orgUnit",
+        namespace: "orgUnit"
       },
       optionSetValue: false,
-      columnMandatory: false,
+      columnMandatory: false
     },
     {
       id: "qOvrGMTGBee",
@@ -164,10 +157,10 @@ export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
       valueType: "AUTO_FILLED",
       routerParam: {
         key: "id",
-        namespace: "orgUnit",
+        namespace: "orgUnit"
       },
       optionSetValue: false,
-      columnMandatory: false,
+      columnMandatory: false
     },
     {
       id: "yzYKWac02lm",
@@ -175,10 +168,10 @@ export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
       valueType: "AUTO_FILLED",
       routerParam: {
         key: "name",
-        namespace: "period",
+        namespace: "period"
       },
       optionSetValue: false,
-      columnMandatory: false,
+      columnMandatory: false
     },
     {
       id: "skBBrbmML4S",
@@ -187,10 +180,10 @@ export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
       valueType: "AUTO_FILLED",
       routerParam: {
         key: "id",
-        namespace: "period",
+        namespace: "period"
       },
       optionSetValue: false,
-      columnMandatory: false,
+      columnMandatory: false
     },
     {
       id: "YPfJQu6sCSZ",
@@ -198,10 +191,10 @@ export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
       valueType: "AUTO_FILLED",
       routerParam: {
         key: "name",
-        namespace: "dashboard",
+        namespace: "dashboard"
       },
       optionSetValue: false,
-      columnMandatory: false,
+      columnMandatory: false
     },
     {
       id: "GXqfW1B2McT",
@@ -210,10 +203,10 @@ export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
       valueType: "AUTO_FILLED",
       routerParam: {
         key: "id",
-        namespace: "dashboard",
+        namespace: "dashboard"
       },
       optionSetValue: false,
-      columnMandatory: false,
+      columnMandatory: false
     },
     {
       id: "fZCEB7Euppr",
@@ -221,7 +214,7 @@ export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
       valueType: "TEXT",
       associatedId: "xf7L8ioFiC5",
       optionSetValue: true,
-      columnMandatory: false,
+      columnMandatory: false
     },
     {
       id: "xf7L8ioFiC5",
@@ -230,7 +223,7 @@ export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
       isHidden: true,
       valueType: "TEXT",
       optionSetValue: true,
-      columnMandatory: false,
+      columnMandatory: false
     },
     {
       id: "gE2BDDC0e0V",
@@ -239,7 +232,7 @@ export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
       valueType: "TEXT",
       associatedId: "oMCl2j0dIlN",
       optionSetValue: true,
-      columnMandatory: true,
+      columnMandatory: true
     },
     {
       id: "oMCl2j0dIlN",
@@ -248,21 +241,21 @@ export const DEFAULT_ROOT_CAUSE_CONFIG: RootCauseConfigInterface = {
       parentId: "xf7L8ioFiC5",
       valueType: "TEXT",
       optionSetValue: true,
-      columnMandatory: true,
+      columnMandatory: true
     },
     {
       id: "HwElwZJ9Oyc",
       name: "Root cause",
       valueType: "TEXT",
       optionSetValue: false,
-      columnMandatory: false,
+      columnMandatory: false
     },
     {
       id: "PS29TQkElZL",
       name: "Solution",
       valueType: "TEXT",
       optionSetValue: false,
-      columnMandatory: false,
-    },
-  ],
+      columnMandatory: false
+    }
+  ]
 };

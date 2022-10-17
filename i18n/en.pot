@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-04-13T12:47:23.553Z\n"
-"PO-Revision-Date: 2022-04-13T12:47:23.553Z\n"
+"POT-Creation-Date: 2022-10-14T08:01:09.522Z\n"
+"PO-Revision-Date: 2022-10-14T08:01:09.522Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -986,14 +986,35 @@ msgstr "Enter a description"
 msgid "Legend Definitions"
 msgstr "Legend Definitions"
 
+msgid "Custom icon"
+msgstr "Custom icon"
+
+msgid "Group set"
+msgstr "Group set"
+
+msgid "Please wait..."
+msgstr "Please wait..."
+
+msgid "Facility Layer Configuration"
+msgstr "Facility Layer Configuration"
+
+msgid "Group set icons"
+msgstr "Group set icons"
+
+msgid "Group set is required"
+msgstr "Group set is required"
+
+msgid "Icon is required"
+msgstr "Icon is required"
+
+msgid "Facility layer"
+msgstr "Facility layer"
+
 msgid "Other Layers"
 msgstr "Other Layers"
 
 msgid "Boundary"
 msgstr "Boundary"
-
-msgid "Facility"
-msgstr "Facility"
 
 msgid "Select Indicator"
 msgstr "Select Indicator"
@@ -1001,23 +1022,65 @@ msgstr "Select Indicator"
 msgid "Update"
 msgstr "Update"
 
+msgid "Classes"
+msgstr "Classes"
+
+msgid "Colors"
+msgstr "Colors"
+
+msgid "Legend set"
+msgstr "Legend set"
+
+msgid "Thematic layer configuration"
+msgstr "Thematic layer configuration"
+
+msgid "Layer type is required"
+msgstr "Layer type is required"
+
+msgid "Layer type"
+msgstr "Layer type"
+
+msgid "An indicator is required"
+msgstr "An indicator is required"
+
+msgid "Change"
+msgstr "Change"
+
+msgid "Select"
+msgstr "Select"
+
+msgid "Legend"
+msgstr "Legend"
+
+msgid "Custom legend"
+msgstr "Custom legend"
+
+msgid "Legend set is required"
+msgstr "Legend set is required"
+
+msgid "Type"
+msgstr "Type"
+
 msgid "Choropleth Layer"
 msgstr "Choropleth Layer"
 
 msgid "Bubble Layer"
 msgstr "Bubble Layer"
 
-msgid "This indicator has no configured legends"
-msgstr "This indicator has no configured legends"
-
-msgid "Select"
-msgstr "Select"
+msgid "Configure"
+msgstr "Configure"
 
 msgid "Thematic Layers"
 msgstr "Thematic Layers"
 
+msgid "Add layer"
+msgstr "Add layer"
+
 msgid "Please select an indicator"
 msgstr "Please select an indicator"
+
+msgid "Click on add layer to add thematic layers"
+msgstr "Click on add layer to add thematic layers"
 
 msgid "Map Configuration"
 msgstr "Map Configuration"
@@ -1037,9 +1100,6 @@ msgstr ""
 
 msgid "User's organisation unit"
 msgstr "User's organisation unit"
-
-msgid "Change"
-msgstr "Change"
 
 msgid "Clear"
 msgstr "Clear"

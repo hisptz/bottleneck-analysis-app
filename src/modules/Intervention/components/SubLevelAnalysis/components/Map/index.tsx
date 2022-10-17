@@ -1,38 +1,28 @@
-import React from "react";
-import { LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
-import BoundaryLayer from "./components/BoundaryLayer";
-import useBoundaryData from "./components/BoundaryLayer/hooks/data";
-import DownloadControl from "./components/DownloadControl";
-import FacilityLayer from "./components/FacilityLayer";
-import ThematicLayer from "./components/ThematicLayer";
+import React, { useMemo } from "react";
+import { Map as CustomMap } from "@hisptz/react-ui";
 import useInterventionConfig from "../../../../../../shared/hooks/useInterventionConfig";
 import CardError from "../../../../../../shared/components/errors/CardError";
 import i18n from "@dhis2/d2-i18n";
+import { CustomThematicPrimitiveLayer } from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
+import { useRecoilValue } from "recoil";
+import { SubLevelOrgUnit } from "../../state/dimensions";
+import { useParams } from "react-router-dom";
+import { InterventionPeriodState } from "../../../../state/selections";
+import { getOrgUnitSelectionFromOrgUnitList } from "./utils/map";
+import { LastOrgUnitLevel } from "../../../../../../core/state/orgUnit";
+import { capitalize } from "lodash";
 
-function MapArea() {
-  const { center, bounds } = useBoundaryData();
-
-  return (
-    <div id="map-container" style={{ height: "100%", width: "100%" }}>
-      <MapContainer bounds={bounds} bounceAtZoomLimits center={center} style={{ height: "100%", width: "100%", minHeight: 500 }} scrollWheelZoom={false}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | &copy; <a href="https://carto.com/attribution">CARTO</a>'
-          url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
-        />
-        <ScaleControl position={"bottomleft"} />
-        <LayersControl position={"topleft"}>
-          <DownloadControl />
-          <BoundaryLayer />
-          <FacilityLayer />
-          <ThematicLayer />
-        </LayersControl>
-      </MapContainer>
-    </div>
-  );
-}
 
 export default function Map() {
+  const { id } = useParams<{ id: string }>();
   const { map } = useInterventionConfig();
+  const periodSelection = useRecoilValue(InterventionPeriodState(id));
+  const facilityLevel = useRecoilValue(LastOrgUnitLevel);
+
+  const subLevelOrgUnit = useRecoilValue(SubLevelOrgUnit(id));
+
+  const orgUnitSelection = useMemo(() => getOrgUnitSelectionFromOrgUnitList(subLevelOrgUnit), [subLevelOrgUnit]);
+
 
   if (!map?.enabled) {
     return (
@@ -42,5 +32,61 @@ export default function Map() {
     );
   }
 
-  return <MapArea />;
+  const lastLevelSelected = orgUnitSelection.levels?.includes((facilityLevel?.level.toString() ?? ""));
+
+  const { coreLayers } = map ?? {};
+  const thematicLayers: CustomThematicPrimitiveLayer[] = coreLayers.thematicLayers.map(layer => {
+    return {
+      id: layer.indicator?.id,
+      type: layer.type,
+      enabled: layer.enabled,
+      control: {
+        enabled: true,
+        position: "topright"
+      },
+      dataItem: {
+        id: layer.indicator?.id,
+        type: "indicator",
+        displayName: `${layer.indicator?.name} (${capitalize(layer.type)})`,
+        legendSet: layer.legendConfig.legendSet,
+        legendConfig: layer.legendConfig.colorClass ? {
+          scale: layer.legendConfig.scale ?? 5,
+          colorClass: layer.legendConfig.colorClass
+        } : undefined
+      }
+    };
+  });
+
+  return <CustomMap
+    controls={[
+      {
+        type: "scale",
+        position: "bottomleft",
+        options: {
+          imperial: false,
+          metric: true
+        }
+      }, {
+        type: "compass",
+        position: "bottomleft"
+      }
+    ]}
+    legends={{
+      enabled: true,
+      position: "topright",
+      collapsible: true
+    }}
+    orgUnitSelection={lastLevelSelected ? { ...orgUnitSelection, levels: [] } : orgUnitSelection}
+    thematicLayers={lastLevelSelected ? [] : thematicLayers}
+    boundaryLayer={coreLayers.boundaryLayer}
+    pointLayer={{
+      ...coreLayers.facilityLayer,
+      label: i18n.t("Facilities"),
+      level: facilityLevel?.level
+    }}
+    periodSelection={{
+      periods: [periodSelection.id]
+    }}
+
+  />;
 }
