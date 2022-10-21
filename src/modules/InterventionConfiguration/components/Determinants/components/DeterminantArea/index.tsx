@@ -54,8 +54,8 @@ export default function DeterminantArea(): React.ReactElement {
     ({ checked }: { checked: boolean }) => {
       if (checked) {
         confirm({
-          title: i18n.t("Confirm Action"),
-          message: i18n.t("This will replace all indicator labels with their short names. Proceed?"),
+          title: i18n.t("Confirm Label Replacement"),
+          message: i18n.t("This will replace all indicator labels with their short names. This action is not reversible. Proceed?"),
           onCancel: () => {
             return;
           },
