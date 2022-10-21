@@ -19,7 +19,7 @@ export default function OrgUnitField(): React.ReactElement {
         name={"orgUnitSelection.orgUnit.id"}
         render={({ field }) => {
           return (
-            <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "end" }}>
+            <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "end", gap: 8 }}>
               <div className="flex-1">
                 <InputField
                   value={field.value === "USER_ORGUNIT" ? i18n.t("User's organisation unit") : orgUnit.contents?.displayName ?? ""}
