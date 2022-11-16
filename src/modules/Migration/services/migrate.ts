@@ -202,7 +202,8 @@ export function convertIntervention(config: OldInterventionConfig, customFunctio
         boundaryLayer: { enabled: true },
         thematicLayers: [],
         facilityLayer: { enabled: true, style: { icon: "01.png" } }
-      }
+      },
+      earthEngineLayers: []
     }
   };
 }

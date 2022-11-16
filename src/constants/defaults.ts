@@ -131,7 +131,8 @@ export const DEFAULT_INTERVENTION_CONFIG: InterventionConfig = {
           icon: "01.png"
         }
       }
-    }
+    },
+    earthEngineLayers: []
   }
 };
 

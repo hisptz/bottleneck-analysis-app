@@ -1,4 +1,4 @@
-import { ThematicMapLayer } from "../../../../../../../../../../shared/interfaces/interventionConfig";
+import { ThematicMapLayer } from "../../../../../../../../shared/interfaces/interventionConfig";
 import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
 import { defaultClasses, defaultColorScaleName } from "../ColorScaleSelect/utils/colors";
 import React, { useCallback, useMemo, useState } from "react";

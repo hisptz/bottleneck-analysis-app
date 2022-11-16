@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "../../styles/ColorScale.module.css";
 import { COLOR_PALETTES } from "../../constants/colors";
-import { defaultColorScale } from "../../utils/colors";
 
 // Returns one color scale based on a code and number of classes
 const ColorScale = ({ scale, bins, width, onClick }: { scale: string; bins: number; width: number; onClick: (scale: string) => void }) => {

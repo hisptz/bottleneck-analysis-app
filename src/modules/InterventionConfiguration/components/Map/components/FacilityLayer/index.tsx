@@ -1,21 +1,21 @@
 import React, { useCallback, useMemo, useState } from "react";
 import {
+  Button,
+  ButtonStrip,
   CheckboxField,
   colors,
   Field,
   Modal,
-  ModalTitle,
-  ModalContent,
   ModalActions,
-  ButtonStrip,
-  Button,
+  ModalContent,
+  ModalTitle,
   Radio,
-  SingleSelectField, SingleSelectOption
+  SingleSelectField,
+  SingleSelectOption
 } from "@dhis2/ui";
-import { FormProvider, Controller, useFormContext } from "react-hook-form";
+import { Controller, FormProvider, useController, useForm, useFormContext } from "react-hook-form";
 import i18n from "@dhis2/d2-i18n";
-import { useController, useForm } from "react-hook-form";
-import { FacilityMapLayer, ThematicMapLayer } from "../../../../../../../../shared/interfaces/interventionConfig";
+import { FacilityMapLayer } from "../../../../../../shared/interfaces/interventionConfig";
 import { useConfig, useDataQuery } from "@dhis2/app-runtime";
 import { isEmpty, padStart } from "lodash";
 
@@ -216,11 +216,11 @@ export default function FacilityLayer() {
   const { value } = field ?? {};
 
   return (
-    <div className="h-100 w-100">
-      <Field fullWidth error={!!error} validationText={error?.message}>
+    <div className="w-100">
+      <Field label={i18n.t("Facility layer")} fullWidth error={!!error} validationText={error?.message}>
         <div style={error ? { borderColor: colors.red600 } : {}} className="thematic-config-card">
           <div className="row space-between align-center">
-            <h4 className="thematic-config-card-header">{i18n.t("Facility layer")}</h4>
+            <h4 className="thematic-config-card-header"></h4>
             <CheckboxField checked={value?.enabled} onChange={onEnableToggle} />
           </div>
           {value?.enabled && (

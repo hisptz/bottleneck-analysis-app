@@ -1,17 +1,19 @@
 import i18n from "@dhis2/d2-i18n";
-import { CheckboxField, Field } from "@dhis2/ui";
+import { CheckboxField } from "@dhis2/ui";
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import OtherLayers from "./components/OtherLayers";
+import BoundaryLayer from "./components/BoundaryLayer";
 import ThematicLayerConfig from "./components/ThematicLayer";
+import FacilityLayer from "./components/FacilityLayer";
+import EarthEngineLayerConfig from "./components/EarthEngineLayer";
 
 export default function MapConfiguration(): React.ReactElement {
   const { watch } = useFormContext();
   const enabled = watch("map.enabled");
 
   return (
-    <Field label={i18n.t("Map Configuration")}>
-      <div className="column gap">
+    <div className="w-100 h-100 general-config-container ">
+      <div style={{ gap: 32 }} className=" column general-config-area-1">
         <Controller
           name={"map.enabled"}
           render={({ field, fieldState }) => (
@@ -29,10 +31,16 @@ export default function MapConfiguration(): React.ReactElement {
         {enabled && (
           <>
             <ThematicLayerConfig />
-            <OtherLayers />
+            <BoundaryLayer />
           </>
         )}
       </div>
-    </Field>
+      {
+        enabled && (<div style={{ gap: 32 }} className="column general-config-area-2">
+          <FacilityLayer />
+          <EarthEngineLayerConfig />
+        </div>)
+      }
+    </div>
   );
 }
