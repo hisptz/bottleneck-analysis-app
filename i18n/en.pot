@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-16T07:12:36.692Z\n"
-"PO-Revision-Date: 2022-11-16T07:12:36.692Z\n"
+"POT-Creation-Date: 2022-11-16T17:48:42.943Z\n"
+"PO-Revision-Date: 2022-11-16T17:48:42.943Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -826,32 +826,11 @@ msgstr "Legends for analysis"
 msgid "Search dictionary"
 msgstr "Search dictionary"
 
-msgid "Boundaries"
-msgstr "Boundaries"
-
-msgid "Download image"
-msgstr "Download image"
+msgid "Map is disabled for this intervention"
+msgstr "Map is disabled for this intervention"
 
 msgid "Facilities"
 msgstr "Facilities"
-
-msgid "Max"
-msgstr "Max"
-
-msgid "Mid"
-msgstr "Mid"
-
-msgid "Min"
-msgstr "Min"
-
-msgid "Choropleth"
-msgstr "Choropleth"
-
-msgid "Bubble"
-msgstr "Bubble"
-
-msgid "Map is disabled for this intervention"
-msgstr "Map is disabled for this intervention"
 
 msgid "Bottleneck Sub-level Analysis"
 msgstr "Bottleneck Sub-level Analysis"
@@ -1024,6 +1003,30 @@ msgstr "Relative Periods"
 msgid "Select Period"
 msgstr "Select Period"
 
+msgid "Boundary Layer"
+msgstr "Boundary Layer"
+
+msgid "Enable boundary layer"
+msgstr "Enable boundary layer"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Configure"
+msgstr "Configure"
+
+msgid "Earth engine Layers"
+msgstr "Earth engine Layers"
+
+msgid "Add layer"
+msgstr "Add layer"
+
+msgid "Please select an indicator"
+msgstr "Please select an indicator"
+
+msgid "Click on add layer to add earth engine layers"
+msgstr "Click on add layer to add earth engine layers"
+
 msgid "Custom icon"
 msgstr "Custom icon"
 
@@ -1048,17 +1051,8 @@ msgstr "Icon is required"
 msgid "Facility layer"
 msgstr "Facility layer"
 
-msgid "Other Layers"
-msgstr "Other Layers"
-
-msgid "Boundary"
-msgstr "Boundary"
-
 msgid "Select Indicator"
 msgstr "Select Indicator"
-
-msgid "Update"
-msgstr "Update"
 
 msgid "Classes"
 msgstr "Classes"
@@ -1077,6 +1071,12 @@ msgstr "Layer type is required"
 
 msgid "Layer type"
 msgstr "Layer type"
+
+msgid "Choropleth"
+msgstr "Choropleth"
+
+msgid "Bubble"
+msgstr "Bubble"
 
 msgid "An indicator is required"
 msgstr "An indicator is required"
@@ -1099,23 +1099,11 @@ msgstr "Choropleth Layer"
 msgid "Bubble Layer"
 msgstr "Bubble Layer"
 
-msgid "Configure"
-msgstr "Configure"
-
 msgid "Thematic Layers"
 msgstr "Thematic Layers"
 
-msgid "Add layer"
-msgstr "Add layer"
-
-msgid "Please select an indicator"
-msgstr "Please select an indicator"
-
 msgid "Click on add layer to add thematic layers"
 msgstr "Click on add layer to add thematic layers"
-
-msgid "Map Configuration"
-msgstr "Map Configuration"
 
 msgid "Enable map"
 msgstr "Enable map"
