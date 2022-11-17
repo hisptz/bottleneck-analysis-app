@@ -1,6 +1,6 @@
 import i18n from "@dhis2/d2-i18n";
 import { IconInfo16, IconList16, IconWorld16 } from "@dhis2/ui";
-import React from "react";
+import React, { memo } from "react";
 import Dictionary from "../components/Dictionary";
 import Map from "../components/Map";
 import Table from "../components/Table";
@@ -17,18 +17,18 @@ export const tabs: Array<Tab> = [
     key: "table",
     icon: <IconList16 />,
     label: i18n.t("Table View"),
-    component: Table,
+    component: Table
   },
   {
     key: "dictionary",
     icon: <IconInfo16 />,
     label: i18n.t("Dictionary View"),
-    component: Dictionary,
+    component: Dictionary
   },
   {
     key: "map",
     icon: <IconWorld16 />,
     label: i18n.t("Map View"),
-    component: Map,
-  },
+    component: memo(Map)
+  }
 ];

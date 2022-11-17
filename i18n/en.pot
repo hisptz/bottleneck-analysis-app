@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-10-21T07:48:19.493Z\n"
-"PO-Revision-Date: 2022-10-21T07:48:19.493Z\n"
+"POT-Creation-Date: 2022-11-16T07:12:36.692Z\n"
+"PO-Revision-Date: 2022-11-16T07:12:36.692Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -939,11 +939,11 @@ msgid "Confirm Label Replacement"
 msgstr "Confirm Label Replacement"
 
 msgid ""
-"This will replace all indicator labels with their short names. This action "
-"is not reversible. Proceed?"
+"This will replace all indicator labels with their short names. All label "
+"changes will be lost. Proceed?"
 msgstr ""
-"This will replace all indicator labels with their short names. This action "
-"is not reversible. Proceed?"
+"This will replace all indicator labels with their short names. All label "
+"changes will be lost. Proceed?"
 
 msgid "Determinants"
 msgstr "Determinants"
@@ -989,6 +989,40 @@ msgstr "Enter a description"
 
 msgid "Legend Definitions"
 msgstr "Legend Definitions"
+
+msgid "Sub-level analysis configuration unavailable"
+msgstr "Sub-level analysis configuration unavailable"
+
+msgid ""
+"Current sub-level analysis configuration were set by a user with higher "
+"organisation unit level access and cannot be modified."
+msgstr ""
+"Current sub-level analysis configuration were set by a user with higher "
+"organisation unit level access and cannot be modified."
+
+msgid "User's organisation unit"
+msgstr "User's organisation unit"
+
+msgid "Select"
+msgstr "Select"
+
+msgid "Change"
+msgstr "Change"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Bottleneck Period Type"
+msgstr "Bottleneck Period Type"
+
+msgid "Fixed Periods"
+msgstr "Fixed Periods"
+
+msgid "Relative Periods"
+msgstr "Relative Periods"
+
+msgid "Select Period"
+msgstr "Select Period"
 
 msgid "Custom icon"
 msgstr "Custom icon"
@@ -1047,12 +1081,6 @@ msgstr "Layer type"
 msgid "An indicator is required"
 msgstr "An indicator is required"
 
-msgid "Change"
-msgstr "Change"
-
-msgid "Select"
-msgstr "Select"
-
 msgid "Legend"
 msgstr "Legend"
 
@@ -1092,33 +1120,14 @@ msgstr "Map Configuration"
 msgid "Enable map"
 msgstr "Enable map"
 
-msgid "Sub-level analysis configuration unavailable"
-msgstr "Sub-level analysis configuration unavailable"
+msgid "General"
+msgstr "General"
 
-msgid ""
-"Current sub-level analysis configuration were set by a user with higher "
-"organisation unit level access and cannot be modified."
-msgstr ""
-"Current sub-level analysis configuration were set by a user with higher "
-"organisation unit level access and cannot be modified."
+msgid "Map"
+msgstr "Map"
 
-msgid "User's organisation unit"
-msgstr "User's organisation unit"
-
-msgid "Clear"
-msgstr "Clear"
-
-msgid "Bottleneck Period Type"
-msgstr "Bottleneck Period Type"
-
-msgid "Fixed Periods"
-msgstr "Fixed Periods"
-
-msgid "Relative Periods"
-msgstr "Relative Periods"
-
-msgid "Select Period"
-msgstr "Select Period"
+msgid "Access"
+msgstr "Access"
 
 msgid "Intervention created successfully"
 msgstr "Intervention created successfully"
@@ -1128,6 +1137,12 @@ msgstr "Changes saved successfully"
 
 msgid "Intervention name is required. Please provide on in the general page."
 msgstr "Intervention name is required. Please provide on in the general page."
+
+msgid "Edit intervention"
+msgstr "Edit intervention"
+
+msgid "New intervention"
+msgstr "New intervention"
 
 msgid "Save and Exit"
 msgstr "Save and Exit"

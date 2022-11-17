@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { Popover } from "@dhis2/ui";
 import cx from "classnames";
 import ColorScale from "./components/ColorScale";

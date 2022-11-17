@@ -1,29 +1,27 @@
-import React, { useCallback, useState } from "react";
-import "./styles/thematic-config.css";
-import { Button, CheckboxField, colors, Field, IconAdd16, IconCross16 } from "@dhis2/ui";
-import i18n from "@dhis2/d2-i18n";
 import { Controller, FieldError, useFormContext, useWatch } from "react-hook-form";
-import { ThematicMapLayer } from "../../../../../../../../shared/interfaces/interventionConfig";
-import { ThematicLayerConfigModal } from "./components/ThematicLayerConfigModal";
-import classes from "./styles/ThematicConfig.module.css";
+import React, { useCallback, useState } from "react";
+import { Button, CheckboxField, colors, Field, IconAdd16, IconCross16 } from "@dhis2/ui";
+import classes from "../ThematicLayer/styles/ThematicConfig.module.css";
 import { IconButton } from "@material-ui/core";
-import { filter, findIndex, isEmpty, remove } from "lodash";
-import { uid } from "@hisptz/dhis2-utils";
+import i18n from "@dhis2/d2-i18n";
+import { EarthEngineLayerConfigModal } from "@hisptz/react-ui";
+import { CustomGoogleEngineLayer } from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
+import { capitalize, filter, isEmpty, remove } from "lodash";
 
-function SingleThematicLayerConfig({
-                                     value,
-                                     onChange,
-                                     onRemove,
-                                     error
-                                   }: {
-  value: ThematicMapLayer;
+function SingleEarthEngineLayerConfig({
+                                        value,
+                                        onChange,
+                                        onRemove,
+                                        error
+                                      }: {
+  value: CustomGoogleEngineLayer;
   error?: FieldError;
-  onChange: (newValue: ThematicMapLayer) => void;
-  onRemove: (value: ThematicMapLayer) => void;
+  onChange: (newValue: CustomGoogleEngineLayer) => void;
+  onRemove: (value: CustomGoogleEngineLayer) => void;
 }) {
   const [openConfig, setOpenConfig] = useState(false);
   const onUpdate = useCallback(
-    (updatedIndicatorValue: ThematicMapLayer) => {
+    (updatedIndicatorValue: CustomGoogleEngineLayer) => {
       onChange(updatedIndicatorValue);
     },
     [onChange, value]
@@ -53,18 +51,16 @@ function SingleThematicLayerConfig({
           <div className="row space-between align-center">
             <div className="row gap-4 align-items-center">
               <CheckboxField checked={value?.enabled} onChange={onEnableToggle} />
-              <h4 className="thematic-config-card-header">{value.indicator?.name}</h4>
+              <h4 className="thematic-config-card-header">{capitalize(type)}</h4>
             </div>
             <IconButton onClick={onRemoveClick} style={{ padding: 2 }}>
               <IconCross16 />
             </IconButton>
           </div>
           <div className="column gap-8 ">
-            <p style={{ margin: 0 }}>{i18n.t("Type")}: {type === "choropleth" ? i18n.t("Choropleth Layer") : i18n.t("Bubble Layer")}</p>
-            <Button onClick={() => setOpenConfig(true)}>{value?.indicator?.id ? i18n.t("Update") : i18n.t("Configure")}</Button>
+            <Button onClick={() => setOpenConfig(true)}>{type ? i18n.t("Update") : i18n.t("Configure")}</Button>
             {openConfig && (
-              <ThematicLayerConfigModal
-
+              <EarthEngineLayerConfigModal
                 onChange={onUpdate}
                 config={value} onClose={() => setOpenConfig(false)}
                 open={openConfig}
@@ -77,40 +73,45 @@ function SingleThematicLayerConfig({
   );
 }
 
-export default function ThematicLayerConfig() {
+
+export default function EarthEngineLayerConfig() {
   const { setValue } = useFormContext();
-  const thematicLayers = useWatch({
-    name: "map.coreLayers.thematicLayers"
+  const earthEngineLayers = useWatch({
+    name: "map.coreLayers.earthEngineLayers"
   });
   const [openAdd, setOpenAdd] = useState(false);
 
 
   const onAdd = useCallback(
-    (value: ThematicMapLayer) => {
-      setValue(`map.coreLayers.thematicLayers.${thematicLayers.length}`, value);
+    (value: CustomGoogleEngineLayer) => {
+      if (Array.isArray(earthEngineLayers)) {
+        setValue(`map.coreLayers.earthEngineLayers.${earthEngineLayers?.length}`, value);
+      } else {
+        setValue(`map.coreLayers.earthEngineLayers`, [value]);
+      }
     },
-    [thematicLayers]
+    [earthEngineLayers]
   );
 
   const onRemove = useCallback(
-    (value: ThematicMapLayer) => {
-      console.log(filter(thematicLayers, (layer) => layer.id !== value.id));
-      setValue(`map.coreLayers.thematicLayers`, [...remove(thematicLayers, (layer: ThematicMapLayer) => layer.id !== value.id)]);
+    (value: CustomGoogleEngineLayer) => {
+      console.log(filter(earthEngineLayers, (layer) => layer.id !== value.id));
+      setValue(`map.coreLayers.earthEngineLayers`, [...remove(earthEngineLayers, (layer: CustomGoogleEngineLayer) => layer.id !== value.id)]);
     },
-    [thematicLayers]
+    [earthEngineLayers]
   );
 
 
   return (
     <div className="column gap-8 align-items-center">
       <div className="row w-100 space-between align-items-center ">
-        <p style={{ margin: 0 }}>{i18n.t("Thematic Layers")}</p>
+        <p style={{ margin: 0 }}>{i18n.t("Earth engine Layers")}</p>
         <Button onClick={() => setOpenAdd(true)} small icon={<IconAdd16 />}>{i18n.t("Add layer")}</Button>
       </div>
       <div className="w-100"
            style={{ whiteSpace: "normal", display: "grid", gridTemplateColumns: "auto auto", gridGap: 8, justifyItems: "stretch" }}>
         {
-          thematicLayers.map((thematic: ThematicMapLayer, i: number) => {
+          earthEngineLayers?.map((thematic: CustomGoogleEngineLayer, i: number) => {
             return (
               <Controller
                 rules={{
@@ -122,28 +123,24 @@ export default function ThematicLayerConfig() {
                   }
                 }}
                 render={({ field, fieldState }) => {
-                  return <SingleThematicLayerConfig {...field} {...fieldState} error={fieldState.error} onRemove={onRemove} />;
+                  return <SingleEarthEngineLayerConfig {...field} {...fieldState} error={fieldState.error} onRemove={onRemove} />;
                 }}
-                name={`map.coreLayers.thematicLayers.${i}`}
+                name={`map.coreLayers.earthEngineLayers.${i}`}
               />
             );
           })
         }
       </div>
       {
-        isEmpty(thematicLayers) && <p>{i18n.t("Click on add layer to add thematic layers")}</p>
+        isEmpty(earthEngineLayers) && <p>{i18n.t("Click on add layer to add earth engine layers")}</p>
       }
       {
-        openAdd && <ThematicLayerConfigModal
-          selectedIndicators={thematicLayers.map((layer: ThematicMapLayer) => layer?.indicator?.id)}
+        openAdd && <EarthEngineLayerConfigModal
+          exclude={[]}
           onChange={onAdd}
           onClose={() => setOpenAdd(false)}
           open={openAdd}
-          config={{
-            id: uid(),
-            enabled: isEmpty(thematicLayers),
-            type: "choropleth"
-          } as ThematicMapLayer} />
+        />
       }
     </div>
   );

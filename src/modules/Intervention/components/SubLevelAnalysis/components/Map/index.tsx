@@ -78,6 +78,32 @@ export default function Map() {
     }}
     orgUnitSelection={lastLevelSelected ? { ...orgUnitSelection, levels: [] } : orgUnitSelection}
     thematicLayers={lastLevelSelected ? [] : thematicLayers}
+    earthEngineLayers={[
+      {
+        name: "Population",
+        type: "population",
+        id: "population",
+        enabled: true,
+        aggregations: ["sum"],
+        filters: {
+          period: "2020"
+        }
+      },
+      {
+        name: "Footprints",
+        type: "footprints",
+        id: "footprints",
+        enabled: false,
+        aggregations: ["sum"]
+      },
+      {
+        name: "Land Cover",
+        type: "landCover",
+        id: "landCover",
+        enabled: false,
+        aggregations: ["sum"]
+      }
+    ]}
     boundaryLayer={coreLayers.boundaryLayer}
     pointLayer={{
       ...coreLayers.facilityLayer,
