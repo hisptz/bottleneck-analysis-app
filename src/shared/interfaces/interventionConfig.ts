@@ -1,4 +1,4 @@
-import { CustomGoogleEngineLayer } from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
+import { EarthEngineLayerConfig } from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
 
 export interface User {
   id: string;
@@ -49,7 +49,7 @@ export interface Map {
     boundaryLayer: BoundaryMapLayer;
     facilityLayer: FacilityMapLayer;
   };
-  earthEngineLayers?: CustomGoogleEngineLayer[];
+  earthEngineLayers?: EarthEngineLayerConfig[];
 }
 
 export interface LegendDefinition {

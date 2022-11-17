@@ -77,7 +77,7 @@ function SingleEarthEngineLayerConfig({
 export default function EarthEngineLayerConfig() {
   const { setValue } = useFormContext();
   const earthEngineLayers = useWatch({
-    name: "map.coreLayers.earthEngineLayers"
+    name: "map.earthEngineLayers"
   });
   const [openAdd, setOpenAdd] = useState(false);
 
@@ -85,9 +85,9 @@ export default function EarthEngineLayerConfig() {
   const onAdd = useCallback(
     (value: CustomGoogleEngineLayer) => {
       if (Array.isArray(earthEngineLayers)) {
-        setValue(`map.coreLayers.earthEngineLayers.${earthEngineLayers?.length}`, value);
+        setValue(`map.earthEngineLayers.${earthEngineLayers?.length}`, value);
       } else {
-        setValue(`map.coreLayers.earthEngineLayers`, [value]);
+        setValue(`map.earthEngineLayers`, [value]);
       }
     },
     [earthEngineLayers]
@@ -96,7 +96,7 @@ export default function EarthEngineLayerConfig() {
   const onRemove = useCallback(
     (value: CustomGoogleEngineLayer) => {
       console.log(filter(earthEngineLayers, (layer) => layer.id !== value.id));
-      setValue(`map.coreLayers.earthEngineLayers`, [...remove(earthEngineLayers, (layer: CustomGoogleEngineLayer) => layer.id !== value.id)]);
+      setValue(`map.earthEngineLayers`, [...remove(earthEngineLayers, (layer: CustomGoogleEngineLayer) => layer.id !== value.id)]);
     },
     [earthEngineLayers]
   );
@@ -125,7 +125,7 @@ export default function EarthEngineLayerConfig() {
                 render={({ field, fieldState }) => {
                   return <SingleEarthEngineLayerConfig {...field} {...fieldState} error={fieldState.error} onRemove={onRemove} />;
                 }}
-                name={`map.coreLayers.earthEngineLayers.${i}`}
+                name={`map.earthEngineLayers.${i}`}
               />
             );
           })

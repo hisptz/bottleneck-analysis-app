@@ -3,14 +3,14 @@ import { Map as CustomMap } from "@hisptz/react-ui";
 import useInterventionConfig from "../../../../../../shared/hooks/useInterventionConfig";
 import CardError from "../../../../../../shared/components/errors/CardError";
 import i18n from "@dhis2/d2-i18n";
-import { CustomThematicPrimitiveLayer } from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
+import { ThematicLayerConfig } from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
 import { useRecoilValue } from "recoil";
 import { SubLevelOrgUnit } from "../../state/dimensions";
 import { useParams } from "react-router-dom";
 import { InterventionPeriodState } from "../../../../state/selections";
-import { getOrgUnitSelectionFromOrgUnitList } from "./utils/map";
 import { LastOrgUnitLevel } from "../../../../../../core/state/orgUnit";
 import { capitalize } from "lodash";
+import { getOrgUnitSelectionFromOrgUnitList } from "./utils/map";
 
 
 export default function Map() {
@@ -34,8 +34,8 @@ export default function Map() {
 
   const lastLevelSelected = orgUnitSelection.levels?.includes((facilityLevel?.level.toString() ?? ""));
 
-  const { coreLayers } = map ?? {};
-  const thematicLayers: CustomThematicPrimitiveLayer[] = coreLayers.thematicLayers.map(layer => {
+  const { coreLayers, earthEngineLayers } = map ?? {};
+  const thematicLayers: ThematicLayerConfig[] = coreLayers.thematicLayers.map(layer => {
     return {
       id: layer.indicator?.id,
       type: layer.type,
@@ -78,32 +78,7 @@ export default function Map() {
     }}
     orgUnitSelection={lastLevelSelected ? { ...orgUnitSelection, levels: [] } : orgUnitSelection}
     thematicLayers={lastLevelSelected ? [] : thematicLayers}
-    earthEngineLayers={[
-      {
-        name: "Population",
-        type: "population",
-        id: "population",
-        enabled: true,
-        aggregations: ["sum"],
-        filters: {
-          period: "2020"
-        }
-      },
-      {
-        name: "Footprints",
-        type: "footprints",
-        id: "footprints",
-        enabled: false,
-        aggregations: ["sum"]
-      },
-      {
-        name: "Land Cover",
-        type: "landCover",
-        id: "landCover",
-        enabled: false,
-        aggregations: ["sum"]
-      }
-    ]}
+    earthEngineLayers={earthEngineLayers?.map(layer => ({ ...layer, id: layer.type }))}
     boundaryLayer={coreLayers.boundaryLayer}
     pointLayer={{
       ...coreLayers.facilityLayer,
