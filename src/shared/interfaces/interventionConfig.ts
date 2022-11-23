@@ -1,4 +1,4 @@
-import { EarthEngineLayerConfig } from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
+import { EarthEngineLayerConfig, ThematicLayerConfig } from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
 
 export interface User {
   id: string;
@@ -45,7 +45,7 @@ export interface ThematicMapLayer {
 export interface Map {
   enabled: boolean;
   coreLayers: {
-    thematicLayers: ThematicMapLayer[];
+    thematicLayers: ThematicLayerConfig[];
     boundaryLayer: BoundaryMapLayer;
     facilityLayer: FacilityMapLayer;
   };

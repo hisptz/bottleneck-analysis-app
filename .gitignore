@@ -130,3 +130,4 @@ cypress/screenshots
 
 
 .env
+/.yalc/
