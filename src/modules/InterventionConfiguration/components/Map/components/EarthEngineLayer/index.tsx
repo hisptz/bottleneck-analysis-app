@@ -1,12 +1,14 @@
-import { Controller, FieldError, useFormContext, useWatch } from "react-hook-form";
+import { Controller, FieldError, useFieldArray } from "react-hook-form";
 import React, { useCallback, useState } from "react";
 import { Button, CheckboxField, colors, Field, IconAdd16, IconCross16 } from "@dhis2/ui";
 import classes from "../ThematicLayer/styles/ThematicConfig.module.css";
 import { IconButton } from "@material-ui/core";
 import i18n from "@dhis2/d2-i18n";
 import { EarthEngineLayerConfigModal } from "@hisptz/react-ui";
-import { CustomGoogleEngineLayer } from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
-import { capitalize, filter, isEmpty, remove } from "lodash";
+import {
+  EarthEngineLayerConfig as EarthEngineConfigInterface
+} from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
+import { capitalize, isEmpty } from "lodash";
 
 function SingleEarthEngineLayerConfig({
                                         value,
@@ -14,14 +16,14 @@ function SingleEarthEngineLayerConfig({
                                         onRemove,
                                         error
                                       }: {
-  value: CustomGoogleEngineLayer;
+  value: EarthEngineConfigInterface;
   error?: FieldError;
-  onChange: (newValue: CustomGoogleEngineLayer) => void;
-  onRemove: (value: CustomGoogleEngineLayer) => void;
+  onChange: (newValue: EarthEngineConfigInterface) => void;
+  onRemove: () => void;
 }) {
   const [openConfig, setOpenConfig] = useState(false);
   const onUpdate = useCallback(
-    (updatedIndicatorValue: CustomGoogleEngineLayer) => {
+    (updatedIndicatorValue: EarthEngineConfigInterface) => {
       onChange(updatedIndicatorValue);
     },
     [onChange, value]
@@ -36,7 +38,7 @@ function SingleEarthEngineLayerConfig({
 
   const onRemoveClick = useCallback(
     (event: any) => {
-      onRemove(value);
+      onRemove();
     },
     [value]
   );
@@ -75,30 +77,30 @@ function SingleEarthEngineLayerConfig({
 
 
 export default function EarthEngineLayerConfig() {
-  const { setValue } = useFormContext();
-  const earthEngineLayers = useWatch({
-    name: "map.earthEngineLayers"
+  const { fields: earthEngineLayers, remove, append } = useFieldArray({
+    name: "map.earthEngineLayers",
+    keyName: "fieldId"
   });
   const [openAdd, setOpenAdd] = useState(false);
 
 
   const onAdd = useCallback(
-    (value: CustomGoogleEngineLayer) => {
-      if (Array.isArray(earthEngineLayers)) {
-        setValue(`map.earthEngineLayers.${earthEngineLayers?.length}`, value);
+    (value: EarthEngineConfigInterface) => {
+      if (isEmpty(earthEngineLayers)) {
+        append({ ...value, enabled: true });
       } else {
-        setValue(`map.earthEngineLayers`, [value]);
+        append(value);
       }
+
     },
-    [earthEngineLayers]
+    [append, earthEngineLayers]
   );
 
   const onRemove = useCallback(
-    (value: CustomGoogleEngineLayer) => {
-      console.log(filter(earthEngineLayers, (layer) => layer.id !== value.id));
-      setValue(`map.earthEngineLayers`, [...remove(earthEngineLayers, (layer: CustomGoogleEngineLayer) => layer.id !== value.id)]);
+    (index: number) => () => {
+      remove(index);
     },
-    [earthEngineLayers]
+    [remove]
   );
 
 
@@ -111,7 +113,7 @@ export default function EarthEngineLayerConfig() {
       <div className="w-100"
            style={{ whiteSpace: "normal", display: "grid", gridTemplateColumns: "auto auto", gridGap: 8, justifyItems: "stretch" }}>
         {
-          earthEngineLayers?.map((thematic: CustomGoogleEngineLayer, i: number) => {
+          earthEngineLayers?.map((thematic: any, i: number) => {
             return (
               <Controller
                 rules={{
@@ -123,7 +125,7 @@ export default function EarthEngineLayerConfig() {
                   }
                 }}
                 render={({ field, fieldState }) => {
-                  return <SingleEarthEngineLayerConfig {...field} {...fieldState} error={fieldState.error} onRemove={onRemove} />;
+                  return <SingleEarthEngineLayerConfig {...field} {...fieldState} error={fieldState.error} onRemove={onRemove(i)} />;
                 }}
                 name={`map.earthEngineLayers.${i}`}
               />
@@ -136,7 +138,7 @@ export default function EarthEngineLayerConfig() {
       }
       {
         openAdd && <EarthEngineLayerConfigModal
-          exclude={[]}
+          exclude={earthEngineLayers.map(({ id }: any) => id)}
           onChange={onAdd}
           onClose={() => setOpenAdd(false)}
           open={openAdd}
