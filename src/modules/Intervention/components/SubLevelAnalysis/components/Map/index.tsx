@@ -34,8 +34,12 @@ export default function Map() {
   const lastLevelSelected = orgUnitSelection.levels?.includes((facilityLevel?.level.toString() ?? ""));
 
   const { coreLayers, earthEngineLayers } = map ?? {};
-  const thematicLayers: ThematicLayerConfig[] = coreLayers.thematicLayers;
-
+  const thematicLayers: ThematicLayerConfig[] = coreLayers.thematicLayers.map((layer) => ({
+    ...layer, control: {
+      enabled: true,
+      position: "topright"
+    }
+  }));
   return <CustomMap
     controls={[
       {
