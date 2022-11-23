@@ -4,7 +4,7 @@ import { Button, CheckboxField, colors, Field, IconAdd16, IconCross16 } from "@d
 import classes from "../ThematicLayer/styles/ThematicConfig.module.css";
 import { IconButton } from "@material-ui/core";
 import i18n from "@dhis2/d2-i18n";
-import { EarthEngineLayerConfigModal } from "@hisptz/react-ui";
+import { EarthEngineLayerConfigModal } from "./components/EarthEngineConfigModal";
 import {
   EarthEngineLayerConfig as EarthEngineConfigInterface
 } from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
@@ -138,6 +138,7 @@ export default function EarthEngineLayerConfig() {
       }
       {
         openAdd && <EarthEngineLayerConfigModal
+          position={"middle"}
           exclude={earthEngineLayers.map(({ id }: any) => id)}
           onChange={onAdd}
           onClose={() => setOpenAdd(false)}

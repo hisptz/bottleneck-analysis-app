@@ -2461,10 +2461,10 @@
     luxon "^3.0.1"
     typescript "^4.6.3"
 
-"@hisptz/react-ui@^1.0.78":
-  version "1.0.78"
-  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.78.tgz#96a8ecf76cd3b3a587ae2bdadf70c515ba71f47c"
-  integrity sha512-NsmfsdBUfv2kVN+WESSeitqsBnO4d31AMkTE4EtgWSZ6tqiooqZLz9WG1eFYEX7JxhX6Cog+0LeDotC/kYkOqg==
+"@hisptz/react-ui@^1.0.79":
+  version "1.0.79"
+  resolved "https://registry.yarnpkg.com/@hisptz/react-ui/-/react-ui-1.0.79.tgz#78155602aea7a35a179e00f8c7368d93b18fb322"
+  integrity sha512-r4MKBTtvQez4b/SeNkCXKoaCdiOgbqaiqK5ntX+lYOIWGUurrCXKgXVHki7yy2a/5bG+lvqWRg6KZcFzyHtcsQ==
   dependencies:
     "@google/earthengine" "^0.1.330"
     "@hisptz/dhis2-utils" "^1.0.0-alpha.2"

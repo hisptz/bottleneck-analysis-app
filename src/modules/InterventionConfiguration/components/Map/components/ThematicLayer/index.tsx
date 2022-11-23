@@ -65,6 +65,7 @@ function SingleThematicLayerConfig({
             <Button onClick={() => setOpenConfig(true)}>{value?.dataItem?.id ? i18n.t("Update") : i18n.t("Configure")}</Button>
             {openConfig && (
               <ThematicLayerConfigModal
+                position="middle"
                 onChange={onUpdate}
                 config={value} onClose={() => setOpenConfig(false)}
                 open={openConfig}
@@ -138,6 +139,7 @@ export default function ThematicLayerConfig() {
       }
       {
         openAdd && <ThematicLayerConfigModal
+          position="middle"
           exclude={fields.map((layer: any) => layer?.dataItem?.id)}
           onChange={onAdd}
           onClose={() => setOpenAdd(false)}
