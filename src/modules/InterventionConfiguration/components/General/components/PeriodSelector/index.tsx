@@ -53,13 +53,13 @@ export default function PeriodSelector({ field, fieldState }: { field: any; fiel
           dataTest={"periodType-selection-menu"}
           selected={field?.value?.type}
           name={field.name}
-          label={i18n.t("Bottleneck Period Type")}
+          label={i18n.t("Bottleneck period type")}
           onChange={({ selected }: { selected: string }) => field.onChange({ ...field.value, type: selected })}>
-          <SingleSelectOption className={classes["single-select-header"]} disabled label={i18n.t("Fixed Periods")} />
+          <SingleSelectOption className={classes["single-select-header"]} disabled label={i18n.t("Fixed periods")} />
           {periodTypes?.fixed?.map(({ id, name }: { id: string; name: string }) => (
             <SingleSelectOption dataTest={"periodType-selection-menu-item"} key={`${id}-option`} value={id} label={`${name}`} />
           ))}
-          <SingleSelectOption className={classes["single-select-header"]} disabled label={i18n.t("Relative Periods")} />
+          <SingleSelectOption className={classes["single-select-header"]} disabled label={i18n.t("Relative periods")} />
           {periodTypes?.relative?.map(({ id, name }: { id: string; name: string }) => (
             <SingleSelectOption dataTest={"periodType-selection-menu-item"} key={`${id}-option`} value={id} label={`${name}`} />
           ))}
@@ -67,9 +67,10 @@ export default function PeriodSelector({ field, fieldState }: { field: any; fiel
       </div>
       <div className="row gap w-100 align-end">
         <div className="flex-1">
-          <InputField label={i18n.t("Period")} fullWidth error={fieldState?.error} validationText={fieldState?.error?.message} disabled value={period?.name} />
+          <InputField label={i18n.t("Period")} fullWidth error={fieldState?.error} validationText={fieldState?.error?.message} disabled
+                      value={period?.name} />
         </div>
-        <Button onClick={() => setPeriodSelectorOpen(true)}>{i18n.t("Select Period")}</Button>
+        <Button onClick={() => setPeriodSelectorOpen(true)}>{i18n.t("Select period")}</Button>
         {periodSelectorOpen && (
           <PeriodSelectorModal
             excludedPeriodTypes={excludedPeriodTypes}

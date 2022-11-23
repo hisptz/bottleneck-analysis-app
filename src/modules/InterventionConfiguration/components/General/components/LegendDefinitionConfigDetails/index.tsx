@@ -12,7 +12,7 @@ export function LegendDefinitionConfigDetails(): React.ReactElement {
   return (
     <div className="legend-definition-config w-100">
       <RHFLegendDefinitionsField
-        label={i18n.t("Legend Definitions")}
+        label={i18n.t("Legend definitions")}
         shouldVerify={shouldVerify}
         onResetLegends={onResetLegends}
         name={"dataSelection.legendDefinitions"}

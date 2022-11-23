@@ -107,7 +107,7 @@ export default function EarthEngineLayerConfig() {
   return (
     <div className="column gap-8 align-items-center">
       <div className="row w-100 space-between align-items-center ">
-        <p style={{ margin: 0 }}>{i18n.t("Earth engine Layers")}</p>
+        <p style={{ margin: 0 }}>{i18n.t("Earth engine layers")}</p>
         <Button onClick={() => setOpenAdd(true)} small icon={<IconAdd16 />}>{i18n.t("Add layer")}</Button>
       </div>
       <div className="w-100"
