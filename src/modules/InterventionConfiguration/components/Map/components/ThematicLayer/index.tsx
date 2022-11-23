@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import "./styles/thematic-config.css";
-import { Button, CheckboxField, colors, Field, IconAdd16, IconCross16 } from "@dhis2/ui";
+import { Button, CheckboxField, colors, Field, IconAdd16, IconCross16, Pagination } from "@dhis2/ui";
 import i18n from "@dhis2/d2-i18n";
 import { Controller, FieldError, useFieldArray } from "react-hook-form";
 import classes from "./styles/ThematicConfig.module.css";
 import { IconButton } from "@material-ui/core";
-import { isEmpty } from "lodash";
+import { chunk, isEmpty } from "lodash";
 import { uid } from "@hisptz/dhis2-utils";
 import { ThematicLayerConfigModal } from "@hisptz/react-ui";
 import {
@@ -84,6 +84,7 @@ export default function ThematicLayerConfig() {
     keyName: "fieldId"
   });
   const [openAdd, setOpenAdd] = useState(false);
+  const [page, setPage] = useState(1);
 
   const onAdd = useCallback(
     (value: ThematicLayerConfigInterface) => {
@@ -99,6 +100,9 @@ export default function ThematicLayerConfig() {
     [remove]
   );
 
+  const fieldChunks = useMemo(() => {
+    return chunk(fields, 4);
+  }, [fields]);
 
   return (
     <div className="column gap-8 align-items-center">
@@ -106,32 +110,52 @@ export default function ThematicLayerConfig() {
         <p style={{ margin: 0 }}>{i18n.t("Thematic layers")}</p>
         <Button onClick={() => setOpenAdd(true)} small icon={<IconAdd16 />}>{i18n.t("Add layer")}</Button>
       </div>
-      <div className="w-100"
-           style={{ whiteSpace: "normal", display: "grid", gridTemplateColumns: "auto auto", gridGap: 8, justifyItems: "stretch" }}>
-        {
-          fields.map((field: any, i: number) => {
-            return (
-              <Controller
-                key={`${field.id}-${i}-config`}
-                rules={{
-                  validate: (value) => {
-                    if (value.enabled && !value.indicator?.id) {
-                      return i18n.t("Please select an indicator");
+      <div className="column gap-8 w-100">
+        <div className="w-100"
+             style={{ whiteSpace: "normal", display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 8, justifyItems: "stretch" }}>
+          {
+            fieldChunks[page - 1]?.map((field: any, i: number) => {
+              return (
+                <Controller
+                  key={`${field.id}-${i}-config`}
+                  rules={{
+                    validate: (value) => {
+                      if (value.enabled && !value.indicator?.id) {
+                        return i18n.t("Please select an indicator");
+                      }
+                      return true;
                     }
-                    return true;
-                  }
+                  }}
+                  render={({ field, fieldState }) => {
+                    return <SingleThematicLayerConfig
+                      {...field}
+                      {...fieldState}
+                      error={fieldState.error}
+                      onRemove={onRemove(i)} />;
+                  }}
+                  name={`map.coreLayers.thematicLayers.${i}`}
+                />
+              );
+            })
+          }
+        </div>
+        {
+          fieldChunks.length > 1 && (
+            <div className="w-100 row end">
+              <Pagination
+                page={page}
+                hidePageSizeSelect
+                hidePageSelect
+                pageSummaryText={i18n.t("There are a total of {{ count }} layers configured. Click next or previous to view others.", {
+                  count: fields?.length
+                })}
+                onPageChange={(page: number) => {
+                  setPage(page);
                 }}
-                render={({ field, fieldState }) => {
-                  return <SingleThematicLayerConfig
-                    {...field}
-                    {...fieldState}
-                    error={fieldState.error}
-                    onRemove={onRemove(i)} />;
-                }}
-                name={`map.coreLayers.thematicLayers.${i}`}
+                pageCount={fieldChunks.length}
               />
-            );
-          })
+            </div>
+          )
         }
       </div>
       {

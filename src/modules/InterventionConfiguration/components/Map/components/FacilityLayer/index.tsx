@@ -218,43 +218,47 @@ export default function FacilityLayer() {
   return (
     <div className="w-100">
       <Field label={i18n.t("Facility layer")} fullWidth error={!!error} validationText={error?.message}>
-        <div style={error ? { borderColor: colors.red600 } : {}} className="thematic-config-card">
-          <div className="row space-between align-center">
-            <h4 className="thematic-config-card-header"></h4>
-            <CheckboxField checked={value?.enabled} onChange={onEnableToggle} />
-          </div>
-          {value?.enabled && (
-            <div className="column gap-16">
-              <div className="row gap-16">
-                <Radio checked={legendType === "groupSet"} label={i18n.t("Group set icons")} name="groupSet" value="groupSet"
-                       onChange={onLegendTypeChange("groupSet")} />
-                <Radio checked={legendType === "custom"} label={i18n.t("Custom icon")} name="custom" value="custom"
-                       onChange={onLegendTypeChange("custom")} />
+        <div className="column gap-8">
+          <CheckboxField checked={value?.enabled} onChange={onEnableToggle} label={i18n.t("Enable facility layer")} />
+          {
+            value?.enabled && (<div style={error ? { borderColor: colors.red600 } : {}} className="thematic-config-card">
+              <div className="row space-between align-center">
+                <h4 className="thematic-config-card-header"></h4>
               </div>
-              {
-                legendType === "groupSet" && (<Controller
-                  name={`${name}.style.groupSet`}
-                  rules={{
-                    required: i18n.t("Group set is required")
-                  }}
-                  render={({ field, fieldState }) => (
-                    <GroupSetSelector onChange={field.onChange} required selected={field.value} error={fieldState.error} />)}
+              {value?.enabled && (
+                <div className="column gap-16">
+                  <div className="row gap-16">
+                    <Radio checked={legendType === "groupSet"} label={i18n.t("Group set icons")} name="groupSet" value="groupSet"
+                           onChange={onLegendTypeChange("groupSet")} />
+                    <Radio checked={legendType === "custom"} label={i18n.t("Custom icon")} name="custom" value="custom"
+                           onChange={onLegendTypeChange("custom")} />
+                  </div>
+                  {
+                    legendType === "groupSet" && (<Controller
+                      name={`${name}.style.groupSet`}
+                      rules={{
+                        required: i18n.t("Group set is required")
+                      }}
+                      render={({ field, fieldState }) => (
+                        <GroupSetSelector onChange={field.onChange} required selected={field.value} error={fieldState.error} />)}
 
-                />)
-              }
-              {
-                legendType === "custom" && (<Controller
+                    />)
+                  }
+                  {
+                    legendType === "custom" && (<Controller
 
-                  rules={{
-                    required: i18n.t("Icon is required")
-                  }}
-                  name={`${name}.style.icon`}
-                  render={({ field, fieldState }) => (
-                    <IconSelector onChange={field.onChange} required selected={field.value} error={fieldState.error} />)}
-                />)
-              }
-            </div>
-          )}
+                      rules={{
+                        required: i18n.t("Icon is required")
+                      }}
+                      name={`${name}.style.icon`}
+                      render={({ field, fieldState }) => (
+                        <IconSelector onChange={field.onChange} required selected={field.value} error={fieldState.error} />)}
+                    />)
+                  }
+                </div>
+              )}
+            </div>)
+          }
         </div>
       </Field>
     </div>
