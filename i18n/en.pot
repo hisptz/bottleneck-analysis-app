@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-16T17:48:42.943Z\n"
-"PO-Revision-Date: 2022-11-16T17:48:42.943Z\n"
+"POT-Creation-Date: 2022-11-23T09:26:41.115Z\n"
+"PO-Revision-Date: 2022-11-23T09:26:41.115Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -927,8 +927,8 @@ msgstr ""
 msgid "Determinants"
 msgstr "Determinants"
 
-msgid "Clear All"
-msgstr "Clear All"
+msgid "Clear all"
+msgstr "Clear all"
 
 msgid "Use short names as labels"
 msgstr "Use short names as labels"
@@ -960,14 +960,14 @@ msgstr ""
 "name. For related interventions, consider using differentiating "
 "keywords/version numbers (e.g v2 )"
 
-msgid "Intervention Name"
-msgstr "Intervention Name"
+msgid "Intervention name"
+msgstr "Intervention name"
 
 msgid "Enter a description"
 msgstr "Enter a description"
 
-msgid "Legend Definitions"
-msgstr "Legend Definitions"
+msgid "Legend definitions"
+msgstr "Legend definitions"
 
 msgid "Sub-level analysis configuration unavailable"
 msgstr "Sub-level analysis configuration unavailable"
@@ -982,6 +982,9 @@ msgstr ""
 msgid "User's organisation unit"
 msgstr "User's organisation unit"
 
+msgid "Organisation unit"
+msgstr "Organisation unit"
+
 msgid "Select"
 msgstr "Select"
 
@@ -991,23 +994,26 @@ msgstr "Change"
 msgid "Clear"
 msgstr "Clear"
 
-msgid "Bottleneck Period Type"
-msgstr "Bottleneck Period Type"
+msgid "Bottleneck period type"
+msgstr "Bottleneck period type"
 
-msgid "Fixed Periods"
-msgstr "Fixed Periods"
+msgid "Fixed periods"
+msgstr "Fixed periods"
 
-msgid "Relative Periods"
-msgstr "Relative Periods"
+msgid "Relative periods"
+msgstr "Relative periods"
 
-msgid "Select Period"
-msgstr "Select Period"
+msgid "Select period"
+msgstr "Select period"
 
-msgid "Boundary Layer"
-msgstr "Boundary Layer"
+msgid "Boundary layer"
+msgstr "Boundary layer"
 
 msgid "Enable boundary layer"
 msgstr "Enable boundary layer"
+
+msgid "Configure Earth Engine Layer"
+msgstr "Configure Earth Engine Layer"
 
 msgid "Update"
 msgstr "Update"
@@ -1015,8 +1021,8 @@ msgstr "Update"
 msgid "Configure"
 msgstr "Configure"
 
-msgid "Earth engine Layers"
-msgstr "Earth engine Layers"
+msgid "Earth engine layers"
+msgstr "Earth engine layers"
 
 msgid "Add layer"
 msgstr "Add layer"
@@ -1050,6 +1056,9 @@ msgstr "Icon is required"
 
 msgid "Facility layer"
 msgstr "Facility layer"
+
+msgid "Enable facility layer"
+msgstr "Enable facility layer"
 
 msgid "Select Indicator"
 msgstr "Select Indicator"
@@ -1099,8 +1108,15 @@ msgstr "Choropleth Layer"
 msgid "Bubble Layer"
 msgstr "Bubble Layer"
 
-msgid "Thematic Layers"
-msgstr "Thematic Layers"
+msgid "Thematic layers"
+msgstr "Thematic layers"
+
+msgid ""
+"There are a total of {{ count }} layers configured. Click next or previous "
+"to view others."
+msgstr ""
+"There are a total of {{ count }} layers configured. Click next or previous "
+"to view others."
 
 msgid "Click on add layer to add thematic layers"
 msgstr "Click on add layer to add thematic layers"
@@ -1132,14 +1148,14 @@ msgstr "Edit intervention"
 msgid "New intervention"
 msgstr "New intervention"
 
-msgid "Save and Exit"
-msgstr "Save and Exit"
+msgid "Save and exit"
+msgstr "Save and exit"
 
-msgid "Save and Continue"
-msgstr "Save and Continue"
+msgid "Save and continue"
+msgstr "Save and continue"
 
-msgid "Exit Without Saving"
-msgstr "Exit Without Saving"
+msgid "Exit without saving"
+msgstr "Exit without saving"
 
 msgid "Something went wrong with the migration"
 msgstr "Something went wrong with the migration"

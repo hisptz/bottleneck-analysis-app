@@ -118,15 +118,15 @@ export default function InterventionConfiguration(): React.ReactElement {
       <ButtonStrip middle>
         <Button loading={saving} dataTest={"save-exit-intervention-button"} onClick={onSaveAndExit}
                 disabled={saving || saveAndContinueLoader}>
-          {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and Exit")}
+          {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and exit")}
         </Button>
         {!isLastStep && (
           <Button loading={saveAndContinueLoader} dataTest={"save-continue-intervention-button"} onClick={onSaveAndContinue}
                   disabled={saveAndContinueLoader}>
-            {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and Continue")}
+            {saving ? `${i18n.t("Saving")}...` : i18n.t("Save and continue")}
           </Button>
         )}
-        <Button onClick={onExit}>{i18n.t("Exit Without Saving")}</Button>
+        <Button onClick={onExit}>{i18n.t("Exit without saving")}</Button>
       </ButtonStrip>
     </div>
   );

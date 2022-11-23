@@ -10,6 +10,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.d2" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/src/locales" />
+      <excludeFolder url="file://$MODULE_DIR$/.yalc" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

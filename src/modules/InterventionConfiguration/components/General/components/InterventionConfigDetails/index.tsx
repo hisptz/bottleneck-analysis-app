@@ -45,7 +45,7 @@ export default function InterventionConfigDetails(): React.ReactElement {
               value={field.value}
               onChange={({ value }: { value: string }) => field.onChange(value)}
               name={field.name}
-              label={i18n.t("Intervention Name")}
+              label={i18n.t("Intervention name")}
             />
           )}
         />

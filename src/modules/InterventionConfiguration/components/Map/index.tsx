@@ -12,8 +12,8 @@ export default function MapConfiguration(): React.ReactElement {
   const enabled = watch("map.enabled");
 
   return (
-    <div className="w-100 h-100 general-config-container ">
-      <div style={{ gap: 32 }} className=" column general-config-area-1">
+    <div className="w-100 h-100 column gap-16">
+      <div style={{ gap: 32 }} className=" column map-config-area-1">
         <Controller
           name={"map.enabled"}
           render={({ field, fieldState }) => (
@@ -32,15 +32,11 @@ export default function MapConfiguration(): React.ReactElement {
           <>
             <ThematicLayerConfig />
             <BoundaryLayer />
+            <FacilityLayer />
+            <EarthEngineLayerConfig />
           </>
         )}
       </div>
-      {
-        enabled && (<div style={{ gap: 32 }} className="column general-config-area-2">
-          <FacilityLayer />
-          <EarthEngineLayerConfig />
-        </div>)
-      }
     </div>
   );
 }

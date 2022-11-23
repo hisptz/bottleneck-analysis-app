@@ -1,14 +1,16 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import "./styles/thematic-config.css";
-import { Button, CheckboxField, colors, Field, IconAdd16, IconCross16 } from "@dhis2/ui";
+import { Button, CheckboxField, colors, Field, IconAdd16, IconCross16, Pagination } from "@dhis2/ui";
 import i18n from "@dhis2/d2-i18n";
-import { Controller, FieldError, useFormContext, useWatch } from "react-hook-form";
-import { ThematicMapLayer } from "../../../../../../shared/interfaces/interventionConfig";
-import { ThematicLayerConfigModal } from "./components/ThematicLayerConfigModal";
+import { Controller, FieldError, useFieldArray } from "react-hook-form";
 import classes from "./styles/ThematicConfig.module.css";
 import { IconButton } from "@material-ui/core";
-import { filter, isEmpty, remove } from "lodash";
+import { chunk, isEmpty } from "lodash";
 import { uid } from "@hisptz/dhis2-utils";
+import { ThematicLayerConfigModal } from "@hisptz/react-ui";
+import {
+  ThematicLayerConfig as ThematicLayerConfigInterface
+} from "@hisptz/react-ui/build/types/components/Map/components/MapLayer/interfaces";
 
 function SingleThematicLayerConfig({
                                      value,
@@ -16,14 +18,14 @@ function SingleThematicLayerConfig({
                                      onRemove,
                                      error
                                    }: {
-  value: ThematicMapLayer;
+  value: ThematicLayerConfigInterface;
   error?: FieldError;
-  onChange: (newValue: ThematicMapLayer) => void;
-  onRemove: (value: ThematicMapLayer) => void;
+  onChange: (newValue: ThematicLayerConfigInterface) => void;
+  onRemove: () => void;
 }) {
   const [openConfig, setOpenConfig] = useState(false);
   const onUpdate = useCallback(
-    (updatedIndicatorValue: ThematicMapLayer) => {
+    (updatedIndicatorValue: ThematicLayerConfigInterface) => {
       onChange(updatedIndicatorValue);
     },
     [onChange, value]
@@ -38,11 +40,10 @@ function SingleThematicLayerConfig({
 
   const onRemoveClick = useCallback(
     (event: any) => {
-      onRemove(value);
+      onRemove();
     },
     [value]
   );
-
 
   const type = value.type;
 
@@ -53,7 +54,7 @@ function SingleThematicLayerConfig({
           <div className="row space-between align-center">
             <div className="row gap-4 align-items-center">
               <CheckboxField checked={value?.enabled} onChange={onEnableToggle} />
-              <h4 className="thematic-config-card-header">{value.indicator?.name}</h4>
+              <h4 className="thematic-config-card-header">{value?.dataItem?.displayName}</h4>
             </div>
             <IconButton onClick={onRemoveClick} style={{ padding: 2 }}>
               <IconCross16 />
@@ -61,10 +62,10 @@ function SingleThematicLayerConfig({
           </div>
           <div className="column gap-8 ">
             <p style={{ margin: 0 }}>{i18n.t("Type")}: {type === "choropleth" ? i18n.t("Choropleth Layer") : i18n.t("Bubble Layer")}</p>
-            <Button onClick={() => setOpenConfig(true)}>{value?.indicator?.id ? i18n.t("Update") : i18n.t("Configure")}</Button>
+            <Button onClick={() => setOpenConfig(true)}>{value?.dataItem?.id ? i18n.t("Update") : i18n.t("Configure")}</Button>
             {openConfig && (
               <ThematicLayerConfigModal
-
+                position="middle"
                 onChange={onUpdate}
                 config={value} onClose={() => setOpenConfig(false)}
                 open={openConfig}
@@ -78,72 +79,100 @@ function SingleThematicLayerConfig({
 }
 
 export default function ThematicLayerConfig() {
-  const { setValue } = useFormContext();
-  const thematicLayers = useWatch({
-    name: "map.coreLayers.thematicLayers"
+  const { fields, append, remove } = useFieldArray({
+    name: "map.coreLayers.thematicLayers",
+    keyName: "fieldId"
   });
   const [openAdd, setOpenAdd] = useState(false);
-
+  const [page, setPage] = useState(1);
 
   const onAdd = useCallback(
-    (value: ThematicMapLayer) => {
-      setValue(`map.coreLayers.thematicLayers.${thematicLayers.length}`, value);
+    (value: ThematicLayerConfigInterface) => {
+      append(value);
     },
-    [thematicLayers]
+    [append]
   );
 
   const onRemove = useCallback(
-    (value: ThematicMapLayer) => {
-      console.log(filter(thematicLayers, (layer) => layer.id !== value.id));
-      setValue(`map.coreLayers.thematicLayers`, [...remove(thematicLayers, (layer: ThematicMapLayer) => layer.id !== value.id)]);
+    (index: number) => () => {
+      remove(index);
     },
-    [thematicLayers]
+    [remove]
   );
 
+  const fieldChunks = useMemo(() => {
+    return chunk(fields, 4);
+  }, [fields]);
 
   return (
     <div className="column gap-8 align-items-center">
       <div className="row w-100 space-between align-items-center ">
-        <p style={{ margin: 0 }}>{i18n.t("Thematic Layers")}</p>
+        <p style={{ margin: 0 }}>{i18n.t("Thematic layers")}</p>
         <Button onClick={() => setOpenAdd(true)} small icon={<IconAdd16 />}>{i18n.t("Add layer")}</Button>
       </div>
-      <div className="w-100"
-           style={{ whiteSpace: "normal", display: "grid", gridTemplateColumns: "auto auto", gridGap: 8, justifyItems: "stretch" }}>
-        {
-          thematicLayers.map((thematic: ThematicMapLayer, i: number) => {
-            return (
-              <Controller
-                rules={{
-                  validate: (value) => {
-                    if (value.enabled && !value.indicator?.id) {
-                      return i18n.t("Please select an indicator");
+      <div className="column gap-8 w-100">
+        <div className="w-100"
+             style={{ whiteSpace: "normal", display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 32, justifyItems: "stretch" }}>
+          {
+            fieldChunks[page - 1]?.map((field: any, i: number) => {
+              return (
+                <Controller
+                  key={`${field.id}-${i}-config`}
+                  rules={{
+                    validate: (value) => {
+                      if (value.enabled && !value.indicator?.id) {
+                        return i18n.t("Please select an indicator");
+                      }
+                      return true;
                     }
-                    return true;
-                  }
+                  }}
+                  render={({ field, fieldState }) => {
+                    return <SingleThematicLayerConfig
+                      {...field}
+                      {...fieldState}
+                      error={fieldState.error}
+                      onRemove={onRemove(i)} />;
+                  }}
+                  name={`map.coreLayers.thematicLayers.${i}`}
+                />
+              );
+            })
+          }
+        </div>
+        {
+          fieldChunks.length > 1 && (
+            <div className="w-100 row end">
+              <Pagination
+                page={page}
+                hidePageSizeSelect
+                hidePageSelect
+                pageSummaryText={i18n.t("There are a total of {{ count }} layers configured. Click next or previous to view others.", {
+                  count: fields?.length
+                })}
+                onPageChange={(page: number) => {
+                  setPage(page);
                 }}
-                render={({ field, fieldState }) => {
-                  return <SingleThematicLayerConfig {...field} {...fieldState} error={fieldState.error} onRemove={onRemove} />;
-                }}
-                name={`map.coreLayers.thematicLayers.${i}`}
+                pageCount={fieldChunks.length}
               />
-            );
-          })
+            </div>
+          )
         }
       </div>
       {
-        isEmpty(thematicLayers) && <p>{i18n.t("Click on add layer to add thematic layers")}</p>
+        isEmpty(fields) && <p>{i18n.t("Click on add layer to add thematic layers")}</p>
       }
       {
         openAdd && <ThematicLayerConfigModal
-          selectedIndicators={thematicLayers.map((layer: ThematicMapLayer) => layer?.indicator?.id)}
+          position="middle"
+          exclude={fields.map((layer: any) => layer?.dataItem?.id)}
           onChange={onAdd}
           onClose={() => setOpenAdd(false)}
           open={openAdd}
           config={{
             id: uid(),
-            enabled: isEmpty(thematicLayers),
+            enabled: isEmpty(fields),
             type: "choropleth"
-          } as ThematicMapLayer} />
+          } as ThematicLayerConfigInterface} />
       }
     </div>
   );

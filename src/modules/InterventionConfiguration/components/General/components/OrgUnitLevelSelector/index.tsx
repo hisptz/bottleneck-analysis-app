@@ -20,16 +20,16 @@ export default function OrgUnitField(): React.ReactElement {
         render={({ field }) => {
           return (
             <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "end", gap: 8 }}>
-              <div className="flex-1">
+              <div onClick={() => setOrgUnitOpen(true)} className="flex-1">
                 <InputField
                   value={field.value === "USER_ORGUNIT" ? i18n.t("User's organisation unit") : orgUnit.contents?.displayName ?? ""}
-                  label={i18n.t("Organisation Unit")}
+                  label={i18n.t("Organisation unit")}
                   disabled
                 />
               </div>
               <ButtonStrip>
                 <Button disabled={orgUnit.state !== "hasValue"} onClick={() => setOrgUnitOpen(true)}>
-                  {`${!field.value ? i18n.t("Select") : i18n.t("Change")} ${i18n.t("Organisation Unit")}`}
+                  {`${!field.value ? i18n.t("Select") : i18n.t("Change")} ${i18n.t("organisation unit")}`}
                 </Button>
                 {!field.value || field.value !== "USER_ORGUNIT" ? (
                   <Button disabled={orgUnit.state !== "hasValue"} onClick={() => field.onChange("USER_ORGUNIT")}>

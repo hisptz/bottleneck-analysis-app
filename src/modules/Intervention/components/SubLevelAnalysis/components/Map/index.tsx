@@ -9,7 +9,6 @@ import { SubLevelOrgUnit } from "../../state/dimensions";
 import { useParams } from "react-router-dom";
 import { InterventionPeriodState } from "../../../../state/selections";
 import { LastOrgUnitLevel } from "../../../../../../core/state/orgUnit";
-import { capitalize } from "lodash";
 import { getOrgUnitSelectionFromOrgUnitList } from "./utils/map";
 
 
@@ -35,28 +34,12 @@ export default function Map() {
   const lastLevelSelected = orgUnitSelection.levels?.includes((facilityLevel?.level.toString() ?? ""));
 
   const { coreLayers, earthEngineLayers } = map ?? {};
-  const thematicLayers: ThematicLayerConfig[] = coreLayers.thematicLayers.map(layer => {
-    return {
-      id: layer.indicator?.id,
-      type: layer.type,
-      enabled: layer.enabled,
-      control: {
-        enabled: true,
-        position: "topright"
-      },
-      dataItem: {
-        id: layer.indicator?.id,
-        type: "indicator",
-        displayName: `${layer.indicator?.name} (${capitalize(layer.type)})`,
-        legendSet: layer.legendConfig.legendSet,
-        legendConfig: layer.legendConfig.colorClass ? {
-          scale: layer.legendConfig.scale ?? 5,
-          colorClass: layer.legendConfig.colorClass
-        } : undefined
-      }
-    };
-  });
-
+  const thematicLayers: ThematicLayerConfig[] = coreLayers.thematicLayers.map((layer) => ({
+    ...layer, control: {
+      enabled: true,
+      position: "topright"
+    }
+  }));
   return <CustomMap
     controls={[
       {

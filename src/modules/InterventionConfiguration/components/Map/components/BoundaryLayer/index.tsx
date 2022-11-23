@@ -5,7 +5,7 @@ import { Controller } from "react-hook-form";
 
 export default function BoundaryLayer() {
   return (
-    <Field label={i18n.t("Boundary Layer")}>
+    <Field label={i18n.t("Boundary layer")}>
       <div className="column gap-16">
         <Controller
           render={({ field }) => {

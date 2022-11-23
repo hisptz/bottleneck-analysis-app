@@ -218,12 +218,12 @@ export default function FacilityLayer() {
   return (
     <div className="w-100">
       <Field label={i18n.t("Facility layer")} fullWidth error={!!error} validationText={error?.message}>
-        <div style={error ? { borderColor: colors.red600 } : {}} className="thematic-config-card">
-          <div className="row space-between align-center">
-            <h4 className="thematic-config-card-header"></h4>
-            <CheckboxField checked={value?.enabled} onChange={onEnableToggle} />
-          </div>
-          {value?.enabled && (
+        <div className="column gap-8">
+          <CheckboxField checked={value?.enabled} onChange={onEnableToggle} label={i18n.t("Enable facility layer")} />
+          <div style={error ? { borderColor: colors.red600 } : {}} className="thematic-config-card">
+            <div className="row space-between align-center">
+              <h4 className="thematic-config-card-header"></h4>
+            </div>
             <div className="column gap-16">
               <div className="row gap-16">
                 <Radio checked={legendType === "groupSet"} label={i18n.t("Group set icons")} name="groupSet" value="groupSet"
@@ -254,7 +254,7 @@ export default function FacilityLayer() {
                 />)
               }
             </div>
-          )}
+          </div>
         </div>
       </Field>
     </div>
