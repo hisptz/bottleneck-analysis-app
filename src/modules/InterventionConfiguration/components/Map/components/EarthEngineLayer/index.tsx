@@ -111,7 +111,7 @@ export default function EarthEngineLayerConfig() {
         <Button onClick={() => setOpenAdd(true)} small icon={<IconAdd16 />}>{i18n.t("Add layer")}</Button>
       </div>
       <div className="w-100"
-           style={{ whiteSpace: "normal", display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 8, justifyItems: "stretch" }}>
+           style={{ whiteSpace: "normal", display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 32, justifyItems: "stretch" }}>
         {
           earthEngineLayers?.map((thematic: any, i: number) => {
             return (

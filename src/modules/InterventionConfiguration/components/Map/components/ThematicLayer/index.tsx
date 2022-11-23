@@ -112,7 +112,7 @@ export default function ThematicLayerConfig() {
       </div>
       <div className="column gap-8 w-100">
         <div className="w-100"
-             style={{ whiteSpace: "normal", display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 8, justifyItems: "stretch" }}>
+             style={{ whiteSpace: "normal", display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: 32, justifyItems: "stretch" }}>
           {
             fieldChunks[page - 1]?.map((field: any, i: number) => {
               return (
