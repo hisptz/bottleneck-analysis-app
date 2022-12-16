@@ -12,7 +12,7 @@ export default function MapConfiguration(): React.ReactElement {
   const enabled = watch("map.enabled");
 
   return (
-    <div className="w-100 h-100 column gap-16">
+    <div className="w-100 h-100 column gap-16 general-config-container">
       <div style={{ gap: 32 }} className=" column map-config-area-1">
         <Controller
           name={"map.enabled"}
