@@ -1,0 +1,1215 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"POT-Creation-Date: 2022-11-23T09:26:41.115Z\n"
+"PO-Revision-Date: 2022-11-23T09:26:41.115Z\n"
+
+msgid "No Access"
+msgstr "No Access"
+
+msgid "View Only"
+msgstr "View Only"
+
+msgid "View and Edit"
+msgstr "View and Edit"
+
+msgid "Commodities"
+msgstr "Commodities"
+
+msgid "Human Resources"
+msgstr "Human Resources"
+
+msgid "Geographic Accessibility"
+msgstr "Geographic Accessibility"
+
+msgid "Initial Utilisation"
+msgstr "Initial Utilisation"
+
+msgid "Continuous Utilisation"
+msgstr "Continuous Utilisation"
+
+msgid "Effective Coverage"
+msgstr "Effective Coverage"
+
+msgid "Target achieved / on track"
+msgstr "Target achieved / on track"
+
+msgid "Progress, but more effort required"
+msgstr "Progress, but more effort required"
+
+msgid "Not on track"
+msgstr "Not on track"
+
+msgid "N/A"
+msgstr "N/A"
+
+msgid "No data"
+msgstr "No data"
+
+msgid "Welcome to Bottleneck Analysis App (BNA)"
+msgstr "Welcome to Bottleneck Analysis App (BNA)"
+
+msgid ""
+"BNA is a structured analysis of the determinants of coverage for a wide "
+"range of interventions delivered through the health sector, useful to "
+"supporting targeted operational planning"
+msgstr ""
+"BNA is a structured analysis of the determinants of coverage for a wide "
+"range of interventions delivered through the health sector, useful to "
+"supporting targeted operational planning"
+
+msgid "This is the list of Interventions in the system"
+msgstr "This is the list of Interventions in the system"
+
+msgid ""
+"Here is where you can add a new intervention or clone from an existing one "
+",also you can access your intervention of interests through searching intput"
+msgstr ""
+"Here is where you can add a new intervention or clone from an existing one "
+",also you can access your intervention of interests through searching intput"
+
+msgid "Here is where you can search  existing interventions"
+msgstr "Here is where you can search  existing interventions"
+
+msgid "Here is where you can view or see the details of the archive intervention"
+msgstr "Here is where you can view or see the details of the archive intervention"
+
+msgid ""
+"You will find Invervention Name ,and respective details such as Org unit, "
+"period, Intervention Bookmark status ,Intervention description and "
+"important actions (filters, archive and configuration)"
+msgstr ""
+"You will find Invervention Name ,and respective details such as Org unit, "
+"period, Intervention Bookmark status ,Intervention description and "
+"important actions (filters, archive and configuration)"
+
+msgid "This is The Name of this Intervention "
+msgstr "This is The Name of this Intervention "
+
+msgid ""
+" This is the Org Unit of this Intervention and the respective period of "
+"this intervention"
+msgstr ""
+" This is the Org Unit of this Intervention and the respective period of "
+"this intervention"
+
+msgid ""
+"This is the archive action status of this intervention, if it is Bookmarked "
+"or Not Bookmarked"
+msgstr ""
+"This is the archive action status of this intervention, if it is Bookmarked "
+"or Not Bookmarked"
+
+msgid ""
+"This is the description of this intervention, you can see the description "
+"of this intervention here"
+msgstr ""
+"This is the description of this intervention, you can see the description "
+"of this intervention here"
+
+msgid ""
+"This is the filter actions of this intervention, you can see the list of "
+"filter actions of this intervention here"
+msgstr ""
+"This is the filter actions of this intervention, you can see the list of "
+"filter actions of this intervention here"
+
+msgid "This action helps you to archive this intervention"
+msgstr "This action helps you to archive this intervention"
+
+msgid ""
+"This is the configuration actions of this intervention, you can see the "
+"list of configuration actions of this intervention here"
+msgstr ""
+"This is the configuration actions of this intervention, you can see the "
+"list of configuration actions of this intervention here"
+
+msgid "This menu give you download options of this components"
+msgstr "This menu give you download options of this components"
+
+msgid ""
+"This is Chart Component for this intervention with respective indicators "
+"configured in this intervention"
+msgstr ""
+"This is Chart Component for this intervention with respective indicators "
+"configured in this intervention"
+
+msgid ""
+"This is the table header components for this intervention with respective "
+"indicators highlighted in colors configured in this intervention"
+msgstr ""
+"This is the table header components for this intervention with respective "
+"indicators highlighted in colors configured in this intervention"
+
+msgid ""
+"This is the table components for this intervention with respective "
+"indicators highlighted in colors configured in this intervention"
+msgstr ""
+"This is the table components for this intervention with respective "
+"indicators highlighted in colors configured in this intervention"
+
+msgid ""
+"This action help you to flip table components by exchange the table rows "
+"and columns"
+msgstr ""
+"This action help you to flip table components by exchange the table rows "
+"and columns"
+
+msgid "This is the intervention table view options of this intervention"
+msgstr "This is the intervention table view options of this intervention"
+
+msgid "This is an option to view this intervention into dictionary view options"
+msgstr "This is an option to view this intervention into dictionary view options"
+
+msgid ""
+"This is the components for root cause analysis of this intervention with "
+"respective indicators configured in this intervention"
+msgstr ""
+"This is the components for root cause analysis of this intervention with "
+"respective indicators configured in this intervention"
+
+msgid "This is the list of archived Interventions in the system"
+msgstr "This is the list of archived Interventions in the system"
+
+msgid "This action help you to return to your respective intervention."
+msgstr "This action help you to return to your respective intervention."
+
+msgid ""
+"This  menu give you list of options to navigate to a respective archive "
+"intervention"
+msgstr ""
+"This  menu give you list of options to navigate to a respective archive "
+"intervention"
+
+msgid ""
+"This widget ,shows number of archived available ,so you can use this as an "
+"option to see number of archive interventions depend on your need"
+msgstr ""
+"This widget ,shows number of archived available ,so you can use this as an "
+"option to see number of archive interventions depend on your need"
+
+msgid ""
+"This is archived Intervention Header,it also consist helpful actions that "
+"you may need , such as action for delete, help and Back to List of Archives "
+"Intervention"
+msgstr ""
+"This is archived Intervention Header,it also consist helpful actions that "
+"you may need , such as action for delete, help and Back to List of Archives "
+"Intervention"
+
+msgid "This is an action to return to your list of archives interventions"
+msgstr "This is an action to return to your list of archives interventions"
+
+msgid "This is an action to delete this archived intervention"
+msgstr "This is an action to delete this archived intervention"
+
+msgid ""
+"This Component consists of basic summary of information based on this "
+"archived intervention"
+msgstr ""
+"This Component consists of basic summary of information based on this "
+"archived intervention"
+
+msgid "This is an input field for entering the name of your intervention"
+msgstr "This is an input field for entering the name of your intervention"
+
+msgid "This is an input field for entering the description of your intervention"
+msgstr "This is an input field for entering the description of your intervention"
+
+msgid ""
+"Use this field for selection of your Bottleneck Perod type, and the "
+"respective period for your Bottleneck"
+msgstr ""
+"Use this field for selection of your Bottleneck Perod type, and the "
+"respective period for your Bottleneck"
+
+msgid ""
+"This components contains description of your sub level analysis,and how it "
+"default configured ,you can use here for custom configuration"
+msgstr ""
+"This components contains description of your sub level analysis,and how it "
+"default configured ,you can use here for custom configuration"
+
+msgid "Use this components for your legend configuration to identify your targets"
+msgstr "Use this components for your legend configuration to identify your targets"
+
+msgid ""
+"This is the list of your intervention determinants, you can add and remove "
+"determinants from this list, at this stage you can also add indicators for "
+"each determinant"
+msgstr ""
+"This is the list of your intervention determinants, you can add and remove "
+"determinants from this list, at this stage you can also add indicators for "
+"each determinant"
+
+msgid "This is the list of your intervention determinants"
+msgstr "This is the list of your intervention determinants"
+
+msgid ""
+"This contains instruction header of comodoties and it action to clear all "
+"determinants"
+msgstr ""
+"This contains instruction header of comodoties and it action to clear all "
+"determinants"
+
+msgid "This is an action to clear all determinants shown in the list below"
+msgstr "This is an action to clear all determinants shown in the list below"
+
+msgid ""
+"Here are the list of determinants it counts highlited in brackets to show "
+"the number of indicators in that particular determinat"
+msgstr ""
+"Here are the list of determinants it counts highlited in brackets to show "
+"the number of indicators in that particular determinat"
+
+msgid "This is an action to add another indicator into the respective determinant"
+msgstr "This is an action to add another indicator into the respective determinant"
+
+msgid "This is the Component for configuration of your intervention access"
+msgstr "This is the Component for configuration of your intervention access"
+
+msgid ""
+"Use this section to give access to your specific user or user group or role "
+"with their respective access level"
+msgstr ""
+"Use this section to give access to your specific user or user group or role "
+"with their respective access level"
+
+msgid ""
+"Here is where you can search your user ,user group or role to assign access "
+"level"
+msgstr ""
+"Here is where you can search your user ,user group or role to assign access "
+"level"
+
+msgid "Choose here level of access to assign to your user,group or role"
+msgstr "Choose here level of access to assign to your user,group or role"
+
+msgid ""
+"After you have choose your access level to a user ,group or specific role "
+",Use this action comfirm and save your access configuration to that "
+"particular group,user or role"
+msgstr ""
+"After you have choose your access level to a user ,group or specific role "
+",Use this action comfirm and save your access configuration to that "
+"particular group,user or role"
+
+msgid "This are list in your intervention that have access"
+msgstr "This are list in your intervention that have access"
+
+msgid "This is Access Level for this particular user,group or role"
+msgstr "This is Access Level for this particular user,group or role"
+
+msgid ""
+"Use this action to delete your access configuration for this particular "
+"user,group or role"
+msgstr ""
+"Use this action to delete your access configuration for this particular "
+"user,group or role"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "Previous"
+msgstr "Previous"
+
+msgid "Close"
+msgstr "Close"
+
+msgid "Done"
+msgstr "Done"
+
+msgid "Error fetching user details"
+msgstr "Error fetching user details"
+
+msgid "Back to archives"
+msgstr "Back to archives"
+
+msgid "Back to all interventions"
+msgstr "Back to all interventions"
+
+msgid "Refresh"
+msgstr "Refresh"
+
+msgid "Help"
+msgstr "Help"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "You are currently viewing an archived intervention"
+msgstr "You are currently viewing an archived intervention"
+
+msgid "Data shown is based on archive of "
+msgstr "Data shown is based on archive of "
+
+msgid "for"
+msgstr "for"
+
+msgid "organisation unit"
+msgstr "organisation unit"
+
+msgid "and"
+msgstr "and"
+
+msgid "period"
+msgstr "period"
+
+msgid "Go to live"
+msgstr "Go to live"
+
+msgid "Archive Description"
+msgstr "Archive Description"
+
+msgid "No description provided"
+msgstr "No description provided"
+
+msgid "Archived interventions"
+msgstr "Archived interventions"
+
+msgid "Intervention"
+msgstr "Intervention"
+
+msgid "Organisation Unit"
+msgstr "Organisation Unit"
+
+msgid "Period"
+msgstr "Period"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Date Archived"
+msgstr "Date Archived"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Archive deleted successfully"
+msgstr "Archive deleted successfully"
+
+msgid "Could not delete archive"
+msgstr "Could not delete archive"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you sure you want to delete this archive?"
+msgstr "Are you sure you want to delete this archive?"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Deleting"
+msgstr "Deleting"
+
+msgid "More"
+msgstr "More"
+
+msgid "View"
+msgstr "View"
+
+msgid "There are currently no archived interventions"
+msgstr "There are currently no archived interventions"
+
+msgid "Welcome to the Bottleneck Analysis App!"
+msgstr "Welcome to the Bottleneck Analysis App!"
+
+msgid "Create a new Intervention"
+msgstr "Create a new Intervention"
+
+msgid "Create Intervention"
+msgstr "Create Intervention"
+
+msgid "Place indicators of intervention in their determinants in settings"
+msgstr "Place indicators of intervention in their determinants in settings"
+
+msgid "Add different data sources to a group"
+msgstr "Add different data sources to a group"
+
+msgid "Select period and organisation unit and save changes"
+msgstr "Select period and organisation unit and save changes"
+
+msgid "Add New Intervention"
+msgstr "Add New Intervention"
+
+msgid "Bottleneck Analysis Chart"
+msgstr "Bottleneck Analysis Chart"
+
+msgid "There are no indicators configured for this intervention"
+msgstr "There are no indicators configured for this intervention"
+
+msgid "There are no organisation units or periods configured for this intervention"
+msgstr "There are no organisation units or periods configured for this intervention"
+
+msgid "View in Full Screen"
+msgstr "View in Full Screen"
+
+msgid "Clear all filter"
+msgstr "Clear all filter"
+
+msgid "Intervention successfully archived"
+msgstr "Intervention successfully archived"
+
+msgid "Intervention not found"
+msgstr "Intervention not found"
+
+msgid "Archive intervention"
+msgstr "Archive intervention"
+
+msgid "Archive Exists"
+msgstr "Archive Exists"
+
+msgid "This intervention has already been archived for today"
+msgstr "This intervention has already been archived for today"
+
+msgid "Archiving the intervention"
+msgstr "Archiving the intervention"
+
+msgid "for the organisation unit"
+msgstr "for the organisation unit"
+
+msgid "and period"
+msgstr "and period"
+
+msgid "Archiving..."
+msgstr "Archiving..."
+
+msgid "Archive"
+msgstr "Archive"
+
+msgid "Start a guided tour"
+msgstr "Start a guided tour"
+
+msgid "Documentation"
+msgstr "Documentation"
+
+msgid "Download intervention data"
+msgstr "Download intervention data"
+
+msgid "View Archives"
+msgstr "View Archives"
+
+msgid "An error occurred while adding/removing bookmark"
+msgstr "An error occurred while adding/removing bookmark"
+
+msgid "Failed to download zip file"
+msgstr "Failed to download zip file"
+
+msgid "{{type}} bookmark"
+msgstr "{{type}} bookmark"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "Remove"
+msgstr "Remove"
+
+msgid "{{type}} description"
+msgstr "{{type}} description"
+
+msgid "Hide"
+msgstr "Hide"
+
+msgid "Show"
+msgstr "Show"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Add Filter"
+msgstr "Add Filter"
+
+msgid "Intervention duplicated successfully"
+msgstr "Intervention duplicated successfully"
+
+msgid "Failed to duplicate intervention"
+msgstr "Failed to duplicate intervention"
+
+msgid "Duplicate Intervention"
+msgstr "Duplicate Intervention"
+
+msgid "Select the intervention you want to duplicate"
+msgstr "Select the intervention you want to duplicate"
+
+msgid "Name of the new intervention"
+msgstr "Name of the new intervention"
+
+msgid "Duplicating..."
+msgstr "Duplicating..."
+
+msgid "Duplicate"
+msgstr "Duplicate"
+
+msgid "Create new intervention"
+msgstr "Create new intervention"
+
+msgid "Duplicate an intervention"
+msgstr "Duplicate an intervention"
+
+msgid "Search Interventions"
+msgstr "Search Interventions"
+
+msgid "Root cause data updated successfully"
+msgstr "Root cause data updated successfully"
+
+msgid "Root cause data saved successfully"
+msgstr "Root cause data saved successfully"
+
+msgid "Error saving root cause data"
+msgstr "Error saving root cause data"
+
+msgid "Add Root Cause"
+msgstr "Add Root Cause"
+
+msgid "Bottleneck is required"
+msgstr "Bottleneck is required"
+
+msgid "Bottleneck"
+msgstr "Bottleneck"
+
+msgid "Indicator is required"
+msgstr "Indicator is required"
+
+msgid "Indicator"
+msgstr "Indicator"
+
+msgid "Possible root cause is required"
+msgstr "Possible root cause is required"
+
+msgid "Possible root cause"
+msgstr "Possible root cause"
+
+msgid "Possible solution is required"
+msgstr "Possible solution is required"
+
+msgid "Possible solution"
+msgstr "Possible solution"
+
+msgid "Saving"
+msgstr "Saving"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Root cause deleted successfully"
+msgstr "Root cause deleted successfully"
+
+msgid "Error deleting root cause"
+msgstr "Error deleting root cause"
+
+msgid ""
+"There are no root causes for this intervention, period, and organisation "
+"unit"
+msgstr ""
+"There are no root causes for this intervention, period, and organisation "
+"unit"
+
+msgid "Add New"
+msgstr "Add New"
+
+msgid "Delete Root Cause"
+msgstr "Delete Root Cause"
+
+msgid "Are you sure you want to delete this root cause?"
+msgstr "Are you sure you want to delete this root cause?"
+
+msgid "Possible Root Cause"
+msgstr "Possible Root Cause"
+
+msgid "Possible Solutions"
+msgstr "Possible Solutions"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Root cause analysis"
+msgstr "Root cause analysis"
+
+msgid "Root Cause Analysis"
+msgstr "Root Cause Analysis"
+
+msgid "Accessibility & Sharing Settings"
+msgstr "Accessibility & Sharing Settings"
+
+msgid "This"
+msgstr "This"
+
+msgid "was first created on"
+msgstr "was first created on"
+
+msgid "by"
+msgstr "by"
+
+msgid "and last updated on"
+msgstr "and last updated on"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "User Access"
+msgstr "User Access"
+
+msgid "can"
+msgstr "can"
+
+msgid "User Group Access"
+msgstr "User Group Access"
+
+msgid "Datasets (Reporting rates) in indicator"
+msgstr "Datasets (Reporting rates) in indicator"
+
+msgid "There were no Datasets (Reporting rates) in the Indicator Calculations"
+msgstr "There were no Datasets (Reporting rates) in the Indicator Calculations"
+
+msgid "Dataset"
+msgstr "Dataset"
+
+msgid "Timely Submission"
+msgstr "Timely Submission"
+
+msgid "Expiry days"
+msgstr "Expiry days"
+
+msgid "Period type"
+msgstr "Period type"
+
+msgid "Assigned orgunits"
+msgstr "Assigned orgunits"
+
+msgid "Data elements"
+msgstr "Data elements"
+
+msgid "Legends"
+msgstr "Legends"
+
+msgid "Data sources (Datasets/Programs)"
+msgstr "Data sources (Datasets/Programs)"
+
+msgid "Indicator is captured from the following sources,"
+msgstr "Indicator is captured from the following sources,"
+
+msgid "Datasets"
+msgstr "Datasets"
+
+msgid "submitting {{variables1}} after every {{variables2}} days"
+msgstr "submitting {{variables1}} after every {{variables2}} days"
+
+msgid "Program Indicators in indicator"
+msgstr "Program Indicators in indicator"
+
+msgid "There were no Program Indicators in the Indicator Calculations"
+msgstr "There were no Program Indicators in the Indicator Calculations"
+
+msgid "Program Indicator"
+msgstr "Program Indicator"
+
+msgid "Expression part"
+msgstr "Expression part"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Aggregation type"
+msgstr "Aggregation type"
+
+msgid "Analytics type"
+msgstr "Analytics type"
+
+msgid "Period boundaries"
+msgstr "Period boundaries"
+
+msgid "Groups"
+msgstr "Groups"
+
+msgid "Dictionary is not currently supported for custom functions"
+msgstr "Dictionary is not currently supported for custom functions"
+
+msgid "Calculation details"
+msgstr "Calculation details"
+
+msgid ""
+"Below are expression computing numerator and denominator, and related "
+"sources"
+msgstr ""
+"Below are expression computing numerator and denominator, and related "
+"sources"
+
+msgid "Expression"
+msgstr "Expression"
+
+msgid "Formula"
+msgstr "Formula"
+
+msgid "Sources"
+msgstr "Sources"
+
+msgid "Numerator"
+msgstr "Numerator"
+
+msgid "Denominator"
+msgstr "Denominator"
+
+msgid "Data elements in indicator"
+msgstr "Data elements in indicator"
+
+msgid "Data Element"
+msgstr "Data Element"
+
+msgid "Expression part (Numerator/ Denominator)"
+msgstr "Expression part (Numerator/ Denominator)"
+
+msgid "Value Type"
+msgstr "Value Type"
+
+msgid "Zero Significance"
+msgstr "Zero Significance"
+
+msgid "Categories"
+msgstr "Categories"
+
+msgid "Datasets/ Programs"
+msgstr "Datasets/ Programs"
+
+msgid "Indicator facts"
+msgstr "Indicator facts"
+
+msgid "Belongs to the following groups of indicators"
+msgstr "Belongs to the following groups of indicators"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Indicators"
+msgstr "Indicators"
+
+msgid "View in maintenance"
+msgstr "View in maintenance"
+
+msgid "Introduction"
+msgstr "Introduction"
+
+msgid "is a"
+msgstr "is a"
+
+msgid "indicator, measured by"
+msgstr "indicator, measured by"
+
+msgid "to"
+msgstr "to"
+
+msgid "Its described as {{variable}}"
+msgstr "Its described as {{variable}}"
+
+msgid "Class"
+msgstr "Class"
+
+msgid "Upper"
+msgstr "Upper"
+
+msgid "Lower"
+msgstr "Lower"
+
+msgid "Color"
+msgstr "Color"
+
+msgid "Legends for analysis"
+msgstr "Legends for analysis"
+
+msgid "Search dictionary"
+msgstr "Search dictionary"
+
+msgid "Map is disabled for this intervention"
+msgstr "Map is disabled for this intervention"
+
+msgid "Facilities"
+msgstr "Facilities"
+
+msgid "Bottleneck Sub-level Analysis"
+msgstr "Bottleneck Sub-level Analysis"
+
+msgid "Determinant"
+msgstr "Determinant"
+
+msgid "Organisation Units"
+msgstr "Organisation Units"
+
+msgid "Table View"
+msgstr "Table View"
+
+msgid "Dictionary View"
+msgstr "Dictionary View"
+
+msgid "Map View"
+msgstr "Map View"
+
+msgid "Download Excel"
+msgstr "Download Excel"
+
+msgid "Give Access to a user , group or role"
+msgstr "Give Access to a user , group or role"
+
+msgid "Access level"
+msgstr "Access level"
+
+msgid "Select a level"
+msgstr "Select a level"
+
+msgid "Not available offline"
+msgstr "Not available offline"
+
+msgid "Give access"
+msgstr "Give access"
+
+msgid "Are you sure you want to delete this access?"
+msgstr "Are you sure you want to delete this access?"
+
+msgid "Users and groups that currently have access"
+msgstr "Users and groups that currently have access"
+
+msgid "User / Group / Role"
+msgstr "User / Group / Role"
+
+msgid "All users"
+msgstr "All users"
+
+msgid "User, group or role"
+msgstr "User, group or role"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Intervention deleted successfully"
+msgstr "Intervention deleted successfully"
+
+msgid "An error occurred while deleting the configuration"
+msgstr "An error occurred while deleting the configuration"
+
+msgid "Deleting an intervention can’t be undone"
+msgstr "Deleting an intervention can’t be undone"
+
+msgid ""
+"Removing this indicator may affect already existing data for this "
+"intervention."
+msgstr ""
+"Removing this indicator may affect already existing data for this "
+"intervention."
+
+msgid " Are you sure you want to delete this indicator?"
+msgstr " Are you sure you want to delete this indicator?"
+
+msgid "Add Indicator"
+msgstr "Add Indicator"
+
+msgid "Confirm clear all"
+msgstr "Confirm clear all"
+
+msgid "Are you sure you want to clear all indicators?"
+msgstr "Are you sure you want to clear all indicators?"
+
+msgid "Confirm Label Replacement"
+msgstr "Confirm Label Replacement"
+
+msgid ""
+"This will replace all indicator labels with their short names. All label "
+"changes will be lost. Proceed?"
+msgstr ""
+"This will replace all indicator labels with their short names. All label "
+"changes will be lost. Proceed?"
+
+msgid "Determinants"
+msgstr "Determinants"
+
+msgid "Clear all"
+msgstr "Clear all"
+
+msgid "Use short names as labels"
+msgstr "Use short names as labels"
+
+msgid "Label is required"
+msgstr "Label is required"
+
+msgid "Label"
+msgstr "Label"
+
+msgid "Legends (Only applicable to sub level analysis)"
+msgstr "Legends (Only applicable to sub level analysis)"
+
+msgid "Select Indicator(s)"
+msgstr "Select Indicator(s)"
+
+msgid "At least one determinant must have at least one indicator"
+msgstr "At least one determinant must have at least one indicator"
+
+msgid "Name is required"
+msgstr "Name is required"
+
+msgid ""
+"An intervention with this name already exists. Please provide a different "
+"name. For related interventions, consider using differentiating "
+"keywords/version numbers (e.g v2 )"
+msgstr ""
+"An intervention with this name already exists. Please provide a different "
+"name. For related interventions, consider using differentiating "
+"keywords/version numbers (e.g v2 )"
+
+msgid "Intervention name"
+msgstr "Intervention name"
+
+msgid "Enter a description"
+msgstr "Enter a description"
+
+msgid "Legend definitions"
+msgstr "Legend definitions"
+
+msgid "Sub-level analysis configuration unavailable"
+msgstr "Sub-level analysis configuration unavailable"
+
+msgid ""
+"Current sub-level analysis configuration were set by a user with higher "
+"organisation unit level access and cannot be modified."
+msgstr ""
+"Current sub-level analysis configuration were set by a user with higher "
+"organisation unit level access and cannot be modified."
+
+msgid "User's organisation unit"
+msgstr "User's organisation unit"
+
+msgid "Organisation unit"
+msgstr "Organisation unit"
+
+msgid "Select"
+msgstr "Select"
+
+msgid "Change"
+msgstr "Change"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Bottleneck period type"
+msgstr "Bottleneck period type"
+
+msgid "Fixed periods"
+msgstr "Fixed periods"
+
+msgid "Relative periods"
+msgstr "Relative periods"
+
+msgid "Select period"
+msgstr "Select period"
+
+msgid "Boundary layer"
+msgstr "Boundary layer"
+
+msgid "Enable boundary layer"
+msgstr "Enable boundary layer"
+
+msgid "Configure Earth Engine Layer"
+msgstr "Configure Earth Engine Layer"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Configure"
+msgstr "Configure"
+
+msgid "Earth engine layers"
+msgstr "Earth engine layers"
+
+msgid "Add layer"
+msgstr "Add layer"
+
+msgid "Please select an indicator"
+msgstr "Please select an indicator"
+
+msgid "Click on add layer to add earth engine layers"
+msgstr "Click on add layer to add earth engine layers"
+
+msgid "Custom icon"
+msgstr "Custom icon"
+
+msgid "Group set"
+msgstr "Group set"
+
+msgid "Please wait..."
+msgstr "Please wait..."
+
+msgid "Facility Layer Configuration"
+msgstr "Facility Layer Configuration"
+
+msgid "Group set icons"
+msgstr "Group set icons"
+
+msgid "Group set is required"
+msgstr "Group set is required"
+
+msgid "Icon is required"
+msgstr "Icon is required"
+
+msgid "Facility layer"
+msgstr "Facility layer"
+
+msgid "Enable facility layer"
+msgstr "Enable facility layer"
+
+msgid "Select Indicator"
+msgstr "Select Indicator"
+
+msgid "Classes"
+msgstr "Classes"
+
+msgid "Colors"
+msgstr "Colors"
+
+msgid "Legend set"
+msgstr "Legend set"
+
+msgid "Thematic layer configuration"
+msgstr "Thematic layer configuration"
+
+msgid "Layer type is required"
+msgstr "Layer type is required"
+
+msgid "Layer type"
+msgstr "Layer type"
+
+msgid "Choropleth"
+msgstr "Choropleth"
+
+msgid "Bubble"
+msgstr "Bubble"
+
+msgid "An indicator is required"
+msgstr "An indicator is required"
+
+msgid "Legend"
+msgstr "Legend"
+
+msgid "Custom legend"
+msgstr "Custom legend"
+
+msgid "Legend set is required"
+msgstr "Legend set is required"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Choropleth Layer"
+msgstr "Choropleth Layer"
+
+msgid "Bubble Layer"
+msgstr "Bubble Layer"
+
+msgid "Thematic layers"
+msgstr "Thematic layers"
+
+msgid ""
+"There are a total of {{ count }} layers configured. Click next or previous "
+"to view others."
+msgstr ""
+"There are a total of {{ count }} layers configured. Click next or previous "
+"to view others."
+
+msgid "Click on add layer to add thematic layers"
+msgstr "Click on add layer to add thematic layers"
+
+msgid "Enable map"
+msgstr "Enable map"
+
+msgid "General"
+msgstr "General"
+
+msgid "Map"
+msgstr "Map"
+
+msgid "Access"
+msgstr "Access"
+
+msgid "Intervention created successfully"
+msgstr "Intervention created successfully"
+
+msgid "Changes saved successfully"
+msgstr "Changes saved successfully"
+
+msgid "Intervention name is required. Please provide on in the general page."
+msgstr "Intervention name is required. Please provide on in the general page."
+
+msgid "Edit intervention"
+msgstr "Edit intervention"
+
+msgid "New intervention"
+msgstr "New intervention"
+
+msgid "Save and exit"
+msgstr "Save and exit"
+
+msgid "Save and continue"
+msgstr "Save and continue"
+
+msgid "Exit without saving"
+msgstr "Exit without saving"
+
+msgid "Something went wrong with the migration"
+msgstr "Something went wrong with the migration"
+
+msgid "Migrating configurations..."
+msgstr "Migrating configurations..."
+
+msgid "Checking for previous BNA configurations. Please wait..."
+msgstr "Checking for previous BNA configurations. Please wait..."
+
+msgid "Access Denied"
+msgstr "Access Denied"
+
+msgid "You do not have authority to "
+msgstr "You do not have authority to "
+
+msgid "interventions"
+msgstr "interventions"
+
+msgid "Something went wrong. Please check the console for more details"
+msgstr "Something went wrong. Please check the console for more details"
+
+msgid "Try again"
+msgstr "Try again"
+
+msgid "You do not have access to "
+msgstr "You do not have access to "
+
+msgid "view or edit"
+msgstr "view or edit"
+
+msgid "edit"
+msgstr "edit"
+
+msgid "this intervention"
+msgstr "this intervention"
+
+msgid "Back to Interventions"
+msgstr "Back to Interventions"
+
+msgid "Intervention Not Found"
+msgstr "Intervention Not Found"
+
+msgid "Intervention with id {{id}} could not be found"
+msgstr "Intervention with id {{id}} could not be found"
+
+msgid "Intuitive design patterns"
+msgstr "Intuitive design patterns"
+
+msgid "Enjoy simple, elegant and improved look and feel"
+msgstr "Enjoy simple, elegant and improved look and feel"
+
+msgid "This resource was not found in the server"
+msgstr "This resource was not found in the server"
+
+msgid "There is a problem with the server"
+msgstr "There is a problem with the server"

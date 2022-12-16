@@ -1,0 +1,25 @@
+
+.archive-intervention-info{
+    width: 98%;
+    margin-top: 2%;
+    margin-left: 1%;
+    margin-right: 1%;
+    height: 130px;
+    background-color: #f5fbff;
+    border:2px solid #c5e3fc;
+    display: flex;
+    flex-direction: row;
+    padding-left: 3%;
+    padding-top: 1%;
+}
+.archive-info-summary{
+
+    margin-left: 20px;
+
+}
+
+.intervention >div>p{
+    margin-bottom: 0px;
+    margin-top: 0px;
+    background-color: blue;
+}

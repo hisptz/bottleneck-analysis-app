@@ -1,0 +1,96 @@
+import { get as _get } from "lodash";
+import { atom, atomFamily, selectorFamily } from "recoil";
+import { EngineState } from "../../../../../../../core/state/dataEngine";
+import { Indicator as IndicatorInterface } from "../interfaces";
+import { getFormulaSources, getWordData } from "../utils/functions/formulaFunctions";
+
+export const DataStateDictionary = selectorFamily({
+  key: "dataStateDictionary",
+  get:
+    ({ dataFormulaType, dataType, formula, location }: { dataFormulaType: string; dataType: string; formula: string; location: string }) =>
+    async ({ get }) => {
+      const engine = get(EngineState);
+      return await getWordData(engine, getFormulaSources(formula, dataFormulaType), dataType, location);
+    },
+});
+
+export const DataElementsStateDictionary = atom({
+  key: "dataElementsStoreDictionary", // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
+export const ProgramIndicatorStateDictionary = atom({
+  key: "programIndicatorStateDictionary",
+  default: [],
+});
+
+export const DataSetReportingRatesStateDictionary = atom({
+  key: "dataSetReportingRatesStateDictionary",
+  default: [],
+});
+
+export const DataSourceStateDictionary = atom({
+  key: "dataSourceStateDictionary",
+  default: { id: undefined, type: undefined },
+});
+
+export const DataSetDataElementCountState = atom({
+  key: "dataSetDataElementsCountState",
+  default: 0,
+});
+
+export const ProgramDataElementCountState = atom({
+  key: "programDataElementCountState",
+  default: 0,
+});
+
+const query = {
+  indicator: {
+    resource: "indicators",
+    id: ({ id }: any) => id,
+    params: {
+      fields: [
+        "id",
+        "name",
+        "displayDescription",
+        "href",
+        "numeratorDescription",
+        "denominatorDescription",
+        "indicatorType[displayName,id]",
+        "dataSets[id,displayName,timelyDays,periodType]",
+        "indicatorGroups[id,displayName,indicators[id,displayName]]",
+        "legendSets[id,displayName,legends[id,displayName,startValue,endValue,color]]",
+        "numerator",
+        "denominator",
+      ],
+    },
+  },
+};
+
+export const DictionaryIndicator = atomFamily<undefined | IndicatorInterface, string>({
+  key: "dictionary-indicator",
+  default: selectorFamily({
+    key: "dictionary-indicator-selector",
+    get:
+      (id: string) =>
+      async ({ get }) => {
+        try {
+          const engine = get(EngineState);
+          const { indicator } = await engine.query(query, { variables: { id } });
+          return indicator;
+        } catch (e) {
+          throw Error(`Could not find details for indicator with id ${id}`);
+        }
+      },
+  }),
+});
+
+export const DictionaryIndicatorSelector = selectorFamily({
+  key: "dictionary-indicator-selector",
+  get:
+    ({ id, path }: { id: string; path: Array<string> }) =>
+    ({ get }) => {
+      const indicator = get(DictionaryIndicator(id));
+      return _get(indicator, path);
+    },
+});

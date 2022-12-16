@@ -1,0 +1,12 @@
+.header-container {
+    width: 100%;
+    background: #FFFFFF;
+    border-bottom: 1px solid #D5DDE5;
+    box-shadow: 0 3px 4px #D5DDE5;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    position: sticky;
+    top: 0;
+    z-index: 1
+}
