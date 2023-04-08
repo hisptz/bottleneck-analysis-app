@@ -1,4 +1,4 @@
-import { map } from "async";
+import { map } from "async-es";
 import { isEmpty } from "lodash";
 import { dataSourceTypes } from "../models";
 import { getDataSourceType } from "./formulaTopBar";

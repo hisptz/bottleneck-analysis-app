@@ -1,11 +1,25 @@
-import { cloneDeep, findIndex, get, uniqBy } from "lodash";
+import { cloneDeep, difference, findIndex, get, uniqBy } from "lodash";
 import { BNA_INTERVENTIONS_SUMMARY_INCLUDE_KEYS, BNA_INTERVENTIONS_SUMMARY_KEY, BNA_NAMESPACE } from "../../constants/dataStore";
 import { InterventionConfig, InterventionSummary } from "../interfaces/interventionConfig";
+import { map, asyncify } from "async-es";
 
 const summaryQuery = {
   summary: {
     resource: `dataStore/${BNA_NAMESPACE}`,
     id: BNA_INTERVENTIONS_SUMMARY_KEY,
+  },
+};
+
+const bnaKeys = {
+  bnaKeys: {
+    resource: `dataStore/${BNA_NAMESPACE}`,
+  },
+};
+
+const bnaConfig = {
+  bnaConfig: {
+    resource: `dataStore/${BNA_NAMESPACE}`,
+    id: ({ id }: any) => id,
   },
 };
 
@@ -19,9 +33,32 @@ export async function initializeSummaryKey(engine: any) {
   return await engine.mutate(initSummaryMutation);
 }
 
+export async function createInterventionSummariesFromIds(interventionId: string[], engine: any) {
+  const interventionConfigs: InterventionConfig[] = await map(
+    interventionId,
+    asyncify(async (id: string) => await engine.query(bnaConfig, { variables: { id } }).then(({ bnaConfig }: { bnaConfig: InterventionConfig }) => bnaConfig))
+  );
+  return createInterventionSummaries(interventionConfigs);
+}
+
+async function generateMissingSummary(engine: any, summary: InterventionSummary[], keys: string[]) {
+  const summaryKeys = summary.map(({ id }: InterventionSummary) => id);
+  const missingKeys: string[] = difference(keys, summaryKeys);
+  const missingSummaries = await createInterventionSummariesFromIds(missingKeys, engine);
+  const updatedSummary = [...summary, ...missingSummaries];
+  await uploadInterventionSummary(engine, updatedSummary);
+  return updatedSummary;
+}
+
 export async function getInterventionSummary(engine: any): Promise<Array<InterventionSummary>> {
   try {
     const { summary } = await engine.query(summaryQuery);
+    const { bnaKeys: keys } = await engine.query(bnaKeys);
+    const bnaConfigKeys = keys.filter((key: string) => !["settings", "savedObjects", "interventions-summary"].includes(key));
+    if (summary.length !== bnaConfigKeys.length) {
+      //Some keys are missing in the summary, regenerate summary from the existing keys
+      return generateMissingSummary(engine, summary, bnaConfigKeys);
+    }
     return summary ?? [];
   } catch (e: any) {
     if (e?.details?.httpStatusCode === 404) {

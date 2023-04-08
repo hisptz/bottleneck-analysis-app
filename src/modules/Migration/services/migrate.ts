@@ -1,4 +1,4 @@
-import { map } from "async";
+import { map } from "async-es";
 import { camelCase, compact, filter, find, isEmpty, last } from "lodash";
 import { BNA_NAMESPACE, BNA_ROOT_CAUSE_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../constants/dataStore";
 import {
@@ -8,7 +8,7 @@ import {
   InterventionConfig,
   LegendDefinition,
   OrgUnitSelection,
-  PeriodSelection
+  PeriodSelection,
 } from "../../../shared/interfaces/interventionConfig";
 import { GlobalSelection, Legend, OldInterventionConfig, SelectionGroupMember } from "../../../shared/interfaces/oldInterventionConfig";
 import { RootCauseConfigInterface } from "../../../shared/interfaces/rootCause";
@@ -19,15 +19,15 @@ import { isOrgUnitId } from "../../../shared/utils/orgUnit";
 
 const customFunctionKeys = {
   customFunctionKeys: {
-    resource: "dataStore/functions"
-  }
+    resource: "dataStore/functions",
+  },
 };
 
 const customFunctionQuery = {
   customFunction: {
     resource: "dataStore/functions",
-    id: ({ id }: any) => id
-  }
+    id: ({ id }: any) => id,
+  },
 };
 
 export async function getAllCustomFunctions(engine: any) {
@@ -49,7 +49,7 @@ const generateSaveMutation = (id: string) => {
   return {
     resource: `dataStore/${BNA_NAMESPACE}/${id}`,
     type: "create",
-    data: ({ data }: { data: InterventionConfig }) => data
+    data: ({ data }: { data: InterventionConfig }) => data,
   };
 };
 
@@ -57,7 +57,7 @@ const generateRootCauseSaveMutation = (id: string) => {
   return {
     resource: `dataStore/${BNA_ROOT_CAUSE_NAMESPACE}/${id}`,
     type: "create",
-    data: ({ data }: { data: InterventionConfig }) => data
+    data: ({ data }: { data: InterventionConfig }) => data,
   };
 };
 
@@ -90,7 +90,7 @@ function convertData(customFunctions: Array<CustomFunction>, dataConfig?: Global
             id: newId,
             name,
             label: label ?? name,
-            legends: legendSet?.legends?.map(({ id, endValue, startValue }: Legend) => ({ id, endValue, startValue }))
+            legends: legendSet?.legends?.map(({ id, endValue, startValue }: Legend) => ({ id, endValue, startValue })),
           };
         }
       });
@@ -100,7 +100,7 @@ function convertData(customFunctions: Array<CustomFunction>, dataConfig?: Global
         sortOrder,
         style: { color },
         items: compact(groupItems),
-        code: camelCase(name)
+        code: camelCase(name),
       };
     });
     const newLegendDefinitions: Array<LegendDefinition> = legendDefinitions?.map(({ id, name, color, default: isDefault }: Legend) => {
@@ -118,13 +118,13 @@ function convertData(customFunctions: Array<CustomFunction>, dataConfig?: Global
         id: getId(),
         name,
         color,
-        isDefault
+        isDefault,
       };
     });
 
     return {
       groups: newGroups,
-      legendDefinitions: newLegendDefinitions
+      legendDefinitions: newLegendDefinitions,
     };
   }
 
@@ -139,12 +139,12 @@ function convertOrgUnit(orgUnitConfig?: GlobalSelection): OrgUnitSelection {
 
     return {
       orgUnit: { id: isOrgUnitId(oldOrgUnit?.id) ? oldOrgUnit?.id : "USER_ORGUNIT", type: oldOrgUnit?.type },
-      subLevel: levelOrgUnit ? { id: levelOrgUnit?.id, level } : undefined
+      subLevel: levelOrgUnit ? { id: levelOrgUnit?.id, level } : undefined,
     };
   }
 
   return {
-    orgUnit: { id: "", type: "" }
+    orgUnit: { id: "", type: "" },
   };
 }
 
@@ -154,28 +154,17 @@ function convertPeriod(periodType: string, periodConfig?: GlobalSelection): Peri
 
     return {
       id: oldPeriod?.id,
-      type: periodType
+      type: periodType,
     };
   }
   return {
     id: "",
-    type: "Yearly"
+    type: "Yearly",
   };
 }
 
 export function convertIntervention(config: OldInterventionConfig, customFunctions: Array<CustomFunction>): InterventionConfig {
-  const {
-    id,
-    name,
-    bookmarks,
-    user,
-    userAccesses,
-    userGroupAccesses,
-    publicAccess,
-    externalAccess,
-    globalSelections,
-    bottleneckPeriodType
-  } = config;
+  const { id, name, bookmarks, user, userAccesses, userGroupAccesses, publicAccess, externalAccess, globalSelections, bottleneckPeriodType } = config;
 
   const dataConfig = find(globalSelections, ["dimension", "dx"]);
   const periodConfig = find(globalSelections, ["dimension", "pe"]);
@@ -189,7 +178,7 @@ export function convertIntervention(config: OldInterventionConfig, customFunctio
     userAccess: userAccesses?.map((userAccess) => ({ id: userAccess.id, access: userAccess.access })),
     userGroupAccess: userGroupAccesses.map((userGroupAccess) => ({
       id: userGroupAccess.id,
-      access: userGroupAccess.access
+      access: userGroupAccess.access,
     })),
     externalAccess,
     publicAccess,
@@ -201,17 +190,17 @@ export function convertIntervention(config: OldInterventionConfig, customFunctio
       coreLayers: {
         boundaryLayer: { enabled: true },
         thematicLayers: [],
-        facilityLayer: { enabled: true, style: { icon: "01.png" } }
+        facilityLayer: { enabled: true, style: { icon: "01.png" } },
       },
-      earthEngineLayers: []
-    }
+      earthEngineLayers: [],
+    },
   };
 }
 
 const oldConfigQuery = {
   config: {
-    resource: "dataStore/rca-config/rcaconfig"
-  }
+    resource: "dataStore/rca-config/rcaconfig",
+  },
 };
 
 export async function getOldRootCauseConfig(engine: any) {
@@ -221,8 +210,8 @@ export async function getOldRootCauseConfig(engine: any) {
 
 const rootCauseDataKeys = {
   keys: {
-    resource: "dataStore/rca-data"
-  }
+    resource: "dataStore/rca-data",
+  },
 };
 
 async function getRootCauseDataKeys(engine: any) {
@@ -235,8 +224,8 @@ async function getRootCauseDataByKey(engine: any, key: string) {
     {
       data: {
         resource: `dataStore/rca-data`,
-        id: ({ id }: { id: string }) => id
-      }
+        id: ({ id }: { id: string }) => id,
+      },
     },
     { variables: { id: key } }
   );

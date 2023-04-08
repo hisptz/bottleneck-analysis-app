@@ -1,4 +1,4 @@
-import async from "async";
+import async from "async-es";
 import { useCallback, useRef, useState } from "react";
 import { InterventionConfig } from "../../../shared/interfaces/interventionConfig";
 
