@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { ACCESS_TYPES } from "../../../../../../../constants/constants";
 import { InterventionDirtySelector } from "../../../../../state/data";
+import { useController, useWatch } from "react-hook-form";
 
 export default function useManageAccess(): {
   publicAccess: string;
@@ -15,39 +16,36 @@ export default function useManageAccess(): {
   onRemove: (value: { type: string; id: any }) => void;
 } {
   const { id } = useParams<{ id: string }>();
-  const publicAccess = useRecoilValue(InterventionDirtySelector({ id, path: ["publicAccess"] }));
-  const allUsersAccess = useMemo(() => find(ACCESS_TYPES, ["value", publicAccess]), [publicAccess]);
-  const [userGroupAccess, setUserGroupAccess] = useRecoilState(InterventionDirtySelector({ id, path: ["userGroupAccess"] }));
-  const setPublicAccess = useSetRecoilState(InterventionDirtySelector({ id, path: ["publicAccess"] }));
-  const [userAccess, setUserAccess] = useRecoilState(InterventionDirtySelector({ id, path: ["userAccess"] }));
+  const { field: publicAccessField } = useController({ name: "publicAccess" });
+  const { field: userGroupAccessField } = useController({ name: "userGroupAccess" });
+  const { field: userAccessField } = useController({ name: "userAccess" });
+
+  const allUsersAccess = useMemo(() => find(ACCESS_TYPES, ["value", publicAccessField.value]), [publicAccessField]);
+
   const onChangeAccess = (type: string, access: string | { id: string; access: string }) => {
     if (type === "publicAccess") {
-      setPublicAccess(access);
+      publicAccessField.onChange(access);
       return;
     }
     if (type === "userAccess") {
       if (typeof access !== "string" && has(access, "id")) {
-        setUserAccess((prevState: any) => {
-          const newState = cloneDeep(prevState);
-          const updatedUserGroupIndex = findIndex(newState, ["id", access.id]);
-          if (newState[updatedUserGroupIndex]) {
-            set(newState[updatedUserGroupIndex], "access", access.access);
-          }
-          return newState;
-        });
+        const newState = cloneDeep(userAccessField.value);
+        const updatedUserGroupIndex = findIndex(newState, ["id", access.id]);
+        if (newState[updatedUserGroupIndex]) {
+          set(newState[updatedUserGroupIndex], "access", access.access);
+        }
+        userAccessField.onChange(newState);
       }
       return;
     }
     if (type === "userGroupAccess") {
       if (typeof access !== "string" && has(access, "id")) {
-        setUserGroupAccess((prevState: any) => {
-          const newState = cloneDeep(prevState);
-          const updatedUserGroupIndex = findIndex(newState, ["id", access.id]);
-          if (newState[updatedUserGroupIndex]) {
-            set(newState[updatedUserGroupIndex], "access", access.access);
-          }
-          return newState;
-        });
+        const newState = cloneDeep(userGroupAccessField.value);
+        const updatedUserGroupIndex = findIndex(newState, ["id", access.id]);
+        if (newState[updatedUserGroupIndex]) {
+          set(newState[updatedUserGroupIndex], "access", access.access);
+        }
+        userGroupAccessField.onChange(newState);
       }
       return;
     }
@@ -59,34 +57,30 @@ export default function useManageAccess(): {
         return;
       }
       if (value.type === "userAccess") {
-        setUserAccess((prevState: any) => {
-          const newState = cloneDeep(prevState);
-          const updatedUserGroupIndex = findIndex(newState, ["id", value.id]);
-          if (newState[updatedUserGroupIndex]) {
-            newState.splice(updatedUserGroupIndex, 1);
-          }
-          return newState;
-        });
+        const newState = cloneDeep(userAccessField.value);
+        const updatedUserGroupIndex = findIndex(newState, ["id", value.id]);
+        if (newState[updatedUserGroupIndex]) {
+          newState.splice(updatedUserGroupIndex, 1);
+        }
+        userAccessField.onChange(newState);
       }
 
       if (value.type === "userGroupAccess") {
-        setUserGroupAccess((prevState: any) => {
-          const newState = cloneDeep(prevState);
-          const updatedUserGroupIndex = findIndex(newState, ["id", value.id]);
-          if (newState[updatedUserGroupIndex]) {
-            newState.splice(updatedUserGroupIndex, 1);
-          }
-          return newState;
-        });
+        const newState = cloneDeep(userGroupAccessField.value);
+        const updatedUserGroupIndex = findIndex(newState, ["id", value.id]);
+        if (newState[updatedUserGroupIndex]) {
+          newState.splice(updatedUserGroupIndex, 1);
+        }
+        userGroupAccessField.onChange(newState);
       }
     }
   };
 
   return {
-    publicAccess,
+    publicAccess: publicAccessField.value,
     allUsersAccess,
-    userGroupAccess,
-    userAccess,
+    userGroupAccess: userGroupAccessField.value,
+    userAccess: userAccessField.value,
     onChangeAccess,
     onRemove,
   };
