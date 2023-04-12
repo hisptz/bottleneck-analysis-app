@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { InterventionDirtySelector } from "../../../../state/data";
 import AutoComplete from "../Autocomplete";
+import { useWatch } from "react-hook-form";
 
 const query = {
   search: {
@@ -25,8 +26,9 @@ export default function SharingAutoComplete({
   const { id } = useParams<{ id: string }>();
   const [search, setSearch] = useState("");
   const [showResults, setShowResults] = useState(false);
-  const userAccess = useRecoilValue(InterventionDirtySelector({ id, path: ["userAccess"] }));
-  const userGroupAccess = useRecoilValue(InterventionDirtySelector({ id, path: ["userGroupAccess"] }));
+  const [userAccess, userGroupAccess] = useWatch({
+    name: ["userAccess", "userGroupAccess"],
+  });
   /**
    * NOTE:
    * HOW WE WILL FETCH DATA USING DATA QUERY TO SHARING/SEARCH AS RESOURCE
