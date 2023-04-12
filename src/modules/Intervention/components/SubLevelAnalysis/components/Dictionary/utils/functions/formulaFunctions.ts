@@ -1,4 +1,4 @@
-import { map } from "async";
+import { map } from "async-es";
 import { dataTypes, dataTypesInitials } from "../models";
 
 const identifiableQuery1 = {
@@ -365,7 +365,7 @@ export async function getWordData(engine: any, arr: any[], type: string, loc: an
 
 export async function getWordDataForAll(engine: any, arr: any[], loc: any) {
   if (arr.length > 0) {
-    return await map(arr, async (id) =>
+    return await map(arr, async (id: string) =>
       getSummaryValueFromApi(engine, id).then((value: any) => {
         return value?.map((val: string | any[], index: number) => {
           //We always return array just for uniformity

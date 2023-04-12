@@ -1,4 +1,4 @@
-import { map } from "async";
+import { map } from "async-es";
 import { BNA_INTERVENTIONS_NAMESPACE } from "../../constants/dataStore";
 import { InterventionTemplateConfig } from "../interfaces/interventionTemplateConfig";
 

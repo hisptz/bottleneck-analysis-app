@@ -1,4 +1,4 @@
-import { map } from "async";
+import { map } from "async-es";
 import { isEmpty } from "lodash";
 
 const query = {
@@ -43,7 +43,7 @@ export async function getNumDenMatch(engine: any, arr: Array<string>) {
 
 export async function getDataSetsArray(engine: any, arr: Array<string>) {
   if (arr?.length > 0) {
-    return await map(arr, async (id) =>
+    return await map(arr, async (id: string) =>
       getDataSetsFromApi(engine, id).then((value) => {
         return value.map((val: any) => {
           //We always return array just for uniformity

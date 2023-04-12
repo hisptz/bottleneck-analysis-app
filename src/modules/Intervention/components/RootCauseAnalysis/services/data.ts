@@ -1,6 +1,6 @@
-import { map } from "async";
+import { map } from "async-es";
 import { filter, flattenDeep } from "lodash";
-import { BNA_NAMESPACE, BNA_ROOT_CAUSE_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../../../constants/dataStore";
+import { BNA_ROOT_CAUSE_NAMESPACE, ROOT_CAUSE_CONFIG_KEY, ROOT_CAUSE_SUFFIX } from "../../../../../constants/dataStore";
 import { DEFAULT_ROOT_CAUSE_CONFIG } from "../../../../../constants/defaults";
 import { RootCauseDataInterface } from "../interfaces/rootCauseData";
 

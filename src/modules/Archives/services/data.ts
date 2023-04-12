@@ -1,4 +1,4 @@
-import { map } from "async";
+import { map } from "async-es";
 import { BNA_ARCHIVES_NAMESPACE } from "../../../constants/dataStore";
 import { Archive } from "../../../shared/interfaces/archive";
 

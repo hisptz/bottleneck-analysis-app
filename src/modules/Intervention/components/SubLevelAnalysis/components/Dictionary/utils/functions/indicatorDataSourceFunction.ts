@@ -1,4 +1,4 @@
-import { map } from "async";
+import { map } from "async-es";
 import { isEmpty } from "lodash";
 
 const query = {
@@ -25,7 +25,7 @@ export async function getProgramFromAttributesOrDtElPrg(engine: any, arr: Array<
   if (!isEmpty(arr)) {
     return await map(
       arr,
-      async (id) =>
+      async (id: string) =>
         await getProgramFromAttributesOrDtElPrgFromApi(engine, id).then((value) => {
           return value.map((val: any) => {
             return val;
@@ -44,7 +44,7 @@ export async function getProgramFromProgramIndicator(engine: any, arr: Array<str
   if (!isEmpty(arr)) {
     return await map(
       arr,
-      async (id) =>
+      async (id: string) =>
         await getProgramFromProgramIndicatorApi(engine, id).then((value) => {
           return value.map((val: any) => {
             return val;

@@ -1,4 +1,4 @@
-import { map } from "async";
+import { map } from "async-es";
 import { compact, flatten, isEmpty } from "lodash";
 import { selectorFamily } from "recoil";
 import { EngineState } from "../../core/state/dataEngine";
