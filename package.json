@@ -40,6 +40,7 @@
     "@types/react-final-form-listeners": "^1.0.0",
     "@types/react-helmet": "^6.1.5",
     "@types/react-router-dom": "^5.3.2",
+    "@types/react-table": "^7.7.14",
     "concurrently": "^6.4.0",
     "cross-var": "^1.1.0",
     "cucumber": "^6.0.7",
@@ -88,6 +89,7 @@
     "react-hook-form": "^7.39.5",
     "react-router-dom": "^5.3.0",
     "react-script": "^2.0.5",
+    "react-table": "^7.8.0",
     "recoil": "^0.5.2",
     "xlsx": "^0.17.4"
   },

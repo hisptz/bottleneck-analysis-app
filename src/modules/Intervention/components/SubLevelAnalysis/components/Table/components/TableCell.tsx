@@ -7,9 +7,18 @@ import classes from "../../../../../../../styles/Table.module.css";
 import { InterventionStateSelector } from "../../../../../state/intervention";
 import { generateCellColor } from "../../../utils";
 
-export default function TableCell({ id, colId, data, legends }: { id: string; colId: string; data: any; legends: Array<Legend> }): React.ReactElement {
+export default function TableCell({
+  colId,
+  value,
+  legends,
+  rowSpan,
+}: {
+  colId: string;
+  value: any;
+  legends: Array<Legend>;
+  rowSpan: number;
+}): React.ReactElement {
   const { id: interventionId } = useParams<{ id: string }>();
-  const value: string | undefined = useMemo(() => last(find(data, (value) => value.includes(id) && value.includes(colId))), [colId, data, id]);
   const legendDefinitions = useRecoilValue(
     InterventionStateSelector({
       id: interventionId,
@@ -17,10 +26,10 @@ export default function TableCell({ id, colId, data, legends }: { id: string; co
     })
   );
 
-  const displayValue = isNaN(parseInt(value as string)) ? value : parseInt(value as string);
+  const displayValue = isNaN(parseFloat(value as string)) ? value : parseFloat(value as string);
   const color = useMemo(() => generateCellColor({ value, legends, legendDefinitions }), [value, legends, legendDefinitions]);
   return (
-    <td style={{ background: color }} width={"100px"} className={classes["table-cell"]} align="center" key={`${colId}-cell`}>
+    <td rowSpan={rowSpan} style={{ background: color }} width={"100px"} className={classes["table-cell"]} align="center" key={`${colId}-cell`}>
       {displayValue}
     </td>
   );

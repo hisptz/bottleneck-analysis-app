@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-11-23T09:26:41.115Z\n"
-"PO-Revision-Date: 2022-11-23T09:26:41.115Z\n"
+"POT-Creation-Date: 2023-04-17T18:16:27.939Z\n"
+"PO-Revision-Date: 2023-04-17T18:16:27.939Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -835,12 +835,6 @@ msgstr "Facilities"
 msgid "Bottleneck Sub-level Analysis"
 msgstr "Bottleneck Sub-level Analysis"
 
-msgid "Determinant"
-msgstr "Determinant"
-
-msgid "Organisation Units"
-msgstr "Organisation Units"
-
 msgid "Table View"
 msgstr "Table View"
 
@@ -852,6 +846,9 @@ msgstr "Map View"
 
 msgid "Download Excel"
 msgstr "Download Excel"
+
+msgid "Determinants"
+msgstr "Determinants"
 
 msgid "Give Access to a user , group or role"
 msgstr "Give Access to a user , group or role"
@@ -923,9 +920,6 @@ msgid ""
 msgstr ""
 "This will replace all indicator labels with their short names. All label "
 "changes will be lost. Proceed?"
-
-msgid "Determinants"
-msgstr "Determinants"
 
 msgid "Clear all"
 msgstr "Clear all"
