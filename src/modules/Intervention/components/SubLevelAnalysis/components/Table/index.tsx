@@ -1,5 +1,4 @@
-import { DataTable, DataTableColumnHeader, DataTableRow, SegmentedControl } from "@dhis2/ui";
-import { head } from "lodash";
+import { DataTable, SegmentedControl } from "@dhis2/ui";
 import React, { Suspense, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -50,13 +49,6 @@ export default function Table(): React.ReactElement {
             selected={segmentedState}
           />
         </div>
-        <DataTable className={classes["header-table"]}>
-          <DataTableRow>
-            <DataTableColumnHeader fixed top={"0px"} align="center" className={classes["period-header-cell"]}>
-              {head(filter)?.name ?? ""}
-            </DataTableColumnHeader>
-          </DataTableRow>
-        </DataTable>
         <DataTable scrollHeight={isFullPage ? "calc(100vh - 200px)" : "500px"} ref={tableRef} fixed className={classes["table"]} bordered>
           <TableHeader />
           <TableBody />

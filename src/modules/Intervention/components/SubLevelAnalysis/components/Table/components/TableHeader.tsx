@@ -1,10 +1,9 @@
-import i18n from "@dhis2/d2-i18n";
-import { DataTableColumnHeader, DataTableHead, DataTableRow, TableCellHead, TableHead, TableRowHead } from "@dhis2/ui";
+import { DataTableColumnHeader, DataTableHead, DataTableRow } from "@dhis2/ui";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import classes from "../../../../../../../styles/Table.module.css";
-import { TableConfig, TableLayout } from "../../../state/layout";
+import { TableConfig } from "../../../state/layout";
 import { useTable } from "react-table";
 
 export default function TableHeader(): React.ReactElement {
@@ -22,7 +21,10 @@ export default function TableHeader(): React.ReactElement {
       {headerGroups.map((headerGroup) => (
         <DataTableRow {...headerGroup.getHeaderGroupProps()}>
           {headerGroup.headers.map((column) => (
-            <DataTableColumnHeader {...column.getHeaderProps()} colSpan={`${(column.getHeaderProps() as any).colSpan}`}>
+            <DataTableColumnHeader
+              className={classes["table-data-header-cell"]}
+              {...column.getHeaderProps()}
+              colSpan={`${(column.getHeaderProps() as any).colSpan}`}>
               {column.render("Header")}
             </DataTableColumnHeader>
           ))}
