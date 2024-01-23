@@ -22,7 +22,7 @@ export default function Table(): React.ReactElement {
 					<TableLayoutSwitch />
 				</div>
 				<DataTable
-					scrollHeight={isFullPage ? "calc(100vh - 200px)" : "500px"}
+					scrollHeight={isFullPage ? "calc(100vh - 200px)" : "400px"}
 					ref={tableRef}
 					fixed
 					className={classes["table"]}
