@@ -1,8 +1,0 @@
-{
-  "extends": "../tslint.json",
-  "rules": {
-    "directive-selector": [true, "attribute", ["app", "visualization", "ngx", "hisptz"], "camelCase"],
-    "component-selector": [true, "element", ["app", "visualization", "ngx", "hisptz"], "kebab-case"],
-    "no-unused-variable": true
-  }
-}
