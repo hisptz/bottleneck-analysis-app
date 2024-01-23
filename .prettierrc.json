@@ -1,7 +1,6 @@
 {
-  "trailingComma": "es5",
-  "useTabs": false,
-  "singleQuote": false,
-  "jsxBracketSameLine": true,
-  "printWidth": 160
+  "useTabs": true,
+  "tabWidth": 4,
+  "semi": true,
+  "quoteProps": "consistent"
 }
