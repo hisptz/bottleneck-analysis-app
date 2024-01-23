@@ -255,7 +255,6 @@ function getData(
 				const itemName = (data.metaData?.items as any)?.[itemId]?.name;
 				return fromPairs([
 					["id", itemId],
-					["itemId", itemId],
 					[dimension, itemName],
 					...(data.metaData?.dimensions?.[
 						last(layout.columns) ?? "pe"

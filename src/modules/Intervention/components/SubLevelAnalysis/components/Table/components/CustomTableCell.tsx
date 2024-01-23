@@ -4,9 +4,21 @@ import { useRecoilValue } from "recoil";
 import classes from "../../../../../../../styles/Table.module.css";
 import { InterventionStateSelector } from "../../../../../state/intervention";
 import { Cell, flexRender } from "@tanstack/react-table";
-import { get } from "lodash";
 import { generateCellColor } from "../../../utils";
 import { getTextColorFromBackgroundColor } from "../../../../../../../shared/utils/generators";
+import {
+	DataItem,
+	Group,
+} from "../../../../../../../shared/interfaces/interventionConfig";
+import { find } from "lodash";
+
+function getDataItem(
+	determinants: Group[],
+	dataItemId: string
+): DataItem | undefined {
+	const dataItems = determinants.map(({ items }) => items).flat();
+	return find<DataItem>(dataItems, ["id", dataItemId]);
+}
 
 export default function CustomTableCell({
 	cell,
@@ -15,14 +27,6 @@ export default function CustomTableCell({
 }): React.ReactElement | null {
 	const { id: interventionId } = useParams<{ id: string }>();
 	const row = cell.row;
-
-	const state = cell.getContext().table.getState()?.rowState;
-
-	const cellState =
-		get(state, [cell.column.id, row.original.itemId]) ??
-		get(state, [row.original.itemId, cell.column.id]);
-
-	const legends = cellState?.legends;
 
 	const rowSpan = cell.column.id === "group" ? row.original?.span : undefined;
 
@@ -33,9 +37,20 @@ export default function CustomTableCell({
 			path: ["dataSelection", "legendDefinitions"],
 		})
 	);
-	const displayValue = isNaN(parseFloat(value as string))
-		? value
-		: parseFloat(value as string);
+	const determinants = useRecoilValue(
+		InterventionStateSelector({
+			id: interventionId,
+			path: ["dataSelection", "groups"],
+		})
+	);
+
+	const dataItem = getDataItem(
+		determinants,
+		row.original.itemId ?? cell.column.id
+	);
+
+	const legends = dataItem?.legends ?? [];
+
 	const backgroundColor = useMemo(
 		() => generateCellColor({ value, legends, legendDefinitions }),
 		[value, legends, legendDefinitions]
@@ -44,7 +59,6 @@ export default function CustomTableCell({
 	const color = getTextColorFromBackgroundColor(backgroundColor);
 
 	if (!cell.getValue()) {
-		// console.log(rowSpan);
 		return null;
 	}
 
