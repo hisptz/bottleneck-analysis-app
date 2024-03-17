@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-04-17T18:16:27.939Z\n"
-"PO-Revision-Date: 2023-04-17T18:16:27.939Z\n"
+"POT-Creation-Date: 2024-03-17T11:27:10.754Z\n"
+"PO-Revision-Date: 2024-03-17T11:27:10.754Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -923,6 +923,9 @@ msgstr ""
 
 msgid "Clear all"
 msgstr "Clear all"
+
+msgid "Allow values over 100"
+msgstr "Allow values over 100"
 
 msgid "Use short names as labels"
 msgstr "Use short names as labels"

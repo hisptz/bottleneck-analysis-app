@@ -9,24 +9,48 @@ import { ChartRef } from "../../state/chart";
 import { ChartData } from "../../state/data";
 import getChartOptions from "../../utils/getChartOptions";
 
-export default function ChartItemComponent({ height }: { height: string | number }): React.ReactElement {
-  const { id } = useParams<{ id: string }>();
-  const data = useRecoilValue(ChartData(id));
-  const name = useRecoilValue(InterventionStateSelector({ id, path: ["name"] }));
-  const groups = useRecoilValue(InterventionStateSelector({ id, path: ["dataSelection", "groups"] }));
-  const chartRef = useSetRecoilState(ChartRef(id));
-  const chartOptions = useMemo(() => getChartOptions({ id, data, groups, name }), [id, data, groups, name]);
-  useSelectedPoints();
+export default function ChartItemComponent({
+	height,
+}: {
+	height: string | number;
+}): React.ReactElement {
+	const { id } = useParams<{ id: string }>();
+	const data = useRecoilValue(ChartData(id));
+	const name = useRecoilValue(
+		InterventionStateSelector({ id, path: ["name"] }),
+	);
+	const groups = useRecoilValue(
+		InterventionStateSelector({ id, path: ["dataSelection", "groups"] }),
+	);
+	const allowOver100Values = useRecoilValue(
+		InterventionStateSelector({
+			id,
+			path: ["dataSelection", "allowOver100Values"],
+		}),
+	);
+	const chartRef = useSetRecoilState(ChartRef(id));
+	const chartOptions = useMemo(
+		() => getChartOptions({ id, data, groups, name, allowOver100Values }),
+		[id, data, groups, name, allowOver100Values],
+	);
+	useSelectedPoints();
 
-  return (
-    <div style={{ overflow: "hidden", width: "100%", height: "100%" }} className="chart-block">
-      <HighChartsReact
-        containerProps={{ id: `${id}` }}
-        immutable
-        ref={chartRef}
-        highcharts={HighCharts}
-        options={{ ...(chartOptions ?? {}), navigation: { buttonOptions: false }, chart: { ...chartOptions.chart, height } }}
-      />
-    </div>
-  );
+	return (
+		<div
+			style={{ overflow: "hidden", width: "100%", height: "100%" }}
+			className="chart-block"
+		>
+			<HighChartsReact
+				containerProps={{ id: `${id}` }}
+				immutable
+				ref={chartRef}
+				highcharts={HighCharts}
+				options={{
+					...(chartOptions ?? {}),
+					navigation: { buttonOptions: false },
+					chart: { ...chartOptions.chart, height },
+				}}
+			/>
+		</div>
+	);
 }

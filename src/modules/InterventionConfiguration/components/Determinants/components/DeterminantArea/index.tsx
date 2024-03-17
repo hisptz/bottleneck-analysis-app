@@ -16,7 +16,7 @@ export default function DeterminantArea(): React.ReactElement {
 	const { id: interventionId } = useParams<{ id: string }>();
 	const { setValue, getValues, watch, formState } = useFormContext();
 	const [useShortName, setUseShortName] = useRecoilState(
-		UseShortName(interventionId)
+		UseShortName(interventionId),
 	);
 	const determinants = watch("dataSelection.groups");
 	const allEmpty: boolean = allDeterminantsEmpty(determinants);
@@ -58,7 +58,7 @@ export default function DeterminantArea(): React.ReactElement {
 				confirm({
 					title: i18n.t("Confirm Label Replacement"),
 					message: i18n.t(
-						"This will replace all indicator labels with their short names. All label changes will be lost. Proceed?"
+						"This will replace all indicator labels with their short names. All label changes will be lost. Proceed?",
 					),
 					onCancel: () => {
 						return;
@@ -73,7 +73,7 @@ export default function DeterminantArea(): React.ReactElement {
 				setUseShortName(false);
 			}
 		},
-		[confirm, setShortNameAsLabels, setUseShortName]
+		[confirm, setShortNameAsLabels, setUseShortName],
 	);
 
 	const hasError = get(formState?.errors, groupFormName);
@@ -99,7 +99,7 @@ export default function DeterminantArea(): React.ReactElement {
 				<div style={{ padding: "8px 16px" }}>
 					<RHFCustomInput
 						label={i18n.t("Allow values over 100")}
-						valueType="TRUE_ONLY"
+						valueType="BOOLEAN"
 						name={"dataSelection.allowOver100Values"}
 					/>
 					<CheckboxField
