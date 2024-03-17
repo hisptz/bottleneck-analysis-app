@@ -12,48 +12,62 @@ import "./Determinant.css";
 import { isEmpty, some } from "lodash";
 import i18n from "@dhis2/d2-i18n";
 import { useFormContext } from "react-hook-form";
+import { RHFCustomInput } from "@hisptz/react-ui";
 
 export default function DeterminantsConfiguration(): React.ReactElement {
-  const { id } = useParams<{ id: string }>();
-  const selectedIndicator = useRecoilValue(SelectedIndicatorIndex(id));
-  const { register } = useFormContext();
-  const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
+	const { id } = useParams<{ id: string }>();
+	const selectedIndicator = useRecoilValue(SelectedIndicatorIndex(id));
+	const { register } = useFormContext();
+	const [helpEnabled, setHelpEnabled] = useRecoilState(HelpState);
 
-  const groupFormName = "dataSelection.groups";
+	const groupFormName = "dataSelection.groups";
 
-  const onHelpExit = () => {
-    setHelpEnabled(false);
-  };
+	const onHelpExit = () => {
+		setHelpEnabled(false);
+	};
 
-  useEffect(() => {
-    register(groupFormName, {
-      validate: (value) => {
-        return some(value, ({ items }) => !isEmpty(items)) || i18n.t("At least one determinant must have at least one indicator");
-      }
-    });
-  }, [register]);
+	useEffect(() => {
+		register(groupFormName, {
+			validate: (value) => {
+				return (
+					some(value, ({ items }) => !isEmpty(items)) ||
+					i18n.t(
+						"At least one determinant must have at least one indicator"
+					)
+				);
+			},
+		});
+	}, [register]);
 
+	const reset = useRecoilCallback(({ set }) => () => {
+		set(SelectedIndicatorIndex(id), undefined);
+	});
 
-  const reset = useRecoilCallback(({ set }) => () => {
-    set(SelectedIndicatorIndex(id), undefined);
-  });
+	useEffect(() => {
+		return () => {
+			reset();
+		};
+	}, []);
 
-  useEffect(() => {
-    return () => {
-      reset();
-    };
-  }, []);
-
-
-  return (
-    <div className="determinant-main-container">
-      <Steps options={STEP_OPTIONS} enabled={helpEnabled} steps={INTERVENTION_DETERMINANT_CONFIGURATION_HELP} onExit={onHelpExit}
-             initialStep={0} />
-
-      <div className={`determinant-area-container ${selectedIndicator === undefined ? "w-100" : ""}`}>
-        <DeterminantArea />
-      </div>
-      <div className="indicator-configuration-container">{selectedIndicator !== undefined && <IndicatorConfiguration />}</div>
-    </div>
-  );
+	return (
+		<div className="determinant-main-container">
+			<Steps
+				options={STEP_OPTIONS}
+				enabled={helpEnabled}
+				steps={INTERVENTION_DETERMINANT_CONFIGURATION_HELP}
+				onExit={onHelpExit}
+				initialStep={0}
+			/>
+			<div
+				className={`determinant-area-container ${
+					selectedIndicator === undefined ? "w-100" : ""
+				}`}
+			>
+				<DeterminantArea />
+			</div>
+			<div className="indicator-configuration-container">
+				{selectedIndicator !== undefined && <IndicatorConfiguration />}
+			</div>
+		</div>
+	);
 }
