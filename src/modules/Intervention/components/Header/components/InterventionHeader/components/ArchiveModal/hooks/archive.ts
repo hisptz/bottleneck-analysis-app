@@ -24,6 +24,7 @@ import { ChartRef } from "../../../../../../AnalysisChart/state/chart";
 import { ChartData } from "../../../../../../AnalysisChart/state/data";
 import { RootCauseData } from "../../../../../../RootCauseAnalysis/state/data";
 import { SubLevelAnalyticsData } from "../../../../../../SubLevelAnalysis/state/data";
+import { useForm } from "react-hook-form";
 
 export default function useArchive(onClose: () => void) {
 	const { id } = useParams<{ id: string }>();
@@ -32,7 +33,10 @@ export default function useArchive(onClose: () => void) {
 	const [archiving, setArchiving] = useState(false);
 	const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
 	const period = useRecoilValue(InterventionPeriodState(id));
-	const [remarks, setRemarks] = useState<string | undefined>();
+	const form = useForm<{ remarks?: string }>({
+		mode: "all",
+		reValidateMode: "onBlur",
+	});
 	const intervention = useRecoilValue(InterventionState(id));
 	const interventionArchivesState = useRecoilValueLoadable(
 		InterventionArchiveIds(id),
@@ -66,7 +70,7 @@ export default function useArchive(onClose: () => void) {
 
 	const onArchiveClick = useRecoilCallback(
 		({ snapshot }) =>
-			async () => {
+			async ({ remarks }: { remarks?: string }) => {
 				if (remarks) {
 					try {
 						setArchiving(true);
@@ -134,7 +138,6 @@ export default function useArchive(onClose: () => void) {
 			onClose,
 			orgUnit.id,
 			period.id,
-			remarks,
 			resetArchives,
 			resetInterventionArchives,
 			navigate,
@@ -145,11 +148,10 @@ export default function useArchive(onClose: () => void) {
 		archiveExists,
 		onArchiveClick,
 		archiving,
-		remarks,
-		setRemarks,
 		intervention,
 		orgUnit,
 		period,
+		form,
 		loading: interventionArchivesState.state === "loading",
 	};
 }

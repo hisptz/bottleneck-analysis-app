@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-03-17T11:27:10.754Z\n"
-"PO-Revision-Date: 2024-03-17T11:27:10.754Z\n"
+"POT-Creation-Date: 2024-06-14T09:48:45.966Z\n"
+"PO-Revision-Date: 2024-06-14T09:48:45.966Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -457,6 +457,9 @@ msgstr "Intervention successfully archived"
 
 msgid "Intervention not found"
 msgstr "Intervention not found"
+
+msgid "Description is required"
+msgstr "Description is required"
 
 msgid "Archive intervention"
 msgstr "Archive intervention"
