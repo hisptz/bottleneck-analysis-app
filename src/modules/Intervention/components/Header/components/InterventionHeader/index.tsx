@@ -182,6 +182,7 @@ export default function InterventionHeader(): React.ReactElement {
 						{orgUnitSelectorOpen && (
 							<OrgUnitSelectorModal
 								value={{ orgUnits: [orgUnitSelection] }}
+								searchable
 								singleSelection
 								onClose={() => setOrgUnitSelectorOpen(false)}
 								hide={!orgUnitSelectorOpen}
