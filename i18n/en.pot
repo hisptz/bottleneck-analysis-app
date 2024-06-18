@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-06-14T09:48:45.966Z\n"
-"PO-Revision-Date: 2024-06-14T09:48:45.966Z\n"
+"POT-Creation-Date: 2024-06-18T09:20:32.873Z\n"
+"PO-Revision-Date: 2024-06-18T09:20:32.873Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -837,6 +837,9 @@ msgstr "Facilities"
 
 msgid "Bottleneck Sub-level Analysis"
 msgstr "Bottleneck Sub-level Analysis"
+
+msgid "Show average column"
+msgstr "Show average column"
 
 msgid "Table View"
 msgstr "Table View"
