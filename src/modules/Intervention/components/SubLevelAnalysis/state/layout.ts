@@ -1,4 +1,3 @@
-import { PeriodInterface } from "@iapps/period-utilities";
 import {
 	compact,
 	filter,
@@ -15,7 +14,6 @@ import {
 	sum,
 } from "lodash";
 import { atomFamily, selectorFamily } from "recoil";
-import { SystemSettingsState } from "../../../../../core/state/system";
 import {
 	Group,
 	InterventionConfig,
@@ -26,16 +24,12 @@ import {
 	TableLayout as Layout,
 } from "../../../../../shared/interfaces/layout";
 import { InterventionState } from "../../../state/intervention";
-import {
-	InterventionOrgUnitState,
-	InterventionPeriodState,
-} from "../../../state/selections";
 import { normalTableLayout } from "../constants/tableLayouts";
 import { SubLevelAnalyticsData } from "./data";
 import { Analytics } from "@hisptz/dhis2-utils";
 import { Column, ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import i18n from "@dhis2/d2-i18n";
-import { OrgUnit as OrgUnitType } from "../../../../../shared/interfaces/orgUnit";
+import { SubLevelAverageColumnVisible } from "./table";
 
 export const TableLayout = atomFamily<Layout, string>({
 	key: "sub-level-layout-state",
@@ -59,12 +53,10 @@ function getColumnsFromDimension({
 	dimension,
 	determinants,
 	data,
-	orgUnit,
 }: {
 	dimension: Dimension;
 	determinants: Group[];
 	data: Analytics;
-	orgUnit: OrgUnitType;
 }): ColumnDef<Record<string, any>>[] {
 	if (dimension === "dx") {
 		return compact(
@@ -114,12 +106,12 @@ function getColumns({
 	layout,
 	data,
 	determinants,
-	orgUnit,
+	showAverageColumn,
 }: {
 	layout: Layout;
 	determinants: Group[];
 	data: Analytics;
-	orgUnit: OrgUnitType;
+	showAverageColumn: boolean;
 }): ColumnDef<Record<string, any>>[] {
 	const { columns: dimensions, filter: filters, rows } = layout ?? {};
 	const columnHelper = createColumnHelper<Record<string, any>>();
@@ -132,7 +124,6 @@ function getColumns({
 					dimension,
 					data,
 					determinants,
-					orgUnit,
 				});
 			} else {
 				return acc.map((column: Column<Record<string, any>>) => {
@@ -145,7 +136,6 @@ function getColumns({
 							dimension,
 							data,
 							determinants,
-							orgUnit,
 						}),
 					});
 				});
@@ -228,9 +218,11 @@ function getColumns({
 		{
 			header: filterLabel.join(", "),
 			id: filters.join(","),
-			columns: [...headerColumns, ...columns, averageColumn] as Column<
-				Record<string, any>
-			>[],
+			columns: [
+				...headerColumns,
+				...columns,
+				...(showAverageColumn ? [averageColumn] : []),
+			] as Column<Record<string, any>>[],
 		},
 	];
 }
@@ -331,22 +323,20 @@ function getData(
 function getTableProps({
 	intervention,
 	data,
-	period,
 	layout,
-	orgUnit,
+	showAverageColumn,
 }: {
 	intervention: InterventionConfig;
-	period: PeriodInterface;
 	data: Analytics;
 	layout: Layout;
-	orgUnit: OrgUnitType;
+	showAverageColumn: boolean;
 }): TableConfigType {
 	const columns =
 		getColumns({
 			layout,
 			data,
 			determinants: intervention.dataSelection.groups,
-			orgUnit,
+			showAverageColumn,
 		}) ?? [];
 	const { data: rowData, rowState } =
 		getData(data, {
@@ -372,23 +362,20 @@ export const TableConfig = selectorFamily<
 			if (!id) {
 				return undefined;
 			}
-			const { calendar } = get(SystemSettingsState);
 			const layout = get(TableLayout(id));
 			const data = get(SubLevelAnalyticsData(id));
 			const intervention: InterventionConfig | undefined = get(
 				InterventionState(id),
 			);
 
-			const period = get(InterventionPeriodState(id));
-			const orgUnit = get(InterventionOrgUnitState(id));
+			const showAverageColumn = get(SubLevelAverageColumnVisible(id));
 
 			if (intervention) {
 				return getTableProps({
 					layout,
 					intervention,
-					period,
 					data,
-					orgUnit,
+					showAverageColumn,
 				});
 			}
 		},
