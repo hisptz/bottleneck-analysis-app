@@ -75,11 +75,11 @@ function getColumnsFromDimension({
 								id,
 								header: label,
 								enableGrouping: true,
-							}
+							},
 						);
 					}),
 				});
-			})
+			}),
 		);
 	} else {
 		return (
@@ -93,7 +93,7 @@ function getColumnsFromDimension({
 					{
 						id: item,
 						header: itemConfig?.name,
-					}
+					},
 				) as Column<Record<string, any>>;
 			}) ?? []
 		);
@@ -136,7 +136,7 @@ function getColumns({
 				});
 			}
 		},
-		[] as any
+		[] as any,
 	);
 
 	const headerColumns: ColumnDef<Record<string, any>>[] = flattenDeep(
@@ -154,7 +154,7 @@ function getColumns({
 						{
 							id: `group`,
 							header: i18n.t("Determinants"),
-						}
+						},
 					),
 					columnHelper.accessor(
 						(originalRow: any) => {
@@ -163,7 +163,7 @@ function getColumns({
 						{
 							id: row,
 							header: itemConfig?.name ?? "",
-						}
+						},
 					),
 				];
 			}
@@ -175,10 +175,10 @@ function getColumns({
 					{
 						id: row,
 						header: itemConfig?.name ?? "",
-					}
+					},
 				),
 			];
-		})
+		}),
 	);
 
 	const filterLabel = filters.map((dimension: Dimension) => {
@@ -200,7 +200,7 @@ function getColumns({
 
 function getData(
 	data: Analytics,
-	{ layout, determinants }: { layout: Layout; determinants: Group[] }
+	{ layout, determinants }: { layout: Layout; determinants: Group[] },
 ): {
 	data: Record<string, any>[];
 	rowState: Record<string, any>;
@@ -225,7 +225,7 @@ function getData(
 								data.rows as unknown as string[][],
 								(row) =>
 									row.includes(dataItemId) &&
-									row.includes(item)
+									row.includes(item),
 							).reduce((acc, value) => {
 								return acc + parseFloat(value[valueIndex]);
 							}, 0) as number;
@@ -261,13 +261,13 @@ function getData(
 					]?.map((item: string) => {
 						const legends = find(
 							flattenDeep(determinants.map(({ items }) => items)),
-							["id", item]
+							["id", item],
 						)?.legends;
 
 						set(rowState, [itemId, item], { legends });
 						const value = filter(
 							data.rows as unknown as string[][],
-							(row) => row.includes(itemId) && row.includes(item)
+							(row) => row.includes(itemId) && row.includes(item),
 						).reduce((acc, value) => {
 							return acc + parseFloat(value[valueIndex]);
 						}, 0) as number;
@@ -313,16 +313,22 @@ function getTableProps({
 	};
 }
 
-export const TableConfig = selectorFamily<TableConfigType | undefined, string>({
+export const TableConfig = selectorFamily<
+	TableConfigType | undefined,
+	string | undefined
+>({
 	key: "table-config-state",
 	get:
-		(id: string) =>
+		(id?: string) =>
 		({ get }): TableConfigType | undefined => {
+			if (!id) {
+				return undefined;
+			}
 			const { calendar } = get(SystemSettingsState);
 			const layout = get(TableLayout(id));
 			const data = get(SubLevelAnalyticsData(id));
 			const intervention: InterventionConfig | undefined = get(
-				InterventionState(id)
+				InterventionState(id),
 			);
 
 			const period = get(InterventionPeriodState(id));
