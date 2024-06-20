@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@cypress/browserify-preprocessor": "^3.0.2",
-    "@dhis2/cli-app-scripts": "^11.4.1",
+    "@dhis2/cli-app-scripts": "^11.4.2",
     "@dhis2/cli-style": "^10.7.3",
     "@dhis2/cli-utils-cypress": "^10.0.6",
     "@dhis2/cypress-commands": "^10.0.6",
@@ -57,7 +57,7 @@
   "dependencies": {
     "@dhis2/app-runtime": "^3.10.4",
     "@dhis2/app-service-datastore": "^1.0.0-alpha.2",
-    "@dhis2/ui": "^9.8.2",
+    "@dhis2/ui": "^9.8.5",
     "@hisptz/dhis2-utils": "^2.0.4",
     "@hisptz/react-ui": "^1.0.80",
     "@iapps/period-utilities": "1.0.3",
