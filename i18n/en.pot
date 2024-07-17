@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-03-17T11:27:10.754Z\n"
-"PO-Revision-Date: 2024-03-17T11:27:10.754Z\n"
+"POT-Creation-Date: 2024-06-18T09:20:32.873Z\n"
+"PO-Revision-Date: 2024-06-18T09:20:32.873Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -458,6 +458,9 @@ msgstr "Intervention successfully archived"
 msgid "Intervention not found"
 msgstr "Intervention not found"
 
+msgid "Description is required"
+msgstr "Description is required"
+
 msgid "Archive intervention"
 msgstr "Archive intervention"
 
@@ -834,6 +837,9 @@ msgstr "Facilities"
 
 msgid "Bottleneck Sub-level Analysis"
 msgstr "Bottleneck Sub-level Analysis"
+
+msgid "Show average column"
+msgstr "Show average column"
 
 msgid "Table View"
 msgstr "Table View"

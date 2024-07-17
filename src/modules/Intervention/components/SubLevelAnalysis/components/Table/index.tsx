@@ -9,6 +9,7 @@ import TableBody from "./components/TableBody";
 import TableHeader from "./components/TableHeader";
 import { SubLevelTableRef } from "../../state/table";
 import { TableLayoutSwitch } from "./TableLayoutSwitch";
+import { AverageColumnSwitch } from "./components/AverageColumnSwitch";
 
 export default function Table(): React.ReactElement {
 	const { id } = useParams<{ id: string }>();
@@ -18,7 +19,8 @@ export default function Table(): React.ReactElement {
 	return (
 		<Suspense fallback={<CardLoader />}>
 			<div className="column sub-level-analysis-table">
-				<div className="row end p-8">
+				<div className="row end p-8 gap-16 align-center">
+					<AverageColumnSwitch />
 					<TableLayoutSwitch />
 				</div>
 				<DataTable

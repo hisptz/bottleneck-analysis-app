@@ -16,7 +16,6 @@ function getChartConfig(id: string) {
 		renderTo: id,
 		zoomType: "xy",
 		type: "column",
-		height: 500,
 		title: { enabled: false },
 		styledMode: false,
 	};
@@ -86,20 +85,32 @@ function getXAxis(groups: Array<Group>) {
 	return {
 		categories,
 		labels: {
+			distance: 5, //https://github.com/blacklabel/grouped_categories/issues/210#issuecomment-1717820853
 			groupedOptions: [
 				{
-					useHTML: true,
 					style: {
+						useHTML: true,
 						fontFamily: "Roboto, sans-serif",
 						whiteSpace: "nowrap",
+						margin: "16px",
+					},
+				},
+				{
+					style: {
+						rotation: -45,
+						useHTML: true,
+						fontFamily: "Roboto, sans-serif",
+						whiteSpace: "nowrap",
+						padding: "16px",
 					},
 				},
 			],
-			useHTML: true,
 			step: 0,
 			style: {
+				useHTML: true,
 				fontFamily: "Roboto, sans-serif",
 				textOverflow: "none",
+				height: "96px",
 			},
 		},
 	};

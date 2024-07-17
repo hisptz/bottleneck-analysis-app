@@ -37,18 +37,23 @@ export default function ChartItemComponent({
 
 	return (
 		<div
-			style={{ overflow: "hidden", width: "100%", height: "100%" }}
+			style={{
+				overflow: "hidden",
+				width: "100%",
+				height: "100%",
+				minHeight: 500,
+			}}
 			className="chart-block"
 		>
 			<HighChartsReact
-				containerProps={{ id: `${id}` }}
+				containerProps={{ id: `${id}`, style: { height: "100%" } }}
 				immutable
 				ref={chartRef}
 				highcharts={HighCharts}
 				options={{
 					...(chartOptions ?? {}),
 					navigation: { buttonOptions: false },
-					chart: { ...chartOptions.chart, height },
+					chart: { ...chartOptions.chart },
 				}}
 			/>
 		</div>

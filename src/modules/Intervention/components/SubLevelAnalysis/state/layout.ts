@@ -1,4 +1,3 @@
-import { PeriodInterface } from "@iapps/period-utilities";
 import {
 	compact,
 	filter,
@@ -9,11 +8,12 @@ import {
 	head,
 	isEmpty,
 	last,
+	mapValues,
 	reduce,
 	set,
+	sum,
 } from "lodash";
 import { atomFamily, selectorFamily } from "recoil";
-import { SystemSettingsState } from "../../../../../core/state/system";
 import {
 	Group,
 	InterventionConfig,
@@ -24,12 +24,12 @@ import {
 	TableLayout as Layout,
 } from "../../../../../shared/interfaces/layout";
 import { InterventionState } from "../../../state/intervention";
-import { InterventionPeriodState } from "../../../state/selections";
 import { normalTableLayout } from "../constants/tableLayouts";
 import { SubLevelAnalyticsData } from "./data";
 import { Analytics } from "@hisptz/dhis2-utils";
 import { Column, ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import i18n from "@dhis2/d2-i18n";
+import { SubLevelAverageColumnVisible } from "./table";
 
 export const TableLayout = atomFamily<Layout, string>({
 	key: "sub-level-layout-state",
@@ -65,21 +65,23 @@ function getColumnsFromDimension({
 				if (isEmpty(items)) {
 					return undefined;
 				}
+
+				const dataColumns = items.map(({ id, label }) => {
+					return columnHelper.accessor(
+						(originalRow) => originalRow[id],
+						{
+							id,
+							header: label,
+							enableGrouping: true,
+						},
+					);
+				});
 				return columnHelper.group({
 					id: groupId,
 					header: name,
-					columns: items.map(({ id, label }) => {
-						return columnHelper.accessor(
-							(originalRow) => originalRow[id],
-							{
-								id,
-								header: label,
-								enableGrouping: true,
-							}
-						);
-					}),
+					columns: [...dataColumns],
 				});
-			})
+			}),
 		);
 	} else {
 		return (
@@ -93,7 +95,7 @@ function getColumnsFromDimension({
 					{
 						id: item,
 						header: itemConfig?.name,
-					}
+					},
 				) as Column<Record<string, any>>;
 			}) ?? []
 		);
@@ -104,12 +106,15 @@ function getColumns({
 	layout,
 	data,
 	determinants,
+	showAverageColumn,
 }: {
 	layout: Layout;
 	determinants: Group[];
 	data: Analytics;
+	showAverageColumn: boolean;
 }): ColumnDef<Record<string, any>>[] {
 	const { columns: dimensions, filter: filters, rows } = layout ?? {};
+	const columnHelper = createColumnHelper<Record<string, any>>();
 
 	const columns: Column<Record<string, any>>[] = reduce(
 		dimensions,
@@ -136,13 +141,11 @@ function getColumns({
 				});
 			}
 		},
-		[] as any
+		[] as any,
 	);
 
 	const headerColumns: ColumnDef<Record<string, any>>[] = flattenDeep(
 		rows.map((row) => {
-			const columnHelper = createColumnHelper<Record<string, any>>();
-
 			const itemConfig = (data.metaData?.items as any)?.[row];
 			if (row === "dx") {
 				//Should generate 2 columns, one for group and one for dataItem
@@ -154,7 +157,7 @@ function getColumns({
 						{
 							id: `group`,
 							header: i18n.t("Determinants"),
-						}
+						},
 					),
 					columnHelper.accessor(
 						(originalRow: any) => {
@@ -163,7 +166,7 @@ function getColumns({
 						{
 							id: row,
 							header: itemConfig?.name ?? "",
-						}
+						},
 					),
 				];
 			}
@@ -175,10 +178,34 @@ function getColumns({
 					{
 						id: row,
 						header: itemConfig?.name ?? "",
-					}
+					},
 				),
 			];
-		})
+		}),
+	);
+
+	const averageColumn = columnHelper.accessor(
+		(originalRow) => {
+			const numberedColumns = compact(
+				Object.values(
+					mapValues(originalRow, (value, key) => {
+						const numberValue = parseInt(value, 10);
+						if (isNaN(numberValue)) {
+							return;
+						}
+						return numberValue;
+					}),
+				),
+			);
+
+			const average = sum(numberedColumns) / numberedColumns.length;
+
+			return Math.floor(average).toString();
+		},
+		{
+			id: "average",
+			header: "Average",
+		},
 	);
 
 	const filterLabel = filters.map((dimension: Dimension) => {
@@ -191,16 +218,18 @@ function getColumns({
 		{
 			header: filterLabel.join(", "),
 			id: filters.join(","),
-			columns: [...headerColumns, ...columns] as Column<
-				Record<string, any>
-			>[],
+			columns: [
+				...headerColumns,
+				...columns,
+				...(showAverageColumn ? [averageColumn] : []),
+			] as Column<Record<string, any>>[],
 		},
 	];
 }
 
 function getData(
 	data: Analytics,
-	{ layout, determinants }: { layout: Layout; determinants: Group[] }
+	{ layout, determinants }: { layout: Layout; determinants: Group[] },
 ): {
 	data: Record<string, any>[];
 	rowState: Record<string, any>;
@@ -225,7 +254,7 @@ function getData(
 								data.rows as unknown as string[][],
 								(row) =>
 									row.includes(dataItemId) &&
-									row.includes(item)
+									row.includes(item),
 							).reduce((acc, value) => {
 								return acc + parseFloat(value[valueIndex]);
 							}, 0) as number;
@@ -249,32 +278,40 @@ function getData(
 			rowState,
 		};
 	} else {
-		const dimension = head(layout.rows) ?? "pe";
 		const rowData =
-			data.metaData?.dimensions?.[dimension]?.map((itemId) => {
-				const itemName = (data.metaData?.items as any)?.[itemId]?.name;
-				return fromPairs([
-					["id", itemId],
-					[dimension, itemName],
-					...(data.metaData?.dimensions?.[
-						last(layout.columns) ?? "pe"
-					]?.map((item: string) => {
-						const legends = find(
-							flattenDeep(determinants.map(({ items }) => items)),
-							["id", item]
-						)?.legends;
+			(layout.rows
+				.map((dimension) =>
+					data.metaData?.dimensions?.[dimension]?.map((itemId) => {
+						const itemName = (data.metaData?.items as any)?.[itemId]
+							?.name;
+						return fromPairs([
+							["id", itemId],
+							[dimension, itemName],
+							...(data.metaData?.dimensions?.[
+								last(layout.columns) ?? "pe"
+							]?.map((item: string) => {
+								const legends = find(
+									flattenDeep(
+										determinants.map(({ items }) => items),
+									),
+									["id", item],
+								)?.legends;
 
-						set(rowState, [itemId, item], { legends });
-						const value = filter(
-							data.rows as unknown as string[][],
-							(row) => row.includes(itemId) && row.includes(item)
-						).reduce((acc, value) => {
-							return acc + parseFloat(value[valueIndex]);
-						}, 0) as number;
-						return [item, value.toString()];
-					}) ?? []),
-				]);
-			}) ?? [];
+								set(rowState, [itemId, item], { legends });
+								const value = filter(
+									data.rows as unknown as string[][],
+									(row) =>
+										row.includes(itemId) &&
+										row.includes(item),
+								).reduce((acc, value) => {
+									return acc + parseFloat(value[valueIndex]);
+								}, 0) as number;
+								return [item, value.toString()];
+							}) ?? []),
+						]);
+					}),
+				)
+				.flat() as Record<string, unknown>[]) ?? [];
 
 		return {
 			data: rowData,
@@ -286,19 +323,20 @@ function getData(
 function getTableProps({
 	intervention,
 	data,
-	period,
 	layout,
+	showAverageColumn,
 }: {
 	intervention: InterventionConfig;
-	period: PeriodInterface;
 	data: Analytics;
 	layout: Layout;
+	showAverageColumn: boolean;
 }): TableConfigType {
 	const columns =
 		getColumns({
 			layout,
 			data,
 			determinants: intervention.dataSelection.groups,
+			showAverageColumn,
 		}) ?? [];
 	const { data: rowData, rowState } =
 		getData(data, {
@@ -313,26 +351,31 @@ function getTableProps({
 	};
 }
 
-export const TableConfig = selectorFamily<TableConfigType | undefined, string>({
+export const TableConfig = selectorFamily<
+	TableConfigType | undefined,
+	string | undefined
+>({
 	key: "table-config-state",
 	get:
-		(id: string) =>
+		(id?: string) =>
 		({ get }): TableConfigType | undefined => {
-			const { calendar } = get(SystemSettingsState);
+			if (!id) {
+				return undefined;
+			}
 			const layout = get(TableLayout(id));
 			const data = get(SubLevelAnalyticsData(id));
 			const intervention: InterventionConfig | undefined = get(
-				InterventionState(id)
+				InterventionState(id),
 			);
 
-			const period = get(InterventionPeriodState(id));
+			const showAverageColumn = get(SubLevelAverageColumnVisible(id));
 
 			if (intervention) {
 				return getTableProps({
 					layout,
 					intervention,
-					period,
 					data,
+					showAverageColumn,
 				});
 			}
 		},

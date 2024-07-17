@@ -19,32 +19,37 @@ import InitialAppLoader from "./shared/components/loaders/InitialAppLoader";
 import "./locales/index.js";
 import $ from "jquery";
 
+HighChartsExport(HighCharts);
+HighChartGroupedCategories(HighCharts);
+
 const MyApp = (): React.ReactElement => {
-  //For custom functions requiring jQuery
-  // @ts-ignore
-  window.$ = $;
-  HighChartsExport(HighCharts);
-  HighChartGroupedCategories(HighCharts);
-  return (
-    <DataStoreProvider namespace={BNA_NAMESPACE} loadingComponent={<InitialAppLoader />}>
-      <CssReset />
-      <RecoilRoot>
-        <ConfirmDialogProvider>
-          <Suspense fallback={<InitialAppLoader />}>
-            <Helmet>
-              <link
-                rel="stylesheet"
-                href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-                integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-                crossOrigin=""
-              />
-            </Helmet>
-            <Router />
-          </Suspense>
-        </ConfirmDialogProvider>
-      </RecoilRoot>
-    </DataStoreProvider>
-  );
+	//For custom functions requiring jQuery
+	// @ts-ignore
+	window.$ = $;
+
+	return (
+		<DataStoreProvider
+			namespace={BNA_NAMESPACE}
+			loadingComponent={<InitialAppLoader />}
+		>
+			<CssReset />
+			<RecoilRoot>
+				<ConfirmDialogProvider>
+					<Suspense fallback={<InitialAppLoader />}>
+						<Helmet>
+							<link
+								rel="stylesheet"
+								href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+								integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+								crossOrigin=""
+							/>
+						</Helmet>
+						<Router />
+					</Suspense>
+				</ConfirmDialogProvider>
+			</RecoilRoot>
+		</DataStoreProvider>
+	);
 };
 
 export default MyApp;
