@@ -14,60 +14,68 @@ import { ChartData } from "./state/data";
 import CardHeader from "../CardHeader";
 
 export default function AnalysisChart(): React.ReactElement {
-  const { id } = useParams<{ id: string }>();
-  const interventionName = useRecoilValue(InterventionStateSelector({ id, path: ["name"] }));
-  const data = useRecoilValueLoadable(ChartData(id));
-  const groups = useRecoilValue(InterventionStateSelector({ id, path: ["dataSelection", "groups"] }));
-  const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
-  const chartRef = useRecoilValue(ChartRef(id));
+	const { id } = useParams<{ id: string }>();
+	const interventionName = useRecoilValue(
+		InterventionStateSelector({ id, path: ["name"] }),
+	);
+	const data = useRecoilValueLoadable(ChartData(id));
+	const groups = useRecoilValue(
+		InterventionStateSelector({ id, path: ["dataSelection", "groups"] }),
+	);
+	const orgUnit = useRecoilValue(InterventionOrgUnitState(id));
+	const chartRef = useRecoilValue(ChartRef(id));
 
-  const handle = useFullScreenHandle();
+	const handle = useFullScreenHandle();
 
-  const height = handle.active ? "50%" : 500;
+	const height = handle.active ? "80%" : 500;
 
-  const onExcelDownload = () => {
-    if (data.state === "hasValue") {
-      downloadExcelFromAnalytics({ analytics: data.contents, groups, orgUnit }, interventionName);
-    }
-  };
-  const onPDFDownload = () => {
-    chartRef?.chart.exportChart({ type: "application/pdf" }, {});
-  };
-  const onImageDownload = () => {
-    chartRef?.chart.exportChart({ type: "image/png" }, {});
-  };
+	const onExcelDownload = () => {
+		if (data.state === "hasValue") {
+			downloadExcelFromAnalytics(
+				{ analytics: data.contents, groups, orgUnit },
+				interventionName,
+			);
+		}
+	};
+	const onPDFDownload = () => {
+		chartRef?.chart.exportChart({ type: "application/pdf" }, {});
+	};
+	const onImageDownload = () => {
+		chartRef?.chart.exportChart({ type: "image/png" }, {});
+	};
 
-  return (
-    <InterventionCard
-      fullScreenHandle={handle}
-      allowFullScreen
-      menu={[
-        {
-          label: "Download PDF",
-          callback: onPDFDownload,
-          icon: <IconFileDocument24 />,
-          disabled: data.state !== "hasValue",
-        },
-        {
-          label: "Download Excel",
-          callback: onExcelDownload,
-          icon: <IconDownload24 />,
-          disabled: data.state !== "hasValue",
-        },
-        {
-          label: "Download PNG",
-          callback: onImageDownload,
-          icon: <IconImage24 />,
-          disabled: data.state !== "hasValue",
-        },
-      ]}
-      title={
-        <div className="row" style={{ gap: 8 }}>
-          <h4>{i18n.t("Bottleneck Analysis Chart")}: </h4>
-          <CardHeader />
-        </div>
-      }>
-      <Chart height={height} />
-    </InterventionCard>
-  );
+	return (
+		<InterventionCard
+			fullScreenHandle={handle}
+			allowFullScreen
+			menu={[
+				{
+					label: "Download PDF",
+					callback: onPDFDownload,
+					icon: <IconFileDocument24 />,
+					disabled: data.state !== "hasValue",
+				},
+				{
+					label: "Download Excel",
+					callback: onExcelDownload,
+					icon: <IconDownload24 />,
+					disabled: data.state !== "hasValue",
+				},
+				{
+					label: "Download PNG",
+					callback: onImageDownload,
+					icon: <IconImage24 />,
+					disabled: data.state !== "hasValue",
+				},
+			]}
+			title={
+				<div className="row" style={{ gap: 8 }}>
+					<h4>{i18n.t("Bottleneck Analysis Chart")}: </h4>
+					<CardHeader />
+				</div>
+			}
+		>
+			<Chart height={height} />
+		</InterventionCard>
+	);
 }

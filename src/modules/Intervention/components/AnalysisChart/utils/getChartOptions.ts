@@ -16,7 +16,6 @@ function getChartConfig(id: string) {
 		renderTo: id,
 		zoomType: "xy",
 		type: "column",
-		height: 500,
 		title: { enabled: false },
 		styledMode: false,
 	};
