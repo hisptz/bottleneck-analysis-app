@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-06-18T09:20:32.873Z\n"
-"PO-Revision-Date: 2024-06-18T09:20:32.873Z\n"
+"POT-Creation-Date: 2025-09-22T16:44:45.155Z\n"
+"PO-Revision-Date: 2025-09-22T16:44:45.156Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -448,6 +448,9 @@ msgstr "There are no organisation units or periods configured for this intervent
 
 msgid "View in Full Screen"
 msgstr "View in Full Screen"
+
+msgid "Active Filters"
+msgstr "Active Filters"
 
 msgid "Clear all filter"
 msgstr "Clear all filter"
@@ -1117,7 +1120,13 @@ msgstr "Thematic layers"
 msgid ""
 "There are a total of {{ count }} layers configured. Click next or previous "
 "to view others."
-msgstr ""
+msgid_plural ""
+"There are a total of {{ count }} layers configured. Click next or previous "
+"to view others."
+msgstr[0] ""
+"There are a total of {{ count }} layers configured. Click next or previous "
+"to view others."
+msgstr[1] ""
 "There are a total of {{ count }} layers configured. Click next or previous "
 "to view others."
 
@@ -1216,3 +1225,11 @@ msgstr "This resource was not found in the server"
 
 msgid "There is a problem with the server"
 msgstr "There is a problem with the server"
+
+msgctxt "Application title"
+msgid "__MANIFEST_APP_TITLE"
+msgstr "Bottleneck Analysis (BNA)"
+
+msgctxt "Application description"
+msgid "__MANIFEST_APP_DESCRIPTION"
+msgstr ""

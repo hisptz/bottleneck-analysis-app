@@ -2,6 +2,11 @@
   "name": "bottleneck-analysis-app",
   "version": "1.4.3",
   "description": "",
+  "author": {
+    "name": "HISP Tanzania",
+    "email": "dev@hisptanzania.org",
+    "url": "https://hisptanzania.org"
+  },
   "license": "BSD-3-Clause",
   "private": true,
   "scripts": {
@@ -16,7 +21,7 @@
   },
   "devDependencies": {
     "@cypress/browserify-preprocessor": "^3.0.2",
-    "@dhis2/cli-app-scripts": "^11.4.2",
+    "@dhis2/cli-app-scripts": "^12.6.1",
     "@dhis2/cli-style": "^10.7.3",
     "@dhis2/cli-utils-cypress": "^10.0.6",
     "@dhis2/cypress-commands": "^10.0.6",
@@ -55,11 +60,11 @@
     "wait-on": "^7.2.0"
   },
   "dependencies": {
-    "@dhis2/app-runtime": "^3.10.4",
+    "@dhis2/app-runtime": "^3.14.3",
     "@dhis2/app-service-datastore": "^1.0.0-alpha.2",
-    "@dhis2/ui": "^9.8.5",
-    "@hisptz/dhis2-utils": "^2.0.4",
-    "@hisptz/react-ui": "^1.0.80",
+    "@dhis2/ui": "^10.7.2",
+    "@hisptz/dhis2-utils": "^2.0.18",
+    "@hisptz/react-ui": "^1.0.88",
     "@iapps/period-utilities": "1.0.3",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
@@ -86,6 +91,7 @@
     "react-helmet": "^6.1.0",
     "react-hook": "^0.0.1",
     "react-hook-form": "^7.51.5",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.23.1",
     "react-script": "^2.0.5",
     "recoil": "^0.7.7",
@@ -98,5 +104,6 @@
     "extends": [
       "react-app"
     ]
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
