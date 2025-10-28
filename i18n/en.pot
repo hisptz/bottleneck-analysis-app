@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-06-18T09:20:32.873Z\n"
-"PO-Revision-Date: 2024-06-18T09:20:32.873Z\n"
+"POT-Creation-Date: 2025-10-28T13:32:33.222Z\n"
+"PO-Revision-Date: 2025-10-28T13:32:33.222Z\n"
 
 msgid "No Access"
 msgstr "No Access"
@@ -448,6 +448,9 @@ msgstr "There are no organisation units or periods configured for this intervent
 
 msgid "View in Full Screen"
 msgstr "View in Full Screen"
+
+msgid "Active Filters"
+msgstr "Active Filters"
 
 msgid "Clear all filter"
 msgstr "Clear all filter"
@@ -1113,13 +1116,6 @@ msgstr "Bubble Layer"
 
 msgid "Thematic layers"
 msgstr "Thematic layers"
-
-msgid ""
-"There are a total of {{ count }} layers configured. Click next or previous "
-"to view others."
-msgstr ""
-"There are a total of {{ count }} layers configured. Click next or previous "
-"to view others."
 
 msgid "Click on add layer to add thematic layers"
 msgstr "Click on add layer to add thematic layers"

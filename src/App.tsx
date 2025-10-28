@@ -18,6 +18,8 @@ import Router from "./modules/Router";
 import InitialAppLoader from "./shared/components/loaders/InitialAppLoader";
 import "./locales/index.js";
 import $ from "jquery";
+import { EngineState } from "./core/state/dataEngine";
+import { useDataEngine } from "@dhis2/app-runtime";
 
 HighChartsExport(HighCharts);
 HighChartGroupedCategories(HighCharts);
@@ -26,6 +28,7 @@ const MyApp = (): React.ReactElement => {
 	//For custom functions requiring jQuery
 	// @ts-ignore
 	window.$ = $;
+	const engine = useDataEngine();
 
 	return (
 		<DataStoreProvider
@@ -33,7 +36,11 @@ const MyApp = (): React.ReactElement => {
 			loadingComponent={<InitialAppLoader />}
 		>
 			<CssReset />
-			<RecoilRoot>
+			<RecoilRoot
+				initializeState={({ set }) => {
+					set(EngineState, engine);
+				}}
+			>
 				<ConfirmDialogProvider>
 					<Suspense fallback={<InitialAppLoader />}>
 						<Helmet>
