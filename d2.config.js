@@ -21,6 +21,10 @@ const config = {
 		"BNA_ADD_ARCHIVE",
 		"BNA_DELETE_ARCHIVE",
 	],
+	minDHIS2Version: "2.40",
+	maxDHIS2Version: "2.42",
+	direction: "auto",
+	viteConfigExtensions: "./viteConfigExtensions.mts",
 };
 
 module.exports = config;
