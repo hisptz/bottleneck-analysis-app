@@ -17,7 +17,9 @@
 		"deploy": "d2-app-scripts deploy",
 		"format": "d2-style apply",
 		"e2e:run": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress run' --kill-others --success first ",
-		"e2e:open": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress open' --kill-others --success first "
+		"e2e:open": "concurrently 'BROWSER=none yarn start' 'wait-on 'http-get://localhost:3000' && cypress open' --kill-others --success first ",
+		"release": "semantic-release",
+		"apphub:publish": "d2-app-scripts publish"
 	},
 	"devDependencies": {
 		"@cypress/browserify-preprocessor": "^3.0.2",
@@ -64,6 +66,7 @@
 		"eslint-plugin-prettier": "^5.1.3",
 		"eslint-plugin-react-hooks": "^4.6.2",
 		"prettier": "^3.3.2",
+		"semantic-release": "^24.2.8",
 		"typescript": "^5.4.5",
 		"vite": "^7.1.12",
 		"wait-on": "^7.2.0"
